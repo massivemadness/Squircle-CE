@@ -234,12 +234,12 @@ public class LModActivity extends AppCompatActivity implements
                                         getResources().getString(R.string.dialog_error_valid_path));
                             } else if(!TextUtils.isEmpty(valid_name) &&
                                     !TextUtils.isEmpty(valid_path) &&
-                                    directory.isDirectory()) { //all over
+                                    directory.isDirectory()) {
                                 if (Build.VERSION.SDK_INT >= 23) { //Android 6 "EACCES" Bug
                                     FILE_PATH = valid_path + valid_name;
                                     LModLogUtils.d(FILE_PATH);
                                     String[] perms = {"android.permission.WRITE_EXTERNAL_STORAGE"};
-                                    requestPermissions(perms, 200); //200 - My own "Write" Code
+                                    requestPermissions(perms, 200);
                                 } else {
                                     FILE_PATH = valid_path + valid_name;
                                     LModLogUtils.d(FILE_PATH);
@@ -266,7 +266,7 @@ public class LModActivity extends AppCompatActivity implements
     public void openScript() {
         if (Build.VERSION.SDK_INT >= 23) { //Android 6
             String[] perms = {"android.permission.READ_EXTERNAL_STORAGE"};
-            requestPermissions(perms, 101); //101 - My own "Read" Code
+            requestPermissions(perms, 101);
         } else {
             new MaterialFilePicker()
                     .withActivity(this)
@@ -870,7 +870,7 @@ public class LModActivity extends AppCompatActivity implements
                         .positiveText(R.string.close)
                         .show();
                 break;
-			case R.id.open_source:
+            case R.id.open_source:
                 Intent toSource = new Intent(Intent.ACTION_VIEW);
                 toSource.setData(Uri.parse("https://github.com/Light-Team/ModPE-IDE-Source"));
                 startActivity(toSource);
