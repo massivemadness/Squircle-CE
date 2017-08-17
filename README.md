@@ -1,5 +1,4 @@
 # ModPE IDE
-----------
 
 <b>ModPE IDE</b> - Simple and powerful ModPE code editor for Android Tablets and Phones.
 
