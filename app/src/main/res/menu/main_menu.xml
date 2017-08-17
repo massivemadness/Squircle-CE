@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2017 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:material="http://schemas.android.com/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/im_undo"
+        android:icon="@drawable/ic_undo_white_36dp"
+        android:title="@string/menu_undo"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/im_redo"
+        android:icon="@drawable/ic_redo_white_36dp"
+        android:title="@string/menu_redo"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/file"
+        android:title="@string/main_menu_file"
+        material:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/open"
+                android:title="@string/menu_open"
+                android:icon="@drawable/ic_folder_open_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/save"
+                android:title="@string/menu_save"
+                android:icon="@drawable/ic_content_save_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/newscript"
+                android:title="@string/menu_new"
+                android:icon="@drawable/ic_file_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/check_errors"
+                android:title="@string/menu_check_errors"
+                android:icon="@drawable/ic_file_check_grey600_36dp"
+                material:showAsAction="never"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/edit"
+        android:title="@string/main_menu_edit"
+        material:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/cut"
+                android:title="@string/menu_cut"
+                android:icon="@drawable/ic_content_cut_gray_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/copy"
+                android:title="@string/menu_copy"
+                android:icon="@drawable/ic_content_copy_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/paste"
+                android:title="@string/menu_paste"
+                android:icon="@drawable/ic_content_paste_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/select_all"
+                android:title="@string/menu_select_all"
+                android:icon="@drawable/ic_select_all_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/select_line"
+                android:title="@string/menu_select_line"
+                android:icon="@drawable/ic_line_sel_gray_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/delete_line"
+                android:title="@string/menu_delete_line"
+                android:icon="@drawable/ic_remove_gray_36dp"
+                material:showAsAction="never"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/search"
+        android:title="@string/main_menu_search"
+        material:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/find"
+                android:title="@string/menu_find"
+                android:icon="@drawable/ic_magnify_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/replace_all"
+                android:title="@string/menu_replace_all"
+                android:icon="@drawable/ic_find_replace_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/goTo"
+                android:icon="@drawable/ic_format_list_numbers_grey600_36dp"
+                android:title="@string/menu_goto_line"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/toBegin"
+                android:icon="@drawable/ic_format_vertical_align_top_grey600_36dp"
+                android:title="@string/menu_move_begin"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/toEnd"
+                android:icon="@drawable/ic_format_vertical_align_bottom_grey600_36dp"
+                android:title="@string/menu_move_end"
+                material:showAsAction="never"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/help"
+        android:title="@string/main_menu_help"
+        material:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/lists"
+                android:title="@string/menu_lists"
+                android:icon="@drawable/ic_format_list_bulleted_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/shortcuts"
+                android:title="@string/menu_shortcuts"
+                android:icon="@drawable/ic_keyboard_grey600_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/open_source"
+                android:title="@string/menu_open_source"
+                android:icon="@drawable/ic_code_gray_36dp"
+                material:showAsAction="never"/>
+            <item
+                android:id="@+id/support"
+                android:title="@string/menu_support"
+                android:icon="@drawable/ic_help_grey600_36dp"
+                material:showAsAction="never"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/rate"
+        android:title="@string/menu_rate"
+        material:showAsAction="never"/>
+
+    <item
+        android:id="@+id/buy_premium"
+        android:title="@string/menu_buy_premium"
+        material:showAsAction="never"/>
+
+</menu>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2017 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorAccent">@color/purple</item>
+
+        <item name="popupMenuStyle">@style/LMod.PopupMenu</item>
+        <item name="actionBarPopupTheme">@style/Theme.AppCompat.Light</item>
+        <item name="actionModeStyle">@style/LMod.ActionMode</item>
+        <item name="drawerArrowStyle">@style/LMod.DrawerArrow</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="LMod.DrawerArrow" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/white</item>
+    </style>
+
+    <style name="LMod.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/colorPrimary</item>
+    </style>
+
+    <style name="LMod.PopupMenu" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CustomWidget" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/purple</item>
+    </style>
+
+    <style name="PreferenceDark" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/purple</item>
+        <item name="android:textColorSecondary">@color/gray</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/purple</item>
+        <item name="android:listSeparatorTextViewStyle">@style/MPL_PreferenceListHeader</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkPrefs</item>
+        <item name="md_dark_theme">false</item>
+    </style>
+
+</resources>

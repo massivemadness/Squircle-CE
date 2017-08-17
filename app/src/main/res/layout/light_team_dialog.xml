@@ -1,0 +1,75 @@
+<!--
+  ~ Copyright (C) 2017 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="vertical">
+
+    <com.andexert.library.RippleView
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        app:rv_centered="true">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:src="@drawable/ic_light_team"
+        android:gravity="center"
+        android:contentDescription="@string/light_team" />
+
+    </com.andexert.library.RippleView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/black"
+        android:text="@string/light_team"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="26sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/black"
+        android:text="@string/app_version"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="18sp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/libraries_used"
+            android:gravity="center"
+            android:textSize="16sp"/>
+
+    </ScrollView>
+</LinearLayout>

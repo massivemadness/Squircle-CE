@@ -1,0 +1,16 @@
+//Checkbox Template:
+
+var checked = false;
+var button = new android.widget.CheckBox(ctx);
+button.setText("Button");
+button.setChecked(checked);
+button.setOnClickListener(new android.view.View.OnClickListener({
+    onClick: function(viewarg){
+        if(!checked){
+            checked = true;
+        }else{
+            checked = false;
+        }
+    }
+}));
+layout.addView(button);
