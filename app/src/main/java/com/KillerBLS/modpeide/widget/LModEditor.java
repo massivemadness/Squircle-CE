@@ -85,13 +85,13 @@ public class LModEditor extends AppCompatMultiAutoCompleteTextView
     private static String GLOBAL_TAB = "    ";
 
     /* Empty patterns, you can add your own using addSyntaxPattern(Pattern, SyntaxType, Color);*/
-    private Pattern PATTERN_KEYWORDS = Pattern.compile("", Pattern.CASE_INSENSITIVE);
-    private Pattern PATTERN_STRINGS = Pattern.compile("");
-    private Pattern PATTERN_NUMBERS = Pattern.compile("");
-    private Pattern PATTERN_SYMBOLS = Pattern.compile("");
-    private Pattern PATTERN_KEYWORDS2 = Pattern.compile("", Pattern.CASE_INSENSITIVE);
-    private Pattern PATTERN_COMMENTS = Pattern.compile("");
-    private Pattern PATTERN_CLASSES = Pattern.compile("", Pattern.CASE_INSENSITIVE);
+    private Pattern PATTERN_KEYWORDS = null;
+    private Pattern PATTERN_STRINGS = null;
+    private Pattern PATTERN_NUMBERS = null;
+    private Pattern PATTERN_SYMBOLS = null;
+    private Pattern PATTERN_KEYWORDS2 = null;
+    private Pattern PATTERN_COMMENTS = null;
+    private Pattern PATTERN_CLASSES = null;
 
     //Syntax Highlight Colors
     private int COLOR_KEYWORDS = Color.RED;
@@ -215,7 +215,7 @@ public class LModEditor extends AppCompatMultiAutoCompleteTextView
         mPaintNumbers.setAntiAlias(true);
         mPaintNumbers.setDither(false);
         mPaintHighlight = new Paint();
-		mPaintHighlight.setStyle(Style.FILL);
+	mPaintHighlight.setStyle(Style.FILL);
         mPadding = (int) (6.0f * context.getResources().getDisplayMetrics().density);
         mScrollDirection = 0;
         setHorizontallyScrolling(true);
