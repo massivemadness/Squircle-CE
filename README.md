@@ -54,7 +54,7 @@
 <b>And much more!</b>
 
 ### PREMIUM ONLY FEATURES
-<b>•</b> Error Checking
+<b>•</b> Error Checking / Syntax Analysis
 
 <b>•</b> Advanced Syntax Highlight settings
 
