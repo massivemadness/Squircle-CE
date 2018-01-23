@@ -88,9 +88,6 @@
 
 <b>•</b> Customize Syntax Highlighting
 
-### TRANSLATION
-You can help to translate this application to your native language (if you want), please contact our email below, or make pull request on GitHub.
-
 ### CONTACT US
 <b>•</b> <u>lightteamsoftware@gmail.com</u>
 
