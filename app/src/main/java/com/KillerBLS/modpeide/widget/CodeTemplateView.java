@@ -387,7 +387,7 @@ public class CodeTemplateView extends AppCompatTextView {
         } else { //if(mWrapper.getCurrentTypeface().equals("roboto_light"))
             setTypeface(TypefaceManager.get(mContext, TypefaceManager.ROBOTO_LIGHT));
         }
-        setPaintFlags(getPaintFlags() | 128);
+        setPaintFlags(getPaintFlags() | StylePaint.SUBPIXEL_TEXT_FLAG);
     }
 
     //endregion METHODS
