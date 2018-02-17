@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2017 Light Team Software
+  ~ Copyright (C) 2018 Light Team Software
   ~
   ~ This file is part of ModPE IDE.
   ~
@@ -19,43 +19,46 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="@dimen/padding_small">
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:id="@+id/text_to_find"
-        android:hint="@string/dialog_find_enter"
-        android:padding="5dp"
-        android:textSize="12sp"
-        android:theme="@style/CustomWidget"
-        android:inputType="textNoSuggestions|textFilter|textVisiblePassword"/>
+        android:layout_height="@dimen/dialog_editor_height">
 
-    <!--<CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="@string/dialog_find_regular_expression"
-        android:id="@+id/regex_check"
-        android:layout_weight="1"
-        android:checked="true"
-        android:textSize="12sp"
-        android:textAllCaps="true"/>-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/findField"
+            android:hint="@string/dialog_find_textToFind"
+            android:textSize="@dimen/dialog_text_size_normal"
+            android:ellipsize="end"
+            android:inputType="textNoSuggestions|textVisiblePassword"
+            android:maxLength="50"
+            android:maxLines="1"/>
+
+    </android.support.design.widget.TextInputLayout>
 
     <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="@string/dialog_find_match_case"
-        android:id="@+id/match_case_check"
-        android:layout_weight="1"
-        android:checked="true"
-        android:textSize="12sp"
-        android:textAllCaps="true"
-        android:theme="@style/CustomWidget"
-        tools:ignore="InefficientWeight" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/matchCase"
+        android:text="@string/dialog_find_matchCase"
+        android:checked="true"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/regExp"
+        android:text="@string/dialog_find_regExp"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wordOnly"
+        android:text="@string/dialog_find_wordOnly"/>
 
 </LinearLayout>

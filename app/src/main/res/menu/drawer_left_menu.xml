@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:platform="http://schemas.android.com/apk/res-auto">
+    <group>
+        <item android:title="@string/drawer_files">
+            <menu>
+                <item
+                    android:title="@string/drawer_new_file"
+                    android:id="@+id/drawer_new_file"
+                    android:icon="@drawable/ic_file_new"/>
+                <item
+                    android:title="@string/drawer_open_file"
+                    android:id="@+id/drawer_open_file"
+                    android:icon="@drawable/ic_file_open"/>
+            </menu>
+        </item>
+        <item android:title="@string/drawer_editor">
+            <menu>
+                <item
+                    android:title="@string/drawer_read_only"
+                    android:id="@+id/drawer_read_only"
+                    android:icon="@drawable/ic_drawer_read_only"
+                    platform:actionViewClass="android.support.v7.widget.SwitchCompat"
+                    platform:showAsAction="ifRoom"/>
+                <item
+                    android:title="@string/drawer_syntax_highlighting"
+                    android:id="@+id/drawer_syntax_highlighting"
+                    android:icon="@drawable/ic_drawer_syntax_highlight"
+                    platform:actionViewClass="android.support.v7.widget.SwitchCompat"
+                    platform:showAsAction="ifRoom"/>
+            </menu>
+        </item>
+    </group>
+    <group android:id="@+id/separator">
+        <item
+            android:title="@string/drawer_open_right"
+            android:icon="@drawable/ic_drawer_right"
+            android:id="@+id/drawer_open_right"/>
+        <item
+            android:title="@string/drawer_settings"
+            android:icon="@drawable/ic_drawer_settings"
+            android:id="@+id/drawer_settings"/>
+    </group>
+</menu>

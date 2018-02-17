@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2017 Light Team Software
+  ~ Copyright (C) 2018 Light Team Software
   ~
   ~ This file is part of ModPE IDE.
   ~
@@ -20,5 +20,5 @@
 
 <full-backup-content>
     <include domain="sharedpref" path="string"/>
-    <include domain="root" path="string"/>
+    <include domain="database" path="string"/>
 </full-backup-content>

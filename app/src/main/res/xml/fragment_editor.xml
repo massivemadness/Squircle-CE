@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:platform="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/pref_category_font">
+
+        <SeekBarPreference
+            android:key="FONT_SIZE"
+            android:title="@string/pref_fontSize_title"
+            android:summary="@string/pref_fontSize_summary"
+            android:defaultValue="14"
+            android:max="20"
+            platform:min="10"/>
+
+        <ListPreference
+            android:key="FONT_TYPE"
+            android:defaultValue="droid_sans_mono"
+            android:title="@string/pref_fontType_title"
+            android:summary="@string/pref_fontType_summary"
+            android:entries="@array/font_types"
+            android:entryValues="@array/font_types_values"
+            android:dialogTitle="@string/pref_fontType_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_tabs">
+
+        <SwitchPreferenceCompat
+            android:key="RESUME_SESSION"
+            android:defaultValue="true"
+            android:title="@string/pref_resumeSession_title"
+            android:summary="@string/pref_resumeSession_summary"/>
+
+        <SeekBarPreference
+            android:enabled="false"
+            android:title="@string/pref_maxTabs_title"
+            android:summary="@string/pref_maxTabs_summary"
+            android:defaultValue="5"
+            android:max="10"
+            platform:min="2"/>
+
+        <SwitchPreferenceCompat
+            android:key="DISABLE_SWIPE"
+            android:defaultValue="false"
+            android:title="@string/pref_disableSwipe_title"
+            android:summary="@string/pref_disableSwipe_summary"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_editor">
+
+        <SwitchPreferenceCompat
+            android:key="WRAP_CONTENT"
+            android:defaultValue="true"
+            android:title="@string/pref_wordWrap_title"
+            android:summary="@string/pref_wordWrap_summary"/>
+
+        <SwitchPreferenceCompat
+            android:key="CODE_COMPLETION"
+            android:defaultValue="true"
+            android:title="@string/pref_codeCompletion_title"
+            android:summary="@string/pref_codeCompletion_summary"/>
+
+        <SwitchPreferenceCompat
+            android:key="PINCH_ZOOM"
+            android:defaultValue="true"
+            android:title="@string/pref_pinchZoom_title"
+            android:summary="@string/pref_pinchZoom_summary"/>
+
+        <SwitchPreferenceCompat
+            android:key="SHOW_LINE_NUMBERS"
+            android:defaultValue="true"
+            android:title="@string/pref_lineNumbers_title"
+            android:summary="@string/pref_lineNumbers_summary"/>
+
+        <SwitchPreferenceCompat
+            android:key="HIGHLIGHT_CURRENT_LINE"
+            android:defaultValue="true"
+            android:title="@string/pref_currentLine_title"/>
+
+        <SwitchPreferenceCompat
+            android:key="BRACKET_MATCHING"
+            android:defaultValue="true"
+            android:title="@string/pref_bracketMatch_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_keyboard">
+
+        <SwitchPreferenceCompat
+            android:key="USE_EXTENDED_KEYS"
+            android:defaultValue="false"
+            android:title="@string/pref_extendedKeys_title"
+            android:summary="@string/pref_extendedKeys_summary"/>
+
+        <SwitchPreferenceCompat
+            android:key="USE_IME_KEYBOARD"
+            android:defaultValue="false"
+            android:title="@string/pref_imeKeyboard_title"
+            android:summary="@string/pref_imeKeyboard_summary"/>
+
+    </PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>

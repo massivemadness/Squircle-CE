@@ -1,0 +1,53 @@
+//AlertDialog.Builder Template
+
+var AlertDialog = android.app.AlertDialog;
+var ScrollView = android.widget.ScrollView;
+var LinearLayout = android.widget.LinearLayout;
+var TextView = android.widget.TextView;
+var Color = android.graphics.Color;
+var EditText = android.widget.EditText;
+var ViewGroup = android.view.ViewGroup;
+var DialogInterface = android.content.DialogInterface;
+
+var alert = new AlertDialog.Builder(ctx);
+alert.setTitle("Hello Sun");
+
+var scroll = new ScrollView(ctx);
+var layout = new LinearLayout(ctx);
+layout.setOrientation(1);
+
+var note = new TextView(ctx);
+note.setText("It is now daytime :D");
+note.setTextColor(Color.WHITE);
+note.setTextSize(20);
+
+var sethealth = new EditText(ctx);
+sethealth.setHint("Set Health");
+
+var params = new ViewGroup.LayoutParams(-2, -2);
+
+layout.addView(note, params);
+layout.addView(sethealth, params);
+
+alert.setView(layout);
+
+alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+    onClick: function(view) {
+        Player.setHealth(sethealth.getText().toString());
+    }
+});
+
+alert.setNegativeButton("Ok (Don't set health)", new DialogInterface.OnClickListener() {
+    onClick: function(view) {
+        //nothing
+    }
+});
+
+alert.setNeutralButton("Set time to night", new DialogInterface.OnClickListener() {
+    onClick: function(view) {
+        Level.setTime(13500);
+    }
+});
+
+var dialog = alert.create();
+dialog.show();

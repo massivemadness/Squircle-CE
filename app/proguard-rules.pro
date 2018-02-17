@@ -23,3 +23,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Требуется для фикса с крашом файлового браузера, с обфускацией не удаётся распознать SearchView.
+-keep class android.support.v7.widget.SearchView { *; }

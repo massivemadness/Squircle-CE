@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Light Team Software
+ * Copyright (C) 2018 Light Team Software
  *
  * This file is part of ModPE IDE.
  *
@@ -19,45 +19,64 @@
 
 package com.KillerBLS.modpeide.service;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
-import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
-import com.KillerBLS.modpeide.LModActivity;
 import com.KillerBLS.modpeide.R;
+import com.KillerBLS.modpeide.utils.Wrapper;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class FirebaseNotificationService extends FirebaseMessagingService {
+
+    private static final int NOTIFICATION_ID = 1;
+    private static final String NOTIFICATION_CHANNEL_ID = "FIREBASE_CHANNEL";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         sendNotification(remoteMessage.getNotification().getBody());
     }
 
-    @SuppressWarnings("deprecation")
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, LModActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    public void sendNotification(String messageBody) {
+        if(new Wrapper(this).getPushNotifications()) { //Если уведомления включены
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            //Для Android O нужно создавать Notification Channel
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel notificationChannel =
+                        new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                                getString(R.string.notifications_channel),
+                                NotificationManager.IMPORTANCE_LOW);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(
-                        BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
-                .setContentTitle(this.getString(R.string.app_name))
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri);
+                // Configure the notification channel.
+                notificationChannel.enableLights(true);
+                notificationChannel.setLightColor(R.color.purple);
+                notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+                notificationChannel.enableVibration(true);
+                if (notificationManager != null)
+                    notificationManager.createNotificationChannel(notificationChannel);
+            }
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                            .setLargeIcon(
+                                    BitmapFactory.decodeResource(
+                                            getResources(), R.mipmap.ic_launcher))
+                            .setSmallIcon(R.drawable.ic_notification_default)
+                            .setContentTitle(getString(R.string.pref_aboutSoftware_title))
+                            .setContentText(messageBody)
+                            .setColor(getResources().getColor(R.color.purple))
+                            .setAutoCancel(true)
+                            .setVibrate(new long[]{0, 100, 100, 100})
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody));
 
-        notificationManager.notify(0, notificationBuilder.build());
+            assert notificationManager != null;
+            notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+        }
     }
 }

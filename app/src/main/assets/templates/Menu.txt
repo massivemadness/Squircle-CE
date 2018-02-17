@@ -1,0 +1,119 @@
+//Custom UI + Menu Setup:
+
+var GUI;
+var menu;
+var exitUI;
+
+var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
+var Runnable = java.lang.Runnable;
+var LinearLayout = android.widget.LinearLayout;
+var Button = android.widget.Button;
+var View = android.view.View;
+var PopupWindow = android.widget.PopupWindow;
+var RelativeLayout = android.widget.RelativeLayout;
+var ColorDrawable = android.graphics.drawable.ColorDrawable;
+var Color = android.graphics.Color;
+var Gravity = android.view.Gravity;
+var ScrollView = android.widget.ScrollView;
+
+function dip2px(dips) {
+    return Math.ceil(dips * ctx.getResources().getDisplayMetrics().density);
+}
+
+function newLevel() {
+    ctx.runOnUiThread(new Runnable({ run: function(){
+        try {
+            var layout = new LinearLayout(ctx);
+            layout.setOrientation(1);
+
+            var menuBtn = new Button(ctx);
+            menuBtn.setText("Menu");
+            menuBtn.setOnClickListener(new View.OnClickListener({
+                onClick: function(view){
+                    mainMenu();
+                }
+            }));
+            layout.addView(menuBtn);
+
+            GUI = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            GUI.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            GUI.showAtLocation(ctx.getWindow().getDecorView(), Gravity.RIGHT | Gravity.BOTTOM, 0, 0);
+        } catch (err) {
+            print("An error occured: " + err);
+        }
+    }}));
+}
+
+function mainMenu() {
+    ctx.runOnUiThread(new Runnable({ run: function(){
+        try {
+            var menuLayout = new LinearLayout(ctx);
+            var menuScroll = new ScrollView(ctx);
+            var menuLayout1 = new LinearLayout(ctx);
+            menuLayout.setOrientation(1);
+            menuLayout1.setOrientation(1);
+
+            menuScroll.addView(menuLayout);
+            menuLayout1.addView(menuScroll);
+
+            var button = new Button(ctx);
+            button.setText("Button");
+            button.setOnClickListener(new View.OnClickListener({
+                onClick: function(view){
+                    //Your Code
+                }
+            }));
+            menuLayout.addView(button);
+
+            //Add more buttons in this section
+
+            menu = new PopupWindow(menuLayout1, ctx.getWindowManager().getDefaultDisplay().getWidth()/2, ctx.getWindowManager().getDefaultDisplay().getHeight());
+            menu.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+            menu.showAtLocation(ctx.getWindow().getDecorView(), Gravity.RIGHT | Gravity.TOP, 0, 0);
+        } catch (error) {
+            print("An error occured: " + error);
+        }
+    }}));
+}
+
+function exit() {
+    ctx.runOnUiThread(new Runnable({ run: function(){
+        try {
+            var xLayout = new LinearLayout(ctx);
+
+            var xButton = new Button(ctx);
+            xButton.setText("x");
+            xButton.setTextColor(Color.WHITE);
+            xButton.setOnClickListener(new View.OnClickListener({
+                onClick: function(view){
+                    exitUI.dismiss();
+                    menu.dismiss();
+                }
+            }));
+            xLayout.addView(xButton);
+
+            exitUI = new PopupWindow(xLayout, dip2px(40), dip2px(40));
+            exitUI.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            exitUI.showAtLocation(ctx.getWindow().getDecorView(), Gravity.RIGHT | Gravity.TOP, 0, 0);
+        } catch (exception) {
+            print(exception);
+        }
+    }}));
+}
+
+function leaveGame() {
+    ctx.runOnUiThread(new Runnable({ run: function(){
+        if(GUI != null) {
+            GUI.dismiss();
+            GUI = null;
+        }
+        if(menu != null) {
+            menu.dismiss();
+            menu = null;
+        }
+        if(exitUI != null) {
+            exitUI.dismiss();
+            exitUI = null;
+        }
+    }}));
+}

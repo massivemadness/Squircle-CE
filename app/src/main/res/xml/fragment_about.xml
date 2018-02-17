@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_category_about">
+
+        <com.KillerBLS.modpeide.preference.ChangeLogDialogPreference
+            android:title="@string/pref_aboutSoftware_title"
+            android:summary="@string/pref_aboutSoftware_summary"
+            android:icon="@mipmap/ic_launcher"/>
+
+        <com.KillerBLS.modpeide.preference.PrivacyDialogPreference
+            android:title="@string/pref_privacy_policy_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_libraries">
+
+        <Preference
+            android:title="@string/pref_library_cwacPager_title"
+            android:summary="@string/pref_library_cwacPager_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/commonsguy/cwac-pager"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/pref_library_materialDialogs_title"
+            android:summary="@string/pref_library_materialDialogs_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/afollestad/material-dialogs"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/pref_library_toasty_title"
+            android:summary="@string/pref_library_toasty_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/GrenderG/Toasty"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/pref_library_permDispatcher_title"
+            android:summary="@string/pref_library_permDispatcher_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/permissions-dispatcher/PermissionsDispatcher"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/pref_library_commonsIO_title"
+            android:summary="@string/pref_library_commonsIO_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/apache/commons-io"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/pref_library_menuFab_title"
+            android:summary="@string/pref_library_menuFab_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Clans/FloatingActionButton"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/pref_library_rhino_title"
+            android:summary="@string/pref_library_rhino_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/mozilla/rhino"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>

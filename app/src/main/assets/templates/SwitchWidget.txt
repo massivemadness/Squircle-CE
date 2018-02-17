@@ -1,0 +1,22 @@
+//Switch Template:
+
+var Switch = android.widget.Switch;
+var CompoundButton = android.widget.CompoundButton;
+
+var switched = false;
+var button = new Switch(ctx);
+button.setText("Button");
+button.setChecked(switched);
+button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener({
+    onCheckedChanged: function(){
+        if(!switched) {
+            switched = true;
+            //Your Code;
+        } else {
+            switched = false;
+            //Your Code;
+        }
+        button.setChecked(switched);
+    }
+}));
+layout.addView(button);

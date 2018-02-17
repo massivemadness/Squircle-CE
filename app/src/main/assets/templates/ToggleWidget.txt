@@ -1,0 +1,19 @@
+//Toggle Button Template:
+
+var ToggleButton = android.widget.ToggleButton;
+var View = android.view.View;
+
+var toggled = false;
+var button = new ToggleButton(ctx);
+button.setText("Button");
+button.setChecked(toggled);
+button.setOnClickListener(new View.OnClickListener({
+    onClick: function(view){
+        if(!toggled) {
+            toggled = true;
+        } else {
+            toggled = false;
+        }
+    }
+}));
+layout.addView(button);

@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2017 Light Team Software
+  ~ Copyright (C) 2018 Light Team Software
   ~
   ~ This file is part of ModPE IDE.
   ~
@@ -19,47 +18,65 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorAccent">@color/purple</item>
 
-        <item name="popupMenuStyle">@style/LMod.PopupMenu</item>
-        <item name="actionBarPopupTheme">@style/Theme.AppCompat.Light</item>
-        <item name="actionModeStyle">@style/LMod.ActionMode</item>
-        <item name="drawerArrowStyle">@style/LMod.DrawerArrow</item>
+    <!-- Application Theme -->
+    <style name="Theme.Editor.AppLight" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <!-- <style name="Theme.Editor.AppDark" parent="Theme.AppCompat.NoActionBar"/> -->
+
+    <!-- Widgets and stuff... -->
+    <style name="Theme_Editor_NavigationView">
+        <item name="android:textColorSecondary">@color/gray</item>
+    </style>
+
+    <!-- Base Dark Theme -->
+    <style name="Theme.Editor.BaseDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="colorControlNormal">@color/gray</item>
+
+        <item name="fontFamily">@font/main_sans</item>
+        <item name="md_medium_font">josefin_sans_semibold.ttf</item>
+        <item name="md_regular_font">josefin_sans_regular.ttf</item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
+
+        <item name="android:windowContentTransitions" tools:targetApi="21">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap" tools:targetApi="21">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap" tools:targetApi="21">true</item>
+        <item name="android:windowSharedElementEnterTransition" tools:targetApi="21">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition" tools:targetApi="21">@android:transition/move</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="21">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
     </style>
 
-    <style name="LMod.DrawerArrow" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@color/white</item>
-    </style>
+    <!-- Darcula Theme -->
+    <style name="Theme.Darcula" parent="Theme.Editor.BaseDark">
+        <item name="colorPrimary">#3c3f41</item>
+        <item name="colorPrimaryDark">#3c3f41</item>
+        <item name="colorAccent">#FF8000</item>
+        <item name="colorTabs">#37383A</item>
+        <item name="colorTabIndicator">#FF8000</item>
+        <item name="colorDocBackground">#323232</item>
+        <item name="colorDocText">#AAB6C6</item>
+        <item name="colorNumbersText">#808080</item>
+        <item name="colorSelection">#214283</item>
+        <item name="colorCursor">#BBBBBB</item>
+        <item name="colorSearchSpan">#32593D</item>
+        <item name="colorNumbersBackground">#36383A</item>
+        <item name="colorSelectedLine">#3C3C3C</item>
+        <item name="colorBracketSpan">#33654B</item>
+        <item name="colorDropDown">#3c3f41</item>
 
-    <style name="LMod.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="background">@color/colorPrimary</item>
-    </style>
-
-    <style name="LMod.PopupMenu" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="CustomWidget" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/gray</item>
-        <item name="colorControlActivated">@color/purple</item>
-    </style>
-
-    <style name="PreferenceDark" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="colorAccent">@color/purple</item>
-        <item name="android:textColorSecondary">@color/gray</item>
-        <item name="android:colorAccent" tools:ignore="NewApi">@color/purple</item>
-        <item name="android:listSeparatorTextViewStyle">@style/MPL_PreferenceListHeader</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkPrefs</item>
-        <item name="md_dark_theme">false</item>
+        <item name="syntaxNumbers">#6897BB</item>
+        <item name="syntaxSymbols">#E8E2B7</item>
+        <item name="syntaxBrackets">#E8E2B7</item>
+        <item name="syntaxKeywords">#EC7600</item>
+        <item name="syntaxMethods">#FEC76C</item>
+        <item name="syntaxStrings">#6E875A</item>
+        <item name="syntaxComments">#66747B</item>
     </style>
 
 </resources>

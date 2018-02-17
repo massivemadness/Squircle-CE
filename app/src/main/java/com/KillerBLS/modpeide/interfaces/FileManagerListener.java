@@ -1,0 +1,34 @@
+/*
+ * Copyright (C) 2018 Light Team Software
+ *
+ * This file is part of ModPE IDE.
+ *
+ * ModPE IDE is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ModPE IDE is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.KillerBLS.modpeide.interfaces;
+
+import com.KillerBLS.modpeide.document.Document;
+import com.KillerBLS.modpeide.document.commons.FileObject;
+
+import java.io.IOException;
+
+public interface FileManagerListener {
+    void saveFile(FileObject file, String text);
+    String createNewFile(String path);
+    void loadFile(Document document, FileObject file) throws IOException;
+    void addNewPath(String path);
+    void removeTabFile(String path);
+    void closeDatabase();
+}

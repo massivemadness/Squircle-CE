@@ -1,0 +1,22 @@
+//Custom UI with OnTouchListener Template:
+
+var Button = android.widget.Button;
+var View = android.view.View;
+
+var active = false;
+var button = new Button(ctx);
+button.setText("Button");
+button.setOnTouchListener(new View.OnTouchListener({
+    onClick: function(v, event){
+        switch(event.getAction()) {
+            case 0:
+                active = true;
+                break;
+            case 1:
+                active = false;
+                break;
+        }
+        return true;
+    }
+}));
+layout.addView(button);

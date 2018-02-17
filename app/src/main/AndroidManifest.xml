@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2017 Light Team Software
+  ~ Copyright (C) 2018 Light Team Software
   ~
   ~ This file is part of ModPE IDE.
   ~
@@ -19,15 +19,15 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.KillerBLS.modpeide"
     android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <supports-screens
         android:anyDensity="true"
@@ -35,81 +35,136 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true"
-        android:xlargeScreens="true" />
+        android:xlargeScreens="true"/>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.Editor.AppLight"
+        android:name=".EditorInstance"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:fullBackupContent="@xml/backup_descriptor"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
-        tools:ignore="UnusedAttribute">
+        android:fullBackupContent="@xml/backup_descriptor">
 
         <activity
-            android:name=".LModActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="stateUnspecified|adjustResize"
-            android:configChanges="fontScale|keyboard|keyboardHidden|locale|navigation|orientation|screenSize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:windowSoftInputMode="stateUnchanged|adjustResize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            <!-- region Filters -->
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
-                <action android:name="android.intent.action.PICK" />
-                <action android:name="android.intent.action.INSERT" />
-                <action android:name="android.intent.action.INSERT_OR_EDIT" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data
-                    android:scheme="file"
-                    android:mimeType="*/*"
-                    android:host="*"
-                    android:pathPattern=".*\\.js" />
+                <data android:host="*"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="text/*"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:scheme="file"/>
+                <data android:mimeType="text/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+
+            <!-- endregion Filters -->
+
+            <!-- Shortcuts -->
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
+                android:resource="@xml/shortcuts"/>
+
+        </activity>
+
+        <!-- region Activity -->
+
+        <activity
+            android:name=".activity.EditorPreferences"
+            android:label="@string/drawer_settings"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="standard"/>
+
+        <activity
+            android:name=".activity.TemplatesActivity"
+            android:label="@string/drawer_gui_templates"
+            android:parentActivityName=".activity.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
         </activity>
 
         <activity
-            android:name=".activity.LModPreferencesActivity"
-            android:parentActivityName=".LModActivity"
-            android:launchMode="singleTask"/>
+            android:name=".activity.FileExplorerActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="standard"
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
 
-        <activity
-            android:name=".activity.LModDisplayActivity"
-            android:parentActivityName=".LModActivity"
-            android:launchMode="singleTask"/>
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.OPENABLE"/>
+
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+        </activity>
+
+        <!-- endregion Activity -->
+
+        <!-- region MultiWindow -->
 
         <meta-data
             android:name="com.sec.android.support.multiwindow"
-            android:value="true" />
+            android:value="true"/>
         <meta-data
             android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
-            android:value="632.0dip" />
+            android:value="632.0dip"/>
         <meta-data
             android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
-            android:value="598.0dip" />
+            android:value="598.0dip"/>
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
-            android:value="632.0dip" />
+            android:value="632.0dip"/>
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
-            android:value="598.0dip" />
+            android:value="598.0dip"/>
         <meta-data
             android:name="to.dualscreen"
-            android:value="true" />
+            android:value="true"/>
+
+        <!-- endregion MultiWindow -->
+
+        <!-- region Notifications -->
 
         <service
             android:name=".service.FirebaseNotificationService"
@@ -118,6 +173,28 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification_default"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/purple"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="FIREBASE_CHANNEL"/>
+
+        <!-- endregion Notifications -->
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
 
     </application>
 

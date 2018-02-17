@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_category_file_explorer">
+
+        <SwitchPreferenceCompat
+            android:key="ALLOW_CREATING_FILES"
+            android:defaultValue="true"
+            android:title="@string/pref_allowCreatingFiles_title"
+            android:summary="@string/pref_allowCreatingFiles_summary"/>
+
+        <SwitchPreferenceCompat
+            android:key="SHOW_HIDDEN_FILES"
+            android:defaultValue="false"
+            android:title="@string/pref_showHiddenFiles_title"
+            android:summary="@string/pref_showHiddenFiles_summary"/>
+
+        <ListPreference
+            android:key="FILE_SORT_MODE"
+            android:defaultValue="SORT_BY_NAME"
+            android:entries="@array/files_sort"
+            android:entryValues="@array/files_sort_values"
+            android:title="@string/pref_sortMode_title"/>
+
+    </PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>

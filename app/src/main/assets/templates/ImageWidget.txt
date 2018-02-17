@@ -1,0 +1,14 @@
+//ImageView Template:
+
+var BitmapFactory = android.graphics.BitmapFactory;
+var BitmapDrawable = android.graphics.drawable.BitmapDrawable;
+var ImageView = android.widget.ImageView;
+
+var directory = new BitmapFactory.decodeFile("Your Directory");
+var img = new BitmapDrawable(directory);
+var image = new ImageView(ctx);
+image.setImageBitmap(img);
+
+//If you want this image to do something, put your OnClickListener here
+//If you don't want this image to do anything, do this:
+yourPopupWindowVariable.setTouchable(false);

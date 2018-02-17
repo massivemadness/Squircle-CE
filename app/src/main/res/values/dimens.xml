@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2017 Light Team Software
+  ~ Copyright (C) 2018 Light Team Software
   ~
   ~ This file is part of ModPE IDE.
   ~
@@ -18,7 +19,35 @@
   -->
 
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="toolbar_height">45dp</dimen>
+    <dimen name="tabs_height">30dp</dimen>
+    <dimen name="fastscroller_width">30dp</dimen>
+    <dimen name="suggestion_height">30dp</dimen>
+    <dimen name="bottom_bar_height">36dp</dimen>
+
+    <dimen name="file_list_item_min_height">48dp</dimen>
+    <dimen name="file_list_item_icon_size">36dp</dimen>
+    <dimen name="file_list_item_text_size_normal">14sp</dimen>
+    <dimen name="file_list_item_text_size_small">12sp</dimen>
+    <dimen name="file_list_item_text_padding">48dp</dimen>
+
+    <dimen name="tab_max_text_width">200dp</dimen>
+
+    <dimen name="elevation">4dp</dimen>
+    <dimen name="empty_null">0dp</dimen>
+
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_almost_large">12dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_almost_medium">6dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_smallest">2dp</dimen>
+
+    <dimen name="dialog_editor_height">56dp</dimen>
+    <dimen name="dialog_text_height">30dp</dimen>
+    <dimen name="dialog_text_size_normal">14sp</dimen>
+    <dimen name="dialog_text_size_medium">16sp</dimen>
+
+    <dimen name="start_page_text_size_large">24sp</dimen>
+    <dimen name="start_page_text_size_normal">20sp</dimen>
 </resources>

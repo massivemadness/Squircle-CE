@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <declare-styleable name="ThemeAttributes">
+        <!-- Интерфейс -->
+        <attr name="colorTabs" format="color"/>
+        <attr name="colorTabIndicator" format="color"/>
+        <attr name="colorDocBackground" format="color"/>
+        <attr name="colorDocText" format="color"/>
+        <attr name="colorNumbersText" format="color"/>
+        <attr name="colorSelection" format="color"/>
+        <attr name="colorCursor" format="color"/>
+        <attr name="colorSearchSpan" format="color"/>
+        <attr name="colorNumbersBackground" format="color"/>
+        <attr name="colorSelectedLine" format="color"/>
+        <attr name="colorBracketSpan" format="color"/>
+        <attr name="colorDropDown" format="color"/>
+
+        <!-- Цвета для подсветки синтаксиса -->
+        <attr name="syntaxNumbers" format="color"/>
+        <attr name="syntaxSymbols" format="color"/>
+        <attr name="syntaxBrackets" format="color"/>
+        <attr name="syntaxKeywords" format="color"/>
+        <attr name="syntaxMethods" format="color"/>
+        <attr name="syntaxStrings" format="color"/>
+        <attr name="syntaxComments" format="color"/>
+    </declare-styleable>
+</resources>

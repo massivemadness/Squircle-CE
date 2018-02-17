@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Light Team Software
+ * Copyright (C) 2018 Light Team Software
  *
  * This file is part of ModPE IDE.
  *
@@ -20,26 +20,53 @@
 package com.KillerBLS.modpeide.manager;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
+
+import com.KillerBLS.modpeide.utils.logger.Logger;
+
+import java.util.HashMap;
 
 public class TypefaceManager {
 
-    private AssetManager assetManager;
+    private static final String TAG = TypefaceManager.class.getSimpleName();
 
-    public TypefaceManager(Context context) {
-        assetManager = context.getAssets();
+    /**
+     * Основная работа со шрифтами.
+     */
+
+    public static String ROBOTO = "Roboto";
+    public static String ROBOTO_LIGHT = "Roboto Light";
+    public static String SOURCE_CODE_PRO = "Source Code Pro";
+    public static String DROID_SANS_MONO = "Droid Sans Mono";
+
+    private static HashMap<String, String> fontMap = new HashMap<>();
+
+    static {
+        fontMap.put(ROBOTO, "fonts/roboto.ttf");
+        fontMap.put(ROBOTO_LIGHT, "fonts/roboto_light.ttf");
+        fontMap.put(SOURCE_CODE_PRO, "fonts/source_code_pro.ttf");
+        fontMap.put(DROID_SANS_MONO, "fonts/droid_sans_mono.ttf");
     }
 
-    public Typeface getDefault() {
-        return Typeface.DEFAULT;
-    }
-
-    public Typeface getMonospace() {
-        return Typeface.MONOSPACE;
-    }
-
-    public Typeface getSourceCodePro() {
-        return Typeface.createFromAsset(assetManager, "fonts/Source_Code_Pro.ttf");
+    /**
+     * Загрузка шрифта из assets.
+     * @param context - контекст приложения, откуда будут загружаться шрифты.
+     * @param fontType - шрифт для загрузки, существующий в fontMap.
+     * @return - возвращает выбранный Typeface.
+     */
+    public static Typeface get(Context context, String fontType) {
+        if (fontType.equals(DROID_SANS_MONO)) {
+            return Typeface.MONOSPACE;
+        }
+        String file = fontMap.get(fontType);
+        if (file == null) {
+            return Typeface.MONOSPACE;
+        }
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), file);
+        if (typeface == null) {
+            Logger.debug(TAG, "typeface is null, use monospace");
+            return Typeface.MONOSPACE;
+        }
+        return typeface;
     }
 }

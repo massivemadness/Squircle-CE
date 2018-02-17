@@ -1,0 +1,47 @@
+//Custom UI Setup:
+
+var GUI;
+var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
+
+var Runnable = java.lang.Runnable;
+var LinearLayout = android.widget.LinearLayout;
+var Button = android.widget.Button;
+var View = android.view.View;
+var PopupWindow = android.widget.PopupWindow;
+var RelativeLayout = android.widget.RelativeLayout;
+var ColorDrawable = android.graphics.drawable.ColorDrawable;
+var Color = android.graphics.Color;
+var Gravity = android.view.Gravity;
+
+function newLevel() {
+    ctx.runOnUiThread(new Runnable({ run: function(){
+        try {
+            var layout = new LinearLayout(ctx);
+            layout.setOrientation(1);
+
+            var button = new Button(ctx);
+            button.setText("Button");
+            button.setOnClickListener(new View.OnClickListener({
+                onClick: function(view) {
+                    //Your Code;
+                }
+            }));
+            layout.addView(button);
+
+            GUI = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            GUI.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            GUI.showAtLocation(ctx.getWindow().getDecorView(), Gravity.RIGHT | Gravity.TOP, 0, 0);
+        } catch (err) {
+            print("An error occured: " + err);
+        }
+    }}));
+}
+
+function leaveGame() {
+    ctx.runOnUiThread(new Runnable({ run: function(){
+        if(GUI != null) {
+            GUI.dismiss();
+            GUI = null;
+        }
+    }}));
+}

@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2017 Light Team Software
+  ~ Copyright (C) 2018 Light Team Software
   ~
   ~ This file is part of ModPE IDE.
   ~
@@ -19,152 +20,195 @@
 
 <resources>
     <string name="app_name">ModPE IDE</string>
-    <string name="light_team">Light Team Software</string>
 
-    <string name="drawer_close">Close Navigation Drawer</string>
     <string name="drawer_open">Open Navigation Drawer</string>
+    <string name="drawer_close">Close Navigation Drawer</string>
 
-    <string name="drawer_editor">Script Editor</string>
-    <string name="drawer_textures">Texture Names</string>
-    <string name="drawer_ui_examples">UI Examples</string>
-    <string name="drawer_changelog">ChangeLog</string>
+    <!-- Left Drawer -->
+    <string name="drawer_files">Files</string>
+    <string name="drawer_new_file">New File</string>
+    <string name="drawer_open_file">Open File</string>
+    <string name="drawer_editor">Editor</string>
+    <string name="drawer_read_only">Read Only</string>
+    <string name="drawer_syntax_highlighting">Syntax Highlighting</string>
+    <string name="drawer_open_right">Right Drawer</string>
     <string name="drawer_settings">Settings</string>
+
+    <!-- Right Drawer -->
+    <string name="drawer_code">Code</string>
+    <string name="drawer_syntax_validator">Syntax Validator</string>
+    <string name="drawer_gui_templates">GUI Templates</string>
+    <string name="drawer_tools">Tools</string>
+    <string name="drawer_texture_names">Texture Names</string>
+    <string name="drawer_insert_color">Insert Color</string>
+    <string name="drawer_other">Other</string>
+    <string name="drawer_buy_ultimate">Buy Ultimate Edition</string>
+    <string name="drawer_rate_app">Rate App</string>
+
+    <string name="pref_header_application_title">Application</string>
+    <string name="pref_header_application_summary">Configure global application settings.</string>
+    <string name="pref_header_editor_title">Editor</string>
+    <string name="pref_header_editor_summary">Configure the editor.</string>
+    <string name="pref_header_codeStyle_title">Code Style</string>
+    <string name="pref_header_codeStyle_summary">Configure the code style.</string>
+    <string name="pref_header_files_title">Files</string>
+    <string name="pref_header_files_summary">Configure how files are handled.</string>
+    <string name="pref_header_about_title">About</string>
+    <string name="pref_header_about_summary">View information about libraries and licenses.</string>
+
+    <string name="pref_category_laf">Look And Feel</string>
+    <string name="pref_category_notifications">Notifications</string>
+    <string name="pref_category_other">Other Settings</string>
+    <string name="pref_category_tabs">Tabs</string>
+    <string name="pref_category_font">Font</string>
+    <string name="pref_category_editor">Editor</string>
+    <string name="pref_category_code_style">Code Style</string>
+    <string name="pref_category_keyboard">Keyboard</string>
+    <string name="pref_category_about">About</string>
+    <string name="pref_category_libraries">Third-party Libraries</string>
+    <string name="pref_category_file_explorer">File Explorer</string>
+
+    <string name="pref_aboutSoftware_title">ModPE IDE - Standard Edition</string>
+    <string name="pref_aboutSoftware_summary">Copyright 2018 Light Team Software\nAll rights reserved\n\nVersion: 2018.1.3 (10004)</string>
+
+    <string name="pref_library_cwacPager_title">CWAC-Pager</string>
+    <string name="pref_library_cwacPager_summary">License: Apache License 2.0\nAuthor: Mark Murphy</string>
+    <string name="pref_library_materialDialogs_title">Material Dialogs</string>
+    <string name="pref_library_materialDialogs_summary">License: MIT License\nAuthor: Aidan Follestad</string>
+    <string name="pref_library_toasty_title">Toasty</string>
+    <string name="pref_library_toasty_summary">License: GNU General Public License v3.0\nAuthor: Daniel Morales</string>
+    <string name="pref_library_permDispatcher_title">PermissionsDispatcher</string>
+    <string name="pref_library_permDispatcher_summary">License: Apache License 2.0\nAuthor: Shintaro Katafuchi &amp; Yoshinori Isogai</string>
+    <string name="pref_library_commonsIO_title">Apache Commons IO</string>
+    <string name="pref_library_commonsIO_summary">License: Apache License 2.0\nAuthor: The Apache Software Foundation</string>
+    <string name="pref_library_menuFab_title">FloatingActionButton</string>
+    <string name="pref_library_menuFab_summary">License: Apache License 2.0\nAuthor: Dmytro Tarianyk</string>
+    <string name="pref_library_rhino_title">Rhino (JavaScript Engine)</string>
+    <string name="pref_library_rhino_summary">License: Mozilla Public License 2.0\nAuthor: Mozilla</string>
+
+    <string name="pref_fullScreen_title">Full screen</string>
+    <string name="pref_fullScreen_summary">Launch the application in full screen mode.</string>
+    <string name="pref_theme_title">Application Theme</string>
+    <string name="pref_theme_summary">Choose available application theme. Available only in Ultimate Edition.</string>
+    <string name="pref_confirmExit_title">Confirm exit from the app</string>
+    <string name="pref_confirmExit_summary">If you press back, ModPE IDE ask for confirmation to exit.</string>
+    <string name="pref_notifications_title">Enable Push Notifications</string>
+    <string name="pref_notifications_summary">Allows to send you push notifications.</string>
+    <string name="pref_resumeSession_title">Resume session</string>
+    <string name="pref_resumeSession_summary">Restore opened files for next launch.</string>
+    <string name="pref_maxTabs_title">Max page editor</string>
+    <string name="pref_maxTabs_summary">Number of maximum page display on the screen. Available only in Ultimate Edition.</string>
+    <string name="pref_disableSwipe_title">Disable swipe gesture</string>
+    <string name="pref_disableSwipe_summary">Disable swipe gesture to switch between tabs. Restart required.</string>
+    <string name="pref_fontSize_title">Editor font size</string>
+    <string name="pref_fontSize_summary">Specify the default font size of editor.</string>
+    <string name="pref_fontType_title">Editor font type</string>
+    <string name="pref_fontType_summary">Choose a font type.</string>
+    <string name="pref_imeKeyboard_title">Enable IME keyboard</string>
+    <string name="pref_imeKeyboard_summary">Allows your keyboard to show hints.</string>
+    <string name="pref_wordWrap_title">Word Wrap</string>
+    <string name="pref_wordWrap_summary">Enable word wrap to fit screen width.</string>
+    <string name="pref_lineNumbers_title">Show Line Numbers</string>
+    <string name="pref_lineNumbers_summary">Display the line numbers to the left of the code editor.</string>
+    <string name="pref_currentLine_title">Highlight Current Line</string>
+    <string name="pref_bracketMatch_title">Bracket Matching</string>
+    <string name="pref_codeCompletion_title">Code Completion</string>
+    <string name="pref_codeCompletion_summary">Show autocomplete suggestions.</string>
+    <string name="pref_allowCreatingFiles_title">Creating files and folders</string>
+    <string name="pref_allowCreatingFiles_summary">Allows to create files and folders in file explorer.</string>
+    <string name="pref_showHiddenFiles_title">Show hidden files</string>
+    <string name="pref_showHiddenFiles_summary">Hidden files and folders (starting with a dot) are displayed.</string>
+    <string name="pref_pinchZoom_title">Pinch Zoom</string>
+    <string name="pref_pinchZoom_summary">Enable zoom controls at the text field.</string>
+    <string name="pref_indentLine_title">Auto Indentation</string>
+    <string name="pref_indentLine_summary">Automatically indent new lines to match the line above.</string>
+    <string name="pref_closeBracket_title">Auto-close Brackets</string>
+    <string name="pref_closeBracket_summary">Automatically close open parenthesis/bracket/brace when typing.</string>
+    <string name="pref_closeQuote_title">Auto-close Quotes</string>
+    <string name="pref_closeQuote_summary">Automatically close single/double quote when typing. Available only in Ultimate Edition.</string>
+    <string name="pref_extendedKeys_title">Extended Keyboard</string>
+    <string name="pref_extendedKeys_summary">Show list symbol below the editor.</string>
+    <string name="pref_sortMode_title">Sort Mode</string>
+    <string name="pref_privacy_policy_title">Privacy Policy</string>
+    <string name="pref_changelog_title">ChangeLog</string>
+
+    <string name="dialog_file_new">New File</string>
+    <string name="dialog_file_text">File Name:</string>
+    <string name="dialog_file_hint">Script.js</string>
+    <string name="dialog_file_new_name">New Name:</string>
+    <string name="dialog_folder_new">New Folder</string>
+    <string name="dialog_folder_name">Folder Name:</string>
+    <string name="dialog_error_name">Enter valid name</string>
+    <string name="dialog_create">Create</string>
+    <string name="dialog_path_text">File Path:</string>
+    <string name="dialog_error_valid_path">Enter valid path</string>
+    <string name="dialog_exit">Are you sure you want to exit?</string>
+    <string name="dialog_goto_line_title">Go to Line…</string>
+    <string name="dialog_goto_line_line">Line:</string>
+    <string name="dialog_goto_line_line_number">Line number…</string>
+    <string name="dialog_find_title">Find…</string>
+    <string name="dialog_find_textToFind">Text to find</string>
+    <string name="dialog_find_matchCase">Match Case</string>
+    <string name="dialog_find_regExp">Regular Expressions</string>
+    <string name="dialog_find_wordOnly">Word Only</string>
+    <string name="dialog_replace_all">Replace All</string>
+    <string name="dialog_replace_textToReplace">Text to replace:</string>
+    <string name="dialog_replace_replaceWith">Replace with:</string>
+    <string name="dialog_delete_confirm">Are you sure you want to delete this file?</string>
+    <string name="dialog_open_source_code">Open Source Code</string>
 
     <string name="main_menu_file">File</string>
     <string name="main_menu_edit">Edit</string>
+    <string name="main_menu_undo">Undo</string>
+    <string name="main_menu_redo">Redo</string>
     <string name="main_menu_search">Search</string>
-    <string name="main_menu_help">Help</string>
 
-    <string name="menu_undo">Undo</string>
-    <string name="menu_redo">Redo</string>
-    <string name="menu_rate">Rate App</string>
-    <string name="menu_buy_premium">Buy Premium</string>
-    <string name="menu_check_errors">Check Errors</string>
-    <string name="menu_open">Open Script</string>
-    <string name="menu_save">Save Script</string>
-    <string name="menu_new">New Script</string>
-    <string name="menu_lists">Lists</string>
-    <string name="menu_goto_line">GoTo Line…</string>
-    <string name="menu_find">Find…</string>
-    <string name="menu_select_all">Select All</string>
-    <string name="menu_select_line">Select Line</string>
-    <string name="menu_delete_line">Delete Line</string>
-    <string name="menu_move_begin">Beginning of File</string>
-    <string name="menu_move_end">End of File</string>
-    <string name="menu_replace_all">Replace All</string>
-    <string name="menu_support">Support</string>
-    <string name="menu_cut">Cut</string>
-    <string name="menu_copy">Copy</string>
-    <string name="menu_paste">Paste</string>
-    <string name="menu_shortcuts">Keyboard Shortcuts</string>
-    <string name="menu_open_source">Open Source</string>
+    <string name="menu_file_new">New File</string>
+    <string name="menu_file_open">Open File</string>
+    <string name="menu_file_save">Save File</string>
+    <string name="menu_file_properties">Properties</string>
+    <string name="menu_file_close">Close</string>
 
-    <string name="snackbar_one_more">Press back once more to exit</string>
-    <string name="snackbar_access_denied">Access denied</string>
+    <string name="menu_edit_cut">Cut</string>
+    <string name="menu_edit_copy">Copy</string>
+    <string name="menu_edit_paste">Paste</string>
+    <string name="menu_edit_selectAll">Select All</string>
+    <string name="menu_edit_selectLine">Select Line</string>
+    <string name="menu_edit_deleteLine">Delete Line</string>
+    <string name="menu_edit_duplicateLine">Duplicate Line</string>
 
-    <string name="dialog_exit">Do you want to exit ModPE IDE?</string>
-    <string name="dialog_changelog">ChangeLog</string>
-    <string name="dialog_file_changes">File Changes</string>
-    <string name="dialog_file_changes_desc">
-        Changes in the current file will not be saved, continue?</string>
-    <string name="dialog_loading">Loading…</string>
-    <string name="dialog_loading_desc">Please, wait…</string>
-    <string name="dialog_file_text">Enter name:</string>
-    <string name="dialog_file_hint">Script.js</string>
-    <string name="dialog_path_text">Path:</string>
-    <string name="dialog_path_hint">/mnt/sdcard/ModPE/</string>
-    <string name="dialog_save">Save</string>
-    <string name="dialog_error_name">Enter the file name</string>
-    <string name="dialog_error_path">Enter the file path</string>
-    <string name="dialog_error_valid_path">Enter a valid file path</string>
-    <string name="dialog_file_up">…</string>
-    <string name="dialog_rhino_result">Result:</string>
-    <string name="dialog_rhino_no_errors">Errors not found</string>
-    <string name="dialog_rhino_no_code">Undefined</string>
-    <string name="dialog_rhino_correct">\n\n\nError checking may not work correctly</string>
-    <string name="dialog_rhino_line">Line: </string>
-    <string name="dialog_premium_version">Premium Version</string>
-    <string name="dialog_only_in_premium">This feature available only in premium version</string>
-    <string name="dialog_goto_title">GoTo Line…</string>
-    <string name="dialog_goto_enter">Enter available line number</string>
-    <string name="dialog_find_title">Find…</string>
-    <string name="dialog_find_enter">Text to find</string>
-    <string name="dialog_find_match_case">Match Case</string>
-    <string name="dialog_find_regular_expression">Regular Expression</string>
-    <string name="dialog_replace_all_title">Replace All</string>
-    <string name="dialog_replace_all_text_to">Text to replace:</string>
-    <string name="dialog_replace_all_with">Replace with:</string>
-    <string name="dialog_history_title">Max History Size:</string>
+    <string name="menu_search_find">Find…</string>
+    <string name="menu_search_replace_all">Replace All</string>
+    <string name="menu_search_gotoLine">Go to Line</string>
 
-    <string name="array_lists">Lists</string>
-    <string name="array_hooks">Hook</string>
-    <string name="array_functions">Function</string>
-    <string name="array_chatcolors">ChatColor</string>
-    <string name="array_itemcategories">ItemCategory</string>
-    <string name="array_particletypes">ParticleType</string>
-    <string name="array_enttypes">EntityType</string>
-    <string name="array_entrendertypes">EntityRenderType</string>
-    <string name="array_armortypes">ArmorType</string>
-    <string name="array_mobeffects">MobEffect</string>
-    <string name="array_dimensions">DimensionID</string>
-    <string name="array_blockfaces">BlockFace</string>
-    <string name="array_animations">UseAnimation</string>
-    <string name="array_enchants">Enchantment</string>
-    <string name="array_enchanttypes">EnchantType</string>
-    <string name="array_blockrenderlayers">BlockRenderLayer</string>
-    <string name="array_sounds">Sounds</string>
+    <string name="props_filename">Name:</string>
+    <string name="props_filepath">Path:</string>
+    <string name="props_size">Size:</string>
+    <string name="props_modified">Modified:</string>
+    <string name="props_wordCount">Word Count:</string>
+    <string name="props_charCount">Character Count:</string>
+    <string name="props_lineCount">Line Count:</string>
+    <string name="props_perm_read">R</string>
+    <string name="props_perm_write">W</string>
+    <string name="props_perm_execute">X</string>
 
-    <string name="pref_category_application">Application</string>
-    <string name="pref_category_editor">Editor</string>
-    <string name="pref_category_syntax">Syntax Highlighting</string>
-    <string name="pref_fullscreen_title">Fullscreen Mode</string>
-    <string name="pref_confirm_exit_title">Confirm exit from app</string>
-    <string name="pref_confirm_exit_summary">
-        If you press back, ModPE IDE can show confirm for exit</string>
-	<string name="pref_app_language_title">Application Language</string>
-    <string name="pref_app_language_summary">Restart required</string>
-    <string name="pref_use_monospace_title">Use Monospace Font</string>
-    <string name="pref_line_numbers_title">Show Line Numbers</string>
-    <string name="pref_highlight_current_line_title">Highlight Current Line</string>
-    <string name="pref_fixed_text_size_title">Font Size</string>
-    <string name="pref_fixed_text_size_summary">Select font size</string>
-    <string name="pref_fixed_text_size_dialog_title">Default editor font size:</string>
-    <string name="pref_fixed_text_size_dialog_hint">
-        Your value must be less than 20 and more than 10</string>
-    <string name="pref_fixed_text_face_title">Font Face</string>
-    <string name="pref_fixed_text_face_summary">Select font face</string>
-    <string name="pref_read_only_title">Read Only</string>
-    <string name="pref_syntax_highlighting_title">Syntax Highlighting</string>
-    <string name="pref_brackets_matching_title">Brackets Matching</string>
-    <string name="pref_brackets_auto_closing_title">Brackets Auto-Closing</string>
-    <string name="pref_highlight_keywords_title">Highlight Keywords</string>
-    <string name="pref_highlight_keywords_summary">function, var, break, etc.</string>
-    <string name="pref_highlight_keywords2_title">Highlight Keywords (2)</string>
-    <string name="pref_highlight_keywords2_summary">parseInt, parseFloat</string>
-    <string name="pref_highlight_numbers_title">Highlight Numbers</string>
-    <string name="pref_highlight_numbers_summary">0, 1, 2, 3, etc.</string>
-    <string name="pref_highlight_comments_title">Highlight Comments</string>
-    <string name="pref_highlight_comments_summary">/* … */ //…</string>
-    <string name="pref_highlight_symbols_title">Highlight Symbols</string>
-    <string name="pref_highlight_symbols_summary">+, -, =, &amp;, etc.</string>
-    <string name="pref_highlight_strings_title">Highlight Strings</string>
-    <string name="pref_highlight_strings_summary">\"........\"</string>
-    <string name="pref_highlight_classes_title">Highlight Classes</string>
-    <string name="pref_highlight_classes_summary">ModPE, Player, Block, etc.</string>
-    <string name="pref_undo_redo_history_title">Undo/Redo Max History Size</string>
-    <string name="pref_undo_redo_history_summary">Default is 100</string>
-    <string name="pref_autocomplete_title">Code Completion</string>
-    <string name="pref_autocomplete_summary">Show autocomplete suggestions</string>
-    <string name="pref_autoindent_title">Auto-Indentation</string>
-    <string name="pref_autoindent_summary">Indentation after new line</string>
-    <string name="pref_pinch_zoom_title">Pinch Zoom / (Touch Zoom)</string>
+    <string name="permission_denied">Permission denied to read your External storage</string>
+    <string name="too_much_files">Too much tabs, close one file</string>
+    <string name="save_file_error">Could not save file</string>
+    <string name="save_file_success">Saved</string>
+    <string name="error">Error</string>
+    <string name="closed">Closed:</string>
+    <string name="one_more">Press once again to exit</string>
 
-    <string name="license_denied_title">Unlicensed</string>
-    <string name="license_denied_message">
-        This application is not licensed, please buy it from the play store.</string>
-    <string name="license_buy">Buy</string>
-    <string name="license_recheck">Re-Check</string>
+    <string name="editor_not_found">Editor not found</string>
+    <string name="nothing_to_undo">Nothing to undo</string>
+    <string name="nothing_to_redo">Nothing to redo</string>
+    <string name="nothing_to_cut">Nothing to cut</string>
+    <string name="nothing_to_copy">Nothing to copy</string>
+    <string name="nothing_to_paste">Nothing to paste</string>
 
+    <string name="gotoLine_above_than_0">Line must be above 0</string>
+    <string name="gotoLine_not_exists">Line does not exists</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -172,24 +216,30 @@
     <string name="cancel">Cancel</string>
     <string name="exit">Exit</string>
     <string name="apply">Apply</string>
-    <string name="copied">Copied!</string>
-    <string name="buy_premium">Buy Premium</string>
+    <string name="done">Done</string>
+    <string name="copied">Copied</string>
 
-    <string name="premium_url">
-        http://play.google.com/store/apps/details?id=com.LightTeam.modpeidepro</string>
-    <string name="rate_url">
-        http://play.google.com/store/apps/details?id=com.KillerBLS.modpeide</string>
-    <string name="textures_url">http://zhuoweizhang.net/mcpetexturenames/</string>
+    <string name="notifications_channel">Default Channel</string>
 
-    <string name="libraries_used"><b>Used libraries:</b>\n\n
-        <b>Material-Dialogs</b> by <i>@afollestad</i>\n\n
-        <b>ChangeLog-Library</b> by <i>@gabrielemariotti</i>\n\n
-        <b>RhinoAndroidHelper</b> by <i>@F43nd1r</i>\n\n
-        <b>RippleView</b> by <i>@traex</i>\n\n
-        <b>MaterialPreferenceLibrary</b> by <i>@AndroidDeveloperLB</i>\n\n
-        <b>Android-RateThisApp</b> by <i>@kobakei</i>\n\n
-        <b>MaterialFilePicker</b> by <i>NBSP Team</i>\n\n
-        <b>LModSyntaxHighlight</b> by <i>Light Team Software (Unreleased)</i>\n
-    </string>
+    <string name="fexplorer_title">File Explorer</string>
+    <string name="fexplorer_folder">Folder</string>
+    <string name="fexplorer_search">Search…</string>
+    <string name="fexplorer_fab_new_file">New File</string>
+    <string name="fexplorer_fab_new_folder">New Folder</string>
+    <string name="fexplorer_set_w_folder">Set as working folder</string>
+    <string name="fexplorer_goto_w_folder">Go to working folder</string>
+    <string name="fexplorer_goto_d_folder">Go to default folder</string>
+    <string name="fexplorer_rename">Rename</string>
+    <string name="fexplorer_delete">Delete</string>
+    <string name="fexplorer_system_local">Local Filesystem</string>
+    <string name="fexplorer_sort_by_name">Sort by Name</string>
+    <string name="fexplorer_sort_by_size">Sort by Size</string>
+    <string name="fexplorer_sort_by_date">Sort by Date</string>
+
+    <string name="start_page_name">Start Page</string>
+    <string name="start_page_welcome">Welcome to ModPE IDE!\n</string>
+    <string name="start_page_thanks_for_using">Thanks for using ModPE IDE, here is how you can get started:\n</string>
+    <string name="start_page_steps">- To create a new file, touch File -> New File\n\n- To open a file, touch File -> Open File\n\n- To switch between open files, use tabs at the top of the screen\n\n- In settings (on the left navigation menu) you can find many useful things</string>
+    <string name="start_page_good_luck">\n\nGood luck!\n- Light Team Software</string>
 
 </resources>

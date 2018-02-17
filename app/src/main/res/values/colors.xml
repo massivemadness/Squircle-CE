@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2017 Light Team Software
+  ~ Copyright (C) 2018 Light Team Software
   ~
   ~ This file is part of ModPE IDE.
   ~
@@ -19,32 +19,17 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#3c3f41</color>
-    <color name="colorPrimaryDark">#3c3f41</color>
-    <color name="colorPrimaryDarkPrefs">#222625</color>
-    <color name="colorAccent">#6897BB</color>
+
+    <color name="toastyColor">#353A3E</color>
+
+    <color name="fexplorer_color_folder">#ffbb33</color>
+    <color name="fexplorer_color_file">#717171</color>
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="purple">#6666ff</color>
     <color name="gray">#838383</color>
-
-    <color name="ide_background">#2B2B2B</color>
-    <color name="ide_textcolor">#A9B7C6</color>
-    <color name="ide_currentline">#323232</color>
-    <color name="ide_selection_color">#214283</color>
-    <color name="ide_numbers_color">#808080</color>
-    <color name="ide_cursor_color">#BBBBBB</color>
-    <color name="ide_brackets_color">#33654B</color>
-
-    <color name="drawer_background">#323232</color>
-
-    <color name="syntax_keyword">#EC7600</color>
-    <color name="syntax_keyword2">#E0E2E4</color>
-    <color name="syntax_number">#6897BB</color>
-    <color name="syntax_symbols">#E8E2B7</color>
-    <color name="syntax_comment">#66747B</color>
-    <color name="syntax_string">#6A8759</color>
-    <color name="syntax_classes">#E8BF6A</color>
+    <color name="blue">#00A2FF</color>
+    <color name="purple">#653BBF</color>
+    <color name="fake_transparent">#EEEEEE</color>
 
 </resources>

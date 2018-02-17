@@ -1,6 +1,6 @@
-# ModPE IDE v6.2.2017
+# ModPE IDE v2018.1.3
 
-<b>ModPE IDE</b> - Simple and powerful ModPE code editor for Android Tablets and Phones.
+<b>ModPE IDE</b> is a professional IDE primarily for ModPE Script development.
 
 ![Image](art/recommends.png)
 
@@ -10,89 +10,40 @@
 
 ----------
 
-### KEY FEATURES
-<b>•</b> Syntax Highlighting <i>(Like IntelliJ IDEA by JetBrains)</i>
-
+### STANDARD EDITION FEATURES
+<b>•</b> Syntax Highlighting
 <b>•</b> Code Completion (Beta)
-
-<b>•</b> Material Theme with Material Icons
-
-<b>•</b> Undo/Redo (Beta)
-
-<b>•</b> Brackets Matching
-
-<b>•</b> Auto-Indentation
-
-<b>•</b> Pinch Zoom
-
+<b>•</b> Cross-session Editing
+<b>•</b> Unlimited Undo/Redo
+<b>•</b> Bracket Matching
+<b>•</b> Auto Indentation
+<b>•</b> Select, Delete, and Duplicate Line
+<b>•</b> Search, Replace, Go to Line
+<b>•</b> Word Wrap
 <b>•</b> Line Numbers
-
-<b>•</b> Go To Line
-
-<b>•</b> Customizable font sizes
-
-<b>•</b> Customizable font faces
-
-<b>•</b> Keyboard Shortcuts (Hotkeys)
-
-<b>•</b> Search & Replace (includes MatchCase)
-
-<b>•</b> Fullscreen Mode
-
-<b>•</b> Read Only Mode
-
-<b>•</b> Built-in File Explorer
-
-<b>•</b> Samsung Multiview Support
-
-<b>•</b> Sony Dual Screen Support
-
-<b>•</b> List of available functions, hooks, etc.
-
+<b>•</b> Pinch Zoom
+<b>•</b> Powerful File Explorer
+<b>•</b> Read Only Mode, Fullscreen Mode
+<b>•</b> Multi Window Support
+<b>•</b> Launcher Shortcuts for Android 7+
+<b>•</b> «Adaptive Icon» for Android 8+
 <b>•</b> <i>No Ads!</i>
-
 <b>And much more!</b>
 
-### PREMIUM ONLY FEATURES
-<b>•</b> Error Checking / Syntax Analysis
-
-<b>•</b> Advanced Syntax Highlight settings
-
-<b>•</b> Undo/Redo settings
-
+### ULTIMATE EDITION FEATURES
+<b>•</b> Several Themes for Application
+<b>•</b> Syntax Validator
+<b>•</b> Color Picker
 <b>•</b> More fonts
-
-### KEYBOARD SHORTCUTS
-<b>•</b> <i>Ctrl-X</i> - Cut
-
-<b>•</b> <i>Ctrl-C</i> - Copy
-
-<b>•</b> <i>Ctrl-V</i> - Paste
-
-<b>•</b> <i>Ctrl-Z</i> - Undo
-
-<b>•</b> <i>Ctrl-Y</i> - Redo
-
-<b>•</b> <i>Ctrl-A</i> - Select All
-
-<b>•</b> <i>Ctrl+Shift-D</i> - Delete Line
-
-<b>•</b> <i>Ctrl+Alt-A</i> - Select Line
-
-<i>May not work properly! (Will be fixed)</i>
+<b>•</b> More preferences
 
 ### UPCOMING FEATURES
-<b>•</b> Cross-session Editing
-
-<b>•</b> Extended Keyboard
-
-<b>•</b> Customize Syntax Highlighting
+<b>•</b> Multiple Language Support
+<b>•</b> Advanced «Find & Replace»
+<b>•</b> SFTP/FTP(S), Dropbox, and Google Drive Support
 
 ### CONTACT US
 <b>•</b> <u>lightteamsoftware@gmail.com</u>
-
-### OPEN SOURCE CODE
-<b>•</b> <u>http://github.com/Light-Team/ModPE-IDE-Source</u>
 
 ### LICENSE
 ```
