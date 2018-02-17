@@ -5,42 +5,42 @@
 ![Image](art/recommends.png)
 
 <a href="https://play.google.com/store/apps/details?id=com.KillerBLS.modpeide">
-<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width = 250/>
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width = 225/>
 </a>
 
 ----------
 
 ### STANDARD EDITION FEATURES
-<b>•</b> Syntax Highlighting
-<b>•</b> Code Completion (Beta)
-<b>•</b> Cross-session Editing
-<b>•</b> Unlimited Undo/Redo
-<b>•</b> Bracket Matching
-<b>•</b> Auto Indentation
-<b>•</b> Select, Delete, and Duplicate Line
-<b>•</b> Search, Replace, Go to Line
-<b>•</b> Word Wrap
-<b>•</b> Line Numbers
-<b>•</b> Pinch Zoom
-<b>•</b> Powerful File Explorer
-<b>•</b> Read Only Mode, Fullscreen Mode
-<b>•</b> Multi Window Support
-<b>•</b> Launcher Shortcuts for Android 7+
-<b>•</b> «Adaptive Icon» for Android 8+
-<b>•</b> <i>No Ads!</i>
-<b>And much more!</b>
+<b>•</b> Syntax Highlighting  
+<b>•</b> Code Completion (Beta)  
+<b>•</b> Cross-session Editing  
+<b>•</b> Unlimited Undo/Redo  
+<b>•</b> Bracket Matching  
+<b>•</b> Auto Indentation  
+<b>•</b> Select, Delete, and Duplicate Line  
+<b>•</b> Search, Replace, Go to Line  
+<b>•</b> Word Wrap  
+<b>•</b> Line Numbers  
+<b>•</b> Pinch Zoom  
+<b>•</b> Powerful File Explorer  
+<b>•</b> Read Only Mode, Fullscreen Mode  
+<b>•</b> Multi Window Support  
+<b>•</b> Launcher Shortcuts for Android 7+  
+<b>•</b> «Adaptive Icon» for Android 8+  
+<b>•</b> <i>No Ads!</i>  
+<b>And much more!</b>  
 
 ### ULTIMATE EDITION FEATURES
-<b>•</b> Several Themes for Application
-<b>•</b> Syntax Validator
-<b>•</b> Color Picker
-<b>•</b> More fonts
-<b>•</b> More preferences
+<b>•</b> Several Themes for Application  
+<b>•</b> Syntax Validator  
+<b>•</b> Color Picker  
+<b>•</b> More fonts  
+<b>•</b> More preferences  
 
 ### UPCOMING FEATURES
-<b>•</b> Multiple Language Support
-<b>•</b> Advanced «Find & Replace»
-<b>•</b> SFTP/FTP(S), Dropbox, and Google Drive Support
+<b>•</b> Multiple Language Support  
+<b>•</b> Advanced «Find & Replace»  
+<b>•</b> SFTP/FTP(S), Dropbox, and Google Drive Support  
 
 ### CONTACT US
 <b>•</b> <u>lightteamsoftware@gmail.com</u>
