@@ -34,7 +34,6 @@ import com.KillerBLS.modpeide.R;
 import com.KillerBLS.modpeide.adapter.LockableViewPager;
 import com.KillerBLS.modpeide.adapter.TemplateAdapter;
 import com.KillerBLS.modpeide.fragment.templates.TemplateFragment;
-import com.KillerBLS.modpeide.manager.theming.ThemeManager;
 import com.KillerBLS.modpeide.utils.Wrapper;
 import com.KillerBLS.modpeide.utils.logger.Logger;
 import com.KillerBLS.modpeide.widget.CodeTemplateView;
@@ -50,7 +49,6 @@ public class TemplatesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        new ThemeManager().start(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_templates);
         initToolbar();

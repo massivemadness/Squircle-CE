@@ -34,10 +34,11 @@ import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
 import com.KillerBLS.modpeide.R;
-import com.KillerBLS.modpeide.interfaces.ui.OnScrollChangedListener;
+import com.KillerBLS.modpeide.interfaces.OnScrollChangedListener;
 import com.KillerBLS.modpeide.manager.TypefaceManager;
 import com.KillerBLS.modpeide.processor.language.Language;
 import com.KillerBLS.modpeide.processor.language.ModPELanguage;
+import com.KillerBLS.modpeide.processor.style.StylePaint;
 import com.KillerBLS.modpeide.processor.style.StyleSpan;
 import com.KillerBLS.modpeide.processor.style.SyntaxHighlightSpan;
 import com.KillerBLS.modpeide.utils.Converter;

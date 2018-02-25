@@ -59,7 +59,7 @@
         <item name="colorAccent">#FF8000</item>
         <item name="colorTabs">#37383A</item>
         <item name="colorTabIndicator">#FF8000</item>
-        <item name="colorDocBackground">#323232</item>
+        <item name="colorDocBackground">#303030</item>
         <item name="colorDocText">#AAB6C6</item>
         <item name="colorNumbersText">#808080</item>
         <item name="colorSelection">#214283</item>

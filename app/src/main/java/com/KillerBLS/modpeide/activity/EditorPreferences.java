@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 
 import com.KillerBLS.modpeide.R;
 import com.KillerBLS.modpeide.activity.compat.AppCompatPreferenceActivity;
-import com.KillerBLS.modpeide.manager.theming.ThemeManager;
 import com.KillerBLS.modpeide.utils.Wrapper;
 import com.KillerBLS.modpeide.utils.logger.Logger;
 
@@ -43,7 +42,6 @@ public class EditorPreferences extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        new ThemeManager().start(this);
         super.onCreate(savedInstanceState);
         ViewGroup root = findViewById(android.R.id.content);
         LinearLayout content = (LinearLayout) root.getChildAt(0);

@@ -27,7 +27,6 @@ import com.KillerBLS.modpeide.R;
 import com.KillerBLS.modpeide.document.Document;
 import com.KillerBLS.modpeide.document.commons.FileObject;
 import com.KillerBLS.modpeide.document.commons.LinesCollection;
-import com.KillerBLS.modpeide.interfaces.FileManagerListener;
 import com.KillerBLS.modpeide.processor.language.LanguageProvider;
 import com.KillerBLS.modpeide.utils.logger.Logger;
 
@@ -39,7 +38,7 @@ import java.io.IOException;
 
 import es.dmoral.toasty.Toasty;
 
-public class FileManager implements FileManagerListener {
+public class FileManager {
 
     private static final String TAG = FileManager.class.getSimpleName();
 
@@ -57,7 +56,6 @@ public class FileManager implements FileManagerListener {
      * @param file - читаемый файл.
      */
     @WorkerThread
-    @Override
     public void loadFile(Document document, FileObject file) throws IOException {
         if(file.canRead()) {
             LinesCollection lines = new LinesCollection();
@@ -95,7 +93,6 @@ public class FileManager implements FileManagerListener {
      * @param text - текст для записи.
      */
     @WorkerThread
-    @Override
     public void saveFile(FileObject file, String text) {
         try {
             FileUtils.writeStringToFile(file, text, "UTF-8");
@@ -113,8 +110,7 @@ public class FileManager implements FileManagerListener {
      * @param path - путь к создаваемому файлу.
      * @return - путь к созданному файлу при успехе.
      */
-    @Override
-    public String createNewFile(String path) {
+    String createNewFile(String path) {
         FileObject file = new FileObject(path);
         try {
             if (!file.exists()) {
@@ -134,8 +130,7 @@ public class FileManager implements FileManagerListener {
      * Добавляем файл в базу данных.
      * @param path - путь к файлу.
      */
-    @Override
-    public void addNewPath(String path) {
+    void addNewPath(String path) {
         mDatabase.addNewFile(new FileObject(path));
     }
 
@@ -143,12 +138,10 @@ public class FileManager implements FileManagerListener {
      * Удаляем файл из базы данных.
      * @param path - путь к файлу.
      */
-    @Override
-    public void removeTabFile(String path) {
+    void removeTabFile(String path) {
         mDatabase.removeFile(path);
     }
 
-    @Override
     public void closeDatabase() {
         mDatabase.close();
     }

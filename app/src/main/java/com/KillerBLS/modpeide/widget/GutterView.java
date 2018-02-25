@@ -27,7 +27,7 @@ import android.view.View;
 
 import com.KillerBLS.modpeide.document.Document;
 import com.KillerBLS.modpeide.document.commons.LinesCollection;
-import com.KillerBLS.modpeide.interfaces.ui.OnScrollChangedListener;
+import com.KillerBLS.modpeide.interfaces.OnScrollChangedListener;
 import com.KillerBLS.modpeide.manager.DocumentsManager;
 import com.KillerBLS.modpeide.processor.TextProcessor;
 import com.KillerBLS.modpeide.processor.style.StylePaint;

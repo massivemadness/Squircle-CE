@@ -26,6 +26,7 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -59,7 +60,7 @@ import com.KillerBLS.modpeide.document.commons.LineObject;
 import com.KillerBLS.modpeide.document.suggestions.SuggestionAdapter;
 import com.KillerBLS.modpeide.document.suggestions.SuggestionItem;
 import com.KillerBLS.modpeide.document.suggestions.SuggestionType;
-import com.KillerBLS.modpeide.interfaces.ui.OnScrollChangedListener;
+import com.KillerBLS.modpeide.interfaces.OnScrollChangedListener;
 import com.KillerBLS.modpeide.manager.TypefaceManager;
 import com.KillerBLS.modpeide.processor.style.StylePaint;
 import com.KillerBLS.modpeide.processor.style.StyleSpan;
@@ -1077,8 +1078,14 @@ public class TextProcessor extends AppCompatMultiAutoCompleteTextView implements
                 }
 
                 //endregion PROCESS_HIGHLIGHT
+				new Handler().post(this::invalidateVisibleArea);
             }
         }
+    }
+	
+	private void invalidateVisibleArea() {
+        invalidate(getPaddingLeft(), getScrollY() + getPaddingTop(),
+                getWidth(), (getScrollY() + getPaddingTop()) + getHeight());
     }
 
     /**

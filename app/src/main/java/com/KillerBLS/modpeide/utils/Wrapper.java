@@ -24,8 +24,6 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
-import com.KillerBLS.modpeide.manager.theming.ThemeIdentificator;
-
 /**
  * "Оболочка" приложения. Класс для работы с настройками и другими данными.
  */
@@ -115,10 +113,6 @@ public class Wrapper {
 
     public String getSortMode() {
         return mManager.getString("FILE_SORT_MODE", "SORT_BY_NAME");
-    }
-
-    public String getCurrentTheme() {
-        return mManager.getString("THEME_RESOURCE", ThemeIdentificator.DARCULA);
     }
 
     public boolean getCreatingFilesAndFolders() {

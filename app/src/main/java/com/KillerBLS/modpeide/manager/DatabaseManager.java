@@ -28,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 
 import com.KillerBLS.modpeide.document.commons.FileObject;
-import com.KillerBLS.modpeide.interfaces.DatabaseManagerListener;
 import com.KillerBLS.modpeide.utils.logger.Logger;
 
 import java.io.Serializable;
@@ -37,8 +36,7 @@ import java.util.ArrayList;
 /**
  * @author Trần Lê Duy
  */
-public class DatabaseManager extends SQLiteOpenHelper
-        implements Serializable, DatabaseManagerListener {
+public class DatabaseManager extends SQLiteOpenHelper implements Serializable {
 
     private static final String TAG = DatabaseManager.class.getSimpleName();
 
@@ -69,7 +67,6 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
     @WorkerThread
-    @Override
     public ArrayList<FileObject> getListFile() {
         ArrayList<FileObject> files = new ArrayList<>();
         try {
@@ -95,8 +92,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
     @WorkerThread
-    @Override
-    public void addNewFile(FileObject file) {
+    void addNewFile(FileObject file) {
         try {
             SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
@@ -109,8 +105,7 @@ public class DatabaseManager extends SQLiteOpenHelper
     }
 
     @WorkerThread
-    @Override
-    public boolean removeFile(String path) {
+    boolean removeFile(String path) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         boolean returnValue = sqLiteDatabase.delete(TABLE_FILE_TAB,
                 KEY_FILE_PATH + "=?", new String[]{path}) > 0;

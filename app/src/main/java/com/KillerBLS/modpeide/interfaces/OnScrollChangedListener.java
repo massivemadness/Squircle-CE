@@ -17,12 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.KillerBLS.modpeide.manager.theming;
+package com.KillerBLS.modpeide.interfaces;
 
-public class ThemeIdentificator {
-
-    /**
-     * Идентификаторы тем.
-     */
-    public static final String DARCULA = "IDENTIFICATOR_DARCULA";
+public interface OnScrollChangedListener {
+    void onScrollChanged(int x, int y, int oldx, int oldy);
 }

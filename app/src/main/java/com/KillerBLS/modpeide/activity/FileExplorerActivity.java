@@ -52,7 +52,6 @@ import com.KillerBLS.modpeide.adapter.files.FileListAdapter;
 import com.KillerBLS.modpeide.adapter.files.FileDetail;
 import com.KillerBLS.modpeide.dialog.CreationDialog;
 import com.KillerBLS.modpeide.document.commons.FileObject;
-import com.KillerBLS.modpeide.manager.theming.ThemeManager;
 import com.KillerBLS.modpeide.utils.Wrapper;
 import com.KillerBLS.modpeide.utils.logger.Logger;
 
@@ -95,7 +94,6 @@ public class FileExplorerActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        new ThemeManager().start(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_explorer);
         initToolbar();

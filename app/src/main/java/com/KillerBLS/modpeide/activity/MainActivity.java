@@ -60,7 +60,6 @@ import com.KillerBLS.modpeide.document.Document;
 import com.KillerBLS.modpeide.manager.DocumentsManager;
 import com.KillerBLS.modpeide.document.commons.FileObject;
 import com.KillerBLS.modpeide.manager.FileManager;
-import com.KillerBLS.modpeide.manager.theming.ThemeManager;
 import com.KillerBLS.modpeide.utils.Wrapper;
 import com.KillerBLS.modpeide.utils.files.Properties;
 import com.KillerBLS.modpeide.utils.logger.Logger;
@@ -91,7 +90,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        new ThemeManager().start(this);
         super.onCreate(savedInstanceState);
         mWrapper = new Wrapper(this);
         setContentView(R.layout.activity_main);

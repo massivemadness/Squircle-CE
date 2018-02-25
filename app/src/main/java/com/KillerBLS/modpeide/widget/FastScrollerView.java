@@ -33,7 +33,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.KillerBLS.modpeide.R;
-import com.KillerBLS.modpeide.interfaces.ui.OnScrollChangedListener;
+import com.KillerBLS.modpeide.interfaces.OnScrollChangedListener;
 import com.KillerBLS.modpeide.processor.TextProcessor;
 import com.KillerBLS.modpeide.processor.style.StylePaint;
 

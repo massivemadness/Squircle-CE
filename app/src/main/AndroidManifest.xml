@@ -54,6 +54,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.Darcula"
             android:windowSoftInputMode="stateUnchanged|adjustResize"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
 
@@ -105,12 +106,19 @@
         <activity
             android:name=".activity.EditorPreferences"
             android:label="@string/drawer_settings"
+            android:theme="@style/Theme.Darcula"
+            android:parentActivityName=".activity.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:launchMode="standard"/>
+            android:launchMode="standard">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
+        </activity>
 
         <activity
             android:name=".activity.TemplatesActivity"
             android:label="@string/drawer_gui_templates"
+            android:theme="@style/Theme.Darcula"
             android:parentActivityName=".activity.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask">
@@ -122,6 +130,7 @@
         <activity
             android:name=".activity.FileExplorerActivity"
             android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/Theme.Darcula"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="standard"
             android:exported="true">
