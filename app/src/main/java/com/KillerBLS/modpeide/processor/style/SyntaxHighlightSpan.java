@@ -19,6 +19,7 @@
 
 package com.KillerBLS.modpeide.processor.style;
 
+import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.text.style.CharacterStyle;
 
@@ -27,7 +28,8 @@ import java.io.Serializable;
 /**
  * @author Henry Thompson
  */
-public class SyntaxHighlightSpan extends CharacterStyle implements Serializable {
+public class SyntaxHighlightSpan extends CharacterStyle
+        implements Serializable, Comparable<SyntaxHighlightSpan> {
 
     private boolean bold;
     private boolean italics;
@@ -56,8 +58,13 @@ public class SyntaxHighlightSpan extends CharacterStyle implements Serializable 
     public void updateDrawState(TextPaint tp) {
         tp.setColor(color);
         tp.setFakeBoldText(bold);
-        if (italics) {
+        if(italics) {
             tp.setTextSkewX(-0.1f);
         }
+    }
+
+    @Override
+    public int compareTo(@NonNull SyntaxHighlightSpan other) {
+        return this.start - other.start;
     }
 }

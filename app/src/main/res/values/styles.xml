@@ -65,8 +65,8 @@
         <item name="colorSelection">#214283</item>
         <item name="colorCursor">#BBBBBB</item>
         <item name="colorSearchSpan">#32593D</item>
-        <item name="colorNumbersBackground">#36383A</item>
-        <item name="colorSelectedLine">#3C3C3C</item>
+        <item name="colorNumbersBackground">#343638</item>
+        <item name="colorSelectedLine">#3A3A3A</item>
         <item name="colorBracketSpan">#33654B</item>
         <item name="colorDropDown">#3c3f41</item>
 

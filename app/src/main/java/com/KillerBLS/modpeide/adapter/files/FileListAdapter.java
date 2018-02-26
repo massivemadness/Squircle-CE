@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.KillerBLS.modpeide.R;
 
@@ -37,46 +38,47 @@ import java.util.LinkedList;
 /**
  * Thanks Vlad Mihalachi
  */
-public class FileListAdapter extends ArrayAdapter<FileDetail> {
+public class FileListAdapter extends ArrayAdapter<FileDetail> implements Filterable {
 
-    // Layout Inflater
-    private final LayoutInflater inflater;
-    private final LinkedList<FileDetail> orig;
-    private FileFilter customFilter;
-    // List of file details
-    private LinkedList<FileDetail> fileDetails;
+    private LayoutInflater mLayoutInflater;
 
-    private Resources mRes;
+    private LinkedList<FileDetail> mCollection;
+    private LinkedList<FileDetail> mCollectionFiltered;
+
+    private FileFilter mFilter;
+    private Resources mResources;
 
     public FileListAdapter(final Context context, final LinkedList<FileDetail> fileDetails) {
         super(context, R.layout.item_list_file, fileDetails);
-        mRes = context.getResources();
-        this.fileDetails = fileDetails;
-        orig = fileDetails;
-        inflater = LayoutInflater.from(context);
+        mResources = context.getResources();
+        mCollectionFiltered = fileDetails;
+        mCollection = fileDetails;
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
-    public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_list_file, null);
-            final FileViewHolder hold = new FileViewHolder();
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        if(convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.item_list_file, null);
+            final FileViewHolder holder = new FileViewHolder();
 
-            hold.icon = convertView.findViewById(android.R.id.icon);
-            hold.nameLabel = convertView.findViewById(android.R.id.text1);
-            hold.sizeLabel = convertView.findViewById(android.R.id.text2);
-            hold.lastChangeLabel = convertView.findViewById(R.id.text3);
-            convertView.setTag(hold);
+            holder.icon = convertView.findViewById(android.R.id.icon);
+            holder.nameLabel = convertView.findViewById(android.R.id.text1);
+            holder.sizeLabel = convertView.findViewById(android.R.id.text2);
+            holder.lastChangeLabel = convertView.findViewById(R.id.text3);
 
-            final FileDetail fileDetail = fileDetails.get(position);
-            setIcon(hold, fileDetail);
-            hold.nameLabel.setText(fileDetail.getName());
-            hold.sizeLabel.setText(fileDetail.getSize());
-            hold.lastChangeLabel.setText(fileDetail.getDateModified());
+            convertView.setTag(holder);
+            final FileDetail fileDetail = mCollectionFiltered.get(position);
+
+            setIcon(holder, fileDetail);
+            holder.nameLabel.setText(fileDetail.getName());
+            holder.sizeLabel.setText(fileDetail.getSize());
+            holder.lastChangeLabel.setText(fileDetail.getDateModified());
         } else {
             final FileViewHolder hold = ((FileViewHolder) convertView.getTag());
-            final FileDetail fileDetail = fileDetails.get(position);
+            final FileDetail fileDetail = mCollectionFiltered.get(position);
+
             setIcon(hold, fileDetail);
             hold.nameLabel.setText(fileDetail.getName());
             hold.sizeLabel.setText(fileDetail.getSize());
@@ -87,44 +89,51 @@ public class FileListAdapter extends ArrayAdapter<FileDetail> {
 
     @Override
     public int getCount() {
-        return fileDetails.size();
+        return mCollectionFiltered.size();
     }
 
+    /**
+     * Устанавливает иконку взависимости от файла.
+     * @param viewHolder - ViewHolder содержащий ImageView для иконки.
+     * @param fileDetail - Обьект с информацией о файле.
+     */
     private void setIcon(final FileViewHolder viewHolder, final FileDetail fileDetail) {
-        //final String fileName = fileDetail.getName();
-        //final String ext = FilenameUtils.getExtension(fileName);
-        if (fileDetail.isFolder()) {
-            Drawable mIcon = mRes.getDrawable(R.drawable.ic_fexplorer_folder);
-            DrawableCompat.setTint(mIcon, mRes.getColor(R.color.fexplorer_color_folder));
-            viewHolder.icon.setImageDrawable(mIcon);
-        } else {
-            Drawable mIcon = mRes.getDrawable(R.drawable.ic_fexplorer_document);
-            DrawableCompat.setTint(mIcon, mRes.getColor(R.color.fexplorer_color_file));
-            viewHolder.icon.setImageDrawable(mIcon);
+        if (fileDetail.isFolder()) { //Если папка
+            Drawable mIcon = mResources.getDrawable(R.drawable.ic_fexplorer_folder);
+            DrawableCompat.setTint(mIcon, mResources.getColor(R.color.fexplorer_color_folder));
+            viewHolder.icon.setImageDrawable(mIcon); //Ставим иконку папки
+        } else { //Иначе, если файл
+            Drawable mIcon = mResources.getDrawable(R.drawable.ic_fexplorer_document);
+            DrawableCompat.setTint(mIcon, mResources.getColor(R.color.fexplorer_color_file));
+            viewHolder.icon.setImageDrawable(mIcon); //Ставим иконку файла
         }
     }
 
     @NonNull
     @Override
     public Filter getFilter() {
-        if (customFilter == null) {
-            customFilter = new FileFilter();
+        if(mFilter == null) {
+            mFilter = new FileFilter();
         }
-        return customFilter;
+        return mFilter;
     }
 
+    /**
+     * Кастомный фильтр для поиска файлов.
+     */
     private class FileFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            if (constraint == null || constraint.length() == 0) {
-                results.values = orig;
-                results.count = orig.size();
+            if(constraint == null || constraint.length() == 0) {
+                results.values = mCollection;
+                results.count = mCollection.size();
             } else {
                 LinkedList<FileDetail> nHolderList = new LinkedList<>();
-                for (FileDetail h : orig) {
-                    if (h.getName().toLowerCase().contains(constraint.toString().toLowerCase()))
-                        nHolderList.add(h);
+                for(FileDetail fileDetail : mCollection) {
+                    if(fileDetail.getName().toLowerCase()
+                            .contains(constraint.toString().toLowerCase()))
+                        nHolderList.add(fileDetail);
                 }
                 results.values = nHolderList;
                 results.count = nHolderList.size();
@@ -134,7 +143,7 @@ public class FileListAdapter extends ArrayAdapter<FileDetail> {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            fileDetails = (LinkedList<FileDetail>) results.values;
+            mCollectionFiltered = (LinkedList<FileDetail>) results.values;
             notifyDataSetChanged();
         }
     }

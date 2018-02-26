@@ -26,8 +26,8 @@ android {
         applicationId "com.KillerBLS.modpeide"
         minSdkVersion 14 // Android 4.0
         targetSdkVersion 27 // Android 8.1
-        versionCode 10004
-        versionName "2018.1.3 Standard Edition"
+        versionCode 10005
+        versionName "2018.1.4 Standard Edition"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -95,6 +95,7 @@ dependencies {
     implementation 'com.commonsware.cwac:pager:0.2.6'
     implementation 'com.github.GrenderG:Toasty:1.2.8'
     implementation 'commons-io:commons-io:2.6' //Apache Commons IO
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
     implementation 'com.github.clans:fab:1.6.4'
     implementation('com.github.hotchemi:permissionsdispatcher:3.1.0') {
         exclude module: "support-v13"

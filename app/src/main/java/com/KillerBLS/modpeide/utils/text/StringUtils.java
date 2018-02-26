@@ -20,6 +20,8 @@
 package com.KillerBLS.modpeide.utils.text;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.KillerBLS.modpeide.utils.logger.Logger;
 
@@ -31,6 +33,18 @@ import java.io.InputStreamReader;
 public class StringUtils {
 
     private static final String TAG = StringUtils.class.getSimpleName();
+
+    /**
+     * Проверка имени файла на правильность.
+     * @param name - имя файла.
+     * @return - вернет true, если имя не содержит запрещенных символов.
+     */
+    public static boolean isValidFileName(@Nullable String name) {
+        return !TextUtils.isEmpty(name)
+                && !name.contains("/")
+                && !name.equals(".")
+                && !name.equals("..");
+    }
 
     /**
      * Чтение файла из папки "raw".

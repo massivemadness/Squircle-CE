@@ -38,6 +38,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
+        android:visibility="gone"
         android:background="?attr/colorNumbersBackground"/>
 
 </LinearLayout>

@@ -51,6 +51,7 @@ import android.widget.Toast;
 import com.KillerBLS.modpeide.EditorInstance;
 import com.KillerBLS.modpeide.dialog.ReplaceAllDialog;
 import com.KillerBLS.modpeide.keyboard.ExtendedKeyboard;
+import com.KillerBLS.modpeide.utils.text.StringUtils;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.KillerBLS.modpeide.R;
 import com.KillerBLS.modpeide.dialog.CreationDialog;
@@ -63,6 +64,8 @@ import com.KillerBLS.modpeide.manager.FileManager;
 import com.KillerBLS.modpeide.utils.Wrapper;
 import com.KillerBLS.modpeide.utils.files.Properties;
 import com.KillerBLS.modpeide.utils.logger.Logger;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import es.dmoral.toasty.Toasty;
 import permissions.dispatcher.NeedsPermission;
@@ -97,6 +100,14 @@ public class MainActivity extends AppCompatActivity
         initDrawerAndStuff();
         initTabs();
         checkFileReceiver();
+        if(mWrapper.isFirstLaunch()) {
+            new MaterialDialog.Builder(this)
+                    .content(StringUtils.readRawTextFile(this, R.raw.last_update))
+                    .cancelable(false)
+                    .positiveText(R.string.close)
+                    .onPositive(((dialog, which) -> mWrapper.setFirstLaunch(false)))
+                    .show();
+        }
     }
 
     private void initToolbar() {
@@ -149,6 +160,13 @@ public class MainActivity extends AppCompatActivity
         //расширенная клавиатура
         mExtendedKeyboard = findViewById(R.id.recycler_view);
         mExtendedKeyboard.setListener(this);
+        KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
+            if(isOpen && mWrapper.getExtendedKeyboard()) {
+                mExtendedKeyboard.setVisibility(View.VISIBLE);
+            } else {
+                mExtendedKeyboard.setVisibility(View.GONE);
+            }
+        });
     }
 
     /**
@@ -221,12 +239,6 @@ public class MainActivity extends AppCompatActivity
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         else
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        if(mWrapper.getExtendedKeyboard()) //Extended Keyboard
-            mExtendedKeyboard.setVisibility(View.VISIBLE);
-        else
-            mExtendedKeyboard.setVisibility(View.GONE);
-
         if(mDocumentsManager != null)
             mDocumentsManager.onResumeActivity();
     }

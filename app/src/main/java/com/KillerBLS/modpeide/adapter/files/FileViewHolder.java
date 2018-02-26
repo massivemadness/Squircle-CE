@@ -25,13 +25,9 @@ import android.widget.TextView;
 /**
  * Thanks Vlad Mihalachi
  */
-public class FileViewHolder {
-    // Имя файла
-    TextView nameLabel;
-    // Размер файла
-    TextView sizeLabel;
-    // Дата изменения файла
-    TextView lastChangeLabel;
-    // Иконка файла
-    public ImageView icon;
+class FileViewHolder {
+    TextView nameLabel; //Имя файла
+    TextView sizeLabel; //Размер файла
+    TextView lastChangeLabel; //Дата изменения файла
+    ImageView icon; //Иконка файла
 }

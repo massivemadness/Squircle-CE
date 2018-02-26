@@ -142,7 +142,6 @@ public class TextProcessor extends AppCompatMultiAutoCompleteTextView implements
     float mPreviousTouchX = 0.0f;
     float mPreviousTouchY = 0.0f;
     int mMaximumVelocity;
-    int mMinimumVelocity;
 
     int mGutterWidth;
     int mLineNumberDigitCount = 0;
@@ -287,8 +286,7 @@ public class TextProcessor extends AppCompatMultiAutoCompleteTextView implements
 
     protected void initMethods() {
         ViewConfiguration configuration = ViewConfiguration.get(mContext);
-        mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
-        mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
+        mMaximumVelocity = configuration.getScaledMaximumFlingVelocity() * 100;
         mIdealMargin = Converter.dpAsPixels(this, 4);
         setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         setOnKeyListener(this);
@@ -754,8 +752,7 @@ public class TextProcessor extends AppCompatMultiAutoCompleteTextView implements
                 }
                 mPreviousTouchX = 0.0f;
                 mPreviousTouchY = 0.0f;
-                if (Math.abs(velocityY) > mMinimumVelocity
-                        || Math.abs(velocityX) > mMinimumVelocity) {
+                if (Math.abs(velocityY) >= 0 || Math.abs(velocityX) >= 0) {
                     if (getLayout() == null) {
                         return super.onTouchEvent(event);
                     }
@@ -834,7 +831,7 @@ public class TextProcessor extends AppCompatMultiAutoCompleteTextView implements
                         getScrollY() + getHeight(), mGutterBackgroundPaint);
                 int paddingTop = getPaddingTop();
                 int max = mLineUtils.getBottomVisibleLine(this);
-                int textRight = (mGutterWidth - mIdealMargin) + getScrollX();
+                int textRight = (mGutterWidth - mIdealMargin / 2) + getScrollX();
                 if (mDocument != null) {
                     int i = mLineUtils.getTopVisibleLine(this);
                     if (i >= 2) {
@@ -1078,7 +1075,7 @@ public class TextProcessor extends AppCompatMultiAutoCompleteTextView implements
                 }
 
                 //endregion PROCESS_HIGHLIGHT
-				new Handler().post(this::invalidateVisibleArea);
+                new Handler().post(this::invalidateVisibleArea);
             }
         }
     }

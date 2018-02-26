@@ -65,7 +65,7 @@ public class FastScrollerView extends View implements OnScrollChangedListener {
 
     @Override
     public void onScrollChanged(int x, int y, int oldx, int oldy) {
-        if (mState != STATE_DRAGGING) {
+        if(mState != STATE_DRAGGING) {
             getMeasurements();
             setState(STATE_VISIBLE);
             mHandler.postDelayed(hideScroller, 2000);
@@ -74,7 +74,7 @@ public class FastScrollerView extends View implements OnScrollChangedListener {
 
     public FastScrollerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        if (!isInEditMode()) {
+        if(!isInEditMode()) {
             mThumbDrawableNormal = context.getResources().getDrawable(R.drawable.fastscroll_thumb_default);
             mThumbDrawableDragging = context.getResources().getDrawable(R.drawable.fastscroll_thumb_pressed);
 
@@ -92,7 +92,7 @@ public class FastScrollerView extends View implements OnScrollChangedListener {
     }
 
     public void link(TextProcessor editor) {
-        if (editor != null) {
+        if(editor != null) {
             mEditor = editor;
             mEditor.addOnScrollChangedListener(this);
         }
@@ -100,34 +100,34 @@ public class FastScrollerView extends View implements OnScrollChangedListener {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mEditor == null || mState == 0) {
+        if(mEditor == null || mState == STATE_HIDDEN) {
             return false;
         }
         getMeasurements();
         switch (event.getAction()) {
-            case 0:
-                if (!isPointInThumb(event.getX(), event.getY())) {
+            case MotionEvent.ACTION_DOWN:
+                if(!isPointInThumb(event.getX(), event.getY())) {
                     return false;
                 }
                 mEditor.abortFling();
                 setState(STATE_DRAGGING);
                 setPressed(true);
                 return true;
-            case 1:
+            case MotionEvent.ACTION_UP:
                 setState(STATE_VISIBLE);
                 setPressed(false);
                 mHandler.postDelayed(hideScroller, 2000);
                 return false;
-            case 2:
-                if (mState != STATE_DRAGGING) {
+            case MotionEvent.ACTION_MOVE:
+                if(mState != STATE_DRAGGING) {
                     return false;
                 }
                 setPressed(true);
                 mEditor.abortFling();
                 int newThumbTop = ((int) event.getY()) - (mThumbHeight / 2);
-                if (newThumbTop < 0) {
+                if(newThumbTop < 0) {
                     newThumbTop = 0;
-                } else if (mThumbHeight + newThumbTop > mViewHeight) {
+                } else if(mThumbHeight + newThumbTop > mViewHeight) {
                     newThumbTop = mViewHeight - mThumbHeight;
                 }
                 mThumbTop = newThumbTop;
@@ -146,7 +146,7 @@ public class FastScrollerView extends View implements OnScrollChangedListener {
 
     private int getThumbTop() {
         int absoluteThumbTop = Math.round((mViewHeight - mThumbHeight) * (mScrollY / ((mScrollMax - mEditor.getHeight()) + mEditor.getLineHeight())));
-        if (absoluteThumbTop > getHeight() - mThumbHeight) {
+        if(absoluteThumbTop > getHeight() - mThumbHeight) {
             return getHeight() - mThumbHeight;
         }
         return absoluteThumbTop;
@@ -157,7 +157,7 @@ public class FastScrollerView extends View implements OnScrollChangedListener {
     }
 
     private void getMeasurements() {
-        if (mEditor != null && mEditor.getLayout() != null) {
+        if(mEditor != null && mEditor.getLayout() != null) {
             mViewHeight = getHeight();
             mScrollMax = mEditor.getLayout().getHeight();
             mScrollY = mEditor.getScrollY();
@@ -173,20 +173,20 @@ public class FastScrollerView extends View implements OnScrollChangedListener {
 
     public void setState(int state) {
         switch (state) {
-            case 0:
+            case STATE_HIDDEN:
                 mHandler.removeCallbacks(hideScroller);
                 mState = STATE_HIDDEN;
                 invalidate();
                 return;
-            case 1:
-                if (isShowScrollerJustified()) {
+            case STATE_VISIBLE:
+                if(isShowScrollerJustified()) {
                     mHandler.removeCallbacks(hideScroller);
                     mState = STATE_VISIBLE;
                     invalidate();
                     return;
                 }
                 return;
-            case 2:
+            case STATE_DRAGGING:
                 mHandler.removeCallbacks(hideScroller);
                 mState = STATE_DRAGGING;
                 invalidate();
@@ -205,29 +205,29 @@ public class FastScrollerView extends View implements OnScrollChangedListener {
     }
 
     public void onDraw(Canvas canvas) {
-        if (mEditor != null && getState() != STATE_HIDDEN) {
-            if (mBitmapNormal == null) {
+        if(mEditor != null && getState() != STATE_HIDDEN) {
+            if(mBitmapNormal == null) {
                 mThumbDrawableNormal.setBounds(new Rect(0, 0, getWidth(), mThumbHeight));
                 mBitmapNormal = Bitmap.createBitmap(getWidth(), mThumbHeight, Config.ARGB_8888);
                 mThumbDrawableNormal.draw(new Canvas(mBitmapNormal));
             }
-            if (mBitmapDragging == null) {
+            if(mBitmapDragging == null) {
                 mThumbDrawableDragging.setBounds(new Rect(0, 0, getWidth(), mThumbHeight));
                 mBitmapDragging = Bitmap.createBitmap(getWidth(), mThumbHeight, Config.ARGB_8888);
                 mThumbDrawableDragging.draw(new Canvas(mBitmapDragging));
             }
             super.onDraw(canvas);
-            if (getState() == STATE_VISIBLE || getState() == STATE_DRAGGING) {
+            if(getState() == STATE_VISIBLE || getState() == STATE_DRAGGING) {
                 mPaint.setAlpha(250);
-                if (getState() == STATE_VISIBLE) {
+                if(getState() == STATE_VISIBLE) {
                     canvas.drawBitmap(mBitmapNormal, 0.0f, mThumbTop, mPaint);
                 } else {
                     canvas.drawBitmap(mBitmapDragging, 0.0f, mThumbTop, mPaint);
                 }
-            } else if (getState() != STATE_EXITING) {
+            } else if(getState() != STATE_EXITING) {
                 //nothing
             } else {
-                if (mPaint.getAlpha() > 25) {
+                if(mPaint.getAlpha() > 25) {
                     mPaint.setAlpha(mPaint.getAlpha() - 25);
                     canvas.drawBitmap(mBitmapNormal, 0.0f, mThumbTop, mPaint);
                     mHandler.postDelayed(hideScroller, 17);

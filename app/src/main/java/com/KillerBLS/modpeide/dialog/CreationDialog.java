@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.KillerBLS.modpeide.utils.text.StringUtils;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.KillerBLS.modpeide.R;
 import com.KillerBLS.modpeide.document.commons.FileObject;
@@ -58,7 +59,7 @@ public class CreationDialog extends MaterialDialog {
     public static boolean checkNameField(@NonNull Context ctx, @NonNull View customView) {
         EditText nameField = customView.findViewById(R.id.editName);
         mValidName = nameField.getText().toString();
-        if (TextUtils.isEmpty(mValidName) || mValidName.matches("^.*[^a-zA-Z0-9._-].*$")){ //Имя пустое или не правильное?
+        if (!StringUtils.isValidFileName(mValidName)){ //Имя пустое или не правильное?
             Toasty.error(ctx, ctx.getString(R.string.dialog_error_name), Toast.LENGTH_SHORT).show();
             return false;
         } else {

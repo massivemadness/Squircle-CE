@@ -24,10 +24,10 @@ package com.KillerBLS.modpeide.adapter.files;
  */
 public class FileDetail {
 
-    private String name;
-    private String size;
-    private String dateModified;
-    private boolean isFolder;
+    private String name; //Имя файла
+    private String size; //Размер файла
+    private String dateModified; //Дата изменения файла
+    private boolean isFolder; //Является ли файл папкой?
 
     public FileDetail(String name, String size, String dateModified, boolean isFolder) {
         this.name = name;

@@ -35,6 +35,14 @@ public class Wrapper {
         mManager = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    public boolean isFirstLaunch() {
+        return mManager.getBoolean("IS_FIRST_LAUNCH", true);
+    }
+
+    public void setFirstLaunch(boolean isFirstLaunch) {
+        mManager.edit().putBoolean("IS_FIRST_LAUNCH", isFirstLaunch).apply();
+    }
+
     //Preferences
 
     /**

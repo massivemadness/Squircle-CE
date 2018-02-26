@@ -69,7 +69,7 @@
     <string name="pref_category_file_explorer">File Explorer</string>
 
     <string name="pref_aboutSoftware_title">ModPE IDE - Standard Edition</string>
-    <string name="pref_aboutSoftware_summary">Copyright 2018 Light Team Software\nAll rights reserved\n\nVersion: 2018.1.3 (10004)</string>
+    <string name="pref_aboutSoftware_summary">Copyright 2018 Light Team Software\nAll rights reserved\n\nVersion: 2018.1.4 (10005)</string>
 
     <string name="pref_library_cwacPager_title">CWAC-Pager</string>
     <string name="pref_library_cwacPager_summary">License: Apache License 2.0\nAuthor: Mark Murphy</string>
@@ -85,6 +85,8 @@
     <string name="pref_library_menuFab_summary">License: Apache License 2.0\nAuthor: Dmytro Tarianyk</string>
     <string name="pref_library_rhino_title">Rhino (JavaScript Engine)</string>
     <string name="pref_library_rhino_summary">License: Mozilla Public License 2.0\nAuthor: Mozilla</string>
+    <string name="pref_library_keyboardVE_title">KeyboardVisibilityEvent</string>
+    <string name="pref_library_keyboardVE_summary">License: Apache License 2.0\nAuthor: Yasuhiro Shimizu</string>
 
     <string name="pref_fullScreen_title">Full screen</string>
     <string name="pref_fullScreen_summary">Launch the application in full screen mode.</string>

@@ -68,6 +68,14 @@
         </Preference>
 
         <Preference
+            android:title="@string/pref_library_keyboardVE_title"
+            android:summary="@string/pref_library_keyboardVE_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/yshrsmz/KeyboardVisibilityEvent"/>
+        </Preference>
+
+        <Preference
             android:title="@string/pref_library_commonsIO_title"
             android:summary="@string/pref_library_commonsIO_summary">
             <intent

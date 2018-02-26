@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.KillerBLS.modpeide.dialog.RenameDialog;
 import com.KillerBLS.modpeide.utils.Converter;
+import com.KillerBLS.modpeide.utils.files.FileSorter;
 import com.KillerBLS.modpeide.utils.files.SortMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.clans.fab.FloatingActionButton;
@@ -61,13 +62,12 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedList;
 
 import es.dmoral.toasty.Toasty;
 
 /**
- * Thanks Vlad Mihalachi
+ * Thanks Vlad Mihalachi, Trần Lê Duy
  */
 public class FileExplorerActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener,
@@ -76,17 +76,17 @@ public class FileExplorerActivity extends AppCompatActivity
 
     private static final String TAG = FileExplorerActivity.class.getSimpleName();
 
-    private SwipeRefreshLayout mSwipeLayout;
-    private ListView listView;
-    private String currentFolder;
-
     private Wrapper mWrapper;
+    private SwipeRefreshLayout mSwipeLayout;
+    private ListView mListView;
+
+    private String mCurrentFolder;
+    private String mDefaultFolder = Environment.getExternalStorageDirectory().getAbsolutePath();
     private int mSortMode;
-    private String defaultFolder = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     private MenuItem mSearchViewMenuItem;
     private SearchView mSearchView;
-    private Filter filter;
+    private Filter mFilter;
 
     private TextView mPathTitle;
     private FloatingActionMenu mFloatingMenu;
@@ -109,24 +109,27 @@ public class FileExplorerActivity extends AppCompatActivity
 
     private void initContent() {
         mWrapper = new Wrapper(this);
+        mListView = findViewById(android.R.id.list);
+
+        mListView.setOnItemClickListener(this); //обычное нажатие
+        mListView.setOnItemLongClickListener(this); //долгое нажатие
+        mListView.setTextFilterEnabled(true);
+
         mSortMode = Converter.toSortMode(mWrapper.getSortMode());
         mPathTitle = findViewById(R.id.pathField);
-        String workingFolder = mWrapper.getWorkingFolder();
         showHiddenFiles = mWrapper.getShowHiddenFiles();
-        listView = findViewById(android.R.id.list);
-        listView.setOnItemClickListener(this); //обычное нажатие
-        listView.setOnItemLongClickListener(this); //долгое нажатие
-        listView.setTextFilterEnabled(true);
 
         if(mWrapper.getFullScreenMode()) { //Fullscreen
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
-        FileObject file = new FileObject(workingFolder);
+        //Сразу открываем рабочую папку при старте
+        String mWorkingFolder = mWrapper.getWorkingFolder();
+        FileObject file = new FileObject(mWorkingFolder);
         if(!file.exists()) {
-            workingFolder = defaultFolder; //save to prefs
-            mWrapper.setWorkingFolder(workingFolder);
-            file = new FileObject(workingFolder);
+            mWorkingFolder = mDefaultFolder; //save to prefs
+            mWrapper.setWorkingFolder(mWorkingFolder);
+            file = new FileObject(mWorkingFolder);
         }
         new UpdateList().execute(file.getAbsolutePath()); //Обновляем список при старте активити
     }
@@ -135,10 +138,14 @@ public class FileExplorerActivity extends AppCompatActivity
         mSwipeLayout = findViewById(R.id.listRefresh);
         mSwipeLayout.setOnRefreshListener(this);
         mFloatingMenu = findViewById(R.id.fabMenu_menu);
-        if(!mWrapper.getCreatingFilesAndFolders())
+
+        if(!mWrapper.getCreatingFilesAndFolders()) //Если создание обьектов отключено, скрываем
             mFloatingMenu.setVisibility(View.GONE);
+
         //Кнопки с действиями
         FloatingActionButton mCreateFile = findViewById(R.id.fabMenu_new_file); //File Button
+        FloatingActionButton mCreateFolder = findViewById(R.id.fabMenu_new_folder); //Folder Button
+
         mCreateFile.setOnClickListener(view -> {
             mFloatingMenu.close(true);
             new CreationDialog.Builder(this)
@@ -148,7 +155,7 @@ public class FileExplorerActivity extends AppCompatActivity
                         View dview = dialog.getCustomView();
                         assert dview != null;
                         if(CreationDialog.checkNameField(this, dview)) {
-                            FileObject createdFile = new FileObject(currentFolder + "/" +
+                            FileObject createdFile = new FileObject(mCurrentFolder + "/" +
                                     CreationDialog.getValidName());
                             try {
                                 createdFile.createNewFile();
@@ -160,7 +167,6 @@ public class FileExplorerActivity extends AppCompatActivity
                         }
                     }).show();
         });
-        FloatingActionButton mCreateFolder = findViewById(R.id.fabMenu_new_folder); //Folder Button
         mCreateFolder.setOnClickListener(view -> {
             mFloatingMenu.close(true);
             new CreationDialog.Builder(this)
@@ -171,10 +177,10 @@ public class FileExplorerActivity extends AppCompatActivity
                         assert dview != null;
                         if(CreationDialog.checkNameField(this, dview)) {
                             FileObject createdFolder =
-                                    new FileObject(currentFolder + "/" +
+                                    new FileObject(mCurrentFolder + "/" +
                                             CreationDialog.getValidName());
                             createdFolder.mkdir();
-                            new UpdateList().execute(currentFolder);
+                            new UpdateList().execute(mCurrentFolder);
                         }
                     }).show();
         });
@@ -236,13 +242,13 @@ public class FileExplorerActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.fexplorer_set_w_folder:
-                mWrapper.setWorkingFolder(currentFolder);
+                mWrapper.setWorkingFolder(mCurrentFolder);
                 break;
             case R.id.fexplorer_goto_w_folder:
                 new UpdateList().execute(mWrapper.getWorkingFolder());
                 break;
             case R.id.fexplorer_goto_d_folder:
-                new UpdateList().execute(defaultFolder);
+                new UpdateList().execute(mDefaultFolder);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -253,10 +259,10 @@ public class FileExplorerActivity extends AppCompatActivity
         if(mFloatingMenu.isOpened()) {
             mFloatingMenu.close(true);
         } else {
-            if (currentFolder.isEmpty() || currentFolder.equals(defaultFolder)) {
+            if (mCurrentFolder.isEmpty() || mCurrentFolder.equals(mDefaultFolder)) {
                 finish();
             } else {
-                FileObject file = new FileObject(currentFolder);
+                FileObject file = new FileObject(mCurrentFolder);
                 String parentFolder = file.getParent(); //Получаем родительскую папку,
                 new UpdateList().execute(parentFolder); //и перемещаемся в неё
             }
@@ -265,23 +271,23 @@ public class FileExplorerActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        return onQueryTextChange(query);
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (filter == null)
+        if(mFilter == null)
             return true;
-        if (TextUtils.isEmpty(newText)) {
-            filter.filter(null);
+        if(TextUtils.isEmpty(newText)) {
+            mFilter.filter(null);
         } else {
-            filter.filter(newText);
+            mFilter.filter(newText);
         }
         return true;
     }
 
     /**
-     * Обработчик нажатий listView, переход в папки и выбор файла (finishWithResult).
+     * Обработчик нажатий {@link ListView}, переход в папки и выбор файла (finishWithResult).
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -289,10 +295,10 @@ public class FileExplorerActivity extends AppCompatActivity
             mFloatingMenu.close(true);
         final String name = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
         if (name.equals("..")) {
-            if (currentFolder.equals(defaultFolder)) {
+            if (mCurrentFolder.equals(mDefaultFolder)) {
                 new UpdateList().execute(mWrapper.getWorkingFolder());
             } else {
-                File tempFile = new File(currentFolder);
+                File tempFile = new File(mCurrentFolder);
                 if (tempFile.isFile()) {
                     tempFile = tempFile.getParentFile()
                             .getParentFile();
@@ -303,7 +309,7 @@ public class FileExplorerActivity extends AppCompatActivity
             }
             return;
         }
-        final FileObject selectedFile = new FileObject(currentFolder, name);
+        final FileObject selectedFile = new FileObject(mCurrentFolder, name);
         if (selectedFile.isFile()) {
             finishWithResult(selectedFile); //Если выбранный item - файл, завершаем активити и передаём результат
         } else if (selectedFile.isDirectory()) {
@@ -312,14 +318,14 @@ public class FileExplorerActivity extends AppCompatActivity
     }
 
     /**
-     * Обработчик долгих нажатии по listView.
+     * Обработчик долгих нажатии по {@link ListView}.
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         if(mFloatingMenu.isOpened())
             mFloatingMenu.close(true);
         String fileName = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
-        String filePath = currentFolder + "/" + fileName;
+        String filePath = mCurrentFolder + "/" + fileName;
         new MaterialDialog.Builder(this) //Диалог при долгом тапе по файлу
                 .items(R.array.fexplorer_actions)
                 .itemsCallback((dialog, view1, which, text) -> {
@@ -334,7 +340,7 @@ public class FileExplorerActivity extends AppCompatActivity
                                             selectedFile.renameTo(
                                                     new File(selectedFile.getParent()
                                                             + "/" + RenameDialog.getValidName()));
-                                            new UpdateList().execute(currentFolder);
+                                            new UpdateList().execute(mCurrentFolder);
                                         }
                                     })).show().getCustomView().findViewById(R.id.editName);
                             editName.setText(selectedFile.getName());
@@ -347,7 +353,7 @@ public class FileExplorerActivity extends AppCompatActivity
                                     .negativeText(R.string.no)
                                     .onPositive((dialog2, which2) -> {
                                         selectedFile.deleteRecursive();
-                                        new UpdateList().execute(currentFolder);
+                                        new UpdateList().execute(mCurrentFolder);
                                     }).show();
                             break;
                     }
@@ -358,7 +364,7 @@ public class FileExplorerActivity extends AppCompatActivity
 
     @Override
     public void onRefresh() {
-        new UpdateList().execute(currentFolder);
+        new UpdateList().execute(mCurrentFolder);
         new Handler().postDelayed(() -> mSwipeLayout.setRefreshing(false), 500);
     }
 
@@ -386,7 +392,6 @@ public class FileExplorerActivity extends AppCompatActivity
                 if (TextUtils.isEmpty(path)) {
                     return null;
                 }
-
                 FileObject tempFolder = new FileObject(path);
                 if (tempFolder.isFile()) {
                     tempFolder = (FileObject) tempFolder.getParentFile();
@@ -399,43 +404,43 @@ public class FileExplorerActivity extends AppCompatActivity
                 final LinkedList<FileDetail> fileDetails = new LinkedList<>();
                 final LinkedList<FileDetail> folderDetails = new LinkedList<>();
 
-                currentFolder = tempFolder.getAbsolutePath();
+                mCurrentFolder = tempFolder.getAbsolutePath();
 
                 FileObject[] files = tempFolder.listFiles();
 
                 //Сортировка файлов
                 if(mSortMode == SortMode.SORT_BY_NAME) {
-                    Arrays.sort(files, getFileNameComparator());
+                    Arrays.sort(files, FileSorter.getFileNameComparator());
                 } else if(mSortMode == SortMode.SORT_BY_SIZE) {
-                    Arrays.sort(files, getFileSizeComparator());
+                    Arrays.sort(files, FileSorter.getFileSizeComparator());
                 } else if(mSortMode == SortMode.SORT_BY_DATE) {
-                    Arrays.sort(files, getFileDateComparator());
+                    Arrays.sort(files, FileSorter.getFileDateComparator());
                 }
 
-                for (final FileObject f : files) {
-                    if (f.isDirectory()) { //Если это папка
-                        if(f.isHidden()) { //если папка скрыта
+                for(final FileObject file : files) {
+                    if(file.isDirectory()) { //Если это папка
+                        if(file.isHidden()) { //если папка скрыта
                             if(showHiddenFiles) { //и отображение скрытых файлов вклчючено
-                                folderDetails.add(new FileDetail(f.getName(), //добавляем
+                                folderDetails.add(new FileDetail(file.getName(), //добавляем
                                         getString(R.string.fexplorer_folder),
-                                        f.getLastModified(), true));
+                                        file.getLastModified(), true));
                             } //иначе пропускаем файл
                         } else { //но если папка не скрыта, то сразу добавляем
-                            folderDetails.add(new FileDetail(f.getName(),
+                            folderDetails.add(new FileDetail(file.getName(),
                                     getString(R.string.fexplorer_folder),
-                                    f.getLastModified(), true));
+                                    file.getLastModified(), true));
                         }
-                    } else if (f.isFile() //Если файл, то информацию о нём
-                            && !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
-                            && FileUtils.sizeOf(f) <= 20_000 * FileUtils.ONE_KB) { //20_000 - Max file size
-                        if(f.isHidden()) { //та же схема со скрытыми файлами что чуть выше
+                    } else if(file.isFile() //Если файл, то информацию о нём
+                            && !FilenameUtils.isExtension(file.getName().toLowerCase(), unopenableExtensions)
+                            && FileUtils.sizeOf(file) <= 20_000 * FileUtils.ONE_KB) { //20_000 - Max file size
+                        if(file.isHidden()) { //та же схема со скрытыми файлами что чуть выше
                             if(showHiddenFiles) {
-                                fileDetails.add(new FileDetail(f.getName(),
-                                        f.getReadableSize(), f.getLastModified(), false));
+                                fileDetails.add(new FileDetail(file.getName(),
+                                        file.getReadableSize(), file.getLastModified(), false));
                             }
                         } else {
-                            fileDetails.add(new FileDetail(f.getName(),
-                                    f.getReadableSize(), f.getLastModified(), false));
+                            fileDetails.add(new FileDetail(file.getName(),
+                                    file.getReadableSize(), file.getLastModified(), false));
                         }
                     }
                 }
@@ -450,61 +455,17 @@ public class FileExplorerActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(final LinkedList<FileDetail> names) {
-            if (names != null) {
+            if(names != null) {
                 FileListAdapter mAdapter = new FileListAdapter(getBaseContext(), names);
-                listView.setAdapter(mAdapter);
-                filter = mAdapter.getFilter();
+                mListView.setAdapter(mAdapter);
+                mFilter = mAdapter.getFilter();
             }
-            if (exceptionMessage != null) { //Если произошла ошибка, выводим её на экран
+            if(exceptionMessage != null) { //Если произошла ошибка, выводим её на экран
                 Toasty.normal(FileExplorerActivity.this, exceptionMessage, Toast.LENGTH_SHORT).show();
             }
             invalidateOptionsMenu();
-            setPathTitle(currentFolder);
+            setPathTitle(mCurrentFolder);
             super.onPostExecute(names);
         }
     }
-
-    //region COMPARATORS
-
-    /**
-     * Сортировка по имени.
-     */
-    private Comparator<? super FileObject> getFileNameComparator() {
-        return (Comparator<FileObject>) (o1, o2) -> o1.getName().compareTo(o2.getName());
-    }
-
-    /**
-     * Сортировка по размеру. От большого к малому.
-     */
-    private Comparator<? super FileObject> getFileSizeComparator() {
-        return (Comparator<FileObject>) (o1, o2) -> {
-            if (o1.length() == o2.length()) {
-                return 0;
-            }
-            if (o1.length() > o2.length()) {
-                return -1;
-            } else {
-                return 1;
-            }
-        };
-    }
-
-    /**
-     * Сортировка по дате. От новых к старым.
-     */
-    private Comparator<? super FileObject> getFileDateComparator() {
-        return (Comparator<FileObject>) (o1, o2) -> {
-            if (o1.lastModified() == o2.lastModified()) {
-                return 0;
-            }
-            if (o1.lastModified() > o2.lastModified()) {
-                return -1;
-            } else {
-                return 1;
-            }
-        };
-    }
-
-    //endregion COMPARATORS
-
 }
