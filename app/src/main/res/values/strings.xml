@@ -57,7 +57,6 @@
     <string name="pref_header_about_summary">View information about libraries and licenses.</string>
 
     <string name="pref_category_laf">Look And Feel</string>
-    <string name="pref_category_notifications">Notifications</string>
     <string name="pref_category_other">Other Settings</string>
     <string name="pref_category_tabs">Tabs</string>
     <string name="pref_category_font">Font</string>
@@ -94,8 +93,6 @@
     <string name="pref_theme_summary">Choose available application theme. Available only in Ultimate Edition.</string>
     <string name="pref_confirmExit_title">Confirm exit from the app</string>
     <string name="pref_confirmExit_summary">If you press back, ModPE IDE ask for confirmation to exit.</string>
-    <string name="pref_notifications_title">Enable Push Notifications</string>
-    <string name="pref_notifications_summary">Allows to send you push notifications.</string>
     <string name="pref_resumeSession_title">Resume session</string>
     <string name="pref_resumeSession_summary">Restore opened files for next launch.</string>
     <string name="pref_maxTabs_title">Max page editor</string>

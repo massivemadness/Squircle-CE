@@ -100,14 +100,6 @@ public class MainActivity extends AppCompatActivity
         initDrawerAndStuff();
         initTabs();
         checkFileReceiver();
-        if(mWrapper.isFirstLaunch()) {
-            new MaterialDialog.Builder(this)
-                    .content(StringUtils.readRawTextFile(this, R.raw.last_update))
-                    .cancelable(false)
-                    .positiveText(R.string.close)
-                    .onPositive(((dialog, which) -> mWrapper.setFirstLaunch(false)))
-                    .show();
-        }
     }
 
     private void initToolbar() {

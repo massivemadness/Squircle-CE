@@ -25,9 +25,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <supports-screens
         android:anyDensity="true"
@@ -172,28 +169,6 @@
             android:value="true"/>
 
         <!-- endregion MultiWindow -->
-
-        <!-- region Notifications -->
-
-        <service
-            android:name=".service.FirebaseNotificationService"
-            android:permission="string">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notification_default"/>
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/purple"/>
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="FIREBASE_CHANNEL"/>
-
-        <!-- endregion Notifications -->
 
         <provider
             android:name="android.support.v4.content.FileProvider"

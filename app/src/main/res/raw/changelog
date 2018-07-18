@@ -1,3 +1,7 @@
+v2018.1.5, 18 Jul. 2018
+- Notifications now disabled
+- Preparing for a big update
+
 v2018.1.4, 26 Feb. 2018
 - Fixed bug with filenames (in other languages)
 - Fixed extended keyboard, now works fine (Settings -> Editor -> Extended Keyboard)

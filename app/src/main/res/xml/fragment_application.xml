@@ -36,16 +36,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_category_notifications">
-
-        <SwitchPreferenceCompat
-            android:key="PUSH_NOTIFICATIONS"
-            android:defaultValue="true"
-            android:title="@string/pref_notifications_title"
-            android:summary="@string/pref_notifications_summary"/>
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/pref_category_other">
 
         <SwitchPreferenceCompat
