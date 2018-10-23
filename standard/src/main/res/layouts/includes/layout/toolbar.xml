@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:id="@+id/toolbar"
+    app:contentInsetStart="4dp"
+    app:contentInsetEnd="0dp">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_gravity="end">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10.5dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_save"
+            android:tint="@android:color/white"
+            android:background="@drawable/ripple_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/action_menu_save"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10.5dp"
+            android:visibility="visible"
+            android:src="@drawable/ic_folder"
+            android:tint="@android:color/white"
+            android:background="@drawable/ripple_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/action_menu_file"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10.5dp"
+            android:visibility="visible"
+            android:src="@drawable/ic_edit"
+            android:tint="@android:color/white"
+            android:background="@drawable/ripple_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/action_menu_edit"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10.5dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_file_search"
+            android:tint="@android:color/white"
+            android:background="@drawable/ripple_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/action_menu_search"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10.5dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_tools"
+            android:tint="@android:color/white"
+            android:background="@drawable/ripple_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/action_menu_tools"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10.5dp"
+            android:visibility="visible"
+            android:src="@drawable/ic_undo"
+            android:tint="@android:color/white"
+            android:background="@drawable/ripple_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/action_menu_undo"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10.5dp"
+            android:visibility="visible"
+            android:src="@drawable/ic_redo"
+            android:tint="@android:color/white"
+            android:background="@drawable/ripple_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/action_menu_redo"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10.5dp"
+            android:visibility="visible"
+            android:src="@drawable/ic_overflow"
+            android:tint="@android:color/white"
+            android:background="@drawable/ripple_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/action_menu_overflow"
+            android:contentDescription="@string/description_icon"/>
+
+    </GridLayout>
+
+</android.support.v7.widget.Toolbar>

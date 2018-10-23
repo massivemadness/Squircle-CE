@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:attr/windowBackground"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <!-- Search View -->
+    <android.support.v7.widget.SearchView
+        android:id="@+id/field_search"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:paddingStart="-12dp"
+        android:paddingEnd="-12dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorTabs"
+        android:elevation="4dp"
+        app:queryHint="@string/hint_search"
+        app:queryBackground="@null"
+        app:iconifiedByDefault="false"/>
+
+    <!-- region Files -->
+
+    <com.KillerBLS.modpeide.widget.RecyclerViewStub
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/field_search"
+        android:layout_above="@id/field_actions"
+        android:scrollbars="vertical"
+        android:id="@+id/recycler_view"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+    <ViewStub
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/stub_no_result"
+        android:inflatedId="@+id/no_result"
+        android:layout="@layout/no_result"/>
+
+    <!-- endregion Files -->
+
+    <!-- region Actions -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:background="@color/colorTabs"
+        android:elevation="2dp"
+        android:id="@+id/field_actions"
+        tools:ignore="RtlHardcoded">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:id="@+id/action_add"
+            android:src="@drawable/ic_plus"
+            android:tint="@color/colorIcon"
+            android:background="@drawable/ripple_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:id="@+id/action_refresh"
+            android:src="@drawable/ic_refresh"
+            android:tint="@color/colorIcon"
+            android:background="@drawable/ripple_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:id="@+id/action_home"
+            android:src="@drawable/ic_home"
+            android:tint="@color/colorIcon"
+            android:background="@drawable/ripple_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:id="@+id/action_sort"
+            android:src="@drawable/ic_sort"
+            android:tint="@color/colorIcon"
+            android:background="@drawable/ripple_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/description_icon"/>
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:id="@+id/action_filter"
+            android:src="@drawable/ic_filter_on"
+            android:tint="@color/colorIcon"
+            android:background="@drawable/ripple_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/description_icon"/>
+
+    </LinearLayout>
+
+    <!-- endregion Actions -->
+
+</RelativeLayout>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_category_font">
+
+        <ListPreference
+            android:title="@string/pref_font_size_title"
+            android:summary="@string/pref_font_size_summary"
+            android:key="FONT_SIZE_1"
+            android:entries="@array/text_size"
+            android:entryValues="@array/text_size"
+            android:defaultValue="14"/>
+
+        <ListPreference
+            android:title="@string/pref_font_type_title"
+            android:summary="%s"
+            android:key="FONT_TYPE"
+            android:entries="@array/font_types"
+            android:entryValues="@array/font_types_values"
+            android:defaultValue="droid_sans_mono"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_tabs">
+
+        <SwitchPreference
+            android:title="@string/pref_resume_session_title"
+            android:summary="@string/pref_resume_session_summary"
+            android:key="RESUME_SESSION"
+            android:defaultValue="true"/>
+
+        <ListPreference
+            android:title="@string/pref_max_page_title"
+            android:summary="@string/pref_max_page_summary"
+            android:key="MAX_TABS_COUNT_1"
+            android:entries="@array/max_tabs"
+            android:entryValues="@array/max_tabs"
+            android:defaultValue="5"/>
+
+        <SwitchPreference
+            android:title="@string/pref_disable_swipe_title"
+            android:summary="@string/pref_disable_swipe_summary"
+            android:key="DISABLE_SWIPE"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_editor">
+
+        <SwitchPreference
+            android:title="@string/pref_word_wrap_title"
+            android:summary="@string/pref_word_wrap_summary"
+            android:defaultValue="true"
+            android:key="WRAP_CONTENT"/>
+
+        <SwitchPreference
+            android:title="@string/pref_code_completion_title"
+            android:summary="@string/pref_code_completion_summary"
+            android:defaultValue="true"
+            android:key="CODE_COMPLETION"/>
+
+        <SwitchPreference
+            android:title="@string/pref_pinch_zoom_title"
+            android:summary="@string/pref_pinch_zoom_summary"
+            android:defaultValue="true"
+            android:key="PINCH_ZOOM"/>
+
+        <SwitchPreference
+            android:title="@string/pref_line_numbers_title"
+            android:summary="@string/pref_line_numbers_summary"
+            android:defaultValue="true"
+            android:key="SHOW_LINE_NUMBERS"/>
+
+        <SwitchPreference
+            android:title="@string/pref_highlight_line_title"
+            android:defaultValue="true"
+            android:key="HIGHLIGHT_CURRENT_LINE"/>
+
+        <SwitchPreference
+            android:title="@string/pref_bracket_matching_title"
+            android:defaultValue="true"
+            android:key="BRACKET_MATCHING"/>
+
+        <SwitchPreference
+            android:title="@string/pref_syntax_highlight_title"
+            android:defaultValue="true"
+            android:key="SYNTAX_HIGHLIGHT"/>
+
+        <SwitchPreference
+            android:title="@string/pref_read_only_title"
+            android:defaultValue="false"
+            android:key="READ_ONLY"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_keyboard">
+
+        <SwitchPreference
+            android:title="@string/pref_extended_keyboard_title"
+            android:summary="@string/pref_extended_keyboard_summary"
+            android:defaultValue="true"
+            android:key="USE_EXTENDED_KEYS"/>
+
+        <SwitchPreference
+            android:title="@string/pref_ime_keyboard_title"
+            android:summary="@string/pref_ime_keyboard_summary"
+            android:defaultValue="false"
+            android:key="USE_IME_KEYBOARD"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

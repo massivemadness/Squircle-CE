@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_menu_search"
+        android:icon="@drawable/ic_file_search"
+        android:title="@string/menu_overflow_search"
+        app:iconTint="@color/colorIcon">
+        <menu>
+            <item
+                android:id="@+id/menu_search_find"
+                android:icon="@drawable/ic_search"
+                android:title="@string/menu_search_find"
+                app:iconTint="@color/colorIcon"/>
+            <item
+                android:id="@+id/menu_search_replace_all"
+                android:icon="@drawable/ic_replace"
+                android:title="@string/menu_search_replace_all"
+                app:iconTint="@color/colorIcon"/>
+            <item
+                android:id="@+id/menu_search_gotoLine"
+                android:icon="@drawable/ic_line_goto"
+                android:title="@string/menu_search_gotoLine"
+                app:iconTint="@color/colorIcon"/>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_menu_tools"
+        android:icon="@drawable/ic_tools"
+        android:title="@string/menu_overflow_tools"
+        app:iconTint="@color/colorIcon">
+        <menu>
+            <item
+                android:id="@+id/menu_tools_syntaxValidator"
+                android:icon="@drawable/ic_code_check"
+                android:title="@string/menu_tools_syntaxValidator"
+                app:iconTint="@color/colorIcon"/>
+            <item
+                android:id="@+id/menu_tools_insertColor"
+                android:icon="@drawable/ic_palette"
+                android:title="@string/menu_tools_insertColor"
+                app:iconTint="@color/colorIcon"/>
+            <!--<item
+                android:id="@+id/menu_tools_downloadSource"
+                android:icon="@drawable/ic_tools_download_source"
+                android:title="@string/menu_tools_downloadSource"
+                app:iconTint="@color/colorIcon"/>-->
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_overflow_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/menu_overflow_settings"
+        app:iconTint="@color/colorIcon"/>
+</menu>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/action_refactor"
+        android:icon="@drawable/ic_edit"
+        app:iconTint="@color/colorIcon">
+        <menu>
+            <item
+                android:title="@string/action_rename"
+                android:id="@+id/action_rename"
+                android:icon="@drawable/ic_file_rename"
+                app:iconTint="@color/colorIcon"/>
+            <item
+                android:title="@string/action_delete"
+                android:id="@+id/action_delete"
+                android:icon="@drawable/ic_delete"
+                app:iconTint="@color/colorIcon"/>
+        </menu>
+    </item>
+    <item
+        android:title="@string/menu_file_properties"
+        android:id="@+id/action_properties"
+        android:icon="@drawable/ic_file_properties"
+        app:iconTint="@color/colorIcon"/>
+    <item
+        android:title="@string/action_copy_path"
+        android:id="@+id/action_copy_path"
+        android:icon="@drawable/ic_copy"
+        app:iconTint="@color/colorIcon"/>
+</menu>

@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ModPE-IDE-Source.iml" filepath="$PROJECT_DIR$/ModPE-IDE-Source.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/standard/standard.iml" filepath="$PROJECT_DIR$/standard/standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ultimate/ultimate.iml" filepath="$PROJECT_DIR$/ultimate/ultimate.iml" />
     </modules>
   </component>
 </project>

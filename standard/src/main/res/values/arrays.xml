@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string-array name="sort_mode">
+        <item>@string/sort_by_name</item>
+        <item>@string/sort_by_size</item>
+        <item>@string/sort_by_date</item>
+    </string-array>
+
+    <string-array name="sort_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="font_types">
+        <item>Roboto</item>
+        <item>Roboto Light</item>
+        <item>Source Code Pro</item>
+        <item>Droid Sans Mono (Monospace)</item>
+    </string-array>
+
+    <string-array name="font_types_values">
+        <item>roboto</item>
+        <item>roboto_light</item>
+        <item>source_code_pro</item>
+        <item>droid_sans_mono</item>
+    </string-array>
+
+    <string-array name="text_size">
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+    </string-array>
+
+    <string-array name="max_tabs">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+</resources>

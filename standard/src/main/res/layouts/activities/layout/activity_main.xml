@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Light Team Software
+  ~
+  ~ This file is part of ModPE IDE.
+  ~
+  ~ ModPE IDE is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ModPE IDE is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see
+  ~ <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+    <!-- region Toolbar -->
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <include layout="@layout/toolbar"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- endregion Toolbar -->
+
+    <!-- region Content -->
+
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- region Tabs -->
+
+            <android.support.design.widget.TabLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:clipChildren="true"
+                android:id="@+id/tab_layout"
+                android:background="@color/colorTabs"
+                android:elevation="4dp"
+                app:tabIndicatorColor="@color/colorAccent"
+                app:tabMode="scrollable"
+                app:tabGravity="fill"/>
+
+            <!-- endregion Tabs -->
+
+            <!-- region Document -->
+
+            <ViewStub
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/stub_no_open_files"
+                android:inflatedId="@+id/no_open_files"
+                android:layout="@layout/no_open_files"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.KillerBLS.modpeide.widget.LockableViewPager
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/view_pager"/>
+
+                <com.KillerBLS.modpeide.widget.ExtendedKeyboard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:background="@color/colorTabs"
+                    android:elevation="2dp"
+                    android:id="@+id/extended_keyboard"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+            </LinearLayout>
+
+            <!-- endregion Document -->
+
+        </LinearLayout>
+
+        <!-- region Explorer -->
+
+        <fragment
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:name="com.KillerBLS.modpeide.fragment.FragmentExplorer"
+            android:id="@+id/fragment_explorer"
+            tools:ignore="RtlHardcoded"/>
+
+        <!-- endregion Explorer -->
+
+    </android.support.v4.widget.DrawerLayout>
+
+    <!-- endregion Content -->
+
+</LinearLayout>
