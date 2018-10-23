@@ -27,7 +27,7 @@ android {
         applicationId "com.KillerBLS.modpeide"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 10013
+        versionCode 10014
         versionName "2018.3.0 Standard Edition"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

@@ -25,30 +25,40 @@
         android:id="@+id/header_application"
         android:title="@string/pref_header_application_title"
         android:summary="@string/pref_header_application_summary"
-        android:fragment="com.KillerBLS.modpeide.fragment.headers.HeaderApplication"/>
+        android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
+        <extra android:name="settings" android:value="application"/>
+    </header>
 
     <header
         android:id="@+id/header_editor"
         android:title="@string/pref_header_editor_title"
         android:summary="@string/pref_header_editor_summary"
-        android:fragment="com.KillerBLS.modpeide.fragment.headers.HeaderEditor"/>
+        android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
+        <extra android:name="settings" android:value="editor"/>
+    </header>
 
     <header
         android:id="@+id/header_code_style"
         android:title="@string/pref_header_codeStyle_title"
         android:summary="@string/pref_header_codeStyle_summary"
-        android:fragment="com.KillerBLS.modpeide.fragment.headers.HeaderCodeStyle"/>
+        android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
+        <extra android:name="settings" android:value="codestyle"/>
+    </header>
 
     <header
         android:id="@+id/header_files"
         android:title="@string/pref_header_files_title"
         android:summary="@string/pref_header_files_summary"
-        android:fragment="com.KillerBLS.modpeide.fragment.headers.HeaderFiles"/>
+        android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
+        <extra android:name="settings" android:value="files"/>
+    </header>
 
     <header
         android:id="@+id/header_about"
         android:title="@string/pref_header_about_title"
         android:summary="@string/pref_header_about_summary"
-        android:fragment="com.KillerBLS.modpeide.fragment.headers.HeaderAbout"/>
+        android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
+        <extra android:name="settings" android:value="about"/>
+    </header>
 
 </preference-headers>

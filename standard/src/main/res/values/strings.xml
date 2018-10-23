@@ -23,7 +23,7 @@
     <!ENTITY app_name "ModPE IDE">
     <!ENTITY app_edition "Standard Edition">
     <!ENTITY app_version "2018.3.0">
-    <!ENTITY app_code "10013">
+    <!ENTITY app_code "10014">
 ]>
 <resources>
     <string name="app_name" translatable="false">&app_name;</string>

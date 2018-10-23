@@ -29,9 +29,9 @@ import android.widget.LinearLayout;
 
 import com.KillerBLS.modpeide.R;
 import com.KillerBLS.modpeide.activity.compat.AppCompatPreferenceActivity;
+import com.KillerBLS.modpeide.fragment.FragmentPreference;
 import com.KillerBLS.modpeide.utils.Wrapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,8 +42,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Inject
     Wrapper mWrapper;
-
-    private static List<String> mFragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,20 +79,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     public void onBuildHeaders(List<Header> target) {
-        super.onBuildHeaders(target);
         loadHeadersFromResource(R.xml.preference_headers, target);
-        for (Header header : target) {
-            mFragments.add(header.fragment); //добавляем все доступные фрагменты
-        }
-    }
-
-    @Override
-    public void onHeaderClick(Header header, int position) {
-        super.onHeaderClick(header, position);
     }
 
     @Override
     protected boolean isValidFragment(String fragmentName) {
-        return mFragments.contains(fragmentName);
+        return FragmentPreference.class.getName().equals(fragmentName);
     }
 }
