@@ -101,7 +101,19 @@
             android:name=".activity.SettingsActivity"
             android:label="@string/label_settings"
             android:parentActivityName=".activity.MainActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="standard">
+
+            <intent-filter>
+                <action android:name=".activity.SettingsActivity.application"/>
+                <action android:name=".activity.SettingsActivity.editor"/>
+                <action android:name=".activity.SettingsActivity.codestyle"/>
+                <action android:name=".activity.SettingsActivity.files"/>
+                <action android:name=".activity.SettingsActivity.about"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
 
         <!-- endregion Activities -->
 

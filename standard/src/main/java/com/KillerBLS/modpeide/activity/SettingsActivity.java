@@ -66,12 +66,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             Toolbar toolbar = toolbarContainer.findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(view -> super.onBackPressed());
         }
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         if(mWrapper.getFullscreenMode()) { //Fullscreen
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }

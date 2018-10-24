@@ -112,6 +112,7 @@
             android:layout_gravity="left"
             android:name="com.KillerBLS.modpeide.fragment.FragmentExplorer"
             android:id="@+id/fragment_explorer"
+            tools:layout="@layout/fragment_explorer"
             tools:ignore="RtlHardcoded"/>
 
         <!-- endregion Explorer -->

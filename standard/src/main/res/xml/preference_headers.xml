@@ -22,7 +22,6 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 
     <header
-        android:id="@+id/header_application"
         android:title="@string/pref_header_application_title"
         android:summary="@string/pref_header_application_summary"
         android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
@@ -30,7 +29,6 @@
     </header>
 
     <header
-        android:id="@+id/header_editor"
         android:title="@string/pref_header_editor_title"
         android:summary="@string/pref_header_editor_summary"
         android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
@@ -38,7 +36,6 @@
     </header>
 
     <header
-        android:id="@+id/header_code_style"
         android:title="@string/pref_header_codeStyle_title"
         android:summary="@string/pref_header_codeStyle_summary"
         android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
@@ -46,7 +43,6 @@
     </header>
 
     <header
-        android:id="@+id/header_files"
         android:title="@string/pref_header_files_title"
         android:summary="@string/pref_header_files_summary"
         android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
@@ -54,7 +50,6 @@
     </header>
 
     <header
-        android:id="@+id/header_about"
         android:title="@string/pref_header_about_title"
         android:summary="@string/pref_header_about_summary"
         android:fragment="com.KillerBLS.modpeide.fragment.FragmentPreference">
