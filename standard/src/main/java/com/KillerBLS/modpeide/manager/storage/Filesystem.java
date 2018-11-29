@@ -24,7 +24,7 @@ import java.util.List;
 
 public abstract class Filesystem {
 
-    private final String[] mUnopenableExtensions = { //Неоткрываемые разрешения файлов
+    private final String[] unopenableExtensions = { //Неоткрываемые разрешения файлов
             "apk", "mp3", "mp4", "wav", "pdf", "avi", "wmv", "m4a", "png", "jpg", "jpeg", "zip",
             "7z", "rar", "gif", "xls", "doc", "dat", "jar", "tar", "torrent", "xd", "docx", "temp"
     };
@@ -33,7 +33,7 @@ public abstract class Filesystem {
      * @return - Возвращает список неоткрываемых в программе форматов.
      */
     public final String[] getUnopenableExtensions() {
-        return mUnopenableExtensions;
+        return unopenableExtensions;
     }
 
     // region METHODS

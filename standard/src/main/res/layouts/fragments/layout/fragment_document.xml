@@ -39,6 +39,7 @@
         android:inputType="textMultiLine|textNoSuggestions"
         android:scrollbarStyle="insideInset"
         android:textColor="@color/colorText"
+        android:textCursorDrawable="@drawable/cursor_gray"
         android:dropDownAnchor="@id/tab_layout"
         android:popupBackground="@color/colorPrimary"
         android:background="@android:color/transparent"

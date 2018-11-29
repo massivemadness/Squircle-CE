@@ -16,7 +16,7 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,27 +26,22 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
-    <!-- Search View -->
     <android.support.v7.widget.SearchView
         android:id="@+id/field_search"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:paddingStart="-12dp"
         android:paddingEnd="-12dp"
-        android:layout_alignParentTop="true"
         android:background="@color/colorTabs"
         android:elevation="4dp"
         app:queryHint="@string/hint_search"
         app:queryBackground="@null"
         app:iconifiedByDefault="false"/>
 
-    <!-- region Files -->
-
     <com.KillerBLS.modpeide.widget.RecyclerViewStub
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/field_search"
-        android:layout_above="@id/field_actions"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:scrollbars="vertical"
         android:id="@+id/recycler_view"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
@@ -58,8 +53,6 @@
         android:inflatedId="@+id/no_result"
         android:layout="@layout/no_result"/>
 
-    <!-- endregion Files -->
-
     <!-- region Actions -->
 
     <LinearLayout
@@ -67,7 +60,6 @@
         android:layout_height="36dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:layout_alignParentBottom="true"
         android:gravity="right"
         android:orientation="horizontal"
         android:background="@color/colorTabs"
@@ -139,4 +131,4 @@
 
     <!-- endregion Actions -->
 
-</RelativeLayout>
+</LinearLayout>

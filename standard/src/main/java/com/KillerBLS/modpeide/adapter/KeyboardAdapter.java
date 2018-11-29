@@ -73,9 +73,8 @@ public class KeyboardAdapter extends RecyclerView.Adapter<KeyboardAdapter.KeyVie
         KeyViewHolder(@NonNull View itemView, @NonNull ExtendedKeyboard.OnKeyListener listener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            text.setOnClickListener(v -> {
-                listener.onKeyClick(v, ((TextView) v).getText().toString());
-            });
+            text.setOnClickListener(v ->
+                    listener.onKeyClick(v, ((TextView) v).getText().toString()));
         }
     }
 }

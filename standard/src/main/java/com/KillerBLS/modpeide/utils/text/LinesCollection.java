@@ -28,7 +28,7 @@ import java.util.Iterator;
  */
 public class LinesCollection implements Serializable, Iterable<LineObject> {
 
-    private ArrayList<LineObject> mLines = new ArrayList();
+    private ArrayList<LineObject> mLines = new ArrayList<>();
 
     public LinesCollection() {
         mLines.add(new LineObject(0));

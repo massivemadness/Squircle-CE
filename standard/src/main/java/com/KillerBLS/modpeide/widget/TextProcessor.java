@@ -21,10 +21,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
@@ -48,7 +45,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Scroller;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.KillerBLS.modpeide.R;
@@ -64,7 +60,6 @@ import com.KillerBLS.modpeide.utils.text.style.StylePaint;
 import com.KillerBLS.modpeide.utils.text.style.StyleSpan;
 import com.KillerBLS.modpeide.utils.text.style.SyntaxHighlightSpan;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -200,8 +195,7 @@ public class TextProcessor extends AppCompatMultiAutoCompleteTextView implements
         mSyntaxStrings = new StyleSpan(ContextCompat.getColor(getContext(), R.color.syntaxStrings), false, false);
         mSyntaxComments = new StyleSpan(ContextCompat.getColor(getContext(), R.color.syntaxComments), false, true);
         mOpenBracketSpan = new BackgroundColorSpan(ContextCompat.getColor(getContext(), R.color.colorBracketSpan));
-        mClosedBracketSpan = mOpenBracketSpan;
-        setCursorColor(ContextCompat.getColor(getContext(), R.color.colorCursor)); //Cursor Color
+        mClosedBracketSpan = new BackgroundColorSpan(ContextCompat.getColor(getContext(), R.color.colorBracketSpan));
         setHighlightColor(ContextCompat.getColor(getContext(), R.color.colorSelection)); //Selection Color
     }
 
@@ -1252,38 +1246,6 @@ public class TextProcessor extends AppCompatMultiAutoCompleteTextView implements
      */
     public void setInsertBrackets(boolean enabled) {
         mInsertBracket = enabled;
-    }
-
-    /**
-     * Изменение цвета курсора в редакторе. { https://stackoverflow.com/a/26543290/4405457 }
-     * @param color - цвет курсора.
-     */
-    public void setCursorColor(@ColorInt int color) {
-        try {
-            // Get the cursor resource id
-            Field field = TextView.class.getDeclaredField("mCursorDrawableRes");
-            field.setAccessible(true);
-            int drawableResId = field.getInt(this);
-
-            // Get the editor
-            field = TextView.class.getDeclaredField("mEditor");
-            field.setAccessible(true);
-            Object editor = field.get(this);
-
-            // Get the drawable and set a color filter
-            Drawable drawable = ContextCompat.getDrawable(getContext(), drawableResId);
-            if (drawable != null) {
-                drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            }
-            Drawable[] drawables = {drawable, drawable};
-
-            // Set the drawables
-            field = editor.getClass().getDeclaredField("mCursorDrawable");
-            field.setAccessible(true);
-            field.set(editor, drawables);
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
     }
 
     // endregion DOC_METHODS
