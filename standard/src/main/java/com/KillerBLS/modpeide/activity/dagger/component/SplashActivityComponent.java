@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide.activity.dagger;
+package com.KillerBLS.modpeide.activity.dagger.component;
 
 import com.KillerBLS.modpeide.activity.SplashActivity;
+import com.KillerBLS.modpeide.utils.scopes.PerActivity;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 
+@PerActivity
 @Subcomponent
 public interface SplashActivityComponent extends AndroidInjector<SplashActivity> {
 

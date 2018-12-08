@@ -15,18 +15,14 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide.fragment.dagger;
+package com.KillerBLS.modpeide.utils.scopes;
 
-import com.KillerBLS.modpeide.manager.FileManager;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import dagger.Module;
-import dagger.Provides;
+import javax.inject.Scope;
 
-@Module
-public class FragmentDocumentModule {
-
-    @Provides
-    FileManager provideFileManager() {
-        return new FileManager();
-    }
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PerActivity {
 }

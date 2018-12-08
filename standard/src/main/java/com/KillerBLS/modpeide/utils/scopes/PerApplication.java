@@ -15,18 +15,14 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide.activity.dagger;
+package com.KillerBLS.modpeide.utils.scopes;
 
-import com.KillerBLS.modpeide.activity.SettingsActivity;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import dagger.Subcomponent;
-import dagger.android.AndroidInjector;
+import javax.inject.Scope;
 
-@Subcomponent
-public interface SettingsActivityComponent extends AndroidInjector<SettingsActivity> {
-
-    @Subcomponent.Builder
-    abstract class Builder extends AndroidInjector.Builder<SettingsActivity> {
-
-    }
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PerApplication {
 }

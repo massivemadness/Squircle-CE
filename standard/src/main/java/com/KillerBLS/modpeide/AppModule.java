@@ -22,8 +22,7 @@ import android.arch.persistence.room.Room;
 
 import com.KillerBLS.modpeide.utils.Wrapper;
 import com.KillerBLS.modpeide.manager.database.AppData;
-
-import javax.inject.Singleton;
+import com.KillerBLS.modpeide.utils.scopes.PerApplication;
 
 import dagger.Module;
 import dagger.Provides;
@@ -38,13 +37,13 @@ public class AppModule {
     }
 
     @Provides
-    @Singleton
+    @PerApplication
     Wrapper provideWrapper() {
         return new Wrapper(application);
     }
 
     @Provides
-    @Singleton
+    @PerApplication
     AppData provideDatabase() {
         return Room.databaseBuilder(application, AppData.class, "database")
                 .allowMainThreadQueries() //могу себе позволить :)

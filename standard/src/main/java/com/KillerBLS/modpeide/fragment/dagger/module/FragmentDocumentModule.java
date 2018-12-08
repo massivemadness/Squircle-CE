@@ -15,26 +15,20 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide.fragment.dagger;
+package com.KillerBLS.modpeide.fragment.dagger.module;
 
-import com.KillerBLS.modpeide.adapter.FileAdapter;
-import com.KillerBLS.modpeide.fragment.FragmentExplorer;
-import com.KillerBLS.modpeide.manager.storage.Filesystem;
-import com.KillerBLS.modpeide.manager.storage.LocalFilesystem;
+import com.KillerBLS.modpeide.manager.FileManager;
+import com.KillerBLS.modpeide.utils.scopes.PerFragment;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class FragmentExplorerModule {
+public class FragmentDocumentModule {
 
     @Provides
-    FileAdapter provideFilesAdapter(FragmentExplorer fragmentExplorer) {
-        return new FileAdapter(fragmentExplorer);
-    }
-
-    @Provides
-    Filesystem provideFilesystem() {
-        return new LocalFilesystem();
+    @PerFragment
+    FileManager provideFileManager() {
+        return new FileManager();
     }
 }

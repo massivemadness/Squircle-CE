@@ -15,15 +15,21 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide;
+package com.KillerBLS.modpeide.fragment.dagger.component;
 
-import com.KillerBLS.modpeide.utils.scopes.PerApplication;
+import com.KillerBLS.modpeide.fragment.FragmentExplorer;
+import com.KillerBLS.modpeide.fragment.dagger.module.FragmentExplorerModule;
+import com.KillerBLS.modpeide.utils.scopes.PerFragment;
 
-import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
 
-@PerApplication
-@Component(modules = {AppModule.class, AppScBuildersModule.class, AndroidInjectionModule.class})
-public interface AppComponent {
-    void injectApp(App app);
+@PerFragment
+@Subcomponent(modules = FragmentExplorerModule.class)
+public interface FragmentExplorerComponent extends AndroidInjector<FragmentExplorer> {
+
+    @Subcomponent.Builder
+    abstract class Builder extends AndroidInjector.Builder<FragmentExplorer> {
+
+    }
 }

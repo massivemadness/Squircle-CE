@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide.fragment.dagger;
+package com.KillerBLS.modpeide.fragment.dagger.component;
 
 import com.KillerBLS.modpeide.fragment.FragmentDocument;
+import com.KillerBLS.modpeide.fragment.dagger.module.FragmentDocumentModule;
+import com.KillerBLS.modpeide.utils.scopes.PerFragment;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 
+@PerFragment
 @Subcomponent(modules = FragmentDocumentModule.class)
 public interface FragmentDocumentComponent extends AndroidInjector<FragmentDocument> {
 

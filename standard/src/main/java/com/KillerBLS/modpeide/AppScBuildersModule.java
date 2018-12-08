@@ -22,9 +22,9 @@ import android.app.Activity;
 import com.KillerBLS.modpeide.activity.MainActivity;
 import com.KillerBLS.modpeide.activity.SettingsActivity;
 import com.KillerBLS.modpeide.activity.SplashActivity;
-import com.KillerBLS.modpeide.activity.dagger.MainActivityComponent;
-import com.KillerBLS.modpeide.activity.dagger.SettingsActivityComponent;
-import com.KillerBLS.modpeide.activity.dagger.SplashActivityComponent;
+import com.KillerBLS.modpeide.activity.dagger.component.MainActivityComponent;
+import com.KillerBLS.modpeide.activity.dagger.component.SettingsActivityComponent;
+import com.KillerBLS.modpeide.activity.dagger.component.SplashActivityComponent;
 
 import dagger.Binds;
 import dagger.Module;

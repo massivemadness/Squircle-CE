@@ -91,7 +91,7 @@ public class FragmentExplorer extends Fragment implements SelectionTransfer {
     ImageView mImageFilter;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
         if(context instanceof Activity) {

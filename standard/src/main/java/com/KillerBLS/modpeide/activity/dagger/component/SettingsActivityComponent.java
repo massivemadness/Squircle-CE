@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide.activity.dagger;
+package com.KillerBLS.modpeide.activity.dagger.component;
 
-import com.KillerBLS.modpeide.activity.MainActivity;
-import com.KillerBLS.modpeide.adapter.DocumentAdapter;
+import com.KillerBLS.modpeide.activity.SettingsActivity;
+import com.KillerBLS.modpeide.utils.scopes.PerActivity;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
 
-@Module
-public class MainActivityModule {
+@PerActivity
+@Subcomponent
+public interface SettingsActivityComponent extends AndroidInjector<SettingsActivity> {
 
-    @Provides
-    DocumentAdapter provideDocumentAdapter(MainActivity activity) {
-        return new DocumentAdapter(activity.getSupportFragmentManager());
+    @Subcomponent.Builder
+    abstract class Builder extends AndroidInjector.Builder<SettingsActivity> {
+
     }
 }

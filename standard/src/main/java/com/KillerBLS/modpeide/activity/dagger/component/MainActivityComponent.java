@@ -15,18 +15,22 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide.fragment.dagger;
+package com.KillerBLS.modpeide.activity.dagger.component;
 
-import com.KillerBLS.modpeide.fragment.FragmentExplorer;
+import com.KillerBLS.modpeide.activity.MainActivity;
+import com.KillerBLS.modpeide.activity.dagger.module.MainActivityBuildersModule;
+import com.KillerBLS.modpeide.activity.dagger.module.MainActivityModule;
+import com.KillerBLS.modpeide.utils.scopes.PerActivity;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 
-@Subcomponent(modules = FragmentExplorerModule.class)
-public interface FragmentExplorerComponent extends AndroidInjector<FragmentExplorer> {
+@PerActivity
+@Subcomponent(modules = {MainActivityModule.class, MainActivityBuildersModule.class})
+public interface MainActivityComponent extends AndroidInjector<MainActivity> {
 
     @Subcomponent.Builder
-    abstract class Builder extends AndroidInjector.Builder<FragmentExplorer> {
+    abstract class Builder extends AndroidInjector.Builder<MainActivity> {
 
     }
 }

@@ -15,15 +15,14 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide;
+package com.KillerBLS.modpeide.utils.scopes;
 
-import com.KillerBLS.modpeide.utils.scopes.PerApplication;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import javax.inject.Scope;
 
-@PerApplication
-@Component(modules = {AppModule.class, AppScBuildersModule.class, AndroidInjectionModule.class})
-public interface AppComponent {
-    void injectApp(App app);
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PerFragment {
 }

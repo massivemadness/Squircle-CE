@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide.activity.dagger;
+package com.KillerBLS.modpeide.activity.dagger.module;
 
 import android.support.v4.app.Fragment;
 
 import com.KillerBLS.modpeide.fragment.FragmentDocument;
 import com.KillerBLS.modpeide.fragment.FragmentExplorer;
-import com.KillerBLS.modpeide.fragment.dagger.FragmentExplorerComponent;
-import com.KillerBLS.modpeide.fragment.dagger.FragmentDocumentComponent;
+import com.KillerBLS.modpeide.fragment.dagger.component.FragmentExplorerComponent;
+import com.KillerBLS.modpeide.fragment.dagger.component.FragmentDocumentComponent;
 
 import dagger.Binds;
 import dagger.Module;

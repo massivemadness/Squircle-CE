@@ -15,15 +15,29 @@
  * limitations under the License.
  */
 
-package com.KillerBLS.modpeide;
+package com.KillerBLS.modpeide.fragment.dagger.module;
 
-import com.KillerBLS.modpeide.utils.scopes.PerApplication;
+import com.KillerBLS.modpeide.adapter.FileAdapter;
+import com.KillerBLS.modpeide.fragment.FragmentExplorer;
+import com.KillerBLS.modpeide.manager.storage.Filesystem;
+import com.KillerBLS.modpeide.manager.storage.LocalFilesystem;
+import com.KillerBLS.modpeide.utils.scopes.PerFragment;
 
-import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import dagger.Module;
+import dagger.Provides;
 
-@PerApplication
-@Component(modules = {AppModule.class, AppScBuildersModule.class, AndroidInjectionModule.class})
-public interface AppComponent {
-    void injectApp(App app);
+@Module
+public class FragmentExplorerModule {
+
+    @Provides
+    @PerFragment
+    FileAdapter provideFilesAdapter(FragmentExplorer fragmentExplorer) {
+        return new FileAdapter(fragmentExplorer);
+    }
+
+    @Provides
+    @PerFragment
+    Filesystem provideFilesystem() {
+        return new LocalFilesystem();
+    }
 }
