@@ -324,16 +324,25 @@ public class FragmentDocument extends Fragment implements EditorController, Edit
 
     @Override
     public int getLineCount() {
+        if(mLinesCollection == null) {
+            return 0;
+        }
         return mLinesCollection.getLineCount();
     }
 
     @Override
     public int getLineForIndex(int index) {
+        if(mLinesCollection == null) {
+            return 0;
+        }
         return mLinesCollection.getLineForIndex(index);
     }
 
     @Override
     public int getIndexForStartOfLine(int line) {
+        if(mLinesCollection == null) {
+            return 0;
+        }
         return mLinesCollection.getIndexForLine(line);
     }
 
@@ -341,6 +350,9 @@ public class FragmentDocument extends Fragment implements EditorController, Edit
     public int getIndexForEndOfLine(int line) {
         if (line == getLineCount() - 1) {
             return mText.length();
+        }
+        if(mLinesCollection == null) {
+            return 0;
         }
         return mLinesCollection.getIndexForLine(line + 1) - 1;
     }
