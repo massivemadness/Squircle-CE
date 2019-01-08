@@ -19,8 +19,8 @@
 <!DOCTYPE resources [
     <!ENTITY app_name "ModPE IDE">
     <!ENTITY app_edition "Standard Edition">
-    <!ENTITY app_version "2018.3.1">
-    <!ENTITY app_code "10015">
+    <!ENTITY app_version "2019.1.0">
+    <!ENTITY app_code "10016">
 ]>
 <resources>
     <string name="app_name" translatable="false">&app_name;</string>

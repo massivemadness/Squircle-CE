@@ -17,7 +17,6 @@
 
 package com.KillerBLS.modpeide.fragment;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -27,7 +26,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -64,9 +62,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.DaggerFragment;
 
-public class FragmentExplorer extends Fragment implements SelectionTransfer {
+public class FragmentExplorer extends DaggerFragment implements SelectionTransfer {
 
     private static final String TAG = FragmentExplorer.class.getSimpleName();
 
@@ -92,11 +90,8 @@ public class FragmentExplorer extends Fragment implements SelectionTransfer {
 
     @Override
     public void onAttach(@NonNull Context context) {
-        AndroidSupportInjection.inject(this);
         super.onAttach(context);
-        if(context instanceof Activity) {
-            mDocumentsManager = (DocumentsManager) context;
-        }
+        mDocumentsManager = (DocumentsManager) context;
     }
 
     @Nullable

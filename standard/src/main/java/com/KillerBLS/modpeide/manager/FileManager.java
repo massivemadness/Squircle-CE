@@ -81,8 +81,8 @@ public class FileManager {
                 controller.setUndoStack(new UndoStack());
                 controller.setRedoStack(new UndoStack());
                 controller.setLanguage(LanguageProvider.getLanguage(file));
-                controller.setText(stringBuilder.toString(), FragmentDocument.FLAG_SET_TEXT_DONT_SHIFT_LINES);
                 controller.setLinesCollection(lines);
+                controller.setText(stringBuilder.toString(), FragmentDocument.FLAG_SET_TEXT_DONT_SHIFT_LINES);
             } catch (IOException e) {
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -278,7 +278,7 @@ public class FileManager {
      * @return - возвращает полученный {@link UndoStack}.
      */
     private UndoStack restoreRedoStack(String uuid) {
-        File file = openCache(uuid + "-undo.cache");
+        File file = openCache(uuid + "-redo.cache");
         if (file.exists()) {
             return readUndoStackCache(file);
         } else {

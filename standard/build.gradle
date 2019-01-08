@@ -24,8 +24,8 @@ android {
         applicationId "com.KillerBLS.modpeide"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 10015
-        versionName "2018.3.1 Standard Edition"
+        versionCode 10016
+        versionName "2019.1.0 Standard Edition"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -80,8 +80,8 @@ dependencies {
     //Dagger 2
     implementation 'com.google.dagger:dagger:2.16'
     implementation 'com.google.dagger:dagger-android-support:2.16'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
 
     //Keyboard Visibility Listener
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'

@@ -24,10 +24,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -68,18 +66,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements OnPanelClickListener,
-        DocumentsManager, ExtendedKeyboard.OnKeyListener, HasSupportFragmentInjector {
+public class MainActivity extends DaggerAppCompatActivity implements OnPanelClickListener,
+        DocumentsManager, ExtendedKeyboard.OnKeyListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    @Inject
-    DispatchingAndroidInjector<Fragment> mFragmentInjector;
 
     @Inject
     Wrapper mWrapper;
@@ -109,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements OnPanelClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -537,10 +528,5 @@ public class MainActivity extends AppCompatActivity implements OnPanelClickListe
                 }
             }
         }
-    }
-
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return mFragmentInjector;
     }
 }

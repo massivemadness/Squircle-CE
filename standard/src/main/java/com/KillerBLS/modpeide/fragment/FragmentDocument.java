@@ -17,11 +17,9 @@
 
 package com.KillerBLS.modpeide.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,10 +30,10 @@ import android.widget.Toast;
 import com.KillerBLS.modpeide.R;
 import com.KillerBLS.modpeide.manager.FileManager;
 import com.KillerBLS.modpeide.manager.database.AppData;
-import com.KillerBLS.modpeide.utils.commons.EditorDelegate;
-import com.KillerBLS.modpeide.utils.Wrapper;
 import com.KillerBLS.modpeide.manager.database.Document;
+import com.KillerBLS.modpeide.utils.Wrapper;
 import com.KillerBLS.modpeide.utils.commons.EditorController;
+import com.KillerBLS.modpeide.utils.commons.EditorDelegate;
 import com.KillerBLS.modpeide.utils.files.FileUtils;
 import com.KillerBLS.modpeide.utils.text.LinesCollection;
 import com.KillerBLS.modpeide.utils.text.UndoStack;
@@ -50,9 +48,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.DaggerFragment;
 
-public class FragmentDocument extends Fragment implements EditorController, EditorDelegate {
+public class FragmentDocument extends DaggerFragment implements EditorController, EditorDelegate {
 
     private static final String TAG = FragmentDocument.class.getSimpleName();
 
@@ -96,12 +94,6 @@ public class FragmentDocument extends Fragment implements EditorController, Edit
         bundle.putString("UUID", uuid);
         fragmentDocument.setArguments(bundle);
         return fragmentDocument;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context);
     }
 
     @Override
@@ -324,25 +316,16 @@ public class FragmentDocument extends Fragment implements EditorController, Edit
 
     @Override
     public int getLineCount() {
-        if(mLinesCollection == null) {
-            return 0;
-        }
         return mLinesCollection.getLineCount();
     }
 
     @Override
     public int getLineForIndex(int index) {
-        if(mLinesCollection == null) {
-            return 0;
-        }
         return mLinesCollection.getLineForIndex(index);
     }
 
     @Override
     public int getIndexForStartOfLine(int line) {
-        if(mLinesCollection == null) {
-            return 0;
-        }
         return mLinesCollection.getIndexForLine(line);
     }
 
@@ -350,9 +333,6 @@ public class FragmentDocument extends Fragment implements EditorController, Edit
     public int getIndexForEndOfLine(int line) {
         if (line == getLineCount() - 1) {
             return mText.length();
-        }
-        if(mLinesCollection == null) {
-            return 0;
         }
         return mLinesCollection.getIndexForLine(line + 1) - 1;
     }
@@ -379,13 +359,9 @@ public class FragmentDocument extends Fragment implements EditorController, Edit
     public void setText(Editable text, int flag) {
         if (flag == FLAG_SET_TEXT_DONT_SHIFT_LINES) {
             mText = text;
-            if(mUndoStack != null /*&& mRedoStack != null*/) {
-                mUndoStack.clear();
-                mRedoStack.clear();
-            }
-            if(editor != null) {
-                editor.setText(mText);
-            }
+            mUndoStack.clear();
+            mRedoStack.clear();
+            editor.setText(mText);
             return;
         } else if(flag == FLAG_SET_TEXT_DEFAULT) {
             editor.disableStacks();
