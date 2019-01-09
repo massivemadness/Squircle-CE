@@ -26,17 +26,17 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/field_search"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:paddingStart="-12dp"
-        android:paddingEnd="-12dp"
-        android:background="@color/colorTabs"
-        android:elevation="4dp"
-        app:queryHint="@string/hint_search"
-        app:queryBackground="@null"
-        app:iconifiedByDefault="false"/>
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/toolbar"/>
+
+    </android.support.design.widget.AppBarLayout>
 
     <com.KillerBLS.modpeide.widget.RecyclerViewStub
         android:layout_width="match_parent"

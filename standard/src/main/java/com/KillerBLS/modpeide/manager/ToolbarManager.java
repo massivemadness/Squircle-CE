@@ -37,6 +37,8 @@ public class ToolbarManager implements PopupMenu.OnMenuItemClickListener {
 
     private OnPanelClickListener mListener;
 
+    @BindView(R.id.action_menu_drawer)
+    ImageView mDrawerButton;
     @BindView(R.id.action_menu_save)
     ImageView mSaveButton;
     @BindView(R.id.action_menu_file)
@@ -66,6 +68,7 @@ public class ToolbarManager implements PopupMenu.OnMenuItemClickListener {
      * Настройка меню. Установка действий.
      */
     private void initMenu() {
+        mDrawerButton.setOnClickListener(view -> mListener.onDrawerButton());
         mSaveButton.setOnClickListener(view -> mListener.onSaveButton());
         setMenuClickListener(mFileButton, R.menu.menu_file);
         setMenuClickListener(mEditButton, R.menu.menu_edit);

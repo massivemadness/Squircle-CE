@@ -81,7 +81,7 @@ public class MainActivity extends DaggerAppCompatActivity implements OnPanelClic
     DocumentAdapter mAdapter;
 
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    Toolbar mSideToolbar;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.tab_layout)
@@ -109,12 +109,11 @@ public class MainActivity extends DaggerAppCompatActivity implements OnPanelClic
 
     private void init() {
         //Toolbar
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setSupportActionBar(mSideToolbar);
         mToolbarManager = new ToolbarManager(this);
 
         //Drawer
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mSideToolbar,
                 R.string.description_open, R.string.description_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -268,6 +267,12 @@ public class MainActivity extends DaggerAppCompatActivity implements OnPanelClic
         } else {
             Toast.makeText(this, R.string.message_editor_not_found, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @SuppressLint("RtlHardcoded")
+    @Override
+    public void onDrawerButton() {
+        mDrawerLayout.openDrawer(Gravity.LEFT);
     }
 
     @SuppressLint("RtlHardcoded")

@@ -30,6 +30,9 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -79,8 +82,6 @@ public class FragmentExplorer extends DaggerFragment implements SelectionTransfe
     @Inject
     Filesystem mFilesystem;
 
-    @BindView(R.id.field_search)
-    SearchView mSearchView;
     @BindView(R.id.recycler_view)
     RecyclerViewStub mRecyclerView;
     @BindView(R.id.stub_no_result)
@@ -92,6 +93,12 @@ public class FragmentExplorer extends DaggerFragment implements SelectionTransfe
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mDocumentsManager = (DocumentsManager) context;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -112,8 +119,22 @@ public class FragmentExplorer extends DaggerFragment implements SelectionTransfe
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setViewStub(mViewStub);
+    }
 
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateFilterStatus(); //update filter
+        onRefresh();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_explorer, menu);
+        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchViewItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return onQueryTextChange(query);
@@ -125,13 +146,6 @@ public class FragmentExplorer extends DaggerFragment implements SelectionTransfe
                 return true;
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateFilterStatus(); //update filter
-        onRefresh();
     }
 
     // region PANEL

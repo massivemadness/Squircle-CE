@@ -21,6 +21,7 @@ package com.KillerBLS.modpeide.manager.interfaces;
  * Обработка нажатий меню Toolbar'а.
  */
 public interface OnPanelClickListener {
+    void onDrawerButton();
     void onNewButton();
     void onOpenButton();
     void onSaveButton();

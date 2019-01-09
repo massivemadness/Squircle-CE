@@ -16,106 +16,84 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:id="@+id/drawer_layout"
     tools:context=".activity.MainActivity">
 
-    <!-- region Toolbar -->
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-
-        <include layout="@layout/toolbar"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <!-- endregion Toolbar -->
-
-    <!-- region Content -->
-
-    <android.support.v4.widget.DrawerLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/drawer_layout">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <!-- region Toolbar -->
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <include layout="@layout/toolbar"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:clipChildren="true"
+            android:id="@+id/tab_layout"
+            android:background="@color/colorTabs"
+            android:elevation="3.5dp"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabMode="scrollable"
+            app:tabGravity="fill"/>
+
+        <!-- endregion Toolbar -->
+
+        <!-- region Document -->
+
+        <ViewStub
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:id="@+id/stub_no_open_files"
+            android:inflatedId="@+id/no_open_files"
+            android:layout="@layout/no_open_files"/>
 
-            <!-- region Tabs -->
+        <com.KillerBLS.modpeide.widget.LockableViewPager
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/view_pager"/>
 
-            <android.support.design.widget.TabLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:clipChildren="true"
-                android:id="@+id/tab_layout"
-                android:background="@color/colorTabs"
-                android:elevation="4dp"
-                app:tabIndicatorColor="@color/colorAccent"
-                app:tabMode="scrollable"
-                app:tabGravity="fill"/>
+        <com.KillerBLS.modpeide.widget.ExtendedKeyboard
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:background="@color/colorTabs"
+            android:elevation="2dp"
+            android:id="@+id/extended_keyboard"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
-            <!-- endregion Tabs -->
+        <!-- endregion Document -->
 
-            <!-- region Document -->
+    </LinearLayout>
 
-            <ViewStub
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/stub_no_open_files"
-                android:inflatedId="@+id/no_open_files"
-                android:layout="@layout/no_open_files"/>
+    <!-- region Explorer -->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+    <fragment
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:name="com.KillerBLS.modpeide.fragment.FragmentExplorer"
+        android:id="@+id/fragment_explorer"
+        tools:layout="@layout/fragment_explorer"
+        tools:ignore="RtlHardcoded"/>
 
-                <com.KillerBLS.modpeide.widget.LockableViewPager
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:id="@+id/view_pager"/>
+    <!-- endregion Explorer -->
 
-                <com.KillerBLS.modpeide.widget.ExtendedKeyboard
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:background="@color/colorTabs"
-                    android:elevation="2dp"
-                    android:id="@+id/extended_keyboard"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
-
-            </LinearLayout>
-
-            <!-- endregion Document -->
-
-        </LinearLayout>
-
-        <!-- region Explorer -->
-
-        <fragment
-            android:layout_width="280dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:name="com.KillerBLS.modpeide.fragment.FragmentExplorer"
-            android:id="@+id/fragment_explorer"
-            tools:layout="@layout/fragment_explorer"
-            tools:ignore="RtlHardcoded"/>
-
-        <!-- endregion Explorer -->
-
-    </android.support.v4.widget.DrawerLayout>
-
-    <!-- endregion Content -->
-
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>
