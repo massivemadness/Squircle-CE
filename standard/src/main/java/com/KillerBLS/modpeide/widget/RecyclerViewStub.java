@@ -32,7 +32,7 @@ public class RecyclerViewStub extends RecyclerView {
         public void onChanged() {
             RecyclerView.Adapter<?> adapter = getAdapter();
             if(adapter != null) {
-                if(adapter.getItemCount() <= 1) { //Если в списке меньше 1-го элемента (или 1)
+                if(adapter.getItemCount() == 0) { //Если в списке 0 элементов
                     if(mViewStub != null) {
                         if(mViewStub.getParent() != null) { //И ViewStub всё еще не добавил InflatedView
                             mViewStub.inflate(); //Добавляем InflatedView

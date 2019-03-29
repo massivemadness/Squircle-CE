@@ -44,11 +44,6 @@ public abstract class Filesystem {
     public abstract FileModel getDefaultLocation();
 
     /**
-     * @return - Возвращает родительскую папку данной локации.
-     */
-    public abstract FileModel getParentFolder(FileModel fileModel);
-
-    /**
      * Создает список из всех файлов в данной локации.
      * @param fileModel - локация из которой нужно получить список файлов.
      * @param comparator - Comparator для сортировки файлов.

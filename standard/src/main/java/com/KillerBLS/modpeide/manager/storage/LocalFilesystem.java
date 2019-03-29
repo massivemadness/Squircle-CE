@@ -45,12 +45,6 @@ public class LocalFilesystem extends Filesystem {
     }
 
     @Override
-    public FileModel getParentFolder(FileModel fileModel) {
-        File parentFile = new File(fileModel.getPath()).getParentFile();
-        return new FileModel(parentFile);
-    }
-
-    @Override
     public List<FileModel> makeList(FileModel fileModel,
                                     Comparator<? super FileModel> comparator, boolean showHidden) {
         LinkedList<FileModel> filesList = new LinkedList<>();
@@ -76,12 +70,6 @@ public class LocalFilesystem extends Filesystem {
         }
         Collections.sort(filesList, comparator); //Sort files
         Collections.sort(foldersList, comparator); //Sort folders
-
-        if(!fileModel.equals(getDefaultLocation())) { //Up button
-            FileModel up = getParentFolder(fileModel);
-            up.setIsUp(true);
-            foldersList.addFirst(up);
-        }
         foldersList.addAll(filesList);
         return foldersList;
     }

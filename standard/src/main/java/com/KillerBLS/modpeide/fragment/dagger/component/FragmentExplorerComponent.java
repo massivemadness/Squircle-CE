@@ -18,6 +18,7 @@
 package com.KillerBLS.modpeide.fragment.dagger.component;
 
 import com.KillerBLS.modpeide.fragment.FragmentExplorer;
+import com.KillerBLS.modpeide.fragment.dagger.module.FragmentExplorerBuildersModule;
 import com.KillerBLS.modpeide.fragment.dagger.module.FragmentExplorerModule;
 import com.KillerBLS.modpeide.utils.scopes.PerFragment;
 
@@ -25,7 +26,7 @@ import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 
 @PerFragment
-@Subcomponent(modules = FragmentExplorerModule.class)
+@Subcomponent(modules = {FragmentExplorerModule.class, FragmentExplorerBuildersModule.class})
 public interface FragmentExplorerComponent extends AndroidInjector<FragmentExplorer> {
 
     @Subcomponent.Builder

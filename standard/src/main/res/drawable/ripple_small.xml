@@ -16,7 +16,6 @@
   ~ limitations under the License.
   -->
 
-<!-- Кастомный ripple-эффект для иконок в панели проводника -->
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="#40ffffff"
     android:radius="16dp"/>

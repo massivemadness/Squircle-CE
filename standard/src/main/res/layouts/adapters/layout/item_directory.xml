@@ -27,7 +27,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:maxWidth="200dp"
+        android:maxWidth="156dp"
         android:padding="4dp"
         android:id="@android:id/text1"
         android:maxLines="1"
@@ -41,9 +41,8 @@
         android:layout_height="match_parent"
         android:padding="4dp"
         android:id="@+id/item_icon"
-        android:tint="@android:color/white"
-        android:src="@drawable/ic_close"
-        android:background="@drawable/ripple_small"
+        android:tint="@color/colorIcon"
+        android:src="@drawable/ic_arrow"
         android:contentDescription="@string/description_icon"/>
 
 </LinearLayout>

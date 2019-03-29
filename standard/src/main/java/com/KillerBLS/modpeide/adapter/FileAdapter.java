@@ -157,9 +157,6 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileViewHolder
          */
         void bind(FileModel fileModel) {
             if(fileModel.isFolder()) {
-                if(fileModel.isUp()) { //Up button
-                    mIcon.setImageResource(R.drawable.ic_folder_up);
-                }
                 mIcon.setColorFilter(ContextCompat.getColor(mIcon.getContext(), R.color.colorFolder));
             } else { //File
                 mIcon.setImageResource(R.drawable.ic_file);

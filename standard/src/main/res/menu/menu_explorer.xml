@@ -22,9 +22,34 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
+        android:title="@string/hint_search"
         app:iconTint="@android:color/white"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        android:title="@string/hint_search"/>
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
+
+    <item
+        android:id="@+id/action_show_hidden"
+        android:title="@string/pref_showHiddenFiles_title"
+        android:checkable="true"
+        app:showAsAction="never"/>
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/sort_by_name"
+            android:title="@string/sort_by_name"
+            app:showAsAction="never"/>
+
+        <item
+            android:id="@+id/sort_by_size"
+            android:title="@string/sort_by_size"
+            app:showAsAction="never"/>
+
+        <item
+            android:id="@+id/sort_by_date"
+            android:title="@string/sort_by_date"
+            app:showAsAction="never"/>
+
+    </group>
 
 </menu>

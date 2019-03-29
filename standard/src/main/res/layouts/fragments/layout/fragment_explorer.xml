@@ -18,13 +18,10 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/windowBackground"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true">
+    android:background="?android:attr/windowBackground">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -34,101 +31,67 @@
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:id="@+id/toolbar"/>
+            android:id="@+id/toolbar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:padding="6dp"
+                android:id="@+id/action_home"
+                android:src="@drawable/ic_home"
+                android:tint="@android:color/white"
+                android:background="@drawable/ripple_small"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/description_icon"/>
+
+            <android.support.design.widget.TabLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:clipChildren="true"
+                android:id="@+id/dir_layout"
+                app:tabPaddingStart="4dp"
+                app:tabPaddingEnd="0dp"
+                app:tabIndicatorColor="@color/colorAccent"
+                app:tabMode="scrollable"/>
+
+        </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.KillerBLS.modpeide.widget.RecyclerViewStub
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:id="@+id/recycler_view"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
-
-    <ViewStub
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/stub_no_result"
-        android:inflatedId="@+id/no_result"
-        android:layout="@layout/no_result"/>
+        android:id="@+id/swipe_container">
 
-    <!-- region Actions -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:background="@color/colorTabs"
-        android:elevation="2dp"
-        android:id="@+id/field_actions"
-        tools:ignore="RtlHardcoded">
+            <com.KillerBLS.modpeide.widget.LockableViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/dir_view_pager"/>
 
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="6dp"
-            android:id="@+id/action_add"
-            android:src="@drawable/ic_plus"
-            android:tint="@color/colorIcon"
-            android:background="@drawable/ripple_small"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/description_icon"/>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="24dp"
+                android:id="@+id/floating_button"
+                android:src="@drawable/ic_plus"
+                android:tint="@android:color/white"/>
 
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="6dp"
-            android:id="@+id/action_refresh"
-            android:src="@drawable/ic_refresh"
-            android:tint="@color/colorIcon"
-            android:background="@drawable/ripple_small"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/description_icon"/>
+        </FrameLayout>
 
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="6dp"
-            android:id="@+id/action_home"
-            android:src="@drawable/ic_home"
-            android:tint="@color/colorIcon"
-            android:background="@drawable/ripple_small"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/description_icon"/>
-
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="6dp"
-            android:id="@+id/action_sort"
-            android:src="@drawable/ic_sort"
-            android:tint="@color/colorIcon"
-            android:background="@drawable/ripple_small"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/description_icon"/>
-
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="6dp"
-            android:id="@+id/action_filter"
-            android:src="@drawable/ic_filter_on"
-            android:tint="@color/colorIcon"
-            android:background="@drawable/ripple_small"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/description_icon"/>
-
-    </LinearLayout>
-
-    <!-- endregion Actions -->
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

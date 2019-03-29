@@ -32,7 +32,8 @@
     <string name="label_settings">Settings</string>
 
     <string name="hint_search">Search…</string>
-    <string name="hint_enter_file_name">Enter file name</string>
+    <string name="hint_enter_file_folder_name">Enter file/folder name</string>
+    <string name="hint_box_is_folder">Is it a folder?</string>
     <string name="hint_find_what">Find what?</string>
     <string name="hint_replace_all_what">Replace what?</string>
     <string name="hint_replace_all_with">Replace with:</string>
@@ -47,8 +48,6 @@
     <string name="action_create">Create</string>
     <string name="action_closeOthers">Close Others</string>
     <string name="action_closeAll">Close All</string>
-    <string name="action_create_file">Create File</string>
-    <string name="action_create_folder">Create Folder</string>
     <string name="action_refactor">Refactor</string>
     <string name="action_rename">Rename</string>
     <string name="action_delete">Delete</string>

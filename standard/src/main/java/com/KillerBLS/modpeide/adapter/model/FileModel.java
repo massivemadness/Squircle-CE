@@ -29,7 +29,6 @@ public class FileModel {
     private long lastModified; //Дата последнего изменения файла
     private boolean isFolder; //Является ли файл папкой
     private boolean isHidden; //Является ли файл скрытым
-    private boolean isUp; //Является ли файл переходом на уровень выше
 
     public FileModel(File file) {
         setName(file.getName());
@@ -38,6 +37,10 @@ public class FileModel {
         setLastModified(file.lastModified());
         setIsFolder(file.isDirectory());
         setIsHidden(file.isHidden());
+    }
+
+    public FileModel(String path) {
+        this(new File(path));
     }
 
     // region GETTER
@@ -64,10 +67,6 @@ public class FileModel {
 
     public boolean isHidden() {
         return isHidden;
-    }
-
-    public boolean isUp() {
-        return isUp;
     }
 
     // endregion GETTER
@@ -98,13 +97,7 @@ public class FileModel {
         this.isHidden = isHidden;
     }
 
-    public void setIsUp(boolean isUp) {
-        this.isUp = isUp;
-        this.name = "..";
-    }
-
     // endregion SETTER
-
 
     @Override
     public boolean equals(@Nullable Object object) {

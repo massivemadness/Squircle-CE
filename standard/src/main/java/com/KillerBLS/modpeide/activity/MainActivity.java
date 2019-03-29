@@ -34,7 +34,6 @@ import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.KillerBLS.modpeide.R;
@@ -202,7 +201,6 @@ public class MainActivity extends DaggerAppCompatActivity implements OnPanelClic
         mDatabase.getDao().delete(mAdapter.getDocument(position)); //Удаляем из базы данных
         mAdapter.remove(position); //Удаляем из адаптера
         FileManager.clearCache(uuid); //Удаляем из кеша (ПОСЛЕ удаления из адаптера, ибо автосейв)
-        invalidateTabs();
     }
 
     private void invalidateTabs() {
@@ -215,11 +213,11 @@ public class MainActivity extends DaggerAppCompatActivity implements OnPanelClic
                 tabView = tab.getCustomView();
             }
             if(tabView != null) {
-                TextView title = tabView.findViewById(R.id.item_title);
                 ImageView icon = tabView.findViewById(R.id.item_icon);
-
-                title.setText(mAdapter.getPageTitle(position));
-                icon.setOnClickListener(view -> removePosition(position));
+                icon.setOnClickListener(view -> {
+                    removePosition(position);
+                    invalidateTabs();
+                });
                 ((View) tabView.getParent()).setOnLongClickListener((view -> {
                     MenuHelper.forceShow(this, view, R.menu.menu_actions_tab, item -> {
                         switch (item.getItemId()) {
@@ -239,6 +237,7 @@ public class MainActivity extends DaggerAppCompatActivity implements OnPanelClic
                                 }
                                 break;
                         }
+                        invalidateTabs();
                         return false;
                     });
                     return true;
@@ -316,6 +315,7 @@ public class MainActivity extends DaggerAppCompatActivity implements OnPanelClic
     public void onCloseButton() {
         if(!mAdapter.isEmpty()) {
             removePosition(mTabLayout.getSelectedTabPosition());
+            invalidateTabs();
         } else {
             Toast.makeText(this, R.string.message_editor_not_found, Toast.LENGTH_SHORT).show();
         }

@@ -46,7 +46,7 @@ public class DialogRename extends MaterialDialog {
             cancelable(false);
             autoDismiss(false);
             inputType(InputType.TYPE_CLASS_TEXT);
-            input(context.getString(R.string.hint_enter_file_name), oldFile.getName(), false, ((dialog, input) -> {
+            input(context.getString(R.string.hint_enter_file_folder_name), oldFile.getName(), false, ((dialog, input) -> {
                 if(StringUtils.isValidFileName(input.toString())) {
                     File mNewFile = new File(oldFile.getParentFile(), input.toString());
                     oldFile.renameTo(mNewFile); //Переименовываем

@@ -15,24 +15,21 @@
  * limitations under the License.
  */
 
-buildscript {
-    
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
-    }
-}
+package com.KillerBLS.modpeide.fragment.dagger.component;
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
-}
+import com.KillerBLS.modpeide.fragment.FragmentDirectory;
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+import javax.inject.Singleton;
+
+import dagger.Subcomponent;
+import dagger.android.AndroidInjector;
+
+@Singleton
+@Subcomponent
+public interface FragmentDirectoryComponent extends AndroidInjector<FragmentDirectory> {
+
+    @Subcomponent.Builder
+    abstract class Builder extends AndroidInjector.Builder<FragmentDirectory> {
+
+    }
 }
