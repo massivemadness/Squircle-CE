@@ -14,7 +14,198 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
+<!DOCTYPE resources [
+    <!ENTITY app_version "2019.1.0">
+    <!ENTITY app_code "10016">
+]>
 <resources>
-    <string name="app_name">ModPE IDE</string>
+    <string name="app_name" translatable="false">ModPE IDE</string>
+
+    <string name="description_icon">Icon</string>
+    <string name="description_open">Open</string>
+    <string name="description_close">Close</string>
+
+    <string name="label_settings">Settings</string>
+
+    <string name="hint_search">Search…</string>
+    <string name="hint_enter_file_name">Enter file name</string>
+    <string name="hint_box_is_folder">Folder</string>
+    <string name="hint_find_what">Find what?</string>
+    <string name="hint_replace_all_what">Replace what?</string>
+    <string name="hint_replace_all_with">Replace with:</string>
+    <string name="hint_line">Line:</string>
+
+    <string name="action_grant_access">Grant Access</string>
+    <string name="action_open_source">Open Source Code</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_close">Close</string>
+    <string name="action_create">Create</string>
+    <string name="action_closeOthers">Close Others</string>
+    <string name="action_closeAll">Close All</string>
+    <string name="action_refactor">Refactor</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_copy_path">Copy Path</string>
+    <string name="action_apply">Apply</string>
+
+    <string name="dialog_title_changelog">ChangeLog</string>
+    <string name="dialog_title_exit">Exit</string>
+    <string name="dialog_title_create">Create…</string>
+    <string name="dialog_title_rename">Rename…</string>
+    <string name="dialog_title_find">Find…</string>
+    <string name="dialog_title_replace_all">Replace All…</string>
+    <string name="dialog_title_goto_line">Go to Line…</string>
+    <string name="dialog_message_exit">Are you sure you want to exit? All changes will be saved into a cache</string>
+    <string name="dialog_message_delete">Are you sure you want to delete this file? This action cannot be undone</string>
+    <string name="dialog_field_find_match_case">Match Case</string>
+    <string name="dialog_field_find_reg_exp">Regular Expressions</string>
+    <string name="dialog_field_find_word_only">Word Only</string>
+
+    <string name="properties_name">&lt;b>Name:&lt;/b> %s</string>
+    <string name="properties_path">&lt;b>Path:&lt;/b> %s</string>
+    <string name="properties_modified">&lt;b>Modified:&lt;/b> %s</string>
+    <string name="properties_size">&lt;b>Size:&lt;/b> %s</string>
+    <string name="properties_line_count">&lt;b>Line Count:&lt;/b> %s</string>
+    <string name="properties_word_count">&lt;b>Word Count:&lt;/b> %s</string>
+    <string name="properties_char_count">&lt;b>Character Count:&lt;/b> %s</string>
+    <string name="properties_read">R</string>
+    <string name="properties_write">W</string>
+    <string name="properties_execute">X</string>
+
+    <string name="sort_by_name">Sort by Name</string>
+    <string name="sort_by_size">Sort by Size</string>
+    <string name="sort_by_date">Sort by Date</string>
+
+    <string name="message_access_denied">Access Denied</string>
+    <string name="message_access_required">Explorer requires access to files in order to function correctly</string>
+    <string name="message_loading">Loading…</string>
+    <string name="message_no_result">No result</string>
+    <string name="message_no_open_files">No open files</string>
+    <string name="message_one_more">Press once again to exit</string>
+    <string name="message_too_much_tabs">Too much tabs, close one file</string>
+    <string name="message_cannot_be_opened">File cannot be opened</string>
+    <string name="message_invalid_file_name">Invalid file name</string>
+    <string name="message_done">Done</string>
+    <string name="message_error">An error occurred</string>
+    <string name="message_editor_not_found">Editor not found</string>
+    <string name="message_new_file">Click "+" button at the bottom of the screen</string>
+    <string name="message_select_file">Select File</string>
+    <string name="message_nothing_to_undo">Nothing to undo</string>
+    <string name="message_nothing_to_redo">Nothing to redo</string>
+    <string name="message_nothing_to_cut">Nothing to cut</string>
+    <string name="message_nothing_to_copy">Nothing to copy</string>
+    <string name="message_nothing_to_paste">Nothing to paste</string>
+    <string name="message_line_above_than_0">Line must be above 0</string>
+    <string name="message_line_not_exists">Line does not exists</string>
+    <string name="message_error_load_cache">An error occurred when trying to load cached data</string>
+    <string name="message_document_saved">Saved %s</string>
+    <string name="message_please_wait">Please, wait…</string>
+    <string name="message_rhino_result">Result:</string>
+    <string name="message_rhino_no_errors">Errors not found</string>
+    <string name="message_rhino_may_not_work">Syntax Validator may not work properly!</string>
+
+    <string name="menu_file_new">New</string>
+    <string name="menu_file_open">Open</string>
+    <string name="menu_file_save">Save</string>
+    <string name="menu_file_saveAs">Save As</string>
+    <string name="menu_file_properties">Properties</string>
+    <string name="menu_file_close">Close</string>
+    <string name="menu_edit_cut">Cut</string>
+    <string name="menu_edit_copy">Copy</string>
+    <string name="menu_edit_paste">Paste</string>
+    <string name="menu_edit_selectAll">Select All</string>
+    <string name="menu_edit_selectLine">Select Line</string>
+    <string name="menu_edit_deleteLine">Delete Line</string>
+    <string name="menu_edit_duplicateLine">Duplicate Line</string>
+    <string name="menu_search_find">Find</string>
+    <string name="menu_search_replace_all">Replace All</string>
+    <string name="menu_search_gotoLine">Go to Line</string>
+    <string name="menu_tools_syntaxValidator">Syntax Validator</string>
+    <string name="menu_tools_insertColor">Insert Color</string>
+    <string name="menu_tools_downloadSource">Download Source</string>
+    <string name="menu_overflow_settings">Settings</string>
+    <string name="menu_overflow_search">Search</string>
+    <string name="menu_overflow_tools">Tools</string>
+
+    <string name="pref_header_application_title">Application</string>
+    <string name="pref_header_application_summary">Configure global application settings.</string>
+    <string name="pref_header_editor_title">Editor</string>
+    <string name="pref_header_editor_summary">Configure the editor.</string>
+    <string name="pref_header_codeStyle_title">Code Style</string>
+    <string name="pref_header_codeStyle_summary">Configure the code style.</string>
+    <string name="pref_header_files_title">Files</string>
+    <string name="pref_header_files_summary">Configure how files are handled.</string>
+    <string name="pref_header_about_title">About</string>
+    <string name="pref_header_about_summary">View information about libraries and licenses.</string>
+
+    <string name="pref_category_look_and_feel">Look And Feel</string>
+    <string name="pref_category_other">Other</string>
+    <string name="pref_category_font">Font</string>
+    <string name="pref_category_tabs">Tabs</string>
+    <string name="pref_category_editor">Editor</string>
+    <string name="pref_category_keyboard">Keyboard</string>
+    <string name="pref_category_code_style">Code Style</string>
+    <string name="pref_category_file_explorer">File Explorer</string>
+    <string name="pref_category_about">About</string>
+    <string name="pref_category_libraries">Third-party Libraries</string>
+
+    <string name="pref_theme_title">Application Theme</string>
+    <string name="pref_theme_summary">Choose application theme. Restart required.</string>
+    <string name="pref_fullscreen_title">Full screen</string>
+    <string name="pref_fullscreen_summary">Launch the application in full screen mode.</string>
+    <string name="pref_confirm_exit_title">Confirm exit from the app</string>
+    <string name="pref_confirm_exit_summary">If you press back, ModPE IDE ask for confirmation to exit.</string>
+    <string name="pref_font_size_title">Editor font size</string>
+    <string name="pref_font_size_summary">Specify the default font size of editor.</string>
+    <string name="pref_font_type_title">Editor font type</string>
+    <string name="pref_resume_session_title">Resume session</string>
+    <string name="pref_resume_session_summary">Restore opened files for next launch.</string>
+    <string name="pref_max_page_title">Max page editor</string>
+    <string name="pref_max_page_summary">Number of maximum page display on the screen.</string>
+    <string name="pref_disable_swipe_title">Disable swipe gesture</string>
+    <string name="pref_disable_swipe_summary">Disable swipe gesture to switch between tabs. Restart required.</string>
+    <string name="pref_word_wrap_title">Word Wrap</string>
+    <string name="pref_word_wrap_summary">Enable word wrap to fit screen width.</string>
+    <string name="pref_code_completion_title">Code Completion</string>
+    <string name="pref_code_completion_summary">Show autocomplete suggestions.</string>
+    <string name="pref_pinch_zoom_title">Pinch Zoom</string>
+    <string name="pref_pinch_zoom_summary">Enable zoom controls at the text field.</string>
+    <string name="pref_line_numbers_title">Line Numbers</string>
+    <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
+    <string name="pref_highlight_line_title">Highlight Current Line</string>
+    <string name="pref_bracket_matching_title">Bracket Matching</string>
+    <string name="pref_syntax_highlight_title">Syntax Highlight</string>
+    <string name="pref_read_only_title">Read Only</string>
+    <string name="pref_extended_keyboard_title">Extended Keyboard</string>
+    <string name="pref_extended_keyboard_summary">Show list symbol below the editor.</string>
+    <string name="pref_ime_keyboard_title">Enable IME keyboard</string>
+    <string name="pref_ime_keyboard_summary">Allows your keyboard to show hints.</string>
+    <string name="pref_auto_indent_title">Auto Indentation</string>
+    <string name="pref_auto_indent_summary">Automatically indent new lines to match the line above.</string>
+    <string name="pref_close_brackets_title">Auto-close Brackets</string>
+    <string name="pref_close_brackets_summary">Automatically close open parenthesis/bracket/brace when typing.</string>
+    <string name="pref_close_quotes_title">Auto-close Quotes</string>
+    <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
+    <string name="pref_showHiddenFiles_title">Show hidden files</string>
+    <string name="pref_showHiddenFiles_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
+    <string name="pref_sortMode_title">Sort Mode</string>
+    <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
+    <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
+    <string name="pref_about_summary">Copyright 2019 Light Team Software\nAll right reserved\n\nVersion: &app_version; (&app_code;)</string>
+    <string name="pref_privacy_policy_title">Privacy Policy</string>
+
+    <string name="pref_lib_butterKnife_title">ButterKnife</string>
+    <string name="pref_lib_butterKnife_summary">License: Apache License 2.0\nAuthor: Jake Wharton</string>
+    <string name="pref_lib_dagger2_title">Dagger 2</string>
+    <string name="pref_lib_dagger2_summary">License: Apache License 2.0\nAuthor: Google</string>
+    <string name="pref_lib_keyboardVE_title">KeyboardVisibilityEvent</string>
+    <string name="pref_lib_keyboardVE_summary">License: Apache License 2.0\nAuthor: Yasuhiro Shimizu</string>
+    <string name="pref_lib_material_dialogs_title">Material Dialogs</string>
+    <string name="pref_lib_material_dialogs_summary">License: MIT License\nAuthor: Aidan Follestad</string>
+    <string name="pref_lib_room_title">Room</string>
+    <string name="pref_lib_room_summary">License: Apache License 2.0\nAuthor: Google</string>
+    <string name="pref_lib_rhino_title">Rhino (JavaScript Engine)</string>
+    <string name="pref_lib_rhino_summary">License: Mozilla Public License 2.0\nAuthor: Mozilla</string>
 </resources>

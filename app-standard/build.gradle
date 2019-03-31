@@ -57,6 +57,9 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {

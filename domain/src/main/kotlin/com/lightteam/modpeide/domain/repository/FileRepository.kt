@@ -15,24 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation
+package com.lightteam.modpeide.domain.repository
 
-import android.os.Bundle
-import android.widget.Toast
-import com.lightteam.modpeide.utils.VersionChecker
-import com.lightteam.modpeide.R
-import dagger.android.support.DaggerAppCompatActivity
-import javax.inject.Inject
+import com.lightteam.modpeide.domain.model.FileModel
+import io.reactivex.Single
 
-class MainActivity : DaggerAppCompatActivity() {
-
-    @Inject
-    lateinit var versionChecker: VersionChecker
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        Toast.makeText(this, "Is ultimate? " + versionChecker.isUltimate(), Toast.LENGTH_SHORT).show()
-    }
+interface FileRepository {
+    fun getDefaultLocation(): FileModel
+    fun makeList(parent: FileModel): Single<List<FileModel>>
 }

@@ -17,7 +17,9 @@
 
 package com.lightteam.modpeide.internal.di
 
-import com.lightteam.modpeide.presentation.MainActivity
+import com.lightteam.modpeide.internal.di.modules.main.MainActivityModule
+import com.lightteam.modpeide.internal.di.modules.main.MainFragmentsProvider
+import com.lightteam.modpeide.presentation.main.activities.MainActivity
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -26,6 +28,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
 
     @PerActivity
-    @ContributesAndroidInjector
-    abstract fun bindMainActivity(): MainActivity
+    @ContributesAndroidInjector(modules = [MainActivityModule::class, MainFragmentsProvider::class])
+    abstract fun buildMainActivity(): MainActivity
 }

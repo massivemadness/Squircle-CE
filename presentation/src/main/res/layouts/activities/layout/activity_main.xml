@@ -16,16 +16,217 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_layout"
+        tools:context=".presentation.main.activities.MainActivity">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- region Toolbar -->
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:padding="10dp"
+                        android:visibility="visible"
+                        android:src="@drawable/ic_drawer"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_drawer"
+                        android:contentDescription="@string/description_icon"/>
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10.5dp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_save"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_save"
+                        android:contentDescription="@string/description_icon"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10.5dp"
+                        android:visibility="visible"
+                        android:src="@drawable/ic_folder"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_file"
+                        android:contentDescription="@string/description_icon"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10.5dp"
+                        android:visibility="visible"
+                        android:src="@drawable/ic_edit"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_edit"
+                        android:contentDescription="@string/description_icon"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10.5dp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_file_search"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_search"
+                        android:contentDescription="@string/description_icon"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10.5dp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_tools"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_tools"
+                        android:contentDescription="@string/description_icon"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10.5dp"
+                        android:visibility="visible"
+                        android:src="@drawable/ic_undo"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_undo"
+                        android:contentDescription="@string/description_icon"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10.5dp"
+                        android:visibility="visible"
+                        android:src="@drawable/ic_redo"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_redo"
+                        android:contentDescription="@string/description_icon"/>
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10.5dp"
+                        android:visibility="visible"
+                        android:src="@drawable/ic_overflow"
+                        android:tint="@android:color/white"
+                        android:background="@drawable/ripple"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/action_menu_overflow"
+                        android:contentDescription="@string/description_icon"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:clipChildren="true"
+                android:id="@+id/tab_layout"
+                android:background="@color/colorTabs"
+                android:elevation="3.5dp"
+                app:tabIndicatorColor="@color/colorTabIndicator"
+                app:tabMode="scrollable"
+                app:tabGravity="fill"/>
+
+            <!-- endregion Toolbar -->
+
+            <!-- region Document -->
+
+            <!--<ViewStub
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/stub_no_open_files"
+                android:inflatedId="@+id/no_open_files"
+                android:layout="@layout/no_open_files"/>-->
+
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/view_pager"/>
+
+            <!--<com.LightTeam.modpeidepro.widget.ExtendedKeyboard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:background="?attr/colorTabs"
+                android:elevation="2dp"
+                android:id="@+id/extended_keyboard"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>-->
+
+            <!-- endregion Document -->
+
+        </LinearLayout>
+
+        <!-- region Explorer -->
+
+        <fragment
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:id="@+id/fragment_explorer"
+            android:name="com.lightteam.modpeide.presentation.main.fragments.FragmentExplorer"
+            tools:layout="@layout/fragment_explorer"
+            tools:ignore="RtlHardcoded"/>
+
+        <!-- endregion Explorer -->
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>

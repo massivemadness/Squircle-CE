@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.utils
+package com.lightteam.modpeide.domain.model
 
-import com.lightteam.modpeide.BaseApplication
-
-class VersionChecker(private val application: BaseApplication) {
-    fun isUltimate(): Boolean = application.isUltimate
-}
+data class FileModel(
+    val name: String,
+    val path: String,
+    val size: Long,
+    val lastModified: Long,
+    val isFolder: Boolean,
+    val isHidden: Boolean
+)

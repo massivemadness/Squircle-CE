@@ -18,9 +18,14 @@
 package com.lightteam.modpeide.internal.di
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import com.lightteam.modpeide.BaseApplication
-import com.lightteam.modpeide.utils.VersionChecker
+import com.lightteam.modpeide.data.storage.PreferenceHandler
+import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.internal.di.scopes.PerApplication
+import com.lightteam.modpeide.internal.providers.SchedulersProviderImpl
 import dagger.Module
 import dagger.Provides
 
@@ -34,6 +39,21 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun providePayload(application: BaseApplication): VersionChecker
-            = VersionChecker(application)
+    fun provideSchedulersProvider(): SchedulersProvider
+            = SchedulersProviderImpl()
+
+    @Provides
+    @PerApplication
+    fun provideSharedPreferences(context: Context): SharedPreferences
+            = PreferenceManager.getDefaultSharedPreferences(context)
+
+    @Provides
+    @PerApplication
+    fun providePreferenceHandler(sharedPreferences: SharedPreferences): PreferenceHandler
+            = PreferenceHandler(sharedPreferences)
+
+    @Provides
+    @PerApplication
+    fun provideVersionChecker(application: BaseApplication): VersionChecker
+            = VersionChecker(application.isUltimate)
 }

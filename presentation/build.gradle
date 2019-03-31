@@ -61,6 +61,9 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -68,6 +71,7 @@ dependencies {
 
     //Kotlin
     implementation library.kotlin
+    implementation library.core_ktx
 
     //Support & Design
     implementation library.appcompat

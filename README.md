@@ -2,7 +2,7 @@
 
 <b>ModPE IDE</b> is a professional IDE primarily for ModPE Script development.
 
-![Image](art/banner.png)
+![Image](.images/banner.png)
 
 <a href="https://play.google.com/store/apps/details?id=com.KillerBLS.modpeide">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width = 225/>
