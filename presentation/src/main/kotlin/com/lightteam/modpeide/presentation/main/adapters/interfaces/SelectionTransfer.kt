@@ -15,19 +15,11 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main.fragments
+package com.lightteam.modpeide.presentation.main.adapters.interfaces
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
-import com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory
-import dagger.Module
-import dagger.Provides
+import com.lightteam.modpeide.domain.model.FileModel
 
-@Module
-class FragmentDirectoryModule {
-
-    @Provides
-    @PerFragment
-    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter
-            = FileAdapter(fragmentDirectory)
+interface SelectionTransfer {
+    fun onClick(fileModel: FileModel)
+    fun onLongClick(fileModel: FileModel): Boolean
 }

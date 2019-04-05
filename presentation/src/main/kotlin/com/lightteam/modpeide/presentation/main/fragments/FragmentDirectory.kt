@@ -30,14 +30,14 @@ import javax.inject.Inject
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
+import com.lightteam.modpeide.presentation.main.adapters.interfaces.SelectionTransfer
 
-class FragmentDirectory : DaggerFragment() {
+class FragmentDirectory : DaggerFragment(), SelectionTransfer {
 
     @Inject
     lateinit var viewModel: MainViewModel
     @Inject
     lateinit var adapter: FileAdapter
-    lateinit var path: FileModel
 
     private lateinit var binding: FragmentDirectoryBinding
 
@@ -55,15 +55,30 @@ class FragmentDirectory : DaggerFragment() {
 
         setupListeners()
         setupObservers()
+    }
 
-        viewModel.loadFiles(path)
+    override fun onClick(fileModel: FileModel) {
+        if(fileModel.isFolder) {
+            viewModel.tabsEvent.value = fileModel
+        } else {
+            viewModel.documentEvent.value = fileModel
+        }
+    }
+
+    override fun onLongClick(fileModel: FileModel): Boolean {
+        if(fileModel.isFolder) {
+            viewModel.tabsEvent.value = fileModel
+        } else {
+            //show options menu
+        }
+        return true
     }
 
     private fun setupListeners() { }
 
-    private fun setupObservers() {
-        viewModel.listEvent.observe(this.viewLifecycleOwner, Observer {
-            adapter.setData(it)
+    private fun setupObservers() { //too complicated
+        viewModel.listEvent.observe(this.viewLifecycleOwner, Observer { list ->
+            adapter.setData(list)
         })
     }
 }

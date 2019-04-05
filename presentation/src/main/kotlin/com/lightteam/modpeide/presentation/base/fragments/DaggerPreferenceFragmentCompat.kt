@@ -15,36 +15,28 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide
+package com.lightteam.modpeide.presentation.base.fragments
 
-import com.lightteam.modpeide.internal.di.DaggerAppComponent
+import android.content.Context
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceFragmentCompat
 import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
 
-class BaseApplication : DaggerApplication() {
+abstract class DaggerPreferenceFragmentCompat : PreferenceFragmentCompat(), HasSupportFragmentInjector {
 
-    companion object Package {
-        const val STANDARD = "com.KillerBLS.modpeide"
-        const val ULTIMATE = "com.LightTeam.modpeidepro"
+    @Inject
+    lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
-    var isUltimate: Boolean = false
-
-    override fun onCreate() {
-        super.onCreate()
-        isUltimate = when (packageName) {
-            STANDARD -> false
-            ULTIMATE -> true
-            else -> false
-        }
-    }
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        val appComponent = DaggerAppComponent
-                .builder()
-                .application(this)
-                .build()
-        appComponent.inject(this)
-        return appComponent
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
+        return childFragmentInjector
     }
 }

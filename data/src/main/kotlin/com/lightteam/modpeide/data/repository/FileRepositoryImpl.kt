@@ -32,11 +32,14 @@ class FileRepositoryImpl : FileRepository {
 
     override fun makeList(parent: FileModel): Single<List<FileModel>> {
         return Single.create<List<FileModel>> { emitter ->
-            emitter.onSuccess(getFiles(FileConverter.toFile(parent)))
+            val files = getFiles(FileConverter.toFile(parent))
+            emitter.onSuccess(files)
         }
     }
 
-    private fun getFiles(path: File): List<FileModel> {
-        return path.listFiles().toList().map(FileConverter::toModel)
+    private fun getFiles(path: File): MutableList<FileModel> {
+        return path.listFiles()
+            .map(FileConverter::toModel)
+            .toMutableList()
     }
 }

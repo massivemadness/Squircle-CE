@@ -190,6 +190,8 @@
     <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
     <string name="pref_showHiddenFiles_title">Show hidden files</string>
     <string name="pref_showHiddenFiles_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
+    <string name="pref_foldersOnTop_title">Folders on Top</string>
+    <string name="pref_foldersOnTop_summary">Folders will be displayed on top, files below, and vice versa</string>
     <string name="pref_sortMode_title">Sort Mode</string>
     <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
     <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>

@@ -21,7 +21,6 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.Settings
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -29,23 +28,28 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.tabs.TabLayout
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.converter.FileConverter
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
+import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.presentation.main.activities.MainActivity.Companion.REQUEST_READ_WRITE
 import com.lightteam.modpeide.presentation.main.activities.MainActivity.Companion.REQUEST_READ_WRITE2
-import com.lightteam.modpeide.presentation.main.adapters.DirectoryAdapter
+import com.lightteam.modpeide.presentation.main.adapters.BreadcrumbAdapter
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class FragmentExplorer : DaggerFragment() {
+class FragmentExplorer : DaggerFragment(),
+    SwipeRefreshLayout.OnRefreshListener,
+    TabLayout.OnTabSelectedListener {
 
     @Inject
     lateinit var viewModel: MainViewModel
     @Inject
-    lateinit var adapter: DirectoryAdapter
+    lateinit var adapter: BreadcrumbAdapter
 
     private lateinit var binding: FragmentExplorerBinding
 
@@ -66,9 +70,11 @@ class FragmentExplorer : DaggerFragment() {
         setupObservers()
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        binding.dirViewPager.offscreenPageLimit = 1
-        binding.dirViewPager.adapter = adapter
-        binding.dirLayout.setupWithViewPager(binding.dirViewPager)
+    }
+
+    override fun onRefresh() {
+        viewModel.loadFiles(adapter.get(binding.tabLayout.selectedTabPosition))
+        binding.swipeRefresh.isRefreshing = false
     }
 
     // region MENU
@@ -79,10 +85,7 @@ class FragmentExplorer : DaggerFragment() {
 
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean { return onQueryTextChange(query) }
-            override fun onQueryTextChange(newText: String): Boolean { return viewModel.filterFiles(newText) }
-        })
+        viewModel.searchEvents(searchView)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -115,10 +118,21 @@ class FragmentExplorer : DaggerFragment() {
                 viewModel.setSortMode("2")
             }
         }
+        onRefresh()
         return super.onOptionsItemSelected(item)
     }
 
     // endregion MENU
+
+    // region TABS
+
+    override fun onTabReselected(tab: TabLayout.Tab) {}
+    override fun onTabUnselected(tab: TabLayout.Tab) {}
+    override fun onTabSelected(tab: TabLayout.Tab) {
+        viewModel.loadFiles(adapter.get(tab.position))
+    }
+
+    // endregion TABS
 
     private fun setupListeners() {
         binding.actionAccess.setOnClickListener {
@@ -128,14 +142,30 @@ class FragmentExplorer : DaggerFragment() {
                 REQUEST_READ_WRITE
             )
         }
+        binding.swipeRefresh.setOnRefreshListener(this)
+        binding.tabLayout.addOnTabSelectedListener(this)
+        binding.actionHome.setOnClickListener {
+            for (pos in adapter.getCount() downTo 0) {
+                binding.tabLayout.getTabAt(pos)?.let {
+                    adapter.remove(pos)
+                    binding.tabLayout.removeTab(it)
+                }
+            }
+            addToStack(viewModel.getDefaultLocation())
+        }
+        binding.actionAdd.setOnClickListener {
+            MaterialDialog(activity!!)
+                .title(text = "Title")
+                .message(text = "Message")
+                .show()
+        }
     }
 
     private fun setupObservers() {
         viewModel.hasAccessEvent.observe(this.viewLifecycleOwner, Observer { hasAccess ->
             if(hasAccess) {
                 viewModel.hasPermission.set(true)
-                adapter.add(FileConverter.toModel(Environment.getExternalStorageDirectory().absoluteFile))
-                invalidateTabs()
+                addToStack(viewModel.getDefaultLocation())
             } else {
                 binding.actionAccess.setOnClickListener {
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -145,12 +175,43 @@ class FragmentExplorer : DaggerFragment() {
                 }
             }
         })
+        viewModel.tabsEvent.observe(this.viewLifecycleOwner, Observer { path ->
+            addToStack(path)
+        })
     }
 
-    private fun invalidateTabs() {
-        for (i in 0 until adapter.count) {
-            val tab = binding.dirLayout.getTabAt(i)
-            tab?.setCustomView(R.layout.item_tab_directory)
+    private fun addToStack(fileModel: FileModel) {
+        val currPos = binding.tabLayout.selectedTabPosition
+        val nextPos = currPos + 1
+        val pathPos = adapter.indexOf(fileModel)
+
+        when { // bad practice, i know
+            currPos == -1 -> {
+                addTab(fileModel)
+            }
+            pathPos == nextPos -> {
+                binding.tabLayout.post {
+                    binding.tabLayout.getTabAt(nextPos)?.select()
+                }
+            }
+            pathPos == -1 -> {
+                for (pos in adapter.getCount() downTo nextPos) {
+                    binding.tabLayout.getTabAt(pos)?.let {
+                        adapter.remove(pos)
+                        binding.tabLayout.removeTab(it)
+                    }
+                }
+                addTab(fileModel)
+            }
         }
+    }
+
+    private fun addTab(fileModel: FileModel) {
+        val tab = binding.tabLayout.newTab()
+        tab.text = fileModel.name
+        tab.setCustomView(R.layout.item_tab_directory)
+        adapter.add(fileModel)
+        binding.tabLayout.addTab(tab)
+        binding.tabLayout.post { tab.select() }
     }
 }

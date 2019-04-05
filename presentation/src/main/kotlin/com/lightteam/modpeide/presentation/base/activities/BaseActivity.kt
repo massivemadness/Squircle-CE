@@ -15,19 +15,16 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main.fragments
+package com.lightteam.modpeide.presentation.base.activities
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
-import com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory
-import dagger.Module
-import dagger.Provides
+import android.os.Bundle
+import com.lightteam.modpeide.R
+import dagger.android.support.DaggerAppCompatActivity
 
-@Module
-class FragmentDirectoryModule {
+abstract class BaseActivity : DaggerAppCompatActivity() {
 
-    @Provides
-    @PerFragment
-    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter
-            = FileAdapter(fragmentDirectory)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        window.setBackgroundDrawableResource(R.color.colorBackground)
+    }
 }

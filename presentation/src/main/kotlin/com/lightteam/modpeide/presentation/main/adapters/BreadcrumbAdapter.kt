@@ -15,19 +15,18 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main.fragments
+package com.lightteam.modpeide.presentation.main.adapters
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
-import com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory
-import dagger.Module
-import dagger.Provides
+import com.lightteam.modpeide.domain.model.FileModel
 
-@Module
-class FragmentDirectoryModule {
+class BreadcrumbAdapter {
 
-    @Provides
-    @PerFragment
-    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter
-            = FileAdapter(fragmentDirectory)
+    private val data: MutableList<FileModel> = mutableListOf()
+
+    fun add(fileModel: FileModel) = data.add(fileModel)
+    fun get(index: Int): FileModel = data[index]
+    fun remove(index: Int) = data.removeAt(index)
+    fun contains(fileModel: FileModel): Boolean = data.contains(fileModel)
+    fun indexOf(fileModel: FileModel): Int = data.indexOf(fileModel)
+    fun getCount(): Int = data.size
 }

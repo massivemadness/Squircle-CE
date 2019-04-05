@@ -83,11 +83,11 @@ dependencies {
     implementation library.lifecycle_extensions //ViewModel and LiveData
     kapt library.lifecycle_compiler
 
-    //RxJava
+    //RxJava2
     implementation library.rxjava2
     implementation library.rxandroid
     implementation library.rxkotlin
-    implementation library.rxrelay
+    implementation library.rxbinding_appcompat
 
     //Dagger2
     implementation library.dagger2

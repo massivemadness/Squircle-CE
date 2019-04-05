@@ -17,12 +17,15 @@
 
 package com.lightteam.modpeide.internal.di.modules.main
 
+import androidx.lifecycle.ViewModelProviders
 import com.lightteam.modpeide.data.repository.FileRepositoryImpl
 import com.lightteam.modpeide.data.storage.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
+import com.lightteam.modpeide.presentation.main.activities.MainActivity
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
+import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModelFactory
 import dagger.Module
 import dagger.Provides
 
@@ -36,8 +39,13 @@ class MainActivityModule {
 
     @Provides
     @PerActivity
-    fun provideMainViewModel(fileRepository: FileRepository,
-                             schedulersProvider: SchedulersProvider,
-                             preferenceHandler: PreferenceHandler): MainViewModel
-            = MainViewModel(fileRepository, schedulersProvider, preferenceHandler)
+    fun provideMainViewModelFactory(fileRepository: FileRepository,
+                                    schedulersProvider: SchedulersProvider,
+                                    preferenceHandler: PreferenceHandler): MainViewModelFactory
+            = MainViewModelFactory(fileRepository, schedulersProvider, preferenceHandler)
+
+    @Provides
+    @PerActivity
+    fun provideMainViewModel(activity: MainActivity, factory: MainViewModelFactory): MainViewModel
+            = ViewModelProviders.of(activity, factory).get(MainViewModel::class.java)
 }

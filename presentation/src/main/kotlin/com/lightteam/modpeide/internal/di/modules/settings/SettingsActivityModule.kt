@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main.fragments
+package com.lightteam.modpeide.internal.di.modules.settings
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
-import com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory
+import androidx.lifecycle.ViewModelProviders
+import com.lightteam.modpeide.internal.di.scopes.PerActivity
+import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
+import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
 import dagger.Module
 import dagger.Provides
 
 @Module
-class FragmentDirectoryModule {
+class SettingsActivityModule {
 
     @Provides
-    @PerFragment
-    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter
-            = FileAdapter(fragmentDirectory)
+    @PerActivity
+    fun provideSettingsViewModel(activity: SettingsActivity): SettingsViewModel
+            = ViewModelProviders.of(activity).get(SettingsViewModel::class.java)
 }

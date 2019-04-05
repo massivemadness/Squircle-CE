@@ -62,7 +62,7 @@ dependencies {
     //Kotlin
     implementation library.kotlin
 
-    //RxJava
+    //RxJava2
     implementation library.rxjava2
 
     //Tests

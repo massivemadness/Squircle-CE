@@ -15,19 +15,6 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main.fragments
+package com.lightteam.modpeide.presentation.base.viewmodel
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
-import com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory
-import dagger.Module
-import dagger.Provides
-
-@Module
-class FragmentDirectoryModule {
-
-    @Provides
-    @PerFragment
-    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter
-            = FileAdapter(fragmentDirectory)
-}
+class EmptyViewModel : BaseViewModel()

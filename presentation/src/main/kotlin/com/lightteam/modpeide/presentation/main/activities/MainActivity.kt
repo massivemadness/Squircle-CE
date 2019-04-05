@@ -23,15 +23,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Gravity
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
+import com.lightteam.modpeide.presentation.base.activities.BaseActivity
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
-import dagger.android.support.DaggerAppCompatActivity
+import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
+import com.lightteam.modpeide.utils.extensions.launchActivity
 import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     companion object {
         const val REQUEST_READ_WRITE = 1
@@ -48,6 +52,8 @@ class MainActivity : DaggerAppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         checkPermissions()
         setupToolbar()
+        setupListeners()
+        setupObservers()
     }
 
     // region PERMISSIONS
@@ -87,6 +93,16 @@ class MainActivity : DaggerAppCompatActivity() {
         binding.actionMenuTools.setOnClickListener {  }
         binding.actionMenuUndo.setOnClickListener {  }
         binding.actionMenuRedo.setOnClickListener {  }
-        binding.actionMenuOverflow.setOnClickListener {  }
+        binding.actionMenuOverflow.setOnClickListener {
+            launchActivity<SettingsActivity>()
+        }
+    }
+
+    private fun setupListeners() { }
+
+    private fun setupObservers() {
+        viewModel.documentEvent.observe(this, Observer {
+            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+        })
     }
 }

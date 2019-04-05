@@ -30,6 +30,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="android:navigationBarColor">@color/colorNavigationBar</item>
     </style>
 

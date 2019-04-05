@@ -17,10 +17,8 @@
 
 package com.lightteam.modpeide.internal.di.modules.main.fragments
 
-import androidx.fragment.app.FragmentManager
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.main.adapters.DirectoryAdapter
-import com.lightteam.modpeide.presentation.main.fragments.FragmentExplorer
+import com.lightteam.modpeide.presentation.main.adapters.BreadcrumbAdapter
 import dagger.Module
 import dagger.Provides
 
@@ -29,11 +27,6 @@ class FragmentExplorerModule {
 
     @Provides
     @PerFragment
-    fun provideChildFragmentManager(fragmentExplorer: FragmentExplorer): FragmentManager
-            = fragmentExplorer.childFragmentManager
-
-    @Provides
-    @PerFragment
-    fun provideDirectoryAdapter(childFragmentManager: FragmentManager): DirectoryAdapter
-            = DirectoryAdapter(childFragmentManager)
+    fun provideBreadcrumbAdapter(): BreadcrumbAdapter
+            = BreadcrumbAdapter()
 }

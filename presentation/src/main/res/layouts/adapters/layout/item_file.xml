@@ -20,9 +20,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.lightteam.modpeide.presentation.main.adapters.interfaces.SelectionTransfer"/>
         <import type="com.lightteam.modpeide.domain.model.FileModel"/>
 
         <variable name="fileModel" type="FileModel"/>
+        <variable name="selectionTransfer" type="SelectionTransfer"/>
     </data>
 
     <LinearLayout
@@ -30,8 +32,8 @@
         android:layout_height="36dp"
         android:orientation="horizontal"
         android:background="?attr/selectableItemBackground"
-        android:focusable="true"
-        android:clickable="true">
+        android:onClick="@{() -> selectionTransfer.onClick(fileModel)}"
+        android:onLongClick="@{() -> selectionTransfer.onLongClick(fileModel)}">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="32dp"

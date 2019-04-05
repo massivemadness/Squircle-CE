@@ -31,6 +31,7 @@
             android:name="com.lightteam.modpeide.presentation.main.activities.MainActivity"
             android:windowSoftInputMode="stateUnchanged|adjustResize"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -39,5 +40,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.lightteam.modpeide.presentation.settings.activities.SettingsActivity"
+            android:parentActivityName="com.lightteam.modpeide.presentation.main.activities.MainActivity"
+            android:label="@string/label_settings"
+            android:launchMode="standard"/>
+
     </application>
+
 </manifest>

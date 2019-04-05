@@ -44,7 +44,7 @@ ext {
     rxjava2_version = '2.2.6'
     rxandroid_version = '2.1.0'
     rxkotlin_version = '2.3.0'
-    rxrelay_version = '2.1.0'
+    rxbinding_version = '3.0.0-alpha2'
 
     dagger2_version = '2.21'
 
@@ -70,7 +70,7 @@ ext {
             rxjava2: "io.reactivex.rxjava2:rxjava:$rxjava2_version",
             rxandroid: "io.reactivex.rxjava2:rxandroid:$rxandroid_version",
             rxkotlin: "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version",
-            rxrelay: "com.jakewharton.rxrelay2:rxrelay:$rxrelay_version",
+            rxbinding_appcompat: "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxbinding_version",
 
             dagger2: "com.google.dagger:dagger:$dagger2_version",
             dagger2_compiler: "com.google.dagger:dagger-compiler:$dagger2_version",

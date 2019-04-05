@@ -15,19 +15,17 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main.fragments
+package com.lightteam.modpeide.internal.di.modules.settings
 
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
-import com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory
+import com.lightteam.modpeide.presentation.settings.fragments.FragmentPreferences
 import dagger.Module
-import dagger.Provides
+import dagger.android.ContributesAndroidInjector
 
 @Module
-class FragmentDirectoryModule {
+abstract class SettingsFragmentsProvider {
 
-    @Provides
     @PerFragment
-    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter
-            = FileAdapter(fragmentDirectory)
+    @ContributesAndroidInjector
+    abstract fun bindFragmentPreferences(): FragmentPreferences
 }

@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- region Toolbar -->
+            <!-- region TOOLBAR -->
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -175,16 +175,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:clipChildren="true"
-                android:id="@+id/tab_layout"
+                android:id="@+id/tab_file_layout"
                 android:background="@color/colorTabs"
                 android:elevation="3.5dp"
                 app:tabIndicatorColor="@color/colorTabIndicator"
                 app:tabMode="scrollable"
                 app:tabGravity="fill"/>
 
-            <!-- endregion Toolbar -->
+            <!-- endregion TOOLBAR -->
 
-            <!-- region Document -->
+            <!-- region DOCUMENT -->
 
             <!--<ViewStub
                 android:layout_width="match_parent"
@@ -210,11 +210,11 @@
                 android:id="@+id/extended_keyboard"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>-->
 
-            <!-- endregion Document -->
+            <!-- endregion DOCUMENT -->
 
         </LinearLayout>
 
-        <!-- region Explorer -->
+        <!-- region EXPLORER -->
 
         <fragment
             android:layout_width="280dp"
@@ -225,7 +225,7 @@
             tools:layout="@layout/fragment_explorer"
             tools:ignore="RtlHardcoded"/>
 
-        <!-- endregion Explorer -->
+        <!-- endregion EXPLORER -->
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

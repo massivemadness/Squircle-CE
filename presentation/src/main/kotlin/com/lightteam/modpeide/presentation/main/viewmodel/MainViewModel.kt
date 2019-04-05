@@ -17,8 +17,9 @@
 
 package com.lightteam.modpeide.presentation.main.viewmodel
 
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.MutableLiveData
+import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.data.storage.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
@@ -28,6 +29,7 @@ import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
+import java.util.concurrent.TimeUnit
 
 class MainViewModel(
     private val fileRepository: FileRepository,
@@ -40,7 +42,10 @@ class MainViewModel(
     val noItemsIndicator: ObservableBoolean = ObservableBoolean(false)
 
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val listEvent: MutableLiveData<List<FileModel>> = MutableLiveData()
+
+    val listEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Обновление списка
+    val tabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки
+    val documentEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Открытие документа
 
     var sortMode = preferenceHandler.getSortMode()
     var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
@@ -49,18 +54,27 @@ class MainViewModel(
 
     private lateinit var filesList: List<FileModel>
 
-    fun loadFiles() {
-        loadFiles(fileRepository.getDefaultLocation())
-    }
-
     fun loadFiles(path: FileModel) {
         listLoadingIndicator.set(true)
         fileRepository.makeList(path)
-            .map { list ->
-                list.sortedWith(fileSorter)
+            .map { files ->
+                val newList = mutableListOf<FileModel>()
+                files.forEach { file ->
+                    if(file.isHidden) {
+                        if(showHidden) {
+                            newList.add(file)
+                        }
+                    } else {
+                        newList.add(file)
+                    }
+                }
+                newList.toList()
             }
-            .map { list ->
-                list.sortedBy { !it.isFolder == foldersOnTop }
+            .map { it.sortedWith(fileSorter) }
+            .map {
+                it.sortedBy { file ->
+                    !file.isFolder == foldersOnTop
+                }
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
@@ -74,7 +88,23 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun filterFiles(query: CharSequence): Boolean {
+    fun getDefaultLocation(): FileModel = fileRepository.getDefaultLocation()
+
+    fun searchEvents(searchView: SearchView) {
+        searchView
+            .queryTextChangeEvents()
+            .skipInitialValue()
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .filter { it.queryText.isEmpty() || it.queryText.length >= 2 }
+            .distinctUntilChanged()
+            .observeOn(schedulersProvider.mainThread())
+            .subscribeBy {
+                onSearchQueryFilled(it.queryText)
+            }
+            .disposeOnViewModelDestroy()
+    }
+
+    private fun onSearchQueryFilled(query: CharSequence): Boolean {
         if(::filesList.isInitialized) {
             val newQuery = query.toString().toLowerCase()
             val collection: MutableList<FileModel> = mutableListOf()
@@ -93,14 +123,14 @@ class MainViewModel(
         return true
     }
 
+    fun setFilterHidden(filter: Boolean) {
+        preferenceHandler.setFilterHidden(filter)
+        showHidden = filter
+    }
+
     fun setSortMode(mode: String) {
         preferenceHandler.setSortMode(mode)
         sortMode = preferenceHandler.getSortMode()
         fileSorter = FileSorter.getComparator(sortMode)
-    }
-
-    fun setFilterHidden(filter: Boolean) {
-        preferenceHandler.setFilterHidden(filter)
-        showHidden = preferenceHandler.getFilterHidden()
     }
 }

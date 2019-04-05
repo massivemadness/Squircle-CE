@@ -25,33 +25,35 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.databinding.ItemFileBinding
+import com.lightteam.modpeide.presentation.main.adapters.interfaces.SelectionTransfer
 
-class FileAdapter : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
+class FileAdapter(
+    private val selectionTransfer: SelectionTransfer
+) : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
 
-    private var data: MutableList<FileModel> = mutableListOf()
+    private val data: MutableList<FileModel> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
-    }
-
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
     override fun getItemCount(): Int = data.size
 
     fun setData(newList: List<FileModel>) {
-        data = newList.toMutableList()
+        data.clear()
+        data.addAll(newList)
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        private val binding: ItemFileBinding = DataBindingUtil.bind(itemView)!!
+        private val binding: ItemFileBinding? = DataBindingUtil.bind(itemView)
 
         fun bind(fileModel: FileModel) {
-            binding.fileModel = fileModel
+            binding?.fileModel = fileModel
+            binding?.selectionTransfer = selectionTransfer
         }
     }
 }

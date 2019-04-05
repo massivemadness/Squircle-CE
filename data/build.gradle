@@ -62,11 +62,10 @@ dependencies {
     //Kotlin
     implementation library.kotlin
 
-    //RxJava
+    //RxJava2
     implementation library.rxjava2
     implementation library.rxandroid
     implementation library.rxkotlin
-    implementation library.rxrelay
 
     //Domain Module
     implementation project(":domain")
