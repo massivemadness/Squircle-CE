@@ -22,25 +22,26 @@
     <color name="colorAccent">#FF8000</color>
     <color name="colorNavigationBar">#37383A</color>
     <color name="colorBackground">#303030</color>
+    <color name="colorWarning">#E45356</color>
 
     <color name="colorTabs">#37383A</color>
     <color name="colorTabIndicator">#FF8000</color>
-    <color name="colorText">#AAB6C6</color>
+    <!--<color name="colorText">#AAB6C6</color>
     <color name="colorLineNumbersText">#808080</color>
-    <color name="colorSelection">#214283</color>
+    <color name="colorSelection">#214283</color>-->
     <color name="colorCursor">#BBBBBB</color>
-    <color name="colorSearchSpan">#32593D</color>
+    <!--<color name="colorSearchSpan">#32593D</color>
     <color name="colorNumbersBackground">#343638</color>
     <color name="colorSelectedLine">#3A3A3A</color>
-    <color name="colorBracketSpan">#33654B</color>
+    <color name="colorBracketSpan">#33654B</color>-->
     <color name="colorIcon">#7F7F7F</color>
     <color name="colorFolder">#FFBB33</color>
 
-    <color name="syntaxNumbers">#6897BB</color>
-    <color name="syntaxSymbols">#E8E2B7</color>
-    <color name="syntaxBrackets">#E8E2B7</color>
-    <color name="syntaxKeywords">#EC7600</color>
-    <color name="syntaxMethods">#FEC76C</color>
-    <color name="syntaxStrings">#6E875A</color>
-    <color name="syntaxComments">#66747B</color>
-</resources>
+    <!--<color name="syntaxNumbers">#6897BB</color>
+     <color name="syntaxSymbols">#E8E2B7</color>
+     <color name="syntaxBrackets">#E8E2B7</color>
+     <color name="syntaxKeywords">#EC7600</color>
+     <color name="syntaxMethods">#FEC76C</color>
+     <color name="syntaxStrings">#6E875A</color>
+     <color name="syntaxComments">#66747B</color>-->
+ </resources>

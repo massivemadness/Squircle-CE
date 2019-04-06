@@ -15,31 +15,24 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.repository
+package com.lightteam.modpeide.presentation.main.adapters.utils
 
-import android.os.Environment
-import com.lightteam.modpeide.data.converter.FileConverter
+import androidx.recyclerview.widget.DiffUtil
 import com.lightteam.modpeide.domain.model.FileModel
-import com.lightteam.modpeide.domain.repository.FileRepository
-import io.reactivex.Single
-import java.io.File
 
-class FileRepositoryImpl : FileRepository {
+class FileDiffCallback(
+    private val oldList: List<FileModel>,
+    private val newList: List<FileModel>
+) : DiffUtil.Callback() {
 
-    override fun getDefaultLocation(): FileModel {
-        return FileConverter.toModel(Environment.getExternalStorageDirectory().absoluteFile)
+    override fun getOldListSize(): Int = oldList.size
+    override fun getNewListSize(): Int = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].path == newList[newItemPosition].path
     }
 
-    override fun makeList(parent: FileModel): Single<List<FileModel>> {
-        return Single.create<List<FileModel>> { emitter ->
-            val files = getFiles(FileConverter.toFile(parent))
-            emitter.onSuccess(files)
-        }
-    }
-
-    private fun getFiles(path: File): MutableList<FileModel> {
-        return path.listFiles()
-            .map(FileConverter::toModel)
-            .toMutableList()
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].lastModified == newList[newItemPosition].lastModified
     }
 }

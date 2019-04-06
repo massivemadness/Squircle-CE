@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.internal.di.modules.main
 
 import androidx.lifecycle.ViewModelProviders
-import com.lightteam.modpeide.data.repository.FileRepositoryImpl
+import com.lightteam.modpeide.data.repository.LocalFileRepository
 import com.lightteam.modpeide.data.storage.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
@@ -35,7 +35,7 @@ class MainActivityModule {
     @Provides
     @PerActivity
     fun provideFileRepository(): FileRepository
-            = FileRepositoryImpl()
+            = LocalFileRepository()
 
     @Provides
     @PerActivity

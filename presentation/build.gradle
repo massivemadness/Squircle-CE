@@ -77,7 +77,8 @@ dependencies {
     implementation library.appcompat
     implementation library.materialdesign
     implementation library.preferencescompat
-    implementation library.materialdialogs
+    implementation library.materialdialogs_core
+    implementation library.materialdialogs_input
 
     //Architecture Components
     implementation library.lifecycle_extensions //ViewModel and LiveData

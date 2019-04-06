@@ -30,9 +30,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.WhichButton
+import com.afollestad.materialdialogs.actions.setActionButtonEnabled
+import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
+import com.afollestad.materialdialogs.checkbox.getCheckBoxPrompt
+import com.afollestad.materialdialogs.input.getInputField
+import com.afollestad.materialdialogs.input.input
 import com.google.android.material.tabs.TabLayout
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
+import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.presentation.main.activities.MainActivity.Companion.REQUEST_READ_WRITE
@@ -145,19 +152,11 @@ class FragmentExplorer : DaggerFragment(),
         binding.swipeRefresh.setOnRefreshListener(this)
         binding.tabLayout.addOnTabSelectedListener(this)
         binding.actionHome.setOnClickListener {
-            for (pos in adapter.getCount() downTo 0) {
-                binding.tabLayout.getTabAt(pos)?.let {
-                    adapter.remove(pos)
-                    binding.tabLayout.removeTab(it)
-                }
-            }
+            removeAfter(viewModel.getDefaultLocation())
             addToStack(viewModel.getDefaultLocation())
         }
         binding.actionAdd.setOnClickListener {
-            MaterialDialog(activity!!)
-                .title(text = "Title")
-                .message(text = "Message")
-                .show()
+            showCreateDialog()
         }
     }
 
@@ -175,9 +174,51 @@ class FragmentExplorer : DaggerFragment(),
                 }
             }
         })
+        viewModel.deleteFileEvent.observe(this.viewLifecycleOwner, Observer { deletedFile ->
+            removeAfter(deletedFile)
+        })
+        viewModel.renameFileEvent.observe(this.viewLifecycleOwner, Observer { renamedFile ->
+            removeAfter(renamedFile)
+        })
         viewModel.tabsEvent.observe(this.viewLifecycleOwner, Observer { path ->
             addToStack(path)
         })
+    }
+
+    // region INTERNAL
+
+    private fun showCreateDialog() {
+        MaterialDialog(activity!!).show {
+            title(R.string.dialog_title_create)
+            input(
+                waitForPositiveButton = false,
+                hintRes = R.string.hint_enter_file_name
+            ) { dialog, text ->
+                val inputField = dialog.getInputField()
+                val isValid = text.toString().isValidFileName()
+
+                inputField.error = if(isValid) {
+                    null
+                } else {
+                    getString(R.string.message_invalid_file_name)
+                }
+                dialog.setActionButtonEnabled(WhichButton.POSITIVE, isValid)
+            }
+            checkBoxPrompt(R.string.hint_box_is_folder) {}
+            positiveButton(R.string.action_create)
+            negativeButton(R.string.action_cancel)
+            positiveButton {
+                val fileName = getInputField().text.toString()
+                val isFolder = getCheckBoxPrompt().isChecked
+
+                val parent = adapter.get(binding.tabLayout.selectedTabPosition)
+                val child = parent.copy(
+                    path = parent.path + "/$fileName",
+                    isFolder = isFolder
+                )
+                viewModel.createFile(parent, child)
+            }
+        }
     }
 
     private fun addToStack(fileModel: FileModel) {
@@ -197,11 +238,23 @@ class FragmentExplorer : DaggerFragment(),
             pathPos == -1 -> {
                 for (pos in adapter.getCount() downTo nextPos) {
                     binding.tabLayout.getTabAt(pos)?.let {
-                        adapter.remove(pos)
+                        adapter.removeAt(pos)
                         binding.tabLayout.removeTab(it)
                     }
                 }
                 addTab(fileModel)
+            }
+        }
+    }
+
+    private fun removeAfter(fileModel: FileModel) {
+        val indexOfFile = adapter.indexOf(fileModel)
+        if(indexOfFile != -1) {
+            for (pos in adapter.getCount() downTo indexOfFile) {
+                binding.tabLayout.getTabAt(pos)?.let {
+                    adapter.removeAt(pos)
+                    binding.tabLayout.removeTab(it)
+                }
             }
         }
     }
@@ -214,4 +267,6 @@ class FragmentExplorer : DaggerFragment(),
         binding.tabLayout.addTab(tab)
         binding.tabLayout.post { tab.select() }
     }
+
+    // endregion INTERNAL
 }

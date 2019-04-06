@@ -30,6 +30,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="md_ripple_color">?android:colorControlHighlight</item>
+        <item name="md_color_button_text">@color/colorAccent</item>
+
         <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="android:navigationBarColor">@color/colorNavigationBar</item>
     </style>

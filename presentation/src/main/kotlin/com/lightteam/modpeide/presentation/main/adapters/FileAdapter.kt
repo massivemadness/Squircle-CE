@@ -25,10 +25,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.databinding.ItemFileBinding
-import com.lightteam.modpeide.presentation.main.adapters.interfaces.SelectionTransfer
+import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
 
 class FileAdapter(
-    private val selectionTransfer: SelectionTransfer
+    private val recyclerSelection: RecyclerSelection
 ) : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
 
     private val data: MutableList<FileModel> = mutableListOf()
@@ -44,8 +44,9 @@ class FileAdapter(
     fun setData(newList: List<FileModel>) {
         data.clear()
         data.addAll(newList)
-        notifyDataSetChanged()
     }
+
+    fun getData(): List<FileModel> = data
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -53,7 +54,7 @@ class FileAdapter(
 
         fun bind(fileModel: FileModel) {
             binding?.fileModel = fileModel
-            binding?.selectionTransfer = selectionTransfer
+            binding?.recyclerSelection = recyclerSelection
         }
     }
 }

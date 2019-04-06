@@ -25,7 +25,7 @@ class BreadcrumbAdapter {
 
     fun add(fileModel: FileModel) = data.add(fileModel)
     fun get(index: Int): FileModel = data[index]
-    fun remove(index: Int) = data.removeAt(index)
+    fun removeAt(index: Int) = data.removeAt(index)
     fun contains(fileModel: FileModel): Boolean = data.contains(fileModel)
     fun indexOf(fileModel: FileModel): Int = data.indexOf(fileModel)
     fun getCount(): Int = data.size

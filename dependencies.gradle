@@ -36,7 +36,7 @@ ext {
     appcompat_version = '1.1.0-alpha03'
     design_version = '1.0.0'
     preferencescompat_version = '1.1.0-alpha04'
-    materialdialogs_version = '2.1.0'
+    materialdialogs_version = '2.6.0'
     browser_version = '1.0.0'
 
     lifecycle_extensions_version = '2.0.0'
@@ -61,7 +61,8 @@ ext {
             appcompat: "androidx.appcompat:appcompat:$appcompat_version",
             materialdesign: "com.google.android.material:material:$design_version",
             preferencescompat: "androidx.preference:preference-ktx:$preferencescompat_version",
-            materialdialogs: "com.afollestad.material-dialogs:core:$materialdialogs_version",
+            materialdialogs_core: "com.afollestad.material-dialogs:core:$materialdialogs_version",
+            materialdialogs_input: "com.afollestad.material-dialogs:input:$materialdialogs_version",
             browser: "androidx.browser:browser:$browser_version",
 
             lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions_version",

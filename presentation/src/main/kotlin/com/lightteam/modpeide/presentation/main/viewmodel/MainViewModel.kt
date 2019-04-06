@@ -20,6 +20,7 @@ package com.lightteam.modpeide.presentation.main.viewmodel
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
+import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.storage.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
@@ -41,18 +42,24 @@ class MainViewModel(
     val listLoadingIndicator: ObservableBoolean = ObservableBoolean(true)
     val noItemsIndicator: ObservableBoolean = ObservableBoolean(false)
 
-    val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-
+    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
+    val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
     val listEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Обновление списка
     val tabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки
     val documentEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Открытие документа
+    val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
+    val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
 
     var sortMode = preferenceHandler.getSortMode()
     var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     var showHidden: Boolean = preferenceHandler.getFilterHidden()
     var foldersOnTop: Boolean = preferenceHandler.getFoldersOnTop()
 
-    private lateinit var filesList: List<FileModel>
+    private var filesList: List<FileModel> = emptyList()
+
+    // region FILE_REPOSITORY
+
+    fun getDefaultLocation(): FileModel = fileRepository.getDefaultLocation()
 
     fun loadFiles(path: FileModel) {
         listLoadingIndicator.set(true)
@@ -88,7 +95,44 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun getDefaultLocation(): FileModel = fileRepository.getDefaultLocation()
+    fun createFile(parent: FileModel, child: FileModel) {
+        fileRepository.createFile(child)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { file ->
+                if(file.isFolder) {
+                    tabsEvent.value = file
+                } else {
+                    loadFiles(parent) //update the list
+                    documentEvent.value = file
+                }
+                toastEvent.value = R.string.message_done
+            }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun renameFile(renamedFile: FileModel, newName: String) {
+        fileRepository.renameFile(renamedFile, newName)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { parent ->
+                renameFileEvent.value = renamedFile
+                loadFiles(parent) //update the list
+                toastEvent.value = R.string.message_done
+            }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun deleteFile(deletedFile: FileModel) {
+        fileRepository.deleteFile(deletedFile)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { parent ->
+                deleteFileEvent.value = deletedFile
+                loadFiles(parent) //update the list
+                toastEvent.value = R.string.message_done
+            }
+            .disposeOnViewModelDestroy()
+    }
+
+    // endregion FILE_REPOSITORY
 
     fun searchEvents(searchView: SearchView) {
         searchView
@@ -105,21 +149,19 @@ class MainViewModel(
     }
 
     private fun onSearchQueryFilled(query: CharSequence): Boolean {
-        if(::filesList.isInitialized) {
-            val newQuery = query.toString().toLowerCase()
-            val collection: MutableList<FileModel> = mutableListOf()
-            if(newQuery.isEmpty()) {
-                collection.addAll(filesList)
-            } else {
-                for(row in filesList) {
-                    if(row.name.toLowerCase().contains(newQuery)) { //Поиск по названию
-                        collection.add(row)
-                    }
+        val newQuery = query.toString().toLowerCase()
+        val collection: MutableList<FileModel> = mutableListOf()
+        if(newQuery.isEmpty()) {
+            collection.addAll(filesList)
+        } else {
+            for(row in filesList) {
+                if(row.name.toLowerCase().contains(newQuery)) { //Поиск по названию
+                    collection.add(row)
                 }
             }
-            noItemsIndicator.set(collection.isEmpty())
-            listEvent.value = collection
         }
+        noItemsIndicator.set(collection.isEmpty())
+        listEvent.value = collection
         return true
     }
 

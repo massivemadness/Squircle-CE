@@ -94,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:id="@+id/toolbar"
+                app:title="@string/label_local_storage"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"/>
 
             <LinearLayout

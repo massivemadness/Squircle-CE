@@ -15,16 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.repository
+package com.lightteam.modpeide.data.utils.extensions
 
-import com.lightteam.modpeide.domain.model.FileModel
-import io.reactivex.Single
-
-interface FileRepository {
-    fun getDefaultLocation(): FileModel
-    fun makeList(parent: FileModel): Single<List<FileModel>>
-
-    fun createFile(fileModel: FileModel): Single<FileModel>
-    fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
-}
+fun String.isValidFileName(): Boolean =
+        !isEmpty() &&
+                !contains("/") &&
+                !equals(".") &&
+                !equals("..")

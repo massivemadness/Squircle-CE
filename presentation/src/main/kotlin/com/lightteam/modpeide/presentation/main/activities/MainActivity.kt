@@ -38,8 +38,8 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     companion object {
-        const val REQUEST_READ_WRITE = 1
-        const val REQUEST_READ_WRITE2 = 2
+        const val REQUEST_READ_WRITE = 1 //Запрос на разрешения через диалог
+        const val REQUEST_READ_WRITE2 = 2 //Запрос на разрешения через активность настроек
     }
 
     @Inject
@@ -101,7 +101,11 @@ class MainActivity : BaseActivity() {
     private fun setupListeners() { }
 
     private fun setupObservers() {
+        viewModel.toastEvent.observe(this, Observer {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
         viewModel.documentEvent.observe(this, Observer {
+            //open the file
             Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
         })
     }

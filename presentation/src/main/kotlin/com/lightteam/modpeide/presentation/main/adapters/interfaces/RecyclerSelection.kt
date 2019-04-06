@@ -19,7 +19,7 @@ package com.lightteam.modpeide.presentation.main.adapters.interfaces
 
 import com.lightteam.modpeide.domain.model.FileModel
 
-interface SelectionTransfer {
+interface RecyclerSelection {
     fun onClick(fileModel: FileModel)
     fun onLongClick(fileModel: FileModel): Boolean
 }
