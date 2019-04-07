@@ -16,79 +16,38 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- region Application -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/label_settings"
+    android:key="KEY_HEADER_ROOT">
 
     <PreferenceScreen
         android:title="@string/pref_header_application_title"
         android:summary="@string/pref_header_application_summary"
         android:layout="@layout/item_preference_header"
-        android:key="KEY_HEADER_APPLICATION">
-
-        <SwitchPreference
-            android:title="title"/>
-        <SwitchPreference
-            android:title="title"/>
-        <SwitchPreference
-            android:title="title"/>
-
-    </PreferenceScreen>
-
-    <!-- endregion Application -->
-
-    <!-- region Editor -->
+        android:key="KEY_HEADER_APPLICATION"/>
 
     <PreferenceScreen
         android:title="@string/pref_header_editor_title"
         android:summary="@string/pref_header_editor_summary"
         android:layout="@layout/item_preference_header"
-        android:key="KEY_HEADER_EDITOR">
-
-        <SwitchPreference
-            android:title="title"/>
-
-    </PreferenceScreen>
-
-    <!-- endregion Editor -->
-
-    <!-- region CodeStyle -->
+        android:key="KEY_HEADER_EDITOR"/>
 
     <PreferenceScreen
         android:title="@string/pref_header_codeStyle_title"
         android:summary="@string/pref_header_codeStyle_summary"
         android:layout="@layout/item_preference_header"
-        android:key="KEY_HEADER_CODE_STYLE">
-
-
-    </PreferenceScreen>
-
-    <!-- endregion CodeStyle -->
-
-    <!-- region Files -->
+        android:key="KEY_HEADER_CODE_STYLE"/>
 
     <PreferenceScreen
         android:title="@string/pref_header_files_title"
         android:summary="@string/pref_header_files_summary"
         android:layout="@layout/item_preference_header"
-        android:key="KEY_HEADER_FILES">
-
-
-    </PreferenceScreen>
-
-    <!-- endregion Files -->
-
-    <!-- region About -->
+        android:key="KEY_HEADER_FILES"/>
 
     <PreferenceScreen
         android:title="@string/pref_header_about_title"
         android:summary="@string/pref_header_about_summary"
         android:layout="@layout/item_preference_header"
-        android:key="KEY_HEADER_ABOUT">
-
-
-    </PreferenceScreen>
-
-    <!-- endregion About -->
+        android:key="KEY_HEADER_ABOUT"/>
 
 </PreferenceScreen>

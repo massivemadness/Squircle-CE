@@ -36,7 +36,6 @@ class PreferenceHandler(private val sharedPreferences: SharedPreferences) {
         //Tabs
         private const val KEY_RESUME_SESSION = "RESUME_SESSION"
         private const val KEY_MAX_TABS_COUNT = "MAX_TABS_COUNT_1"
-        private const val KEY_DISABLE_SWIPE_GESTURE = "DISABLE_SWIPE"
 
         //Editor
         private const val KEY_WRAP_CONTENT = "WRAP_CONTENT"
@@ -44,9 +43,7 @@ class PreferenceHandler(private val sharedPreferences: SharedPreferences) {
         private const val KEY_PINCH_ZOOM = "PINCH_ZOOM"
         private const val KEY_SHOW_LINE_NUMBERS = "SHOW_LINE_NUMBERS"
         private const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
-        private const val KEY_BRACKET_MATCHING = "BRACKET_MATCHING"
-        private const val KEY_SYNTAX_HIGHLIGHT = "SYNTAX_HIGHLIGHT"
-        private const val KEY_READ_ONLY = "READ_ONLY"
+        private const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
 
         //Keyboard
         private const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYS"
@@ -73,23 +70,20 @@ class PreferenceHandler(private val sharedPreferences: SharedPreferences) {
 
     fun getResumeSession(): Boolean = sharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
     fun getMaxTabsCount(): Int = Integer.parseInt(sharedPreferences.getString(KEY_MAX_TABS_COUNT, "5"))
-    fun getDisableSwipeGesture(): Boolean = sharedPreferences.getBoolean(KEY_DISABLE_SWIPE_GESTURE, false)
 
     fun getWrapContent(): Boolean = sharedPreferences.getBoolean(KEY_WRAP_CONTENT, true)
     fun getCodeCompletion(): Boolean = sharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
     fun getPinchZoom(): Boolean = sharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
     fun getShowLineNumbers(): Boolean = sharedPreferences.getBoolean(KEY_SHOW_LINE_NUMBERS, true)
     fun getHighlightCurrentLine(): Boolean = sharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)
-    fun getBracketMatching(): Boolean = sharedPreferences.getBoolean(KEY_BRACKET_MATCHING, true)
-    fun getSyntaxHighlight(): Boolean = sharedPreferences.getBoolean(KEY_SYNTAX_HIGHLIGHT, true)
-    fun getReadOnly(): Boolean = sharedPreferences.getBoolean(KEY_READ_ONLY, false)
+    fun getHighlightMatchingDelimiters(): Boolean = sharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
 
     fun getExtendedKeyboard(): Boolean = sharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
     fun getImeKeyboard(): Boolean = sharedPreferences.getBoolean(KEY_USE_IME_KEYBOARD, false)
 
     fun getIndentLine(): Boolean = sharedPreferences.getBoolean(KEY_INDENT_LINE, true)
     fun getInsertBracket(): Boolean = sharedPreferences.getBoolean(KEY_INSERT_BRACKET, true)
-    fun getInsertQuote(): Boolean = sharedPreferences.getBoolean(KEY_INSERT_QUOTE, true)
+    fun getInsertQuote(): Boolean = sharedPreferences.getBoolean(KEY_INSERT_QUOTE, false)
 
     fun getFilterHidden(): Boolean = sharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
     fun setFilterHidden(showHiddenFiles: Boolean) = sharedPreferences.edit().putBoolean(KEY_SHOW_HIDDEN_FILES, showHiddenFiles).apply()

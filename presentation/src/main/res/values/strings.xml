@@ -40,7 +40,7 @@
     <!--<string name="action_yes">Yes</string>
     <string name="action_no">No</string>-->
     <string name="action_cancel">Cancel</string>
-    <!--<string name="action_close">Close</string>-->
+    <string name="action_close">Close</string>
     <string name="action_create">Create</string>
     <!--<string name="action_closeOthers">Close Others</string>
     <string name="action_closeAll">Close All</string>
@@ -49,12 +49,16 @@
     <string name="action_delete">Delete</string>
     <string name="action_copy_path">Copy Path</string>
     <!--<string name="action_apply">Apply</string>-->
+    <string name="action_get_it">Get it</string>
+    <string name="action_continue">Continue</string>
 
     <string name="dialog_title_choose_action">Choose action…</string>
     <string name="dialog_title_create">Create…</string>
     <string name="dialog_title_rename">Rename…</string>
-    <!--<string name="dialog_title_changelog">ChangeLog</string>
-    <string name="dialog_title_exit">Exit</string>
+    <string name="dialog_title_store">Get the Ultimate Edition</string>
+    <string name="dialog_title_changelog">ChangeLog</string>
+    <string name="dialog_title_privacy_policy">Privacy Policy</string>
+    <!--<string name="dialog_title_exit">Exit</string>
     <string name="dialog_title_find">Find…</string>
     <string name="dialog_title_replace_all">Replace All…</string>
     <string name="dialog_title_goto_line">Go to Line…</string>
@@ -110,7 +114,7 @@
     <string name="message_rhino_no_errors">Errors not found</string>
     <string name="message_rhino_may_not_work">Syntax Validator may not work properly!</string>-->
 
-    <!--<string name="menu_file_new">New</string>
+    <string name="menu_file_new">New</string>
     <string name="menu_file_open">Open</string>
     <string name="menu_file_save">Save</string>
     <string name="menu_file_saveAs">Save As</string>
@@ -131,7 +135,16 @@
     <string name="menu_tools_downloadSource">Download Source</string>
     <string name="menu_overflow_settings">Settings</string>
     <string name="menu_overflow_search">Search</string>
-    <string name="menu_overflow_tools">Tools</string>-->
+    <string name="menu_overflow_tools">Tools</string>
+
+    <string name="store_standard">Standard</string>
+    <string name="store_ultimate">Ultimate</string>
+    <string name="store_feature_1">Basic functionality</string>
+    <string name="store_feature_2">Themes</string>
+    <string name="store_feature_3">New fonts</string>
+    <string name="store_feature_4">Auto-close Quotes</string>
+    <string name="store_feature_5">Color Picker</string>
+    <string name="store_feature_6">Syntax Validator</string>
 
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>
@@ -144,7 +157,7 @@
     <string name="pref_header_about_title">About</string>
     <string name="pref_header_about_summary">View information about libraries and licenses.</string>
 
-    <!--<string name="pref_category_look_and_feel">Look And Feel</string>
+    <string name="pref_category_look_and_feel">Look And Feel</string>
     <string name="pref_category_other">Other</string>
     <string name="pref_category_font">Font</string>
     <string name="pref_category_tabs">Tabs</string>
@@ -168,8 +181,6 @@
     <string name="pref_resume_session_summary">Restore opened files for next launch.</string>
     <string name="pref_max_page_title">Max page editor</string>
     <string name="pref_max_page_summary">Number of maximum page display on the screen.</string>
-    <string name="pref_disable_swipe_title">Disable swipe gesture</string>
-    <string name="pref_disable_swipe_summary">Disable swipe gesture to switch between tabs. Restart required.</string>
     <string name="pref_word_wrap_title">Word Wrap</string>
     <string name="pref_word_wrap_summary">Enable word wrap to fit screen width.</string>
     <string name="pref_code_completion_title">Code Completion</string>
@@ -179,9 +190,9 @@
     <string name="pref_line_numbers_title">Line Numbers</string>
     <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
     <string name="pref_highlight_line_title">Highlight Current Line</string>
-    <string name="pref_bracket_matching_title">Bracket Matching</string>
-    <string name="pref_syntax_highlight_title">Syntax Highlight</string>
-    <string name="pref_read_only_title">Read Only</string>
+    <string name="pref_highlight_line_summary">Highlight the line where the cursor currently resides.</string>
+    <string name="pref_highlight_delimiters_title">Highlight Matching Delimiters</string>
+    <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the cursor at its pair.</string>
     <string name="pref_extended_keyboard_title">Extended Keyboard</string>
     <string name="pref_extended_keyboard_summary">Show list symbol below the editor.</string>
     <string name="pref_ime_keyboard_title">Enable IME keyboard</string>
@@ -191,27 +202,29 @@
     <string name="pref_close_brackets_title">Auto-close Brackets</string>
     <string name="pref_close_brackets_summary">Automatically close open parenthesis/bracket/brace when typing.</string>
     <string name="pref_close_quotes_title">Auto-close Quotes</string>
-    <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>-->
+    <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
     <string name="pref_showHiddenFiles_title">Show hidden files</string>
-    <!--<string name="pref_showHiddenFiles_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
-    <string name="pref_foldersOnTop_title">Folders on Top</string>
-    <string name="pref_foldersOnTop_summary">Folders will be displayed on top, files below, and vice versa</string>
+    <string name="pref_showHiddenFiles_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
+    <string name="pref_foldersOnTop_title">Folders on top</string>
+    <string name="pref_foldersOnTop_summary">Folders will be displayed on top.</string>
     <string name="pref_sortMode_title">Sort Mode</string>
     <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
     <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
     <string name="pref_about_summary">Copyright 2019 Light Team Software\nAll right reserved\n\nVersion: &app_version; (&app_code;)</string>
     <string name="pref_privacy_policy_title">Privacy Policy</string>
 
-    <string name="pref_lib_butterKnife_title">ButterKnife</string>
-    <string name="pref_lib_butterKnife_summary">License: Apache License 2.0\nAuthor: Jake Wharton</string>
+    <string name="pref_lib_rxjava2_title">RxJava 2</string>
+    <string name="pref_lib_rxjava2_summary">License: Apache License 2.0\nAuthor: ReactiveX</string>
     <string name="pref_lib_dagger2_title">Dagger 2</string>
     <string name="pref_lib_dagger2_summary">License: Apache License 2.0\nAuthor: Google</string>
-    <string name="pref_lib_keyboardVE_title">KeyboardVisibilityEvent</string>
+    <string name="pref_lib_rxbinding_title">RxBinding</string>
+    <string name="pref_lib_rxbinding_summary">License: Apache License 2.0\nAuthor: Jake Wharton</string>
+    <string name="pref_lib_archComponents_title">Architecture Components</string>
+    <string name="pref_lib_archComponents_summary">License: Apache License 2.0\nAuthor: Google</string>
+    <string name="pref_lib_materialDialogs_title">Material Dialogs</string>
+    <string name="pref_lib_materialDialogs_summary">License: Apache License 2.0\nAuthor: Aidan Follestad</string>
+    <!--<string name="pref_lib_keyboardVE_title">KeyboardVisibilityEvent</string>
     <string name="pref_lib_keyboardVE_summary">License: Apache License 2.0\nAuthor: Yasuhiro Shimizu</string>
-    <string name="pref_lib_material_dialogs_title">Material Dialogs</string>
-    <string name="pref_lib_material_dialogs_summary">License: MIT License\nAuthor: Aidan Follestad</string>
-    <string name="pref_lib_room_title">Room</string>
-    <string name="pref_lib_room_summary">License: Apache License 2.0\nAuthor: Google</string>
     <string name="pref_lib_rhino_title">Rhino (JavaScript Engine)</string>
     <string name="pref_lib_rhino_summary">License: Mozilla Public License 2.0\nAuthor: Mozilla</string>-->
 </resources>

@@ -24,6 +24,7 @@ import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.presentation.main.activities.MainActivity
+import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModelFactory
 import dagger.Module
@@ -48,4 +49,9 @@ class MainActivityModule {
     @PerActivity
     fun provideMainViewModel(activity: MainActivity, factory: MainViewModelFactory): MainViewModel
             = ViewModelProviders.of(activity, factory).get(MainViewModel::class.java)
+
+    @Provides
+    @PerActivity
+    fun provideToolbarManager(activity: MainActivity): ToolbarManager
+            = ToolbarManager(activity)
 }

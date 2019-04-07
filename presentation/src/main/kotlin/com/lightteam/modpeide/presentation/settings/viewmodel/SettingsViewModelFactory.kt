@@ -17,14 +17,21 @@
 
 package com.lightteam.modpeide.presentation.settings.viewmodel
 
-import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.lightteam.modpeide.presentation.base.viewmodel.EmptyViewModel
 import com.lightteam.modpeide.utils.commons.VersionChecker
-import com.lightteam.modpeide.utils.event.SingleLiveEvent
 
-class SettingsViewModel(
+class SettingsViewModelFactory(
     private val versionChecker: VersionChecker
-) : BaseViewModel() {
-    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+) : ViewModelProvider.NewInstanceFactory() {
 
-    fun isUltimate(): Boolean = versionChecker.isUltimate
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return when {
+            modelClass === SettingsViewModel::class.java ->
+                SettingsViewModel(versionChecker) as T
+            else -> EmptyViewModel() as T
+        }
+    }
 }

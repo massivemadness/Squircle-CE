@@ -15,16 +15,28 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation.settings.viewmodel
+package com.lightteam.modpeide.utils.commons
 
-import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.utils.commons.VersionChecker
-import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import android.content.Context
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
-class SettingsViewModel(
-    private val versionChecker: VersionChecker
-) : BaseViewModel() {
-    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+object RawUtils {
 
-    fun isUltimate(): Boolean = versionChecker.isUltimate
+    /**
+     * Чтение файла из папки "raw".
+     * @param context - контекст.
+     * @param resId - читаемый файл.
+     * @return - возвращает текст из raw-файла.
+     */
+    fun getRawFileText(context: Context, resId: Int): String {
+        val inputStream = context.resources.openRawResource(resId)
+        val inputStreamReader = InputStreamReader(inputStream)
+        val bufferedReader = BufferedReader(inputStreamReader)
+        val text = StringBuilder()
+        bufferedReader.forEachLine {
+            text.append(it + '\n')
+        }
+        return text.toString()
+    }
 }

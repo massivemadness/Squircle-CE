@@ -165,6 +165,13 @@ class MainViewModel(
         return true
     }
 
+    fun refreshFilter() {
+        sortMode = preferenceHandler.getSortMode()
+        fileSorter = FileSorter.getComparator(sortMode)
+        showHidden = preferenceHandler.getFilterHidden()
+        foldersOnTop = preferenceHandler.getFoldersOnTop()
+    }
+
     fun setFilterHidden(filter: Boolean) {
         preferenceHandler.setFilterHidden(filter)
         showHidden = filter

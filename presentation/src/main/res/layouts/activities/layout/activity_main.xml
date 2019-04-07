@@ -53,8 +53,6 @@
                         android:src="@drawable/ic_drawer"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_drawer"
                         android:contentDescription="@string/description_icon"/>
 
@@ -71,8 +69,6 @@
                         android:src="@drawable/ic_save"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_save"
                         android:contentDescription="@string/description_icon"/>
 
@@ -84,8 +80,6 @@
                         android:src="@drawable/ic_folder"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_file"
                         android:contentDescription="@string/description_icon"/>
 
@@ -97,8 +91,6 @@
                         android:src="@drawable/ic_edit"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_edit"
                         android:contentDescription="@string/description_icon"/>
 
@@ -110,8 +102,6 @@
                         android:src="@drawable/ic_file_search"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_search"
                         android:contentDescription="@string/description_icon"/>
 
@@ -123,8 +113,6 @@
                         android:src="@drawable/ic_tools"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_tools"
                         android:contentDescription="@string/description_icon"/>
 
@@ -136,8 +124,6 @@
                         android:src="@drawable/ic_undo"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_undo"
                         android:contentDescription="@string/description_icon"/>
 
@@ -149,8 +135,6 @@
                         android:src="@drawable/ic_redo"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_redo"
                         android:contentDescription="@string/description_icon"/>
 
@@ -162,8 +146,6 @@
                         android:src="@drawable/ic_overflow"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/action_menu_overflow"
                         android:contentDescription="@string/description_icon"/>
 
@@ -185,6 +167,12 @@
             <!-- endregion TOOLBAR -->
 
             <!-- region DOCUMENT -->
+
+            <ProgressBar
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"/>
 
             <!--<ViewStub
                 android:layout_width="match_parent"

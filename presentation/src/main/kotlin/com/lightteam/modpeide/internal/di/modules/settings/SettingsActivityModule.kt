@@ -21,6 +21,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModelFactory
+import com.lightteam.modpeide.utils.commons.VersionChecker
 import dagger.Module
 import dagger.Provides
 
@@ -29,6 +31,11 @@ class SettingsActivityModule {
 
     @Provides
     @PerActivity
-    fun provideSettingsViewModel(activity: SettingsActivity): SettingsViewModel
-            = ViewModelProviders.of(activity).get(SettingsViewModel::class.java)
+    fun provideSettingsViewModelFactory(versionChecker: VersionChecker): SettingsViewModelFactory
+            = SettingsViewModelFactory(versionChecker)
+
+    @Provides
+    @PerActivity
+    fun provideSettingsViewModel(activity: SettingsActivity, factory: SettingsViewModelFactory): SettingsViewModel
+            = ViewModelProviders.of(activity, factory).get(SettingsViewModel::class.java)
 }

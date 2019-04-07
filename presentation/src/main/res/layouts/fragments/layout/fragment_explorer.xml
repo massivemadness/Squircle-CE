@@ -112,8 +112,6 @@
                     android:src="@drawable/ic_home"
                     android:tint="@android:color/white"
                     android:background="@drawable/ripple_small"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:contentDescription="@string/description_icon"/>
 
                 <com.google.android.material.tabs.TabLayout

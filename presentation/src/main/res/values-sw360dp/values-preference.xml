@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Licensed to the Light Team Software (Light Team) under one or more
   ~ contributor license agreements.  See the NOTICE file distributed with
@@ -15,11 +16,9 @@
   ~ limitations under the License.
   -->
 
-<!-- drawable/select_all.xml -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:height="24dp"
-    android:width="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
-    <path android:fillColor="#000" android:pathData="M9,9H15V15H9M7,17H17V7H7M15,5H17V3H15M15,21H17V19H15M19,17H21V15H19M19,9H21V7H19M19,21A2,2 0 0,0 21,19H19M19,13H21V11H19M11,21H13V19H11M9,3H7V5H9M3,17H5V15H3M5,21V19H3A2,2 0 0,0 5,21M19,3V5H21A2,2 0 0,0 19,3M13,3H11V5H13M3,9H5V7H3M7,21H9V19H7M3,13H5V11H3M3,5H5V3A2,2 0 0,0 3,5Z" />
-</vector>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <bool name="config_materialPreferenceIconSpaceReserved"
+        tools:ignore="MissingDefaultResource,PrivateResource">false</bool>
+    <dimen name="preference_category_padding_start"
+        tools:ignore="MissingDefaultResource,PrivateResource">0dp</dimen>
+</resources>

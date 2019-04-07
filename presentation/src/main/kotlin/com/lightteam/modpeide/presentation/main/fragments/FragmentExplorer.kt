@@ -79,6 +79,11 @@ class FragmentExplorer : DaggerFragment(),
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshFilter()
+    }
+
     override fun onRefresh() {
         viewModel.loadFiles(adapter.get(binding.tabLayout.selectedTabPosition))
         binding.swipeRefresh.isRefreshing = false

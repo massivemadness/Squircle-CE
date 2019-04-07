@@ -21,6 +21,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.Toast
@@ -30,12 +31,14 @@ import androidx.lifecycle.Observer
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
+import com.lightteam.modpeide.presentation.main.activities.interfaces.OnPanelClickListener
+import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.extensions.launchActivity
 import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), OnPanelClickListener {
 
     companion object {
         const val REQUEST_READ_WRITE = 1 //Запрос на разрешения через диалог
@@ -44,16 +47,28 @@ class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var viewModel: MainViewModel
+    @Inject
+    lateinit var toolbarManager: ToolbarManager
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        toolbarManager.init(binding)
+        onConfigurationChanged(resources.configuration)
         checkPermissions()
-        setupToolbar()
         setupListeners()
         setupObservers()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            toolbarManager.landscape()
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            toolbarManager.portrait()
+        }
     }
 
     // region PERMISSIONS
@@ -81,23 +96,6 @@ class MainActivity : BaseActivity() {
 
     // endregion PERMISSIONS
 
-    @SuppressLint("RtlHardcoded")
-    private fun setupToolbar() {
-        binding.actionMenuDrawer.setOnClickListener {
-            binding.drawerLayout.openDrawer(Gravity.LEFT)
-        }
-        binding.actionMenuSave.setOnClickListener {  }
-        binding.actionMenuFile.setOnClickListener {  }
-        binding.actionMenuEdit.setOnClickListener {  }
-        binding.actionMenuSearch.setOnClickListener {  }
-        binding.actionMenuTools.setOnClickListener {  }
-        binding.actionMenuUndo.setOnClickListener {  }
-        binding.actionMenuRedo.setOnClickListener {  }
-        binding.actionMenuOverflow.setOnClickListener {
-            launchActivity<SettingsActivity>()
-        }
-    }
-
     private fun setupListeners() { }
 
     private fun setupObservers() {
@@ -109,4 +107,74 @@ class MainActivity : BaseActivity() {
             Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
         })
     }
+
+    // region PANEL
+
+    @SuppressLint("RtlHardcoded")
+    override fun onDrawerButton() {
+        binding.drawerLayout.openDrawer(Gravity.LEFT)
+    }
+
+    override fun onNewButton() {
+    }
+
+    override fun onOpenButton() {
+    }
+
+    override fun onSaveButton() {
+    }
+
+    override fun onPropertiesButton() {
+    }
+
+    override fun onCloseButton() {
+    }
+
+    override fun onCutButton() {
+    }
+
+    override fun onCopyButton() {
+    }
+
+    override fun onPasteButton() {
+    }
+
+    override fun onSelectAllButton() {
+    }
+
+    override fun onSelectLineButton() {
+    }
+
+    override fun onDeleteLineButton() {
+    }
+
+    override fun onDuplicateLineButton() {
+    }
+
+    override fun onFindButton() {
+    }
+
+    override fun onReplaceAllButton() {
+    }
+
+    override fun onGoToLineButton() {
+    }
+
+    override fun onSyntaxValidatorButton() {
+    }
+
+    override fun onInsertColorButton() {
+    }
+
+    override fun onUndoButton() {
+    }
+
+    override fun onRedoButton() {
+    }
+
+    override fun onSettingsButton() {
+        launchActivity<SettingsActivity>()
+    }
+
+    // endregion PANEL
 }

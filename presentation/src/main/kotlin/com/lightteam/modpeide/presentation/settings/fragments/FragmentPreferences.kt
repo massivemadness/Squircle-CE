@@ -18,29 +18,43 @@
 package com.lightteam.modpeide.presentation.settings.fragments
 
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.preference.Preference
+import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.presentation.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.utils.commons.RawUtils
 import javax.inject.Inject
 
 class FragmentPreferences : DaggerPreferenceFragmentCompat() {
 
     companion object {
+
+        //Headers
+        private const val KEY_ROOT = "KEY_HEADER_ROOT"
         private const val KEY_APPLICATION = "KEY_HEADER_APPLICATION"
         private const val KEY_EDITOR = "KEY_HEADER_EDITOR"
         private const val KEY_CODE_STYLE = "KEY_HEADER_CODE_STYLE"
         private const val KEY_FILES = "KEY_HEADER_FILES"
         private const val KEY_ABOUT = "KEY_HEADER_ABOUT"
+
+        //Sensitive
+        private const val KEY_THEME_RESOURCE = "THEME_RESOURCE"
+        private const val KEY_FONT_TYPE = "FONT_TYPE"
+        private const val KEY_MAX_TABS_COUNT = "MAX_TABS_COUNT_2"
+        private const val KEY_INSERT_QUOTE = "INSERT_QUOTE"
+        private const val KEY_ABOUT_AND_CHANGELOG = "ABOUT_AND_CHANGELOG"
+        private const val KEY_PRIVACY_POLICY = "PRIVACY_POLICY"
     }
 
     @Inject
     lateinit var viewModel: SettingsViewModel
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, rootKey)
+        setPreferencesFromResource(R.xml.preference_headers, rootKey)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,40 +64,82 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         when(preference?.key) {
-            KEY_APPLICATION -> {
-                setPreferencesFromResource(R.xml.preferences, KEY_APPLICATION)
-            }
-            KEY_EDITOR -> {
-                setPreferencesFromResource(R.xml.preferences, KEY_EDITOR)
-            }
-            KEY_CODE_STYLE -> {
-                setPreferencesFromResource(R.xml.preferences, KEY_CODE_STYLE)
-            }
-            KEY_FILES -> {
-                setPreferencesFromResource(R.xml.preferences, KEY_FILES)
-            }
+            KEY_ROOT -> setPreferencesFromResource(R.xml.preference_headers, KEY_ROOT)
+            KEY_APPLICATION -> setPreferencesFromResource(R.xml.preference_application, KEY_APPLICATION)
+            KEY_EDITOR -> setPreferencesFromResource(R.xml.preference_editor, KEY_EDITOR)
+            KEY_CODE_STYLE -> setPreferencesFromResource(R.xml.preference_code_style, KEY_CODE_STYLE)
+            KEY_FILES -> setPreferencesFromResource(R.xml.preference_files, KEY_FILES)
             KEY_ABOUT -> {
-                setPreferencesFromResource(R.xml.preferences, KEY_ABOUT)
-            }
-            null -> {
-                setPreferencesFromResource(R.xml.preferences, null)
+                setPreferencesFromResource(R.xml.preference_about, KEY_ABOUT)
+
+                val changelog = findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
+                changelog?.setOnPreferenceClickListener { showChangelogDialog() }
+
+                val privacy = findPreference<Preference>(KEY_PRIVACY_POLICY)
+                privacy?.setOnPreferenceClickListener { showPrivacyPolicyDialog() }
             }
         }
-        /*activity?.title = if(preferenceScreen.hasKey()) {
-            preferenceScreen.title
-        } else {
-            getString(R.string.label_settings)
-        }*/
-        return true
+        activity?.title = preferenceScreen.title
+        return super.onPreferenceTreeClick(preference)
+    }
+
+    override fun setPreferencesFromResource(preferencesResId: Int, key: String?) {
+        super.setPreferencesFromResource(preferencesResId, key)
+        if(viewModel.isUltimate()) { //available only for ultimate edition
+            when(key) {
+                KEY_APPLICATION -> {
+                    findPreference<Preference>(KEY_THEME_RESOURCE)?.isEnabled = true
+                }
+                KEY_EDITOR -> {
+                    findPreference<Preference>(KEY_FONT_TYPE)?.isEnabled = true
+                    findPreference<Preference>(KEY_MAX_TABS_COUNT)?.isEnabled = true
+                }
+                KEY_CODE_STYLE -> {
+                    findPreference<Preference>(KEY_INSERT_QUOTE)?.isEnabled = true
+                }
+                KEY_ABOUT -> {
+                    findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
+                        ?.setTitle(R.string.pref_about_ultimate_title)
+                }
+            }
+        }
     }
 
     private fun setupObservers() {
         viewModel.backEvent.observe(this.viewLifecycleOwner, Observer {
-            if(preferenceScreen.key != null) {
-                onPreferenceTreeClick(null)
+            if(preferenceScreen.key != KEY_ROOT) {
+                val root = Preference(activity)
+                root.key = KEY_ROOT
+                onPreferenceTreeClick(root)
             } else {
                 activity?.finish()
             }
         })
     }
+
+    // region DIALOGS
+
+    private fun showChangelogDialog(): Boolean {
+        MaterialDialog(activity!!).show {
+            title(R.string.dialog_title_changelog)
+            message(text = Html.fromHtml(
+                RawUtils.getRawFileText(activity!!, R.raw.changelog)
+            ))
+            negativeButton(R.string.action_close)
+        }
+        return true
+    }
+
+    private fun showPrivacyPolicyDialog(): Boolean {
+        MaterialDialog(activity!!).show {
+            title(R.string.dialog_title_privacy_policy)
+            message(text = Html.fromHtml(
+                RawUtils.getRawFileText(activity!!, R.raw.privacy_policy)
+            ))
+            negativeButton(R.string.action_close)
+        }
+        return true
+    }
+
+    // endregion DIALOGS
 }

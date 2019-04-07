@@ -24,6 +24,11 @@
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
+    <!-- Light PopupMenu for Dark theme -->
+    <style name="Theme.Internal.PopupMenu" parent="Theme.MaterialComponents.Light">
+        <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu.Overflow</item>
+    </style>
+
     <!-- Darcula -->
     <style name="Theme.Darcula" parent="Theme.Application.Base">
         <item name="colorPrimary">@color/colorPrimary</item>

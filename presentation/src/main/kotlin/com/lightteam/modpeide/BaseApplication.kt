@@ -24,8 +24,8 @@ import dagger.android.support.DaggerApplication
 class BaseApplication : DaggerApplication() {
 
     companion object Package {
-        const val STANDARD = "com.KillerBLS.modpeide"
-        const val ULTIMATE = "com.LightTeam.modpeidepro"
+        private const val STANDARD = "com.KillerBLS.modpeide"
+        private const val ULTIMATE = "com.LightTeam.modpeidepro"
     }
 
     var isUltimate: Boolean = false

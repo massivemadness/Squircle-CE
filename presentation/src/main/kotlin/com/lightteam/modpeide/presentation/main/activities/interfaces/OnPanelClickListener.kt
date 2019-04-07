@@ -15,16 +15,35 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation.settings.viewmodel
+package com.lightteam.modpeide.presentation.main.activities.interfaces
 
-import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.utils.commons.VersionChecker
-import com.lightteam.modpeide.utils.event.SingleLiveEvent
+interface OnPanelClickListener {
+    fun onDrawerButton()
 
-class SettingsViewModel(
-    private val versionChecker: VersionChecker
-) : BaseViewModel() {
-    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    fun onNewButton()
+    fun onOpenButton()
+    fun onSaveButton()
+    fun onPropertiesButton()
+    fun onCloseButton()
 
-    fun isUltimate(): Boolean = versionChecker.isUltimate
+    fun onCutButton()
+    fun onCopyButton()
+    fun onPasteButton()
+    fun onSelectAllButton()
+    fun onSelectLineButton()
+    fun onDeleteLineButton()
+    fun onDuplicateLineButton()
+
+    fun onFindButton()
+    fun onReplaceAllButton()
+    fun onGoToLineButton()
+
+    fun onSyntaxValidatorButton()
+    fun onInsertColorButton()
+    //fun onDownloadSourceButton()
+
+    fun onUndoButton()
+    fun onRedoButton()
+
+    fun onSettingsButton()
 }
