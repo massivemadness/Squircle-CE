@@ -18,11 +18,16 @@
 package com.lightteam.modpeide.presentation.settings.activities
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
+import com.lightteam.modpeide.presentation.main.activities.MainActivity
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.utils.extensions.launchActivity
 import javax.inject.Inject
 
 class SettingsActivity : BaseActivity() {
@@ -36,6 +41,20 @@ class SettingsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
 
+        setupListeners()
+        setupObservers()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(viewModel)
+    }
+
+    override fun onBackPressed() {
+        viewModel.backEvent.value = true
+    }
+
+    private fun setupListeners() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
@@ -43,7 +62,25 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        viewModel.backEvent.value = true
+    private fun setupObservers() {
+        lifecycle.addObserver(viewModel)
+        viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
+            if(isFullscreen) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            } else {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            }
+        })
+        viewModel.themeEvent.observe(this, Observer {
+            MaterialDialog(this).show {
+                title(R.string.dialog_title_apply_changes)
+                message(R.string.dialog_message_apply_changes)
+                negativeButton(R.string.action_cancel)
+                positiveButton(R.string.action_restart, click = {
+                    finishAffinity()
+                    launchActivity<MainActivity>()
+                })
+            }
+        })
     }
 }

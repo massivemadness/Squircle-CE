@@ -24,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/drawer_layout"
-        tools:context=".presentation.main.activities.MainActivity">
+        tools:context=".presentation.main.activities.MainActivity"
+        tools:ignore="RtlHardcoded">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:orientation="horizontal">
@@ -48,22 +49,19 @@
                         android:layout_height="45dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_alignParentLeft="true"
                         android:padding="10dp"
                         android:visibility="visible"
                         android:src="@drawable/ic_drawer"
                         android:tint="@android:color/white"
                         android:background="@drawable/ripple"
                         android:id="@+id/action_menu_drawer"
-                        android:contentDescription="@string/description_icon"/>
-
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="45dp"
-                        android:layout_weight="1"/>
+                        android:contentDescription="@string/description_icon" />
 
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
+                        android:layout_toLeftOf="@id/action_menu_file"
                         android:padding="10.5dp"
                         android:visibility="gone"
                         android:src="@drawable/ic_save"
@@ -75,6 +73,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
+                        android:layout_toLeftOf="@id/action_menu_edit"
                         android:padding="10.5dp"
                         android:visibility="visible"
                         android:src="@drawable/ic_folder"
@@ -86,6 +85,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
+                        android:layout_toLeftOf="@id/action_menu_search"
                         android:padding="10.5dp"
                         android:visibility="visible"
                         android:src="@drawable/ic_edit"
@@ -97,6 +97,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
+                        android:layout_toLeftOf="@id/action_menu_tools"
                         android:padding="10.5dp"
                         android:visibility="gone"
                         android:src="@drawable/ic_file_search"
@@ -108,6 +109,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
+                        android:layout_toLeftOf="@id/action_menu_undo"
                         android:padding="10.5dp"
                         android:visibility="gone"
                         android:src="@drawable/ic_tools"
@@ -119,6 +121,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
+                        android:layout_toLeftOf="@id/action_menu_redo"
                         android:padding="10.5dp"
                         android:visibility="visible"
                         android:src="@drawable/ic_undo"
@@ -130,6 +133,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
+                        android:layout_toLeftOf="@id/action_menu_overflow"
                         android:padding="10.5dp"
                         android:visibility="visible"
                         android:src="@drawable/ic_redo"
@@ -141,6 +145,7 @@
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
+                        android:layout_alignParentRight="true"
                         android:padding="10.5dp"
                         android:visibility="visible"
                         android:src="@drawable/ic_overflow"
@@ -149,7 +154,7 @@
                         android:id="@+id/action_menu_overflow"
                         android:contentDescription="@string/description_icon"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -168,24 +173,13 @@
 
             <!-- region DOCUMENT -->
 
-            <ProgressBar
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_gravity="center"
-                android:indeterminate="true"/>
-
-            <!--<ViewStub
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/stub_no_open_files"
-                android:inflatedId="@+id/no_open_files"
-                android:layout="@layout/no_open_files"/>-->
-
-            <androidx.viewpager.widget.ViewPager
+            <fragment
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:id="@+id/view_pager"/>
+                android:id="@+id/fragment_document"
+                android:name="com.lightteam.modpeide.presentation.main.fragments.FragmentDocument"
+                tools:layout="@layout/fragment_document"/>
 
             <!--<com.LightTeam.modpeidepro.widget.ExtendedKeyboard
                 android:layout_width="match_parent"
@@ -210,8 +204,7 @@
             android:layout_gravity="left"
             android:id="@+id/fragment_explorer"
             android:name="com.lightteam.modpeide.presentation.main.fragments.FragmentExplorer"
-            tools:layout="@layout/fragment_explorer"
-            tools:ignore="RtlHardcoded"/>
+            tools:layout="@layout/fragment_explorer"/>
 
         <!-- endregion EXPLORER -->
 

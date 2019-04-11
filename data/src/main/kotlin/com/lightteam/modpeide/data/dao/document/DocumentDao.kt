@@ -15,22 +15,18 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.repository
+package com.lightteam.modpeide.data.dao.document
 
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
-import io.reactivex.Completable
+import androidx.room.Dao
+import androidx.room.Query
+import com.lightteam.modpeide.data.dao.base.BaseDao
+import com.lightteam.modpeide.data.entity.DocumentEntity
+import com.lightteam.modpeide.data.storage.database.Tables
 import io.reactivex.Single
 
-interface FileRepository {
-    fun getDefaultLocation(): FileModel
-    fun makeList(parent: FileModel): Single<List<FileModel>>
+@Dao
+abstract class DocumentDao : BaseDao<DocumentEntity> {
 
-    fun createFile(fileModel: FileModel): Single<FileModel>
-    fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
-
-    fun loadFile(documentModel: DocumentModel): Single<String>
-    fun saveFile(documentModel: DocumentModel, text: String): Completable
-    fun closeFile(documentModel: DocumentModel): Completable
+    @Query("SELECT * FROM ${Tables.DOCUMENTS}")
+    abstract fun loadDocuments(): Single<List<DocumentEntity>>
 }

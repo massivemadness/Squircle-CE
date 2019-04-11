@@ -21,7 +21,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.lightteam.modpeide.BaseApplication
-import com.lightteam.modpeide.data.storage.PreferenceHandler
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.internal.di.scopes.PerApplication

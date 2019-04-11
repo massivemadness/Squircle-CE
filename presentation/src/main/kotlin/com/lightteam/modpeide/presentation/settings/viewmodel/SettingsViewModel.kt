@@ -17,14 +17,45 @@
 
 package com.lightteam.modpeide.presentation.settings.viewmodel
 
+import android.content.SharedPreferences
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 
 class SettingsViewModel(
+    private val preferenceHandler: PreferenceHandler,
     private val versionChecker: VersionChecker
-) : BaseViewModel() {
+) : BaseViewModel(), LifecycleObserver, SharedPreferences.OnSharedPreferenceChangeListener {
+
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val themeEvent: SingleLiveEvent<String> = SingleLiveEvent()
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        when(key) {
+            PreferenceHandler.KEY_FULLSCREEN_MODE -> {
+                fullscreenEvent.value = preferenceHandler.getFullscreenMode()
+            }
+            /*PreferenceHandler.KEY_THEME -> {
+                themeEvent.value = preferenceHandler.getTheme()
+            }*/
+        }
+    }
 
     fun isUltimate(): Boolean = versionChecker.isUltimate
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun onResume() {
+        preferenceHandler.registerOnSharedPreferenceChangeListener(this)
+        fullscreenEvent.value = preferenceHandler.getFullscreenMode()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun onPause() {
+        preferenceHandler.unregisterOnSharedPreferenceChangeListener(this)
+    }
 }

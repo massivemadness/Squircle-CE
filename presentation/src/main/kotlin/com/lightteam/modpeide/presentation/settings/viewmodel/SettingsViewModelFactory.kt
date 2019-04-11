@@ -19,10 +19,12 @@ package com.lightteam.modpeide.presentation.settings.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.presentation.base.viewmodel.EmptyViewModel
 import com.lightteam.modpeide.utils.commons.VersionChecker
 
 class SettingsViewModelFactory(
+    private val preferenceHandler: PreferenceHandler,
     private val versionChecker: VersionChecker
 ) : ViewModelProvider.NewInstanceFactory() {
 
@@ -30,7 +32,7 @@ class SettingsViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
             modelClass === SettingsViewModel::class.java ->
-                SettingsViewModel(versionChecker) as T
+                SettingsViewModel(preferenceHandler, versionChecker) as T
             else -> EmptyViewModel() as T
         }
     }

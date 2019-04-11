@@ -19,7 +19,7 @@ package com.lightteam.modpeide.presentation.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.data.storage.PreferenceHandler
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.EmptyViewModel

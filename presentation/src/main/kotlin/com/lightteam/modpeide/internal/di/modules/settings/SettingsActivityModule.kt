@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.internal.di.modules.settings
 
 import androidx.lifecycle.ViewModelProviders
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
@@ -31,8 +32,9 @@ class SettingsActivityModule {
 
     @Provides
     @PerActivity
-    fun provideSettingsViewModelFactory(versionChecker: VersionChecker): SettingsViewModelFactory
-            = SettingsViewModelFactory(versionChecker)
+    fun provideSettingsViewModelFactory(preferenceHandler: PreferenceHandler,
+                                        versionChecker: VersionChecker): SettingsViewModelFactory
+            = SettingsViewModelFactory(preferenceHandler, versionChecker)
 
     @Provides
     @PerActivity

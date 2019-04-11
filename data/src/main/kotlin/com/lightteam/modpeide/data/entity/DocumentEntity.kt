@@ -15,22 +15,28 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.repository
+package com.lightteam.modpeide.data.entity
 
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
-import io.reactivex.Completable
-import io.reactivex.Single
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.lightteam.modpeide.data.storage.database.Tables
 
-interface FileRepository {
-    fun getDefaultLocation(): FileModel
-    fun makeList(parent: FileModel): Single<List<FileModel>>
-
-    fun createFile(fileModel: FileModel): Single<FileModel>
-    fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
-
-    fun loadFile(documentModel: DocumentModel): Single<String>
-    fun saveFile(documentModel: DocumentModel, text: String): Completable
-    fun closeFile(documentModel: DocumentModel): Completable
-}
+@Entity(tableName = Tables.DOCUMENTS)
+data class DocumentEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "uuid")
+    val uuid: String,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "path")
+    val path: String,
+    @ColumnInfo(name = "scroll_x")
+    val scrollX: Int,
+    @ColumnInfo(name = "scroll_y")
+    val scrollY: Int,
+    @ColumnInfo(name = "selection_start")
+    val selectionStart: Int,
+    @ColumnInfo(name = "selection_end")
+    val selectionEnd: Int
+)

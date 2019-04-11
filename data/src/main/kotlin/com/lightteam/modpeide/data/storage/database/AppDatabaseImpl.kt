@@ -15,22 +15,25 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.repository
+package com.lightteam.modpeide.data.storage.database
 
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
-import io.reactivex.Completable
-import io.reactivex.Single
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.lightteam.modpeide.data.dao.document.DocumentDao
+import com.lightteam.modpeide.data.entity.DocumentEntity
 
-interface FileRepository {
-    fun getDefaultLocation(): FileModel
-    fun makeList(parent: FileModel): Single<List<FileModel>>
+@Database(entities = [
+    DocumentEntity::class
+], version = 2, exportSchema = false)
+abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
-    fun createFile(fileModel: FileModel): Single<FileModel>
-    fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
+    companion object {
+        const val DATABASE_NAME = "database"
+    }
 
-    fun loadFile(documentModel: DocumentModel): Single<String>
-    fun saveFile(documentModel: DocumentModel, text: String): Completable
-    fun closeFile(documentModel: DocumentModel): Completable
+    abstract override fun documentDao(): DocumentDao
+
+    override fun shutDown() {
+        clearAllTables()
+    }
 }

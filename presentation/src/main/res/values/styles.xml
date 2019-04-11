@@ -24,7 +24,7 @@
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
-    <!-- Light PopupMenu for Dark theme -->
+    <!-- Light PopupMenu for Dark Theme -->
     <style name="Theme.Internal.PopupMenu" parent="Theme.MaterialComponents.Light">
         <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu.Overflow</item>
     </style>
@@ -34,6 +34,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="md_ripple_color">?android:colorControlHighlight</item>
+        <item name="md_color_button_text">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+    </style>
+
+    <!-- Dark Blue -->
+    <style name="Theme.DarkBlue" parent="Theme.Application.Base">
+        <item name="colorPrimary">#629723</item>
+        <item name="colorPrimaryDark">#000888</item>
+        <item name="colorAccent">#ff5589</item>
 
         <item name="md_ripple_color">?android:colorControlHighlight</item>
         <item name="md_color_button_text">@color/colorAccent</item>

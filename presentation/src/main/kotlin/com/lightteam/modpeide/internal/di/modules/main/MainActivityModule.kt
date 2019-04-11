@@ -17,9 +17,14 @@
 
 package com.lightteam.modpeide.internal.di.modules.main
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProviders
+import androidx.room.Room
 import com.lightteam.modpeide.data.repository.LocalFileRepository
-import com.lightteam.modpeide.data.storage.PreferenceHandler
+import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.storage.database.AppDatabase
+import com.lightteam.modpeide.data.storage.database.AppDatabaseImpl
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
@@ -35,8 +40,20 @@ class MainActivityModule {
 
     @Provides
     @PerActivity
-    fun provideFileRepository(): FileRepository
-            = LocalFileRepository()
+    fun provideAppDatabase(context: Context): AppDatabase
+            = Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
+        //.addMigrations()
+        .build()
+
+    @Provides
+    @PerActivity
+    fun provideCacheHandler(context: Context): CacheHandler
+            = CacheHandler(context)
+
+    @Provides
+    @PerActivity
+    fun provideFileRepository(database: AppDatabase, cacheHandler: CacheHandler): FileRepository
+            = LocalFileRepository(database, cacheHandler)
 
     @Provides
     @PerActivity

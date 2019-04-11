@@ -58,5 +58,3 @@ limitations under the License.
 ### SCREENSHOTS
 
 ![Image](.images/screenshots.png)
-
-----------

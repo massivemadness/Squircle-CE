@@ -19,9 +19,12 @@ package com.lightteam.modpeide.presentation.main.viewmodel
 
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.storage.PreferenceHandler
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.model.FileModel
@@ -36,19 +39,23 @@ class MainViewModel(
     private val fileRepository: FileRepository,
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler
-) : BaseViewModel() {
+) : BaseViewModel(), LifecycleObserver {
 
     val hasPermission: ObservableBoolean = ObservableBoolean(false)
-    val listLoadingIndicator: ObservableBoolean = ObservableBoolean(true)
-    val noItemsIndicator: ObservableBoolean = ObservableBoolean(false)
+    val filesLoadingIndicator: ObservableBoolean = ObservableBoolean(true)
+    val noFilesIndicator: ObservableBoolean = ObservableBoolean(false)
+    val documentLoadingIndicator: ObservableBoolean = ObservableBoolean(true)
+    val noDocumentsIndicator: ObservableBoolean = ObservableBoolean(false)
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
-    val listEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Обновление списка
-    val tabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки
+    val fileListEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Обновление списка файлов в проводнике
+    val fileTabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки в проводник
     val documentEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Открытие документа
     val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
+    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Нажатие на кнопку "назад"
+    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление настроек активити
 
     var sortMode = preferenceHandler.getSortMode()
     var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
@@ -62,7 +69,7 @@ class MainViewModel(
     fun getDefaultLocation(): FileModel = fileRepository.getDefaultLocation()
 
     fun loadFiles(path: FileModel) {
-        listLoadingIndicator.set(true)
+        filesLoadingIndicator.set(true)
         fileRepository.makeList(path)
             .map { files ->
                 val newList = mutableListOf<FileModel>()
@@ -86,10 +93,10 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = { list ->
-                    listLoadingIndicator.set(false)
-                    noItemsIndicator.set(list.isEmpty())
+                    filesLoadingIndicator.set(false)
+                    noFilesIndicator.set(list.isEmpty())
                     filesList = list
-                    listEvent.value = list
+                    fileListEvent.value = list
                 }
             )
             .disposeOnViewModelDestroy()
@@ -100,7 +107,7 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { file ->
                 if(file.isFolder) {
-                    tabsEvent.value = file
+                    fileTabsEvent.value = file
                 } else {
                     loadFiles(parent) //update the list
                     documentEvent.value = file
@@ -134,6 +141,8 @@ class MainViewModel(
 
     // endregion FILE_REPOSITORY
 
+    // region EXPLORER
+
     fun searchEvents(searchView: SearchView) {
         searchView
             .queryTextChangeEvents()
@@ -160,12 +169,12 @@ class MainViewModel(
                 }
             }
         }
-        noItemsIndicator.set(collection.isEmpty())
-        listEvent.value = collection
+        noFilesIndicator.set(collection.isEmpty())
+        fileListEvent.value = collection
         return true
     }
 
-    fun refreshFilter() {
+    private fun refreshFilter() {
         sortMode = preferenceHandler.getSortMode()
         fileSorter = FileSorter.getComparator(sortMode)
         showHidden = preferenceHandler.getFilterHidden()
@@ -179,7 +188,27 @@ class MainViewModel(
 
     fun setSortMode(mode: String) {
         preferenceHandler.setSortMode(mode)
-        sortMode = preferenceHandler.getSortMode()
+        sortMode = Integer.parseInt(mode)
         fileSorter = FileSorter.getComparator(sortMode)
     }
+
+    // endregion EXPLORER
+
+    // region EDITOR
+
+    private fun refreshFullscreenMode() {
+        fullscreenEvent.value = preferenceHandler.getFullscreenMode()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun onResume() {
+        refreshFilter()
+        refreshFullscreenMode()
+    }
+
+    fun onBackPressed() {
+        backEvent.value = preferenceHandler.getConfirmExit()
+    }
+
+    // endregion EDITOR
 }

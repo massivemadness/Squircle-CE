@@ -34,7 +34,7 @@
 
         <ListPreference
             android:title="@string/pref_font_type_title"
-            android:key="FONT_TYPE"
+            android:key="FONT_TYPE_1"
             android:entries="@array/font_types"
             android:entryValues="@array/font_types_values"
             android:defaultValue="droid_sans_mono"
@@ -109,7 +109,13 @@
             android:title="@string/pref_extended_keyboard_title"
             android:summary="@string/pref_extended_keyboard_summary"
             android:defaultValue="true"
-            android:key="USE_EXTENDED_KEYS"/>
+            android:key="USE_EXTENDED_KEYBOARD"/>
+
+        <SwitchPreferenceCompat
+            android:title="@string/pref_soft_keyboard_title"
+            android:summary="@string/pref_soft_keyboard_summary"
+            android:defaultValue="false"
+            android:key="USE_SOFT_KEYBOARD"/>
 
         <SwitchPreferenceCompat
             android:title="@string/pref_ime_keyboard_title"

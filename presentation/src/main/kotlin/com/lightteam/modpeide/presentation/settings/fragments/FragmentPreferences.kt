@@ -24,6 +24,7 @@ import androidx.lifecycle.Observer
 import androidx.preference.Preference
 import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.presentation.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.commons.RawUtils
@@ -42,10 +43,10 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
         private const val KEY_ABOUT = "KEY_HEADER_ABOUT"
 
         //Sensitive
-        private const val KEY_THEME_RESOURCE = "THEME_RESOURCE"
-        private const val KEY_FONT_TYPE = "FONT_TYPE"
-        private const val KEY_MAX_TABS_COUNT = "MAX_TABS_COUNT_2"
-        private const val KEY_INSERT_QUOTE = "INSERT_QUOTE"
+        //private const val KEY_THEME_RESOURCE = PreferenceHandler.KEY_THEME
+        private const val KEY_FONT_TYPE = PreferenceHandler.KEY_FONT_TYPE
+        private const val KEY_MAX_TABS_COUNT = PreferenceHandler.KEY_MAX_TABS_COUNT
+        private const val KEY_INSERT_QUOTE = PreferenceHandler.KEY_INSERT_QUOTE
         private const val KEY_ABOUT_AND_CHANGELOG = "ABOUT_AND_CHANGELOG"
         private const val KEY_PRIVACY_POLICY = "PRIVACY_POLICY"
     }
@@ -88,7 +89,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
         if(viewModel.isUltimate()) { //available only for ultimate edition
             when(key) {
                 KEY_APPLICATION -> {
-                    findPreference<Preference>(KEY_THEME_RESOURCE)?.isEnabled = true
+                    //findPreference<Preference>(KEY_THEME_RESOURCE)?.isEnabled = true
                 }
                 KEY_EDITOR -> {
                     findPreference<Preference>(KEY_FONT_TYPE)?.isEnabled = true

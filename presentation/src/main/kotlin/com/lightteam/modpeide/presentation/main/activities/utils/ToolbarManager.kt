@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.presentation.main.activities.utils
 
+import android.content.res.Configuration
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
@@ -33,7 +34,7 @@ class ToolbarManager(
 
     private lateinit var binding: ActivityMainBinding
 
-    fun init(activityMainBinding: ActivityMainBinding) {
+    fun bind(activityMainBinding: ActivityMainBinding) {
         binding = activityMainBinding
 
         binding.actionMenuDrawer.setOnClickListener { listener.onDrawerButton() }
@@ -48,20 +49,22 @@ class ToolbarManager(
         binding.actionMenuRedo.setOnClickListener { listener.onRedoButton() }
     }
 
-    /**
-     * Скрытие некоторых кнопок в вертикальном режиме.
-     */
-    fun portrait() {
+    fun setOrientation(orientation: Int) {
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            landscape()
+        } else if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+            portrait()
+        }
+    }
+
+    private fun portrait() {
         binding.actionMenuSave.visibility = View.GONE
         binding.actionMenuSearch.visibility = View.GONE
         binding.actionMenuTools.visibility = View.GONE
         setMenuClickListener(binding.actionMenuOverflow, R.menu.menu_overflow_vertical)
     }
 
-    /**
-     * Добавление некоторых кнопок в горизонтальном режиме.
-     */
-    fun landscape() {
+    private fun landscape() {
         binding.actionMenuSave.visibility = View.VISIBLE
         binding.actionMenuSearch.visibility = View.VISIBLE
         binding.actionMenuTools.visibility = View.VISIBLE

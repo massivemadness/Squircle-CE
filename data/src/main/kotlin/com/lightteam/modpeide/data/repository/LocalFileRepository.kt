@@ -18,15 +18,25 @@
 package com.lightteam.modpeide.data.repository
 
 import android.os.Environment
+import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
+import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.storage.database.AppDatabase
+import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.domain.repository.FileRepository
+import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.File
 
-class LocalFileRepository : FileRepository {
+class LocalFileRepository(
+    private val database: AppDatabase,
+    private val cacheHandler: CacheHandler
+) : FileRepository {
 
     private val defaultLocation: File = Environment.getExternalStorageDirectory().absoluteFile
+
+    // region EXPLORER
 
     override fun getDefaultLocation(): FileModel {
         return FileConverter.toModel(defaultLocation)
@@ -76,6 +86,40 @@ class LocalFileRepository : FileRepository {
             emitter.onSuccess(modelFile)
         }
     }
+
+    // endregion EXPLORER
+
+    // region EDITOR
+
+    override fun loadFile(documentModel: DocumentModel): Single<String> {
+        // If cache is exists ? loadFromCache() : loadFromStorage()
+        database.documentDao().insert(DocumentConverter.toCache(documentModel)) // Save to Database
+        // Save to Cache
+
+        return Single.create { it.onSuccess("") }
+    }
+
+    override fun saveFile(documentModel: DocumentModel,
+                          //undoStack: UndoStack,
+                          //redoStack: UndoStack,
+                          text: String): Completable {
+        return Completable.create { emitter ->
+            database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
+            // Save to Cache
+            // Save to Storage
+            emitter.onComplete()
+        }
+    }
+
+    override fun closeFile(documentModel: DocumentModel): Completable {
+        return Completable.create { emitter ->
+            database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Remove from Database
+            // Remove from Cache
+            emitter.onComplete()
+        }
+    }
+
+    // endregion EDITOR
 
     private fun getFiles(path: File): MutableList<FileModel> {
         return path.listFiles()

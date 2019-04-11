@@ -24,5 +24,5 @@ data class DocumentModel(
     val scrollX: Int,
     val scrollY: Int,
     val selectionStart: Int,
-    val selectionInt: Int
+    val selectionEnd: Int
 )

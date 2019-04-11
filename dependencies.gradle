@@ -39,7 +39,8 @@ ext {
     materialdialogs_version = '2.6.0'
     //browser_version = '1.0.0'
 
-    lifecycle_extensions_version = '2.0.0'
+    lifecycle_extensions_version = '2.1.0-alpha04'
+    room_version = '2.1.0-alpha06'
 
     rxjava2_version = '2.2.6'
     rxandroid_version = '2.1.0'
@@ -67,6 +68,9 @@ ext {
 
             lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions_version",
             lifecycle_compiler: "androidx.lifecycle:lifecycle-compiler:$lifecycle_extensions_version",
+            room: "androidx.room:room-runtime:${room_version}",
+            room_compiler: "androidx.room:room-compiler:${room_version}",
+            rxroom: "androidx.room:room-rxjava2:${room_version}",
 
             rxjava2: "io.reactivex.rxjava2:rxjava:$rxjava2_version",
             rxandroid: "io.reactivex.rxjava2:rxandroid:$rxandroid_version",

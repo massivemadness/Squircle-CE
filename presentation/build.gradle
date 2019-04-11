@@ -83,6 +83,7 @@ dependencies {
     //Architecture Components
     implementation library.lifecycle_extensions //ViewModel and LiveData
     kapt library.lifecycle_compiler
+    implementation library.room
 
     //RxJava2
     implementation library.rxjava2

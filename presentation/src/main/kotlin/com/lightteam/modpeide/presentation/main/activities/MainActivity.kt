@@ -24,10 +24,12 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
@@ -55,20 +57,25 @@ class MainActivity : BaseActivity(), OnPanelClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        toolbarManager.init(binding)
+        toolbarManager.bind(binding)
         onConfigurationChanged(resources.configuration)
-        checkPermissions()
         setupListeners()
         setupObservers()
+        checkPermissions()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            toolbarManager.landscape()
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            toolbarManager.portrait()
-        }
+        toolbarManager.setOrientation(newConfig.orientation)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(viewModel)
+    }
+
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
     }
 
     // region PERMISSIONS
@@ -98,13 +105,40 @@ class MainActivity : BaseActivity(), OnPanelClickListener {
 
     private fun setupListeners() { }
 
+    @SuppressLint("RtlHardcoded")
     private fun setupObservers() {
+        lifecycle.addObserver(viewModel)
         viewModel.toastEvent.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
         viewModel.documentEvent.observe(this, Observer {
             //open the file
             Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+        })
+        viewModel.backEvent.observe(this, Observer { showDialog ->
+            if(binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                binding.drawerLayout.closeDrawers()
+            } else {
+                if(showDialog) {
+                    MaterialDialog(this).show {
+                        title(R.string.dialog_title_exit)
+                        message(R.string.dialog_message_exit)
+                        negativeButton(R.string.action_no)
+                        positiveButton(R.string.action_yes, click = {
+                            finish()
+                        })
+                    }
+                } else {
+                    finish()
+                }
+            }
+        })
+        viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
+            if(isFullscreen) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            } else {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            }
         })
     }
 

@@ -16,8 +16,7 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <import type="com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel"/>
@@ -30,39 +29,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:id="@+id/recycler_view"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-        <ProgressBar
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:visibility="@{viewModel.filesLoadingIndicator ? View.VISIBLE : View.GONE}"/>
-
         <ImageView
             android:layout_width="92dp"
             android:layout_height="92dp"
             android:layout_gravity="center"
+            android:visibility="@{viewModel.noDocumentsIndicator ? View.VISIBLE : View.GONE}"
             android:src="@drawable/ic_file_search"
             android:tint="@color/colorIcon"
-            android:visibility="@{viewModel.noFilesIndicator ? View.VISIBLE : View.GONE}"
             android:contentDescription="@string/description_icon"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="72dp"
             android:layout_gravity="center"
+            android:layout_marginTop="72dp"
+            android:visibility="@{viewModel.noDocumentsIndicator ? View.VISIBLE : View.GONE}"
             android:textColor="@color/colorIcon"
-            android:textSize="26sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:text="@string/message_no_result"
-            android:visibility="@{viewModel.noFilesIndicator ? View.VISIBLE : View.GONE}"/>
+            android:text="@string/message_no_open_files"/>
+
+        <ProgressBar
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.documentLoadingIndicator ? View.VISIBLE : View.GONE}"
+            android:indeterminate="true"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="false">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </ScrollView>
 
     </FrameLayout>
 

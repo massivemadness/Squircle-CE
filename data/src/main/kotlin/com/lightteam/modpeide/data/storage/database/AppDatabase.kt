@@ -15,22 +15,11 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.repository
+package com.lightteam.modpeide.data.storage.database
 
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
-import io.reactivex.Completable
-import io.reactivex.Single
+import com.lightteam.modpeide.data.dao.document.DocumentDao
 
-interface FileRepository {
-    fun getDefaultLocation(): FileModel
-    fun makeList(parent: FileModel): Single<List<FileModel>>
-
-    fun createFile(fileModel: FileModel): Single<FileModel>
-    fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
-
-    fun loadFile(documentModel: DocumentModel): Single<String>
-    fun saveFile(documentModel: DocumentModel, text: String): Completable
-    fun closeFile(documentModel: DocumentModel): Completable
+interface AppDatabase {
+    fun documentDao(): DocumentDao
+    fun shutDown()
 }

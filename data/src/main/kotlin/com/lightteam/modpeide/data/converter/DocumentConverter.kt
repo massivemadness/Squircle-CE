@@ -15,22 +15,34 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.repository
+package com.lightteam.modpeide.data.converter
 
+import com.lightteam.modpeide.data.entity.DocumentEntity
 import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
-import io.reactivex.Completable
-import io.reactivex.Single
 
-interface FileRepository {
-    fun getDefaultLocation(): FileModel
-    fun makeList(parent: FileModel): Single<List<FileModel>>
+object DocumentConverter {
 
-    fun createFile(fileModel: FileModel): Single<FileModel>
-    fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
+    fun toModel(entity: DocumentEntity): DocumentModel {
+        return DocumentModel(
+            entity.uuid,
+            entity.name,
+            entity.path,
+            entity.scrollX,
+            entity.scrollY,
+            entity.selectionStart,
+            entity.selectionEnd
+        )
+    }
 
-    fun loadFile(documentModel: DocumentModel): Single<String>
-    fun saveFile(documentModel: DocumentModel, text: String): Completable
-    fun closeFile(documentModel: DocumentModel): Completable
+    fun toCache(model: DocumentModel): DocumentEntity {
+        return DocumentEntity(
+            model.uuid,
+            model.name,
+            model.path,
+            model.scrollX,
+            model.scrollY,
+            model.selectionStart,
+            model.selectionEnd
+        )
+    }
 }

@@ -72,7 +72,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
 
     override fun onClick(fileModel: FileModel) {
         if(fileModel.isFolder) {
-            viewModel.tabsEvent.value = fileModel
+            viewModel.fileTabsEvent.value = fileModel
         } else {
             viewModel.documentEvent.value = fileModel
         }
@@ -86,7 +86,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
     private fun setupListeners() { }
 
     private fun setupObservers() {
-        viewModel.listEvent.observe(this.viewLifecycleOwner, Observer { list ->
+        viewModel.fileListEvent.observe(this.viewLifecycleOwner, Observer { list ->
             val diffCallback = FileDiffCallback(adapter.getData(), list)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
 

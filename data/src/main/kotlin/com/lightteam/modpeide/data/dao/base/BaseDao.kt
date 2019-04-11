@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.repository
+package com.lightteam.modpeide.data.dao.base
 
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
-import io.reactivex.Completable
-import io.reactivex.Single
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Update
 
-interface FileRepository {
-    fun getDefaultLocation(): FileModel
-    fun makeList(parent: FileModel): Single<List<FileModel>>
+interface BaseDao<in T> {
 
-    fun createFile(fileModel: FileModel): Single<FileModel>
-    fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(obj: T): Long
 
-    fun loadFile(documentModel: DocumentModel): Single<String>
-    fun saveFile(documentModel: DocumentModel, text: String): Completable
-    fun closeFile(documentModel: DocumentModel): Completable
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vararg obj: T)
+
+    @Update
+    fun update(obj: T)
+
+    @Delete
+    fun delete(obj: T)
 }
