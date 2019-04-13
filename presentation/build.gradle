@@ -90,6 +90,7 @@ dependencies {
     implementation library.rxandroid
     implementation library.rxkotlin
     implementation library.rxbinding_appcompat
+    implementation library.rxpreferences
 
     //Dagger2
     implementation library.dagger2

@@ -28,11 +28,8 @@ class BaseApplication : DaggerApplication() {
         private const val ULTIMATE = "com.LightTeam.modpeidepro"
     }
 
-    var isUltimate: Boolean = false
-
-    override fun onCreate() {
-        super.onCreate()
-        isUltimate = when (packageName) {
+    val isUltimate: Boolean by lazy {
+        when (packageName) {
             STANDARD -> false
             ULTIMATE -> true
             else -> false

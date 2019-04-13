@@ -19,8 +19,22 @@ package com.lightteam.modpeide.data.converter
 
 import com.lightteam.modpeide.data.entity.DocumentEntity
 import com.lightteam.modpeide.domain.model.DocumentModel
+import com.lightteam.modpeide.domain.model.FileModel
+import java.util.*
 
 object DocumentConverter {
+
+    fun toModel(fileModel: FileModel): DocumentModel {
+        return DocumentModel(
+            UUID.randomUUID().toString(),
+            fileModel.name,
+            fileModel.path,
+            0,
+            0,
+            0,
+            0
+        )
+    }
 
     fun toModel(entity: DocumentEntity): DocumentModel {
         return DocumentModel(

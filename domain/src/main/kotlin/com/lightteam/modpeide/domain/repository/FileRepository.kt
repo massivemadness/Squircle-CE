@@ -30,6 +30,7 @@ interface FileRepository {
     fun deleteFile(fileModel: FileModel): Single<FileModel>
     fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
 
+    fun loadAllFiles(): Single<List<DocumentModel>>
     fun loadFile(documentModel: DocumentModel): Single<String>
     fun saveFile(documentModel: DocumentModel, text: String): Completable
     fun closeFile(documentModel: DocumentModel): Completable

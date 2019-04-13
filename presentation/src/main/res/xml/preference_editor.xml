@@ -52,9 +52,9 @@
             android:defaultValue="true"/>
 
         <SeekBarPreference
-            android:title="@string/pref_max_page_title"
-            android:summary="@string/pref_max_page_summary"
-            android:key="MAX_TABS_COUNT_2"
+            android:title="@string/pref_tab_limit_title"
+            android:summary="@string/pref_tab_limit_summary"
+            android:key="TAB_LIMIT"
             android:defaultValue="5"
             android:enabled="false"
             android:max="10"

@@ -17,28 +17,37 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp">
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:paddingBottom="16dp">
 
-    <TextView
-        android:id="@android:id/title"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceListItem"/>
+        android:clickable="false"
+        android:id="@+id/readable"
+        android:text="@string/properties_read"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
 
-    <TextView
-        style="@style/PreferenceSummaryTextStyle"
-        android:id="@android:id/summary"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?android:attr/textColorSecondary"
-        tools:ignore="PrivateResource"/>
+        android:clickable="false"
+        android:id="@+id/writable"
+        android:text="@string/properties_write"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:id="@+id/executable"
+        android:text="@string/properties_execute"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
 
 </LinearLayout>

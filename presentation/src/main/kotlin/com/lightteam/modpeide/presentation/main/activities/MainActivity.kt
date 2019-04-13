@@ -30,6 +30,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.tabs.TabLayout
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
@@ -40,7 +41,9 @@ import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.extensions.launchActivity
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), OnPanelClickListener {
+class MainActivity : BaseActivity(),
+    OnPanelClickListener,
+    TabLayout.OnTabSelectedListener {
 
     companion object {
         const val REQUEST_READ_WRITE = 1 //Запрос на разрешения через диалог
@@ -56,6 +59,7 @@ class MainActivity : BaseActivity(), OnPanelClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.observePreferences()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         toolbarManager.bind(binding)
         onConfigurationChanged(resources.configuration)
@@ -69,13 +73,24 @@ class MainActivity : BaseActivity(), OnPanelClickListener {
         toolbarManager.setOrientation(newConfig.orientation)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycle.removeObserver(viewModel)
-    }
-
+    @SuppressLint("RtlHardcoded")
     override fun onBackPressed() {
-        viewModel.onBackPressed()
+        if(binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            binding.drawerLayout.closeDrawers()
+        } else {
+            if(viewModel.backEvent.value!!) {
+                MaterialDialog(this).show {
+                    title(R.string.dialog_title_exit)
+                    message(R.string.dialog_message_exit)
+                    negativeButton(R.string.action_no)
+                    positiveButton(R.string.action_yes, click = {
+                        finish()
+                    })
+                }
+            } else {
+                finish()
+            }
+        }
     }
 
     // region PERMISSIONS
@@ -103,36 +118,30 @@ class MainActivity : BaseActivity(), OnPanelClickListener {
 
     // endregion PERMISSIONS
 
-    private fun setupListeners() { }
+    // region TABS
 
-    @SuppressLint("RtlHardcoded")
+    override fun onTabReselected(tab: TabLayout.Tab) {
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab) {
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab) {
+    }
+
+    // endregion TABS
+
+    private fun setupListeners() {
+        binding.tabFileLayout.addOnTabSelectedListener(this)
+    }
+
     private fun setupObservers() {
-        lifecycle.addObserver(viewModel)
         viewModel.toastEvent.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
-        viewModel.documentEvent.observe(this, Observer {
-            //open the file
-            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
-        })
-        viewModel.backEvent.observe(this, Observer { showDialog ->
-            if(binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                binding.drawerLayout.closeDrawers()
-            } else {
-                if(showDialog) {
-                    MaterialDialog(this).show {
-                        title(R.string.dialog_title_exit)
-                        message(R.string.dialog_message_exit)
-                        negativeButton(R.string.action_no)
-                        positiveButton(R.string.action_yes, click = {
-                            finish()
-                        })
-                    }
-                } else {
-                    finish()
-                }
-            }
-        })
+        /*viewModel.documentTabsEvent.observe(this, Observer {
+            adapter.add(it)
+        })*/
         viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
             if(isFullscreen) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -140,6 +149,7 @@ class MainActivity : BaseActivity(), OnPanelClickListener {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
         })
+        viewModel.loadAllFiles()
     }
 
     // region PANEL

@@ -19,18 +19,19 @@ package com.lightteam.modpeide.presentation.main.viewmodel
 
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
@@ -38,29 +39,34 @@ import java.util.concurrent.TimeUnit
 class MainViewModel(
     private val fileRepository: FileRepository,
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler
-) : BaseViewModel(), LifecycleObserver {
+    private val preferenceHandler: PreferenceHandler,
+    private val versionChecker: VersionChecker
+) : BaseViewModel() {
 
-    val hasPermission: ObservableBoolean = ObservableBoolean(false)
-    val filesLoadingIndicator: ObservableBoolean = ObservableBoolean(true)
-    val noFilesIndicator: ObservableBoolean = ObservableBoolean(false)
-    val documentLoadingIndicator: ObservableBoolean = ObservableBoolean(true)
-    val noDocumentsIndicator: ObservableBoolean = ObservableBoolean(false)
+    val hasPermission: ObservableBoolean = ObservableBoolean(false) //Отображение интерфейса с разрешениями
+
+    val filesLoadingIndicator: ObservableBoolean = ObservableBoolean(true) //Индикатор загрузки файлов
+    val noFilesIndicator: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет файлов
+    val documentLoadingIndicator: ObservableBoolean = ObservableBoolean(true) //Индикатор загрузки документа
+    val noDocumentsIndicator: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет документов
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
-    val fileListEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Обновление списка файлов в проводнике
+    val fileListEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Добавление файлов в проводник
+    val fileUpdateListEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление текущей директории
     val fileTabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки в проводник
-    val documentEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Открытие документа
+    /*val documentTabsEvent: MutableLiveData<DocumentModel> = MutableLiveData() //Добавление вкладки в список документов
+    val documentTextEvent: SingleLiveEvent<String> = SingleLiveEvent() //Чтение файла*/
     val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
+
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Нажатие на кнопку "назад"
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление настроек активити
 
-    var sortMode = preferenceHandler.getSortMode()
+    var sortMode: Int = FileSorter.SORT_BY_NAME
     var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
-    var showHidden: Boolean = preferenceHandler.getFilterHidden()
-    var foldersOnTop: Boolean = preferenceHandler.getFoldersOnTop()
+    var showHidden: Boolean = true
+    var foldersOnTop: Boolean = true
 
     private var filesList: List<FileModel> = emptyList()
 
@@ -68,7 +74,7 @@ class MainViewModel(
 
     fun getDefaultLocation(): FileModel = fileRepository.getDefaultLocation()
 
-    fun loadFiles(path: FileModel) {
+    fun makeList(path: FileModel) {
         filesLoadingIndicator.set(true)
         fileRepository.makeList(path)
             .map { files ->
@@ -97,6 +103,9 @@ class MainViewModel(
                     noFilesIndicator.set(list.isEmpty())
                     filesList = list
                     fileListEvent.value = list
+                },
+                onError = {
+
                 }
             )
             .disposeOnViewModelDestroy()
@@ -109,8 +118,8 @@ class MainViewModel(
                 if(file.isFolder) {
                     fileTabsEvent.value = file
                 } else {
-                    loadFiles(parent) //update the list
-                    documentEvent.value = file
+                    makeList(parent) //update the list
+                    //documentTabsEvent.value = DocumentConverter.toModel(file)
                 }
                 toastEvent.value = R.string.message_done
             }
@@ -122,7 +131,7 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { parent ->
                 renameFileEvent.value = renamedFile
-                loadFiles(parent) //update the list
+                makeList(parent) //update the list
                 toastEvent.value = R.string.message_done
             }
             .disposeOnViewModelDestroy()
@@ -133,9 +142,46 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { parent ->
                 deleteFileEvent.value = deletedFile
-                loadFiles(parent) //update the list
+                makeList(parent) //update the list
                 toastEvent.value = R.string.message_done
             }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun loadAllFiles() {
+        documentLoadingIndicator.set(true)
+        fileRepository.loadAllFiles()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = { list ->
+                    documentLoadingIndicator.set(false)
+                    noDocumentsIndicator.set(list.isEmpty())
+                    list.forEach {
+                        //documentTabsEvent.value = it
+                    }
+                },
+                onError = {
+                    toastEvent.value = R.string.message_error
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun loadFile(fileModel: FileModel) = loadFile(DocumentConverter.toModel(fileModel))
+    fun loadFile(documentModel: DocumentModel) {
+        documentLoadingIndicator.set(true)
+        fileRepository.loadFile(documentModel)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = {
+                    documentLoadingIndicator.set(false)
+                    //documentTabsEvent.value = documentModel
+                    //documentTextEvent.value = it
+                },
+                onError = {
+                    toastEvent.value = R.string.message_error
+                }
+            )
             .disposeOnViewModelDestroy()
     }
 
@@ -157,6 +203,9 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
+    fun setFilterHidden(filter: Boolean) = preferenceHandler.setFilterHidden(filter)
+    fun setSortMode(mode: String) = preferenceHandler.setSortMode(mode)
+
     private fun onSearchQueryFilled(query: CharSequence): Boolean {
         val newQuery = query.toString().toLowerCase()
         val collection: MutableList<FileModel> = mutableListOf()
@@ -174,41 +223,70 @@ class MainViewModel(
         return true
     }
 
-    private fun refreshFilter() {
-        sortMode = preferenceHandler.getSortMode()
-        fileSorter = FileSorter.getComparator(sortMode)
-        showHidden = preferenceHandler.getFilterHidden()
-        foldersOnTop = preferenceHandler.getFoldersOnTop()
-    }
-
-    fun setFilterHidden(filter: Boolean) {
-        preferenceHandler.setFilterHidden(filter)
-        showHidden = filter
-    }
-
-    fun setSortMode(mode: String) {
-        preferenceHandler.setSortMode(mode)
-        sortMode = Integer.parseInt(mode)
-        fileSorter = FileSorter.getComparator(sortMode)
-    }
-
     // endregion EXPLORER
 
-    // region EDITOR
+    // region PREFERENCES
 
-    private fun refreshFullscreenMode() {
-        fullscreenEvent.value = preferenceHandler.getFullscreenMode()
+    fun observePreferences() {
+
+        //Fullscreen Mode
+        preferenceHandler.getFullscreenMode()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { fullscreenEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Confirm Exit
+        preferenceHandler.getConfirmExit()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { backEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Filter Hidden Files
+        preferenceHandler.getFilterHidden()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { show ->
+                showHidden = show
+                if(hasPermission.get()) {
+                    fileUpdateListEvent.value = true
+                }
+            }
+            .disposeOnViewModelDestroy()
+
+        //Sort Mode & FileSorter
+        preferenceHandler.getSortMode()
+            .asObservable()
+            .map(Integer::parseInt)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { mode ->
+                sortMode = mode
+                fileSorter = FileSorter.getComparator(mode)
+                if(hasPermission.get()) {
+                    fileUpdateListEvent.value = true
+                }
+            }
+            .disposeOnViewModelDestroy()
+
+        //Folders on Top
+        preferenceHandler.getFoldersOnTop()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { onTop ->
+                foldersOnTop = onTop
+                if(hasPermission.get()) {
+                    fileUpdateListEvent.value = true
+                }
+            }
+            .disposeOnViewModelDestroy()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume() {
-        refreshFilter()
-        refreshFullscreenMode()
-    }
+    // endregion PREFERENCES
 
-    fun onBackPressed() {
-        backEvent.value = preferenceHandler.getConfirmExit()
-    }
+    // region OTHER
 
-    // endregion EDITOR
+    fun isUltimate(): Boolean = versionChecker.isUltimate
+
+    // endregion OTHER
 }

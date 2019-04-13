@@ -20,6 +20,7 @@ package com.lightteam.modpeide.internal.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
@@ -49,8 +50,14 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun providePreferenceHandler(sharedPreferences: SharedPreferences): PreferenceHandler
-            = PreferenceHandler(sharedPreferences)
+    fun provideRxSharedPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences
+            = RxSharedPreferences.create(sharedPreferences)
+
+    @Provides
+    @PerApplication
+    fun providePreferenceHandler(sharedPreferences: SharedPreferences,
+                                 rxSharedPreferences: RxSharedPreferences): PreferenceHandler
+            = PreferenceHandler(sharedPreferences, rxSharedPreferences)
 
     @Provides
     @PerApplication

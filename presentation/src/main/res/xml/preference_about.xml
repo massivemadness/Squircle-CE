@@ -37,24 +37,22 @@
     <PreferenceCategory android:title="@string/pref_category_libraries">
 
         <Preference
-            android:title="@string/pref_lib_rxjava2_title"
-            android:summary="@string/pref_lib_rxjava2_summary"/>
+            android:title="@string/pref_lib_rxjava2_title"/>
 
         <Preference
-            android:title="@string/pref_lib_dagger2_title"
-            android:summary="@string/pref_lib_dagger2_summary"/>
+            android:title="@string/pref_lib_rxkotlin_title"/>
 
         <Preference
-            android:title="@string/pref_lib_rxbinding_title"
-            android:summary="@string/pref_lib_rxbinding_summary"/>
+            android:title="@string/pref_lib_dagger2_title"/>
 
         <Preference
-            android:title="@string/pref_lib_archComponents_title"
-            android:summary="@string/pref_lib_archComponents_summary"/>
+            android:title="@string/pref_lib_rxbinding_title"/>
 
         <Preference
-            android:title="@string/pref_lib_materialDialogs_title"
-            android:summary="@string/pref_lib_materialDialogs_summary"/>
+            android:title="@string/pref_lib_rxpreferences_title"/>
+
+        <Preference
+            android:title="@string/pref_lib_materialDialogs_title"/>
 
     </PreferenceCategory>
 

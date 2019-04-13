@@ -23,11 +23,13 @@ import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.EmptyViewModel
+import com.lightteam.modpeide.utils.commons.VersionChecker
 
 class MainViewModelFactory(
     private val fileRepository: FileRepository,
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val versionChecker: VersionChecker
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -37,7 +39,8 @@ class MainViewModelFactory(
                 MainViewModel(
                     fileRepository,
                     schedulersProvider,
-                    preferenceHandler
+                    preferenceHandler,
+                    versionChecker
                 ) as T
             else -> EmptyViewModel() as T
         }

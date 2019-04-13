@@ -45,7 +45,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
         //Sensitive
         //private const val KEY_THEME_RESOURCE = PreferenceHandler.KEY_THEME
         private const val KEY_FONT_TYPE = PreferenceHandler.KEY_FONT_TYPE
-        private const val KEY_MAX_TABS_COUNT = PreferenceHandler.KEY_MAX_TABS_COUNT
+        private const val KEY_TAB_LIMIT = PreferenceHandler.KEY_TAB_LIMIT
         private const val KEY_INSERT_QUOTE = PreferenceHandler.KEY_INSERT_QUOTE
         private const val KEY_ABOUT_AND_CHANGELOG = "ABOUT_AND_CHANGELOG"
         private const val KEY_PRIVACY_POLICY = "PRIVACY_POLICY"
@@ -93,7 +93,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
                 }
                 KEY_EDITOR -> {
                     findPreference<Preference>(KEY_FONT_TYPE)?.isEnabled = true
-                    findPreference<Preference>(KEY_MAX_TABS_COUNT)?.isEnabled = true
+                    findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = true
                 }
                 KEY_CODE_STYLE -> {
                     findPreference<Preference>(KEY_INSERT_QUOTE)?.isEnabled = true

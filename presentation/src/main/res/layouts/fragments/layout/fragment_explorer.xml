@@ -31,54 +31,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:background="@color/colorBackground"
         tools:context=".presentation.main.activities.MainActivity">
 
         <!-- region PERMISSIONS -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}">
+        <ImageView
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:src="@drawable/ic_no_access"
+            android:tint="@color/colorIcon"
+            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"
+            android:contentDescription="@string/description_icon"/>
 
-            <ImageView
-                android:layout_width="92dp"
-                android:layout_height="92dp"
-                android:src="@drawable/ic_no_access"
-                android:tint="@color/colorIcon"
-                android:contentDescription="@string/description_icon"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/colorIcon"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="@string/message_access_denied"
+            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textColor="@color/colorIcon"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:text="@string/message_access_denied"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorIcon"
+            android:textSize="14sp"
+            android:text="@string/message_access_required"
+            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/colorIcon"
-                android:textSize="14sp"
-                android:text="@string/message_access_required"/>
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/action_grant_access"
-                android:id="@+id/action_access"
-                app:strokeColor="@color/colorAccent"/>
-
-        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="@string/action_grant_access"
+            android:id="@+id/action_access"
+            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"
+            app:strokeColor="@color/colorAccent"/>
 
         <!-- endregion PERMISSIONS -->
 

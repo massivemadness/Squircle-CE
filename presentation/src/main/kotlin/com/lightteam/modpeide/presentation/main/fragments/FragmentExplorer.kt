@@ -80,7 +80,7 @@ class FragmentExplorer : DaggerFragment(),
     }
 
     override fun onRefresh() {
-        viewModel.loadFiles(adapter.get(binding.tabLayout.selectedTabPosition))
+        viewModel.makeList(adapter.get(binding.tabLayout.selectedTabPosition))
         binding.swipeRefresh.isRefreshing = false
     }
 
@@ -125,7 +125,6 @@ class FragmentExplorer : DaggerFragment(),
                 viewModel.setSortMode("2")
             }
         }
-        onRefresh()
         return super.onOptionsItemSelected(item)
     }
 
@@ -136,7 +135,7 @@ class FragmentExplorer : DaggerFragment(),
     override fun onTabReselected(tab: TabLayout.Tab) {}
     override fun onTabUnselected(tab: TabLayout.Tab) {}
     override fun onTabSelected(tab: TabLayout.Tab) {
-        viewModel.loadFiles(adapter.get(tab.position))
+        viewModel.makeList(adapter.get(tab.position))
     }
 
     // endregion TABS
@@ -163,8 +162,8 @@ class FragmentExplorer : DaggerFragment(),
     private fun setupObservers() {
         viewModel.hasAccessEvent.observe(this.viewLifecycleOwner, Observer { hasAccess ->
             if(hasAccess) {
-                viewModel.hasPermission.set(true)
                 addToStack(viewModel.getDefaultLocation())
+                viewModel.hasPermission.set(true)
             } else {
                 binding.actionAccess.setOnClickListener {
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -173,6 +172,9 @@ class FragmentExplorer : DaggerFragment(),
                     startActivityForResult(intent, REQUEST_READ_WRITE2)
                 }
             }
+        })
+        viewModel.fileUpdateListEvent.observe(this.viewLifecycleOwner, Observer {
+            onRefresh()
         })
         viewModel.deleteFileEvent.observe(this.viewLifecycleOwner, Observer { deletedFile ->
             removeAfter(deletedFile)
@@ -236,7 +238,7 @@ class FragmentExplorer : DaggerFragment(),
                 }
             }
             pathPos == -1 -> {
-                for (pos in adapter.getCount() downTo nextPos) {
+                for (pos in adapter.count() downTo nextPos) {
                     binding.tabLayout.getTabAt(pos)?.let {
                         adapter.removeAt(pos)
                         binding.tabLayout.removeTab(it)
@@ -250,7 +252,7 @@ class FragmentExplorer : DaggerFragment(),
     private fun removeAfter(fileModel: FileModel) {
         val indexOfFile = adapter.indexOf(fileModel)
         if(indexOfFile != -1) {
-            for (pos in adapter.getCount() downTo indexOfFile) {
+            for (pos in adapter.count() downTo indexOfFile) {
                 binding.tabLayout.getTabAt(pos)?.let {
                     adapter.removeAt(pos)
                     binding.tabLayout.removeTab(it)

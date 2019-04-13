@@ -45,4 +45,12 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_category_cache">
+
+        <Preference
+            android:title="@string/pref_invalidateCaches_title"
+            android:summary="@string/pref_invalidateCaches_summary" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

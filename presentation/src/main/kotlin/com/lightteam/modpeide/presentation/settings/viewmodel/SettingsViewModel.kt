@@ -17,45 +17,33 @@
 
 package com.lightteam.modpeide.presentation.settings.viewmodel
 
-import android.content.SharedPreferences
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import io.reactivex.rxkotlin.subscribeBy
 
 class SettingsViewModel(
+    private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val versionChecker: VersionChecker
-) : BaseViewModel(), LifecycleObserver, SharedPreferences.OnSharedPreferenceChangeListener {
+) : BaseViewModel() {
 
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val themeEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    //val themeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        when(key) {
-            PreferenceHandler.KEY_FULLSCREEN_MODE -> {
-                fullscreenEvent.value = preferenceHandler.getFullscreenMode()
-            }
-            /*PreferenceHandler.KEY_THEME -> {
-                themeEvent.value = preferenceHandler.getTheme()
-            }*/
-        }
+    fun observePreferences() {
+
+        //Fullscreen Mode
+        preferenceHandler.getFullscreenMode()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { fullscreenEvent.value = it }
+            .disposeOnViewModelDestroy()
     }
 
     fun isUltimate(): Boolean = versionChecker.isUltimate
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume() {
-        preferenceHandler.registerOnSharedPreferenceChangeListener(this)
-        fullscreenEvent.value = preferenceHandler.getFullscreenMode()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause() {
-        preferenceHandler.unregisterOnSharedPreferenceChangeListener(this)
-    }
 }

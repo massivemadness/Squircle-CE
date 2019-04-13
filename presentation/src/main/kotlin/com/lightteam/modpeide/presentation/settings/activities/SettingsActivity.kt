@@ -19,15 +19,13 @@ package com.lightteam.modpeide.presentation.settings.activities
 
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
-import com.lightteam.modpeide.presentation.main.activities.MainActivity
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
-import com.lightteam.modpeide.utils.extensions.launchActivity
 import javax.inject.Inject
 
 class SettingsActivity : BaseActivity() {
@@ -39,15 +37,12 @@ class SettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.observePreferences()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
+        binding.viewModel = viewModel
 
         setupListeners()
         setupObservers()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycle.removeObserver(viewModel)
     }
 
     override fun onBackPressed() {
@@ -60,10 +55,14 @@ class SettingsActivity : BaseActivity() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+        binding.buttonUnlockFeatures.setOnClickListener {
+            AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
+                .setView(R.layout.dialog_store)
+                .show()
+        }
     }
 
     private fun setupObservers() {
-        lifecycle.addObserver(viewModel)
         viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
             if(isFullscreen) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -71,7 +70,7 @@ class SettingsActivity : BaseActivity() {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
         })
-        viewModel.themeEvent.observe(this, Observer {
+        /*viewModel.themeEvent.observe(this, Observer {
             MaterialDialog(this).show {
                 title(R.string.dialog_title_apply_changes)
                 message(R.string.dialog_message_apply_changes)
@@ -81,6 +80,6 @@ class SettingsActivity : BaseActivity() {
                     launchActivity<MainActivity>()
                 })
             }
-        })
+        })*/
     }
 }

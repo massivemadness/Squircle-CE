@@ -27,10 +27,9 @@
         <variable name="recyclerSelection" type="RecyclerSelection"/>
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:orientation="horizontal"
         android:background="?attr/selectableItemBackground"
         android:onClick="@{() -> recyclerSelection.onClick(fileModel)}"
         android:onLongClick="@{() -> recyclerSelection.onLongClick(fileModel)}">
@@ -38,8 +37,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="2dp"
             android:id="@+id/item_icon"
             android:src="@{fileModel.isFolder ? @drawable/ic_folder : @drawable/ic_file}"
@@ -50,7 +49,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_marginRight="56dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
             android:gravity="center_vertical"
             android:id="@+id/item_title"
             android:ellipsize="middle"
@@ -60,6 +60,6 @@
             tools:text="File Name"
             tools:ignore="RtlHardcoded"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </layout>

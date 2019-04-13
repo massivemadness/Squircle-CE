@@ -56,16 +56,17 @@
             android:visibility="@{viewModel.documentLoadingIndicator ? View.VISIBLE : View.GONE}"
             android:indeterminate="true"/>
 
-        <ScrollView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="false">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </ScrollView>
+            android:gravity="top|start"
+            android:visibility="@{viewModel.documentLoadingIndicator ? View.INVISIBLE : View.VISIBLE}"
+            android:layerType="software"
+            android:inputType="textMultiLine|textVisiblePassword"
+            android:textCursorDrawable="@drawable/cursor"
+            android:scrollbarStyle="insideInset"
+            android:background="@null"
+            android:id="@+id/editor"/>
 
     </FrameLayout>
 

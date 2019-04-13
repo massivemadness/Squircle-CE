@@ -28,6 +28,8 @@ import com.lightteam.modpeide.domain.repository.FileRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
 
 class LocalFileRepository(
     private val database: AppDatabase,
@@ -91,12 +93,26 @@ class LocalFileRepository(
 
     // region EDITOR
 
-    override fun loadFile(documentModel: DocumentModel): Single<String> {
-        // If cache is exists ? loadFromCache() : loadFromStorage()
-        database.documentDao().insert(DocumentConverter.toCache(documentModel)) // Save to Database
-        // Save to Cache
+    override fun loadAllFiles(): Single<List<DocumentModel>> {
+        return database.documentDao().loadDocuments()
+            .map { it.map(DocumentConverter::toModel) } // Convert all entities to models
+    }
 
-        return Single.create { it.onSuccess("") }
+    override fun loadFile(documentModel: DocumentModel): Single<String> {
+        return Single.create { emitter ->
+            database.documentDao().insert(DocumentConverter.toCache(documentModel)) // Save to Database
+
+            val text = if(cacheHandler.isCached(documentModel)) { // Load from Cache
+                cacheHandler.loadFromCache(documentModel)
+            } else { // Load from Storage
+                val file = File(documentModel.path)
+                val builder = StringBuilder()
+                file.forEachLine { builder.append(it + '\n') }
+                builder.toString()
+            }
+            cacheHandler.saveToCache(documentModel, text) // Save to Cache
+            emitter.onSuccess(text)
+        }
     }
 
     override fun saveFile(documentModel: DocumentModel,
@@ -105,16 +121,23 @@ class LocalFileRepository(
                           text: String): Completable {
         return Completable.create { emitter ->
             database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
-            // Save to Cache
+
             // Save to Storage
+            val file = File(documentModel.path)
+            if(file.exists()) {
+                val textOutputStreamWriter = OutputStreamWriter(FileOutputStream(file))
+                textOutputStreamWriter.write(text)
+                textOutputStreamWriter.close()
+            }
+            cacheHandler.saveToCache(documentModel, text) // Save to Cache
             emitter.onComplete()
         }
     }
 
     override fun closeFile(documentModel: DocumentModel): Completable {
         return Completable.create { emitter ->
-            database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Remove from Database
-            // Remove from Cache
+            database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Delete from Database
+            cacheHandler.invalidateCache(documentModel) // Delete from Cache
             emitter.onComplete()
         }
     }

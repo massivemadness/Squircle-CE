@@ -43,6 +43,18 @@ class FragmentDocument : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //viewModel.loadFile(
+        setupListeners()
+        setupObservers()
+    }
+
+    private fun setupListeners() { }
+
+    private fun setupObservers() {
+        /*viewModel.documentTabsEvent.observe(this.viewLifecycleOwner, Observer {
+            viewModel.loadFile(it)
+        })
+        viewModel.documentTextEvent.observe(this.viewLifecycleOwner, Observer {
+            binding.editor.setText(it)
+        })*/
     }
 }

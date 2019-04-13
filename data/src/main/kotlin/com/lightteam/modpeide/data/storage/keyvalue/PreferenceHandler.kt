@@ -18,8 +18,13 @@
 package com.lightteam.modpeide.data.storage.keyvalue
 
 import android.content.SharedPreferences
+import com.f2prateek.rx.preferences2.Preference
+import com.f2prateek.rx.preferences2.RxSharedPreferences
 
-class PreferenceHandler(private val sharedPreferences: SharedPreferences) {
+class PreferenceHandler(
+    private val sharedPreferences: SharedPreferences,
+    private val rxSharedPreferences: RxSharedPreferences
+) {
 
     companion object Key {
         //Look And Feel
@@ -35,7 +40,7 @@ class PreferenceHandler(private val sharedPreferences: SharedPreferences) {
 
         //Tabs
         const val KEY_RESUME_SESSION = "RESUME_SESSION"
-        const val KEY_MAX_TABS_COUNT = "MAX_TABS_COUNT_2"
+        const val KEY_TAB_LIMIT = "TAB_LIMIT"
 
         //Editor
         const val KEY_WRAP_CONTENT = "WRAP_CONTENT"
@@ -61,43 +66,37 @@ class PreferenceHandler(private val sharedPreferences: SharedPreferences) {
         const val KEY_SORT_MODE = "SORT_MODE"
     }
 
-    //fun getTheme(): String = sharedPreferences.getString(KEY_THEME, "IDENTIFICATOR_DARCULA") as String
-    fun getFullscreenMode(): Boolean = sharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
+    //fun getTheme(): Preference<String> = rxSharedPreferences.getString(KEY_THEME, "IDENTIFICATOR_DARCULA")
+    fun getFullscreenMode(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
 
-    fun getConfirmExit(): Boolean = sharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
+    fun getConfirmExit(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
 
-    fun getFontSize(): Int = Integer.parseInt(sharedPreferences.getString(KEY_FONT_SIZE, "14") as String)
-    fun getFontType(): String = sharedPreferences.getString(KEY_FONT_TYPE, "droid_sans_mono") as String
+    fun getFontSize(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_SIZE, "14")
+    fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, "droid_sans_mono")
 
-    fun getResumeSession(): Boolean = sharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
-    fun getMaxTabsCount(): Int = Integer.parseInt(sharedPreferences.getString(KEY_MAX_TABS_COUNT, "5") as String)
+    fun getResumeSession(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
+    fun getTabLimit(): Preference<String> = rxSharedPreferences.getString(KEY_TAB_LIMIT, "5")
 
-    fun getWrapContent(): Boolean = sharedPreferences.getBoolean(KEY_WRAP_CONTENT, true)
-    fun getCodeCompletion(): Boolean = sharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
-    fun getPinchZoom(): Boolean = sharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
-    fun getShowLineNumbers(): Boolean = sharedPreferences.getBoolean(KEY_SHOW_LINE_NUMBERS, true)
-    fun getHighlightCurrentLine(): Boolean = sharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)
-    fun getHighlightMatchingDelimiters(): Boolean = sharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
+    fun getWrapContent(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_WRAP_CONTENT, true)
+    fun getCodeCompletion(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
+    fun getPinchZoom(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
+    fun getShowLineNumbers(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_LINE_NUMBERS, true)
+    fun getHighlightCurrentLine(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)
+    fun getHighlightMatchingDelimiters(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
 
-    fun getExtendedKeyboard(): Boolean = sharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
-    fun getSoftKeyboard(): Boolean = sharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
-    fun getImeKeyboard(): Boolean = sharedPreferences.getBoolean(KEY_USE_IME_KEYBOARD, false)
+    fun getExtendedKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
+    fun getSoftKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
+    fun getImeKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_IME_KEYBOARD, false)
 
-    fun getIndentLine(): Boolean = sharedPreferences.getBoolean(KEY_INDENT_LINE, true)
-    fun getInsertBracket(): Boolean = sharedPreferences.getBoolean(KEY_INSERT_BRACKET, true)
-    fun getInsertQuote(): Boolean = sharedPreferences.getBoolean(KEY_INSERT_QUOTE, false)
+    fun getIndentLine(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_INDENT_LINE, true)
+    fun getInsertBracket(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_INSERT_BRACKET, true)
+    fun getInsertQuote(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_INSERT_QUOTE, false)
 
-    fun getFilterHidden(): Boolean = sharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
+    fun getFilterHidden(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
+    fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
+    fun getSortMode(): Preference<String> = rxSharedPreferences.getString(KEY_SORT_MODE, "0")
+
+    //Setter
     fun setFilterHidden(showHiddenFiles: Boolean) = sharedPreferences.edit().putBoolean(KEY_SHOW_HIDDEN_FILES, showHiddenFiles).apply()
-    fun getFoldersOnTop(): Boolean = sharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
-    fun getSortMode(): Int = Integer.parseInt(sharedPreferences.getString(KEY_SORT_MODE, "0") as String)
     fun setSortMode(sortMode: String) = sharedPreferences.edit().putString(KEY_SORT_MODE, sortMode).apply()
-
-    fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
-        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
-    }
-
-    fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
-    }
 }

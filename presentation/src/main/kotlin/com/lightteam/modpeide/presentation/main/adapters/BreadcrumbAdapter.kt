@@ -27,6 +27,13 @@ class BreadcrumbAdapter {
     fun get(index: Int): FileModel = data[index]
     fun removeAt(index: Int) = data.removeAt(index)
     fun contains(fileModel: FileModel): Boolean = data.contains(fileModel)
-    fun indexOf(fileModel: FileModel): Int = data.indexOf(fileModel)
-    fun getCount(): Int = data.size
+    fun indexOf(fileModel: FileModel): Int {
+        for(model in data) {
+            if(fileModel.path == model.path) {
+                return data.indexOf(model)
+            }
+        }
+        return -1
+    }
+    fun count(): Int = data.size - 1
 }

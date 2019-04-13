@@ -26,19 +26,18 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.databinding.ItemFileBinding
 import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
+import com.lightteam.modpeide.presentation.main.adapters.FileAdapter.FileViewHolder
 
-class FileAdapter(
-    private val recyclerSelection: RecyclerSelection
-) : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
+class FileAdapter(private val recyclerSelection: RecyclerSelection) : RecyclerView.Adapter<FileViewHolder>() {
 
     private val data: MutableList<FileModel> = mutableListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
-        return ViewHolder(view)
+        return FileViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
+    override fun onBindViewHolder(holder: FileViewHolder, position: Int) = holder.bind(data[position])
     override fun getItemCount(): Int = data.size
 
     fun setData(newList: List<FileModel>) {
@@ -48,7 +47,7 @@ class FileAdapter(
 
     fun getData(): List<FileModel> = data
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class FileViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         private val binding: ItemFileBinding? = DataBindingUtil.bind(itemView)
 

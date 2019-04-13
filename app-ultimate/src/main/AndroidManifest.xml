@@ -44,7 +44,7 @@
             android:parentActivityName="com.lightteam.modpeide.presentation.main.activities.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="standard"
-            android:label="@string/label_settings" />
+            android:label="@string/label_settings"/>
 
     </application>
 
