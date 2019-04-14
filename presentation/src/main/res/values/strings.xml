@@ -76,12 +76,12 @@
     <string name="dialog_field_find_reg_exp">Regular Expressions</string>
     <string name="dialog_field_find_word_only">Word Only</string>-->
 
-    <string name="properties_name">&lt;b>Name:&lt;/b> %s</string>
-    <string name="properties_path">&lt;b>Path:&lt;/b> %s</string>
-    <string name="properties_modified">&lt;b>Modified:&lt;/b> %s</string>
-    <string name="properties_size">&lt;b>Size:&lt;/b> %s</string>
-    <string name="properties_line_count">&lt;b>Line Count:&lt;/b> %s</string>
-    <string name="properties_word_count">&lt;b>Word Count:&lt;/b> %s</string>
+    <string name="properties_name">&lt;b>Name:&lt;/b> %s&lt;br></string>
+    <string name="properties_path">&lt;b>Path:&lt;/b> %s&lt;br></string>
+    <string name="properties_modified">&lt;b>Modified:&lt;/b> %s&lt;br></string>
+    <string name="properties_size">&lt;b>Size:&lt;/b> %s&lt;br></string>
+    <string name="properties_line_count">&lt;b>Line Count:&lt;/b> %s&lt;br></string>
+    <string name="properties_word_count">&lt;b>Word Count:&lt;/b> %s&lt;br></string>
     <string name="properties_char_count">&lt;b>Character Count:&lt;/b> %s</string>
     <string name="properties_read">R</string>
     <string name="properties_write">W</string>
@@ -148,10 +148,11 @@
     <string name="store_ultimate">Ultimate</string>
     <string name="store_feature_1">Basic functionality</string>
     <string name="store_feature_2">No advertisements</string>
-    <string name="store_feature_3">Increased tab limit</string>
-    <string name="store_feature_4">Custom fonts</string>
-    <string name="store_feature_5">Color Picker</string>
-    <string name="store_feature_6">Syntax Validator</string>
+    <string name="store_feature_3">Themes</string>
+    <string name="store_feature_4">Increased tab limit</string>
+    <string name="store_feature_5">Custom fonts</string>
+    <string name="store_feature_6">Color Picker</string>
+    <string name="store_feature_7">Syntax Validator</string>
 
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>
@@ -176,8 +177,8 @@
     <string name="pref_category_about">About</string>
     <string name="pref_category_libraries">Third-party Libraries</string>
 
-    <string name="pref_theme_title">Application Theme</string>
-    <string name="pref_theme_summary">Choose application theme. Restart required.</string>
+    <string name="pref_theme_title">Theme</string>
+    <string name="pref_theme_summary">Configure the syntax highlighting theme.</string>
     <string name="pref_fullscreen_title">Full screen</string>
     <string name="pref_fullscreen_summary">Launch the application in full screen mode.</string>
     <string name="pref_confirm_exit_title">Confirm exit from the app</string>

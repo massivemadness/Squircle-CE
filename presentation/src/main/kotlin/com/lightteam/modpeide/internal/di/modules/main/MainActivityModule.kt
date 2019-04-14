@@ -25,14 +25,15 @@ import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.database.AppDatabaseImpl
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.presentation.main.activities.MainActivity
 import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
+import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModelFactory
-import com.lightteam.modpeide.utils.commons.VersionChecker
 import dagger.Module
 import dagger.Provides
 
@@ -43,7 +44,7 @@ class MainActivityModule {
     @PerActivity
     fun provideAppDatabase(context: Context): AppDatabase
             = Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
-        //.addMigrations()
+        .fallbackToDestructiveMigrationFrom(1)
         .build()
 
     @Provides
@@ -59,10 +60,12 @@ class MainActivityModule {
     @Provides
     @PerActivity
     fun provideMainViewModelFactory(fileRepository: FileRepository,
+                                    database: AppDatabase,
                                     schedulersProvider: SchedulersProvider,
                                     preferenceHandler: PreferenceHandler,
-                                    versionChecker: VersionChecker): MainViewModelFactory
-            = MainViewModelFactory(fileRepository, schedulersProvider, preferenceHandler, versionChecker)
+                                    cacheHandler: CacheHandler,
+                                    typefaceFactory: TypefaceFactory): MainViewModelFactory
+            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, typefaceFactory)
 
     @Provides
     @PerActivity
@@ -73,4 +76,14 @@ class MainActivityModule {
     @PerActivity
     fun provideToolbarManager(activity: MainActivity): ToolbarManager
             = ToolbarManager(activity)
+
+    @Provides
+    @PerActivity
+    fun provideDocumentAdapter(): DocumentAdapter
+            = DocumentAdapter()
+
+    @Provides
+    @PerActivity
+    fun provideTypefaceFactory(context: Context): TypefaceFactory
+            = TypefaceFactory(context)
 }

@@ -17,18 +17,14 @@
 
 package com.lightteam.modpeide.data.storage.keyvalue
 
-import android.content.SharedPreferences
 import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 
-class PreferenceHandler(
-    private val sharedPreferences: SharedPreferences,
-    private val rxSharedPreferences: RxSharedPreferences
-) {
+class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     companion object Key {
         //Look And Feel
-        //const val KEY_THEME = "THEME_RESOURCE"
+        const val KEY_THEME = "THEME"
         const val KEY_FULLSCREEN_MODE = "FULLSCREEN_MODE"
 
         //Other
@@ -66,16 +62,16 @@ class PreferenceHandler(
         const val KEY_SORT_MODE = "SORT_MODE"
     }
 
-    //fun getTheme(): Preference<String> = rxSharedPreferences.getString(KEY_THEME, "IDENTIFICATOR_DARCULA")
+    fun getTheme(): Preference<String> = rxSharedPreferences.getString(KEY_THEME, "THEME_DARCULA")
     fun getFullscreenMode(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
 
     fun getConfirmExit(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
 
-    fun getFontSize(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_SIZE, "14")
+    fun getFontSize(): Preference<Int> = rxSharedPreferences.getInteger(KEY_FONT_SIZE, 14)
     fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, "droid_sans_mono")
 
     fun getResumeSession(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
-    fun getTabLimit(): Preference<String> = rxSharedPreferences.getString(KEY_TAB_LIMIT, "5")
+    fun getTabLimit(): Preference<Int> = rxSharedPreferences.getInteger(KEY_TAB_LIMIT, 5)
 
     fun getWrapContent(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_WRAP_CONTENT, true)
     fun getCodeCompletion(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
@@ -97,6 +93,6 @@ class PreferenceHandler(
     fun getSortMode(): Preference<String> = rxSharedPreferences.getString(KEY_SORT_MODE, "0")
 
     //Setter
-    fun setFilterHidden(showHiddenFiles: Boolean) = sharedPreferences.edit().putBoolean(KEY_SHOW_HIDDEN_FILES, showHiddenFiles).apply()
-    fun setSortMode(sortMode: String) = sharedPreferences.edit().putString(KEY_SORT_MODE, sortMode).apply()
+    fun setFilterHidden(showHiddenFiles: Boolean) = getFilterHidden().set(showHiddenFiles)
+    fun setSortMode(sortMode: String) = getSortMode().set(sortMode)
 }

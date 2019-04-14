@@ -39,11 +39,11 @@
     <color name="colorIcon">#7F7F7F</color>
     <color name="colorFolder">#FFBB33</color>
 
-    <!--<color name="syntaxNumbers">#6897BB</color>
-     <color name="syntaxSymbols">#E8E2B7</color>
-     <color name="syntaxBrackets">#E8E2B7</color>
-     <color name="syntaxKeywords">#EC7600</color>
-     <color name="syntaxMethods">#FEC76C</color>
-     <color name="syntaxStrings">#6E875A</color>
-     <color name="syntaxComments">#66747B</color>-->
+    <color name="syntaxNumbers">#6897BB</color>
+    <color name="syntaxSymbols">#E8E2B7</color>
+    <color name="syntaxBrackets">#E8E2B7</color>
+    <color name="syntaxKeywords">#EC7600</color>
+    <color name="syntaxMethods">#FEC76C</color>
+    <color name="syntaxStrings">#6E875A</color>
+    <color name="syntaxComments">#66747B</color>
  </resources>

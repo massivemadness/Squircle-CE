@@ -17,42 +17,37 @@
   -->
 
 <resources>
-    <string-array name="sort_mode">
+    <string-array name="sort_mode_entries">
         <item>@string/sort_by_name</item>
         <item>@string/sort_by_size</item>
         <item>@string/sort_by_date</item>
     </string-array>
-
     <string-array name="sort_mode_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>
 
-    <string-array name="theme_list">
+    <string-array name="theme_entries">
         <item>Darcula</item>
         <item>Darcula (OLED)</item>
         <item>Dark Blue</item>
         <item>Monokai</item>
     </string-array>
-
-    <string-array name="theme_list_values">
-        <item>IDENTIFICATOR_DARCULA</item> <!-- Darcula -->
-        <item>IDENTIFICATOR_DARCULA_OLED</item> <!-- Darcula (OLED) -->
-        <item>IDENTIFICATOR_DARK_BLUE</item> <!-- Dark Blue -->
-        <item>IDENTIFICATOR_MONOKAI</item> <!-- Monokai -->
+    <string-array name="theme_values">
+        <item>THEME_DARCULA</item>
+        <item>THEME_MONOKAI</item>
     </string-array>
 
-    <string-array name="font_types">
+    <string-array name="font_type_entries">
         <item>Roboto</item>
         <item>Roboto Light</item>
         <item>Source Code Pro</item>
-        <item>Droid Sans Mono (Monospace)</item>
+        <item>Droid Sans Mono</item>
         <item>DejaVu Sans Mono</item>
         <item>Anonymous Pro</item>
     </string-array>
-
-    <string-array name="font_types_values">
+    <string-array name="font_type_values">
         <item>roboto</item>
         <item>roboto_light</item>
         <item>source_code_pro</item>
@@ -61,22 +56,10 @@
         <item>anonymous_pro</item>
     </string-array>
 
-    <string-array name="file_actions">
+    <!--<string-array name="file_action">
         <item>@string/action_rename</item>
         <item>@string/action_delete</item>
         <item>@string/menu_file_properties</item>
         <item>@string/action_copy_path</item>
-    </string-array>
-
-    <string-array name="max_tabs">
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-    </string-array>
+    </string-array>-->
 </resources>

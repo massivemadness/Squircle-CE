@@ -71,6 +71,12 @@ class CacheHandler(private val context: Context) {
         if (redoCacheFile.exists()) { redoCacheFile.delete() } //Delete redo-stack cache
     }
 
+    fun invalidateCaches() {
+        getExternalCacheDirectory().listFiles().forEach {
+            it.deleteRecursively()
+        }
+    }
+
     private fun getExternalCacheDirectory(): File = context.filesDir
 
     private fun createCacheFilesIfNecessary(documentModel: DocumentModel) {

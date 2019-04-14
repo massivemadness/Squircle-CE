@@ -37,7 +37,7 @@
 
         <ListPreference
             android:title="@string/pref_sortMode_title"
-            android:entries="@array/sort_mode"
+            android:entries="@array/sort_mode_entries"
             android:entryValues="@array/sort_mode_values"
             android:defaultValue="0"
             android:key="SORT_MODE"

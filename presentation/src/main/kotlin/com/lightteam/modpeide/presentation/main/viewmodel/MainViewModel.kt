@@ -17,30 +17,36 @@
 
 package com.lightteam.modpeide.presentation.main.viewmodel
 
+import android.graphics.Typeface
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
+import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
+import com.lightteam.modpeide.data.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 
 class MainViewModel(
     private val fileRepository: FileRepository,
+    private val database: AppDatabase,
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
-    private val versionChecker: VersionChecker
+    private val cacheHandler: CacheHandler,
+    private val typefaceFactory: TypefaceFactory
 ) : BaseViewModel() {
 
     val hasPermission: ObservableBoolean = ObservableBoolean(false) //Отображение интерфейса с разрешениями
@@ -52,23 +58,34 @@ class MainViewModel(
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
+
     val fileListEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Добавление файлов в проводник
     val fileUpdateListEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление текущей директории
     val fileTabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки в проводник
-    /*val documentTabsEvent: MutableLiveData<DocumentModel> = MutableLiveData() //Добавление вкладки в список документов
-    val documentTextEvent: SingleLiveEvent<String> = SingleLiveEvent() //Чтение файла*/
+
+    val documentTabEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Добавление вкладки в список документов
+    val documentTextEvent: SingleLiveEvent<String> = SingleLiveEvent() //Чтение файла
+
     val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
+    val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла (диалог)
 
-    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Нажатие на кнопку "назад"
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление настроек активити
+    // region PREFERENCES
+
+    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Полноэкранный режим
+    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подтверждение выхода
+
+    val fontSizeEvent: SingleLiveEvent<Float> = SingleLiveEvent() //Размер шрифта
+    val fontTypeEvent: SingleLiveEvent<Typeface> = SingleLiveEvent() //Тип шрифта
+
+    // endregion PREFERENCES
 
     var sortMode: Int = FileSorter.SORT_BY_NAME
     var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     var showHidden: Boolean = true
     var foldersOnTop: Boolean = true
 
-    private var filesList: List<FileModel> = emptyList()
+    private var fileList: List<FileModel> = emptyList()
 
     // region FILE_REPOSITORY
 
@@ -99,10 +116,10 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = { list ->
+                    fileList = list
+                    fileListEvent.value = list
                     filesLoadingIndicator.set(false)
                     noFilesIndicator.set(list.isEmpty())
-                    filesList = list
-                    fileListEvent.value = list
                 },
                 onError = {
 
@@ -119,7 +136,7 @@ class MainViewModel(
                     fileTabsEvent.value = file
                 } else {
                     makeList(parent) //update the list
-                    //documentTabsEvent.value = DocumentConverter.toModel(file)
+                    documentTabEvent.value = DocumentConverter.toModel(file)
                 }
                 toastEvent.value = R.string.message_done
             }
@@ -148,35 +165,21 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun loadAllFiles() {
-        documentLoadingIndicator.set(true)
-        fileRepository.loadAllFiles()
+    fun propertiesOf(fileModel: FileModel) {
+        fileRepository.propertiesOf(fileModel)
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = { list ->
-                    documentLoadingIndicator.set(false)
-                    noDocumentsIndicator.set(list.isEmpty())
-                    list.forEach {
-                        //documentTabsEvent.value = it
-                    }
-                },
-                onError = {
-                    toastEvent.value = R.string.message_error
-                }
-            )
+            .subscribeBy { propertiesEvent.value = it }
             .disposeOnViewModelDestroy()
     }
 
-    fun loadFile(fileModel: FileModel) = loadFile(DocumentConverter.toModel(fileModel))
     fun loadFile(documentModel: DocumentModel) {
         documentLoadingIndicator.set(true)
         fileRepository.loadFile(documentModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
+                    documentTextEvent.value = it
                     documentLoadingIndicator.set(false)
-                    //documentTabsEvent.value = documentModel
-                    //documentTextEvent.value = it
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
@@ -210,9 +213,9 @@ class MainViewModel(
         val newQuery = query.toString().toLowerCase()
         val collection: MutableList<FileModel> = mutableListOf()
         if(newQuery.isEmpty()) {
-            collection.addAll(filesList)
+            collection.addAll(fileList)
         } else {
-            for(row in filesList) {
+            for(row in fileList) {
                 if(row.name.toLowerCase().contains(newQuery)) { //Поиск по названию
                     collection.add(row)
                 }
@@ -224,6 +227,60 @@ class MainViewModel(
     }
 
     // endregion EXPLORER
+
+    // region EDITOR
+
+    fun loadAllFiles() {
+        documentLoadingIndicator.set(true)
+        database.documentDao().loadDocuments()
+            .map { it.map(DocumentConverter::toModel) } // Convert all entities to models
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = { list ->
+                    list.forEach {
+                        documentTabEvent.value = it
+                    }
+                    documentLoadingIndicator.set(false)
+                    noDocumentsIndicator.set(list.isEmpty())
+                },
+                onError = {
+                    toastEvent.value = R.string.message_error
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun addDocument(fileModel: FileModel) {
+        documentTabEvent.value = DocumentConverter.toModel(fileModel)
+    }
+
+    /*fun saveToCache(documentModel: DocumentModel, text: String) {
+        Completable
+            .fromAction {
+                database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
+                cacheHandler.saveToCache(documentModel, text) // Save to Cache
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribe()
+            .disposeOnViewModelDestroy()
+    }
+
+    fun loadFromCache(documentModel: DocumentModel) {
+
+    }*/
+
+    fun removeDocument(documentModel: DocumentModel) {
+        Completable
+            .fromAction {
+                database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Delete from Database
+                cacheHandler.invalidateCache(documentModel) // Delete from Cache
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribe()
+            .disposeOnViewModelDestroy()
+    }
+
+    // endregion EDITOR
 
     // region PREFERENCES
 
@@ -243,6 +300,22 @@ class MainViewModel(
             .subscribeBy { backEvent.value = it }
             .disposeOnViewModelDestroy()
 
+        //Font Size
+        preferenceHandler.getFontSize()
+            .asObservable()
+            .map { it.toFloat() }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { fontSizeEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Font Type
+        preferenceHandler.getFontType()
+            .asObservable()
+            .map(typefaceFactory::create)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { fontTypeEvent.value = it }
+            .disposeOnViewModelDestroy()
+
         //Filter Hidden Files
         preferenceHandler.getFilterHidden()
             .asObservable()
@@ -255,7 +328,7 @@ class MainViewModel(
             }
             .disposeOnViewModelDestroy()
 
-        //Sort Mode & FileSorter
+        //Sort Mode
         preferenceHandler.getSortMode()
             .asObservable()
             .map(Integer::parseInt)
@@ -283,10 +356,4 @@ class MainViewModel(
     }
 
     // endregion PREFERENCES
-
-    // region OTHER
-
-    fun isUltimate(): Boolean = versionChecker.isUltimate
-
-    // endregion OTHER
 }

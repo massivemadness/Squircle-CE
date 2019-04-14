@@ -19,17 +19,21 @@ package com.lightteam.modpeide.presentation.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.EmptyViewModel
-import com.lightteam.modpeide.utils.commons.VersionChecker
 
 class MainViewModelFactory(
     private val fileRepository: FileRepository,
+    private val database: AppDatabase,
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
-    private val versionChecker: VersionChecker
+    private val cacheHandler: CacheHandler,
+    private val typefaceFactory: TypefaceFactory
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -38,9 +42,11 @@ class MainViewModelFactory(
             modelClass === MainViewModel::class.java ->
                 MainViewModel(
                     fileRepository,
+                    database,
                     schedulersProvider,
                     preferenceHandler,
-                    versionChecker
+                    cacheHandler,
+                    typefaceFactory
                 ) as T
             else -> EmptyViewModel() as T
         }

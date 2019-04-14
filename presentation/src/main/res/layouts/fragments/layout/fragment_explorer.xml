@@ -120,7 +120,7 @@
                     app:tabPaddingStart="4dp"
                     app:tabPaddingEnd="0dp"
                     app:tabUnboundedRipple="false"
-                    app:tabIndicatorColor="?attr/colorAccent"
+                    app:tabIndicatorColor="@color/colorTabIndicator"
                     app:tabMode="scrollable"/>
 
             </LinearLayout>

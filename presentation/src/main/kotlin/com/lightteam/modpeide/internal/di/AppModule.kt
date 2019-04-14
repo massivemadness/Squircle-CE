@@ -55,9 +55,8 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun providePreferenceHandler(sharedPreferences: SharedPreferences,
-                                 rxSharedPreferences: RxSharedPreferences): PreferenceHandler
-            = PreferenceHandler(sharedPreferences, rxSharedPreferences)
+    fun providePreferenceHandler(rxSharedPreferences: RxSharedPreferences): PreferenceHandler
+            = PreferenceHandler(rxSharedPreferences)
 
     @Provides
     @PerApplication

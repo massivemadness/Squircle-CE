@@ -22,8 +22,11 @@ import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
+import com.lightteam.modpeide.data.utils.extensions.formatAsDate
+import com.lightteam.modpeide.data.utils.extensions.formatAsSize
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.repository.FileRepository
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -89,14 +92,28 @@ class LocalFileRepository(
         }
     }
 
+    override fun propertiesOf(fileModel: FileModel): Single<PropertiesModel> {
+        return Single.create { emitter ->
+            val realFile = File(fileModel.path)
+            val result = PropertiesModel(
+                fileModel.name,
+                fileModel.path,
+                fileModel.lastModified.formatAsDate(),
+                fileModel.size.formatAsSize(),
+                getLineCount(realFile),
+                getWordCount(realFile),
+                getCharCount(realFile),
+                realFile.canRead(),
+                realFile.canWrite(),
+                realFile.canExecute()
+            )
+            emitter.onSuccess(result)
+        }
+    }
+
     // endregion EXPLORER
 
     // region EDITOR
-
-    override fun loadAllFiles(): Single<List<DocumentModel>> {
-        return database.documentDao().loadDocuments()
-            .map { it.map(DocumentConverter::toModel) } // Convert all entities to models
-    }
 
     override fun loadFile(documentModel: DocumentModel): Single<String> {
         return Single.create { emitter ->
@@ -134,19 +151,40 @@ class LocalFileRepository(
         }
     }
 
-    override fun closeFile(documentModel: DocumentModel): Completable {
-        return Completable.create { emitter ->
-            database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Delete from Database
-            cacheHandler.invalidateCache(documentModel) // Delete from Cache
-            emitter.onComplete()
-        }
-    }
-
     // endregion EDITOR
 
     private fun getFiles(path: File): MutableList<FileModel> {
         return path.listFiles()
             .map(FileConverter::toModel)
             .toMutableList()
+    }
+
+    private fun getLineCount(file: File): String {
+        if(file.isFile) {
+            var lines = 0
+            file.forEachLine {
+                lines++
+            }
+            return lines.toString()
+        }
+        return "…"
+    }
+
+    private fun getWordCount(file: File): String {
+        if(file.isFile) {
+            var words = 0
+            file.forEachLine {
+                words += it.split(' ').size
+            }
+            return words.toString()
+        }
+        return "…"
+    }
+
+    private fun getCharCount(file: File): String {
+        if(file.isFile) {
+            return file.length().toString()
+        }
+        return "…"
     }
 }

@@ -19,6 +19,7 @@ package com.lightteam.modpeide.domain.repository
 
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.PropertiesModel
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -29,9 +30,8 @@ interface FileRepository {
     fun createFile(fileModel: FileModel): Single<FileModel>
     fun deleteFile(fileModel: FileModel): Single<FileModel>
     fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
+    fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
-    fun loadAllFiles(): Single<List<DocumentModel>>
     fun loadFile(documentModel: DocumentModel): Single<String>
     fun saveFile(documentModel: DocumentModel, text: String): Completable
-    fun closeFile(documentModel: DocumentModel): Completable
 }

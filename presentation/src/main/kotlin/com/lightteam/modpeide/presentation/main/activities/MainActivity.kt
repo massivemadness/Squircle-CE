@@ -19,23 +19,29 @@ package com.lightteam.modpeide.presentation.main.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.tabs.TabLayout
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
+import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
 import com.lightteam.modpeide.presentation.main.activities.interfaces.OnPanelClickListener
 import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
+import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.extensions.launchActivity
@@ -54,6 +60,8 @@ class MainActivity : BaseActivity(),
     lateinit var viewModel: MainViewModel
     @Inject
     lateinit var toolbarManager: ToolbarManager
+    @Inject
+    lateinit var adapter: DocumentAdapter
 
     private lateinit var binding: ActivityMainBinding
 
@@ -61,6 +69,7 @@ class MainActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         viewModel.observePreferences()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.viewModel = viewModel
         toolbarManager.bind(binding)
         onConfigurationChanged(resources.configuration)
         setupListeners()
@@ -73,11 +82,8 @@ class MainActivity : BaseActivity(),
         toolbarManager.setOrientation(newConfig.orientation)
     }
 
-    @SuppressLint("RtlHardcoded")
     override fun onBackPressed() {
-        if(binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            binding.drawerLayout.closeDrawers()
-        } else {
+        if(!closeDrawersIfNecessary()) {
             if(viewModel.backEvent.value!!) {
                 MaterialDialog(this).show {
                     title(R.string.dialog_title_exit)
@@ -120,28 +126,42 @@ class MainActivity : BaseActivity(),
 
     // region TABS
 
-    override fun onTabReselected(tab: TabLayout.Tab) {
-    }
-
+    override fun onTabReselected(tab: TabLayout.Tab) {}
     override fun onTabUnselected(tab: TabLayout.Tab) {
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
+        viewModel.loadFile(adapter.get(tab.position))
     }
 
     // endregion TABS
 
     private fun setupListeners() {
-        binding.tabFileLayout.addOnTabSelectedListener(this)
+        binding.tabDocumentLayout.addOnTabSelectedListener(this)
+        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerStateChanged(newState: Int) {}
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerClosed(drawerView: View) {}
+            override fun onDrawerOpened(drawerView: View) {
+                closeKeyboard()
+            }
+        })
     }
 
     private fun setupObservers() {
         viewModel.toastEvent.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
-        /*viewModel.documentTabsEvent.observe(this, Observer {
-            adapter.add(it)
-        })*/
+        viewModel.documentTabEvent.observe(this, Observer {
+            closeDrawersIfNecessary()
+            addTab(it)
+        })
+        viewModel.documentTextEvent.observe(this, Observer {
+            binding.editor.setText(it)
+        })
+
+        // region PREFERENCES
+
         viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
             if(isFullscreen) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -149,7 +169,54 @@ class MainActivity : BaseActivity(),
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
         })
+
+        viewModel.fontSizeEvent.observe(this, Observer { fontSize ->
+            val configuration = binding.editor.getConfiguration().copy(fontSize = fontSize)
+            binding.editor.setConfiguration(configuration)
+        })
+        viewModel.fontTypeEvent.observe(this, Observer {  fontType ->
+            val configuration = binding.editor.getConfiguration().copy(fontType = fontType)
+            binding.editor.setConfiguration(configuration)
+        })
+
+        // endregion PREFERENCES
+
         viewModel.loadAllFiles()
+    }
+
+    private fun addTab(documentModel: DocumentModel) {
+        val tab = binding.tabDocumentLayout.newTab()
+        tab.text = documentModel.name
+        tab.setCustomView(R.layout.item_tab_document)
+        val view = tab.customView?.findViewById<View>(R.id.item_icon)
+        view?.setOnClickListener {
+            adapter.removeAt(tab.position)
+            binding.tabDocumentLayout.removeTab(tab)
+
+            viewModel.removeDocument(documentModel)
+            viewModel.noDocumentsIndicator.set(adapter.isEmpty())
+        }
+        adapter.add(documentModel)
+        binding.tabDocumentLayout.addTab(tab)
+        binding.tabDocumentLayout.post { tab.select() }
+
+        viewModel.noDocumentsIndicator.set(adapter.isEmpty())
+    }
+
+    private fun closeKeyboard() {
+        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val windowToken = currentFocus?.windowToken
+        val hideType = InputMethodManager.HIDE_NOT_ALWAYS
+        inputManager.hideSoftInputFromWindow(windowToken, hideType)
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private fun closeDrawersIfNecessary(): Boolean {
+        val isOpen = binding.drawerLayout.isDrawerOpen(Gravity.LEFT)
+        if(isOpen) {
+            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+        }
+        return isOpen
     }
 
     // region PANEL

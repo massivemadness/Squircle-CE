@@ -27,8 +27,8 @@
             android:summary="@string/pref_theme_summary"
             android:key="THEME_RESOURCE"
             android:defaultValue="IDENTIFICATOR_DARCULA"
-            android:entries="@array/theme_list"
-            android:entryValues="@array/theme_list_values"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
             android:enabled="false"/>
 
         <SwitchPreferenceCompat

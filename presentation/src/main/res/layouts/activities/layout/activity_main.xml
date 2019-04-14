@@ -20,6 +20,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel"/>
+        <import type="android.view.View"/>
+
+        <variable name="viewModel" type="MainViewModel"/>
+    </data>
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -162,24 +169,70 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:clipChildren="true"
-                android:id="@+id/tab_file_layout"
+                android:id="@+id/tab_document_layout"
                 android:background="@color/colorTabs"
                 android:elevation="3.5dp"
+                app:tabUnboundedRipple="false"
                 app:tabIndicatorColor="@color/colorTabIndicator"
-                app:tabMode="scrollable"
-                app:tabGravity="fill"/>
+                app:tabMode="scrollable"/>
 
             <!-- endregion TOOLBAR -->
 
             <!-- region DOCUMENT -->
 
-            <fragment
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:id="@+id/fragment_document"
-                android:name="com.lightteam.modpeide.presentation.main.fragments.FragmentDocument"
-                tools:layout="@layout/fragment_document"/>
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="92dp"
+                    android:layout_height="92dp"
+                    android:layout_gravity="center"
+                    android:visibility="@{viewModel.noDocumentsIndicator ? View.VISIBLE : View.GONE}"
+                    android:src="@drawable/ic_file_search"
+                    android:tint="@color/colorIcon"
+                    android:contentDescription="@string/description_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="72dp"
+                    android:visibility="@{viewModel.noDocumentsIndicator ? View.VISIBLE : View.GONE}"
+                    android:textColor="@color/colorIcon"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:text="@string/message_no_open_files"/>
+
+                <ProgressBar
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:visibility="@{viewModel.documentLoadingIndicator ? View.VISIBLE : View.GONE}"
+                    android:indeterminate="true"/>
+
+                <com.lightteam.modpeide.presentation.main.customview.TextProcessor
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top|left"
+                    android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
+                    android:layerType="software"
+                    android:inputType="textMultiLine|textVisiblePassword"
+                    android:textCursorDrawable="@drawable/cursor"
+                    android:scrollbarStyle="insideInset"
+                    android:background="@null"
+                    android:id="@+id/editor"
+                    app:numbersColor="@color/syntaxNumbers"
+                    app:symbolsColor="@color/syntaxSymbols"
+                    app:bracketsColor="@color/syntaxBrackets"
+                    app:keywordsColor="@color/syntaxKeywords"
+                    app:methodsColor="@color/syntaxMethods"
+                    app:stringsColor="@color/syntaxStrings"
+                    app:commentsColor="@color/syntaxComments"
+                    tools:ignore="RtlHardcoded"/>
+
+            </FrameLayout>
 
             <!--<com.LightTeam.modpeidepro.widget.ExtendedKeyboard
                 android:layout_width="match_parent"

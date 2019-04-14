@@ -46,7 +46,7 @@ import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
 import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
 import com.lightteam.modpeide.presentation.main.adapters.utils.FileDiffCallback
 import androidx.core.content.ContextCompat.getSystemService
-import com.lightteam.modpeide.data.utils.commons.Properties
+import com.lightteam.modpeide.domain.model.PropertiesModel
 
 class FragmentDirectory : DaggerFragment(), RecyclerSelection {
 
@@ -77,7 +77,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
         if(fileModel.isFolder) {
             viewModel.fileTabsEvent.value = fileModel
         } else {
-            //viewModel.loadFile(fileModel)
+            viewModel.addDocument(fileModel)
         }
     }
 
@@ -95,6 +95,9 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
 
             adapter.setData(list)
             diffResult.dispatchUpdatesTo(adapter)
+        })
+        viewModel.propertiesEvent.observe(this.viewLifecycleOwner, Observer {
+            showPropertiesDialog(it)
         })
     }
 
@@ -123,7 +126,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
             }
             actionProperties.setOnClickListener {
                 dismiss()
-                showPropertiesDialog(fileModel)
+                viewModel.propertiesOf(fileModel)
             }
             actionRename.setOnClickListener {
                 dismiss()
@@ -136,16 +139,17 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
         }
     }
 
-    private fun showPropertiesDialog(fileModel: FileModel) {
+    private fun showPropertiesDialog(properties: PropertiesModel) {
         MaterialDialog(activity!!).show {
-            val result = Properties.analyze(fileModel)
-
             title(R.string.dialog_title_properties)
             message(text = Html.fromHtml(
-                getString(R.string.properties_name).format(result.name) + "<br>" +
-                        getString(R.string.properties_path).format(result.path) + "<br>" +
-                        getString(R.string.properties_modified).format(result.lastModified) + "<br>" +
-                        getString(R.string.properties_size).format(result.size)
+                getString(R.string.properties_name).format(properties.name) +
+                        getString(R.string.properties_path).format(properties.path) +
+                        getString(R.string.properties_modified).format(properties.lastModified) +
+                        getString(R.string.properties_size).format(properties.size) +
+                        getString(R.string.properties_line_count).format(properties.lines) +
+                        getString(R.string.properties_word_count).format(properties.words) +
+                        getString(R.string.properties_char_count).format(properties.chars)
             ))
             customView(R.layout.dialog_properties)
 
@@ -153,9 +157,9 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
             val writable = this.findViewById<CheckBox>(R.id.writable)
             val executable = this.findViewById<CheckBox>(R.id.executable)
 
-            readable.isChecked = result.readable
-            writable.isChecked = result.writable
-            executable.isChecked = result.executable
+            readable.isChecked = properties.readable
+            writable.isChecked = properties.writable
+            executable.isChecked = properties.executable
         }
     }
 

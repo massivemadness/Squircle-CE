@@ -15,10 +15,26 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.utils.extensions
+package com.lightteam.modpeide.presentation.main.adapters
 
-fun String.isValidFileName(): Boolean =
-        !isEmpty() &&
-                !contains("/") &&
-                !equals(".") &&
-                !equals("..")
+import com.lightteam.modpeide.domain.model.DocumentModel
+
+class DocumentAdapter {
+
+    private val data: MutableList<DocumentModel> = mutableListOf()
+
+    fun add(documentModel: DocumentModel) = data.add(documentModel)
+    fun get(index: Int): DocumentModel = data[index]
+    fun removeAt(index: Int) = data.removeAt(index)
+    fun contains(documentModel: DocumentModel): Boolean = data.contains(documentModel)
+    fun indexOf(documentModel: DocumentModel): Int {
+        for(model in data) {
+            if(documentModel.path == model.path) {
+                return data.indexOf(model)
+            }
+        }
+        return -1
+    }
+    fun count(): Int = data.size - 1
+    fun isEmpty(): Boolean = data.isEmpty()
+}
