@@ -32,11 +32,9 @@ import dagger.android.support.AndroidSupportInjectionModule
 ])
 interface AppComponent : AndroidInjector<BaseApplication> {
 
-    @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(application: BaseApplication): Builder
-        fun build(): AppComponent
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance application: BaseApplication): AppComponent
     }
 
     override fun inject(instance: BaseApplication)

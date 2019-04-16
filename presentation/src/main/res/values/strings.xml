@@ -43,9 +43,9 @@
     <string name="action_close">Close</string>
     <string name="action_create">Create</string>
     <string name="action_restart">Restart</string>
-    <!--<string name="action_closeOthers">Close Others</string>
-    <string name="action_closeAll">Close All</string>
-    <string name="action_refactor">Refactor</string>-->
+    <string name="action_close_others">Close Others</string>
+    <string name="action_close_all">Close All</string>
+    <!--<string name="action_refactor">Refactor</string>-->
     <string name="action_copy_path">Copy Path</string>
     <string name="action_properties">Properties</string>
     <string name="action_rename">Rename</string>
@@ -97,8 +97,8 @@
     <string name="message_no_open_files">No open files</string>
     <!--<string name="message_loading">Loading…</string>
     <string name="message_one_more">Press once again to exit</string>
-    <string name="message_too_much_tabs">Too much tabs, close one file</string>
-    <string name="message_cannot_be_opened">File cannot be opened</string>-->
+    <string name="message_too_much_tabs">Too much tabs, close one file</string>-->
+    <string name="message_cannot_be_opened">File cannot be opened</string>
     <string name="message_invalid_file_name">Invalid file name</string>
     <string name="message_error">An error occurred</string>
     <string name="message_done">Done</string>
@@ -201,7 +201,7 @@
     <string name="pref_highlight_line_title">Highlight Current Line</string>
     <string name="pref_highlight_line_summary">Highlight the line where the cursor currently resides.</string>
     <string name="pref_highlight_delimiters_title">Highlight Matching Delimiters</string>
-    <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the cursor at its pair.</string>
+    <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the caret at its pair.</string>
     <string name="pref_extended_keyboard_title">Extended Keyboard</string>
     <string name="pref_extended_keyboard_summary">Show additional keys above the keyboard.</string>
     <string name="pref_soft_keyboard_title">Soft Keyboard</string>

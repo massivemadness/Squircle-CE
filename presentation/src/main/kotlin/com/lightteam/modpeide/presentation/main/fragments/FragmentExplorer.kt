@@ -68,6 +68,7 @@ class FragmentExplorer : DaggerFragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_explorer, container, false)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -160,7 +161,7 @@ class FragmentExplorer : DaggerFragment(),
     }
 
     private fun setupObservers() {
-        viewModel.hasAccessEvent.observe(this.viewLifecycleOwner, Observer { hasAccess ->
+        viewModel.hasAccessEvent.observe(viewLifecycleOwner, Observer { hasAccess ->
             if(hasAccess) {
                 addToStack(viewModel.getDefaultLocation())
                 viewModel.hasPermission.set(true)
@@ -173,16 +174,16 @@ class FragmentExplorer : DaggerFragment(),
                 }
             }
         })
-        viewModel.fileUpdateListEvent.observe(this.viewLifecycleOwner, Observer {
+        viewModel.fileUpdateListEvent.observe(viewLifecycleOwner, Observer {
             onRefresh()
         })
-        viewModel.deleteFileEvent.observe(this.viewLifecycleOwner, Observer { deletedFile ->
+        viewModel.deleteFileEvent.observe(viewLifecycleOwner, Observer { deletedFile ->
             removeAfter(deletedFile)
         })
-        viewModel.renameFileEvent.observe(this.viewLifecycleOwner, Observer { renamedFile ->
+        viewModel.renameFileEvent.observe(viewLifecycleOwner, Observer { renamedFile ->
             removeAfter(renamedFile)
         })
-        viewModel.fileTabsEvent.observe(this.viewLifecycleOwner, Observer { path ->
+        viewModel.fileTabsEvent.observe(viewLifecycleOwner, Observer { path ->
             addToStack(path)
         })
     }

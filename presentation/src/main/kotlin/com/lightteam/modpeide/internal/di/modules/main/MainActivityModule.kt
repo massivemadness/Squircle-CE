@@ -34,6 +34,7 @@ import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
 import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModelFactory
+import com.lightteam.modpeide.utils.commons.VersionChecker
 import dagger.Module
 import dagger.Provides
 
@@ -64,8 +65,9 @@ class MainActivityModule {
                                     schedulersProvider: SchedulersProvider,
                                     preferenceHandler: PreferenceHandler,
                                     cacheHandler: CacheHandler,
-                                    typefaceFactory: TypefaceFactory): MainViewModelFactory
-            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, typefaceFactory)
+                                    typefaceFactory: TypefaceFactory,
+                                    versionChecker: VersionChecker): MainViewModelFactory
+            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, typefaceFactory, versionChecker)
 
     @Provides
     @PerActivity

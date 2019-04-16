@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.utils.extensions
 
+import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -26,6 +27,26 @@ fun String.isValidFileName(): Boolean =
                 !contains("/") &&
                 !equals(".") &&
                 !equals("..")
+
+fun String.endsWith(suffixes: Array<String>): Boolean {
+        for(suffix in suffixes) {
+                if(endsWith(suffix)) {
+                        return true
+                }
+        }
+        return false
+}
+
+fun File.size(): Long {
+        if(isDirectory) {
+                var length: Long = 0
+                for (child in listFiles()) {
+                        length += child.size()
+                }
+                return length
+        }
+        return length()
+}
 
 fun Long.formatAsDate(): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy EEE HH:mm", Locale.getDefault())

@@ -18,11 +18,9 @@
 package com.lightteam.modpeide.presentation.main.customview
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
-import com.lightteam.modpeide.R
 
 class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoCompleteTextView(context, attrs) {
 
@@ -31,26 +29,38 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var fontType: Typeface = Typeface.MONOSPACE
     )
 
-    private val typedArray = context.theme.obtainStyledAttributes(
-        attrs, R.styleable.TextProcessor, 0, 0
+    data class Theme(
+        var textColor: Int = -1,
+        var backgroundColor: Int = -1,
+        var gutterColor: Int = -1,
+        var gutterTextColor: Int = -1,
+        var gutterLineColor: Int = -1,
+        var selectedLineColor: Int = -1,
+        var searchSpanColor: Int = -1,
+        var bracketSpanColor: Int = -1,
+
+        //Syntax Highlighting
+        var numbersColor: Int = -1,
+        var symbolsColor: Int = -1,
+        var bracketsColor: Int = -1,
+        var keywordsColor: Int = -1,
+        var methodsColor: Int = -1,
+        var stringsColor: Int = -1,
+        var commentsColor: Int = -1
     )
 
-    private val numbersColor: Int = typedArray.getColor(R.styleable.TextProcessor_numbersColor, Color.WHITE)
-    private val symbolsColor: Int = typedArray.getColor(R.styleable.TextProcessor_symbolsColor, Color.WHITE)
-    private val bracketsColor: Int = typedArray.getColor(R.styleable.TextProcessor_bracketsColor, Color.WHITE)
-    private val keywordsColor: Int = typedArray.getColor(R.styleable.TextProcessor_keywordsColor, Color.WHITE)
-    private val methodsColor: Int = typedArray.getColor(R.styleable.TextProcessor_methodsColor, Color.WHITE)
-    private val stringsColor: Int = typedArray.getColor(R.styleable.TextProcessor_stringsColor, Color.WHITE)
-    private val commentsColor: Int = typedArray.getColor(R.styleable.TextProcessor_commentsColor, Color.WHITE)
-
     private var configuration: Configuration = Configuration()
+    private var theme: Theme = Theme()
 
     init {
         configure(configuration)
+        colorize(theme)
     }
 
     fun getConfiguration() = configuration
     fun setConfiguration(configuration: Configuration) = configure(configuration)
+    fun getTheme() = theme
+    fun setTheme(theme: Theme) = colorize(theme)
 
     private fun configure(configuration: Configuration) {
         this.configuration = configuration
@@ -58,4 +68,11 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         textSize = configuration.fontSize
         typeface = configuration.fontType
     }
+
+    private fun colorize(theme: Theme) {
+        this.theme = theme
+        //invalidate()
+    }
+
+    fun clearText() = setText("")
 }

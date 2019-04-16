@@ -21,10 +21,18 @@ import com.lightteam.modpeide.domain.model.DocumentModel
 
 class DocumentAdapter {
 
-    private val data: MutableList<DocumentModel> = mutableListOf()
+    private val data: ArrayList<DocumentModel> = ArrayList()
 
     fun add(documentModel: DocumentModel) = data.add(documentModel)
-    fun get(index: Int): DocumentModel = data[index]
+    fun get(index: Int): DocumentModel? {
+        var document: DocumentModel?
+        try {
+            document = data[index]
+        } catch (e: IndexOutOfBoundsException) {
+            document = null
+        }
+        return document
+    }
     fun removeAt(index: Int) = data.removeAt(index)
     fun contains(documentModel: DocumentModel): Boolean = data.contains(documentModel)
     fun indexOf(documentModel: DocumentModel): Int {

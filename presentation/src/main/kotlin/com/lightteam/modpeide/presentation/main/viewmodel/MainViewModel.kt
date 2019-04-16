@@ -23,6 +23,7 @@ import androidx.databinding.ObservableBoolean
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
+import com.lightteam.modpeide.data.converter.FileConverter
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
@@ -35,9 +36,11 @@ import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 class MainViewModel(
@@ -46,7 +49,8 @@ class MainViewModel(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val cacheHandler: CacheHandler,
-    private val typefaceFactory: TypefaceFactory
+    private val typefaceFactory: TypefaceFactory,
+    private val versionChecker: VersionChecker
 ) : BaseViewModel() {
 
     val hasPermission: ObservableBoolean = ObservableBoolean(false) //Отображение интерфейса с разрешениями
@@ -63,12 +67,14 @@ class MainViewModel(
     val fileUpdateListEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление текущей директории
     val fileTabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки в проводник
 
+    val documentAllTabsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Загрузка кешированных документов
     val documentTabEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Добавление вкладки в список документов
     val documentTextEvent: SingleLiveEvent<String> = SingleLiveEvent() //Чтение файла
 
     val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
     val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла (диалог)
+    val storeDialogEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Диалог о покупке Ultimate версии
 
     // region PREFERENCES
 
@@ -80,6 +86,10 @@ class MainViewModel(
 
     // endregion PREFERENCES
 
+    val unopenableExtensions = arrayOf( //Неоткрываемые расширения файлов
+        ".apk", ".mp3", ".mp4", ".wav", ".pdf", ".avi", ".wmv", ".m4a", ".png", ".jpg", ".jpeg", ".zip", ".wad",
+        ".7z", ".rar", ".gif", ".xls", ".doc", ".dat", ".jar", ".tar", ".torrent", ".xd", ".docx", ".temp"
+    )
     var sortMode: Int = FileSorter.SORT_BY_NAME
     var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     var showHidden: Boolean = true
@@ -89,7 +99,8 @@ class MainViewModel(
 
     // region FILE_REPOSITORY
 
-    fun getDefaultLocation(): FileModel = fileRepository.getDefaultLocation()
+    fun getDefaultLocation(): FileModel
+            = fileRepository.getDefaultLocation()
 
     fun makeList(path: FileModel) {
         filesLoadingIndicator.set(true)
@@ -114,17 +125,12 @@ class MainViewModel(
                 }
             }
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = { list ->
-                    fileList = list
-                    fileListEvent.value = list
-                    filesLoadingIndicator.set(false)
-                    noFilesIndicator.set(list.isEmpty())
-                },
-                onError = {
-
-                }
-            )
+            .subscribeBy { list ->
+                fileList = list
+                fileListEvent.value = list
+                filesLoadingIndicator.set(false)
+                noFilesIndicator.set(list.isEmpty())
+            }
             .disposeOnViewModelDestroy()
     }
 
@@ -237,9 +243,7 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = { list ->
-                    list.forEach {
-                        documentTabEvent.value = it
-                    }
+                    documentAllTabsEvent.value = list
                     documentLoadingIndicator.set(false)
                     noDocumentsIndicator.set(list.isEmpty())
                 },
@@ -250,11 +254,7 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun addDocument(fileModel: FileModel) {
-        documentTabEvent.value = DocumentConverter.toModel(fileModel)
-    }
-
-    /*fun saveToCache(documentModel: DocumentModel, text: String) {
+    fun saveToCache(documentModel: DocumentModel, text: String) {
         Completable
             .fromAction {
                 database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
@@ -265,9 +265,14 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun loadFromCache(documentModel: DocumentModel) {
+    fun addDocument(file: File) {
+        val fileModel = FileConverter.toModel(file)
+        documentTabEvent.value = DocumentConverter.toModel(fileModel)
+    }
 
-    }*/
+    fun addDocument(fileModel: FileModel) {
+        documentTabEvent.value = DocumentConverter.toModel(fileModel)
+    }
 
     fun removeDocument(documentModel: DocumentModel) {
         Completable
@@ -283,6 +288,14 @@ class MainViewModel(
     // endregion EDITOR
 
     // region PREFERENCES
+
+    fun isUltimate(): Boolean {
+        if(!versionChecker.isUltimate) {
+            storeDialogEvent.value = false
+            return false
+        }
+        return true
+    }
 
     fun observePreferences() {
 

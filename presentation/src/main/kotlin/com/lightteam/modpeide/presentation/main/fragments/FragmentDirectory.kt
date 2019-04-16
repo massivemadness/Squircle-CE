@@ -60,6 +60,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_directory, container, false)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -89,14 +90,14 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
     private fun setupListeners() { }
 
     private fun setupObservers() {
-        viewModel.fileListEvent.observe(this.viewLifecycleOwner, Observer { list ->
+        viewModel.fileListEvent.observe(viewLifecycleOwner, Observer { list ->
             val diffCallback = FileDiffCallback(adapter.getData(), list)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
 
             adapter.setData(list)
             diffResult.dispatchUpdatesTo(adapter)
         })
-        viewModel.propertiesEvent.observe(this.viewLifecycleOwner, Observer {
+        viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
             showPropertiesDialog(it)
         })
     }

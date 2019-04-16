@@ -26,6 +26,7 @@ import com.lightteam.modpeide.data.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.EmptyViewModel
+import com.lightteam.modpeide.utils.commons.VersionChecker
 
 class MainViewModelFactory(
     private val fileRepository: FileRepository,
@@ -33,7 +34,8 @@ class MainViewModelFactory(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val cacheHandler: CacheHandler,
-    private val typefaceFactory: TypefaceFactory
+    private val typefaceFactory: TypefaceFactory,
+    private val versionChecker: VersionChecker
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -46,7 +48,8 @@ class MainViewModelFactory(
                     schedulersProvider,
                     preferenceHandler,
                     cacheHandler,
-                    typefaceFactory
+                    typefaceFactory,
+                    versionChecker
                 ) as T
             else -> EmptyViewModel() as T
         }

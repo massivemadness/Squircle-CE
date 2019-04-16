@@ -25,8 +25,6 @@ import androidx.appcompat.widget.PopupMenu
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.presentation.main.activities.interfaces.OnPanelClickListener
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.view.menu.MenuPopupHelper
 
 class ToolbarManager(
     private val listener: OnPanelClickListener
@@ -74,14 +72,10 @@ class ToolbarManager(
     private fun setMenuClickListener(view: View, menuRes: Int) {
         view.setOnClickListener {
             val wrapper = ContextThemeWrapper(view.context, R.style.Theme_Internal_PopupMenu)
-
             val popupMenu = PopupMenu(wrapper, view)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)
-
-            val menuHelper = MenuPopupHelper(wrapper, popupMenu.menu as MenuBuilder, view)
-            menuHelper.setForceShowIcon(true)
-            menuHelper.show()
+            popupMenu.show()
         }
     }
 

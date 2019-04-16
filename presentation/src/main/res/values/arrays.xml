@@ -30,8 +30,6 @@
 
     <string-array name="theme_entries">
         <item>Darcula</item>
-        <item>Darcula (OLED)</item>
-        <item>Dark Blue</item>
         <item>Monokai</item>
     </string-array>
     <string-array name="theme_values">

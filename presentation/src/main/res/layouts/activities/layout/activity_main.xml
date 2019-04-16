@@ -219,7 +219,7 @@
                     android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
                     android:layerType="software"
                     android:inputType="textMultiLine|textVisiblePassword"
-                    android:textCursorDrawable="@drawable/cursor"
+                    android:textCursorDrawable="@drawable/caret"
                     android:scrollbarStyle="insideInset"
                     android:background="@null"
                     android:id="@+id/editor"

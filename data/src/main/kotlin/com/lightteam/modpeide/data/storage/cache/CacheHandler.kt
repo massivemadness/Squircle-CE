@@ -19,9 +19,8 @@ package com.lightteam.modpeide.data.storage.cache
 
 import android.content.Context
 import com.lightteam.modpeide.domain.model.DocumentModel
+import java.io.BufferedReader
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStreamWriter
 
 class CacheHandler(private val context: Context) {
 
@@ -30,11 +29,7 @@ class CacheHandler(private val context: Context) {
 
     fun loadFromCache(documentModel: DocumentModel): String {
         val file = openCache("${documentModel.uuid}.cache")
-        val text = StringBuilder()
-        file.forEachLine {
-            text.append(it + '\n')
-        }
-        return text.toString()
+        return file.inputStream().bufferedReader().use(BufferedReader::readText)
     }
 
     fun saveToCache(documentModel: DocumentModel,
@@ -44,21 +39,21 @@ class CacheHandler(private val context: Context) {
         createCacheFilesIfNecessary(documentModel)
 
         val textFile = openCache("${documentModel.uuid}.cache")
-        val textOutputStreamWriter = OutputStreamWriter(FileOutputStream(textFile))
-        textOutputStreamWriter.write(text)
-        textOutputStreamWriter.close()
+        val textWriter = textFile.outputStream().bufferedWriter()
+        textWriter.write(text)
+        textWriter.close()
 
         /*val undoCache = encodeUndoStack(undoStack)
         val undoFile = openCache("${documentModel.uuid}-undo.cache")
-        val outputStreamWriter = OutputStreamWriter(FileOutputStream(undoFile))
-        outputStreamWriter.write(undoCache)
-        outputStreamWriter.close()
+        val undoWriter = undoFile.outputStream().bufferedWriter()
+        undoWriter.write(undoCache)
+        undoWriter.close()
 
         val redoCache = encodeUndoStack(redoStack)
         val redoFile = openCache("${documentModel.uuid}-redo.cache")
-        val redoOutputStreamWriter = OutputStreamWriter(FileOutputStream(redoFile))
-        redoOutputStreamWriter.write(redoCache)
-        redoOutputStreamWriter.close()*/
+        val redoWriter = redoFile.outputStream().bufferedWriter()
+        redoWriter.write(redoCache)
+        redoWriter.close()*/
     }
 
     fun invalidateCache(documentModel: DocumentModel) {

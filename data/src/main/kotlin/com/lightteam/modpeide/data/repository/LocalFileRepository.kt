@@ -24,15 +24,16 @@ import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.utils.extensions.formatAsDate
 import com.lightteam.modpeide.data.utils.extensions.formatAsSize
+import com.lightteam.modpeide.data.utils.extensions.size
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.repository.FileRepository
 import io.reactivex.Completable
 import io.reactivex.Single
+import java.io.BufferedReader
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStreamWriter
+import java.io.FileNotFoundException
 
 class LocalFileRepository(
     private val database: AppDatabase,
@@ -99,7 +100,7 @@ class LocalFileRepository(
                 fileModel.name,
                 fileModel.path,
                 fileModel.lastModified.formatAsDate(),
-                fileModel.size.formatAsSize(),
+                realFile.size().formatAsSize(),
                 getLineCount(realFile),
                 getWordCount(realFile),
                 getCharCount(realFile),
@@ -123,9 +124,12 @@ class LocalFileRepository(
                 cacheHandler.loadFromCache(documentModel)
             } else { // Load from Storage
                 val file = File(documentModel.path)
-                val builder = StringBuilder()
-                file.forEachLine { builder.append(it + '\n') }
-                builder.toString()
+                if(file.exists()) {
+                    file.inputStream().bufferedReader().use(BufferedReader::readText)
+                } else {
+                    emitter.onError(FileNotFoundException())
+                    String()
+                }
             }
             cacheHandler.saveToCache(documentModel, text) // Save to Cache
             emitter.onSuccess(text)
@@ -142,9 +146,9 @@ class LocalFileRepository(
             // Save to Storage
             val file = File(documentModel.path)
             if(file.exists()) {
-                val textOutputStreamWriter = OutputStreamWriter(FileOutputStream(file))
-                textOutputStreamWriter.write(text)
-                textOutputStreamWriter.close()
+                val writer = file.outputStream().bufferedWriter()
+                writer.write(text)
+                writer.close()
             }
             cacheHandler.saveToCache(documentModel, text) // Save to Cache
             emitter.onComplete()
