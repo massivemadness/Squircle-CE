@@ -70,11 +70,11 @@ class MainViewModel(
     val documentAllTabsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Загрузка кешированных документов
     val documentTabEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Добавление вкладки в список документов
     val documentTextEvent: SingleLiveEvent<String> = SingleLiveEvent() //Чтение файла
+    val documentLoadedEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Для загрузки скроллинга/выделения
 
     val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
     val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла (диалог)
-    val storeDialogEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Диалог о покупке Ultimate версии
 
     // region PREFERENCES
 
@@ -83,6 +83,11 @@ class MainViewModel(
 
     val fontSizeEvent: SingleLiveEvent<Float> = SingleLiveEvent() //Размер шрифта
     val fontTypeEvent: SingleLiveEvent<Typeface> = SingleLiveEvent() //Тип шрифта
+
+    val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Повторное открытие вкладок после выхода
+    val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Лимит вкладок
+
+    val extendedKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать доп. символы
 
     // endregion PREFERENCES
 
@@ -185,6 +190,7 @@ class MainViewModel(
             .subscribeBy(
                 onSuccess = {
                     documentTextEvent.value = it
+                    documentLoadedEvent.value = documentModel
                     documentLoadingIndicator.set(false)
                 },
                 onError = {
@@ -222,7 +228,7 @@ class MainViewModel(
             collection.addAll(fileList)
         } else {
             for(row in fileList) {
-                if(row.name.toLowerCase().contains(newQuery)) { //Поиск по названию
+                if(row.name.toLowerCase().contains(newQuery)) {
                     collection.add(row)
                 }
             }
@@ -238,14 +244,24 @@ class MainViewModel(
 
     fun loadAllFiles() {
         documentLoadingIndicator.set(true)
-        database.documentDao().loadDocuments()
-            .map { it.map(DocumentConverter::toModel) } // Convert all entities to models
+        database.documentDao().loadAll()
+            .map { it.map(DocumentConverter::toModel) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = { list ->
-                    documentAllTabsEvent.value = list
+                    if(resumeSessionEvent.value!!) {
+                        documentAllTabsEvent.value = list
+                        noDocumentsIndicator.set(list.isEmpty())
+                    } else {
+                        database.documentDao().deleteAll()
+                            .schedulersIoToMain(schedulersProvider)
+                            .subscribe {
+                                cacheHandler.invalidateCaches()
+                            }
+                            .disposeOnViewModelDestroy()
+                        noDocumentsIndicator.set(true)
+                    }
                     documentLoadingIndicator.set(false)
-                    noDocumentsIndicator.set(list.isEmpty())
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
@@ -265,11 +281,11 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun addDocument(file: File) {
-        val fileModel = FileConverter.toModel(file)
-        documentTabEvent.value = DocumentConverter.toModel(fileModel)
-    }
+    /*fun saveUndoRedoStack(undoStack: UndoStack, redoStack: undoStack) {
 
+    }*/
+
+    fun addDocument(file: File) = addDocument(FileConverter.toModel(file))
     fun addDocument(fileModel: FileModel) {
         documentTabEvent.value = DocumentConverter.toModel(fileModel)
     }
@@ -289,13 +305,7 @@ class MainViewModel(
 
     // region PREFERENCES
 
-    fun isUltimate(): Boolean {
-        if(!versionChecker.isUltimate) {
-            storeDialogEvent.value = false
-            return false
-        }
-        return true
-    }
+    fun isUltimate(): Boolean = versionChecker.isUltimate
 
     fun observePreferences() {
 
@@ -327,6 +337,27 @@ class MainViewModel(
             .map(typefaceFactory::create)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fontTypeEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Resume Session
+        preferenceHandler.getResumeSession()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { resumeSessionEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Tab Limit
+        preferenceHandler.getTabLimit()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { tabLimitEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Extended Keyboard
+        preferenceHandler.getExtendedKeyboard()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { extendedKeyboardEvent.value = it }
             .disposeOnViewModelDestroy()
 
         //Filter Hidden Files

@@ -221,29 +221,20 @@
                     android:inputType="textMultiLine|textVisiblePassword"
                     android:textCursorDrawable="@drawable/caret"
                     android:scrollbarStyle="insideInset"
-                    android:background="@null"
                     android:id="@+id/editor"
-                    app:numbersColor="@color/syntaxNumbers"
-                    app:symbolsColor="@color/syntaxSymbols"
-                    app:bracketsColor="@color/syntaxBrackets"
-                    app:keywordsColor="@color/syntaxKeywords"
-                    app:methodsColor="@color/syntaxMethods"
-                    app:stringsColor="@color/syntaxStrings"
-                    app:commentsColor="@color/syntaxComments"
                     tools:ignore="RtlHardcoded"/>
 
             </FrameLayout>
 
-            <!--<com.LightTeam.modpeidepro.widget.ExtendedKeyboard
+            <com.lightteam.modpeide.presentation.main.customview.ExtendedKeyboard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:background="?attr/colorTabs"
+                android:background="@color/colorTabs"
                 android:elevation="2dp"
                 android:id="@+id/extended_keyboard"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>-->
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <!-- endregion DOCUMENT -->
 

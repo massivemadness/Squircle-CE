@@ -29,7 +29,7 @@
 
         <activity
             android:name="com.lightteam.modpeide.presentation.main.activities.MainActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask">
             <intent-filter>

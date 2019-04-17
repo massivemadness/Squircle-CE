@@ -28,8 +28,7 @@
             android:key="THEME"
             android:defaultValue="THEME_DARCULA"
             android:entries="@array/theme_entries"
-            android:entryValues="@array/theme_values"
-            android:enabled="false"/>
+            android:entryValues="@array/theme_values"/>
 
         <SwitchPreferenceCompat
             android:title="@string/pref_fullscreen_title"

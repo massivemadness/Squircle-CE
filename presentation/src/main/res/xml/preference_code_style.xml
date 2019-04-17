@@ -38,8 +38,7 @@
             android:title="@string/pref_close_quotes_title"
             android:summary="@string/pref_close_quotes_summary"
             android:defaultValue="false"
-            android:key="INSERT_QUOTE"
-            android:enabled="false"/>
+            android:key="INSERT_QUOTE"/>
 
     </PreferenceCategory>
 

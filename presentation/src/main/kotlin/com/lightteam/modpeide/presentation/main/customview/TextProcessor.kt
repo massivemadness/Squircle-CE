@@ -18,11 +18,15 @@
 package com.lightteam.modpeide.presentation.main.customview
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 
 class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoCompleteTextView(context, attrs) {
+
+    private val TAG = TextProcessor::class.java.simpleName
 
     data class Configuration(
         var fontSize: Float = 14f,
@@ -30,49 +34,73 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     )
 
     data class Theme(
-        var textColor: Int = -1,
-        var backgroundColor: Int = -1,
-        var gutterColor: Int = -1,
-        var gutterTextColor: Int = -1,
-        var gutterLineColor: Int = -1,
-        var selectedLineColor: Int = -1,
-        var searchSpanColor: Int = -1,
-        var bracketSpanColor: Int = -1,
+        var textColor: Int = Color.WHITE,
+        var backgroundColor: Int = Color.DKGRAY,
+        var gutterColor: Int = Color.GRAY,
+        var gutterTextColor: Int = Color.WHITE,
+        var gutterLineColor: Int = Color.DKGRAY,
+        var selectedLineColor: Int = Color.GRAY,
+        var searchSpanColor: Int = Color.GREEN,
+        var bracketSpanColor: Int = Color.GREEN,
 
         //Syntax Highlighting
-        var numbersColor: Int = -1,
-        var symbolsColor: Int = -1,
-        var bracketsColor: Int = -1,
-        var keywordsColor: Int = -1,
-        var methodsColor: Int = -1,
-        var stringsColor: Int = -1,
-        var commentsColor: Int = -1
+        var numbersColor: Int = Color.WHITE,
+        var symbolsColor: Int = Color.WHITE,
+        var bracketsColor: Int = Color.WHITE,
+        var keywordsColor: Int = Color.WHITE,
+        var methodsColor: Int = Color.WHITE,
+        var stringsColor: Int = Color.WHITE,
+        var commentsColor: Int = Color.WHITE
     )
 
-    private var configuration: Configuration = Configuration()
-    private var theme: Theme = Theme()
+    // region INIT
 
     init {
-        configure(configuration)
-        colorize(theme)
+        colorize()
     }
 
-    fun getConfiguration() = configuration
-    fun setConfiguration(configuration: Configuration) = configure(configuration)
-    fun getTheme() = theme
-    fun setTheme(theme: Theme) = colorize(theme)
+    var configuration: Configuration = Configuration()
+        set(value) {
+            field = value
+            configure()
+        }
 
-    private fun configure(configuration: Configuration) {
-        this.configuration = configuration
+    var theme: Theme = Theme()
+        set(value) {
+            field = value
+            colorize()
+        }
 
+    private fun configure() {
         textSize = configuration.fontSize
         typeface = configuration.fontType
     }
 
-    private fun colorize(theme: Theme) {
-        this.theme = theme
-        //invalidate()
+    private fun colorize() {
+        post {
+            setTextColor(theme.textColor)
+            setBackgroundColor(theme.backgroundColor)
+        }
     }
 
+    // endregion INIT
+
+    // region METHODS
+
     fun clearText() = setText("")
+
+    fun insert(delta: CharSequence) {
+        var selectionStart = Math.max(0, selectionStart)
+        var selectionEnd = Math.max(0, selectionEnd)
+        selectionStart = Math.min(selectionStart, selectionEnd)
+        selectionEnd = Math.max(selectionStart, selectionEnd)
+        try {
+            text.delete(selectionStart, selectionEnd)
+            text.insert(selectionStart, delta)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message, e)
+        }
+    }
+
+    // endregion METHODS
 }

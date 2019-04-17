@@ -18,7 +18,9 @@
     <!ENTITY app_version "2019.1.0">
     <!ENTITY app_code "10016">
 ]>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
     <string name="app_name" translatable="false">ModPE IDE</string>
 
     <string name="description_icon">Icon</string>
@@ -42,17 +44,17 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
     <string name="action_create">Create</string>
-    <string name="action_restart">Restart</string>
     <string name="action_close_others">Close Others</string>
     <string name="action_close_all">Close All</string>
-    <!--<string name="action_refactor">Refactor</string>-->
+    <!--<string name="action_refactor">Refactor</string>
+    <string name="action_restart">Restart</string>-->
     <string name="action_copy_path">Copy Path</string>
     <string name="action_properties">Properties</string>
     <string name="action_rename">Rename</string>
     <string name="action_delete">Delete</string>
     <!--<string name="action_apply">Apply</string>-->
-    <string name="action_get_it">Get it</string>
-    <string name="action_continue">Continue</string>
+    <string name="action_get_it_for">Get it for 1,49 $</string>
+    <string name="action_continue_free">Continue free</string>
     <string name="action_unlock_all_features">Unlock all features</string>
 
     <string name="dialog_title_choose_action">Choose action…</string>
@@ -83,9 +85,9 @@
     <string name="properties_line_count">&lt;b>Line Count:&lt;/b> %s&lt;br></string>
     <string name="properties_word_count">&lt;b>Word Count:&lt;/b> %s&lt;br></string>
     <string name="properties_char_count">&lt;b>Character Count:&lt;/b> %s</string>
-    <string name="properties_read">R</string>
-    <string name="properties_write">W</string>
-    <string name="properties_execute">X</string>
+    <string name="properties_readable">R</string>
+    <string name="properties_writable">W</string>
+    <string name="properties_executable">X</string>
 
     <string name="sort_by_name">Sort by Name</string>
     <string name="sort_by_size">Sort by Size</string>
@@ -96,8 +98,8 @@
     <string name="message_no_result">No result</string>
     <string name="message_no_open_files">No open files</string>
     <!--<string name="message_loading">Loading…</string>
-    <string name="message_one_more">Press once again to exit</string>
-    <string name="message_too_much_tabs">Too much tabs, close one file</string>-->
+    <string name="message_one_more">Press once again to exit</string>-->
+    <string name="message_tab_limit_achieved">Tab limit achieved</string>
     <string name="message_cannot_be_opened">File cannot be opened</string>
     <string name="message_invalid_file_name">Invalid file name</string>
     <string name="message_error">An error occurred</string>
@@ -149,10 +151,10 @@
     <string name="store_feature_1">Basic functionality</string>
     <string name="store_feature_2">No advertisements</string>
     <string name="store_feature_3">Themes</string>
-    <string name="store_feature_4">Increased tab limit</string>
-    <string name="store_feature_5">Custom fonts</string>
-    <string name="store_feature_6">Color Picker</string>
-    <string name="store_feature_7">Syntax Validator</string>
+    <string name="store_feature_4">5 new fonts</string>
+    <string name="store_feature_5">Increased tab limit</string>
+    <string name="store_feature_6">Syntax validator</string>
+    <string name="store_feature_7">Color picker</string>
 
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>

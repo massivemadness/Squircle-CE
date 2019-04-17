@@ -86,21 +86,21 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
 
     override fun setPreferencesFromResource(preferencesResId: Int, key: String?) {
         super.setPreferencesFromResource(preferencesResId, key)
-        if(viewModel.isUltimate()) { //available only for ultimate edition
+        if(!viewModel.isUltimate()) {
             when(key) {
                 KEY_APPLICATION -> {
-                    findPreference<Preference>(KEY_THEME)?.isEnabled = true
+                    findPreference<Preference>(KEY_THEME)?.isEnabled = false
                 }
                 KEY_EDITOR -> {
-                    findPreference<Preference>(KEY_FONT_TYPE)?.isEnabled = true
-                    findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = true
+                    findPreference<Preference>(KEY_FONT_TYPE)?.isEnabled = false
+                    findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = false
                 }
                 KEY_CODE_STYLE -> {
-                    findPreference<Preference>(KEY_INSERT_QUOTE)?.isEnabled = true
+                    findPreference<Preference>(KEY_INSERT_QUOTE)?.isEnabled = false
                 }
                 KEY_ABOUT -> {
                     findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
-                        ?.setTitle(R.string.pref_about_ultimate_title)
+                        ?.setTitle(R.string.pref_about_standard_title)
                 }
             }
         }
@@ -109,7 +109,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
     private fun setupObservers() {
         viewModel.backEvent.observe(this.viewLifecycleOwner, Observer {
             if(preferenceScreen.key != KEY_ROOT) {
-                val root = Preference(activity)
+                val root = Preference(context)
                 root.key = KEY_ROOT
                 onPreferenceTreeClick(root)
             } else {
@@ -124,7 +124,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
         MaterialDialog(activity!!).show {
             title(R.string.dialog_title_changelog)
             message(text = Html.fromHtml(
-                RawUtils.getRawFileText(activity!!, R.raw.changelog)
+                RawUtils.getRawFileText(context, R.raw.changelog)
             ))
             negativeButton(R.string.action_close)
         }
@@ -135,7 +135,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
         MaterialDialog(activity!!).show {
             title(R.string.dialog_title_privacy_policy)
             message(text = Html.fromHtml(
-                RawUtils.getRawFileText(activity!!, R.raw.privacy_policy)
+                RawUtils.getRawFileText(context, R.raw.privacy_policy)
             ))
             negativeButton(R.string.action_close)
         }

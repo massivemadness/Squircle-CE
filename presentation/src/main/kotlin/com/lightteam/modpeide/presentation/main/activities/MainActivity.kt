@@ -50,14 +50,17 @@ import com.lightteam.modpeide.presentation.base.activities.BaseActivity
 import com.lightteam.modpeide.presentation.main.activities.interfaces.OnPanelClickListener
 import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
 import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
+import com.lightteam.modpeide.presentation.main.customview.ExtendedKeyboard
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.extensions.launchActivity
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(),
     OnPanelClickListener,
+    ExtendedKeyboard.OnKeyListener,
     TabLayout.OnTabSelectedListener {
 
     companion object {
@@ -145,9 +148,16 @@ class MainActivity : BaseActivity(),
         super.onPause()
         val selectedDocument = adapter.get(binding.tabDocumentLayout.selectedTabPosition)
         selectedDocument?.let {
-            viewModel.saveToCache(it, binding.editor.text.toString())
+            val document = it.copy(
+                scrollX = binding.editor.scrollX,
+                scrollY = binding.editor.scrollY,
+                selectionStart = binding.editor.selectionStart,
+                selectionEnd = binding.editor.selectionEnd
+            )
+            adapter.add(document) //update adapter
+            viewModel.saveToCache(document, binding.editor.text.toString())
             viewModel.documentLoadingIndicator.set(true)
-            binding.editor.clearText()
+            binding.editor.clearText() //TTL Exception bypass
         }
     }
 
@@ -179,6 +189,7 @@ class MainActivity : BaseActivity(),
 
     private fun setupListeners() {
         binding.tabDocumentLayout.addOnTabSelectedListener(this)
+        binding.extendedKeyboard.setKeyListener(this)
         binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerStateChanged(newState: Int) {}
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
@@ -210,15 +221,26 @@ class MainActivity : BaseActivity(),
                 }
             } else {
                 closeDrawersIfNecessary()
-                addTab(document, true)
+                if(adapter.size() < viewModel.tabLimitEvent.value!!) {
+                    addTab(document, true)
+                } else {
+                    viewModel.toastEvent.value = R.string.message_tab_limit_achieved
+                }
             }
         })
         viewModel.documentTextEvent.observe(this, Observer {
             binding.editor.setText(it)
         })
-        viewModel.storeDialogEvent.observe(this, Observer {
-            showStoreDialog()
+        viewModel.documentLoadedEvent.observe(this, Observer { loadedDocument ->
+            binding.editor.scrollX = loadedDocument.scrollX
+            binding.editor.scrollY = loadedDocument.scrollY
+            binding.editor.setSelection(loadedDocument.selectionStart, loadedDocument.selectionEnd)
         })
+        KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
+            if(viewModel.extendedKeyboardEvent.value!!) {
+                binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
+            }
+        }
 
         // region PREFERENCES
 
@@ -230,12 +252,12 @@ class MainActivity : BaseActivity(),
             }
         })
         viewModel.fontSizeEvent.observe(this, Observer { fontSize ->
-            val configuration = binding.editor.getConfiguration().copy(fontSize = fontSize)
-            binding.editor.setConfiguration(configuration)
+            val newConfiguration = binding.editor.configuration.copy(fontSize = fontSize)
+            binding.editor.configuration = newConfiguration
         })
-        viewModel.fontTypeEvent.observe(this, Observer {  fontType ->
-            val configuration = binding.editor.getConfiguration().copy(fontType = fontType)
-            binding.editor.setConfiguration(configuration)
+        viewModel.fontTypeEvent.observe(this, Observer { fontType ->
+            val newConfiguration = binding.editor.configuration.copy(fontType = fontType)
+            binding.editor.configuration = newConfiguration
         })
 
         // endregion PREFERENCES
@@ -288,7 +310,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun removeOtherTabs(position: Int) {
-        for (index in adapter.count() downTo 0) {
+        for(index in adapter.count() downTo 0) {
             if (index != position) {
                 removeTab(index)
             }
@@ -313,6 +335,11 @@ class MainActivity : BaseActivity(),
         // Обход бага, когда после удаления вкладки индикатор не обновляет свою позицию
         if(index < selectedIndex) {
             binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
+        }
+
+        // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
+        if(index == selectedIndex) {
+            closeKeyboard()
         }
     }
 
@@ -355,7 +382,11 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    // region PANEL
+    // region OTHER
+
+    override fun onKey(char: String) {
+        binding.editor.insert(char)
+    }
 
     @SuppressLint("RtlHardcoded")
     override fun onDrawerButton() {
@@ -410,12 +441,16 @@ class MainActivity : BaseActivity(),
     override fun onSyntaxValidatorButton() {
         if(viewModel.isUltimate()) {
             //...
+        } else {
+            showStoreDialog()
         }
     }
 
     override fun onInsertColorButton() {
         if(viewModel.isUltimate()) {
             //...
+        } else {
+            showStoreDialog()
         }
     }
 
@@ -429,5 +464,5 @@ class MainActivity : BaseActivity(),
         launchActivity<SettingsActivity>()
     }
 
-    // endregion PANEL
+    // endregion OTHER
 }

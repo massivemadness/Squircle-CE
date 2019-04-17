@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:id="@+id/readable"
-        android:text="@string/properties_read"
+        android:text="@string/properties_readable"
         android:textSize="16sp"
         android:textStyle="bold"/>
 
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:id="@+id/writable"
-        android:text="@string/properties_write"
+        android:text="@string/properties_writable"
         android:textSize="16sp"
         android:textStyle="bold"/>
 
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:id="@+id/executable"
-        android:text="@string/properties_execute"
+        android:text="@string/properties_executable"
         android:textSize="16sp"
         android:textStyle="bold"/>
 

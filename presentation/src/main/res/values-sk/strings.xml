@@ -17,13 +17,5 @@
   -->
 
 <resources>
-    <declare-styleable name="TextProcessor">
-        <attr name="numbersColor" format="color"/>
-        <attr name="symbolsColor" format="color"/>
-        <attr name="bracketsColor" format="color"/>
-        <attr name="keywordsColor" format="color"/>
-        <attr name="methodsColor" format="color"/>
-        <attr name="stringsColor" format="color"/>
-        <attr name="commentsColor" format="color"/>
-    </declare-styleable>
+    <string name="action_get_it_for">Get it for 1,59 €</string>
 </resources>

@@ -23,7 +23,14 @@ class DocumentAdapter {
 
     private val data: ArrayList<DocumentModel> = ArrayList()
 
-    fun add(documentModel: DocumentModel) = data.add(documentModel)
+    fun add(documentModel: DocumentModel) {
+        if(contains(documentModel)) {
+            data[indexOf(documentModel)] = documentModel
+        } else {
+            data.add(documentModel)
+        }
+    }
+
     fun get(index: Int): DocumentModel? {
         var document: DocumentModel?
         try {
@@ -33,8 +40,18 @@ class DocumentAdapter {
         }
         return document
     }
+
     fun removeAt(index: Int) = data.removeAt(index)
-    fun contains(documentModel: DocumentModel): Boolean = data.contains(documentModel)
+
+    fun contains(documentModel: DocumentModel): Boolean {
+        data.forEach {
+            if(it.path == documentModel.path) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun indexOf(documentModel: DocumentModel): Int {
         for(model in data) {
             if(documentModel.path == model.path) {
@@ -43,6 +60,8 @@ class DocumentAdapter {
         }
         return -1
     }
+
     fun count(): Int = data.size - 1
+    fun size(): Int = data.size
     fun isEmpty(): Boolean = data.isEmpty()
 }

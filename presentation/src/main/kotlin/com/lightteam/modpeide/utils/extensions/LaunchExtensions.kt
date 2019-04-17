@@ -23,7 +23,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 
-// Example:
 // https://android.jlelse.eu/launching-activities-in-easier-way-using-kotlin-extensions-121a8175220c
 
 inline fun <reified T : Any> Activity.launchActivity(

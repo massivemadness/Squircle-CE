@@ -37,6 +37,7 @@ ext {
     design_version = '1.0.0'
     preferencescompat_version = '1.1.0-alpha04'
     materialdialogs_version = '2.6.0'
+    keyboardevent_version = '2.3.0'
 
     lifecycle_extensions_version = '2.1.0-alpha04'
     room_version = '2.1.0-alpha06'
@@ -64,6 +65,7 @@ ext {
             preferencescompat: "androidx.preference:preference-ktx:$preferencescompat_version",
             materialdialogs_core: "com.afollestad.material-dialogs:core:$materialdialogs_version",
             materialdialogs_input: "com.afollestad.material-dialogs:input:$materialdialogs_version",
+            keyboardevent: "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboardevent_version",
 
             lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions_version",
             lifecycle_compiler: "androidx.lifecycle:lifecycle-compiler:$lifecycle_extensions_version",

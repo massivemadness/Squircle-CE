@@ -18,17 +18,12 @@
 package com.lightteam.modpeide.utils.commons
 
 import android.content.Context
-import java.io.InputStreamReader
+import java.io.BufferedReader
 
 object RawUtils {
 
     fun getRawFileText(context: Context, resId: Int): String {
         val inputStream = context.resources.openRawResource(resId)
-        val inputStreamReader = InputStreamReader(inputStream)
-        val text = StringBuilder()
-        inputStreamReader.forEachLine {
-            text.append(it + '\n')
-        }
-        return text.toString()
+        return inputStream.bufferedReader().use(BufferedReader::readText)
     }
 }

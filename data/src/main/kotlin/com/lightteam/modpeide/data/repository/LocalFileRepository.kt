@@ -136,10 +136,7 @@ class LocalFileRepository(
         }
     }
 
-    override fun saveFile(documentModel: DocumentModel,
-                          //undoStack: UndoStack,
-                          //redoStack: UndoStack,
-                          text: String): Completable {
+    override fun saveFile(documentModel: DocumentModel, text: String): Completable {
         return Completable.create { emitter ->
             database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
 
