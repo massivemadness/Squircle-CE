@@ -104,9 +104,9 @@
     <string name="message_invalid_file_name">Invalid file name</string>
     <string name="message_error">An error occurred</string>
     <string name="message_done">Done</string>
+    <string name="message_saved">Saved</string>
     <!--
     <string name="message_error">An error occurred</string>
-    <string name="message_editor_not_found">Editor not found</string>
     <string name="message_new_file">Click "+" button at the bottom of the screen</string>
     <string name="message_select_file">Select File</string>
     <string name="message_nothing_to_undo">Nothing to undo</string>
@@ -198,8 +198,6 @@
     <string name="pref_code_completion_summary">Show autocomplete suggestions.</string>
     <string name="pref_pinch_zoom_title">Pinch Zoom</string>
     <string name="pref_pinch_zoom_summary">Enable zoom controls at the text field.</string>
-    <string name="pref_line_numbers_title">Line Numbers</string>
-    <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
     <string name="pref_highlight_line_title">Highlight Current Line</string>
     <string name="pref_highlight_line_summary">Highlight the line where the cursor currently resides.</string>
     <string name="pref_highlight_delimiters_title">Highlight Matching Delimiters</string>

@@ -19,6 +19,7 @@ package com.lightteam.modpeide.internal.di.modules.main.fragments
 
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
 import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
+import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
 import com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory
 import dagger.Module
 import dagger.Provides
@@ -29,5 +30,5 @@ class FragmentDirectoryModule {
     @Provides
     @PerFragment
     fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter
-            = FileAdapter(fragmentDirectory)
+            = FileAdapter(fragmentDirectory as RecyclerSelection)
 }

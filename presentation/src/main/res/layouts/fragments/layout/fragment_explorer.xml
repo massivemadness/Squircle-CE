@@ -67,15 +67,14 @@
             android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
 
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Darcula.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
             android:text="@string/action_grant_access"
             android:id="@+id/action_access"
-            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"
-            app:strokeColor="@color/colorAccent"/>
+            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
 
         <!-- endregion PERMISSIONS -->
 
@@ -120,7 +119,6 @@
                     app:tabPaddingStart="4dp"
                     app:tabPaddingEnd="0dp"
                     app:tabUnboundedRipple="false"
-                    app:tabIndicatorColor="@color/colorTabIndicator"
                     app:tabMode="scrollable"/>
 
             </LinearLayout>

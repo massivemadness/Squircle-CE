@@ -33,7 +33,6 @@ class SettingsViewModel(
 
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    //val themeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     fun observePreferences() {
 

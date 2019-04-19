@@ -16,14 +16,21 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_close"
-        android:title="@string/action_close"/>
+        android:title="@string/action_close"
+        android:icon="@drawable/ic_close"
+        app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/action_close_others"
-        android:title="@string/action_close_others"/>
+        android:title="@string/action_close_others"
+        android:icon="@drawable/ic_row_others"
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_close_all"
-        android:title="@string/action_close_all"/>
+        android:title="@string/action_close_all"
+        android:icon="@drawable/ic_row_all"
+        app:iconTint="@color/colorIcon"/>
 </menu>

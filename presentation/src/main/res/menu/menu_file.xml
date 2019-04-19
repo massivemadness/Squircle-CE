@@ -16,20 +16,31 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_file_new"
-        android:title="@string/menu_file_new"/>
+        android:title="@string/menu_file_new"
+        android:icon="@drawable/ic_plus"
+        app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/menu_file_open"
-        android:title="@string/menu_file_open"/>
+        android:title="@string/menu_file_open"
+        android:icon="@drawable/ic_folder_open"
+        app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/menu_file_save"
-        android:title="@string/menu_file_save"/>
+        android:title="@string/menu_file_save"
+        android:icon="@drawable/ic_save"
+        app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/menu_file_properties"
-        android:title="@string/menu_file_properties"/>
+        android:title="@string/menu_file_properties"
+        android:icon="@drawable/ic_file_properties"
+        app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/menu_file_close"
-        android:title="@string/menu_file_close"/>
+        android:title="@string/menu_file_close"
+        android:icon="@drawable/ic_close"
+        app:iconTint="@color/colorIcon"/>
 </menu>

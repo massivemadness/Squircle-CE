@@ -19,13 +19,11 @@ package com.lightteam.modpeide.internal.di.modules.main
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
-import androidx.room.Room
+import com.lightteam.modpeide.data.delegate.DataLayerDelegate
 import com.lightteam.modpeide.data.repository.LocalFileRepository
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
-import com.lightteam.modpeide.data.storage.database.AppDatabaseImpl
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.data.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
@@ -44,9 +42,7 @@ class MainActivityModule {
     @Provides
     @PerActivity
     fun provideAppDatabase(context: Context): AppDatabase
-            = Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
-        .fallbackToDestructiveMigrationFrom(1)
-        .build()
+            = DataLayerDelegate.provideAppDatabase(context)
 
     @Provides
     @PerActivity
@@ -65,9 +61,8 @@ class MainActivityModule {
                                     schedulersProvider: SchedulersProvider,
                                     preferenceHandler: PreferenceHandler,
                                     cacheHandler: CacheHandler,
-                                    typefaceFactory: TypefaceFactory,
                                     versionChecker: VersionChecker): MainViewModelFactory
-            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, typefaceFactory, versionChecker)
+            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, versionChecker)
 
     @Provides
     @PerActivity
@@ -83,9 +78,4 @@ class MainActivityModule {
     @PerActivity
     fun provideDocumentAdapter(): DocumentAdapter
             = DocumentAdapter()
-
-    @Provides
-    @PerActivity
-    fun provideTypefaceFactory(context: Context): TypefaceFactory
-            = TypefaceFactory(context)
 }

@@ -16,14 +16,21 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_search_find"
-        android:title="@string/menu_search_find"/>
+        android:title="@string/menu_search_find"
+        android:icon="@drawable/ic_search"
+        app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/menu_search_replace_all"
-        android:title="@string/menu_search_replace_all"/>
+        android:title="@string/menu_search_replace_all"
+        android:icon="@drawable/ic_replace"
+        app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/menu_search_gotoLine"
-        android:title="@string/menu_search_gotoLine"/>
+        android:title="@string/menu_search_gotoLine"
+        android:icon="@drawable/ic_line_goto"
+        app:iconTint="@color/colorIcon"/>
 </menu>

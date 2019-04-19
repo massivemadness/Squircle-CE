@@ -92,16 +92,5 @@ class SettingsActivity : BaseActivity() {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
         })
-        /*viewModel.themeEvent.observe(this, Observer {
-            MaterialDialog(this).show {
-                title(R.string.dialog_title_apply_changes)
-                message(R.string.dialog_message_apply_changes)
-                negativeButton(R.string.action_cancel)
-                positiveButton(R.string.action_restart, click = {
-                    finishAffinity()
-                    launchActivity<MainActivity>()
-                })
-            }
-        })*/
     }
 }

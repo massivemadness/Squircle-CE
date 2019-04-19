@@ -20,8 +20,10 @@ package com.lightteam.modpeide.presentation.main.customview
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 
 class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoCompleteTextView(context, attrs) {
@@ -30,7 +32,10 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     data class Configuration(
         var fontSize: Float = 14f,
-        var fontType: Typeface = Typeface.MONOSPACE
+        var fontType: Typeface = Typeface.MONOSPACE,
+
+        var softKeyboard: Boolean = false,
+        var imeKeyboard: Boolean = false
     )
 
     data class Theme(
@@ -38,8 +43,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var backgroundColor: Int = Color.DKGRAY,
         var gutterColor: Int = Color.GRAY,
         var gutterTextColor: Int = Color.WHITE,
-        var gutterLineColor: Int = Color.DKGRAY,
         var selectedLineColor: Int = Color.GRAY,
+        var selectionColor: Int = Color.LTGRAY,
+
         var searchSpanColor: Int = Color.GREEN,
         var bracketSpanColor: Int = Color.GREEN,
 
@@ -72,6 +78,19 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         }
 
     private fun configure() {
+        imeOptions = if(configuration.softKeyboard) {
+            0 //Normal
+        } else {
+            EditorInfo.IME_FLAG_NO_EXTRACT_UI
+        }
+        inputType = if (configuration.imeKeyboard) {
+            InputType.TYPE_CLASS_TEXT or
+                    InputType.TYPE_TEXT_FLAG_MULTI_LINE
+        } else {
+            InputType.TYPE_CLASS_TEXT or
+                    InputType.TYPE_TEXT_FLAG_MULTI_LINE or
+                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        }
         textSize = configuration.fontSize
         typeface = configuration.fontType
     }
@@ -80,6 +99,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         post {
             setTextColor(theme.textColor)
             setBackgroundColor(theme.backgroundColor)
+            highlightColor = theme.selectionColor
         }
     }
 

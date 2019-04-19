@@ -17,7 +17,6 @@
 
 package com.lightteam.modpeide.presentation.main.viewmodel
 
-import android.graphics.Typeface
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
@@ -28,7 +27,6 @@ import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
-import com.lightteam.modpeide.data.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
@@ -36,6 +34,8 @@ import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.presentation.main.customview.TextProcessor
+import com.lightteam.modpeide.utils.commons.ThemeFactory
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Completable
@@ -49,7 +49,6 @@ class MainViewModel(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val cacheHandler: CacheHandler,
-    private val typefaceFactory: TypefaceFactory,
     private val versionChecker: VersionChecker
 ) : BaseViewModel() {
 
@@ -78,16 +77,19 @@ class MainViewModel(
 
     // region PREFERENCES
 
+    val themeEvent: SingleLiveEvent<TextProcessor.Theme> = SingleLiveEvent() //Тема редактора
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Полноэкранный режим
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подтверждение выхода
 
     val fontSizeEvent: SingleLiveEvent<Float> = SingleLiveEvent() //Размер шрифта
-    val fontTypeEvent: SingleLiveEvent<Typeface> = SingleLiveEvent() //Тип шрифта
+    val fontTypeEvent: SingleLiveEvent<String> = SingleLiveEvent() //Тип шрифта
 
     val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Повторное открытие вкладок после выхода
     val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Лимит вкладок
 
     val extendedKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать доп. символы
+    val softKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Упрощенная клавиатура (landscape orientation)ы
+    val imeKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать подсказки/ошибки при вводе
 
     // endregion PREFERENCES
 
@@ -176,6 +178,7 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
+    fun propertiesOf(documentModel: DocumentModel) = propertiesOf(FileConverter.toModel(documentModel))
     fun propertiesOf(fileModel: FileModel) {
         fileRepository.propertiesOf(fileModel)
             .schedulersIoToMain(schedulersProvider)
@@ -192,6 +195,20 @@ class MainViewModel(
                     documentTextEvent.value = it
                     documentLoadedEvent.value = documentModel
                     documentLoadingIndicator.set(false)
+                },
+                onError = {
+                    toastEvent.value = R.string.message_error
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun saveFile(documentModel: DocumentModel, text: String) {
+        fileRepository.saveFile(documentModel, text)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onComplete = {
+                    toastEvent.value = R.string.message_saved
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
@@ -309,6 +326,13 @@ class MainViewModel(
 
     fun observePreferences() {
 
+        //Theme
+        preferenceHandler.getTheme()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { themeEvent.value = ThemeFactory.create(it) }
+            .disposeOnViewModelDestroy()
+
         //Fullscreen Mode
         preferenceHandler.getFullscreenMode()
             .asObservable()
@@ -334,7 +358,6 @@ class MainViewModel(
         //Font Type
         preferenceHandler.getFontType()
             .asObservable()
-            .map(typefaceFactory::create)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fontTypeEvent.value = it }
             .disposeOnViewModelDestroy()
@@ -358,6 +381,20 @@ class MainViewModel(
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { extendedKeyboardEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Soft Keyboard
+        preferenceHandler.getSoftKeyboard()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { softKeyboardEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //IME Keyboard
+        preferenceHandler.getImeKeyboard()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { imeKeyboardEvent.value = it }
             .disposeOnViewModelDestroy()
 
         //Filter Hidden Files

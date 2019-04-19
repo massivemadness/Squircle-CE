@@ -17,10 +17,34 @@
 
 package com.lightteam.modpeide.data.converter
 
+import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
 import java.io.File
 
 object FileConverter {
+
+    fun toModel(documentModel: DocumentModel): FileModel {
+        val file = File(documentModel.path)
+        return if(file.exists()) {
+            FileModel(
+                documentModel.name,
+                documentModel.path,
+                file.length(),
+                file.lastModified(),
+                file.isDirectory,
+                file.isHidden
+            )
+        } else {
+            FileModel(
+                documentModel.name,
+                documentModel.path,
+                0,
+                0,
+                false,
+                documentModel.name.startsWith(".")
+            )
+        }
+    }
 
     fun toModel(file: File): FileModel {
         return FileModel(

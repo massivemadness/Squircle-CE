@@ -17,9 +17,7 @@
 
 <resources>
 
-    <style name="Theme.Application.Base" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="windowActionBar">false</item>
-
+    <style name="Theme.Application.Base" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
@@ -37,8 +35,15 @@
         <item name="android:navigationBarColor">@color/colorNavigationBar</item>
     </style>
 
+    <!-- TextButton -->
+    <style name="Widget.Darcula.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="rippleColor">?android:colorControlHighlight</item>
+        <item name="cornerRadius">2dp</item>
+    </style>
+
     <!-- Light PopupMenu for Dark Theme -->
-    <style name="Theme.Internal.PopupMenu" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.Darcula.PopupMenu" parent="Theme.MaterialComponents.Light">
         <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu.Overflow</item>
     </style>
 

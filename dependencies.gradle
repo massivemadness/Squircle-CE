@@ -34,7 +34,7 @@ ext {
     core_ktx_version = '1.1.0-alpha05'
 
     appcompat_version = '1.1.0-alpha04'
-    design_version = '1.0.0'
+    design_version = '1.1.0-alpha03'
     preferencescompat_version = '1.1.0-alpha04'
     materialdialogs_version = '2.6.0'
     keyboardevent_version = '2.3.0'
@@ -42,8 +42,8 @@ ext {
     lifecycle_extensions_version = '2.1.0-alpha04'
     room_version = '2.1.0-alpha06'
 
-    rxjava2_version = '2.2.6'
-    rxandroid_version = '2.1.0'
+    rxjava2_version = '2.2.8'
+    rxandroid_version = '2.1.1'
     rxkotlin_version = '2.3.0'
     rxbinding_version = '3.0.0-alpha2'
     rxpreferences_version = '2.0.0'
@@ -53,8 +53,8 @@ ext {
     junit_version = '4.12'
     junit_ext_version = '1.1.0'
     //rules_version = '1.1.1'
-    test_runner_version = '1.1.2-alpha02'
-    espresso_core_version = '3.2.0-alpha02'
+    test_runner_version = '1.2.0-alpha03'
+    espresso_core_version = '3.2.0-alpha03'
 
     library = [
             kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",

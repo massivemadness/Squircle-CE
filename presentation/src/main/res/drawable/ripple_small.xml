@@ -17,5 +17,5 @@
   -->
 
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#40ffffff"
+    android:color="?android:colorControlHighlight"
     android:radius="16dp"/>

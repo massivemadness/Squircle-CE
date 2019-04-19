@@ -31,7 +31,6 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -40,6 +39,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
@@ -53,6 +53,8 @@ import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.presentation.main.customview.ExtendedKeyboard
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
+import com.lightteam.modpeide.utils.commons.MenuUtils
+import com.lightteam.modpeide.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.utils.extensions.launchActivity
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
@@ -173,9 +175,18 @@ class MainActivity : BaseActivity(),
     override fun onTabUnselected(tab: TabLayout.Tab) {
         val selectedDocument = adapter.get(tab.position)
         selectedDocument?.let {
-            viewModel.saveToCache(it, binding.editor.text.toString())
+            val document = it.copy(
+                scrollX = binding.editor.scrollX,
+                scrollY = binding.editor.scrollY,
+                selectionStart = binding.editor.selectionStart,
+                selectionEnd = binding.editor.selectionEnd
+            )
+            adapter.add(document) //update adapter
+            viewModel.saveToCache(document, binding.editor.text.toString())
             binding.editor.clearText()
         }
+        closeKeyboard() // Обход бага, когда после переключения вкладок редактирование не работало
+        // (позиция курсора менялась программно)
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
@@ -244,6 +255,9 @@ class MainActivity : BaseActivity(),
 
         // region PREFERENCES
 
+        viewModel.themeEvent.observe(this, Observer { newTheme ->
+            binding.editor.theme = newTheme
+        })
         viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
             if(isFullscreen) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -256,7 +270,17 @@ class MainActivity : BaseActivity(),
             binding.editor.configuration = newConfiguration
         })
         viewModel.fontTypeEvent.observe(this, Observer { fontType ->
-            val newConfiguration = binding.editor.configuration.copy(fontType = fontType)
+            val newConfiguration = binding.editor.configuration.copy(
+                fontType = TypefaceFactory.create(this, fontType)
+            )
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.softKeyboardEvent.observe(this, Observer { softKeyboard ->
+            val newConfiguration = binding.editor.configuration.copy(softKeyboard = softKeyboard)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.imeKeyboardEvent.observe(this, Observer { imeKeyboard ->
+            val newConfiguration = binding.editor.configuration.copy(imeKeyboard = imeKeyboard)
             binding.editor.configuration = newConfiguration
         })
 
@@ -277,7 +301,7 @@ class MainActivity : BaseActivity(),
                 removeTab(tab.position)
             }
             (tab.customView?.parent as View).setOnLongClickListener { view ->
-                val wrapper = ContextThemeWrapper(view.context, R.style.Theme_Internal_PopupMenu)
+                val wrapper = ContextThemeWrapper(view.context, R.style.Theme_Darcula_PopupMenu)
                 val popupMenu = PopupMenu(wrapper, view)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when(item.itemId) {
@@ -288,6 +312,7 @@ class MainActivity : BaseActivity(),
                     return@setOnMenuItemClickListener true
                 }
                 popupMenu.inflate(R.menu.menu_document)
+                MenuUtils.makeRightPaddingRecursively(view, popupMenu)
                 popupMenu.show()
                 return@setOnLongClickListener true
             }
@@ -330,16 +355,16 @@ class MainActivity : BaseActivity(),
 
             viewModel.removeDocument(document)
             viewModel.noDocumentsIndicator.set(adapter.isEmpty())
-        }
 
-        // Обход бага, когда после удаления вкладки индикатор не обновляет свою позицию
-        if(index < selectedIndex) {
-            binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
-        }
+            // Обход бага, когда после удаления вкладки индикатор не обновляет свою позицию
+            if(index < selectedIndex) {
+                binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
+            }
 
-        // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
-        if(index == selectedIndex) {
-            closeKeyboard()
+            // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
+            if(index == selectedIndex) {
+                closeKeyboard()
+            }
         }
     }
 
@@ -360,7 +385,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun showStoreDialog() {
-        val dialog = AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
+        val dialog = MaterialAlertDialogBuilder(this, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
             .setView(R.layout.dialog_store)
             .show()
 
@@ -393,19 +418,28 @@ class MainActivity : BaseActivity(),
         binding.drawerLayout.openDrawer(Gravity.LEFT)
     }
 
-    override fun onNewButton() {
-    }
-
-    override fun onOpenButton() {
-    }
-
+    override fun onNewButton() = onDrawerButton()
+    override fun onOpenButton() = onDrawerButton()
     override fun onSaveButton() {
+        val document = adapter.get(binding.tabDocumentLayout.selectedTabPosition)
+        if(document != null) {
+            viewModel.saveFile(document, binding.editor.text.toString())
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
     }
 
     override fun onPropertiesButton() {
+        val document = adapter.get(binding.tabDocumentLayout.selectedTabPosition)
+        if(document != null) {
+            viewModel.propertiesOf(document)
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
     }
 
     override fun onCloseButton() {
+        removeTab(binding.tabDocumentLayout.selectedTabPosition)
     }
 
     override fun onCutButton() {

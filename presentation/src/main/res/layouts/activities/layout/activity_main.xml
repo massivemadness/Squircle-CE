@@ -173,7 +173,6 @@
                 android:background="@color/colorTabs"
                 android:elevation="3.5dp"
                 app:tabUnboundedRipple="false"
-                app:tabIndicatorColor="@color/colorTabIndicator"
                 app:tabMode="scrollable"/>
 
             <!-- endregion TOOLBAR -->
@@ -218,7 +217,6 @@
                     android:gravity="top|left"
                     android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
                     android:layerType="software"
-                    android:inputType="textMultiLine|textVisiblePassword"
                     android:textCursorDrawable="@drawable/caret"
                     android:scrollbarStyle="insideInset"
                     android:id="@+id/editor"
