@@ -20,8 +20,8 @@
     <color name="colorPrimary">#3c3f41</color>
     <color name="colorPrimaryDark">#3c3f41</color>
     <color name="colorAccent">#FF8000</color>
-    <color name="colorNavigationBar">#37383A</color>
     <color name="colorBackground">#303030</color>
+    <color name="colorNavigationBar">#37383A</color>
     <color name="colorTabs">#37383A</color>
     <color name="colorCaret">#BBBBBB</color>
     <color name="colorIcon">#7F7F7F</color>
@@ -29,12 +29,4 @@
     <color name="colorWarning">#E45356</color>
     <color name="colorGreen">#0F9D58</color>
     <color name="colorRed">#CD0000</color>
-
-    <color name="syntaxNumbers">#6897BB</color>
-    <color name="syntaxSymbols">#E8E2B7</color>
-    <color name="syntaxBrackets">#E8E2B7</color>
-    <color name="syntaxKeywords">#EC7600</color>
-    <color name="syntaxMethods">#FEC76C</color>
-    <color name="syntaxStrings">#6E875A</color>
-    <color name="syntaxComments">#66747B</color>
  </resources>

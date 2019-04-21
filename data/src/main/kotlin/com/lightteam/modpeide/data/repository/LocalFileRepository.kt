@@ -128,7 +128,7 @@ class LocalFileRepository(
                     file.inputStream().bufferedReader().use(BufferedReader::readText)
                 } else {
                     emitter.onError(FileNotFoundException())
-                    String()
+                    String() //empty
                 }
             }
             cacheHandler.saveToCache(documentModel, text) // Save to Cache

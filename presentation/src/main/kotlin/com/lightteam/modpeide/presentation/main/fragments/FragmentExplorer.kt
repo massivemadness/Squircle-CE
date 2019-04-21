@@ -191,7 +191,7 @@ class FragmentExplorer : DaggerFragment(),
     // region INTERNAL
 
     private fun showCreateDialog() {
-        MaterialDialog(activity!!).show {
+        MaterialDialog(context!!).show {
             title(R.string.dialog_title_create)
             input(
                 waitForPositiveButton = false,

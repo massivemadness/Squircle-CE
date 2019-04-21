@@ -32,7 +32,7 @@ class ExtendedKeyboard(context: Context, attributeSet: AttributeSet) : RecyclerV
         fun onKey(char: String)
     }
 
-    lateinit var keyAdapter: KeyAdapter
+    private lateinit var keyAdapter: KeyAdapter
 
     fun setKeyListener(keyListener: OnKeyListener) {
         keyAdapter = KeyAdapter(keyListener)

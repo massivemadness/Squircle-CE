@@ -157,7 +157,7 @@ class MainActivity : BaseActivity(),
                 selectionEnd = binding.editor.selectionEnd
             )
             adapter.add(document) //update adapter
-            viewModel.saveToCache(document, binding.editor.text.toString())
+            viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
             viewModel.documentLoadingIndicator.set(true)
             binding.editor.clearText() //TTL Exception bypass
         }
@@ -182,7 +182,7 @@ class MainActivity : BaseActivity(),
                 selectionEnd = binding.editor.selectionEnd
             )
             adapter.add(document) //update adapter
-            viewModel.saveToCache(document, binding.editor.text.toString())
+            viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
             binding.editor.clearText()
         }
         closeKeyboard() // Обход бага, когда после переключения вкладок редактирование не работало
@@ -200,6 +200,7 @@ class MainActivity : BaseActivity(),
 
     private fun setupListeners() {
         binding.tabDocumentLayout.addOnTabSelectedListener(this)
+        binding.extendedKeyboard.setHasFixedSize(true)
         binding.extendedKeyboard.setKeyListener(this)
         binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerStateChanged(newState: Int) {}
@@ -240,7 +241,7 @@ class MainActivity : BaseActivity(),
             }
         })
         viewModel.documentTextEvent.observe(this, Observer {
-            binding.editor.setText(it)
+            binding.editor.setFacadeText(it)
         })
         viewModel.documentLoadedEvent.observe(this, Observer { loadedDocument ->
             binding.editor.scrollX = loadedDocument.scrollX
@@ -273,6 +274,10 @@ class MainActivity : BaseActivity(),
             val newConfiguration = binding.editor.configuration.copy(
                 fontType = TypefaceFactory.create(this, fontType)
             )
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.highlightLineEvent.observe(this, Observer { highlight ->
+            val newConfiguration = binding.editor.configuration.copy(highlightCurrentLine = highlight)
             binding.editor.configuration = newConfiguration
         })
         viewModel.softKeyboardEvent.observe(this, Observer { softKeyboard ->
@@ -419,48 +424,82 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onNewButton() = onDrawerButton()
-    override fun onOpenButton() = onDrawerButton()
+
+    override fun onOpenButton() {
+        onDrawerButton()
+        viewModel.toastEvent.value = R.string.message_select_file
+    }
+
     override fun onSaveButton() {
-        val document = adapter.get(binding.tabDocumentLayout.selectedTabPosition)
-        if(document != null) {
-            viewModel.saveFile(document, binding.editor.text.toString())
+        val position = binding.tabDocumentLayout.selectedTabPosition
+        if(position != -1) {
+            adapter.get(position)?.let {
+                viewModel.saveFile(it, binding.editor.getFacadeText().toString())
+            }
         } else {
             viewModel.toastEvent.value = R.string.message_no_open_files
         }
     }
 
     override fun onPropertiesButton() {
-        val document = adapter.get(binding.tabDocumentLayout.selectedTabPosition)
-        if(document != null) {
-            viewModel.propertiesOf(document)
+        val position = binding.tabDocumentLayout.selectedTabPosition
+        if(position != -1) {
+            adapter.get(position)?.let {
+                viewModel.propertiesOf(it)
+            }
         } else {
             viewModel.toastEvent.value = R.string.message_no_open_files
         }
     }
 
     override fun onCloseButton() {
-        removeTab(binding.tabDocumentLayout.selectedTabPosition)
+        val position = binding.tabDocumentLayout.selectedTabPosition
+        if(position != -1) {
+            removeTab(position)
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
     }
 
     override fun onCutButton() {
+        if(binding.editor.hasSelection()) {
+            binding.editor.cut()
+        } else {
+            viewModel.toastEvent.value = R.string.message_nothing_to_cut
+        }
     }
 
     override fun onCopyButton() {
+        if(binding.editor.hasSelection()) {
+            binding.editor.copy()
+        } else {
+            viewModel.toastEvent.value = R.string.message_nothing_to_copy
+        }
     }
 
     override fun onPasteButton() {
+        val position = binding.tabDocumentLayout.selectedTabPosition
+        if(binding.editor.hasPrimaryClip() && position != -1) {
+            binding.editor.paste()
+        } else {
+            viewModel.toastEvent.value = R.string.message_nothing_to_paste
+        }
     }
 
     override fun onSelectAllButton() {
+        binding.editor.selectAll()
     }
 
     override fun onSelectLineButton() {
+        binding.editor.selectLine()
     }
 
     override fun onDeleteLineButton() {
+        binding.editor.deleteLine()
     }
 
     override fun onDuplicateLineButton() {
+        binding.editor.duplicateLine()
     }
 
     override fun onFindButton() {

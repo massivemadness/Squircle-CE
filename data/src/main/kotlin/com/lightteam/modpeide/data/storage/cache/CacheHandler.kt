@@ -84,5 +84,6 @@ class CacheHandler(private val context: Context) {
         if (!redoCacheFile.exists()) { redoCacheFile.createNewFile() } //Create redo-stack cache
     }
 
-    private fun openCache(fileName: String): File = File(getExternalCacheDirectory(), fileName)
+    private fun openCache(fileName: String): File
+            = File(getExternalCacheDirectory(), fileName)
 }

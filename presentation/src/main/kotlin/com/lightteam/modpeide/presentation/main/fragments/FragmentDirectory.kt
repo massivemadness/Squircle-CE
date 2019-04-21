@@ -20,7 +20,6 @@ package com.lightteam.modpeide.presentation.main.fragments
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +46,7 @@ import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSele
 import com.lightteam.modpeide.presentation.main.adapters.utils.FileDiffCallback
 import androidx.core.content.ContextCompat.getSystemService
 import com.lightteam.modpeide.domain.model.PropertiesModel
+import com.lightteam.modpeide.utils.extensions.asHtml
 
 class FragmentDirectory : DaggerFragment(), RecyclerSelection {
 
@@ -112,7 +112,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
     // region DIALOGS
 
     private fun showChooseDialog(fileModel: FileModel) {
-        MaterialDialog(activity!!).show {
+        MaterialDialog(context!!).show {
             title(R.string.dialog_title_choose_action)
             customView(R.layout.dialog_file_action)
 
@@ -141,17 +141,15 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
     }
 
     private fun showPropertiesDialog(properties: PropertiesModel) {
-        MaterialDialog(activity!!).show {
+        MaterialDialog(context!!).show {
             title(R.string.dialog_title_properties)
-            message(text = Html.fromHtml(
-                getString(R.string.properties_name).format(properties.name) +
-                        getString(R.string.properties_path).format(properties.path) +
-                        getString(R.string.properties_modified).format(properties.lastModified) +
-                        getString(R.string.properties_size).format(properties.size) +
-                        getString(R.string.properties_line_count).format(properties.lines) +
-                        getString(R.string.properties_word_count).format(properties.words) +
-                        getString(R.string.properties_char_count).format(properties.chars)
-            ))
+            message(text = getString(R.string.properties_name).format(properties.name) +
+                    getString(R.string.properties_path).format(properties.path) +
+                    getString(R.string.properties_modified).format(properties.lastModified) +
+                    getString(R.string.properties_size).format(properties.size) +
+                    getString(R.string.properties_line_count).format(properties.lines) +
+                    getString(R.string.properties_word_count).format(properties.words) +
+                    getString(R.string.properties_char_count).format(properties.chars).asHtml())
             customView(R.layout.dialog_properties)
 
             val readable = this.findViewById<CheckBox>(R.id.readable)
@@ -165,7 +163,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
     }
 
     private fun showRenameDialog(fileModel: FileModel) {
-        MaterialDialog(activity!!).show {
+        MaterialDialog(context!!).show {
             title(R.string.dialog_title_rename)
             input(
                 waitForPositiveButton = false,
@@ -192,7 +190,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
     }
 
     private fun showDeleteDialog(fileModel: FileModel) {
-        MaterialDialog(activity!!).show {
+        MaterialDialog(context!!).show {
             title(text = fileModel.name)
             message(R.string.dialog_message_delete)
             positiveButton(R.string.action_delete)

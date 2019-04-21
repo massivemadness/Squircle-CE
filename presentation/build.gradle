@@ -103,9 +103,8 @@ dependencies {
     implementation project(":data")
 
     //Tests
-    testImplementation library.junit
-    androidTestImplementation library.junit_ext
-    //androidTestImplementation library.rules
-    androidTestImplementation library.test_runner
-    androidTestImplementation library.espresso_core
+    testImplementation testLibrary.junit
+    androidTestImplementation testLibrary.junit_ext
+    androidTestImplementation testLibrary.test_runner
+    androidTestImplementation testLibrary.espresso_core
 }

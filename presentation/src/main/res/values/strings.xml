@@ -105,15 +105,15 @@
     <string name="message_error">An error occurred</string>
     <string name="message_done">Done</string>
     <string name="message_saved">Saved</string>
-    <!--
-    <string name="message_error">An error occurred</string>
-    <string name="message_new_file">Click "+" button at the bottom of the screen</string>
     <string name="message_select_file">Select File</string>
-    <string name="message_nothing_to_undo">Nothing to undo</string>
-    <string name="message_nothing_to_redo">Nothing to redo</string>
     <string name="message_nothing_to_cut">Nothing to cut</string>
     <string name="message_nothing_to_copy">Nothing to copy</string>
     <string name="message_nothing_to_paste">Nothing to paste</string>
+    <!--
+    <string name="message_error">An error occurred</string>
+    <string name="message_new_file">Click "+" button at the bottom of the screen</string>
+    <string name="message_nothing_to_undo">Nothing to undo</string>
+    <string name="message_nothing_to_redo">Nothing to redo</string>
     <string name="message_line_above_than_0">Line must be above 0</string>
     <string name="message_line_not_exists">Line does not exists</string>
     <string name="message_error_load_cache">An error occurred when trying to load cached data</string>
@@ -197,9 +197,9 @@
     <string name="pref_code_completion_title">Code Completion</string>
     <string name="pref_code_completion_summary">Show autocomplete suggestions.</string>
     <string name="pref_pinch_zoom_title">Pinch Zoom</string>
-    <string name="pref_pinch_zoom_summary">Enable zoom controls at the text field.</string>
+    <string name="pref_pinch_zoom_summary">Enable zoom gesture in the editor.</string>
     <string name="pref_highlight_line_title">Highlight Current Line</string>
-    <string name="pref_highlight_line_summary">Highlight the line where the cursor currently resides.</string>
+    <string name="pref_highlight_line_summary">Highlight the line where the caret currently resides.</string>
     <string name="pref_highlight_delimiters_title">Highlight Matching Delimiters</string>
     <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the caret at its pair.</string>
     <string name="pref_extended_keyboard_title">Extended Keyboard</string>

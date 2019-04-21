@@ -18,7 +18,6 @@
 package com.lightteam.modpeide.presentation.settings.fragments
 
 import android.os.Bundle
-import android.text.Html
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.preference.Preference
@@ -28,6 +27,7 @@ import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.presentation.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.commons.RawUtils
+import com.lightteam.modpeide.utils.extensions.asHtml
 import javax.inject.Inject
 
 class FragmentPreferences : DaggerPreferenceFragmentCompat() {
@@ -121,22 +121,18 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
     // region DIALOGS
 
     private fun showChangelogDialog(): Boolean {
-        MaterialDialog(activity!!).show {
+        MaterialDialog(context!!).show {
             title(R.string.dialog_title_changelog)
-            message(text = Html.fromHtml(
-                RawUtils.getRawFileText(context, R.raw.changelog)
-            ))
+            message(text = RawUtils.getRawFileText(context, R.raw.changelog).asHtml())
             negativeButton(R.string.action_close)
         }
         return true
     }
 
     private fun showPrivacyPolicyDialog(): Boolean {
-        MaterialDialog(activity!!).show {
+        MaterialDialog(context!!).show {
             title(R.string.dialog_title_privacy_policy)
-            message(text = Html.fromHtml(
-                RawUtils.getRawFileText(context, R.raw.privacy_policy)
-            ))
+            message(text = RawUtils.getRawFileText(context, R.raw.privacy_policy).asHtml())
             negativeButton(R.string.action_close)
         }
         return true

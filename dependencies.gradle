@@ -52,7 +52,6 @@ ext {
 
     junit_version = '4.12'
     junit_ext_version = '1.1.0'
-    //rules_version = '1.1.1'
     test_runner_version = '1.2.0-alpha03'
     espresso_core_version = '3.2.0-alpha03'
 
@@ -83,10 +82,11 @@ ext {
             dagger2_compiler: "com.google.dagger:dagger-compiler:$dagger2_version",
             dagger2_android: "com.google.dagger:dagger-android-support:$dagger2_version",
             dagger2_android_processor: "com.google.dagger:dagger-android-processor:$dagger2_version",
+    ]
 
+    testLibrary = [
             junit: "junit:junit:$junit_version",
             junit_ext: "androidx.test.ext:junit:$junit_ext_version",
-            //rules: "androidx.test:rules:$rules_version",
             test_runner: "androidx.test:runner:$test_runner_version",
             espresso_core: "androidx.test.espresso:espresso-core:$espresso_core_version"
     ]
