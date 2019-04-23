@@ -73,24 +73,24 @@ object ThemeFactory {
     }
 
     private class Darcula {
-        val textColor: Int = "#AAB6C6".toColorInt()
+        val textColor: Int = "#ABB7C5".toColorInt()
         val backgroundColor: Int = "#303030".toColorInt()
-        val gutterColor: Int = "#343638".toColorInt()
-        val gutterTextColor: Int = "#808080".toColorInt()
+        val gutterColor: Int = "#313335".toColorInt()
+        val gutterTextColor: Int = "#616366".toColorInt()
         val selectedLineColor: Int = "#3A3A3A".toColorInt()
-        val selectionColor: Int = "#214283".toColorInt()
+        val selectionColor: Int = "#28427f".toColorInt()
 
         val searchSpanColor: Int = "#32593D".toColorInt()
-        val bracketSpanColor: Int = "#33654B".toColorInt()
+        val bracketSpanColor: Int = "#3F504D".toColorInt()
 
         //Syntax Highlighting
-        val numbersColor: Int = "#6897BB".toColorInt()
+        val numbersColor: Int = "#7196B8".toColorInt()
         val symbolsColor: Int = "#E8E2B7".toColorInt()
         val bracketsColor: Int = "#E8E2B7".toColorInt()
-        val keywordsColor: Int = "#EC7600".toColorInt()
-        val methodsColor: Int = "#FEC76C".toColorInt()
-        val stringsColor: Int = "#6E875A".toColorInt()
-        val commentsColor: Int = "#66747B".toColorInt()
+        val keywordsColor: Int = "#C17C41".toColorInt()
+        val methodsColor: Int = "#F7C87B".toColorInt()
+        val stringsColor: Int = "#70865E".toColorInt()
+        val commentsColor: Int = "#808080".toColorInt()
     }
 
     private class Monokai {

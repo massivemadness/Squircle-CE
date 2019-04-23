@@ -143,13 +143,13 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
     private fun showPropertiesDialog(properties: PropertiesModel) {
         MaterialDialog(context!!).show {
             title(R.string.dialog_title_properties)
-            message(text = getString(R.string.properties_name).format(properties.name) +
+            message(text = (getString(R.string.properties_name).format(properties.name) +
                     getString(R.string.properties_path).format(properties.path) +
                     getString(R.string.properties_modified).format(properties.lastModified) +
                     getString(R.string.properties_size).format(properties.size) +
                     getString(R.string.properties_line_count).format(properties.lines) +
                     getString(R.string.properties_word_count).format(properties.words) +
-                    getString(R.string.properties_char_count).format(properties.chars).asHtml())
+                    getString(R.string.properties_char_count).format(properties.chars)).asHtml())
             customView(R.layout.dialog_properties)
 
             val readable = this.findViewById<CheckBox>(R.id.readable)

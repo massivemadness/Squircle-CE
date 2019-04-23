@@ -210,6 +210,7 @@ class MainActivity : BaseActivity(),
                 closeKeyboard()
             }
         })
+        binding.scroller.link(binding.editor)
     }
 
     private fun setupObservers() {
@@ -274,6 +275,10 @@ class MainActivity : BaseActivity(),
             val newConfiguration = binding.editor.configuration.copy(
                 fontType = TypefaceFactory.create(this, fontType)
             )
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.wordWrapEvent.observe(this, Observer { wordWrap ->
+            val newConfiguration = binding.editor.configuration.copy(wordWrap = wordWrap)
             binding.editor.configuration = newConfiguration
         })
         viewModel.highlightLineEvent.observe(this, Observer { highlight ->

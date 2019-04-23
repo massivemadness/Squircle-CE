@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.presentation.main.customview
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -28,9 +29,15 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.VelocityTracker
+import android.view.ViewConfiguration
 import android.view.inputmethod.EditorInfo
+import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
-import com.lightteam.modpeide.presentation.main.customview.internal.LinesCollection
+import com.lightteam.modpeide.presentation.main.customview.internal.linenumbers.LinesCollection
+import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.StyleSpan
+import com.lightteam.modpeide.presentation.main.customview.internal.textscroller.OnScrollChangedListener
 import com.lightteam.modpeide.utils.extensions.toPx
 
 class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoCompleteTextView(context, attrs) {
@@ -39,6 +46,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var fontSize: Float = 14f,
         var fontType: Typeface = Typeface.MONOSPACE,
 
+        var wordWrap: Boolean = true,
         var highlightCurrentLine: Boolean = true,
 
         var softKeyboard: Boolean = false,
@@ -66,6 +74,20 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var commentsColor: Int = Color.WHITE
     )
 
+    var configuration: Configuration = Configuration()
+        set(value) {
+            field = value
+            configure()
+        }
+
+    var theme: Theme = Theme()
+        set(value) {
+            field = value
+            colorize()
+        }
+
+    private val textScroller = Scroller(context)
+
     private val clipboardManager
             = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
@@ -77,6 +99,17 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private val gutterLinePaint = Paint()
     private val gutterTextPaint = Paint()
 
+    private val numbersSpan = StyleSpan(color = theme.numbersColor)
+    private val symbolsSpan = StyleSpan(color = theme.symbolsColor)
+    private val bracketsSpan = StyleSpan(color = theme.bracketsColor)
+    private val keywordsSpan = StyleSpan(color = theme.keywordsColor)
+    private val methodsSpan = StyleSpan(color = theme.methodsColor)
+    private val stringsSpan = StyleSpan(color = theme.stringsColor)
+    private val commentsSpan = StyleSpan(color = theme.commentsColor, italic = true)
+
+    private var scrollListeners = arrayOf<OnScrollChangedListener>()
+    private var maximumVelocity = 0f
+
     private var gutterWidth = 0
     private var gutterDigitCount = 0
     private var gutterMargin = 4.toPx()
@@ -85,7 +118,12 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private var textChangeEnd: Int = 0
     private var textChangedNewText: String = ""
 
+    //private var topDirtyLine = 0
+    //private var bottomDirtyLine = 0
+
     private var facadeText = editableFactory.newEditable("")
+
+    private var velocityTracker: VelocityTracker? = null
 
     // region INIT
 
@@ -101,20 +139,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             }
             override fun afterTextChanged(s: Editable?) {}
         })
+        maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100.toFloat()
         colorize()
     }
-
-    var configuration: Configuration = Configuration()
-        set(value) {
-            field = value
-            configure()
-        }
-
-    var theme: Theme = Theme()
-        set(value) {
-            field = value
-            colorize()
-        }
 
     private fun configure() {
         imeOptions = if(configuration.softKeyboard) {
@@ -132,6 +159,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         }
         textSize = configuration.fontSize
         typeface = configuration.fontType
+
+        setHorizontallyScrolling(!configuration.wordWrap)
 
         gutterTextPaint.textSize = textSize
         gutterTextPaint.typeface = typeface
@@ -160,6 +189,14 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             gutterTextPaint.isAntiAlias = true
             gutterTextPaint.isDither = false
             gutterTextPaint.textAlign = Paint.Align.RIGHT
+
+            numbersSpan.color = theme.numbersColor
+            symbolsSpan.color = theme.symbolsColor
+            bracketsSpan.color = theme.bracketsColor
+            keywordsSpan.color = theme.keywordsColor
+            methodsSpan.color = theme.methodsColor
+            stringsSpan.color = theme.stringsColor
+            commentsSpan.color = theme.commentsColor
         }
     }
 
@@ -186,8 +223,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     override fun onDraw(canvas: Canvas) {
-        var top: Int
         if(layout != null) {
+            var top: Int
             if (configuration.highlightCurrentLine) {
                 val currentLineStart = lines.getLineForIndex(selectionStart)
                 if (currentLineStart == lines.getLineForIndex(selectionEnd)) {
@@ -209,9 +246,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                     )
                 }
             }
-        }
-        super.onDraw(canvas)
-        if(layout != null) {
+            super.onDraw(canvas)
             canvas.drawRect(
                 scrollX.toFloat(),
                 scrollY.toFloat(),
@@ -339,31 +374,28 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     private fun updateGutter() {
         var max = 3
-        val paint = layout.paint
-        if(paint != null) {
-            var widestNumber = 0
-            var widestWidth = 0f
+        var widestNumber = 0
+        var widestWidth = 0f
 
-            gutterDigitCount = Integer.toString(lines.lineCount).length
-            for (i in 0..9) {
-                val width = paint.measureText(Integer.toString(i))
-                if (width > widestWidth) {
-                    widestNumber = i
-                    widestWidth = width
-                }
+        gutterDigitCount = Integer.toString(lines.lineCount).length
+        for (i in 0..9) {
+            val width = paint.measureText(Integer.toString(i))
+            if (width > widestWidth) {
+                widestNumber = i
+                widestWidth = width
             }
-            if (gutterDigitCount >= max) {
-                max = gutterDigitCount
-            }
-            val builder = StringBuilder()
-            for (i in 0 until max) {
-                builder.append(Integer.toString(widestNumber))
-            }
-            gutterWidth = paint.measureText(builder.toString()).toInt()
-            gutterWidth += gutterMargin
-            if (paddingLeft != gutterWidth + gutterMargin) {
-                setPadding(gutterWidth + gutterMargin, gutterMargin, paddingRight, 0)
-            }
+        }
+        if (gutterDigitCount >= max) {
+            max = gutterDigitCount
+        }
+        val builder = StringBuilder()
+        for (i in 0 until max) {
+            builder.append(Integer.toString(widestNumber))
+        }
+        gutterWidth = paint.measureText(builder.toString()).toInt()
+        gutterWidth += gutterMargin
+        if (paddingLeft != gutterWidth + gutterMargin) {
+            setPadding(gutterWidth + gutterMargin, gutterMargin, paddingRight, 0)
         }
     }
 
@@ -450,6 +482,102 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     // endregion LINE_NUMBERS
+
+    // region SYNTAX_HIGHLIGHT
+
+    /*private fun syntaxHighlight() {
+
+    }*/
+
+    // endregion SYNTAX_HIGHLIGHT
+
+    // region SCROLLER
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        //syntaxHighlight()
+        for (listener in scrollListeners) {
+            listener.onScrollChanged(scrollX, scrollY, scrollX, scrollY)
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                abortFling()
+                if (velocityTracker == null) {
+                    velocityTracker = VelocityTracker.obtain()
+                } else {
+                    velocityTracker?.clear()
+                }
+                super.onTouchEvent(event)
+            }
+            MotionEvent.ACTION_UP -> {
+                velocityTracker?.computeCurrentVelocity(1000, maximumVelocity)
+                val velocityX: Int? = if(configuration.wordWrap) {
+                    0
+                } else {
+                    velocityTracker?.xVelocity?.toInt()
+                }
+                val velocityY: Int? = velocityTracker?.yVelocity?.toInt()
+                if(velocityX != null && velocityY != null) {
+                    if (Math.abs(velocityY) >= 0 || Math.abs(velocityX) >= 0) {
+                        if (layout == null) {
+                            return super.onTouchEvent(event)
+                        }
+                        textScroller.fling(
+                            scrollX, scrollY,
+                            -velocityX, -velocityY,
+                            0, layout.width - width + paddingLeft + paddingRight,
+                            0, layout.height - height + paddingTop + paddingBottom
+                        )
+                    } else if (velocityTracker != null) {
+                        velocityTracker?.recycle()
+                        velocityTracker = null
+                    }
+                }
+                super.onTouchEvent(event)
+            }
+            MotionEvent.ACTION_MOVE -> {
+                velocityTracker?.addMovement(event)
+                super.onTouchEvent(event)
+            }
+            else -> super.onTouchEvent(event)
+        }
+        return true
+    }
+
+    override fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) {
+        super.onScrollChanged(horiz, vert, oldHoriz, oldVert)
+        for (listener in scrollListeners) {
+            listener.onScrollChanged(horiz, vert, oldHoriz, oldVert)
+        }
+        /*if (topDirtyLine > getTopVisibleLine() || bottomDirtyLine < getBottomVisibleLine()) {
+            syntaxHighlight()
+        }*/
+    }
+
+    fun addOnScrollChangedListener(listener: OnScrollChangedListener) {
+        val newListener = arrayOfNulls<OnScrollChangedListener>(scrollListeners.size + 1)
+        val length = scrollListeners.size
+        System.arraycopy(scrollListeners, 0, newListener, 0, length)
+        newListener[newListener.size - 1] = listener
+        scrollListeners = newListener.requireNoNulls()
+    }
+
+    fun abortFling() {
+        if (!textScroller.isFinished) {
+            textScroller.abortAnimation()
+        }
+    }
+
+    override fun computeScroll() {
+        if (textScroller.computeScrollOffset()) {
+            scrollTo(textScroller.currX, textScroller.currY)
+        }
+    }
+
+    // endregion SCROLLER
 
     // region INTERNAL
 

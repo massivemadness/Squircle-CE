@@ -34,7 +34,7 @@ ext {
     core_ktx_version = '1.1.0-alpha05'
 
     appcompat_version = '1.1.0-alpha04'
-    design_version = '1.1.0-alpha03'
+    design_version = '1.1.0-alpha05'
     preferencescompat_version = '1.1.0-alpha04'
     materialdialogs_version = '2.6.0'
     keyboardevent_version = '2.3.0'
@@ -50,8 +50,8 @@ ext {
 
     dagger2_version = '2.22.1'
 
-    junit_version = '4.12'
-    junit_ext_version = '1.1.0'
+    junit_version = '4.13-beta-2'
+    junit_ext_version = '1.1.1-alpha03'
     test_runner_version = '1.2.0-alpha03'
     espresso_core_version = '3.2.0-alpha03'
 

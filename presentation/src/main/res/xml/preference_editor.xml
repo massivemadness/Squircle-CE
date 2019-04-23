@@ -67,7 +67,7 @@
             android:title="@string/pref_word_wrap_title"
             android:summary="@string/pref_word_wrap_summary"
             android:defaultValue="true"
-            android:key="WRAP_CONTENT"/>
+            android:key="WORD_WRAP"/>
 
         <SwitchPreferenceCompat
             android:title="@string/pref_code_completion_title"

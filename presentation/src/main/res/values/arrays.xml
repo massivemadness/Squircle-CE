@@ -53,11 +53,4 @@
         <item>dejavu_sans_mono</item>
         <item>anonymous_pro</item>
     </string-array>
-
-    <!--<string-array name="file_action">
-        <item>@string/action_rename</item>
-        <item>@string/action_delete</item>
-        <item>@string/menu_file_properties</item>
-        <item>@string/action_copy_path</item>
-    </string-array>-->
 </resources>

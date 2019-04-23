@@ -87,6 +87,7 @@ class MainViewModel(
     val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Повторное открытие вкладок после выхода
     val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Лимит вкладок
 
+    val wordWrapEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Смещать текст на новую строку если нет места
     val highlightLineEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подсветка текущей строки
 
     val extendedKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать доп. символы
@@ -376,6 +377,13 @@ class MainViewModel(
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { tabLimitEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Word Wrap
+        preferenceHandler.getWordWrap()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { wordWrapEvent.value = it }
             .disposeOnViewModelDestroy()
 
         //Highlight Current Line

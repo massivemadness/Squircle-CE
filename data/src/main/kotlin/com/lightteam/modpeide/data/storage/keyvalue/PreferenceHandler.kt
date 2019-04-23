@@ -39,7 +39,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_TAB_LIMIT = "TAB_LIMIT"
 
         //Editor
-        const val KEY_WRAP_CONTENT = "WRAP_CONTENT"
+        const val KEY_WORD_WRAP = "WORD_WRAP"
         const val KEY_CODE_COMPLETION = "CODE_COMPLETION"
         const val KEY_PINCH_ZOOM = "PINCH_ZOOM"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
@@ -72,7 +72,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getResumeSession(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
     fun getTabLimit(): Preference<Int> = rxSharedPreferences.getInteger(KEY_TAB_LIMIT, 5)
 
-    fun getWrapContent(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_WRAP_CONTENT, true)
+    fun getWordWrap(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_WORD_WRAP, true)
     fun getCodeCompletion(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
     fun getPinchZoom(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
     fun getHighlightCurrentLine(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)

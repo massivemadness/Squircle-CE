@@ -41,129 +41,124 @@
 
             <!-- region TOOLBAR -->
 
-            <com.google.android.material.appbar.AppBarLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_alignParentLeft="true"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_drawer"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_drawer"
+                    android:contentDescription="@string/description_icon" />
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_alignParentLeft="true"
-                        android:padding="10dp"
-                        android:visibility="visible"
-                        android:src="@drawable/ic_drawer"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_drawer"
-                        android:contentDescription="@string/description_icon" />
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toLeftOf="@id/action_menu_file"
+                    android:padding="10.5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_save"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_save"
+                    android:contentDescription="@string/description_icon"/>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_toLeftOf="@id/action_menu_file"
-                        android:padding="10.5dp"
-                        android:visibility="gone"
-                        android:src="@drawable/ic_save"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_save"
-                        android:contentDescription="@string/description_icon"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toLeftOf="@id/action_menu_edit"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_folder"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_file"
+                    android:contentDescription="@string/description_icon"/>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_toLeftOf="@id/action_menu_edit"
-                        android:padding="10.5dp"
-                        android:visibility="visible"
-                        android:src="@drawable/ic_folder"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_file"
-                        android:contentDescription="@string/description_icon"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toLeftOf="@id/action_menu_search"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_edit"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_edit"
+                    android:contentDescription="@string/description_icon"/>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_toLeftOf="@id/action_menu_search"
-                        android:padding="10.5dp"
-                        android:visibility="visible"
-                        android:src="@drawable/ic_edit"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_edit"
-                        android:contentDescription="@string/description_icon"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toLeftOf="@id/action_menu_tools"
+                    android:padding="10.5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_file_search"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_search"
+                    android:contentDescription="@string/description_icon"/>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_toLeftOf="@id/action_menu_tools"
-                        android:padding="10.5dp"
-                        android:visibility="gone"
-                        android:src="@drawable/ic_file_search"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_search"
-                        android:contentDescription="@string/description_icon"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toLeftOf="@id/action_menu_undo"
+                    android:padding="10.5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_tools"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_tools"
+                    android:contentDescription="@string/description_icon"/>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_toLeftOf="@id/action_menu_undo"
-                        android:padding="10.5dp"
-                        android:visibility="gone"
-                        android:src="@drawable/ic_tools"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_tools"
-                        android:contentDescription="@string/description_icon"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toLeftOf="@id/action_menu_redo"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_undo"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_undo"
+                    android:contentDescription="@string/description_icon"/>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_toLeftOf="@id/action_menu_redo"
-                        android:padding="10.5dp"
-                        android:visibility="visible"
-                        android:src="@drawable/ic_undo"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_undo"
-                        android:contentDescription="@string/description_icon"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toLeftOf="@id/action_menu_overflow"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_redo"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_redo"
+                    android:contentDescription="@string/description_icon"/>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_toLeftOf="@id/action_menu_overflow"
-                        android:padding="10.5dp"
-                        android:visibility="visible"
-                        android:src="@drawable/ic_redo"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_redo"
-                        android:contentDescription="@string/description_icon"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_overflow"
+                    android:tint="@android:color/white"
+                    android:background="@drawable/ripple"
+                    android:id="@+id/action_menu_overflow"
+                    android:contentDescription="@string/description_icon"/>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_alignParentRight="true"
-                        android:padding="10.5dp"
-                        android:visibility="visible"
-                        android:src="@drawable/ic_overflow"
-                        android:tint="@android:color/white"
-                        android:background="@drawable/ripple"
-                        android:id="@+id/action_menu_overflow"
-                        android:contentDescription="@string/description_icon"/>
-
-                </RelativeLayout>
-
-            </com.google.android.material.appbar.AppBarLayout>
+            </RelativeLayout>
 
             <com.google.android.material.tabs.TabLayout
                 android:layout_width="match_parent"
@@ -217,11 +212,16 @@
                     android:layout_height="match_parent"
                     android:gravity="top|left"
                     android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
-                    android:layerType="software"
                     android:textCursorDrawable="@drawable/caret"
-                    android:scrollbarStyle="insideInset"
-                    android:id="@+id/editor"
-                    tools:ignore="RtlHardcoded"/>
+                    android:id="@+id/editor"/>
+
+                <com.lightteam.modpeide.presentation.main.customview.TextScroller
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
+                    android:id="@+id/scroller"
+                    app:thumbTint="@color/colorAccent"/>
 
             </FrameLayout>
 

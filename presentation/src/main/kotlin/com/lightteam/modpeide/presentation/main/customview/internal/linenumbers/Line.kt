@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation.main.customview.internal
+package com.lightteam.modpeide.presentation.main.customview.internal.linenumbers
 
 import java.io.Serializable
 
