@@ -84,13 +84,13 @@ object ThemeFactory {
         val bracketSpanColor: Int = "#3F504D".toColorInt()
 
         //Syntax Highlighting
-        val numbersColor: Int = "#7196B8".toColorInt()
+        val numbersColor: Int = "#6897BB".toColorInt()
         val symbolsColor: Int = "#E8E2B7".toColorInt()
         val bracketsColor: Int = "#E8E2B7".toColorInt()
-        val keywordsColor: Int = "#C17C41".toColorInt()
-        val methodsColor: Int = "#F7C87B".toColorInt()
-        val stringsColor: Int = "#70865E".toColorInt()
-        val commentsColor: Int = "#808080".toColorInt()
+        val keywordsColor: Int = "#EC7600".toColorInt()
+        val methodsColor: Int = "#FEC76C".toColorInt()
+        val stringsColor: Int = "#6E875A".toColorInt()
+        val commentsColor: Int = "#66747B".toColorInt()
     }
 
     private class Monokai {

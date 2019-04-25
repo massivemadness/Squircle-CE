@@ -27,7 +27,9 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.Editable
 import android.text.InputType
+import android.text.Spanned
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.VelocityTracker
@@ -37,6 +39,9 @@ import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import com.lightteam.modpeide.presentation.main.customview.internal.linenumbers.LinesCollection
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.StyleSpan
+import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.SyntaxHighlightSpan
+import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.JavaScript
+import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.Language
 import com.lightteam.modpeide.presentation.main.customview.internal.textscroller.OnScrollChangedListener
 import com.lightteam.modpeide.utils.extensions.toPx
 
@@ -99,6 +104,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private val gutterLinePaint = Paint()
     private val gutterTextPaint = Paint()
 
+    private val language: Language = JavaScript()
+
     private val numbersSpan = StyleSpan(color = theme.numbersColor)
     private val symbolsSpan = StyleSpan(color = theme.symbolsColor)
     private val bracketsSpan = StyleSpan(color = theme.bracketsColor)
@@ -112,14 +119,14 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     private var gutterWidth = 0
     private var gutterDigitCount = 0
-    private var gutterMargin = 4.toPx()
+    private var gutterMargin = 4.toPx() //4 dp to pixels
 
-    private var textChangeStart: Int = 0
-    private var textChangeEnd: Int = 0
-    private var textChangedNewText: String = ""
+    private var textChangeStart = 0
+    private var textChangeEnd = 0
+    private var textChangedNewText = ""
 
-    //private var topDirtyLine = 0
-    //private var bottomDirtyLine = 0
+    private var topDirtyLine = 0
+    private var bottomDirtyLine = 0
 
     private var facadeText = editableFactory.newEditable("")
 
@@ -132,14 +139,18 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 textChangeStart = start
                 textChangeEnd = start + count
+                abortFling()
             }
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
                 textChangedNewText = text?.subSequence(start, start + count).toString()
                 replaceText(textChangeStart, textChangeEnd, textChangedNewText)
             }
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                clearSpans()
+                syntaxHighlight()
+            }
         })
-        maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100.toFloat()
+        maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
         colorize()
     }
 
@@ -204,24 +215,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     // region CORE
 
-    fun getFacadeText(): Editable {
-        return facadeText
-    }
-
-    fun setFacadeText(newText: String) {
-        var line = 0
-        var lineStart = 0
-        newText.lines().forEach {
-            lines.add(line, lineStart)
-            lineStart += it.length + 1
-            line++
-        }
-        newText.removeSuffix("\n") //important
-        setText(newText)
-        facadeText.clear()
-        replaceText(0, facadeText.length, newText)
-    }
-
     override fun onDraw(canvas: Canvas) {
         if(layout != null) {
             var top: Int
@@ -285,6 +278,24 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             )
             updateGutter()
         }
+    }
+
+    fun getFacadeText(): Editable {
+        return facadeText
+    }
+
+    fun setFacadeText(newText: String) {
+        var line = 0
+        var lineStart = 0
+        newText.lines().forEach {
+            lines.add(line, lineStart)
+            lineStart += it.length + 1
+            line++
+        }
+        newText.removeSuffix("\n") //important
+        setText(newText)
+        facadeText.clear()
+        replaceText(0, facadeText.length, newText)
     }
 
     // endregion CORE
@@ -485,16 +496,162 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     // region SYNTAX_HIGHLIGHT
 
-    /*private fun syntaxHighlight() {
+    private fun syntaxHighlight() {
+        if(layout != null) {
+            var topLine = scrollY / lineHeight - 10
+            var bottomLine = (scrollY + height) / lineHeight + 11
+            if (topLine < 0) {
+                topLine = 0
+            }
+            if (bottomLine > layout.lineCount) {
+                bottomLine = layout.lineCount
+            }
+            if (topLine > layout.lineCount) {
+                topLine = layout.lineCount
+            }
+            if (bottomLine >= 0 && topLine >= 0) {
+                topDirtyLine = topLine
+                bottomDirtyLine = bottomLine
 
-    }*/
+                val topLineOffset = layout.getLineStart(topLine)
+                val bottomLineOffset = if (bottomLine < lineCount) {
+                    layout.getLineStart(bottomLine)
+                } else {
+                    layout.getLineStart(lineCount)
+                }
+
+                // region HIGHLIGHTING
+
+                var matcher = language.getPatternOfNumbers().matcher( //Numbers
+                    text.subSequence(topLineOffset, bottomLineOffset)
+                )
+                while (matcher.find()) {
+                    text.setSpan(
+                        SyntaxHighlightSpan(numbersSpan, topLineOffset, bottomLineOffset),
+                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                matcher = language.getPatternOfSymbols().matcher( //Symbols
+                    text.subSequence(topLineOffset, bottomLineOffset)
+                )
+                while (matcher.find()) {
+                    text.setSpan(
+                        SyntaxHighlightSpan(symbolsSpan, topLineOffset, bottomLineOffset),
+                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                matcher = language.getPatternOfBrackets().matcher( //Brackets
+                    text.subSequence(topLineOffset, bottomLineOffset)
+                )
+                while (matcher.find()) {
+                    text.setSpan(
+                        SyntaxHighlightSpan(bracketsSpan, topLineOffset, bottomLineOffset),
+                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                matcher = language.getPatternOfKeywords().matcher( //Keywords
+                    text.subSequence(topLineOffset, bottomLineOffset)
+                )
+                while (matcher.find()) {
+                    text.setSpan(
+                        SyntaxHighlightSpan(keywordsSpan, topLineOffset, bottomLineOffset),
+                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                matcher = language.getPatternOfMethods().matcher( //Methods
+                    text.subSequence(topLineOffset, bottomLineOffset)
+                )
+                while (matcher.find()) {
+                    text.setSpan(
+                        SyntaxHighlightSpan(methodsSpan, topLineOffset, bottomLineOffset),
+                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                matcher = language.getPatternOfStrings().matcher( //Strings
+                    text.subSequence(topLineOffset, bottomLineOffset)
+                )
+                while (matcher.find()) {
+                    for (span in text.getSpans(
+                        matcher.start() + topLineOffset,
+                        matcher.end() + topLineOffset,
+                        ForegroundColorSpan::class.java)) {
+                        text.removeSpan(span)
+                    }
+                    text.setSpan(
+                        SyntaxHighlightSpan(stringsSpan, topLineOffset, bottomLineOffset),
+                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                matcher = language.getPatternOfComments().matcher( //Comments
+                    text.subSequence(topLineOffset, bottomLineOffset)
+                )
+                while (matcher.find()) {
+                    var skip = false
+                    for (span in text.getSpans(
+                        topLineOffset,
+                        matcher.end() + topLineOffset,
+                        ForegroundColorSpan::class.java)) {
+                        val spanStart = text.getSpanStart(span)
+                        val spanEnd = text.getSpanEnd(span)
+                        if (matcher.start() + topLineOffset in spanStart..spanEnd &&
+                            matcher.end() + topLineOffset > spanEnd ||
+                            matcher.start() + topLineOffset >= topLineOffset + spanEnd &&
+                            matcher.start() + topLineOffset <= spanEnd) {
+                            skip = true
+                            break
+                        }
+
+                    }
+                    if (!skip) {
+                        for (span in text.getSpans(
+                            matcher.start() + topLineOffset,
+                            matcher.end() + topLineOffset,
+                            ForegroundColorSpan::class.java)) {
+                            text.removeSpan(span)
+                        }
+                        text.setSpan(
+                            SyntaxHighlightSpan(commentsSpan, topLineOffset, bottomLineOffset),
+                            matcher.start() + topLineOffset, matcher.end() + topLineOffset,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                }
+
+                // endregion HIGHLIGHTING
+
+                post(::invalidateVisibleArea)
+            }
+        }
+    }
+
+    private fun clearSpans() {
+        val spans = text.getSpans(0, text.length, SyntaxHighlightSpan::class.java)
+        for (span in spans) {
+            text.removeSpan(span)
+        }
+    }
+
+    private fun invalidateVisibleArea() {
+        invalidate(
+            paddingLeft,
+            scrollY + paddingTop,
+            width,
+            scrollY + paddingTop + height
+        )
+    }
 
     // endregion SYNTAX_HIGHLIGHT
 
     // region SCROLLER
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        //syntaxHighlight()
+        syntaxHighlight()
         for (listener in scrollListeners) {
             listener.onScrollChanged(scrollX, scrollY, scrollX, scrollY)
         }
@@ -552,9 +709,16 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         for (listener in scrollListeners) {
             listener.onScrollChanged(horiz, vert, oldHoriz, oldVert)
         }
-        /*if (topDirtyLine > getTopVisibleLine() || bottomDirtyLine < getBottomVisibleLine()) {
+        if (topDirtyLine > getTopVisibleLine() || bottomDirtyLine < getBottomVisibleLine()) {
+            clearSpans()
             syntaxHighlight()
-        }*/
+        }
+    }
+
+    override fun computeScroll() {
+        if (textScroller.computeScrollOffset()) {
+            scrollTo(textScroller.currX, textScroller.currY)
+        }
     }
 
     fun addOnScrollChangedListener(listener: OnScrollChangedListener) {
@@ -571,24 +735,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         }
     }
 
-    override fun computeScroll() {
-        if (textScroller.computeScrollOffset()) {
-            scrollTo(textScroller.currX, textScroller.currY)
-        }
-    }
-
     // endregion SCROLLER
 
     // region INTERNAL
-
-    /*private fun invalidateVisibleArea() {
-        invalidate(
-            paddingLeft,
-            scrollY + paddingTop,
-            width,
-            scrollY + paddingTop + height
-        )
-    }*/
 
     private fun selectedText(): Editable {
         return text.subSequence(selectionStart, selectionEnd) as Editable
