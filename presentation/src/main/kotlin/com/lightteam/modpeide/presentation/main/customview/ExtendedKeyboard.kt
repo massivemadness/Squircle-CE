@@ -42,7 +42,7 @@ class ExtendedKeyboard(context: Context, attributeSet: AttributeSet) : RecyclerV
         adapter?.notifyDataSetChanged()
     }
 
-    class KeyAdapter(private val keyListener: OnKeyListener) : RecyclerView.Adapter<KeyAdapter.ViewHolder>() {
+    private class KeyAdapter(private val keyListener: OnKeyListener) : RecyclerView.Adapter<KeyAdapter.ViewHolder>() {
         
         var keys: Array<String> = arrayOf()
 

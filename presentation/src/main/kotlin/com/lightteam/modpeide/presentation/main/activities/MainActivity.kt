@@ -221,7 +221,14 @@ class MainActivity : BaseActivity(),
             list.forEach { addTab(it, false) }
         })
         viewModel.documentTabEvent.observe(this, Observer { document ->
-            if(document.name.endsWith(viewModel.unopenableExtensions)) { //Если расширение не поддерживается
+            if(document.name.endsWith(viewModel.openableExtensions)) { //Если расширение поддерживается
+                closeDrawersIfNecessary()
+                if(adapter.size() < viewModel.tabLimitEvent.value!!) {
+                    addTab(document, true)
+                } else {
+                    viewModel.toastEvent.value = R.string.message_tab_limit_achieved
+                }
+            } else {
                 try { //Открытие файла через соответствующую программу
                     val uri = getUriForFile(this, "$packageName.provider", File(document.path))
                     val mime = contentResolver.getType(uri)
@@ -231,13 +238,6 @@ class MainActivity : BaseActivity(),
                     startActivity(intent)
                 } catch (e: ActivityNotFoundException) {
                     viewModel.toastEvent.value = R.string.message_cannot_be_opened
-                }
-            } else {
-                closeDrawersIfNecessary()
-                if(adapter.size() < viewModel.tabLimitEvent.value!!) {
-                    addTab(document, true)
-                } else {
-                    viewModel.toastEvent.value = R.string.message_tab_limit_achieved
                 }
             }
         })
@@ -281,8 +281,16 @@ class MainActivity : BaseActivity(),
             val newConfiguration = binding.editor.configuration.copy(wordWrap = wordWrap)
             binding.editor.configuration = newConfiguration
         })
+        viewModel.pinchZoomEvent.observe(this, Observer { pinchZoom ->
+            val newConfiguration = binding.editor.configuration.copy(pinchZoom = pinchZoom)
+            binding.editor.configuration = newConfiguration
+        })
         viewModel.highlightLineEvent.observe(this, Observer { highlight ->
             val newConfiguration = binding.editor.configuration.copy(highlightCurrentLine = highlight)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.highlightDelimitersEvent.observe(this, Observer { highlight ->
+            val newConfiguration = binding.editor.configuration.copy(highlightDelimiters = highlight)
             binding.editor.configuration = newConfiguration
         })
         viewModel.softKeyboardEvent.observe(this, Observer { softKeyboard ->
@@ -291,6 +299,18 @@ class MainActivity : BaseActivity(),
         })
         viewModel.imeKeyboardEvent.observe(this, Observer { imeKeyboard ->
             val newConfiguration = binding.editor.configuration.copy(imeKeyboard = imeKeyboard)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.autoIndentationEvent.observe(this, Observer { autoIndentation ->
+            val newConfiguration = binding.editor.configuration.copy(autoIndentation = autoIndentation)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.autoCloseBracketsEvent.observe(this, Observer { autoCloseBrackets ->
+            val newConfiguration = binding.editor.configuration.copy(autoCloseBrackets = autoCloseBrackets)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.autoCloseQuotesEvent.observe(this, Observer { autoCloseQuotes ->
+            val newConfiguration = binding.editor.configuration.copy(autoCloseQuotes = autoCloseQuotes)
             binding.editor.configuration = newConfiguration
         })
 

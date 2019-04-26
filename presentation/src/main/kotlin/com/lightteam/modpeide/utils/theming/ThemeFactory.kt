@@ -15,30 +15,25 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.utils.commons
+package com.lightteam.modpeide.utils.theming
 
-import android.graphics.Color
-import androidx.core.graphics.toColorInt
 import com.lightteam.modpeide.presentation.main.customview.TextProcessor
 
 object ThemeFactory {
 
-    private const val THEME_DARCULA = "THEME_DARCULA"
-    private const val THEME_MONOKAI = "THEME_MONOKAI"
-
     fun create(theme: String): TextProcessor.Theme {
         return when(theme) {
-            THEME_DARCULA -> {
-                val darcula = Darcula()
-                TextProcessor.Theme(
+            Themes.THEME_DARCULA -> {
+                val darcula = Themes.getDarcula()
+                return TextProcessor.Theme(
                     textColor = darcula.textColor,
                     backgroundColor = darcula.backgroundColor,
                     gutterColor = darcula.gutterColor,
                     gutterTextColor = darcula.gutterTextColor,
                     selectedLineColor = darcula.selectedLineColor,
                     selectionColor = darcula.selectionColor,
-                    searchSpanColor = darcula.searchSpanColor,
-                    bracketSpanColor = darcula.bracketSpanColor,
+                    searchBgColor = darcula.searchBgColor,
+                    bracketsBgColor = darcula.bracketBgColor,
                     numbersColor = darcula.numbersColor,
                     symbolsColor = darcula.symbolsColor,
                     bracketsColor = darcula.bracketsColor,
@@ -48,17 +43,17 @@ object ThemeFactory {
                     commentsColor = darcula.commentsColor
                 )
             }
-            THEME_MONOKAI -> {
-                val monokai = Monokai()
-                TextProcessor.Theme(
+            Themes.THEME_MONOKAI -> {
+                val monokai = Themes.getMonokai()
+                return TextProcessor.Theme(
                     textColor = monokai.textColor,
                     backgroundColor = monokai.backgroundColor,
                     gutterColor = monokai.gutterColor,
                     gutterTextColor = monokai.gutterTextColor,
                     selectedLineColor = monokai.selectedLineColor,
                     selectionColor = monokai.selectionColor,
-                    searchSpanColor = monokai.searchSpanColor,
-                    bracketSpanColor = monokai.bracketSpanColor,
+                    searchBgColor = monokai.searchBgColor,
+                    bracketsBgColor = monokai.bracketBgColor,
                     numbersColor = monokai.numbersColor,
                     symbolsColor = monokai.symbolsColor,
                     bracketsColor = monokai.bracketsColor,
@@ -68,48 +63,7 @@ object ThemeFactory {
                     commentsColor = monokai.commentsColor
                 )
             }
-            else -> create(THEME_DARCULA)
+            else -> create(Themes.THEME_DARCULA)
         }
-    }
-
-    private class Darcula {
-        val textColor: Int = "#ABB7C5".toColorInt()
-        val backgroundColor: Int = "#303030".toColorInt()
-        val gutterColor: Int = "#313335".toColorInt()
-        val gutterTextColor: Int = "#616366".toColorInt()
-        val selectedLineColor: Int = "#3A3A3A".toColorInt()
-        val selectionColor: Int = "#28427f".toColorInt()
-
-        val searchSpanColor: Int = "#32593D".toColorInt()
-        val bracketSpanColor: Int = "#3F504D".toColorInt()
-
-        //Syntax Highlighting
-        val numbersColor: Int = "#6897BB".toColorInt()
-        val symbolsColor: Int = "#E8E2B7".toColorInt()
-        val bracketsColor: Int = "#E8E2B7".toColorInt()
-        val keywordsColor: Int = "#EC7600".toColorInt()
-        val methodsColor: Int = "#FEC76C".toColorInt()
-        val stringsColor: Int = "#6E875A".toColorInt()
-        val commentsColor: Int = "#66747B".toColorInt()
-    }
-
-    private class Monokai {
-        val textColor: Int = Color.GREEN
-        val backgroundColor: Int = Color.DKGRAY
-        val gutterColor: Int = Color.GRAY
-        val gutterTextColor: Int = Color.WHITE
-        val selectedLineColor: Int = Color.GRAY
-        val selectionColor: Int = Color.LTGRAY
-        val searchSpanColor: Int = Color.GREEN
-        val bracketSpanColor: Int = Color.GREEN
-
-        //Syntax Highlighting
-        val numbersColor: Int = Color.WHITE
-        val symbolsColor: Int = Color.WHITE
-        val bracketsColor: Int = Color.WHITE
-        val keywordsColor: Int = Color.WHITE
-        val methodsColor: Int = Color.WHITE
-        val stringsColor: Int = Color.WHITE
-        val commentsColor: Int = Color.WHITE
     }
 }

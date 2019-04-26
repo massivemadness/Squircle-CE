@@ -35,7 +35,7 @@ import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.presentation.main.customview.TextProcessor
-import com.lightteam.modpeide.utils.commons.ThemeFactory
+import com.lightteam.modpeide.utils.theming.ThemeFactory
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Completable
@@ -88,17 +88,22 @@ class MainViewModel(
     val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Лимит вкладок
 
     val wordWrapEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Смещать текст на новую строку если нет места
+    val pinchZoomEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Жест масштабирования текста
     val highlightLineEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подсветка текущей строки
+    val highlightDelimitersEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подсветка ближайших скобок
 
     val extendedKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать доп. символы
-    val softKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Упрощенная клавиатура (landscape orientation)ы
+    val softKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Упрощенная клавиатура (landscape orientation)
     val imeKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать подсказки/ошибки при вводе
+
+    val autoIndentationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отступы при переходе на новую строку
+    val autoCloseBracketsEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автоматическое закрытие скобок
+    val autoCloseQuotesEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автоматическое закрытие кавычек
 
     // endregion PREFERENCES
 
-    val unopenableExtensions = arrayOf( //Неоткрываемые расширения файлов
-        ".apk", ".mp3", ".mp4", ".wav", ".pdf", ".avi", ".wmv", ".m4a", ".png", ".jpg", ".jpeg", ".zip", ".wad",
-        ".7z", ".rar", ".gif", ".xls", ".doc", ".dat", ".jar", ".tar", ".torrent", ".xd", ".docx", ".temp"
+    val openableExtensions = arrayOf( //Открываемые расширения файлов
+        ".txt", ".js", ".json", ".java", ".md", ".lua"
     )
     var sortMode: Int = FileSorter.SORT_BY_NAME
     var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
@@ -386,11 +391,25 @@ class MainViewModel(
             .subscribeBy { wordWrapEvent.value = it }
             .disposeOnViewModelDestroy()
 
+        //Pinch Zoom
+        preferenceHandler.getPinchZoom()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { pinchZoomEvent.value = it }
+            .disposeOnViewModelDestroy()
+
         //Highlight Current Line
         preferenceHandler.getHighlightCurrentLine()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { highlightLineEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Highlight Matching Delimiters
+        preferenceHandler.getHighlightMatchingDelimiters()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { highlightDelimitersEvent.value = it }
             .disposeOnViewModelDestroy()
 
         //Extended Keyboard
@@ -412,6 +431,27 @@ class MainViewModel(
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { imeKeyboardEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Auto Indentation
+        preferenceHandler.getAutoIndentation()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { autoIndentationEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Auto-close Brackets
+        preferenceHandler.getAutoCloseBrackets()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { autoCloseBracketsEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Auto-close Quotes
+        preferenceHandler.getAutoCloseQuotes()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { autoCloseQuotesEvent.value = it }
             .disposeOnViewModelDestroy()
 
         //Filter Hidden Files

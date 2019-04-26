@@ -15,17 +15,25 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.utils.extensions
+package com.lightteam.modpeide.utils.theming
 
-import android.content.Context
-import android.graphics.drawable.Drawable
-import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
+abstract class AbstractTheme {
+    abstract val textColor: Int
+    abstract val backgroundColor: Int
+    abstract val gutterColor: Int
+    abstract val gutterTextColor: Int
+    abstract val selectedLineColor: Int
+    abstract val selectionColor: Int
 
-fun Context.getDrawableCompat(@DrawableRes drawable: Int): Drawable {
-    return ContextCompat.getDrawable(this, drawable) as Drawable
-}
+    abstract val searchBgColor: Int
+    abstract val bracketBgColor: Int
 
-fun Context.getScaledDensity(): Float {
-    return resources.displayMetrics.scaledDensity
+    //Syntax Highlighting
+    abstract val numbersColor: Int
+    abstract val symbolsColor: Int
+    abstract val bracketsColor: Int
+    abstract val keywordsColor: Int
+    abstract val methodsColor: Int
+    abstract val stringsColor: Int
+    abstract val commentsColor: Int
 }

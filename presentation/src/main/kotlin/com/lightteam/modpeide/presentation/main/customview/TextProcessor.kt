@@ -25,10 +25,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.text.Editable
-import android.text.InputType
-import android.text.Spanned
-import android.text.TextWatcher
+import android.text.*
+import android.text.style.BackgroundColorSpan
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -43,19 +41,31 @@ import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighli
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.JavaScript
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.Language
 import com.lightteam.modpeide.presentation.main.customview.internal.textscroller.OnScrollChangedListener
+import com.lightteam.modpeide.utils.extensions.getScaledDensity
 import com.lightteam.modpeide.utils.extensions.toPx
 
 class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoCompleteTextView(context, attrs) {
 
     data class Configuration(
+        //Font
         var fontSize: Float = 14f,
         var fontType: Typeface = Typeface.MONOSPACE,
 
+        //Editor
         var wordWrap: Boolean = true,
+        //var codeCompletion: Boolean = true,
+        var pinchZoom: Boolean = true,
         var highlightCurrentLine: Boolean = true,
+        var highlightDelimiters: Boolean = true,
 
+        //Keyboard
         var softKeyboard: Boolean = false,
-        var imeKeyboard: Boolean = false
+        var imeKeyboard: Boolean = false,
+
+        //Code Style
+        var autoIndentation: Boolean = true,
+        var autoCloseBrackets: Boolean = true,
+        var autoCloseQuotes: Boolean = false
     )
 
     data class Theme(
@@ -66,8 +76,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var selectedLineColor: Int = Color.GRAY,
         var selectionColor: Int = Color.LTGRAY,
 
-        var searchSpanColor: Int = Color.GREEN,
-        var bracketSpanColor: Int = Color.GREEN,
+        var searchBgColor: Int = Color.GREEN,
+        var bracketsBgColor: Int = Color.GREEN,
 
         //Syntax Highlighting
         var numbersColor: Int = Color.WHITE,
@@ -95,6 +105,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     private val clipboardManager
             = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    private val scaledDensity = context.getScaledDensity()
 
     private val lines = LinesCollection()
     private val editableFactory = Editable.Factory.getInstance()
@@ -114,16 +125,31 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private val stringsSpan = StyleSpan(color = theme.stringsColor)
     private val commentsSpan = StyleSpan(color = theme.commentsColor, italic = true)
 
+    private val tabString = "    " // 4 spaces
+    private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
+
+    private var searchBgSpan = BackgroundColorSpan(theme.searchBgColor)
+    private var openBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
+    private var closedBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
+
+    private var isDoingUndoRedo = false
+    private var isAutoIndenting = false
+
     private var scrollListeners = arrayOf<OnScrollChangedListener>()
     private var maximumVelocity = 0f
 
+    private var zoomPinch = false
+    private var zoomFactor = 1f
+
     private var gutterWidth = 0
     private var gutterDigitCount = 0
-    private var gutterMargin = 4.toPx() //4 dp to pixels
+    private var gutterMargin = 4.toPx() // 4 dp to pixels
 
     private var textChangeStart = 0
     private var textChangeEnd = 0
     private var textChangedNewText = ""
+
+    private var newText = ""
 
     private var topDirtyLine = 0
     private var bottomDirtyLine = 0
@@ -142,6 +168,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 abortFling()
             }
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                newText = text?.subSequence(start, start + count).toString()
+                completeIndentation(start, count)
                 textChangedNewText = text?.subSequence(start, start + count).toString()
                 replaceText(textChangeStart, textChangeEnd, textChangedNewText)
             }
@@ -173,8 +201,17 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
         setHorizontallyScrolling(!configuration.wordWrap)
 
-        gutterTextPaint.textSize = textSize
         gutterTextPaint.typeface = typeface
+
+        if(configuration.pinchZoom) {
+            setOnTouchListener { v, event ->
+                pinchZoom(event)
+            }
+        } else {
+            setOnTouchListener { v, event ->
+                onTouchEvent(event)
+            }
+        }
     }
 
     private fun colorize() {
@@ -208,12 +245,21 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             methodsSpan.color = theme.methodsColor
             stringsSpan.color = theme.stringsColor
             commentsSpan.color = theme.commentsColor
+
+            searchBgSpan = BackgroundColorSpan(theme.searchBgColor)
+            openBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
+            closedBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
         }
     }
 
     // endregion INIT
 
     // region CORE
+
+    override fun setTextSize(size: Float) {
+        super.setTextSize(size)
+        gutterTextPaint.textSize = textSize
+    }
 
     override fun onDraw(canvas: Canvas) {
         if(layout != null) {
@@ -278,6 +324,13 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             )
             updateGutter()
         }
+    }
+
+    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+        if (selStart == selEnd) {
+            checkMatchingBracket(selStart)
+        }
+        //invalidate()
     }
 
     fun getFacadeText(): Editable {
@@ -494,6 +547,159 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     // endregion LINE_NUMBERS
 
+    // region INDENTATION
+
+    private fun completeIndentation(start: Int, count: Int) {
+        if(!isDoingUndoRedo && !isAutoIndenting) {
+            val result = executeIndentation(start)
+            val replacementValue = if (result[0] != null || result[1] != null) {
+                val preText = result[0] ?: ""
+                val postText = result[1] ?: ""
+                if (preText != "" || postText != "") {
+                    preText + newText + postText
+                } else {
+                    return
+                }
+            } else if (result[2] != null) {
+                result[2]!!
+            } else {
+                return
+            }
+            val newCursorPosition: Int
+            newCursorPosition = if (result[3] != null) {
+                Integer.parseInt(result[3]!!)
+            } else {
+                start + replacementValue.length
+            }
+            post {
+                isAutoIndenting = true
+                text.replace(start, start + count, replacementValue)
+                /*mController.getUndoStack().pop()
+                val change = mController.getUndoStack().pop()
+                if (replacementValue != "") {
+                    change.newText = replacementValue
+                    mController.getUndoStack().push(change)
+                }*/
+                Selection.setSelection(text, newCursorPosition)
+                isAutoIndenting = false
+            }
+        }
+    }
+
+    private fun executeIndentation(start: Int): Array<String?> {
+        val strArr: Array<String?>
+        if (newText == "\n" && configuration.autoIndentation) {
+            val prevLineIndentation = getIndentationForOffset(start)
+            val indentation = StringBuilder(prevLineIndentation)
+            var newCursorPosition = indentation.length + start + 1
+            if (start > 0 && text[start - 1] == '{') {
+                indentation.append(tabString)
+                newCursorPosition = indentation.length + start + 1
+            }
+            if (start + 1 < text.length && text[start + 1] == '}') {
+                indentation.append("\n").append(prevLineIndentation)
+            }
+            strArr = arrayOfNulls(4)
+            strArr[1] = indentation.toString()
+            strArr[3] = Integer.toString(newCursorPosition)
+            return strArr
+        } else if (newText == "\"" && configuration.autoCloseQuotes) {
+            if (start + 1 >= text.length) {
+                strArr = arrayOfNulls(4)
+                strArr[1] = "\""
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            } else if (text[start + 1] == '\"' && text[start - 1] != '\\') {
+                strArr = arrayOfNulls(4)
+                strArr[2] = ""
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            } else if (!(text[start + 1] == '\"' && text[start - 1] == '\\')) {
+                strArr = arrayOfNulls(4)
+                strArr[1] = "\""
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            }
+        } else if (newText == "'" && configuration.autoCloseQuotes) {
+            if (start + 1 >= text.length) {
+                strArr = arrayOfNulls(4)
+                strArr[1] = "'"
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            } else if (start + 1 >= text.length) {
+                strArr = arrayOfNulls(4)
+                strArr[1] = "'"
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            } else if (text[start + 1] == '\'' && start > 0 && text[start - 1] != '\\') {
+                strArr = arrayOfNulls(4)
+                strArr[2] = ""
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            } else if (!(text[start + 1] == '\'' && start > 0 && text[start - 1] == '\\')) {
+                strArr = arrayOfNulls(4)
+                strArr[1] = "'"
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            }
+        } else if (newText == "{" && configuration.autoCloseBrackets) {
+            strArr = arrayOfNulls(4)
+            strArr[1] = "}"
+            strArr[3] = Integer.toString(start + 1)
+            return strArr
+        } else if (newText == "}" && configuration.autoCloseBrackets) {
+            if (start + 1 < text.length && text[start + 1] == '}') {
+                strArr = arrayOfNulls(4)
+                strArr[2] = ""
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            }
+        } else if (newText == "(" && configuration.autoCloseBrackets) {
+            strArr = arrayOfNulls(4)
+            strArr[1] = ")"
+            strArr[3] = Integer.toString(start + 1)
+            return strArr
+        } else if (newText == ")" && configuration.autoCloseBrackets) {
+            if (start + 1 < text.length && text[start + 1] == ')') {
+                strArr = arrayOfNulls(4)
+                strArr[2] = ""
+                strArr[3] = Integer.toString(start + 1)
+                return strArr
+            }
+        } else if (newText == "[" && configuration.autoCloseBrackets) {
+            strArr = arrayOfNulls(4)
+            strArr[1] = "]"
+            strArr[3] = Integer.toString(start + 1)
+            return strArr
+        } else if (newText == "]" && configuration.autoCloseBrackets && start + 1 < text.length && text[start + 1] == ']') {
+            strArr = arrayOfNulls(4)
+            strArr[2] = ""
+            strArr[3] = Integer.toString(start + 1)
+            return strArr
+        }
+        return arrayOfNulls(4)
+    }
+
+    private fun getIndentationForOffset(offset: Int): String {
+        return getIndentationForLine(lines.getLineForIndex(offset))
+    }
+
+    private fun getIndentationForLine(line: Int): String {
+        val realLine = lines.getLine(line) ?: return ""
+        val start = realLine.start
+        var i = start
+        while (i < text.length) {
+            val char = text[i]
+            if (!Character.isWhitespace(char) || char == '\n') {
+                break
+            }
+            i++
+        }
+        return text.subSequence(start, i).toString()
+    }
+
+    // endregion INDENTATION
+
     // region SYNTAX_HIGHLIGHT
 
     private fun syntaxHighlight() {
@@ -646,6 +852,62 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         )
     }
 
+    private fun checkMatchingBracket(pos: Int) {
+        if(layout != null) {
+            text.removeSpan(openBracketSpan)
+            text.removeSpan(closedBracketSpan)
+            if (configuration.highlightDelimiters) {
+                if (pos > 0 && pos <= text.length) {
+                    val c1 = text[pos - 1]
+                    for (i in 0 until bracketTypes.size) {
+                        if (bracketTypes[i] == c1) {
+                            val open = i <= 2
+                            val c2 = bracketTypes[(i + 3) % 6]
+                            var k = pos
+                            if (open) {
+                                var nob = 1
+                                while (k < text.length) {
+                                    if (text[k] == c2) {
+                                        nob--
+                                    }
+                                    if (text[k] == c1) {
+                                        nob++
+                                    }
+                                    if (nob == 0) {
+                                        showBracket(pos - 1, k)
+                                        break
+                                    }
+                                    k++
+                                }
+                            } else {
+                                var ncb = 1
+                                k -= 2
+                                while (k >= 0) {
+                                    if (text[k] == c2) {
+                                        ncb--
+                                    }
+                                    if (text[k] == c1) {
+                                        ncb++
+                                    }
+                                    if (ncb == 0) {
+                                        showBracket(k, pos - 1)
+                                        break
+                                    }
+                                    k--
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showBracket(i: Int, j: Int) {
+        text.setSpan(openBracketSpan, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        text.setSpan(closedBracketSpan, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+
     // endregion SYNTAX_HIGHLIGHT
 
     // region SCROLLER
@@ -736,6 +998,46 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     // endregion SCROLLER
+
+    // region PINCH_ZOOM
+
+    private fun pinchZoom(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_CANCEL,
+            MotionEvent.ACTION_UP ->
+                zoomPinch = false
+            MotionEvent.ACTION_MOVE -> {
+                if (event.pointerCount == 2) {
+                    val distance = getDistanceBetweenTouches(event)
+                    if (!zoomPinch) {
+                        zoomFactor = textSize / scaledDensity / distance
+                        zoomPinch = true
+                    }
+                    validateTextSize(zoomFactor * distance)
+                }
+            }
+        }
+        return zoomPinch
+    }
+
+    private fun getDistanceBetweenTouches(event: MotionEvent): Float {
+        val xx = event.getX(1) - event.getX(0)
+        val yy = event.getY(1) - event.getY(0)
+        return Math.sqrt((xx * xx + yy * yy).toDouble()).toFloat()
+    }
+
+    private fun validateTextSize(size: Float) {
+        textSize = when {
+            size < 10 -> //minimum
+                10f //minimum
+            size > 20 -> //maximum
+                20f //maximum
+            else ->
+                size
+        }
+    }
+
+    // endregion PINCH_ZOOM
 
     // region INTERNAL
 

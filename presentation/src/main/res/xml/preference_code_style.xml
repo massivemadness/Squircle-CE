@@ -26,19 +26,19 @@
             android:title="@string/pref_auto_indent_title"
             android:summary="@string/pref_auto_indent_summary"
             android:defaultValue="true"
-            android:key="INDENT_LINE"/>
+            android:key="AUTO_INDENTATION"/>
 
         <SwitchPreferenceCompat
             android:title="@string/pref_close_brackets_title"
             android:summary="@string/pref_close_brackets_summary"
             android:defaultValue="true"
-            android:key="INSERT_BRACKET"/>
+            android:key="AUTOCLOSE_BRACKETS"/>
 
         <SwitchPreferenceCompat
             android:title="@string/pref_close_quotes_title"
             android:summary="@string/pref_close_quotes_summary"
             android:defaultValue="false"
-            android:key="INSERT_QUOTE"/>
+            android:key="AUTOCLOSE_QUOTES"/>
 
     </PreferenceCategory>
 
