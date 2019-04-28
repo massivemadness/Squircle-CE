@@ -21,10 +21,7 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
 import android.text.*
 import android.text.style.BackgroundColorSpan
 import android.text.style.ForegroundColorSpan
@@ -35,12 +32,16 @@ import android.view.ViewConfiguration
 import android.view.inputmethod.EditorInfo
 import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+import com.lightteam.modpeide.R
+import com.lightteam.modpeide.presentation.main.adapters.CodeCompletionAdapter
+import com.lightteam.modpeide.presentation.main.customview.internal.codecompletion.SymbolsTokenizer
 import com.lightteam.modpeide.presentation.main.customview.internal.linenumbers.LinesCollection
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.StyleSpan
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.SyntaxHighlightSpan
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.JavaScript
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.Language
 import com.lightteam.modpeide.presentation.main.customview.internal.textscroller.OnScrollChangedListener
+import com.lightteam.modpeide.presentation.main.customview.internal.undoredo.UndoStack
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
 import com.lightteam.modpeide.utils.extensions.toPx
 
@@ -53,7 +54,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
         //Editor
         var wordWrap: Boolean = true,
-        //var codeCompletion: Boolean = true,
+        var codeCompletion: Boolean = true,
         var pinchZoom: Boolean = true,
         var highlightCurrentLine: Boolean = true,
         var highlightDelimiters: Boolean = true,
@@ -75,6 +76,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var gutterTextColor: Int = Color.WHITE,
         var selectedLineColor: Int = Color.GRAY,
         var selectionColor: Int = Color.LTGRAY,
+        var filterableColor: Int = Color.DKGRAY,
 
         var searchBgColor: Int = Color.GREEN,
         var bracketsBgColor: Int = Color.GREEN,
@@ -101,7 +103,11 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             colorize()
         }
 
+    var undoStack = UndoStack()
+    var redoStack = UndoStack()
+
     private val textScroller = Scroller(context)
+    private val adapter = CodeCompletionAdapter(context, R.layout.item_completion)
 
     private val clipboardManager
             = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -145,6 +151,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private var gutterDigitCount = 0
     private var gutterMargin = 4.toPx() // 4 dp to pixels
 
+    private var textLastChange: UndoStack.TextChange? = null
     private var textChangeStart = 0
     private var textChangeEnd = 0
     private var textChangedNewText = ""
@@ -165,6 +172,17 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 textChangeStart = start
                 textChangeEnd = start + count
+                if (!isDoingUndoRedo) {
+                    if (count < UndoStack.MAX_SIZE) {
+                        textLastChange = UndoStack.TextChange()
+                        textLastChange?.oldText = s?.subSequence(start, start + count).toString()
+                        textLastChange?.start = start
+                        return
+                    }
+                    undoStack.removeAll()
+                    redoStack.removeAll()
+                    textLastChange = null
+                }
                 abortFling()
             }
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
@@ -172,6 +190,25 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 completeIndentation(start, count)
                 textChangedNewText = text?.subSequence(start, start + count).toString()
                 replaceText(textChangeStart, textChangeEnd, textChangedNewText)
+                if (!isDoingUndoRedo && textLastChange != null) {
+                    if (count < UndoStack.MAX_SIZE) {
+                        textLastChange?.newText = text?.subSequence(start, start + count).toString()
+                        if (start == textLastChange?.start &&
+                            (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!) &&
+                            !textLastChange?.oldText?.equals(textLastChange?.newText)!!) {
+                            undoStack.push(textLastChange!!)
+                            redoStack.removeAll()
+                        }
+                    } else {
+                        undoStack.removeAll()
+                        redoStack.removeAll()
+                    }
+                    textLastChange = null
+                }
+                newText = ""
+                if(configuration.codeCompletion) {
+                    onPopupChangePosition()
+                }
             }
             override fun afterTextChanged(s: Editable?) {
                 clearSpans()
@@ -203,12 +240,18 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
         gutterTextPaint.typeface = typeface
 
+        if(configuration.codeCompletion) {
+            setAdapter(adapter)
+            setTokenizer(SymbolsTokenizer())
+        } else {
+            setTokenizer(null)
+        }
         if(configuration.pinchZoom) {
-            setOnTouchListener { v, event ->
+            setOnTouchListener { _, event ->
                 pinchZoom(event)
             }
         } else {
-            setOnTouchListener { v, event ->
+            setOnTouchListener { _, event ->
                 onTouchEvent(event)
             }
         }
@@ -245,6 +288,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             methodsSpan.color = theme.methodsColor
             stringsSpan.color = theme.stringsColor
             commentsSpan.color = theme.commentsColor
+
+            adapter.color = theme.filterableColor
 
             searchBgSpan = BackgroundColorSpan(theme.searchBgColor)
             openBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
@@ -285,6 +330,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                     )
                 }
             }
+            updateGutter()
             super.onDraw(canvas)
             canvas.drawRect(
                 scrollX.toFloat(),
@@ -322,7 +368,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 (top + height).toFloat(),
                 gutterLinePaint
             )
-            updateGutter()
         }
     }
 
@@ -347,6 +392,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         }
         newText.removeSuffix("\n") //important
         setText(newText)
+        undoStack.clear()
+        redoStack.clear()
         facadeText.clear()
         replaceText(0, facadeText.length, newText)
     }
@@ -430,6 +477,50 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             start--
         }
         editableText.insert(end, "\n" + text.subSequence(start, end))
+    }
+
+    fun canUndo(): Boolean = undoStack.canUndo()
+    fun canRedo(): Boolean = redoStack.canUndo()
+
+    fun undo() {
+        val textChange = undoStack.pop() as UndoStack.TextChange
+        when {
+            textChange.start >= 0 -> {
+                isDoingUndoRedo = true
+                if (textChange.start > text.length) {
+                    textChange.start = text.length
+                }
+                var end = textChange.start + textChange.newText.length
+                if (end < 0) {
+                    end = 0
+                }
+                if (end > text.length) {
+                    end = text.length
+                }
+                text.replace(textChange.start, end, textChange.oldText)
+                Selection.setSelection(text, textChange.start + textChange.oldText.length)
+                redoStack.push(textChange)
+                isDoingUndoRedo = false
+            }
+            else -> undoStack.clear()
+        }
+    }
+
+    fun redo() {
+        val textChange = redoStack.pop() as UndoStack.TextChange
+        when {
+            textChange.start >= 0 -> {
+                isDoingUndoRedo = true
+                text.replace(
+                    textChange.start,
+                    textChange.start + textChange.oldText.length, textChange.newText
+                )
+                Selection.setSelection(text, textChange.start + textChange.newText.length)
+                undoStack.push(textChange)
+                isDoingUndoRedo = false
+            }
+            else -> undoStack.clear()
+        }
     }
 
     // endregion METHODS
@@ -574,12 +665,14 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             post {
                 isAutoIndenting = true
                 text.replace(start, start + count, replacementValue)
-                /*mController.getUndoStack().pop()
-                val change = mController.getUndoStack().pop()
+                undoStack.pop()
+                val change = undoStack.pop()
                 if (replacementValue != "") {
-                    change.newText = replacementValue
-                    mController.getUndoStack().push(change)
-                }*/
+                    if(change != null) {
+                        change.newText = replacementValue
+                        undoStack.push(change)
+                    }
+                }
                 Selection.setSelection(text, newCursorPosition)
                 isAutoIndenting = false
             }
@@ -831,7 +924,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
                 // endregion HIGHLIGHTING
 
-                post(::invalidateVisibleArea)
+                //post(::invalidateVisibleArea)
             }
         }
     }
@@ -843,14 +936,14 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         }
     }
 
-    private fun invalidateVisibleArea() {
+    /*private fun invalidateVisibleArea() {
         invalidate(
             paddingLeft,
             scrollY + paddingTop,
             width,
             scrollY + paddingTop + height
         )
-    }
+    }*/
 
     private fun checkMatchingBracket(pos: Int) {
         if(layout != null) {
@@ -916,6 +1009,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         syntaxHighlight()
         for (listener in scrollListeners) {
             listener.onScrollChanged(scrollX, scrollY, scrollX, scrollY)
+        }
+        if(configuration.codeCompletion) {
+            onDropDownSizeChange(w, h)
         }
     }
 
@@ -1038,6 +1134,60 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     // endregion PINCH_ZOOM
+
+    // region CODE_COMPLETION
+
+    override fun showDropDown() {
+        if(!isPopupShowing) {
+            if(hasFocus()) {
+                super.showDropDown()
+            }
+        }
+    }
+
+    private fun onDropDownSizeChange(width: Int, height: Int) {
+        val rect = Rect()
+        getWindowVisibleDisplayFrame(rect)
+
+        dropDownWidth = width * 1/2 // 1/2 width of screen
+        dropDownHeight = height * 1/2 // 1/2 height of screen
+
+        onPopupChangePosition() // change position
+    }
+
+    private fun onPopupChangePosition() {
+        if(layout != null) {
+            val charHeight = paint.measureText("M").toInt()
+            val line = layout.getLineForOffset(selectionStart)
+            val baseline = layout.getLineBaseline(line)
+            val ascent = layout.getLineAscent(line)
+
+            val x = layout.getPrimaryHorizontal(selectionStart)
+            val y = baseline + ascent
+
+            val offsetHorizontal = x + gutterWidth
+            dropDownHorizontalOffset = offsetHorizontal.toInt()
+
+            val offsetVertical = y + charHeight - scrollY
+
+            var tmp = offsetVertical + dropDownHeight + charHeight
+            if (tmp < getVisibleHeight()) {
+                tmp = offsetVertical + charHeight / 2
+                dropDownVerticalOffset = tmp
+            } else {
+                tmp = offsetVertical - dropDownHeight - charHeight
+                dropDownVerticalOffset = tmp
+            }
+        }
+    }
+
+    private fun getVisibleHeight(): Int {
+        val rect = Rect()
+        getWindowVisibleDisplayFrame(rect)
+        return rect.bottom - rect.top
+    }
+
+    // endregion CODE_COMPLETION
 
     // region INTERNAL
 

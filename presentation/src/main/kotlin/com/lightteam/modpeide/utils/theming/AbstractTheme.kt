@@ -24,6 +24,7 @@ abstract class AbstractTheme {
     abstract val gutterTextColor: Int
     abstract val selectedLineColor: Int
     abstract val selectionColor: Int
+    abstract val filterableColor: Int
 
     abstract val searchBgColor: Int
     abstract val bracketBgColor: Int

@@ -53,9 +53,9 @@ import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.presentation.main.customview.ExtendedKeyboard
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
-import com.lightteam.modpeide.utils.commons.MenuUtils
 import com.lightteam.modpeide.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.utils.extensions.launchActivity
+import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
 import javax.inject.Inject
@@ -281,6 +281,10 @@ class MainActivity : BaseActivity(),
             val newConfiguration = binding.editor.configuration.copy(wordWrap = wordWrap)
             binding.editor.configuration = newConfiguration
         })
+        viewModel.codeCompletionEvent.observe(this, Observer { completion ->
+            val newConfiguration = binding.editor.configuration.copy(codeCompletion = completion)
+            binding.editor.configuration = newConfiguration
+        })
         viewModel.pinchZoomEvent.observe(this, Observer { pinchZoom ->
             val newConfiguration = binding.editor.configuration.copy(pinchZoom = pinchZoom)
             binding.editor.configuration = newConfiguration
@@ -342,7 +346,7 @@ class MainActivity : BaseActivity(),
                     return@setOnMenuItemClickListener true
                 }
                 popupMenu.inflate(R.menu.menu_document)
-                MenuUtils.makeRightPaddingRecursively(view, popupMenu)
+                popupMenu.makeRightPaddingRecursively(view)
                 popupMenu.show()
                 return@setOnLongClickListener true
             }
@@ -553,9 +557,19 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onUndoButton() {
+        if(binding.editor.canUndo()) {
+            binding.editor.undo()
+        } else {
+            viewModel.toastEvent.value = R.string.message_nothing_to_undo
+        }
     }
 
     override fun onRedoButton() {
+        if(binding.editor.canRedo()) {
+            binding.editor.redo()
+        } else {
+            viewModel.toastEvent.value = R.string.message_nothing_to_redo
+        }
     }
 
     override fun onSettingsButton() {

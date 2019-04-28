@@ -15,7 +15,7 @@
 <b>•</b> Code Completion (Beta)  
 <b>•</b> Cross-session Editing  
 <b>•</b> Unlimited Undo/Redo  
-<b>•</b> Bracket Matching  
+<b>•</b> Matching Delimiters  
 <b>•</b> Auto Indentation  
 <b>•</b> Select, Delete, and Duplicate Line  
 <b>•</b> Search, Replace, Go to Line  
@@ -26,12 +26,11 @@
 <b>And much more!</b>  
 
 ### ULTIMATE EDITION FEATURES
-<b>•</b> Themes  
-<b>•</b> New fonts  
-<b>•</b> More options  
-<b>•</b> Auto-close Quotes  
-<b>•</b> Color Picker  
-<b>•</b> Syntax Validator  
+<b>•</b> Unlock 6 new themes  
+<b>•</b> Unlock 5 new fonts  
+<b>•</b> Increased tab limit  
+<b>•</b> Color picker  
+<b>•</b> Syntax validator  
 
 ### CONTACT US
 <b>•</b> <u>lightteamsoftware@gmail.com</u>

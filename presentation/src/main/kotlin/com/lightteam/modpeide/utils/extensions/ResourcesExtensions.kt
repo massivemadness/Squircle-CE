@@ -18,9 +18,11 @@
 package com.lightteam.modpeide.utils.extensions
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import java.io.BufferedReader
 
 fun Context.getDrawableCompat(@DrawableRes drawable: Int): Drawable {
     return ContextCompat.getDrawable(this, drawable) as Drawable
@@ -28,4 +30,13 @@ fun Context.getDrawableCompat(@DrawableRes drawable: Int): Drawable {
 
 fun Context.getScaledDensity(): Float {
     return resources.displayMetrics.scaledDensity
+}
+
+fun Context.getRawFileText(resId: Int): String {
+    val inputStream = resources.openRawResource(resId)
+    return inputStream.bufferedReader().use(BufferedReader::readText)
+}
+
+fun Context.getTypefaceFromAssets(path: String): Typeface {
+    return Typeface.createFromAsset(assets, path)
 }

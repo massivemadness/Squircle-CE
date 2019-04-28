@@ -88,6 +88,7 @@ class MainViewModel(
     val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Лимит вкладок
 
     val wordWrapEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Смещать текст на новую строку если нет места
+    val codeCompletionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автодополнение кода
     val pinchZoomEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Жест масштабирования текста
     val highlightLineEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подсветка текущей строки
     val highlightDelimitersEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подсветка ближайших скобок
@@ -389,6 +390,13 @@ class MainViewModel(
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { wordWrapEvent.value = it }
+            .disposeOnViewModelDestroy()
+
+        //Code Completion
+        preferenceHandler.getCodeCompletion()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { codeCompletionEvent.value = it }
             .disposeOnViewModelDestroy()
 
         //Pinch Zoom

@@ -26,8 +26,8 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.presentation.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
-import com.lightteam.modpeide.utils.commons.RawUtils
 import com.lightteam.modpeide.utils.extensions.asHtml
+import com.lightteam.modpeide.utils.extensions.getRawFileText
 import javax.inject.Inject
 
 class FragmentPreferences : DaggerPreferenceFragmentCompat() {
@@ -123,7 +123,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
     private fun showChangelogDialog(): Boolean {
         MaterialDialog(context!!).show {
             title(R.string.dialog_title_changelog)
-            message(text = RawUtils.getRawFileText(context, R.raw.changelog).asHtml())
+            message(text = context.getRawFileText(R.raw.changelog).asHtml())
             negativeButton(R.string.action_close)
         }
         return true
@@ -132,7 +132,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
     private fun showPrivacyPolicyDialog(): Boolean {
         MaterialDialog(context!!).show {
             title(R.string.dialog_title_privacy_policy)
-            message(text = RawUtils.getRawFileText(context, R.raw.privacy_policy).asHtml())
+            message(text = context.getRawFileText(R.raw.privacy_policy).asHtml())
             negativeButton(R.string.action_close)
         }
         return true

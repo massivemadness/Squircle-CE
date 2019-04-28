@@ -23,47 +23,35 @@ object ThemeFactory {
 
     fun create(theme: String): TextProcessor.Theme {
         return when(theme) {
-            Themes.THEME_DARCULA -> {
-                val darcula = Themes.getDarcula()
-                return TextProcessor.Theme(
-                    textColor = darcula.textColor,
-                    backgroundColor = darcula.backgroundColor,
-                    gutterColor = darcula.gutterColor,
-                    gutterTextColor = darcula.gutterTextColor,
-                    selectedLineColor = darcula.selectedLineColor,
-                    selectionColor = darcula.selectionColor,
-                    searchBgColor = darcula.searchBgColor,
-                    bracketsBgColor = darcula.bracketBgColor,
-                    numbersColor = darcula.numbersColor,
-                    symbolsColor = darcula.symbolsColor,
-                    bracketsColor = darcula.bracketsColor,
-                    keywordsColor = darcula.keywordsColor,
-                    methodsColor = darcula.methodsColor,
-                    stringsColor = darcula.stringsColor,
-                    commentsColor = darcula.commentsColor
-                )
-            }
-            Themes.THEME_MONOKAI -> {
-                val monokai = Themes.getMonokai()
-                return TextProcessor.Theme(
-                    textColor = monokai.textColor,
-                    backgroundColor = monokai.backgroundColor,
-                    gutterColor = monokai.gutterColor,
-                    gutterTextColor = monokai.gutterTextColor,
-                    selectedLineColor = monokai.selectedLineColor,
-                    selectionColor = monokai.selectionColor,
-                    searchBgColor = monokai.searchBgColor,
-                    bracketsBgColor = monokai.bracketBgColor,
-                    numbersColor = monokai.numbersColor,
-                    symbolsColor = monokai.symbolsColor,
-                    bracketsColor = monokai.bracketsColor,
-                    keywordsColor = monokai.keywordsColor,
-                    methodsColor = monokai.methodsColor,
-                    stringsColor = monokai.stringsColor,
-                    commentsColor = monokai.commentsColor
-                )
-            }
+            Themes.THEME_DARCULA -> colorize(Themes.darcula)
+            Themes.THEME_MONOKAI -> colorize(Themes.monokai)
+            Themes.THEME_OBSIDIAN -> colorize(Themes.obsidian)
+            Themes.THEME_RETTA -> colorize(Themes.retta)
+            Themes.THEME_LADIES_NIGHT -> colorize(Themes.ladiesNight)
+            Themes.THEME_TOMORROW_NIGHT -> colorize(Themes.tomorrowNight)
+            Themes.THEME_VISUAL_STUDIO_2013 -> colorize(Themes.visualStudio2013)
             else -> create(Themes.THEME_DARCULA)
         }
+    }
+
+    private fun colorize(theme: AbstractTheme): TextProcessor.Theme {
+        return TextProcessor.Theme(
+            textColor = theme.textColor,
+            backgroundColor = theme.backgroundColor,
+            gutterColor = theme.gutterColor,
+            gutterTextColor = theme.gutterTextColor,
+            selectedLineColor = theme.selectedLineColor,
+            selectionColor = theme.selectionColor,
+            filterableColor = theme.filterableColor,
+            searchBgColor = theme.searchBgColor,
+            bracketsBgColor = theme.bracketBgColor,
+            numbersColor = theme.numbersColor,
+            symbolsColor = theme.symbolsColor,
+            bracketsColor = theme.bracketsColor,
+            keywordsColor = theme.keywordsColor,
+            methodsColor = theme.methodsColor,
+            stringsColor = theme.stringsColor,
+            commentsColor = theme.commentsColor
+        )
     }
 }

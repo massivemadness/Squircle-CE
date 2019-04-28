@@ -19,6 +19,7 @@ package com.lightteam.modpeide.utils.commons
 
 import android.content.Context
 import android.graphics.Typeface
+import com.lightteam.modpeide.utils.extensions.getTypefaceFromAssets
 
 object TypefaceFactory {
 
@@ -38,12 +39,12 @@ object TypefaceFactory {
 
     fun create(context: Context, name: String): Typeface {
         return when(name) {
-            NAME_ROBOTO -> Typeface.createFromAsset(context.assets, PATH_ROBOTO)
-            NAME_ROBOTO_LIGHT -> Typeface.createFromAsset(context.assets, PATH_ROBOTO_LIGHT)
-            NAME_SOURCE_CODE_PRO -> Typeface.createFromAsset(context.assets, PATH_SOURCE_CODE_PRO)
+            NAME_ROBOTO -> context.getTypefaceFromAssets(PATH_ROBOTO)
+            NAME_ROBOTO_LIGHT -> context.getTypefaceFromAssets(PATH_ROBOTO_LIGHT)
+            NAME_SOURCE_CODE_PRO -> context.getTypefaceFromAssets(PATH_SOURCE_CODE_PRO)
             NAME_DROID_SANS_MONO -> Typeface.MONOSPACE // Droid Sans Mono
-            NAME_DEJAVU_SANS_MONO -> Typeface.createFromAsset(context.assets, PATH_DEJAVU_SANS_MONO)
-            NAME_ANONYMOUS_PRO -> Typeface.createFromAsset(context.assets, PATH_ANONYMOUS_PRO)
+            NAME_DEJAVU_SANS_MONO -> context.getTypefaceFromAssets(PATH_DEJAVU_SANS_MONO)
+            NAME_ANONYMOUS_PRO -> context.getTypefaceFromAssets(PATH_ANONYMOUS_PRO)
             else -> create(context, NAME_DROID_SANS_MONO)
         }
     }

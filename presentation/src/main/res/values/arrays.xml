@@ -31,10 +31,20 @@
     <string-array name="theme_entries">
         <item>Darcula</item>
         <item>Monokai</item>
+        <item>Obsidian</item>
+        <item>Retta</item>
+        <item>Ladies Night</item>
+        <item>Tomorrow Night</item>
+        <item>Visual Studio 2013</item>
     </string-array>
     <string-array name="theme_values">
         <item>THEME_DARCULA</item>
         <item>THEME_MONOKAI</item>
+        <item>THEME_OBSIDIAN</item>
+        <item>THEME_RETTA</item>
+        <item>THEME_LADIES_NIGHT</item>
+        <item>THEME_TOMORROW_NIGHT</item>
+        <item>THEME_VISUAL_STUDIO_2013</item>
     </string-array>
 
     <string-array name="font_type_entries">

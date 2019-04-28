@@ -211,9 +211,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="top|left"
-                    android:layerType="software"
                     android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
                     android:textCursorDrawable="@drawable/caret"
+                    android:dropDownAnchor="@id/tab_document_layout"
+                    android:completionThreshold="2"
+                    android:popupBackground="@color/colorPrimary"
                     android:id="@+id/editor"/>
 
                 <com.lightteam.modpeide.presentation.main.customview.TextScroller

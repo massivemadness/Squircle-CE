@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.utils.commons
+package com.lightteam.modpeide.utils.extensions
 
 import android.graphics.drawable.InsetDrawable
 import android.util.TypedValue
@@ -25,28 +25,25 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.iterator
 
-object MenuUtils {
-
-    // https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
-    fun makeRightPaddingRecursively(view: View, popupMenu: PopupMenu) {
-        if(popupMenu.menu is MenuBuilder) {
-            val menuBuilder = popupMenu.menu as MenuBuilder
-            menuBuilder.setOptionalIconsVisible(true)
-            for(item in menuBuilder.visibleItems) {
-                makeRightPadding(view, item)
-                if(item.hasSubMenu()) {
-                    for(subItem in item.subMenu.iterator()) {
-                        makeRightPadding(view, subItem)
-                    }
+// https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
+fun PopupMenu.makeRightPaddingRecursively(view: View) {
+    if(menu is MenuBuilder) {
+        val menuBuilder = menu as MenuBuilder
+        menuBuilder.setOptionalIconsVisible(true)
+        for(item in menuBuilder.visibleItems) {
+            makeRightPadding(view, item)
+            if(item.hasSubMenu()) {
+                for(subItem in item.subMenu.iterator()) {
+                    makeRightPadding(view, subItem)
                 }
             }
         }
     }
+}
 
-    private fun makeRightPadding(view: View, item: MenuItem) {
-        val iconMarginPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 8F, view.resources.displayMetrics
-        ).toInt()
-        item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0)
-    }
+private fun makeRightPadding(view: View, item: MenuItem) {
+    val iconMarginPx = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, 8F, view.resources.displayMetrics
+    ).toInt()
+    item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0)
 }

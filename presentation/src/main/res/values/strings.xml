@@ -109,11 +109,11 @@
     <string name="message_nothing_to_cut">Nothing to cut</string>
     <string name="message_nothing_to_copy">Nothing to copy</string>
     <string name="message_nothing_to_paste">Nothing to paste</string>
+    <string name="message_nothing_to_undo">Nothing to undo</string>
+    <string name="message_nothing_to_redo">Nothing to redo</string>
     <!--
     <string name="message_error">An error occurred</string>
     <string name="message_new_file">Click "+" button at the bottom of the screen</string>
-    <string name="message_nothing_to_undo">Nothing to undo</string>
-    <string name="message_nothing_to_redo">Nothing to redo</string>
     <string name="message_line_above_than_0">Line must be above 0</string>
     <string name="message_line_not_exists">Line does not exists</string>
     <string name="message_error_load_cache">An error occurred when trying to load cached data</string>
@@ -150,8 +150,8 @@
     <string name="store_ultimate">Ultimate</string>
     <string name="store_feature_1">Basic functionality</string>
     <string name="store_feature_2">No advertisements</string>
-    <string name="store_feature_3">Themes</string>
-    <string name="store_feature_4">5 new fonts</string>
+    <string name="store_feature_3">Unlock 6 new themes</string>
+    <string name="store_feature_4">Unlock 5 new fonts</string>
     <string name="store_feature_5">Increased tab limit</string>
     <string name="store_feature_6">Syntax validator</string>
     <string name="store_feature_7">Color picker</string>

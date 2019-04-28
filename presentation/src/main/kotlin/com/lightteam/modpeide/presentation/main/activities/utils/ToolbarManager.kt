@@ -25,7 +25,7 @@ import androidx.appcompat.widget.PopupMenu
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.presentation.main.activities.interfaces.OnPanelClickListener
-import com.lightteam.modpeide.utils.commons.MenuUtils
+import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 
 class ToolbarManager(
     private val listener: OnPanelClickListener
@@ -76,7 +76,7 @@ class ToolbarManager(
             val popupMenu = PopupMenu(wrapper, view)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)
-            MenuUtils.makeRightPaddingRecursively(view, popupMenu)
+            popupMenu.makeRightPaddingRecursively(view)
             popupMenu.show()
         }
     }
