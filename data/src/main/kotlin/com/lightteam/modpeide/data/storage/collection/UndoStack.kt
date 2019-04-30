@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation.main.customview.internal.undoredo
+package com.lightteam.modpeide.data.storage.collection
 
 import java.io.Serializable
 
@@ -166,8 +166,7 @@ class UndoStack : Serializable {
     fun canUndo(): Boolean = stack.size > 0
     fun getItemAt(index: Int): TextChange = stack[index]
     fun clear() = stack.clear()
-
-    private fun count(): Int = stack.size
+    fun count(): Int = stack.size
 
     private fun removeLast(): Boolean {
         if (stack.size <= 0) {

@@ -30,12 +30,10 @@
 
     <string name="hint_search">Search…</string>
     <string name="hint_enter_file_name">Enter file name</string>
-    <string name="hint_box_is_folder">Folder</string>
-    <!--
     <string name="hint_find_what">Find what?</string>
-    <string name="hint_replace_all_what">Replace what?</string>
-    <string name="hint_replace_all_with">Replace with:</string>
-    <string name="hint_line">Line:</string>-->
+    <string name="hint_replace_what">Replace what?</string>
+    <string name="hint_replace_with">Replace with:</string>
+    <string name="hint_line">Line:</string>
 
     <string name="action_grant_access">Grant Access</string>
     <string name="action_open_source">Open Source Code</string>
@@ -50,9 +48,16 @@
     <string name="action_restart">Restart</string>-->
     <string name="action_copy_path">Copy Path</string>
     <string name="action_properties">Properties</string>
+    <string name="action_folder">Folder</string>
     <string name="action_rename">Rename</string>
     <string name="action_delete">Delete</string>
-    <!--<string name="action_apply">Apply</string>-->
+    <string name="action_insert">Insert</string>
+    <string name="action_match_case">Match Case</string>
+    <string name="action_reg_exp">Regular Expressions</string>
+    <string name="action_word_only">Word Only</string>
+    <string name="action_find">Find</string>
+    <string name="action_replace_all">Replace All</string>
+    <string name="action_go_to">Go to</string>
     <string name="action_get_it_for">Get it for 1,49 $</string>
     <string name="action_continue_free">Continue free</string>
     <string name="action_unlock_all_features">Unlock all features</string>
@@ -66,17 +71,14 @@
     <string name="dialog_title_exit">Exit</string>
     <string name="dialog_title_apply_changes">Apply changes</string>
     <string name="dialog_title_properties">Properties</string>
-    <!--<string name="dialog_title_find">Find…</string>
+    <string name="dialog_title_color_picker">Color Picker</string>
+    <string name="dialog_title_find">Find…</string>
     <string name="dialog_title_replace_all">Replace All…</string>
-    <string name="dialog_title_goto_line">Go to Line…</string>-->
+    <string name="dialog_title_goto_line">Go to Line…</string>
 
     <string name="dialog_message_exit">Are you sure you want to exit? All changes will be saved into a cache</string>
     <string name="dialog_message_delete">Are you sure you want to delete this file? This action cannot be undone</string>
     <!--<string name="dialog_message_apply_changes">ModPE IDE needs to restart to apply the changes</string>-->
-
-    <!--<string name="dialog_field_find_match_case">Match Case</string>
-    <string name="dialog_field_find_reg_exp">Regular Expressions</string>
-    <string name="dialog_field_find_word_only">Word Only</string>-->
 
     <string name="properties_name">&lt;b>Name:&lt;/b> %s&lt;br></string>
     <string name="properties_path">&lt;b>Path:&lt;/b> %s&lt;br></string>
@@ -111,17 +113,18 @@
     <string name="message_nothing_to_paste">Nothing to paste</string>
     <string name="message_nothing_to_undo">Nothing to undo</string>
     <string name="message_nothing_to_redo">Nothing to redo</string>
+    <string name="message_enter_the_text">Enter the text</string>
+    <string name="message_line_above_than_0">Line must be above 0</string>
+    <string name="message_line_not_exists">Line does not exists</string>
     <!--
     <string name="message_error">An error occurred</string>
     <string name="message_new_file">Click "+" button at the bottom of the screen</string>
-    <string name="message_line_above_than_0">Line must be above 0</string>
-    <string name="message_line_not_exists">Line does not exists</string>
     <string name="message_error_load_cache">An error occurred when trying to load cached data</string>
     <string name="message_document_saved">Saved %s</string>
     <string name="message_please_wait">Please, wait…</string>
     <string name="message_rhino_result">Result:</string>
     <string name="message_rhino_no_errors">Errors not found</string>
-    <string name="message_rhino_may_not_work">Syntax Validator may not work properly!</string>-->
+    <string name="message_rhino_may_not_work">Code Analysis may not work properly!</string>-->
 
     <string name="menu_file_new">New</string>
     <string name="menu_file_open">Open</string>
@@ -139,7 +142,7 @@
     <string name="menu_search_find">Find</string>
     <string name="menu_search_replace_all">Replace All</string>
     <string name="menu_search_gotoLine">Go to Line</string>
-    <string name="menu_tools_syntaxValidator">Syntax Validator</string>
+    <string name="menu_tools_codeAnalysis">Code Analysis</string>
     <string name="menu_tools_insertColor">Insert Color</string>
     <!--<string name="menu_tools_downloadSource">Download Source</string>-->
     <string name="menu_overflow_settings">Settings</string>
@@ -153,8 +156,8 @@
     <string name="store_feature_3">Unlock 6 new themes</string>
     <string name="store_feature_4">Unlock 5 new fonts</string>
     <string name="store_feature_5">Increased tab limit</string>
-    <string name="store_feature_6">Syntax validator</string>
-    <string name="store_feature_7">Color picker</string>
+    <string name="store_feature_6">Code Analysis</string>
+    <string name="store_feature_7">Color Picker</string>
 
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>
@@ -175,7 +178,6 @@
     <string name="pref_category_keyboard">Keyboard</string>
     <string name="pref_category_code_style">Code Style</string>
     <string name="pref_category_file_explorer">File Explorer</string>
-    <string name="pref_category_cache">Cache</string>
     <string name="pref_category_about">About</string>
     <string name="pref_category_libraries">Third-party Libraries</string>
 
@@ -219,8 +221,6 @@
     <string name="pref_foldersOnTop_title">Folders on top</string>
     <string name="pref_foldersOnTop_summary">Folders will be displayed on top.</string>
     <string name="pref_sortMode_title">Sort Mode</string>
-    <string name="pref_invalidateCaches_title">Invalidate Caches</string>
-    <string name="pref_invalidateCaches_summary">The caches will be invalidated, save your files before you click this.</string>
     <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
     <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
     <string name="pref_about_summary">Copyright 2019 Light Team Software\nAll right reserved\n\nVersion: &app_version; (&app_code;)</string>
@@ -232,6 +232,6 @@
     <string name="pref_lib_rxbinding_title">RxBinding</string>
     <string name="pref_lib_rxpreferences_title">RxPreferences</string>
     <string name="pref_lib_materialDialogs_title">Material Dialogs</string>
-    <!--<string name="pref_lib_keyboardVE_title">KeyboardVisibilityEvent</string>
-    <string name="pref_lib_rhino_title">Rhino (JavaScript Engine)</string>-->
+    <string name="pref_lib_keyboardVE_title">KeyboardVisibilityEvent</string>
+    <string name="pref_lib_rhino_title">Rhino (JavaScript Engine)</string>
 </resources>

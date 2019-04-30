@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.presentation.main.viewmodel
 
+import android.util.Log
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
@@ -24,6 +25,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
@@ -70,6 +72,7 @@ class MainViewModel(
     val documentTabEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Добавление вкладки в список документов
     val documentTextEvent: SingleLiveEvent<String> = SingleLiveEvent() //Чтение файла
     val documentLoadedEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Для загрузки скроллинга/выделения
+    val documentStacksEvent: SingleLiveEvent<Pair<UndoStack, UndoStack>> = SingleLiveEvent() //Для загрузки Undo/Redo
 
     val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
@@ -201,8 +204,9 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    documentTextEvent.value = it
-                    documentLoadedEvent.value = documentModel
+                    documentTextEvent.value = it //Add the text
+                    documentLoadedEvent.value = documentModel //Load selection, scroll position
+                    documentStacksEvent.value = cacheHandler.loadUndoStacks(documentModel) //Load the undo&redo stacks
                     documentLoadingIndicator.set(false)
                 },
                 onError = {
@@ -303,13 +307,27 @@ class MainViewModel(
                 cacheHandler.saveToCache(documentModel, text) // Save to Cache
             }
             .schedulersIoToMain(schedulersProvider)
-            .subscribe()
+            .subscribeBy(
+                onError = {
+                    Log.e("MainViewModel", it.message, it)
+                }
+            )
             .disposeOnViewModelDestroy()
     }
 
-    /*fun saveUndoRedoStack(undoStack: UndoStack, redoStack: undoStack) {
-
-    }*/
+    fun saveUndoStacks(documentModel: DocumentModel, stacks: Pair<UndoStack, UndoStack>) {
+        Completable
+            .fromAction {
+                cacheHandler.saveUndoStacks(documentModel, stacks)
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onError = {
+                    Log.e("MainViewModel", it.message, it)
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
 
     fun addDocument(file: File) = addDocument(FileConverter.toModel(file))
     fun addDocument(fileModel: FileModel) {

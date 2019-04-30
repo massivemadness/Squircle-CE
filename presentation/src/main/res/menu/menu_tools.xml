@@ -19,8 +19,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_tools_syntaxValidator"
-        android:title="@string/menu_tools_syntaxValidator"
+        android:id="@+id/menu_tools_codeAnalysis"
+        android:title="@string/menu_tools_codeAnalysis"
         android:icon="@drawable/ic_code_check"
         app:iconTint="@color/colorIcon"/>
     <item

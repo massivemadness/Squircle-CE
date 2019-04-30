@@ -15,24 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.utils.extensions
+package com.lightteam.modpeide.data.parser.api;
 
-import android.content.res.Resources
-import android.os.Build
-import android.text.Html
-import android.text.Spanned
-
-fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
-fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
-
-fun String.asHtml(): Spanned {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
-    } else {
-        Html.fromHtml(this)
-    }
-}
-
-fun Int.toHexColor(): String {
-    return Integer.toHexString(this)
+class ItemCategory {
+    val DECORATION: Int = -1
+    val FOOD: Int = -1
+    val INTERNAL: Int = -1
+    val MATERIAL: Int = -1
+    val TOOL: Int = -1
 }

@@ -38,7 +38,7 @@ interface OnPanelClickListener {
     fun onReplaceAllButton()
     fun onGoToLineButton()
 
-    fun onSyntaxValidatorButton()
+    fun onCodeAnalysisButton()
     fun onInsertColorButton()
     //fun onDownloadSourceButton()
 

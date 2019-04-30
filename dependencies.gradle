@@ -36,8 +36,10 @@ ext {
     appcompat_version = '1.1.0-alpha04'
     design_version = '1.1.0-alpha05'
     preferencescompat_version = '1.1.0-alpha04'
-    materialdialogs_version = '2.6.0'
+    materialdialogs_version = '2.8.1'
+
     keyboardevent_version = '2.3.0'
+    rhino_version = '1.7.10'
 
     lifecycle_extensions_version = '2.1.0-alpha04'
     room_version = '2.1.0-alpha07'
@@ -64,7 +66,10 @@ ext {
             preferencescompat: "androidx.preference:preference-ktx:$preferencescompat_version",
             materialdialogs_core: "com.afollestad.material-dialogs:core:$materialdialogs_version",
             materialdialogs_input: "com.afollestad.material-dialogs:input:$materialdialogs_version",
+            materialdialogs_color: "com.afollestad.material-dialogs:color:$materialdialogs_version",
+
             keyboardevent: "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboardevent_version",
+            rhino: "org.mozilla:rhino:$rhino_version",
 
             lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions_version",
             lifecycle_compiler: "androidx.lifecycle:lifecycle-compiler:$lifecycle_extensions_version",

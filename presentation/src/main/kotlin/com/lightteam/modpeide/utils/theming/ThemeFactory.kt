@@ -39,6 +39,8 @@ object ThemeFactory {
             textColor = theme.textColor,
             backgroundColor = theme.backgroundColor,
             gutterColor = theme.gutterColor,
+            gutterDividerColor = theme.gutterDividerColor,
+            gutterCurrentLineNumberColor = theme.gutterCurrentLineNumberColor,
             gutterTextColor = theme.gutterTextColor,
             selectedLineColor = theme.selectedLineColor,
             selectionColor = theme.selectionColor,

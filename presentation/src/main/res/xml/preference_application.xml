@@ -30,7 +30,7 @@
             android:entries="@array/theme_entries"
             android:entryValues="@array/theme_values"/>
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:title="@string/pref_fullscreen_title"
             android:summary="@string/pref_fullscreen_summary"
             android:defaultValue="false"
@@ -40,7 +40,7 @@
 
     <PreferenceCategory android:title="@string/pref_category_other">
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             android:title="@string/pref_confirm_exit_title"
             android:summary="@string/pref_confirm_exit_summary"
             android:defaultValue="true"

@@ -54,6 +54,12 @@
         <Preference
             android:title="@string/pref_lib_materialDialogs_title"/>
 
+        <Preference
+            android:title="@string/pref_lib_keyboardVE_title"/>
+
+        <Preference
+            android:title="@string/pref_lib_rhino_title"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

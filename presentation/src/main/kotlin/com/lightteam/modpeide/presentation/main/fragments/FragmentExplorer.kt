@@ -207,7 +207,7 @@ class FragmentExplorer : DaggerFragment(),
                 }
                 dialog.setActionButtonEnabled(WhichButton.POSITIVE, isValid)
             }
-            checkBoxPrompt(R.string.hint_box_is_folder) {}
+            checkBoxPrompt(R.string.action_folder) {}
             positiveButton(R.string.action_create)
             negativeButton(R.string.action_cancel)
             positiveButton {

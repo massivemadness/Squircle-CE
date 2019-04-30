@@ -26,10 +26,12 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
@@ -39,8 +41,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.color.ColorPalette
+import com.afollestad.materialdialogs.color.colorChooser
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
+import com.afollestad.materialdialogs.input.getInputField
+import com.afollestad.materialdialogs.input.input
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.textfield.TextInputEditText
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.extensions.endsWith
@@ -56,6 +65,7 @@ import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.utils.extensions.launchActivity
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
+import com.lightteam.modpeide.utils.extensions.toHexColor
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
 import javax.inject.Inject
@@ -158,6 +168,7 @@ class MainActivity : BaseActivity(),
             )
             adapter.add(document) //update adapter
             viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
+            viewModel.saveUndoStacks(document, Pair(binding.editor.undoStack, binding.editor.redoStack))
             viewModel.documentLoadingIndicator.set(true)
             binding.editor.clearText() //TTL Exception bypass
         }
@@ -183,10 +194,11 @@ class MainActivity : BaseActivity(),
             )
             adapter.add(document) //update adapter
             viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
+            viewModel.saveUndoStacks(document, Pair(binding.editor.undoStack, binding.editor.redoStack))
             binding.editor.clearText()
         }
         closeKeyboard() // Обход бага, когда после переключения вкладок редактирование не работало
-        // (позиция курсора менялась программно)
+        // (позиция курсора не менялась с предыдущей вкладки)
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
@@ -248,6 +260,10 @@ class MainActivity : BaseActivity(),
             binding.editor.scrollX = loadedDocument.scrollX
             binding.editor.scrollY = loadedDocument.scrollY
             binding.editor.setSelection(loadedDocument.selectionStart, loadedDocument.selectionEnd)
+        })
+        viewModel.documentStacksEvent.observe(this, Observer { pair ->
+            binding.editor.undoStack = pair.first
+            binding.editor.redoStack = pair.second
         })
         KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
             if(viewModel.extendedKeyboardEvent.value!!) {
@@ -464,6 +480,7 @@ class MainActivity : BaseActivity(),
         if(position != -1) {
             adapter.get(position)?.let {
                 viewModel.saveFile(it, binding.editor.getFacadeText().toString())
+                viewModel.saveUndoStacks(it, Pair(binding.editor.undoStack, binding.editor.redoStack))
             }
         } else {
             viewModel.toastEvent.value = R.string.message_no_open_files
@@ -532,17 +549,92 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onFindButton() {
+        val position = binding.tabDocumentLayout.selectedTabPosition
+        if(position != -1) {
+            MaterialDialog(this).show {
+                title(R.string.dialog_title_find)
+                customView(R.layout.dialog_find)
+                negativeButton(R.string.action_cancel)
+                positiveButton(R.string.action_find, click = {
+                    val textToFind = it.getCustomView()
+                        .findViewById<TextInputEditText>(R.id.input).text.toString()
+                    val isMatchCaseChecked = it.getCustomView()
+                        .findViewById<CheckBox>(R.id.box_matchCase).isChecked
+                    val isRegExpChecked = it.getCustomView()
+                        .findViewById<CheckBox>(R.id.box_regExp).isChecked
+                    val isWordsOnlyChecked = it.getCustomView()
+                        .findViewById<CheckBox>(R.id.box_wordOnly).isChecked
+
+                    if(textToFind.isNotEmpty() && textToFind.isNotBlank()) {
+                        binding.editor.find(textToFind, isMatchCaseChecked, isRegExpChecked, isWordsOnlyChecked)
+                    } else {
+                        viewModel.toastEvent.value = R.string.message_enter_the_text
+                    }
+                })
+            }
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
     }
 
     override fun onReplaceAllButton() {
+        val position = binding.tabDocumentLayout.selectedTabPosition
+        if(position != -1) {
+            MaterialDialog(this).show {
+                title(R.string.dialog_title_replace_all)
+                customView(R.layout.dialog_replace_all)
+                negativeButton(R.string.action_cancel)
+                positiveButton(R.string.action_replace_all, click = {
+                    val textReplaceWhat = it.getCustomView()
+                        .findViewById<TextInputEditText>(R.id.input).text.toString()
+                    val textReplaceWith = it.getCustomView()
+                        .findViewById<TextInputEditText>(R.id.input2).text.toString()
+
+                    if(textReplaceWhat.isNotEmpty()) {
+                        binding.editor.replaceAll(textReplaceWhat, textReplaceWith)
+                    } else {
+                        viewModel.toastEvent.value = R.string.message_enter_the_text
+                    }
+                })
+            }
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
     }
 
     override fun onGoToLineButton() {
+        val position = binding.tabDocumentLayout.selectedTabPosition
+        if(position != -1) {
+            MaterialDialog(this).show {
+                title(R.string.dialog_title_goto_line)
+                input(hintRes = R.string.hint_line, inputType = InputType.TYPE_CLASS_NUMBER)
+                negativeButton(R.string.action_cancel)
+                positiveButton(R.string.action_go_to, click = {
+                    val toLine = getInputField().text.toString().toInt()
+                    val realLine = toLine - 1 // т.к первая линия = 0
+                    when {
+                        realLine < 0 ->
+                            viewModel.toastEvent.value = R.string.message_line_above_than_0
+                        realLine < binding.editor.getArrayLineCount() ->
+                            binding.editor.goToLine(realLine)
+                        else ->
+                            viewModel.toastEvent.value = R.string.message_line_not_exists
+                    }
+                })
+            }
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
     }
 
-    override fun onSyntaxValidatorButton() {
+    override fun onCodeAnalysisButton() {
         if(viewModel.isUltimate()) {
-            //...
+            val position = binding.tabDocumentLayout.selectedTabPosition
+            if(position != -1) {
+                //...
+            } else {
+                viewModel.toastEvent.value = R.string.message_no_open_files
+            }
         } else {
             showStoreDialog()
         }
@@ -550,7 +642,24 @@ class MainActivity : BaseActivity(),
 
     override fun onInsertColorButton() {
         if(viewModel.isUltimate()) {
-            //...
+            val position = binding.tabDocumentLayout.selectedTabPosition
+            if(position != -1) {
+                MaterialDialog(this).show {
+                    title(R.string.dialog_title_color_picker)
+                    colorChooser(
+                        colors = ColorPalette.Primary,
+                        subColors = ColorPalette.PrimarySub,
+                        allowCustomArgb = true,
+                        showAlphaSelector = true
+                    ) { _, color ->
+                        binding.editor.insert(color.toHexColor())
+                    }
+                    positiveButton(R.string.action_insert)
+                    negativeButton(R.string.action_cancel)
+                }
+            } else {
+                viewModel.toastEvent.value = R.string.message_no_open_files
+            }
         } else {
             showStoreDialog()
         }

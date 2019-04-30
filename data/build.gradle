@@ -62,6 +62,8 @@ dependencies {
     //Kotlin
     implementation library.kotlin
 
+    implementation library.rhino
+
     //Room
     implementation library.room
     implementation library.rxroom

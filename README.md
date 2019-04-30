@@ -29,8 +29,8 @@
 <b>•</b> Unlock 6 new themes  
 <b>•</b> Unlock 5 new fonts  
 <b>•</b> Increased tab limit  
-<b>•</b> Color picker  
-<b>•</b> Syntax validator  
+<b>•</b> Code Analysis  
+<b>•</b> Color Picker
 
 ### CONTACT US
 <b>•</b> <u>lightteamsoftware@gmail.com</u>

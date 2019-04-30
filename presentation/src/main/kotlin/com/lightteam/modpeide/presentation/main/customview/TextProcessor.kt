@@ -32,6 +32,7 @@ import android.view.ViewConfiguration
 import android.view.inputmethod.EditorInfo
 import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+import androidx.core.text.getSpans
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.presentation.main.adapters.CodeCompletionAdapter
 import com.lightteam.modpeide.presentation.main.customview.internal.codecompletion.SymbolsTokenizer
@@ -41,9 +42,10 @@ import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighli
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.JavaScript
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.Language
 import com.lightteam.modpeide.presentation.main.customview.internal.textscroller.OnScrollChangedListener
-import com.lightteam.modpeide.presentation.main.customview.internal.undoredo.UndoStack
+import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
 import com.lightteam.modpeide.utils.extensions.toPx
+import java.util.regex.Pattern
 
 class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoCompleteTextView(context, attrs) {
 
@@ -74,6 +76,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var backgroundColor: Int = Color.DKGRAY,
         var gutterColor: Int = Color.GRAY,
         var gutterTextColor: Int = Color.WHITE,
+        var gutterDividerColor: Int = Color.WHITE,
+        var gutterCurrentLineNumberColor: Int = Color.GRAY,
         var selectedLineColor: Int = Color.GRAY,
         var selectionColor: Int = Color.LTGRAY,
         var filterableColor: Int = Color.DKGRAY,
@@ -118,7 +122,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     private val selectedLinePaint = Paint()
     private val gutterPaint = Paint()
-    private val gutterLinePaint = Paint()
+    private val gutterDividerPaint = Paint()
+    private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
 
     private val language: Language = JavaScript()
@@ -134,12 +139,12 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private val tabString = "    " // 4 spaces
     private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
 
-    private var searchBgSpan = BackgroundColorSpan(theme.searchBgColor)
     private var openBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
     private var closedBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
 
     private var isDoingUndoRedo = false
     private var isAutoIndenting = false
+    private var isFindSpansVisible = false
 
     private var scrollListeners = arrayOf<OnScrollChangedListener>()
     private var maximumVelocity = 0f
@@ -211,7 +216,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 }
             }
             override fun afterTextChanged(s: Editable?) {
-                clearSpans()
+                clearSearchSpans()
+                clearSyntaxSpans()
                 syntaxHighlight()
             }
         })
@@ -237,8 +243,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         typeface = configuration.fontType
 
         setHorizontallyScrolling(!configuration.wordWrap)
-
-        gutterTextPaint.typeface = typeface
 
         if(configuration.codeCompletion) {
             setAdapter(adapter)
@@ -271,10 +275,16 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             gutterPaint.isAntiAlias = false
             gutterPaint.isDither = false
 
-            gutterLinePaint.color = theme.gutterTextColor
-            gutterLinePaint.isAntiAlias = false
-            gutterLinePaint.isDither = false
-            gutterLinePaint.style = Paint.Style.STROKE
+            gutterDividerPaint.color = theme.gutterDividerColor
+            gutterDividerPaint.isAntiAlias = false
+            gutterDividerPaint.isDither = false
+            gutterDividerPaint.style = Paint.Style.STROKE
+            gutterDividerPaint.strokeWidth = 3f
+
+            gutterCurrentLineNumberPaint.color = theme.gutterCurrentLineNumberColor
+            gutterCurrentLineNumberPaint.isAntiAlias = true
+            gutterCurrentLineNumberPaint.isDither = false
+            gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
             gutterTextPaint.color = theme.gutterTextColor
             gutterTextPaint.isAntiAlias = true
@@ -291,7 +301,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
             adapter.color = theme.filterableColor
 
-            searchBgSpan = BackgroundColorSpan(theme.searchBgColor)
             openBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
             closedBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
         }
@@ -303,14 +312,25 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     override fun setTextSize(size: Float) {
         super.setTextSize(size)
-        gutterTextPaint.textSize = textSize
+        post {
+            gutterCurrentLineNumberPaint.textSize = textSize
+            gutterTextPaint.textSize = textSize
+        }
+    }
+
+    override fun setTypeface(tf: Typeface?) {
+        super.setTypeface(tf)
+        post {
+            gutterCurrentLineNumberPaint.typeface = typeface
+            gutterTextPaint.typeface = typeface
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
         if(layout != null) {
+            val currentLineStart = lines.getLineForIndex(selectionStart)
             var top: Int
             if (configuration.highlightCurrentLine) {
-                val currentLineStart = lines.getLineForIndex(selectionStart)
                 if (currentLineStart == lines.getLineForIndex(selectionEnd)) {
                     val selectedLineStartIndex = getIndexForStartOfLine(currentLineStart)
                     val selectedLineEndIndex = getIndexForEndOfLine(currentLineStart)
@@ -354,7 +374,11 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                         Integer.toString(number + 1),
                         textRight.toFloat(),
                         (layout.getLineBaseline(i) + paddingTop).toFloat(),
-                        gutterTextPaint
+                        if(number == currentLineStart) {
+                            gutterCurrentLineNumberPaint
+                        } else {
+                            gutterTextPaint
+                        }
                     )
                 }
                 prevLineNumber = number
@@ -366,7 +390,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 top.toFloat(),
                 (gutterWidth + scrollX).toFloat(),
                 (top + height).toFloat(),
-                gutterLinePaint
+                gutterDividerPaint
             )
         }
     }
@@ -521,6 +545,58 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             }
             else -> undoStack.clear()
         }
+    }
+
+    fun find(what: String, matchCase: Boolean, regExp: Boolean, wordsOnly: Boolean) {
+        val pattern: Pattern = if (regExp) {
+            if (matchCase) {
+                Pattern.compile(what)
+            } else {
+                Pattern.compile(what, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+            }
+        } else {
+            if (wordsOnly) {
+                if (matchCase) {
+                    Pattern.compile("\\s$what\\s")
+                } else {
+                    Pattern.compile("\\s" + Pattern.quote(what) + "\\s",
+                        Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+                }
+            } else {
+                if (matchCase) {
+                    Pattern.compile(Pattern.quote(what))
+                } else {
+                    Pattern.compile(Pattern.quote(what), Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+                }
+            }
+        }
+        clearSearchSpans()
+        val matcher = pattern.matcher(text)
+        while (matcher.find()) {
+            text.setSpan(
+                BackgroundColorSpan(theme.searchBgColor),
+                matcher.start(),
+                matcher.end(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        isFindSpansVisible = true
+    }
+
+    fun replaceAll(replaceWhat: String, replaceWith: String) {
+        setText(text.toString().replace(replaceWhat, replaceWith))
+    }
+
+    fun goToLine(lineNumber: Int) {
+        setSelection(lines.getIndexForLine(lineNumber))
+    }
+
+    fun getArrayLineCount(): Int {
+        return lines.lineCount
+    }
+
+    private fun selectedText(): Editable {
+        return text.subSequence(selectionStart, selectionEnd) as Editable
     }
 
     // endregion METHODS
@@ -929,8 +1005,18 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         }
     }
 
-    private fun clearSpans() {
-        val spans = text.getSpans(0, text.length, SyntaxHighlightSpan::class.java)
+    private fun clearSearchSpans() {
+        if(isFindSpansVisible) {
+            val spans = text.getSpans<BackgroundColorSpan>(0, text.length)
+            for (span in spans) {
+                text.removeSpan(span)
+            }
+            isFindSpansVisible = false
+        }
+    }
+
+    private fun clearSyntaxSpans() {
+        val spans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
         for (span in spans) {
             text.removeSpan(span)
         }
@@ -1068,7 +1154,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             listener.onScrollChanged(horiz, vert, oldHoriz, oldVert)
         }
         if (topDirtyLine > getTopVisibleLine() || bottomDirtyLine < getBottomVisibleLine()) {
-            clearSpans()
+            clearSyntaxSpans()
             syntaxHighlight()
         }
     }
@@ -1188,12 +1274,4 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     // endregion CODE_COMPLETION
-
-    // region INTERNAL
-
-    private fun selectedText(): Editable {
-        return text.subSequence(selectionStart, selectionEnd) as Editable
-    }
-
-    // endregion INTERNAL
 }

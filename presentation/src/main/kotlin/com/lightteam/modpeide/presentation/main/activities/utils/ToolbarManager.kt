@@ -106,7 +106,7 @@ class ToolbarManager(
             R.id.menu_search_gotoLine -> listener.onGoToLineButton()
             
             //Tools Menu
-            R.id.menu_tools_syntaxValidator -> listener.onSyntaxValidatorButton()
+            R.id.menu_tools_codeAnalysis -> listener.onCodeAnalysisButton()
             R.id.menu_tools_insertColor -> listener.onInsertColorButton()
             //case R.id.menu_tools_downloadSource:
             //    listener.onDownloadSourceButton();
