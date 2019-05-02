@@ -16,7 +16,7 @@
   -->
 <!DOCTYPE resources [
     <!ENTITY app_version "2019.1.0">
-    <!ENTITY app_code "10016">
+    <!ENTITY app_code "10017">
 ]>
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
@@ -36,7 +36,6 @@
     <string name="hint_line">Line:</string>
 
     <string name="action_grant_access">Grant Access</string>
-    <string name="action_open_source">Open Source Code</string>
     <string name="action_yes">Yes</string>
     <string name="action_no">No</string>
     <string name="action_ok">OK</string>
