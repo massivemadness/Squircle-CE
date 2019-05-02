@@ -24,12 +24,14 @@ import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
+import com.lightteam.modpeide.data.parser.ScriptEngine
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.domain.model.AnalysisModel
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.domain.model.PropertiesModel
@@ -54,12 +56,16 @@ class MainViewModel(
     private val versionChecker: VersionChecker
 ) : BaseViewModel() {
 
+    // region UI
+
     val hasPermission: ObservableBoolean = ObservableBoolean(false) //Отображение интерфейса с разрешениями
 
     val filesLoadingIndicator: ObservableBoolean = ObservableBoolean(true) //Индикатор загрузки файлов
     val noFilesIndicator: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет файлов
     val documentLoadingIndicator: ObservableBoolean = ObservableBoolean(true) //Индикатор загрузки документа
     val noDocumentsIndicator: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет документов
+
+    // endregion UI
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
@@ -77,6 +83,7 @@ class MainViewModel(
     val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
     val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла (диалог)
+    val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода (диалог)
 
     // region PREFERENCES
 
@@ -342,6 +349,13 @@ class MainViewModel(
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribe()
+            .disposeOnViewModelDestroy()
+    }
+
+    fun analyze(sourceName: String, sourceCode: String) {
+        ScriptEngine.analyze(sourceName, sourceCode)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { analysisEvent.value = it }
             .disposeOnViewModelDestroy()
     }
 

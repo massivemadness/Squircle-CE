@@ -18,32 +18,28 @@
 package com.lightteam.modpeide.utils.extensions
 
 import android.graphics.drawable.InsetDrawable
-import android.util.TypedValue
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.iterator
 
 // https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
-fun PopupMenu.makeRightPaddingRecursively(view: View) {
+fun PopupMenu.makeRightPaddingRecursively() {
     if(menu is MenuBuilder) {
         val menuBuilder = menu as MenuBuilder
         menuBuilder.setOptionalIconsVisible(true)
         for(item in menuBuilder.visibleItems) {
-            makeRightPadding(view, item)
+            makeRightPadding(item)
             if(item.hasSubMenu()) {
                 for(subItem in item.subMenu.iterator()) {
-                    makeRightPadding(view, subItem)
+                    makeRightPadding(subItem)
                 }
             }
         }
     }
 }
 
-private fun makeRightPadding(view: View, item: MenuItem) {
-    val iconMarginPx = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, 8F, view.resources.displayMetrics
-    ).toInt()
+private fun makeRightPadding(item: MenuItem) {
+    val iconMarginPx = 8.toPx() // 8 dp to px
     item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0)
 }

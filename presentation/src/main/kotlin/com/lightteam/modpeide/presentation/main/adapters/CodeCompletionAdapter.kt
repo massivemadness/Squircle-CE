@@ -61,9 +61,9 @@ class CodeCompletionAdapter(context: Context, resourceId: Int) : ArrayAdapter<St
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            val filteredList = results?.values as? MutableList<String>
+            val filteredList = results?.values as? List<String>
             clear()
-            if (filteredList != null && filteredList.size > 0) {
+            if (filteredList != null && filteredList.isNotEmpty()) {
                 addAll(filteredList)
             }
             notifyDataSetChanged()
@@ -71,18 +71,36 @@ class CodeCompletionAdapter(context: Context, resourceId: Int) : ArrayAdapter<St
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_completion, parent, false)
-        val textView = view.findViewById<TextView>(R.id.item_title)
+        val viewHolder: ViewHolder
+        val currentView: View
+        if(convertView == null) {
+            currentView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_completion, parent, false)
+            viewHolder = ViewHolder()
+            viewHolder.textView = currentView.findViewById(R.id.item_title)
+            currentView.tag = viewHolder
+        } else {
+            currentView = convertView
+            viewHolder = currentView.tag as ViewHolder
+        }
+
         val stringBuilder = SpannableStringBuilder(getItem(position))
         stringBuilder.setSpan(
             ForegroundColorSpan(color),
-            0,
-            filterableText.length,
+            0, filterableText.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        textView.text = stringBuilder
-        return view
+        viewHolder.bind(stringBuilder)
+        return currentView
     }
 
     override fun getFilter(): Filter = filter
+
+    class ViewHolder {
+        lateinit var textView: TextView
+
+        fun bind(spannable: Spannable) {
+            textView.text = spannable
+        }
+    }
 }

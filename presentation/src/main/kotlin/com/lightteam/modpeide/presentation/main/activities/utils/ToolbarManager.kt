@@ -76,7 +76,7 @@ class ToolbarManager(
             val popupMenu = PopupMenu(wrapper, view)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)
-            popupMenu.makeRightPaddingRecursively(view)
+            popupMenu.makeRightPaddingRecursively()
             popupMenu.show()
         }
     }

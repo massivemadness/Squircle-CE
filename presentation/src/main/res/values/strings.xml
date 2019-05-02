@@ -39,13 +39,12 @@
     <string name="action_open_source">Open Source Code</string>
     <string name="action_yes">Yes</string>
     <string name="action_no">No</string>
+    <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
     <string name="action_create">Create</string>
     <string name="action_close_others">Close Others</string>
     <string name="action_close_all">Close All</string>
-    <!--<string name="action_refactor">Refactor</string>
-    <string name="action_restart">Restart</string>-->
     <string name="action_copy_path">Copy Path</string>
     <string name="action_properties">Properties</string>
     <string name="action_folder">Folder</string>
@@ -75,10 +74,10 @@
     <string name="dialog_title_find">Find…</string>
     <string name="dialog_title_replace_all">Replace All…</string>
     <string name="dialog_title_goto_line">Go to Line…</string>
+    <string name="dialog_title_result">Result:</string>
 
     <string name="dialog_message_exit">Are you sure you want to exit? All changes will be saved into a cache</string>
     <string name="dialog_message_delete">Are you sure you want to delete this file? This action cannot be undone</string>
-    <!--<string name="dialog_message_apply_changes">ModPE IDE needs to restart to apply the changes</string>-->
 
     <string name="properties_name">&lt;b>Name:&lt;/b> %s&lt;br></string>
     <string name="properties_path">&lt;b>Path:&lt;/b> %s&lt;br></string>
@@ -99,8 +98,6 @@
     <string name="message_access_required">Explorer requires access to files in order to function correctly</string>
     <string name="message_no_result">No result</string>
     <string name="message_no_open_files">No open files</string>
-    <!--<string name="message_loading">Loading…</string>
-    <string name="message_one_more">Press once again to exit</string>-->
     <string name="message_tab_limit_achieved">Tab limit achieved</string>
     <string name="message_cannot_be_opened">File cannot be opened</string>
     <string name="message_invalid_file_name">Invalid file name</string>
@@ -116,15 +113,7 @@
     <string name="message_enter_the_text">Enter the text</string>
     <string name="message_line_above_than_0">Line must be above 0</string>
     <string name="message_line_not_exists">Line does not exists</string>
-    <!--
-    <string name="message_error">An error occurred</string>
-    <string name="message_new_file">Click "+" button at the bottom of the screen</string>
-    <string name="message_error_load_cache">An error occurred when trying to load cached data</string>
-    <string name="message_document_saved">Saved %s</string>
-    <string name="message_please_wait">Please, wait…</string>
-    <string name="message_rhino_result">Result:</string>
-    <string name="message_rhino_no_errors">Errors not found</string>
-    <string name="message_rhino_may_not_work">Code Analysis may not work properly!</string>-->
+    <string name="message_no_errors_detected">No syntax errors detected</string>
 
     <string name="menu_file_new">New</string>
     <string name="menu_file_open">Open</string>
@@ -152,10 +141,11 @@
     <string name="store_standard">Standard</string>
     <string name="store_ultimate">Ultimate</string>
     <string name="store_feature_1">Basic functionality</string>
-    <string name="store_feature_2">No advertisements</string>
-    <string name="store_feature_3">Unlock 6 new themes</string>
-    <string name="store_feature_4">Unlock 5 new fonts</string>
-    <string name="store_feature_5">Increased tab limit</string>
+    <!--<string name="store_feature_2">No advertisements</string>-->
+    <string name="store_feature_2">Color schemes</string>
+    <string name="store_feature_3">New font types</string>
+    <string name="store_feature_4">Increased tab limit</string>
+    <string name="store_feature_5">Auto-close quotes</string>
     <string name="store_feature_6">Code Analysis</string>
     <string name="store_feature_7">Color Picker</string>
 
@@ -181,8 +171,8 @@
     <string name="pref_category_about">About</string>
     <string name="pref_category_libraries">Third-party Libraries</string>
 
-    <string name="pref_theme_title">Theme</string>
-    <string name="pref_theme_summary">Configure the syntax highlighting theme.</string>
+    <string name="pref_color_scheme_title">Color Scheme</string>
+    <string name="pref_color_scheme_summary">Configure the syntax highlighting color scheme.</string>
     <string name="pref_fullscreen_title">Full screen</string>
     <string name="pref_fullscreen_summary">Launch the application in full screen mode.</string>
     <string name="pref_confirm_exit_title">Confirm exit from the app</string>
@@ -228,7 +218,6 @@
 
     <string name="pref_lib_rxjava2_title">RxJava 2</string>
     <string name="pref_lib_dagger2_title">Dagger 2</string>
-    <string name="pref_lib_rxkotlin_title">RxKotlin</string>
     <string name="pref_lib_rxbinding_title">RxBinding</string>
     <string name="pref_lib_rxpreferences_title">RxPreferences</string>
     <string name="pref_lib_materialDialogs_title">Material Dialogs</string>

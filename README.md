@@ -23,12 +23,13 @@
 <b>•</b> Pinch Zoom  
 <b>•</b> Powerful File Explorer  
 <b>•</b> <i>No Ads!</i>  
-<b>And much more!</b>  
+<b>And much more!</b>
 
 ### ULTIMATE EDITION FEATURES
-<b>•</b> Unlock 6 new themes  
-<b>•</b> Unlock 5 new fonts  
+<b>•</b> Color schemes  
+<b>•</b> New font types  
 <b>•</b> Increased tab limit  
+<b>•</b> Auto-close quotes  
 <b>•</b> Code Analysis  
 <b>•</b> Color Picker
 

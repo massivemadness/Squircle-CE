@@ -37,28 +37,53 @@
     <PreferenceCategory android:title="@string/pref_category_libraries">
 
         <Preference
-            android:title="@string/pref_lib_rxjava2_title"/>
+            android:title="@string/pref_lib_rxjava2_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ReactiveX/RxJava"/>
+        </Preference>
 
         <Preference
-            android:title="@string/pref_lib_rxkotlin_title"/>
+            android:title="@string/pref_lib_dagger2_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/google/dagger"/>
+        </Preference>
 
         <Preference
-            android:title="@string/pref_lib_dagger2_title"/>
+            android:title="@string/pref_lib_rxbinding_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/JakeWharton/RxBinding"/>
+        </Preference>
 
         <Preference
-            android:title="@string/pref_lib_rxbinding_title"/>
+            android:title="@string/pref_lib_rxpreferences_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/f2prateek/rx-preferences"/>
+        </Preference>
 
         <Preference
-            android:title="@string/pref_lib_rxpreferences_title"/>
+            android:title="@string/pref_lib_materialDialogs_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/afollestad/material-dialogs"/>
+        </Preference>
 
         <Preference
-            android:title="@string/pref_lib_materialDialogs_title"/>
+            android:title="@string/pref_lib_keyboardVE_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/yshrsmz/KeyboardVisibilityEvent"/>
+        </Preference>
 
         <Preference
-            android:title="@string/pref_lib_keyboardVE_title"/>
-
-        <Preference
-            android:title="@string/pref_lib_rhino_title"/>
+            android:title="@string/pref_lib_rhino_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/mozilla/rhino"/>
+        </Preference>
 
     </PreferenceCategory>
 

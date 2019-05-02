@@ -15,4 +15,8 @@
  * limitations under the License.
  */
 
-include ':app-standard', ':app-ultimate', ':presentation', ':domain', ':data'
+package com.lightteam.modpeide.domain.model
+
+data class AnalysisModel(
+    val exception: RuntimeException?
+)

@@ -19,6 +19,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:overScrollMode="never"
     android:theme="@style/Theme.MaterialComponents.Light.Dialog">
 
     <LinearLayout
@@ -304,6 +305,38 @@
                     android:contentDescription="@string/description_icon"/>
 
             </TableRow>
+
+            <!--<TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/store_feature_8"
+                    android:ellipsize="end"
+                    android:singleLine="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:src="@drawable/ic_close"
+                    android:tint="@color/colorRed"
+                    android:contentDescription="@string/description_icon"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:src="@drawable/ic_check"
+                    android:tint="@color/colorGreen"
+                    android:contentDescription="@string/description_icon"/>
+
+            </TableRow>-->
 
         </TableLayout>
 

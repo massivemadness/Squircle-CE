@@ -229,6 +229,17 @@ class MainActivity : BaseActivity(),
         viewModel.toastEvent.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
+        viewModel.analysisEvent.observe(this, Observer { model ->
+            MaterialDialog(this).show {
+                title(R.string.dialog_title_result)
+                if(model.exception == null) {
+                    message(R.string.message_no_errors_detected)
+                } else {
+                    message(text = model.exception!!.message)
+                }
+                positiveButton(R.string.action_ok)
+            }
+        })
         viewModel.documentAllTabsEvent.observe(this, Observer { list ->
             list.forEach { addTab(it, false) }
         })
@@ -268,6 +279,8 @@ class MainActivity : BaseActivity(),
         KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
             if(viewModel.extendedKeyboardEvent.value!!) {
                 binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
+            } else {
+                binding.extendedKeyboard.visibility = View.GONE
             }
         }
 
@@ -362,7 +375,7 @@ class MainActivity : BaseActivity(),
                     return@setOnMenuItemClickListener true
                 }
                 popupMenu.inflate(R.menu.menu_document)
-                popupMenu.makeRightPaddingRecursively(view)
+                popupMenu.makeRightPaddingRecursively()
                 popupMenu.show()
                 return@setOnLongClickListener true
             }
@@ -631,7 +644,7 @@ class MainActivity : BaseActivity(),
         if(viewModel.isUltimate()) {
             val position = binding.tabDocumentLayout.selectedTabPosition
             if(position != -1) {
-                //...
+                viewModel.analyze(adapter.get(position)!!.name, binding.editor.getFacadeText().toString())
             } else {
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }
