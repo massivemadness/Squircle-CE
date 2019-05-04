@@ -31,6 +31,15 @@ class ToolbarManager(
     private val listener: OnPanelClickListener
 ) : PopupMenu.OnMenuItemClickListener {
 
+    var orientation: Int = Configuration.ORIENTATION_UNDEFINED
+        set(value) {
+            field = when (value) {
+                Configuration.ORIENTATION_PORTRAIT -> portrait()
+                Configuration.ORIENTATION_LANDSCAPE -> landscape()
+                else -> Configuration.ORIENTATION_UNDEFINED
+            }
+        }
+
     private lateinit var binding: ActivityMainBinding
 
     fun bind(activityMainBinding: ActivityMainBinding) {
@@ -48,26 +57,20 @@ class ToolbarManager(
         binding.actionMenuRedo.setOnClickListener { listener.onRedoButton() }
     }
 
-    fun setOrientation(orientation: Int) {
-        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            landscape()
-        } else if(orientation == Configuration.ORIENTATION_PORTRAIT) {
-            portrait()
-        }
-    }
-
-    private fun portrait() {
+    private fun portrait(): Int {
         binding.actionMenuSave.visibility = View.GONE
         binding.actionMenuSearch.visibility = View.GONE
         binding.actionMenuTools.visibility = View.GONE
         setMenuClickListener(binding.actionMenuOverflow, R.menu.menu_overflow_vertical)
+        return Configuration.ORIENTATION_PORTRAIT
     }
 
-    private fun landscape() {
+    private fun landscape(): Int {
         binding.actionMenuSave.visibility = View.VISIBLE
         binding.actionMenuSearch.visibility = View.VISIBLE
         binding.actionMenuTools.visibility = View.VISIBLE
         setMenuClickListener(binding.actionMenuOverflow, R.menu.menu_overflow_horizontal)
+        return Configuration.ORIENTATION_LANDSCAPE
     }
 
     private fun setMenuClickListener(view: View, menuRes: Int) {

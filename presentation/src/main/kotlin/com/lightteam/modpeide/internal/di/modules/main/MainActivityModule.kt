@@ -61,8 +61,9 @@ class MainActivityModule {
                                     schedulersProvider: SchedulersProvider,
                                     preferenceHandler: PreferenceHandler,
                                     cacheHandler: CacheHandler,
+                                    documentAdapter: DocumentAdapter,
                                     versionChecker: VersionChecker): MainViewModelFactory
-            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, versionChecker)
+            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, documentAdapter, versionChecker)
 
     @Provides
     @PerActivity

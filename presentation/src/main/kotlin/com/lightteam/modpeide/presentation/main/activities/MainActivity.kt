@@ -52,13 +52,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.utils.extensions.endsWith
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
 import com.lightteam.modpeide.presentation.main.activities.interfaces.OnPanelClickListener
 import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
-import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.presentation.main.customview.ExtendedKeyboard
 import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
@@ -84,8 +82,6 @@ class MainActivity : BaseActivity(),
     lateinit var viewModel: MainViewModel
     @Inject
     lateinit var toolbarManager: ToolbarManager
-    @Inject
-    lateinit var adapter: DocumentAdapter
 
     private lateinit var binding: ActivityMainBinding
 
@@ -103,7 +99,7 @@ class MainActivity : BaseActivity(),
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        toolbarManager.setOrientation(newConfig.orientation)
+        toolbarManager.orientation = newConfig.orientation
     }
 
     override fun onBackPressed() {
@@ -158,7 +154,7 @@ class MainActivity : BaseActivity(),
 
     override fun onPause() {
         super.onPause()
-        val selectedDocument = adapter.get(binding.tabDocumentLayout.selectedTabPosition)
+        val selectedDocument = viewModel.getDocument(binding.tabDocumentLayout.selectedTabPosition)
         selectedDocument?.let {
             val document = it.copy(
                 scrollX = binding.editor.scrollX,
@@ -166,7 +162,7 @@ class MainActivity : BaseActivity(),
                 selectionStart = binding.editor.selectionStart,
                 selectionEnd = binding.editor.selectionEnd
             )
-            adapter.add(document) //update adapter
+            viewModel.addDocument(document) //update adapter
             viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
             viewModel.saveUndoStacks(document, Pair(binding.editor.undoStack, binding.editor.redoStack))
             viewModel.documentLoadingIndicator.set(true)
@@ -176,7 +172,7 @@ class MainActivity : BaseActivity(),
 
     override fun onResume() {
         super.onResume()
-        val selectedDocument = adapter.get(binding.tabDocumentLayout.selectedTabPosition)
+        val selectedDocument = viewModel.getDocument(binding.tabDocumentLayout.selectedTabPosition)
         selectedDocument?.let {
             viewModel.loadFile(it)
         }
@@ -184,7 +180,7 @@ class MainActivity : BaseActivity(),
 
     override fun onTabReselected(tab: TabLayout.Tab) {}
     override fun onTabUnselected(tab: TabLayout.Tab) {
-        val selectedDocument = adapter.get(tab.position)
+        val selectedDocument = viewModel.getDocument(tab.position)
         selectedDocument?.let {
             val document = it.copy(
                 scrollX = binding.editor.scrollX,
@@ -192,7 +188,7 @@ class MainActivity : BaseActivity(),
                 selectionStart = binding.editor.selectionStart,
                 selectionEnd = binding.editor.selectionEnd
             )
-            adapter.add(document) //update adapter
+            viewModel.addDocument(document) //update adapter
             viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
             viewModel.saveUndoStacks(document, Pair(binding.editor.undoStack, binding.editor.redoStack))
             binding.editor.clearText()
@@ -202,7 +198,7 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
-        val selectedDocument = adapter.get(tab.position)
+        val selectedDocument = viewModel.getDocument(tab.position)
         selectedDocument?.let {
             viewModel.loadFile(it)
         }
@@ -244,9 +240,9 @@ class MainActivity : BaseActivity(),
             list.forEach { addTab(it, false) }
         })
         viewModel.documentTabEvent.observe(this, Observer { document ->
-            if(document.name.endsWith(viewModel.openableExtensions)) { //Если расширение поддерживается
+            if(viewModel.isOpenable(document)) { //Если расширение поддерживается
                 closeDrawersIfNecessary()
-                if(adapter.size() < viewModel.tabLimitEvent.value!!) {
+                if(viewModel.documentCount() <= viewModel.tabLimitEvent.value!!) {
                     addTab(document, true)
                 } else {
                     viewModel.toastEvent.value = R.string.message_tab_limit_achieved
@@ -353,7 +349,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun addTab(documentModel: DocumentModel, select: Boolean) {
-        val index = adapter.indexOf(documentModel)
+        val index = viewModel.addDocument(documentModel)
         if(index == -1) {
             val tab = binding.tabDocumentLayout.newTab()
             tab.text = documentModel.name
@@ -380,25 +376,23 @@ class MainActivity : BaseActivity(),
                 return@setOnLongClickListener true
             }
 
-            adapter.add(documentModel)
             binding.tabDocumentLayout.addTab(tab)
             if(select) {
                 binding.tabDocumentLayout.post { tab.select() }
             }
-            viewModel.noDocumentsIndicator.set(adapter.isEmpty())
         } else {
             binding.tabDocumentLayout.getTabAt(index)?.select()
         }
     }
 
     private fun removeAllTabs() {
-        for(i in adapter.count() downTo 0) {
+        for(i in viewModel.documentCount() downTo 0) {
             removeTab(i)
         }
     }
 
     private fun removeOtherTabs(position: Int) {
-        for(index in adapter.count() downTo 0) {
+        for(index in viewModel.documentCount() downTo 0) {
             if (index != position) {
                 removeTab(index)
             }
@@ -406,28 +400,22 @@ class MainActivity : BaseActivity(),
     }
 
     private fun removeTab(index: Int) {
+        val position = viewModel.removeDocument(index)
         val selectedIndex = binding.tabDocumentLayout.selectedTabPosition
 
-        val document = adapter.get(index)
-        if(document != null) {
-            if(index == selectedIndex) {
-                binding.editor.clearText() //TTL Exception Bypass
-            }
-            adapter.removeAt(index)
-            binding.tabDocumentLayout.removeTabAt(index)
+        if(position == selectedIndex) {
+            binding.editor.clearText() //TTL Exception Bypass
+        }
+        binding.tabDocumentLayout.removeTabAt(position)
 
-            viewModel.removeDocument(document)
-            viewModel.noDocumentsIndicator.set(adapter.isEmpty())
+        // Обход бага, когда после удаления вкладки индикатор не обновляет свою позицию
+        if(position < selectedIndex) {
+            binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
+        }
 
-            // Обход бага, когда после удаления вкладки индикатор не обновляет свою позицию
-            if(index < selectedIndex) {
-                binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
-            }
-
-            // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
-            if(index == selectedIndex) {
-                closeKeyboard()
-            }
+        // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
+        if(position == selectedIndex) {
+            closeKeyboard()
         }
     }
 
@@ -491,7 +479,7 @@ class MainActivity : BaseActivity(),
     override fun onSaveButton() {
         val position = binding.tabDocumentLayout.selectedTabPosition
         if(position != -1) {
-            adapter.get(position)?.let {
+            viewModel.getDocument(position)?.let {
                 viewModel.saveFile(it, binding.editor.getFacadeText().toString())
                 viewModel.saveUndoStacks(it, Pair(binding.editor.undoStack, binding.editor.redoStack))
             }
@@ -503,7 +491,7 @@ class MainActivity : BaseActivity(),
     override fun onPropertiesButton() {
         val position = binding.tabDocumentLayout.selectedTabPosition
         if(position != -1) {
-            adapter.get(position)?.let {
+            viewModel.getDocument(position)?.let {
                 viewModel.propertiesOf(it)
             }
         } else {
@@ -644,7 +632,7 @@ class MainActivity : BaseActivity(),
         if(viewModel.isUltimate()) {
             val position = binding.tabDocumentLayout.selectedTabPosition
             if(position != -1) {
-                viewModel.analyze(adapter.get(position)!!.name, binding.editor.getFacadeText().toString())
+                viewModel.analyze(viewModel.getDocument(position)!!.name, binding.editor.getFacadeText().toString())
             } else {
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }

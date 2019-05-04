@@ -44,11 +44,11 @@ class LocalFileRepository(
 
     // region EXPLORER
 
-    override fun getDefaultLocation(): FileModel {
+    override fun defaultLocation(): FileModel {
         return FileConverter.toModel(defaultLocation)
     }
 
-    override fun makeList(parent: FileModel): Single<List<FileModel>> {
+    override fun provideDirectory(parent: FileModel): Single<List<FileModel>> {
         return Single.create { emitter ->
             val files = getFiles(FileConverter.toFile(parent))
             emitter.onSuccess(files)

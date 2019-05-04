@@ -81,7 +81,7 @@ class FragmentExplorer : DaggerFragment(),
     }
 
     override fun onRefresh() {
-        viewModel.makeList(adapter.get(binding.tabLayout.selectedTabPosition))
+        viewModel.provideDirectory(adapter.get(binding.tabLayout.selectedTabPosition))
         binding.swipeRefresh.isRefreshing = false
     }
 
@@ -136,7 +136,7 @@ class FragmentExplorer : DaggerFragment(),
     override fun onTabReselected(tab: TabLayout.Tab) {}
     override fun onTabUnselected(tab: TabLayout.Tab) {}
     override fun onTabSelected(tab: TabLayout.Tab) {
-        viewModel.makeList(adapter.get(tab.position))
+        viewModel.provideDirectory(adapter.get(tab.position))
     }
 
     // endregion TABS
@@ -152,8 +152,8 @@ class FragmentExplorer : DaggerFragment(),
         binding.swipeRefresh.setOnRefreshListener(this)
         binding.tabLayout.addOnTabSelectedListener(this)
         binding.actionHome.setOnClickListener {
-            removeAfter(viewModel.getDefaultLocation())
-            addToStack(viewModel.getDefaultLocation())
+            removeAfter(viewModel.defaultLocation())
+            addToStack(viewModel.defaultLocation())
         }
         binding.actionAdd.setOnClickListener {
             showCreateDialog()
@@ -163,7 +163,7 @@ class FragmentExplorer : DaggerFragment(),
     private fun setupObservers() {
         viewModel.hasAccessEvent.observe(viewLifecycleOwner, Observer { hasAccess ->
             if(hasAccess) {
-                addToStack(viewModel.getDefaultLocation())
+                addToStack(viewModel.defaultLocation())
                 viewModel.hasPermission.set(true)
             } else {
                 binding.actionAccess.setOnClickListener {
@@ -208,9 +208,8 @@ class FragmentExplorer : DaggerFragment(),
                 dialog.setActionButtonEnabled(WhichButton.POSITIVE, isValid)
             }
             checkBoxPrompt(R.string.action_folder) {}
-            positiveButton(R.string.action_create)
             negativeButton(R.string.action_cancel)
-            positiveButton {
+            positiveButton(R.string.action_create, click = {
                 val fileName = getInputField().text.toString()
                 val isFolder = getCheckBoxPrompt().isChecked
 
@@ -220,7 +219,7 @@ class FragmentExplorer : DaggerFragment(),
                     isFolder = isFolder
                 )
                 viewModel.createFile(parent, child)
-            }
+            })
         }
     }
 

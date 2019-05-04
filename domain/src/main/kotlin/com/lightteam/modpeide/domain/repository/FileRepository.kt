@@ -24,8 +24,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface FileRepository {
-    fun getDefaultLocation(): FileModel
-    fun makeList(parent: FileModel): Single<List<FileModel>>
+    fun defaultLocation(): FileModel
+    fun provideDirectory(parent: FileModel): Single<List<FileModel>>
 
     fun createFile(fileModel: FileModel): Single<FileModel>
     fun deleteFile(fileModel: FileModel): Single<FileModel>

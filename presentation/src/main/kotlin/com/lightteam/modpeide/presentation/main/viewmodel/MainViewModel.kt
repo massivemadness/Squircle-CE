@@ -30,6 +30,7 @@ import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
+import com.lightteam.modpeide.data.utils.extensions.endsWith
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.model.AnalysisModel
 import com.lightteam.modpeide.domain.model.DocumentModel
@@ -38,6 +39,7 @@ import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.presentation.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.presentation.main.customview.TextProcessor
 import com.lightteam.modpeide.utils.theming.ThemeFactory
 import com.lightteam.modpeide.utils.commons.VersionChecker
@@ -53,6 +55,7 @@ class MainViewModel(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val cacheHandler: CacheHandler,
+    private val documentAdapter: DocumentAdapter,
     private val versionChecker: VersionChecker
 ) : BaseViewModel() {
 
@@ -74,9 +77,9 @@ class MainViewModel(
     val fileUpdateListEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление текущей директории
     val fileTabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки в проводник
 
-    val documentAllTabsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Загрузка кешированных документов
-    val documentTabEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Добавление вкладки в список документов
-    val documentTextEvent: SingleLiveEvent<String> = SingleLiveEvent() //Чтение файла
+    val documentAllTabsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Загрузка всех кешированных документов
+    val documentTabEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Добавление документа во вкладки
+    val documentTextEvent: SingleLiveEvent<String> = SingleLiveEvent() //Чтение текста файла
     val documentLoadedEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Для загрузки скроллинга/выделения
     val documentStacksEvent: SingleLiveEvent<Pair<UndoStack, UndoStack>> = SingleLiveEvent() //Для загрузки Undo/Redo
 
@@ -125,12 +128,12 @@ class MainViewModel(
 
     // region FILE_REPOSITORY
 
-    fun getDefaultLocation(): FileModel
-            = fileRepository.getDefaultLocation()
+    fun defaultLocation(): FileModel
+            = fileRepository.defaultLocation()
 
-    fun makeList(path: FileModel) {
+    fun provideDirectory(path: FileModel) {
         filesLoadingIndicator.set(true)
-        fileRepository.makeList(path)
+        fileRepository.provideDirectory(path)
             .map { files ->
                 val newList = mutableListOf<FileModel>()
                 files.forEach { file ->
@@ -167,7 +170,7 @@ class MainViewModel(
                 if(file.isFolder) {
                     fileTabsEvent.value = file
                 } else {
-                    makeList(parent) //update the list
+                    provideDirectory(parent) //update the list
                     documentTabEvent.value = DocumentConverter.toModel(file)
                 }
                 toastEvent.value = R.string.message_done
@@ -180,7 +183,7 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { parent ->
                 renameFileEvent.value = renamedFile
-                makeList(parent) //update the list
+                provideDirectory(parent) //update the list
                 toastEvent.value = R.string.message_done
             }
             .disposeOnViewModelDestroy()
@@ -191,7 +194,7 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { parent ->
                 deleteFileEvent.value = deletedFile
-                makeList(parent) //update the list
+                provideDirectory(parent) //update the list
                 toastEvent.value = R.string.message_done
             }
             .disposeOnViewModelDestroy()
@@ -279,6 +282,22 @@ class MainViewModel(
 
     // region EDITOR
 
+    fun isOpenable(documentModel: DocumentModel): Boolean = documentModel.name.endsWith(openableExtensions)
+
+    fun documentCount(): Int = documentAdapter.count()
+    fun getDocument(position: Int): DocumentModel? = documentAdapter.get(position)
+
+    fun addDocument(documentModel: DocumentModel): Int {
+        val index = documentAdapter.indexOf(documentModel)
+        return if(index == -1) {
+            documentAdapter.add(documentModel)
+            noDocumentsIndicator.set(documentAdapter.isEmpty())
+            -1
+        } else {
+            index
+        }
+    }
+
     fun loadAllFiles() {
         documentLoadingIndicator.set(true)
         database.documentDao().loadAll()
@@ -341,15 +360,21 @@ class MainViewModel(
         documentTabEvent.value = DocumentConverter.toModel(fileModel)
     }
 
-    fun removeDocument(documentModel: DocumentModel) {
-        Completable
-            .fromAction {
-                database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Delete from Database
-                cacheHandler.invalidateCache(documentModel) // Delete from Cache
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribe()
-            .disposeOnViewModelDestroy()
+    fun removeDocument(index: Int): Int {
+        val documentModel = documentAdapter.get(index)
+        documentModel?.let {
+            documentAdapter.removeAt(index)
+            Completable
+                .fromAction {
+                    database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Delete from Database
+                    cacheHandler.invalidateCache(documentModel) // Delete from Cache
+                }
+                .schedulersIoToMain(schedulersProvider)
+                .subscribe()
+                .disposeOnViewModelDestroy()
+            noDocumentsIndicator.set(documentAdapter.isEmpty())
+        }
+        return index
     }
 
     fun analyze(sourceName: String, sourceCode: String) {

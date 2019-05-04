@@ -26,7 +26,7 @@
 <b>And much more!</b>
 
 ### ULTIMATE EDITION FEATURES
-<b>•</b> Color schemes  
+<b>•</b> Color Schemes  
 <b>•</b> New font types  
 <b>•</b> Increased tab limit  
 <b>•</b> Auto-close quotes  

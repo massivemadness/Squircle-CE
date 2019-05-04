@@ -180,12 +180,11 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
                 }
                 dialog.setActionButtonEnabled(WhichButton.POSITIVE, isValid)
             }
-            positiveButton(R.string.action_rename)
             negativeButton(R.string.action_cancel)
-            positiveButton {
+            positiveButton(R.string.action_rename, click = {
                 val fileName = getInputField().text.toString()
                 viewModel.renameFile(fileModel, fileName)
-            }
+            })
         }
     }
 
@@ -193,11 +192,10 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
         MaterialDialog(context!!).show {
             title(text = fileModel.name)
             message(R.string.dialog_message_delete)
-            positiveButton(R.string.action_delete)
             negativeButton(R.string.action_cancel)
-            positiveButton {
+            positiveButton(R.string.action_delete, click = {
                 viewModel.deleteFile(fileModel)
-            }
+            })
         }
     }
 
