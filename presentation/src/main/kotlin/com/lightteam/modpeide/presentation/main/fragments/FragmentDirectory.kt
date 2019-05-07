@@ -17,8 +17,10 @@
 
 package com.lightteam.modpeide.presentation.main.fragments
 
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,8 +47,10 @@ import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
 import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
 import com.lightteam.modpeide.presentation.main.adapters.utils.FileDiffCallback
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.FileProvider
 import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.utils.extensions.asHtml
+import java.io.File
 
 class FragmentDirectory : DaggerFragment(), RecyclerSelection {
 
@@ -70,7 +74,6 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = adapter
 
-        setupListeners()
         setupObservers()
     }
 
@@ -78,7 +81,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
         if(fileModel.isFolder) {
             viewModel.fileTabsEvent.value = fileModel
         } else {
-            viewModel.addDocument(fileModel)
+            viewModel.openDocument(fileModel)
         }
     }
 
@@ -87,8 +90,6 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
         return true
     }
 
-    private fun setupListeners() { }
-
     private fun setupObservers() {
         viewModel.fileListEvent.observe(viewLifecycleOwner, Observer { list ->
             val diffCallback = FileDiffCallback(adapter.getData(), list)
@@ -96,6 +97,20 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
 
             adapter.setData(list)
             diffResult.dispatchUpdatesTo(adapter)
+        })
+        viewModel.fileNotSupportedEvent.observe(viewLifecycleOwner, Observer { fileModel ->
+            try { //Открытие файла через соответствующую программу
+                context?.let {
+                    val uri = FileProvider.getUriForFile(it, "${it.packageName}.provider", File(fileModel.path))
+                    val mime = it.contentResolver.getType(uri)
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.setDataAndType(uri, mime)
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    startActivity(intent)
+                }
+            } catch (e: ActivityNotFoundException) {
+                viewModel.toastEvent.value = R.string.message_cannot_be_opened
+            }
         })
         viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
             showPropertiesDialog(it)

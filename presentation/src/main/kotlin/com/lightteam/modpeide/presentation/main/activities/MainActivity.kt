@@ -36,7 +36,6 @@ import android.widget.Toast
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider.getUriForFile
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -143,7 +142,7 @@ class MainActivity : BaseActivity(),
             // Check if user opened a file from another app
             if(intent.action == Intent.ACTION_VIEW) {
                 //path must be started with /storage/emulated/0/...
-                viewModel.addDocument(File(intent.data?.path))
+                viewModel.openDocument(File(intent.data?.path))
             }
         }
     }
@@ -154,54 +153,23 @@ class MainActivity : BaseActivity(),
 
     override fun onPause() {
         super.onPause()
-        val selectedDocument = viewModel.getDocument(binding.tabDocumentLayout.selectedTabPosition)
-        selectedDocument?.let {
-            val document = it.copy(
-                scrollX = binding.editor.scrollX,
-                scrollY = binding.editor.scrollY,
-                selectionStart = binding.editor.selectionStart,
-                selectionEnd = binding.editor.selectionEnd
-            )
-            viewModel.addDocument(document) //update adapter
-            viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
-            viewModel.saveUndoStacks(document, Pair(binding.editor.undoStack, binding.editor.redoStack))
-            viewModel.documentLoadingIndicator.set(true)
-            binding.editor.clearText() //TTL Exception bypass
-        }
+        saveDocument(binding.tabDocumentLayout.selectedTabPosition)
     }
 
     override fun onResume() {
         super.onResume()
-        val selectedDocument = viewModel.getDocument(binding.tabDocumentLayout.selectedTabPosition)
-        selectedDocument?.let {
-            viewModel.loadFile(it)
-        }
+        viewModel.loadDocument(binding.tabDocumentLayout.selectedTabPosition)
     }
 
     override fun onTabReselected(tab: TabLayout.Tab) {}
     override fun onTabUnselected(tab: TabLayout.Tab) {
-        val selectedDocument = viewModel.getDocument(tab.position)
-        selectedDocument?.let {
-            val document = it.copy(
-                scrollX = binding.editor.scrollX,
-                scrollY = binding.editor.scrollY,
-                selectionStart = binding.editor.selectionStart,
-                selectionEnd = binding.editor.selectionEnd
-            )
-            viewModel.addDocument(document) //update adapter
-            viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
-            viewModel.saveUndoStacks(document, Pair(binding.editor.undoStack, binding.editor.redoStack))
-            binding.editor.clearText()
-        }
+        saveDocument(tab.position)
         closeKeyboard() // Обход бага, когда после переключения вкладок редактирование не работало
         // (позиция курсора не менялась с предыдущей вкладки)
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
-        val selectedDocument = viewModel.getDocument(tab.position)
-        selectedDocument?.let {
-            viewModel.loadFile(it)
-        }
+        viewModel.loadDocument(tab.position)
     }
 
     // endregion TABS
@@ -240,25 +208,8 @@ class MainActivity : BaseActivity(),
             list.forEach { addTab(it, false) }
         })
         viewModel.documentTabEvent.observe(this, Observer { document ->
-            if(viewModel.isOpenable(document)) { //Если расширение поддерживается
-                closeDrawersIfNecessary()
-                if(viewModel.documentCount() <= viewModel.tabLimitEvent.value!!) {
-                    addTab(document, true)
-                } else {
-                    viewModel.toastEvent.value = R.string.message_tab_limit_achieved
-                }
-            } else {
-                try { //Открытие файла через соответствующую программу
-                    val uri = getUriForFile(this, "$packageName.provider", File(document.path))
-                    val mime = contentResolver.getType(uri)
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setDataAndType(uri, mime)
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    viewModel.toastEvent.value = R.string.message_cannot_be_opened
-                }
-            }
+            closeDrawersIfNecessary()
+            addTab(document, true)
         })
         viewModel.documentTextEvent.observe(this, Observer {
             binding.editor.setFacadeText(it)
@@ -386,13 +337,13 @@ class MainActivity : BaseActivity(),
     }
 
     private fun removeAllTabs() {
-        for(i in viewModel.documentCount() downTo 0) {
+        for(i in binding.tabDocumentLayout.tabCount - 1 downTo 0) {
             removeTab(i)
         }
     }
 
     private fun removeOtherTabs(position: Int) {
-        for(index in viewModel.documentCount() downTo 0) {
+        for(index in binding.tabDocumentLayout.tabCount - 1 downTo 0) {
             if (index != position) {
                 removeTab(index)
             }
@@ -416,6 +367,22 @@ class MainActivity : BaseActivity(),
         // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
         if(position == selectedIndex) {
             closeKeyboard()
+        }
+    }
+
+    private fun saveDocument(position: Int) {
+        val selectedDocument = viewModel.getDocument(position)
+        selectedDocument?.let {
+            val document = it.copy(
+                scrollX = binding.editor.scrollX,
+                scrollY = binding.editor.scrollY,
+                selectionStart = binding.editor.selectionStart,
+                selectionEnd = binding.editor.selectionEnd
+            )
+            viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
+            viewModel.saveUndoStacks(document, Pair(binding.editor.undoStack, binding.editor.redoStack))
+            viewModel.documentLoadingIndicator.set(true)
+            binding.editor.clearText() //TTL Exception bypass
         }
     }
 
@@ -617,7 +584,7 @@ class MainActivity : BaseActivity(),
                         realLine < 0 ->
                             viewModel.toastEvent.value = R.string.message_line_above_than_0
                         realLine < binding.editor.getArrayLineCount() ->
-                            binding.editor.goToLine(realLine)
+                            binding.editor.gotoLine(realLine)
                         else ->
                             viewModel.toastEvent.value = R.string.message_line_not_exists
                     }

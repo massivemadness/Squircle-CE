@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation.main.customview.internal.linenumbers
+package com.lightteam.modpeide.data.storage.collection
 
 import java.io.Serializable
 
@@ -41,7 +41,7 @@ class LinesCollection : Serializable, Iterable<Line> {
     }
 
     fun shiftIndexes(fromLine: Int, shiftBy: Int) {
-        if (fromLine in 1 until lineCount) {
+        if (fromLine in 1..lineCount) {
             var i = fromLine
             while (i < lineCount) {
                 val newIndex = getIndexForLine(i) + shiftBy

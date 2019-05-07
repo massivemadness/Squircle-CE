@@ -61,7 +61,6 @@ class DocumentAdapter {
         return -1
     }
 
-    fun count(): Int = data.size - 1
     fun size(): Int = data.size
     fun isEmpty(): Boolean = data.isEmpty()
 }

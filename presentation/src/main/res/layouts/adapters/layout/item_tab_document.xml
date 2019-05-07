@@ -25,20 +25,22 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:maxWidth="172dp"
-        android:padding="4dp"
+        android:fontFamily="sans-serif-light"
         android:id="@android:id/text1"
         android:singleLine="true"
         android:ellipsize="end"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textSize="14sp"
         tools:text="Custom Tab"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:padding="4dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="5dp"
         android:id="@+id/item_icon"
         android:tint="@android:color/white"
         android:src="@drawable/ic_close"

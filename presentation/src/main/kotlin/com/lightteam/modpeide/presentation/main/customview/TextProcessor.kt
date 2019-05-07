@@ -36,7 +36,7 @@ import androidx.core.text.getSpans
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.presentation.main.adapters.CodeCompletionAdapter
 import com.lightteam.modpeide.presentation.main.customview.internal.codecompletion.SymbolsTokenizer
-import com.lightteam.modpeide.presentation.main.customview.internal.linenumbers.LinesCollection
+import com.lightteam.modpeide.data.storage.collection.LinesCollection
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.StyleSpan
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.SyntaxHighlightSpan
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.JavaScript
@@ -113,9 +113,56 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private val textScroller = Scroller(context)
     private val adapter = CodeCompletionAdapter(context, R.layout.item_completion)
 
-    private val clipboardManager
-            = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    private val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     private val scaledDensity = context.getScaledDensity()
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            textChangeStart = start
+            textChangeEnd = start + count
+            if (!isDoingUndoRedo) {
+                if (count < UndoStack.MAX_SIZE) {
+                    textLastChange = UndoStack.TextChange()
+                    textLastChange?.oldText = s?.subSequence(start, start + count).toString()
+                    textLastChange?.start = start
+                    return
+                }
+                undoStack.removeAll()
+                redoStack.removeAll()
+                textLastChange = null
+            }
+            abortFling()
+        }
+        override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+            newText = text?.subSequence(start, start + count).toString()
+            completeIndentation(start, count)
+            textChangedNewText = text?.subSequence(start, start + count).toString()
+            replaceText(textChangeStart, textChangeEnd, textChangedNewText)
+            if (!isDoingUndoRedo && textLastChange != null) {
+                if (count < UndoStack.MAX_SIZE) {
+                    textLastChange?.newText = text?.subSequence(start, start + count).toString()
+                    if (start == textLastChange?.start &&
+                        (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!) &&
+                        !textLastChange?.oldText?.equals(textLastChange?.newText)!!) {
+                        undoStack.push(textLastChange!!)
+                        redoStack.removeAll()
+                    }
+                } else {
+                    undoStack.removeAll()
+                    redoStack.removeAll()
+                }
+                textLastChange = null
+            }
+            newText = ""
+            if(configuration.codeCompletion) {
+                onPopupChangePosition()
+            }
+        }
+        override fun afterTextChanged(s: Editable?) {
+            clearSearchSpans()
+            clearSyntaxSpans()
+            syntaxHighlight()
+        }
+    }
 
     private val lines = LinesCollection()
     private val editableFactory = Editable.Factory.getInstance()
@@ -173,54 +220,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     // region INIT
 
     init {
-        addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                textChangeStart = start
-                textChangeEnd = start + count
-                if (!isDoingUndoRedo) {
-                    if (count < UndoStack.MAX_SIZE) {
-                        textLastChange = UndoStack.TextChange()
-                        textLastChange?.oldText = s?.subSequence(start, start + count).toString()
-                        textLastChange?.start = start
-                        return
-                    }
-                    undoStack.removeAll()
-                    redoStack.removeAll()
-                    textLastChange = null
-                }
-                abortFling()
-            }
-            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                newText = text?.subSequence(start, start + count).toString()
-                completeIndentation(start, count)
-                textChangedNewText = text?.subSequence(start, start + count).toString()
-                replaceText(textChangeStart, textChangeEnd, textChangedNewText)
-                if (!isDoingUndoRedo && textLastChange != null) {
-                    if (count < UndoStack.MAX_SIZE) {
-                        textLastChange?.newText = text?.subSequence(start, start + count).toString()
-                        if (start == textLastChange?.start &&
-                            (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!) &&
-                            !textLastChange?.oldText?.equals(textLastChange?.newText)!!) {
-                            undoStack.push(textLastChange!!)
-                            redoStack.removeAll()
-                        }
-                    } else {
-                        undoStack.removeAll()
-                        redoStack.removeAll()
-                    }
-                    textLastChange = null
-                }
-                newText = ""
-                if(configuration.codeCompletion) {
-                    onPopupChangePosition()
-                }
-            }
-            override fun afterTextChanged(s: Editable?) {
-                clearSearchSpans()
-                clearSyntaxSpans()
-                syntaxHighlight()
-            }
-        })
         maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
         colorize()
     }
@@ -414,12 +413,23 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             lineStart += it.length + 1
             line++
         }
-        newText.removeSuffix("\n") //important
+        newText.removeSuffix("\n")
+        disableUndoRedo()
         setText(newText)
         undoStack.clear()
         redoStack.clear()
         facadeText.clear()
         replaceText(0, facadeText.length, newText)
+        enableUndoRedo()
+        syntaxHighlight()
+    }
+
+    private fun enableUndoRedo() {
+        addTextChangedListener(textWatcher)
+    }
+
+    private fun disableUndoRedo() {
+        removeTextChangedListener(textWatcher)
     }
 
     // endregion CORE
@@ -587,7 +597,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         setText(text.toString().replace(replaceWhat, replaceWith))
     }
 
-    fun goToLine(lineNumber: Int) {
+    fun gotoLine(lineNumber: Int) {
         setSelection(lines.getIndexForLine(lineNumber))
     }
 

@@ -76,6 +76,7 @@ class MainViewModel(
     val fileListEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Добавление файлов в проводник
     val fileUpdateListEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление текущей директории
     val fileTabsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки в проводник
+    val fileNotSupportedEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Неподдерживаемый файл
 
     val documentAllTabsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Загрузка всех кешированных документов
     val documentTabEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Добавление документа во вкладки
@@ -116,7 +117,7 @@ class MainViewModel(
 
     // endregion PREFERENCES
 
-    val openableExtensions = arrayOf( //Открываемые расширения файлов
+    private val openableExtensions = arrayOf( //Открываемые расширения файлов
         ".txt", ".js", ".json", ".java", ".md", ".lua"
     )
     var sortMode: Int = FileSorter.SORT_BY_NAME
@@ -216,7 +217,7 @@ class MainViewModel(
                 onSuccess = {
                     documentTextEvent.value = it //Add the text
                     documentLoadedEvent.value = documentModel //Load selection, scroll position
-                    documentStacksEvent.value = cacheHandler.loadUndoStacks(documentModel) //Load the undo&redo stacks
+                    documentStacksEvent.value = cacheHandler.loadUndoStacks(documentModel) //Load undo&redo stacks
                     documentLoadingIndicator.set(false)
                 },
                 onError = {
@@ -282,9 +283,6 @@ class MainViewModel(
 
     // region EDITOR
 
-    fun isOpenable(documentModel: DocumentModel): Boolean = documentModel.name.endsWith(openableExtensions)
-
-    fun documentCount(): Int = documentAdapter.count()
     fun getDocument(position: Int): DocumentModel? = documentAdapter.get(position)
 
     fun addDocument(documentModel: DocumentModel): Int {
@@ -327,6 +325,7 @@ class MainViewModel(
     }
 
     fun saveToCache(documentModel: DocumentModel, text: String) {
+        documentAdapter.add(documentModel)
         Completable
             .fromAction {
                 database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
@@ -355,9 +354,17 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun addDocument(file: File) = addDocument(FileConverter.toModel(file))
-    fun addDocument(fileModel: FileModel) {
-        documentTabEvent.value = DocumentConverter.toModel(fileModel)
+    fun openDocument(file: File) = openDocument(FileConverter.toModel(file))
+    fun openDocument(fileModel: FileModel) {
+        if(fileModel.name.endsWith(openableExtensions)) {
+            if(documentAdapter.size() < tabLimitEvent.value!!) {
+                documentTabEvent.value = DocumentConverter.toModel(fileModel)
+            } else {
+                toastEvent.value = R.string.message_tab_limit_achieved
+            }
+        } else {
+            fileNotSupportedEvent.value = fileModel
+        }
     }
 
     fun removeDocument(index: Int): Int {
@@ -375,6 +382,13 @@ class MainViewModel(
             noDocumentsIndicator.set(documentAdapter.isEmpty())
         }
         return index
+    }
+
+    fun loadDocument(index: Int) {
+        val document = documentAdapter.get(index)
+        document?.let {
+            loadFile(it)
+        }
     }
 
     fun analyze(sourceName: String, sourceCode: String) {
