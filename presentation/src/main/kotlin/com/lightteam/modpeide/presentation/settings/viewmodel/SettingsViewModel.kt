@@ -31,7 +31,6 @@ class SettingsViewModel(
     private val versionChecker: VersionChecker
 ) : BaseViewModel() {
 
-    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     fun observePreferences() {

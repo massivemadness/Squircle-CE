@@ -62,7 +62,7 @@ import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.utils.extensions.launchActivity
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
-import com.lightteam.modpeide.utils.extensions.toHexColor
+import com.lightteam.modpeide.utils.extensions.toHexString
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
 import javax.inject.Inject
@@ -73,8 +73,8 @@ class MainActivity : BaseActivity(),
     TabLayout.OnTabSelectedListener {
 
     companion object {
-        const val REQUEST_READ_WRITE = 1 //Запрос на разрешения через диалог
-        const val REQUEST_READ_WRITE2 = 2 //Запрос на разрешения через активность настроек
+        const val REQUEST_READ_WRITE = 1 // Запрос разрешений через диалог
+        const val REQUEST_READ_WRITE2 = 2 // Запрос разрешений через настроеки системы
     }
 
     @Inject
@@ -380,7 +380,8 @@ class MainActivity : BaseActivity(),
                 selectionEnd = binding.editor.selectionEnd
             )
             viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
-            viewModel.saveUndoStacks(document, Pair(binding.editor.undoStack, binding.editor.redoStack))
+            viewModel.saveUndoStack(document, binding.editor.undoStack)
+            viewModel.saveRedoStack(document, binding.editor.redoStack)
             viewModel.documentLoadingIndicator.set(true)
             binding.editor.clearText() //TTL Exception bypass
         }
@@ -448,7 +449,9 @@ class MainActivity : BaseActivity(),
         if(position != -1) {
             viewModel.getDocument(position)?.let {
                 viewModel.saveFile(it, binding.editor.getFacadeText().toString())
-                viewModel.saveUndoStacks(it, Pair(binding.editor.undoStack, binding.editor.redoStack))
+                viewModel.saveToCache(it, binding.editor.getFacadeText().toString())
+                viewModel.saveUndoStack(it, binding.editor.undoStack)
+                viewModel.saveRedoStack(it, binding.editor.redoStack)
             }
         } else {
             viewModel.toastEvent.value = R.string.message_no_open_files
@@ -620,7 +623,7 @@ class MainActivity : BaseActivity(),
                         allowCustomArgb = true,
                         showAlphaSelector = true
                     ) { _, color ->
-                        binding.editor.insert(color.toHexColor())
+                        binding.editor.insert(color.toHexString())
                     }
                     positiveButton(R.string.action_insert)
                     negativeButton(R.string.action_cancel)

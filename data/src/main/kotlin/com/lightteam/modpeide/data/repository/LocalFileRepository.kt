@@ -20,7 +20,6 @@ package com.lightteam.modpeide.data.repository
 import android.os.Environment
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
-import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.utils.extensions.formatAsDate
 import com.lightteam.modpeide.data.utils.extensions.formatAsSize
@@ -36,8 +35,7 @@ import java.io.File
 import java.io.FileNotFoundException
 
 class LocalFileRepository(
-    private val database: AppDatabase,
-    private val cacheHandler: CacheHandler
+    private val database: AppDatabase
 ) : FileRepository {
 
     private val defaultLocation: File = Environment.getExternalStorageDirectory().absoluteFile
@@ -50,7 +48,10 @@ class LocalFileRepository(
 
     override fun provideDirectory(parent: FileModel): Single<List<FileModel>> {
         return Single.create { emitter ->
-            val files = getFiles(FileConverter.toFile(parent))
+            val files = FileConverter.toFile(parent)
+                .listFiles()
+                .map(FileConverter::toModel)
+                .toMutableList()
             emitter.onSuccess(files)
         }
     }
@@ -120,18 +121,13 @@ class LocalFileRepository(
         return Single.create { emitter ->
             database.documentDao().insert(DocumentConverter.toCache(documentModel)) // Save to Database
 
-            val text = if(cacheHandler.isCached(documentModel)) { // Load from Cache
-                cacheHandler.loadFromCache(documentModel)
-            } else { // Load from Storage
-                val file = File(documentModel.path)
-                if(file.exists()) {
-                    file.inputStream().bufferedReader().use(BufferedReader::readText)
-                } else {
-                    emitter.onError(FileNotFoundException())
-                    String() //empty
-                }
+            val file = File(documentModel.path)
+            val text = if(file.exists()) {
+                file.inputStream().bufferedReader().use(BufferedReader::readText)
+            } else {
+                emitter.onError(FileNotFoundException())
+                String() //empty
             }
-            cacheHandler.saveToCache(documentModel, text) // Save to Cache
             emitter.onSuccess(text)
         }
     }
@@ -142,23 +138,20 @@ class LocalFileRepository(
 
             // Save to Storage
             val file = File(documentModel.path)
-            if(file.exists()) {
-                val writer = file.outputStream().bufferedWriter()
-                writer.write(text)
-                writer.close()
+            if(!file.exists()) {
+                file.createNewFile()
             }
-            cacheHandler.saveToCache(documentModel, text) // Save to Cache
+            val writer = file.outputStream().bufferedWriter()
+            writer.write(text)
+            writer.close()
+
             emitter.onComplete()
         }
     }
 
     // endregion EDITOR
 
-    private fun getFiles(path: File): MutableList<FileModel> {
-        return path.listFiles()
-            .map(FileConverter::toModel)
-            .toMutableList()
-    }
+    // region PROPERTIES
 
     private fun getLineCount(file: File): String {
         if(file.isFile) {
@@ -188,4 +181,6 @@ class LocalFileRepository(
         }
         return "…"
     }
+
+    // endregion PROPERTIES
 }

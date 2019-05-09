@@ -50,10 +50,6 @@ class SettingsActivity : BaseActivity() {
         setupObservers()
     }
 
-    override fun onBackPressed() {
-        viewModel.backEvent.value = true
-    }
-
     private fun setupListeners() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

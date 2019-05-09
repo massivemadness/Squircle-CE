@@ -51,8 +51,8 @@ class MainActivityModule {
 
     @Provides
     @PerActivity
-    fun provideFileRepository(database: AppDatabase, cacheHandler: CacheHandler): FileRepository
-            = LocalFileRepository(database, cacheHandler)
+    fun provideFileRepository(database: AppDatabase): FileRepository
+            = LocalFileRepository(database)
 
     @Provides
     @PerActivity

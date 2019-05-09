@@ -33,6 +33,6 @@ fun String.asHtml(): Spanned {
     }
 }
 
-fun Int.toHexColor(): String {
+fun Int.toHexString(): String {
     return Integer.toHexString(this)
 }

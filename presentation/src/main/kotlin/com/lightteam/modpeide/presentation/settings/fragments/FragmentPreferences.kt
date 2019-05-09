@@ -19,7 +19,7 @@ package com.lightteam.modpeide.presentation.settings.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
+import androidx.activity.OnBackPressedCallback
 import androidx.preference.Preference
 import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
@@ -107,13 +107,14 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
     }
 
     private fun setupObservers() {
-        viewModel.backEvent.observe(this.viewLifecycleOwner, Observer {
-            if(preferenceScreen.key != KEY_ROOT) {
-                val root = Preference(context)
-                root.key = KEY_ROOT
-                onPreferenceTreeClick(root)
-            } else {
-                activity?.finish()
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if(preferenceScreen.key != KEY_ROOT) {
+                    val root = Preference(context).apply { key = KEY_ROOT }
+                    onPreferenceTreeClick(root)
+                } else {
+                    activity?.finish()
+                }
             }
         })
     }

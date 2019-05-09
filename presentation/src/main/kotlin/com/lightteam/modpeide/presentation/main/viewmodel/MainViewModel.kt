@@ -45,6 +45,7 @@ import com.lightteam.modpeide.utils.theming.ThemeFactory
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Completable
+import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -86,8 +87,8 @@ class MainViewModel(
 
     val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
-    val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла (диалог)
-    val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода (диалог)
+    val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла
+    val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода
 
     // region PREFERENCES
 
@@ -211,17 +212,30 @@ class MainViewModel(
 
     fun loadFile(documentModel: DocumentModel) {
         documentLoadingIndicator.set(true)
-        fileRepository.loadFile(documentModel)
+
+        val dataSource = if(cacheHandler.isCached(documentModel)) {
+            cacheHandler.loadFromCache(documentModel)
+        } else {
+            fileRepository.loadFile(documentModel)
+        }
+
+        Singles
+            .zip(
+                dataSource,
+                cacheHandler.loadUndoStack(documentModel),
+                cacheHandler.loadRedoStack(documentModel)
+            )
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = {
-                    documentTextEvent.value = it //Add the text
-                    documentLoadedEvent.value = documentModel //Load selection, scroll position
-                    documentStacksEvent.value = cacheHandler.loadUndoStacks(documentModel) //Load undo&redo stacks
+                onSuccess = { triple ->
+                    documentTextEvent.value = triple.first //Text
+                    documentLoadedEvent.value = documentModel //Selection, scroll position
+                    documentStacksEvent.value = triple.second to triple.third //Undo & Redo stacks
                     documentLoadingIndicator.set(false)
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
+                    Log.e("MainViewModel", it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -236,6 +250,7 @@ class MainViewModel(
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
+                    Log.e("MainViewModel", it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -283,17 +298,11 @@ class MainViewModel(
 
     // region EDITOR
 
-    fun getDocument(position: Int): DocumentModel? = documentAdapter.get(position)
-
-    fun addDocument(documentModel: DocumentModel): Int {
-        val index = documentAdapter.indexOf(documentModel)
-        return if(index == -1) {
-            documentAdapter.add(documentModel)
-            noDocumentsIndicator.set(documentAdapter.isEmpty())
-            -1
-        } else {
-            index
-        }
+    fun analyze(sourceName: String, sourceCode: String) {
+        ScriptEngine.analyze(sourceName, sourceCode)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { analysisEvent.value = it }
+            .disposeOnViewModelDestroy()
     }
 
     fun loadAllFiles() {
@@ -309,45 +318,61 @@ class MainViewModel(
                     } else {
                         database.documentDao().deleteAll()
                             .schedulersIoToMain(schedulersProvider)
-                            .subscribe {
-                                cacheHandler.invalidateCaches()
+                            .subscribeBy {
+                                cacheHandler.deleteAllCaches()
                             }
                             .disposeOnViewModelDestroy()
-                        noDocumentsIndicator.set(true)
+                        noDocumentsIndicator.set(documentAdapter.isEmpty())
                     }
                     documentLoadingIndicator.set(false)
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun saveToCache(documentModel: DocumentModel, text: String) {
-        documentAdapter.add(documentModel)
-        Completable
-            .fromAction {
-                database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
-                cacheHandler.saveToCache(documentModel, text) // Save to Cache
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onError = {
                     Log.e("MainViewModel", it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
     }
 
-    fun saveUndoStacks(documentModel: DocumentModel, stacks: Pair<UndoStack, UndoStack>) {
-        Completable
-            .fromAction {
-                cacheHandler.saveUndoStacks(documentModel, stacks)
-            }
+    fun loadDocument(index: Int) {
+        val document = documentAdapter.get(index)
+        document?.let {
+            loadFile(it)
+        }
+    }
+
+    fun saveToCache(documentModel: DocumentModel, text: String) {
+        updateDocument(documentModel)
+        documentAdapter.add(documentModel)
+        cacheHandler.saveToCache(documentModel, text)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
+                    toastEvent.value = R.string.message_error
+                    Log.e("MainViewModel", it.message, it)
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun saveUndoStack(documentModel: DocumentModel, undoStack: UndoStack) {
+        cacheHandler.saveUndoStack(documentModel, undoStack)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onError = {
+                    toastEvent.value = R.string.message_error
+                    Log.e("MainViewModel", it.message, it)
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun saveRedoStack(documentModel: DocumentModel, redoStack: UndoStack) {
+        cacheHandler.saveRedoStack(documentModel, redoStack)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onError = {
+                    toastEvent.value = R.string.message_error
                     Log.e("MainViewModel", it.message, it)
                 }
             )
@@ -367,34 +392,54 @@ class MainViewModel(
         }
     }
 
+    fun getDocument(position: Int): DocumentModel? = documentAdapter.get(position)
+
+    fun addDocument(documentModel: DocumentModel): Int {
+        val index = documentAdapter.indexOf(documentModel)
+        return if(index == -1) {
+            documentAdapter.add(documentModel)
+            noDocumentsIndicator.set(documentAdapter.isEmpty())
+            -1
+        } else {
+            index
+        }
+    }
+
     fun removeDocument(index: Int): Int {
         val documentModel = documentAdapter.get(index)
         documentModel?.let {
+            deleteDocument(documentModel)
             documentAdapter.removeAt(index)
-            Completable
-                .fromAction {
-                    database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Delete from Database
-                    cacheHandler.invalidateCache(documentModel) // Delete from Cache
-                }
+            cacheHandler.deleteCache(documentModel) // Delete from Cache
                 .schedulersIoToMain(schedulersProvider)
-                .subscribe()
-                .disposeOnViewModelDestroy()
+                .subscribeBy(
+                    onError = {
+                        toastEvent.value = R.string.message_error
+                        Log.e("MainViewModel", it.message, it)
+                    }
+                )
             noDocumentsIndicator.set(documentAdapter.isEmpty())
         }
         return index
     }
 
-    fun loadDocument(index: Int) {
-        val document = documentAdapter.get(index)
-        document?.let {
-            loadFile(it)
-        }
+    private fun updateDocument(documentModel: DocumentModel) {
+        Completable
+            .fromAction {
+                database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribe()
+            .disposeOnViewModelDestroy()
     }
 
-    fun analyze(sourceName: String, sourceCode: String) {
-        ScriptEngine.analyze(sourceName, sourceCode)
+    private fun deleteDocument(documentModel: DocumentModel) {
+        Completable
+            .fromAction {
+                database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Delete from Database
+            }
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { analysisEvent.value = it }
+            .subscribe()
             .disposeOnViewModelDestroy()
     }
 
