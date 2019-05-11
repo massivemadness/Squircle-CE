@@ -21,16 +21,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.databinding.ItemFileBinding
 import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
 import com.lightteam.modpeide.presentation.main.adapters.FileAdapter.FileViewHolder
+import com.lightteam.modpeide.presentation.main.adapters.utils.FileDiffCallback
 
 class FileAdapter(private val recyclerSelection: RecyclerSelection) : RecyclerView.Adapter<FileViewHolder>() {
 
-    private val data: MutableList<FileModel> = mutableListOf()
+    private var data: List<FileModel> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
@@ -41,11 +43,12 @@ class FileAdapter(private val recyclerSelection: RecyclerSelection) : RecyclerVi
     override fun getItemCount(): Int = data.size
 
     fun setData(newList: List<FileModel>) {
-        data.clear()
-        data.addAll(newList)
-    }
+        val diffCallback = FileDiffCallback(data, newList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
 
-    fun getData(): List<FileModel> = data
+        data = newList
+        diffResult.dispatchUpdatesTo(this)
+    }
 
     inner class FileViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 

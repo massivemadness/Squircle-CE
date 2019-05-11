@@ -51,7 +51,7 @@ class LocalFileRepository(
             val files = FileConverter.toFile(parent)
                 .listFiles()
                 .map(FileConverter::toModel)
-                .toMutableList()
+                .toList()
             emitter.onSuccess(files)
         }
     }
@@ -97,19 +97,23 @@ class LocalFileRepository(
     override fun propertiesOf(fileModel: FileModel): Single<PropertiesModel> {
         return Single.create { emitter ->
             val realFile = File(fileModel.path)
-            val result = PropertiesModel(
-                fileModel.name,
-                fileModel.path,
-                fileModel.lastModified.formatAsDate(),
-                realFile.size().formatAsSize(),
-                getLineCount(realFile),
-                getWordCount(realFile),
-                getCharCount(realFile),
-                realFile.canRead(),
-                realFile.canWrite(),
-                realFile.canExecute()
-            )
-            emitter.onSuccess(result)
+            if(realFile.exists()) {
+                val result = PropertiesModel(
+                    fileModel.name,
+                    fileModel.path,
+                    fileModel.lastModified.formatAsDate(),
+                    realFile.size().formatAsSize(),
+                    getLineCount(realFile),
+                    getWordCount(realFile),
+                    getCharCount(realFile),
+                    realFile.canRead(),
+                    realFile.canWrite(),
+                    realFile.canExecute()
+                )
+                emitter.onSuccess(result)
+            } else {
+                emitter.onError(FileNotFoundException())
+            }
         }
     }
 
@@ -121,6 +125,7 @@ class LocalFileRepository(
         return Single.create { emitter ->
             database.documentDao().insert(DocumentConverter.toCache(documentModel)) // Save to Database
 
+            // Load from Storage
             val file = File(documentModel.path)
             val text = if(file.exists()) {
                 file.inputStream().bufferedReader().use(BufferedReader::readText)

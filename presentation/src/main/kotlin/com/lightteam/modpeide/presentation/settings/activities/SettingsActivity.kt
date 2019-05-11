@@ -17,19 +17,14 @@
 
 package com.lightteam.modpeide.presentation.settings.activities
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
+import com.lightteam.modpeide.presentation.common.dialogs.DialogStore
 import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
 import javax.inject.Inject
 
@@ -57,26 +52,7 @@ class SettingsActivity : BaseActivity() {
             onBackPressed()
         }
         binding.buttonUnlockFeatures.setOnClickListener {
-            val dialog = AlertDialog.Builder(this, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
-                .setView(R.layout.dialog_store)
-                .show()
-
-            dialog.findViewById<View>(R.id.button_get_it)?.setOnClickListener {
-                val packageName = BaseApplication.ULTIMATE
-                try {
-                    val intent = Intent(Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=$packageName"))
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    val intent = Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/store/apps/details?id=$packageName"))
-                    startActivity(intent)
-                }
-                dialog.dismiss()
-            }
-            dialog.findViewById<View>(R.id.button_continue)?.setOnClickListener {
-                dialog.dismiss()
-            }
+            DialogStore.Builder(this).show()
         }
     }
 

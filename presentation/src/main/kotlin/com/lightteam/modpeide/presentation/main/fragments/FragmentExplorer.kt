@@ -77,7 +77,8 @@ class FragmentExplorer : DaggerFragment(),
         setupListeners()
         setupObservers()
 
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        val parentActivity = activity as AppCompatActivity
+        parentActivity.setSupportActionBar(binding.toolbar)
     }
 
     override fun onRefresh() {

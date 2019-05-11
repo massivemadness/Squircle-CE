@@ -25,8 +25,8 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:maxWidth="172dp"
         android:fontFamily="sans-serif-light"
         android:id="@android:id/text1"

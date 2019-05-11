@@ -19,14 +19,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:overScrollMode="never"
-    android:theme="@style/Theme.MaterialComponents.Light.Dialog">
+    android:overScrollMode="never">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="18dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -340,41 +339,47 @@
 
         </TableLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:rotation="10"
-                android:elevation="2dp"
-                android:src="@drawable/badge_sale"
-                android:contentDescription="@string/description_icon"/>
-
-            <ImageView
-                android:layout_width="102dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:src="@drawable/google_play_logo"
-                android:contentDescription="@string/description_icon"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <FrameLayout
-                android:layout_width="128dp"
+                android:layout_width="0dp"
                 android:layout_height="34dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="6dp"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/button_flat"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/button_store_outline"
+                android:id="@+id/button_maybe_later">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorGreen"
+                    android:textStyle="bold"
+                    android:text="@string/action_maybe_later"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/button_store_flat"
                 android:id="@+id/button_get_it">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?selectableItemBackground"
+                    android:background="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:textSize="14sp"
                     android:textColor="@android:color/white"
@@ -383,29 +388,22 @@
 
             </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="128dp"
-                android:layout_height="34dp"
-                android:layout_below="@id/button_get_it"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/button_outline"
-                android:id="@+id/button_continue">
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="@color/colorGreen"
-                    android:textStyle="bold"
-                    android:text="@string/action_continue_free"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorGray"/>
 
-            </FrameLayout>
-
-        </RelativeLayout>
+        <ImageView
+            android:layout_width="124dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/google_play_logo"
+            android:contentDescription="@string/description_icon"/>
 
     </LinearLayout>
 

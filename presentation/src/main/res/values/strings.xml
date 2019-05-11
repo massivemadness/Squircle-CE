@@ -57,7 +57,7 @@
     <string name="action_replace_all">Replace All</string>
     <string name="action_go_to">Go to</string>
     <string name="action_get_it_for">Get it for 1,49 $</string>
-    <string name="action_continue_free">Continue free</string>
+    <string name="action_maybe_later">Maybe later</string>
     <string name="action_unlock_all_features">Unlock all features</string>
 
     <string name="dialog_title_choose_action">Choose action…</string>

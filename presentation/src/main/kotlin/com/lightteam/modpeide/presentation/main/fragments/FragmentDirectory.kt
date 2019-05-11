@@ -28,7 +28,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DiffUtil
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.setActionButtonEnabled
@@ -45,7 +44,6 @@ import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
 import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
-import com.lightteam.modpeide.presentation.main.adapters.utils.FileDiffCallback
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import com.lightteam.modpeide.domain.model.PropertiesModel
@@ -92,11 +90,7 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
 
     private fun setupObservers() {
         viewModel.fileListEvent.observe(viewLifecycleOwner, Observer { list ->
-            val diffCallback = FileDiffCallback(adapter.getData(), list)
-            val diffResult = DiffUtil.calculateDiff(diffCallback)
-
             adapter.setData(list)
-            diffResult.dispatchUpdatesTo(adapter)
         })
         viewModel.fileNotSupportedEvent.observe(viewLifecycleOwner, Observer { fileModel ->
             try { //Открытие файла через соответствующую программу

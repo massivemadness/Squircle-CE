@@ -60,6 +60,10 @@ class MainViewModel(
     private val versionChecker: VersionChecker
 ) : BaseViewModel() {
 
+    companion object {
+        private const val TAG = "MainViewModel"
+    }
+
     // region UI
 
     val hasPermission: ObservableBoolean = ObservableBoolean(false) //Отображение интерфейса с разрешениями
@@ -118,13 +122,15 @@ class MainViewModel(
 
     // endregion PREFERENCES
 
+    var sortMode: Int = FileSorter.SORT_BY_NAME
+    var showHidden: Boolean = true
+
+    private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
+    private var foldersOnTop: Boolean = true
+
     private val openableExtensions = arrayOf( //Открываемые расширения файлов
         ".txt", ".js", ".json", ".java", ".md", ".lua"
     )
-    var sortMode: Int = FileSorter.SORT_BY_NAME
-    var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
-    var showHidden: Boolean = true
-    var foldersOnTop: Boolean = true
 
     private var fileList: List<FileModel> = emptyList()
 
@@ -206,7 +212,15 @@ class MainViewModel(
     fun propertiesOf(fileModel: FileModel) {
         fileRepository.propertiesOf(fileModel)
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { propertiesEvent.value = it }
+            .subscribeBy(
+                onSuccess = {
+                    propertiesEvent.value = it
+                },
+                onError = {
+                    toastEvent.value = R.string.message_error
+                    Log.e(TAG, it.message, it)
+                }
+            )
             .disposeOnViewModelDestroy()
     }
 
@@ -235,7 +249,7 @@ class MainViewModel(
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
-                    Log.e("MainViewModel", it.message, it)
+                    Log.e(TAG, it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -250,7 +264,7 @@ class MainViewModel(
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
-                    Log.e("MainViewModel", it.message, it)
+                    Log.e(TAG, it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -328,7 +342,7 @@ class MainViewModel(
                 },
                 onError = {
                     toastEvent.value = R.string.message_error
-                    Log.e("MainViewModel", it.message, it)
+                    Log.e(TAG, it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -349,7 +363,7 @@ class MainViewModel(
             .subscribeBy(
                 onError = {
                     toastEvent.value = R.string.message_error
-                    Log.e("MainViewModel", it.message, it)
+                    Log.e(TAG, it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -361,7 +375,7 @@ class MainViewModel(
             .subscribeBy(
                 onError = {
                     toastEvent.value = R.string.message_error
-                    Log.e("MainViewModel", it.message, it)
+                    Log.e(TAG, it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -373,7 +387,7 @@ class MainViewModel(
             .subscribeBy(
                 onError = {
                     toastEvent.value = R.string.message_error
-                    Log.e("MainViewModel", it.message, it)
+                    Log.e(TAG, it.message, it)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -415,7 +429,7 @@ class MainViewModel(
                 .subscribeBy(
                     onError = {
                         toastEvent.value = R.string.message_error
-                        Log.e("MainViewModel", it.message, it)
+                        Log.e(TAG, it.message, it)
                     }
                 )
             noDocumentsIndicator.set(documentAdapter.isEmpty())

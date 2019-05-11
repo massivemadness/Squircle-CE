@@ -19,12 +19,10 @@ package com.lightteam.modpeide.presentation.main.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.Gravity
@@ -46,14 +44,13 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
-import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.presentation.base.activities.BaseActivity
+import com.lightteam.modpeide.presentation.common.dialogs.DialogStore
 import com.lightteam.modpeide.presentation.main.activities.interfaces.OnPanelClickListener
 import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
 import com.lightteam.modpeide.presentation.main.customview.ExtendedKeyboard
@@ -74,7 +71,7 @@ class MainActivity : BaseActivity(),
 
     companion object {
         const val REQUEST_READ_WRITE = 1 // Запрос разрешений через диалог
-        const val REQUEST_READ_WRITE2 = 2 // Запрос разрешений через настроеки системы
+        const val REQUEST_READ_WRITE2 = 2 // Запрос разрешений через настройки системы
     }
 
     @Inject
@@ -403,29 +400,6 @@ class MainActivity : BaseActivity(),
         return isOpen
     }
 
-    private fun showStoreDialog() {
-        val dialog = MaterialAlertDialogBuilder(this, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
-            .setView(R.layout.dialog_store)
-            .show()
-
-        dialog.findViewById<View>(R.id.button_get_it)?.setOnClickListener {
-            val packageName = BaseApplication.ULTIMATE
-            try {
-                val intent = Intent(Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=$packageName"))
-                startActivity(intent)
-            } catch (e: ActivityNotFoundException) {
-                val intent = Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName"))
-                startActivity(intent)
-            }
-            dialog.dismiss()
-        }
-        dialog.findViewById<View>(R.id.button_continue)?.setOnClickListener {
-            dialog.dismiss()
-        }
-    }
-
     // region OTHER
 
     override fun onKey(char: String) {
@@ -607,7 +581,7 @@ class MainActivity : BaseActivity(),
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }
         } else {
-            showStoreDialog()
+            DialogStore.Builder(this).show()
         }
     }
 
@@ -632,7 +606,7 @@ class MainActivity : BaseActivity(),
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }
         } else {
-            showStoreDialog()
+            DialogStore.Builder(this).show()
         }
     }
 

@@ -27,6 +27,8 @@
     <color name="colorIcon">#7F7F7F</color>
     <color name="colorFolder">#FFBB33</color>
     <color name="colorWarning">#E45356</color>
-    <color name="colorGreen">#0F9D58</color>
+
+    <color name="colorGreen">#008860</color>
     <color name="colorRed">#CD0000</color>
+    <color name="colorGray">#D7D7D7</color>
  </resources>
