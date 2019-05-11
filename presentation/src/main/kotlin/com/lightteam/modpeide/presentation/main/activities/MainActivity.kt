@@ -376,7 +376,7 @@ class MainActivity : BaseActivity(),
                 selectionStart = binding.editor.selectionStart,
                 selectionEnd = binding.editor.selectionEnd
             )
-            viewModel.saveToCache(document, binding.editor.getFacadeText().toString())
+            viewModel.saveToCache(document, binding.editor.getFacadeText())
             viewModel.saveUndoStack(document, binding.editor.undoStack)
             viewModel.saveRedoStack(document, binding.editor.redoStack)
             viewModel.documentLoadingIndicator.set(true)
@@ -422,8 +422,8 @@ class MainActivity : BaseActivity(),
         val position = binding.tabDocumentLayout.selectedTabPosition
         if(position != -1) {
             viewModel.getDocument(position)?.let {
-                viewModel.saveFile(it, binding.editor.getFacadeText().toString())
-                viewModel.saveToCache(it, binding.editor.getFacadeText().toString())
+                viewModel.saveFile(it, binding.editor.getFacadeText())
+                viewModel.saveToCache(it, binding.editor.getFacadeText())
                 viewModel.saveUndoStack(it, binding.editor.undoStack)
                 viewModel.saveRedoStack(it, binding.editor.redoStack)
             }
@@ -576,7 +576,7 @@ class MainActivity : BaseActivity(),
         if(viewModel.isUltimate()) {
             val position = binding.tabDocumentLayout.selectedTabPosition
             if(position != -1) {
-                viewModel.analyze(viewModel.getDocument(position)!!.name, binding.editor.getFacadeText().toString())
+                viewModel.analyze(viewModel.getDocument(position)!!.name, binding.editor.getFacadeText())
             } else {
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }

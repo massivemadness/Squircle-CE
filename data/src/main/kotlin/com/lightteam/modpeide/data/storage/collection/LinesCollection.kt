@@ -40,6 +40,11 @@ class LinesCollection : Serializable, Iterable<Line> {
         }
     }
 
+    fun clear() {
+        lines.clear()
+        lines.add(Line(0))
+    }
+
     fun shiftIndexes(fromLine: Int, shiftBy: Int) {
         if (fromLine in 1..lineCount) {
             var i = fromLine

@@ -401,11 +401,21 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         //invalidate()
     }
 
-    fun getFacadeText(): Editable {
-        return facadeText
+    fun getFacadeText(): String {
+        return facadeText.toString()
     }
 
     fun setFacadeText(newText: String) {
+        newText.removeSuffix("\n")
+
+        disableUndoRedo()
+
+        setText(newText)
+        undoStack.clear()
+        redoStack.clear()
+        facadeText.clear()
+        replaceText(0, facadeText.length, newText)
+        lines.clear()
         var line = 0
         var lineStart = 0
         newText.lines().forEach {
@@ -413,15 +423,15 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             lineStart += it.length + 1
             line++
         }
-        newText.removeSuffix("\n")
-        disableUndoRedo()
-        setText(newText)
-        undoStack.clear()
-        redoStack.clear()
-        facadeText.clear()
-        replaceText(0, facadeText.length, newText)
+        lines.add(line, lineStart) //because the last \n was removed
+
         enableUndoRedo()
+
         syntaxHighlight()
+    }
+
+    fun clearText() {
+        setFacadeText("")
     }
 
     private fun enableUndoRedo() {
@@ -437,10 +447,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     // region METHODS
 
     fun hasPrimaryClip(): Boolean = clipboardManager.hasPrimaryClip()
-
-    fun clearText() {
-        setFacadeText("")
-    }
 
     fun insert(delta: CharSequence) {
         var selectionStart = Math.max(0, selectionStart)
@@ -601,10 +607,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         setSelection(lines.getIndexForLine(lineNumber))
     }
 
-    fun getArrayLineCount(): Int {
-        return lines.lineCount
-    }
-
     private fun selectedText(): Editable {
         return text.subSequence(selectionStart, selectionEnd) as Editable
     }
@@ -612,6 +614,10 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     // endregion METHODS
 
     // region LINE_NUMBERS
+
+    fun getArrayLineCount(): Int {
+        return lines.lineCount - 1
+    }
 
     private fun updateGutter() {
         var max = 3
