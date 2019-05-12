@@ -58,9 +58,9 @@
                     android:visibility="visible"
                     android:src="@drawable/ic_drawer"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_drawer"
-                    android:contentDescription="@string/description_icon" />
+                    android:contentDescription="@string/description_icon"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -70,7 +70,7 @@
                     android:visibility="gone"
                     android:src="@drawable/ic_save"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_save"
                     android:contentDescription="@string/description_icon"/>
 
@@ -82,7 +82,7 @@
                     android:visibility="visible"
                     android:src="@drawable/ic_folder"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_file"
                     android:contentDescription="@string/description_icon"/>
 
@@ -94,7 +94,7 @@
                     android:visibility="visible"
                     android:src="@drawable/ic_edit"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_edit"
                     android:contentDescription="@string/description_icon"/>
 
@@ -106,7 +106,7 @@
                     android:visibility="gone"
                     android:src="@drawable/ic_file_search"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_search"
                     android:contentDescription="@string/description_icon"/>
 
@@ -118,7 +118,7 @@
                     android:visibility="gone"
                     android:src="@drawable/ic_tools"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_tools"
                     android:contentDescription="@string/description_icon"/>
 
@@ -129,9 +129,10 @@
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_undo"
-                    android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:tint="@{viewModel.canUndo ? @android:color/white : @color/colorIcon}"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_undo"
+                    android:clickable="@{viewModel.canUndo}"
                     android:contentDescription="@string/description_icon"/>
 
                 <ImageView
@@ -141,9 +142,10 @@
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_redo"
-                    android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:tint="@{viewModel.canRedo ? @android:color/white : @color/colorIcon}"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_redo"
+                    android:clickable="@{viewModel.canRedo}"
                     android:contentDescription="@string/description_icon"/>
 
                 <ImageView
@@ -154,7 +156,7 @@
                     android:visibility="visible"
                     android:src="@drawable/ic_overflow"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple"
+                    android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_overflow"
                     android:contentDescription="@string/description_icon"/>
 

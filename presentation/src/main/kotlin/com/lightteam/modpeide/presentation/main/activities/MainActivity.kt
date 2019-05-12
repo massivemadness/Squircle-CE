@@ -83,7 +83,6 @@ class MainActivity : BaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.observePreferences()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
         toolbarManager.bind(binding)
@@ -214,12 +213,16 @@ class MainActivity : BaseActivity(),
         viewModel.documentLoadedEvent.observe(this, Observer { loadedDocument ->
             binding.editor.scrollX = loadedDocument.scrollX
             binding.editor.scrollY = loadedDocument.scrollY
-            binding.editor.setSelection(loadedDocument.selectionStart, loadedDocument.selectionEnd)
+            binding.editor.setSelection(
+                loadedDocument.selectionStart,
+                loadedDocument.selectionEnd
+            )
         })
         viewModel.documentStacksEvent.observe(this, Observer { pair ->
             binding.editor.undoStack = pair.first
             binding.editor.redoStack = pair.second
         })
+        viewModel.editorEvents(binding.editor)
         KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
             if(viewModel.extendedKeyboardEvent.value!!) {
                 binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
@@ -293,6 +296,7 @@ class MainActivity : BaseActivity(),
 
         // endregion PREFERENCES
 
+        viewModel.observePreferences()
         viewModel.loadAllFiles()
     }
 
@@ -610,21 +614,8 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    override fun onUndoButton() {
-        if(binding.editor.canUndo()) {
-            binding.editor.undo()
-        } else {
-            viewModel.toastEvent.value = R.string.message_nothing_to_undo
-        }
-    }
-
-    override fun onRedoButton() {
-        if(binding.editor.canRedo()) {
-            binding.editor.redo()
-        } else {
-            viewModel.toastEvent.value = R.string.message_nothing_to_redo
-        }
-    }
+    override fun onUndoButton() = binding.editor.undo()
+    override fun onRedoButton() = binding.editor.redo()
 
     override fun onSettingsButton() {
         launchActivity<SettingsActivity>()

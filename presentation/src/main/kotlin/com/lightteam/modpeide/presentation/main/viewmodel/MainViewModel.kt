@@ -21,6 +21,7 @@ import android.util.Log
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
+import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
@@ -73,7 +74,12 @@ class MainViewModel(
     val documentLoadingIndicator: ObservableBoolean = ObservableBoolean(true) //Индикатор загрузки документа
     val noDocumentsIndicator: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет документов
 
+    val canUndo: ObservableBoolean = ObservableBoolean(false) //Кликабельность кнопки Undo
+    val canRedo: ObservableBoolean = ObservableBoolean(false) //Кликабельность кнопки Redo
+
     // endregion UI
+
+    // region EVENTS
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
@@ -93,6 +99,8 @@ class MainViewModel(
     val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
     val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла
     val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода
+
+    // endregion EVENTS
 
     // region PREFERENCES
 
@@ -162,12 +170,18 @@ class MainViewModel(
                 }
             }
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { list ->
-                fileList = list
-                fileListEvent.value = list
-                filesLoadingIndicator.set(false)
-                noFilesIndicator.set(list.isEmpty())
-            }
+            .subscribeBy(
+                onSuccess = { list ->
+                    fileList = list
+                    fileListEvent.value = list
+                    filesLoadingIndicator.set(false)
+                    noFilesIndicator.set(list.isEmpty())
+                },
+                onError = {
+                    toastEvent.value = R.string.message_error
+                    Log.e(TAG, it.message, it)
+                }
+            )
             .disposeOnViewModelDestroy()
     }
 
@@ -292,8 +306,8 @@ class MainViewModel(
     fun setSortMode(mode: String) = preferenceHandler.setSortMode(mode)
 
     private fun onSearchQueryFilled(query: CharSequence): Boolean {
-        val newQuery = query.toString().toLowerCase()
         val collection: MutableList<FileModel> = mutableListOf()
+        val newQuery = query.toString().toLowerCase()
         if(newQuery.isEmpty()) {
             collection.addAll(fileList)
         } else {
@@ -311,6 +325,17 @@ class MainViewModel(
     // endregion EXPLORER
 
     // region EDITOR
+
+    fun editorEvents(editor: TextProcessor) {
+        editor
+            .afterTextChangeEvents()
+            .observeOn(schedulersProvider.mainThread())
+            .subscribeBy {
+                canUndo.set(editor.canUndo())
+                canRedo.set(editor.canRedo())
+            }
+            .disposeOnViewModelDestroy()
+    }
 
     fun analyze(sourceName: String, sourceCode: String) {
         ScriptEngine.analyze(sourceName, sourceCode)

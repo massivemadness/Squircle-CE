@@ -278,7 +278,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             gutterDividerPaint.isAntiAlias = false
             gutterDividerPaint.isDither = false
             gutterDividerPaint.style = Paint.Style.STROKE
-            gutterDividerPaint.strokeWidth = 3f
+            gutterDividerPaint.strokeWidth = 2.5f
 
             gutterCurrentLineNumberPaint.color = theme.gutterCurrentLineNumberColor
             gutterCurrentLineNumberPaint.isAntiAlias = true

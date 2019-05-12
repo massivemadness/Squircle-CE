@@ -16,7 +16,7 @@
   -->
 <!DOCTYPE resources [
     <!ENTITY app_version "2019.1.1">
-    <!ENTITY app_code "10020">
+    <!ENTITY app_code "10021">
 ]>
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
@@ -107,8 +107,6 @@
     <string name="message_nothing_to_cut">Nothing to cut</string>
     <string name="message_nothing_to_copy">Nothing to copy</string>
     <string name="message_nothing_to_paste">Nothing to paste</string>
-    <string name="message_nothing_to_undo">Nothing to undo</string>
-    <string name="message_nothing_to_redo">Nothing to redo</string>
     <string name="message_enter_the_text">Enter the text</string>
     <string name="message_line_above_than_0">Line must be above 0</string>
     <string name="message_line_not_exists">Line does not exists</string>
@@ -117,7 +115,7 @@
     <string name="menu_file_new">New</string>
     <string name="menu_file_open">Open</string>
     <string name="menu_file_save">Save</string>
-    <string name="menu_file_saveAs">Save As</string>
+    <!--<string name="menu_file_saveAs">Save As</string>-->
     <string name="menu_file_properties">Properties</string>
     <string name="menu_file_close">Close</string>
     <string name="menu_edit_cut">Cut</string>
@@ -168,7 +166,7 @@
     <string name="pref_category_code_style">Code Style</string>
     <string name="pref_category_file_explorer">File Explorer</string>
     <string name="pref_category_about">About</string>
-    <string name="pref_category_libraries">Third-party Libraries</string>
+    <string name="pref_category_contribute">Contribute</string>
 
     <string name="pref_color_scheme_title">Color Scheme</string>
     <string name="pref_color_scheme_summary">Configure the syntax highlighting color scheme.</string>
@@ -214,12 +212,6 @@
     <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
     <string name="pref_about_summary">Copyright 2019 Light Team Software\nAll right reserved\n\nVersion: &app_version; (&app_code;)</string>
     <string name="pref_privacy_policy_title">Privacy Policy</string>
-
-    <string name="pref_lib_rxjava2_title">RxJava 2</string>
-    <string name="pref_lib_dagger2_title">Dagger 2</string>
-    <string name="pref_lib_rxbinding_title">RxBinding</string>
-    <string name="pref_lib_rxpreferences_title">RxPreferences</string>
-    <string name="pref_lib_materialDialogs_title">Material Dialogs</string>
-    <string name="pref_lib_keyboardVE_title">KeyboardVisibilityEvent</string>
-    <string name="pref_lib_rhino_title">Rhino (JavaScript Engine)</string>
+    <string name="pref_contribute_title">Contribute to development</string>
+    <string name="pref_contribute_summary">You can create an issue on GitHub or translate the app to your native language.\n\nThank you!</string>
 </resources>

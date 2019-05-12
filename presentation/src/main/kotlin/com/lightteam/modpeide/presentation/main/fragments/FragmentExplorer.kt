@@ -75,10 +75,14 @@ class FragmentExplorer : DaggerFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
-        setupObservers()
 
         val parentActivity = activity as AppCompatActivity
         parentActivity.setSupportActionBar(binding.toolbar)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setupObservers()
     }
 
     override fun onRefresh() {

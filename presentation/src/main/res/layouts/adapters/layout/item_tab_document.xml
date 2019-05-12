@@ -44,7 +44,7 @@
         android:id="@+id/item_icon"
         android:tint="@android:color/white"
         android:src="@drawable/ic_close"
-        android:background="@drawable/ripple_small"
-        android:contentDescription="@string/description_icon"/>
+        android:background="@drawable/ripple_14dp"
+        android:contentDescription="@string/menu_file_close"/>
 
 </LinearLayout>

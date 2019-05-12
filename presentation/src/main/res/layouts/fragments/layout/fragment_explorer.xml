@@ -107,7 +107,7 @@
                     android:id="@+id/action_home"
                     android:src="@drawable/ic_home"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple_small"
+                    android:background="@drawable/ripple_16dp"
                     android:contentDescription="@string/description_icon"/>
 
                 <com.google.android.material.tabs.TabLayout

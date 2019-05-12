@@ -34,17 +34,6 @@ android {
         versionName globalConfig.versionName
         testInstrumentationRunner globalConfig.testRunner
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            debuggable false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled false
-            debuggable true
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

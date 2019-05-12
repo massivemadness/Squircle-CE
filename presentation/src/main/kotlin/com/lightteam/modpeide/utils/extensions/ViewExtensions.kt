@@ -24,22 +24,25 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.iterator
 
 // https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
+
 fun PopupMenu.makeRightPaddingRecursively() {
     if(menu is MenuBuilder) {
         val menuBuilder = menu as MenuBuilder
         menuBuilder.setOptionalIconsVisible(true)
         for(item in menuBuilder.visibleItems) {
-            makeRightPadding(item)
+            item.makeRightPadding()
             if(item.hasSubMenu()) {
                 for(subItem in item.subMenu.iterator()) {
-                    makeRightPadding(subItem)
+                    subItem.makeRightPadding()
                 }
             }
         }
     }
 }
 
-private fun makeRightPadding(item: MenuItem) {
-    val iconMarginPx = 8.toPx() // 8 dp to px
-    item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0)
+fun MenuItem.makeRightPadding() {
+    if(icon != null) {
+        val iconMargin = 8.toPx() // 8 dp to px
+        icon = InsetDrawable(icon, iconMargin, 0, iconMargin, 0)
+    }
 }

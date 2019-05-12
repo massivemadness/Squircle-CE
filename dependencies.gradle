@@ -23,7 +23,7 @@ ext {
             build_tools = '28.0.3'
     ]
     globalConfig = [
-            versionCode = 10020,
+            versionCode = 10021,
             versionName = '2019.1.1',
             standardVName = "$versionName Standard Edition",
             ultimateVName = "$versionName Ultimate Edition",

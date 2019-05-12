@@ -16,7 +16,6 @@
   ~ limitations under the License.
   -->
 
-<!-- Кастомный ripple-эффект для иконок в Toolbar -->
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="?android:colorControlHighlight"
-    android:radius="20dp"/>
+    android:radius="14dp"/>
