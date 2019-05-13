@@ -15,7 +15,198 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
+<!DOCTYPE resources [
+    <!ENTITY app_version "2019.1.2">
+    <!ENTITY app_code "10022">
+]>
 <resources>
-    <string name="action_get_it_for">Get it for 99,90 ₽</string>
+
+    <string name="description_icon">Иконка</string>
+
+    <string name="label_settings">Настройки</string>
+    <string name="label_local_storage">На устройстве</string>
+
+    <string name="hint_search">Поиск…</string>
+    <string name="hint_enter_file_name">Введите имя файла</string>
+    <string name="hint_find_what">Найти что?</string>
+    <string name="hint_replace_what">Заменить что?</string>
+    <string name="hint_replace_with">Заменить на:</string>
+    <string name="hint_line">Линия:</string>
+
+    <string name="action_grant_access">Выдать доступ</string>
+    <string name="action_yes">Да</string>
+    <string name="action_no">Нет</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_create">Создать</string>
+    <string name="action_close_others">Закрыть остальные</string>
+    <string name="action_close_all">Закрыть все</string>
+    <string name="action_copy_path">Копировать путь</string>
+    <string name="action_properties">Свойства</string>
+    <string name="action_folder">Папка</string>
+    <string name="action_rename">Переименовать</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_insert">Вставить</string>
+    <string name="action_match_case">Учитывать регистр</string>
+    <string name="action_reg_exp">Регулярные выражения</string>
+    <string name="action_word_only">Только слова</string>
+    <string name="action_find">Найти</string>
+    <string name="action_replace_all">Заменить все</string>
+    <string name="action_go_to">Перейти</string>
+    <string name="action_show_hidden_files">Скрытые файлы</string>
+    <string name="action_get_it_for">Купить за 99,90 ₽</string>
+    <string name="action_maybe_later">Может позже</string>
+    <string name="action_unlock_all_features">Получить все возможности</string>
+
+    <string name="dialog_title_choose_action">Выберите действие…</string>
+    <string name="dialog_title_create">Создать…</string>
+    <string name="dialog_title_rename">Переименовать…</string>
+    <string name="dialog_title_store">Получите Ultimate Edition</string>
+    <string name="dialog_title_changelog">Список изменений</string>
+    <string name="dialog_title_privacy_policy">Политика конфиденциальности</string>
+    <string name="dialog_title_exit">Выход</string>
+    <string name="dialog_title_properties">Свойства</string>
+    <string name="dialog_title_color_picker">Вставить цвет</string>
+    <string name="dialog_title_find">Найти…</string>
+    <string name="dialog_title_replace_all">Заменить все…</string>
+    <string name="dialog_title_goto_line">Перейти к строке…</string>
+    <string name="dialog_title_result">Результат:</string>
+
+    <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
+    <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл? Это действие нельзя отменить</string>
+
+    <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br></string>
+    <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br></string>
+    <string name="properties_modified">&lt;b>Изменён:&lt;/b> %s&lt;br></string>
+    <string name="properties_size">&lt;b>Размер:&lt;/b> %s&lt;br></string>
+    <string name="properties_line_count">&lt;b>Линий:&lt;/b> %s&lt;br></string>
+    <string name="properties_word_count">&lt;b>Слов:&lt;/b> %s&lt;br></string>
+    <string name="properties_char_count">&lt;b>Символов:&lt;/b> %s</string>
+    <string name="properties_readable">R</string>
+    <string name="properties_writable">W</string>
+    <string name="properties_executable">X</string>
+
+    <string name="sort_by_name">Сорт. по имени</string>
+    <string name="sort_by_size">Сорт. по размеру</string>
+    <string name="sort_by_date">Сорт. по дате</string>
+
+    <string name="message_access_denied">Доступ запрещён</string>
+    <string name="message_access_required">Проводнику нужны разрешения для правильной работы с файлами</string>
+    <string name="message_no_result">Нет результата</string>
+    <string name="message_no_open_files">Нет файлов</string>
+    <string name="message_tab_limit_achieved">Достигнут лимит вкладок</string>
+    <string name="message_cannot_be_opened">Файл невозможно открыть</string>
+    <string name="message_invalid_file_name">Неправильное имя файла</string>
+    <string name="message_error">Произошла ошибка</string>
+    <string name="message_done">Готово</string>
+    <string name="message_saved">Сохранено</string>
+    <string name="message_select_file">Выберите файл</string>
+    <string name="message_nothing_to_cut">Невозможно вырезать</string>
+    <string name="message_nothing_to_copy">Невозможно копировать</string>
+    <string name="message_nothing_to_paste">Невозможно вставить</string>
+    <string name="message_enter_the_text">Введите текст</string>
+    <string name="message_line_above_than_0">Линия должна быть больше 0</string>
+    <string name="message_line_not_exists">Такой линии не существует</string>
+    <string name="message_no_errors_detected">Синтактических ошибок не найдено</string>
+
+    <string name="menu_file_new">Новый файл</string>
+    <string name="menu_file_open">Открыть</string>
+    <string name="menu_file_save">Сохранить</string>
+    <string name="menu_file_properties">Свойства</string>
+    <string name="menu_file_close">Закрыть</string>
+    <string name="menu_edit_cut">Вырезать</string>
+    <string name="menu_edit_copy">Копировать</string>
+    <string name="menu_edit_paste">Вставить</string>
+    <string name="menu_edit_selectAll">Выделить всё</string>
+    <string name="menu_edit_selectLine">Выделить линию</string>
+    <string name="menu_edit_deleteLine">Удалить линию</string>
+    <string name="menu_edit_duplicateLine">Повторить линию</string>
+    <string name="menu_search_find">Найти</string>
+    <string name="menu_search_replace_all">Заменить все</string>
+    <string name="menu_search_gotoLine">Перейти к строке</string>
+    <string name="menu_tools_codeAnalysis">Анализ кода</string>
+    <string name="menu_tools_insertColor">Вставить цвет</string>
+    <string name="menu_overflow_settings">Настройки</string>
+    <string name="menu_overflow_search">Поиск</string>
+    <string name="menu_overflow_tools">Инструменты</string>
+
+    <string name="store_standard">Standard</string>
+    <string name="store_ultimate">Ultimate</string>
+    <string name="store_feature_1">Базовый функционал</string>
+    <string name="store_feature_2">Цветовые схемы</string>
+    <string name="store_feature_3">Новые шрифты</string>
+    <string name="store_feature_4">Увел. лимит вкладок</string>
+    <string name="store_feature_5">Авто-закрытие кавычек</string>
+    <string name="store_feature_6">Анализ кода</string>
+    <string name="store_feature_7">Вставка цвета</string>
+
+    <string name="pref_header_application_title">Приложение</string>
+    <string name="pref_header_application_summary">Настройте основной функционал.</string>
+    <string name="pref_header_editor_title">Редактор</string>
+    <string name="pref_header_editor_summary">Настройте поведение редактора.</string>
+    <string name="pref_header_codeStyle_title">Стиль кода</string>
+    <string name="pref_header_codeStyle_summary">Настройте стиль кода.</string>
+    <string name="pref_header_files_title">Файлы</string>
+    <string name="pref_header_files_summary">Настройте способ обработки файлов.</string>
+    <string name="pref_header_about_title">О программе</string>
+    <string name="pref_header_about_summary">Просмотр информации о программе.</string>
+
+    <string name="pref_category_look_and_feel">Внешний вид</string>
+    <string name="pref_category_other">Другое</string>
+    <string name="pref_category_font">Шрифт</string>
+    <string name="pref_category_tabs">Вкладки</string>
+    <string name="pref_category_editor">Редактор</string>
+    <string name="pref_category_keyboard">Клавиатура</string>
+    <string name="pref_category_code_style">Стиль кода</string>
+    <string name="pref_category_file_explorer">Проводник</string>
+    <string name="pref_category_about">О программе</string>
+    <string name="pref_category_contribute">Внести вклад</string>
+
+    <string name="pref_color_scheme_title">Цветовая схема</string>
+    <string name="pref_color_scheme_summary">Настройте цветовую схему подсветки синтаксиса.</string>
+    <string name="pref_fullscreen_title">Полноэкранный режим</string>
+    <string name="pref_fullscreen_summary">Открывать приложение в полноэкранном режиме.</string>
+    <string name="pref_confirm_exit_title">Подтверждать выход</string>
+    <string name="pref_confirm_exit_summary">При выходе из приложения потребуется подтверждение.</string>
+    <string name="pref_font_size_title">Размер шрифта</string>
+    <string name="pref_font_size_summary">Укажите размер шрифта по умолчанию.</string>
+    <string name="pref_font_type_title">Тип шрифта</string>
+    <string name="pref_resume_session_title">Возобновление сеанса</string>
+    <string name="pref_resume_session_summary">Восстанавливать открытые файлы при следующем запуске.</string>
+    <string name="pref_tab_limit_title">Лимит вкладок</string>
+    <string name="pref_tab_limit_summary">Кол-во максимально отображаемых вкладок на экране.</string>
+    <string name="pref_word_wrap_title">Перенос слов</string>
+    <string name="pref_word_wrap_summary">Включите перенос слов для отображения текста по ширине экрана.</string>
+    <string name="pref_code_completion_title">Автодополнение кода</string>
+    <string name="pref_code_completion_summary">Показывать варианты автодополнения.</string>
+    <string name="pref_pinch_zoom_title">Увеличение жестом</string>
+    <string name="pref_pinch_zoom_summary">Включить жест увеличения текста в редакторе.</string>
+    <string name="pref_highlight_line_title">Подсвечивать текущую линию</string>
+    <string name="pref_highlight_line_summary">Подсвечивать линию на которой находится курсор.</string>
+    <string name="pref_highlight_delimiters_title">Подсвечивать скобки</string>
+    <string name="pref_highlight_delimiters_summary">Подсвечивать открытые/закрытые скобки рядом с курсором.</string>
+    <string name="pref_extended_keyboard_title">Расширенная клавиатура</string>
+    <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
+    <string name="pref_soft_keyboard_title">Soft-клавиатура</string>
+    <string name="pref_soft_keyboard_summary">Использовать soft-клавиатуру в горизонтальном режиме.</string>
+    <string name="pref_ime_keyboard_title">IME Клавиатура</string>
+    <string name="pref_ime_keyboard_summary">Показывать клавиатурные подсказки во время ввода.</string>
+    <string name="pref_auto_indent_title">Авто-отступы</string>
+    <string name="pref_auto_indent_summary">Автоматически выравнивать новые строки, для соответствия строке выше.</string>
+    <string name="pref_close_brackets_title">Авто-закрытие скобок</string>
+    <string name="pref_close_brackets_summary">Автоматически закрывать открытые скобки во время ввода.</string>
+    <string name="pref_close_quotes_title">Авто-закрытие кавычек</string>
+    <string name="pref_close_quotes_summary">Автоматически закрывать открытые кавычки во время ввода.</string>
+    <string name="pref_showHiddenFiles_title">Показывать скрытые файлы</string>
+    <string name="pref_showHiddenFiles_summary">Скрытые файлы и папки (начинающиеся с точки) будут отображаться.</string>
+    <string name="pref_foldersOnTop_title">Папки сверху</string>
+    <string name="pref_foldersOnTop_summary">Папки будут отображаться сверху.</string>
+    <string name="pref_sortMode_title">Режим сортировки</string>
+    <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
+    <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
+    <string name="pref_about_summary">Copyright 2019 Light Team Software\nВсе права защищены\n\nВерсия: &app_version; (&app_code;)</string>
+    <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
+    <string name="pref_contribute_title">Внести вклад в разработку</string>
+    <string name="pref_contribute_summary">Вы можете создать Issue на GitHub или перевести приложение на свой родной язык.\n\nСпасибо!</string>
 </resources>

@@ -31,7 +31,7 @@
 
     <item
         android:id="@+id/action_show_hidden"
-        android:title="@string/pref_showHiddenFiles_title"
+        android:title="@string/action_show_hidden_files"
         android:checkable="true"
         app:showAsAction="never"/>
 

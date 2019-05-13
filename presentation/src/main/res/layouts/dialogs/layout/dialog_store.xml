@@ -41,8 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:stretchColumns="0"
-            android:shrinkColumns="1,2">
+            android:shrinkColumns="0">
 
             <TableRow
                 android:layout_width="match_parent"
