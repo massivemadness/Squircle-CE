@@ -15,31 +15,13 @@
  * limitations under the License.
  */
 
-apply from: 'dependencies.gradle'
+package com.lightteam.modpeide.data.patterns.completion
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31'
-    }
-}
+import com.lightteam.modpeide.domain.patterns.completion.CodeCompletion
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven {
-            url "https://jitpack.io"
-        }
-    }
-}
+class UnknownCompletion : CodeCompletion {
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    override fun getAll(): Array<String> {
+        return emptyArray()
+    }
 }

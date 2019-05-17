@@ -19,7 +19,7 @@ package com.lightteam.modpeide.data.parser.api;
 
 import org.mozilla.javascript.Scriptable;
 
-class Item {
+internal class Item {
     fun addCraftRecipe(id: Int, count: Int, data: Int, recipe: Scriptable) {}
     fun addFurnaceRecipe(inputId: Int, outputId: Int, outputDamage: Int) {}
     fun addShapedRecipe(id: Int, count: Int, data: Int, items: Scriptable, recipe: Scriptable) {}

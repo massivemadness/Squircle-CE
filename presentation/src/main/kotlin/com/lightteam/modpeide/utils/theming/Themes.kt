@@ -61,12 +61,12 @@ object Themes {
     }
 
     private class Monokai : AbstractTheme() {
-        override val textColor: Int = "#C8BBAC".toColorInt()
+        override val textColor: Int = "#F8F8F8".toColorInt()
         override val backgroundColor: Int = "#272823".toColorInt()
         override val gutterColor: Int = "#272823".toColorInt()
         override val gutterDividerColor: Int = "#5B5A4F".toColorInt()
-        override val gutterCurrentLineNumberColor: Int = "#FBFBFB".toColorInt()
-        override val gutterTextColor: Int = "#999999".toColorInt()
+        override val gutterCurrentLineNumberColor: Int = "#C8BBAC".toColorInt()
+        override val gutterTextColor: Int = "#5B5A4F".toColorInt()
         override val selectedLineColor: Int = "#34352D".toColorInt()
         override val selectionColor: Int = "#666666".toColorInt()
         override val filterableColor: Int = "#7CE0F3".toColorInt()

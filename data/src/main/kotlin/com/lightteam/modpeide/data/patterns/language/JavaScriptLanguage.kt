@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language
+package com.lightteam.modpeide.data.patterns.language
 
+import com.lightteam.modpeide.domain.patterns.language.Language
 import java.util.regex.Pattern
 
-class JavaScript : Language {
+class JavaScriptLanguage : Language {
 
     override fun getPatternOfNumbers(): Pattern {
         return Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)")

@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
-class Server {
+internal class Server {
     fun getAddress() {}
     fun getAllPlayerNames() {}
     fun getAllPlayers() {}

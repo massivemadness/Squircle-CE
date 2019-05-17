@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
-class Level {
+internal class Level {
     fun addParticle(type: Int, x: Double, y: Double, z: Double, velX: Double, velY: Double, velZ: Double, size: Int) {}
     fun biomeIdToName(biomeId: Int) {}
     fun canSeeSky(x: Int, y: Int, z: Int) {}

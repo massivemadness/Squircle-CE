@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
-class ItemCategory {
+internal class ItemCategory {
     val DECORATION: Int = -1
     val FOOD: Int = -1
     val INTERNAL: Int = -1

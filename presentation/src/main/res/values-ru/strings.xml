@@ -33,14 +33,14 @@
     <string name="hint_replace_with">Заменить на:</string>
     <string name="hint_line">Линия:</string>
 
-    <string name="action_grant_access">Выдать доступ</string>
+    <string name="action_grant_access">Предоставить</string>
     <string name="action_yes">Да</string>
     <string name="action_no">Нет</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Отмена</string>
     <string name="action_close">Закрыть</string>
     <string name="action_create">Создать</string>
-    <string name="action_close_others">Закрыть остальные</string>
+    <string name="action_close_others">Закрыть другие</string>
     <string name="action_close_all">Закрыть все</string>
     <string name="action_copy_path">Копировать путь</string>
     <string name="action_properties">Свойства</string>
@@ -92,7 +92,7 @@
     <string name="sort_by_date">Сорт. по дате</string>
 
     <string name="message_access_denied">Доступ запрещён</string>
-    <string name="message_access_required">Проводнику нужны разрешения для правильной работы с файлами</string>
+    <string name="message_access_required">Проводник требует разрешения для работы с файлами</string>
     <string name="message_no_result">Нет результата</string>
     <string name="message_no_open_files">Нет файлов</string>
     <string name="message_tab_limit_achieved">Достигнут лимит вкладок</string>
@@ -108,7 +108,7 @@
     <string name="message_enter_the_text">Введите текст</string>
     <string name="message_line_above_than_0">Линия должна быть больше 0</string>
     <string name="message_line_not_exists">Такой линии не существует</string>
-    <string name="message_no_errors_detected">Синтактических ошибок не найдено</string>
+    <string name="message_no_errors_detected">Синтакcических ошибок не найдено</string>
 
     <string name="menu_file_new">Новый файл</string>
     <string name="menu_file_open">Открыть</string>
@@ -190,7 +190,7 @@
     <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
     <string name="pref_soft_keyboard_title">Soft-клавиатура</string>
     <string name="pref_soft_keyboard_summary">Использовать soft-клавиатуру в горизонтальном режиме.</string>
-    <string name="pref_ime_keyboard_title">IME Клавиатура</string>
+    <string name="pref_ime_keyboard_title">IME-клавиатура</string>
     <string name="pref_ime_keyboard_summary">Показывать клавиатурные подсказки во время ввода.</string>
     <string name="pref_auto_indent_title">Авто-отступы</string>
     <string name="pref_auto_indent_summary">Автоматически выравнивать новые строки, для соответствия строке выше.</string>

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language
+package com.lightteam.modpeide.domain.patterns.language
 
 import java.util.regex.Pattern
 

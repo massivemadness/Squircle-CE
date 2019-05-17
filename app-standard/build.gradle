@@ -68,6 +68,9 @@ dependencies {
     //Kotlin
     implementation library.kotlin
 
+    //Core
+    implementation library.core
+
     //Presentation Module
     implementation project(":presentation")
 

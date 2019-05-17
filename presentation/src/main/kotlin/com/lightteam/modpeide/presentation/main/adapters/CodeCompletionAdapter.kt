@@ -29,13 +29,12 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.presentation.main.customview.internal.codecompletion.patterns.ModPE
 
 class CodeCompletionAdapter(context: Context, resourceId: Int) : ArrayAdapter<String>(context, resourceId) {
 
     var color: Int = Color.WHITE
 
-    private val dataSet: MutableList<String> = ModPE.getAll().toMutableList() // Полный список
+    var dataSet: MutableList<String> = mutableListOf() // Полный список
     private val dataSetFiltered: MutableList<String> = mutableListOf() // Отображаемый список
 
     private var filterableText = ""

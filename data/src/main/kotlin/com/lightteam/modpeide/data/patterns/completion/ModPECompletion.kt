@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.presentation.main.customview.internal.codecompletion.patterns
+package com.lightteam.modpeide.data.patterns.completion
 
-object ModPE {
+import com.lightteam.modpeide.domain.patterns.completion.CodeCompletion
 
-    private val BLOCK_KEYWORDS = arrayOf(
+class ModPECompletion : CodeCompletion {
+
+    private val block = arrayOf(
         "defineBlock",
         "defineLiquidBlock",
         "getAllBlockIds",
@@ -40,7 +42,7 @@ object ModPE {
         "setShape"
     )
 
-    private val ENTITY_KEYWORDS = arrayOf(
+    private val entity = arrayOf(
         "addEffect",
         "getAll",
         "getAnimalAge",
@@ -106,7 +108,7 @@ object ModPE {
         "spawnMob"
     )
 
-    private val ITEM_KEYWORDS = arrayOf(
+    private val item = arrayOf(
         "addCraftRecipe",
         "addFurnaceRecipe",
         "addShapedRecipe",
@@ -131,7 +133,7 @@ object ModPE {
         "translatedNameToId"
     )
 
-    private val LEVEL_KEYWORDS = arrayOf(
+    private val level = arrayOf(
         "addParticle",
         "biomeIdToName",
         "canSeeSky",
@@ -186,7 +188,7 @@ object ModPE {
         "spawnPigZombie"
     )
 
-    private val MODPE_KEYWORDS = arrayOf(
+    private val modpe = arrayOf(
         "dumpVtable",
         "getBytesFromTexturePack",
         "getI18n",
@@ -218,7 +220,7 @@ object ModPE {
         "takeScreenshot"
     )
 
-    private val PLAYER_KEYWORDS = arrayOf(
+    private val player = arrayOf(
         "addExp",
         "addItemCreativeInv",
         "addItemInventory",
@@ -274,7 +276,7 @@ object ModPE {
         "setSelectedSlotId"
     )
 
-    private val SERVER_KEYWORDS = arrayOf(
+    private val server = arrayOf(
         //"getAddress",
         "getAllPlayerNames()",
         "getAllPlayers()",
@@ -283,7 +285,7 @@ object ModPE {
         "sendChat"
     )
 
-    private val HOOKS_KEYWORDS = arrayOf(
+    private val hooks = arrayOf(
         "continueDestroyBlock",
         "customThrowableHitBlockHook",
         //"destroyBlock",
@@ -317,7 +319,7 @@ object ModPE {
         "useItem"
     )
 
-    private val GLOBAL_KEYWORDS = arrayOf(
+    private val global = arrayOf(
         "bl_setMobSkin",
         "bl_spawnMob",
         "preventDefault()",
@@ -329,22 +331,22 @@ object ModPE {
         "print"
     )
 
-    private val JS_KEYWORDS = arrayOf(
+    private val javascript = arrayOf(
         "function"
     )
 
-    fun getAll(): Array<String> {
+    override fun getAll(): Array<String> {
         return arrayOf(
-            *BLOCK_KEYWORDS,
-            *ENTITY_KEYWORDS,
-            *ITEM_KEYWORDS,
-            *LEVEL_KEYWORDS,
-            *MODPE_KEYWORDS,
-            *PLAYER_KEYWORDS,
-            *SERVER_KEYWORDS,
-            *HOOKS_KEYWORDS,
-            *GLOBAL_KEYWORDS,
-            *JS_KEYWORDS
+            *block,
+            *entity,
+            *item,
+            *level,
+            *modpe,
+            *player,
+            *server,
+            *hooks,
+            *global,
+            *javascript
         )
     }
 }

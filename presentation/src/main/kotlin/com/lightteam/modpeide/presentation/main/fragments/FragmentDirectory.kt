@@ -46,6 +46,7 @@ import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
 import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
+import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import java.io.File
@@ -97,7 +98,8 @@ class FragmentDirectory : DaggerFragment(), RecyclerSelection {
         viewModel.fileNotSupportedEvent.observe(viewLifecycleOwner, Observer { fileModel ->
             try { //Открытие файла через соответствующую программу
                 context?.let {
-                    val uri = FileProvider.getUriForFile(it, "${it.packageName}.provider", File(fileModel.path))
+                    val packageName = if(viewModel.isUltimate()) BaseApplication.ULTIMATE else BaseApplication.STANDARD
+                    val uri = FileProvider.getUriForFile(it, "$packageName.provider", File(fileModel.path))
                     val mime = it.contentResolver.getType(uri)
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.setDataAndType(uri, mime)

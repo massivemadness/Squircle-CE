@@ -34,15 +34,18 @@ import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.text.getSpans
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.patterns.completion.ModPECompletion
+import com.lightteam.modpeide.data.patterns.completion.UnknownCompletion
+import com.lightteam.modpeide.data.patterns.language.JavaScriptLanguage
 import com.lightteam.modpeide.presentation.main.adapters.CodeCompletionAdapter
 import com.lightteam.modpeide.presentation.main.customview.internal.codecompletion.SymbolsTokenizer
 import com.lightteam.modpeide.data.storage.collection.LinesCollection
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.StyleSpan
 import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.SyntaxHighlightSpan
-import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.JavaScript
-import com.lightteam.modpeide.presentation.main.customview.internal.syntaxhighlight.language.Language
+import com.lightteam.modpeide.domain.patterns.language.Language
 import com.lightteam.modpeide.presentation.main.customview.internal.textscroller.OnScrollChangedListener
 import com.lightteam.modpeide.data.storage.collection.UndoStack
+import com.lightteam.modpeide.domain.patterns.completion.CodeCompletion
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
 import com.lightteam.modpeide.utils.extensions.toPx
 import java.util.regex.Pattern
@@ -110,8 +113,11 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     var undoStack = UndoStack()
     var redoStack = UndoStack()
 
+    var language: Language = JavaScriptLanguage() //= UnknownLanguage()
+    var completion: CodeCompletion = UnknownCompletion()
+
     private val textScroller = Scroller(context)
-    private val adapter = CodeCompletionAdapter(context, R.layout.item_completion)
+    private val completionAdapter = CodeCompletionAdapter(context, R.layout.item_completion)
 
     private val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     private val scaledDensity = context.getScaledDensity()
@@ -173,8 +179,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
 
-    private val language: Language = JavaScript()
-
     private val numbersSpan = StyleSpan(color = theme.numbersColor)
     private val symbolsSpan = StyleSpan(color = theme.symbolsColor)
     private val bracketsSpan = StyleSpan(color = theme.bracketsColor)
@@ -220,6 +224,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     // region INIT
 
     init {
+        //language = JavaScriptLanguage()
+        completion = ModPECompletion()
+        completionAdapter.dataSet = completion.getAll().toMutableList()
         maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
         colorize()
     }
@@ -244,7 +251,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         setHorizontallyScrolling(!configuration.wordWrap)
 
         if(configuration.codeCompletion) {
-            setAdapter(adapter)
+            setAdapter(completionAdapter)
             setTokenizer(SymbolsTokenizer())
         } else {
             setTokenizer(null)
@@ -278,7 +285,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             gutterDividerPaint.isAntiAlias = false
             gutterDividerPaint.isDither = false
             gutterDividerPaint.style = Paint.Style.STROKE
-            gutterDividerPaint.strokeWidth = 2.5f
+            gutterDividerPaint.strokeWidth = 2.6f
 
             gutterCurrentLineNumberPaint.color = theme.gutterCurrentLineNumberColor
             gutterCurrentLineNumberPaint.isAntiAlias = true
@@ -298,7 +305,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             stringsSpan.color = theme.stringsColor
             commentsSpan.color = theme.commentsColor
 
-            adapter.color = theme.filterableColor
+            completionAdapter.color = theme.filterableColor
 
             openBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
             closedBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
