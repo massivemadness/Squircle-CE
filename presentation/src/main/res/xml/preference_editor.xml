@@ -34,10 +34,10 @@
 
         <ListPreference
             android:title="@string/pref_font_type_title"
-            android:key="FONT_TYPE_1"
+            android:key="FONT_TYPE_2"
             android:entries="@array/font_type_entries"
             android:entryValues="@array/font_type_values"
-            android:defaultValue="droid_sans_mono"
+            android:defaultValue="jetbrains_mono"
             app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
@@ -112,8 +112,8 @@
         <SwitchPreference
             android:title="@string/pref_ime_keyboard_title"
             android:summary="@string/pref_ime_keyboard_summary"
-            android:defaultValue="false"
-            android:key="USE_IME_KEYBOARD"/>
+            android:defaultValue="true"
+            android:key="USE_IME_KEYBOARD_1"/>
 
     </PreferenceCategory>
 

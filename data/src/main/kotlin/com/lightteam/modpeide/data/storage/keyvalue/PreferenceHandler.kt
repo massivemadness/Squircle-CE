@@ -32,7 +32,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
         //Font
         const val KEY_FONT_SIZE = "FONT_SIZE_2"
-        const val KEY_FONT_TYPE = "FONT_TYPE_1"
+        const val KEY_FONT_TYPE = "FONT_TYPE_2"
 
         //Tabs
         const val KEY_RESUME_SESSION = "RESUME_SESSION"
@@ -48,7 +48,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         //Keyboard
         const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYBOARD"
         const val KEY_USE_SOFT_KEYBOARD = "USE_SOFT_KEYBOARD"
-        const val KEY_USE_IME_KEYBOARD = "USE_IME_KEYBOARD"
+        const val KEY_USE_IME_KEYBOARD = "USE_IME_KEYBOARD_1"
 
         //Code Style
         const val KEY_AUTO_INDENTATION = "AUTO_INDENTATION"
@@ -67,7 +67,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getConfirmExit(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
 
     fun getFontSize(): Preference<Int> = rxSharedPreferences.getInteger(KEY_FONT_SIZE, 14)
-    fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, "droid_sans_mono")
+    fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, "jetbrains_mono")
 
     fun getResumeSession(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
     fun getTabLimit(): Preference<Int> = rxSharedPreferences.getInteger(KEY_TAB_LIMIT, 5)
@@ -80,7 +80,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     fun getExtendedKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
     fun getSoftKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
-    fun getImeKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_IME_KEYBOARD, false)
+    fun getImeKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_IME_KEYBOARD, true)
 
     fun getAutoIndentation(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)
     fun getAutoCloseBrackets(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTOCLOSE_BRACKETS, true)

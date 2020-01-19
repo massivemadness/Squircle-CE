@@ -17,7 +17,6 @@
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -69,7 +68,7 @@ dependencies {
     implementation library.kotlin
 
     //Core
-    implementation library.core
+    implementation library.core_ktx
 
     //Presentation Module
     implementation project(":presentation")

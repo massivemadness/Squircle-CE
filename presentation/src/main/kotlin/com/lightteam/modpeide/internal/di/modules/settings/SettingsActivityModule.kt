@@ -21,9 +21,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
-import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
-import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel
-import com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModelFactory
+import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
+import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModelFactory
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import dagger.Module
 import dagger.Provides

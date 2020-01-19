@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <!DOCTYPE resources [
-    <!ENTITY app_version "2019.1.2">
-    <!ENTITY app_code "10022">
+    <!ENTITY app_version "2020.1.0">
+    <!ENTITY app_code "10023">
 ]>
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
@@ -210,7 +210,7 @@
     <string name="pref_sortMode_title">Sort Mode</string>
     <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
     <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
-    <string name="pref_about_summary">Copyright 2019 Light Team Software\nAll right reserved\n\nVersion: &app_version; (&app_code;)</string>
+    <string name="pref_about_summary">Copyright 2020 Light Team Software\nAll right reserved\n\nVersion: &app_version; (&app_code;)</string>
     <string name="pref_privacy_policy_title">Privacy Policy</string>
     <string name="pref_contribute_title">Contribute to development</string>
     <string name="pref_contribute_summary">You can create an issue on GitHub or translate the app to your native language.\n\nThank you!</string>

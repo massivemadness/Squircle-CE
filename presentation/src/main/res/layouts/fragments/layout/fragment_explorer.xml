@@ -21,7 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel"/>
+        <import type="com.lightteam.modpeide.ui.main.viewmodel.MainViewModel"/>
         <import type="android.view.View"/>
 
         <variable name="viewModel" type="MainViewModel"/>
@@ -33,7 +33,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:background="@color/colorBackground"
-        tools:context=".presentation.main.activities.MainActivity">
+        tools:context=".ui.main.activities.MainActivity">
 
         <!-- region PERMISSIONS -->
 
@@ -139,11 +139,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <fragment
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:tag="fragment_directory"
-                    android:name="com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory"/>
+                    android:id="@+id/container_directories"/>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:layout_width="wrap_content"

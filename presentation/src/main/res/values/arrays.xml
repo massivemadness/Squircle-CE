@@ -50,7 +50,9 @@
     <string-array name="font_type_entries">
         <item>Roboto</item>
         <item>Roboto Light</item>
+        <item>Fira Code</item>
         <item>Source Code Pro</item>
+        <item>JetBrains Mono</item>
         <item>Droid Sans Mono</item>
         <item>DejaVu Sans Mono</item>
         <item>Anonymous Pro</item>
@@ -58,7 +60,9 @@
     <string-array name="font_type_values">
         <item>roboto</item>
         <item>roboto_light</item>
+        <item>fira_code</item>
         <item>source_code_pro</item>
+        <item>jetbrains_mono</item>
         <item>droid_sans_mono</item>
         <item>dejavu_sans_mono</item>
         <item>anonymous_pro</item>

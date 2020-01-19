@@ -18,9 +18,9 @@
 package com.lightteam.modpeide.internal.di.modules.main.fragments
 
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.main.adapters.FileAdapter
-import com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection
-import com.lightteam.modpeide.presentation.main.fragments.FragmentDirectory
+import com.lightteam.modpeide.ui.main.adapters.FileAdapter
+import com.lightteam.modpeide.ui.main.adapters.interfaces.RecyclerSelection
+import com.lightteam.modpeide.ui.main.fragments.FragmentDirectory
 import dagger.Module
 import dagger.Provides
 

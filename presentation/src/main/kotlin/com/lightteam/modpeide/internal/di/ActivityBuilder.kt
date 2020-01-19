@@ -21,9 +21,9 @@ import com.lightteam.modpeide.internal.di.modules.main.MainActivityModule
 import com.lightteam.modpeide.internal.di.modules.main.MainFragmentsProvider
 import com.lightteam.modpeide.internal.di.modules.settings.SettingsActivityModule
 import com.lightteam.modpeide.internal.di.modules.settings.SettingsFragmentsProvider
-import com.lightteam.modpeide.presentation.main.activities.MainActivity
+import com.lightteam.modpeide.ui.main.activities.MainActivity
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
-import com.lightteam.modpeide.presentation.settings.activities.SettingsActivity
+import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

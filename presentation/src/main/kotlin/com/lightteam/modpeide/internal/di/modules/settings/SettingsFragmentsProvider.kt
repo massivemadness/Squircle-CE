@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.internal.di.modules.settings
 
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.presentation.settings.fragments.FragmentPreferences
+import com.lightteam.modpeide.ui.settings.fragments.FragmentPreferences
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

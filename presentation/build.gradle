@@ -17,7 +17,6 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -61,6 +60,7 @@ dependencies {
     //Kotlin
     implementation library.kotlin
     implementation library.core_ktx
+    implementation library.fragment_ktx
 
     //Support & Design
     implementation library.appcompat

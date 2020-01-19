@@ -16,8 +16,8 @@
   ~ limitations under the License.
   -->
 <!DOCTYPE resources [
-    <!ENTITY app_version "2019.1.2">
-    <!ENTITY app_code "10022">
+    <!ENTITY app_version "2020.1.0">
+    <!ENTITY app_code "10023">
 ]>
 <resources>
 

@@ -19,7 +19,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="com.lightteam.modpeide.presentation.settings.viewmodel.SettingsViewModel"/>
+        <import type="com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel"/>
         <import type="android.view.View"/>
 
         <variable name="viewModel" type="SettingsViewModel"/>
@@ -47,7 +47,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:tag="fragment_preferences"
-            android:name="com.lightteam.modpeide.presentation.settings.fragments.FragmentPreferences"/>
+            android:name="com.lightteam.modpeide.ui.settings.fragments.FragmentPreferences"/>
 
         <FrameLayout
             android:layout_width="match_parent"

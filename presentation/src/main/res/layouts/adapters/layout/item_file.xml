@@ -20,7 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lightteam.modpeide.presentation.main.adapters.interfaces.RecyclerSelection"/>
+        <import type="com.lightteam.modpeide.ui.main.adapters.interfaces.RecyclerSelection"/>
         <import type="com.lightteam.modpeide.domain.model.FileModel"/>
 
         <variable name="fileModel" type="FileModel"/>

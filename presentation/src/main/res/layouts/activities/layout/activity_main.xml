@@ -21,7 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel"/>
+        <import type="com.lightteam.modpeide.ui.main.viewmodel.MainViewModel"/>
         <import type="android.view.View"/>
 
         <variable name="viewModel" type="MainViewModel"/>
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/drawer_layout"
-        tools:context=".presentation.main.activities.MainActivity"
+        tools:context=".ui.main.activities.MainActivity"
         tools:ignore="RtlHardcoded">
 
         <LinearLayout
@@ -209,7 +209,7 @@
                     android:visibility="@{viewModel.documentLoadingIndicator ? View.VISIBLE : View.GONE}"
                     android:indeterminate="true"/>
 
-                <com.lightteam.modpeide.presentation.main.customview.TextProcessor
+                <com.lightteam.modpeide.ui.main.customview.TextProcessor
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="top|left"
@@ -220,7 +220,7 @@
                     android:popupBackground="@color/colorPrimary"
                     android:id="@+id/editor"/>
 
-                <com.lightteam.modpeide.presentation.main.customview.TextScroller
+                <com.lightteam.modpeide.ui.main.customview.TextScroller
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
@@ -230,7 +230,7 @@
 
             </FrameLayout>
 
-            <com.lightteam.modpeide.presentation.main.customview.ExtendedKeyboard
+            <com.lightteam.modpeide.ui.main.customview.ExtendedKeyboard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -249,7 +249,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="left"
             android:id="@+id/fragment_explorer"
-            android:name="com.lightteam.modpeide.presentation.main.fragments.FragmentExplorer"
+            android:name="com.lightteam.modpeide.ui.main.fragments.FragmentExplorer"
             tools:layout="@layout/fragment_explorer"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>

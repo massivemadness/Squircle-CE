@@ -27,11 +27,12 @@ import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
-import com.lightteam.modpeide.presentation.main.activities.MainActivity
-import com.lightteam.modpeide.presentation.main.activities.utils.ToolbarManager
-import com.lightteam.modpeide.presentation.main.adapters.DocumentAdapter
-import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModel
-import com.lightteam.modpeide.presentation.main.viewmodel.MainViewModelFactory
+import com.lightteam.modpeide.ui.main.activities.MainActivity
+import com.lightteam.modpeide.ui.main.activities.utils.ToolbarManager
+import com.lightteam.modpeide.ui.main.adapters.BreadcrumbAdapter
+import com.lightteam.modpeide.ui.main.adapters.DocumentAdapter
+import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
+import com.lightteam.modpeide.ui.main.viewmodel.MainViewModelFactory
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import dagger.Module
 import dagger.Provides
@@ -61,9 +62,10 @@ class MainActivityModule {
                                     schedulersProvider: SchedulersProvider,
                                     preferenceHandler: PreferenceHandler,
                                     cacheHandler: CacheHandler,
+                                    breadcrumbAdapter: BreadcrumbAdapter,
                                     documentAdapter: DocumentAdapter,
                                     versionChecker: VersionChecker): MainViewModelFactory
-            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, documentAdapter, versionChecker)
+            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, breadcrumbAdapter, documentAdapter, versionChecker)
 
     @Provides
     @PerActivity
@@ -79,4 +81,9 @@ class MainActivityModule {
     @PerActivity
     fun provideDocumentAdapter(): DocumentAdapter
             = DocumentAdapter()
+
+    @Provides
+    @PerActivity
+    fun provideBreadcrumbAdapter(): BreadcrumbAdapter
+            = BreadcrumbAdapter()
 }
