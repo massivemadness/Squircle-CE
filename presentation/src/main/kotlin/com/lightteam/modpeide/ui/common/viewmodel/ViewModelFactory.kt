@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.main.viewmodel
+package com.lightteam.modpeide.ui.common.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -26,9 +26,12 @@ import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.main.adapters.BreadcrumbAdapter
 import com.lightteam.modpeide.ui.main.adapters.DocumentAdapter
+import com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel
+import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
+import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.commons.VersionChecker
 
-class MainViewModelFactory(
+class ViewModelFactory(
     private val fileRepository: FileRepository,
     private val database: AppDatabase,
     private val schedulersProvider: SchedulersProvider,
@@ -44,13 +47,27 @@ class MainViewModelFactory(
         return when {
             modelClass === MainViewModel::class.java ->
                 MainViewModel(
+                    schedulersProvider,
                     fileRepository,
                     database,
-                    schedulersProvider,
                     preferenceHandler,
                     cacheHandler,
+                    documentAdapter,
+                    versionChecker
+                ) as T
+            modelClass === ExplorerViewModel::class.java ->
+                ExplorerViewModel(
+                    schedulersProvider,
+                    fileRepository,
+                    preferenceHandler,
                     breadcrumbAdapter,
                     documentAdapter,
+                    versionChecker
+                ) as T
+            modelClass === SettingsViewModel::class.java ->
+                SettingsViewModel(
+                    schedulersProvider,
+                    preferenceHandler,
                     versionChecker
                 ) as T
             else -> null as T

@@ -23,8 +23,6 @@
 
     <string name="app_name" translatable="false">ModPE IDE</string>
 
-    <string name="description_icon">Icon</string>
-
     <string name="label_settings">Settings</string>
     <string name="label_local_storage">Local Storage</string>
 
@@ -195,8 +193,6 @@
     <string name="pref_extended_keyboard_summary">Show additional keys above the keyboard.</string>
     <string name="pref_soft_keyboard_title">Soft Keyboard</string>
     <string name="pref_soft_keyboard_summary">Always use soft keyboard.</string>
-    <string name="pref_ime_keyboard_title">IME Keyboard</string>
-    <string name="pref_ime_keyboard_summary">Allows your keyboard to show hints when typing.</string>
     <string name="pref_auto_indent_title">Auto Indentation</string>
     <string name="pref_auto_indent_summary">Automatically indent new lines to match the line above.</string>
     <string name="pref_close_brackets_title">Auto-close Brackets</string>

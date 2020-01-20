@@ -20,10 +20,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.lightteam.modpeide.ui.main.viewmodel.MainViewModel"/>
+        <import type="com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel"/>
         <import type="android.view.View"/>
 
-        <variable name="viewModel" type="MainViewModel"/>
+        <variable name="viewModel" type="ExplorerViewModel"/>
     </data>
 
     <FrameLayout
@@ -51,8 +51,7 @@
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_file_search"
             android:tint="@color/colorIcon"
-            android:visibility="@{viewModel.noFilesIndicator ? View.VISIBLE : View.GONE}"
-            android:contentDescription="@string/description_icon"/>
+            android:visibility="@{viewModel.noFilesIndicator ? View.VISIBLE : View.GONE}"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -99,16 +99,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
             </TableRow>
 
@@ -131,16 +129,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_close"
-                    android:tint="@color/colorRed"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorRed"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
             </TableRow>
 
@@ -163,16 +159,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_close"
-                    android:tint="@color/colorRed"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorRed"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
             </TableRow>
 
@@ -195,16 +189,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_close"
-                    android:tint="@color/colorRed"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorRed"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
             </TableRow>
 
@@ -227,16 +219,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_close"
-                    android:tint="@color/colorRed"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorRed"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
             </TableRow>
 
@@ -259,16 +249,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_close"
-                    android:tint="@color/colorRed"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorRed"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
             </TableRow>
 
@@ -291,16 +279,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_close"
-                    android:tint="@color/colorRed"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorRed"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
             </TableRow>
 
@@ -323,16 +309,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_close"
-                    android:tint="@color/colorRed"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorRed"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:src="@drawable/ic_check"
-                    android:tint="@color/colorGreen"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorGreen"/>
 
             </TableRow>-->
 
@@ -401,8 +385,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            android:src="@drawable/google_play_logo"
-            android:contentDescription="@string/description_icon"/>
+            android:src="@drawable/google_play_logo"/>
 
     </LinearLayout>
 

@@ -29,6 +29,7 @@ class FragmentDirectoryModule {
 
     @Provides
     @PerFragment
-    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter
-            = FileAdapter(fragmentDirectory as RecyclerSelection)
+    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter {
+        return FileAdapter(fragmentDirectory as RecyclerSelection)
+    }
 }

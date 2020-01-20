@@ -37,8 +37,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_copy"
-            android:tint="@color/colorIcon"
-            android:contentDescription="@string/description_icon"/>
+            android:tint="@color/colorIcon"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -66,8 +65,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_file_properties"
-            android:tint="@color/colorIcon"
-            android:contentDescription="@string/description_icon"/>
+            android:tint="@color/colorIcon"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -95,8 +93,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_edit"
-            android:tint="@color/colorIcon"
-            android:contentDescription="@string/description_icon"/>
+            android:tint="@color/colorIcon"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -124,8 +121,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_delete"
-            android:tint="@color/colorWarning"
-            android:contentDescription="@string/description_icon"/>
+            android:tint="@color/colorWarning"/>
 
         <TextView
             android:layout_width="match_parent"

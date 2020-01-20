@@ -15,40 +15,43 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.base.activities
+package com.lightteam.modpeide.ui.base.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
-import com.lightteam.modpeide.R
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseActivity : DaggerAppCompatActivity() {
+abstract class BaseFragment : DaggerFragment() {
 
-    private val compositeDisposable by lazy { CompositeDisposable() }
+    private val viewCompositeDisposable by lazy { CompositeDisposable() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        window.setBackgroundDrawableResource(R.color.colorBackground)
+    abstract fun layoutId(): Int
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(layoutId(), container, false)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewCompositeDisposable.clear()
     }
 
     protected fun showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
         if(textRes != -1) {
-            Toast.makeText(this, textRes, duration).show()
+            Toast.makeText(context, textRes, duration).show()
         } else {
-            Toast.makeText(this, text, duration).show()
+            Toast.makeText(context, text, duration).show()
         }
     }
 
-    protected fun Disposable.disposeOnActivityDestroy(): Disposable {
-        compositeDisposable.add(this)
+    protected fun Disposable.disposeOnFragmentDestroyView(): Disposable {
+        viewCompositeDisposable.add(this)
         return this
     }
 }

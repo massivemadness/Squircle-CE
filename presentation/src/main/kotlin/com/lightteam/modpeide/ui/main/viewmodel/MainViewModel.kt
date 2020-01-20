@@ -18,10 +18,7 @@
 package com.lightteam.modpeide.ui.main.viewmodel
 
 import android.util.Log
-import androidx.appcompat.widget.SearchView
 import androidx.databinding.ObservableBoolean
-import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
-import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
@@ -30,8 +27,6 @@ import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.data.utils.commons.FileSorter
-import com.lightteam.modpeide.data.utils.extensions.endsWith
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.model.AnalysisModel
 import com.lightteam.modpeide.domain.model.DocumentModel
@@ -40,25 +35,21 @@ import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.ui.main.adapters.BreadcrumbAdapter
 import com.lightteam.modpeide.ui.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.main.customview.TextProcessor
-import com.lightteam.modpeide.utils.theming.ThemeFactory
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import com.lightteam.modpeide.utils.theming.ThemeFactory
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.subscribeBy
-import java.io.File
-import java.util.concurrent.TimeUnit
 
 class MainViewModel(
+    private val schedulersProvider: SchedulersProvider,
     private val fileRepository: FileRepository,
     private val database: AppDatabase,
-    private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val cacheHandler: CacheHandler,
-    private val breadcrumbAdapter: BreadcrumbAdapter,
     private val documentAdapter: DocumentAdapter,
     private val versionChecker: VersionChecker
 ) : BaseViewModel() {
@@ -69,10 +60,6 @@ class MainViewModel(
 
     // region UI
 
-    val hasPermission: ObservableBoolean = ObservableBoolean(false) //Отображение интерфейса с разрешениями
-
-    val filesLoadingIndicator: ObservableBoolean = ObservableBoolean(true) //Индикатор загрузки файлов
-    val noFilesIndicator: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет файлов
     val documentLoadingIndicator: ObservableBoolean = ObservableBoolean(true) //Индикатор загрузки документа
     val noDocumentsIndicator: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет документов
 
@@ -84,14 +71,6 @@ class MainViewModel(
     // region EVENTS
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
-    val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
-
-    val fileListEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Добавление файлов в проводник
-    val fileUpdateListEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Обновление текущей директории
-    val fileTabsAddEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки в проводник
-    val fileTabsRemoveEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Удаление вкладки из проводника
-    val fileTabsSelectEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выбор вкладки в проводнике
-    val fileNotSupportedEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Неподдерживаемый файл
 
     val documentAllTabsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Загрузка всех кешированных документов
     val documentTabEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Добавление документа во вкладки
@@ -99,8 +78,6 @@ class MainViewModel(
     val documentLoadedEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Для загрузки скроллинга/выделения
     val documentStacksEvent: SingleLiveEvent<Pair<UndoStack, UndoStack>> = SingleLiveEvent() //Для загрузки Undo/Redo
 
-    val deleteFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Удаление файла
-    val renameFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Переименование файла
     val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла
     val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода
 
@@ -126,7 +103,6 @@ class MainViewModel(
 
     val extendedKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать доп. символы
     val softKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Упрощенная клавиатура (landscape orientation)
-    val imeKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать подсказки/ошибки при вводе
 
     val autoIndentationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отступы при переходе на новую строку
     val autoCloseBracketsEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автоматическое закрытие скобок
@@ -134,119 +110,7 @@ class MainViewModel(
 
     // endregion PREFERENCES
 
-    var sortMode: Int = FileSorter.SORT_BY_NAME
-    var showHidden: Boolean = true
-
-    private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
-    private var foldersOnTop: Boolean = true
-
-    private val openableExtensions = arrayOf( //Открываемые расширения файлов
-        ".txt", ".js", ".json", ".java", ".md", ".lua"
-    )
-
-    private var fileList: List<FileModel> = emptyList()
-
     // region FILE_REPOSITORY
-
-    fun addToStack(currPos: Int, fileModel: FileModel) {
-        val nextPos = currPos + 1
-        val pathPos = breadcrumbAdapter.indexOf(fileModel)
-
-        when {
-            currPos == -1 -> {
-                breadcrumbAdapter.add(fileModel)
-            }
-            pathPos == nextPos -> {
-                fileTabsSelectEvent.value = nextPos
-            }
-            pathPos == -1 -> {
-                for (pos in breadcrumbAdapter.count() downTo nextPos) {
-                    breadcrumbAdapter.removeAt(pos)
-                    fileTabsRemoveEvent.value = pos
-                }
-                breadcrumbAdapter.add(fileModel)
-            }
-        }
-    }
-
-    fun defaultLocation(): FileModel
-            = fileRepository.defaultLocation()
-
-    fun provideDirectory(position: Int) {
-        val path = breadcrumbAdapter.get(position)
-        filesLoadingIndicator.set(true)
-        fileRepository.provideDirectory(path)
-            .map { files ->
-                val newList = mutableListOf<FileModel>()
-                files.forEach { file ->
-                    if(file.isHidden) {
-                        if(showHidden) {
-                            newList.add(file)
-                        }
-                    } else {
-                        newList.add(file)
-                    }
-                }
-                newList.toList()
-            }
-            .map { it.sortedWith(fileSorter) }
-            .map {
-                it.sortedBy { file ->
-                    !file.isFolder == foldersOnTop
-                }
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = { list ->
-                    fileList = list
-                    fileListEvent.value = list
-                    filesLoadingIndicator.set(false)
-                    noFilesIndicator.set(list.isEmpty())
-                },
-                onError = {
-                    toastEvent.value = R.string.message_error
-                    Log.e(TAG, it.message, it)
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun createFile(parent: FileModel, child: FileModel) {
-        fileRepository.createFile(child)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { file ->
-                if(file.isFolder) {
-                    fileTabsAddEvent.value = file
-                } else {
-                    //provideDirectory(parent) //update the list
-                    documentTabEvent.value = DocumentConverter.toModel(file)
-                }
-                toastEvent.value = R.string.message_done
-            }
-            .disposeOnViewModelDestroy()
-    }
-
-    fun renameFile(renamedFile: FileModel, newName: String) {
-        fileRepository.renameFile(renamedFile, newName)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { parent ->
-                renameFileEvent.value = renamedFile
-                //provideDirectory(parent) //update the list
-                toastEvent.value = R.string.message_done
-            }
-            .disposeOnViewModelDestroy()
-    }
-
-    fun deleteFile(deletedFile: FileModel) {
-        fileRepository.deleteFile(deletedFile)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { parent ->
-                deleteFileEvent.value = deletedFile
-                //provideDirectory(parent) //update the list
-                toastEvent.value = R.string.message_done
-            }
-            .disposeOnViewModelDestroy()
-    }
 
     fun propertiesOf(documentModel: DocumentModel) = propertiesOf(FileConverter.toModel(documentModel))
     fun propertiesOf(fileModel: FileModel) {
@@ -312,56 +176,7 @@ class MainViewModel(
 
     // endregion FILE_REPOSITORY
 
-    // region EXPLORER
-
-    fun searchEvents(searchView: SearchView) {
-        searchView
-            .queryTextChangeEvents()
-            .skipInitialValue()
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .filter { it.queryText.isEmpty() || it.queryText.length >= 2 }
-            .distinctUntilChanged()
-            .observeOn(schedulersProvider.mainThread())
-            .subscribeBy {
-                onSearchQueryFilled(it.queryText)
-            }
-            .disposeOnViewModelDestroy()
-    }
-
-    fun setFilterHidden(filter: Boolean) = preferenceHandler.setFilterHidden(filter)
-    fun setSortMode(mode: String) = preferenceHandler.setSortMode(mode)
-
-    private fun onSearchQueryFilled(query: CharSequence): Boolean {
-        val collection: MutableList<FileModel> = mutableListOf()
-        val newQuery = query.toString().toLowerCase()
-        if(newQuery.isEmpty()) {
-            collection.addAll(fileList)
-        } else {
-            for(row in fileList) {
-                if(row.name.toLowerCase().contains(newQuery)) {
-                    collection.add(row)
-                }
-            }
-        }
-        noFilesIndicator.set(collection.isEmpty())
-        fileListEvent.value = collection
-        return true
-    }
-
-    // endregion EXPLORER
-
     // region EDITOR
-
-    fun editorEvents(editor: TextProcessor) {
-        editor
-            .afterTextChangeEvents()
-            .observeOn(schedulersProvider.mainThread())
-            .subscribeBy {
-                canUndo.set(editor.canUndo())
-                canRedo.set(editor.canRedo())
-            }
-            .disposeOnViewModelDestroy()
-    }
 
     fun analyze(sourceName: String, sourceCode: String) {
         ScriptEngine.analyze(sourceName, sourceCode)
@@ -444,19 +259,6 @@ class MainViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun openDocument(file: File) = openDocument(FileConverter.toModel(file))
-    fun openDocument(fileModel: FileModel) {
-        if(fileModel.name.endsWith(openableExtensions)) {
-            if(documentAdapter.size() < tabLimitEvent.value!!) {
-                documentTabEvent.value = DocumentConverter.toModel(fileModel)
-            } else {
-                toastEvent.value = R.string.message_tab_limit_achieved
-            }
-        } else {
-            fileNotSupportedEvent.value = fileModel
-        }
-    }
-
     fun getDocument(position: Int): DocumentModel? = documentAdapter.get(position)
 
     fun addDocument(documentModel: DocumentModel): Int {
@@ -494,7 +296,7 @@ class MainViewModel(
                 database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
             }
             .schedulersIoToMain(schedulersProvider)
-            .subscribe()
+            .subscribeBy()
             .disposeOnViewModelDestroy()
     }
 
@@ -504,7 +306,7 @@ class MainViewModel(
                 database.documentDao().delete(DocumentConverter.toCache(documentModel)) // Delete from Database
             }
             .schedulersIoToMain(schedulersProvider)
-            .subscribe()
+            .subscribeBy()
             .disposeOnViewModelDestroy()
     }
 
@@ -615,13 +417,6 @@ class MainViewModel(
             .subscribeBy { softKeyboardEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //IME Keyboard
-        preferenceHandler.getImeKeyboard()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { imeKeyboardEvent.value = it }
-            .disposeOnViewModelDestroy()
-
         //Auto Indentation
         preferenceHandler.getAutoIndentation()
             .asObservable()
@@ -641,44 +436,6 @@ class MainViewModel(
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { autoCloseQuotesEvent.value = it }
-            .disposeOnViewModelDestroy()
-
-        //Filter Hidden Files
-        preferenceHandler.getFilterHidden()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { show ->
-                showHidden = show
-                if(hasPermission.get()) {
-                    fileUpdateListEvent.value = true
-                }
-            }
-            .disposeOnViewModelDestroy()
-
-        //Sort Mode
-        preferenceHandler.getSortMode()
-            .asObservable()
-            .map(Integer::parseInt)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { mode ->
-                sortMode = mode
-                fileSorter = FileSorter.getComparator(mode)
-                if(hasPermission.get()) {
-                    fileUpdateListEvent.value = true
-                }
-            }
-            .disposeOnViewModelDestroy()
-
-        //Folders on Top
-        preferenceHandler.getFoldersOnTop()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { onTop ->
-                foldersOnTop = onTop
-                if(hasPermission.get()) {
-                    fileUpdateListEvent.value = true
-                }
-            }
             .disposeOnViewModelDestroy()
     }
 

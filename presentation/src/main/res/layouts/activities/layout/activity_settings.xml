@@ -33,6 +33,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
@@ -61,7 +62,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:background="?attr/selectableItemBackground"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorSecondary"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textSize="16sp"

@@ -22,11 +22,19 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.lightteam.modpeide.BaseApplication
+import com.lightteam.modpeide.data.delegate.DataLayerDelegate
+import com.lightteam.modpeide.data.repository.LocalFileRepository
+import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.internal.di.scopes.PerApplication
 import com.lightteam.modpeide.internal.providers.SchedulersProviderImpl
+import com.lightteam.modpeide.ui.common.viewmodel.ViewModelFactory
+import com.lightteam.modpeide.ui.main.adapters.BreadcrumbAdapter
+import com.lightteam.modpeide.ui.main.adapters.DocumentAdapter
 import dagger.Module
 import dagger.Provides
 
@@ -35,31 +43,89 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun provideContext(application: BaseApplication): Context
-            = application
+    fun provideContext(application: BaseApplication): Context {
+        return application
+    }
 
     @Provides
     @PerApplication
-    fun provideSchedulersProvider(): SchedulersProvider
-            = SchedulersProviderImpl()
+    fun provideSchedulersProvider(): SchedulersProvider {
+        return SchedulersProviderImpl()
+    }
 
     @Provides
     @PerApplication
-    fun provideSharedPreferences(context: Context): SharedPreferences
-            = PreferenceManager.getDefaultSharedPreferences(context)
+    fun provideSharedPreferences(context: Context): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+    }
 
     @Provides
     @PerApplication
-    fun provideRxSharedPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences
-            = RxSharedPreferences.create(sharedPreferences)
+    fun provideRxSharedPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences {
+        return RxSharedPreferences.create(sharedPreferences)
+    }
 
     @Provides
     @PerApplication
-    fun providePreferenceHandler(rxSharedPreferences: RxSharedPreferences): PreferenceHandler
-            = PreferenceHandler(rxSharedPreferences)
+    fun providePreferenceHandler(rxSharedPreferences: RxSharedPreferences): PreferenceHandler {
+        return PreferenceHandler(rxSharedPreferences)
+    }
 
     @Provides
     @PerApplication
-    fun provideVersionChecker(application: BaseApplication): VersionChecker
-            = VersionChecker(application.isUltimate)
+    fun provideVersionChecker(application: BaseApplication): VersionChecker {
+        return VersionChecker(application.isUltimate)
+    }
+
+    @Provides
+    @PerApplication
+    fun provideAppDatabase(context: Context): AppDatabase {
+        return DataLayerDelegate.provideAppDatabase(context)
+    }
+
+    @Provides
+    @PerApplication
+    fun provideCacheHandler(context: Context): CacheHandler {
+        return CacheHandler(context)
+    }
+
+    @Provides
+    @PerApplication
+    fun provideFileRepository(database: AppDatabase): FileRepository {
+        return LocalFileRepository(database)
+    }
+
+    @Provides
+    @PerApplication
+    fun provideViewModelFactory(fileRepository: FileRepository,
+                                database: AppDatabase,
+                                schedulersProvider: SchedulersProvider,
+                                preferenceHandler: PreferenceHandler,
+                                cacheHandler: CacheHandler,
+                                breadcrumbAdapter: BreadcrumbAdapter,
+                                documentAdapter: DocumentAdapter,
+                                versionChecker: VersionChecker): ViewModelFactory {
+        return ViewModelFactory(
+            fileRepository,
+            database,
+            schedulersProvider,
+            preferenceHandler,
+            cacheHandler,
+            breadcrumbAdapter,
+            documentAdapter,
+            versionChecker
+        )
+    }
+
+    @Provides
+    @PerApplication
+    fun provideDocumentAdapter(): DocumentAdapter {
+        return DocumentAdapter()
+    }
+
+    @Provides
+    @PerApplication
+    fun provideBreadcrumbAdapter(): BreadcrumbAdapter {
+        return BreadcrumbAdapter()
+    }
 }

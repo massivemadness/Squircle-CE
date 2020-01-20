@@ -22,10 +22,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
@@ -35,47 +35,41 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
+import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.extensions.isValidFileName
-import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.PropertiesModel
+import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.main.adapters.FileAdapter
 import com.lightteam.modpeide.ui.main.adapters.interfaces.RecyclerSelection
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.FileProvider
-import com.lightteam.modpeide.BaseApplication
-import com.lightteam.modpeide.domain.model.PropertiesModel
+import com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import java.io.File
+import javax.inject.Inject
 
-class FragmentDirectory : DaggerFragment(), RecyclerSelection {
+class FragmentDirectory : BaseFragment(), RecyclerSelection {
 
     @Inject
-    lateinit var viewModel: MainViewModel
+    lateinit var viewModel: ExplorerViewModel
     @Inject
     lateinit var adapter: FileAdapter
 
     private lateinit var binding: FragmentDirectoryBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_directory, container, false)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
-    }
+    override fun layoutId(): Int = R.layout.fragment_directory
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = DataBindingUtil.bind(view)!!
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        observeViewModel()
+
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = adapter
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        observeViewModel()
     }
 
     override fun onClick(fileModel: FileModel) {

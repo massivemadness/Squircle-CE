@@ -17,14 +17,11 @@
 
 package com.lightteam.modpeide.internal.di.modules.settings
 
-import androidx.lifecycle.ViewModelProviders
-import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
+import com.lightteam.modpeide.ui.common.viewmodel.ViewModelFactory
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
-import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModelFactory
-import com.lightteam.modpeide.utils.commons.VersionChecker
 import dagger.Module
 import dagger.Provides
 
@@ -33,13 +30,7 @@ class SettingsActivityModule {
 
     @Provides
     @PerActivity
-    fun provideSettingsViewModelFactory(schedulersProvider: SchedulersProvider,
-                                        preferenceHandler: PreferenceHandler,
-                                        versionChecker: VersionChecker): SettingsViewModelFactory
-            = SettingsViewModelFactory(schedulersProvider, preferenceHandler, versionChecker)
-
-    @Provides
-    @PerActivity
-    fun provideSettingsViewModel(activity: SettingsActivity, factory: SettingsViewModelFactory): SettingsViewModel
-            = ViewModelProviders.of(activity, factory).get(SettingsViewModel::class.java)
+    fun provideSettingsViewModel(activity: SettingsActivity, factory: ViewModelFactory): SettingsViewModel {
+        return ViewModelProvider(activity, factory).get(SettingsViewModel::class.java)
+    }
 }

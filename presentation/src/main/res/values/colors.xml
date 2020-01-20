@@ -17,9 +17,9 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#3c3f41</color>
-    <color name="colorPrimaryDark">#3c3f41</color>
-    <color name="colorAccent">#FF8000</color>
+    <color name="colorPrimary">#FF8000</color>
+    <color name="colorPrimaryDark">#3C3F41</color>
+    <color name="colorSecondary">#FF8000</color>
     <color name="colorBackground">#303030</color>
     <color name="colorNavigationBar">#37383A</color>
     <color name="colorTabs">#37383A</color>

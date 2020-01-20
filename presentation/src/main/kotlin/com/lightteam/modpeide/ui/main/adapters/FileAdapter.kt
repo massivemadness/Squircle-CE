@@ -22,15 +22,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.databinding.ItemFileBinding
+import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.main.adapters.interfaces.RecyclerSelection
 import com.lightteam.modpeide.ui.main.adapters.FileAdapter.FileViewHolder
-import com.lightteam.modpeide.ui.main.adapters.utils.FileDiffCallback
 
-class FileAdapter(private val recyclerSelection: RecyclerSelection) : RecyclerView.Adapter<FileViewHolder>() {
+class FileAdapter(
+    private val recyclerSelection: RecyclerSelection
+) : ListAdapter<FileModel, FileViewHolder>(diffCallback) {
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<FileModel>() {
+            override fun areItemsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {
+                return oldItem.path == newItem.path
+            }
+            override fun areContentsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {
+                return oldItem.name == newItem.name
+            }
+        }
+    }
 
     private var data: List<FileModel> = emptyList()
 
@@ -43,19 +56,16 @@ class FileAdapter(private val recyclerSelection: RecyclerSelection) : RecyclerVi
     override fun getItemCount(): Int = data.size
 
     fun setData(newList: List<FileModel>) {
-        val diffCallback = FileDiffCallback(data, newList)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-
         data = newList
-        diffResult.dispatchUpdatesTo(this)
+        submitList(newList)
     }
 
-    inner class FileViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class FileViewHolder(itemView: View): BaseViewHolder<FileModel>(itemView) {
 
         private val binding: ItemFileBinding? = DataBindingUtil.bind(itemView)
 
-        fun bind(fileModel: FileModel) {
-            binding?.fileModel = fileModel
+        override fun bind(item: FileModel) {
+            binding?.fileModel = item
             binding?.recyclerSelection = recyclerSelection
         }
     }

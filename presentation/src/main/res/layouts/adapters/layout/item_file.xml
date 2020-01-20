@@ -43,8 +43,7 @@
             android:id="@+id/item_icon"
             android:src="@{fileModel.isFolder ? @drawable/ic_folder : @drawable/ic_file}"
             android:tint="@{fileModel.isFolder ? @color/colorFolder : @color/colorIcon}"
-            android:alpha="@{fileModel.isHidden ? 115 : 255}"
-            android:contentDescription="@string/description_icon"/>
+            android:alpha="@{fileModel.isHidden ? 115 : 255}"/>
 
         <TextView
             android:layout_width="match_parent"

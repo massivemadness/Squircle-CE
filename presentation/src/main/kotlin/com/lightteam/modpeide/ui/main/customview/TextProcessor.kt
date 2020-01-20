@@ -68,7 +68,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
         //Keyboard
         var softKeyboard: Boolean = false,
-        var imeKeyboard: Boolean = false,
 
         //Code Style
         var autoIndentation: Boolean = true,
@@ -239,14 +238,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         } else {
             EditorInfo.IME_FLAG_NO_EXTRACT_UI
         }
-        inputType = if (configuration.imeKeyboard) {
-            InputType.TYPE_CLASS_TEXT or
-                    InputType.TYPE_TEXT_FLAG_MULTI_LINE
-        } else {
-            InputType.TYPE_CLASS_TEXT or
-                    InputType.TYPE_TEXT_FLAG_MULTI_LINE or
-                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        }
+        inputType = InputType.TYPE_CLASS_TEXT or
+                InputType.TYPE_TEXT_FLAG_MULTI_LINE or
+                InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
         textSize = configuration.fontSize
         typeface = configuration.fontType
 

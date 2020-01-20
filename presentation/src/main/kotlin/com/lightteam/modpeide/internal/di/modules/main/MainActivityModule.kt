@@ -17,23 +17,13 @@
 
 package com.lightteam.modpeide.internal.di.modules.main
 
-import android.content.Context
-import androidx.lifecycle.ViewModelProviders
-import com.lightteam.modpeide.data.delegate.DataLayerDelegate
-import com.lightteam.modpeide.data.repository.LocalFileRepository
-import com.lightteam.modpeide.data.storage.cache.CacheHandler
-import com.lightteam.modpeide.data.storage.database.AppDatabase
-import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.domain.providers.SchedulersProvider
-import com.lightteam.modpeide.domain.repository.FileRepository
+import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.ui.main.activities.MainActivity
 import com.lightteam.modpeide.ui.main.activities.utils.ToolbarManager
-import com.lightteam.modpeide.ui.main.adapters.BreadcrumbAdapter
-import com.lightteam.modpeide.ui.main.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
-import com.lightteam.modpeide.ui.main.viewmodel.MainViewModelFactory
-import com.lightteam.modpeide.utils.commons.VersionChecker
+import com.lightteam.modpeide.ui.common.viewmodel.ViewModelFactory
+import com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -42,48 +32,19 @@ class MainActivityModule {
 
     @Provides
     @PerActivity
-    fun provideAppDatabase(context: Context): AppDatabase
-            = DataLayerDelegate.provideAppDatabase(context)
+    fun provideMainViewModel(activity: MainActivity, factory: ViewModelFactory): MainViewModel {
+        return ViewModelProvider(activity, factory).get(MainViewModel::class.java)
+    }
 
     @Provides
     @PerActivity
-    fun provideCacheHandler(context: Context): CacheHandler
-            = CacheHandler(context)
+    fun provideExplorerViewModel(activity: MainActivity, factory: ViewModelFactory): ExplorerViewModel {
+        return ViewModelProvider(activity, factory).get(ExplorerViewModel::class.java)
+    }
 
     @Provides
     @PerActivity
-    fun provideFileRepository(database: AppDatabase): FileRepository
-            = LocalFileRepository(database)
-
-    @Provides
-    @PerActivity
-    fun provideMainViewModelFactory(fileRepository: FileRepository,
-                                    database: AppDatabase,
-                                    schedulersProvider: SchedulersProvider,
-                                    preferenceHandler: PreferenceHandler,
-                                    cacheHandler: CacheHandler,
-                                    breadcrumbAdapter: BreadcrumbAdapter,
-                                    documentAdapter: DocumentAdapter,
-                                    versionChecker: VersionChecker): MainViewModelFactory
-            = MainViewModelFactory(fileRepository, database, schedulersProvider, preferenceHandler, cacheHandler, breadcrumbAdapter, documentAdapter, versionChecker)
-
-    @Provides
-    @PerActivity
-    fun provideMainViewModel(activity: MainActivity, factory: MainViewModelFactory): MainViewModel
-            = ViewModelProviders.of(activity, factory).get(MainViewModel::class.java)
-
-    @Provides
-    @PerActivity
-    fun provideToolbarManager(activity: MainActivity): ToolbarManager
-            = ToolbarManager(activity)
-
-    @Provides
-    @PerActivity
-    fun provideDocumentAdapter(): DocumentAdapter
-            = DocumentAdapter()
-
-    @Provides
-    @PerActivity
-    fun provideBreadcrumbAdapter(): BreadcrumbAdapter
-            = BreadcrumbAdapter()
+    fun provideToolbarManager(activity: MainActivity): ToolbarManager {
+        return ToolbarManager(activity)
+    }
 }

@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
 import com.lightteam.modpeide.R
+import java.util.*
 
 class CodeCompletionAdapter(context: Context, resourceId: Int) : ArrayAdapter<String>(context, resourceId) {
 
@@ -47,8 +48,8 @@ class CodeCompletionAdapter(context: Context, resourceId: Int) : ArrayAdapter<St
             dataSetFiltered.clear()
             if (constraint != null) {
                 for (item in dataSet) {
-                    val name = constraint.toString().toLowerCase()
-                    if (item.toLowerCase().startsWith(name)) {
+                    val name = constraint.toString().toLowerCase(Locale.getDefault())
+                    if (item.toLowerCase(Locale.getDefault()).startsWith(name)) {
                         filterableText = name
                         dataSetFiltered.add(item)
                     }

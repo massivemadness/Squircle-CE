@@ -21,10 +21,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lightteam.modpeide.ui.main.viewmodel.MainViewModel"/>
+        <import type="com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel"/>
         <import type="android.view.View"/>
 
-        <variable name="viewModel" type="MainViewModel"/>
+        <variable name="viewModel" type="ExplorerViewModel"/>
     </data>
 
     <LinearLayout
@@ -42,8 +42,7 @@
             android:layout_height="92dp"
             android:src="@drawable/ic_no_access"
             android:tint="@color/colorIcon"
-            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"
-            android:contentDescription="@string/description_icon"/>
+            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -83,6 +82,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.GONE}">
 
@@ -107,8 +107,7 @@
                     android:id="@+id/action_home"
                     android:src="@drawable/ic_home"
                     android:tint="@android:color/white"
-                    android:background="@drawable/ripple_16dp"
-                    android:contentDescription="@string/description_icon"/>
+                    android:background="@drawable/ripple_16dp"/>
 
                 <com.google.android.material.tabs.TabLayout
                     android:layout_width="match_parent"
@@ -116,6 +115,7 @@
                     android:clipChildren="true"
                     android:background="@null"
                     android:id="@+id/tab_layout"
+                    app:tabRippleColor="?attr/colorControlHighlight"
                     app:tabPaddingStart="4dp"
                     app:tabPaddingEnd="0dp"
                     app:tabUnboundedRipple="false"
@@ -129,7 +129,7 @@
 
         <!-- region DIRECTORY FRAGMENT -->
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/swipe_refresh"
@@ -155,7 +155,7 @@
 
             </FrameLayout>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </FrameLayout>
 
         <!-- endregion DIRECTORY FRAGMENT -->
 

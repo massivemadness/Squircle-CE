@@ -30,30 +30,30 @@ ext {
             testRunner = 'androidx.test.runner.AndroidJUnitRunner'
     ]
 
-    kotlin_version = '1.3.31'
-    core_version = '1.2.0-alpha01'
-    fragment_version = '1.1.0-beta01'
+    kotlin_version = '1.3.61'
+    core_version = '1.2.0-rc01'
+    fragment_version = '1.2.0-rc05'
 
-    appcompat_version = '1.1.0-beta01'
-    design_version = '1.1.0-alpha07'
-    preferencescompat_version = '1.1.0-beta01'
+    appcompat_version = '1.2.0-alpha01'
+    materialdesign_version = '1.2.0-alpha03'
+    preferencescompat_version = '1.1.0'
     materialdialogs_version = '2.8.1'
 
     keyboardevent_version = '2.3.0'
-    rhino_version = '1.7.11'
+    rhino_version = '1.7.12'
 
-    lifecycle_extensions_version = '2.2.0-alpha01'
-    room_version = '2.1.0-rc01'
+    lifecycle_extensions_version = '2.2.0-rc03'
+    room_version = '2.2.3'
 
-    rxjava2_version = '2.2.9'
+    rxjava2_version = '2.2.17'
     rxandroid_version = '2.1.1'
-    rxkotlin_version = '2.3.0'
-    rxbinding_version = '3.0.0-alpha2'
+    rxkotlin_version = '2.4.0'
+    rxbinding_version = '3.1.0'
     rxpreferences_version = '2.0.0'
 
-    dagger2_version = '2.23.1'
+    dagger2_version = '2.25.4'
 
-    junit_version = '4.13-beta-3'
+    junit_version = '4.13'
     junit_ext_version = '1.1.1'
     test_runner_version = '1.2.0'
     espresso_core_version = '3.2.0'
@@ -64,7 +64,7 @@ ext {
             fragment_ktx: "androidx.fragment:fragment-ktx:$fragment_version",
 
             appcompat: "androidx.appcompat:appcompat:$appcompat_version",
-            materialdesign: "com.google.android.material:material:$design_version",
+            materialdesign: "com.google.android.material:material:$materialdesign_version",
             preferencescompat: "androidx.preference:preference-ktx:$preferencescompat_version",
             materialdialogs_core: "com.afollestad.material-dialogs:core:$materialdialogs_version",
             materialdialogs_input: "com.afollestad.material-dialogs:input:$materialdialogs_version",

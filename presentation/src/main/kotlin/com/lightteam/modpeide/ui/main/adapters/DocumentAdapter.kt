@@ -32,13 +32,11 @@ class DocumentAdapter {
     }
 
     fun get(index: Int): DocumentModel? {
-        var document: DocumentModel?
-        try {
-            document = data[index]
+        return try {
+            data[index]
         } catch (e: IndexOutOfBoundsException) {
-            document = null
+            null
         }
-        return document
     }
 
     fun removeAt(index: Int) = data.removeAt(index)

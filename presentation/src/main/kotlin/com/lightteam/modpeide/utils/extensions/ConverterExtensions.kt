@@ -25,6 +25,7 @@ import android.text.Spanned
 fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
 
+@Suppress("DEPRECATION")
 fun String.asHtml(): Spanned {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)

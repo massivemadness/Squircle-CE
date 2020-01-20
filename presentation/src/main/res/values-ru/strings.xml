@@ -21,8 +21,6 @@
 ]>
 <resources>
 
-    <string name="description_icon">Иконка</string>
-
     <string name="label_settings">Настройки</string>
     <string name="label_local_storage">На устройстве</string>
 
@@ -190,8 +188,6 @@
     <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
     <string name="pref_soft_keyboard_title">Soft-клавиатура</string>
     <string name="pref_soft_keyboard_summary">Использовать soft-клавиатуру в горизонтальном режиме.</string>
-    <string name="pref_ime_keyboard_title">IME-клавиатура</string>
-    <string name="pref_ime_keyboard_summary">Показывать клавиатурные подсказки во время ввода.</string>
     <string name="pref_auto_indent_title">Авто-отступы</string>
     <string name="pref_auto_indent_summary">Автоматически выравнивать новые строки, для соответствия строке выше.</string>
     <string name="pref_close_brackets_title">Авто-закрытие скобок</string>
@@ -205,7 +201,7 @@
     <string name="pref_sortMode_title">Режим сортировки</string>
     <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
     <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
-    <string name="pref_about_summary">Copyright 2019 Light Team Software\nВсе права защищены\n\nВерсия: &app_version; (&app_code;)</string>
+    <string name="pref_about_summary">Copyright 2020 Light Team Software\nВсе права защищены\n\nВерсия: &app_version; (&app_code;)</string>
     <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
     <string name="pref_contribute_title">Внести вклад в разработку</string>
     <string name="pref_contribute_summary">Вы можете создать Issue на GitHub или перевести приложение на свой родной язык.\n\nСпасибо!</string>

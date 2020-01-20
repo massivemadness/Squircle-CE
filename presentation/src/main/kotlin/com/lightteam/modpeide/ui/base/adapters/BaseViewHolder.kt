@@ -15,24 +15,11 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.main.adapters.utils
+package com.lightteam.modpeide.ui.base.adapters
 
-import androidx.recyclerview.widget.DiffUtil
-import com.lightteam.modpeide.domain.model.FileModel
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
-class FileDiffCallback(
-    private val oldList: List<FileModel>,
-    private val newList: List<FileModel>
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int = oldList.size
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].path == newList[newItemPosition].path
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].lastModified == newList[newItemPosition].lastModified
-    }
+abstract class BaseViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    abstract fun bind(item: T)
 }

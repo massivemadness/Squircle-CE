@@ -17,11 +17,8 @@
 
 package com.lightteam.modpeide.ui.main.activities
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
@@ -30,10 +27,8 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.CheckBox
-import android.widget.Toast
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -46,6 +41,7 @@ import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
+import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.domain.model.DocumentModel
@@ -60,8 +56,9 @@ import com.lightteam.modpeide.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.utils.extensions.launchActivity
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 import com.lightteam.modpeide.utils.extensions.toHexString
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import java.io.File
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(),
@@ -89,7 +86,6 @@ class MainActivity : BaseActivity(),
         onConfigurationChanged(resources.configuration)
         setupListeners()
         observeViewModel()
-        checkPermissions()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -113,37 +109,6 @@ class MainActivity : BaseActivity(),
             }
         }
     }
-
-    // region PERMISSIONS
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode) {
-            REQUEST_READ_WRITE -> {
-                viewModel.hasAccessEvent.value = grantResults[0] == PackageManager.PERMISSION_GRANTED
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        checkPermissions()
-    }
-
-    private fun checkPermissions() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED) {
-            viewModel.hasAccessEvent.value = true
-
-            // Check if user opened a file from another app
-            if(intent.action == Intent.ACTION_VIEW) {
-                //path must be started with /storage/emulated/0/...
-                viewModel.openDocument(File(intent.data?.path))
-            }
-        }
-    }
-
-    // endregion PERMISSIONS
 
     // region TABS
 
@@ -187,7 +152,7 @@ class MainActivity : BaseActivity(),
 
     private fun observeViewModel() {
         viewModel.toastEvent.observe(this, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            showToast(it)
         })
         viewModel.analysisEvent.observe(this, Observer { model ->
             MaterialDialog(this).show {
@@ -222,7 +187,16 @@ class MainActivity : BaseActivity(),
             binding.editor.undoStack = pair.first
             binding.editor.redoStack = pair.second
         })
-        viewModel.editorEvents(binding.editor)
+
+        binding.editor
+            .afterTextChangeEvents()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy {
+                viewModel.canUndo.set(binding.editor.canUndo())
+                viewModel.canRedo.set(binding.editor.canRedo())
+            }
+            .disposeOnActivityDestroy()
+
         KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
             if(viewModel.extendedKeyboardEvent.value!!) {
                 binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
@@ -275,10 +249,6 @@ class MainActivity : BaseActivity(),
         })
         viewModel.softKeyboardEvent.observe(this, Observer { softKeyboard ->
             val newConfiguration = binding.editor.configuration.copy(softKeyboard = softKeyboard)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.imeKeyboardEvent.observe(this, Observer { imeKeyboard ->
-            val newConfiguration = binding.editor.configuration.copy(imeKeyboard = imeKeyboard)
             binding.editor.configuration = newConfiguration
         })
         viewModel.autoIndentationEvent.observe(this, Observer { autoIndentation ->

@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.main.fragments
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -26,10 +27,10 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.setActionButtonEnabled
@@ -38,54 +39,85 @@ import com.afollestad.materialdialogs.checkbox.getCheckBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.google.android.material.tabs.TabLayout
+import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.main.activities.MainActivity.Companion.REQUEST_READ_WRITE
 import com.lightteam.modpeide.ui.main.activities.MainActivity.Companion.REQUEST_READ_WRITE2
-import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
-import dagger.android.support.DaggerFragment
+import com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FragmentExplorer : DaggerFragment(),
-    SwipeRefreshLayout.OnRefreshListener,
-    TabLayout.OnTabSelectedListener {
+class FragmentExplorer : BaseFragment(), TabLayout.OnTabSelectedListener {
 
     @Inject
-    lateinit var viewModel: MainViewModel
+    lateinit var viewModel: ExplorerViewModel
 
     private lateinit var binding: FragmentExplorerBinding
+
+    override fun layoutId(): Int = R.layout.fragment_explorer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_explorer, container, false)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = DataBindingUtil.bind(view)!!
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        observeViewModel()
         setupListeners()
 
         val parentActivity = activity as AppCompatActivity
         parentActivity.setSupportActionBar(binding.toolbar)
+
+        checkPermissions()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        observeViewModel()
+    // region PERMISSIONS
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode) {
+            REQUEST_READ_WRITE -> {
+                viewModel.hasAccessEvent.value = grantResults[0] == PackageManager.PERMISSION_GRANTED
+            }
+        }
     }
 
-    override fun onRefresh() {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        checkPermissions()
+    }
+
+    private fun checkPermissions() {
+        if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            == PackageManager.PERMISSION_GRANTED) {
+            viewModel.hasAccessEvent.value = true
+
+            // Check if user opened a file from another app
+            if(requireActivity().intent.action == Intent.ACTION_VIEW) {
+                //path must be started with /storage/emulated/0/...
+                viewModel.openDocument(File(requireActivity().intent.data?.path))
+            }
+        }
+    }
+
+    // endregion PERMISSIONS
+
+    fun onRefresh() {
         //viewModel.provideDirectory(adapter.get(binding.tabLayout.selectedTabPosition))
-        binding.swipeRefresh.isRefreshing = false
+        //binding.swipeRefresh.isRefreshing = false
     }
 
     // region MENU
@@ -96,7 +128,18 @@ class FragmentExplorer : DaggerFragment(),
 
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
-        viewModel.searchEvents(searchView)
+
+        searchView
+            .queryTextChangeEvents()
+            .skipInitialValue()
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .filter { it.queryText.isEmpty() || it.queryText.length >= 2 }
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy {
+                viewModel.onSearchQueryFilled(it.queryText)
+            }
+            .disposeOnFragmentDestroyView()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -147,12 +190,12 @@ class FragmentExplorer : DaggerFragment(),
     private fun setupListeners() {
         binding.actionAccess.setOnClickListener {
             ActivityCompat.requestPermissions(
-                activity!!,
+                requireActivity(),
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 REQUEST_READ_WRITE
             )
         }
-        binding.swipeRefresh.setOnRefreshListener(this)
+        //binding.swipeRefresh.setOnRefreshListener(this)
         binding.tabLayout.addOnTabSelectedListener(this)
         binding.actionHome.setOnClickListener {
             addToStack(viewModel.defaultLocation())
@@ -163,6 +206,9 @@ class FragmentExplorer : DaggerFragment(),
     }
 
     private fun observeViewModel() {
+        viewModel.toastEvent.observe(this, Observer {
+            showToast(it)
+        })
         viewModel.hasAccessEvent.observe(viewLifecycleOwner, Observer { hasAccess ->
             if(hasAccess) {
                 viewModel.fileTabsAddEvent.value = viewModel.defaultLocation()
@@ -197,6 +243,7 @@ class FragmentExplorer : DaggerFragment(),
                 binding.tabLayout.getTabAt(position)?.select()
             }
         })
+        viewModel.observePreferences()
     }
 
     // region INTERNAL

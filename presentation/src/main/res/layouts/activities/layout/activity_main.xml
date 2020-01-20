@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:orientation="horizontal"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorPrimaryDark"
                 android:elevation="4dp">
 
                 <ImageView
@@ -59,8 +59,7 @@
                     android:src="@drawable/ic_drawer"
                     android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_drawer"
-                    android:contentDescription="@string/description_icon"/>
+                    android:id="@+id/action_menu_drawer"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -71,8 +70,7 @@
                     android:src="@drawable/ic_save"
                     android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_save"
-                    android:contentDescription="@string/description_icon"/>
+                    android:id="@+id/action_menu_save"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -83,8 +81,7 @@
                     android:src="@drawable/ic_folder"
                     android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_file"
-                    android:contentDescription="@string/description_icon"/>
+                    android:id="@+id/action_menu_file"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -95,8 +92,7 @@
                     android:src="@drawable/ic_edit"
                     android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_edit"
-                    android:contentDescription="@string/description_icon"/>
+                    android:id="@+id/action_menu_edit"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -107,8 +103,7 @@
                     android:src="@drawable/ic_file_search"
                     android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_search"
-                    android:contentDescription="@string/description_icon"/>
+                    android:id="@+id/action_menu_search"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -119,8 +114,7 @@
                     android:src="@drawable/ic_tools"
                     android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_tools"
-                    android:contentDescription="@string/description_icon"/>
+                    android:id="@+id/action_menu_tools"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -132,8 +126,7 @@
                     android:tint="@{viewModel.canUndo ? @android:color/white : @color/colorIcon}"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_undo"
-                    android:clickable="@{viewModel.canUndo}"
-                    android:contentDescription="@string/description_icon"/>
+                    android:clickable="@{viewModel.canUndo}"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -145,8 +138,7 @@
                     android:tint="@{viewModel.canRedo ? @android:color/white : @color/colorIcon}"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_redo"
-                    android:clickable="@{viewModel.canRedo}"
-                    android:contentDescription="@string/description_icon"/>
+                    android:clickable="@{viewModel.canRedo}"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -157,8 +149,7 @@
                     android:src="@drawable/ic_overflow"
                     android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_overflow"
-                    android:contentDescription="@string/description_icon"/>
+                    android:id="@+id/action_menu_overflow"/>
 
             </RelativeLayout>
 
@@ -169,6 +160,7 @@
                 android:id="@+id/tab_document_layout"
                 android:background="@color/colorTabs"
                 android:elevation="3.5dp"
+                app:tabRippleColor="?attr/colorControlHighlight"
                 app:tabUnboundedRipple="false"
                 app:tabMode="scrollable"/>
 
@@ -188,8 +180,7 @@
                     android:layout_marginBottom="16dp"
                     android:visibility="@{viewModel.noDocumentsIndicator ? View.VISIBLE : View.GONE}"
                     android:src="@drawable/ic_file_search"
-                    android:tint="@color/colorIcon"
-                    android:contentDescription="@string/description_icon"/>
+                    android:tint="@color/colorIcon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -226,7 +217,7 @@
                     android:layout_gravity="right"
                     android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
                     android:id="@+id/scroller"
-                    app:thumbTint="@color/colorAccent"/>
+                    app:thumbTint="@color/colorSecondary"/>
 
             </FrameLayout>
 

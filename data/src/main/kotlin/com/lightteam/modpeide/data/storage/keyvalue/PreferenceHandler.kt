@@ -48,7 +48,6 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         //Keyboard
         const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYBOARD"
         const val KEY_USE_SOFT_KEYBOARD = "USE_SOFT_KEYBOARD"
-        const val KEY_USE_IME_KEYBOARD = "USE_IME_KEYBOARD_1"
 
         //Code Style
         const val KEY_AUTO_INDENTATION = "AUTO_INDENTATION"
@@ -80,7 +79,6 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     fun getExtendedKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
     fun getSoftKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
-    fun getImeKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_IME_KEYBOARD, true)
 
     fun getAutoIndentation(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)
     fun getAutoCloseBrackets(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTOCLOSE_BRACKETS, true)

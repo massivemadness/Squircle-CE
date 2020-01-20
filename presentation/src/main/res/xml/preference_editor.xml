@@ -109,12 +109,6 @@
             android:defaultValue="false"
             android:key="USE_SOFT_KEYBOARD"/>
 
-        <SwitchPreference
-            android:title="@string/pref_ime_keyboard_title"
-            android:summary="@string/pref_ime_keyboard_summary"
-            android:defaultValue="true"
-            android:key="USE_IME_KEYBOARD_1"/>
-
     </PreferenceCategory>
 
 </PreferenceScreen>
