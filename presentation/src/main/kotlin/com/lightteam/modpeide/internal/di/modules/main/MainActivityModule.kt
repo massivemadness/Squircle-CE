@@ -19,11 +19,10 @@ package com.lightteam.modpeide.internal.di.modules.main
 
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
-import com.lightteam.modpeide.ui.main.activities.MainActivity
-import com.lightteam.modpeide.ui.main.activities.utils.ToolbarManager
-import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
+import com.lightteam.modpeide.ui.editor.activities.EditorActivity
+import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.common.viewmodel.ViewModelFactory
-import com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel
+import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -32,19 +31,13 @@ class MainActivityModule {
 
     @Provides
     @PerActivity
-    fun provideMainViewModel(activity: MainActivity, factory: ViewModelFactory): MainViewModel {
-        return ViewModelProvider(activity, factory).get(MainViewModel::class.java)
+    fun provideMainViewModel(activity: EditorActivity, factory: ViewModelFactory): EditorViewModel {
+        return ViewModelProvider(activity, factory).get(EditorViewModel::class.java)
     }
 
     @Provides
     @PerActivity
-    fun provideExplorerViewModel(activity: MainActivity, factory: ViewModelFactory): ExplorerViewModel {
+    fun provideExplorerViewModel(activity: EditorActivity, factory: ViewModelFactory): ExplorerViewModel {
         return ViewModelProvider(activity, factory).get(ExplorerViewModel::class.java)
-    }
-
-    @Provides
-    @PerActivity
-    fun provideToolbarManager(activity: MainActivity): ToolbarManager {
-        return ToolbarManager(activity)
     }
 }

@@ -23,6 +23,8 @@
 
     <string name="app_name" translatable="false">ModPE IDE</string>
 
+    <string name="label_permissions">Permissions</string>
+    <string name="label_directory">Directory</string>
     <string name="label_settings">Settings</string>
     <string name="label_local_storage">Local Storage</string>
 
@@ -55,7 +57,7 @@
     <string name="action_replace_all">Replace All</string>
     <string name="action_go_to">Go to</string>
     <string name="action_show_hidden_files">Show hidden files</string>
-    <string name="action_get_it_for">Get it for 1,49 $</string>
+    <string name="action_get_it_for">Get it</string>
     <string name="action_maybe_later">Maybe later</string>
     <string name="action_unlock_all_features">Unlock all features</string>
 
@@ -98,7 +100,8 @@
     <string name="message_tab_limit_achieved">Tab limit achieved</string>
     <string name="message_cannot_be_opened">File cannot be opened</string>
     <string name="message_invalid_file_name">Invalid file name</string>
-    <string name="message_error">An error occurred</string>
+    <string name="message_unknown_exception">An error occurred</string>
+    <string name="message_directory_expected">Attempt to get list of files from file</string>
     <string name="message_done">Done</string>
     <string name="message_saved">Saved</string>
     <string name="message_select_file">Select File</string>

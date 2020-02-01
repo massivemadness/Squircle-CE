@@ -21,18 +21,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lightteam.modpeide.ui.main.viewmodel.MainViewModel"/>
+        <import type="com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel"/>
         <import type="android.view.View"/>
 
-        <variable name="viewModel" type="MainViewModel"/>
+        <variable name="viewModel" type="EditorViewModel"/>
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/drawer_layout"
-        tools:context=".ui.main.activities.MainActivity"
-        tools:ignore="RtlHardcoded">
+        tools:context=".ui.editor.activities.EditorActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -178,7 +177,6 @@
                     android:layout_height="92dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="16dp"
-                    android:visibility="@{viewModel.noDocumentsIndicator ? View.VISIBLE : View.GONE}"
                     android:src="@drawable/ic_file_search"
                     android:tint="@color/colorIcon"/>
 
@@ -187,7 +185,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="56dp"
-                    android:visibility="@{viewModel.noDocumentsIndicator ? View.VISIBLE : View.GONE}"
                     android:textColor="@color/colorIcon"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -197,31 +194,28 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center"
-                    android:visibility="@{viewModel.documentLoadingIndicator ? View.VISIBLE : View.GONE}"
                     android:indeterminate="true"/>
 
-                <com.lightteam.modpeide.ui.main.customview.TextProcessor
+                <com.lightteam.modpeide.ui.editor.customview.TextProcessor
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="top|left"
-                    android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
                     android:textCursorDrawable="@drawable/caret"
                     android:dropDownAnchor="@id/tab_document_layout"
                     android:completionThreshold="2"
                     android:popupBackground="@color/colorPrimary"
                     android:id="@+id/editor"/>
 
-                <com.lightteam.modpeide.ui.main.customview.TextScroller
+                <com.lightteam.modpeide.ui.editor.customview.TextScroller
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:visibility="@{(viewModel.documentLoadingIndicator || viewModel.noDocumentsIndicator) ? View.INVISIBLE : View.VISIBLE}"
                     android:id="@+id/scroller"
                     app:thumbTint="@color/colorSecondary"/>
 
             </FrameLayout>
 
-            <com.lightteam.modpeide.ui.main.customview.ExtendedKeyboard
+            <com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -235,12 +229,12 @@
 
         </LinearLayout>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:layout_width="280dp"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:id="@+id/fragment_explorer"
-            android:name="com.lightteam.modpeide.ui.main.fragments.FragmentExplorer"
+            android:name="com.lightteam.modpeide.ui.explorer.fragments.FragmentExplorer"
             tools:layout="@layout/fragment_explorer"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>

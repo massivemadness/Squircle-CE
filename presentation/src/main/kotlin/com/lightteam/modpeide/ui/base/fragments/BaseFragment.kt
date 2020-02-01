@@ -43,7 +43,7 @@ abstract class BaseFragment : DaggerFragment() {
     }
 
     protected fun showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
-        if(textRes != -1) {
+        if (textRes != -1) {
             Toast.makeText(context, textRes, duration).show()
         } else {
             Toast.makeText(context, text, duration).show()

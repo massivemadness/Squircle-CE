@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     companion object {
-        private val TAG = SingleLiveEvent::class.java.simpleName
+        private const val TAG = "SingleLiveEvent"
     }
 
     private val pending = AtomicBoolean(false)
@@ -54,10 +54,10 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     }
 
     /**
-     * Used for cases where T is Void, to make calls cleaner.
+     * Used for cases where T is Void or Unit, to make calls cleaner.
      */
     @MainThread
     fun call() {
-        super.setValue(null)
+        value = null
     }
 }

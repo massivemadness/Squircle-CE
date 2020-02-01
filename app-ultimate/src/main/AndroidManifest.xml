@@ -29,7 +29,7 @@
         android:name="com.lightteam.modpeide.BaseApplication">
 
         <activity
-            android:name="com.lightteam.modpeide.ui.main.activities.MainActivity"
+            android:name="com.lightteam.modpeide.ui.editor.activities.EditorActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask">
@@ -52,7 +52,7 @@
 
         <activity
             android:name="com.lightteam.modpeide.ui.settings.activities.SettingsActivity"
-            android:parentActivityName="com.lightteam.modpeide.ui.main.activities.MainActivity"
+            android:parentActivityName="com.lightteam.modpeide.ui.editor.activities.EditorActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="standard"
             android:label="@string/label_settings"/>

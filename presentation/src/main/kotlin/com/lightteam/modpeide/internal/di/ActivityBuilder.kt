@@ -21,7 +21,7 @@ import com.lightteam.modpeide.internal.di.modules.main.MainActivityModule
 import com.lightteam.modpeide.internal.di.modules.main.MainFragmentsProvider
 import com.lightteam.modpeide.internal.di.modules.settings.SettingsActivityModule
 import com.lightteam.modpeide.internal.di.modules.settings.SettingsFragmentsProvider
-import com.lightteam.modpeide.ui.main.activities.MainActivity
+import com.lightteam.modpeide.ui.editor.activities.EditorActivity
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import dagger.Module
@@ -32,7 +32,7 @@ abstract class ActivityBuilder {
 
     @PerActivity
     @ContributesAndroidInjector(modules = [MainActivityModule::class, MainFragmentsProvider::class])
-    abstract fun buildMainActivity(): MainActivity
+    abstract fun buildMainActivity(): EditorActivity
 
     @PerActivity
     @ContributesAndroidInjector(modules = [SettingsActivityModule::class, SettingsFragmentsProvider::class])

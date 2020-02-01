@@ -42,7 +42,7 @@ object TypefaceFactory {
     private const val PATH_ANONYMOUS_PRO = "fonts/anonymous_pro.ttf"
 
     fun create(context: Context, name: String): Typeface {
-        return when(name) {
+        return when (name) {
             NAME_ROBOTO -> context.getTypefaceFromAssets(PATH_ROBOTO)
             NAME_ROBOTO_LIGHT -> context.getTypefaceFromAssets(PATH_ROBOTO_LIGHT)
             NAME_FIRA_CODE -> context.getTypefaceFromAssets(PATH_FIRA_CODE)

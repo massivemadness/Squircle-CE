@@ -29,12 +29,10 @@ import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
-import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.internal.di.scopes.PerApplication
-import com.lightteam.modpeide.internal.providers.SchedulersProviderImpl
+import com.lightteam.modpeide.internal.providers.rx.SchedulersProviderImpl
 import com.lightteam.modpeide.ui.common.viewmodel.ViewModelFactory
-import com.lightteam.modpeide.ui.main.adapters.BreadcrumbAdapter
-import com.lightteam.modpeide.ui.main.adapters.DocumentAdapter
+import com.lightteam.modpeide.utils.commons.VersionChecker
 import dagger.Module
 import dagger.Provides
 
@@ -73,12 +71,6 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun provideVersionChecker(application: BaseApplication): VersionChecker {
-        return VersionChecker(application.isUltimate)
-    }
-
-    @Provides
-    @PerApplication
     fun provideAppDatabase(context: Context): AppDatabase {
         return DataLayerDelegate.provideAppDatabase(context)
     }
@@ -97,13 +89,17 @@ class AppModule {
 
     @Provides
     @PerApplication
+    fun provideVersionChecker(application: BaseApplication): VersionChecker {
+        return VersionChecker(application.isUltimate)
+    }
+
+    @Provides
+    @PerApplication
     fun provideViewModelFactory(fileRepository: FileRepository,
                                 database: AppDatabase,
                                 schedulersProvider: SchedulersProvider,
                                 preferenceHandler: PreferenceHandler,
                                 cacheHandler: CacheHandler,
-                                breadcrumbAdapter: BreadcrumbAdapter,
-                                documentAdapter: DocumentAdapter,
                                 versionChecker: VersionChecker): ViewModelFactory {
         return ViewModelFactory(
             fileRepository,
@@ -111,21 +107,7 @@ class AppModule {
             schedulersProvider,
             preferenceHandler,
             cacheHandler,
-            breadcrumbAdapter,
-            documentAdapter,
             versionChecker
         )
-    }
-
-    @Provides
-    @PerApplication
-    fun provideDocumentAdapter(): DocumentAdapter {
-        return DocumentAdapter()
-    }
-
-    @Provides
-    @PerApplication
-    fun provideBreadcrumbAdapter(): BreadcrumbAdapter {
-        return BreadcrumbAdapter()
     }
 }

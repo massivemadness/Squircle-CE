@@ -20,19 +20,19 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lightteam.modpeide.ui.main.adapters.interfaces.RecyclerSelection"/>
+        <import type="com.lightteam.modpeide.ui.explorer.adapters.interfaces.ItemCallback"/>
         <import type="com.lightteam.modpeide.domain.model.FileModel"/>
 
         <variable name="fileModel" type="FileModel"/>
-        <variable name="recyclerSelection" type="RecyclerSelection"/>
+        <variable name="itemCallback" type="ItemCallback"/>
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:background="?attr/selectableItemBackground"
-        android:onClick="@{() -> recyclerSelection.onClick(fileModel)}"
-        android:onLongClick="@{() -> recyclerSelection.onLongClick(fileModel)}">
+        android:onClick="@{() -> itemCallback.onClick(fileModel)}"
+        android:onLongClick="@{() -> itemCallback.onLongClick(fileModel)}">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="32dp"

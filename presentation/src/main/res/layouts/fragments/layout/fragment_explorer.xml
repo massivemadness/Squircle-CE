@@ -17,65 +17,19 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel"/>
+        <import type="com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel"/>
         <import type="android.view.View"/>
 
-        <variable name="viewModel" type="ExplorerViewModel"/>
+        <variable name="viewModel" type="com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@color/colorBackground"
-        tools:context=".ui.main.activities.MainActivity">
-
-        <!-- region PERMISSIONS -->
-
-        <ImageView
-            android:layout_width="92dp"
-            android:layout_height="92dp"
-            android:src="@drawable/ic_no_access"
-            android:tint="@color/colorIcon"
-            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColor="@color/colorIcon"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:text="@string/message_access_denied"
-            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center_horizontal"
-            android:textColor="@color/colorIcon"
-            android:textSize="14sp"
-            android:text="@string/message_access_required"
-            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.Darcula.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:text="@string/action_grant_access"
-            android:id="@+id/action_access"
-            android:visibility="@{!viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
-
-        <!-- endregion PERMISSIONS -->
+        android:orientation="vertical">
 
         <!-- region TOOLBAR -->
 
@@ -133,27 +87,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/swipe_refresh"
-            android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.GONE}">
+            android:background="@color/colorBackground">
 
-            <FrameLayout
+            <androidx.fragment.app.FragmentContainerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/nav_host"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                app:navGraph="@navigation/navigation_graph"
+                app:defaultNavHost="true"/>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/container_directories"/>
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="24dp"
-                    android:id="@+id/action_add"
-                    android:src="@drawable/ic_plus"
-                    android:tint="@android:color/white"/>
-
-            </FrameLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="24dp"
+                android:id="@+id/action_add"
+                android:src="@drawable/ic_plus"
+                android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
 
         </FrameLayout>
 

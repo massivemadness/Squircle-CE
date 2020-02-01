@@ -24,6 +24,9 @@ import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.utils.extensions.formatAsDate
 import com.lightteam.modpeide.data.utils.extensions.formatAsSize
 import com.lightteam.modpeide.data.utils.extensions.size
+import com.lightteam.modpeide.domain.exception.DirectoryExpectedException
+import com.lightteam.modpeide.domain.exception.FileAlreadyExistsException
+import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
 import com.lightteam.modpeide.domain.model.PropertiesModel
@@ -32,7 +35,6 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.BufferedReader
 import java.io.File
-import java.io.FileNotFoundException
 
 class LocalFileRepository(
     private val database: AppDatabase
@@ -48,56 +50,67 @@ class LocalFileRepository(
 
     override fun provideDirectory(parent: FileModel): Single<List<FileModel>> {
         return Single.create { emitter ->
-            val files = FileConverter.toFile(parent)
-                .listFiles()
-                .map(FileConverter::toModel)
-                .toList()
-            emitter.onSuccess(files)
+            val realFile = FileConverter.toFile(parent)
+            if (realFile.isDirectory) {
+                val files = realFile
+                    .listFiles()!!
+                    .map(FileConverter::toModel)
+                    .toList()
+                emitter.onSuccess(files)
+            } else {
+                emitter.onError(DirectoryExpectedException())
+            }
         }
     }
 
     override fun createFile(fileModel: FileModel): Single<FileModel> {
         return Single.create { emitter ->
             val realFile: File = FileConverter.toFile(fileModel)
-            if(!realFile.exists()) {
-                if(fileModel.isFolder) {
+            if (!realFile.exists()) {
+                if (fileModel.isFolder) {
                     realFile.mkdirs()
                 } else {
                     realFile.createNewFile()
                 }
+                val modelFile = FileConverter.toModel(realFile)
+                emitter.onSuccess(modelFile)
+            } else {
+                emitter.onError(FileAlreadyExistsException())
             }
-            val modelFile = FileConverter.toModel(realFile)
-            emitter.onSuccess(modelFile)
         }
     }
 
     override fun deleteFile(fileModel: FileModel): Single<FileModel> {
         return Single.create { emitter ->
             val realFile: File = FileConverter.toFile(fileModel)
-            if(realFile.exists()) {
+            if (realFile.exists()) {
                 realFile.deleteRecursively()
+                val modelFile = FileConverter.toModel(realFile.parentFile!!)
+                emitter.onSuccess(modelFile)
+            } else {
+                emitter.onError(FileNotFoundException())
             }
-            val modelFile = FileConverter.toModel(realFile.parentFile)
-            emitter.onSuccess(modelFile)
         }
     }
 
     override fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel> {
         return Single.create { emitter ->
             val originalFile: File = FileConverter.toFile(fileModel)
-            val renamedFile = File(originalFile.parentFile.absolutePath + "/$fileName")
-            if(originalFile.exists()) {
+            val renamedFile = File(originalFile.parentFile!!.absolutePath + "/$fileName")
+            if (originalFile.exists()) {
                 originalFile.renameTo(renamedFile)
+                val modelFile = FileConverter.toModel(renamedFile.parentFile!!)
+                emitter.onSuccess(modelFile)
+            } else {
+                emitter.onError(FileNotFoundException())
             }
-            val modelFile = FileConverter.toModel(renamedFile.parentFile)
-            emitter.onSuccess(modelFile)
         }
     }
 
     override fun propertiesOf(fileModel: FileModel): Single<PropertiesModel> {
         return Single.create { emitter ->
             val realFile = File(fileModel.path)
-            if(realFile.exists()) {
+            if (realFile.exists()) {
                 val result = PropertiesModel(
                     fileModel.name,
                     fileModel.path,
@@ -127,7 +140,7 @@ class LocalFileRepository(
 
             // Load from Storage
             val file = File(documentModel.path)
-            val text = if(file.exists()) {
+            val text = if (file.exists()) {
                 file.inputStream().bufferedReader().use(BufferedReader::readText)
             } else {
                 emitter.onError(FileNotFoundException())
@@ -143,7 +156,7 @@ class LocalFileRepository(
 
             // Save to Storage
             val file = File(documentModel.path)
-            if(!file.exists()) {
+            if (!file.exists()) {
                 file.createNewFile()
             }
             val writer = file.outputStream().bufferedWriter()
@@ -159,7 +172,7 @@ class LocalFileRepository(
     // region PROPERTIES
 
     private fun getLineCount(file: File): String {
-        if(file.isFile) {
+        if (file.isFile) {
             var lines = 0
             file.forEachLine {
                 lines++
@@ -170,7 +183,7 @@ class LocalFileRepository(
     }
 
     private fun getWordCount(file: File): String {
-        if(file.isFile) {
+        if (file.isFile) {
             var words = 0
             file.forEachLine {
                 words += it.split(' ').size
@@ -181,7 +194,7 @@ class LocalFileRepository(
     }
 
     private fun getCharCount(file: File): String {
-        if(file.isFile) {
+        if (file.isFile) {
             return file.length().toString()
         }
         return "…"

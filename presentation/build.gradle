@@ -17,7 +17,9 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     def buildConfig = rootProject.extensions.getByName("ext")
@@ -63,7 +65,6 @@ dependencies {
     //Kotlin
     implementation library.kotlin
     implementation library.core_ktx
-    implementation library.fragment_ktx
 
     //Support & Design
     implementation library.appcompat
@@ -76,8 +77,10 @@ dependencies {
     implementation library.keyboardevent
 
     //Architecture Components
-    implementation library.lifecycle_extensions //ViewModel and LiveData
-    kapt library.lifecycle_compiler
+    implementation library.navigation_ui
+    implementation library.navigation_fragment
+    implementation library.livedata
+    implementation library.viewmodel
 
     //RxJava2
     implementation library.rxjava2

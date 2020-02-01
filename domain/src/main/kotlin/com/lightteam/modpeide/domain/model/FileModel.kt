@@ -17,6 +17,10 @@
 
 package com.lightteam.modpeide.domain.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class FileModel(
     val name: String,
     val path: String,
@@ -24,4 +28,4 @@ data class FileModel(
     val lastModified: Long,
     val isFolder: Boolean,
     val isHidden: Boolean
-)
+) : Parcelable

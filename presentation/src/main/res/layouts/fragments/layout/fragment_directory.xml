@@ -20,10 +20,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel"/>
+        <import type="com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel"/>
         <import type="android.view.View"/>
 
-        <variable name="viewModel" type="ExplorerViewModel"/>
+        <variable name="viewModel" type="com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel"/>
     </data>
 
     <FrameLayout
@@ -42,7 +42,7 @@
             android:layout_height="64dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:visibility="@{viewModel.filesLoadingIndicator ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{viewModel.stateLoadingFiles ? View.VISIBLE : View.GONE}"/>
 
         <ImageView
             android:layout_width="92dp"
@@ -51,7 +51,7 @@
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_file_search"
             android:tint="@color/colorIcon"
-            android:visibility="@{viewModel.noFilesIndicator ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,10 +59,10 @@
             android:layout_marginTop="56dp"
             android:layout_gravity="center"
             android:textColor="@color/colorIcon"
-            android:textSize="26sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:text="@string/message_no_result"
-            android:visibility="@{viewModel.noFilesIndicator ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"/>
 
     </FrameLayout>
 

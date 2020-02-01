@@ -40,12 +40,8 @@ class SettingsActivity : BaseActivity() {
         viewModel.observePreferences()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
         binding.viewModel = viewModel
+        observeViewModel()
 
-        setupListeners()
-        setupObservers()
-    }
-
-    private fun setupListeners() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
@@ -56,7 +52,7 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun setupObservers() {
+    private fun observeViewModel() {
         viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
             if(isFullscreen) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)

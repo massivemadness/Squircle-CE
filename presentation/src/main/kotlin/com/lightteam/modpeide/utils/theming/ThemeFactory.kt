@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.utils.theming
 
-import com.lightteam.modpeide.ui.main.customview.TextProcessor
+import com.lightteam.modpeide.ui.editor.customview.TextProcessor
 
 object ThemeFactory {
 

@@ -19,8 +19,9 @@ package com.lightteam.modpeide.internal.di.modules.main
 
 import com.lightteam.modpeide.internal.di.modules.main.fragments.FragmentDirectoryModule
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.ui.main.fragments.FragmentDirectory
-import com.lightteam.modpeide.ui.main.fragments.FragmentExplorer
+import com.lightteam.modpeide.ui.explorer.fragments.FragmentDirectory
+import com.lightteam.modpeide.ui.explorer.fragments.FragmentExplorer
+import com.lightteam.modpeide.ui.explorer.fragments.FragmentPermissions
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -30,6 +31,10 @@ abstract class MainFragmentsProvider {
     @PerFragment
     @ContributesAndroidInjector
     abstract fun bindFragmentExplorer(): FragmentExplorer
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindFragmentPermissions(): FragmentPermissions
 
     @PerFragment
     @ContributesAndroidInjector(modules = [FragmentDirectoryModule::class])

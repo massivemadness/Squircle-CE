@@ -21,6 +21,8 @@
 ]>
 <resources>
 
+    <string name="label_permissions">Разрешения</string>
+    <string name="label_directory">Директория</string>
     <string name="label_settings">Настройки</string>
     <string name="label_local_storage">На устройстве</string>
 
@@ -53,7 +55,7 @@
     <string name="action_replace_all">Заменить все</string>
     <string name="action_go_to">Перейти</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
-    <string name="action_get_it_for">Купить за 99,90 ₽</string>
+    <string name="action_get_it_for">Купить</string>
     <string name="action_maybe_later">Может позже</string>
     <string name="action_unlock_all_features">Получить все возможности</string>
 
@@ -91,12 +93,13 @@
 
     <string name="message_access_denied">Доступ запрещён</string>
     <string name="message_access_required">Проводник требует разрешения для работы с файлами</string>
-    <string name="message_no_result">Нет результата</string>
+    <string name="message_no_result">Нет результатов</string>
     <string name="message_no_open_files">Нет файлов</string>
     <string name="message_tab_limit_achieved">Достигнут лимит вкладок</string>
     <string name="message_cannot_be_opened">Файл невозможно открыть</string>
     <string name="message_invalid_file_name">Неправильное имя файла</string>
-    <string name="message_error">Произошла ошибка</string>
+    <string name="message_unknown_exception">Неизвестная ошибка</string>
+    <string name="message_directory_expected">Попытка получить список файлов из файла</string>
     <string name="message_done">Готово</string>
     <string name="message_saved">Сохранено</string>
     <string name="message_select_file">Выберите файл</string>

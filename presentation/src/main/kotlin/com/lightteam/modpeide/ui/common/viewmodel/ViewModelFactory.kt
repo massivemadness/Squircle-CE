@@ -24,10 +24,8 @@ import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
-import com.lightteam.modpeide.ui.main.adapters.BreadcrumbAdapter
-import com.lightteam.modpeide.ui.main.adapters.DocumentAdapter
-import com.lightteam.modpeide.ui.main.viewmodel.ExplorerViewModel
-import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
+import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
+import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.commons.VersionChecker
 
@@ -37,32 +35,23 @@ class ViewModelFactory(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val cacheHandler: CacheHandler,
-    private val breadcrumbAdapter: BreadcrumbAdapter,
-    private val documentAdapter: DocumentAdapter,
     private val versionChecker: VersionChecker
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
-            modelClass === MainViewModel::class.java ->
-                MainViewModel(
+            modelClass === EditorViewModel::class.java ->
+                EditorViewModel(
                     schedulersProvider,
                     fileRepository,
-                    database,
-                    preferenceHandler,
-                    cacheHandler,
-                    documentAdapter,
-                    versionChecker
+                    preferenceHandler
                 ) as T
             modelClass === ExplorerViewModel::class.java ->
                 ExplorerViewModel(
                     schedulersProvider,
                     fileRepository,
-                    preferenceHandler,
-                    breadcrumbAdapter,
-                    documentAdapter,
-                    versionChecker
+                    preferenceHandler
                 ) as T
             modelClass === SettingsViewModel::class.java ->
                 SettingsViewModel(

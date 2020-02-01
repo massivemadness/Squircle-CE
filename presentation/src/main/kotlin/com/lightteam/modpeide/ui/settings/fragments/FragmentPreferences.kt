@@ -19,7 +19,7 @@ package com.lightteam.modpeide.ui.settings.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.preference.Preference
 import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
@@ -60,11 +60,11 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupObservers()
+        observeViewModel()
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        when(preference?.key) {
+        when (preference?.key) {
             KEY_ROOT -> setPreferencesFromResource(R.xml.preference_headers, KEY_ROOT)
             KEY_APPLICATION -> setPreferencesFromResource(R.xml.preference_application, KEY_APPLICATION)
             KEY_EDITOR -> setPreferencesFromResource(R.xml.preference_editor, KEY_EDITOR)
@@ -80,14 +80,14 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
                 privacy?.setOnPreferenceClickListener { showPrivacyPolicyDialog() }
             }
         }
-        activity?.title = preferenceScreen.title
+        requireActivity().title = preferenceScreen.title
         return super.onPreferenceTreeClick(preference)
     }
 
     override fun setPreferencesFromResource(preferencesResId: Int, key: String?) {
         super.setPreferencesFromResource(preferencesResId, key)
-        if(!viewModel.isUltimate()) {
-            when(key) {
+        if (!viewModel.isUltimate()) {
+            when (key) {
                 KEY_APPLICATION -> {
                     findPreference<Preference>(KEY_THEME)?.isEnabled = false
                 }
@@ -106,23 +106,21 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
         }
     }
 
-    private fun setupObservers() {
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if(preferenceScreen.key != KEY_ROOT) {
-                    val root = Preference(context).apply { key = KEY_ROOT }
-                    onPreferenceTreeClick(root)
-                } else {
-                    activity?.finish()
-                }
+    private fun observeViewModel() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (preferenceScreen.key != KEY_ROOT) {
+                val root = Preference(context).apply { key = KEY_ROOT }
+                onPreferenceTreeClick(root)
+            } else {
+                requireActivity().finish()
             }
-        })
+        }
     }
 
     // region DIALOGS
 
     private fun showChangelogDialog(): Boolean {
-        MaterialDialog(context!!).show {
+        MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_changelog)
             message(text = context.getRawFileText(R.raw.changelog).asHtml())
             negativeButton(R.string.action_close)
@@ -131,7 +129,7 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
     }
 
     private fun showPrivacyPolicyDialog(): Boolean {
-        MaterialDialog(context!!).show {
+        MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_privacy_policy)
             message(text = context.getRawFileText(R.raw.privacy_policy).asHtml())
             negativeButton(R.string.action_close)

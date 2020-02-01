@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
 import java.io.BufferedReader
 
@@ -32,7 +33,7 @@ fun Context.getScaledDensity(): Float {
     return resources.displayMetrics.scaledDensity
 }
 
-fun Context.getRawFileText(resId: Int): String {
+fun Context.getRawFileText(@RawRes resId: Int): String {
     val inputStream = resources.openRawResource(resId)
     return inputStream.bufferedReader().use(BufferedReader::readText)
 }
