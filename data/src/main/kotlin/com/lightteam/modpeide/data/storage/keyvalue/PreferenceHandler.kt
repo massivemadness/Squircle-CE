@@ -87,8 +87,4 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getFilterHidden(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
     fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
     fun getSortMode(): Preference<String> = rxSharedPreferences.getString(KEY_SORT_MODE, "0")
-
-    //Setter
-    fun setFilterHidden(showHiddenFiles: Boolean) = getFilterHidden().set(showHiddenFiles)
-    fun setSortMode(sortMode: String) = getSortMode().set(sortMode)
 }

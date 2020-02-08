@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main
+package com.lightteam.modpeide.internal.di.modules.editor
 
-import com.lightteam.modpeide.internal.di.modules.main.fragments.FragmentDirectoryModule
+import com.lightteam.modpeide.internal.di.modules.editor.fragments.FragmentDirectoryModule
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
 import com.lightteam.modpeide.ui.explorer.fragments.FragmentDirectory
 import com.lightteam.modpeide.ui.explorer.fragments.FragmentExplorer
@@ -26,7 +26,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class MainFragmentsProvider {
+abstract class EditorFragmentsProvider {
 
     @PerFragment
     @ContributesAndroidInjector

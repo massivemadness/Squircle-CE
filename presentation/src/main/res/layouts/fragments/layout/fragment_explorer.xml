@@ -83,30 +83,36 @@
 
         <!-- region DIRECTORY FRAGMENT -->
 
-        <FrameLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/swipe_refresh"
             android:background="@color/colorBackground">
 
-            <androidx.fragment.app.FragmentContainerView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/nav_host"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                app:navGraph="@navigation/navigation_graph"
-                app:defaultNavHost="true"/>
+                android:layout_height="match_parent">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="24dp"
-                android:id="@+id/action_add"
-                android:src="@drawable/ic_plus"
-                android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.GONE}"/>
+                <androidx.fragment.app.FragmentContainerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/nav_host"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    app:navGraph="@navigation/navigation_graph"
+                    app:defaultNavHost="true"/>
 
-        </FrameLayout>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="24dp"
+                    android:id="@+id/action_create"
+                    android:src="@drawable/ic_plus"
+                    android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.INVISIBLE}"/>
+
+            </FrameLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <!-- endregion DIRECTORY FRAGMENT -->
 

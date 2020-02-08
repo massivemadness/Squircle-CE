@@ -21,26 +21,15 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     def buildConfig = rootProject.extensions.getByName("ext")
-    def globalConfig = rootProject.extensions.getByName("ext")
 
     compileSdkVersion buildConfig.compile_sdk
     buildToolsVersion buildConfig.build_tools
     defaultConfig {
         minSdkVersion buildConfig.min_sdk
         targetSdkVersion buildConfig.target_sdk
-
-        versionCode globalConfig.versionCode
-        versionName globalConfig.versionName
-        testInstrumentationRunner globalConfig.testRunner
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
 }
 
@@ -50,12 +39,6 @@ dependencies {
     //Kotlin
     implementation library.kotlin
 
-    //RxJava2
+    //Rx
     implementation library.rxjava2
-
-    //Tests
-    testImplementation testLibrary.junit
-    androidTestImplementation testLibrary.junit_ext
-    androidTestImplementation testLibrary.test_runner
-    androidTestImplementation testLibrary.espresso_core
 }

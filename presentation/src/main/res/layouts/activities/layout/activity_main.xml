@@ -52,7 +52,7 @@
                     android:layout_height="45dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:padding="10dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_drawer"
@@ -63,7 +63,7 @@
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:layout_toLeftOf="@id/action_menu_file"
+                    android:layout_toStartOf="@id/action_menu_file"
                     android:padding="10.5dp"
                     android:visibility="gone"
                     android:src="@drawable/ic_save"
@@ -74,7 +74,7 @@
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:layout_toLeftOf="@id/action_menu_edit"
+                    android:layout_toStartOf="@id/action_menu_edit"
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_folder"
@@ -85,7 +85,7 @@
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:layout_toLeftOf="@id/action_menu_search"
+                    android:layout_toStartOf="@id/action_menu_search"
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_edit"
@@ -96,7 +96,7 @@
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:layout_toLeftOf="@id/action_menu_tools"
+                    android:layout_toStartOf="@id/action_menu_tools"
                     android:padding="10.5dp"
                     android:visibility="gone"
                     android:src="@drawable/ic_file_search"
@@ -107,7 +107,7 @@
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:layout_toLeftOf="@id/action_menu_undo"
+                    android:layout_toStartOf="@id/action_menu_undo"
                     android:padding="10.5dp"
                     android:visibility="gone"
                     android:src="@drawable/ic_tools"
@@ -118,7 +118,7 @@
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:layout_toLeftOf="@id/action_menu_redo"
+                    android:layout_toStartOf="@id/action_menu_redo"
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_undo"
@@ -130,7 +130,7 @@
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:layout_toLeftOf="@id/action_menu_overflow"
+                    android:layout_toStartOf="@id/action_menu_overflow"
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_redo"
@@ -142,7 +142,7 @@
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_overflow"
@@ -177,6 +177,7 @@
                     android:layout_height="92dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="16dp"
+                    android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
                     android:src="@drawable/ic_file_search"
                     android:tint="@color/colorIcon"/>
 
@@ -185,6 +186,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="56dp"
+                    android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
                     android:textColor="@color/colorIcon"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -194,22 +196,24 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center"
+                    android:visibility="@{viewModel.stateLoadingDocuments ? View.VISIBLE : View.GONE}"
                     android:indeterminate="true"/>
 
                 <com.lightteam.modpeide.ui.editor.customview.TextProcessor
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="top|left"
+                    android:gravity="top|start"
+                    android:visibility="@{(viewModel.stateLoadingDocuments || viewModel.stateNothingFound) ? View.INVISIBLE : View.VISIBLE}"
                     android:textCursorDrawable="@drawable/caret"
                     android:dropDownAnchor="@id/tab_document_layout"
                     android:completionThreshold="2"
-                    android:popupBackground="@color/colorPrimary"
+                    android:popupBackground="@color/colorPrimaryDark"
                     android:id="@+id/editor"/>
 
                 <com.lightteam.modpeide.ui.editor.customview.TextScroller
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:id="@+id/scroller"
                     app:thumbTint="@color/colorSecondary"/>
 

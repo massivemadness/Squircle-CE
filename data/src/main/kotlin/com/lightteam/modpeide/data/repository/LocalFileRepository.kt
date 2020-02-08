@@ -136,29 +136,29 @@ class LocalFileRepository(
 
     override fun loadFile(documentModel: DocumentModel): Single<String> {
         return Single.create { emitter ->
-            database.documentDao().insert(DocumentConverter.toCache(documentModel)) // Save to Database
+            database.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
 
             // Load from Storage
             val file = File(documentModel.path)
-            val text = if (file.exists()) {
-                file.inputStream().bufferedReader().use(BufferedReader::readText)
+            if (file.exists()) {
+                val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
+                emitter.onSuccess(text)
             } else {
                 emitter.onError(FileNotFoundException())
-                String() //empty
             }
-            emitter.onSuccess(text)
         }
     }
 
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
         return Completable.create { emitter ->
-            database.documentDao().update(DocumentConverter.toCache(documentModel)) // Save to Database
+            database.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
 
             // Save to Storage
             val file = File(documentModel.path)
             if (!file.exists()) {
                 file.createNewFile()
             }
+
             val writer = file.outputStream().bufferedWriter()
             writer.write(text)
             writer.close()

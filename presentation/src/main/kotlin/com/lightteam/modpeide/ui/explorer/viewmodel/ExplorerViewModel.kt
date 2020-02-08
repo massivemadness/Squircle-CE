@@ -24,7 +24,10 @@ import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.exception.DirectoryExpectedException
+import com.lightteam.modpeide.domain.exception.FileAlreadyExistsException
+import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
@@ -59,8 +62,14 @@ class ExplorerViewModel(
     val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Обновление после смены фильтрации
     val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Отфильтрованый список файлов
     val tabEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки
+    val fabEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Кнопка "+"
+
+    val createEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Создание файла
+    val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла
 
     // endregion EVENTS
+
+    val defaultLocation: FileModel = fileRepository.defaultLocation()
 
     var searchList: List<FileModel> = emptyList()
     var sortMode: Int = FileSorter.SORT_BY_NAME
@@ -69,7 +78,10 @@ class ExplorerViewModel(
     private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     private var foldersOnTop: Boolean = true
 
-    fun provideDefaultDirectory() = provideDirectory(fileRepository.defaultLocation())
+    fun newTab(fileModel: FileModel?) {
+        tabEvent.value = fileModel ?: defaultLocation
+    }
+
     fun provideDirectory(fileModel: FileModel) {
         fileRepository.provideDirectory(fileModel)
             .doOnSubscribe {
@@ -131,18 +143,105 @@ class ExplorerViewModel(
         searchEvent.value = collection
     }
 
-    fun newTab(fileModel: FileModel?) {
-        tabEvent.value = fileModel ?: fileRepository.defaultLocation()
+    fun createFile(fileModel: FileModel) {
+        fileRepository.createFile(fileModel)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = {
+                    createEvent.value = it
+                    toastEvent.value = R.string.message_done
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    when (it) {
+                        is FileAlreadyExistsException -> {
+                            toastEvent.value = R.string.message_file_already_exists
+                        }
+                        else -> {
+                            toastEvent.value = R.string.message_unknown_exception
+                        }
+                    }
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun renameFile(fileModel: FileModel, newName: String) {
+        fileRepository.renameFile(fileModel, newName)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = {
+                    filesUpdateEvent.call()
+                    toastEvent.value = R.string.message_done
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    when (it) {
+                        is FileNotFoundException -> {
+                            toastEvent.value = R.string.message_file_not_found
+                        }
+                        else -> {
+                            toastEvent.value = R.string.message_unknown_exception
+                        }
+                    }
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun deleteFile(fileModel: FileModel) {
+        fileRepository.deleteFile(fileModel)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = {
+                    filesUpdateEvent.call()
+                    toastEvent.value = R.string.message_done
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    when (it) {
+                        is FileNotFoundException -> {
+                            toastEvent.value = R.string.message_file_not_found
+                        }
+                        else -> {
+                            toastEvent.value = R.string.message_unknown_exception
+                        }
+                    }
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun propertiesOf(fileModel: FileModel) {
+        fileRepository.propertiesOf(fileModel)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = {
+                    propertiesEvent.value = it
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    when (it) {
+                        is FileNotFoundException -> {
+                            toastEvent.value = R.string.message_file_not_found
+                        }
+                        else -> {
+                            toastEvent.value = R.string.message_unknown_exception
+                        }
+                    }
+                }
+            )
+            .disposeOnViewModelDestroy()
     }
 
     // region PREFERENCES
 
     fun setFilterHidden(filter: Boolean) {
-        preferenceHandler.setFilterHidden(filter)
+        preferenceHandler.getFilterHidden().set(filter)
     }
 
     fun setSortMode(mode: String) {
-        preferenceHandler.setSortMode(mode)
+        preferenceHandler.getSortMode().set(mode)
     }
 
     fun observePreferences() {

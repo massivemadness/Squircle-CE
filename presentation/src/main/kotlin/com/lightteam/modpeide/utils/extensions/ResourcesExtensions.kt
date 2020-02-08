@@ -17,12 +17,15 @@
 
 package com.lightteam.modpeide.utils.extensions
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import java.io.BufferedReader
 
 fun Context.getDrawableCompat(@DrawableRes drawable: Int): Drawable {
@@ -40,4 +43,10 @@ fun Context.getRawFileText(@RawRes resId: Int): String {
 
 fun Context.getTypefaceFromAssets(path: String): Typeface {
     return Typeface.createFromAsset(assets, path)
+}
+
+fun String.clipText(context: Context?) = clip(context, ClipData.newPlainText("Text", this))
+
+private fun clip(context: Context?, data: ClipData) {
+    context?.getSystemService<ClipboardManager>()?.setPrimaryClip(data)
 }

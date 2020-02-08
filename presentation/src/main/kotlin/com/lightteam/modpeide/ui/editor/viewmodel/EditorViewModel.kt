@@ -17,20 +17,32 @@
 
 package com.lightteam.modpeide.ui.editor.viewmodel
 
+import android.util.Log
 import androidx.databinding.ObservableBoolean
+import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.DocumentConverter
+import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.storage.collection.UndoStack
+import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.domain.exception.FileNotFoundException
+import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.editor.customview.TextProcessor
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import com.lightteam.modpeide.utils.theming.ThemeFactory
+import io.reactivex.Completable
+import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
     private val schedulersProvider: SchedulersProvider,
     private val fileRepository: FileRepository,
+    private val cacheHandler: CacheHandler,
+    private val appDatabase: AppDatabase,
     private val preferenceHandler: PreferenceHandler
 ) : BaseViewModel() {
 
@@ -40,6 +52,9 @@ class EditorViewModel(
 
     // region UI
 
+    val stateLoadingDocuments: ObservableBoolean = ObservableBoolean(false) //Индикатор загрузки документа
+    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет документов
+
     val canUndo: ObservableBoolean = ObservableBoolean(false) //Кликабельность кнопки Undo
     val canRedo: ObservableBoolean = ObservableBoolean(false) //Кликабельность кнопки Redo
 
@@ -48,6 +63,12 @@ class EditorViewModel(
     // region EVENTS
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
+    val documentsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Список документов
+    val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
+
+    val textEvent: SingleLiveEvent<String> = SingleLiveEvent() //Контент загруженного файла
+    val loadedEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Для загрузки скроллинга/выделения
+    val stacksEvent: SingleLiveEvent<Pair<UndoStack, UndoStack>> = SingleLiveEvent() //Для загрузки Undo/Redo
 
     // endregion EVENTS
 
@@ -77,6 +98,162 @@ class EditorViewModel(
     val autoCloseQuotesEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автоматическое закрытие кавычек
 
     // endregion PREFERENCES
+
+    fun loadFiles() {
+        if (resumeSessionEvent.value!!) {
+            appDatabase.documentDao().loadAll()
+                .doOnSubscribe { stateLoadingDocuments.set(true) }
+                .doOnSuccess {
+                    stateLoadingDocuments.set(false)
+                    stateNothingFound.set(it.isEmpty())
+                }
+                .map { it.map(DocumentConverter::toModel) }
+                .schedulersIoToMain(schedulersProvider)
+                .subscribeBy(
+                    onSuccess = {
+                        documentsEvent.value = it
+                    },
+                    onError = {
+                        Log.e(TAG, it.message, it)
+                        toastEvent.value = R.string.message_unknown_exception
+                    }
+                )
+                .disposeOnViewModelDestroy()
+        } else {
+            appDatabase.documentDao().deleteAll()
+                .doOnSubscribe { stateLoadingDocuments.set(true) }
+                .doOnComplete {
+                    stateLoadingDocuments.set(false)
+                    stateNothingFound.set(true)
+                }
+                .schedulersIoToMain(schedulersProvider)
+                .subscribeBy {
+                    cacheHandler.deleteAllCaches()
+                }
+                .disposeOnViewModelDestroy()
+        }
+    }
+
+    fun loadFile(documentModel: DocumentModel) {
+        val dataSource = if (cacheHandler.isCached(documentModel)) {
+            cacheHandler.loadFromCache(documentModel)
+        } else {
+            fileRepository.loadFile(documentModel)
+        }
+        Singles
+            .zip(
+                dataSource,
+                cacheHandler.loadUndoStack(documentModel),
+                cacheHandler.loadRedoStack(documentModel)
+            )
+            .doOnSubscribe { stateLoadingDocuments.set(true) }
+            .doOnSuccess { stateLoadingDocuments.set(false) }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = { triple ->
+                    textEvent.value = triple.first //Text
+                    loadedEvent.value = documentModel //Selection, scroll position
+                    stacksEvent.value = triple.second to triple.third //Undo & Redo stacks
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    when (it) {
+                        is FileNotFoundException -> {
+                            toastEvent.value = R.string.message_file_not_found
+                        }
+                        else -> {
+                            toastEvent.value = R.string.message_unknown_exception
+                        }
+                    }
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun saveFile(documentModel: DocumentModel, text: String) {
+        fileRepository.saveFile(documentModel, text)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onComplete = {
+                    toastEvent.value = R.string.message_saved
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    toastEvent.value = R.string.message_unknown_exception
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun deleteCache(documentModel: DocumentModel) {
+        deleteDocument(documentModel)
+        cacheHandler.deleteCache(documentModel)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    toastEvent.value = R.string.message_unknown_exception
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun saveToCache(documentModel: DocumentModel, text: String) {
+        updateDocument(documentModel)
+        cacheHandler.saveToCache(documentModel, text)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    toastEvent.value = R.string.message_unknown_exception
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun saveUndoStack(documentModel: DocumentModel, undoStack: UndoStack) {
+        cacheHandler.saveUndoStack(documentModel, undoStack)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    toastEvent.value = R.string.message_unknown_exception
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun saveRedoStack(documentModel: DocumentModel, redoStack: UndoStack) {
+        cacheHandler.saveRedoStack(documentModel, redoStack)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    toastEvent.value = R.string.message_unknown_exception
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    private fun updateDocument(documentModel: DocumentModel) {
+        Completable
+            .fromAction {
+                appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy()
+            .disposeOnViewModelDestroy()
+    }
+
+    private fun deleteDocument(documentModel: DocumentModel) {
+        Completable
+            .fromAction {
+                appDatabase.documentDao().delete(DocumentConverter.toEntity(documentModel)) // Delete from Database
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy()
+            .disposeOnViewModelDestroy()
+    }
 
     // region PREFERENCES
 
@@ -122,7 +299,12 @@ class EditorViewModel(
         preferenceHandler.getResumeSession()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { resumeSessionEvent.value = it }
+            .subscribeBy {
+                resumeSessionEvent.value = it
+                if (documentsEvent.value == null) {
+                    loadFiles()
+                }
+            }
             .disposeOnViewModelDestroy()
 
         //Tab Limit

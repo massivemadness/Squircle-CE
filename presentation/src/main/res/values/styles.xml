@@ -15,23 +15,13 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Application.Base" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-    </style>
-
-    <!-- Darcula -->
-    <style name="Theme.Darcula" parent="Theme.Application.Base">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
-
-        <item name="md_ripple_color">?android:colorControlHighlight</item>
-
-        <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+    <!-- MD background fix -->
+    <style name="MD_Dialog_Input_Layout" tools:override="true">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <!-- TextButton -->

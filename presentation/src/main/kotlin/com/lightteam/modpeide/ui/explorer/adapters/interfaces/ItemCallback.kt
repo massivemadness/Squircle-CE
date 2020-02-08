@@ -17,9 +17,7 @@
 
 package com.lightteam.modpeide.ui.explorer.adapters.interfaces
 
-import com.lightteam.modpeide.domain.model.FileModel
-
-interface ItemCallback {
-    fun onClick(fileModel: FileModel)
-    fun onLongClick(fileModel: FileModel): Boolean
+interface ItemCallback<in T> {
+    fun onClick(item: T)
+    fun onLongClick(item: T): Boolean
 }

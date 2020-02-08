@@ -19,10 +19,13 @@ package com.lightteam.modpeide.data.storage.cache
 
 import android.content.Context
 import com.lightteam.modpeide.data.storage.collection.UndoStack
+import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.model.DocumentModel
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.IOException
 import java.lang.NumberFormatException
 
 class CacheHandler(context: Context) {
@@ -35,13 +38,12 @@ class CacheHandler(context: Context) {
     fun loadFromCache(documentModel: DocumentModel): Single<String> {
         return Single.create { emitter ->
             val file = findCache("${documentModel.uuid}.cache")
-            val text = if(file.exists()) {
-                file.inputStream().bufferedReader().use(BufferedReader::readText)
+            if (file.exists()) {
+                val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
+                emitter.onSuccess(text)
             } else {
                 emitter.onError(FileNotFoundException())
-                String() //empty
             }
-            emitter.onSuccess(text)
         }
     }
 
@@ -131,7 +133,7 @@ class CacheHandler(context: Context) {
     }
 
     fun deleteAllCaches() {
-        cacheDirectory.listFiles().forEach {
+        cacheDirectory.listFiles()?.forEach {
             it.deleteRecursively()
         }
     }

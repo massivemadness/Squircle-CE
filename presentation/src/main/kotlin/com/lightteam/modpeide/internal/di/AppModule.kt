@@ -96,14 +96,14 @@ class AppModule {
     @Provides
     @PerApplication
     fun provideViewModelFactory(fileRepository: FileRepository,
-                                database: AppDatabase,
+                                appDatabase: AppDatabase,
                                 schedulersProvider: SchedulersProvider,
                                 preferenceHandler: PreferenceHandler,
                                 cacheHandler: CacheHandler,
                                 versionChecker: VersionChecker): ViewModelFactory {
         return ViewModelFactory(
             fileRepository,
-            database,
+            appDatabase,
             schedulersProvider,
             preferenceHandler,
             cacheHandler,

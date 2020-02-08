@@ -61,7 +61,7 @@
     <string name="action_maybe_later">Maybe later</string>
     <string name="action_unlock_all_features">Unlock all features</string>
 
-    <string name="dialog_title_choose_action">Choose action…</string>
+    <string name="dialog_title_choose_action">Choose action</string>
     <string name="dialog_title_create">Create…</string>
     <string name="dialog_title_rename">Rename…</string>
     <string name="dialog_title_store">Get the Ultimate Edition</string>
@@ -102,6 +102,8 @@
     <string name="message_invalid_file_name">Invalid file name</string>
     <string name="message_unknown_exception">An error occurred</string>
     <string name="message_directory_expected">Attempt to get list of files from file</string>
+    <string name="message_file_already_exists">File already exists</string>
+    <string name="message_file_not_found">File not found</string>
     <string name="message_done">Done</string>
     <string name="message_saved">Saved</string>
     <string name="message_select_file">Select File</string>

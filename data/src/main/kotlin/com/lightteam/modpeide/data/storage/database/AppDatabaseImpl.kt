@@ -24,7 +24,7 @@ import com.lightteam.modpeide.data.entity.DocumentEntity
 
 @Database(entities = [
     DocumentEntity::class
-], version = 2, exportSchema = false)
+], version = 2)
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
     companion object {

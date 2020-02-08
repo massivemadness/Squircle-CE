@@ -31,7 +31,7 @@ import com.lightteam.modpeide.ui.explorer.adapters.interfaces.ItemCallback
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter.FileViewHolder
 
 class FileAdapter(
-    private val itemCallback: ItemCallback
+    private val itemCallback: ItemCallback<FileModel>
 ) : ListAdapter<FileModel, FileViewHolder>(diffCallback) {
 
     companion object {
@@ -55,11 +55,11 @@ class FileAdapter(
 
     class FileViewHolder(
         itemView: View,
-        private val itemCallback: ItemCallback
+        private val itemCallback: ItemCallback<FileModel>
     ): BaseViewHolder<FileModel>(itemView) {
 
         companion object {
-            fun create(parent: ViewGroup, itemCallback: ItemCallback): FileViewHolder {
+            fun create(parent: ViewGroup, itemCallback: ItemCallback<FileModel>): FileViewHolder {
                 val itemView = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_file, parent, false)

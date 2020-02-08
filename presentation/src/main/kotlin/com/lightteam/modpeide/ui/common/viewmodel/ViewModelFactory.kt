@@ -31,7 +31,7 @@ import com.lightteam.modpeide.utils.commons.VersionChecker
 
 class ViewModelFactory(
     private val fileRepository: FileRepository,
-    private val database: AppDatabase,
+    private val appDatabase: AppDatabase,
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val cacheHandler: CacheHandler,
@@ -45,6 +45,8 @@ class ViewModelFactory(
                 EditorViewModel(
                     schedulersProvider,
                     fileRepository,
+                    cacheHandler,
+                    appDatabase,
                     preferenceHandler
                 ) as T
             modelClass === ExplorerViewModel::class.java ->

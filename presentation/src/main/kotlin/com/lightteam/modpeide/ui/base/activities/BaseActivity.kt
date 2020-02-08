@@ -18,8 +18,10 @@
 package com.lightteam.modpeide.ui.base.activities
 
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.content.getSystemService
 import com.lightteam.modpeide.R
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
@@ -37,6 +39,13 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.clear()
+    }
+
+    protected fun closeKeyboard() {
+        val inputManager = getSystemService<InputMethodManager>()
+        val windowToken = currentFocus?.windowToken
+        val hideType = InputMethodManager.HIDE_NOT_ALWAYS
+        inputManager?.hideSoftInputFromWindow(windowToken, hideType)
     }
 
     protected fun showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {

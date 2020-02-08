@@ -36,7 +36,7 @@ class UndoStack : Serializable {
 
     fun pop(): TextChange? {
         val size = stack.size
-        if(size <= 0) {
+        if (size <= 0) {
             return null
         }
         val item = stack[size - 1]
@@ -47,8 +47,8 @@ class UndoStack : Serializable {
 
     fun push(item: TextChange) {
         val delta = item.newText.length + item.oldText.length
-        if(delta < MAX_SIZE) {
-            if(stack.size > 0) {
+        if (delta < MAX_SIZE) {
+            if (stack.size > 0) {
                 val previous = stack[stack.size - 1]
                 val toCharArray: CharArray
                 val length: Int

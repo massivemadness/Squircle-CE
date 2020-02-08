@@ -48,7 +48,7 @@ object DocumentConverter {
         )
     }
 
-    fun toCache(model: DocumentModel): DocumentEntity {
+    fun toEntity(model: DocumentModel): DocumentEntity {
         return DocumentEntity(
             model.uuid,
             model.name,

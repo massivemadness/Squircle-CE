@@ -16,6 +16,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.KillerBLS.modpeide">
 
     <application
@@ -23,10 +24,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Darcula"
-        android:name="com.lightteam.modpeide.BaseApplication">
+        android:name="com.lightteam.modpeide.BaseApplication"
+        tools:replace="android:supportsRtl">
 
         <activity
             android:name="com.lightteam.modpeide.ui.editor.activities.EditorActivity"

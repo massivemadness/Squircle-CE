@@ -15,23 +15,24 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main
+package com.lightteam.modpeide.internal.di.modules.editor
 
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.ui.editor.activities.EditorActivity
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.common.viewmodel.ViewModelFactory
+import com.lightteam.modpeide.ui.editor.activities.utils.ToolbarManager
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import dagger.Module
 import dagger.Provides
 
 @Module
-class MainActivityModule {
+class EditorActivityModule {
 
     @Provides
     @PerActivity
-    fun provideMainViewModel(activity: EditorActivity, factory: ViewModelFactory): EditorViewModel {
+    fun provideEditorViewModel(activity: EditorActivity, factory: ViewModelFactory): EditorViewModel {
         return ViewModelProvider(activity, factory).get(EditorViewModel::class.java)
     }
 
@@ -39,5 +40,11 @@ class MainActivityModule {
     @PerActivity
     fun provideExplorerViewModel(activity: EditorActivity, factory: ViewModelFactory): ExplorerViewModel {
         return ViewModelProvider(activity, factory).get(ExplorerViewModel::class.java)
+    }
+
+    @Provides
+    @PerActivity
+    fun provideToolbarManager(activity: EditorActivity): ToolbarManager {
+        return ToolbarManager(activity)
     }
 }

@@ -69,12 +69,14 @@ dependencies {
     //Core
     implementation library.core_ktx
 
-    //Presentation Module
+    //Modules
     implementation project(":presentation")
 
     //Tests
     testImplementation testLibrary.junit
-    androidTestImplementation testLibrary.junit_ext
-    androidTestImplementation testLibrary.test_runner
-    androidTestImplementation testLibrary.espresso_core
+    testImplementation testLibrary.kunit
+
+    androidTestImplementation androidTestLibrary.junit_ext
+    androidTestImplementation androidTestLibrary.test_runner
+    androidTestImplementation androidTestLibrary.espresso_core
 }

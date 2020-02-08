@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main.fragments
+package com.lightteam.modpeide.internal.di.modules.editor.fragments
 
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.explorer.adapters.interfaces.ItemCallback
 import com.lightteam.modpeide.ui.explorer.fragments.FragmentDirectory
 import dagger.Module
 import dagger.Provides
@@ -30,8 +29,6 @@ class FragmentDirectoryModule {
     @Provides
     @PerFragment
     fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter {
-        return FileAdapter(
-            fragmentDirectory as ItemCallback
-        )
+        return FileAdapter(fragmentDirectory)
     }
 }

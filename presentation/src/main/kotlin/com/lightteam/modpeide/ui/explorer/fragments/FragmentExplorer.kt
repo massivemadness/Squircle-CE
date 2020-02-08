@@ -70,11 +70,18 @@ class FragmentExplorer : BaseFragment(), TabLayout.OnTabSelectedListener {
         observeViewModel()
 
         setSupportActionBar(binding.toolbar)
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.filesUpdateEvent.call()
+            binding.swipeRefresh.isRefreshing = false
+        }
         binding.tabLayout.addOnTabSelectedListener(this)
         binding.actionHome.setOnClickListener {
             val backStackCount = binding.navHost.fragment<NavHostFragment>().backStackEntryCount
             navController.popBackStack(backStackCount - 1)
             removeTab(backStackCount - 1)
+        }
+        binding.actionCreate.setOnClickListener {
+            viewModel.fabEvent.call()
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

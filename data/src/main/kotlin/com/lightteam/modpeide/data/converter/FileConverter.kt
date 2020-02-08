@@ -25,7 +25,7 @@ object FileConverter {
 
     fun toModel(documentModel: DocumentModel): FileModel {
         val file = File(documentModel.path)
-        return if(file.exists()) {
+        return if (file.exists()) {
             FileModel(
                 documentModel.name,
                 documentModel.path,

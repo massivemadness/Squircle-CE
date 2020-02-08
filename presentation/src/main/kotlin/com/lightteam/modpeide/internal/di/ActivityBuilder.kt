@@ -17,8 +17,8 @@
 
 package com.lightteam.modpeide.internal.di
 
-import com.lightteam.modpeide.internal.di.modules.main.MainActivityModule
-import com.lightteam.modpeide.internal.di.modules.main.MainFragmentsProvider
+import com.lightteam.modpeide.internal.di.modules.editor.EditorActivityModule
+import com.lightteam.modpeide.internal.di.modules.editor.EditorFragmentsProvider
 import com.lightteam.modpeide.internal.di.modules.settings.SettingsActivityModule
 import com.lightteam.modpeide.internal.di.modules.settings.SettingsFragmentsProvider
 import com.lightteam.modpeide.ui.editor.activities.EditorActivity
@@ -31,8 +31,8 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [MainActivityModule::class, MainFragmentsProvider::class])
-    abstract fun buildMainActivity(): EditorActivity
+    @ContributesAndroidInjector(modules = [EditorActivityModule::class, EditorFragmentsProvider::class])
+    abstract fun buildEditorActivity(): EditorActivity
 
     @PerActivity
     @ContributesAndroidInjector(modules = [SettingsActivityModule::class, SettingsFragmentsProvider::class])

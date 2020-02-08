@@ -66,42 +66,46 @@ dependencies {
     implementation library.kotlin
     implementation library.core_ktx
 
-    //Support & Design
+    //Design
     implementation library.appcompat
     implementation library.materialdesign
+    implementation library.swiperefreshlayout
     implementation library.preferencescompat
     implementation library.materialdialogs_core
     implementation library.materialdialogs_input
     implementation library.materialdialogs_color
 
-    implementation library.keyboardevent
-
-    //Architecture Components
+    //AAC
     implementation library.navigation_ui
     implementation library.navigation_fragment
     implementation library.livedata
     implementation library.viewmodel
 
-    //RxJava2
+    //Rx
     implementation library.rxjava2
     implementation library.rxandroid
     implementation library.rxkotlin
     implementation library.rxbinding_appcompat
     implementation library.rxpreferences
 
-    //Dagger2
+    //DI
     implementation library.dagger2
     kapt library.dagger2_compiler
     implementation library.dagger2_android
     kapt library.dagger2_android_processor
 
-    //Data & Domain Modules
+    //Other
+    implementation library.keyboardevent
+
+    //Modules
     implementation project(":domain")
     implementation project(":data")
 
     //Tests
     testImplementation testLibrary.junit
-    androidTestImplementation testLibrary.junit_ext
-    androidTestImplementation testLibrary.test_runner
-    androidTestImplementation testLibrary.espresso_core
+    testImplementation testLibrary.kunit
+
+    androidTestImplementation androidTestLibrary.junit_ext
+    androidTestImplementation androidTestLibrary.test_runner
+    androidTestImplementation androidTestLibrary.espresso_core
 }

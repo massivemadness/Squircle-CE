@@ -43,10 +43,11 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:id="@+id/fragment_container"
             android:tag="fragment_preferences"
             android:name="com.lightteam.modpeide.ui.settings.fragments.FragmentPreferences"/>
 
