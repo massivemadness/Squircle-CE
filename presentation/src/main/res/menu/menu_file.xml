@@ -34,11 +34,6 @@
         android:icon="@drawable/ic_save"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_file_properties"
-        android:title="@string/menu_file_properties"
-        android:icon="@drawable/ic_file_properties"
-        app:iconTint="@color/colorIcon"/>
-    <item
         android:id="@+id/menu_file_close"
         android:title="@string/menu_file_close"
         android:icon="@drawable/ic_close"

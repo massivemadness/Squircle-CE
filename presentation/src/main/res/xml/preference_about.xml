@@ -24,7 +24,7 @@
 
         <Preference
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/pref_about_ultimate_title"
+            android:title="@string/pref_about_standard_title"
             android:summary="@string/pref_about_summary"
             android:key="ABOUT_AND_CHANGELOG"/>
 

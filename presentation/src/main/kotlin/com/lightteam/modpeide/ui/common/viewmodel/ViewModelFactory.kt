@@ -47,7 +47,8 @@ class ViewModelFactory(
                     fileRepository,
                     cacheHandler,
                     appDatabase,
-                    preferenceHandler
+                    preferenceHandler,
+                    versionChecker
                 ) as T
             modelClass === ExplorerViewModel::class.java ->
                 ExplorerViewModel(

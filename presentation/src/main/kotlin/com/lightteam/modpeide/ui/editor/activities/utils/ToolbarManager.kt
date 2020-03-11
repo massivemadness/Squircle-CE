@@ -91,7 +91,6 @@ class ToolbarManager(
             R.id.menu_file_new -> listener.onNewButton()
             R.id.menu_file_open -> listener.onOpenButton()
             R.id.menu_file_save -> listener.onSaveButton()
-            R.id.menu_file_properties -> listener.onPropertiesButton()
             R.id.menu_file_close -> listener.onCloseButton()
 
             //Edit Menu

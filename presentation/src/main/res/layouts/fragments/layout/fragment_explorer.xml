@@ -73,6 +73,7 @@
                     app:tabPaddingStart="4dp"
                     app:tabPaddingEnd="0dp"
                     app:tabUnboundedRipple="false"
+                    app:tabGravity="start"
                     app:tabMode="scrollable"/>
 
             </LinearLayout>

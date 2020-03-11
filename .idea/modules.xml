@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ModPE-IDE-Source.iml" filepath="$PROJECT_DIR$/ModPE-IDE-Source.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app-standard/app-standard.iml" filepath="$PROJECT_DIR$/app-standard/app-standard.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app-ultimate/app-ultimate.iml" filepath="$PROJECT_DIR$/app-ultimate/app-ultimate.iml" />
-      <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
-      <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />
-      <module fileurl="file://$PROJECT_DIR$/presentation/presentation.iml" filepath="$PROJECT_DIR$/presentation/presentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ModPE-IDE-Source.iml" filepath="$PROJECT_DIR$/ModPE-IDE-Source.iml" group="ModPE-IDE-Source" />
+      <module fileurl="file://$PROJECT_DIR$/app-standard/app-standard.iml" filepath="$PROJECT_DIR$/app-standard/app-standard.iml" group="ModPE-IDE-Source/app-standard" />
+      <module fileurl="file://$PROJECT_DIR$/app-ultimate/app-ultimate.iml" filepath="$PROJECT_DIR$/app-ultimate/app-ultimate.iml" group="ModPE-IDE-Source/app-ultimate" />
+      <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" group="ModPE-IDE-Source/data" />
+      <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" group="ModPE-IDE-Source/domain" />
+      <module fileurl="file://$PROJECT_DIR$/presentation/presentation.iml" filepath="$PROJECT_DIR$/presentation/presentation.iml" group="ModPE-IDE-Source/presentation" />
     </modules>
   </component>
 </project>

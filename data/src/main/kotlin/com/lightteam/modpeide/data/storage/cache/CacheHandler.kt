@@ -18,7 +18,9 @@
 package com.lightteam.modpeide.data.storage.cache
 
 import android.content.Context
+import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.storage.collection.UndoStack
+import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.model.DocumentModel
 import io.reactivex.Completable
@@ -28,7 +30,10 @@ import java.io.File
 import java.io.IOException
 import java.lang.NumberFormatException
 
-class CacheHandler(context: Context) {
+class CacheHandler(
+    context: Context,
+    private val appDatabase: AppDatabase
+) {
 
     private val cacheDirectory = context.filesDir
 
@@ -78,7 +83,10 @@ class CacheHandler(context: Context) {
             textWriter.write(text)
             textWriter.close()
 
-            Completable.complete()
+            Completable
+                .fromAction {
+                    appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) //Save to Database
+                }
         } catch (e: IOException) {
             Completable.error(e)
         }
@@ -126,7 +134,10 @@ class CacheHandler(context: Context) {
             if (undoCacheFile.exists()) { undoCacheFile.delete() } //Delete undo-stack cache
             if (redoCacheFile.exists()) { redoCacheFile.delete() } //Delete redo-stack cache
 
-            Completable.complete()
+            Completable
+                .fromAction {
+                    appDatabase.documentDao().delete(DocumentConverter.toEntity(documentModel)) //Delete from Database
+                }
         } catch (e: IOException) {
             Completable.error(e)
         }

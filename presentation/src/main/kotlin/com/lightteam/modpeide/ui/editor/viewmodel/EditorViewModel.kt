@@ -25,6 +25,7 @@ import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.extensions.endsWith
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.model.DocumentModel
@@ -32,9 +33,9 @@ import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.editor.customview.TextProcessor
+import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import com.lightteam.modpeide.utils.theming.ThemeFactory
-import io.reactivex.Completable
 import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -43,7 +44,8 @@ class EditorViewModel(
     private val fileRepository: FileRepository,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val versionChecker: VersionChecker
 ) : BaseViewModel() {
 
     companion object {
@@ -65,6 +67,7 @@ class EditorViewModel(
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val documentsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Список документов
     val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
+    val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
 
     val textEvent: SingleLiveEvent<String> = SingleLiveEvent() //Контент загруженного файла
     val loadedEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Для загрузки скроллинга/выделения
@@ -98,6 +101,10 @@ class EditorViewModel(
     val autoCloseQuotesEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автоматическое закрытие кавычек
 
     // endregion PREFERENCES
+
+    private val openableExtensions = arrayOf( //Открываемые расширения файлов
+        ".txt", ".js", ".json", ".java", ".md", ".lua"
+    )
 
     fun loadFiles() {
         if (resumeSessionEvent.value!!) {
@@ -186,7 +193,6 @@ class EditorViewModel(
     }
 
     fun deleteCache(documentModel: DocumentModel) {
-        deleteDocument(documentModel)
         cacheHandler.deleteCache(documentModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
@@ -199,7 +205,6 @@ class EditorViewModel(
     }
 
     fun saveToCache(documentModel: DocumentModel, text: String) {
-        updateDocument(documentModel)
         cacheHandler.saveToCache(documentModel, text)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
@@ -235,24 +240,16 @@ class EditorViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    private fun updateDocument(documentModel: DocumentModel) {
-        Completable
-            .fromAction {
-                appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy()
-            .disposeOnViewModelDestroy()
+    fun openFile(documentModel: DocumentModel) {
+        if (documentModel.name.endsWith(openableExtensions)) {
+            documentEvent.value = documentModel
+        } else {
+            unopenableEvent.value = documentModel
+        }
     }
 
-    private fun deleteDocument(documentModel: DocumentModel) {
-        Completable
-            .fromAction {
-                appDatabase.documentDao().delete(DocumentConverter.toEntity(documentModel)) // Delete from Database
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy()
-            .disposeOnViewModelDestroy()
+    fun isUltimate(): Boolean {
+        return versionChecker.isUltimate
     }
 
     // region PREFERENCES

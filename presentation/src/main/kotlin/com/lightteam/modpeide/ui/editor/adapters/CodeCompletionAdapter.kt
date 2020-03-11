@@ -71,17 +71,17 @@ class CodeCompletionAdapter(context: Context, resourceId: Int) : ArrayAdapter<St
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val viewHolder: ViewHolder
+        val viewHolder: CompletionViewHolder
         val currentView: View
         if (convertView == null) {
             currentView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_completion, parent, false)
-            viewHolder = ViewHolder()
+            viewHolder = CompletionViewHolder()
             viewHolder.textView = currentView.findViewById(R.id.item_title)
             currentView.tag = viewHolder
         } else {
             currentView = convertView
-            viewHolder = currentView.tag as ViewHolder
+            viewHolder = currentView.tag as CompletionViewHolder
         }
 
         val stringBuilder = SpannableStringBuilder(getItem(position))
@@ -96,7 +96,7 @@ class CodeCompletionAdapter(context: Context, resourceId: Int) : ArrayAdapter<St
 
     override fun getFilter(): Filter = filter
 
-    class ViewHolder {
+    class CompletionViewHolder {
         lateinit var textView: TextView
 
         fun bind(spannable: Spannable) {

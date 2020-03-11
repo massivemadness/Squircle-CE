@@ -22,6 +22,7 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.preference.Preference
 import com.afollestad.materialdialogs.MaterialDialog
+import com.lightteam.modpeide.BuildConfig
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
@@ -86,22 +87,28 @@ class FragmentPreferences : DaggerPreferenceFragmentCompat() {
 
     override fun setPreferencesFromResource(preferencesResId: Int, key: String?) {
         super.setPreferencesFromResource(preferencesResId, key)
-        if (!viewModel.isUltimate()) {
-            when (key) {
-                KEY_APPLICATION -> {
-                    findPreference<Preference>(KEY_THEME)?.isEnabled = false
+        val isUltimate = viewModel.isUltimate()
+        when (key) {
+            KEY_APPLICATION -> {
+                findPreference<Preference>(KEY_THEME)?.isEnabled = isUltimate
+            }
+            KEY_EDITOR -> {
+                findPreference<Preference>(KEY_FONT_TYPE)?.isEnabled = isUltimate
+                findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = isUltimate
+            }
+            KEY_CODE_STYLE -> {
+                findPreference<Preference>(KEY_AUTOCLOSE_QUOTES)?.isEnabled = isUltimate
+            }
+            KEY_ABOUT -> {
+                val preference = findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
+                if (isUltimate) {
+                    preference?.setTitle(R.string.pref_about_ultimate_title)
                 }
-                KEY_EDITOR -> {
-                    findPreference<Preference>(KEY_FONT_TYPE)?.isEnabled = false
-                    findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = false
-                }
-                KEY_CODE_STYLE -> {
-                    findPreference<Preference>(KEY_AUTOCLOSE_QUOTES)?.isEnabled = false
-                }
-                KEY_ABOUT -> {
-                    findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
-                        ?.setTitle(R.string.pref_about_standard_title)
-                }
+                preference?.summary = String.format(
+                    getString(R.string.pref_about_summary),
+                    BuildConfig.VERSION_NAME,
+                    BuildConfig.VERSION_CODE
+                )
             }
         }
     }

@@ -17,12 +17,15 @@
 
 package com.lightteam.modpeide.ui.editor.activities
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -30,6 +33,7 @@ import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
+import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.domain.model.DocumentModel
@@ -46,6 +50,7 @@ import com.lightteam.modpeide.utils.extensions.newTab
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import java.io.File
 import javax.inject.Inject
 
 class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
@@ -74,17 +79,7 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
 
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
-    }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
-            if (viewModel.extendedKeyboardEvent.value!!) {
-                binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
-            } else {
-                binding.extendedKeyboard.visibility = View.GONE
-            }
-        }
         binding.editor
             .afterTextChangeEvents()
             .observeOn(AndroidSchedulers.mainThread())
@@ -147,136 +142,6 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     }
     override fun onTabSelected(tab: TabLayout.Tab) {
         loadDocument(tab.position)
-    }
-
-    // endregion TABS
-
-    private fun observeViewModel() {
-        viewModel.toastEvent.observe(this, Observer {
-            showToast(it)
-        })
-        viewModel.documentsEvent.observe(this, Observer { docs ->
-            documents.clear()
-            documents.addAll(docs)
-            for (document in docs) {
-                addTab(document, false)
-            }
-        })
-        viewModel.documentEvent.observe(this, Observer {
-            documents.add(it)
-            addTab(it, true)
-            closeDrawers()
-        })
-        viewModel.textEvent.observe(this, Observer {
-            binding.editor.setFacadeText(it)
-        })
-        viewModel.loadedEvent.observe(this, Observer { document ->
-            binding.editor.scrollX = document.scrollX
-            binding.editor.scrollY = document.scrollY
-            binding.editor.setSelection(
-                document.selectionStart,
-                document.selectionEnd
-            )
-        })
-        viewModel.stacksEvent.observe(this, Observer { pair ->
-            binding.editor.undoStack = pair.first
-            binding.editor.redoStack = pair.second
-        })
-
-        // region PREFERENCES
-
-        viewModel.themeEvent.observe(this, Observer { newTheme ->
-            binding.editor.theme = newTheme
-        })
-        viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
-            if (isFullscreen) {
-                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            } else {
-                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            }
-        })
-        viewModel.fontSizeEvent.observe(this, Observer { fontSize ->
-            val newConfiguration = binding.editor.configuration.copy(fontSize = fontSize)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.fontTypeEvent.observe(this, Observer { fontType ->
-            val newConfiguration = binding.editor.configuration.copy(
-                fontType = TypefaceFactory.create(this, fontType)
-            )
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.wordWrapEvent.observe(this, Observer { wordWrap ->
-            val newConfiguration = binding.editor.configuration.copy(wordWrap = wordWrap)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.codeCompletionEvent.observe(this, Observer { completion ->
-            val newConfiguration = binding.editor.configuration.copy(codeCompletion = completion)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.pinchZoomEvent.observe(this, Observer { pinchZoom ->
-            val newConfiguration = binding.editor.configuration.copy(pinchZoom = pinchZoom)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.highlightLineEvent.observe(this, Observer { highlight ->
-            val newConfiguration = binding.editor.configuration.copy(highlightCurrentLine = highlight)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.highlightDelimitersEvent.observe(this, Observer { highlight ->
-            val newConfiguration = binding.editor.configuration.copy(highlightDelimiters = highlight)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.softKeyboardEvent.observe(this, Observer { softKeyboard ->
-            val newConfiguration = binding.editor.configuration.copy(softKeyboard = softKeyboard)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.autoIndentationEvent.observe(this, Observer { autoIndentation ->
-            val newConfiguration = binding.editor.configuration.copy(autoIndentation = autoIndentation)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.autoCloseBracketsEvent.observe(this, Observer { autoCloseBrackets ->
-            val newConfiguration = binding.editor.configuration.copy(autoCloseBrackets = autoCloseBrackets)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.autoCloseQuotesEvent.observe(this, Observer { autoCloseQuotes ->
-            val newConfiguration = binding.editor.configuration.copy(autoCloseQuotes = autoCloseQuotes)
-            binding.editor.configuration = newConfiguration
-        })
-
-        // endregion PREFERENCES
-
-        viewModel.observePreferences() // and loadFiles()
-    }
-
-    private fun loadDocument(position: Int) {
-        if (position > -1) { // if there's at least 1 tab
-            val document = documents[position]
-            viewModel.loadFile(document)
-        }
-    }
-
-    private fun saveDocument(position: Int) {
-        if (position > -1) { // if there's at least 1 tab
-            val document = documents[position].copy(
-                scrollX = binding.editor.scrollX,
-                scrollY = binding.editor.scrollY,
-                selectionStart = binding.editor.selectionStart,
-                selectionEnd = binding.editor.selectionEnd
-            )
-            documents[position] = document
-            viewModel.saveToCache(document, binding.editor.getFacadeText())
-            viewModel.saveUndoStack(document, binding.editor.undoStack)
-            viewModel.saveRedoStack(document, binding.editor.redoStack)
-            viewModel.stateLoadingDocuments.set(true) // show loading indicator
-            binding.editor.clearText() //TTL Exception bypass
-        }
-    }
-
-    private fun removeDocument(position: Int): Int {
-        val document = documents[position]
-        documents.removeAt(position)
-        viewModel.stateNothingFound.set(documents.isEmpty())
-        viewModel.deleteCache(document)
-        return position
     }
 
     private fun addTab(documentModel: DocumentModel, selection: Boolean) {
@@ -342,6 +207,166 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         }
     }
 
+    // endregion TABS
+
+    private fun observeViewModel() {
+        viewModel.toastEvent.observe(this, Observer {
+            showToast(it)
+        })
+        viewModel.documentsEvent.observe(this, Observer { docs ->
+            documents.clear()
+            documents.addAll(docs)
+            for (document in docs) {
+                addTab(document, false)
+            }
+        })
+        viewModel.documentEvent.observe(this, Observer {
+            documents.add(it)
+            addTab(it, true)
+            closeDrawers()
+        })
+        viewModel.unopenableEvent.observe(this, Observer {
+            openFile(it)
+        })
+        viewModel.textEvent.observe(this, Observer {
+            binding.editor.setFacadeText(it)
+        })
+        viewModel.loadedEvent.observe(this, Observer { document ->
+            binding.editor.scrollX = document.scrollX
+            binding.editor.scrollY = document.scrollY
+            binding.editor.setSelection(
+                document.selectionStart,
+                document.selectionEnd
+            )
+        })
+        viewModel.stacksEvent.observe(this, Observer { pair ->
+            binding.editor.undoStack = pair.first
+            binding.editor.redoStack = pair.second
+        })
+
+        // region PREFERENCES
+
+        viewModel.themeEvent.observe(this, Observer { newTheme ->
+            binding.editor.theme = newTheme
+        })
+        viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
+            if (isFullscreen) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            } else {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            }
+        })
+        viewModel.fontSizeEvent.observe(this, Observer { fontSize ->
+            val newConfiguration = binding.editor.configuration.copy(fontSize = fontSize)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.fontTypeEvent.observe(this, Observer { fontType ->
+            val newConfiguration = binding.editor.configuration.copy(
+                fontType = TypefaceFactory.create(this, fontType)
+            )
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.wordWrapEvent.observe(this, Observer { wordWrap ->
+            val newConfiguration = binding.editor.configuration.copy(wordWrap = wordWrap)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.codeCompletionEvent.observe(this, Observer { completion ->
+            val newConfiguration = binding.editor.configuration.copy(codeCompletion = completion)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.pinchZoomEvent.observe(this, Observer { pinchZoom ->
+            val newConfiguration = binding.editor.configuration.copy(pinchZoom = pinchZoom)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.highlightLineEvent.observe(this, Observer { highlight ->
+            val newConfiguration = binding.editor.configuration.copy(highlightCurrentLine = highlight)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.highlightDelimitersEvent.observe(this, Observer { highlight ->
+            val newConfiguration = binding.editor.configuration.copy(highlightDelimiters = highlight)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.extendedKeyboardEvent.observe(this, Observer { isEnabled ->
+            KeyboardVisibilityEvent.setEventListener(this) { isOpen ->
+                if (isEnabled) {
+                    binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
+                } else {
+                    binding.extendedKeyboard.visibility = View.GONE
+                }
+            }
+        })
+        viewModel.softKeyboardEvent.observe(this, Observer { softKeyboard ->
+            val newConfiguration = binding.editor.configuration.copy(softKeyboard = softKeyboard)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.autoIndentationEvent.observe(this, Observer { autoIndentation ->
+            val newConfiguration = binding.editor.configuration.copy(autoIndentation = autoIndentation)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.autoCloseBracketsEvent.observe(this, Observer { autoCloseBrackets ->
+            val newConfiguration = binding.editor.configuration.copy(autoCloseBrackets = autoCloseBrackets)
+            binding.editor.configuration = newConfiguration
+        })
+        viewModel.autoCloseQuotesEvent.observe(this, Observer { autoCloseQuotes ->
+            val newConfiguration = binding.editor.configuration.copy(autoCloseQuotes = autoCloseQuotes)
+            binding.editor.configuration = newConfiguration
+        })
+
+        // endregion PREFERENCES
+
+        viewModel.observePreferences() // and loadFiles()
+    }
+
+    private fun openFile(documentModel: DocumentModel) {
+        try { //Открытие файла через подходящую программу
+            val packageName = if (viewModel.isUltimate()) BaseApplication.ULTIMATE else BaseApplication.STANDARD
+            val uri = FileProvider.getUriForFile(
+                this,
+                "$packageName.provider",
+                File(documentModel.path)
+            )
+            val mime = contentResolver.getType(uri)
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(uri, mime)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            viewModel.toastEvent.value = R.string.message_cannot_be_opened
+        }
+    }
+
+    private fun loadDocument(position: Int) {
+        if (position > -1) { // if there's at least 1 tab
+            val document = documents[position]
+            viewModel.loadFile(document)
+        }
+    }
+
+    private fun saveDocument(position: Int) {
+        if (position > -1) { // if there's at least 1 tab
+            val document = documents[position].copy(
+                scrollX = binding.editor.scrollX,
+                scrollY = binding.editor.scrollY,
+                selectionStart = binding.editor.selectionStart,
+                selectionEnd = binding.editor.selectionEnd
+            )
+            documents[position] = document
+            viewModel.saveToCache(document, binding.editor.getFacadeText())
+            viewModel.saveUndoStack(document, binding.editor.undoStack)
+            viewModel.saveRedoStack(document, binding.editor.redoStack)
+            viewModel.stateLoadingDocuments.set(true) // show loading indicator
+            binding.editor.clearText() //TTL Exception bypass
+        }
+    }
+
+    private fun removeDocument(position: Int): Int {
+        val document = documents[position]
+        documents.removeAt(position)
+        viewModel.stateNothingFound.set(documents.isEmpty())
+        viewModel.deleteCache(document)
+        return position
+    }
+
     // region DIALOGS
 
     private fun showExitDialog() {
@@ -389,12 +414,13 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         }
     }
 
-    override fun onPropertiesButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onCloseButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val position = binding.tabDocumentLayout.selectedTabPosition
+        if (position > -1) {
+            removeTab(position)
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
     }
 
     override fun onCutButton() {
@@ -415,7 +441,7 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
 
     override fun onPasteButton() {
         val position = binding.tabDocumentLayout.selectedTabPosition
-        if (binding.editor.hasPrimaryClip() && position != -1) {
+        if (binding.editor.hasPrimaryClip() && position > -1) {
             binding.editor.paste()
         } else {
             viewModel.toastEvent.value = R.string.message_nothing_to_paste

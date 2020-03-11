@@ -90,7 +90,7 @@ class FragmentDirectory : BaseFragment(), ItemCallback<FileModel> {
             val action = FragmentDirectoryDirections.toDirectoryFragment(item)
             navController.navigate(action)
         } else {
-            editorViewModel.documentEvent.value = DocumentConverter.toModel(item)
+            editorViewModel.openFile(DocumentConverter.toModel(item))
         }
     }
 

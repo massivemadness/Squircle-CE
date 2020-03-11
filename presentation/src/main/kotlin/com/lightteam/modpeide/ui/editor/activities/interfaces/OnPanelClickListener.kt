@@ -23,7 +23,6 @@ interface OnPanelClickListener {
     fun onNewButton()
     fun onOpenButton()
     fun onSaveButton()
-    fun onPropertiesButton()
     fun onCloseButton()
 
     fun onCutButton()

@@ -77,8 +77,8 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun provideCacheHandler(context: Context): CacheHandler {
-        return CacheHandler(context)
+    fun provideCacheHandler(context: Context, appDatabase: AppDatabase): CacheHandler {
+        return CacheHandler(context, appDatabase)
     }
 
     @Provides

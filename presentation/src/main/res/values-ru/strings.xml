@@ -15,10 +15,6 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<!DOCTYPE resources [
-    <!ENTITY app_version "2020.1.0">
-    <!ENTITY app_code "10023">
-]>
 <resources>
 
     <string name="label_permissions">Разрешения</string>
@@ -206,7 +202,7 @@
     <string name="pref_sortMode_title">Режим сортировки</string>
     <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
     <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
-    <string name="pref_about_summary">Copyright 2020 Light Team Software\nВсе права защищены\n\nВерсия: &app_version; (&app_code;)</string>
+    <string name="pref_about_summary">Copyright 2020 Light Team Software\nВсе права защищены\n\nВерсия: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
     <string name="pref_contribute_title">Внести вклад в разработку</string>
     <string name="pref_contribute_summary">Вы можете создать Issue на GitHub или перевести приложение на свой родной язык.\n\nСпасибо!</string>
