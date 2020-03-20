@@ -22,11 +22,11 @@ apply plugin: 'kotlin-android-extensions'
 android {
     def buildConfig = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion buildConfig.compile_sdk
-    buildToolsVersion buildConfig.build_tools
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
     defaultConfig {
-        minSdkVersion buildConfig.min_sdk
-        targetSdkVersion buildConfig.target_sdk
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'

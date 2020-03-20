@@ -187,6 +187,7 @@ class FragmentExplorer : BaseFragment(), TabLayout.OnTabSelectedListener {
     }
 
     private fun removeTab(n_times: Int) {
+        viewModel.removeLastTabs(n_times)
         binding.tabLayout.removeLast(n_times)
     }
 }

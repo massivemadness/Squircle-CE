@@ -87,8 +87,8 @@ fun TabLayout.newTab(name: String, resId: Int, callback: (TabLayout.Tab) -> Unit
     return tab
 }
 
-fun TabLayout.removeLast(n_times: Int) {
-    for (n in 0 until n_times) {
+fun TabLayout.removeLast(n: Int) {
+    for (n in 0 until n) {
         val count = tabCount - 1
         removeTabAt(count)
     }

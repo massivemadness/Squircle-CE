@@ -17,6 +17,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -42,9 +43,9 @@
         android:layout_height="30dp"
         android:padding="5dp"
         android:id="@+id/item_icon"
-        android:tint="@android:color/white"
         android:src="@drawable/ic_close"
         android:background="@drawable/ripple_14dp"
-        android:contentDescription="@string/menu_file_close"/>
+        android:contentDescription="@string/menu_file_close"
+        app:tint="@android:color/white"/>
 
 </LinearLayout>

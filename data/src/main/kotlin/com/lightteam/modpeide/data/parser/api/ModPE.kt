@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
+@SuppressWarnings
 internal class ModPE {
     fun dumpVtable(className: String, vtableSize: Int) {}
     fun getBytesFromTexturePack(texture: String) {}

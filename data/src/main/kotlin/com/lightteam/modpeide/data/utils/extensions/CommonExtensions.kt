@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.utils.extensions
 
+import com.lightteam.modpeide.domain.model.FileModel
 import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -33,11 +34,25 @@ fun String.isValidFileName(): Boolean {
 
 fun String.endsWith(suffixes: Array<String>): Boolean {
     for(suffix in suffixes) {
-        if(endsWith(suffix)) {
+        if(endsWith(suffix, true)) {
             return true
         }
     }
     return false
+}
+
+fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
+    for (index in indices) {
+        if (get(index).path == fileModel.path) {
+            return true
+        }
+    }
+    return false
+}
+
+fun <T> MutableList<T>.replaceList(collection: Collection<T>) {
+    clear()
+    addAll(collection)
 }
 
 fun File.size(): Long {

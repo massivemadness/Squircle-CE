@@ -19,6 +19,7 @@ package com.lightteam.modpeide.data.parser.api;
 
 import org.mozilla.javascript.Scriptable;
 
+@SuppressWarnings
 internal class Item {
     fun addCraftRecipe(id: Int, count: Int, data: Int, recipe: Scriptable) {}
     fun addFurnaceRecipe(inputId: Int, outputId: Int, outputDamage: Int) {}

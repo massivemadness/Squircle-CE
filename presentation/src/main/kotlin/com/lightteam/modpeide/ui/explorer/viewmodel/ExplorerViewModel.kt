@@ -22,11 +22,14 @@ import androidx.databinding.ObservableBoolean
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
+import com.lightteam.modpeide.data.utils.extensions.containsFileModel
+import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.exception.DirectoryExpectedException
 import com.lightteam.modpeide.domain.exception.FileAlreadyExistsException
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.FileTree
 import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
@@ -58,31 +61,29 @@ class ExplorerViewModel(
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
-    val filesEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Список файлов
-    val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Обновление после смены фильтрации
-    val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Отфильтрованый список файлов
     val tabEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки
+    val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() //Список файлов
+    val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Запрос на загрузку списка файлов
+    val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Отфильтрованый список файлов
     val fabEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Кнопка "+"
-
     val createEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Создание файла
     val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла
 
     // endregion EVENTS
 
-    val defaultLocation: FileModel = fileRepository.defaultLocation()
-
-    var searchList: List<FileModel> = emptyList()
     var sortMode: Int = FileSorter.SORT_BY_NAME
     var showHidden: Boolean = true
 
+    private val tabsList: MutableList<FileModel> = mutableListOf()
+    private val searchList: MutableList<FileModel> = mutableListOf()
     private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     private var foldersOnTop: Boolean = true
 
-    fun newTab(fileModel: FileModel?) {
-        tabEvent.value = fileModel ?: defaultLocation
+    fun removeLastTabs(n: Int) {
+        tabsList.subList(tabsList.size - n, tabsList.size).clear()
     }
 
-    fun provideDirectory(fileModel: FileModel) {
+    fun provideDirectory(fileModel: FileModel?) {
         fileRepository.provideDirectory(fileModel)
             .doOnSubscribe {
                 stateNothingFound.set(false)
@@ -90,11 +91,11 @@ class ExplorerViewModel(
             }
             .doOnSuccess {
                 stateLoadingFiles.set(false)
-                stateNothingFound.set(it.isEmpty())
+                stateNothingFound.set(it.children.isEmpty())
             }
-            .map { files ->
+            .map { fileTree ->
                 val newList = mutableListOf<FileModel>()
-                files.forEach { file ->
+                fileTree.children.forEach { file ->
                     if(file.isHidden) {
                         if(showHidden) {
                             newList.add(file)
@@ -103,14 +104,25 @@ class ExplorerViewModel(
                         newList.add(file)
                     }
                 }
-                newList.toList()
+                fileTree.copy(children = newList)
             }
-            .map { it.sortedWith(fileSorter) }
-            .map { it.sortedBy { file -> !file.isFolder == foldersOnTop } }
+            .map { fileTree ->
+                val children = fileTree.children.sortedWith(fileSorter)
+                fileTree.copy(children = children)
+            }
+            .map { fileTree ->
+                val children = fileTree.children.sortedBy { file -> !file.isFolder == foldersOnTop }
+                fileTree.copy(children = children)
+            }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = {
-                    filesEvent.value = it
+                onSuccess = { fileTree ->
+                    if (!tabsList.containsFileModel(fileTree.parent)) {
+                        tabsList.add(fileTree.parent)
+                        tabEvent.value = fileTree.parent
+                    }
+                    filesEvent.value = fileTree
+                    searchList.replaceList(fileTree.children) //Фильтрация по текущему списку
                 },
                 onError = {
                     Log.e(TAG, it.message, it)
@@ -170,8 +182,8 @@ class ExplorerViewModel(
         fileRepository.renameFile(fileModel, newName)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = {
-                    filesUpdateEvent.call()
+                onSuccess = { parent ->
+                    provideDirectory(parent)
                     toastEvent.value = R.string.message_done
                 },
                 onError = {
@@ -193,8 +205,8 @@ class ExplorerViewModel(
         fileRepository.deleteFile(fileModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = {
-                    filesUpdateEvent.call()
+                onSuccess = { parent ->
+                    provideDirectory(parent)
                     toastEvent.value = R.string.message_done
                 },
                 onError = {
@@ -245,8 +257,6 @@ class ExplorerViewModel(
     }
 
     fun observePreferences() {
-
-        //Filter Hidden Files
         preferenceHandler.getFilterHidden()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
@@ -258,7 +268,6 @@ class ExplorerViewModel(
             }
             .disposeOnViewModelDestroy()
 
-        //Sort Mode
         preferenceHandler.getSortMode()
             .asObservable()
             .map(Integer::parseInt)
@@ -272,7 +281,6 @@ class ExplorerViewModel(
             }
             .disposeOnViewModelDestroy()
 
-        //Folders on Top
         preferenceHandler.getFoldersOnTop()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)

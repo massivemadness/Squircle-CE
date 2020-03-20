@@ -106,7 +106,7 @@ class EditorViewModel(
         ".txt", ".js", ".json", ".java", ".md", ".lua"
     )
 
-    fun loadFiles() {
+    private fun loadFiles() {
         if (resumeSessionEvent.value!!) {
             appDatabase.documentDao().loadAll()
                 .doOnSubscribe { stateLoadingDocuments.set(true) }
@@ -134,9 +134,7 @@ class EditorViewModel(
                     stateNothingFound.set(true)
                 }
                 .schedulersIoToMain(schedulersProvider)
-                .subscribeBy {
-                    cacheHandler.deleteAllCaches()
-                }
+                .subscribeBy { cacheHandler.deleteAllCaches() }
                 .disposeOnViewModelDestroy()
         }
     }
@@ -255,29 +253,24 @@ class EditorViewModel(
     // region PREFERENCES
 
     fun observePreferences() {
-
-        //Theme
         preferenceHandler.getTheme()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { themeEvent.value = ThemeFactory.create(it) }
             .disposeOnViewModelDestroy()
 
-        //Fullscreen Mode
         preferenceHandler.getFullscreenMode()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fullscreenEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Confirm Exit
         preferenceHandler.getConfirmExit()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { backEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Font Size
         preferenceHandler.getFontSize()
             .asObservable()
             .map { it.toFloat() }
@@ -285,14 +278,12 @@ class EditorViewModel(
             .subscribeBy { fontSizeEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Font Type
         preferenceHandler.getFontType()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fontTypeEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Resume Session
         preferenceHandler.getResumeSession()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
@@ -304,77 +295,66 @@ class EditorViewModel(
             }
             .disposeOnViewModelDestroy()
 
-        //Tab Limit
         preferenceHandler.getTabLimit()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { tabLimitEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Word Wrap
         preferenceHandler.getWordWrap()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { wordWrapEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Code Completion
         preferenceHandler.getCodeCompletion()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { codeCompletionEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Pinch Zoom
         preferenceHandler.getPinchZoom()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { pinchZoomEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Highlight Current Line
         preferenceHandler.getHighlightCurrentLine()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { highlightLineEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Highlight Matching Delimiters
         preferenceHandler.getHighlightMatchingDelimiters()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { highlightDelimitersEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Extended Keyboard
         preferenceHandler.getExtendedKeyboard()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { extendedKeyboardEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Soft Keyboard
         preferenceHandler.getSoftKeyboard()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { softKeyboardEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Auto Indentation
         preferenceHandler.getAutoIndentation()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { autoIndentationEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Auto-close Brackets
         preferenceHandler.getAutoCloseBrackets()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { autoCloseBracketsEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        //Auto-close Quotes
         preferenceHandler.getAutoCloseQuotes()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)

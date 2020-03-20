@@ -23,17 +23,17 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     def buildConfig = rootProject.extensions.getByName("ext")
-    def globalConfig = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion buildConfig.compile_sdk
-    buildToolsVersion buildConfig.build_tools
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
     defaultConfig {
-        minSdkVersion buildConfig.min_sdk
-        targetSdkVersion buildConfig.target_sdk
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
 
-        versionCode globalConfig.versionCode
-        versionName globalConfig.versionName
-        testInstrumentationRunner globalConfig.testRunner
+        versionCode buildConfig.versionCode
+        versionName buildConfig.versionName
+
+        testInstrumentationRunner buildConfig.testRunner
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -98,8 +98,8 @@ dependencies {
     implementation library.keyboardevent
 
     //Modules
-    implementation project(":domain")
-    implementation project(":data")
+    implementation project(':domain')
+    implementation project(':data')
 
     //Tests
     testImplementation testLibrary.junit

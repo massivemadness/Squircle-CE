@@ -52,7 +52,7 @@
     <string name="action_replace_all">Replace All</string>
     <string name="action_go_to">Go to</string>
     <string name="action_show_hidden_files">Show hidden files</string>
-    <string name="action_get_it_for">Get it</string>
+    <string name="action_get_it">Get it</string>
     <string name="action_maybe_later">Maybe later</string>
     <string name="action_unlock_all_features">Unlock all features</string>
 

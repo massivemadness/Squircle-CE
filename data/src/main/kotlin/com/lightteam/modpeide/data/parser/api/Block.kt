@@ -19,6 +19,7 @@ package com.lightteam.modpeide.data.parser.api;
 
 import org.mozilla.javascript.Scriptable
 
+@SuppressWarnings
 internal class Block {
     fun defineBlock(id: Int, name: String, scriptable: Any, type: Any, transparency: Any, render: Any) {}
     fun defineLiquidBlock(id: Int, name: String, texture: Any, type: Any) {}

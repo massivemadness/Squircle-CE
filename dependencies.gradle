@@ -16,13 +16,13 @@
  */
 
 ext {
+
+    //Configuration
     buildConfig = [
-            min_sdk = 21,
-            target_sdk = 29,
-            compile_sdk = 29,
-            build_tools = '29.0.2'
-    ]
-    globalConfig = [
+            minSdk = 21,
+            targetSdk = 29,
+            compileSdk = 29,
+            buildTools = '29.0.3',
             versionCode = 10023,
             versionName = '2020.1.0',
             standardVName = "$versionName Standard Edition",

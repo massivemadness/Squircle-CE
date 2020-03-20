@@ -39,6 +39,7 @@ import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.FileTree
 import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
@@ -59,17 +60,12 @@ class FragmentDirectory : BaseFragment(), ItemCallback<FileModel> {
     lateinit var adapter: FileAdapter
 
     private val args: FragmentDirectoryArgs by navArgs()
-    private var fileList: List<FileModel> = emptyList()
 
     private lateinit var binding: FragmentDirectoryBinding
     private lateinit var navController: NavController
+    private lateinit var fileTree: FileTree
 
     override fun layoutId(): Int = R.layout.fragment_directory
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.newTab(args.fileModel)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,9 +97,8 @@ class FragmentDirectory : BaseFragment(), ItemCallback<FileModel> {
 
     private fun observeViewModel() {
         viewModel.filesEvent.observe(viewLifecycleOwner, Observer {
-            fileList = it
-            viewModel.searchList = fileList
-            adapter.submitList(it)
+            fileTree = it
+            adapter.submitList(fileTree.children)
         })
         viewModel.filesUpdateEvent.observe(viewLifecycleOwner, Observer {
             loadDirectory()
@@ -123,13 +118,7 @@ class FragmentDirectory : BaseFragment(), ItemCallback<FileModel> {
     }
 
     private fun loadDirectory() {
-        viewModel.searchList = fileList //фильтрация по текущему списку
-        val fileModel = args.fileModel
-        if (fileModel == null) {
-            viewModel.provideDirectory(viewModel.defaultLocation)
-        } else {
-            viewModel.provideDirectory(fileModel)
-        }
+        viewModel.provideDirectory(args.fileModel)
     }
 
     private fun copyPath(fileModel: FileModel) {
@@ -191,7 +180,7 @@ class FragmentDirectory : BaseFragment(), ItemCallback<FileModel> {
                 val fileName = getInputField().text.toString()
                 val isFolder = getCheckBoxPrompt().isChecked
 
-                val parent = args.fileModel ?: viewModel.defaultLocation
+                val parent = fileTree.parent
                 val child = parent.copy(
                     path = parent.path + "/$fileName",
                     isFolder = isFolder

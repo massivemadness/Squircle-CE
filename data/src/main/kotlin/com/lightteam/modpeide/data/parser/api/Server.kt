@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
+@SuppressWarnings
 internal class Server {
     fun getAddress() {}
     fun getAllPlayerNames() {}

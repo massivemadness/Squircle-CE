@@ -15,7 +15,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <import type="com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel"/>
@@ -34,7 +35,7 @@
             android:layout_height="92dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_no_access"
-            android:tint="@color/colorIcon"/>
+            app:tint="@color/colorIcon"/>
 
         <TextView
             android:layout_width="match_parent"

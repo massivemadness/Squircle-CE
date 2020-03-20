@@ -29,6 +29,7 @@ import com.lightteam.modpeide.domain.exception.FileAlreadyExistsException
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.FileTree
 import com.lightteam.modpeide.domain.model.PropertiesModel
 import com.lightteam.modpeide.domain.repository.FileRepository
 import io.reactivex.Completable
@@ -44,28 +45,45 @@ class LocalFileRepository(
 
     // region EXPLORER
 
-    override fun defaultLocation(): FileModel {
-        return FileConverter.toModel(defaultLocation)
-    }
-
-    override fun provideDirectory(parent: FileModel): Single<List<FileModel>> {
+    override fun defaultLocation(): Single<FileTree> {
         return Single.create { emitter ->
-            val realFile = FileConverter.toFile(parent)
-            if (realFile.isDirectory) {
-                val files = realFile
+            val parent = FileConverter.toModel(defaultLocation)
+            if (defaultLocation.isDirectory) {
+                val children = defaultLocation
                     .listFiles()!!
                     .map(FileConverter::toModel)
                     .toList()
-                emitter.onSuccess(files)
+                val fileTree = FileTree(parent, children)
+                emitter.onSuccess(fileTree)
             } else {
                 emitter.onError(DirectoryExpectedException())
             }
         }
     }
 
+    override fun provideDirectory(parent: FileModel?): Single<FileTree> {
+        return if (parent != null) {
+            Single.create { emitter ->
+                val realFile = FileConverter.toFile(parent)
+                if (realFile.isDirectory) {
+                    val children = realFile
+                        .listFiles()!!
+                        .map(FileConverter::toModel)
+                        .toList()
+                    val fileTree = FileTree(parent, children)
+                    emitter.onSuccess(fileTree)
+                } else {
+                    emitter.onError(DirectoryExpectedException())
+                }
+            }
+        } else {
+            defaultLocation()
+        }
+    }
+
     override fun createFile(fileModel: FileModel): Single<FileModel> {
         return Single.create { emitter ->
-            val realFile: File = FileConverter.toFile(fileModel)
+            val realFile = FileConverter.toFile(fileModel)
             if (!realFile.exists()) {
                 if (fileModel.isFolder) {
                     realFile.mkdirs()
@@ -82,11 +100,11 @@ class LocalFileRepository(
 
     override fun deleteFile(fileModel: FileModel): Single<FileModel> {
         return Single.create { emitter ->
-            val realFile: File = FileConverter.toFile(fileModel)
+            val realFile = FileConverter.toFile(fileModel)
             if (realFile.exists()) {
                 realFile.deleteRecursively()
-                val modelFile = FileConverter.toModel(realFile.parentFile!!)
-                emitter.onSuccess(modelFile)
+                val parentFile = FileConverter.toModel(realFile.parentFile!!)
+                emitter.onSuccess(parentFile)
             } else {
                 emitter.onError(FileNotFoundException())
             }
@@ -95,12 +113,13 @@ class LocalFileRepository(
 
     override fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel> {
         return Single.create { emitter ->
-            val originalFile: File = FileConverter.toFile(fileModel)
-            val renamedFile = File(originalFile.parentFile!!.absolutePath + "/$fileName")
+            val originalFile = FileConverter.toFile(fileModel)
+            val parentFile = File(originalFile.parentFile!!.absolutePath)
+            val renamedFile = File(parentFile, fileName)
             if (originalFile.exists()) {
                 originalFile.renameTo(renamedFile)
-                val modelFile = FileConverter.toModel(renamedFile.parentFile!!)
-                emitter.onSuccess(modelFile)
+                val parentModel = FileConverter.toModel(parentFile)
+                emitter.onSuccess(parentModel)
             } else {
                 emitter.onError(FileNotFoundException())
             }

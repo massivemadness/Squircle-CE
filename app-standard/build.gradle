@@ -21,19 +21,19 @@ apply plugin: 'kotlin-kapt'
 
 android {
     def buildConfig = rootProject.extensions.getByName("ext")
-    def globalConfig = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion buildConfig.compile_sdk
-    buildToolsVersion buildConfig.build_tools
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
     defaultConfig {
         applicationId "com.KillerBLS.modpeide"
 
-        minSdkVersion buildConfig.min_sdk
-        targetSdkVersion buildConfig.target_sdk
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
 
-        versionCode globalConfig.versionCode
-        versionName globalConfig.standardVName
-        testInstrumentationRunner globalConfig.testRunner
+        versionCode buildConfig.versionCode
+        versionName buildConfig.standardVName
+
+        testInstrumentationRunner buildConfig.testRunner
 
     }
     buildTypes {
@@ -71,7 +71,7 @@ dependencies {
     implementation library.core_ktx
 
     //Modules
-    implementation project(":presentation")
+    implementation project(':presentation')
 
     //Tests
     testImplementation testLibrary.junit

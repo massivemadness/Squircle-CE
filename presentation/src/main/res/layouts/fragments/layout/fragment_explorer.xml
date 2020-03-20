@@ -60,8 +60,8 @@
                     android:padding="6dp"
                     android:id="@+id/action_home"
                     android:src="@drawable/ic_home"
-                    android:tint="@android:color/white"
-                    android:background="@drawable/ripple_16dp"/>
+                    android:background="@drawable/ripple_16dp"
+                    app:tint="@android:color/white"/>
 
                 <com.google.android.material.tabs.TabLayout
                     android:layout_width="match_parent"

@@ -18,5 +18,5 @@
 package com.lightteam.modpeide.domain.model
 
 data class AnalysisModel(
-    val exception: RuntimeException?
+    val exception: Throwable?
 )

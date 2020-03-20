@@ -19,13 +19,14 @@ package com.lightteam.modpeide.domain.repository
 
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.FileTree
 import com.lightteam.modpeide.domain.model.PropertiesModel
 import io.reactivex.Completable
 import io.reactivex.Single
 
 interface FileRepository {
-    fun defaultLocation(): FileModel
-    fun provideDirectory(parent: FileModel): Single<List<FileModel>>
+    fun defaultLocation(): Single<FileTree>
+    fun provideDirectory(parent: FileModel?): Single<FileTree>
 
     fun createFile(fileModel: FileModel): Single<FileModel>
     fun deleteFile(fileModel: FileModel): Single<FileModel>

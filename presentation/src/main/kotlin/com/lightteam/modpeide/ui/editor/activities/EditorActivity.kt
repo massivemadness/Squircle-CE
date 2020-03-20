@@ -38,6 +38,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
+import com.lightteam.modpeide.ui.common.dialogs.DialogStore
 import com.lightteam.modpeide.ui.editor.activities.interfaces.OnPanelClickListener
 import com.lightteam.modpeide.ui.editor.activities.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
@@ -465,23 +466,23 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     }
 
     override fun onFindButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DialogStore.Builder(this).show()
     }
 
     override fun onReplaceAllButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DialogStore.Builder(this).show()
     }
 
     override fun onGoToLineButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DialogStore.Builder(this).show()
     }
 
     override fun onCodeAnalysisButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DialogStore.Builder(this).show()
     }
 
     override fun onInsertColorButton() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DialogStore.Builder(this).show()
     }
 
     override fun onUndoButton() {

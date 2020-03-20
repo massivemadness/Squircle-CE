@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
+@SuppressWarnings
 internal class Level {
     fun addParticle(type: Int, x: Double, y: Double, z: Double, velX: Double, velY: Double, velZ: Double, size: Int) {}
     fun biomeIdToName(biomeId: Int) {}

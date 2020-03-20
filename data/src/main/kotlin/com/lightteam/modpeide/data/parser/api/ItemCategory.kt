@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
+@SuppressWarnings
 internal class ItemCategory {
     val DECORATION: Int = -1
     val FOOD: Int = -1

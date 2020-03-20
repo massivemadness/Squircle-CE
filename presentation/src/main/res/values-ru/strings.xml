@@ -51,7 +51,7 @@
     <string name="action_replace_all">Заменить все</string>
     <string name="action_go_to">Перейти</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
-    <string name="action_get_it_for">Приобрести</string>
+    <string name="action_get_it">Приобрести</string>
     <string name="action_maybe_later">Может позже</string>
     <string name="action_unlock_all_features">Получить все возможности</string>
 

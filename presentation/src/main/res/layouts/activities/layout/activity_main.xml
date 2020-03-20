@@ -56,9 +56,9 @@
                     android:padding="10dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_drawer"
-                    android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_drawer"/>
+                    android:id="@+id/action_menu_drawer"
+                    app:tint="@android:color/white"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -67,9 +67,9 @@
                     android:padding="10.5dp"
                     android:visibility="gone"
                     android:src="@drawable/ic_save"
-                    android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_save"/>
+                    android:id="@+id/action_menu_save"
+                    app:tint="@android:color/white"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -78,9 +78,9 @@
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_folder"
-                    android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_file"/>
+                    android:id="@+id/action_menu_file"
+                    app:tint="@android:color/white"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -89,9 +89,9 @@
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_edit"
-                    android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_edit"/>
+                    android:id="@+id/action_menu_edit"
+                    app:tint="@android:color/white"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -100,9 +100,9 @@
                     android:padding="10.5dp"
                     android:visibility="gone"
                     android:src="@drawable/ic_file_search"
-                    android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_search"/>
+                    android:id="@+id/action_menu_search"
+                    app:tint="@android:color/white"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -111,9 +111,9 @@
                     android:padding="10.5dp"
                     android:visibility="gone"
                     android:src="@drawable/ic_tools"
-                    android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_tools"/>
+                    android:id="@+id/action_menu_tools"
+                    app:tint="@android:color/white"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -125,7 +125,8 @@
                     android:tint="@{viewModel.canUndo ? @android:color/white : @color/colorIcon}"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_undo"
-                    android:clickable="@{viewModel.canUndo}"/>
+                    android:clickable="@{viewModel.canUndo}"
+                    tools:ignore="UseAppTint"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -137,7 +138,8 @@
                     android:tint="@{viewModel.canRedo ? @android:color/white : @color/colorIcon}"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_redo"
-                    android:clickable="@{viewModel.canRedo}"/>
+                    android:clickable="@{viewModel.canRedo}"
+                    tools:ignore="UseAppTint"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -146,9 +148,9 @@
                     android:padding="10.5dp"
                     android:visibility="visible"
                     android:src="@drawable/ic_overflow"
-                    android:tint="@android:color/white"
                     android:background="@drawable/ripple_20dp"
-                    android:id="@+id/action_menu_overflow"/>
+                    android:id="@+id/action_menu_overflow"
+                    app:tint="@android:color/white"/>
 
             </RelativeLayout>
 
@@ -180,7 +182,7 @@
                     android:layout_marginBottom="16dp"
                     android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
                     android:src="@drawable/ic_file_search"
-                    android:tint="@color/colorIcon"/>
+                    app:tint="@color/colorIcon"/>
 
                 <TextView
                     android:layout_width="wrap_content"

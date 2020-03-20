@@ -15,31 +15,9 @@
  * limitations under the License.
  */
 
-buildscript {
-    apply from: 'dependencies.gradle'
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
-    }
-}
+package com.lightteam.modpeide.domain.model
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven {
-            url "https://jitpack.io"
-        }
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+data class FileTree(
+    val parent: FileModel,
+    val children: List<FileModel>
+)

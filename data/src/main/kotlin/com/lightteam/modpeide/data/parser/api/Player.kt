@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
+@SuppressWarnings
 internal class Player {
     fun addExp(exp: Int) {}
     fun addItemCreativeInv(id: Int, count: Int, data: Int) {}

@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.parser.api;
 
+@SuppressWarnings
 internal class Entity {
     fun addEffect(ent: Any, effect: Int, duration: Int, amplification: Int, ambient: Boolean, showParticles: Boolean) {}
     fun getAll() {}
