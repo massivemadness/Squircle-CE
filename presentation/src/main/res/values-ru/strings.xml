@@ -91,7 +91,7 @@
     <string name="message_access_required">Проводник требует разрешения для работы с файлами</string>
     <string name="message_no_result">Нет результатов</string>
     <string name="message_no_open_files">Нет файлов</string>
-    <string name="message_tab_limit_achieved">Достигнут лимит вкладок</string>
+    <string name="message_tab_limit_achieved">Вы достигли лимита вкладок</string>
     <string name="message_cannot_be_opened">Файл невозможно открыть</string>
     <string name="message_invalid_file_name">Неправильное имя файла</string>
     <string name="message_unknown_exception">Неизвестная ошибка</string>

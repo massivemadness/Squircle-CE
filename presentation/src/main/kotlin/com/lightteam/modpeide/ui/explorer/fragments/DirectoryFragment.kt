@@ -50,7 +50,7 @@ import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.clipText
 import javax.inject.Inject
 
-class FragmentDirectory : BaseFragment(), ItemCallback<FileModel> {
+class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
 
     @Inject
     lateinit var viewModel: ExplorerViewModel
@@ -59,7 +59,7 @@ class FragmentDirectory : BaseFragment(), ItemCallback<FileModel> {
     @Inject
     lateinit var adapter: FileAdapter
 
-    private val args: FragmentDirectoryArgs by navArgs()
+    private val args: DirectoryFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentDirectoryBinding
     private lateinit var navController: NavController
@@ -83,7 +83,7 @@ class FragmentDirectory : BaseFragment(), ItemCallback<FileModel> {
 
     override fun onClick(item: FileModel) {
         if (item.isFolder) {
-            val action = FragmentDirectoryDirections.toDirectoryFragment(item)
+            val action = DirectoryFragmentDirections.toDirectoryFragment(item)
             navController.navigate(action)
         } else {
             editorViewModel.openFile(DocumentConverter.toModel(item))

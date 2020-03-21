@@ -34,7 +34,7 @@ import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.launchPermissionActivity
 import javax.inject.Inject
 
-class FragmentPermissions : BaseFragment() {
+class PermissionsFragment : BaseFragment() {
 
     companion object {
         const val REQUEST_STORAGE_DIALOG = 1
@@ -85,7 +85,7 @@ class FragmentPermissions : BaseFragment() {
         viewModel.hasAccessEvent.observe(viewLifecycleOwner, Observer { hasAccess ->
             viewModel.hasPermission.set(hasAccess)
             if (hasAccess) {
-                val action = FragmentPermissionsDirections.toDirectoryFragment(null)
+                val action = PermissionsFragmentDirections.toDirectoryFragment(null)
                 navController.navigate(action)
             } else {
                 binding.actionAccess.setOnClickListener {

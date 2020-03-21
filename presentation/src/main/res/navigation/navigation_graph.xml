@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/permissionsFragment"
-        android:name="com.lightteam.modpeide.ui.explorer.fragments.FragmentPermissions"
+        android:name="com.lightteam.modpeide.ui.explorer.fragments.PermissionsFragment"
         android:label="@string/label_permissions"
         tools:layout="@layout/fragment_permissions">
         <action
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/directoryFragment"
-        android:name="com.lightteam.modpeide.ui.explorer.fragments.FragmentDirectory"
+        android:name="com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment"
         android:label="@string/label_directory"
         tools:layout="@layout/fragment_directory">
         <argument

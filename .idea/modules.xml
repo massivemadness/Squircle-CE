@@ -3,11 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ModPE-IDE-Source.iml" filepath="$PROJECT_DIR$/ModPE-IDE-Source.iml" group="ModPE-IDE-Source" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-standard/ModPE-IDE-Source.app-standard.iml" filepath="$PROJECT_DIR$/.idea/modules/app-standard/ModPE-IDE-Source.app-standard.iml" group="ModPE-IDE-Source/app-standard" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-ultimate/ModPE-IDE-Source.app-ultimate.iml" filepath="$PROJECT_DIR$/.idea/modules/app-ultimate/ModPE-IDE-Source.app-ultimate.iml" group="ModPE-IDE-Source/app-ultimate" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/ModPE-IDE-Source.data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/ModPE-IDE-Source.data.iml" group="ModPE-IDE-Source/data" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/ModPE-IDE-Source.domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/ModPE-IDE-Source.domain.iml" group="ModPE-IDE-Source/domain" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/presentation/ModPE-IDE-Source.presentation.iml" filepath="$PROJECT_DIR$/.idea/modules/presentation/ModPE-IDE-Source.presentation.iml" group="ModPE-IDE-Source/presentation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-standard/app-standard.iml" filepath="$PROJECT_DIR$/.idea/modules/app-standard/app-standard.iml" group="ModPE-IDE-Source/app-standard" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-ultimate/app-ultimate.iml" filepath="$PROJECT_DIR$/.idea/modules/app-ultimate/app-ultimate.iml" group="ModPE-IDE-Source/app-ultimate" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/data.iml" group="ModPE-IDE-Source/data" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/domain.iml" group="ModPE-IDE-Source/domain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/presentation/presentation.iml" filepath="$PROJECT_DIR$/.idea/modules/presentation/presentation.iml" group="ModPE-IDE-Source/presentation" />
     </modules>
   </component>
 </project>

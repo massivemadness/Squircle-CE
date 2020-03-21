@@ -21,12 +21,12 @@ import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.internal.di.scopes.PerApplication
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
 
 @PerApplication
 @Component(modules = [
-    AndroidSupportInjectionModule::class,
+    AndroidInjectionModule::class,
     AppModule::class,
     ActivityBuilder::class
 ])

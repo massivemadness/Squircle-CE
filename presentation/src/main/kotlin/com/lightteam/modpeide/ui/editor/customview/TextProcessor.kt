@@ -100,13 +100,13 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     )
 
     var configuration: Configuration = Configuration()
-        set(value) {
+        set (value) {
             field = value
             configure()
         }
 
     var theme: Theme = Theme()
-        set(value) {
+        set (value) {
             field = value
             colorize()
         }
@@ -336,7 +336,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 if (currentLineStart == lines.getLineForIndex(selectionEnd)) {
                     val selectedLineStartIndex = getIndexForStartOfLine(currentLineStart)
                     val selectedLineEndIndex = getIndexForEndOfLine(currentLineStart)
-
                     val topVisualLine = layout.getLineForOffset(selectedLineStartIndex)
                     val bottomVisualLine = layout.getLineForOffset(selectedLineEndIndex)
 
@@ -412,13 +411,14 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         newText.removeSuffix("\n")
 
         disableUndoRedo()
-
         setText(newText)
+
         undoStack.clear()
         redoStack.clear()
         facadeText.clear()
         replaceText(0, facadeText.length, newText)
         lines.clear()
+
         var line = 0
         var lineStart = 0
         newText.lines().forEach {
@@ -429,7 +429,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         lines.add(line, lineStart) // because the last \n already removed
 
         enableUndoRedo()
-
         syntaxHighlight()
     }
 
@@ -1000,7 +999,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                             skip = true
                             break
                         }
-
                     }
                     if (!skip) {
                         for (span in text.getSpans(
@@ -1025,7 +1023,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     private fun clearSearchSpans() {
-        if(isFindSpansVisible) {
+        if (isFindSpansVisible) {
             val spans = text.getSpans<BackgroundColorSpan>(0, text.length)
             for (span in spans) {
                 text.removeSpan(span)
@@ -1205,8 +1203,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private fun pinchZoom(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_CANCEL,
-            MotionEvent.ACTION_UP ->
-                zoomPinch = false
+            MotionEvent.ACTION_UP -> zoomPinch = false
             MotionEvent.ACTION_MOVE -> {
                 if (event.pointerCount == 2) {
                     val distance = getDistanceBetweenTouches(event)
@@ -1229,12 +1226,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     private fun validateTextSize(size: Float) {
         textSize = when {
-            size < 10 -> //minimum
-                10f //minimum
-            size > 20 -> //maximum
-                20f //maximum
-            else ->
-                size
+            size < 10 -> 10f // minimum
+            size > 20 -> 20f // maximum
+            else -> size
         }
     }
 

@@ -17,8 +17,11 @@
 
 package com.lightteam.modpeide.utils.extensions
 
+import android.content.res.ColorStateList
 import android.graphics.drawable.InsetDrawable
 import android.view.MenuItem
+import android.widget.ImageView
+import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -92,4 +95,10 @@ fun TabLayout.removeLast(n: Int) {
         val count = tabCount - 1
         removeTabAt(count)
     }
+}
+
+fun ImageView.setTint(@ColorRes colorRes: Int) {
+    imageTintList = ColorStateList.valueOf(
+        context.getColour(colorRes)
+    )
 }

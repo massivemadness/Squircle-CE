@@ -79,10 +79,6 @@ class ExplorerViewModel(
     private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     private var foldersOnTop: Boolean = true
 
-    fun removeLastTabs(n: Int) {
-        tabsList.subList(tabsList.size - n, tabsList.size).clear()
-    }
-
     fun provideDirectory(fileModel: FileModel?) {
         fileRepository.provideDirectory(fileModel)
             .doOnSubscribe {
@@ -121,8 +117,8 @@ class ExplorerViewModel(
                         tabsList.add(fileTree.parent)
                         tabEvent.value = fileTree.parent
                     }
-                    filesEvent.value = fileTree
                     searchList.replaceList(fileTree.children) //Фильтрация по текущему списку
+                    filesEvent.value = fileTree
                 },
                 onError = {
                     Log.e(TAG, it.message, it)
@@ -246,6 +242,10 @@ class ExplorerViewModel(
             .disposeOnViewModelDestroy()
     }
 
+    fun removeLastTabs(n: Int) {
+        tabsList.subList(tabsList.size - n, tabsList.size).clear()
+    }
+
     // region PREFERENCES
 
     fun setFilterHidden(filter: Boolean) {
@@ -262,7 +262,7 @@ class ExplorerViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { show ->
                 showHidden = show
-                if (hasPermission.get()) {
+                if (hasPermission.get() && tabsList.isNotEmpty()) {
                     filesUpdateEvent.call()
                 }
             }
@@ -275,7 +275,7 @@ class ExplorerViewModel(
             .subscribeBy { mode ->
                 sortMode = mode
                 fileSorter = FileSorter.getComparator(mode)
-                if (hasPermission.get()) {
+                if (hasPermission.get() && tabsList.isNotEmpty()) {
                     filesUpdateEvent.call()
                 }
             }
@@ -286,7 +286,7 @@ class ExplorerViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { onTop ->
                 foldersOnTop = onTop
-                if (hasPermission.get()) {
+                if (hasPermission.get() && tabsList.isNotEmpty()) {
                     filesUpdateEvent.call()
                 }
             }

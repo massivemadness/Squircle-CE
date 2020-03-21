@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.domain.model
 
 import android.os.Parcelable
+import com.lightteam.modpeide.domain.utils.endsWith
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -28,4 +29,30 @@ data class FileModel(
     val lastModified: Long,
     val isFolder: Boolean,
     val isHidden: Boolean
-) : Parcelable
+) : Parcelable {
+
+    companion object {
+        val ARCHIVE = arrayOf(
+            ".zip", ".rar", ".7z", ".tar"
+        )
+        val IMAGE = arrayOf(
+            ".png", ".jpg", ".jpeg", ".gif"
+        )
+        val AUDIO = arrayOf(
+            ".mp3", ".ogg", ".wma", ".aac", ".wav", ".flac"
+        )
+        val VIDEO = arrayOf(
+            ".mp4", ".avi", ".wmv", ".mkv"
+        )
+    }
+
+    fun getType(): FileType {
+        return when {
+            name.endsWith(ARCHIVE) -> FileType.ARCHIVE
+            name.endsWith(IMAGE) -> FileType.IMAGE
+            name.endsWith(AUDIO) -> FileType.AUDIO
+            name.endsWith(VIDEO) -> FileType.VIDEO
+            else -> FileType.DEFAULT
+        }
+    }
+}

@@ -22,6 +22,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
@@ -30,6 +31,10 @@ import java.io.BufferedReader
 
 fun Context.getDrawableCompat(@DrawableRes drawable: Int): Drawable {
     return ContextCompat.getDrawable(this, drawable) as Drawable
+}
+
+fun Context.getColour(@ColorRes colorRes: Int): Int {
+    return ContextCompat.getColor(this, colorRes)
 }
 
 fun Context.getScaledDensity(): Float {

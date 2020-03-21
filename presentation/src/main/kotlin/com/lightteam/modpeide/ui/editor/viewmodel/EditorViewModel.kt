@@ -25,8 +25,7 @@ import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.data.utils.extensions.endsWith
-import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
@@ -67,6 +66,7 @@ class EditorViewModel(
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val documentsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Список документов
     val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
+    val selectionEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выделение вкладки уже открытого файла
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
 
     val textEvent: SingleLiveEvent<String> = SingleLiveEvent() //Контент загруженного файла
@@ -102,9 +102,7 @@ class EditorViewModel(
 
     // endregion PREFERENCES
 
-    private val openableExtensions = arrayOf( //Открываемые расширения файлов
-        ".txt", ".js", ".json", ".java", ".md", ".lua"
-    )
+    val tabsList: MutableList<DocumentModel> = mutableListOf()
 
     private fun loadFiles() {
         if (resumeSessionEvent.value!!) {
@@ -118,6 +116,7 @@ class EditorViewModel(
                 .schedulersIoToMain(schedulersProvider)
                 .subscribeBy(
                     onSuccess = {
+                        tabsList.replaceList(it)
                         documentsEvent.value = it
                     },
                     onError = {
@@ -239,8 +238,18 @@ class EditorViewModel(
     }
 
     fun openFile(documentModel: DocumentModel) {
-        if (documentModel.name.endsWith(openableExtensions)) {
-            documentEvent.value = documentModel
+        if (documentModel.isOpenable()) {
+            if (!tabsList.containsDocumentModel(documentModel)) {
+                if (tabsList.size < tabLimitEvent.value!!) {
+                    tabsList.add(documentModel)
+                    stateNothingFound.set(tabsList.isEmpty())
+                    documentEvent.value = documentModel
+                } else {
+                    toastEvent.value = R.string.message_tab_limit_achieved
+                }
+            } else {
+                selectionEvent.value = tabsList.index(documentModel)
+            }
         } else {
             unopenableEvent.value = documentModel
         }

@@ -31,7 +31,7 @@ import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.getRawFileText
 import javax.inject.Inject
 
-class FragmentPreferences : DaggerPreferenceFragmentCompat() {
+class PreferenceFragment : DaggerPreferenceFragmentCompat() {
 
     companion object {
 

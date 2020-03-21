@@ -15,20 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.editor.fragments
+package com.lightteam.modpeide.domain.model
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.explorer.fragments.FragmentDirectory
-import dagger.Module
-import dagger.Provides
-
-@Module
-class FragmentDirectoryModule {
-
-    @Provides
-    @PerFragment
-    fun provideFileAdapter(fragmentDirectory: FragmentDirectory): FileAdapter {
-        return FileAdapter(fragmentDirectory)
-    }
+enum class FileType {
+    DEFAULT,
+    ARCHIVE,
+    IMAGE,
+    AUDIO,
+    VIDEO
 }

@@ -46,24 +46,24 @@ ext {
     //AAC
     lifecycle_version = '2.2.0'
     navigation_version = '2.2.1'
-    room_version = '2.2.4'
+    room_version = '2.2.5'
 
     //Rx
-    rxjava2_version = '2.2.18'
+    rxjava2_version = '2.2.19'
     rxandroid_version = '2.1.1'
     rxkotlin_version = '2.4.0'
     rxbinding_version = '3.1.0'
     rxpreferences_version = '2.0.0'
 
     //DI
-    dagger2_version = '2.26'
+    dagger2_version = '2.27'
 
     //Tests
     junit_version = '4.13'
-    junit_ext_version = '1.1.2-alpha04'
-    test_runner_version = '1.3.0-alpha04'
-    espresso_core_version = '3.3.0-alpha04'
-    mockito_version = '3.3.0'
+    junit_ext_version = '1.1.2-alpha05'
+    test_runner_version = '1.3.0-alpha05'
+    espresso_core_version = '3.3.0-alpha05'
+    mockito_version = '3.3.3'
 
     library = [
             //Kotlin

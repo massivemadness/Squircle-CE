@@ -15,17 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.settings
+package com.lightteam.modpeide.domain.utils
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.ui.settings.fragments.PreferenceFragment
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
-
-@Module
-abstract class SettingsFragmentsProvider {
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun bindPreferenceFragment(): PreferenceFragment
+fun String.endsWith(suffixes: Array<String>): Boolean {
+    for (suffix in suffixes) {
+        if (endsWith(suffix, true)) {
+            return true
+        }
+    }
+    return false
 }

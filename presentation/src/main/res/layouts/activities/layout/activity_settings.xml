@@ -50,7 +50,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/fragment_preferences"
-            android:name="com.lightteam.modpeide.ui.settings.fragments.FragmentPreferences"/>
+            android:name="com.lightteam.modpeide.ui.settings.fragments.PreferenceFragment"/>
 
         <FrameLayout
             android:layout_width="match_parent"

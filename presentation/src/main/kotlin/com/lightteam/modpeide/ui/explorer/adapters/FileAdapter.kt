@@ -20,15 +20,17 @@ package com.lightteam.modpeide.ui.explorer.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.FileModel
-import com.lightteam.modpeide.databinding.ItemFileBinding
+import com.lightteam.modpeide.domain.model.FileType
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.explorer.adapters.interfaces.ItemCallback
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter.FileViewHolder
+import com.lightteam.modpeide.utils.extensions.setTint
 
 class FileAdapter(
     private val itemCallback: ItemCallback<FileModel>
@@ -67,11 +69,54 @@ class FileAdapter(
             }
         }
 
-        private val binding: ItemFileBinding? = DataBindingUtil.bind(itemView)
+        private lateinit var fileModel: FileModel
+
+        private var itemIcon: ImageView = itemView.findViewById(R.id.item_icon)
+        private var itemTitle: TextView = itemView.findViewById(R.id.item_title)
+
+        init {
+            itemView.setOnClickListener {
+                itemCallback.onClick(fileModel)
+            }
+            itemView.setOnLongClickListener {
+                itemCallback.onLongClick(fileModel)
+            }
+        }
 
         override fun bind(item: FileModel) {
-            binding?.fileModel = item
-            binding?.itemCallback = itemCallback
+            fileModel = item
+            itemTitle.text = fileModel.name
+
+            if (fileModel.isHidden) {
+                itemIcon.alpha = 0.45f
+            } else {
+                itemIcon.alpha = 1f
+            }
+
+            if (fileModel.isFolder) {
+                itemIcon.setImageResource(R.drawable.ic_folder)
+                itemIcon.setTint(R.color.colorFolder)
+            } else {
+                itemIcon.setImageResource(R.drawable.ic_file)
+                itemIcon.setTint(R.color.colorIcon)
+            }
+
+            when (fileModel.getType()) {
+                FileType.ARCHIVE -> {
+                    itemIcon.setImageResource(R.drawable.ic_file_archive)
+                    itemIcon.setTint(R.color.colorFolder)
+                }
+                FileType.IMAGE -> {
+                    itemIcon.setImageResource(R.drawable.ic_file_image)
+                }
+                FileType.AUDIO -> {
+                    itemIcon.setImageResource(R.drawable.ic_file_audio)
+                }
+                FileType.VIDEO -> {
+                    itemIcon.setImageResource(R.drawable.ic_file_video)
+                }
+                FileType.DEFAULT -> { /* nothing */ }
+            }
         }
     }
 }

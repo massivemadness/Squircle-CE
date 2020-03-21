@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.data.utils.extensions
 
+import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.model.FileModel
 import java.io.File
 import java.text.DecimalFormat
@@ -32,15 +33,6 @@ fun String.isValidFileName(): Boolean {
             !equals("..")
 }
 
-fun String.endsWith(suffixes: Array<String>): Boolean {
-    for(suffix in suffixes) {
-        if(endsWith(suffix, true)) {
-            return true
-        }
-    }
-    return false
-}
-
 fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
     for (index in indices) {
         if (get(index).path == fileModel.path) {
@@ -50,13 +42,31 @@ fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
     return false
 }
 
+fun MutableList<DocumentModel>.containsDocumentModel(documentModel: DocumentModel): Boolean {
+    for (index in indices) {
+        if (get(index).path == documentModel.path) {
+            return true
+        }
+    }
+    return false
+}
+
+fun MutableList<DocumentModel>.index(documentModel: DocumentModel): Int {
+    for (index in indices) {
+        if (get(index).path == documentModel.path) {
+            return index
+        }
+    }
+    return -1
+}
+
 fun <T> MutableList<T>.replaceList(collection: Collection<T>) {
     clear()
     addAll(collection)
 }
 
 fun File.size(): Long {
-    if(isDirectory) {
+    if (isDirectory) {
         var length = 0L
         for (child in listFiles()!!) {
             length += child.size()

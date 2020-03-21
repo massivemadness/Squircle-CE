@@ -17,6 +17,8 @@
 
 package com.lightteam.modpeide.domain.model
 
+import com.lightteam.modpeide.domain.utils.endsWith
+
 data class DocumentModel(
     val uuid: String,
     val name: String,
@@ -25,4 +27,15 @@ data class DocumentModel(
     val scrollY: Int,
     val selectionStart: Int,
     val selectionEnd: Int
-)
+) {
+
+    companion object {
+        val OPENABLE = arrayOf(
+            ".txt", ".js", ".json", ".java", ".md", ".lua"
+        )
+    }
+
+    fun isOpenable(): Boolean {
+        return name.endsWith(OPENABLE)
+    }
+}

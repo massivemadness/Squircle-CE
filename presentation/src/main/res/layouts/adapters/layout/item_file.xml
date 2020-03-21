@@ -16,48 +16,31 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    android:background="?attr/selectableItemBackground">
 
-    <data>
-        <import type="com.lightteam.modpeide.ui.explorer.adapters.interfaces.ItemCallback"/>
-        <import type="com.lightteam.modpeide.domain.model.FileModel"/>
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="2dp"
+        android:id="@+id/item_icon"
+        tools:src="@drawable/ic_folder"/>
 
-        <variable name="fileModel" type="FileModel"/>
-        <variable name="itemCallback" type="ItemCallback"/>
-    </data>
-
-    <FrameLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:background="?attr/selectableItemBackground"
-        android:onClick="@{() -> itemCallback.onClick(fileModel)}"
-        android:onLongClick="@{() -> itemCallback.onLongClick(fileModel)}">
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:gravity="center_vertical"
+        android:id="@+id/item_title"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textSize="16sp"
+        tools:text="File Name"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="2dp"
-            android:id="@+id/item_icon"
-            android:src="@{fileModel.isFolder ? @drawable/ic_folder : @drawable/ic_file}"
-            android:tint="@{fileModel.isFolder ? @color/colorFolder : @color/colorIcon}"
-            android:alpha="@{fileModel.isHidden ? 115 : 255}"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="48dp"
-            android:gravity="center_vertical"
-            android:id="@+id/item_title"
-            android:ellipsize="middle"
-            android:singleLine="true"
-            android:textSize="16sp"
-            android:text="@{fileModel.name}"
-            tools:text="File Name"/>
-
-    </FrameLayout>
-
-</layout>
+</FrameLayout>

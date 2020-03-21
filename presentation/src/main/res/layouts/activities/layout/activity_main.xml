@@ -241,7 +241,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:id="@+id/fragment_explorer"
-            android:name="com.lightteam.modpeide.ui.explorer.fragments.FragmentExplorer"
+            android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
             tools:layout="@layout/fragment_explorer"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>

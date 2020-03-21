@@ -44,7 +44,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FragmentExplorer : BaseFragment(), TabLayout.OnTabSelectedListener {
+class ExplorerFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
 
     @Inject
     lateinit var viewModel: ExplorerViewModel

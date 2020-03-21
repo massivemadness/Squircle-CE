@@ -26,7 +26,6 @@ object ThemeFactory {
             Themes.THEME_DARCULA -> colorize(Themes.darcula)
             Themes.THEME_MONOKAI -> colorize(Themes.monokai)
             Themes.THEME_OBSIDIAN -> colorize(Themes.obsidian)
-            Themes.THEME_RETTA -> colorize(Themes.retta)
             Themes.THEME_LADIES_NIGHT -> colorize(Themes.ladiesNight)
             Themes.THEME_TOMORROW_NIGHT -> colorize(Themes.tomorrowNight)
             Themes.THEME_VISUAL_STUDIO_2013 -> colorize(Themes.visualStudio2013)

@@ -24,6 +24,18 @@ import java.util.*
 
 object DocumentConverter {
 
+    /*fun toModel(file: File): DocumentModel {
+        return DocumentModel(
+            UUID.randomUUID().toString(),
+            file.name,
+            file.absolutePath,
+            0,
+            0,
+            0,
+            0
+        )
+    }*/
+
     fun toModel(fileModel: FileModel): DocumentModel {
         return DocumentModel(
             UUID.randomUUID().toString(),

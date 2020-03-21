@@ -24,7 +24,6 @@ object Themes {
     const val THEME_DARCULA = "THEME_DARCULA"
     const val THEME_MONOKAI = "THEME_MONOKAI"
     const val THEME_OBSIDIAN = "THEME_OBSIDIAN"
-    const val THEME_RETTA = "THEME_RETTA"
     const val THEME_LADIES_NIGHT = "THEME_LADIES_NIGHT"
     const val THEME_TOMORROW_NIGHT = "THEME_TOMORROW_NIGHT"
     const val THEME_VISUAL_STUDIO_2013 = "THEME_VISUAL_STUDIO_2013"
@@ -32,7 +31,6 @@ object Themes {
     val darcula: AbstractTheme by lazy { Darcula() }
     val monokai: AbstractTheme by lazy { Monokai() }
     val obsidian: AbstractTheme by lazy { Obsidian() }
-    val retta: AbstractTheme by lazy { Retta() }
     val ladiesNight: AbstractTheme by lazy { LadiesNight() }
     val tomorrowNight: AbstractTheme by lazy { TomorrowNight() }
     val visualStudio2013: AbstractTheme by lazy { VisualStudio2013() }
@@ -106,29 +104,6 @@ object Themes {
         override val commentsColor: Int = "#808C92".toColorInt()
     }
 
-    private class Retta : AbstractTheme() {
-        override val textColor: Int = "#A6B0BE".toColorInt()
-        override val backgroundColor: Int = "#000000".toColorInt()
-        override val gutterColor: Int = "#000000".toColorInt()
-        override val gutterDividerColor: Int = "#2A2A2A".toColorInt()
-        override val gutterCurrentLineNumberColor: Int = "#FF9650".toColorInt()
-        override val gutterTextColor: Int = "#BE7544".toColorInt()
-        override val selectedLineColor: Int = "#2A2A2A".toColorInt()
-        override val selectionColor: Int = "#5B7C60".toColorInt()
-        override val filterableColor: Int = "#5B7C60".toColorInt()
-
-        override val searchBgColor: Int = "#405EAB".toColorInt()
-        override val bracketBgColor: Int = "#616161".toColorInt()
-
-        override val numbersColor: Int = "#D3C25D".toColorInt()
-        override val symbolsColor: Int = "#F5E1B0".toColorInt()
-        override val bracketsColor: Int = "#F5E1B0".toColorInt()
-        override val keywordsColor: Int = "#D06C4F".toColorInt()
-        override val methodsColor: Int = "#A6B0BE".toColorInt()
-        override val stringsColor: Int = "#D3C25D".toColorInt()
-        override val commentsColor: Int = "#81786F".toColorInt()
-    }
-
     private class LadiesNight : AbstractTheme() {
         override val textColor: Int = "#E0E2E4".toColorInt()
         override val backgroundColor: Int = "#22282C".toColorInt()
@@ -178,10 +153,10 @@ object Themes {
     private class VisualStudio2013 : AbstractTheme() {
         override val textColor: Int = "#C8C8C8".toColorInt()
         override val backgroundColor: Int = "#232323".toColorInt()
-        override val gutterColor: Int = "#232323".toColorInt()
-        override val gutterDividerColor: Int = "#141414".toColorInt()
-        override val gutterCurrentLineNumberColor: Int = "#64D7FF".toColorInt()
-        override val gutterTextColor: Int = "#669BD1".toColorInt()
+        override val gutterColor: Int = "#2C2C2C".toColorInt()
+        override val gutterDividerColor: Int = "#555555".toColorInt()
+        override val gutterCurrentLineNumberColor: Int = "#FFFFFF".toColorInt()
+        override val gutterTextColor: Int = "#C6C8C6".toColorInt()
         override val selectedLineColor: Int = "#141414".toColorInt()
         override val selectionColor: Int = "#454464".toColorInt()
         override val filterableColor: Int = "#4F98F7".toColorInt()

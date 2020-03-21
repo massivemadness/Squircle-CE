@@ -63,7 +63,6 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     lateinit var toolbarManager: ToolbarManager
 
     private lateinit var binding: ActivityMainBinding
-    private var documents: MutableList<DocumentModel> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +88,15 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
                 viewModel.canRedo.set(binding.editor.canRedo())
             }
             .disposeOnActivityDestroy()
+
+        /* FIXME this feature just doesn't work, idk how to fix it
+        // Check if user opened a file from external file explorer
+        if (intent.action == Intent.ACTION_VIEW) {
+            // path must be started with /storage/emulated/0/...
+            val file = File(intent.data?.path)
+            val documentModel = DocumentConverter.toModel(file)
+            viewModel.openFile(documentModel)
+        }*/
     }
 
     override fun onPause() {
@@ -146,7 +154,6 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     }
 
     private fun addTab(documentModel: DocumentModel, selection: Boolean) {
-        viewModel.stateNothingFound.set(documents.isEmpty())
         binding.tabDocumentLayout.newTab(documentModel.name, R.layout.item_tab_document) { tab ->
             val closeIcon = tab.customView?.findViewById<View>(R.id.item_icon)
             closeIcon?.setOnClickListener {
@@ -215,15 +222,16 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
             showToast(it)
         })
         viewModel.documentsEvent.observe(this, Observer { docs ->
-            documents.clear()
-            documents.addAll(docs)
             for (document in docs) {
                 addTab(document, false)
             }
         })
         viewModel.documentEvent.observe(this, Observer {
-            documents.add(it)
             addTab(it, true)
+            closeDrawers()
+        })
+        viewModel.selectionEvent.observe(this, Observer {
+            binding.tabDocumentLayout.getTabAt(it)?.select()
             closeDrawers()
         })
         viewModel.unopenableEvent.observe(this, Observer {
@@ -327,9 +335,10 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
                 File(documentModel.path)
             )
             val mime = contentResolver.getType(uri)
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.setDataAndType(uri, mime)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, mime)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             viewModel.toastEvent.value = R.string.message_cannot_be_opened
@@ -338,20 +347,20 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
 
     private fun loadDocument(position: Int) {
         if (position > -1) { // if there's at least 1 tab
-            val document = documents[position]
+            val document = viewModel.tabsList[position]
             viewModel.loadFile(document)
         }
     }
 
     private fun saveDocument(position: Int) {
         if (position > -1) { // if there's at least 1 tab
-            val document = documents[position].copy(
+            val document = viewModel.tabsList[position].copy(
                 scrollX = binding.editor.scrollX,
                 scrollY = binding.editor.scrollY,
                 selectionStart = binding.editor.selectionStart,
                 selectionEnd = binding.editor.selectionEnd
             )
-            documents[position] = document
+            viewModel.tabsList[position] = document
             viewModel.saveToCache(document, binding.editor.getFacadeText())
             viewModel.saveUndoStack(document, binding.editor.undoStack)
             viewModel.saveRedoStack(document, binding.editor.redoStack)
@@ -361,9 +370,9 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     }
 
     private fun removeDocument(position: Int): Int {
-        val document = documents[position]
-        documents.removeAt(position)
-        viewModel.stateNothingFound.set(documents.isEmpty())
+        val document = viewModel.tabsList[position]
+        viewModel.tabsList.removeAt(position)
+        viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
         viewModel.deleteCache(document)
         return position
     }
@@ -405,7 +414,7 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     override fun onSaveButton() {
         val position = binding.tabDocumentLayout.selectedTabPosition
         if (position > -1) {
-            val document = documents[position]
+            val document = viewModel.tabsList[position]
             viewModel.saveFile(document, binding.editor.getFacadeText())
             viewModel.saveToCache(document, binding.editor.getFacadeText())
             viewModel.saveUndoStack(document, binding.editor.undoStack)
