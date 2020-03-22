@@ -29,6 +29,7 @@ import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.getRawFileText
+import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
 class PreferenceFragment : DaggerPreferenceFragmentCompat() {
@@ -87,7 +88,7 @@ class PreferenceFragment : DaggerPreferenceFragmentCompat() {
 
     override fun setPreferencesFromResource(preferencesResId: Int, key: String?) {
         super.setPreferencesFromResource(preferencesResId, key)
-        val isUltimate = viewModel.isUltimate()
+        val isUltimate = requireContext().isUltimate()
         when (key) {
             KEY_APPLICATION -> {
                 findPreference<Preference>(KEY_THEME)?.isEnabled = isUltimate

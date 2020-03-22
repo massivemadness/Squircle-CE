@@ -32,7 +32,6 @@ import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.di.scopes.PerApplication
 import com.lightteam.modpeide.internal.providers.rx.SchedulersProviderImpl
 import com.lightteam.modpeide.ui.common.viewmodel.ViewModelFactory
-import com.lightteam.modpeide.utils.commons.VersionChecker
 import dagger.Module
 import dagger.Provides
 
@@ -89,25 +88,17 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun provideVersionChecker(application: BaseApplication): VersionChecker {
-        return VersionChecker(application.isUltimate)
-    }
-
-    @Provides
-    @PerApplication
     fun provideViewModelFactory(fileRepository: FileRepository,
                                 appDatabase: AppDatabase,
                                 schedulersProvider: SchedulersProvider,
                                 preferenceHandler: PreferenceHandler,
-                                cacheHandler: CacheHandler,
-                                versionChecker: VersionChecker): ViewModelFactory {
+                                cacheHandler: CacheHandler): ViewModelFactory {
         return ViewModelFactory(
             fileRepository,
             appDatabase,
             schedulersProvider,
             preferenceHandler,
-            cacheHandler,
-            versionChecker
+            cacheHandler
         )
     }
 }

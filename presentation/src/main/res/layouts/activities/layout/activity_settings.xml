@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@color/colorNavigationBar"
-            android:visibility="@{viewModel.isUltimate() ? View.GONE : View.VISIBLE}"
+            android:id="@+id/button_container"
             android:elevation="2dp">
 
             <TextView

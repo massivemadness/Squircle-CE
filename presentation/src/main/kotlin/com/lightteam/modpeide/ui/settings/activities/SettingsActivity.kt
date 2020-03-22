@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.settings.activities
 
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.lightteam.modpeide.R
@@ -26,6 +27,7 @@ import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.common.dialogs.DialogStore
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
 class SettingsActivity : BaseActivity() {
@@ -47,6 +49,7 @@ class SettingsActivity : BaseActivity() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+        binding.buttonContainer.isGone = isUltimate()
         binding.buttonUnlockFeatures.setOnClickListener {
             DialogStore.Builder(this).show()
         }
@@ -54,7 +57,7 @@ class SettingsActivity : BaseActivity() {
 
     private fun observeViewModel() {
         viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
-            if(isFullscreen) {
+            if (isFullscreen) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)

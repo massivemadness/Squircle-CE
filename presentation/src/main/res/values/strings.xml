@@ -209,5 +209,5 @@
     <string name="pref_about_summary">Copyright 2020 Light Team Software\nAll right reserved\n\nVersion: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Privacy Policy</string>
     <string name="pref_contribute_title">Contribute to development</string>
-    <string name="pref_contribute_summary">You can create an issue on GitHub or translate the app to your native language.\n\nThank you!</string>
+    <string name="pref_contribute_summary">You can create an issue on GitHub or translate this app to your native language.\n\nThank you!</string>
 </resources>

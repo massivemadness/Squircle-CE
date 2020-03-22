@@ -21,18 +21,19 @@ import android.util.Log
 import androidx.databinding.ObservableBoolean
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
+import com.lightteam.modpeide.data.parser.ScriptEngine
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
+import com.lightteam.modpeide.domain.model.AnalysisModel
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.domain.providers.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.editor.customview.TextProcessor
-import com.lightteam.modpeide.utils.commons.VersionChecker
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import com.lightteam.modpeide.utils.theming.ThemeFactory
 import io.reactivex.rxkotlin.Singles
@@ -43,8 +44,7 @@ class EditorViewModel(
     private val fileRepository: FileRepository,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
-    private val preferenceHandler: PreferenceHandler,
-    private val versionChecker: VersionChecker
+    private val preferenceHandler: PreferenceHandler
 ) : BaseViewModel() {
 
     companion object {
@@ -68,6 +68,7 @@ class EditorViewModel(
     val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
     val selectionEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выделение вкладки уже открытого файла
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
+    val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода
 
     val textEvent: SingleLiveEvent<String> = SingleLiveEvent() //Контент загруженного файла
     val loadedEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Для загрузки скроллинга/выделения
@@ -255,8 +256,11 @@ class EditorViewModel(
         }
     }
 
-    fun isUltimate(): Boolean {
-        return versionChecker.isUltimate
+    fun analyze(position: Int, sourceCode: String) {
+        ScriptEngine.analyze(tabsList[position].name, sourceCode)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { analysisEvent.value = it }
+            .disposeOnViewModelDestroy()
     }
 
     // region PREFERENCES

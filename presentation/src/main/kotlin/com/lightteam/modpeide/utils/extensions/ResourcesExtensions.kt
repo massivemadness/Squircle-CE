@@ -27,7 +27,16 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import com.lightteam.modpeide.BaseApplication
 import java.io.BufferedReader
+
+fun Context.isUltimate(): Boolean {
+    return when (packageName) {
+        BaseApplication.STANDARD -> false
+        BaseApplication.ULTIMATE -> true
+        else -> false
+    }
+}
 
 fun Context.getDrawableCompat(@DrawableRes drawable: Int): Drawable {
     return ContextCompat.getDrawable(this, drawable) as Drawable

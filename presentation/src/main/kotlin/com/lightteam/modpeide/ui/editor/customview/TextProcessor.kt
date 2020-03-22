@@ -100,13 +100,13 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     )
 
     var configuration: Configuration = Configuration()
-        set (value) {
+        set(value) {
             field = value
             configure()
         }
 
     var theme: Theme = Theme()
-        set (value) {
+        set(value) {
             field = value
             colorize()
         }
@@ -116,6 +116,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     var language: Language = JavaScriptLanguage() //= UnknownLanguage()
     var completion: CodeCompletion = UnknownCompletion()
+
+    val arrayLineCount: Int
+        get() = lines.lineCount - 1
 
     private val textScroller = Scroller(context)
     private val completionAdapter = CodeCompletionAdapter(context, R.layout.item_completion)
@@ -616,10 +619,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     // endregion METHODS
 
     // region LINE_NUMBERS
-
-    fun getArrayLineCount(): Int {
-        return lines.lineCount - 1
-    }
 
     private fun updateGutter() {
         var max = 3

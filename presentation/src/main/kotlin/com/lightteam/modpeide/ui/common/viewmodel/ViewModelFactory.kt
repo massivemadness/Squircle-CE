@@ -27,15 +27,13 @@ import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
-import com.lightteam.modpeide.utils.commons.VersionChecker
 
 class ViewModelFactory(
     private val fileRepository: FileRepository,
     private val appDatabase: AppDatabase,
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
-    private val cacheHandler: CacheHandler,
-    private val versionChecker: VersionChecker
+    private val cacheHandler: CacheHandler
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -47,8 +45,7 @@ class ViewModelFactory(
                     fileRepository,
                     cacheHandler,
                     appDatabase,
-                    preferenceHandler,
-                    versionChecker
+                    preferenceHandler
                 ) as T
             modelClass === ExplorerViewModel::class.java ->
                 ExplorerViewModel(
@@ -59,8 +56,7 @@ class ViewModelFactory(
             modelClass === SettingsViewModel::class.java ->
                 SettingsViewModel(
                     schedulersProvider,
-                    preferenceHandler,
-                    versionChecker
+                    preferenceHandler
                 ) as T
             else -> null as T
         }
