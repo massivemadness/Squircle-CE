@@ -35,7 +35,7 @@
         android:ellipsize="end"
         android:fontFamily="sans-serif-light"
         android:textStyle="bold"
-        android:textColor="@android:color/white"
+        android:textColor="?colorOnSurface"
         android:textSize="16sp"
         tools:text="Custom Tab"/>
 

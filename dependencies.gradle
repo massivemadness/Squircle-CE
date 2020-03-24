@@ -23,8 +23,8 @@ ext {
             targetSdk = 29,
             compileSdk = 29,
             buildTools = '29.0.3',
-            versionCode = 10023,
-            versionName = '2020.1.0',
+            versionCode = 10025,
+            versionName = '2020.1.1',
             standardVName = "$versionName Standard Edition",
             ultimateVName = "$versionName Ultimate Edition",
             testRunner = 'androidx.test.runner.AndroidJUnitRunner'
@@ -76,7 +76,6 @@ ext {
             swiperefreshlayout: "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout_version",
             preferencescompat: "androidx.preference:preference-ktx:$preferencescompat_version",
             materialdialogs_core: "com.afollestad.material-dialogs:core:$materialdialogs_version",
-            materialdialogs_input: "com.afollestad.material-dialogs:input:$materialdialogs_version",
             materialdialogs_color: "com.afollestad.material-dialogs:color:$materialdialogs_version",
 
             //AAC

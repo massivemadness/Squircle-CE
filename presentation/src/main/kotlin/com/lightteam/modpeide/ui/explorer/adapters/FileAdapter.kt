@@ -52,7 +52,7 @@ class FileAdapter(
     }
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
-        return holder.bind(getItem(position))
+        holder.bind(getItem(position))
     }
 
     class FileViewHolder(

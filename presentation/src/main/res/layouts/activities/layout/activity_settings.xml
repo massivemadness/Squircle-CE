@@ -32,18 +32,13 @@
         android:orientation="vertical"
         tools:context=".ui.settings.activities.SettingsActivity">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
-
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/toolbar"/>
-
-        </com.google.android.material.appbar.AppBarLayout>
+            android:id="@+id/toolbar"
+            android:background="?colorSurface"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:elevation="4dp"/>
 
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
@@ -63,8 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:textColor="@color/colorSecondary"
+                android:background="?selectableItemBackground"
+                android:textColor="?colorPrimary"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textSize="16sp"

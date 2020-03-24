@@ -33,7 +33,7 @@
         android:id="@android:id/text1"
         android:singleLine="true"
         android:ellipsize="end"
-        android:textColor="@android:color/white"
+        android:textColor="?colorOnSurface"
         android:textStyle="bold"
         android:textSize="14sp"
         tools:text="Custom Tab"/>
@@ -46,6 +46,6 @@
         android:src="@drawable/ic_close"
         android:background="@drawable/ripple_14dp"
         android:contentDescription="@string/menu_file_close"
-        app:tint="@android:color/white"/>
+        app:tint="?colorOnSurface"/>
 
 </LinearLayout>

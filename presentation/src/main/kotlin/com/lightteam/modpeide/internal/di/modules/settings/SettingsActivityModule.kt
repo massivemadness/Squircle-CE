@@ -19,7 +19,7 @@ package com.lightteam.modpeide.internal.di.modules.settings
 
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
-import com.lightteam.modpeide.ui.common.viewmodel.ViewModelFactory
+import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import dagger.Module

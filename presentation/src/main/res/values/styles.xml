@@ -17,23 +17,54 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- MD background fix -->
-    <style name="MD_Dialog_Input_Layout" tools:override="true">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@android:color/transparent</item>
-    </style>
+    <!-- region BUTTON -->
 
-    <!-- TextButton -->
     <style name="Widget.Darcula.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?attr/colorAccent</item>
-        <item name="rippleColor">?android:colorControlHighlight</item>
+        <item name="rippleColor">?colorControlHighlight</item>
         <item name="cornerRadius">2dp</item>
     </style>
 
-    <!-- Light PopupMenu for Dark Theme -->
-    <style name="Theme.Darcula.PopupMenu" parent="Theme.MaterialComponents.Light">
+    <!-- endregion BUTTON -->
+
+    <!-- region MENU -->
+
+    <style name="Widget.Darcula.PopupMenu" parent="Theme.MaterialComponents.Light">
         <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu.Overflow</item>
     </style>
+
+    <!-- endregion MENU -->
+
+    <!-- region DIALOG -->
+    
+    <style name="MD_Dark" parent="Theme.AppCompat.Dialog.Alert" tools:ignore="PrivateResource">
+        <item name="android:windowMinWidthMajor">@dimen/abc_dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/abc_dialog_min_width_minor</item>
+
+        <item name="android:actionModeBackground">@color/primary_material_dark</item>
+        <item name="android:actionModeCloseDrawable">@drawable/md_nav_back</item>
+
+        <item name="android:windowAnimationStyle">@style/MD_WindowAnimation</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.32</item> <!-- That's new line -->
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="md_divider_color">@color/md_divider_dark_theme</item>
+        <item name="md_item_selector">@drawable/md_item_selector_dark</item>
+        <item name="md_button_selector">@drawable/md_btn_selector_dark</item>
+    </style>
+
+    <style name="Dialog.Darcula.Preference" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/Dialog.Darcula.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Dialog.Darcula.Button</item>
+        <item name="dialogCornerRadius">4dp</item>
+        <item name="android:backgroundDimAmount">0.32</item>
+    </style>
+
+    <style name="Dialog.Darcula.Button" parent="Widget.Darcula.TextButton">
+        <item name="android:minWidth" tools:ignore="PrivateResource">@dimen/mtrl_btn_dialog_btn_min_width</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
+    <!-- endregion DIALOG -->
 
 </resources>

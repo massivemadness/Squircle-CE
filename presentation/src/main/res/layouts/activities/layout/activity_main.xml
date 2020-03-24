@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:orientation="horizontal"
-                android:background="@color/colorPrimaryDark"
+                android:background="?colorSurface"
                 android:elevation="4dp">
 
                 <ImageView
@@ -58,7 +58,7 @@
                     android:src="@drawable/ic_drawer"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_drawer"
-                    app:tint="@android:color/white"/>
+                    app:tint="?colorOnSurface"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -69,7 +69,7 @@
                     android:src="@drawable/ic_save"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_save"
-                    app:tint="@android:color/white"/>
+                    app:tint="?colorOnSurface"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -80,7 +80,7 @@
                     android:src="@drawable/ic_folder"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_file"
-                    app:tint="@android:color/white"/>
+                    app:tint="?colorOnSurface"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -91,7 +91,7 @@
                     android:src="@drawable/ic_edit"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_edit"
-                    app:tint="@android:color/white"/>
+                    app:tint="?colorOnSurface"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -102,7 +102,7 @@
                     android:src="@drawable/ic_file_search"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_search"
-                    app:tint="@android:color/white"/>
+                    app:tint="?colorOnSurface"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -113,7 +113,7 @@
                     android:src="@drawable/ic_tools"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_tools"
-                    app:tint="@android:color/white"/>
+                    app:tint="?colorOnSurface"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -150,7 +150,7 @@
                     android:src="@drawable/ic_overflow"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_menu_overflow"
-                    app:tint="@android:color/white"/>
+                    app:tint="?colorOnSurface"/>
 
             </RelativeLayout>
 
@@ -161,7 +161,7 @@
                 android:id="@+id/tab_document_layout"
                 android:background="@color/colorTabs"
                 android:elevation="3.5dp"
-                app:tabRippleColor="?attr/colorControlHighlight"
+                app:tabRippleColor="?colorControlHighlight"
                 app:tabUnboundedRipple="false"
                 app:tabGravity="start"
                 app:tabMode="scrollable"/>
@@ -210,7 +210,7 @@
                     android:textCursorDrawable="@drawable/caret"
                     android:dropDownAnchor="@id/tab_document_layout"
                     android:completionThreshold="2"
-                    android:popupBackground="@color/colorPrimaryDark"
+                    android:popupBackground="?colorSurface"
                     android:id="@+id/editor"/>
 
                 <com.lightteam.modpeide.ui.editor.customview.TextScroller
@@ -218,7 +218,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:id="@+id/scroller"
-                    app:thumbTint="@color/colorSecondary"/>
+                    app:thumbTint="?colorPrimary"/>
 
             </FrameLayout>
 

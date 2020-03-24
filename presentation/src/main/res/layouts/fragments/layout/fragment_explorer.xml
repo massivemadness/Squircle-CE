@@ -33,19 +33,21 @@
 
         <!-- region TOOLBAR -->
 
-        <com.google.android.material.appbar.AppBarLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
-            android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.GONE}">
+            android:orientation="vertical"
+            android:background="?colorSurface"
+            android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.GONE}"
+            android:elevation="4dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:id="@+id/toolbar"
-                app:title="@string/label_local_storage"
-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"/>
+                android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                app:title="@string/label_local_storage"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,7 +63,7 @@
                     android:id="@+id/action_home"
                     android:src="@drawable/ic_home"
                     android:background="@drawable/ripple_16dp"
-                    app:tint="@android:color/white"/>
+                    app:tint="?colorOnSurface"/>
 
                 <com.google.android.material.tabs.TabLayout
                     android:layout_width="match_parent"
@@ -69,7 +71,7 @@
                     android:clipChildren="true"
                     android:background="@null"
                     android:id="@+id/tab_layout"
-                    app:tabRippleColor="?attr/colorControlHighlight"
+                    app:tabRippleColor="?colorControlHighlight"
                     app:tabPaddingStart="4dp"
                     app:tabPaddingEnd="0dp"
                     app:tabUnboundedRipple="false"
@@ -78,7 +80,7 @@
 
             </LinearLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
+        </LinearLayout>
 
         <!-- endregion TOOLBAR -->
 
@@ -88,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/swipe_refresh"
-            android:background="@color/colorBackground">
+            android:background="?android:colorBackground">
 
             <FrameLayout
                 android:layout_width="match_parent"

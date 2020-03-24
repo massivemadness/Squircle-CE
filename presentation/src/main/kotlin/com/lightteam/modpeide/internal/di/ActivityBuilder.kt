@@ -31,10 +31,16 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [EditorActivityModule::class, EditorFragmentsProvider::class])
+    @ContributesAndroidInjector(modules = [
+        EditorActivityModule::class,
+        EditorFragmentsProvider::class
+    ])
     abstract fun buildEditorActivity(): EditorActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [SettingsActivityModule::class, SettingsFragmentsProvider::class])
+    @ContributesAndroidInjector(modules = [
+        SettingsActivityModule::class,
+        SettingsFragmentsProvider::class
+    ])
     abstract fun buildSettingsActivity(): SettingsActivity
 }

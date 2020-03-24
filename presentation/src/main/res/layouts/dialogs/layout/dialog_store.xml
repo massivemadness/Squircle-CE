@@ -312,7 +312,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:fontFamily="sans-serif-light"
                     android:textSize="14sp"
@@ -333,7 +333,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:textSize="14sp"
                     android:textColor="@android:color/white"

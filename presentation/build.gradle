@@ -72,7 +72,6 @@ dependencies {
     implementation library.swiperefreshlayout
     implementation library.preferencescompat
     implementation library.materialdialogs_core
-    implementation library.materialdialogs_input
     implementation library.materialdialogs_color
 
     //AAC

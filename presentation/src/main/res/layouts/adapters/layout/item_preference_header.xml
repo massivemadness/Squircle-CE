@@ -31,14 +31,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceListItem"/>
+        android:textAppearance="?android:textAppearanceListItem"/>
 
     <TextView
         style="@style/PreferenceSummaryTextStyle"
         android:id="@android:id/summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="?android:textColorSecondary"
         tools:ignore="PrivateResource"/>
 
 </LinearLayout>

@@ -18,16 +18,25 @@
 
 <resources>
     <color name="colorPrimary">#FF8000</color>
-    <color name="colorPrimaryDark">#3C3F41</color>
     <color name="colorSecondary">#FF8000</color>
+    <color name="colorSurface">#3C3F41</color>
+    <color name="colorError">#E45356</color>
     <color name="colorBackground">#303030</color>
+
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorOnSurface">#FFFFFF</color>
+    <color name="colorOnError">#FFFFFF</color>
+    <color name="colorOnBackground">#FFFFFF</color>
+
+    <color name="colorStatusBar">#3C3F41</color>
+
+    <!-- Extra -->
     <color name="colorNavigationBar">#37383A</color>
     <color name="colorTabs">#37383A</color>
     <color name="colorCaret">#BBBBBB</color>
     <color name="colorIcon">#7F7F7F</color>
     <color name="colorFolder">#FFBB33</color>
-    <color name="colorWarning">#E45356</color>
-
     <color name="colorGreen">#008860</color>
     <color name="colorRed">#CD0000</color>
     <color name="colorGray">#D7D7D7</color>

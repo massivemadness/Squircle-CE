@@ -21,7 +21,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
 import android.view.WindowManager
 import android.widget.CheckBox
@@ -37,8 +36,6 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
@@ -47,7 +44,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.domain.model.DocumentModel
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
-import com.lightteam.modpeide.ui.common.dialogs.DialogStore
+import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.editor.activities.interfaces.OnPanelClickListener
 import com.lightteam.modpeide.ui.editor.activities.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
@@ -126,7 +123,14 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
             onBackPressedDispatcher.onBackPressed()
         } else {
             if (viewModel.backEvent.value!!) {
-                showExitDialog()
+                MaterialDialog(this).show {
+                    title(R.string.dialog_title_exit)
+                    message(R.string.dialog_message_exit)
+                    negativeButton(R.string.action_no)
+                    positiveButton(R.string.action_yes) {
+                        finish()
+                    }
+                }
             } else {
                 finish()
             }
@@ -167,7 +171,7 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
                 removeTab(tab.position)
             }
             tab.view.setOnLongClickListener {
-                val wrapper = ContextThemeWrapper(it.context, R.style.Theme_Darcula_PopupMenu)
+                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_Darcula_PopupMenu)
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
@@ -394,21 +398,6 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         return position
     }
 
-    // region DIALOGS
-
-    private fun showExitDialog() {
-        MaterialDialog(this).show {
-            title(R.string.dialog_title_exit)
-            message(R.string.dialog_message_exit)
-            negativeButton(R.string.action_no)
-            positiveButton(R.string.action_yes) {
-                finish()
-            }
-        }
-    }
-
-    // endregion DIALOGS
-
     // region TOOLBAR
 
     override fun onKey(char: String) {
@@ -548,14 +537,20 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         if (position > -1) {
             MaterialDialog(this).show {
                 title(R.string.dialog_title_goto_line)
-                input(hintRes = R.string.hint_line, inputType = InputType.TYPE_CLASS_NUMBER)
+                customView(R.layout.dialog_goto_line)
                 negativeButton(R.string.action_cancel)
                 positiveButton(R.string.action_go_to) {
-                    val toLine = getInputField().text.toString().toInt() - 1 // т.к первая линия 0
-                    when {
-                        toLine <= 0 -> viewModel.toastEvent.value = R.string.message_line_above_than_0
-                        toLine < binding.editor.arrayLineCount -> binding.editor.gotoLine(toLine)
-                        else -> viewModel.toastEvent.value = R.string.message_line_not_exists
+                    val input = getCustomView().findViewById<TextInputEditText>(R.id.input)
+                    val inputResult = input.text.toString()
+                    if (inputResult.isNotEmpty()) {
+                        val toLine = inputResult.toInt() - 1 // т.к первая линия 0
+                        when {
+                            toLine <= 0 -> viewModel.toastEvent.value = R.string.message_line_above_than_0
+                            toLine < binding.editor.arrayLineCount -> binding.editor.gotoLine(toLine)
+                            else -> viewModel.toastEvent.value = R.string.message_line_not_exists
+                        }
+                    } else {
+                        viewModel.toastEvent.value = R.string.message_line_not_exists
                     }
                 }
             }

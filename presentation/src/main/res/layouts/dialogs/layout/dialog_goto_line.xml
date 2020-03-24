@@ -27,37 +27,17 @@
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/input"
-            android:hint="@string/hint_find_what"
-            android:inputType="text"
+            android:hint="@string/hint_line"
+            android:inputType="number"
             android:maxLength="50"
             android:maxLines="1"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:id="@+id/box_matchCase"
-        android:text="@string/action_match_case"
-        android:checked="true"/>
-
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:id="@+id/box_regExp"
-        android:text="@string/action_reg_exp"/>
-
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:id="@+id/box_wordOnly"
-        android:text="@string/action_word_only"/>
 
 </LinearLayout>

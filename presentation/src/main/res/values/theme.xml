@@ -18,21 +18,29 @@
 
 <resources>
 
-    <style name="Theme.Application.Base" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-    </style>
-
-    <!-- Darcula -->
-    <style name="Theme.Darcula" parent="Theme.Application.Base">
+    <style name="Theme.Darcula" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
 
-        <item name="md_ripple_color">?android:colorControlHighlight</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorOnError">@color/colorOnError</item>
+        <item name="colorOnBackground">@color/colorOnBackground</item>
 
+        <item name="colorBackgroundFloating">?colorSurface</item>
+        <item name="alertDialogTheme">@style/Dialog.Darcula.Preference</item>
+        <item name="md_ripple_color">?colorControlHighlight</item>
+        <item name="md_corner_radius">4dp</item>
+
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
         <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
 </resources>

@@ -75,7 +75,7 @@ class ToolbarManager(
 
     private fun setMenuClickListener(view: View, menuRes: Int) {
         view.setOnClickListener {
-            val wrapper = ContextThemeWrapper(view.context, R.style.Theme_Darcula_PopupMenu)
+            val wrapper = ContextThemeWrapper(view.context, R.style.Widget_Darcula_PopupMenu)
             val popupMenu = PopupMenu(wrapper, view)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)

@@ -26,14 +26,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.setActionButtonEnabled
-import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
-import com.afollestad.materialdialogs.checkbox.getCheckBoxPrompt
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.afollestad.materialdialogs.input.getInputField
-import com.afollestad.materialdialogs.input.input
+import com.google.android.material.textfield.TextInputEditText
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.isValidFileName
@@ -160,32 +155,24 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
     private fun showCreateDialog() {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_create)
-            input(
-                waitForPositiveButton = false,
-                hintRes = R.string.hint_enter_file_name
-            ) { dialog, text ->
-                val inputField = dialog.getInputField()
-                val isValid = text.toString().isValidFileName()
-
-                inputField.error = if (isValid) {
-                    null
-                } else {
-                    getString(R.string.message_invalid_file_name)
-                }
-                dialog.setActionButtonEnabled(WhichButton.POSITIVE, isValid)
-            }
-            checkBoxPrompt(R.string.action_folder) {}
+            customView(R.layout.dialog_create)
             negativeButton(R.string.action_cancel)
             positiveButton(R.string.action_create) {
-                val fileName = getInputField().text.toString()
-                val isFolder = getCheckBoxPrompt().isChecked
-
-                val parent = fileTree.parent
-                val child = parent.copy(
-                    path = parent.path + "/$fileName",
-                    isFolder = isFolder
-                )
-                viewModel.createFile(child)
+                val fileName = getCustomView()
+                    .findViewById<TextInputEditText>(R.id.input).text.toString()
+                val isFolder = getCustomView()
+                    .findViewById<CheckBox>(R.id.box_isFolder).isChecked
+                val isValid = fileName.isValidFileName()
+                if (isValid) {
+                    val parent = fileTree.parent
+                    val child = parent.copy(
+                        path = parent.path + "/$fileName",
+                        isFolder = isFolder
+                    )
+                    viewModel.createFile(child)
+                } else {
+                    viewModel.toastEvent.value = R.string.message_invalid_file_name
+                }
             }
         }
     }
@@ -193,25 +180,21 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
     private fun showRenameDialog(fileModel: FileModel) {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_rename)
-            input(
-                waitForPositiveButton = false,
-                hintRes = R.string.hint_enter_file_name,
-                prefill = fileModel.name
-            ) { dialog, text ->
-                val inputField = dialog.getInputField()
-                val isValid = text.toString().isValidFileName()
+            customView(R.layout.dialog_rename)
 
-                inputField.error = if (isValid) {
-                    null
-                } else {
-                    getString(R.string.message_invalid_file_name)
-                }
-                dialog.setActionButtonEnabled(WhichButton.POSITIVE, isValid)
-            }
+            val fileNameInput = getCustomView()
+                .findViewById<TextInputEditText>(R.id.input)
+            fileNameInput.setText(fileModel.name)
+
             negativeButton(R.string.action_cancel)
             positiveButton(R.string.action_rename) {
-                val fileName = getInputField().text.toString()
-                viewModel.renameFile(fileModel, fileName)
+                val fileName = fileNameInput.text.toString()
+                val isValid = fileName.isValidFileName()
+                if (isValid) {
+                    viewModel.renameFile(fileModel, fileName)
+                } else {
+                    viewModel.toastEvent.value = R.string.message_invalid_file_name
+                }
             }
         }
     }

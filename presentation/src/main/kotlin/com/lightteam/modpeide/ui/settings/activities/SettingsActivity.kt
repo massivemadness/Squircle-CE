@@ -25,7 +25,7 @@ import androidx.lifecycle.Observer
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
-import com.lightteam.modpeide.ui.common.dialogs.DialogStore
+import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject

@@ -24,6 +24,6 @@
     android:paddingBottom="2dp"
     android:gravity="center"
     android:typeface="monospace"
-    android:background="?attr/selectableItemBackground"
+    android:background="?selectableItemBackground"
     android:textSize="16sp"
     tools:text="{"/>

@@ -22,7 +22,7 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 
 class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
-    companion object Key {
+    companion object {
         //Look And Feel
         const val KEY_THEME = "THEME"
         const val KEY_FULLSCREEN_MODE = "FULLSCREEN_MODE"

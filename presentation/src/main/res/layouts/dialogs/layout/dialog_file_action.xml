@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/action_copy_path"
-        android:background="?attr/selectableItemBackground"
+        android:background="?selectableItemBackground"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="12dp"
@@ -46,7 +46,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textAppearance="?android:textAppearanceListItem"
             android:text="@string/action_copy_path"/>
 
     </LinearLayout>
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/action_properties"
-        android:background="?attr/selectableItemBackground"
+        android:background="?selectableItemBackground"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="12dp"
@@ -74,7 +74,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textAppearance="?android:textAppearanceListItem"
             android:text="@string/action_properties"/>
 
     </LinearLayout>
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/action_rename"
-        android:background="?attr/selectableItemBackground"
+        android:background="?selectableItemBackground"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="12dp"
@@ -102,7 +102,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textAppearance="?android:textAppearanceListItem"
             android:text="@string/action_rename"/>
 
     </LinearLayout>
@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/action_delete"
-        android:background="?attr/selectableItemBackground"
+        android:background="?selectableItemBackground"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="12dp"
@@ -122,7 +122,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_delete"
-            app:tint="@color/colorWarning"/>
+            app:tint="?colorError"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -130,8 +130,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textAppearance="?android:attr/textAppearanceListItem"
-            android:textColor="@color/colorWarning"
+            android:textAppearance="?android:textAppearanceListItem"
+            android:textColor="?colorError"
             android:text="@string/action_delete"/>
 
     </LinearLayout>

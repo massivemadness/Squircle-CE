@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/input"
-            android:hint="@string/hint_find_what"
+            android:hint="@string/hint_enter_file_name"
             android:inputType="text"
             android:maxLength="50"
             android:maxLines="1"/>
@@ -44,20 +44,8 @@
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:id="@+id/box_matchCase"
-        android:text="@string/action_match_case"
-        android:checked="true"/>
-
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:id="@+id/box_regExp"
-        android:text="@string/action_reg_exp"/>
-
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:id="@+id/box_wordOnly"
-        android:text="@string/action_word_only"/>
+        android:id="@+id/box_isFolder"
+        android:text="@string/action_folder"
+        android:checked="false"/>
 
 </LinearLayout>
