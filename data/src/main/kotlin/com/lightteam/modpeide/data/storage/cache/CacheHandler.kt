@@ -47,7 +47,7 @@ class CacheHandler(
                 val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
                 emitter.onSuccess(text)
             } else {
-                emitter.onError(FileNotFoundException())
+                emitter.onError(FileNotFoundException(documentModel.path))
             }
         }
     }

@@ -17,4 +17,4 @@
 
 package com.lightteam.modpeide.domain.exception
 
-class FileNotFoundException : RuntimeException("File not found")
+class FileNotFoundException(path: String) : RuntimeException("$path (No such file or directory)")

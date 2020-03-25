@@ -17,4 +17,4 @@
 
 package com.lightteam.modpeide.domain.exception
 
-class FileAlreadyExistsException : RuntimeException("Cannot create a file when that file already exists")
+class FileAlreadyExistsException : RuntimeException("Cannot create file because it already exists")

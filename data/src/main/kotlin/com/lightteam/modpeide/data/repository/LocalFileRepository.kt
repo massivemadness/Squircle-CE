@@ -106,7 +106,7 @@ class LocalFileRepository(
                 val parentFile = FileConverter.toModel(realFile.parentFile!!)
                 emitter.onSuccess(parentFile)
             } else {
-                emitter.onError(FileNotFoundException())
+                emitter.onError(FileNotFoundException(fileModel.path))
             }
         }
     }
@@ -117,11 +117,15 @@ class LocalFileRepository(
             val parentFile = File(originalFile.parentFile!!.absolutePath)
             val renamedFile = File(parentFile, fileName)
             if (originalFile.exists()) {
-                originalFile.renameTo(renamedFile)
-                val parentModel = FileConverter.toModel(parentFile)
-                emitter.onSuccess(parentModel)
+                if (!renamedFile.exists()) {
+                    originalFile.renameTo(renamedFile)
+                    val parentModel = FileConverter.toModel(parentFile)
+                    emitter.onSuccess(parentModel)
+                } else {
+                    emitter.onError(FileAlreadyExistsException())
+                }
             } else {
-                emitter.onError(FileNotFoundException())
+                emitter.onError(FileNotFoundException(fileModel.path))
             }
         }
     }
@@ -144,7 +148,7 @@ class LocalFileRepository(
                 )
                 emitter.onSuccess(result)
             } else {
-                emitter.onError(FileNotFoundException())
+                emitter.onError(FileNotFoundException(fileModel.path))
             }
         }
     }
@@ -163,7 +167,7 @@ class LocalFileRepository(
                 val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
                 emitter.onSuccess(text)
             } else {
-                emitter.onError(FileNotFoundException())
+                emitter.onError(FileNotFoundException(documentModel.path))
             }
         }
     }

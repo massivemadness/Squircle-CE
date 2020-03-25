@@ -188,6 +188,9 @@ class ExplorerViewModel(
                         is FileNotFoundException -> {
                             toastEvent.value = R.string.message_file_not_found
                         }
+                        is FileAlreadyExistsException -> {
+                            toastEvent.value = R.string.message_file_already_exists
+                        }
                         else -> {
                             toastEvent.value = R.string.message_unknown_exception
                         }
