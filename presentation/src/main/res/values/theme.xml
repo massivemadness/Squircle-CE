@@ -25,6 +25,8 @@
         <item name="colorError">@color/colorError</item>
         <item name="android:colorBackground">@color/colorBackground</item>
 
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
@@ -38,7 +40,7 @@
 
         <item name="android:statusBarColor">@color/colorStatusBar</item>
         <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+        <item name="android:navigationBarColor">?colorSecondaryVariant</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
     </style>

@@ -27,7 +27,7 @@
     <string name="hint_find_what">Найти что?</string>
     <string name="hint_replace_what">Заменить что?</string>
     <string name="hint_replace_with">Заменить на:</string>
-    <string name="hint_line">Линия:</string>
+    <string name="hint_line_number">Номер строки</string>
 
     <string name="action_grant_access">Предоставить</string>
     <string name="action_yes">Да</string>

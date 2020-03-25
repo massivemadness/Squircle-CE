@@ -111,7 +111,8 @@
                     android:layout_margin="24dp"
                     android:id="@+id/action_create"
                     android:src="@drawable/ic_plus"
-                    android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.INVISIBLE}"/>
+                    android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.INVISIBLE}"
+                    app:tint="@color/colorOnPrimary"/>
 
             </FrameLayout>
 

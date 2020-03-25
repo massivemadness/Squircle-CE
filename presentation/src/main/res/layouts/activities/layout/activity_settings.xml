@@ -50,7 +50,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:background="@color/colorNavigationBar"
+            android:background="?colorSecondaryVariant"
             android:id="@+id/button_container"
             android:elevation="2dp">
 

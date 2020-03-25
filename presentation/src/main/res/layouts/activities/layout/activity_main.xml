@@ -159,7 +159,7 @@
                 android:layout_height="30dp"
                 android:clipChildren="true"
                 android:id="@+id/tab_document_layout"
-                android:background="@color/colorTabs"
+                android:background="?colorSecondaryVariant"
                 android:elevation="3.5dp"
                 app:tabRippleColor="?colorControlHighlight"
                 app:tabUnboundedRipple="false"
@@ -227,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:background="@color/colorTabs"
+                android:background="?colorSecondaryVariant"
                 android:elevation="2dp"
                 android:id="@+id/extended_keyboard"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>

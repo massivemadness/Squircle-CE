@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/input"
-            android:hint="@string/hint_line"
+            android:hint="@string/hint_line_number"
             android:inputType="number"
             android:maxLength="50"
             android:maxLines="1"/>
