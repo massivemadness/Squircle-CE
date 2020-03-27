@@ -33,9 +33,9 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
-import com.lightteam.modpeide.domain.model.FileModel
-import com.lightteam.modpeide.domain.model.FileTree
-import com.lightteam.modpeide.domain.model.PropertiesModel
+import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.domain.model.explorer.FileTree
+import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter

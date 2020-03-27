@@ -23,20 +23,20 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.parser.ScriptEngine
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
-import com.lightteam.modpeide.data.storage.collection.UndoStack
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
+import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
-import com.lightteam.modpeide.domain.model.AnalysisModel
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import com.lightteam.modpeide.domain.model.explorer.AnalysisModel
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.editor.DocumentContent
+import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.editor.customview.TextProcessor
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import com.lightteam.modpeide.utils.theming.ThemeFactory
-import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
@@ -69,10 +69,7 @@ class EditorViewModel(
     val selectionEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выделение вкладки уже открытого файла
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода
-
-    val textEvent: SingleLiveEvent<String> = SingleLiveEvent() //Контент загруженного файла
-    val loadedEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Для загрузки скроллинга/выделения
-    val stacksEvent: SingleLiveEvent<Pair<UndoStack, UndoStack>> = SingleLiveEvent() //Для загрузки Undo/Redo
+    val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
 
     // endregion EVENTS
 
@@ -145,20 +142,13 @@ class EditorViewModel(
         } else {
             fileRepository.loadFile(documentModel)
         }
-        Singles
-            .zip(
-                dataSource,
-                cacheHandler.loadUndoStack(documentModel),
-                cacheHandler.loadRedoStack(documentModel)
-            )
+        dataSource
             .doOnSubscribe { stateLoadingDocuments.set(true) }
             .doOnSuccess { stateLoadingDocuments.set(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = { triple ->
-                    textEvent.value = triple.first //Text
-                    loadedEvent.value = documentModel //Selection, scroll position
-                    stacksEvent.value = triple.second to triple.third //Undo & Redo stacks
+                onSuccess = {
+                    contentEvent.value = it
                 },
                 onError = {
                     Log.e(TAG, it.message, it)

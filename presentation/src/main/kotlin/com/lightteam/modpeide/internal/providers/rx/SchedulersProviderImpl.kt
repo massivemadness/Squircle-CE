@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.internal.providers.rx
 
-import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

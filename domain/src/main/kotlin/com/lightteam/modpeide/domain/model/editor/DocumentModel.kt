@@ -15,10 +15,27 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.storage.collection
+package com.lightteam.modpeide.domain.model.editor
 
-import java.io.Serializable
+import com.lightteam.modpeide.domain.utils.endsWith
 
-data class Line(
-    var start: Int
-) : Serializable
+data class DocumentModel(
+    val uuid: String,
+    val name: String,
+    val path: String,
+    val scrollX: Int,
+    val scrollY: Int,
+    val selectionStart: Int,
+    val selectionEnd: Int
+) {
+
+    companion object {
+        val OPENABLE = arrayOf(
+            ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua"
+        )
+    }
+
+    fun isOpenable(): Boolean {
+        return name.endsWith(OPENABLE)
+    }
+}

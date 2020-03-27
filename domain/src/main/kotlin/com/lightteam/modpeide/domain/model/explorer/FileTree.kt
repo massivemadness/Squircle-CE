@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.patterns.completion
+package com.lightteam.modpeide.domain.model.explorer
 
-import com.lightteam.modpeide.domain.patterns.completion.CodeCompletion
+import com.lightteam.modpeide.domain.model.explorer.FileModel
 
-class UnknownCompletion : CodeCompletion {
-
-    override fun getAll(): Array<String> {
-        return emptyArray()
-    }
-}
+data class FileTree(
+    val parent: FileModel,
+    val children: List<FileModel>
+)

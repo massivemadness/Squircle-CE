@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.utils.extensions
 
-import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import io.reactivex.*
 
 // region: Single

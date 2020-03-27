@@ -15,27 +15,8 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model
+package com.lightteam.modpeide.domain.model.explorer
 
-import com.lightteam.modpeide.domain.utils.endsWith
-
-data class DocumentModel(
-    val uuid: String,
-    val name: String,
-    val path: String,
-    val scrollX: Int,
-    val scrollY: Int,
-    val selectionStart: Int,
-    val selectionEnd: Int
-) {
-
-    companion object {
-        val OPENABLE = arrayOf(
-            ".txt", ".js", ".json", ".java", ".md", ".lua"
-        )
-    }
-
-    fun isOpenable(): Boolean {
-        return name.endsWith(OPENABLE)
-    }
-}
+data class AnalysisModel(
+    val exception: Throwable?
+)

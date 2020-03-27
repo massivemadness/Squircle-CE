@@ -40,7 +40,7 @@
         <argument
             android:name="fileModel"
             app:nullable="true"
-            app:argType="com.lightteam.modpeide.domain.model.FileModel"/>
+            app:argType="com.lightteam.modpeide.domain.model.explorer.FileModel"/>
         <action
             android:id="@+id/to_directoryFragment"
             app:destination="@id/directoryFragment"/>

@@ -15,38 +15,30 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.storage.collection
+package com.lightteam.modpeide.data.feature.undoredo
 
-import java.io.Serializable
+import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
+import com.lightteam.modpeide.domain.model.editor.TextChange
 
-class UndoStack : Serializable {
+class UndoStackImpl : UndoStack {
 
     companion object {
         const val MAX_SIZE = Integer.MAX_VALUE
     }
 
-    data class TextChange(
-        var newText: String = "",
-        var oldText: String = "",
-        var start: Int = 0
-    ) : Serializable
-
     private val stack = mutableListOf<TextChange>()
     private var currentSize = 0
 
-    fun pop(): TextChange? {
+    override fun pop(): TextChange {
         val size = stack.size
-        if (size <= 0) {
-            return null
-        }
         val item = stack[size - 1]
         stack.removeAt(size - 1)
         currentSize -= item.newText.length + item.oldText.length
         return item
     }
 
-    fun push(item: TextChange) {
-        val delta = item.newText.length + item.oldText.length
+    override fun push(textChange: TextChange) {
+        val delta = textChange.newText.length + textChange.oldText.length
         if (delta < MAX_SIZE) {
             if (stack.size > 0) {
                 val previous = stack[stack.size - 1]
@@ -55,83 +47,87 @@ class UndoStack : Serializable {
                 var allWhitespace: Boolean
                 var allLettersDigits: Boolean
                 var i = 0
-                if (item.oldText.isEmpty() && item.newText.length == 1 && previous.oldText.isEmpty()) {
-                    if (previous.start + previous.newText.length != item.start) {
-                        stack.add(item)
-                    } else if (Character.isWhitespace(item.newText[0])) {
+                if (textChange.oldText.isEmpty()
+                    && textChange.newText.length == 1
+                    && previous.oldText.isEmpty()) {
+                    if (previous.start + previous.newText.length != textChange.start) {
+                        stack.add(textChange)
+                    } else if (textChange.newText[0].isWhitespace()) {
                         allWhitespace = true
                         toCharArray = previous.newText.toCharArray()
                         length = toCharArray.size
                         while (i < length) {
-                            if (!Character.isWhitespace(toCharArray[i])) {
+                            if (!toCharArray[i].isWhitespace()) {
                                 allWhitespace = false
                             }
                             i++
                         }
                         if (allWhitespace) {
-                            previous.newText += item.newText
+                            previous.newText += textChange.newText
                         } else {
-                            stack.add(item)
+                            stack.add(textChange)
                         }
-                    } else if (Character.isLetterOrDigit(item.newText[0])) {
+                    } else if (textChange.newText[0].isLetterOrDigit()) {
                         allLettersDigits = true
                         toCharArray = previous.newText.toCharArray()
                         length = toCharArray.size
                         while (i < length) {
-                            if (!Character.isLetterOrDigit(toCharArray[i])) {
+                            if (!toCharArray[i].isLetterOrDigit()) {
                                 allLettersDigits = false
                             }
                             i++
                         }
                         if (allLettersDigits) {
-                            previous.newText += item.newText
+                            previous.newText += textChange.newText
                         } else {
-                            stack.add(item)
+                            stack.add(textChange)
                         }
                     } else {
-                        stack.add(item)
+                        stack.add(textChange)
                     }
-                } else if (item.oldText.length != 1 || item.newText.isNotEmpty() || previous.newText.isNotEmpty()) {
-                    stack.add(item)
-                } else if (previous.start - 1 != item.start) {
-                    stack.add(item)
-                } else if (Character.isWhitespace(item.oldText[0])) {
+                } else if (textChange.oldText.length != 1
+                    || textChange.newText.isNotEmpty()
+                    || previous.newText.isNotEmpty()) {
+                    stack.add(textChange)
+                } else if (previous.start - 1 != textChange.start) {
+                    stack.add(textChange)
+                } else if (textChange.oldText[0].isWhitespace()) {
                     allWhitespace = true
                     toCharArray = previous.oldText.toCharArray()
                     length = toCharArray.size
                     while (i < length) {
-                        if (!Character.isWhitespace(toCharArray[i])) {
+                        if (!toCharArray[i].isWhitespace()) {
                             allWhitespace = false
                         }
                         i++
                     }
                     if (allWhitespace) {
-                        previous.oldText = item.oldText + previous.oldText
-                        previous.start -= item.oldText.length
+                        previous.oldText = textChange.oldText + previous.oldText
+                        previous.start -= textChange.oldText.length
                     } else {
-                        stack.add(item)
+                        stack.add(textChange)
                     }
-                } else if(Character.isLetterOrDigit(item.oldText[0])) {
+                } else if (textChange.oldText[0].isLetterOrDigit()) {
                     allLettersDigits = true
                     toCharArray = previous.oldText.toCharArray()
                     length = toCharArray.size
                     while (i < length) {
-                        if (!Character.isLetterOrDigit(toCharArray[i])) {
+                        if (!toCharArray[i].isLetterOrDigit()) {
                             allLettersDigits = false
                         }
                         i++
                     }
                     if (allLettersDigits) {
-                        previous.oldText = item.oldText + previous.oldText
-                        previous.start -= item.oldText.length
+                        previous.oldText = textChange.oldText + previous.oldText
+                        previous.start -= textChange.oldText.length
                     } else {
-                        stack.add(item)
+                        stack.add(textChange)
                     }
                 } else {
-                    stack.add(item)
+                    stack.add(textChange)
                 }
             } else {
-                stack.add(item)
+                stack.add(textChange)
             }
             currentSize += delta
             while (currentSize > MAX_SIZE) {
@@ -144,12 +140,16 @@ class UndoStack : Serializable {
         removeAll()
     }
 
-    fun removeAll() {
-        stack.removeAll(stack)
-        currentSize = 0
+    override fun getItemAt(index: Int): TextChange {
+        return stack[index]
     }
 
-    fun mergeTop(): Boolean {
+    override fun removeAll(): Boolean {
+        currentSize = 0
+        return stack.removeAll(stack)
+    }
+
+    override fun mergeTop(): Boolean {
         if (stack.size >= 2) {
             val newer = stack[stack.size - 1]
             val previous = stack[stack.size - 2]
@@ -163,10 +163,17 @@ class UndoStack : Serializable {
         return false
     }
 
-    fun canUndo(): Boolean = stack.size > 0
-    fun getItemAt(index: Int): TextChange = stack[index]
-    fun clear() = stack.clear()
-    fun count(): Int = stack.size
+    override fun canUndo(): Boolean {
+        return stack.size > 0
+    }
+
+    override fun count(): Int {
+        return stack.size
+    }
+
+    override fun clear() {
+        return stack.clear()
+    }
 
     private fun removeLast(): Boolean {
         if (stack.size <= 0) {

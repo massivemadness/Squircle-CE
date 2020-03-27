@@ -34,18 +34,20 @@ import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.text.getSpans
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.patterns.completion.ModPECompletion
-import com.lightteam.modpeide.data.patterns.completion.UnknownCompletion
-import com.lightteam.modpeide.data.patterns.language.JavaScriptLanguage
+import com.lightteam.modpeide.data.feature.suggestion.ModPECompletion
+import com.lightteam.modpeide.data.feature.suggestion.UnknownCompletion
+import com.lightteam.modpeide.data.feature.language.JavaScriptLanguage
 import com.lightteam.modpeide.ui.editor.adapters.CodeCompletionAdapter
 import com.lightteam.modpeide.ui.editor.customview.internal.codecompletion.SymbolsTokenizer
-import com.lightteam.modpeide.data.storage.collection.LinesCollection
+import com.lightteam.modpeide.data.feature.LinesCollection
 import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.StyleSpan
 import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.SyntaxHighlightSpan
-import com.lightteam.modpeide.domain.patterns.language.Language
+import com.lightteam.modpeide.domain.feature.language.Language
 import com.lightteam.modpeide.ui.editor.customview.internal.textscroller.OnScrollChangedListener
-import com.lightteam.modpeide.data.storage.collection.UndoStack
-import com.lightteam.modpeide.domain.patterns.completion.CodeCompletion
+import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
+import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
+import com.lightteam.modpeide.domain.model.editor.TextChange
+import com.lightteam.modpeide.domain.feature.suggestion.CodeCompletion
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
 import com.lightteam.modpeide.utils.extensions.toPx
 import java.util.regex.Pattern
@@ -111,8 +113,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             colorize()
         }
 
-    var undoStack = UndoStack()
-    var redoStack = UndoStack()
+    var undoStack: UndoStack = UndoStackImpl()
+    var redoStack: UndoStack = UndoStackImpl()
 
     var language: Language = JavaScriptLanguage() //= UnknownLanguage()
     var completion: CodeCompletion = UnknownCompletion()
@@ -130,10 +132,12 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             textChangeStart = start
             textChangeEnd = start + count
             if (!isDoingUndoRedo) {
-                if (count < UndoStack.MAX_SIZE) {
-                    textLastChange = UndoStack.TextChange()
-                    textLastChange?.oldText = s?.subSequence(start, start + count).toString()
-                    textLastChange?.start = start
+                if (count < UndoStackImpl.MAX_SIZE) {
+                    textLastChange = TextChange(
+                        "",
+                        s?.subSequence(start, start + count).toString(),
+                        start
+                    )
                     return
                 }
                 undoStack.removeAll()
@@ -148,7 +152,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             textChangedNewText = text?.subSequence(start, start + count).toString()
             replaceText(textChangeStart, textChangeEnd, textChangedNewText)
             if (!isDoingUndoRedo && textLastChange != null) {
-                if (count < UndoStack.MAX_SIZE) {
+                if (count < UndoStackImpl.MAX_SIZE) {
                     textLastChange?.newText = text?.subSequence(start, start + count).toString()
                     if (start == textLastChange?.start &&
                         (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!) &&
@@ -211,7 +215,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private var gutterDigitCount = 0
     private var gutterMargin = 4.toPx() // 4 dp to pixels
 
-    private var textLastChange: UndoStack.TextChange? = null
+    private var textLastChange: TextChange? = null
     private var textChangeStart = 0
     private var textChangeEnd = 0
     private var textChangedNewText = ""
@@ -334,7 +338,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     override fun onDraw(canvas: Canvas) {
         if (layout != null) {
             val currentLineStart = lines.getLineForIndex(selectionStart)
-            var top: Int
             if (configuration.highlightCurrentLine) {
                 if (currentLineStart == lines.getLineForIndex(selectionEnd)) {
                     val selectedLineStartIndex = getIndexForStartOfLine(currentLineStart)
@@ -342,14 +345,14 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                     val topVisualLine = layout.getLineForOffset(selectedLineStartIndex)
                     val bottomVisualLine = layout.getLineForOffset(selectedLineEndIndex)
 
-                    top = layout.getLineTop(topVisualLine) + paddingTop
-                    val right = layout.width + paddingLeft + paddingRight
-                    val bottom = layout.getLineBottom(bottomVisualLine) + paddingTop
+                    val lineTop = layout.getLineTop(topVisualLine) + paddingTop
+                    val width = layout.width + paddingLeft + paddingRight
+                    val lineBottom = layout.getLineBottom(bottomVisualLine) + paddingTop
                     canvas.drawRect(
                         gutterWidth.toFloat(),
-                        top.toFloat(),
-                        right.toFloat(),
-                        bottom.toFloat(),
+                        lineTop.toFloat(),
+                        width.toFloat(),
+                        lineBottom.toFloat(),
                         selectedLinePaint
                     )
                 }
@@ -363,21 +366,22 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 (scrollY + height).toFloat(),
                 gutterPaint
             )
-            var i = getTopVisibleLine()
-            if (i >= 2) {
-                i -= 2
+            val bottomVisibleLine = getBottomVisibleLine()
+            var topVisibleLine = getTopVisibleLine()
+            if (topVisibleLine >= 2) {
+                topVisibleLine -= 2
             } else {
-                i = 0
+                topVisibleLine = 0
             }
             var prevLineNumber = -1
             val textRight = (gutterWidth - gutterMargin / 2) + scrollX
-            while (i <= getBottomVisibleLine()) {
-                val number = lines.getLineForIndex(layout.getLineStart(i))
+            while (topVisibleLine <= bottomVisibleLine) {
+                val number = lines.getLineForIndex(layout.getLineStart(topVisibleLine))
                 if (number != prevLineNumber) {
                     canvas.drawText(
                         (number + 1).toString(),
                         textRight.toFloat(),
-                        (layout.getLineBaseline(i) + paddingTop).toFloat(),
+                        (layout.getLineBaseline(topVisibleLine) + paddingTop).toFloat(),
                         if (number == currentLineStart) {
                             gutterCurrentLineNumberPaint
                         } else {
@@ -386,14 +390,13 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                     )
                 }
                 prevLineNumber = number
-                i++
+                topVisibleLine++
             }
-            top = scrollY
             canvas.drawLine(
                 (gutterWidth + scrollX).toFloat(),
-                top.toFloat(),
+                scrollY.toFloat(),
                 (gutterWidth + scrollX).toFloat(),
-                (top + height).toFloat(),
+                (scrollY + height).toFloat(),
                 gutterDividerPaint
             )
         }
@@ -528,7 +531,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     fun canRedo(): Boolean = redoStack.canUndo()
 
     fun undo() {
-        val textChange = undoStack.pop() as UndoStack.TextChange
+        val textChange = undoStack.pop()
         when {
             textChange.start >= 0 -> {
                 isDoingUndoRedo = true
@@ -552,7 +555,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     fun redo() {
-        val textChange = redoStack.pop() as UndoStack.TextChange
+        val textChange = redoStack.pop()
         when {
             textChange.start >= 0 -> {
                 isDoingUndoRedo = true
@@ -761,10 +764,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 undoStack.pop()
                 val change = undoStack.pop()
                 if (replacementValue != "") {
-                    if (change != null) {
-                        change.newText = replacementValue
-                        undoStack.push(change)
-                    }
+                    change.newText = replacementValue
+                    undoStack.push(change)
                 }
                 Selection.setSelection(text, newCursorPosition)
                 isAutoIndenting = false

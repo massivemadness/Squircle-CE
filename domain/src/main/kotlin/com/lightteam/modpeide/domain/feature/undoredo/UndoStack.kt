@@ -15,20 +15,17 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model
+package com.lightteam.modpeide.domain.feature.undoredo
 
-data class PropertiesModel(
-    val name: String,
-    val path: String,
+import com.lightteam.modpeide.domain.model.editor.TextChange
 
-    val lastModified: String,
-    val size: String,
-
-    val lines: String,
-    val words: String,
-    val chars: String,
-
-    val readable: Boolean,
-    val writable: Boolean,
-    val executable: Boolean
-)
+interface UndoStack {
+    fun pop(): TextChange
+    fun push(textChange: TextChange)
+    fun getItemAt(index: Int): TextChange
+    fun removeAll(): Boolean
+    fun mergeTop(): Boolean
+    fun canUndo(): Boolean
+    fun count(): Int
+    fun clear()
+}

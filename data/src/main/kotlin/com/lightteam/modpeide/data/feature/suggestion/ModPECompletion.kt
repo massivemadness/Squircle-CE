@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.patterns.completion
+package com.lightteam.modpeide.data.feature.suggestion
 
-import com.lightteam.modpeide.domain.patterns.completion.CodeCompletion
+import com.lightteam.modpeide.domain.feature.suggestion.CodeCompletion
 
 class ModPECompletion : CodeCompletion {
 

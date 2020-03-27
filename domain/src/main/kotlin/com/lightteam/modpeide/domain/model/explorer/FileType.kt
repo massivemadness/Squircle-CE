@@ -15,8 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model
+package com.lightteam.modpeide.domain.model.explorer
 
-data class AnalysisModel(
-    val exception: Throwable?
-)
+enum class FileType {
+    DEFAULT,
+    ARCHIVE,
+    IMAGE,
+    AUDIO,
+    VIDEO
+}

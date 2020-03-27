@@ -15,16 +15,28 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.patterns.language
+package com.lightteam.modpeide.data.model.entity
 
-import java.util.regex.Pattern
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.lightteam.modpeide.data.storage.database.Tables
 
-interface Language {
-    fun getPatternOfNumbers(): Pattern
-    fun getPatternOfSymbols(): Pattern
-    fun getPatternOfBrackets(): Pattern
-    fun getPatternOfKeywords(): Pattern
-    fun getPatternOfMethods(): Pattern
-    fun getPatternOfStrings(): Pattern
-    fun getPatternOfComments(): Pattern
-}
+@Entity(tableName = Tables.DOCUMENTS)
+data class DocumentEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "uuid")
+    val uuid: String,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "path")
+    val path: String,
+    @ColumnInfo(name = "scroll_x")
+    val scrollX: Int,
+    @ColumnInfo(name = "scroll_y")
+    val scrollY: Int,
+    @ColumnInfo(name = "selection_start")
+    val selectionStart: Int,
+    @ColumnInfo(name = "selection_end")
+    val selectionEnd: Int
+)

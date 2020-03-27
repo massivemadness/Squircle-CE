@@ -15,22 +15,9 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.dao.document
+package com.lightteam.modpeide.domain.providers.system
 
-import androidx.room.Dao
-import androidx.room.Query
-import com.lightteam.modpeide.data.dao.base.BaseDao
-import com.lightteam.modpeide.data.model.entity.DocumentEntity
-import com.lightteam.modpeide.data.storage.database.Tables
-import io.reactivex.Completable
-import io.reactivex.Single
-
-@Dao
-abstract class DocumentDao : BaseDao<DocumentEntity> {
-
-    @Query("SELECT * FROM ${Tables.DOCUMENTS}")
-    abstract fun loadAll(): Single<List<DocumentEntity>>
-
-    @Query("DELETE FROM ${Tables.DOCUMENTS}")
-    abstract fun deleteAll(): Completable
-}
+/*
+interface SystemInfoProvider {
+    fun hasNetwork(): Boolean
+}*/

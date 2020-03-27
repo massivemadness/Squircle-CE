@@ -80,8 +80,8 @@ class TextScroller(context: Context, attrs: AttributeSet) : View(context, attrs)
     private val thumbNormal: Drawable =
         context.getDrawableCompat(R.drawable.fastscroll_thumb_default)
 
-    private val hideHandler: Handler
-    private val hideCallback: Runnable
+    private val hideHandler: Handler = Handler()
+    private val hideCallback: Runnable = Runnable { state = STATE_EXITING }
 
     private val thumbPaint: Paint = Paint()
     private val thumbHeight: Int = thumbNormal.intrinsicHeight
@@ -94,9 +94,6 @@ class TextScroller(context: Context, attrs: AttributeSet) : View(context, attrs)
         val typedArray = context.theme
             .obtainStyledAttributes(attrs, R.styleable.TextScroller, 0, 0)
         val color = typedArray.getColor(R.styleable.TextScroller_thumbTint, Color.WHITE)
-
-        hideHandler = Handler()
-        hideCallback = Runnable { state = STATE_EXITING }
 
         @Suppress("DEPRECATION")
         thumbNormal.mutate().setColorFilter(color, PorterDuff.Mode.SRC_IN)
@@ -195,11 +192,9 @@ class TextScroller(context: Context, attrs: AttributeSet) : View(context, attrs)
         }
     }
 
-    fun link(editor: TextProcessor?) {
-        if (editor != null) {
-            textProcessor = editor
-            textProcessor.addOnScrollChangedListener(this)
-        }
+    fun link(editor: TextProcessor) {
+        textProcessor = editor
+        textProcessor.addOnScrollChangedListener(this)
     }
 
     private fun scrollView() {

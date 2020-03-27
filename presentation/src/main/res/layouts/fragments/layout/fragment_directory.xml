@@ -23,7 +23,7 @@
         <import type="com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel"/>
         <import type="android.view.View"/>
 
-        <variable name="viewModel" type="com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel"/>
+        <variable name="viewModel" type="ExplorerViewModel"/>
     </data>
 
     <FrameLayout

@@ -19,10 +19,13 @@ package com.lightteam.modpeide.data.storage.cache
 
 import android.content.Context
 import com.lightteam.modpeide.data.converter.DocumentConverter
-import com.lightteam.modpeide.data.storage.collection.UndoStack
+import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.data.storage.database.AppDatabase
+import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
-import com.lightteam.modpeide.domain.model.DocumentModel
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.editor.DocumentContent
+import com.lightteam.modpeide.domain.model.editor.TextChange
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.BufferedReader
@@ -35,42 +38,29 @@ class CacheHandler(
     private val appDatabase: AppDatabase
 ) {
 
-    private val cacheDirectory = context.filesDir
+    private val cacheDirectory: File = context.filesDir
 
-    fun isCached(documentModel: DocumentModel): Boolean
-            = findCache("${documentModel.uuid}.cache").exists()
+    fun isCached(documentModel: DocumentModel): Boolean {
+        return cache("${documentModel.uuid}.cache").exists()
+    }
 
-    fun loadFromCache(documentModel: DocumentModel): Single<String> {
+    fun loadFromCache(documentModel: DocumentModel): Single<DocumentContent> {
         return Single.create { emitter ->
-            val file = findCache("${documentModel.uuid}.cache")
+            val file = cache("${documentModel.uuid}.cache")
             if (file.exists()) {
+                val undoStack = loadUndoStack(documentModel)
+                val redoStack = loadRedoStack(documentModel)
                 val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
-                emitter.onSuccess(text)
+                val documentContent = DocumentContent(
+                    documentModel,
+                    undoStack,
+                    redoStack,
+                    text
+                )
+                emitter.onSuccess(documentContent)
             } else {
                 emitter.onError(FileNotFoundException(documentModel.path))
             }
-        }
-    }
-
-    fun loadUndoStack(documentModel: DocumentModel): Single<UndoStack> {
-        return Single.create { emitter ->
-            val undoStack = try {
-                restoreUndoStack(documentModel.uuid)
-            } catch (e: NumberFormatException) {
-                UndoStack()
-            }
-            emitter.onSuccess(undoStack)
-        }
-    }
-
-    fun loadRedoStack(documentModel: DocumentModel): Single<UndoStack> {
-        return Single.create { emitter ->
-            val redoStack = try {
-                restoreRedoStack(documentModel.uuid)
-            } catch (e: NumberFormatException) {
-                UndoStack()
-            }
-            emitter.onSuccess(redoStack)
         }
     }
 
@@ -78,14 +68,14 @@ class CacheHandler(
         return try {
             createCacheFilesIfNecessary(documentModel)
 
-            val textFile = findCache("${documentModel.uuid}.cache")
+            val textFile = cache("${documentModel.uuid}.cache")
             val textWriter = textFile.outputStream().bufferedWriter()
             textWriter.write(text)
             textWriter.close()
 
             Completable
                 .fromAction {
-                    appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) //Save to Database
+                    appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
                 }
         } catch (e: IOException) {
             Completable.error(e)
@@ -97,7 +87,7 @@ class CacheHandler(
             createCacheFilesIfNecessary(documentModel)
 
             val undoCache = encodeUndoStack(undoStack)
-            val undoFile = findCache("${documentModel.uuid}-undo.cache")
+            val undoFile = cache("${documentModel.uuid}-undo.cache")
             val undoWriter = undoFile.outputStream().bufferedWriter()
             undoWriter.write(undoCache)
             undoWriter.close()
@@ -113,7 +103,7 @@ class CacheHandler(
             createCacheFilesIfNecessary(documentModel)
 
             val redoCache = encodeUndoStack(redoStack)
-            val redoFile = findCache("${documentModel.uuid}-redo.cache")
+            val redoFile = cache("${documentModel.uuid}-redo.cache")
             val redoWriter = redoFile.outputStream().bufferedWriter()
             redoWriter.write(redoCache)
             redoWriter.close()
@@ -126,17 +116,17 @@ class CacheHandler(
 
     fun deleteCache(documentModel: DocumentModel): Completable {
         return try {
-            val textCacheFile = findCache("${documentModel.uuid}.cache")
-            val undoCacheFile = findCache("${documentModel.uuid}-undo.cache")
-            val redoCacheFile = findCache("${documentModel.uuid}-redo.cache")
+            val textCacheFile = cache("${documentModel.uuid}.cache")
+            val undoCacheFile = cache("${documentModel.uuid}-undo.cache")
+            val redoCacheFile = cache("${documentModel.uuid}-redo.cache")
 
-            if (textCacheFile.exists()) { textCacheFile.delete() } //Delete text cache
-            if (undoCacheFile.exists()) { undoCacheFile.delete() } //Delete undo-stack cache
-            if (redoCacheFile.exists()) { redoCacheFile.delete() } //Delete redo-stack cache
+            if (textCacheFile.exists()) { textCacheFile.delete() } // Delete text cache
+            if (undoCacheFile.exists()) { undoCacheFile.delete() } // Delete undo-stack cache
+            if (redoCacheFile.exists()) { redoCacheFile.delete() } // Delete redo-stack cache
 
             Completable
                 .fromAction {
-                    appDatabase.documentDao().delete(DocumentConverter.toEntity(documentModel)) //Delete from Database
+                    appDatabase.documentDao().delete(DocumentConverter.toEntity(documentModel)) // Delete from Database
                 }
         } catch (e: IOException) {
             Completable.error(e)
@@ -149,20 +139,36 @@ class CacheHandler(
         }
     }
 
+    private fun loadUndoStack(documentModel: DocumentModel): UndoStack {
+        return try {
+            restoreUndoStack(documentModel.uuid)
+        } catch (e: NumberFormatException) {
+            UndoStackImpl()
+        }
+    }
+
+    private fun loadRedoStack(documentModel: DocumentModel): UndoStack {
+        return try {
+            restoreRedoStack(documentModel.uuid)
+        } catch (e: NumberFormatException) {
+            UndoStackImpl()
+        }
+    }
+
     private fun restoreUndoStack(uuid: String): UndoStack {
-        val file = findCache("$uuid-undo.cache")
+        val file = cache("$uuid-undo.cache")
         if (file.exists()) {
             return readUndoStackCache(file)
         }
-        return UndoStack()
+        return UndoStackImpl()
     }
 
     private fun restoreRedoStack(uuid: String): UndoStack {
-        val file = findCache("$uuid-redo.cache")
+        val file = cache("$uuid-redo.cache")
         if (file.exists()) {
             return readUndoStackCache(file)
         }
-        return UndoStack()
+        return UndoStackImpl()
     }
 
     private fun readUndoStackCache(file: File): UndoStack {
@@ -174,12 +180,12 @@ class CacheHandler(
         val builder = StringBuilder()
         val delimiter = "\u0005"
         for (i in stack.count() - 1 downTo 0) {
-            val (newText, oldText, start) = stack.getItemAt(i)
-            builder.append(oldText)
+            val textChange = stack.getItemAt(i)
+            builder.append(textChange.oldText)
             builder.append(delimiter)
-            builder.append(newText)
+            builder.append(textChange.newText)
             builder.append(delimiter)
-            builder.append(start)
+            builder.append(textChange.start)
             builder.append(delimiter)
         }
         if (builder.isNotEmpty()) {
@@ -189,7 +195,7 @@ class CacheHandler(
     }
 
     private fun decodeUndoStack(raw: String?): UndoStack {
-        val result = UndoStack()
+        val result = UndoStackImpl()
         if (!(raw == null || raw.isEmpty())) {
             val items = raw.split("\u0005").toTypedArray()
             if (items[items.size - 1].endsWith("\n")) {
@@ -198,10 +204,11 @@ class CacheHandler(
             }
             var i = items.size - 3
             while (i >= 0) {
-                val change = UndoStack.TextChange()
-                change.oldText = items[i]
-                change.newText = items[i + 1]
-                change.start = Integer.parseInt(items[i + 2])
+                val change = TextChange(
+                    items[i + 1],
+                    items[i],
+                    Integer.parseInt(items[i + 2])
+                )
                 result.push(change)
                 i -= 3
             }
@@ -210,14 +217,16 @@ class CacheHandler(
     }
 
     private fun createCacheFilesIfNecessary(documentModel: DocumentModel) {
-        val textCacheFile = findCache("${documentModel.uuid}.cache")
-        val undoCacheFile = findCache("${documentModel.uuid}-undo.cache")
-        val redoCacheFile = findCache("${documentModel.uuid}-redo.cache")
+        val textCacheFile = cache("${documentModel.uuid}.cache")
+        val undoCacheFile = cache("${documentModel.uuid}-undo.cache")
+        val redoCacheFile = cache("${documentModel.uuid}-redo.cache")
 
-        if (!textCacheFile.exists()) { textCacheFile.createNewFile() } //Create text cache
-        if (!undoCacheFile.exists()) { undoCacheFile.createNewFile() } //Create undo-stack cache
-        if (!redoCacheFile.exists()) { redoCacheFile.createNewFile() } //Create redo-stack cache
+        if (!textCacheFile.exists()) { textCacheFile.createNewFile() } // Create text cache
+        if (!undoCacheFile.exists()) { undoCacheFile.createNewFile() } // Create undo-stack cache
+        if (!redoCacheFile.exists()) { redoCacheFile.createNewFile() } // Create redo-stack cache
     }
 
-    private fun findCache(fileName: String): File = File(cacheDirectory, fileName)
+    private fun cache(fileName: String): File {
+        return File(cacheDirectory, fileName)
+    }
 }

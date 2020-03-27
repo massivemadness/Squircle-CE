@@ -17,8 +17,8 @@
 
 package com.lightteam.modpeide.data.utils.extensions
 
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.explorer.FileModel
 import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat

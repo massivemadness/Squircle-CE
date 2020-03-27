@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model
+package com.lightteam.modpeide.domain.model.explorer
 
 import android.os.Parcelable
 import com.lightteam.modpeide.domain.utils.endsWith

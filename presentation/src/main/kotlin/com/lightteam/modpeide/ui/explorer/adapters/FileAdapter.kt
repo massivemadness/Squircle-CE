@@ -25,8 +25,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.domain.model.FileModel
-import com.lightteam.modpeide.domain.model.FileType
+import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.domain.model.explorer.FileType
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.explorer.adapters.interfaces.ItemCallback
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter.FileViewHolder

@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.utils.extensions
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.InsetDrawable
 import android.view.MenuItem
@@ -37,6 +38,7 @@ import com.google.android.material.tabs.TabLayout
 
 // https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
 
+@SuppressLint("RestrictedApi")
 fun PopupMenu.makeRightPaddingRecursively() {
     if (menu is MenuBuilder) {
         val menuBuilder = menu as MenuBuilder

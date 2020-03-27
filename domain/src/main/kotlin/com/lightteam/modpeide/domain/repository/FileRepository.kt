@@ -17,10 +17,11 @@
 
 package com.lightteam.modpeide.domain.repository
 
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
-import com.lightteam.modpeide.domain.model.FileTree
-import com.lightteam.modpeide.domain.model.PropertiesModel
+import com.lightteam.modpeide.domain.model.editor.DocumentContent
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.domain.model.explorer.FileTree
+import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -33,6 +34,6 @@ interface FileRepository {
     fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
     fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
-    fun loadFile(documentModel: DocumentModel): Single<String>
+    fun loadFile(documentModel: DocumentModel): Single<DocumentContent>
     fun saveFile(documentModel: DocumentModel, text: String): Completable
 }

@@ -15,28 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.entity
+package com.lightteam.modpeide.domain.model.editor
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.lightteam.modpeide.data.storage.database.Tables
+import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 
-@Entity(tableName = Tables.DOCUMENTS)
-data class DocumentEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "uuid")
-    val uuid: String,
-    @ColumnInfo(name = "name")
-    val name: String,
-    @ColumnInfo(name = "path")
-    val path: String,
-    @ColumnInfo(name = "scroll_x")
-    val scrollX: Int,
-    @ColumnInfo(name = "scroll_y")
-    val scrollY: Int,
-    @ColumnInfo(name = "selection_start")
-    val selectionStart: Int,
-    @ColumnInfo(name = "selection_end")
-    val selectionEnd: Int
+data class DocumentContent(
+    val documentModel: DocumentModel,
+    val undoStack: UndoStack,
+    val redoStack: UndoStack,
+    val text: String
 )

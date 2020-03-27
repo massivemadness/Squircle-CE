@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.utils.commons
 
-import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.explorer.FileModel
 import kotlin.Comparator
 
 object FileSorter {

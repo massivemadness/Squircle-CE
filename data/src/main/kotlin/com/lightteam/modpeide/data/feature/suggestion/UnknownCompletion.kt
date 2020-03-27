@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.providers
+package com.lightteam.modpeide.data.feature.suggestion
 
-import io.reactivex.Scheduler
+import com.lightteam.modpeide.domain.feature.suggestion.CodeCompletion
 
-interface SchedulersProvider {
-    fun io(): Scheduler
-    fun computation(): Scheduler
-    fun mainThread(): Scheduler
+class UnknownCompletion : CodeCompletion {
+
+    override fun getAll(): Array<String> {
+        return emptyArray()
+    }
 }

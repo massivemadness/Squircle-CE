@@ -15,11 +15,9 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.storage.collection
+package com.lightteam.modpeide.data.feature
 
-import java.io.Serializable
-
-class LinesCollection : Serializable, Iterable<Line> {
+class LinesCollection : Iterable<Line> {
 
     private val lines = mutableListOf(
         Line(0)

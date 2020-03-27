@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model
+package com.lightteam.modpeide.data.feature
 
-data class FileTree(
-    val parent: FileModel,
-    val children: List<FileModel>
+data class Line(
+    var start: Int
 )

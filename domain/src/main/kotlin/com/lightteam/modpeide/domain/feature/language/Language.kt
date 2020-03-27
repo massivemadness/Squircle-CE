@@ -15,22 +15,16 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.dao.document
+package com.lightteam.modpeide.domain.feature.language
 
-import androidx.room.Dao
-import androidx.room.Query
-import com.lightteam.modpeide.data.dao.base.BaseDao
-import com.lightteam.modpeide.data.model.entity.DocumentEntity
-import com.lightteam.modpeide.data.storage.database.Tables
-import io.reactivex.Completable
-import io.reactivex.Single
+import java.util.regex.Pattern
 
-@Dao
-abstract class DocumentDao : BaseDao<DocumentEntity> {
-
-    @Query("SELECT * FROM ${Tables.DOCUMENTS}")
-    abstract fun loadAll(): Single<List<DocumentEntity>>
-
-    @Query("DELETE FROM ${Tables.DOCUMENTS}")
-    abstract fun deleteAll(): Completable
+interface Language {
+    fun getPatternOfNumbers(): Pattern
+    fun getPatternOfSymbols(): Pattern
+    fun getPatternOfBrackets(): Pattern
+    fun getPatternOfKeywords(): Pattern
+    fun getPatternOfMethods(): Pattern
+    fun getPatternOfStrings(): Pattern
+    fun getPatternOfComments(): Pattern
 }

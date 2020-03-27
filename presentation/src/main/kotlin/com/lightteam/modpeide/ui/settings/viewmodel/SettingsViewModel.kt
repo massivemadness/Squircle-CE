@@ -19,7 +19,7 @@ package com.lightteam.modpeide.ui.settings.viewmodel
 
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
-import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy

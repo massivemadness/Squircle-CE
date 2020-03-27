@@ -28,10 +28,10 @@ import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.exception.DirectoryExpectedException
 import com.lightteam.modpeide.domain.exception.FileAlreadyExistsException
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
-import com.lightteam.modpeide.domain.model.FileModel
-import com.lightteam.modpeide.domain.model.FileTree
-import com.lightteam.modpeide.domain.model.PropertiesModel
-import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.domain.model.explorer.FileTree
+import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
+import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent

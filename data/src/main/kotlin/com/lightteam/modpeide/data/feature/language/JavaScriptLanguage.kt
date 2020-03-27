@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.patterns.language
+package com.lightteam.modpeide.data.feature.language
 
-import com.lightteam.modpeide.domain.patterns.language.Language
+import com.lightteam.modpeide.domain.feature.language.Language
 import java.util.regex.Pattern
 
 class JavaScriptLanguage : Language {

@@ -34,7 +34,7 @@ import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
-import com.lightteam.modpeide.domain.model.FileModel
+import com.lightteam.modpeide.domain.model.explorer.FileModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.activities.EditorActivity
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel

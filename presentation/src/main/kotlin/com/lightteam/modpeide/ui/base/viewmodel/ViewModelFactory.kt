@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.domain.providers.SchedulersProvider
+import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel

@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model
+package com.lightteam.modpeide.domain.providers.rx
 
-enum class FileType {
-    DEFAULT,
-    ARCHIVE,
-    IMAGE,
-    AUDIO,
-    VIDEO
+import io.reactivex.Scheduler
+
+interface SchedulersProvider {
+    fun io(): Scheduler
+    fun computation(): Scheduler
+    fun mainThread(): Scheduler
 }

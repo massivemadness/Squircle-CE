@@ -20,6 +20,7 @@ package com.lightteam.modpeide.data.repository
 import android.os.Environment
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
+import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.utils.extensions.formatAsDate
 import com.lightteam.modpeide.data.utils.extensions.formatAsSize
@@ -27,10 +28,11 @@ import com.lightteam.modpeide.data.utils.extensions.size
 import com.lightteam.modpeide.domain.exception.DirectoryExpectedException
 import com.lightteam.modpeide.domain.exception.FileAlreadyExistsException
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
-import com.lightteam.modpeide.domain.model.DocumentModel
-import com.lightteam.modpeide.domain.model.FileModel
-import com.lightteam.modpeide.domain.model.FileTree
-import com.lightteam.modpeide.domain.model.PropertiesModel
+import com.lightteam.modpeide.domain.model.editor.DocumentContent
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.domain.model.explorer.FileTree
+import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
 import com.lightteam.modpeide.domain.repository.FileRepository
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -38,7 +40,7 @@ import java.io.BufferedReader
 import java.io.File
 
 class LocalFileRepository(
-    private val database: AppDatabase
+    private val appDatabase: AppDatabase
 ) : FileRepository {
 
     private val defaultLocation: File = Environment.getExternalStorageDirectory().absoluteFile
@@ -157,15 +159,21 @@ class LocalFileRepository(
 
     // region EDITOR
 
-    override fun loadFile(documentModel: DocumentModel): Single<String> {
+    override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         return Single.create { emitter ->
-            database.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
+            appDatabase.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
 
             // Load from Storage
             val file = File(documentModel.path)
             if (file.exists()) {
                 val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
-                emitter.onSuccess(text)
+                val documentContent = DocumentContent(
+                    documentModel,
+                    UndoStackImpl(),
+                    UndoStackImpl(),
+                    text
+                )
+                emitter.onSuccess(documentContent)
             } else {
                 emitter.onError(FileNotFoundException(documentModel.path))
             }
@@ -174,7 +182,7 @@ class LocalFileRepository(
 
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
         return Completable.create { emitter ->
-            database.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
+            appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
 
             // Save to Storage
             val file = File(documentModel.path)

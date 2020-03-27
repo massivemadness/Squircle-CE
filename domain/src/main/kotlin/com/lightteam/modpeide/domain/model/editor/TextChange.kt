@@ -15,8 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.patterns.completion
+package com.lightteam.modpeide.domain.model.editor
 
-interface CodeCompletion {
-    fun getAll(): Array<String>
-}
+data class TextChange(
+    var newText: String,
+    var oldText: String,
+    var start: Int
+)

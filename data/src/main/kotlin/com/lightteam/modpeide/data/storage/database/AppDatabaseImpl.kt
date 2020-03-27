@@ -20,7 +20,7 @@ package com.lightteam.modpeide.data.storage.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.lightteam.modpeide.data.dao.document.DocumentDao
-import com.lightteam.modpeide.data.entity.DocumentEntity
+import com.lightteam.modpeide.data.model.entity.DocumentEntity
 
 @Database(entities = [
     DocumentEntity::class

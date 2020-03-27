@@ -42,7 +42,7 @@ import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
-import com.lightteam.modpeide.domain.model.DocumentModel
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.editor.activities.interfaces.OnPanelClickListener
@@ -259,20 +259,16 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
                 positiveButton(R.string.action_ok)
             }
         })
-        viewModel.textEvent.observe(this, Observer {
-            binding.editor.setFacadeText(it)
-        })
-        viewModel.loadedEvent.observe(this, Observer { document ->
-            binding.editor.scrollX = document.scrollX
-            binding.editor.scrollY = document.scrollY
+        viewModel.contentEvent.observe(this, Observer { content ->
+            binding.editor.setFacadeText(content.text)
+            binding.editor.undoStack = content.undoStack
+            binding.editor.redoStack = content.redoStack
+            binding.editor.scrollX = content.documentModel.scrollX
+            binding.editor.scrollY = content.documentModel.scrollY
             binding.editor.setSelection(
-                document.selectionStart,
-                document.selectionEnd
+                content.documentModel.selectionStart,
+                content.documentModel.selectionEnd
             )
-        })
-        viewModel.stacksEvent.observe(this, Observer { pair ->
-            binding.editor.undoStack = pair.first
-            binding.editor.redoStack = pair.second
         })
 
         // region PREFERENCES

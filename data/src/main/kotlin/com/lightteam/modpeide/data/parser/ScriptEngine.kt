@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.data.parser
 
 import com.lightteam.modpeide.data.parser.api.*
-import com.lightteam.modpeide.domain.model.AnalysisModel
+import com.lightteam.modpeide.domain.model.explorer.AnalysisModel
 import io.reactivex.Single
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.ImporterTopLevel
