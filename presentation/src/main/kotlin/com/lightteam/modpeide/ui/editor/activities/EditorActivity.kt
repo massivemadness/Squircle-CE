@@ -207,23 +207,17 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     }
 
     private fun removeTab(index: Int) {
-        val position = removeDocument(index)
         val selectedIndex = binding.tabDocumentLayout.selectedTabPosition
-
-        if (position == selectedIndex) {
+        if (index == selectedIndex) {
             binding.editor.clearText() //TTL Exception bypass
+            closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
         }
-        binding.tabDocumentLayout.removeTabAt(position)
-
         // Обход бага, когда после удаления вкладки индикатор не обновляет свою позицию
-        if (position < selectedIndex) {
+        if (index < selectedIndex) {
             binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
         }
-
-        // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
-        if (position == selectedIndex) {
-            closeKeyboard()
-        }
+        binding.tabDocumentLayout.removeTabAt(index)
+        removeDocument(index)
     }
 
     // endregion TABS
