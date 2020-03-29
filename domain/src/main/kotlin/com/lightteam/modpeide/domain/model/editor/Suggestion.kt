@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model.explorer
+package com.lightteam.modpeide.domain.model.editor
 
-data class FileTree(
-    val parent: FileModel,
-    val children: List<FileModel>
-)
+data class Suggestion(
+    val text: CharSequence
+) {
+
+    override fun toString(): String {
+        return text.toString()
+    }
+}

@@ -17,11 +17,26 @@
 
 package com.lightteam.modpeide.data.feature.suggestion
 
-import com.lightteam.modpeide.domain.feature.suggestion.CodeCompletion
+import java.util.*
+import kotlin.collections.ArrayList
 
-class UnknownCompletion : CodeCompletion {
+class SortedArrayList<E : Comparable<E>> : ArrayList<E>() {
 
-    override fun getAll(): Array<String> {
-        return emptyArray()
+    override fun add(element: E): Boolean {
+        var binarySearch = Collections.binarySearch(this, element)
+        if (binarySearch < 0) {
+            binarySearch = (binarySearch + 1) * -1
+        }
+        super.add(binarySearch, element)
+        return true
+    }
+
+    override fun remove(element: E): Boolean {
+        val binarySearch = Collections.binarySearch(this, element)
+        if (binarySearch < 0) {
+            return false
+        }
+        super.removeAt(binarySearch)
+        return true
     }
 }

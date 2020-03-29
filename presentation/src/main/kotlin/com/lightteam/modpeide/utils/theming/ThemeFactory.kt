@@ -17,42 +17,17 @@
 
 package com.lightteam.modpeide.utils.theming
 
-import com.lightteam.modpeide.ui.editor.customview.TextProcessor
-
 object ThemeFactory {
 
-    fun create(theme: String): TextProcessor.Theme {
+    fun create(theme: String): AbstractTheme {
         return when(theme) {
-            Themes.THEME_DARCULA -> colorize(Themes.darcula)
-            Themes.THEME_MONOKAI -> colorize(Themes.monokai)
-            Themes.THEME_OBSIDIAN -> colorize(Themes.obsidian)
-            Themes.THEME_LADIES_NIGHT -> colorize(Themes.ladiesNight)
-            Themes.THEME_TOMORROW_NIGHT -> colorize(Themes.tomorrowNight)
-            Themes.THEME_VISUAL_STUDIO_2013 -> colorize(Themes.visualStudio2013)
+            Themes.THEME_DARCULA -> Themes.Darcula()
+            Themes.THEME_MONOKAI -> Themes.Monokai()
+            Themes.THEME_OBSIDIAN -> Themes.Obsidian()
+            Themes.THEME_LADIES_NIGHT -> Themes.LadiesNight()
+            Themes.THEME_TOMORROW_NIGHT -> Themes.TomorrowNight()
+            Themes.THEME_VISUAL_STUDIO_2013 -> Themes.VisualStudio2013()
             else -> create(Themes.THEME_DARCULA)
         }
-    }
-
-    private fun colorize(theme: AbstractTheme): TextProcessor.Theme {
-        return TextProcessor.Theme(
-            textColor = theme.textColor,
-            backgroundColor = theme.backgroundColor,
-            gutterColor = theme.gutterColor,
-            gutterDividerColor = theme.gutterDividerColor,
-            gutterCurrentLineNumberColor = theme.gutterCurrentLineNumberColor,
-            gutterTextColor = theme.gutterTextColor,
-            selectedLineColor = theme.selectedLineColor,
-            selectionColor = theme.selectionColor,
-            filterableColor = theme.filterableColor,
-            searchBgColor = theme.searchBgColor,
-            bracketsBgColor = theme.bracketBgColor,
-            numbersColor = theme.numbersColor,
-            symbolsColor = theme.symbolsColor,
-            bracketsColor = theme.bracketsColor,
-            keywordsColor = theme.keywordsColor,
-            methodsColor = theme.methodsColor,
-            stringsColor = theme.stringsColor,
-            commentsColor = theme.commentsColor
-        )
     }
 }

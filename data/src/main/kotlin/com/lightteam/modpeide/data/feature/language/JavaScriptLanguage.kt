@@ -17,21 +17,21 @@
 
 package com.lightteam.modpeide.data.feature.language
 
-import com.lightteam.modpeide.domain.feature.language.Language
+import com.lightteam.modpeide.domain.feature.language.LanguageProvider
 import java.util.regex.Pattern
 
-class JavaScriptLanguage : Language {
+class JavaScriptLanguage : LanguageProvider {
 
     override fun getPatternOfNumbers(): Pattern {
         return Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)")
     }
 
     override fun getPatternOfSymbols(): Pattern {
-        return Pattern.compile("(!|\\+|-|\\*|<|>|=|\\?|\\||:|%|&)")
+        return Pattern.compile("([!+\\-*<>=?|:%&])")
     }
 
     override fun getPatternOfBrackets(): Pattern {
-        return Pattern.compile("(\\(|\\)|\\{|\\}|\\[|\\])")
+        return Pattern.compile("([(){}\\[\\]])")
     }
 
     override fun getPatternOfKeywords(): Pattern {

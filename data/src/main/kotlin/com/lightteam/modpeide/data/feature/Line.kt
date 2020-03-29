@@ -19,4 +19,9 @@ package com.lightteam.modpeide.data.feature
 
 data class Line(
     var start: Int
-)
+) : Comparable<Line> {
+
+    override fun compareTo(other: Line): Int {
+        return start - other.start
+    }
+}

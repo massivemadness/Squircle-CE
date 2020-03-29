@@ -19,7 +19,7 @@ package com.lightteam.modpeide.domain.feature.language
 
 import java.util.regex.Pattern
 
-interface Language {
+interface LanguageProvider {
     fun getPatternOfNumbers(): Pattern
     fun getPatternOfSymbols(): Pattern
     fun getPatternOfBrackets(): Pattern

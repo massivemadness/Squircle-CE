@@ -26,10 +26,12 @@ class LinesCollection : Iterable<Line> {
     val lineCount: Int
         get() = lines.size
 
-    fun add(line: Int, index: Int) {
-        if (lineCount <= 0 || line != 0) {
-            lines.add(line, Line(index))
+    fun add(line: Int, index: Int): Line? {
+        if (lineCount > 0 && line == 0) {
+            return null
         }
+        lines.add(line, Line(index))
+        return lines[line]
     }
 
     fun remove(line: Int) {
@@ -69,11 +71,11 @@ class LinesCollection : Iterable<Line> {
 
     fun getLineForIndex(index: Int): Int {
         var first = 0
-        var upTo = lineCount - 1
-        while (first < upTo) {
-            val mid = (first + upTo) / 2
+        var last = lineCount - 1
+        while (first < last) {
+            val mid = (first + last) / 2
             if (index < getIndexForLine(mid)) {
-                upTo = mid
+                last = mid
             } else if (index <= getIndexForLine(mid) || index < getIndexForLine(mid + 1)) {
                 return mid
             } else {
@@ -83,12 +85,8 @@ class LinesCollection : Iterable<Line> {
         return lineCount - 1
     }
 
-    fun getLine(lineNumber: Int): Line? {
-        return if (lineNumber < 0 || lineNumber >= lineCount) {
-            null
-        } else {
-            lines[lineNumber]
-        }
+    fun getLine(line: Int): Line {
+        return lines[line]
     }
 
     override fun iterator(): Iterator<Line> {

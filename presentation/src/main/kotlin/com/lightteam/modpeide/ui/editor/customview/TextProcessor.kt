@@ -32,24 +32,24 @@ import android.view.ViewConfiguration
 import android.view.inputmethod.EditorInfo
 import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+import androidx.core.content.getSystemService
 import androidx.core.text.getSpans
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.feature.suggestion.ModPECompletion
-import com.lightteam.modpeide.data.feature.suggestion.UnknownCompletion
-import com.lightteam.modpeide.data.feature.language.JavaScriptLanguage
-import com.lightteam.modpeide.ui.editor.adapters.CodeCompletionAdapter
-import com.lightteam.modpeide.ui.editor.customview.internal.codecompletion.SymbolsTokenizer
 import com.lightteam.modpeide.data.feature.LinesCollection
-import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.StyleSpan
-import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.SyntaxHighlightSpan
-import com.lightteam.modpeide.domain.feature.language.Language
-import com.lightteam.modpeide.ui.editor.customview.internal.textscroller.OnScrollChangedListener
+import com.lightteam.modpeide.data.feature.language.JavaScriptLanguage
+import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
+import com.lightteam.modpeide.domain.feature.language.LanguageProvider
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.model.editor.TextChange
-import com.lightteam.modpeide.domain.feature.suggestion.CodeCompletion
+import com.lightteam.modpeide.ui.editor.adapters.SuggestionAdapter
+import com.lightteam.modpeide.ui.editor.customview.internal.codecompletion.SymbolsTokenizer
+import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.StyleSpan
+import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.SyntaxHighlightSpan
+import com.lightteam.modpeide.ui.editor.customview.internal.textscroller.OnScrollChangedListener
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
 import com.lightteam.modpeide.utils.extensions.toPx
+import com.lightteam.modpeide.utils.theming.AbstractTheme
 import java.util.regex.Pattern
 import kotlin.math.abs
 import kotlin.math.sqrt
@@ -78,28 +78,28 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     )
 
     data class Theme(
-        var textColor: Int = Color.WHITE,
-        var backgroundColor: Int = Color.DKGRAY,
-        var gutterColor: Int = Color.GRAY,
-        var gutterTextColor: Int = Color.WHITE,
-        var gutterDividerColor: Int = Color.WHITE,
-        var gutterCurrentLineNumberColor: Int = Color.GRAY,
-        var selectedLineColor: Int = Color.GRAY,
-        var selectionColor: Int = Color.LTGRAY,
-        var filterableColor: Int = Color.DKGRAY,
+        override val textColor: Int = Color.WHITE,
+        override val backgroundColor: Int = Color.DKGRAY,
+        override val gutterColor: Int = Color.GRAY,
+        override val gutterTextColor: Int = Color.WHITE,
+        override val gutterDividerColor: Int = Color.WHITE,
+        override val gutterCurrentLineNumberColor: Int = Color.GRAY,
+        override val selectedLineColor: Int = Color.GRAY,
+        override val selectionColor: Int = Color.LTGRAY,
+        override val filterableColor: Int = Color.DKGRAY,
 
-        var searchBgColor: Int = Color.GREEN,
-        var bracketsBgColor: Int = Color.GREEN,
+        override val searchBgColor: Int = Color.GREEN,
+        override val bracketBgColor: Int = Color.GREEN,
 
         //Syntax Highlighting
-        var numbersColor: Int = Color.WHITE,
-        var symbolsColor: Int = Color.WHITE,
-        var bracketsColor: Int = Color.WHITE,
-        var keywordsColor: Int = Color.WHITE,
-        var methodsColor: Int = Color.WHITE,
-        var stringsColor: Int = Color.WHITE,
-        var commentsColor: Int = Color.WHITE
-    )
+        override val numbersColor: Int = Color.WHITE,
+        override val symbolsColor: Int = Color.WHITE,
+        override val bracketsColor: Int = Color.WHITE,
+        override val keywordsColor: Int = Color.WHITE,
+        override val methodsColor: Int = Color.WHITE,
+        override val stringsColor: Int = Color.WHITE,
+        override val commentsColor: Int = Color.WHITE
+    ) : AbstractTheme()
 
     var configuration: Configuration = Configuration()
         set(value) {
@@ -107,7 +107,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             configure()
         }
 
-    var theme: Theme = Theme()
+    var theme: AbstractTheme = Theme()
         set(value) {
             field = value
             colorize()
@@ -116,16 +116,17 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     var undoStack: UndoStack = UndoStackImpl()
     var redoStack: UndoStack = UndoStackImpl()
 
-    var language: Language = JavaScriptLanguage() //= UnknownLanguage()
-    var completion: CodeCompletion = UnknownCompletion()
+    var languageProvider: LanguageProvider = JavaScriptLanguage() //= UnknownLanguage()
+    //var suggestionProvider: SuggestionProvider = ModPECompletion() //= UnknownCompletion()
 
     val arrayLineCount: Int
         get() = lines.lineCount - 1
 
     private val textScroller = Scroller(context)
-    private val completionAdapter = CodeCompletionAdapter(context, R.layout.item_completion)
+    private val wordsManager = WordsManager()
+    private val suggestionAdapter = SuggestionAdapter(context, R.layout.item_suggestion)
 
-    private val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    private val clipboardManager = context.getSystemService<ClipboardManager>()!!
     private val scaledDensity = context.getScaledDensity()
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -198,15 +199,15 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private val tabString = "    " // 4 spaces
     private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
 
-    private var openBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
-    private var closedBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
+    private var openBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
+    private var closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
 
     private var isDoingUndoRedo = false
     private var isAutoIndenting = false
     private var isFindSpansVisible = false
 
     private var scrollListeners = arrayOf<OnScrollChangedListener>()
-    private var maximumVelocity = 0f
+    private var maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
 
     private var zoomPinch = false
     private var zoomFactor = 1f
@@ -232,11 +233,8 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     // region INIT
 
     init {
-        //language = JavaScriptLanguage()
-        completion = ModPECompletion()
-        completionAdapter.dataSet = completion.getAll().toMutableList()
-        maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
-        colorize()
+        suggestionAdapter.setWordsManager(wordsManager)
+        //suggestionAdapter.setSuggestions(suggestionProvider.getAll())
     }
 
     private fun configure() {
@@ -254,7 +252,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         setHorizontallyScrolling(!configuration.wordWrap)
 
         if (configuration.codeCompletion) {
-            setAdapter(completionAdapter)
+            setAdapter(suggestionAdapter)
             setTokenizer(SymbolsTokenizer())
         } else {
             setTokenizer(null)
@@ -308,10 +306,10 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             stringsSpan.color = theme.stringsColor
             commentsSpan.color = theme.commentsColor
 
-            completionAdapter.color = theme.filterableColor
+            suggestionAdapter.color = theme.filterableColor
 
-            openBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
-            closedBracketSpan = BackgroundColorSpan(theme.bracketsBgColor)
+            openBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
+            closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
         }
     }
 
@@ -414,26 +412,28 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     fun setFacadeText(newText: String) {
-        newText.removeSuffix("\n")
-
         disableUndoRedo()
         setText(newText)
 
+        wordsManager.clear()
         undoStack.clear()
         redoStack.clear()
         facadeText.clear()
         replaceText(0, facadeText.length, newText)
         lines.clear()
 
-        var line = 0
+        var lineNumber = 0
         var lineStart = 0
         newText.lines().forEach {
-            lines.add(line, lineStart)
+            lines.add(lineNumber, lineStart)
+            wordsManager.processLine(
+                facadeText, lines.getLine(lineNumber),
+                lineStart, lineStart + it.length
+            )
             lineStart += it.length + 1
-            line++
+            lineNumber++
         }
-        lines.add(line, lineStart) // because the last \n already removed
-
+        lines.add(lineNumber, lineStart)
         enableUndoRedo()
         syntaxHighlight()
     }
@@ -532,42 +532,40 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     fun undo() {
         val textChange = undoStack.pop()
-        when {
-            textChange.start >= 0 -> {
-                isDoingUndoRedo = true
-                if (textChange.start > text.length) {
-                    textChange.start = text.length
-                }
-                var end = textChange.start + textChange.newText.length
-                if (end < 0) {
-                    end = 0
-                }
-                if (end > text.length) {
-                    end = text.length
-                }
-                text.replace(textChange.start, end, textChange.oldText)
-                Selection.setSelection(text, textChange.start + textChange.oldText.length)
-                redoStack.push(textChange)
-                isDoingUndoRedo = false
+        if (textChange.start >= 0) {
+            isDoingUndoRedo = true
+            if (textChange.start > text.length) {
+                textChange.start = text.length
             }
-            else -> undoStack.clear()
+            var end = textChange.start + textChange.newText.length
+            if (end < 0) {
+                end = 0
+            }
+            if (end > text.length) {
+                end = text.length
+            }
+            text.replace(textChange.start, end, textChange.oldText)
+            Selection.setSelection(text, textChange.start + textChange.oldText.length)
+            redoStack.push(textChange)
+            isDoingUndoRedo = false
+        } else {
+            undoStack.clear()
         }
     }
 
     fun redo() {
         val textChange = redoStack.pop()
-        when {
-            textChange.start >= 0 -> {
-                isDoingUndoRedo = true
-                text.replace(
-                    textChange.start,
-                    textChange.start + textChange.oldText.length, textChange.newText
-                )
-                Selection.setSelection(text, textChange.start + textChange.newText.length)
-                undoStack.push(textChange)
-                isDoingUndoRedo = false
-            }
-            else -> undoStack.clear()
+        if (textChange.start >= 0) {
+            isDoingUndoRedo = true
+            text.replace(
+                textChange.start,
+                textChange.start + textChange.oldText.length, textChange.newText
+            )
+            Selection.setSelection(text, textChange.start + textChange.newText.length)
+            undoStack.push(textChange)
+            isDoingUndoRedo = false
+        } else {
+            undoStack.clear()
         }
     }
 
@@ -702,6 +700,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var i = start
         while (i < end) {
             if (facadeText[i] == '\n') {
+                wordsManager.deleteLine(lines.getLine(startLine + 1))
                 lines.remove(startLine + 1)
             }
             i++
@@ -730,6 +729,15 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             end = 0
         }
         facadeText.replace(start, end, newText)
+        val endLine = lines.getLineForIndex(newText.length + start)
+        for (currentLine in startLine..endLine) {
+            wordsManager.processLine(
+                facadeText,
+                lines.getLine(currentLine),
+                getIndexForStartOfLine(currentLine),
+                getIndexForEndOfLine(currentLine)
+            )
+        }
     }
 
     // endregion LINE_NUMBERS
@@ -872,7 +880,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     }
 
     private fun getIndentationForLine(line: Int): String {
-        val realLine = lines.getLine(line) ?: return ""
+        val realLine = lines.getLine(line)
         val start = realLine.start
         var i = start
         while (i < text.length) {
@@ -915,7 +923,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
                 // region HIGHLIGHTING
 
-                var matcher = language.getPatternOfNumbers().matcher( //Numbers
+                var matcher = languageProvider.getPatternOfNumbers().matcher( //Numbers
                     text.subSequence(topLineOffset, bottomLineOffset)
                 )
                 while (matcher.find()) {
@@ -925,7 +933,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
-                matcher = language.getPatternOfSymbols().matcher( //Symbols
+                matcher = languageProvider.getPatternOfSymbols().matcher( //Symbols
                     text.subSequence(topLineOffset, bottomLineOffset)
                 )
                 while (matcher.find()) {
@@ -935,7 +943,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
-                matcher = language.getPatternOfBrackets().matcher( //Brackets
+                matcher = languageProvider.getPatternOfBrackets().matcher( //Brackets
                     text.subSequence(topLineOffset, bottomLineOffset)
                 )
                 while (matcher.find()) {
@@ -945,7 +953,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
-                matcher = language.getPatternOfKeywords().matcher( //Keywords
+                matcher = languageProvider.getPatternOfKeywords().matcher( //Keywords
                     text.subSequence(topLineOffset, bottomLineOffset)
                 )
                 while (matcher.find()) {
@@ -955,7 +963,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
-                matcher = language.getPatternOfMethods().matcher( //Methods
+                matcher = languageProvider.getPatternOfMethods().matcher( //Methods
                     text.subSequence(topLineOffset, bottomLineOffset)
                 )
                 while (matcher.find()) {
@@ -965,7 +973,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
-                matcher = language.getPatternOfStrings().matcher( //Strings
+                matcher = languageProvider.getPatternOfStrings().matcher( //Strings
                     text.subSequence(topLineOffset, bottomLineOffset)
                 )
                 while (matcher.find()) {
@@ -981,7 +989,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
-                matcher = language.getPatternOfComments().matcher( //Comments
+                matcher = languageProvider.getPatternOfComments().matcher( //Comments
                     text.subSequence(topLineOffset, bottomLineOffset)
                 )
                 while (matcher.find()) {
@@ -1234,7 +1242,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     // endregion PINCH_ZOOM
 
-    // region CODE_COMPLETION
+    // region SUGGESTIONS
 
     override fun showDropDown() {
         if (!isPopupShowing) {
@@ -1286,5 +1294,5 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         return rect.bottom - rect.top
     }
 
-    // endregion CODE_COMPLETION
+    // endregion SUGGESTIONS
 }

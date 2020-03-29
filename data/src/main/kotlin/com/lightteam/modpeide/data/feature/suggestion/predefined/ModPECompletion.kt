@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature.suggestion
+package com.lightteam.modpeide.data.feature.suggestion.predefined
 
-import com.lightteam.modpeide.domain.feature.suggestion.CodeCompletion
+import com.lightteam.modpeide.domain.feature.suggestion.SuggestionProvider
+import com.lightteam.modpeide.domain.model.editor.Suggestion
 
-class ModPECompletion : CodeCompletion {
+class ModPECompletion : SuggestionProvider {
 
     private val block = arrayOf(
         "defineBlock",
@@ -66,17 +67,17 @@ class ModPECompletion : CodeCompletion {
         "getOffhandSlotData",
         "getPitch",
         //"getRenderType",
-        "getRider()",
-        "getRiding()",
+        "getRider",
+        "getRiding",
         "getTarget",
         "getUniqueId",
         "getVelX",
         "getVelY",
         "getVelZ",
-        "getX()",
-        "getY()",
+        "getX",
+        "getY",
         "getYaw",
-        "getZ()",
+        "getZ",
         "isSneaking",
         "remove",
         "removeAllEffects",
@@ -150,21 +151,21 @@ class ModPECompletion : CodeCompletion {
         "getChestSlotCustomName",
         "getChestSlotData",
         "getData",
-        "getDifficulty()",
+        "getDifficulty",
         "getFurnaceSlot",
         "getFurnaceSlotCount",
         "getFurnaceSlotData",
-        "getGameMode()",
+        "getGameMode",
         "getGrassColor",
-        "getLightningLevel()",
-        "getRainLevel()",
+        "getLightningLevel",
+        "getRainLevel",
         "getSignText",
         "getSpawnerEntityType",
         "getTile",
-        "getTime()",
-        "getWorldDir()",
-        "getWorldName()",
-        "isRemote()",
+        "getTime",
+        "getWorldDir",
+        "getWorldName",
+        "isRemote",
         "playSound",
         "playSoundEnt",
         "setBlockExtraData",
@@ -192,9 +193,9 @@ class ModPECompletion : CodeCompletion {
         "dumpVtable",
         "getBytesFromTexturePack",
         "getI18n",
-        "getLanguage()",
-        "getMinecraftVersion()",
-        "getOS()",
+        "getLanguage",
+        "getMinecraftVersion",
+        "getOS",
         "joinServer",
         "langEdit",
         "leaveGame",
@@ -203,8 +204,8 @@ class ModPECompletion : CodeCompletion {
         "overrideTexture",
         "readData",
         "removeData",
-        "resetFov()",
-        "resetImages()",
+        "resetFov",
+        "resetImages",
         "saveData",
         "selectLevel",
         "setCamera",
@@ -224,7 +225,7 @@ class ModPECompletion : CodeCompletion {
         "addExp",
         "addItemCreativeInv",
         "addItemInventory",
-        "canFly()",
+        "canFly",
         "clearInventorySlot",
         "enchant",
         "getArmorSlot",
@@ -232,35 +233,35 @@ class ModPECompletion : CodeCompletion {
         //"getCarriedItem",
         //"getCarriedItemCount",
         //"getCarriedItemData",
-        "getDimension()",
+        "getDimension",
         "getEnchantments",
-        "getEntity()",
-        "getExhaustion()",
-        "getExp()",
-        "getHunger()",
+        "getEntity",
+        "getExhaustion",
+        "getExp",
+        "getHunger",
         "getInventorySlot",
         "getInventorySlotCount",
         "getInventorySlotData",
         "getItemCustomName",
         "getLevel",
         "getName",
-        "getPointedBlockData()",
-        "getPointedBlockId()",
-        "getPointedBlockSide()",
-        "getPointedBlockX()",
-        "getPointedBlockY()",
-        "getPointedBlockZ()",
-        "getPointedEntity()",
-        "getPointedVecX()",
-        "getPointedVecY()",
-        "getPointedVecZ()",
+        "getPointedBlockData",
+        "getPointedBlockId",
+        "getPointedBlockSide",
+        "getPointedBlockX",
+        "getPointedBlockY",
+        "getPointedBlockZ",
+        "getPointedEntity",
+        "getPointedVecX",
+        "getPointedVecY",
+        "getPointedVecZ",
         "getSaturation",
         "getScore",
-        "getSelectedSlotId()",
+        "getSelectedSlotId",
         //"getX",
         //"getY",
         //"getZ",
-        "isFlying()",
+        "isFlying",
         "isPlayer",
         "setArmorSlot",
         "setCanFly",
@@ -278,9 +279,9 @@ class ModPECompletion : CodeCompletion {
 
     private val server = arrayOf(
         //"getAddress",
-        "getAllPlayerNames()",
-        "getAllPlayers()",
-        "getPort()",
+        "getAllPlayerNames",
+        "getAllPlayers",
+        "getPort",
         //"joinServer",
         "sendChat"
     )
@@ -306,13 +307,13 @@ class ModPECompletion : CodeCompletion {
         "projectileHitEntityHook",
         "blockEventHook",
         "explodeHook",
-        //"leaveGame()",
+        //"leaveGame",
         "levelEventHook",
-        "modTick()",
-        "newLevel()",
+        "modTick",
+        "newLevel",
         "redstoneUpdateHook",
         "screenChangeHook",
-        "selectLevelHook()",
+        "selectLevelHook",
         "eatHook",
         "playerAddExpHook",
         "playerExpLevelChangeHook",
@@ -322,11 +323,11 @@ class ModPECompletion : CodeCompletion {
     private val global = arrayOf(
         "bl_setMobSkin",
         "bl_spawnMob",
-        "preventDefault()",
-        "getPlayerX()",
-        "getPlayerY()",
-        "getPlayerZ()",
-        "getPlayerEnt()",
+        "preventDefault",
+        "getPlayerX",
+        "getPlayerY",
+        "getPlayerZ",
+        "getPlayerEnt",
         "clientMessage",
         "print"
     )
@@ -335,8 +336,8 @@ class ModPECompletion : CodeCompletion {
         "function"
     )
 
-    override fun getAll(): Array<String> {
-        return arrayOf(
+    override fun getAll(): List<Suggestion> {
+        val stringArray = arrayOf(
             *block,
             *entity,
             *item,
@@ -348,5 +349,11 @@ class ModPECompletion : CodeCompletion {
             *global,
             *javascript
         )
+        val suggestions: MutableList<Suggestion> = mutableListOf()
+        for (string in stringArray) {
+            val suggestion = Suggestion(string)
+            suggestions.add(suggestion)
+        }
+        return suggestions
     }
 }

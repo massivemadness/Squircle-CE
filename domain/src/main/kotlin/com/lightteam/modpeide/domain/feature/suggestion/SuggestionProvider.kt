@@ -17,6 +17,8 @@
 
 package com.lightteam.modpeide.domain.feature.suggestion
 
-interface CodeCompletion {
-    fun getAll(): Array<String>
+import com.lightteam.modpeide.domain.model.editor.Suggestion
+
+interface SuggestionProvider {
+    fun getAll(): List<Suggestion>
 }

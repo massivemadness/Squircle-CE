@@ -71,8 +71,8 @@ class FileAdapter(
 
         private lateinit var fileModel: FileModel
 
-        private var itemIcon: ImageView = itemView.findViewById(R.id.item_icon)
-        private var itemTitle: TextView = itemView.findViewById(R.id.item_title)
+        private val itemIcon: ImageView = itemView.findViewById(R.id.item_icon)
+        private val itemTitle: TextView = itemView.findViewById(R.id.item_title)
 
         init {
             itemView.setOnClickListener {

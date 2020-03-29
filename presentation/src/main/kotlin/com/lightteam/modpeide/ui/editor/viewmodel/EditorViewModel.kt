@@ -34,8 +34,8 @@ import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.ui.editor.customview.TextProcessor
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import com.lightteam.modpeide.utils.theming.AbstractTheme
 import com.lightteam.modpeide.utils.theming.ThemeFactory
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -75,7 +75,7 @@ class EditorViewModel(
 
     // region PREFERENCES
 
-    val themeEvent: SingleLiveEvent<TextProcessor.Theme> = SingleLiveEvent() //Тема редактора
+    val themeEvent: SingleLiveEvent<AbstractTheme> = SingleLiveEvent() //Тема редактора
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Полноэкранный режим
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подтверждение выхода
 

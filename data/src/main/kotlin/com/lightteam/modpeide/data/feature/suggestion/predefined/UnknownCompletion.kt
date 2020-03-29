@@ -15,9 +15,14 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model.explorer
+package com.lightteam.modpeide.data.feature.suggestion.predefined
 
-data class FileTree(
-    val parent: FileModel,
-    val children: List<FileModel>
-)
+import com.lightteam.modpeide.domain.feature.suggestion.SuggestionProvider
+import com.lightteam.modpeide.domain.model.editor.Suggestion
+
+class UnknownCompletion : SuggestionProvider {
+
+    override fun getAll(): List<Suggestion> {
+        return emptyList()
+    }
+}
