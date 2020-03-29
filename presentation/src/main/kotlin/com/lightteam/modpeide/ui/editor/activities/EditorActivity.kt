@@ -216,8 +216,8 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         if (index < selectedIndex) {
             binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
         }
-        binding.tabDocumentLayout.removeTabAt(index)
         removeDocument(index)
+        binding.tabDocumentLayout.removeTabAt(index)
     }
 
     // endregion TABS
@@ -380,12 +380,11 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         }
     }
 
-    private fun removeDocument(position: Int): Int {
+    private fun removeDocument(position: Int) {
         val document = viewModel.tabsList[position]
         viewModel.tabsList.removeAt(position)
         viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
         viewModel.deleteCache(document)
-        return position
     }
 
     // region TOOLBAR
