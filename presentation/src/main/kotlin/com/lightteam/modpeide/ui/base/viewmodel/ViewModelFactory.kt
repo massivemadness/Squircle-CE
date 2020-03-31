@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.base.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
@@ -29,11 +30,12 @@ import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 
 class ViewModelFactory(
-    private val fileRepository: FileRepository,
-    private val appDatabase: AppDatabase,
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler,
-    private val cacheHandler: CacheHandler
+    private val appUpdateManager: AppUpdateManager,
+    private val fileRepository: FileRepository,
+    private val cacheHandler: CacheHandler,
+    private val appDatabase: AppDatabase,
+    private val preferenceHandler: PreferenceHandler
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -42,6 +44,7 @@ class ViewModelFactory(
             modelClass === EditorViewModel::class.java ->
                 EditorViewModel(
                     schedulersProvider,
+                    appUpdateManager,
                     fileRepository,
                     cacheHandler,
                     appDatabase,

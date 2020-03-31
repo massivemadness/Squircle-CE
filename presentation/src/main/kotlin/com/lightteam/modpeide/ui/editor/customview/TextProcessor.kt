@@ -117,7 +117,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     var redoStack: UndoStack = UndoStackImpl()
 
     var languageProvider: LanguageProvider = JavaScriptLanguage() //= UnknownLanguage()
-    //var suggestionProvider: SuggestionProvider = ModPECompletion() //= UnknownCompletion()
+    //var suggestionProvider: SuggestionProvider = ModPESuggestions() //= UnknownSuggestions()
 
     val arrayLineCount: Int
         get() = lines.lineCount - 1
@@ -234,7 +234,6 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     init {
         suggestionAdapter.setWordsManager(wordsManager)
-        //suggestionAdapter.setSuggestions(suggestionProvider.getAll())
     }
 
     private fun configure() {

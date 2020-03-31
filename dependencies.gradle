@@ -48,6 +48,9 @@ ext {
     navigation_version = '2.2.1'
     room_version = '2.2.5'
 
+    //Network
+    playcore_version = '1.7.0'
+
     //Rx
     rxjava2_version = '2.2.19'
     rxandroid_version = '2.1.1'
@@ -86,6 +89,9 @@ ext {
             room: "androidx.room:room-runtime:$room_version",
             room_compiler: "androidx.room:room-compiler:$room_version",
             rxroom: "androidx.room:room-rxjava2:$room_version",
+
+            //Network
+            playcore: "com.google.android.play:core-ktx:$playcore_version",
 
             //Rx
             rxjava2: "io.reactivex.rxjava2:rxjava:$rxjava2_version",

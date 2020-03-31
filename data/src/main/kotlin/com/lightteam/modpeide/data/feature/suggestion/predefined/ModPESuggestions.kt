@@ -20,7 +20,7 @@ package com.lightteam.modpeide.data.feature.suggestion.predefined
 import com.lightteam.modpeide.domain.feature.suggestion.SuggestionProvider
 import com.lightteam.modpeide.domain.model.editor.Suggestion
 
-class ModPECompletion : SuggestionProvider {
+class ModPESuggestions : SuggestionProvider {
 
     private val block = arrayOf(
         "defineBlock",
@@ -337,23 +337,7 @@ class ModPECompletion : SuggestionProvider {
     )
 
     override fun getAll(): List<Suggestion> {
-        val stringArray = arrayOf(
-            *block,
-            *entity,
-            *item,
-            *level,
-            *modpe,
-            *player,
-            *server,
-            *hooks,
-            *global,
-            *javascript
-        )
-        val suggestions: MutableList<Suggestion> = mutableListOf()
-        for (string in stringArray) {
-            val suggestion = Suggestion(string)
-            suggestions.add(suggestion)
-        }
-        return suggestions
+        return arrayOf(*block, *entity, *item, *level, *modpe, *player, *server, *hooks, *global, *javascript)
+            .map { Suggestion(it) }
     }
 }

@@ -34,13 +34,16 @@
         <item name="colorOnBackground">@color/colorOnBackground</item>
 
         <item name="colorBackgroundFloating">?colorSurface</item>
+        <item name="snackbarStyle">@style/Widget.Darcula.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/Widget.Darcula.TextButton</item>
+        <item name="snackbarTextViewStyle">@style/Widget.Darcula.SnackBarTextView</item>
         <item name="alertDialogTheme">@style/Dialog.Darcula.Preference</item>
         <item name="md_ripple_color">?colorControlHighlight</item>
         <item name="md_corner_radius">4dp</item>
 
         <item name="android:statusBarColor">@color/colorStatusBar</item>
         <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name="android:navigationBarColor">?colorSecondaryVariant</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
     </style>

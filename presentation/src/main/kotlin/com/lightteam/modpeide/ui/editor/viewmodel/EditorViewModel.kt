@@ -19,6 +19,13 @@ package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.ktx.installStatus
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.parser.ScriptEngine
@@ -41,6 +48,7 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
     private val schedulersProvider: SchedulersProvider,
+    private val appUpdateManager: AppUpdateManager,
     private val fileRepository: FileRepository,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
@@ -70,6 +78,8 @@ class EditorViewModel(
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
+    val updateEvent: SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>> = SingleLiveEvent()
+    val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     // endregion EVENTS
 
@@ -102,8 +112,38 @@ class EditorViewModel(
 
     val tabsList: MutableList<DocumentModel> = mutableListOf()
 
+    private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
+        if (state.installStatus == InstallStatus.DOWNLOADED) {
+            installEvent.call()
+        }
+    }
+
+    fun checkUpdate() {
+        appUpdateManager.registerListener(installStateUpdatedListener)
+        appUpdateManager.appUpdateInfo
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                        updateEvent.value = Triple(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE)
+                    } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                        updateEvent.value = Triple(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE)
+                    }
+                } else {
+                    appUpdateManager.unregisterListener(installStateUpdatedListener)
+                }
+            }
+            .addOnFailureListener {
+                Log.e(TAG, it.message, it)
+            }
+    }
+
+    fun completeUpdate() {
+        appUpdateManager.unregisterListener(installStateUpdatedListener)
+        appUpdateManager.completeUpdate()
+    }
+
     private fun loadFiles() {
-        if (resumeSessionEvent.value!!) {
+        if (resumeSessionEvent.value!!) { // must receive value before calling
             appDatabase.documentDao().loadAll()
                 .doOnSubscribe { stateLoadingDocuments.set(true) }
                 .doOnSuccess {

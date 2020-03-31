@@ -17,6 +17,14 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- region TEXTVIEW -->
+
+    <style name="Widget.Darcula.SnackBarTextView" parent="Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+    <!-- endregion TEXTVIEW -->
+
     <!-- region BUTTON -->
 
     <style name="Widget.Darcula.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
@@ -66,5 +74,13 @@
     </style>
 
     <!-- endregion DIALOG -->
+
+    <!-- region SNACKBAR -->
+
+    <style name="Widget.Darcula.Snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
+        <item name="backgroundTint">?colorSurface</item>
+    </style>
+
+    <!-- endregion SNACKBAR -->
 
 </resources>

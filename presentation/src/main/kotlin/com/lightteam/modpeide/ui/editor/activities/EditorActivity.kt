@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.ui.editor.activities
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.Configuration
@@ -36,8 +37,10 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.play.core.install.model.ActivityResult
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
@@ -60,6 +63,10 @@ import javax.inject.Inject
 
 class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     OnPanelClickListener, TabLayout.OnTabSelectedListener, ExtendedKeyboard.OnKeyListener {
+
+    companion object {
+        private const val REQUEST_CODE_UPDATE = 10
+    }
 
     @Inject
     lateinit var viewModel: EditorViewModel
@@ -93,6 +100,8 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
             }
             .disposeOnActivityDestroy()
 
+        viewModel.checkUpdate()
+
         /* FIXME this feature just doesn't work, idk how to fix it
         // Check if user opened a file from external file explorer
         if (intent.action == Intent.ACTION_VIEW) {
@@ -101,6 +110,19 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
             val documentModel = DocumentConverter.toModel(file)
             viewModel.openFile(documentModel)
         }*/
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_UPDATE) {
+            when (resultCode) {
+                Activity.RESULT_OK -> { /* approved */ }
+                Activity.RESULT_CANCELED -> { /* rejected */ }
+                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
+                    viewModel.toastEvent.value = R.string.message_in_app_update_failed
+                }
+            }
+        }
     }
 
     override fun onPause() {
@@ -225,6 +247,23 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     private fun observeViewModel() {
         viewModel.toastEvent.observe(this, Observer {
             showToast(it)
+        })
+        viewModel.updateEvent.observe(this, Observer {
+            val appUpdateManager = it.first
+            val appUpdateInfo = it.second
+            val appUpdateType = it.third
+            appUpdateManager.startUpdateFlowForResult(
+                appUpdateInfo,
+                appUpdateType,
+                this,
+                REQUEST_CODE_UPDATE
+            )
+        })
+        viewModel.installEvent.observe(this, Observer {
+            Snackbar.make(binding.editor, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
+                .setActionTextColor(getColour(R.color.colorPrimary))
+                .setAction(R.string.action_restart) { viewModel.completeUpdate() }
+                .show()
         })
         viewModel.documentsEvent.observe(this, Observer { docs ->
             for (document in docs) {

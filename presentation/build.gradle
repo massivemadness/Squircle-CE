@@ -80,6 +80,9 @@ dependencies {
     implementation library.livedata
     implementation library.viewmodel
 
+    //Network
+    implementation library.playcore
+
     //Rx
     implementation library.rxjava2
     implementation library.rxandroid

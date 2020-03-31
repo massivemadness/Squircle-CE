@@ -21,6 +21,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.data.delegate.DataLayerDelegate
 import com.lightteam.modpeide.data.repository.LocalFileRepository
@@ -70,6 +72,12 @@ class AppModule {
 
     @Provides
     @PerApplication
+    fun provideAppUpdateManager(context: Context): AppUpdateManager {
+        return AppUpdateManagerFactory.create(context)
+    }
+
+    @Provides
+    @PerApplication
     fun provideAppDatabase(context: Context): AppDatabase {
         return DataLayerDelegate.provideAppDatabase(context)
     }
@@ -88,17 +96,19 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun provideViewModelFactory(fileRepository: FileRepository,
+    fun provideViewModelFactory(schedulersProvider: SchedulersProvider,
+                                appUpdateManager: AppUpdateManager,
+                                fileRepository: FileRepository,
+                                cacheHandler: CacheHandler,
                                 appDatabase: AppDatabase,
-                                schedulersProvider: SchedulersProvider,
-                                preferenceHandler: PreferenceHandler,
-                                cacheHandler: CacheHandler): ViewModelFactory {
+                                preferenceHandler: PreferenceHandler): ViewModelFactory {
         return ViewModelFactory(
-            fileRepository,
-            appDatabase,
             schedulersProvider,
-            preferenceHandler,
-            cacheHandler
+            appUpdateManager,
+            fileRepository,
+            cacheHandler,
+            appDatabase,
+            preferenceHandler
         )
     }
 }
