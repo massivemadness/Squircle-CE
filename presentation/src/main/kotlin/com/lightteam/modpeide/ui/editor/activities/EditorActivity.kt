@@ -54,6 +54,7 @@ import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.commons.TypefaceFactory
+import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -306,70 +307,74 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
 
         // region PREFERENCES
 
-        viewModel.themeEvent.observe(this, Observer { newTheme ->
-            binding.editor.theme = newTheme
-        })
-        viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
-            if (isFullscreen) {
-                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            } else {
-                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            }
-        })
-        viewModel.fontSizeEvent.observe(this, Observer { fontSize ->
-            val newConfiguration = binding.editor.configuration.copy(fontSize = fontSize)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.fontTypeEvent.observe(this, Observer { fontType ->
-            val newConfiguration = binding.editor.configuration.copy(
-                fontType = TypefaceFactory.create(this, fontType)
-            )
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.wordWrapEvent.observe(this, Observer { wordWrap ->
-            val newConfiguration = binding.editor.configuration.copy(wordWrap = wordWrap)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.codeCompletionEvent.observe(this, Observer { completion ->
-            val newConfiguration = binding.editor.configuration.copy(codeCompletion = completion)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.pinchZoomEvent.observe(this, Observer { pinchZoom ->
-            val newConfiguration = binding.editor.configuration.copy(pinchZoom = pinchZoom)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.highlightLineEvent.observe(this, Observer { highlight ->
-            val newConfiguration = binding.editor.configuration.copy(highlightCurrentLine = highlight)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.highlightDelimitersEvent.observe(this, Observer { highlight ->
-            val newConfiguration = binding.editor.configuration.copy(highlightDelimiters = highlight)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.extendedKeyboardEvent.observe(this, Observer { isEnabled ->
-            KeyboardVisibilityEvent.setEventListener(this) { isOpen ->
-                if (isEnabled) {
-                    binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
-                } else {
-                    binding.extendedKeyboard.visibility = View.GONE
+        viewModel.preferenceEvent.observe(this, Observer { queue ->
+            while (queue != null && queue.isNotEmpty()) {
+                when (val event = queue.poll()) {
+                    is PreferenceEvent.Theme -> binding.editor.theme = event.value
+                    is PreferenceEvent.Fullscreen -> {
+                        if (event.value) {
+                            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                        } else {
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                        }
+                    }
+                    is PreferenceEvent.FontSize -> {
+                        val newConfiguration = binding.editor.configuration.copy(fontSize = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.FontType -> {
+                        val newConfiguration = binding.editor.configuration.copy(
+                            fontType = TypefaceFactory.create(this, event.value)
+                        )
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.WordWrap -> {
+                        val newConfiguration = binding.editor.configuration.copy(wordWrap = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.CodeCompletion -> {
+                        val newConfiguration = binding.editor.configuration.copy(codeCompletion = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.PinchZoom -> {
+                        val newConfiguration = binding.editor.configuration.copy(pinchZoom = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.CurrentLine -> {
+                        val newConfiguration = binding.editor.configuration.copy(highlightCurrentLine = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.Delimiters -> {
+                        val newConfiguration = binding.editor.configuration.copy(highlightDelimiters = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.ExtendedKeys -> {
+                        KeyboardVisibilityEvent.setEventListener(this) { isOpen ->
+                            if (event.value) {
+                                binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
+                            } else {
+                                binding.extendedKeyboard.visibility = View.GONE
+                            }
+                        }
+                    }
+                    is PreferenceEvent.SoftKeys -> {
+                        val newConfiguration = binding.editor.configuration.copy(softKeyboard = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.AutoIndent -> {
+                        val newConfiguration = binding.editor.configuration.copy(autoIndentation = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.AutoBrackets -> {
+                        val newConfiguration = binding.editor.configuration.copy(autoCloseBrackets = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
+                    is PreferenceEvent.AutoQuotes -> {
+                        val newConfiguration = binding.editor.configuration.copy(autoCloseQuotes = event.value)
+                        binding.editor.configuration = newConfiguration
+                    }
                 }
             }
-        })
-        viewModel.softKeyboardEvent.observe(this, Observer { softKeyboard ->
-            val newConfiguration = binding.editor.configuration.copy(softKeyboard = softKeyboard)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.autoIndentationEvent.observe(this, Observer { autoIndentation ->
-            val newConfiguration = binding.editor.configuration.copy(autoIndentation = autoIndentation)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.autoCloseBracketsEvent.observe(this, Observer { autoCloseBrackets ->
-            val newConfiguration = binding.editor.configuration.copy(autoCloseBrackets = autoCloseBrackets)
-            binding.editor.configuration = newConfiguration
-        })
-        viewModel.autoCloseQuotesEvent.observe(this, Observer { autoCloseQuotes ->
-            val newConfiguration = binding.editor.configuration.copy(autoCloseQuotes = autoCloseQuotes)
-            binding.editor.configuration = newConfiguration
         })
 
         // endregion PREFERENCES

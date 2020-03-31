@@ -41,8 +41,9 @@ import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.utils.event.EventsQueue
+import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
-import com.lightteam.modpeide.utils.theming.AbstractTheme
 import com.lightteam.modpeide.utils.theming.ThemeFactory
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -85,28 +86,11 @@ class EditorViewModel(
 
     // region PREFERENCES
 
-    val themeEvent: SingleLiveEvent<AbstractTheme> = SingleLiveEvent() //Тема редактора
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Полноэкранный режим
-    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подтверждение выхода
+    val preferenceEvent: EventsQueue = EventsQueue() //События с измененными настройками
 
-    val fontSizeEvent: SingleLiveEvent<Float> = SingleLiveEvent() //Размер шрифта
-    val fontTypeEvent: SingleLiveEvent<String> = SingleLiveEvent() //Тип шрифта
-
-    val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Повторное открытие вкладок после выхода
-    val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Лимит вкладок
-
-    val wordWrapEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Смещать текст на новую строку если нет места
-    val codeCompletionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автодополнение кода
-    val pinchZoomEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Жест масштабирования текста
-    val highlightLineEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подсветка текущей строки
-    val highlightDelimitersEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Подсветка ближайших скобок
-
-    val extendedKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отображать доп. символы
-    val softKeyboardEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Упрощенная клавиатура (landscape orientation)
-
-    val autoIndentationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Отступы при переходе на новую строку
-    val autoCloseBracketsEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автоматическое закрытие скобок
-    val autoCloseQuotesEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Автоматическое закрытие кавычек
+    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    private val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    private val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent()
 
     // endregion PREFERENCES
 
@@ -299,13 +283,13 @@ class EditorViewModel(
         preferenceHandler.getTheme()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { themeEvent.value = ThemeFactory.create(it) }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.Theme(ThemeFactory.create(it))) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getFullscreenMode()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { fullscreenEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.Fullscreen(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getConfirmExit()
@@ -318,13 +302,13 @@ class EditorViewModel(
             .asObservable()
             .map { it.toFloat() }
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { fontSizeEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.FontSize(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getFontType()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { fontTypeEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.FontType(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getResumeSession()
@@ -347,61 +331,61 @@ class EditorViewModel(
         preferenceHandler.getWordWrap()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { wordWrapEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.WordWrap(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getCodeCompletion()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { codeCompletionEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.CodeCompletion(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getPinchZoom()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { pinchZoomEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.PinchZoom(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getHighlightCurrentLine()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { highlightLineEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.CurrentLine(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getHighlightMatchingDelimiters()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { highlightDelimitersEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.Delimiters(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getExtendedKeyboard()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { extendedKeyboardEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.ExtendedKeys(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getSoftKeyboard()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { softKeyboardEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.SoftKeys(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getAutoIndentation()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { autoIndentationEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.AutoIndent(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getAutoCloseBrackets()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { autoCloseBracketsEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.AutoBrackets(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getAutoCloseQuotes()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { autoCloseQuotesEvent.value = it }
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.AutoQuotes(it)) }
             .disposeOnViewModelDestroy()
     }
 
