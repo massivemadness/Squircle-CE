@@ -37,8 +37,8 @@ import javax.inject.Inject
 class PermissionsFragment : BaseFragment() {
 
     companion object {
-        const val REQUEST_STORAGE_DIALOG = 1
-        const val REQUEST_STORAGE_ACTIVITY = 2
+        private const val REQUEST_STORAGE_DIALOG = 1
+        private const val REQUEST_STORAGE_ACTIVITY = 2
     }
 
     @Inject

@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.settings.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.preference.Preference
 import com.afollestad.materialdialogs.MaterialDialog
@@ -131,6 +132,7 @@ class PreferenceFragment : DaggerPreferenceFragmentCompat() {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_changelog)
             message(text = context.getRawFileText(R.raw.changelog).asHtml())
+            findViewById<TextView>(R.id.md_text_message).textSize = 14f
             negativeButton(R.string.action_close)
         }
         return true
@@ -140,6 +142,7 @@ class PreferenceFragment : DaggerPreferenceFragmentCompat() {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_privacy_policy)
             message(text = context.getRawFileText(R.raw.privacy_policy).asHtml())
+            findViewById<TextView>(R.id.md_text_message).textSize = 14f
             negativeButton(R.string.action_close)
         }
         return true

@@ -22,10 +22,7 @@ ext {
             minSdk = 21,
             targetSdk = 29,
             compileSdk = 29,
-            buildTools = '29.0.3',
-            versionCode = 10025,
-            versionName = '2020.1.1',
-            testRunner = 'androidx.test.runner.AndroidJUnitRunner'
+            buildTools = '29.0.3'
     ]
 
     //Kotlin

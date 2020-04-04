@@ -32,10 +32,10 @@ android {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
 
-        versionCode buildConfig.versionCode
-        versionName buildConfig.versionName
+        versionCode 10025
+        versionName '2020.1.1'
 
-        testInstrumentationRunner buildConfig.testRunner
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -48,14 +48,14 @@ android {
             debuggable true
         }
     }
-    flavorDimensions "version"
+    flavorDimensions 'version'
     productFlavors {
         standard {
-            dimension "version"
+            dimension 'version'
             applicationId "com.KillerBLS.modpeide"
         }
         ultimate {
-            dimension "version"
+            dimension 'version'
             applicationId "com.LightTeam.modpeidepro"
         }
     }
