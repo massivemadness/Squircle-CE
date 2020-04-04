@@ -3,11 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ModPE-IDE-Source.iml" filepath="$PROJECT_DIR$/ModPE-IDE-Source.iml" group="ModPE-IDE-Source" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-standard/app-standard.iml" filepath="$PROJECT_DIR$/.idea/modules/app-standard/app-standard.iml" group="ModPE-IDE-Source/app-standard" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-ultimate/app-ultimate.iml" filepath="$PROJECT_DIR$/.idea/modules/app-ultimate/app-ultimate.iml" group="ModPE-IDE-Source/app-ultimate" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="ModPE-IDE-Source/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/data.iml" group="ModPE-IDE-Source/data" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/domain.iml" group="ModPE-IDE-Source/domain" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/presentation/presentation.iml" filepath="$PROJECT_DIR$/.idea/modules/presentation/presentation.iml" group="ModPE-IDE-Source/presentation" />
     </modules>
   </component>
 </project>
