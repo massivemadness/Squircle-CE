@@ -47,14 +47,17 @@ import com.lightteam.modpeide.ui.editor.customview.internal.codecompletion.Symbo
 import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.StyleSpan
 import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.SyntaxHighlightSpan
 import com.lightteam.modpeide.ui.editor.customview.internal.textscroller.OnScrollChangedListener
+import com.lightteam.modpeide.utils.extensions.dpToPx
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
-import com.lightteam.modpeide.utils.extensions.toPx
 import com.lightteam.modpeide.utils.theming.AbstractTheme
 import java.util.regex.Pattern
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoCompleteTextView(context, attrs) {
+class TextProcessor(
+    context: Context,
+    attrs: AttributeSet
+) : AppCompatMultiAutoCompleteTextView(context, attrs), ExtendedKeyboard.OnKeyListener {
 
     data class Configuration(
         //Font
@@ -214,7 +217,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     private var gutterWidth = 0
     private var gutterDigitCount = 0
-    private var gutterMargin = 4.toPx() // 4 dp to pixels
+    private var gutterMargin = 4.dpToPx() // 4 dp to pixels
 
     private var textLastChange: TextChange? = null
     private var textChangeStart = 0
@@ -452,6 +455,10 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     // endregion CORE
 
     // region METHODS
+
+    override fun onKey(char: String) {
+        insert(char)
+    }
 
     fun hasPrimaryClip(): Boolean = clipboardManager.hasPrimaryClip()
 

@@ -63,7 +63,14 @@ class PreferenceFragment : DaggerPreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
+            if (preferenceScreen.key != KEY_ROOT) {
+                val root = Preference(context).apply { key = KEY_ROOT }
+                onPreferenceTreeClick(root)
+            } else {
+                requireActivity().finish()
+            }
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
@@ -111,17 +118,6 @@ class PreferenceFragment : DaggerPreferenceFragmentCompat() {
                     BuildConfig.VERSION_NAME,
                     BuildConfig.VERSION_CODE
                 )
-            }
-        }
-    }
-
-    private fun observeViewModel() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (preferenceScreen.key != KEY_ROOT) {
-                val root = Preference(context).apply { key = KEY_ROOT }
-                onPreferenceTreeClick(root)
-            } else {
-                requireActivity().finish()
             }
         }
     }

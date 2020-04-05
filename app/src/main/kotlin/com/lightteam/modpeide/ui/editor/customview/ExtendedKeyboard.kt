@@ -37,29 +37,37 @@ class ExtendedKeyboard(context: Context, attributeSet: AttributeSet) : RecyclerV
 
     fun setKeyListener(keyListener: OnKeyListener) {
         keyAdapter = KeyAdapter(keyListener)
-        keyAdapter.keys = arrayOf("{", "}", "(", ")", ";", ",", ".", "=", "\\", "|",
-            "&", "!", "[", "]", "<", ">", "+", "-", "/", "*", "?", ":", "_")
         adapter = keyAdapter
-        adapter?.notifyDataSetChanged()
+        keyAdapter.keys = arrayOf('{', '}', '(', ')', ';', ',', '.', '=', '\\', '|',
+            '&', '!', '[', ']', '<', '>', '+', '-', '/', '*', '?', ':', '_')
     }
 
     private class KeyAdapter(
         private val keyListener: OnKeyListener
     ) : RecyclerView.Adapter<KeyAdapter.KeyViewHolder>() {
         
-        var keys: Array<String> = arrayOf()
+        var keys: Array<Char> = arrayOf()
+            set(value) {
+                field = value
+                notifyDataSetChanged()
+            }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KeyViewHolder {
             return KeyViewHolder.create(parent, keyListener)
         }
 
-        override fun onBindViewHolder(holder: KeyViewHolder, position: Int) = holder.bind(keys[position])
-        override fun getItemCount(): Int = keys.size
+        override fun onBindViewHolder(holder: KeyViewHolder, position: Int) {
+            holder.bind(keys[position])
+        }
 
-        class KeyViewHolder(
+        override fun getItemCount(): Int {
+            return keys.size
+        }
+
+        private class KeyViewHolder(
             itemView: View,
             private val keyListener: OnKeyListener
-        ) : BaseViewHolder<String>(itemView) {
+        ) : BaseViewHolder<Char>(itemView) {
 
             companion object {
                 fun create(parent: ViewGroup, keyListener: OnKeyListener): KeyViewHolder {
@@ -72,11 +80,17 @@ class ExtendedKeyboard(context: Context, attributeSet: AttributeSet) : RecyclerV
 
             private val textView: TextView = itemView.findViewById(R.id.item_title)
 
-            override fun bind(item: String) {
-                textView.text = item
+            private lateinit var char: String
+
+            init {
                 itemView.setOnClickListener {
-                    keyListener.onKey(item)
+                    keyListener.onKey(char)
                 }
+            }
+
+            override fun bind(item: Char) {
+                char = item.toString()
+                textView.text = char
             }
         }
     }

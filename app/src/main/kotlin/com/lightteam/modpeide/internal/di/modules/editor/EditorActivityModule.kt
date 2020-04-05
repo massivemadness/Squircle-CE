@@ -22,7 +22,7 @@ import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.ui.editor.activities.EditorActivity
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
-import com.lightteam.modpeide.ui.editor.activities.utils.ToolbarManager
+import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import dagger.Module
 import dagger.Provides

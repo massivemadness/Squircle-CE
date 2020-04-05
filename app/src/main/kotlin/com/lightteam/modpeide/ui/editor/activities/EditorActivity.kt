@@ -43,14 +43,14 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.play.core.install.model.ActivityResult
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.databinding.ActivityMainBinding
+import com.lightteam.modpeide.databinding.ActivityEditorBinding
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
-import com.lightteam.modpeide.ui.editor.activities.interfaces.OnPanelClickListener
-import com.lightteam.modpeide.ui.editor.activities.utils.ToolbarManager
-import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
+import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
+import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
+import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.utils.event.PreferenceEvent
@@ -62,7 +62,7 @@ import java.io.File
 import javax.inject.Inject
 
 class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
-    OnPanelClickListener, TabLayout.OnTabSelectedListener, ExtendedKeyboard.OnKeyListener {
+    ToolbarManager.OnPanelClickListener, TabLayout.OnTabSelectedListener {
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 10
@@ -73,11 +73,12 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     @Inject
     lateinit var toolbarManager: ToolbarManager
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityEditorBinding
+    private lateinit var backPressedHandler: OnBackPressedHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_editor)
         binding.viewModel = viewModel
         observeViewModel()
 
@@ -86,7 +87,7 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
 
         binding.drawerLayout.addDrawerListener(this)
         binding.tabDocumentLayout.addOnTabSelectedListener(this)
-        binding.extendedKeyboard.setKeyListener(this)
+        binding.extendedKeyboard.setKeyListener(binding.editor)
 
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
@@ -99,6 +100,10 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
                 viewModel.canRedo.set(binding.editor.canRedo())
             }
             .disposeOnActivityDestroy()
+
+        binding.fragmentExplorer.post {
+            backPressedHandler = binding.fragmentExplorer.fragment<ExplorerFragment>()
+        }
 
         viewModel.checkUpdate()
 
@@ -142,7 +147,9 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
 
     override fun onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            onBackPressedDispatcher.onBackPressed()
+            if (!backPressedHandler.handleOnBackPressed()) {
+                closeDrawers()
+            }
         } else {
             if (viewModel.backEvent.value!!) {
                 MaterialDialog(this).show {
@@ -168,7 +175,7 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         closeKeyboard()
     }
 
-    fun closeDrawers() {
+    private fun closeDrawers() {
         binding.drawerLayout.closeDrawers()
     }
 
@@ -431,10 +438,6 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
     }
 
     // region TOOLBAR
-
-    override fun onKey(char: String) {
-        binding.editor.insert(char)
-    }
 
     override fun onDrawerButton() {
         binding.drawerLayout.openDrawer(GravityCompat.START)

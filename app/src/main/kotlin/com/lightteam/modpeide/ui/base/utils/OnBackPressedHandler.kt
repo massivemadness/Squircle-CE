@@ -15,34 +15,8 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.activities.interfaces
+package com.lightteam.modpeide.ui.base.utils
 
-interface OnPanelClickListener {
-    fun onDrawerButton()
-
-    fun onNewButton()
-    fun onOpenButton()
-    fun onSaveButton()
-    fun onCloseButton()
-
-    fun onCutButton()
-    fun onCopyButton()
-    fun onPasteButton()
-    fun onSelectAllButton()
-    fun onSelectLineButton()
-    fun onDeleteLineButton()
-    fun onDuplicateLineButton()
-
-    fun onFindButton()
-    fun onReplaceAllButton()
-    fun onGoToLineButton()
-
-    fun onCodeAnalysisButton()
-    fun onInsertColorButton()
-    //fun onDownloadSourceButton()
-
-    fun onUndoButton()
-    fun onRedoButton()
-
-    fun onSettingsButton()
+interface OnBackPressedHandler {
+    fun handleOnBackPressed(): Boolean
 }

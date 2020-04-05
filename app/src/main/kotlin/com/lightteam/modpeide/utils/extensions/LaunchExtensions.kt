@@ -41,18 +41,6 @@ inline fun <reified T : Any> Activity.launchActivity(
     }
 }
 
-inline fun <reified T : Any> Context.launchActivity(
-    options: Bundle? = null,
-    noinline init: Intent.() -> Unit = {}) {
-    val intent = newIntent<T>(this)
-    intent.init()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        startActivity(intent, options)
-    } else {
-        startActivity(intent)
-    }
-}
-
 fun Fragment.launchPermissionActivity(code: Int) {
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     val uri = Uri.parse("package:${requireContext().packageName}")

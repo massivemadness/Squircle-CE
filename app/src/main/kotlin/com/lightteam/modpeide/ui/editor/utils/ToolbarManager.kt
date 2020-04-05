@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.activities.utils
+package com.lightteam.modpeide.ui.editor.utils
 
 import android.content.res.Configuration
 import android.view.MenuItem
@@ -23,8 +23,7 @@ import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.databinding.ActivityMainBinding
-import com.lightteam.modpeide.ui.editor.activities.interfaces.OnPanelClickListener
+import com.lightteam.modpeide.databinding.ActivityEditorBinding
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 
 class ToolbarManager(
@@ -40,10 +39,10 @@ class ToolbarManager(
             }
         }
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityEditorBinding
 
-    fun bind(activityMainBinding: ActivityMainBinding) {
-        binding = activityMainBinding
+    fun bind(activityEditorBinding: ActivityEditorBinding) {
+        binding = activityEditorBinding
 
         binding.actionMenuDrawer.setOnClickListener { listener.onDrawerButton() }
         binding.actionMenuSave.setOnClickListener { listener.onSaveButton() }
@@ -110,13 +109,41 @@ class ToolbarManager(
             //Tools Menu
             R.id.menu_tools_codeAnalysis -> listener.onCodeAnalysisButton()
             R.id.menu_tools_insertColor -> listener.onInsertColorButton()
-            //case R.id.menu_tools_downloadSource:
-            //    listener.onDownloadSourceButton();
-            //    break;
+            //R.id.menu_tools_downloadSource: -> listener.onDownloadSourceButton()
 
             //Overflow Menu
             R.id.menu_overflow_settings -> listener.onSettingsButton()
         }
         return false
+    }
+
+    interface OnPanelClickListener {
+        fun onDrawerButton()
+
+        fun onNewButton()
+        fun onOpenButton()
+        fun onSaveButton()
+        fun onCloseButton()
+
+        fun onCutButton()
+        fun onCopyButton()
+        fun onPasteButton()
+        fun onSelectAllButton()
+        fun onSelectLineButton()
+        fun onDeleteLineButton()
+        fun onDuplicateLineButton()
+
+        fun onFindButton()
+        fun onReplaceAllButton()
+        fun onGoToLineButton()
+
+        fun onCodeAnalysisButton()
+        fun onInsertColorButton()
+        //fun onDownloadSourceButton()
+
+        fun onUndoButton()
+        fun onRedoButton()
+
+        fun onSettingsButton()
     }
 }
