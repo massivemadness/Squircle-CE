@@ -1,8 +1,8 @@
 # ModPE IDE v2020.1.2
 
-<b>ModPE IDE</b> is a professional IDE primarily for ModPE Script development.
+<b>ModPE IDE</b> is a professional code editor or IDE primarily for ModPE Script development.
 
-![Image](.images/banner.png)
+![Image](.images/repository-open-graph.png)
 
 <a href="https://play.google.com/store/apps/details?id=com.KillerBLS.modpeide">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width = 225/>
@@ -32,9 +32,6 @@
 <b>•</b> Auto-close quotes  
 <b>•</b> Code Analysis  
 <b>•</b> Color Picker
-
-### CONTACT US
-<b>•</b> <u>lightteamsoftware@gmail.com</u>
 
 ### LICENSE
 ```
