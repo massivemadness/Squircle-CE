@@ -66,9 +66,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    lintOptions {
-        lintConfig file('lint.xml')
-    }
     sourceSets {
         main {
             java.srcDirs += 'src/main/kotlin'

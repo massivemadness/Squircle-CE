@@ -38,6 +38,9 @@ android {
             }
         }
     }
+    lintOptions {
+        lintConfig file('lint.xml')
+    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
