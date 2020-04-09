@@ -15,8 +15,14 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model.explorer
+package com.lightteam.modpeide.data.feature.parser.predefined
 
-data class AnalysisModel(
-    val exception: Throwable?
-)
+@SuppressWarnings
+internal class Server {
+    fun getAddress() {}
+    fun getAllPlayerNames() {}
+    fun getAllPlayers() {}
+    fun getPort() {}
+    fun joinServer(ip: String, port: Int) {}
+    fun sendChat(text: Int) {}
+}

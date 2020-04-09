@@ -28,14 +28,14 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.installStatus
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
-import com.lightteam.modpeide.data.parser.ScriptEngine
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
-import com.lightteam.modpeide.domain.model.explorer.AnalysisModel
+import com.lightteam.modpeide.domain.feature.parser.SourceParser
+import com.lightteam.modpeide.domain.model.editor.ParseModel
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -53,7 +53,8 @@ class EditorViewModel(
     private val fileRepository: FileRepository,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val sourceParser: SourceParser
 ) : BaseViewModel() {
 
     companion object {
@@ -77,7 +78,7 @@ class EditorViewModel(
     val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
     val selectionEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выделение вкладки уже открытого файла
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
-    val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода
+    val analysisEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Анализ кода
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
     val updateEvent: SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>> = SingleLiveEvent()
     val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
@@ -275,7 +276,7 @@ class EditorViewModel(
     }
 
     fun analyze(position: Int, sourceCode: String) {
-        ScriptEngine.analyze(tabsList[position].name, sourceCode)
+        sourceParser.execute(tabsList[position].name, sourceCode)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { analysisEvent.value = it }
             .disposeOnViewModelDestroy()

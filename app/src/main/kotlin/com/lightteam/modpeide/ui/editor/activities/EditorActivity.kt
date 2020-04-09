@@ -61,8 +61,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
 import javax.inject.Inject
 
-class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
-    ToolbarManager.OnPanelClickListener, TabLayout.OnTabSelectedListener {
+class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 10
@@ -85,8 +84,25 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         toolbarManager.bind(binding)
         onConfigurationChanged(resources.configuration)
 
-        binding.drawerLayout.addDrawerListener(this)
-        binding.tabDocumentLayout.addOnTabSelectedListener(this)
+        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerStateChanged(newState: Int) {}
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerClosed(drawerView: View) {}
+            override fun onDrawerOpened(drawerView: View) {
+                closeKeyboard()
+            }
+        })
+        binding.tabDocumentLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                saveDocument(tab.position)
+                closeKeyboard() // Обход бага, когда после переключения вкладок
+                // позиция курсора не менялась с предыдущей вкладки
+            }
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                loadDocument(tab.position)
+            }
+        })
         binding.extendedKeyboard.setKeyListener(binding.editor)
 
         binding.extendedKeyboard.setHasFixedSize(true)
@@ -166,91 +182,6 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         }
     }
 
-    // region DRAWER
-
-    override fun onDrawerStateChanged(newState: Int) {}
-    override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-    override fun onDrawerClosed(drawerView: View) {}
-    override fun onDrawerOpened(drawerView: View) {
-        closeKeyboard()
-    }
-
-    private fun closeDrawers() {
-        binding.drawerLayout.closeDrawers()
-    }
-
-    // endregion DRAWER
-
-    // region TABS
-
-    override fun onTabReselected(tab: TabLayout.Tab?) {}
-    override fun onTabUnselected(tab: TabLayout.Tab) {
-        saveDocument(tab.position)
-        closeKeyboard() // Обход бага, когда после переключения вкладок редактирование не работало
-        // (позиция курсора не менялась с предыдущей вкладки)
-    }
-    override fun onTabSelected(tab: TabLayout.Tab) {
-        loadDocument(tab.position)
-    }
-
-    private fun addTab(documentModel: DocumentModel, selection: Boolean) {
-        binding.tabDocumentLayout.newTab(documentModel.name, R.layout.item_tab_document) { tab ->
-            val closeIcon = tab.customView?.findViewById<View>(R.id.item_icon)
-            closeIcon?.setOnClickListener {
-                removeTab(tab.position)
-            }
-            tab.view.setOnLongClickListener {
-                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_Darcula_PopupMenu)
-                val popupMenu = PopupMenu(wrapper, it)
-                popupMenu.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.action_close -> removeTab(tab.position)
-                        R.id.action_close_others -> removeOtherTabs(tab.position)
-                        R.id.action_close_all -> removeAllTabs()
-                    }
-                    return@setOnMenuItemClickListener true
-                }
-                popupMenu.inflate(R.menu.menu_document)
-                popupMenu.makeRightPaddingRecursively()
-                popupMenu.show()
-                return@setOnLongClickListener true
-            }
-            if (selection) {
-                tab.select()
-            }
-        }
-    }
-
-    private fun removeAllTabs() {
-        for (index in binding.tabDocumentLayout.tabCount - 1 downTo 0) {
-            removeTab(index)
-        }
-    }
-
-    private fun removeOtherTabs(position: Int) {
-        for (index in binding.tabDocumentLayout.tabCount - 1 downTo 0) {
-            if (index != position) {
-                removeTab(index)
-            }
-        }
-    }
-
-    private fun removeTab(index: Int) {
-        val selectedIndex = binding.tabDocumentLayout.selectedTabPosition
-        if (index == selectedIndex) {
-            binding.editor.clearText() //TTL Exception bypass
-            closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
-        }
-        // Обход бага, когда после удаления вкладки индикатор не обновляет свою позицию
-        if (index < selectedIndex) {
-            binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
-        }
-        removeDocument(index)
-        binding.tabDocumentLayout.removeTabAt(index)
-    }
-
-    // endregion TABS
-
     private fun observeViewModel() {
         viewModel.toastEvent.observe(this, Observer {
             showToast(it)
@@ -291,10 +222,9 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         viewModel.analysisEvent.observe(this, Observer { model ->
             MaterialDialog(this).show {
                 title(R.string.dialog_title_result)
-                if (model.exception == null) {
-                    message(R.string.message_no_errors_detected)
-                } else {
-                    message(text = model.exception!!.message)
+                message(R.string.message_no_errors_detected)
+                model.exception?.let { exception ->
+                    message(text = exception.message)
                 }
                 positiveButton(R.string.action_ok)
             }
@@ -388,8 +318,12 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         viewModel.observePreferences() // and loadFiles()
     }
 
+    private fun closeDrawers() {
+        binding.drawerLayout.closeDrawers()
+    }
+
     private fun openFile(documentModel: DocumentModel) {
-        try { //Открытие файла через подходящую программу
+        try { // Открытие файла через подходящую программу
             val uri = FileProvider.getUriForFile(
                 this,
                 "$packageName.provider",
@@ -436,6 +370,66 @@ class EditorActivity : BaseActivity(), DrawerLayout.DrawerListener,
         viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
         viewModel.deleteCache(document)
     }
+
+    // region TABS
+
+    private fun addTab(documentModel: DocumentModel, selection: Boolean) {
+        binding.tabDocumentLayout.newTab(documentModel.name, R.layout.item_tab_document) { tab ->
+            val closeIcon = tab.customView?.findViewById<View>(R.id.item_icon)
+            closeIcon?.setOnClickListener {
+                removeTab(tab.position)
+            }
+            tab.view.setOnLongClickListener {
+                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_Darcula_PopupMenu)
+                val popupMenu = PopupMenu(wrapper, it)
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.action_close -> removeTab(tab.position)
+                        R.id.action_close_others -> removeOtherTabs(tab.position)
+                        R.id.action_close_all -> removeAllTabs()
+                    }
+                    return@setOnMenuItemClickListener true
+                }
+                popupMenu.inflate(R.menu.menu_document)
+                popupMenu.makeRightPaddingRecursively()
+                popupMenu.show()
+                return@setOnLongClickListener true
+            }
+            if (selection) {
+                tab.select()
+            }
+        }
+    }
+
+    private fun removeAllTabs() {
+        for (index in binding.tabDocumentLayout.tabCount - 1 downTo 0) {
+            removeTab(index)
+        }
+    }
+
+    private fun removeOtherTabs(position: Int) {
+        for (index in binding.tabDocumentLayout.tabCount - 1 downTo 0) {
+            if (index != position) {
+                removeTab(index)
+            }
+        }
+    }
+
+    private fun removeTab(index: Int) {
+        val selectedIndex = binding.tabDocumentLayout.selectedTabPosition
+        if (index == selectedIndex) {
+            binding.editor.clearText() //TTL Exception bypass
+            closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
+        }
+        // Обход бага, когда после удаления вкладки индикатор не обновлял свою позицию
+        if (index < selectedIndex) {
+            binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
+        }
+        removeDocument(index)
+        binding.tabDocumentLayout.removeTabAt(index)
+    }
+
+    // endregion TABS
 
     // region TOOLBAR
 

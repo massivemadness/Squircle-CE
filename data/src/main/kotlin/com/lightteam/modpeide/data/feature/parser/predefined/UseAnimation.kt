@@ -15,14 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.parser.api;
+package com.lightteam.modpeide.data.feature.parser.predefined
 
 @SuppressWarnings
-internal class Server {
-    fun getAddress() {}
-    fun getAllPlayerNames() {}
-    fun getAllPlayers() {}
-    fun getPort() {}
-    fun joinServer(ip: String, port: Int) {}
-    fun sendChat(text: Int) {}
+internal class UseAnimation {
+    val bow: Int = -1
+    val normal: Int = -1
 }

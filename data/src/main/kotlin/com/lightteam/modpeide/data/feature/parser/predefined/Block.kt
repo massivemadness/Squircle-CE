@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.parser.api;
+package com.lightteam.modpeide.data.feature.parser.predefined
 
 import org.mozilla.javascript.Scriptable
 

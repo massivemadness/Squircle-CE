@@ -34,8 +34,8 @@ fun String.isValidFileName(): Boolean {
 }
 
 fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
-    for (index in indices) {
-        if (get(index).path == fileModel.path) {
+    forEach { indexedModel ->
+        if (indexedModel.path == fileModel.path) {
             return true
         }
     }
@@ -43,8 +43,8 @@ fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
 }
 
 fun MutableList<DocumentModel>.containsDocumentModel(documentModel: DocumentModel): Boolean {
-    for (index in indices) {
-        if (get(index).path == documentModel.path) {
+    forEach { indexedModel ->
+        if (indexedModel.path == documentModel.path) {
             return true
         }
     }
@@ -52,8 +52,8 @@ fun MutableList<DocumentModel>.containsDocumentModel(documentModel: DocumentMode
 }
 
 fun MutableList<DocumentModel>.index(documentModel: DocumentModel): Int {
-    for (index in indices) {
-        if (get(index).path == documentModel.path) {
+    forEachIndexed { index, indexedModel ->
+        if (indexedModel.path == documentModel.path) {
             return index
         }
     }
