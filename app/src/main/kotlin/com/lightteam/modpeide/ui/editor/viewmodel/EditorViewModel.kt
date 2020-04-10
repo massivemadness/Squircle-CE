@@ -177,6 +177,7 @@ class EditorViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
+                    saveToCache(it.documentModel, it.text)
                     contentEvent.value = it
                 },
                 onError = {

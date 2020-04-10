@@ -41,7 +41,7 @@
             android:summary="@string/pref_contribute_summary">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/Light-Team/ModPE-IDE-Source"/>
+                android:data="https://github.com/massivemadness/ModPE-IDE"/>
         </Preference>
 
     </PreferenceCategory>

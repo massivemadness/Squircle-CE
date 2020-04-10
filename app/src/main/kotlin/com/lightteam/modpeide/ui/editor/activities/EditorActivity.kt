@@ -203,13 +203,13 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
                 .setAction(R.string.action_restart) { viewModel.completeUpdate() }
                 .show()
         })
-        viewModel.documentsEvent.observe(this, Observer { docs ->
-            for (document in docs) {
+        viewModel.documentsEvent.observe(this, Observer { documents ->
+            for (document in documents) {
                 addTab(document, false)
             }
         })
-        viewModel.documentEvent.observe(this, Observer {
-            addTab(it, true)
+        viewModel.documentEvent.observe(this, Observer { document ->
+            addTab(document, true)
             closeDrawers()
         })
         viewModel.selectionEvent.observe(this, Observer {
@@ -386,7 +386,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
                     when (item.itemId) {
                         R.id.action_close -> removeTab(tab.position)
                         R.id.action_close_others -> removeOtherTabs(tab.position)
-                        R.id.action_close_all -> removeAllTabs()
+                        R.id.action_close_all -> removeAllTabs(tab.position)
                     }
                     return@setOnMenuItemClickListener true
                 }
@@ -401,14 +401,14 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
         }
     }
 
-    private fun removeAllTabs() {
-        for (index in binding.tabDocumentLayout.tabCount - 1 downTo 0) {
-            removeTab(index)
-        }
+    private fun removeAllTabs(position: Int) {
+        removeOtherTabs(position)
+        removeTab(binding.tabDocumentLayout.selectedTabPosition)
     }
 
     private fun removeOtherTabs(position: Int) {
-        for (index in binding.tabDocumentLayout.tabCount - 1 downTo 0) {
+        val tabCount = binding.tabDocumentLayout.tabCount - 1
+        for (index in tabCount downTo 0) {
             if (index != position) {
                 removeTab(index)
             }
