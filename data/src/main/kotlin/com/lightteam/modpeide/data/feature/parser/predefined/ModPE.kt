@@ -39,10 +39,12 @@ internal class ModPE {
     fun selectLevel(worldName: String) {}
     fun setCamera(ent: Any) {}
     fun setFoodItem(id: Int, iconName: String, offset: Int, halfhearts: Int, name: String, maxStack: Int) {}
+    fun setFoodItem(id: Int, iconName: String, offset: Int, halfhearts: Int, name: String) {}
     fun setFov(fov: Double) {}
     fun setGameSpeed(ticks: Double) {}
     fun setGuiBlocks(url: String) {}
     fun setItem(id: Int, iconName: String, offset: Int, name: String, maxStack: Int) {}
+    fun setItem(id: Int, iconName: String, offset: Int, name: String) {}
     fun setItems(url: String) {}
     fun setTerrain(url: String) {}
     fun setUiRenderDebug(someBoolean: Boolean) {}

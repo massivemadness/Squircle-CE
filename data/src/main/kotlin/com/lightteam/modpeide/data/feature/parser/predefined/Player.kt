@@ -21,7 +21,9 @@ package com.lightteam.modpeide.data.feature.parser.predefined
 internal class Player {
     fun addExp(exp: Int) {}
     fun addItemCreativeInv(id: Int, count: Int, data: Int) {}
+    fun addItemCreativeInv(id: Int, count: Int) {}
     fun addItemInventory(id: Int, count: Int, data: Int) {}
+    fun addItemInventory(id: Int, count: Int) {}
     fun canFly() {}
     fun clearInventorySlot(slotNumber: Int) {}
     fun enchant(slot: Int, enchantment: Int, power: Int) {}

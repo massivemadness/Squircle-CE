@@ -26,6 +26,7 @@ internal class Level {
     fun dropItem(x: Double, y: Double, z: Double, range: Float, id: Int, count: Int, data: Int) {}
     fun executeCommand(cmd: String, output: Boolean) {}
     fun explode(x: Double, y: Double, z: Double, radius: Double, bool: Boolean, bool2: Boolean, someDouble: Double) {}
+    fun explode(x: Double, y: Double, z: Double, radius: Double) {}
     fun getAddress() {}
     fun getBiome(x: Int, z: Int) {}
     fun getBiomeName(x: Int, z: Int) {}
@@ -65,6 +66,7 @@ internal class Level {
     fun setSpawn(x: Int, y: Int, z: Int) {}
     fun setSpawnerEntityType(x: Int, y: Int, z: Int, mobId: Int) {}
     fun setTile(x: Int, y: Int, z: Int, id: Int, data: Int) {}
+    fun setTile(x: Int, y: Int, z: Int, id: Int) {}
     fun setTime(time: Int) {}
     fun spawnChicken(x: Double, y: Double, z: Double, texture: String) {}
     fun spawnCow(x: Double, y: Double, z: Double, texture: String) {}

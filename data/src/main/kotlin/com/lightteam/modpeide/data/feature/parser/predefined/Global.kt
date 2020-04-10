@@ -48,6 +48,7 @@ internal class Global : JavaScriptParser.FunctionRegistrar {
 
     // Player
     fun addItemInventory(id: Int, data: Int, count: Int) {}
+    fun addItemInventory(id: Int, count: Int) {}
     fun getCarriedItem() {}
     fun getPlayerEnt() {}
     fun getPlayerX() {}
