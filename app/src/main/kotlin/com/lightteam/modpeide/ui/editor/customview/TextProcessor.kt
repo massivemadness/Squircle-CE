@@ -38,8 +38,10 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.LinesCollection
 import com.lightteam.modpeide.data.feature.language.JavaScriptLanguage
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
+import com.lightteam.modpeide.data.feature.suggestion.predefined.ModPESuggestions
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.domain.feature.language.LanguageProvider
+import com.lightteam.modpeide.domain.feature.suggestion.SuggestionProvider
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.model.editor.TextChange
 import com.lightteam.modpeide.ui.editor.adapters.SuggestionAdapter
@@ -120,7 +122,7 @@ class TextProcessor(
     var redoStack: UndoStack = UndoStackImpl()
 
     var languageProvider: LanguageProvider = JavaScriptLanguage() //= UnknownLanguage()
-    //var suggestionProvider: SuggestionProvider = ModPESuggestions() //= UnknownSuggestions()
+    var suggestionProvider: SuggestionProvider = ModPESuggestions() //= UnknownSuggestions()
 
     val arrayLineCount: Int
         get() = lines.lineCount - 1
@@ -236,6 +238,7 @@ class TextProcessor(
     // region INIT
 
     init {
+        wordsManager.setSuggestions(suggestionProvider.getAll())
         suggestionAdapter.setWordsManager(wordsManager)
     }
 
@@ -436,6 +439,7 @@ class TextProcessor(
             lineNumber++
         }
         lines.add(lineNumber, lineStart)
+        wordsManager.processSuggestions()
         enableUndoRedo()
         syntaxHighlight()
     }

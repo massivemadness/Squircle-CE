@@ -19,6 +19,7 @@ package com.lightteam.modpeide.data.feature.suggestion
 
 import android.text.Editable
 import com.lightteam.modpeide.data.feature.Line
+import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.domain.model.editor.Suggestion
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -31,13 +32,14 @@ class WordsManager {
 
     private val wordsPattern: Pattern = Pattern.compile(WORDS_REGEX)
     private val wordsList: WordsList = WordsList()
+    private val predefinedList: MutableList<Suggestion> = mutableListOf()
+
+    fun setSuggestions(suggestions: List<Suggestion>) {
+        predefinedList.replaceList(suggestions)
+    }
 
     fun getSuggestions(): List<Suggestion> {
-        val suggestions = mutableListOf<Suggestion>()
-        for (item in wordsList.words) {
-            suggestions.add(Suggestion(item.value))
-        }
-        return suggestions
+        return wordsList.words.map { Suggestion(it.value) }
     }
 
     fun clear() {
@@ -52,6 +54,13 @@ class WordsManager {
         if (endIndex >= startIndex && editableText.length >= endIndex) {
             val textLine = editableText.subSequence(startIndex, endIndex)
             processLine(wordsPattern.matcher(textLine), textLine, line)
+        }
+    }
+
+    fun processSuggestions() {
+        val line = Line(Int.MIN_VALUE)
+        for (word in predefinedList) {
+            wordsList.addWord(word.text, line)
         }
     }
 
