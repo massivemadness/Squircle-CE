@@ -82,8 +82,6 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
         observeViewModel()
 
         toolbarManager.bind(binding)
-        onConfigurationChanged(resources.configuration)
-
         binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerStateChanged(newState: Int) {}
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
@@ -219,7 +217,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
         viewModel.unopenableEvent.observe(this, Observer {
             openFile(it)
         })
-        viewModel.analysisEvent.observe(this, Observer { model ->
+        viewModel.parseEvent.observe(this, Observer { model ->
             MaterialDialog(this).show {
                 title(R.string.dialog_title_result)
                 message(R.string.message_no_errors_detected)
@@ -230,7 +228,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
             }
         })
         viewModel.contentEvent.observe(this, Observer { content ->
-            binding.editor.setFacadeText(content.text)
+            binding.editor.processText(content.text)
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
             binding.editor.scrollX = content.documentModel.scrollX
@@ -356,7 +354,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
                 selectionEnd = binding.editor.selectionEnd
             )
             viewModel.tabsList[position] = document
-            viewModel.saveToCache(document, binding.editor.getFacadeText())
+            viewModel.saveToCache(document, binding.editor.getProcessedText())
             viewModel.saveUndoStack(document, binding.editor.undoStack)
             viewModel.saveRedoStack(document, binding.editor.redoStack)
             viewModel.stateLoadingDocuments.set(true) // show loading indicator
@@ -450,8 +448,8 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
         val position = binding.tabDocumentLayout.selectedTabPosition
         if (position > -1) {
             val document = viewModel.tabsList[position]
-            viewModel.saveFile(document, binding.editor.getFacadeText())
-            viewModel.saveToCache(document, binding.editor.getFacadeText())
+            viewModel.saveFile(document, binding.editor.getProcessedText())
+            viewModel.saveToCache(document, binding.editor.getProcessedText())
             viewModel.saveUndoStack(document, binding.editor.undoStack)
             viewModel.saveRedoStack(document, binding.editor.redoStack)
         } else {
@@ -588,11 +586,11 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
         }
     }
 
-    override fun onCodeAnalysisButton() {
+    override fun onErrorCheckingButton() {
         if (isUltimate()) {
             val position = binding.tabDocumentLayout.selectedTabPosition
             if (position > -1) {
-                viewModel.analyze(position, binding.editor.getFacadeText())
+                viewModel.parse(position, binding.editor.getProcessedText())
             } else {
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }

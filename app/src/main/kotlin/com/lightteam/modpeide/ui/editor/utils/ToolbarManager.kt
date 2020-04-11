@@ -41,8 +41,9 @@ class ToolbarManager(
 
     private lateinit var binding: ActivityEditorBinding
 
-    fun bind(activityEditorBinding: ActivityEditorBinding) {
-        binding = activityEditorBinding
+    fun bind(binding: ActivityEditorBinding) {
+        this.binding = binding
+        orientation = binding.root.resources?.configuration?.orientation ?: Configuration.ORIENTATION_PORTRAIT
 
         binding.actionMenuDrawer.setOnClickListener { listener.onDrawerButton() }
         binding.actionMenuSave.setOnClickListener { listener.onSaveButton() }
@@ -107,7 +108,7 @@ class ToolbarManager(
             R.id.menu_search_gotoLine -> listener.onGoToLineButton()
             
             //Tools Menu
-            R.id.menu_tools_codeAnalysis -> listener.onCodeAnalysisButton()
+            R.id.menu_tools_errorChecking -> listener.onErrorCheckingButton()
             R.id.menu_tools_insertColor -> listener.onInsertColorButton()
             //R.id.menu_tools_downloadSource: -> listener.onDownloadSourceButton()
 
@@ -137,7 +138,7 @@ class ToolbarManager(
         fun onReplaceAllButton()
         fun onGoToLineButton()
 
-        fun onCodeAnalysisButton()
+        fun onErrorCheckingButton()
         fun onInsertColorButton()
         //fun onDownloadSourceButton()
 

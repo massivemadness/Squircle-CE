@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.dao.base
+package com.lightteam.modpeide.data.storage.database.dao.base
 
 import androidx.room.*
 

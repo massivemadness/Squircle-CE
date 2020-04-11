@@ -23,12 +23,12 @@ import com.lightteam.modpeide.utils.extensions.getTypefaceFromAssets
 
 object TypefaceFactory {
 
-    private const val NAME_FIRA_CODE = "fira_code"
-    private const val NAME_SOURCE_CODE_PRO = "source_code_pro"
-    private const val NAME_ANONYMOUS_PRO = "anonymous_pro"
-    private const val NAME_JETBRAINS_MONO = "jetbrains_mono"
-    private const val NAME_DROID_SANS_MONO = "droid_sans_mono"
-    private const val NAME_DEJAVU_SANS_MONO = "dejavu_sans_mono"
+    const val FIRA_CODE = "fira_code"
+    const val SOURCE_CODE_PRO = "source_code_pro"
+    const val ANONYMOUS_PRO = "anonymous_pro"
+    const val JETBRAINS_MONO = "jetbrains_mono"
+    const val DROID_SANS_MONO = "droid_sans_mono"
+    const val DEJAVU_SANS_MONO = "dejavu_sans_mono"
 
     private const val PATH_FIRA_CODE = "fonts/fira_code.ttf"
     private const val PATH_SOURCE_CODE_PRO = "fonts/source_code_pro.ttf"
@@ -39,13 +39,13 @@ object TypefaceFactory {
 
     fun create(context: Context, name: String): Typeface {
         return when (name) {
-            NAME_FIRA_CODE -> context.getTypefaceFromAssets(PATH_FIRA_CODE)
-            NAME_SOURCE_CODE_PRO -> context.getTypefaceFromAssets(PATH_SOURCE_CODE_PRO)
-            NAME_ANONYMOUS_PRO -> context.getTypefaceFromAssets(PATH_ANONYMOUS_PRO)
-            NAME_JETBRAINS_MONO -> context.getTypefaceFromAssets(PATH_JETBRAINS_MONO)
-            NAME_DROID_SANS_MONO -> Typeface.MONOSPACE // Droid Sans Mono
-            NAME_DEJAVU_SANS_MONO -> context.getTypefaceFromAssets(PATH_DEJAVU_SANS_MONO)
-            else -> create(context, NAME_JETBRAINS_MONO)
+            FIRA_CODE -> context.getTypefaceFromAssets(PATH_FIRA_CODE)
+            SOURCE_CODE_PRO -> context.getTypefaceFromAssets(PATH_SOURCE_CODE_PRO)
+            ANONYMOUS_PRO -> context.getTypefaceFromAssets(PATH_ANONYMOUS_PRO)
+            JETBRAINS_MONO -> context.getTypefaceFromAssets(PATH_JETBRAINS_MONO)
+            DROID_SANS_MONO -> Typeface.MONOSPACE // Droid Sans Mono
+            DEJAVU_SANS_MONO -> context.getTypefaceFromAssets(PATH_DEJAVU_SANS_MONO)
+            else -> create(context, JETBRAINS_MONO)
         }
     }
 }

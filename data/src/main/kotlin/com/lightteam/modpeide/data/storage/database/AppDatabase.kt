@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.storage.database
 
-import com.lightteam.modpeide.data.dao.document.DocumentDao
+import com.lightteam.modpeide.data.storage.database.dao.document.DocumentDao
 
 interface AppDatabase {
     fun documentDao(): DocumentDao

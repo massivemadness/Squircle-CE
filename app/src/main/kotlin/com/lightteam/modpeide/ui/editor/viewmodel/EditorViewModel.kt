@@ -78,7 +78,7 @@ class EditorViewModel(
     val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
     val selectionEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выделение вкладки уже открытого файла
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
-    val analysisEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Анализ кода
+    val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
     val updateEvent: SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>> = SingleLiveEvent()
     val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
@@ -276,10 +276,10 @@ class EditorViewModel(
         }
     }
 
-    fun analyze(position: Int, sourceCode: String) {
+    fun parse(position: Int, sourceCode: String) {
         sourceParser.execute(tabsList[position].name, sourceCode)
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { analysisEvent.value = it }
+            .subscribeBy { parseEvent.value = it }
             .disposeOnViewModelDestroy()
     }
 

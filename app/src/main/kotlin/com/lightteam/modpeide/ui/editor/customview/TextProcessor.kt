@@ -56,10 +56,11 @@ import java.util.regex.Pattern
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-class TextProcessor(
+class TextProcessor @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet
-) : AppCompatMultiAutoCompleteTextView(context, attrs), ExtendedKeyboard.OnKeyListener {
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = R.attr.editTextStyle
+) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr), ExtendedKeyboard.OnKeyListener {
 
     data class Configuration(
         //Font
@@ -412,11 +413,11 @@ class TextProcessor(
         //invalidate()
     }
 
-    fun getFacadeText(): String {
+    fun getProcessedText(): String {
         return facadeText.toString()
     }
 
-    fun setFacadeText(newText: String) {
+    fun processText(newText: String) {
         disableUndoRedo()
         setText(newText)
 
@@ -445,7 +446,7 @@ class TextProcessor(
     }
 
     fun clearText() {
-        setFacadeText("")
+        processText("")
     }
 
     private fun enableUndoRedo() {

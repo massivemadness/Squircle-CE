@@ -18,5 +18,8 @@
 package com.lightteam.modpeide.ui.base.utils
 
 interface OnBackPressedHandler {
+    /**
+     * Вернёт true если событие было обработано дочерним фрагментом.
+     */
     fun handleOnBackPressed(): Boolean
 }

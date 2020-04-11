@@ -51,8 +51,7 @@ class LocalFileRepository(
         return Single.create { emitter ->
             val parent = FileConverter.toModel(defaultLocation)
             if (defaultLocation.isDirectory) {
-                val children = defaultLocation
-                    .listFiles()!!
+                val children = defaultLocation.listFiles()!!
                     .map(FileConverter::toModel)
                     .toList()
                 val fileTree = FileTree(parent, children)
@@ -68,8 +67,7 @@ class LocalFileRepository(
             Single.create { emitter ->
                 val realFile = FileConverter.toFile(parent)
                 if (realFile.isDirectory) {
-                    val children = realFile
-                        .listFiles()!!
+                    val children = realFile.listFiles()!!
                         .map(FileConverter::toModel)
                         .toList()
                     val fileTree = FileTree(parent, children)

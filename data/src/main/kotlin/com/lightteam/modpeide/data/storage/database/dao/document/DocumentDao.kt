@@ -15,9 +15,22 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.explorer.adapters.interfaces
+package com.lightteam.modpeide.data.storage.database.dao.document
 
-interface ItemCallback<in T> {
-    fun onClick(item: T)
-    fun onLongClick(item: T): Boolean
+import androidx.room.Dao
+import androidx.room.Query
+import com.lightteam.modpeide.data.storage.database.dao.base.BaseDao
+import com.lightteam.modpeide.data.model.entity.DocumentEntity
+import com.lightteam.modpeide.data.storage.database.Tables
+import io.reactivex.Completable
+import io.reactivex.Single
+
+@Dao
+abstract class DocumentDao : BaseDao<DocumentEntity> {
+
+    @Query("SELECT * FROM ${Tables.DOCUMENTS}")
+    abstract fun loadAll(): Single<List<DocumentEntity>>
+
+    @Query("DELETE FROM ${Tables.DOCUMENTS}")
+    abstract fun deleteAll(): Completable
 }

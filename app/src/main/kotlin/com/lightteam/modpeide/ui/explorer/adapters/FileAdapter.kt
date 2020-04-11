@@ -28,7 +28,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.explorer.FileModel
 import com.lightteam.modpeide.domain.model.explorer.FileType
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
-import com.lightteam.modpeide.ui.explorer.adapters.interfaces.ItemCallback
+import com.lightteam.modpeide.ui.base.adapters.ItemCallback
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter.FileViewHolder
 import com.lightteam.modpeide.utils.extensions.setTint
 

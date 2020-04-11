@@ -48,8 +48,8 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler {
     @Inject
     lateinit var viewModel: ExplorerViewModel
 
-    private lateinit var binding: FragmentExplorerBinding
     private lateinit var navController: NavController
+    private lateinit var binding: FragmentExplorerBinding
 
     override fun layoutId(): Int = R.layout.fragment_explorer
 
@@ -63,11 +63,11 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler {
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        view.post { // to avoid exception :c
-            navController = binding.navHost.findNavController()
-        }
         observeViewModel()
 
+        view.post { // to avoid exception
+            navController = binding.navHost.findNavController()
+        }
         setSupportActionBar(binding.toolbar)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.filesUpdateEvent.call()
@@ -95,13 +95,12 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler {
 
     override fun handleOnBackPressed(): Boolean {
         val backStackCount = binding.navHost.fragment<NavHostFragment>().backStackEntryCount
-        return if (backStackCount > 1) {
+        if (backStackCount > 1) {
             navController.popBackStack()
             removeTab(1)
-            true
-        } else {
-            false
+            return true
         }
+        return false
     }
 
     // region MENU

@@ -39,7 +39,7 @@ import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.explorer.adapters.interfaces.ItemCallback
+import com.lightteam.modpeide.ui.base.adapters.ItemCallback
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.clipText
@@ -56,8 +56,8 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
 
     private val args: DirectoryFragmentArgs by navArgs()
 
-    private lateinit var binding: FragmentDirectoryBinding
     private lateinit var navController: NavController
+    private lateinit var binding: FragmentDirectoryBinding
     private lateinit var fileTree: FileTree
 
     override fun layoutId(): Int = R.layout.fragment_directory
@@ -67,9 +67,9 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        navController = findNavController()
         observeViewModel()
 
+        navController = findNavController()
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = adapter
 
@@ -78,8 +78,8 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
 
     override fun onClick(item: FileModel) {
         if (item.isFolder) {
-            val action = DirectoryFragmentDirections.toDirectoryFragment(item)
-            navController.navigate(action)
+            val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
+            navController.navigate(destination)
         } else {
             editorViewModel.openFile(DocumentConverter.toModel(item))
         }
