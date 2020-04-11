@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.editor.fragments
+package com.lightteam.modpeide.internal.di.modules.main.fragments
 
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment
+import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
+import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import dagger.Module
 import dagger.Provides
 
 @Module
-class DirectoryFragmentModule {
+class EditorFragmentModule {
 
     @Provides
     @PerFragment
-    fun provideFileAdapter(directoryFragment: DirectoryFragment): FileAdapter {
-        return FileAdapter(directoryFragment)
+    fun provideToolbarManager(fragment: EditorFragment): ToolbarManager {
+        return ToolbarManager(fragment)
     }
 }

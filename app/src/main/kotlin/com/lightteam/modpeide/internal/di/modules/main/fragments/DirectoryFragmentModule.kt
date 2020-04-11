@@ -15,28 +15,20 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.editor
+package com.lightteam.modpeide.internal.di.modules.main.fragments
 
-import com.lightteam.modpeide.internal.di.modules.editor.fragments.DirectoryFragmentModule
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
+import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
 import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment
-import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
-import com.lightteam.modpeide.ui.explorer.fragments.PermissionsFragment
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import dagger.Provides
 
 @Module
-abstract class EditorFragmentsProvider {
+class DirectoryFragmentModule {
 
+    @Provides
     @PerFragment
-    @ContributesAndroidInjector
-    abstract fun bindExplorerFragment(): ExplorerFragment
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun bindPermissionsFragment(): PermissionsFragment
-
-    @PerFragment
-    @ContributesAndroidInjector(modules = [DirectoryFragmentModule::class])
-    abstract fun bindDirectoryFragment(): DirectoryFragment
+    fun provideFileAdapter(directoryFragment: DirectoryFragment): FileAdapter {
+        return FileAdapter(directoryFragment)
+    }
 }

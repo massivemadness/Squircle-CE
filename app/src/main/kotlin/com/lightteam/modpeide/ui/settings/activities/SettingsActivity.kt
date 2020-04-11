@@ -56,8 +56,8 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.fullscreenEvent.observe(this, Observer { isFullscreen ->
-            if (isFullscreen) {
+        viewModel.fullscreenEvent.observe(this, Observer { enabled ->
+            if (enabled) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)

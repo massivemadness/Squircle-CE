@@ -21,8 +21,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.content.getSystemService
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -40,6 +42,13 @@ abstract class BaseFragment : DaggerFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewCompositeDisposable.clear()
+    }
+
+    protected fun closeKeyboard() {
+        val inputManager = requireContext().getSystemService<InputMethodManager>()
+        val windowToken = requireActivity().currentFocus?.windowToken
+        val hideType = InputMethodManager.HIDE_NOT_ALWAYS
+        inputManager?.hideSoftInputFromWindow(windowToken, hideType)
     }
 
     protected fun showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {

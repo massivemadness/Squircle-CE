@@ -23,7 +23,7 @@ import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.databinding.ActivityEditorBinding
+import com.lightteam.modpeide.databinding.FragmentEditorBinding
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 
 class ToolbarManager(
@@ -39,9 +39,9 @@ class ToolbarManager(
             }
         }
 
-    private lateinit var binding: ActivityEditorBinding
+    private lateinit var binding: FragmentEditorBinding
 
-    fun bind(binding: ActivityEditorBinding) {
+    fun bind(binding: FragmentEditorBinding) {
         this.binding = binding
         orientation = binding.root.resources?.configuration?.orientation ?: Configuration.ORIENTATION_PORTRAIT
 

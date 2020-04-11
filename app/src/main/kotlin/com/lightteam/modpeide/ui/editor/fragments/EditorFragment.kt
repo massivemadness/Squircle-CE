@@ -15,42 +15,35 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.activities
+package com.lightteam.modpeide.ui.editor.fragments
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.widget.CheckBox
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.FileProvider
-import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.play.core.install.model.ActivityResult
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.databinding.ActivityEditorBinding
+import com.lightteam.modpeide.databinding.FragmentEditorBinding
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
-import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
-import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
+import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
-import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.utils.event.PreferenceEvent
@@ -61,35 +54,35 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
 import javax.inject.Inject
 
-class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
-
-    companion object {
-        private const val REQUEST_CODE_UPDATE = 10
-    }
+class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener {
 
     @Inject
     lateinit var viewModel: EditorViewModel
     @Inject
     lateinit var toolbarManager: ToolbarManager
 
-    private lateinit var binding: ActivityEditorBinding
-    private lateinit var backPressedHandler: OnBackPressedHandler
+    private lateinit var binding: FragmentEditorBinding
+    private lateinit var drawerHandler: DrawerHandler
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_editor)
+    override fun layoutId(): Int = R.layout.fragment_editor
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is DrawerHandler) {
+            drawerHandler = context
+        } else {
+            throw IllegalArgumentException("$context must implement DrawerHandler")
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = DataBindingUtil.bind(view)!!
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         observeViewModel()
 
         toolbarManager.bind(binding)
-        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerStateChanged(newState: Int) {}
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-            override fun onDrawerClosed(drawerView: View) {}
-            override fun onDrawerOpened(drawerView: View) {
-                closeKeyboard()
-            }
-        })
         binding.tabDocumentLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -113,35 +106,12 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
                 viewModel.canUndo.set(binding.editor.canUndo())
                 viewModel.canRedo.set(binding.editor.canRedo())
             }
-            .disposeOnActivityDestroy()
-
-        binding.fragmentExplorer.post {
-            backPressedHandler = binding.fragmentExplorer.fragment<ExplorerFragment>()
-        }
-
-        viewModel.checkUpdate()
-
-        /* FIXME this feature just doesn't work, idk how to fix it
-        // Check if user opened a file from external file explorer
-        if (intent.action == Intent.ACTION_VIEW) {
-            // path must be started with /storage/emulated/0/...
-            val file = File(intent.data?.path)
-            val documentModel = DocumentConverter.toModel(file)
-            viewModel.openFile(documentModel)
-        }*/
+            .disposeOnFragmentDestroyView()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_UPDATE) {
-            when (resultCode) {
-                Activity.RESULT_OK -> { /* approved */ }
-                Activity.RESULT_CANCELED -> { /* rejected */ }
-                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
-                    viewModel.toastEvent.value = R.string.message_in_app_update_failed
-                }
-            }
-        }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        toolbarManager.orientation = newConfig.orientation
     }
 
     override fun onPause() {
@@ -154,71 +124,28 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
         loadDocument(binding.tabDocumentLayout.selectedTabPosition)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        toolbarManager.orientation = newConfig.orientation
-    }
-
-    override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            if (!backPressedHandler.handleOnBackPressed()) {
-                closeDrawers()
-            }
-        } else {
-            if (viewModel.backEvent.value!!) {
-                MaterialDialog(this).show {
-                    title(R.string.dialog_title_exit)
-                    message(R.string.dialog_message_exit)
-                    negativeButton(R.string.action_no)
-                    positiveButton(R.string.action_yes) {
-                        finish()
-                    }
-                }
-            } else {
-                finish()
-            }
-        }
-    }
-
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(this, Observer {
+        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
             showToast(it)
         })
-        viewModel.updateEvent.observe(this, Observer {
-            val appUpdateManager = it.first
-            val appUpdateInfo = it.second
-            val appUpdateType = it.third
-            appUpdateManager.startUpdateFlowForResult(
-                appUpdateInfo,
-                appUpdateType,
-                this,
-                REQUEST_CODE_UPDATE
-            )
-        })
-        viewModel.installEvent.observe(this, Observer {
-            Snackbar.make(binding.editor, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
-                .setActionTextColor(getColour(R.color.colorPrimary))
-                .setAction(R.string.action_restart) { viewModel.completeUpdate() }
-                .show()
-        })
-        viewModel.documentsEvent.observe(this, Observer { documents ->
+        viewModel.documentsEvent.observe(viewLifecycleOwner, Observer { documents ->
             for (document in documents) {
                 addTab(document, false)
             }
         })
-        viewModel.documentEvent.observe(this, Observer { document ->
+        viewModel.documentEvent.observe(viewLifecycleOwner, Observer { document ->
             addTab(document, true)
-            closeDrawers()
+            drawerHandler.handleDrawerClose()
         })
-        viewModel.selectionEvent.observe(this, Observer {
+        viewModel.selectionEvent.observe(viewLifecycleOwner, Observer {
             binding.tabDocumentLayout.getTabAt(it)?.select()
-            closeDrawers()
+            drawerHandler.handleDrawerClose()
         })
-        viewModel.unopenableEvent.observe(this, Observer {
+        viewModel.unopenableEvent.observe(viewLifecycleOwner, Observer {
             openFile(it)
         })
-        viewModel.parseEvent.observe(this, Observer { model ->
-            MaterialDialog(this).show {
+        viewModel.parseEvent.observe(viewLifecycleOwner, Observer { model ->
+            MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_result)
                 message(R.string.message_no_errors_detected)
                 model.exception?.let { exception ->
@@ -227,7 +154,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
                 positiveButton(R.string.action_ok)
             }
         })
-        viewModel.contentEvent.observe(this, Observer { content ->
+        viewModel.contentEvent.observe(viewLifecycleOwner, Observer { content ->
             binding.editor.processText(content.text)
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
@@ -241,24 +168,17 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
 
         // region PREFERENCES
 
-        viewModel.preferenceEvent.observe(this, Observer { queue ->
+        viewModel.preferenceEvent.observe(viewLifecycleOwner, Observer { queue ->
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
                     is PreferenceEvent.Theme -> binding.editor.theme = event.value
-                    is PreferenceEvent.Fullscreen -> {
-                        if (event.value) {
-                            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                        } else {
-                            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                        }
-                    }
                     is PreferenceEvent.FontSize -> {
                         val newConfiguration = binding.editor.configuration.copy(fontSize = event.value)
                         binding.editor.configuration = newConfiguration
                     }
                     is PreferenceEvent.FontType -> {
                         val newConfiguration = binding.editor.configuration.copy(
-                            fontType = TypefaceFactory.create(this, event.value)
+                            fontType = TypefaceFactory.create(requireContext(), event.value)
                         )
                         binding.editor.configuration = newConfiguration
                     }
@@ -283,7 +203,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
                         binding.editor.configuration = newConfiguration
                     }
                     is PreferenceEvent.ExtendedKeys -> {
-                        KeyboardVisibilityEvent.setEventListener(this) { isOpen ->
+                        KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                             if (event.value) {
                                 binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
                             } else {
@@ -316,18 +236,14 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
         viewModel.observePreferences() // and loadFiles()
     }
 
-    private fun closeDrawers() {
-        binding.drawerLayout.closeDrawers()
-    }
-
     private fun openFile(documentModel: DocumentModel) {
         try { // Открытие файла через подходящую программу
             val uri = FileProvider.getUriForFile(
-                this,
-                "$packageName.provider",
+                requireContext(),
+                "${context?.packageName}.provider",
                 File(documentModel.path)
             )
-            val mime = contentResolver.getType(uri)
+            val mime = context?.contentResolver?.getType(uri)
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 setDataAndType(uri, mime)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -432,7 +348,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
     // region TOOLBAR
 
     override fun onDrawerButton() {
-        binding.drawerLayout.openDrawer(GravityCompat.START)
+        drawerHandler.handleDrawerOpen()
     }
 
     override fun onNewButton() {
@@ -510,7 +426,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
     override fun onFindButton() {
         val position = binding.tabDocumentLayout.selectedTabPosition
         if (position > -1) {
-            MaterialDialog(this).show {
+            MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_find)
                 customView(R.layout.dialog_find)
                 negativeButton(R.string.action_cancel)
@@ -538,7 +454,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
     override fun onReplaceAllButton() {
         val position = binding.tabDocumentLayout.selectedTabPosition
         if (position > -1) {
-            MaterialDialog(this).show {
+            MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_replace_all)
                 customView(R.layout.dialog_replace_all)
                 negativeButton(R.string.action_cancel)
@@ -562,7 +478,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
     override fun onGoToLineButton() {
         val position = binding.tabDocumentLayout.selectedTabPosition
         if (position > -1) {
-            MaterialDialog(this).show {
+            MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_goto_line)
                 customView(R.layout.dialog_goto_line)
                 negativeButton(R.string.action_cancel)
@@ -587,7 +503,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
     }
 
     override fun onErrorCheckingButton() {
-        if (isUltimate()) {
+        if (requireContext().isUltimate()) {
             val position = binding.tabDocumentLayout.selectedTabPosition
             if (position > -1) {
                 viewModel.parse(position, binding.editor.getProcessedText())
@@ -595,15 +511,15 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }
         } else {
-            DialogStore.Builder(this).show()
+            DialogStore.Builder(requireContext()).show()
         }
     }
 
     override fun onInsertColorButton() {
-        if (isUltimate()) {
+        if (requireContext().isUltimate()) {
             val position = binding.tabDocumentLayout.selectedTabPosition
             if (position > -1) {
-                MaterialDialog(this).show {
+                MaterialDialog(requireContext()).show {
                     title(R.string.dialog_title_color_picker)
                     colorChooser(
                         colors = ColorPalette.Primary,
@@ -620,7 +536,7 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }
         } else {
-            DialogStore.Builder(this).show()
+            DialogStore.Builder(requireContext()).show()
         }
     }
 
@@ -633,8 +549,13 @@ class EditorActivity : BaseActivity(), ToolbarManager.OnPanelClickListener {
     }
 
     override fun onSettingsButton() {
-        launchActivity<SettingsActivity>()
+        context?.launchActivity<SettingsActivity>()
     }
 
     // endregion TOOLBAR
+
+    interface DrawerHandler {
+        fun handleDrawerOpen()
+        fun handleDrawerClose()
+    }
 }

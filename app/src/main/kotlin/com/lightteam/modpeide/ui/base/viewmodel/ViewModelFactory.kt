@@ -28,6 +28,7 @@ import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
+import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 
 class ViewModelFactory(
@@ -43,10 +44,16 @@ class ViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
+            modelClass === MainViewModel::class.java -> {
+                MainViewModel(
+                    schedulersProvider,
+                    appUpdateManager,
+                    preferenceHandler
+                ) as T
+            }
             modelClass === EditorViewModel::class.java ->
                 EditorViewModel(
                     schedulersProvider,
-                    appUpdateManager,
                     fileRepository,
                     cacheHandler,
                     appDatabase,
