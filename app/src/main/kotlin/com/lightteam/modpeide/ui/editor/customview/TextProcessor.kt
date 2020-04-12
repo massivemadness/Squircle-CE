@@ -245,7 +245,7 @@ class TextProcessor @JvmOverloads constructor(
 
     private fun configure() {
         imeOptions = if (configuration.softKeyboard) {
-            0 //Normal
+            EditorInfo.IME_ACTION_UNSPECIFIED
         } else {
             EditorInfo.IME_FLAG_NO_EXTRACT_UI
         }

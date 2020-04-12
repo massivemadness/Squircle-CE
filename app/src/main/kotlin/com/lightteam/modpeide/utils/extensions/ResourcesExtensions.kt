@@ -30,6 +30,20 @@ import androidx.core.content.getSystemService
 import com.lightteam.modpeide.BaseApplication
 import java.io.BufferedReader
 
+const val FIRA_CODE = "fira_code"
+const val SOURCE_CODE_PRO = "source_code_pro"
+const val ANONYMOUS_PRO = "anonymous_pro"
+const val JETBRAINS_MONO = "jetbrains_mono"
+const val DROID_SANS_MONO = "droid_sans_mono"
+const val DEJAVU_SANS_MONO = "dejavu_sans_mono"
+
+private const val PATH_FIRA_CODE = "fonts/fira_code.ttf"
+private const val PATH_SOURCE_CODE_PRO = "fonts/source_code_pro.ttf"
+private const val PATH_ANONYMOUS_PRO = "fonts/anonymous_pro.ttf"
+private const val PATH_JETBRAINS_MONO = "fonts/jetbrains_mono.ttf"
+private const val PATH_DROID_SANS_MONO = "fonts/droid_sans_mono.ttf"
+private const val PATH_DEJAVU_SANS_MONO = "fonts/dejavu_sans_mono.ttf"
+
 fun Context.isUltimate(): Boolean {
     return when (packageName) {
         BaseApplication.STANDARD -> false
@@ -55,7 +69,16 @@ fun Context.getRawFileText(@RawRes resId: Int): String {
     return inputStream.bufferedReader().use(BufferedReader::readText)
 }
 
-fun Context.getTypefaceFromAssets(path: String): Typeface {
+fun Context.createTypefaceFromAssets(typeface: String): Typeface {
+    val path = when (typeface) {
+        FIRA_CODE -> PATH_FIRA_CODE
+        SOURCE_CODE_PRO -> PATH_SOURCE_CODE_PRO
+        ANONYMOUS_PRO -> PATH_ANONYMOUS_PRO
+        JETBRAINS_MONO -> PATH_JETBRAINS_MONO
+        DROID_SANS_MONO -> PATH_DROID_SANS_MONO
+        DEJAVU_SANS_MONO -> PATH_DEJAVU_SANS_MONO
+        else -> PATH_JETBRAINS_MONO
+    }
     return Typeface.createFromAsset(assets, path)
 }
 

@@ -45,7 +45,6 @@ import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
-import com.lightteam.modpeide.utils.commons.TypefaceFactory
 import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -178,7 +177,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener {
                     }
                     is PreferenceEvent.FontType -> {
                         val newConfiguration = binding.editor.configuration.copy(
-                            fontType = TypefaceFactory.create(requireContext(), event.value)
+                            fontType = requireContext().createTypefaceFromAssets(event.value)
                         )
                         binding.editor.configuration = newConfiguration
                     }
@@ -263,6 +262,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener {
 
     private fun saveDocument(position: Int) {
         if (position > -1) { // if there's at least 1 tab
+            viewModel.stateLoadingDocuments.set(true) // show loading indicator
             val document = viewModel.tabsList[position].copy(
                 scrollX = binding.editor.scrollX,
                 scrollY = binding.editor.scrollY,
@@ -273,7 +273,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener {
             viewModel.saveToCache(document, binding.editor.getProcessedText())
             viewModel.saveUndoStack(document, binding.editor.undoStack)
             viewModel.saveRedoStack(document, binding.editor.redoStack)
-            viewModel.stateLoadingDocuments.set(true) // show loading indicator
             binding.editor.clearText() //TTL Exception bypass
         }
     }
