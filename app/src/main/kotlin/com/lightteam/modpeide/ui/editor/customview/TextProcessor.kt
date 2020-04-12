@@ -33,14 +33,17 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.content.getSystemService
+import androidx.core.graphics.toColorInt
 import androidx.core.text.getSpans
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.LinesCollection
-import com.lightteam.modpeide.data.feature.language.JavaScriptLanguage
+import com.lightteam.javascript.language.JavaScriptLanguage
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
-import com.lightteam.modpeide.data.feature.suggestion.predefined.ModPESuggestions
+import com.lightteam.javascript.suggestions.ModPESuggestions
+import com.lightteam.modpeide.data.feature.scheme.Darcula
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.domain.feature.language.LanguageProvider
+import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
 import com.lightteam.modpeide.domain.feature.suggestion.SuggestionProvider
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.model.editor.TextChange
@@ -51,7 +54,6 @@ import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.Synt
 import com.lightteam.modpeide.ui.editor.customview.internal.textscroller.OnScrollChangedListener
 import com.lightteam.modpeide.utils.extensions.dpToPx
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
-import com.lightteam.modpeide.utils.theming.AbstractTheme
 import java.util.regex.Pattern
 import kotlin.math.abs
 import kotlin.math.sqrt
@@ -83,37 +85,13 @@ class TextProcessor @JvmOverloads constructor(
         var autoCloseQuotes: Boolean = false
     )
 
-    data class Theme(
-        override val textColor: Int = Color.WHITE,
-        override val backgroundColor: Int = Color.DKGRAY,
-        override val gutterColor: Int = Color.GRAY,
-        override val gutterTextColor: Int = Color.WHITE,
-        override val gutterDividerColor: Int = Color.WHITE,
-        override val gutterCurrentLineNumberColor: Int = Color.GRAY,
-        override val selectedLineColor: Int = Color.GRAY,
-        override val selectionColor: Int = Color.LTGRAY,
-        override val filterableColor: Int = Color.DKGRAY,
-
-        override val searchBgColor: Int = Color.GREEN,
-        override val bracketBgColor: Int = Color.GREEN,
-
-        //Syntax Highlighting
-        override val numbersColor: Int = Color.WHITE,
-        override val symbolsColor: Int = Color.WHITE,
-        override val bracketsColor: Int = Color.WHITE,
-        override val keywordsColor: Int = Color.WHITE,
-        override val methodsColor: Int = Color.WHITE,
-        override val stringsColor: Int = Color.WHITE,
-        override val commentsColor: Int = Color.WHITE
-    ) : AbstractTheme()
-
     var configuration: Configuration = Configuration()
         set(value) {
             field = value
             configure()
         }
 
-    var theme: AbstractTheme = Theme()
+    var theme: ColorScheme = Darcula()
         set(value) {
             field = value
             colorize()
@@ -122,8 +100,8 @@ class TextProcessor @JvmOverloads constructor(
     var undoStack: UndoStack = UndoStackImpl()
     var redoStack: UndoStack = UndoStackImpl()
 
-    var languageProvider: LanguageProvider = JavaScriptLanguage() //= UnknownLanguage()
-    var suggestionProvider: SuggestionProvider = ModPESuggestions() //= UnknownSuggestions()
+    var languageProvider: LanguageProvider = JavaScriptLanguage() //= TextLanguage()
+    var suggestionProvider: SuggestionProvider = ModPESuggestions() //= EmptySuggestions()
 
     val arrayLineCount: Int
         get() = lines.lineCount - 1
@@ -194,19 +172,19 @@ class TextProcessor @JvmOverloads constructor(
     private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
 
-    private val numbersSpan = StyleSpan(color = theme.numbersColor)
-    private val symbolsSpan = StyleSpan(color = theme.symbolsColor)
-    private val bracketsSpan = StyleSpan(color = theme.bracketsColor)
-    private val keywordsSpan = StyleSpan(color = theme.keywordsColor)
-    private val methodsSpan = StyleSpan(color = theme.methodsColor)
-    private val stringsSpan = StyleSpan(color = theme.stringsColor)
-    private val commentsSpan = StyleSpan(color = theme.commentsColor, italic = true)
+    private val numbersSpan = StyleSpan(color = theme.numbersColor.toColorInt())
+    private val symbolsSpan = StyleSpan(color = theme.symbolsColor.toColorInt())
+    private val bracketsSpan = StyleSpan(color = theme.bracketsColor.toColorInt())
+    private val keywordsSpan = StyleSpan(color = theme.keywordsColor.toColorInt())
+    private val methodsSpan = StyleSpan(color = theme.methodsColor.toColorInt())
+    private val stringsSpan = StyleSpan(color = theme.stringsColor.toColorInt())
+    private val commentsSpan = StyleSpan(color = theme.commentsColor.toColorInt(), italic = true)
 
     private val tabString = "    " // 4 spaces
     private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
 
-    private var openBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
-    private var closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
+    private var openBracketSpan = BackgroundColorSpan(theme.bracketBgColor.toColorInt())
+    private var closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor.toColorInt())
 
     private var isDoingUndoRedo = false
     private var isAutoIndenting = false
@@ -276,46 +254,46 @@ class TextProcessor @JvmOverloads constructor(
 
     private fun colorize() {
         post {
-            setTextColor(theme.textColor)
-            setBackgroundColor(theme.backgroundColor)
-            highlightColor = theme.selectionColor
+            setTextColor(theme.textColor.toColorInt())
+            setBackgroundColor(theme.backgroundColor.toColorInt())
+            highlightColor = theme.selectionColor.toColorInt()
 
-            selectedLinePaint.color = theme.selectedLineColor
+            selectedLinePaint.color = theme.selectedLineColor.toColorInt()
             selectedLinePaint.isAntiAlias = false
             selectedLinePaint.isDither = false
 
-            gutterPaint.color = theme.gutterColor
+            gutterPaint.color = theme.gutterColor.toColorInt()
             gutterPaint.isAntiAlias = false
             gutterPaint.isDither = false
 
-            gutterDividerPaint.color = theme.gutterDividerColor
+            gutterDividerPaint.color = theme.gutterDividerColor.toColorInt()
             gutterDividerPaint.isAntiAlias = false
             gutterDividerPaint.isDither = false
             gutterDividerPaint.style = Paint.Style.STROKE
             gutterDividerPaint.strokeWidth = 2.6f
 
-            gutterCurrentLineNumberPaint.color = theme.gutterCurrentLineNumberColor
+            gutterCurrentLineNumberPaint.color = theme.gutterCurrentLineNumberColor.toColorInt()
             gutterCurrentLineNumberPaint.isAntiAlias = true
             gutterCurrentLineNumberPaint.isDither = false
             gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
-            gutterTextPaint.color = theme.gutterTextColor
+            gutterTextPaint.color = theme.gutterTextColor.toColorInt()
             gutterTextPaint.isAntiAlias = true
             gutterTextPaint.isDither = false
             gutterTextPaint.textAlign = Paint.Align.RIGHT
 
-            numbersSpan.color = theme.numbersColor
-            symbolsSpan.color = theme.symbolsColor
-            bracketsSpan.color = theme.bracketsColor
-            keywordsSpan.color = theme.keywordsColor
-            methodsSpan.color = theme.methodsColor
-            stringsSpan.color = theme.stringsColor
-            commentsSpan.color = theme.commentsColor
+            numbersSpan.color = theme.numbersColor.toColorInt()
+            symbolsSpan.color = theme.symbolsColor.toColorInt()
+            bracketsSpan.color = theme.bracketsColor.toColorInt()
+            keywordsSpan.color = theme.keywordsColor.toColorInt()
+            methodsSpan.color = theme.methodsColor.toColorInt()
+            stringsSpan.color = theme.stringsColor.toColorInt()
+            commentsSpan.color = theme.commentsColor.toColorInt()
 
-            suggestionAdapter.color = theme.filterableColor
+            suggestionAdapter.color = theme.filterableColor.toColorInt()
 
-            openBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
-            closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
+            openBracketSpan = BackgroundColorSpan(theme.bracketBgColor.toColorInt())
+            closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor.toColorInt())
         }
     }
 
@@ -607,7 +585,7 @@ class TextProcessor @JvmOverloads constructor(
         val matcher = pattern.matcher(text)
         while (matcher.find()) {
             text.setSpan(
-                BackgroundColorSpan(theme.searchBgColor),
+                BackgroundColorSpan(theme.searchBgColor.toColorInt()),
                 matcher.start(),
                 matcher.end(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

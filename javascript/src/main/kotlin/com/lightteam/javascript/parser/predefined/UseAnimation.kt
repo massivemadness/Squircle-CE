@@ -15,5 +15,10 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class UseAnimation {
+    val bow: Int = -1
+    val normal: Int = -1
+}

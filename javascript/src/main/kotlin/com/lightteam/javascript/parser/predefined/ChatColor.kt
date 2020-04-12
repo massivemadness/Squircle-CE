@@ -15,5 +15,27 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class ChatColor {
+    val AQUA: String = ""
+    val BEGIN: String = ""
+    val BLACK: String = ""
+    val BLUE: String = ""
+    val BOLD: String = ""
+    val DARK_AQUA: String = ""
+    val DARK_BLUE: String = ""
+    val DARK_GRAY: String = ""
+    val DARK_GREEN: String = ""
+    val DARK_PURPLE: String = ""
+    val DARK_RED: String = ""
+    val GOLD: String = ""
+    val GRAY: String = ""
+    val GREEN: String = ""
+    val LIGHT_PURPLE: String = ""
+    val RED: String = ""
+    val RESET: String = ""
+    val WHITE: String = ""
+    val YELLOW: String = ""
+}

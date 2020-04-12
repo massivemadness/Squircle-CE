@@ -15,5 +15,10 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class DimensionId {
+    val NETHER: Int = -1
+    val NORMAL: Int = -1
+}

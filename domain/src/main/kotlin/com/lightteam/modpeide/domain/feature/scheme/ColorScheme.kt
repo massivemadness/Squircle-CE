@@ -15,5 +15,28 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.modpeide.domain.feature.scheme
+
+interface ColorScheme {
+    val textColor: String
+    val backgroundColor: String
+    val gutterColor: String
+    val gutterDividerColor: String
+    val gutterCurrentLineNumberColor: String
+    val gutterTextColor: String
+    val selectedLineColor: String
+    val selectionColor: String
+    val filterableColor: String
+
+    val searchBgColor: String
+    val bracketBgColor: String
+
+    //Syntax Highlighting
+    val numbersColor: String
+    val symbolsColor: String
+    val bracketsColor: String
+    val keywordsColor: String
+    val methodsColor: String
+    val stringsColor: String
+    val commentsColor: String
+}

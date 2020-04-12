@@ -126,6 +126,7 @@ dependencies {
     //Modules
     implementation project(':domain')
     implementation project(':data')
+    implementation project(':javascript')
 
     //Tests
     testImplementation testLibrary.junit

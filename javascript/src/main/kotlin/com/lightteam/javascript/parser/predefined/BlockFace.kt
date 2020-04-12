@@ -15,5 +15,14 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class BlockFace {
+    val DOWN: Int = -1
+    val EAST: Int = -1
+    val NORTH: Int = -1
+    val SOUTH: Int = -1
+    val UP: Int = -1
+    val WEST: Int = -1
+}

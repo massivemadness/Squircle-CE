@@ -15,5 +15,13 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class ItemCategory {
+    val DECORATION: Int = -1
+    val FOOD: Int = -1
+    val INTERNAL: Int = -1
+    val MATERIAL: Int = -1
+    val TOOL: Int = -1
+}

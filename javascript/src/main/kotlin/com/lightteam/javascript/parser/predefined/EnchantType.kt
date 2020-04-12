@@ -15,5 +15,19 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class EnchantType {
+    val all: Int = -1
+    val axe: Int = -1
+    val book: Int = -1
+    val bow: Int = -1
+    val fishingRod: Int = -1
+    val flintAndSteel: Int = -1
+    val hoe: Int = -1
+    val pickaxe: Int = -1
+    val shears: Int = -1
+    val shovel: Int = -1
+    val weapon: Int = -1
+}

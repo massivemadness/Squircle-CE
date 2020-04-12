@@ -36,7 +36,7 @@ data class FileModel(
             ".zip", ".rar", ".7z", ".tar"
         )
         val IMAGE = arrayOf(
-            ".png", ".jpg", ".jpeg", ".gif"
+            ".png", ".jpg", ".jpeg", ".gif", ".webp"
         )
         val AUDIO = arrayOf(
             ".mp3", ".ogg", ".wma", ".aac", ".wav", ".flac"

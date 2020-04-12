@@ -17,10 +17,10 @@
 
 package com.lightteam.modpeide.utils.event
 
-import com.lightteam.modpeide.utils.theming.AbstractTheme
+import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
 
 object PreferenceEvent {
-    class Theme(value: AbstractTheme) : Event<AbstractTheme>(value)
+    class Theme(value: ColorScheme) : Event<ColorScheme>(value)
     class Fullscreen(value: Boolean) : Event<Boolean>(value)
     class FontSize(value: Float) : Event<Float>(value)
     class FontType(value: String) : Event<String>(value)

@@ -15,5 +15,19 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class BlockRenderLayer {
+    val alpha: Int = -1
+    val alpha_seasons: Int = -1
+    val alpha_single_side: Int = -1
+    val blend: Int = -1
+    val doubleside: Int = -1
+    val far: Int = -1
+    val opaque: Int = -1
+    val opaque_seasons: Int = -1
+    val seasons_far: Int = -1
+    val seasons_far_alpha: Int = -1
+    val water: Int = -1
+}

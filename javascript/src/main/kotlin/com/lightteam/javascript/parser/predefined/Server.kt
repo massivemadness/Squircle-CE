@@ -15,5 +15,14 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class Server {
+    fun getAddress() {}
+    fun getAllPlayerNames() {}
+    fun getAllPlayers() {}
+    fun getPort() {}
+    fun joinServer(ip: String, port: Int) {}
+    fun sendChat(text: Int) {}
+}

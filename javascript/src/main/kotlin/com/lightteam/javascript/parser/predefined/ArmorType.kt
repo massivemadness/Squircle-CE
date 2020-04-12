@@ -15,5 +15,12 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':javascript'
+package com.lightteam.javascript.parser.predefined
+
+@SuppressWarnings
+internal class ArmorType {
+    val boots: Int = -1
+    val chestplate: Int = -1
+    val helmet: Int = -1
+    val leggings: Int = -1
+}

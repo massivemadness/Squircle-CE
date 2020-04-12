@@ -25,7 +25,7 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.data.delegate.DataLayerDelegate
-import com.lightteam.modpeide.data.feature.parser.JavaScriptParser
+import com.lightteam.javascript.parser.JavaScriptParser
 import com.lightteam.modpeide.data.repository.LocalFileRepository
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
