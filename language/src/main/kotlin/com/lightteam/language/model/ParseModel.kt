@@ -15,5 +15,10 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':language', ':javascript'
+package com.lightteam.language.model
+
+import com.lightteam.language.exception.ParseException
+
+data class ParseModel(
+    val exception: ParseException?
+)

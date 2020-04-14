@@ -15,16 +15,9 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.feature.language
+package com.lightteam.language.exception
 
-import java.util.regex.Pattern
-
-interface LanguageProvider {
-    fun getPatternOfNumbers(): Pattern
-    fun getPatternOfSymbols(): Pattern
-    fun getPatternOfBrackets(): Pattern
-    fun getPatternOfKeywords(): Pattern
-    fun getPatternOfMethods(): Pattern
-    fun getPatternOfStrings(): Pattern
-    fun getPatternOfComments(): Pattern
-}
+class ParseException(
+    message: String?,
+    val lineNumber: Int
+) : RuntimeException(message)

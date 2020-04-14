@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.utils.event
 
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 object PreferenceEvent {
     class Theme(value: ColorScheme) : Event<ColorScheme>(value)

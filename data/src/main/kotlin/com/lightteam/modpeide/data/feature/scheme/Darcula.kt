@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.scheme
 
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 data class Darcula(
     override val textColor: String = "#ABB7C5",

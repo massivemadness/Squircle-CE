@@ -15,27 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight
+package com.lightteam.language.styler
 
-import android.text.TextPaint
-import android.text.style.CharacterStyle
-import java.io.Serializable
+import com.lightteam.language.styler.span.SyntaxHighlightSpan
 
-class SyntaxHighlightSpan(
-    private val span: StyleSpan,
-    private val start: Int,
-    private val end: Int
-) : CharacterStyle(), Serializable, Comparable<SyntaxHighlightSpan> {
-
-    override fun updateDrawState(tp: TextPaint?) {
-        tp?.color = span.color
-        tp?.isFakeBoldText = span.bold
-        if(span.italic) {
-            tp?.textSkewX = -0.1f
-        }
-    }
-
-    override fun compareTo(other: SyntaxHighlightSpan): Int {
-        return start - other.start
-    }
+interface Styler {
+    fun setSpans(spans: List<SyntaxHighlightSpan>)
 }

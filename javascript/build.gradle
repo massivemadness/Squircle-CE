@@ -17,7 +17,6 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
     def buildConfig = rootProject.extensions.getByName("ext")
@@ -32,7 +31,6 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
     }
     lintOptions {
         lintConfig file('lint.xml')
@@ -47,17 +45,10 @@ dependencies {
 
     //Rx
     implementation library.rxjava2
-    implementation library.rxkotlin
 
     //Other
     implementation library.rhino
 
     //Modules
-    implementation project(':domain')
-    implementation project(':data')
-
-    //Tests
-    testImplementation testLibrary.junit
-    testImplementation testLibrary.kunit
-    testImplementation testLibrary.mockito
+    implementation project(':language')
 }

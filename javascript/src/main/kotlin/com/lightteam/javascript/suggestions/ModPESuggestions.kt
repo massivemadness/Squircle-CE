@@ -17,13 +17,13 @@
 
 package com.lightteam.javascript.suggestions
 
-import com.lightteam.modpeide.domain.feature.suggestion.SuggestionProvider
-import com.lightteam.modpeide.domain.model.editor.Suggestion
+import com.lightteam.language.suggestion.Suggestions
+import com.lightteam.language.model.SuggestionModel
 
 /**
  * This suggestions only used in ModPE Script
  */
-class ModPESuggestions : SuggestionProvider {
+class ModPESuggestions : Suggestions {
 
     private val block = arrayOf(
         "defineBlock",
@@ -339,8 +339,8 @@ class ModPESuggestions : SuggestionProvider {
         "function"
     )
 
-    override fun getAll(): List<Suggestion> {
+    override fun getAll(): List<SuggestionModel> {
         return arrayOf(*block, *entity, *item, *level, *modpe, *player, *server, *hooks, *global, *javascript)
-            .map { Suggestion(it) }
+            .map { SuggestionModel(it) }
     }
 }

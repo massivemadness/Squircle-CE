@@ -17,41 +17,76 @@
 
 package com.lightteam.javascript.language
 
-import com.lightteam.modpeide.domain.feature.language.LanguageProvider
-import java.util.regex.Pattern
+import com.lightteam.javascript.parser.JavaScriptParser
+import com.lightteam.javascript.styler.JavaScriptStyler
+import com.lightteam.language.language.Language
+import com.lightteam.language.parser.LanguageParser
+import com.lightteam.language.styler.LanguageStyler
 
-class JavaScriptLanguage : LanguageProvider {
+class JavaScriptLanguage : Language {
 
-    override fun getPatternOfNumbers(): Pattern {
+    private var javaScriptStyler: JavaScriptStyler? = null
+    private var javaScriptParser: JavaScriptParser? = null
+
+    override fun getName(): String {
+        return "javascript"
+    }
+
+    override fun getStyler(): LanguageStyler {
+        if (javaScriptStyler != null) {
+            javaScriptStyler?.cancelStyler()
+        }
+        return JavaScriptStyler()/*javaScriptStyler ?: JavaScriptStyler()
+            .also { javaScriptStyler = it }*/
+    }
+
+    override fun getParser(): LanguageParser {
+        return javaScriptParser ?: JavaScriptParser()
+            .also { javaScriptParser = it }
+    }
+
+//    override fun getLineComment(): String {
+//        return "//"
+//    }
+//
+//    override fun getBlockCommentStart(): String {
+//        return "/*"
+//    }
+//
+//    override fun getBlockCommentEnd(): String {
+//        return "*/"
+//    }
+
+    /*override fun getPatternOfNumbers(): Pattern {
         return Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)")
-    }
+    }*/
 
-    override fun getPatternOfSymbols(): Pattern {
+    /*override fun getPatternOfSymbols(): Pattern {
         return Pattern.compile("([!+\\-*<>=?|:%&])")
-    }
+    }*/
 
-    override fun getPatternOfBrackets(): Pattern {
+    /*override fun getPatternOfBrackets(): Pattern {
         return Pattern.compile("([(){}\\[\\]])")
-    }
+    }*/
 
-    override fun getPatternOfKeywords(): Pattern {
+    /*override fun getPatternOfKeywords(): Pattern {
         return Pattern.compile(
             "(?<=\\b)((break)|(continue)|(else)|(for)|(function)|(if)|(in)|(new)" +
             "|(this)|(var)|(while)|(return)|(case)|(catch)|(of)|(typeof)" +
             "|(const)|(default)|(do)|(switch)|(try)|(null)|(true)" +
             "|(false)|(eval)|(let))(?=\\b)"
         )
-    }
+    }*/
 
-    override fun getPatternOfMethods(): Pattern {
+    /*override fun getPatternOfMethods(): Pattern {
         return Pattern.compile("(?<=(function) )(\\w+)", Pattern.CASE_INSENSITIVE)
     }
 
     override fun getPatternOfStrings(): Pattern {
         return Pattern.compile("\"(.*?)\"|'(.*?)'")
-    }
+    }*/
 
-    override fun getPatternOfComments(): Pattern {
-        return Pattern.compile("/\\*(?:.|[\\n\\r])*?\\*/|//.*")
-    }
+//    override fun getPatternOfComments(): Pattern {
+//        return Pattern.compile("/\\*(?:.|[\\n\\r])*?\\*/|//.*")
+//    }
 }

@@ -24,7 +24,6 @@ import android.content.Context
 import android.graphics.*
 import android.text.*
 import android.text.style.BackgroundColorSpan
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.VelocityTracker
@@ -35,23 +34,22 @@ import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.content.getSystemService
 import androidx.core.graphics.toColorInt
 import androidx.core.text.getSpans
+import com.lightteam.javascript.language.JavaScriptLanguage
+import com.lightteam.language.language.Language
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.LinesCollection
-import com.lightteam.javascript.language.JavaScriptLanguage
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
-import com.lightteam.javascript.suggestions.ModPESuggestions
 import com.lightteam.modpeide.data.feature.scheme.Darcula
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
-import com.lightteam.modpeide.domain.feature.language.LanguageProvider
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
-import com.lightteam.modpeide.domain.feature.suggestion.SuggestionProvider
+import com.lightteam.language.scheme.ColorScheme
+import com.lightteam.language.styler.Styler
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.model.editor.TextChange
 import com.lightteam.modpeide.ui.editor.adapters.SuggestionAdapter
-import com.lightteam.modpeide.ui.editor.customview.internal.codecompletion.SymbolsTokenizer
-import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.StyleSpan
-import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.SyntaxHighlightSpan
-import com.lightteam.modpeide.ui.editor.customview.internal.textscroller.OnScrollChangedListener
+import com.lightteam.modpeide.ui.editor.customview.internal.SymbolsTokenizer
+import com.lightteam.language.styler.span.StyleSpan
+import com.lightteam.language.styler.span.SyntaxHighlightSpan
+import com.lightteam.modpeide.ui.editor.customview.internal.OnScrollChangedListener
 import com.lightteam.modpeide.utils.extensions.dpToPx
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
 import java.util.regex.Pattern
@@ -62,7 +60,7 @@ class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.editTextStyle
-) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr), ExtendedKeyboard.OnKeyListener {
+) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr), Styler {
 
     data class Configuration(
         //Font
@@ -91,7 +89,7 @@ class TextProcessor @JvmOverloads constructor(
             configure()
         }
 
-    var theme: ColorScheme = Darcula()
+    var colorScheme: ColorScheme = Darcula()
         set(value) {
             field = value
             colorize()
@@ -100,48 +98,54 @@ class TextProcessor @JvmOverloads constructor(
     var undoStack: UndoStack = UndoStackImpl()
     var redoStack: UndoStack = UndoStackImpl()
 
-    var languageProvider: LanguageProvider = JavaScriptLanguage() //= TextLanguage()
-    var suggestionProvider: SuggestionProvider = ModPESuggestions() //= EmptySuggestions()
-
+    var language: Language = JavaScriptLanguage()
+    var syntaxHighlightSpans: MutableList<SyntaxHighlightSpan> = mutableListOf()
+    val wordsManager = WordsManager()
     val arrayLineCount: Int
         get() = lines.lineCount - 1
 
     private val textScroller = Scroller(context)
-    private val wordsManager = WordsManager()
     private val suggestionAdapter = SuggestionAdapter(context, R.layout.item_suggestion)
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
     private val scaledDensity = context.getScaledDensity()
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            textChangeStart = start
-            textChangeEnd = start + count
-            if (!isDoingUndoRedo) {
-                if (count < UndoStackImpl.MAX_SIZE) {
-                    textLastChange = TextChange(
-                        "",
-                        s?.subSequence(start, start + count).toString(),
-                        start
-                    )
-                    return
+            cancelSyntaxHighlighting()
+            addedTextCount -= count
+            if (!isSyntaxHighlighting) {
+                textChangeStart = start
+                textChangeEnd = start + count
+                if (!isDoingUndoRedo) {
+                    if (count < UndoStackImpl.MAX_SIZE) {
+                        textLastChange = TextChange(
+                            newText = "",
+                            oldText = s?.subSequence(start, start + count).toString(),
+                            start = start
+                        )
+                        return
+                    }
+                    undoStack.removeAll()
+                    redoStack.removeAll()
+                    textLastChange = null
                 }
-                undoStack.removeAll()
-                redoStack.removeAll()
-                textLastChange = null
             }
             abortFling()
         }
         override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+            addedTextCount += count
             newText = text?.subSequence(start, start + count).toString()
             completeIndentation(start, count)
-            textChangedNewText = text?.subSequence(start, start + count).toString()
-            replaceText(textChangeStart, textChangeEnd, textChangedNewText)
-            if (!isDoingUndoRedo && textLastChange != null) {
+            if (!isSyntaxHighlighting) {
+                textChangedNewText = text?.subSequence(start, start + count).toString()
+                replaceText(textChangeStart, textChangeEnd, textChangedNewText)
+            }
+            if (!isSyntaxHighlighting && !isDoingUndoRedo && textLastChange != null) {
                 if (count < UndoStackImpl.MAX_SIZE) {
                     textLastChange?.newText = text?.subSequence(start, start + count).toString()
-                    if (start == textLastChange?.start &&
-                        (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!) &&
-                        !textLastChange?.oldText?.equals(textLastChange?.newText)!!) {
+                    if (start == textLastChange?.start
+                        && (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!)
+                        && textLastChange?.oldText != textLastChange?.newText) {
                         undoStack.push(textLastChange!!)
                         redoStack.removeAll()
                     }
@@ -157,8 +161,12 @@ class TextProcessor @JvmOverloads constructor(
             }
         }
         override fun afterTextChanged(s: Editable?) {
-            clearSearchSpans()
-            clearSyntaxSpans()
+            updateGutter()
+            if (!isSyntaxHighlighting) {
+                clearSearchSpans()
+                shiftSpans(selectionStart, addedTextCount)
+            }
+            addedTextCount = 0
             syntaxHighlight()
         }
     }
@@ -172,21 +180,31 @@ class TextProcessor @JvmOverloads constructor(
     private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
 
-    private val numbersSpan = StyleSpan(color = theme.numbersColor.toColorInt())
-    private val symbolsSpan = StyleSpan(color = theme.symbolsColor.toColorInt())
-    private val bracketsSpan = StyleSpan(color = theme.bracketsColor.toColorInt())
-    private val keywordsSpan = StyleSpan(color = theme.keywordsColor.toColorInt())
-    private val methodsSpan = StyleSpan(color = theme.methodsColor.toColorInt())
-    private val stringsSpan = StyleSpan(color = theme.stringsColor.toColorInt())
-    private val commentsSpan = StyleSpan(color = theme.commentsColor.toColorInt(), italic = true)
+    private val numbersSpan =
+        StyleSpan(colorScheme.numbersColor.toColorInt())
+    private val symbolsSpan =
+        StyleSpan(colorScheme.symbolsColor.toColorInt())
+    private val bracketsSpan =
+        StyleSpan(colorScheme.bracketsColor.toColorInt())
+    private val keywordsSpan =
+        StyleSpan(colorScheme.keywordsColor.toColorInt())
+    private val methodsSpan =
+        StyleSpan(colorScheme.methodsColor.toColorInt())
+    private val stringsSpan =
+        StyleSpan(colorScheme.stringsColor.toColorInt())
+    private val commentsSpan = StyleSpan(
+        colorScheme.commentsColor.toColorInt(),
+        italic = true
+    )
 
     private val tabString = "    " // 4 spaces
     private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
 
-    private var openBracketSpan = BackgroundColorSpan(theme.bracketBgColor.toColorInt())
-    private var closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor.toColorInt())
+    private var openBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
+    private var closedBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
 
     private var isDoingUndoRedo = false
+    private var isSyntaxHighlighting = false
     private var isAutoIndenting = false
     private var isFindSpansVisible = false
 
@@ -206,6 +224,7 @@ class TextProcessor @JvmOverloads constructor(
     private var textChangedNewText = ""
 
     private var newText = ""
+    private var addedTextCount = 0
 
     private var topDirtyLine = 0
     private var bottomDirtyLine = 0
@@ -217,7 +236,6 @@ class TextProcessor @JvmOverloads constructor(
     // region INIT
 
     init {
-        wordsManager.setSuggestions(suggestionProvider.getAll())
         suggestionAdapter.setWordsManager(wordsManager)
     }
 
@@ -254,46 +272,46 @@ class TextProcessor @JvmOverloads constructor(
 
     private fun colorize() {
         post {
-            setTextColor(theme.textColor.toColorInt())
-            setBackgroundColor(theme.backgroundColor.toColorInt())
-            highlightColor = theme.selectionColor.toColorInt()
+            setTextColor(colorScheme.textColor.toColorInt())
+            setBackgroundColor(colorScheme.backgroundColor.toColorInt())
+            highlightColor = colorScheme.selectionColor.toColorInt()
 
-            selectedLinePaint.color = theme.selectedLineColor.toColorInt()
+            selectedLinePaint.color = colorScheme.selectedLineColor.toColorInt()
             selectedLinePaint.isAntiAlias = false
             selectedLinePaint.isDither = false
 
-            gutterPaint.color = theme.gutterColor.toColorInt()
+            gutterPaint.color = colorScheme.gutterColor.toColorInt()
             gutterPaint.isAntiAlias = false
             gutterPaint.isDither = false
 
-            gutterDividerPaint.color = theme.gutterDividerColor.toColorInt()
+            gutterDividerPaint.color = colorScheme.gutterDividerColor.toColorInt()
             gutterDividerPaint.isAntiAlias = false
             gutterDividerPaint.isDither = false
             gutterDividerPaint.style = Paint.Style.STROKE
             gutterDividerPaint.strokeWidth = 2.6f
 
-            gutterCurrentLineNumberPaint.color = theme.gutterCurrentLineNumberColor.toColorInt()
+            gutterCurrentLineNumberPaint.color = colorScheme.gutterCurrentLineNumberColor.toColorInt()
             gutterCurrentLineNumberPaint.isAntiAlias = true
             gutterCurrentLineNumberPaint.isDither = false
             gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
-            gutterTextPaint.color = theme.gutterTextColor.toColorInt()
+            gutterTextPaint.color = colorScheme.gutterTextColor.toColorInt()
             gutterTextPaint.isAntiAlias = true
             gutterTextPaint.isDither = false
             gutterTextPaint.textAlign = Paint.Align.RIGHT
 
-            numbersSpan.color = theme.numbersColor.toColorInt()
-            symbolsSpan.color = theme.symbolsColor.toColorInt()
-            bracketsSpan.color = theme.bracketsColor.toColorInt()
-            keywordsSpan.color = theme.keywordsColor.toColorInt()
-            methodsSpan.color = theme.methodsColor.toColorInt()
-            stringsSpan.color = theme.stringsColor.toColorInt()
-            commentsSpan.color = theme.commentsColor.toColorInt()
+            numbersSpan.color = colorScheme.numbersColor.toColorInt()
+            symbolsSpan.color = colorScheme.symbolsColor.toColorInt()
+            bracketsSpan.color = colorScheme.bracketsColor.toColorInt()
+            keywordsSpan.color = colorScheme.keywordsColor.toColorInt()
+            methodsSpan.color = colorScheme.methodsColor.toColorInt()
+            stringsSpan.color = colorScheme.stringsColor.toColorInt()
+            commentsSpan.color = colorScheme.commentsColor.toColorInt()
 
-            suggestionAdapter.color = theme.filterableColor.toColorInt()
+            suggestionAdapter.color = colorScheme.filterableColor.toColorInt()
 
-            openBracketSpan = BackgroundColorSpan(theme.bracketBgColor.toColorInt())
-            closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor.toColorInt())
+            openBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
+            closedBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
         }
     }
 
@@ -439,10 +457,6 @@ class TextProcessor @JvmOverloads constructor(
 
     // region METHODS
 
-    override fun onKey(char: String) {
-        insert(char)
-    }
-
     fun hasPrimaryClip(): Boolean = clipboardManager.hasPrimaryClip()
 
     fun insert(delta: CharSequence) {
@@ -585,7 +599,7 @@ class TextProcessor @JvmOverloads constructor(
         val matcher = pattern.matcher(text)
         while (matcher.find()) {
             text.setSpan(
-                BackgroundColorSpan(theme.searchBgColor.toColorInt()),
+                BackgroundColorSpan(colorScheme.searchBgColor.toColorInt()),
                 matcher.start(),
                 matcher.end(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -749,8 +763,7 @@ class TextProcessor @JvmOverloads constructor(
             } else {
                 return
             }
-            val newCursorPosition: Int
-            newCursorPosition = if (result[3] != null) {
+            val newCursorPosition = if (result[3] != null) {
                 Integer.parseInt(result[3]!!)
             } else {
                 start + replacementValue.length
@@ -886,10 +899,10 @@ class TextProcessor @JvmOverloads constructor(
 
     // region SYNTAX_HIGHLIGHT
 
-    private fun syntaxHighlight() {
+    private fun updateSyntaxHighlighting() {
         if (layout != null) {
             var topLine = scrollY / lineHeight - 10
-            var bottomLine = (scrollY + height) / lineHeight + 11
+            var bottomLine = (scrollY + height) / lineHeight + 10
             if (topLine < 0) {
                 topLine = 0
             }
@@ -903,120 +916,45 @@ class TextProcessor @JvmOverloads constructor(
                 topDirtyLine = topLine
                 bottomDirtyLine = bottomLine
 
-                val topLineOffset = layout.getLineStart(topLine)
+                val topLineOffset = if (topLine >= 0 || topLine >= lineCount) {
+                    layout.getLineStart(topLine)
+                } else {
+                    0
+                }
                 val bottomLineOffset = if (bottomLine < lineCount) {
                     layout.getLineStart(bottomLine)
                 } else {
                     layout.getLineStart(lineCount)
                 }
 
-                // region HIGHLIGHTING
-
-                var matcher = languageProvider.getPatternOfNumbers().matcher( //Numbers
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(numbersSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfSymbols().matcher( //Symbols
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(symbolsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfBrackets().matcher( //Brackets
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(bracketsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfKeywords().matcher( //Keywords
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(keywordsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfMethods().matcher( //Methods
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(methodsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfStrings().matcher( //Strings
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    for (span in text.getSpans(
-                        matcher.start() + topLineOffset,
-                        matcher.end() + topLineOffset,
-                        ForegroundColorSpan::class.java)) {
-                        text.removeSpan(span)
-                    }
-                    text.setSpan(
-                        SyntaxHighlightSpan(stringsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfComments().matcher( //Comments
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    var skip = false
-                    for (span in text.getSpans(
-                        topLineOffset,
-                        matcher.end() + topLineOffset,
-                        ForegroundColorSpan::class.java)) {
-                        val spanStart = text.getSpanStart(span)
-                        val spanEnd = text.getSpanEnd(span)
-                        if (matcher.start() + topLineOffset in spanStart..spanEnd &&
-                            matcher.end() + topLineOffset > spanEnd ||
-                            matcher.start() + topLineOffset >= topLineOffset + spanEnd &&
-                            matcher.start() + topLineOffset <= spanEnd) {
-                            skip = true
-                            break
-                        }
-                    }
-                    if (!skip) {
-                        for (span in text.getSpans(
-                            matcher.start() + topLineOffset,
-                            matcher.end() + topLineOffset,
-                            ForegroundColorSpan::class.java)) {
-                            text.removeSpan(span)
-                        }
-                        text.setSpan(
-                            SyntaxHighlightSpan(commentsSpan, topLineOffset, bottomLineOffset),
-                            matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
+                for (span in syntaxHighlightSpans) {
+                    if (span.start >= 0 && span.end <= text.length && span.start <= span.end
+                        && ((span.start in topLineOffset..bottomLineOffset)
+                                || (span.start <= bottomLineOffset && span.end >= topLineOffset))) {
+                        isSyntaxHighlighting = true
+                        val spanStart = if (span.start < topLineOffset) topLineOffset else span.start
+                        val spanEnd = if (span.end > bottomLineOffset) bottomLineOffset else span.end
+                        text.setSpan(span, spanStart, spanEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        isSyntaxHighlighting = false
                     }
                 }
-
-                // endregion HIGHLIGHTING
-
                 //post(::invalidateVisibleArea)
             }
         }
+    }
+
+    override fun setSpans(spans: List<SyntaxHighlightSpan>) {
+        syntaxHighlightSpans = spans as MutableList<SyntaxHighlightSpan>
+        updateSyntaxHighlighting()
+    }
+
+    private fun syntaxHighlight() {
+        cancelSyntaxHighlighting()
+        language.getStyler().runStyler(this, getProcessedText(), colorScheme)
+    }
+
+    private fun cancelSyntaxHighlighting() {
+        language.getStyler().cancelStyler()
     }
 
     private fun clearSearchSpans() {
@@ -1029,11 +967,19 @@ class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    private fun clearSyntaxSpans() {
-        val spans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
-        for (span in spans) {
-            text.removeSpan(span)
+    private fun shiftSpans(from: Int, byHowMuch: Int) {
+        for (span in syntaxHighlightSpans) {
+            if (span.start >= from) {
+                span.start += byHowMuch
+            }
+            if (span.end >= from) {
+                span.end += byHowMuch
+            }
+            if (span.start > span.end) {
+                syntaxHighlightSpans.remove(span)
+            }
         }
+        clearSearchSpans()
     }
 
     /*private fun invalidateVisibleArea() {
@@ -1106,7 +1052,7 @@ class TextProcessor @JvmOverloads constructor(
     // region SCROLLER
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        syntaxHighlight()
+        updateSyntaxHighlighting()
         for (listener in scrollListeners) {
             listener.onScrollChanged(scrollX, scrollY, scrollX, scrollY)
         }
@@ -1168,8 +1114,7 @@ class TextProcessor @JvmOverloads constructor(
             listener.onScrollChanged(horiz, vert, oldHoriz, oldVert)
         }
         if (topDirtyLine > getTopVisibleLine() || bottomDirtyLine < getBottomVisibleLine()) {
-            clearSyntaxSpans()
-            syntaxHighlight()
+            updateSyntaxHighlighting()
         }
     }
 

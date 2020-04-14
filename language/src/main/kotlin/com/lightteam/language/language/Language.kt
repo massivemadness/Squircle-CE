@@ -15,10 +15,16 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model.editor
+package com.lightteam.language.language
 
-import com.lightteam.modpeide.domain.exception.ParseException
+import com.lightteam.language.parser.LanguageParser
+import com.lightteam.language.styler.LanguageStyler
 
-data class ParseModel(
-    val exception: ParseException?
-)
+interface Language {
+    fun getName(): String
+    fun getStyler(): LanguageStyler
+    fun getParser(): LanguageParser
+    /*fun getLineComment(): String
+    fun getBlockCommentStart(): String
+    fun getBlockCommentEnd(): String*/
+}
