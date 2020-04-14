@@ -15,11 +15,28 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.parser
+package com.lightteam.modpeide.domain.feature.scheme
 
-import com.lightteam.language.model.ParseModel
-import io.reactivex.Single
+interface ColorScheme {
+    val textColor: String
+    val backgroundColor: String
+    val gutterColor: String
+    val gutterDividerColor: String
+    val gutterCurrentLineNumberColor: String
+    val gutterTextColor: String
+    val selectedLineColor: String
+    val selectionColor: String
+    val filterableColor: String
 
-interface LanguageParser {
-    fun execute(name: String, source: String): Single<ParseModel>
+    val searchBgColor: String
+    val bracketBgColor: String
+
+    //Syntax Highlighting
+    val numbersColor: String
+    val symbolsColor: String
+    val bracketsColor: String
+    val keywordsColor: String
+    val methodsColor: String
+    val stringsColor: String
+    val commentsColor: String
 }

@@ -15,10 +15,14 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.suggestion
+package com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight
 
-import com.lightteam.language.model.SuggestionModel
+import android.graphics.Color
+import androidx.annotation.ColorInt
 
-interface Suggestions {
-    fun getAll(): List<SuggestionModel>
-}
+data class StyleSpan(
+    @ColorInt
+    var color: Int = Color.WHITE,
+    var bold: Boolean = false,
+    var italic: Boolean = false
+)

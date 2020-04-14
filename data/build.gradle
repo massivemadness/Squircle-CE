@@ -62,7 +62,6 @@ dependencies {
 
     //Modules
     implementation project(':domain')
-    implementation project(':language')
 
     //Tests
     testImplementation testLibrary.junit

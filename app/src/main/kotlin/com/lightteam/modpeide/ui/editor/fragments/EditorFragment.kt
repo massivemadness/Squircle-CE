@@ -42,8 +42,6 @@ import com.lightteam.modpeide.databinding.FragmentEditorBinding
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
-import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
-import com.lightteam.modpeide.ui.editor.customview.TextScroller
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
@@ -55,8 +53,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
 import javax.inject.Inject
 
-class EditorFragment : BaseFragment(),
-    ToolbarManager.OnPanelClickListener, ExtendedKeyboard.OnKeyListener {
+class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener {
 
     @Inject
     lateinit var viewModel: EditorViewModel
@@ -96,7 +93,8 @@ class EditorFragment : BaseFragment(),
                 loadDocument(tab.position)
             }
         })
-        binding.extendedKeyboard.setKeyListener(this)
+        binding.extendedKeyboard.setKeyListener(binding.editor)
+
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
 
@@ -123,10 +121,6 @@ class EditorFragment : BaseFragment(),
     override fun onResume() {
         super.onResume()
         loadDocument(binding.tabDocumentLayout.selectedTabPosition)
-    }
-
-    override fun onKey(char: String) {
-        binding.editor.insert(char)
     }
 
     private fun observeViewModel() {
@@ -160,17 +154,15 @@ class EditorFragment : BaseFragment(),
             }
         })
         viewModel.contentEvent.observe(viewLifecycleOwner, Observer { content ->
-            //binding.editor.wordsManager.setSuggestions()
-            binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.processText(content.text)
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
             binding.editor.scrollX = content.documentModel.scrollX
             binding.editor.scrollY = content.documentModel.scrollY
-            /*binding.editor.setSelection(
+            binding.editor.setSelection(
                 content.documentModel.selectionStart,
                 content.documentModel.selectionEnd
-            )*/
+            )
         })
 
         // region PREFERENCES
@@ -178,7 +170,7 @@ class EditorFragment : BaseFragment(),
         viewModel.preferenceEvent.observe(viewLifecycleOwner, Observer { queue ->
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
-                    is PreferenceEvent.Theme -> binding.editor.colorScheme = event.value
+                    is PreferenceEvent.Theme -> binding.editor.theme = event.value
                     is PreferenceEvent.FontSize -> {
                         val newConfiguration = binding.editor.configuration.copy(fontSize = event.value)
                         binding.editor.configuration = newConfiguration

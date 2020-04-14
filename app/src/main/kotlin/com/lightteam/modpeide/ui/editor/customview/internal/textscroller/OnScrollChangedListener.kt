@@ -15,28 +15,8 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.scheme
+package com.lightteam.modpeide.ui.editor.customview.internal.textscroller
 
-interface ColorScheme {
-    val textColor: String
-    val backgroundColor: String
-    val gutterColor: String
-    val gutterDividerColor: String
-    val gutterCurrentLineNumberColor: String
-    val gutterTextColor: String
-    val selectedLineColor: String
-    val selectionColor: String
-    val filterableColor: String
-
-    val searchBgColor: String
-    val bracketBgColor: String
-
-    //Syntax Highlighting
-    val numbersColor: String
-    val symbolsColor: String
-    val bracketsColor: String
-    val keywordsColor: String
-    val methodsColor: String
-    val stringsColor: String
-    val commentsColor: String
+interface OnScrollChangedListener {
+    fun onScrollChanged(x: Int, y: Int, oldX: Int, oldY: Int)
 }

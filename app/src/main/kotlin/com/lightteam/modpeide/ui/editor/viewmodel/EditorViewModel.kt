@@ -19,11 +19,6 @@ package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
-import com.lightteam.javascript.language.JavaScriptLanguage
-import com.lightteam.language.language.Language
-import com.lightteam.language.model.ParseModel
-import com.lightteam.language.scheme.ColorScheme
-import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
@@ -32,6 +27,8 @@ import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
+import com.lightteam.modpeide.domain.feature.parser.SourceParser
+import com.lightteam.modpeide.domain.model.editor.ParseModel
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -41,8 +38,6 @@ import com.lightteam.modpeide.utils.event.EventsQueue
 import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import com.lightteam.modpeide.utils.theming.ThemeFactory
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
@@ -50,7 +45,8 @@ class EditorViewModel(
     private val fileRepository: FileRepository,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val sourceParser: SourceParser
 ) : BaseViewModel() {
 
     companion object {
@@ -76,11 +72,12 @@ class EditorViewModel(
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
-    val preferenceEvent: EventsQueue = EventsQueue() //События с измененными настройками
 
     // endregion EVENTS
 
     // region PREFERENCES
+
+    val preferenceEvent: EventsQueue = EventsQueue() //События с измененными настройками
 
     private val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent()
@@ -88,9 +85,6 @@ class EditorViewModel(
     // endregion PREFERENCES
 
     val tabsList: MutableList<DocumentModel> = mutableListOf()
-    val language: Language = JavaScriptLanguage()
-
-    private val stylingDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     private fun loadFiles() {
         if (resumeSessionEvent.value!!) { // must receive value before calling
@@ -238,8 +232,7 @@ class EditorViewModel(
     }
 
     fun parse(position: Int, sourceCode: String) {
-        language.getParser()
-            .execute(tabsList[position].name, sourceCode)
+        sourceParser.execute(tabsList[position].name, sourceCode)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { parseEvent.value = it }
             .disposeOnViewModelDestroy()

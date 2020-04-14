@@ -126,42 +126,42 @@ class WordsList {
             return lines.isEmpty()
         }
 
-        private fun foldCase(char: Char): Char {
-            return if (char < 128.toChar()) {
-                if ('A' > char || char > 'Z') char else (char + ' '.toInt())
+        private fun foldCase(c: Char): Char {
+            return if (c < 128.toChar()) {
+                if ('A' > c || c > 'Z') c else (c + ' '.toInt())
             } else {
-                char.toUpperCase().toLowerCase()
+                c.toUpperCase().toLowerCase()
             }
         }
 
-        private fun compareCharSequenceTo(word: CharSequence): Int {
-            val first = value.length
-            val second = word.length
-            val length = if (first < second) first else second
-            for (index in 0 until length) {
-                val char = value[index] - word[index]
-                if (char != 0) {
-                    return char
+        private fun compareCharSequenceTo(charSequence: CharSequence): Int {
+            val length = value.length
+            val length2 = charSequence.length
+            val i = if (length < length2) length else length2
+            for (i2 in 0 until i) {
+                val charAt = value[i2] - charSequence[i2]
+                if (charAt != 0) {
+                    return charAt
                 }
             }
-            return first - second
+            return length - length2
         }
 
-        private fun compareToIgnoreCase(word: CharSequence): Int {
-            val first = value.length
-            val second = word.length
-            val length = if (first < second) first else second
-            for (index in 0 until length) {
-                val firstChar = value[index]
-                val secondChar = word[index]
-                if (firstChar != secondChar) {
-                    val foldCase = foldCase(firstChar) - foldCase(secondChar)
+        private fun compareToIgnoreCase(charSequence: CharSequence): Int {
+            val length = value.length
+            val length2 = charSequence.length
+            val i = if (length < length2) length else length2
+            for (i2 in 0 until i) {
+                val charAt = value[i2]
+                val charAt2 = charSequence[i2]
+                if (charAt != charAt2) {
+                    val foldCase = foldCase(charAt) - foldCase(charAt2)
                     if (foldCase != 0) {
                         return foldCase
                     }
                 }
             }
-            return first - second
+            return length - length2
         }
     }
 }

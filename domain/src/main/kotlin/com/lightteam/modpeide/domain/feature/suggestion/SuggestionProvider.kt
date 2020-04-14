@@ -15,13 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.model
+package com.lightteam.modpeide.domain.feature.suggestion
 
-data class SuggestionModel(
-    val text: CharSequence
-) {
+import com.lightteam.modpeide.domain.model.editor.Suggestion
 
-    override fun toString(): String {
-        return text.toString()
-    }
+interface SuggestionProvider {
+    fun getAll(): List<Suggestion>
 }

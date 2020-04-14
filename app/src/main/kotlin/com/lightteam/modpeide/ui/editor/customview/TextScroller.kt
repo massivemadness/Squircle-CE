@@ -26,12 +26,11 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.ui.editor.customview.internal.OnScrollChangedListener
+import com.lightteam.modpeide.ui.editor.customview.internal.textscroller.OnScrollChangedListener
 import com.lightteam.modpeide.utils.extensions.getDrawableCompat
 import kotlin.math.roundToInt
 
-class TextScroller(context: Context, attrs: AttributeSet) : View(context, attrs),
-    OnScrollChangedListener {
+class TextScroller(context: Context, attrs: AttributeSet) : View(context, attrs), OnScrollChangedListener {
 
     companion object {
         const val STATE_HIDDEN = 0

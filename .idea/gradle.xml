@@ -15,7 +15,6 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/javascript" />
-            <option value="$PROJECT_DIR$/language" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -15,31 +15,9 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+package com.lightteam.modpeide.domain.exception
 
-android {
-    def buildConfig = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
-    defaultConfig {
-        minSdkVersion buildConfig.minSdk
-        targetSdkVersion buildConfig.targetSdk
-
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-}
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    //Kotlin
-    implementation library.kotlin
-
-    //Rx
-    implementation library.rxjava2
-}
+class ParseException(
+    message: String?,
+    val lineNumber: Int
+) : RuntimeException(message)

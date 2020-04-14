@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.customview.internal
+package com.lightteam.modpeide.domain.feature.parser
 
-interface OnScrollChangedListener {
-    fun onScrollChanged(x: Int, y: Int, oldX: Int, oldY: Int)
+import com.lightteam.modpeide.domain.model.editor.ParseModel
+import io.reactivex.Single
+
+interface SourceParser {
+    fun execute(sourceName: String, sourceCode: String): Single<ParseModel>
 }

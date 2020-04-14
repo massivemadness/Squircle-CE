@@ -15,26 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.styler.span
+package com.lightteam.modpeide.domain.model.editor
 
-import android.text.TextPaint
-import android.text.style.CharacterStyle
+data class Suggestion(
+    val text: CharSequence
+) {
 
-class SyntaxHighlightSpan(
-    private val span: StyleSpan,
-    var start: Int,
-    var end: Int
-) : CharacterStyle(), Comparable<SyntaxHighlightSpan> {
-
-    override fun updateDrawState(textPaint: TextPaint?) {
-        textPaint?.color = span.color
-        textPaint?.isFakeBoldText = span.bold
-        if (span.italic) {
-            textPaint?.textSkewX = -0.1f
-        }
-    }
-
-    override fun compareTo(other: SyntaxHighlightSpan): Int {
-        return start - other.start
+    override fun toString(): String {
+        return text.toString()
     }
 }

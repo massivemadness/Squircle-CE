@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.scheme
 
-import com.lightteam.language.scheme.ColorScheme
+import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
 
 data class Monokai(
     override val textColor: String = "#F8F8F8",

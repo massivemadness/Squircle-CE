@@ -20,7 +20,7 @@ package com.lightteam.modpeide.data.feature.suggestion
 import android.text.Editable
 import com.lightteam.modpeide.data.feature.Line
 import com.lightteam.modpeide.data.utils.extensions.replaceList
-import com.lightteam.language.model.SuggestionModel
+import com.lightteam.modpeide.domain.model.editor.Suggestion
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -32,14 +32,14 @@ class WordsManager {
 
     private val wordsPattern: Pattern = Pattern.compile(WORDS_REGEX)
     private val wordsList: WordsList = WordsList()
-    private val predefinedList: MutableList<SuggestionModel> = mutableListOf()
+    private val predefinedList: MutableList<Suggestion> = mutableListOf()
 
-    fun setSuggestions(suggestions: List<SuggestionModel>) {
+    fun setSuggestions(suggestions: List<Suggestion>) {
         predefinedList.replaceList(suggestions)
     }
 
-    fun getSuggestions(): List<SuggestionModel> {
-        return wordsList.words.map { SuggestionModel(it.value) }
+    fun getSuggestions(): List<Suggestion> {
+        return wordsList.words.map { Suggestion(it.value) }
     }
 
     fun clear() {

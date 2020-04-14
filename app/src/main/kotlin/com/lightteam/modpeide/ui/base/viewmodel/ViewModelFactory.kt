@@ -23,6 +23,7 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.domain.feature.parser.SourceParser
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
@@ -36,7 +37,8 @@ class ViewModelFactory(
     private val fileRepository: FileRepository,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val sourceParser: SourceParser
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -55,7 +57,8 @@ class ViewModelFactory(
                     fileRepository,
                     cacheHandler,
                     appDatabase,
-                    preferenceHandler
+                    preferenceHandler,
+                    sourceParser
                 ) as T
             modelClass === ExplorerViewModel::class.java ->
                 ExplorerViewModel(
