@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.feature.suggestion
+package com.lightteam.language.styler
 
-import com.lightteam.modpeide.domain.model.editor.Suggestion
+import com.lightteam.language.styler.span.SyntaxHighlightSpan
 
-interface SuggestionProvider {
-    fun getAll(): List<Suggestion>
+interface Styleable {
+    fun setSpans(spans: List<SyntaxHighlightSpan>)
 }

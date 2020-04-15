@@ -15,20 +15,11 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.javascript
+package com.lightteam.language.parser
 
-import org.junit.Test
+import com.lightteam.language.model.ParseModel
+import io.reactivex.Single
 
-import org.junit.Assert.*
-
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+interface LanguageParser {
+    fun execute(name: String, source: String): Single<ParseModel>
 }

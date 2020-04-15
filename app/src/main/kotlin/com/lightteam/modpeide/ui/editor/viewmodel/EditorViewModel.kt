@@ -19,18 +19,21 @@ package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import com.lightteam.language.language.Language
+import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.data.utils.extensions.*
-import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
+import com.lightteam.modpeide.data.utils.extensions.containsDocumentModel
+import com.lightteam.modpeide.data.utils.extensions.index
+import com.lightteam.modpeide.data.utils.extensions.replaceList
+import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
-import com.lightteam.modpeide.domain.feature.parser.SourceParser
-import com.lightteam.modpeide.domain.model.editor.ParseModel
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
@@ -45,8 +48,7 @@ class EditorViewModel(
     private val fileRepository: FileRepository,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
-    private val preferenceHandler: PreferenceHandler,
-    private val sourceParser: SourceParser
+    private val preferenceHandler: PreferenceHandler
 ) : BaseViewModel() {
 
     companion object {
@@ -72,12 +74,11 @@ class EditorViewModel(
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
+    val preferenceEvent: EventsQueue = EventsQueue() //События с измененными настройками
 
     // endregion EVENTS
 
     // region PREFERENCES
-
-    val preferenceEvent: EventsQueue = EventsQueue() //События с измененными настройками
 
     private val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent()
@@ -231,8 +232,9 @@ class EditorViewModel(
         }
     }
 
-    fun parse(position: Int, sourceCode: String) {
-        sourceParser.execute(tabsList[position].name, sourceCode)
+    fun parse(language: Language, position: Int, sourceCode: String) {
+        language.getParser()
+            .execute(tabsList[position].name, sourceCode)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { parseEvent.value = it }
             .disposeOnViewModelDestroy()

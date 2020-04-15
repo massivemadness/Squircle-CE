@@ -19,6 +19,7 @@ package com.lightteam.modpeide.data.storage.cache
 
 import android.content.Context
 import com.lightteam.modpeide.data.converter.DocumentConverter
+import com.lightteam.modpeide.data.feature.language.LanguageProvider
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
@@ -53,6 +54,7 @@ class CacheHandler(
                 val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
                 val documentContent = DocumentContent(
                     documentModel,
+                    LanguageProvider.provide(documentModel),
                     undoStack,
                     redoStack,
                     text

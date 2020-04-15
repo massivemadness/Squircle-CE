@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.scheme
 
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 data class Monokai(
     override val textColor: String = "#F8F8F8",
@@ -33,11 +33,11 @@ data class Monokai(
     override val searchBgColor: String = "#5F5E5A",
     override val bracketBgColor: String = "#5F5E5A",
 
-    override val numbersColor: String = "#BB8FF8",
-    override val symbolsColor: String = "#F8F8F2",
-    override val bracketsColor: String = "#E8E2B7",
-    override val keywordsColor: String = "#EB347E",
-    override val methodsColor: String = "#B6E951",
-    override val stringsColor: String = "#EBE48C",
-    override val commentsColor: String = "#89826D"
+    override val numberColor: String = "#BB8FF8",
+    override val operatorColor: String = "#F8F8F2",
+    override val bracketColor: String = "#E8E2B7",
+    override val keywordColor: String = "#EB347E",
+    override val methodColor: String = "#B6E951",
+    override val stringColor: String = "#EBE48C",
+    override val commentColor: String = "#89826D"
 ) : ColorScheme

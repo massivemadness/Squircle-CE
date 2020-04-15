@@ -15,8 +15,19 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.customview.internal.textscroller
+package com.lightteam.modpeide.data.feature.language
 
-interface OnScrollChangedListener {
-    fun onScrollChanged(x: Int, y: Int, oldX: Int, oldY: Int)
+import com.lightteam.javascript.language.JavaScriptLanguage
+import com.lightteam.language.language.Language
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
+
+object LanguageProvider {
+
+    fun provide(documentModel: DocumentModel): Language {
+        val filename = documentModel.name
+        return when {
+            filename.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
+            else -> JavaScriptLanguage()
+        }
+    }
 }

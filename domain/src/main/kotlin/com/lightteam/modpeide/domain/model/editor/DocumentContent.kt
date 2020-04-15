@@ -17,10 +17,12 @@
 
 package com.lightteam.modpeide.domain.model.editor
 
+import com.lightteam.language.language.Language
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 
 data class DocumentContent(
     val documentModel: DocumentModel,
+    val language: Language,
     val undoStack: UndoStack,
     val redoStack: UndoStack,
     val text: String

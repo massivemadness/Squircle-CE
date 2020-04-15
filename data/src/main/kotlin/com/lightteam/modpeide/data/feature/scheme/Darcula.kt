@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.scheme
 
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 data class Darcula(
     override val textColor: String = "#ABB7C5",
@@ -33,11 +33,11 @@ data class Darcula(
     override val searchBgColor: String = "#33654B",
     override val bracketBgColor: String = "#33654B",
 
-    override val numbersColor: String = "#6897BB",
-    override val symbolsColor: String = "#E8E2B7",
-    override val bracketsColor: String = "#E8E2B7",
-    override val keywordsColor: String = "#EC7600",
-    override val methodsColor: String = "#FEC76C",
-    override val stringsColor: String = "#6E875A",
-    override val commentsColor: String = "#66747B"
+    override val numberColor: String = "#6897BB",
+    override val operatorColor: String = "#E8E2B7",
+    override val bracketColor: String = "#E8E2B7",
+    override val keywordColor: String = "#EC7600",
+    override val methodColor: String = "#FEC76C",
+    override val stringColor: String = "#6E875A",
+    override val commentColor: String = "#66747B"
 ) : ColorScheme

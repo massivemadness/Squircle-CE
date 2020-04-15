@@ -28,16 +28,16 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
+import com.lightteam.language.model.SuggestionModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
-import com.lightteam.modpeide.domain.model.editor.Suggestion
 import java.util.*
 
-class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<Suggestion>(context, resourceId) {
+class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<SuggestionModel>(context, resourceId) {
 
     var color: Int = Color.WHITE
 
-    private val suggestions: MutableList<Suggestion> = mutableListOf() // Отображаемый список
+    private val suggestions: MutableList<SuggestionModel> = mutableListOf() // Отображаемый список
 
     private lateinit var wordsManager: WordsManager
     private var query = ""
@@ -98,7 +98,7 @@ class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<Sugges
 
         private val textView: TextView = itemView.findViewById(R.id.item_title)
 
-        fun bind(suggestion: Suggestion?, query: String) {
+        fun bind(suggestion: SuggestionModel?, query: String) {
             val spannable = SpannableStringBuilder(suggestion?.text)
             spannable.setSpan(
                 ForegroundColorSpan(itemColor),

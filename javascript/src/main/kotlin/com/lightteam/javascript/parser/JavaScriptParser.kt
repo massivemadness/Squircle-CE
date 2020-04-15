@@ -18,15 +18,15 @@
 package com.lightteam.javascript.parser
 
 import com.lightteam.javascript.parser.predefined.*
-import com.lightteam.modpeide.domain.exception.ParseException
-import com.lightteam.modpeide.domain.feature.parser.SourceParser
-import com.lightteam.modpeide.domain.model.editor.ParseModel
+import com.lightteam.language.exception.ParseException
+import com.lightteam.language.model.ParseModel
+import com.lightteam.language.parser.LanguageParser
 import io.reactivex.Single
 import org.mozilla.javascript.*
 
-class JavaScriptParser : SourceParser {
+class JavaScriptParser : LanguageParser {
 
-    override fun execute(sourceName: String, sourceCode: String): Single<ParseModel> {
+    override fun execute(name: String, source: String): Single<ParseModel> {
         return Single.fromCallable {
             val context = Context.enter()
             context.optimizationLevel = -1
@@ -42,7 +42,7 @@ class JavaScriptParser : SourceParser {
                 scope.put(Player::class.simpleName, scope, Context.javaToJS(Player(), scope))
                 scope.put(Server::class.simpleName, scope, Context.javaToJS(Server(), scope))
 
-                // Variables
+                // Constants
                 scope.put(ArmorType::class.simpleName, scope, Context.javaToJS(ArmorType(), scope))
                 scope.put(BlockFace::class.simpleName, scope, Context.javaToJS(BlockFace(), scope))
                 scope.put(BlockRenderLayer::class.simpleName, scope, Context.javaToJS(BlockRenderLayer(), scope))
@@ -57,12 +57,10 @@ class JavaScriptParser : SourceParser {
                 scope.put(ParticleType::class.simpleName, scope, Context.javaToJS(ParticleType(), scope))
                 scope.put(UseAnimation::class.simpleName, scope, Context.javaToJS(UseAnimation(), scope))
 
-                context.evaluateString(scope, sourceCode, sourceName, 1, null)
+                context.evaluateString(scope, source, name, 1, null)
                 return@fromCallable ParseModel(null)
             } catch (e: RhinoException) {
-                return@fromCallable ParseModel(
-                    ParseException(e.message, e.lineNumber())
-                )
+                return@fromCallable ParseModel(ParseException(e.message, e.lineNumber()))
             } finally {
                 Context.exit()
             }

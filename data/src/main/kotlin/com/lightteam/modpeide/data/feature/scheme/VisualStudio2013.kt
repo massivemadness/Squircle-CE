@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.scheme
 
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 data class VisualStudio2013(
     override val textColor: String = "#C8C8C8",
@@ -33,11 +33,11 @@ data class VisualStudio2013(
     override val searchBgColor: String = "#1C3D6B",
     override val bracketBgColor: String = "#616161",
 
-    override val numbersColor: String = "#BACDAB",
-    override val symbolsColor: String = "#DCDCDC",
-    override val bracketsColor: String = "#FFFFFF",
-    override val keywordsColor: String = "#669BD1",
-    override val methodsColor: String = "#71C6B1",
-    override val stringsColor: String = "#CE9F89",
-    override val commentsColor: String = "#6BA455"
+    override val numberColor: String = "#BACDAB",
+    override val operatorColor: String = "#DCDCDC",
+    override val bracketColor: String = "#FFFFFF",
+    override val keywordColor: String = "#669BD1",
+    override val methodColor: String = "#71C6B1",
+    override val stringColor: String = "#CE9F89",
+    override val commentColor: String = "#6BA455"
 ) : ColorScheme

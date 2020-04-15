@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.model.editor
+package com.lightteam.language.styler.span
 
-import com.lightteam.modpeide.domain.exception.ParseException
+import android.graphics.Color
 
-data class ParseModel(
-    val exception: ParseException?
+data class StyleSpan(
+    var color: Int = Color.WHITE,
+    var bold: Boolean = false,
+    var italic: Boolean = false
 )

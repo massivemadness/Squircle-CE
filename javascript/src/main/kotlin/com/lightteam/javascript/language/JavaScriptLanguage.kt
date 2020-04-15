@@ -17,41 +17,42 @@
 
 package com.lightteam.javascript.language
 
-import com.lightteam.modpeide.domain.feature.language.LanguageProvider
-import java.util.regex.Pattern
+import com.lightteam.javascript.parser.JavaScriptParser
+import com.lightteam.javascript.styler.JavaScriptStyler
+import com.lightteam.javascript.suggestions.ModPESuggestions
+import com.lightteam.language.language.Language
+import com.lightteam.language.parser.LanguageParser
+import com.lightteam.language.styler.LanguageStyler
+import com.lightteam.language.suggestion.SuggestionProvider
 
-class JavaScriptLanguage : LanguageProvider {
+class JavaScriptLanguage : Language {
 
-    override fun getPatternOfNumbers(): Pattern {
-        return Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)")
+    companion object {
+        const val FILE_EXTENSION = ".js"
     }
 
-    override fun getPatternOfSymbols(): Pattern {
-        return Pattern.compile("([!+\\-*<>=?|:%&])")
+    private var javaScriptParser: JavaScriptParser? = null
+    private var javaScriptStyler: JavaScriptStyler? = null
+
+    override fun getName(): String {
+        return "javascript"
     }
 
-    override fun getPatternOfBrackets(): Pattern {
-        return Pattern.compile("([(){}\\[\\]])")
+    override fun getParser(): LanguageParser {
+        return javaScriptParser ?: JavaScriptParser()
+            .also { javaScriptParser = it }
     }
 
-    override fun getPatternOfKeywords(): Pattern {
-        return Pattern.compile(
-            "(?<=\\b)((break)|(continue)|(else)|(for)|(function)|(if)|(in)|(new)" +
-            "|(this)|(var)|(while)|(return)|(case)|(catch)|(of)|(typeof)" +
-            "|(const)|(default)|(do)|(switch)|(try)|(null)|(true)" +
-            "|(false)|(eval)|(let))(?=\\b)"
-        )
+    override fun getSuggestions(): SuggestionProvider {
+        return ModPESuggestions()
     }
 
-    override fun getPatternOfMethods(): Pattern {
-        return Pattern.compile("(?<=(function) )(\\w+)", Pattern.CASE_INSENSITIVE)
+    override fun createStyler(): LanguageStyler {
+        return JavaScriptStyler() // NOT A SINGLETON
+            .also { javaScriptStyler = it }
     }
 
-    override fun getPatternOfStrings(): Pattern {
-        return Pattern.compile("\"(.*?)\"|'(.*?)'")
-    }
-
-    override fun getPatternOfComments(): Pattern {
-        return Pattern.compile("/\\*(?:.|[\\n\\r])*?\\*/|//.*")
+    override fun cancelStyler() {
+        javaScriptStyler?.cancelStyler()
     }
 }

@@ -15,14 +15,9 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight
+package com.lightteam.language.exception
 
-import android.graphics.Color
-import androidx.annotation.ColorInt
-
-data class StyleSpan(
-    @ColorInt
-    var color: Int = Color.WHITE,
-    var bold: Boolean = false,
-    var italic: Boolean = false
-)
+class ParseException(
+    message: String?,
+    val lineNumber: Int
+) : RuntimeException(message)

@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.scheme
 
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 data class TomorrowNight(
     override val textColor: String = "#C6C8C6",
@@ -33,11 +33,11 @@ data class TomorrowNight(
     override val searchBgColor: String = "#4B4E54",
     override val bracketBgColor: String = "#616161",
 
-    override val numbersColor: String = "#D49668",
-    override val symbolsColor: String = "#CFD1CF",
-    override val bracketsColor: String = "#C6C8C6",
-    override val keywordsColor: String = "#AD95B8",
-    override val methodsColor: String = "#87A1BB",
-    override val stringsColor: String = "#B7BC73",
-    override val commentsColor: String = "#969896"
+    override val numberColor: String = "#D49668",
+    override val operatorColor: String = "#CFD1CF",
+    override val bracketColor: String = "#C6C8C6",
+    override val keywordColor: String = "#AD95B8",
+    override val methodColor: String = "#87A1BB",
+    override val stringColor: String = "#B7BC73",
+    override val commentColor: String = "#969896"
 ) : ColorScheme

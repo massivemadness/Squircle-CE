@@ -15,16 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.feature.language
+package com.lightteam.language.model
 
-import java.util.regex.Pattern
+data class SuggestionModel(
+    val text: CharSequence
+) {
 
-interface LanguageProvider {
-    fun getPatternOfNumbers(): Pattern
-    fun getPatternOfSymbols(): Pattern
-    fun getPatternOfBrackets(): Pattern
-    fun getPatternOfKeywords(): Pattern
-    fun getPatternOfMethods(): Pattern
-    fun getPatternOfStrings(): Pattern
-    fun getPatternOfComments(): Pattern
+    override fun toString(): String {
+        return text.toString()
+    }
 }

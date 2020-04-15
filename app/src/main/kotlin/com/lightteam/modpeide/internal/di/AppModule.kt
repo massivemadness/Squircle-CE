@@ -25,12 +25,10 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.data.delegate.DataLayerDelegate
-import com.lightteam.javascript.parser.JavaScriptParser
 import com.lightteam.modpeide.data.repository.LocalFileRepository
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.domain.feature.parser.SourceParser
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.di.scopes.PerApplication
@@ -74,12 +72,6 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun provideSourceParser(): SourceParser {
-        return JavaScriptParser()
-    }
-
-    @Provides
-    @PerApplication
     fun provideAppUpdateManager(context: Context): AppUpdateManager {
         return AppUpdateManagerFactory.create(context)
     }
@@ -110,8 +102,7 @@ class AppModule {
         fileRepository: FileRepository,
         cacheHandler: CacheHandler,
         appDatabase: AppDatabase,
-        preferenceHandler: PreferenceHandler,
-        sourceParser: SourceParser
+        preferenceHandler: PreferenceHandler
     ): ViewModelFactory {
         return ViewModelFactory(
             schedulersProvider,
@@ -119,8 +110,7 @@ class AppModule {
             fileRepository,
             cacheHandler,
             appDatabase,
-            preferenceHandler,
-            sourceParser
+            preferenceHandler
         )
     }
 }

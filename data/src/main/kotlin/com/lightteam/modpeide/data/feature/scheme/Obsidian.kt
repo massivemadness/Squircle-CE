@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.scheme
 
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 data class Obsidian(
     override val textColor: String = "#E0E2E4",
@@ -33,11 +33,11 @@ data class Obsidian(
     override val searchBgColor: String = "#838177",
     override val bracketBgColor: String = "#616161",
 
-    override val numbersColor: String = "#F8CE4E",
-    override val symbolsColor: String = "#E7E2BC",
-    override val bracketsColor: String = "#E7E2BC",
-    override val keywordsColor: String = "#9EC56F",
-    override val methodsColor: String = "#E7E2BC",
-    override val stringsColor: String = "#DE7C2E",
-    override val commentsColor: String = "#808C92"
+    override val numberColor: String = "#F8CE4E",
+    override val operatorColor: String = "#E7E2BC",
+    override val bracketColor: String = "#E7E2BC",
+    override val keywordColor: String = "#9EC56F",
+    override val methodColor: String = "#E7E2BC",
+    override val stringColor: String = "#DE7C2E",
+    override val commentColor: String = "#808C92"
 ) : ColorScheme

@@ -15,28 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.feature.scheme
+package com.lightteam.language.suggestion
 
-interface ColorScheme {
-    val textColor: String
-    val backgroundColor: String
-    val gutterColor: String
-    val gutterDividerColor: String
-    val gutterCurrentLineNumberColor: String
-    val gutterTextColor: String
-    val selectedLineColor: String
-    val selectionColor: String
-    val filterableColor: String
+import com.lightteam.language.model.SuggestionModel
 
-    val searchBgColor: String
-    val bracketBgColor: String
-
-    //Syntax Highlighting
-    val numbersColor: String
-    val symbolsColor: String
-    val bracketsColor: String
-    val keywordsColor: String
-    val methodsColor: String
-    val stringsColor: String
-    val commentsColor: String
+interface SuggestionProvider {
+    fun getAll(): List<SuggestionModel>
 }

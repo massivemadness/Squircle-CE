@@ -20,7 +20,8 @@ package com.lightteam.modpeide.data.feature.suggestion
 import android.text.Editable
 import com.lightteam.modpeide.data.feature.Line
 import com.lightteam.modpeide.data.utils.extensions.replaceList
-import com.lightteam.modpeide.domain.model.editor.Suggestion
+import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.suggestion.SuggestionProvider
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -32,14 +33,14 @@ class WordsManager {
 
     private val wordsPattern: Pattern = Pattern.compile(WORDS_REGEX)
     private val wordsList: WordsList = WordsList()
-    private val predefinedList: MutableList<Suggestion> = mutableListOf()
+    private val predefinedList: MutableList<SuggestionModel> = mutableListOf()
 
-    fun setSuggestions(suggestions: List<Suggestion>) {
-        predefinedList.replaceList(suggestions)
+    fun setSuggestions(suggestions: SuggestionProvider) {
+        predefinedList.replaceList(suggestions.getAll())
     }
 
-    fun getSuggestions(): List<Suggestion> {
-        return wordsList.words.map { Suggestion(it.value) }
+    fun getSuggestions(): List<SuggestionModel> {
+        return wordsList.words.map { SuggestionModel(it.value) }
     }
 
     fun clear() {
@@ -50,17 +51,17 @@ class WordsManager {
         wordsList.deleteLine(line)
     }
 
-    fun processLine(editableText: Editable, line: Line, startIndex: Int, endIndex: Int) {
-        if (endIndex >= startIndex && editableText.length >= endIndex) {
-            val textLine = editableText.subSequence(startIndex, endIndex)
-            processLine(wordsPattern.matcher(textLine), textLine, line)
-        }
-    }
-
     fun processSuggestions() {
         val line = Line(Int.MIN_VALUE)
         for (word in predefinedList) {
             wordsList.addWord(word.text, line)
+        }
+    }
+
+    fun processLine(editableText: Editable, line: Line, startIndex: Int, endIndex: Int) {
+        if (endIndex >= startIndex && editableText.length >= endIndex) {
+            val textLine = editableText.subSequence(startIndex, endIndex)
+            processLine(wordsPattern.matcher(textLine), textLine, line)
         }
     }
 

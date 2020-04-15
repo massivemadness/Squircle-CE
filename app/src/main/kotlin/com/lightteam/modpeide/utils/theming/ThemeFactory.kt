@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.utils.theming
 
 import com.lightteam.modpeide.data.feature.scheme.*
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 object ThemeFactory {
 

@@ -15,5 +15,16 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':language', ':javascript'
+package com.lightteam.language.language
+
+import com.lightteam.language.parser.LanguageParser
+import com.lightteam.language.styler.LanguageStyler
+import com.lightteam.language.suggestion.SuggestionProvider
+
+interface Language {
+    fun getName(): String
+    fun getParser(): LanguageParser
+    fun getSuggestions(): SuggestionProvider
+    fun createStyler(): LanguageStyler
+    fun cancelStyler()
+}

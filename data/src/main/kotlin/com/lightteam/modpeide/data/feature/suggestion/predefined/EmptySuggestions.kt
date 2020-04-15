@@ -17,12 +17,12 @@
 
 package com.lightteam.modpeide.data.feature.suggestion.predefined
 
-import com.lightteam.modpeide.domain.feature.suggestion.SuggestionProvider
-import com.lightteam.modpeide.domain.model.editor.Suggestion
+import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.suggestion.SuggestionProvider
 
 class EmptySuggestions : SuggestionProvider {
 
-    override fun getAll(): List<Suggestion> {
+    override fun getAll(): List<SuggestionModel> {
         return emptyList()
     }
 }

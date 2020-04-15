@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.scheme
 
-import com.lightteam.modpeide.domain.feature.scheme.ColorScheme
+import com.lightteam.language.scheme.ColorScheme
 
 data class LadiesNight(
     override val textColor: String = "#E0E2E4",
@@ -33,11 +33,11 @@ data class LadiesNight(
     override val searchBgColor: String = "#8A4364",
     override val bracketBgColor: String = "#616161",
 
-    override val numbersColor: String = "#7EFBFD",
-    override val symbolsColor: String = "#E7E2BC",
-    override val bracketsColor: String = "#E7E2BC",
-    override val keywordsColor: String = "#DA89A2",
-    override val methodsColor: String = "#8FB4C5",
-    override val stringsColor: String = "#75D367",
-    override val commentsColor: String = "#808C92"
+    override val numberColor: String = "#7EFBFD",
+    override val operatorColor: String = "#E7E2BC",
+    override val bracketColor: String = "#E7E2BC",
+    override val keywordColor: String = "#DA89A2",
+    override val methodColor: String = "#8FB4C5",
+    override val stringColor: String = "#75D367",
+    override val commentColor: String = "#808C92"
 ) : ColorScheme

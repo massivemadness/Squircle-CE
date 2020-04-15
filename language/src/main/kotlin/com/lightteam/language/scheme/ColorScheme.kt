@@ -15,27 +15,28 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight
+package com.lightteam.language.scheme
 
-import android.text.TextPaint
-import android.text.style.CharacterStyle
-import java.io.Serializable
+interface ColorScheme {
+    val textColor: String
+    val backgroundColor: String
+    val gutterColor: String
+    val gutterDividerColor: String
+    val gutterCurrentLineNumberColor: String
+    val gutterTextColor: String
+    val selectedLineColor: String
+    val selectionColor: String
+    val filterableColor: String
 
-class SyntaxHighlightSpan(
-    private val span: StyleSpan,
-    private val start: Int,
-    private val end: Int
-) : CharacterStyle(), Serializable, Comparable<SyntaxHighlightSpan> {
+    val searchBgColor: String
+    val bracketBgColor: String
 
-    override fun updateDrawState(tp: TextPaint?) {
-        tp?.color = span.color
-        tp?.isFakeBoldText = span.bold
-        if(span.italic) {
-            tp?.textSkewX = -0.1f
-        }
-    }
-
-    override fun compareTo(other: SyntaxHighlightSpan): Int {
-        return start - other.start
-    }
+    //Syntax Highlighting
+    val numberColor: String
+    val operatorColor: String
+    val bracketColor: String
+    val keywordColor: String
+    val methodColor: String
+    val stringColor: String
+    val commentColor: String
 }
