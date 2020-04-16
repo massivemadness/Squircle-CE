@@ -4,10 +4,13 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ModPE-IDE.iml" filepath="$PROJECT_DIR$/ModPE-IDE.iml" group="ModPE-IDE" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="ModPE-IDE/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/data.iml" group="ModPE-IDE/data" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/domain.iml" group="ModPE-IDE/domain" />
-      <module fileurl="file://$PROJECT_DIR$/javascript/javascript.iml" filepath="$PROJECT_DIR$/javascript/javascript.iml" group="ModPE-IDE/javascript" />
-      <module fileurl="file://$PROJECT_DIR$/language/language.iml" filepath="$PROJECT_DIR$/language/language.iml" group="ModPE-IDE/language" />
+      <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" group="ModPE-IDE/data" />
+      <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" group="ModPE-IDE/domain" />
+      <module fileurl="file://$PROJECT_DIR$/languages/javascript/javascript.iml" filepath="$PROJECT_DIR$/languages/javascript/javascript.iml" group="ModPE-IDE/languages/javascript" />
+      <module fileurl="file://$PROJECT_DIR$/languages/language/language.iml" filepath="$PROJECT_DIR$/languages/language/language.iml" group="ModPE-IDE/languages/language" />
+      <module fileurl="file://$PROJECT_DIR$/languages/languages.iml" filepath="$PROJECT_DIR$/languages/languages.iml" group="ModPE-IDE/languages" />
+      <module fileurl="file://$PROJECT_DIR$/languages/javascript/languages.javascript.iml" filepath="$PROJECT_DIR$/languages/javascript/languages.javascript.iml" group="ModPE-IDE/languages/javascript" />
+      <module fileurl="file://$PROJECT_DIR$/languages/language/languages.language.iml" filepath="$PROJECT_DIR$/languages/language/languages.language.iml" group="ModPE-IDE/languages/language" />
     </modules>
   </component>
 </project>
