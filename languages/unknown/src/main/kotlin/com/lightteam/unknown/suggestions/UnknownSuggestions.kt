@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature.suggestion.predefined
+package com.lightteam.unknown.suggestions
 
-import com.lightteam.language.model.SuggestionModel
 import com.lightteam.language.suggestion.SuggestionProvider
+import com.lightteam.language.model.SuggestionModel
 
-class EmptySuggestions : SuggestionProvider {
+class UnknownSuggestions : SuggestionProvider {
 
     override fun getAll(): List<SuggestionModel> {
         return emptyList()

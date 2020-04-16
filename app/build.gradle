@@ -127,7 +127,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
     implementation project(':languages:language')
-    implementation project(':languages:javascript')
+    implementation project(':languages:unknown')
 
     //Tests
     testImplementation testLibrary.junit

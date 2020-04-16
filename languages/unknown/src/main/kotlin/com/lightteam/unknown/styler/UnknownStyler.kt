@@ -15,5 +15,10 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':languages:language', ':languages:unknown', ':languages:javascript'
+package com.lightteam.unknown.styler
+
+import com.lightteam.language.styler.LanguageStyler
+
+class UnknownStyler : LanguageStyler() {
+    override fun parse() = Unit
+}

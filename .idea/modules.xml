@@ -9,8 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/languages/javascript/javascript.iml" filepath="$PROJECT_DIR$/languages/javascript/javascript.iml" group="ModPE-IDE/languages/javascript" />
       <module fileurl="file://$PROJECT_DIR$/languages/language/language.iml" filepath="$PROJECT_DIR$/languages/language/language.iml" group="ModPE-IDE/languages/language" />
       <module fileurl="file://$PROJECT_DIR$/languages/languages.iml" filepath="$PROJECT_DIR$/languages/languages.iml" group="ModPE-IDE/languages" />
-      <module fileurl="file://$PROJECT_DIR$/languages/javascript/languages.javascript.iml" filepath="$PROJECT_DIR$/languages/javascript/languages.javascript.iml" group="ModPE-IDE/languages/javascript" />
-      <module fileurl="file://$PROJECT_DIR$/languages/language/languages.language.iml" filepath="$PROJECT_DIR$/languages/language/languages.language.iml" group="ModPE-IDE/languages/language" />
+      <module fileurl="file://$PROJECT_DIR$/languages/unknown/unknown.iml" filepath="$PROJECT_DIR$/languages/unknown/unknown.iml" group="ModPE-IDE/languages/unknown" />
     </modules>
   </component>
 </project>

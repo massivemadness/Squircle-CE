@@ -37,7 +37,6 @@ import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.content.getSystemService
 import androidx.core.graphics.toColorInt
 import androidx.core.text.getSpans
-import com.lightteam.javascript.language.JavaScriptLanguage
 import com.lightteam.language.language.Language
 import com.lightteam.language.scheme.ColorScheme
 import com.lightteam.language.styler.Styleable
@@ -55,6 +54,7 @@ import com.lightteam.modpeide.ui.editor.customview.internal.OnScrollChangedListe
 import com.lightteam.modpeide.ui.editor.customview.internal.SymbolsTokenizer
 import com.lightteam.modpeide.utils.extensions.dpToPx
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
+import com.lightteam.unknown.language.UnknownLanguage
 import java.util.regex.Pattern
 import kotlin.math.abs
 import kotlin.math.sqrt
@@ -101,7 +101,7 @@ class TextProcessor @JvmOverloads constructor(
     var undoStack: UndoStack = UndoStackImpl()
     var redoStack: UndoStack = UndoStackImpl()
 
-    var language: Language = JavaScriptLanguage()
+    var language: Language = UnknownLanguage()
     val arrayLineCount: Int
         get() = lines.lineCount - 1
 

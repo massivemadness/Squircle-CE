@@ -15,5 +15,18 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
-include ':languages:language', ':languages:unknown', ':languages:javascript'
+package com.lightteam.unknown.parser
+
+import com.lightteam.language.exception.ParseException
+import com.lightteam.language.model.ParseModel
+import com.lightteam.language.parser.LanguageParser
+import io.reactivex.Single
+
+class UnknownParser : LanguageParser {
+
+    override fun execute(name: String, source: String): Single<ParseModel> {
+        val parseException = ParseException("Unable to parse unsupported language", 0)
+        val parseModel = ParseModel(parseException)
+        return Single.just(parseModel)
+    }
+}

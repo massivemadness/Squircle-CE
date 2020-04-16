@@ -140,7 +140,7 @@
     <string name="store_feature_3">Новые шрифты</string>
     <string name="store_feature_4">Увел. лимит вкладок</string>
     <string name="store_feature_5">Авто-закрытие кавычек</string>
-    <string name="store_feature_6">Анализ кода</string>
+    <string name="store_feature_6">Проверка ошибок</string>
     <string name="store_feature_7">Вставка цвета</string>
 
     <string name="pref_header_application_title">Приложение</string>

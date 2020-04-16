@@ -20,6 +20,7 @@ package com.lightteam.modpeide.data.feature.language
 import com.lightteam.javascript.language.JavaScriptLanguage
 import com.lightteam.language.language.Language
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.unknown.language.UnknownLanguage
 
 object LanguageProvider {
 
@@ -27,7 +28,7 @@ object LanguageProvider {
         val filename = documentModel.name
         return when {
             filename.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
-            else -> JavaScriptLanguage()
+            else -> UnknownLanguage()
         }
     }
 }
