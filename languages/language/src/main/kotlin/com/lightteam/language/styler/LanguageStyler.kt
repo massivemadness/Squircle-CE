@@ -31,15 +31,15 @@ abstract class LanguageStyler {
 
     lateinit var syntaxHighlightSpans: MutableList<SyntaxHighlightSpan>
 
-    private lateinit var syntaxStyleable: Styleable
-    private var task: StylingTask? = null
-    private var cancelled = false
-
     protected lateinit var sourceCode: String
     protected lateinit var colorScheme: ColorScheme
 
     protected var parseStart = 0
     protected var parseEnd = 0
+
+    private lateinit var syntaxStyleable: Styleable
+    private var task: StylingTask? = null
+    private var cancelled = false
 
     abstract fun parse()
 

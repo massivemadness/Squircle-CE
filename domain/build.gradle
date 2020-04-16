@@ -43,5 +43,5 @@ dependencies {
     implementation library.rxjava2
 
     //Modules
-    implementation project(':language')
+    implementation project(':languages:language')
 }
