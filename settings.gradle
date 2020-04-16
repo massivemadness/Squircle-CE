@@ -16,4 +16,4 @@
  */
 
 include ':app', ':domain', ':data'
-include ':languages:language', ':languages:javascript'
+include ':language', ':javascript'

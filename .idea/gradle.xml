@@ -14,9 +14,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
-            <option value="$PROJECT_DIR$/languages" />
-            <option value="$PROJECT_DIR$/languages/javascript" />
-            <option value="$PROJECT_DIR$/languages/language" />
+            <option value="$PROJECT_DIR$/javascript" />
+            <option value="$PROJECT_DIR$/language" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

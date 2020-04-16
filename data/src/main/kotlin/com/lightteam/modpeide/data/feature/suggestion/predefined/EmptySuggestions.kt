@@ -15,40 +15,14 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+package com.lightteam.modpeide.data.feature.suggestion.predefined
 
-android {
-    def buildConfig = rootProject.extensions.getByName("ext")
+import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.suggestion.SuggestionProvider
 
-    compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
-    defaultConfig {
-        minSdkVersion buildConfig.minSdk
-        targetSdkVersion buildConfig.targetSdk
+class EmptySuggestions : SuggestionProvider {
 
-        consumerProguardFiles 'consumer-rules.pro'
+    override fun getAll(): List<SuggestionModel> {
+        return emptyList()
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-    lintOptions {
-        lintConfig file('lint.xml')
-    }
-}
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    //Kotlin
-    implementation library.kotlin
-
-    //Rx
-    implementation library.rxjava2
-
-    //Other
-    implementation library.rhino
-
-    //Modules
-    implementation project(':languages:language')
 }
