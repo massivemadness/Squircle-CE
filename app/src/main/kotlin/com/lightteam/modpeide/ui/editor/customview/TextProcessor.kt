@@ -394,6 +394,7 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     fun processText(newText: String) {
+        abortFling()
         removeTextChangedListener(textWatcher)
         setText(newText)
 
