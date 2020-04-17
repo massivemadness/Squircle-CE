@@ -48,7 +48,7 @@ class JavaScriptLanguage : Language {
     }
 
     override fun createStyler(): LanguageStyler {
-        return JavaScriptStyler() // NOT A SINGLETON
+        return JavaScriptStyler()
             .also { javaScriptStyler = it }
     }
 

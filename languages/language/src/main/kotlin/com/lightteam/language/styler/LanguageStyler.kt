@@ -29,9 +29,9 @@ abstract class LanguageStyler {
         private const val TAG = "LanguageStyler"
     }
 
-    lateinit var syntaxHighlightSpans: MutableList<SyntaxHighlightSpan>
-
+    private lateinit var syntaxHighlightSpans: MutableList<SyntaxHighlightSpan>
     private lateinit var syntaxStyleable: Styleable
+
     private var task: StylingTask? = null
     private var cancelled = false
 

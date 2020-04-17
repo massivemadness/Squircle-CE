@@ -21,10 +21,10 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import java.util.*
 
-class EventsQueue : MutableLiveData<Queue<Event<Any>>>() {
+class EventsQueue<T> : MutableLiveData<Queue<T>>() {
 
     @MainThread
-    fun offer(event: Event<Any>) {
+    fun offer(event: T) {
         val queue = value ?: LinkedList()
         queue.add(event)
         value = queue

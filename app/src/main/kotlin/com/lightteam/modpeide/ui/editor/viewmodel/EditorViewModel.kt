@@ -74,7 +74,7 @@ class EditorViewModel(
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
-    val preferenceEvent: EventsQueue = EventsQueue() //События с измененными настройками
+    val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() //События с измененными настройками
 
     // endregion EVENTS
 
