@@ -37,6 +37,8 @@ data class LadiesNight(
     override val operatorColor: String = "#E7E2BC",
     override val bracketColor: String = "#E7E2BC",
     override val keywordColor: String = "#DA89A2",
+    override val typeColor: String = "#DA89A2",
+    override val langConstColor: String = "#DA89A2",
     override val methodColor: String = "#8FB4C5",
     override val stringColor: String = "#75D367",
     override val commentColor: String = "#808C92"

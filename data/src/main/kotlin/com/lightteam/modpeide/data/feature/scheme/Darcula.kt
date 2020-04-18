@@ -37,6 +37,8 @@ data class Darcula(
     override val operatorColor: String = "#E8E2B7",
     override val bracketColor: String = "#E8E2B7",
     override val keywordColor: String = "#EC7600",
+    override val typeColor: String = "#EC7600",
+    override val langConstColor: String = "#EC7600",
     override val methodColor: String = "#FEC76C",
     override val stringColor: String = "#6E875A",
     override val commentColor: String = "#66747B"

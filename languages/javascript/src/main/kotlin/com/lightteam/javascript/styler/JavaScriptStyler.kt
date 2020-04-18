@@ -70,13 +70,13 @@ class JavaScriptStyler : LanguageStyler() {
         matcher = TYPE.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.keywordColor))
+            val span = StyleSpan(Color.parseColor(colorScheme.typeColor))
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = LANG_CONST.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.keywordColor))
+            val span = StyleSpan(Color.parseColor(colorScheme.langConstColor))
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = METHOD.matcher(sourceCode)

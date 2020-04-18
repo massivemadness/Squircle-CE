@@ -37,6 +37,8 @@ data class VisualStudio2013(
     override val operatorColor: String = "#DCDCDC",
     override val bracketColor: String = "#FFFFFF",
     override val keywordColor: String = "#669BD1",
+    override val typeColor: String = "#669BD1",
+    override val langConstColor: String = "#669BD1",
     override val methodColor: String = "#71C6B1",
     override val stringColor: String = "#CE9F89",
     override val commentColor: String = "#6BA455"

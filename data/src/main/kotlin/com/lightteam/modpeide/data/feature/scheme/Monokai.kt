@@ -37,6 +37,8 @@ data class Monokai(
     override val operatorColor: String = "#F8F8F2",
     override val bracketColor: String = "#E8E2B7",
     override val keywordColor: String = "#EB347E",
+    override val typeColor: String = "#EB347E",
+    override val langConstColor: String = "#EB347E",
     override val methodColor: String = "#B6E951",
     override val stringColor: String = "#EBE48C",
     override val commentColor: String = "#89826D"

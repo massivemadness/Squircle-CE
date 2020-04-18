@@ -36,6 +36,8 @@ interface ColorScheme {
     val operatorColor: String
     val bracketColor: String
     val keywordColor: String
+    val typeColor: String
+    val langConstColor: String
     val methodColor: String
     val stringColor: String
     val commentColor: String

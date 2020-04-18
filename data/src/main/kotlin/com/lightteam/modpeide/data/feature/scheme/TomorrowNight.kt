@@ -37,6 +37,8 @@ data class TomorrowNight(
     override val operatorColor: String = "#CFD1CF",
     override val bracketColor: String = "#C6C8C6",
     override val keywordColor: String = "#AD95B8",
+    override val typeColor: String = "#AD95B8",
+    override val langConstColor: String = "#AD95B8",
     override val methodColor: String = "#87A1BB",
     override val stringColor: String = "#B7BC73",
     override val commentColor: String = "#969896"

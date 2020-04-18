@@ -37,6 +37,8 @@ data class Obsidian(
     override val operatorColor: String = "#E7E2BC",
     override val bracketColor: String = "#E7E2BC",
     override val keywordColor: String = "#9EC56F",
+    override val typeColor: String = "#9EC56F",
+    override val langConstColor: String = "#9EC56F",
     override val methodColor: String = "#E7E2BC",
     override val stringColor: String = "#DE7C2E",
     override val commentColor: String = "#808C92"
