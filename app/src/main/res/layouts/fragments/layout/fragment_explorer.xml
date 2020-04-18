@@ -17,7 +17,8 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel"/>
@@ -47,18 +48,19 @@
                 android:id="@+id/toolbar"
                 android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-                app:title="@string/label_local_storage"/>
+                app:title="@string/label_local_storage"
+                tools:menu="@menu/menu_explorer"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:orientation="horizontal">
+                android:layout_height="36dp">
 
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
+                    android:layout_alignParentStart="true"
                     android:padding="6dp"
                     android:id="@+id/action_home"
                     android:src="@drawable/ic_home"
@@ -68,6 +70,8 @@
                 <com.google.android.material.tabs.TabLayout
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
+                    android:layout_toStartOf="@id/action_create"
+                    android:layout_toEndOf="@id/action_home"
                     android:clipChildren="true"
                     android:background="@null"
                     android:id="@+id/tab_layout"
@@ -78,7 +82,19 @@
                     app:tabGravity="start"
                     app:tabMode="scrollable"/>
 
-            </LinearLayout>
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="6dp"
+                    android:id="@+id/action_create"
+                    android:src="@drawable/ic_plus"
+                    android:background="@drawable/ripple_16dp"
+                    app:tint="?colorOnSurface"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -92,29 +108,13 @@
             android:id="@+id/swipe_refresh"
             android:background="?android:colorBackground">
 
-            <FrameLayout
+            <androidx.fragment.app.FragmentContainerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/nav_host"
-                    android:name="androidx.navigation.fragment.NavHostFragment"
-                    app:navGraph="@navigation/navigation_graph"
-                    app:defaultNavHost="true"/>
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="24dp"
-                    android:id="@+id/action_create"
-                    android:src="@drawable/ic_plus"
-                    android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.INVISIBLE}"
-                    app:tint="@color/colorOnPrimary"/>
-
-            </FrameLayout>
+                android:layout_height="match_parent"
+                android:id="@+id/nav_host"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                app:navGraph="@navigation/navigation_graph"
+                app:defaultNavHost="true"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
