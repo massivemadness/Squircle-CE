@@ -17,17 +17,27 @@
 
 package com.lightteam.modpeide.utils.theming
 
+import com.lightteam.modpeide.data.feature.scheme.*
+import com.lightteam.language.scheme.ColorScheme
+
 object ThemeFactory {
 
-    fun create(theme: String): AbstractTheme {
+    const val THEME_DARCULA = "THEME_DARCULA"
+    const val THEME_MONOKAI = "THEME_MONOKAI"
+    const val THEME_OBSIDIAN = "THEME_OBSIDIAN"
+    const val THEME_LADIES_NIGHT = "THEME_LADIES_NIGHT"
+    const val THEME_TOMORROW_NIGHT = "THEME_TOMORROW_NIGHT"
+    const val THEME_VISUAL_STUDIO_2013 = "THEME_VISUAL_STUDIO_2013"
+
+    fun create(theme: String): ColorScheme {
         return when(theme) {
-            Themes.THEME_DARCULA -> Themes.Darcula()
-            Themes.THEME_MONOKAI -> Themes.Monokai()
-            Themes.THEME_OBSIDIAN -> Themes.Obsidian()
-            Themes.THEME_LADIES_NIGHT -> Themes.LadiesNight()
-            Themes.THEME_TOMORROW_NIGHT -> Themes.TomorrowNight()
-            Themes.THEME_VISUAL_STUDIO_2013 -> Themes.VisualStudio2013()
-            else -> create(Themes.THEME_DARCULA)
+            THEME_DARCULA -> Darcula()
+            THEME_MONOKAI -> Monokai()
+            THEME_OBSIDIAN -> Obsidian()
+            THEME_LADIES_NIGHT -> LadiesNight()
+            THEME_TOMORROW_NIGHT -> TomorrowNight()
+            THEME_VISUAL_STUDIO_2013 -> VisualStudio2013()
+            else -> create(THEME_DARCULA)
         }
     }
 }

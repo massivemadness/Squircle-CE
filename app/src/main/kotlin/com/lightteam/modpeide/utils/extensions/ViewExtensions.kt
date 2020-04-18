@@ -56,7 +56,7 @@ fun PopupMenu.makeRightPaddingRecursively() {
 
 fun MenuItem.makeRightPadding() {
     if (icon != null) {
-        val iconMargin = 8.toPx() // 8 dp to px
+        val iconMargin = 8.dpToPx() // 8 dp to px
         icon = InsetDrawable(icon, iconMargin, 0, iconMargin, 0)
     }
 }
@@ -71,17 +71,15 @@ fun <T : Fragment> FragmentContainerView.fragment(): T {
 }
 
 val NavHostFragment.backStackEntryCount: Int
-    get() {
-        return childFragmentManager.backStackEntryCount
-    }
+    get() = childFragmentManager.backStackEntryCount
 
-fun NavController.popBackStack(n_times: Int) {
-    for (n in 0 until n_times) {
+fun NavController.popBackStack(n: Int) {
+    for (index in 0 until n) {
         popBackStack()
     }
 }
 
-fun TabLayout.newTab(name: String, resId: Int, callback: (TabLayout.Tab) -> Unit): TabLayout.Tab {
+fun TabLayout.newTab(name: String, resId: Int, callback: (TabLayout.Tab) -> Unit) {
     val tab = newTab()
     tab.text = name
     tab.setCustomView(resId)
@@ -89,11 +87,10 @@ fun TabLayout.newTab(name: String, resId: Int, callback: (TabLayout.Tab) -> Unit
     post {
         callback.invoke(tab)
     }
-    return tab
 }
 
 fun TabLayout.removeLast(n: Int) {
-    for (n in 0 until n) {
+    for (index in 0 until n) {
         val count = tabCount - 1
         removeTabAt(count)
     }

@@ -36,7 +36,7 @@
         tools:replace="android:supportsRtl">
 
         <activity
-            android:name="com.lightteam.modpeide.ui.editor.activities.EditorActivity"
+            android:name="com.lightteam.modpeide.ui.main.activities.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask">
@@ -45,7 +45,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.EDIT"/>
 
@@ -54,17 +54,16 @@
                 <data android:scheme="file"/>
                 <data android:scheme="content"/>
                 <data android:mimeType="text/*"/>
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity
             android:name="com.lightteam.modpeide.ui.settings.activities.SettingsActivity"
-            android:parentActivityName="com.lightteam.modpeide.ui.editor.activities.EditorActivity"
+            android:parentActivityName="com.lightteam.modpeide.ui.main.activities.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:launchMode="standard"
             android:label="@string/label_settings"/>
 
-        <provider
+        <!--<provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
@@ -72,7 +71,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
-        </provider>
+        </provider>-->
 
     </application>
 

@@ -22,7 +22,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -36,7 +35,7 @@ import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
 import com.lightteam.modpeide.domain.model.explorer.FileModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
-import com.lightteam.modpeide.ui.editor.activities.EditorActivity
+import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,13 +43,13 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ExplorerFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
+class ExplorerFragment : BaseFragment(), OnBackPressedHandler {
 
     @Inject
     lateinit var viewModel: ExplorerViewModel
 
-    private lateinit var binding: FragmentExplorerBinding
     private lateinit var navController: NavController
+    private lateinit var binding: FragmentExplorerBinding
 
     override fun layoutId(): Int = R.layout.fragment_explorer
 
@@ -64,17 +63,26 @@ class ExplorerFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        view.post { // to avoid exception :c
-            navController = binding.navHost.findNavController()
-        }
         observeViewModel()
 
+        view.post { // to avoid exception
+            navController = binding.navHost.findNavController()
+        }
         setSupportActionBar(binding.toolbar)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.filesUpdateEvent.call()
             binding.swipeRefresh.isRefreshing = false
         }
-        binding.tabLayout.addOnTabSelectedListener(this)
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                binding.tabLayout.post {
+                    navController.popBackStack(binding.tabLayout.tabCount - 1 - tab.position)
+                    removeTab(binding.tabLayout.tabCount - 1 - tab.position)
+                }
+            }
+        })
         binding.actionHome.setOnClickListener {
             val backStackCount = binding.navHost.fragment<NavHostFragment>().backStackEntryCount
             navController.popBackStack(backStackCount - 1)
@@ -83,21 +91,16 @@ class ExplorerFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
         binding.actionCreate.setOnClickListener {
             viewModel.fabEvent.call()
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            val backStackCount = binding.navHost.fragment<NavHostFragment>().backStackEntryCount
-            if (backStackCount > 1) {
-                navController.popBackStack()
-                removeTab(1)
-            } else {
-                (requireActivity() as EditorActivity).closeDrawers()
-            }
-        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.tabLayout.removeOnTabSelectedListener(this)
+    override fun handleOnBackPressed(): Boolean {
+        val backStackCount = binding.navHost.fragment<NavHostFragment>().backStackEntryCount
+        if (backStackCount > 1) {
+            navController.popBackStack()
+            removeTab(1)
+            return true
+        }
+        return false
     }
 
     // region MENU
@@ -130,6 +133,7 @@ class ExplorerFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
         val sortByName = menu.findItem(R.id.sort_by_name)
         val sortBySize = menu.findItem(R.id.sort_by_size)
         val sortByDate = menu.findItem(R.id.sort_by_date)
+
         when (viewModel.sortMode) {
             FileSorter.SORT_BY_NAME -> sortByName.isChecked = true
             FileSorter.SORT_BY_SIZE -> sortBySize.isChecked = true
@@ -138,7 +142,7 @@ class ExplorerFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.action_show_hidden -> {
                 viewModel.setFilterHidden(!item.isChecked)
             }
@@ -157,19 +161,6 @@ class ExplorerFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
 
     // endregion MENU
 
-    // region TABS
-
-    override fun onTabReselected(tab: TabLayout.Tab) {}
-    override fun onTabUnselected(tab: TabLayout.Tab) {}
-    override fun onTabSelected(tab: TabLayout.Tab) {
-        binding.tabLayout.post {
-            navController.popBackStack(binding.tabLayout.tabCount - 1 - tab.position)
-            removeTab(binding.tabLayout.tabCount - 1 - tab.position)
-        }
-    }
-
-    // endregion TABS
-
     private fun observeViewModel() {
         viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
             showToast(it)
@@ -186,8 +177,8 @@ class ExplorerFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
         }
     }
 
-    private fun removeTab(n_times: Int) {
-        viewModel.removeLastTabs(n_times)
-        binding.tabLayout.removeLast(n_times)
+    private fun removeTab(n: Int) {
+        viewModel.removeLastTabs(n)
+        binding.tabLayout.removeLast(n)
     }
 }

@@ -44,8 +44,8 @@ class PermissionsFragment : BaseFragment() {
     @Inject
     lateinit var viewModel: ExplorerViewModel
 
-    private lateinit var binding: FragmentPermissionsBinding
     private lateinit var navController: NavController
+    private lateinit var binding: FragmentPermissionsBinding
 
     override fun layoutId(): Int = R.layout.fragment_permissions
 
@@ -54,9 +54,9 @@ class PermissionsFragment : BaseFragment() {
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        navController = findNavController()
         observeViewModel()
 
+        navController = findNavController()
         binding.actionAccess.setOnClickListener {
             requestPermissionsUsingDialog()
         }

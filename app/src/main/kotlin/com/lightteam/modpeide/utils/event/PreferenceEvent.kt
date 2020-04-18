@@ -17,21 +17,20 @@
 
 package com.lightteam.modpeide.utils.event
 
-import com.lightteam.modpeide.utils.theming.AbstractTheme
+import com.lightteam.language.scheme.ColorScheme
 
-object PreferenceEvent {
-    class Theme(value: AbstractTheme) : Event<AbstractTheme>(value)
-    class Fullscreen(value: Boolean) : Event<Boolean>(value)
-    class FontSize(value: Float) : Event<Float>(value)
-    class FontType(value: String) : Event<String>(value)
-    class WordWrap(value: Boolean) : Event<Boolean>(value)
-    class CodeCompletion(value: Boolean) : Event<Boolean>(value)
-    class PinchZoom(value: Boolean) : Event<Boolean>(value)
-    class CurrentLine(value: Boolean) : Event<Boolean>(value)
-    class Delimiters(value: Boolean) : Event<Boolean>(value)
-    class ExtendedKeys(value: Boolean) : Event<Boolean>(value)
-    class SoftKeys(value: Boolean) : Event<Boolean>(value)
-    class AutoIndent(value: Boolean) : Event<Boolean>(value)
-    class AutoBrackets(value: Boolean) : Event<Boolean>(value)
-    class AutoQuotes(value: Boolean) : Event<Boolean>(value)
+sealed class PreferenceEvent<T>(val value: T) {
+    class Theme(value: ColorScheme) : PreferenceEvent<ColorScheme>(value)
+    class FontSize(value: Float) : PreferenceEvent<Float>(value)
+    class FontType(value: String) : PreferenceEvent<String>(value)
+    class WordWrap(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class CodeCompletion(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class PinchZoom(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class CurrentLine(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class Delimiters(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class ExtendedKeys(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class SoftKeys(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class AutoIndent(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class AutoBrackets(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class AutoQuotes(value: Boolean) : PreferenceEvent<Boolean>(value)
 }

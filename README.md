@@ -1,11 +1,14 @@
-# ModPE IDE v2020.1.1
+# ModPE IDE v2020.1.2
 
-<b>ModPE IDE</b> is a professional IDE primarily for ModPE Script development.
+<b>ModPE IDE</b> is a professional code editor or IDE primarily for ModPE Script development.
 
-![Image](.images/banner.png)
+![Android CI](https://github.com/massivemadness/ModPE-IDE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+![Image](.images/repository-open-graph.png)
+
+## Download
 <a href="https://play.google.com/store/apps/details?id=com.KillerBLS.modpeide">
-<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width = 225/>
+<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"/>
 </a>
 
 ----------
@@ -30,11 +33,8 @@
 <b>•</b> New font types  
 <b>•</b> Increased tab limit  
 <b>•</b> Auto-close quotes  
-<b>•</b> Code Analysis  
+<b>•</b> Error Checking  
 <b>•</b> Color Picker
-
-### CONTACT US
-<b>•</b> <u>lightteamsoftware@gmail.com</u>
 
 ### LICENSE
 ```

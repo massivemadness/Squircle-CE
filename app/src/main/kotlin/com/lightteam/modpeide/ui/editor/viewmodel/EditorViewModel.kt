@@ -19,25 +19,21 @@ package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.InstallStatus
-import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.ktx.installStatus
+import com.lightteam.language.language.Language
+import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
-import com.lightteam.modpeide.data.parser.ScriptEngine
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.data.utils.extensions.*
-import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
+import com.lightteam.modpeide.data.utils.extensions.containsDocumentModel
+import com.lightteam.modpeide.data.utils.extensions.index
+import com.lightteam.modpeide.data.utils.extensions.replaceList
+import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
-import com.lightteam.modpeide.domain.model.explorer.AnalysisModel
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
@@ -49,7 +45,6 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val appUpdateManager: AppUpdateManager,
     private val fileRepository: FileRepository,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
@@ -77,58 +72,20 @@ class EditorViewModel(
     val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
     val selectionEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выделение вкладки уже открытого файла
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
-    val analysisEvent: SingleLiveEvent<AnalysisModel> = SingleLiveEvent() //Анализ кода
+    val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
-    val updateEvent: SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>> = SingleLiveEvent()
-    val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() //События с измененными настройками
 
     // endregion EVENTS
 
     // region PREFERENCES
 
-    val preferenceEvent: EventsQueue = EventsQueue() //События с измененными настройками
-
-    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     private val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent()
 
     // endregion PREFERENCES
 
     val tabsList: MutableList<DocumentModel> = mutableListOf()
-
-    private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
-        if (state.installStatus == InstallStatus.DOWNLOADED) {
-            installEvent.call()
-        }
-    }
-
-    // region IN-APP UPDATES
-
-    fun checkUpdate() {
-        appUpdateManager.registerListener(installStateUpdatedListener)
-        appUpdateManager.appUpdateInfo
-            .addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                        updateEvent.value = Triple(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE)
-                    } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                        updateEvent.value = Triple(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE)
-                    }
-                } else {
-                    appUpdateManager.unregisterListener(installStateUpdatedListener)
-                }
-            }
-            .addOnFailureListener {
-                Log.e(TAG, it.message, it)
-            }
-    }
-
-    fun completeUpdate() {
-        appUpdateManager.unregisterListener(installStateUpdatedListener)
-        appUpdateManager.completeUpdate()
-    }
-
-    // endregion IN-APP UPDATES
 
     private fun loadFiles() {
         if (resumeSessionEvent.value!!) { // must receive value before calling
@@ -176,6 +133,7 @@ class EditorViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
+                    saveToCache(it.documentModel, it.text)
                     contentEvent.value = it
                 },
                 onError = {
@@ -274,10 +232,11 @@ class EditorViewModel(
         }
     }
 
-    fun analyze(position: Int, sourceCode: String) {
-        ScriptEngine.analyze(tabsList[position].name, sourceCode)
+    fun parse(language: Language, position: Int, sourceCode: String) {
+        language.getParser()
+            .execute(tabsList[position].name, sourceCode)
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { analysisEvent.value = it }
+            .subscribeBy { parseEvent.value = it }
             .disposeOnViewModelDestroy()
     }
 
@@ -288,18 +247,6 @@ class EditorViewModel(
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { preferenceEvent.offer(PreferenceEvent.Theme(ThemeFactory.create(it))) }
-            .disposeOnViewModelDestroy()
-
-        preferenceHandler.getFullscreenMode()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.Fullscreen(it)) }
-            .disposeOnViewModelDestroy()
-
-        preferenceHandler.getConfirmExit()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { backEvent.value = it }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getFontSize()

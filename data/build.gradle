@@ -57,15 +57,14 @@ dependencies {
 
     //Rx
     implementation library.rxjava2
-    implementation library.rxandroid
     implementation library.rxkotlin
     implementation library.rxpreferences
 
-    //Other
-    implementation library.rhino
-
     //Modules
     implementation project(':domain')
+    implementation project(':languages:language')
+    implementation project(':languages:unknown')
+    implementation project(':languages:javascript')
 
     //Tests
     testImplementation testLibrary.junit

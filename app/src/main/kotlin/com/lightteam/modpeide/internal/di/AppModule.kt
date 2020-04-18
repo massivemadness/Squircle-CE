@@ -96,12 +96,14 @@ class AppModule {
 
     @Provides
     @PerApplication
-    fun provideViewModelFactory(schedulersProvider: SchedulersProvider,
-                                appUpdateManager: AppUpdateManager,
-                                fileRepository: FileRepository,
-                                cacheHandler: CacheHandler,
-                                appDatabase: AppDatabase,
-                                preferenceHandler: PreferenceHandler): ViewModelFactory {
+    fun provideViewModelFactory(
+        schedulersProvider: SchedulersProvider,
+        appUpdateManager: AppUpdateManager,
+        fileRepository: FileRepository,
+        cacheHandler: CacheHandler,
+        appDatabase: AppDatabase,
+        preferenceHandler: PreferenceHandler
+    ): ViewModelFactory {
         return ViewModelFactory(
             schedulersProvider,
             appUpdateManager,

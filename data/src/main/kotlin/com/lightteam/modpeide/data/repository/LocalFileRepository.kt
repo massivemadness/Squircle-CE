@@ -20,6 +20,7 @@ package com.lightteam.modpeide.data.repository
 import android.os.Environment
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.FileConverter
+import com.lightteam.modpeide.data.feature.language.LanguageProvider
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.utils.extensions.formatAsDate
@@ -51,8 +52,7 @@ class LocalFileRepository(
         return Single.create { emitter ->
             val parent = FileConverter.toModel(defaultLocation)
             if (defaultLocation.isDirectory) {
-                val children = defaultLocation
-                    .listFiles()!!
+                val children = defaultLocation.listFiles()!!
                     .map(FileConverter::toModel)
                     .toList()
                 val fileTree = FileTree(parent, children)
@@ -68,8 +68,7 @@ class LocalFileRepository(
             Single.create { emitter ->
                 val realFile = FileConverter.toFile(parent)
                 if (realFile.isDirectory) {
-                    val children = realFile
-                        .listFiles()!!
+                    val children = realFile.listFiles()!!
                         .map(FileConverter::toModel)
                         .toList()
                     val fileTree = FileTree(parent, children)
@@ -163,12 +162,12 @@ class LocalFileRepository(
         return Single.create { emitter ->
             appDatabase.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
 
-            // Load from Storage
             val file = File(documentModel.path)
             if (file.exists()) {
                 val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
                 val documentContent = DocumentContent(
                     documentModel,
+                    LanguageProvider.provide(documentModel),
                     UndoStackImpl(),
                     UndoStackImpl(),
                     text
@@ -184,7 +183,6 @@ class LocalFileRepository(
         return Completable.create { emitter ->
             appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
 
-            // Save to Storage
             val file = File(documentModel.path)
             if (!file.exists()) {
                 file.createNewFile()

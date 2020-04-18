@@ -68,7 +68,7 @@
     <string name="dialog_title_find">Найти…</string>
     <string name="dialog_title_replace_all">Заменить все…</string>
     <string name="dialog_title_goto_line">Перейти к строке…</string>
-    <string name="dialog_title_result">Результат:</string>
+    <string name="dialog_title_result">Результат</string>
 
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл? Это действие нельзя отменить</string>
@@ -127,7 +127,7 @@
     <string name="menu_search_find">Найти</string>
     <string name="menu_search_replace_all">Заменить все</string>
     <string name="menu_search_gotoLine">Перейти к строке</string>
-    <string name="menu_tools_codeAnalysis">Анализ кода</string>
+    <string name="menu_tools_errorChecking">Проверка ошибок</string>
     <string name="menu_tools_insertColor">Вставить цвет</string>
     <string name="menu_overflow_settings">Настройки</string>
     <string name="menu_overflow_search">Поиск</string>
@@ -140,7 +140,7 @@
     <string name="store_feature_3">Новые шрифты</string>
     <string name="store_feature_4">Увел. лимит вкладок</string>
     <string name="store_feature_5">Авто-закрытие кавычек</string>
-    <string name="store_feature_6">Анализ кода</string>
+    <string name="store_feature_6">Проверка ошибок</string>
     <string name="store_feature_7">Вставка цвета</string>
 
     <string name="pref_header_application_title">Приложение</string>

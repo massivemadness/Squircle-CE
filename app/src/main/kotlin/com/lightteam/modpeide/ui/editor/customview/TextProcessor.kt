@@ -21,10 +21,12 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.Typeface
 import android.text.*
 import android.text.style.BackgroundColorSpan
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.VelocityTracker
@@ -33,28 +35,35 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.content.getSystemService
+import androidx.core.graphics.toColorInt
 import androidx.core.text.getSpans
+import com.lightteam.language.language.Language
+import com.lightteam.language.scheme.ColorScheme
+import com.lightteam.language.styler.Styleable
+import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.LinesCollection
-import com.lightteam.modpeide.data.feature.language.JavaScriptLanguage
+import com.lightteam.modpeide.data.feature.scheme.Darcula
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
-import com.lightteam.modpeide.domain.feature.language.LanguageProvider
+import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.model.editor.TextChange
 import com.lightteam.modpeide.ui.editor.adapters.SuggestionAdapter
-import com.lightteam.modpeide.ui.editor.customview.internal.codecompletion.SymbolsTokenizer
-import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.StyleSpan
-import com.lightteam.modpeide.ui.editor.customview.internal.syntaxhighlight.SyntaxHighlightSpan
-import com.lightteam.modpeide.ui.editor.customview.internal.textscroller.OnScrollChangedListener
+import com.lightteam.modpeide.ui.editor.customview.internal.OnScrollChangedListener
+import com.lightteam.modpeide.ui.editor.customview.internal.SymbolsTokenizer
+import com.lightteam.modpeide.utils.extensions.dpToPx
 import com.lightteam.modpeide.utils.extensions.getScaledDensity
-import com.lightteam.modpeide.utils.extensions.toPx
-import com.lightteam.modpeide.utils.theming.AbstractTheme
+import com.lightteam.unknown.language.UnknownLanguage
 import java.util.regex.Pattern
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoCompleteTextView(context, attrs) {
+class TextProcessor @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = R.attr.editTextStyle
+) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr), Styleable {
 
     data class Configuration(
         //Font
@@ -77,37 +86,13 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var autoCloseQuotes: Boolean = false
     )
 
-    data class Theme(
-        override val textColor: Int = Color.WHITE,
-        override val backgroundColor: Int = Color.DKGRAY,
-        override val gutterColor: Int = Color.GRAY,
-        override val gutterTextColor: Int = Color.WHITE,
-        override val gutterDividerColor: Int = Color.WHITE,
-        override val gutterCurrentLineNumberColor: Int = Color.GRAY,
-        override val selectedLineColor: Int = Color.GRAY,
-        override val selectionColor: Int = Color.LTGRAY,
-        override val filterableColor: Int = Color.DKGRAY,
-
-        override val searchBgColor: Int = Color.GREEN,
-        override val bracketBgColor: Int = Color.GREEN,
-
-        //Syntax Highlighting
-        override val numbersColor: Int = Color.WHITE,
-        override val symbolsColor: Int = Color.WHITE,
-        override val bracketsColor: Int = Color.WHITE,
-        override val keywordsColor: Int = Color.WHITE,
-        override val methodsColor: Int = Color.WHITE,
-        override val stringsColor: Int = Color.WHITE,
-        override val commentsColor: Int = Color.WHITE
-    ) : AbstractTheme()
-
     var configuration: Configuration = Configuration()
         set(value) {
             field = value
             configure()
         }
 
-    var theme: AbstractTheme = Theme()
+    var colorScheme: ColorScheme = Darcula()
         set(value) {
             field = value
             colorize()
@@ -116,56 +101,62 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     var undoStack: UndoStack = UndoStackImpl()
     var redoStack: UndoStack = UndoStackImpl()
 
-    var languageProvider: LanguageProvider = JavaScriptLanguage() //= UnknownLanguage()
-    //var suggestionProvider: SuggestionProvider = ModPESuggestions() //= UnknownSuggestions()
-
+    var language: Language = UnknownLanguage()
     val arrayLineCount: Int
         get() = lines.lineCount - 1
 
     private val textScroller = Scroller(context)
-    private val wordsManager = WordsManager()
     private val suggestionAdapter = SuggestionAdapter(context, R.layout.item_suggestion)
+    private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    private val wordsManager: WordsManager = WordsManager()
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
     private val scaledDensity = context.getScaledDensity()
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            textChangeStart = start
-            textChangeEnd = start + count
-            if (!isDoingUndoRedo) {
-                if (count < UndoStackImpl.MAX_SIZE) {
-                    textLastChange = TextChange(
-                        "",
-                        s?.subSequence(start, start + count).toString(),
-                        start
-                    )
-                    return
+            cancelSyntaxHighlighting()
+            addedTextCount -= count
+            if (!isSyntaxHighlighting) {
+                textChangeStart = start
+                textChangeEnd = start + count
+                if (!isDoingUndoRedo) {
+                    if (count < UndoStackImpl.MAX_SIZE) {
+                        textLastChange = TextChange(
+                            newText = "",
+                            oldText = s?.subSequence(start, start + count).toString(),
+                            start = start
+                        )
+                        return
+                    }
+                    undoStack.removeAll()
+                    redoStack.removeAll()
+                    textLastChange = null
                 }
-                undoStack.removeAll()
-                redoStack.removeAll()
-                textLastChange = null
             }
             abortFling()
         }
         override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+            addedTextCount += count
             newText = text?.subSequence(start, start + count).toString()
             completeIndentation(start, count)
-            textChangedNewText = text?.subSequence(start, start + count).toString()
-            replaceText(textChangeStart, textChangeEnd, textChangedNewText)
-            if (!isDoingUndoRedo && textLastChange != null) {
-                if (count < UndoStackImpl.MAX_SIZE) {
-                    textLastChange?.newText = text?.subSequence(start, start + count).toString()
-                    if (start == textLastChange?.start &&
-                        (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!) &&
-                        !textLastChange?.oldText?.equals(textLastChange?.newText)!!) {
-                        undoStack.push(textLastChange!!)
+            if (!isSyntaxHighlighting) {
+                textChangedNewText = text?.subSequence(start, start + count).toString()
+                replaceText(textChangeStart, textChangeEnd, textChangedNewText)
+                if (!isDoingUndoRedo && textLastChange != null) {
+                    if (count < UndoStackImpl.MAX_SIZE) {
+                        textLastChange?.newText = text?.subSequence(start, start + count).toString()
+                        if (start == textLastChange?.start
+                            && (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!)
+                            && textLastChange?.oldText != textLastChange?.newText) {
+                            undoStack.push(textLastChange!!)
+                            redoStack.removeAll()
+                        }
+                    } else {
+                        undoStack.removeAll()
                         redoStack.removeAll()
                     }
-                } else {
-                    undoStack.removeAll()
-                    redoStack.removeAll()
+                    textLastChange = null
                 }
-                textLastChange = null
             }
             newText = ""
             if (configuration.codeCompletion) {
@@ -174,7 +165,11 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         }
         override fun afterTextChanged(s: Editable?) {
             clearSearchSpans()
-            clearSyntaxSpans()
+            updateGutter()
+            if (!isSyntaxHighlighting && !isDoingUndoRedo) {
+                shiftSpans(selectionStart, addedTextCount)
+            }
+            addedTextCount = 0
             syntaxHighlight()
         }
     }
@@ -188,21 +183,14 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
 
-    private val numbersSpan = StyleSpan(color = theme.numbersColor)
-    private val symbolsSpan = StyleSpan(color = theme.symbolsColor)
-    private val bracketsSpan = StyleSpan(color = theme.bracketsColor)
-    private val keywordsSpan = StyleSpan(color = theme.keywordsColor)
-    private val methodsSpan = StyleSpan(color = theme.methodsColor)
-    private val stringsSpan = StyleSpan(color = theme.stringsColor)
-    private val commentsSpan = StyleSpan(color = theme.commentsColor, italic = true)
-
     private val tabString = "    " // 4 spaces
     private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
 
-    private var openBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
-    private var closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
+    private var openBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
+    private var closedBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
 
     private var isDoingUndoRedo = false
+    private var isSyntaxHighlighting = false
     private var isAutoIndenting = false
     private var isFindSpansVisible = false
 
@@ -214,7 +202,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     private var gutterWidth = 0
     private var gutterDigitCount = 0
-    private var gutterMargin = 4.toPx() // 4 dp to pixels
+    private var gutterMargin = 4.dpToPx() // 4 dp to pixels
 
     private var textLastChange: TextChange? = null
     private var textChangeStart = 0
@@ -222,6 +210,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     private var textChangedNewText = ""
 
     private var newText = ""
+    private var addedTextCount = 0
 
     private var topDirtyLine = 0
     private var bottomDirtyLine = 0
@@ -232,13 +221,9 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     // region INIT
 
-    init {
-        suggestionAdapter.setWordsManager(wordsManager)
-    }
-
     private fun configure() {
         imeOptions = if (configuration.softKeyboard) {
-            0 //Normal
+            EditorInfo.IME_ACTION_UNSPECIFIED
         } else {
             EditorInfo.IME_FLAG_NO_EXTRACT_UI
         }
@@ -256,12 +241,10 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         } else {
             setTokenizer(null)
         }
-        if (configuration.pinchZoom) {
-            setOnTouchListener { _, event ->
+        setOnTouchListener { _, event ->
+            if (configuration.pinchZoom) {
                 pinchZoom(event)
-            }
-        } else {
-            setOnTouchListener { _, event ->
+            } else {
                 onTouchEvent(event)
             }
         }
@@ -269,46 +252,38 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     private fun colorize() {
         post {
-            setTextColor(theme.textColor)
-            setBackgroundColor(theme.backgroundColor)
-            highlightColor = theme.selectionColor
+            setTextColor(colorScheme.textColor.toColorInt())
+            setBackgroundColor(colorScheme.backgroundColor.toColorInt())
+            highlightColor = colorScheme.selectionColor.toColorInt()
 
-            selectedLinePaint.color = theme.selectedLineColor
+            selectedLinePaint.color = colorScheme.selectedLineColor.toColorInt()
             selectedLinePaint.isAntiAlias = false
             selectedLinePaint.isDither = false
 
-            gutterPaint.color = theme.gutterColor
+            gutterPaint.color = colorScheme.gutterColor.toColorInt()
             gutterPaint.isAntiAlias = false
             gutterPaint.isDither = false
 
-            gutterDividerPaint.color = theme.gutterDividerColor
+            gutterDividerPaint.color = colorScheme.gutterDividerColor.toColorInt()
             gutterDividerPaint.isAntiAlias = false
             gutterDividerPaint.isDither = false
             gutterDividerPaint.style = Paint.Style.STROKE
             gutterDividerPaint.strokeWidth = 2.6f
 
-            gutterCurrentLineNumberPaint.color = theme.gutterCurrentLineNumberColor
+            gutterCurrentLineNumberPaint.color = colorScheme.gutterCurrentLineNumberColor.toColorInt()
             gutterCurrentLineNumberPaint.isAntiAlias = true
             gutterCurrentLineNumberPaint.isDither = false
             gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
-            gutterTextPaint.color = theme.gutterTextColor
+            gutterTextPaint.color = colorScheme.gutterTextColor.toColorInt()
             gutterTextPaint.isAntiAlias = true
             gutterTextPaint.isDither = false
             gutterTextPaint.textAlign = Paint.Align.RIGHT
 
-            numbersSpan.color = theme.numbersColor
-            symbolsSpan.color = theme.symbolsColor
-            bracketsSpan.color = theme.bracketsColor
-            keywordsSpan.color = theme.keywordsColor
-            methodsSpan.color = theme.methodsColor
-            stringsSpan.color = theme.stringsColor
-            commentsSpan.color = theme.commentsColor
+            suggestionAdapter.color = colorScheme.filterableColor.toColorInt()
 
-            suggestionAdapter.color = theme.filterableColor
-
-            openBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
-            closedBracketSpan = BackgroundColorSpan(theme.bracketBgColor)
+            openBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
+            closedBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
         }
     }
 
@@ -406,12 +381,19 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         //invalidate()
     }
 
-    fun getFacadeText(): String {
+    override fun setSelection(start: Int, stop: Int) {
+        if (start <= text.length && stop <= text.length) {
+            super.setSelection(start, stop)
+        }
+    }
+
+    fun getProcessedText(): String {
         return facadeText.toString()
     }
 
-    fun setFacadeText(newText: String) {
-        disableUndoRedo()
+    fun processText(newText: String) {
+        abortFling()
+        removeTextChangedListener(textWatcher)
         setText(newText)
 
         wordsManager.clear()
@@ -433,20 +415,13 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             lineNumber++
         }
         lines.add(lineNumber, lineStart)
-        enableUndoRedo()
+        fillWithPredefinedSuggestions()
+        addTextChangedListener(textWatcher)
         syntaxHighlight()
     }
 
     fun clearText() {
-        setFacadeText("")
-    }
-
-    private fun enableUndoRedo() {
-        addTextChangedListener(textWatcher)
-    }
-
-    private fun disableUndoRedo() {
-        removeTextChangedListener(textWatcher)
+        processText("")
     }
 
     // endregion CORE
@@ -544,7 +519,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 end = text.length
             }
             text.replace(textChange.start, end, textChange.oldText)
-            Selection.setSelection(text, textChange.start + textChange.oldText.length)
+            setSelection(textChange.start + textChange.oldText.length)
             redoStack.push(textChange)
             isDoingUndoRedo = false
         } else {
@@ -560,7 +535,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 textChange.start,
                 textChange.start + textChange.oldText.length, textChange.newText
             )
-            Selection.setSelection(text, textChange.start + textChange.newText.length)
+            setSelection(textChange.start + textChange.newText.length)
             undoStack.push(textChange)
             isDoingUndoRedo = false
         } else {
@@ -595,7 +570,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         val matcher = pattern.matcher(text)
         while (matcher.find()) {
             text.setSpan(
-                BackgroundColorSpan(theme.searchBgColor),
+                BackgroundColorSpan(colorScheme.searchBgColor.toColorInt()),
                 matcher.start(),
                 matcher.end(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -759,8 +734,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             } else {
                 return
             }
-            val newCursorPosition: Int
-            newCursorPosition = if (result[3] != null) {
+            val newCursorPosition = if (result[3] != null) {
                 Integer.parseInt(result[3]!!)
             } else {
                 start + replacementValue.length
@@ -774,7 +748,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                     change.newText = replacementValue
                     undoStack.push(change)
                 }
-                Selection.setSelection(text, newCursorPosition)
+                setSelection(newCursorPosition)
                 isAutoIndenting = false
             }
         }
@@ -884,7 +858,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         var i = start
         while (i < text.length) {
             val char = text[i]
-            if (!Character.isWhitespace(char) || char == '\n') {
+            if (!char.isWhitespace() || char == '\n') {
                 break
             }
             i++
@@ -896,137 +870,60 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
 
     // region SYNTAX_HIGHLIGHT
 
-    private fun syntaxHighlight() {
+    private fun updateSyntaxHighlighting() {
         if (layout != null) {
-            var topLine = scrollY / lineHeight - 10
-            var bottomLine = (scrollY + height) / lineHeight + 11
-            if (topLine < 0) {
+            val textSyntaxSpans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
+            for (span in textSyntaxSpans) {
+                text.removeSpan(span)
+            }
+
+            var topLine = scrollY / lineHeight - 30
+            if (topLine >= lineCount) {
+                topLine = lineCount - 1
+            } else if (topLine < 0) {
                 topLine = 0
             }
-            if (bottomLine > layout.lineCount) {
-                bottomLine = layout.lineCount
+
+            var bottomLine = (scrollY + height) / lineHeight + 30
+            if (bottomLine >= lineCount) {
+                bottomLine = lineCount - 1
+            } else if (bottomLine < 0) {
+                bottomLine = 0
             }
-            if (topLine > layout.lineCount) {
-                topLine = layout.lineCount
+
+            topDirtyLine = topLine
+            bottomDirtyLine = bottomLine
+            val lineStart = layout.getLineStart(topLine)
+            val lineEnd = layout.getLineEnd(bottomLine)
+
+            isSyntaxHighlighting = true
+            for (span in syntaxHighlightSpans) {
+                if (span.start >= 0 && span.end <= text.length && span.start <= span.end
+                    && (span.start in lineStart..lineEnd || span.start <= lineEnd && span.end >= lineStart)) {
+                    text.setSpan(
+                        span,
+                        if (span.start < lineStart) lineStart else span.start,
+                        if (span.end > lineEnd) lineEnd else span.end,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
             }
-            if (bottomLine >= 0 && topLine >= 0) {
-                topDirtyLine = topLine
-                bottomDirtyLine = bottomLine
-
-                val topLineOffset = layout.getLineStart(topLine)
-                val bottomLineOffset = if (bottomLine < lineCount) {
-                    layout.getLineStart(bottomLine)
-                } else {
-                    layout.getLineStart(lineCount)
-                }
-
-                // region HIGHLIGHTING
-
-                var matcher = languageProvider.getPatternOfNumbers().matcher( //Numbers
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(numbersSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfSymbols().matcher( //Symbols
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(symbolsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfBrackets().matcher( //Brackets
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(bracketsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfKeywords().matcher( //Keywords
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(keywordsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfMethods().matcher( //Methods
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    text.setSpan(
-                        SyntaxHighlightSpan(methodsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfStrings().matcher( //Strings
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    for (span in text.getSpans(
-                        matcher.start() + topLineOffset,
-                        matcher.end() + topLineOffset,
-                        ForegroundColorSpan::class.java)) {
-                        text.removeSpan(span)
-                    }
-                    text.setSpan(
-                        SyntaxHighlightSpan(stringsSpan, topLineOffset, bottomLineOffset),
-                        matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                matcher = languageProvider.getPatternOfComments().matcher( //Comments
-                    text.subSequence(topLineOffset, bottomLineOffset)
-                )
-                while (matcher.find()) {
-                    var skip = false
-                    for (span in text.getSpans(
-                        topLineOffset,
-                        matcher.end() + topLineOffset,
-                        ForegroundColorSpan::class.java)) {
-                        val spanStart = text.getSpanStart(span)
-                        val spanEnd = text.getSpanEnd(span)
-                        if (matcher.start() + topLineOffset in spanStart..spanEnd &&
-                            matcher.end() + topLineOffset > spanEnd ||
-                            matcher.start() + topLineOffset >= topLineOffset + spanEnd &&
-                            matcher.start() + topLineOffset <= spanEnd) {
-                            skip = true
-                            break
-                        }
-                    }
-                    if (!skip) {
-                        for (span in text.getSpans(
-                            matcher.start() + topLineOffset,
-                            matcher.end() + topLineOffset,
-                            ForegroundColorSpan::class.java)) {
-                            text.removeSpan(span)
-                        }
-                        text.setSpan(
-                            SyntaxHighlightSpan(commentsSpan, topLineOffset, bottomLineOffset),
-                            matcher.start() + topLineOffset, matcher.end() + topLineOffset,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                    }
-                }
-
-                // endregion HIGHLIGHTING
-
-                //post(::invalidateVisibleArea)
-            }
+            isSyntaxHighlighting = false
         }
+    }
+
+    override fun setSpans(spans: List<SyntaxHighlightSpan>) {
+        syntaxHighlightSpans.replaceList(spans)
+        updateSyntaxHighlighting()
+    }
+
+    private fun syntaxHighlight() {
+        cancelSyntaxHighlighting()
+        language.createStyler().runStyler(this, getProcessedText(), colorScheme)
+    }
+
+    private fun cancelSyntaxHighlighting() {
+        language.cancelStyler()
     }
 
     private fun clearSearchSpans() {
@@ -1039,21 +936,20 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         }
     }
 
-    private fun clearSyntaxSpans() {
-        val spans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
-        for (span in spans) {
-            text.removeSpan(span)
+    private fun shiftSpans(from: Int, byHowMuch: Int) {
+        for (span in syntaxHighlightSpans) {
+            if (span.start >= from) {
+                span.start += byHowMuch
+            }
+            if (span.end >= from) {
+                span.end += byHowMuch
+            }
+            if (span.start > span.end) {
+                syntaxHighlightSpans.remove(span)
+            }
         }
+        //clearSearchSpans()
     }
-
-    /*private fun invalidateVisibleArea() {
-        invalidate(
-            paddingLeft,
-            scrollY + paddingTop,
-            width,
-            scrollY + paddingTop + height
-        )
-    }*/
 
     private fun checkMatchingBracket(pos: Int) {
         if (layout != null) {
@@ -1116,7 +1012,7 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
     // region SCROLLER
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        syntaxHighlight()
+        updateSyntaxHighlighting()
         for (listener in scrollListeners) {
             listener.onScrollChanged(scrollX, scrollY, scrollX, scrollY)
         }
@@ -1139,28 +1035,28 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
             }
             MotionEvent.ACTION_UP -> {
                 velocityTracker?.computeCurrentVelocity(1000, maximumVelocity)
-                val velocityX: Int? = if (configuration.wordWrap) {
+                val velocityX = if (configuration.wordWrap) {
                     0
                 } else {
-                    velocityTracker?.xVelocity?.toInt()
+                    velocityTracker?.xVelocity?.toInt() ?: 0
                 }
-                val velocityY: Int? = velocityTracker?.yVelocity?.toInt()
-                if (velocityX != null && velocityY != null) {
-                    if (abs(velocityY) >= 0 || abs(velocityX) >= 0) {
-                        if (layout == null) {
-                            return super.onTouchEvent(event)
-                        }
-                        textScroller.fling(
-                            scrollX, scrollY,
-                            -velocityX, -velocityY,
-                            0, layout.width - width + paddingLeft + paddingRight,
-                            0, layout.height - height + paddingTop + paddingBottom
-                        )
-                    } else if (velocityTracker != null) {
+                val velocityY = velocityTracker?.yVelocity?.toInt() ?: 0
+                if (abs(velocityY) < 0 || abs(velocityX) < 0) {
+                    if (velocityTracker != null) {
                         velocityTracker?.recycle()
                         velocityTracker = null
                     }
+                    super.onTouchEvent(event)
                 }
+                if (layout == null) {
+                    return super.onTouchEvent(event)
+                }
+                textScroller.fling(
+                    scrollX, scrollY,
+                    -velocityX, -velocityY,
+                    0, layout.width - width + paddingLeft + paddingRight,
+                    0, layout.height - height + paddingTop + paddingBottom
+                )
                 super.onTouchEvent(event)
             }
             MotionEvent.ACTION_MOVE -> {
@@ -1177,15 +1073,14 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
         for (listener in scrollListeners) {
             listener.onScrollChanged(horiz, vert, oldHoriz, oldVert)
         }
-        if (topDirtyLine > getTopVisibleLine() || bottomDirtyLine < getBottomVisibleLine()) {
-            clearSyntaxSpans()
-            syntaxHighlight()
-        }
+        updateSyntaxHighlighting()
     }
 
     override fun computeScroll() {
-        if (textScroller.computeScrollOffset()) {
-            scrollTo(textScroller.currX, textScroller.currY)
+        if (!isInEditMode) {
+            if (textScroller.computeScrollOffset()) {
+                scrollTo(textScroller.currX, textScroller.currY)
+            }
         }
     }
 
@@ -1249,6 +1144,12 @@ class TextProcessor(context: Context, attrs: AttributeSet) : AppCompatMultiAutoC
                 super.showDropDown()
             }
         }
+    }
+
+    private fun fillWithPredefinedSuggestions() {
+        suggestionAdapter.setWordsManager(wordsManager)
+        wordsManager.setSuggestions(language.getSuggestions())
+        wordsManager.processSuggestions()
     }
 
     private fun onDropDownSizeChange(width: Int, height: Int) {
