@@ -171,6 +171,7 @@ class EditorFragment : BaseFragment(),
                 content.documentModel.selectionStart,
                 content.documentModel.selectionEnd
             )
+            binding.editor.requestFocus()
         })
 
         // region PREFERENCES
@@ -339,6 +340,7 @@ class EditorFragment : BaseFragment(),
     private fun removeTab(index: Int) {
         val selectedIndex = binding.tabDocumentLayout.selectedTabPosition
         if (index == selectedIndex) {
+            binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.clearText() //TTL Exception bypass
             closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
         }

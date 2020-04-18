@@ -166,7 +166,7 @@ class TextProcessor @JvmOverloads constructor(
         override fun afterTextChanged(s: Editable?) {
             clearSearchSpans()
             updateGutter()
-            if (!isSyntaxHighlighting) {
+            if (!isSyntaxHighlighting && !isDoingUndoRedo) {
                 shiftSpans(selectionStart, addedTextCount)
             }
             addedTextCount = 0
@@ -241,12 +241,10 @@ class TextProcessor @JvmOverloads constructor(
         } else {
             setTokenizer(null)
         }
-        if (configuration.pinchZoom) {
-            setOnTouchListener { _, event ->
+        setOnTouchListener { _, event ->
+            if (configuration.pinchZoom) {
                 pinchZoom(event)
-            }
-        } else {
-            setOnTouchListener { _, event ->
+            } else {
                 onTouchEvent(event)
             }
         }
