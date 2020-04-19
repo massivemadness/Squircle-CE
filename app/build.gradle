@@ -93,6 +93,7 @@ dependencies {
     //Design
     implementation library.appcompat
     implementation library.materialdesign
+    implementation library.constraintlayout
     implementation library.swiperefreshlayout
     implementation library.preferencescompat
     implementation library.materialdialogs_core

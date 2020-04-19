@@ -28,14 +28,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
 import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.ui.base.adapters.ItemCallback
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
+import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,10 +44,12 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ExplorerFragment : BaseFragment(), OnBackPressedHandler {
+class ExplorerFragment : BaseFragment(), OnBackPressedHandler, ItemCallback<FileModel> {
 
     @Inject
     lateinit var viewModel: ExplorerViewModel
+    @Inject
+    lateinit var adapter: DirectoryAdapter
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentExplorerBinding
@@ -73,16 +76,9 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler {
             viewModel.filesUpdateEvent.call()
             binding.swipeRefresh.isRefreshing = false
         }
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.tabLayout.post {
-                    navController.popBackStack(binding.tabLayout.tabCount - 1 - tab.position)
-                    removeTab(binding.tabLayout.tabCount - 1 - tab.position)
-                }
-            }
-        })
+        binding.directoryRecyclerView.setHasFixedSize(true)
+        binding.directoryRecyclerView.itemAnimator = null
+        binding.directoryRecyclerView.adapter = adapter
         binding.actionHome.setOnClickListener {
             val backStackCount = binding.navHost.fragment<NavHostFragment>().backStackEntryCount
             navController.popBackStack(backStackCount - 1)
@@ -101,6 +97,12 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler {
             return true
         }
         return false
+    }
+
+    override fun onClick(item: FileModel) {
+        val howMany = adapter.itemCount - adapter.indexOf(item) - 1
+        navController.popBackStack(howMany)
+        removeTab(howMany)
     }
 
     // region MENU
@@ -165,20 +167,15 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler {
         viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
             showToast(it)
         })
-        viewModel.tabEvent.observe(viewLifecycleOwner, Observer {
-            addTab(it)
+        viewModel.tabsEvent.observe(viewLifecycleOwner, Observer {
+            val selectedPosition = it.size - 1
+            adapter.submitList(it, selectedPosition)
+            binding.directoryRecyclerView.smoothScrollToPosition(selectedPosition)
         })
         viewModel.observePreferences()
     }
 
-    private fun addTab(fileModel: FileModel) {
-        binding.tabLayout.newTab(fileModel.name, R.layout.item_tab_directory) {
-            it.select()
-        }
-    }
-
     private fun removeTab(n: Int) {
         viewModel.removeLastTabs(n)
-        binding.tabLayout.removeLast(n)
     }
 }

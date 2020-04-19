@@ -61,7 +61,7 @@ class ExplorerViewModel(
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
-    val tabEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Добавление новой вкладки
+    val tabsEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Полное обновление списка вкладок
     val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() //Список файлов
     val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Запрос на загрузку списка файлов
     val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Отфильтрованый список файлов
@@ -115,7 +115,7 @@ class ExplorerViewModel(
                 onSuccess = { fileTree ->
                     if (!tabsList.containsFileModel(fileTree.parent)) {
                         tabsList.add(fileTree.parent)
-                        tabEvent.value = fileTree.parent
+                        tabsEvent.value = tabsList
                     }
                     searchList.replaceList(fileTree.children) //Фильтрация по текущему списку
                     filesEvent.value = fileTree
@@ -247,6 +247,7 @@ class ExplorerViewModel(
 
     fun removeLastTabs(n: Int) {
         tabsList.subList(tabsList.size - n, tabsList.size).clear()
+        tabsEvent.value = tabsList
     }
 
     // region PREFERENCES

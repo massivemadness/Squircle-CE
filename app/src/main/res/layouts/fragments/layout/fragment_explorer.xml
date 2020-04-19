@@ -67,20 +67,18 @@
                     android:background="@drawable/ripple_16dp"
                     app:tint="?colorOnSurface"/>
 
-                <com.google.android.material.tabs.TabLayout
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
+                    android:layout_height="match_parent"
                     android:layout_toStartOf="@id/action_create"
                     android:layout_toEndOf="@id/action_home"
+                    android:orientation="horizontal"
                     android:clipChildren="true"
                     android:background="@null"
-                    android:id="@+id/tab_layout"
-                    app:tabRippleColor="?colorControlHighlight"
-                    app:tabPaddingStart="4dp"
-                    app:tabPaddingEnd="0dp"
-                    app:tabUnboundedRipple="false"
-                    app:tabGravity="start"
-                    app:tabMode="scrollable"/>
+                    android:id="@+id/directory_recycler_view"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_tab_directory"
+                    tools:itemCount="1"/>
 
                 <ImageView
                     android:layout_width="36dp"

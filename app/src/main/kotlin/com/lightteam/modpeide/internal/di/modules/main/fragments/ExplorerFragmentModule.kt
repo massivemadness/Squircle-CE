@@ -17,16 +17,18 @@
 
 package com.lightteam.modpeide.internal.di.modules.main.fragments
 
-import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment
+import com.lightteam.modpeide.internal.di.scopes.PerFragment
+import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
+import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import dagger.Module
 import dagger.Provides
 
 @Module
-class DirectoryFragmentModule {
+class ExplorerFragmentModule {
 
     @Provides
-    fun provideFileAdapter(directoryFragment: DirectoryFragment): FileAdapter {
-        return FileAdapter(directoryFragment)
+    @PerFragment
+    fun provideDirectoryAdapter(explorerFragment: ExplorerFragment): DirectoryAdapter {
+        return DirectoryAdapter(explorerFragment)
     }
 }
