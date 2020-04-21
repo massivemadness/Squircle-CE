@@ -73,7 +73,6 @@
                     android:layout_toStartOf="@id/action_create"
                     android:layout_toEndOf="@id/action_home"
                     android:orientation="horizontal"
-                    android:clipChildren="true"
                     android:background="@null"
                     android:id="@+id/directory_recycler_view"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

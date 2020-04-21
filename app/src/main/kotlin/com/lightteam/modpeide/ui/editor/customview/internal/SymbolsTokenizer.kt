@@ -27,7 +27,7 @@ class SymbolsTokenizer : MultiAutoCompleteTextView.Tokenizer {
 
     override fun findTokenStart(text: CharSequence, cursor: Int): Int {
         var i = cursor
-        while (i > 0 && !TOKEN.contains(text[i - 1].toString())) {
+        while (i > 0 && !TOKEN.contains(text[i - 1])) {
             i--
         }
         while (i < cursor && text[i] == ' ') {
@@ -40,7 +40,7 @@ class SymbolsTokenizer : MultiAutoCompleteTextView.Tokenizer {
         val length = text.length
         var i = cursor
         while (i < length) {
-            if (TOKEN.contains(text[i - 1].toString())) {
+            if (TOKEN.contains(text[i - 1])) {
                 return i
             } else {
                 i++

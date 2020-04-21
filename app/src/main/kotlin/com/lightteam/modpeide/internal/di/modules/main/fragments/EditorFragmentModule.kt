@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.internal.di.modules.main.fragments
 
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
+import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import dagger.Module
@@ -30,5 +31,11 @@ class EditorFragmentModule {
     @PerFragment
     fun provideToolbarManager(fragment: EditorFragment): ToolbarManager {
         return ToolbarManager(fragment)
+    }
+
+    @Provides
+    @PerFragment
+    fun provideDocumentAdapter(fragment: EditorFragment): DocumentAdapter {
+        return DocumentAdapter(fragment, fragment)
     }
 }

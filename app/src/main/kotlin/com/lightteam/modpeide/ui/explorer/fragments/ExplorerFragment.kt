@@ -33,7 +33,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
 import com.lightteam.modpeide.domain.model.explorer.FileModel
-import com.lightteam.modpeide.ui.base.adapters.ItemCallback
+import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
@@ -44,7 +44,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ExplorerFragment : BaseFragment(), OnBackPressedHandler, ItemCallback<FileModel> {
+class ExplorerFragment : BaseFragment(), OnBackPressedHandler, OnItemClickListener<FileModel> {
 
     @Inject
     lateinit var viewModel: ExplorerViewModel

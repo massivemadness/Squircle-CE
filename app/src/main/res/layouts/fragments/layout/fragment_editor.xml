@@ -148,17 +148,16 @@
 
         </RelativeLayout>
 
-        <com.google.android.material.tabs.TabLayout
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:clipChildren="true"
-            android:id="@+id/tab_document_layout"
+            android:orientation="horizontal"
             android:background="?colorSecondaryVariant"
             android:elevation="3.5dp"
-            app:tabRippleColor="?colorControlHighlight"
-            app:tabUnboundedRipple="false"
-            app:tabGravity="start"
-            app:tabMode="scrollable"/>
+            android:id="@+id/document_recycler_view"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_tab_document"
+            tools:itemCount="1"/>
 
         <!-- endregion TOOLBAR -->
 
@@ -202,7 +201,7 @@
                 android:gravity="top|start"
                 android:visibility="@{(viewModel.stateLoadingDocuments || viewModel.stateNothingFound) ? View.INVISIBLE : View.VISIBLE}"
                 android:textCursorDrawable="@drawable/caret"
-                android:dropDownAnchor="@id/tab_document_layout"
+                android:dropDownAnchor="@id/document_recycler_view"
                 android:completionThreshold="2"
                 android:popupBackground="?colorSurface"
                 android:scrollbars="none"

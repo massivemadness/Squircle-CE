@@ -85,8 +85,8 @@ class PermissionsFragment : BaseFragment() {
         viewModel.hasAccessEvent.observe(viewLifecycleOwner, Observer { hasAccess ->
             viewModel.hasPermission.set(hasAccess)
             if (hasAccess) {
-                val action = PermissionsFragmentDirections.toDirectoryFragment(null)
-                navController.navigate(action)
+                val destination = PermissionsFragmentDirections.toDirectoryFragment(null)
+                navController.navigate(destination)
             } else {
                 binding.actionAccess.setOnClickListener {
                     requestPermissionsUsingActivity()

@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.ui.base.adapters
 
-interface ItemCallback<in T> {
+interface OnItemClickListener<in T> {
     fun onClick(item: T) { /* optional */ }
     fun onLongClick(item: T): Boolean { /* optional */ return true }
 }

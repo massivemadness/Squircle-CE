@@ -28,12 +28,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
-        android:gravity="center_vertical"
+        android:padding="4dp"
+        android:gravity="center"
         android:fontFamily="sans-serif-light"
         android:maxWidth="148dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:padding="4dp"
         android:textColor="?colorOnSurface"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -50,9 +50,10 @@
         android:src="@drawable/ic_arrow"
         android:id="@+id/item_icon"
         app:tint="@color/colorIcon"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_title"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <View
         android:layout_width="0dp"

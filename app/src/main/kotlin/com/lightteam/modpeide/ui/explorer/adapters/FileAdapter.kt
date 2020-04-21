@@ -28,12 +28,12 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.explorer.FileModel
 import com.lightteam.modpeide.domain.model.explorer.FileType
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
-import com.lightteam.modpeide.ui.base.adapters.ItemCallback
+import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter.FileViewHolder
 import com.lightteam.modpeide.utils.extensions.setTint
 
 class FileAdapter(
-    private val itemCallback: ItemCallback<FileModel>
+    private val onItemClickListener: OnItemClickListener<FileModel>
 ) : ListAdapter<FileModel, FileViewHolder>(diffCallback) {
 
     companion object {
@@ -48,7 +48,7 @@ class FileAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
-        return FileViewHolder.create(parent, itemCallback)
+        return FileViewHolder.create(parent, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
@@ -57,15 +57,15 @@ class FileAdapter(
 
     class FileViewHolder(
         itemView: View,
-        private val itemCallback: ItemCallback<FileModel>
+        private val onItemClickListener: OnItemClickListener<FileModel>
     ): BaseViewHolder<FileModel>(itemView) {
 
         companion object {
-            fun create(parent: ViewGroup, itemCallback: ItemCallback<FileModel>): FileViewHolder {
+            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FileModel>): FileViewHolder {
                 val itemView = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_file, parent, false)
-                return FileViewHolder(itemView, itemCallback)
+                return FileViewHolder(itemView, onItemClickListener)
             }
         }
 
@@ -76,10 +76,10 @@ class FileAdapter(
 
         init {
             itemView.setOnClickListener {
-                itemCallback.onClick(fileModel)
+                onItemClickListener.onClick(fileModel)
             }
             itemView.setOnLongClickListener {
-                itemCallback.onLongClick(fileModel)
+                onItemClickListener.onLongClick(fileModel)
             }
         }
 

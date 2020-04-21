@@ -68,9 +68,7 @@ class EditorViewModel(
     // region EVENTS
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
-    val documentsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Список документов
-    val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
-    val selectionEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выделение вкладки уже открытого файла
+    val tabsEvent: SingleLiveEvent<Pair<List<DocumentModel>, Int>> = SingleLiveEvent() //Полное обновление списока вкладок
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
@@ -100,7 +98,8 @@ class EditorViewModel(
                 .subscribeBy(
                     onSuccess = {
                         tabsList.replaceList(it)
-                        documentsEvent.value = it
+                        val selectedPosition = if (it.isEmpty()) -1 else 0
+                        tabsEvent.value = it to selectedPosition
                     },
                     onError = {
                         Log.e(TAG, it.message, it)
@@ -133,7 +132,7 @@ class EditorViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    saveToCache(it.documentModel, it.text)
+                    // saveToCache(it.documentModel, it.text)
                     contentEvent.value = it
                 },
                 onError = {
@@ -220,12 +219,12 @@ class EditorViewModel(
                 if (tabsList.size < tabLimitEvent.value!!) {
                     tabsList.add(documentModel)
                     stateNothingFound.set(tabsList.isEmpty())
-                    documentEvent.value = documentModel
+                    tabsEvent.value = tabsList to tabsList.size - 1
                 } else {
                     toastEvent.value = R.string.message_tab_limit_achieved
                 }
             } else {
-                selectionEvent.value = tabsList.index(documentModel)
+                tabsEvent.value = tabsList to tabsList.index(documentModel)
             }
         } else {
             unopenableEvent.value = documentModel
@@ -267,7 +266,7 @@ class EditorViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {
                 resumeSessionEvent.value = it
-                if (documentsEvent.value == null) {
+                if (tabsEvent.value == null) {
                     loadFiles()
                 }
             }

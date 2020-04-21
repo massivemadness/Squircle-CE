@@ -34,7 +34,6 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.findFragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.tabs.TabLayout
 
 // https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
 
@@ -76,23 +75,6 @@ val NavHostFragment.backStackEntryCount: Int
 fun NavController.popBackStack(n: Int) {
     for (index in 0 until n) {
         popBackStack()
-    }
-}
-
-fun TabLayout.newTab(name: String, resId: Int, callback: (TabLayout.Tab) -> Unit) {
-    val tab = newTab()
-    tab.text = name
-    tab.setCustomView(resId)
-    addTab(tab)
-    post {
-        callback.invoke(tab)
-    }
-}
-
-fun TabLayout.removeLast(n: Int) {
-    for (index in 0 until n) {
-        val count = tabCount - 1
-        removeTabAt(count)
     }
 }
 

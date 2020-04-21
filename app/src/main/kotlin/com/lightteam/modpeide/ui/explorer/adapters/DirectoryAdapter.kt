@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.explorer.FileModel
-import com.lightteam.modpeide.ui.base.adapters.ItemCallback
+import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 
 class DirectoryAdapter(
-    private val itemCallback: ItemCallback<FileModel>
+    private val onItemClickListener: OnItemClickListener<FileModel>
 ) : ListAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>(diffCallback) {
 
     companion object {
@@ -27,10 +27,10 @@ class DirectoryAdapter(
         }
     }
 
-    private var selectedPosition = 0
+    private var selectedPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
-        return DirectoryViewHolder.create(parent, itemCallback)
+        return DirectoryViewHolder.create(parent, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
@@ -40,7 +40,9 @@ class DirectoryAdapter(
     fun submitList(list: List<FileModel>, position: Int) {
         submitList(list)
         if (selectedPosition != position) {
-            notifyItemChanged(selectedPosition) // Update previous selected item
+            if (selectedPosition > -1) {
+                notifyItemChanged(selectedPosition) // Update previous selected item
+            }
             selectedPosition = position
             notifyItemChanged(selectedPosition) // Update new selected item
         }
@@ -52,15 +54,15 @@ class DirectoryAdapter(
 
     class DirectoryViewHolder(
         itemView: View,
-        private val itemCallback: ItemCallback<FileModel>
+        private val onItemClickListener: OnItemClickListener<FileModel>
     ) : RecyclerView.ViewHolder(itemView) {
 
         companion object {
-            fun create(parent: ViewGroup, itemCallback: ItemCallback<FileModel>): DirectoryViewHolder {
+            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FileModel>): DirectoryViewHolder {
                 val itemView = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_tab_directory, parent, false)
-                return DirectoryViewHolder(itemView, itemCallback)
+                return DirectoryViewHolder(itemView, onItemClickListener)
             }
         }
 
@@ -71,7 +73,7 @@ class DirectoryAdapter(
 
         init {
             itemView.setOnClickListener {
-                itemCallback.onClick(fileModel)
+                onItemClickListener.onClick(fileModel)
             }
         }
 

@@ -39,13 +39,13 @@ import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.base.adapters.ItemCallback
+import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.clipText
 import javax.inject.Inject
 
-class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
+class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
     @Inject
     lateinit var viewModel: ExplorerViewModel
