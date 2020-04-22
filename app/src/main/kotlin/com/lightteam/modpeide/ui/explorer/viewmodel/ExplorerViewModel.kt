@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.explorer.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
@@ -59,9 +60,10 @@ class ExplorerViewModel(
 
     // region EVENTS
 
+    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() //Обновление списка вкладок
+
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
-    val tabsEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Полное обновление списка вкладок
     val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() //Список файлов
     val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Запрос на загрузку списка файлов
     val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Отфильтрованый список файлов

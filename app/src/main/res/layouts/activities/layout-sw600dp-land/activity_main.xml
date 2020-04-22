@@ -19,11 +19,23 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.drawerlayout.widget.DrawerLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/drawer_layout"
+        android:orientation="horizontal"
         tools:context=".ui.main.activities.MainActivity">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_explorer"
+            android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
+            tools:layout="@layout/fragment_explorer"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="?colorSecondaryVariant"/>
 
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
@@ -32,14 +44,6 @@
             android:name="com.lightteam.modpeide.ui.editor.fragments.EditorFragment"
             tools:layout="@layout/fragment_editor"/>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="280dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:id="@+id/fragment_explorer"
-            android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
-            tools:layout="@layout/fragment_explorer"/>
-
-    </androidx.drawerlayout.widget.DrawerLayout>
+    </LinearLayout>
 
 </layout>

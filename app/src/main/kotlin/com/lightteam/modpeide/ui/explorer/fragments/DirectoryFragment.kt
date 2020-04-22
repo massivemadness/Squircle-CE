@@ -126,7 +126,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
     private fun showChooseDialog(fileModel: FileModel) {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_choose_action)
-            customView(R.layout.dialog_file_action)
+            customView(R.layout.dialog_file_action, scrollable = true)
 
             val actionCopyPath = getCustomView().findViewById<View>(R.id.action_copy_path)
             val actionProperties = getCustomView().findViewById<View>(R.id.action_properties)
@@ -222,7 +222,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                     getString(R.string.properties_word_count).format(propertiesModel.words) +
                     getString(R.string.properties_char_count).format(propertiesModel.chars)).asHtml()
             )
-            customView(R.layout.dialog_properties)
+            customView(R.layout.dialog_properties, scrollable = true)
 
             val readable = this.findViewById<CheckBox>(R.id.readable)
             val writable = this.findViewById<CheckBox>(R.id.writable)

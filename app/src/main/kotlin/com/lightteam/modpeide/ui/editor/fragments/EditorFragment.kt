@@ -20,7 +20,6 @@ package com.lightteam.modpeide.ui.editor.fragments
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
@@ -77,6 +76,11 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.observePreferences() // and loadFiles()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)!!
@@ -101,9 +105,10 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             .disposeOnFragmentDestroyView()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        toolbarManager.orientation = newConfig.orientation
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.tabSelectionEvent.value = adapter.selectedPosition
+        viewModel.tabsEvent.value = viewModel.tabsList
     }
 
     override fun onPause() {
@@ -125,12 +130,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             showToast(it)
         })
         viewModel.tabsEvent.observe(viewLifecycleOwner, Observer {
-            val tabsList = it.first
-            val newPosition = it.second
-            adapter.submitList(tabsList)
+            adapter.submitList(it)
+        })
+        viewModel.tabSelectionEvent.observe(viewLifecycleOwner, Observer {
             drawerHandler.handleDrawerClose()
-            if (newPosition > -1) {
-                adapter.select(newPosition)
+            if (it > -1) {
+                adapter.select(it)
             }
         })
         viewModel.unopenableEvent.observe(viewLifecycleOwner, Observer {
@@ -227,8 +232,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         })
 
         // endregion PREFERENCES
-
-        viewModel.observePreferences() // and loadFiles()
     }
 
     private fun openFile(documentModel: DocumentModel) {
@@ -401,7 +404,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         if (position > -1) {
             MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_find)
-                customView(R.layout.dialog_find)
+                customView(R.layout.dialog_find, scrollable = true)
                 negativeButton(R.string.action_cancel)
                 positiveButton(R.string.action_find) {
                     val textToFind = it.getCustomView()

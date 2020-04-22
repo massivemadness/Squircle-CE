@@ -20,11 +20,9 @@ package com.lightteam.modpeide.ui.main.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.snackbar.Snackbar
@@ -57,15 +55,6 @@ class MainActivity : BaseActivity(), EditorFragment.DrawerHandler {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         observeViewModel()
 
-        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerStateChanged(newState: Int) {}
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-            override fun onDrawerClosed(drawerView: View) {}
-            override fun onDrawerOpened(drawerView: View) {
-                closeKeyboard()
-            }
-        })
-
         binding.fragmentExplorer.post {
             backPressedHandler = binding.fragmentExplorer.fragment<ExplorerFragment>()
         }
@@ -96,15 +85,15 @@ class MainActivity : BaseActivity(), EditorFragment.DrawerHandler {
     }
 
     override fun handleDrawerOpen() {
-        binding.drawerLayout.openDrawer(GravityCompat.START)
+        binding.drawerLayout?.openDrawer(GravityCompat.START)
     }
 
     override fun handleDrawerClose() {
-        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        binding.drawerLayout?.closeDrawer(GravityCompat.START)
     }
 
     override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
             if (!backPressedHandler.handleOnBackPressed()) {
                 handleDrawerClose()
             }

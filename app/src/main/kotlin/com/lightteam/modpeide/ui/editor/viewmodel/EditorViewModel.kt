@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
 import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
@@ -67,8 +68,10 @@ class EditorViewModel(
 
     // region EVENTS
 
+    val tabsEvent: MutableLiveData<MutableList<DocumentModel>> = MutableLiveData() //Обновление списка вкладок
+    val tabSelectionEvent: MutableLiveData<Int> = MutableLiveData() //Текущая позиция выбранной вкладки
+
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
-    val tabsEvent: SingleLiveEvent<Pair<List<DocumentModel>, Int>> = SingleLiveEvent() //Полное обновление списока вкладок
     val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
@@ -96,10 +99,11 @@ class EditorViewModel(
                 .map { it.map(DocumentConverter::toModel) }
                 .schedulersIoToMain(schedulersProvider)
                 .subscribeBy(
-                    onSuccess = {
-                        tabsList.replaceList(it)
-                        val selectedPosition = if (it.isEmpty()) -1 else 0
-                        tabsEvent.value = it to selectedPosition
+                    onSuccess = { list ->
+                        tabsList.replaceList(list)
+                        val selectedPosition = if (list.isEmpty()) -1 else 0
+                        tabsEvent.value = tabsList
+                        tabSelectionEvent.value = selectedPosition
                     },
                     onError = {
                         Log.e(TAG, it.message, it)
@@ -219,12 +223,13 @@ class EditorViewModel(
                 if (tabsList.size < tabLimitEvent.value!!) {
                     tabsList.add(documentModel)
                     stateNothingFound.set(tabsList.isEmpty())
-                    tabsEvent.value = tabsList to tabsList.size - 1
+                    tabsEvent.value = tabsList
+                    tabSelectionEvent.value = tabsList.size - 1
                 } else {
                     toastEvent.value = R.string.message_tab_limit_achieved
                 }
             } else {
-                tabsEvent.value = tabsList to tabsList.index(documentModel)
+                tabSelectionEvent.value = tabsList.index(documentModel)
             }
         } else {
             unopenableEvent.value = documentModel
