@@ -24,7 +24,8 @@
 <b>•</b> Search, Replace, Go to Line  
 <b>•</b> Word Wrap  
 <b>•</b> Pinch Zoom  
-<b>•</b> Powerful File Explorer  
+<b>•</b> Built-in File Explorer  
+<b>•</b> Tablet UI  
 <b>•</b> <i>No Ads!</i>  
 <b>And much more!</b>
 
