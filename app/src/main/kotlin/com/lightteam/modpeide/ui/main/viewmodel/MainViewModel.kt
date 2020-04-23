@@ -27,6 +27,8 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.installStatus
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.explorer.FileModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
@@ -46,6 +48,7 @@ class MainViewModel(
     val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val handleDocumentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent()
 
     private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
         if (state.installStatus == InstallStatus.DOWNLOADED) {

@@ -69,7 +69,6 @@ class EditorViewModel(
     val tabSelectionEvent: MutableLiveData<Int> = MutableLiveData() //Текущая позиция выбранной вкладки
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
-    val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
     val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() //События с измененными настройками
@@ -218,21 +217,17 @@ class EditorViewModel(
     }
 
     fun openFile(documentModel: DocumentModel) {
-        if (documentModel.isOpenable()) {
-            if (!tabsList.containsDocumentModel(documentModel)) {
-                if (tabsList.size < tabLimitEvent.value!!) {
-                    tabsList.add(documentModel)
-                    stateNothingFound.set(tabsList.isEmpty())
-                    tabsEvent.value = tabsList
-                    tabSelectionEvent.value = tabsList.size - 1
-                } else {
-                    toastEvent.value = R.string.message_tab_limit_achieved
-                }
+        if (!tabsList.containsDocumentModel(documentModel)) {
+            if (tabsList.size < tabLimitEvent.value!!) {
+                tabsList.add(documentModel)
+                stateNothingFound.set(tabsList.isEmpty())
+                tabsEvent.value = tabsList
+                tabSelectionEvent.value = tabsList.size - 1
             } else {
-                tabSelectionEvent.value = tabsList.indexBy(documentModel)
+                toastEvent.value = R.string.message_tab_limit_achieved
             }
         } else {
-            unopenableEvent.value = documentModel
+            tabSelectionEvent.value = tabsList.indexBy(documentModel)
         }
     }
 

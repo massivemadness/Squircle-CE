@@ -17,9 +17,9 @@
 
 package com.lightteam.modpeide.internal.di.modules.main
 
-import com.lightteam.modpeide.internal.di.modules.main.fragments.DirectoryFragmentModule
-import com.lightteam.modpeide.internal.di.modules.main.fragments.EditorFragmentModule
-import com.lightteam.modpeide.internal.di.modules.main.fragments.ExplorerFragmentModule
+import com.lightteam.modpeide.internal.di.modules.explorer.DirectoryFragmentModule
+import com.lightteam.modpeide.internal.di.modules.editor.EditorFragmentModule
+import com.lightteam.modpeide.internal.di.modules.explorer.ExplorerFragmentModule
 import com.lightteam.modpeide.internal.di.scopes.PerFragment
 import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
 import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment

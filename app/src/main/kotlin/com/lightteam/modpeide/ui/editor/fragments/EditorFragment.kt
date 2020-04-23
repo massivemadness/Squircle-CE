@@ -43,6 +43,7 @@ import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
 import com.lightteam.modpeide.ui.editor.customview.TextScroller
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
+import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.extensions.*
@@ -55,6 +56,8 @@ import javax.inject.Inject
 class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     ExtendedKeyboard.OnKeyListener, DocumentAdapter.OnTabSelectedListener, DocumentAdapter.TabInteractor {
 
+    @Inject
+    lateinit var sharedViewModel: MainViewModel
     @Inject
     lateinit var viewModel: EditorViewModel
     @Inject
@@ -138,9 +141,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                 adapter.select(it)
             }
         })
-        viewModel.unopenableEvent.observe(viewLifecycleOwner, Observer {
-            openFile(it)
-        })
         viewModel.parseEvent.observe(viewLifecycleOwner, Observer { model ->
             MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_result)
@@ -165,6 +165,9 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                 content.documentModel.selectionEnd
             )
             binding.editor.requestFocus()
+        })
+        sharedViewModel.handleDocumentEvent.observe(viewLifecycleOwner, Observer {
+            if (it.isOpenable()) viewModel.openFile(it) else openFile(it)
         })
 
         // region PREFERENCES

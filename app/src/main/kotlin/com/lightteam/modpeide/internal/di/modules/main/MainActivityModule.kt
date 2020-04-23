@@ -20,7 +20,6 @@ package com.lightteam.modpeide.internal.di.modules.main
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.ui.main.activities.MainActivity
-import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
@@ -34,12 +33,6 @@ class MainActivityModule {
     @PerActivity
     fun provideMainViewModel(activity: MainActivity, factory: ViewModelFactory): MainViewModel {
         return ViewModelProvider(activity, factory).get(MainViewModel::class.java)
-    }
-
-    @Provides
-    @PerActivity
-    fun provideEditorViewModel(activity: MainActivity, factory: ViewModelFactory): EditorViewModel {
-        return ViewModelProvider(activity, factory).get(EditorViewModel::class.java)
     }
 
     @Provides

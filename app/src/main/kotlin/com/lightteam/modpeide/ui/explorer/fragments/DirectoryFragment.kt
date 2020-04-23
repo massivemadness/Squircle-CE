@@ -37,10 +37,10 @@ import com.lightteam.modpeide.domain.model.explorer.FileModel
 import com.lightteam.modpeide.domain.model.explorer.FileTree
 import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
-import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
+import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.clipText
 import javax.inject.Inject
@@ -48,9 +48,9 @@ import javax.inject.Inject
 class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
     @Inject
-    lateinit var viewModel: ExplorerViewModel
+    lateinit var sharedViewModel: MainViewModel
     @Inject
-    lateinit var editorViewModel: EditorViewModel
+    lateinit var viewModel: ExplorerViewModel
     @Inject
     lateinit var adapter: FileAdapter
 
@@ -81,7 +81,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
             navController.navigate(destination)
         } else {
-            editorViewModel.openFile(DocumentConverter.toModel(item))
+            sharedViewModel.handleDocumentEvent.value = DocumentConverter.toModel(item)
         }
     }
 
@@ -135,19 +135,19 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
             actionCopyPath.setOnClickListener {
                 dismiss()
-                copyPath(fileModel) // copy path
+                copyPath(fileModel)
             }
             actionProperties.setOnClickListener {
                 dismiss()
-                viewModel.propertiesOf(fileModel) // properties
+                viewModel.propertiesOf(fileModel)
             }
             actionRename.setOnClickListener {
                 dismiss()
-                showRenameDialog(fileModel) // rename file
+                showRenameDialog(fileModel)
             }
             actionDelete.setOnClickListener {
                 dismiss()
-                showDeleteDialog(fileModel) // delete file
+                showDeleteDialog(fileModel)
             }
         }
     }

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main.fragments
+package com.lightteam.modpeide.internal.di.modules.explorer
 
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
 import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment

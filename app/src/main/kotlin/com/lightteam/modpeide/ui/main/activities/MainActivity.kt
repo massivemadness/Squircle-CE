@@ -98,7 +98,7 @@ class MainActivity : BaseActivity(), EditorFragment.DrawerHandler {
                 handleDrawerClose()
             }
         } else {
-            if (viewModel.backEvent.value!!) {
+            if (viewModel.backEvent.value != false) {
                 MaterialDialog(this).show {
                     title(R.string.dialog_title_exit)
                     message(R.string.dialog_message_exit)
