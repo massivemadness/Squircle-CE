@@ -33,7 +33,7 @@ fun String.isValidFileName(): Boolean {
             !equals("..")
 }
 
-fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
+fun Collection<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
     forEach { indexedModel ->
         if (indexedModel.path == fileModel.path) {
             return true
@@ -42,7 +42,7 @@ fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
     return false
 }
 
-fun MutableList<DocumentModel>.containsDocumentModel(documentModel: DocumentModel): Boolean {
+fun Collection<DocumentModel>.containsDocumentModel(documentModel: DocumentModel): Boolean {
     forEach { indexedModel ->
         if (indexedModel.path == documentModel.path) {
             return true
@@ -51,13 +51,22 @@ fun MutableList<DocumentModel>.containsDocumentModel(documentModel: DocumentMode
     return false
 }
 
-fun MutableList<DocumentModel>.index(documentModel: DocumentModel): Int {
+fun Collection<DocumentModel>.indexBy(uuid: String): Int? {
+    forEachIndexed { index, indexedModel ->
+        if (indexedModel.uuid == uuid) {
+            return index
+        }
+    }
+    return null
+}
+
+fun Collection<DocumentModel>.indexBy(documentModel: DocumentModel): Int? {
     forEachIndexed { index, indexedModel ->
         if (indexedModel.path == documentModel.path) {
             return index
         }
     }
-    return -1
+    return null
 }
 
 fun <T> MutableList<T>.replaceList(collection: Collection<T>) {

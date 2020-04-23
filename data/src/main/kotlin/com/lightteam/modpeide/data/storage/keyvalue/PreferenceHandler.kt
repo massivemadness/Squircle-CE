@@ -37,6 +37,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         //Tabs
         const val KEY_RESUME_SESSION = "RESUME_SESSION"
         const val KEY_TAB_LIMIT = "TAB_LIMIT"
+        const val KEY_SELECTED_DOCUMENT_ID = "SELECTED_DOCUMENT_ID"
 
         //Editor
         const val KEY_WORD_WRAP = "WORD_WRAP"
@@ -70,6 +71,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     fun getResumeSession(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
     fun getTabLimit(): Preference<Int> = rxSharedPreferences.getInteger(KEY_TAB_LIMIT, 5)
+    fun getSelectedDocumentId(): Preference<String> = rxSharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "whatever")
 
     fun getWordWrap(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_WORD_WRAP, true)
     fun getCodeCompletion(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)

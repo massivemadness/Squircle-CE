@@ -27,10 +27,7 @@ import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.storage.cache.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.data.utils.extensions.containsDocumentModel
-import com.lightteam.modpeide.data.utils.extensions.index
-import com.lightteam.modpeide.data.utils.extensions.replaceList
-import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.modpeide.domain.exception.FileNotFoundException
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
@@ -101,9 +98,12 @@ class EditorViewModel(
                 .subscribeBy(
                     onSuccess = { list ->
                         tabsList.replaceList(list)
-                        val selectedPosition = if (list.isEmpty()) -1 else 0
                         tabsEvent.value = tabsList
-                        tabSelectionEvent.value = selectedPosition
+                        tabSelectionEvent.value = if (list.isNotEmpty()) {
+                            tabsList.indexBy(getSelectedDocumentId()) ?: 0
+                        } else {
+                            -1
+                        }
                     },
                     onError = {
                         Log.e(TAG, it.message, it)
@@ -229,7 +229,7 @@ class EditorViewModel(
                     toastEvent.value = R.string.message_tab_limit_achieved
                 }
             } else {
-                tabSelectionEvent.value = tabsList.index(documentModel)
+                tabSelectionEvent.value = tabsList.indexBy(documentModel)
             }
         } else {
             unopenableEvent.value = documentModel
@@ -245,6 +245,14 @@ class EditorViewModel(
     }
 
     // region PREFERENCES
+
+    fun getSelectedDocumentId(): String {
+        return preferenceHandler.getSelectedDocumentId().get()
+    }
+
+    fun setSelectedDocumentId(uuid: String) {
+        preferenceHandler.getSelectedDocumentId().set(uuid)
+    }
 
     fun observePreferences() {
         preferenceHandler.getTheme()
