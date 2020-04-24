@@ -32,8 +32,7 @@ import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
-import com.lightteam.modpeide.domain.model.explorer.FileModel
-import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
+import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
@@ -44,7 +43,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ExplorerFragment : BaseFragment(), OnBackPressedHandler, OnItemClickListener<FileModel> {
+class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabSelectedListener {
 
     @Inject
     lateinit var viewModel: ExplorerViewModel
@@ -99,8 +98,10 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, OnItemClickListen
         return false
     }
 
-    override fun onClick(item: FileModel) {
-        val howMany = adapter.itemCount - adapter.indexOf(item) - 1
+    override fun onTabReselected(position: Int) {}
+    override fun onTabUnselected(position: Int) {}
+    override fun onTabSelected(position: Int) {
+        val howMany = adapter.itemCount - position - 1
         navController.popBackStack(howMany)
         removeTab(howMany)
     }

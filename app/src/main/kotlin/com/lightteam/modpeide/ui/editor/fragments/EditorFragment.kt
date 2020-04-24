@@ -36,6 +36,7 @@ import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
@@ -54,7 +55,7 @@ import java.io.File
 import javax.inject.Inject
 
 class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
-    ExtendedKeyboard.OnKeyListener, DocumentAdapter.OnTabSelectedListener, DocumentAdapter.TabInteractor {
+    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, DocumentAdapter.TabInteractor {
 
     @Inject
     lateinit var sharedViewModel: MainViewModel
@@ -92,8 +93,9 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         observeViewModel()
 
         toolbarManager.bind(binding)
-        binding.documentRecyclerView.setHasFixedSize(true)
+        adapter.onTabSelectedListener = this
         binding.documentRecyclerView.adapter = adapter
+        binding.documentRecyclerView.setHasFixedSize(true)
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)

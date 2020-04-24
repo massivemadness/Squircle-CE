@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.explorer.FileModel
-import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
+import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 
 class DirectoryAdapter(
-    private val onItemClickListener: OnItemClickListener<FileModel>
+    private val onTabSelectedListener: TabAdapter.OnTabSelectedListener
 ) : ListAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>(diffCallback) {
 
     companion object {
@@ -30,7 +30,7 @@ class DirectoryAdapter(
     private var selectedPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
-        return DirectoryViewHolder.create(parent, onItemClickListener)
+        return DirectoryViewHolder.create(parent, onTabSelectedListener)
     }
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
@@ -48,37 +48,30 @@ class DirectoryAdapter(
         }
     }
 
-    fun indexOf(fileModel: FileModel): Int {
-        return currentList.indexOf(fileModel)
-    }
-
     class DirectoryViewHolder(
         itemView: View,
-        private val onItemClickListener: OnItemClickListener<FileModel>
+        private val onTabSelectedListener: TabAdapter.OnTabSelectedListener
     ) : RecyclerView.ViewHolder(itemView) {
 
         companion object {
-            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FileModel>): DirectoryViewHolder {
+            fun create(parent: ViewGroup, onTabSelectedListener: TabAdapter.OnTabSelectedListener): DirectoryViewHolder {
                 val itemView = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_tab_directory, parent, false)
-                return DirectoryViewHolder(itemView, onItemClickListener)
+                return DirectoryViewHolder(itemView, onTabSelectedListener)
             }
         }
 
         private val itemTitle: TextView = itemView.findViewById(R.id.item_title)
         private val selectionIndicator: View = itemView.findViewById(R.id.selection_indicator)
 
-        private lateinit var fileModel: FileModel
-
         init {
             itemView.setOnClickListener {
-                onItemClickListener.onClick(fileModel)
+                onTabSelectedListener.onTabSelected(adapterPosition)
             }
         }
 
         fun bind(item: FileModel, isSelected: Boolean) {
-            fileModel = item
             selectionIndicator.isVisible = isSelected
             itemTitle.text = item.name
         }

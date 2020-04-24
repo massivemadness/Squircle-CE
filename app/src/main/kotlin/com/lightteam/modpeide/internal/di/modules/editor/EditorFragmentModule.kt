@@ -45,6 +45,6 @@ class EditorFragmentModule {
     @Provides
     @PerFragment
     fun provideDocumentAdapter(fragment: EditorFragment): DocumentAdapter {
-        return DocumentAdapter(fragment, fragment)
+        return DocumentAdapter(fragment)
     }
 }
