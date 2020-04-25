@@ -32,7 +32,7 @@ android {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
 
-        versionCode 10027
+        versionCode 10028
         versionName "2020.1.2"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'

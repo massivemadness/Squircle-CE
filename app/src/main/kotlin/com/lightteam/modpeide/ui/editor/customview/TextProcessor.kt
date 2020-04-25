@@ -166,9 +166,9 @@ class TextProcessor @JvmOverloads constructor(
         override fun afterTextChanged(s: Editable?) {
             clearSearchSpans()
             updateGutter()
-            if (!isSyntaxHighlighting && !isDoingUndoRedo) {
+            /*if (!isSyntaxHighlighting && !isDoingUndoRedo) {
                 shiftSpans(selectionStart, addedTextCount)
-            }
+            }*/
             addedTextCount = 0
             syntaxHighlight()
         }
@@ -936,7 +936,7 @@ class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    private fun shiftSpans(from: Int, byHowMuch: Int) {
+    /*private fun shiftSpans(from: Int, byHowMuch: Int) {
         for (span in syntaxHighlightSpans) {
             if (span.start >= from) {
                 span.start += byHowMuch
@@ -949,7 +949,7 @@ class TextProcessor @JvmOverloads constructor(
             }
         }
         //clearSearchSpans()
-    }
+    }*/
 
     private fun checkMatchingBracket(pos: Int) {
         if (layout != null) {
