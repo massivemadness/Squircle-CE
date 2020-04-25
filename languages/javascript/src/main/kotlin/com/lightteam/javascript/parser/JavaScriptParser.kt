@@ -30,6 +30,7 @@ class JavaScriptParser : LanguageParser {
         return Single.fromCallable {
             val context = Context.enter()
             context.optimizationLevel = -1
+            context.maximumInterpreterStackDepth = 1 // to avoid recursive calls
             try {
                 val scope = createRootScope(context)
 
