@@ -52,6 +52,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
@@ -108,6 +109,24 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                 viewModel.canRedo.set(binding.editor.canRedo())
             }
             .disposeOnFragmentDestroyView()
+
+        if (requireContext().isUltimate()) {
+            binding.editor
+                .afterTextChangeEvents()
+                .skipInitialValue()
+                .debounce(1500, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .subscribeBy {
+                    if (adapter.selectedPosition > -1) {
+                        viewModel.parse(
+                            binding.editor.language,
+                            adapter.selectedPosition,
+                            binding.editor.getProcessedText()
+                        )
+                    }
+                }
+                .disposeOnFragmentDestroyView()
+        }
     }
 
     override fun onDestroyView() {
@@ -137,20 +156,15 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         viewModel.tabsEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
-        viewModel.tabSelectionEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.tabSelectionEvent.observe(viewLifecycleOwner, Observer { position ->
             drawerHandler.handleDrawerClose()
-            if (it > -1) {
-                adapter.select(it)
+            if (position > -1) {
+                adapter.select(position)
             }
         })
         viewModel.parseEvent.observe(viewLifecycleOwner, Observer { model ->
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_result)
-                message(R.string.message_no_errors_detected)
-                model.exception?.let { exception ->
-                    message(text = exception.message)
-                }
-                positiveButton(R.string.action_ok)
+            model.exception?.let {
+                binding.editor.setErrorSpan(it.lineNumber)
             }
         })
         viewModel.contentEvent.observe(viewLifecycleOwner, Observer { content ->
@@ -488,11 +502,17 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         if (requireContext().isUltimate()) {
             val position = adapter.selectedPosition
             if (position > -1) {
-                viewModel.parse(
-                    binding.editor.language,
-                    position,
-                    binding.editor.getProcessedText()
-                )
+                MaterialDialog(requireContext()).show {
+                    title(R.string.dialog_title_result)
+                    message(R.string.message_no_errors_detected)
+                    viewModel.parseEvent.value?.let { model ->
+                        model.exception?.let {
+                            message(text = it.message)
+                            binding.editor.setErrorSpan(it.lineNumber)
+                        }
+                    }
+                    positiveButton(R.string.action_ok)
+                }
             } else {
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }

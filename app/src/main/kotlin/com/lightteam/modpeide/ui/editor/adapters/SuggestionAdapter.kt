@@ -18,7 +18,6 @@
 package com.lightteam.modpeide.ui.editor.adapters
 
 import android.content.Context
-import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -28,18 +27,20 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.scheme.ColorScheme
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import java.util.*
 
 class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<SuggestionModel>(context, resourceId) {
 
-    var color: Int = Color.WHITE
-
     private val suggestions: MutableList<SuggestionModel> = mutableListOf() // Отображаемый список
 
     private lateinit var wordsManager: WordsManager
+    private lateinit var colorScheme: ColorScheme
+
     private var query = ""
 
     private val filter = object : Filter() {
@@ -69,7 +70,7 @@ class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<Sugges
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val viewHolder = SuggestionViewHolder.create(parent, color)
+        val viewHolder = SuggestionViewHolder.create(parent, colorScheme.filterableColor.toColorInt())
         viewHolder.bind(getItem(position), query)
         return viewHolder.itemView
     }
@@ -80,6 +81,10 @@ class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<Sugges
 
     fun setWordsManager(wordsManager: WordsManager) {
         this.wordsManager = wordsManager
+    }
+
+    fun setColorScheme(colorScheme: ColorScheme) {
+        this.colorScheme = colorScheme
     }
 
     class SuggestionViewHolder(
