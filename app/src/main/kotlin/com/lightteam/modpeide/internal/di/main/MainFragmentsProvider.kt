@@ -15,41 +15,31 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.main
+package com.lightteam.modpeide.internal.di.main
 
-import com.lightteam.modpeide.internal.di.modules.explorer.DirectoryFragmentModule
-import com.lightteam.modpeide.internal.di.modules.editor.EditorFragmentModule
-import com.lightteam.modpeide.internal.di.modules.explorer.ExplorerFragmentModule
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
+import com.lightteam.modpeide.internal.di.editor.EditorFragmentModule
+import com.lightteam.modpeide.internal.di.editor.EditorScope
+import com.lightteam.modpeide.internal.di.explorer.ExplorerFragmentModule
+import com.lightteam.modpeide.internal.di.explorer.ExplorerFragmentsProvider
+import com.lightteam.modpeide.internal.di.explorer.ExplorerScope
 import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
-import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment
 import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
-import com.lightteam.modpeide.ui.explorer.fragments.PermissionsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class MainFragmentsProvider {
 
-    @PerFragment
+    @EditorScope
     @ContributesAndroidInjector(modules = [
         EditorFragmentModule::class
     ])
     abstract fun bindEditorFragment(): EditorFragment
 
-    @PerFragment
+    @ExplorerScope
     @ContributesAndroidInjector(modules = [
-        ExplorerFragmentModule::class
+        ExplorerFragmentModule::class,
+        ExplorerFragmentsProvider::class
     ])
     abstract fun bindExplorerFragment(): ExplorerFragment
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun bindPermissionsFragment(): PermissionsFragment
-
-    @PerFragment
-    @ContributesAndroidInjector(modules = [
-        DirectoryFragmentModule::class
-    ])
-    abstract fun bindDirectoryFragment(): DirectoryFragment
 }

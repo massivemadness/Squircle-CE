@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di
+package com.lightteam.modpeide.internal.di.app
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -31,71 +31,71 @@ import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.domain.repository.FileRepository
-import com.lightteam.modpeide.internal.di.scopes.PerApplication
 import com.lightteam.modpeide.internal.providers.rx.SchedulersProviderImpl
 import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class AppModule {
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideContext(application: BaseApplication): Context {
         return application
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideSchedulersProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideRxSharedPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences {
         return RxSharedPreferences.create(sharedPreferences)
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun providePreferenceHandler(rxSharedPreferences: RxSharedPreferences): PreferenceHandler {
         return PreferenceHandler(rxSharedPreferences)
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideAppUpdateManager(context: Context): AppUpdateManager {
         return AppUpdateManagerFactory.create(context)
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
         return DataLayerDelegate.provideAppDatabase(context)
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideCacheHandler(context: Context, appDatabase: AppDatabase): CacheHandler {
         return CacheHandler(context, appDatabase)
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideFileRepository(database: AppDatabase): FileRepository {
         return LocalFileRepository(database)
     }
 
     @Provides
-    @PerApplication
+    @Singleton
     fun provideViewModelFactory(
         schedulersProvider: SchedulersProvider,
         appUpdateManager: AppUpdateManager,

@@ -15,17 +15,27 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.settings
+package com.lightteam.modpeide.internal.di.app
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
-import com.lightteam.modpeide.ui.settings.fragments.PreferenceFragment
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import com.lightteam.modpeide.BaseApplication
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
+import javax.inject.Singleton
 
-@Module
-abstract class SettingsFragmentsProvider {
+@Singleton
+@Component(modules = [
+    AndroidInjectionModule::class,
+    AppModule::class,
+    ActivityBuilder::class
+])
+interface AppComponent : AndroidInjector<BaseApplication> {
 
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun bindPreferenceFragment(): PreferenceFragment
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance application: BaseApplication): AppComponent
+    }
+
+    override fun inject(application: BaseApplication)
 }

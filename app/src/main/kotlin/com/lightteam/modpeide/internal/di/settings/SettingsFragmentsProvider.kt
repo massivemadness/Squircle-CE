@@ -15,18 +15,15 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.explorer
+package com.lightteam.modpeide.internal.di.settings
 
-import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment
+import com.lightteam.modpeide.ui.settings.fragments.PreferenceFragment
 import dagger.Module
-import dagger.Provides
+import dagger.android.ContributesAndroidInjector
 
 @Module
-class DirectoryFragmentModule {
+abstract class SettingsFragmentsProvider {
 
-    @Provides
-    fun provideFileAdapter(directoryFragment: DirectoryFragment): FileAdapter {
-        return FileAdapter(directoryFragment)
-    }
+    @ContributesAndroidInjector
+    abstract fun bindPreferenceFragment(): PreferenceFragment
 }

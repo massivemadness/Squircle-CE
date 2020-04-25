@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.explorer
+package com.lightteam.modpeide.internal.di.explorer
 
-import com.lightteam.modpeide.internal.di.scopes.PerFragment
+import androidx.lifecycle.ViewModelProvider
+import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
 import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
 import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
+import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -27,7 +29,13 @@ import dagger.Provides
 class ExplorerFragmentModule {
 
     @Provides
-    @PerFragment
+    @ExplorerScope
+    fun provideExplorerViewModel(fragment: ExplorerFragment, factory: ViewModelFactory): ExplorerViewModel {
+        return ViewModelProvider(fragment, factory).get(ExplorerViewModel::class.java)
+    }
+
+    @Provides
+    @ExplorerScope
     fun provideDirectoryAdapter(explorerFragment: ExplorerFragment): DirectoryAdapter {
         return DirectoryAdapter(explorerFragment)
     }

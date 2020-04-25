@@ -15,10 +15,18 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.scopes
+package com.lightteam.modpeide.internal.di.explorer
 
-import javax.inject.Scope
+import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
+import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment
+import dagger.Module
+import dagger.Provides
 
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerFragment
+@Module
+class DirectoryFragmentModule {
+
+    @Provides
+    fun provideFileAdapter(directoryFragment: DirectoryFragment): FileAdapter {
+        return FileAdapter(directoryFragment)
+    }
+}

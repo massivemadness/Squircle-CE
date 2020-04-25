@@ -15,22 +15,35 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.modules.settings
+package com.lightteam.modpeide.internal.di.editor
 
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
-import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
-import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
+import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
+import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
+import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import dagger.Module
 import dagger.Provides
 
 @Module
-class SettingsActivityModule {
+class EditorFragmentModule {
 
     @Provides
-    @PerActivity
-    fun provideSettingsViewModel(activity: SettingsActivity, factory: ViewModelFactory): SettingsViewModel {
-        return ViewModelProvider(activity, factory).get(SettingsViewModel::class.java)
+    @EditorScope
+    fun provideEditorViewModel(fragment: EditorFragment, factory: ViewModelFactory): EditorViewModel {
+        return ViewModelProvider(fragment, factory).get(EditorViewModel::class.java)
+    }
+
+    @Provides
+    @EditorScope
+    fun provideToolbarManager(fragment: EditorFragment): ToolbarManager {
+        return ToolbarManager(fragment)
+    }
+
+    @Provides
+    @EditorScope
+    fun provideDocumentAdapter(fragment: EditorFragment): DocumentAdapter {
+        return DocumentAdapter(fragment)
     }
 }

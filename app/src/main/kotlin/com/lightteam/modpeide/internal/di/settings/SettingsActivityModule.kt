@@ -15,10 +15,21 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.scopes
+package com.lightteam.modpeide.internal.di.settings
 
-import javax.inject.Scope
+import androidx.lifecycle.ViewModelProvider
+import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
+import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
+import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+import dagger.Module
+import dagger.Provides
 
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerApplication
+@Module
+class SettingsActivityModule {
+
+    @Provides
+    @SettingsScope
+    fun provideSettingsViewModel(activity: SettingsActivity, factory: ViewModelFactory): SettingsViewModel {
+        return ViewModelProvider(activity, factory).get(SettingsViewModel::class.java)
+    }
+}

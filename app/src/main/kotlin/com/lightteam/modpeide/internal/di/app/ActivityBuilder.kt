@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di
+package com.lightteam.modpeide.internal.di.app
 
-import com.lightteam.modpeide.internal.di.modules.main.MainActivityModule
-import com.lightteam.modpeide.internal.di.modules.main.MainFragmentsProvider
-import com.lightteam.modpeide.internal.di.modules.settings.SettingsActivityModule
-import com.lightteam.modpeide.internal.di.modules.settings.SettingsFragmentsProvider
+import com.lightteam.modpeide.internal.di.main.MainActivityModule
+import com.lightteam.modpeide.internal.di.main.MainFragmentsProvider
+import com.lightteam.modpeide.internal.di.main.MainScope
+import com.lightteam.modpeide.internal.di.settings.SettingsActivityModule
+import com.lightteam.modpeide.internal.di.settings.SettingsFragmentsProvider
+import com.lightteam.modpeide.internal.di.settings.SettingsScope
 import com.lightteam.modpeide.ui.main.activities.MainActivity
-import com.lightteam.modpeide.internal.di.scopes.PerActivity
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -30,14 +31,14 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBuilder {
 
-    @PerActivity
+    @MainScope
     @ContributesAndroidInjector(modules = [
         MainActivityModule::class,
         MainFragmentsProvider::class
     ])
     abstract fun buildMainActivity(): MainActivity
 
-    @PerActivity
+    @SettingsScope
     @ContributesAndroidInjector(modules = [
         SettingsActivityModule::class,
         SettingsFragmentsProvider::class
