@@ -47,8 +47,8 @@ import com.lightteam.modpeide.data.feature.LinesCollection
 import com.lightteam.modpeide.data.feature.scheme.Darcula
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
+import com.lightteam.modpeide.domain.editor.TextChange
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
-import com.lightteam.modpeide.domain.model.editor.TextChange
 import com.lightteam.modpeide.ui.editor.adapters.SuggestionAdapter
 import com.lightteam.modpeide.ui.editor.customview.internal.OnScrollChangedListener
 import com.lightteam.modpeide.ui.editor.customview.internal.SymbolsTokenizer

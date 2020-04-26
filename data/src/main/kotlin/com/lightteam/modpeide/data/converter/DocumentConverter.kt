@@ -17,24 +17,23 @@
 
 package com.lightteam.modpeide.data.converter
 
+import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.data.model.entity.DocumentEntity
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
-import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.domain.editor.DocumentModel
 import java.util.*
 
 object DocumentConverter {
 
-    /*fun toModel(file: File): DocumentModel {
-        return DocumentModel(
-            UUID.randomUUID().toString(),
-            file.name,
-            file.absolutePath,
+    fun toModel(documentModel: DocumentModel): FileModel {
+        return FileModel(
+            documentModel.name,
+            documentModel.path,
             0,
             0,
-            0,
-            0
+            false,
+            documentModel.name.startsWith(".")
         )
-    }*/
+    }
 
     fun toModel(fileModel: FileModel): DocumentModel {
         return DocumentModel(

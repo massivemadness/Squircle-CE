@@ -26,14 +26,14 @@ import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.extensions.containsFileModel
 import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
-import com.lightteam.modpeide.domain.exception.DirectoryExpectedException
-import com.lightteam.modpeide.domain.exception.FileAlreadyExistsException
-import com.lightteam.modpeide.domain.exception.FileNotFoundException
-import com.lightteam.modpeide.domain.model.explorer.FileModel
-import com.lightteam.modpeide.domain.model.explorer.FileTree
-import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
+import com.lightteam.filesystem.exception.DirectoryExpectedException
+import com.lightteam.filesystem.exception.FileAlreadyExistsException
+import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.model.FileTree
+import com.lightteam.filesystem.model.PropertiesModel
+import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
@@ -41,7 +41,7 @@ import java.util.*
 
 class ExplorerViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val fileRepository: FileRepository,
+    private val filesystem: Filesystem,
     private val preferenceHandler: PreferenceHandler
 ) : BaseViewModel() {
 
@@ -82,7 +82,7 @@ class ExplorerViewModel(
     private var foldersOnTop: Boolean = true
 
     fun provideDirectory(fileModel: FileModel?) {
-        fileRepository.provideDirectory(fileModel)
+        filesystem.provideDirectory(fileModel)
             .doOnSubscribe {
                 stateNothingFound.set(false)
                 stateLoadingFiles.set(true)
@@ -154,7 +154,7 @@ class ExplorerViewModel(
     }
 
     fun createFile(fileModel: FileModel) {
-        fileRepository.createFile(fileModel)
+        filesystem.createFile(fileModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
@@ -177,7 +177,7 @@ class ExplorerViewModel(
     }
 
     fun renameFile(fileModel: FileModel, newName: String) {
-        fileRepository.renameFile(fileModel, newName)
+        filesystem.renameFile(fileModel, newName)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = { parent ->
@@ -203,7 +203,7 @@ class ExplorerViewModel(
     }
 
     fun deleteFile(fileModel: FileModel) {
-        fileRepository.deleteFile(fileModel)
+        filesystem.deleteFile(fileModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = { parent ->
@@ -226,7 +226,7 @@ class ExplorerViewModel(
     }
 
     fun propertiesOf(fileModel: FileModel) {
-        fileRepository.propertiesOf(fileModel)
+        filesystem.propertiesOf(fileModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {

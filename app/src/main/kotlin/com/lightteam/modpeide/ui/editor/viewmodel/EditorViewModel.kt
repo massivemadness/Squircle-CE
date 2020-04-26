@@ -24,16 +24,16 @@ import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
-import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.repository.CacheHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
-import com.lightteam.modpeide.domain.exception.FileNotFoundException
+import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.modpeide.data.repository.FileHandler
+import com.lightteam.modpeide.domain.editor.DocumentContent
+import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
-import com.lightteam.modpeide.domain.model.editor.DocumentContent
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.EventsQueue
 import com.lightteam.modpeide.utils.event.PreferenceEvent
@@ -43,7 +43,7 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val fileRepository: FileRepository,
+    private val fileHandler: FileHandler,
     private val cacheHandler: CacheHandler,
     private val appDatabase: AppDatabase,
     private val preferenceHandler: PreferenceHandler
@@ -125,9 +125,9 @@ class EditorViewModel(
 
     fun loadFile(documentModel: DocumentModel) {
         val dataSource = if (cacheHandler.isCached(documentModel)) {
-            cacheHandler.loadFromCache(documentModel)
+            cacheHandler.loadFile(documentModel)
         } else {
-            fileRepository.loadFile(documentModel)
+            fileHandler.loadFile(documentModel)
         }
         dataSource
             .doOnSubscribe { stateLoadingDocuments.set(true) }
@@ -154,7 +154,7 @@ class EditorViewModel(
     }
 
     fun saveFile(documentModel: DocumentModel, text: String) {
-        fileRepository.saveFile(documentModel, text)
+        fileHandler.saveFile(documentModel, text)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onComplete = {
@@ -181,7 +181,7 @@ class EditorViewModel(
     }
 
     fun saveToCache(documentModel: DocumentModel, text: String) {
-        cacheHandler.saveToCache(documentModel, text)
+        cacheHandler.saveFile(documentModel, text)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {

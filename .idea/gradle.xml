@@ -13,6 +13,9 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/filesystems" />
+            <option value="$PROJECT_DIR$/filesystems/filesystem" />
+            <option value="$PROJECT_DIR$/filesystems/localfilesystem" />
             <option value="$PROJECT_DIR$/languages" />
             <option value="$PROJECT_DIR$/languages/javascript" />
             <option value="$PROJECT_DIR$/languages/language" />

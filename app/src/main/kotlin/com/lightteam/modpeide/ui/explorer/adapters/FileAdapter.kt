@@ -21,10 +21,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.model.FileType
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ItemFileBinding
-import com.lightteam.modpeide.domain.model.explorer.FileModel
-import com.lightteam.modpeide.domain.model.explorer.FileType
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter.FileViewHolder

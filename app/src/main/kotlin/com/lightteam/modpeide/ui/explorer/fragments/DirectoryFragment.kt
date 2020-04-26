@@ -29,13 +29,12 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
+import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.model.FileTree
+import com.lightteam.filesystem.model.PropertiesModel
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
-import com.lightteam.modpeide.domain.model.explorer.FileModel
-import com.lightteam.modpeide.domain.model.explorer.FileTree
-import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
@@ -81,7 +80,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
             navController.navigate(destination)
         } else {
-            sharedViewModel.handleDocumentEvent.value = DocumentConverter.toModel(item)
+            sharedViewModel.openFileEvent.value = item
         }
     }
 

@@ -23,14 +23,15 @@ import androidx.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.localfilesystem.repository.LocalFilesystem
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.data.delegate.DataLayerDelegate
-import com.lightteam.modpeide.data.repository.LocalFileRepository
-import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.repository.CacheHandler
+import com.lightteam.modpeide.data.repository.FileHandler
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.internal.providers.rx.SchedulersProviderImpl
 import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
 import dagger.Module
@@ -78,6 +79,12 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideFilesystem(): Filesystem {
+        return LocalFilesystem()
+    }
+
+    @Provides
+    @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
         return DataLayerDelegate.provideAppDatabase(context)
     }
@@ -90,8 +97,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideFileRepository(database: AppDatabase): FileRepository {
-        return LocalFileRepository(database)
+    fun provideFileHandler(filesystem: Filesystem, appDatabase: AppDatabase): FileHandler {
+        return FileHandler(filesystem, appDatabase)
     }
 
     @Provides
@@ -99,7 +106,8 @@ class AppModule {
     fun provideViewModelFactory(
         schedulersProvider: SchedulersProvider,
         appUpdateManager: AppUpdateManager,
-        fileRepository: FileRepository,
+        filesystem: Filesystem,
+        fileHandler: FileHandler,
         cacheHandler: CacheHandler,
         appDatabase: AppDatabase,
         preferenceHandler: PreferenceHandler
@@ -107,7 +115,8 @@ class AppModule {
         return ViewModelFactory(
             schedulersProvider,
             appUpdateManager,
-            fileRepository,
+            filesystem,
+            fileHandler,
             cacheHandler,
             appDatabase,
             preferenceHandler

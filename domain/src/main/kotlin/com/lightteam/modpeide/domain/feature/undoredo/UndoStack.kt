@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.domain.feature.undoredo
 
-import com.lightteam.modpeide.domain.model.editor.TextChange
+import com.lightteam.modpeide.domain.editor.TextChange
 
 interface UndoStack {
     fun pop(): TextChange

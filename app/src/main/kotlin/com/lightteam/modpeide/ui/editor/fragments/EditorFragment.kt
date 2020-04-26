@@ -33,9 +33,11 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
+import com.lightteam.filesystem.model.FileType
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
@@ -181,8 +183,13 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             )
             binding.editor.requestFocus()
         })
-        sharedViewModel.handleDocumentEvent.observe(viewLifecycleOwner, Observer {
-            if (it.isOpenable()) viewModel.openFile(it) else openFile(it)
+        sharedViewModel.openFileEvent.observe(viewLifecycleOwner, Observer { fileModel ->
+            val documentModel = DocumentConverter.toModel(fileModel)
+            if (fileModel.getType() == FileType.TEXT) {
+                viewModel.openFile(documentModel)
+            } else {
+                openFile(documentModel)
+            }
         })
 
         // region PREFERENCES
