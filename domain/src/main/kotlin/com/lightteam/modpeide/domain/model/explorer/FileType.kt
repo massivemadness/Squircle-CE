@@ -19,6 +19,7 @@ package com.lightteam.modpeide.domain.model.explorer
 
 enum class FileType {
     DEFAULT,
+    TEXT,
     ARCHIVE,
     IMAGE,
     AUDIO,

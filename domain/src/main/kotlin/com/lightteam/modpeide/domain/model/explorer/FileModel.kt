@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.domain.model.explorer
 
 import android.os.Parcelable
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.utils.endsWith
 import kotlinx.android.parcel.Parcelize
 
@@ -48,6 +49,7 @@ data class FileModel(
 
     fun getType(): FileType {
         return when {
+            name.endsWith(DocumentModel.OPENABLE) -> FileType.TEXT
             name.endsWith(ARCHIVE) -> FileType.ARCHIVE
             name.endsWith(IMAGE) -> FileType.IMAGE
             name.endsWith(AUDIO) -> FileType.AUDIO

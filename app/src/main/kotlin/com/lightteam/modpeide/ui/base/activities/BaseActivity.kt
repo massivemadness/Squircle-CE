@@ -18,34 +18,16 @@
 package com.lightteam.modpeide.ui.base.activities
 
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.core.content.getSystemService
 import com.lightteam.modpeide.R
 import dagger.android.support.DaggerAppCompatActivity
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
-
-    private val compositeDisposable by lazy { CompositeDisposable() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setBackgroundDrawableResource(R.color.colorBackground)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
-    }
-
-    protected fun closeKeyboard() {
-        val inputManager = getSystemService<InputMethodManager>()
-        val windowToken = currentFocus?.windowToken
-        val hideType = InputMethodManager.HIDE_NOT_ALWAYS
-        inputManager?.hideSoftInputFromWindow(windowToken, hideType)
     }
 
     protected fun showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
@@ -54,10 +36,5 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         } else {
             Toast.makeText(this, text, duration).show()
         }
-    }
-
-    protected fun Disposable.disposeOnActivityDestroy(): Disposable {
-        compositeDisposable.add(this)
-        return this
     }
 }

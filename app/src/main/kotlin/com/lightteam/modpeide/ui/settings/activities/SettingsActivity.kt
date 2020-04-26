@@ -20,9 +20,7 @@ package com.lightteam.modpeide.ui.settings.activities
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.core.view.isGone
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
@@ -39,9 +37,8 @@ class SettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.observePreferences()
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
-        binding.viewModel = viewModel
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         observeViewModel()
 
         setSupportActionBar(binding.toolbar)
@@ -63,5 +60,7 @@ class SettingsActivity : BaseActivity() {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
         })
+
+        viewModel.observePreferences()
     }
 }

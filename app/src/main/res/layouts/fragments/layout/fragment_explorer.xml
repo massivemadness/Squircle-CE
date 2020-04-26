@@ -105,13 +105,14 @@
             android:id="@+id/swipe_refresh"
             android:background="?android:colorBackground">
 
-            <androidx.fragment.app.FragmentContainerView
+            <fragment
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/nav_host"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 app:navGraph="@navigation/navigation_graph"
-                app:defaultNavHost="true"/>
+                app:defaultNavHost="true"
+                tools:ignore="FragmentTagUsage"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

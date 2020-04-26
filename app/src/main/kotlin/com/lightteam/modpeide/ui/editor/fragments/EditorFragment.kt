@@ -48,7 +48,6 @@ import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.extensions.*
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
@@ -103,7 +102,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
 
         binding.editor
             .afterTextChangeEvents()
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy {
                 viewModel.canUndo.set(binding.editor.canUndo())
                 viewModel.canRedo.set(binding.editor.canRedo())
@@ -115,6 +113,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                 .afterTextChangeEvents()
                 .skipInitialValue()
                 .debounce(1500, TimeUnit.MILLISECONDS)
+                .filter { it.editable?.isNotEmpty() ?: false }
                 .distinctUntilChanged()
                 .subscribeBy {
                     if (adapter.selectedPosition > -1) {

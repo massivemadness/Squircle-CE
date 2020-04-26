@@ -18,13 +18,11 @@
 package com.lightteam.modpeide.ui.explorer.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.databinding.ItemFileBinding
 import com.lightteam.modpeide.domain.model.explorer.FileModel
 import com.lightteam.modpeide.domain.model.explorer.FileType
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
@@ -56,23 +54,19 @@ class FileAdapter(
     }
 
     class FileViewHolder(
-        itemView: View,
+        private val binding: ItemFileBinding,
         private val onItemClickListener: OnItemClickListener<FileModel>
-    ): BaseViewHolder<FileModel>(itemView) {
+    ): BaseViewHolder<FileModel>(binding.root) {
 
         companion object {
             fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FileModel>): FileViewHolder {
-                val itemView = LayoutInflater
-                    .from(parent.context)
-                    .inflate(R.layout.item_file, parent, false)
-                return FileViewHolder(itemView, onItemClickListener)
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = ItemFileBinding.inflate(inflater, parent, false)
+                return FileViewHolder(binding, onItemClickListener)
             }
         }
 
         private lateinit var fileModel: FileModel
-
-        private val itemIcon: ImageView = itemView.findViewById(R.id.item_icon)
-        private val itemTitle: TextView = itemView.findViewById(R.id.item_title)
 
         init {
             itemView.setOnClickListener {
@@ -85,35 +79,38 @@ class FileAdapter(
 
         override fun bind(item: FileModel) {
             fileModel = item
-            itemTitle.text = fileModel.name
+            binding.itemTitle.text = fileModel.name
 
             if (fileModel.isHidden) {
-                itemIcon.alpha = 0.45f
+                binding.itemIcon.alpha = 0.45f
             } else {
-                itemIcon.alpha = 1f
+                binding.itemIcon.alpha = 1f
             }
 
             if (fileModel.isFolder) {
-                itemIcon.setImageResource(R.drawable.ic_folder)
-                itemIcon.setTint(R.color.colorFolder)
+                binding.itemIcon.setImageResource(R.drawable.ic_folder)
+                binding.itemIcon.setTint(R.color.colorFolder)
             } else {
-                itemIcon.setImageResource(R.drawable.ic_file)
-                itemIcon.setTint(R.color.colorIcon)
+                binding.itemIcon.setImageResource(R.drawable.ic_file)
+                binding.itemIcon.setTint(R.color.colorIcon)
             }
 
             when (fileModel.getType()) {
+                FileType.TEXT -> {
+                    binding.itemIcon.setImageResource(R.drawable.ic_file_document)
+                }
                 FileType.ARCHIVE -> {
-                    itemIcon.setImageResource(R.drawable.ic_file_archive)
-                    itemIcon.setTint(R.color.colorFolder)
+                    binding.itemIcon.setImageResource(R.drawable.ic_file_archive)
+                    binding.itemIcon.setTint(R.color.colorFolder)
                 }
                 FileType.IMAGE -> {
-                    itemIcon.setImageResource(R.drawable.ic_file_image)
+                    binding.itemIcon.setImageResource(R.drawable.ic_file_image)
                 }
                 FileType.AUDIO -> {
-                    itemIcon.setImageResource(R.drawable.ic_file_audio)
+                    binding.itemIcon.setImageResource(R.drawable.ic_file_audio)
                 }
                 FileType.VIDEO -> {
-                    itemIcon.setImageResource(R.drawable.ic_file_video)
+                    binding.itemIcon.setImageResource(R.drawable.ic_file_video)
                 }
                 FileType.DEFAULT -> { /* nothing */ }
             }

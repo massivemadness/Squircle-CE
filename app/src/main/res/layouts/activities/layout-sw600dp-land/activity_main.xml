@@ -16,34 +16,32 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".ui.main.activities.MainActivity">
 
-    <LinearLayout
+    <fragment
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_explorer"
+        android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
+        tools:layout="@layout/fragment_explorer"
+        tools:ignore="FragmentTagUsage"/>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="?colorSecondaryVariant"/>
+
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:context=".ui.main.activities.MainActivity">
+        android:id="@+id/fragment_editor"
+        android:name="com.lightteam.modpeide.ui.editor.fragments.EditorFragment"
+        tools:layout="@layout/fragment_editor"
+        tools:ignore="FragmentTagUsage"/>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="280dp"
-            android:layout_height="match_parent"
-            android:id="@+id/fragment_explorer"
-            android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
-            tools:layout="@layout/fragment_explorer"/>
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="?colorSecondaryVariant"/>
-
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/fragment_editor"
-            android:name="com.lightteam.modpeide.ui.editor.fragments.EditorFragment"
-            tools:layout="@layout/fragment_editor"/>
-
-    </LinearLayout>
-
-</layout>
+</LinearLayout>

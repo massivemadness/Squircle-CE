@@ -1,15 +1,13 @@
 package com.lightteam.modpeide.ui.editor.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.databinding.ItemTabDocumentBinding
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
@@ -29,10 +27,10 @@ class DocumentAdapter(
     }
 
     class DocumentViewHolder(
-        itemView: View,
+        private val binding: ItemTabDocumentBinding,
         private val tabInteractor: TabInteractor,
         private val tabCallback: (Int) -> Unit
-    ) : RecyclerView.ViewHolder(itemView) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(
@@ -40,16 +38,11 @@ class DocumentAdapter(
                 tabInteractor: TabInteractor,
                 tabCallback: (Int) -> Unit
             ): DocumentViewHolder {
-                val itemView = LayoutInflater
-                    .from(parent.context)
-                    .inflate(R.layout.item_tab_document, parent, false)
-                return DocumentViewHolder(itemView, tabInteractor, tabCallback)
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = ItemTabDocumentBinding.inflate(inflater, parent, false)
+                return DocumentViewHolder(binding, tabInteractor, tabCallback)
             }
         }
-
-        private val itemTitle: TextView = itemView.findViewById(R.id.item_title)
-        private val itemIcon: ImageView = itemView.findViewById(R.id.item_icon)
-        private val selectionIndicator: View = itemView.findViewById(R.id.selection_indicator)
 
         init {
             itemView.setOnClickListener {
@@ -71,14 +64,14 @@ class DocumentAdapter(
                 popupMenu.show()
                 return@setOnLongClickListener true
             }
-            itemIcon.setOnClickListener {
+            binding.itemIcon.setOnClickListener {
                 tabInteractor.close(adapterPosition)
             }
         }
 
         fun bind(item: DocumentModel, isSelected: Boolean) {
-            selectionIndicator.isVisible = isSelected
-            itemTitle.text = item.name
+            binding.selectionIndicator.isVisible = isSelected
+            binding.itemTitle.text = item.name
         }
     }
 

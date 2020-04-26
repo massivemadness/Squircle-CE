@@ -26,7 +26,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
@@ -38,7 +37,6 @@ import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.*
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -67,9 +65,9 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         binding.viewModel = viewModel
         observeViewModel()
 
-        view.post { // to avoid exception
-            navController = binding.navHost.findNavController()
-        }
+        navController = childFragmentManager
+            .fragment<NavHostFragment>(R.id.nav_host).navController
+
         setSupportActionBar(binding.toolbar)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.filesUpdateEvent.call()
@@ -79,7 +77,8 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         binding.directoryRecyclerView.itemAnimator = null
         binding.directoryRecyclerView.adapter = adapter
         binding.actionHome.setOnClickListener {
-            val backStackCount = binding.navHost.fragment<NavHostFragment>().backStackEntryCount
+            val backStackCount = childFragmentManager
+                .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
             navController.popBackStack(backStackCount - 1)
             removeTab(backStackCount - 1)
         }
@@ -89,7 +88,8 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
     }
 
     override fun handleOnBackPressed(): Boolean {
-        val backStackCount = binding.navHost.fragment<NavHostFragment>().backStackEntryCount
+        val backStackCount = childFragmentManager
+            .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
         if (backStackCount > 1) {
             navController.popBackStack()
             removeTab(1)
@@ -119,9 +119,8 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             .queryTextChangeEvents()
             .skipInitialValue()
             .debounce(200, TimeUnit.MILLISECONDS)
-            .filter { it.queryText.isEmpty() || it.queryText.length >= 2 }
+            .filter { it.queryText.length >= 2 }
             .distinctUntilChanged()
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy {
                 viewModel.searchFile(it.queryText)
             }

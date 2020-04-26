@@ -1,14 +1,12 @@
 package com.lightteam.modpeide.ui.explorer.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lightteam.modpeide.R
+import com.lightteam.modpeide.databinding.ItemTabDirectoryBinding
 import com.lightteam.modpeide.domain.model.explorer.FileModel
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 
@@ -49,21 +47,17 @@ class DirectoryAdapter(
     }
 
     class DirectoryViewHolder(
-        itemView: View,
+        private val binding: ItemTabDirectoryBinding,
         private val onTabSelectedListener: TabAdapter.OnTabSelectedListener
-    ) : RecyclerView.ViewHolder(itemView) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(parent: ViewGroup, onTabSelectedListener: TabAdapter.OnTabSelectedListener): DirectoryViewHolder {
-                val itemView = LayoutInflater
-                    .from(parent.context)
-                    .inflate(R.layout.item_tab_directory, parent, false)
-                return DirectoryViewHolder(itemView, onTabSelectedListener)
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = ItemTabDirectoryBinding.inflate(inflater, parent, false)
+                return DirectoryViewHolder(binding, onTabSelectedListener)
             }
         }
-
-        private val itemTitle: TextView = itemView.findViewById(R.id.item_title)
-        private val selectionIndicator: View = itemView.findViewById(R.id.selection_indicator)
 
         init {
             itemView.setOnClickListener {
@@ -72,8 +66,8 @@ class DirectoryAdapter(
         }
 
         fun bind(item: FileModel, isSelected: Boolean) {
-            selectionIndicator.isVisible = isSelected
-            itemTitle.text = item.name
+            binding.selectionIndicator.isVisible = isSelected
+            binding.itemTitle.text = item.name
         }
     }
 }

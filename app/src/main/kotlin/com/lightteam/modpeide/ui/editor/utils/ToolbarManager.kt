@@ -110,7 +110,7 @@ class ToolbarManager(
             //Tools Menu
             R.id.menu_tools_errorChecking -> listener.onErrorCheckingButton()
             R.id.menu_tools_insertColor -> listener.onInsertColorButton()
-            //R.id.menu_tools_downloadSource: -> listener.onDownloadSourceButton()
+            //R.id.menu_tools_downloadSource -> listener.onDownloadSourceButton()
 
             //Overflow Menu
             R.id.menu_overflow_settings -> listener.onSettingsButton()
