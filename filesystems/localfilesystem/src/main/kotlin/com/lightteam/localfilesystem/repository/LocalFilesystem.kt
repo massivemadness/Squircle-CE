@@ -17,7 +17,6 @@
 
 package com.lightteam.localfilesystem.repository
 
-import android.os.Environment
 import com.lightteam.filesystem.exception.DirectoryExpectedException
 import com.lightteam.filesystem.exception.FileAlreadyExistsException
 import com.lightteam.filesystem.exception.FileNotFoundException
@@ -35,9 +34,7 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
 
-class LocalFilesystem : Filesystem {
-
-    private val defaultLocation: File = Environment.getExternalStorageDirectory().absoluteFile
+class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     // region EXPLORER
 

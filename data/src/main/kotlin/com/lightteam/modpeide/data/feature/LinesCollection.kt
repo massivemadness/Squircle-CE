@@ -86,7 +86,10 @@ class LinesCollection : Iterable<Line> {
     }
 
     fun getLine(line: Int): Line {
-        return lines[line]
+        if (line > -1 && line < lineCount) {
+            return lines[line]
+        }
+        return Line(0)
     }
 
     override fun iterator(): Iterator<Line> {

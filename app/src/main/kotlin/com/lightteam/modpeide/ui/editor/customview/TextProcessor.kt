@@ -397,8 +397,8 @@ class TextProcessor @JvmOverloads constructor(
         setText(newText)
 
         wordsManager.clear()
-        undoStack.clear()
-        redoStack.clear()
+        // undoStack.clear()
+        // redoStack.clear()
         facadeText.clear()
         replaceText(0, facadeText.length, newText)
         lines.clear()
@@ -421,6 +421,8 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     fun clearText() {
+        undoStack.clear()
+        redoStack.clear()
         processText("")
     }
 
@@ -518,9 +520,9 @@ class TextProcessor @JvmOverloads constructor(
             if (end > text.length) {
                 end = text.length
             }
+            redoStack.push(textChange)
             text.replace(textChange.start, end, textChange.oldText)
             setSelection(textChange.start + textChange.oldText.length)
-            redoStack.push(textChange)
             isDoingUndoRedo = false
         } else {
             undoStack.clear()
@@ -531,12 +533,12 @@ class TextProcessor @JvmOverloads constructor(
         val textChange = redoStack.pop()
         if (textChange.start >= 0) {
             isDoingUndoRedo = true
+            undoStack.push(textChange)
             text.replace(
                 textChange.start,
                 textChange.start + textChange.oldText.length, textChange.newText
             )
             setSelection(textChange.start + textChange.newText.length)
-            undoStack.push(textChange)
             isDoingUndoRedo = false
         } else {
             undoStack.clear()

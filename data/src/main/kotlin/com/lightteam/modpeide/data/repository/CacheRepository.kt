@@ -17,13 +17,12 @@
 
 package com.lightteam.modpeide.data.repository
 
-import android.content.Context
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.feature.language.LanguageProvider
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
-import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.domain.editor.DocumentContent
 import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.domain.editor.TextChange
@@ -35,51 +34,38 @@ import java.io.File
 import java.io.IOException
 import java.lang.NumberFormatException
 
-class CacheHandler(
-    context: Context,
+class CacheRepository(
+    private val cacheDirectory: File,
+    private val filesystem: Filesystem,
     private val appDatabase: AppDatabase
 ) : DocumentRepository {
 
-    private val cacheDirectory: File = context.filesDir
-
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
-        return Single.create { emitter ->
-            val file = cache("${documentModel.uuid}.cache")
-            if (file.exists()) {
+        val cacheModel = documentModel.copy(name = "${documentModel.uuid}.cache")
+        val fileModel = DocumentConverter.toModel(cacheModel)
+        return filesystem.loadFile(fileModel)
+            .map { text ->
+                val language = LanguageProvider.provide(documentModel)
                 val undoStack = loadUndoStack(documentModel)
                 val redoStack = loadRedoStack(documentModel)
-                val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
-                val documentContent = DocumentContent(
+
+                return@map DocumentContent(
                     documentModel,
-                    LanguageProvider.provide(documentModel),
+                    language,
                     undoStack,
                     redoStack,
                     text
                 )
-                emitter.onSuccess(documentContent)
-            } else {
-                emitter.onError(FileNotFoundException(documentModel.path))
             }
-        }
     }
 
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
-        return Completable.create { emitter ->
-            try {
-                createCacheFilesIfNecessary(documentModel)
-
-                val textFile = cache("${documentModel.uuid}.cache")
-                val textWriter = textFile.outputStream().bufferedWriter()
-                textWriter.write(text)
-                textWriter.close()
-
+        val cacheModel = documentModel.copy(name = "${documentModel.uuid}.cache")
+        val fileModel = DocumentConverter.toModel(cacheModel)
+        return filesystem.saveFile(fileModel, text)
+            .doOnComplete {
                 appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
-
-                emitter.onComplete()
-            } catch (e: IOException) {
-                emitter.onError(e)
             }
-        }
     }
 
     fun isCached(documentModel: DocumentModel): Boolean {

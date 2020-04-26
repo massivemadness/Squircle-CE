@@ -172,9 +172,9 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             viewModel.setSelectedDocumentId(content.documentModel.uuid)
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.language = content.language
-            binding.editor.processText(content.text)
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
+            binding.editor.processText(content.text)
             binding.editor.scrollX = content.documentModel.scrollX
             binding.editor.scrollY = content.documentModel.scrollY
             binding.editor.setSelection(

@@ -24,12 +24,12 @@ import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
-import com.lightteam.modpeide.data.repository.CacheHandler
+import com.lightteam.modpeide.data.repository.CacheRepository
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.filesystem.exception.FileNotFoundException
-import com.lightteam.modpeide.data.repository.FileHandler
+import com.lightteam.modpeide.data.repository.FileRepository
 import com.lightteam.modpeide.domain.editor.DocumentContent
 import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
@@ -43,8 +43,8 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val fileHandler: FileHandler,
-    private val cacheHandler: CacheHandler,
+    private val fileRepository: FileRepository,
+    private val cacheRepository: CacheRepository,
     private val appDatabase: AppDatabase,
     private val preferenceHandler: PreferenceHandler
 ) : BaseViewModel() {
@@ -118,24 +118,23 @@ class EditorViewModel(
                     stateNothingFound.set(true)
                 }
                 .schedulersIoToMain(schedulersProvider)
-                .subscribeBy { cacheHandler.deleteAllCaches() }
+                .subscribeBy { cacheRepository.deleteAllCaches() }
                 .disposeOnViewModelDestroy()
         }
     }
 
     fun loadFile(documentModel: DocumentModel) {
-        val dataSource = if (cacheHandler.isCached(documentModel)) {
-            cacheHandler.loadFile(documentModel)
+        val dataSource = if (cacheRepository.isCached(documentModel)) {
+            cacheRepository
         } else {
-            fileHandler.loadFile(documentModel)
+            fileRepository
         }
-        dataSource
+        dataSource.loadFile(documentModel)
             .doOnSubscribe { stateLoadingDocuments.set(true) }
             .doOnSuccess { stateLoadingDocuments.set(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    // saveToCache(it.documentModel, it.text)
                     contentEvent.value = it
                 },
                 onError = {
@@ -154,7 +153,7 @@ class EditorViewModel(
     }
 
     fun saveFile(documentModel: DocumentModel, text: String) {
-        fileHandler.saveFile(documentModel, text)
+        fileRepository.saveFile(documentModel, text)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onComplete = {
@@ -169,7 +168,7 @@ class EditorViewModel(
     }
 
     fun deleteCache(documentModel: DocumentModel) {
-        cacheHandler.deleteCache(documentModel)
+        cacheRepository.deleteCache(documentModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
@@ -181,7 +180,7 @@ class EditorViewModel(
     }
 
     fun saveToCache(documentModel: DocumentModel, text: String) {
-        cacheHandler.saveFile(documentModel, text)
+        cacheRepository.saveFile(documentModel, text)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
@@ -193,7 +192,7 @@ class EditorViewModel(
     }
 
     fun saveUndoStack(documentModel: DocumentModel, undoStack: UndoStack) {
-        cacheHandler.saveUndoStack(documentModel, undoStack)
+        cacheRepository.saveUndoStack(documentModel, undoStack)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
@@ -205,7 +204,7 @@ class EditorViewModel(
     }
 
     fun saveRedoStack(documentModel: DocumentModel, redoStack: UndoStack) {
-        cacheHandler.saveRedoStack(documentModel, redoStack)
+        cacheRepository.saveRedoStack(documentModel, redoStack)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
