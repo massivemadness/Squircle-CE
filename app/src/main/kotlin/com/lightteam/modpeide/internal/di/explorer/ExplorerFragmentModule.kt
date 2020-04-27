@@ -18,19 +18,40 @@
 package com.lightteam.modpeide.internal.di.explorer
 
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
+import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
 import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
 class ExplorerFragmentModule {
 
     @Provides
     @ExplorerScope
-    fun provideExplorerViewModel(fragment: ExplorerFragment, factory: ViewModelFactory): ExplorerViewModel {
+    fun provideExplorerViewModelFactory(
+        schedulersProvider: SchedulersProvider,
+        preferenceHandler: PreferenceHandler,
+        @Named("Local")
+        filesystem: Filesystem
+    ): ExplorerViewModel.Factory {
+        return ExplorerViewModel.Factory(
+            schedulersProvider,
+            preferenceHandler,
+            filesystem
+        )
+    }
+
+    @Provides
+    @ExplorerScope
+    fun provideExplorerViewModel(
+        fragment: ExplorerFragment,
+        factory: ExplorerViewModel.Factory
+    ): ExplorerViewModel {
         return ViewModelProvider(fragment, factory).get(ExplorerViewModel::class.java)
     }
 

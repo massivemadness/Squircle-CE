@@ -17,22 +17,71 @@
 
 package com.lightteam.modpeide.internal.di.editor
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
+import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.modpeide.data.repository.CacheRepository
+import com.lightteam.modpeide.data.repository.FileRepository
+import com.lightteam.modpeide.data.storage.database.AppDatabase
+import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
 class EditorFragmentModule {
 
     @Provides
     @EditorScope
-    fun provideEditorViewModel(fragment: EditorFragment, factory: ViewModelFactory): EditorViewModel {
+    fun provideEditorViewModelFactory(
+        schedulersProvider: SchedulersProvider,
+        preferenceHandler: PreferenceHandler,
+        appDatabase: AppDatabase,
+        fileRepository: FileRepository,
+        cacheRepository: CacheRepository
+    ): EditorViewModel.Factory {
+        return EditorViewModel.Factory(
+            schedulersProvider,
+            preferenceHandler,
+            appDatabase,
+            fileRepository,
+            cacheRepository
+        )
+    }
+
+    @Provides
+    @EditorScope
+    fun provideEditorViewModel(
+        fragment: EditorFragment,
+        factory: EditorViewModel.Factory
+    ): EditorViewModel {
         return ViewModelProvider(fragment, factory).get(EditorViewModel::class.java)
+    }
+
+    @Provides
+    @EditorScope
+    fun provideCacheRepository(
+        context: Context,
+        @Named("Cache")
+        filesystem: Filesystem,
+        appDatabase: AppDatabase
+    ): CacheRepository {
+        return CacheRepository(context.filesDir, filesystem, appDatabase)
+    }
+
+    @Provides
+    @EditorScope
+    fun provideFileRepository(
+        @Named("Local")
+        filesystem: Filesystem,
+        appDatabase: AppDatabase
+    ): FileRepository {
+        return FileRepository(filesystem, appDatabase)
     }
 
     @Provides

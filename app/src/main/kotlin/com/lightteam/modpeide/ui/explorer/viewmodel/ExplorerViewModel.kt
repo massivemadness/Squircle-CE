@@ -20,6 +20,8 @@ package com.lightteam.modpeide.ui.explorer.viewmodel
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.FileSorter
@@ -41,8 +43,8 @@ import java.util.*
 
 class ExplorerViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val filesystem: Filesystem,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val filesystem: Filesystem
 ) : BaseViewModel() {
 
     companion object {
@@ -300,4 +302,24 @@ class ExplorerViewModel(
     }
 
     // endregion PREFERENCES
+
+    class Factory(
+        private val schedulersProvider: SchedulersProvider,
+        private val preferenceHandler: PreferenceHandler,
+        private val filesystem: Filesystem
+    ) : ViewModelProvider.NewInstanceFactory() {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return when {
+                modelClass === ExplorerViewModel::class.java ->
+                    ExplorerViewModel(
+                        schedulersProvider,
+                        preferenceHandler,
+                        filesystem
+                    ) as T
+                else -> null as T
+            }
+        }
+    }
 }

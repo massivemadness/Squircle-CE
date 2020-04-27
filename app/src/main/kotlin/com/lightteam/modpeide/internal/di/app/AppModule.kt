@@ -22,19 +22,14 @@ import android.content.SharedPreferences
 import android.os.Environment
 import androidx.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.repository.LocalFilesystem
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.data.delegate.DataLayerDelegate
-import com.lightteam.modpeide.data.repository.CacheRepository
-import com.lightteam.modpeide.data.repository.FileRepository
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.internal.providers.rx.SchedulersProviderImpl
-import com.lightteam.modpeide.ui.base.viewmodel.ViewModelFactory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -75,8 +70,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideAppUpdateManager(context: Context): AppUpdateManager {
-        return AppUpdateManagerFactory.create(context)
+    fun provideAppDatabase(context: Context): AppDatabase {
+        return DataLayerDelegate.provideAppDatabase(context)
     }
 
     @Provides
@@ -91,55 +86,5 @@ class AppModule {
     @Named("Cache")
     fun provideCacheFilesystem(context: Context): Filesystem {
         return LocalFilesystem(context.filesDir)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAppDatabase(context: Context): AppDatabase {
-        return DataLayerDelegate.provideAppDatabase(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCacheRepository(
-        context: Context,
-        @Named("Cache")
-        filesystem: Filesystem,
-        appDatabase: AppDatabase
-    ): CacheRepository {
-        return CacheRepository(context.filesDir, filesystem, appDatabase)
-    }
-
-    @Provides
-    @Singleton
-    fun provideFileRepository(
-        @Named("Local")
-        filesystem: Filesystem,
-        appDatabase: AppDatabase
-    ): FileRepository {
-        return FileRepository(filesystem, appDatabase)
-    }
-
-    @Provides
-    @Singleton
-    fun provideViewModelFactory(
-        schedulersProvider: SchedulersProvider,
-        appUpdateManager: AppUpdateManager,
-        @Named("Local")
-        filesystem: Filesystem,
-        fileRepository: FileRepository,
-        cacheRepository: CacheRepository,
-        appDatabase: AppDatabase,
-        preferenceHandler: PreferenceHandler
-    ): ViewModelFactory {
-        return ViewModelFactory(
-            schedulersProvider,
-            appUpdateManager,
-            filesystem,
-            fileRepository,
-            cacheRepository,
-            appDatabase,
-            preferenceHandler
-        )
     }
 }
