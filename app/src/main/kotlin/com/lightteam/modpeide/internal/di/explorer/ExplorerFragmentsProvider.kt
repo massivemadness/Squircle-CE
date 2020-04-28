@@ -11,8 +11,6 @@ abstract class ExplorerFragmentsProvider {
     @ContributesAndroidInjector
     abstract fun bindPermissionsFragment(): PermissionsFragment
 
-    @ContributesAndroidInjector(modules = [
-        DirectoryFragmentModule::class
-    ])
+    @ContributesAndroidInjector
     abstract fun bindDirectoryFragment(): DirectoryFragment
 }

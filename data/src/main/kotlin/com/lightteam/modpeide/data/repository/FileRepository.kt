@@ -12,8 +12,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 class FileRepository(
-    private val filesystem: Filesystem,
-    private val appDatabase: AppDatabase
+    private val appDatabase: AppDatabase,
+    private val filesystem: Filesystem
 ) : DocumentRepository {
 
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {

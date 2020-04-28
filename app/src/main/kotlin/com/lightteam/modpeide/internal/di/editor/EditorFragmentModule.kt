@@ -67,21 +67,21 @@ class EditorFragmentModule {
     @EditorScope
     fun provideCacheRepository(
         context: Context,
+        appDatabase: AppDatabase,
         @Named("Cache")
-        filesystem: Filesystem,
-        appDatabase: AppDatabase
+        filesystem: Filesystem
     ): CacheRepository {
-        return CacheRepository(context.filesDir, filesystem, appDatabase)
+        return CacheRepository(context.filesDir, appDatabase, filesystem)
     }
 
     @Provides
     @EditorScope
     fun provideFileRepository(
+        appDatabase: AppDatabase,
         @Named("Local")
-        filesystem: Filesystem,
-        appDatabase: AppDatabase
+        filesystem: Filesystem
     ): FileRepository {
-        return FileRepository(filesystem, appDatabase)
+        return FileRepository(appDatabase, filesystem)
     }
 
     @Provides

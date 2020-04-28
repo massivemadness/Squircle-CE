@@ -36,8 +36,8 @@ import java.lang.NumberFormatException
 
 class CacheRepository(
     private val cacheDirectory: File,
-    private val filesystem: Filesystem,
-    private val appDatabase: AppDatabase
+    private val appDatabase: AppDatabase,
+    private val filesystem: Filesystem
 ) : DocumentRepository {
 
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {

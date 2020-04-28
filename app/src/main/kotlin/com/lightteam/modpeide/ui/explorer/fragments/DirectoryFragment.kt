@@ -50,13 +50,12 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
     lateinit var sharedViewModel: MainViewModel
     @Inject
     lateinit var viewModel: ExplorerViewModel
-    @Inject
-    lateinit var adapter: FileAdapter
 
     private val args: DirectoryFragmentArgs by navArgs()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
+    private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
 
     override fun layoutId(): Int = R.layout.fragment_directory
@@ -69,6 +68,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         observeViewModel()
 
         navController = findNavController()
+        adapter = FileAdapter(this)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = adapter
 
