@@ -37,6 +37,7 @@ import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.*
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -121,6 +122,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             .debounce(200, TimeUnit.MILLISECONDS)
             .filter { it.queryText.length >= 2 }
             .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy {
                 viewModel.searchFile(it.queryText)
             }

@@ -15,8 +15,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -27,14 +27,14 @@
         android:layout_height="92dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_no_access"
-        app:tint="@color/colorIcon"/>
+        app:tint="?colorOnBackground"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/colorIcon"
+        android:textColor="?colorOnBackground"
         android:textSize="24sp"
         android:textStyle="bold"
         android:text="@string/message_access_denied"/>
@@ -46,12 +46,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/colorIcon"
+        android:textColor="?colorOnBackground"
         android:textSize="14sp"
         android:text="@string/message_access_required"/>
 
     <com.google.android.material.button.MaterialButton
-        style="@style/Widget.Darcula.TextButton"
+        style="@style/Widget.AppTheme.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -49,7 +49,7 @@ class DocumentAdapter(
                 tabCallback.invoke(adapterPosition)
             }
             itemView.setOnLongClickListener {
-                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_Darcula_PopupMenu)
+                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {

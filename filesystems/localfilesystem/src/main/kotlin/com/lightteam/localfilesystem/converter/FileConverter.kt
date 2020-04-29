@@ -24,12 +24,12 @@ object FileConverter {
 
     fun toModel(file: File): FileModel {
         return FileModel(
-            file.name,
-            file.path,
-            file.length(),
-            file.lastModified(),
-            file.isDirectory,
-            file.isHidden
+            name = file.name,
+            path = file.path,
+            size = file.length(),
+            lastModified = file.lastModified(),
+            isFolder = file.isDirectory,
+            isHidden = file.isHidden
         )
     }
 

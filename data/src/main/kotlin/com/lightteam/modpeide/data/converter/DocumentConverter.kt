@@ -26,48 +26,48 @@ object DocumentConverter {
 
     fun toModel(documentModel: DocumentModel): FileModel {
         return FileModel(
-            documentModel.name,
-            documentModel.path,
-            0,
-            0,
-            false,
-            documentModel.name.startsWith(".")
+            name = documentModel.name,
+            path = documentModel.path,
+            size = 0,
+            lastModified = 0,
+            isFolder = false,
+            isHidden = documentModel.name.startsWith(".")
         )
     }
 
     fun toModel(fileModel: FileModel): DocumentModel {
         return DocumentModel(
-            UUID.randomUUID().toString(),
-            fileModel.name,
-            fileModel.path,
-            0,
-            0,
-            0,
-            0
+            uuid = UUID.randomUUID().toString(),
+            name = fileModel.name,
+            path = fileModel.path,
+            scrollX = 0,
+            scrollY = 0,
+            selectionStart = 0,
+            selectionEnd = 0
         )
     }
 
     fun toModel(entity: DocumentEntity): DocumentModel {
         return DocumentModel(
-            entity.uuid,
-            entity.name,
-            entity.path,
-            entity.scrollX,
-            entity.scrollY,
-            entity.selectionStart,
-            entity.selectionEnd
+            uuid = entity.uuid,
+            name = entity.name,
+            path = entity.path,
+            scrollX = entity.scrollX,
+            scrollY = entity.scrollY,
+            selectionStart = entity.selectionStart,
+            selectionEnd = entity.selectionEnd
         )
     }
 
     fun toEntity(model: DocumentModel): DocumentEntity {
         return DocumentEntity(
-            model.uuid,
-            model.name,
-            model.path,
-            model.scrollX,
-            model.scrollY,
-            model.selectionStart,
-            model.selectionEnd
+            uuid = model.uuid,
+            name = model.name,
+            path = model.path,
+            scrollX = model.scrollX,
+            scrollY = model.scrollY,
+            selectionStart = model.selectionStart,
+            selectionEnd = model.selectionEnd
         )
     }
 }

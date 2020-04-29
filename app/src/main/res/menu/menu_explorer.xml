@@ -24,7 +24,7 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/hint_search"
-        app:iconTint="@android:color/white"
+        app:iconTint="?colorOnSurface"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         tools:ignore="AlwaysShowAction"/>

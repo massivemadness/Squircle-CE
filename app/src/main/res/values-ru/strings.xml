@@ -24,7 +24,7 @@
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
-    <string name="hint_find_what">Найти что?</string>
+    <string name="hint_find_what">Что искать?</string>
     <string name="hint_replace_what">Заменить что?</string>
     <string name="hint_replace_with">Заменить на:</string>
     <string name="hint_line_number">Номер строки</string>

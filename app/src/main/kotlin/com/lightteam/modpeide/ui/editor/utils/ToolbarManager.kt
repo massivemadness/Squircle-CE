@@ -75,8 +75,8 @@ class ToolbarManager(
 
     private fun setMenuClickListener(view: View, menuRes: Int) {
         view.setOnClickListener {
-            val wrapper = ContextThemeWrapper(view.context, R.style.Widget_Darcula_PopupMenu)
-            val popupMenu = PopupMenu(wrapper, view)
+            val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
+            val popupMenu = PopupMenu(wrapper, it)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)
             popupMenu.makeRightPaddingRecursively()

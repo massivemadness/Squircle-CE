@@ -92,7 +92,7 @@ class FileAdapter(
                 binding.itemIcon.setTint(R.color.colorFolder)
             } else {
                 binding.itemIcon.setImageResource(R.drawable.ic_file)
-                binding.itemIcon.setTint(R.color.colorIcon)
+                binding.itemIcon.setTint(R.color.colorFile)
             }
 
             when (fileModel.getType()) {

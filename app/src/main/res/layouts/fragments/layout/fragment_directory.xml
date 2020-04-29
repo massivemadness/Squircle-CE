@@ -54,14 +54,14 @@
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_file_search"
             android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
-            app:tint="@color/colorIcon"/>
+            app:tint="?colorOnBackground"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
             android:layout_gravity="center"
-            android:textColor="@color/colorIcon"
+            android:textColor="?colorOnBackground"
             android:textSize="24sp"
             android:textStyle="bold"
             android:text="@string/message_no_result"

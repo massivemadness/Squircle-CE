@@ -29,13 +29,14 @@
     <color name="colorOnSecondary">#000000</color>
     <color name="colorOnSurface">#FFFFFF</color>
     <color name="colorOnError">#FFFFFF</color>
-    <color name="colorOnBackground">#FFFFFF</color>
+    <color name="colorOnBackground">#7F7F7F</color>
 
     <color name="colorStatusBar">#3C3F41</color>
 
     <!-- Extra -->
-    <color name="colorCaret">#BBBBBB</color>
     <color name="colorIcon">#7F7F7F</color>
+    <color name="colorCaret">#BBBBBB</color>
+    <color name="colorFile">#7F7F7F</color>
     <color name="colorFolder">#FFBB33</color>
     <color name="colorGreen">#008860</color>
     <color name="colorRed">#CD0000</color>
