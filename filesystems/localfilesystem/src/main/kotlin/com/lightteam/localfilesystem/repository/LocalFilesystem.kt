@@ -126,9 +126,9 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             val realFile = File(fileModel.path)
             if (realFile.exists()) {
                 val result = PropertiesModel(
-                    fileModel.name,
-                    fileModel.path,
-                    fileModel.lastModified.formatAsDate(),
+                    realFile.name,
+                    realFile.absolutePath,
+                    realFile.lastModified().formatAsDate(),
                     realFile.size().formatAsSize(),
                     getLineCount(realFile),
                     getWordCount(realFile),

@@ -49,7 +49,10 @@ class MainViewModel(
     val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+
+    // События для связи проводника и редактора
     val openFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
+    val propertiesEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
 
     private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
         if (state.installStatus == InstallStatus.DOWNLOADED) {

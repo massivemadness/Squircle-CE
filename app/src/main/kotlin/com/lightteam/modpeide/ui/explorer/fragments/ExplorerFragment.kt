@@ -120,7 +120,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             .queryTextChangeEvents()
             .skipInitialValue()
             .debounce(200, TimeUnit.MILLISECONDS)
-            .filter { it.queryText.length >= 2 }
+            .filter { it.queryText.length >= 2 || it.queryText.isEmpty() }
             .distinctUntilChanged()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy {

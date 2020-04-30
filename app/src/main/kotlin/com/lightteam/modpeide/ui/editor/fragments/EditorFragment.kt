@@ -378,6 +378,16 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         }
     }
 
+    override fun onPropertiesButton() {
+        val position = adapter.selectedPosition
+        if (position > -1) {
+            val document = viewModel.tabsList[position]
+            sharedViewModel.propertiesEvent.value = DocumentConverter.toModel(document)
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
+    }
+
     override fun onCloseButton() {
         val position = adapter.selectedPosition
         if (position > -1) {

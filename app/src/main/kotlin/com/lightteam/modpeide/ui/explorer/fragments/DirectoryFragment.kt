@@ -109,6 +109,9 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
             showPropertiesDialog(it)
         })
+        sharedViewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
+            viewModel.propertiesOf(it)
+        })
     }
 
     private fun loadDirectory() {
