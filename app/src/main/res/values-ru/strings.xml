@@ -26,6 +26,7 @@
     <string name="label_code_style">Стиль кода</string>
     <string name="label_files">Файлы</string>
     <string name="label_about">О программе</string>
+    <string name="label_fonts">Шрифты</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
@@ -60,6 +61,7 @@
     <string name="action_get_it">Приобрести</string>
     <string name="action_maybe_later">Может позже</string>
     <string name="action_unlock_all_features">Получить все возможности</string>
+    <string name="action_select">Выбрать</string>
 
     <string name="dialog_title_choose_action">Выберите действие</string>
     <string name="dialog_title_create">Создать…</string>
@@ -116,6 +118,7 @@
     <string name="message_no_errors_detected">Синтакcических ошибок не найдено</string>
     <string name="message_in_app_update_ready">Обновление загружено</string>
     <string name="message_in_app_update_failed">Произошла ошибка при установке пакета</string>
+    <string name="message_selected">Выбран %1$s</string>
 
     <string name="menu_file_new">Новый файл</string>
     <string name="menu_file_open">Открыть</string>
@@ -148,6 +151,8 @@
     <string name="store_feature_6">Проверка ошибок</string>
     <string name="store_feature_7">Вставка цвета</string>
 
+    <string name="font_support_ligatures">* Поддерживает лигатуры</string>
+
     <string name="pref_header_application_title">Приложение</string>
     <string name="pref_header_application_summary">Настройте основной функционал.</string>
     <string name="pref_header_editor_title">Редактор</string>
@@ -179,6 +184,7 @@
     <string name="pref_font_size_title">Размер шрифта</string>
     <string name="pref_font_size_summary">Укажите размер шрифта по умолчанию.</string>
     <string name="pref_font_type_title">Тип шрифта</string>
+    <string name="pref_font_type_summary">Укажите тип шрифта по умолчанию.</string>
     <string name="pref_resume_session_title">Возобновление сеанса</string>
     <string name="pref_resume_session_summary">Восстанавливать открытые файлы при следующем запуске.</string>
     <string name="pref_tab_limit_title">Лимит вкладок</string>

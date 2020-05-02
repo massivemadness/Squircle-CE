@@ -1,9 +1,9 @@
-package com.lightteam.modpeide.ui.settings.adapter
+package com.lightteam.modpeide.ui.settings.adapter.item
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 
-data class PreferenceModel(
+data class PreferenceItem(
     @StringRes
     val title: Int,
     @StringRes

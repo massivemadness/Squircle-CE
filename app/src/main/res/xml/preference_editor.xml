@@ -32,13 +32,10 @@
             app:min="10"
             app:showSeekBarValue="true"/>
 
-        <ListPreference
+        <Preference
             android:title="@string/pref_font_type_title"
-            android:key="FONT_TYPE_2"
-            android:entries="@array/font_type_entries"
-            android:entryValues="@array/font_type_values"
-            android:defaultValue="jetbrains_mono"
-            app:useSimpleSummaryProvider="true"/>
+            android:summary="@string/pref_font_size_summary"
+            android:key="FONT_TYPE_3"/>
 
     </PreferenceCategory>
 

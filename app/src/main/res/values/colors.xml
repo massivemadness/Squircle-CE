@@ -25,7 +25,7 @@
 
     <color name="colorSecondaryVariant">#37383A</color>
 
-    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnPrimary">#000000</color>
     <color name="colorOnSecondary">#000000</color>
     <color name="colorOnSurface">#FFFFFF</color>
     <color name="colorOnError">#FFFFFF</color>

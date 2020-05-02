@@ -52,7 +52,11 @@
     <fragment
         android:id="@+id/editorFragment"
         android:name="com.lightteam.modpeide.ui.settings.fragments.EditorFragment"
-        android:label="@string/label_editor"/>
+        android:label="@string/label_editor">
+        <action
+            android:id="@+id/to_fontsFragment"
+            app:destination="@id/fontsFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/codeStyleFragment"
@@ -68,5 +72,11 @@
         android:id="@+id/aboutFragment"
         android:name="com.lightteam.modpeide.ui.settings.fragments.AboutFragment"
         android:label="@string/label_about"/>
+
+    <fragment
+        android:id="@+id/fontsFragment"
+        android:name="com.lightteam.modpeide.ui.settings.fragments.FontsFragment"
+        android:label="@string/label_fonts"
+        tools:layout="@layout/fragment_fonts"/>
 
 </navigation>

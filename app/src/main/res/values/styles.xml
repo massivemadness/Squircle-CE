@@ -33,14 +33,22 @@
 
     <!-- region BUTTON -->
 
+    <style name="Widget.AppTheme.RaisedButton" parent="Widget.MaterialComponents.Button">
+        <item name="rippleColor">?colorControlHighlight</item>
+        <item name="cornerRadius">2dp</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
     <style name="Widget.AppTheme.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="rippleColor">?colorControlHighlight</item>
         <item name="cornerRadius">2dp</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
 
     <style name="Widget.AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="rippleColor">?colorControlHighlight</item>
         <item name="cornerRadius">3dp</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
 
     <!-- endregion BUTTON -->
@@ -81,7 +89,6 @@
 
     <style name="Dialog.AppTheme.Button" parent="Widget.AppTheme.TextButton">
         <item name="android:minWidth" tools:ignore="PrivateResource">@dimen/mtrl_btn_dialog_btn_min_width</item>
-        <item name="android:letterSpacing">0.01</item>
     </style>
 
     <!-- endregion DIALOG -->

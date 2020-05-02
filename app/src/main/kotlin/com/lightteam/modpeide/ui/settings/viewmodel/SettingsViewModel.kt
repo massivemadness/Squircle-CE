@@ -24,8 +24,10 @@ import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.ui.settings.adapter.PreferenceModel
+import com.lightteam.modpeide.ui.settings.adapter.item.FontItem
+import com.lightteam.modpeide.ui.settings.adapter.item.PreferenceItem
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import com.lightteam.modpeide.data.utils.commons.Fonts
 import io.reactivex.rxkotlin.subscribeBy
 
 class SettingsViewModel(
@@ -34,36 +36,85 @@ class SettingsViewModel(
 ) : BaseViewModel() {
 
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val headersEvent: SingleLiveEvent<List<PreferenceModel>> = SingleLiveEvent()
+
+    val headersEvent: SingleLiveEvent<List<PreferenceItem>> = SingleLiveEvent()
+    val fontsEvent: SingleLiveEvent<List<FontItem>> = SingleLiveEvent()
+    val selectionEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     fun fetchHeaders() {
         headersEvent.value = listOf(
-            PreferenceModel(
+            PreferenceItem(
                 R.string.pref_header_application_title,
                 R.string.pref_header_application_summary,
                 R.id.applicationFragment
             ),
-            PreferenceModel(
+            PreferenceItem(
                 R.string.pref_header_editor_title,
                 R.string.pref_header_editor_summary,
                 R.id.editorFragment
             ),
-            PreferenceModel(
+            PreferenceItem(
                 R.string.pref_header_codeStyle_title,
                 R.string.pref_header_codeStyle_summary,
                 R.id.codeStyleFragment
             ),
-            PreferenceModel(
+            PreferenceItem(
                 R.string.pref_header_files_title,
                 R.string.pref_header_files_summary,
                 R.id.filesFragment
             ),
-            PreferenceModel(
+            PreferenceItem(
                 R.string.pref_header_about_title,
                 R.string.pref_header_about_summary,
                 R.id.aboutFragment
             )
         )
+    }
+
+    fun fetchFonts() {
+        fontsEvent.value = listOf(
+            FontItem(
+                "Droid Sans Mono",
+                Fonts.DROID_SANS_MONO,
+                supportLigatures = false,
+                isPaid = false
+            ),
+            FontItem(
+                "JetBrains Mono",
+                Fonts.JETBRAINS_MONO,
+                supportLigatures = true,
+                isPaid = false
+            ),
+            FontItem(
+                "Fira Code",
+                Fonts.FIRA_CODE,
+                supportLigatures = true,
+                isPaid = true
+            ),
+            FontItem(
+                "Source Code Pro",
+                Fonts.SOURCE_CODE_PRO,
+                supportLigatures = false,
+                isPaid = true
+            ),
+            FontItem(
+                "Anonymous Pro",
+                Fonts.ANONYMOUS_PRO,
+                supportLigatures = false,
+                isPaid = true
+            ),
+            FontItem(
+                "DejaVu Sans Mono",
+                Fonts.DEJAVU_SANS_MONO,
+                supportLigatures = false,
+                isPaid = true
+            )
+        )
+    }
+
+    fun selectFont(fontItem: FontItem) {
+        preferenceHandler.getFontType().set(fontItem.fontPath)
+        selectionEvent.value = fontItem.fontName
     }
 
     fun observePreferences() {

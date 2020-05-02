@@ -27,6 +27,7 @@
     <string name="label_code_style">Code Style</string>
     <string name="label_files">Files</string>
     <string name="label_about">About</string>
+    <string name="label_fonts">Fonts</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_enter_file_name">Enter file name</string>
@@ -61,6 +62,7 @@
     <string name="action_get_it">Get it</string>
     <string name="action_maybe_later">Maybe later</string>
     <string name="action_unlock_all_features">Unlock all features</string>
+    <string name="action_select">Select</string>
 
     <string name="dialog_title_choose_action">Choose action</string>
     <string name="dialog_title_create">Create…</string>
@@ -117,6 +119,7 @@
     <string name="message_no_errors_detected">No syntax errors detected</string>
     <string name="message_in_app_update_ready">App is ready to update</string>
     <string name="message_in_app_update_failed">Update installation failed</string>
+    <string name="message_selected">Selected %1$s</string>
 
     <string name="menu_file_new">New</string>
     <string name="menu_file_open">Open</string>
@@ -152,6 +155,9 @@
     <string name="store_feature_6">Error checking</string>
     <string name="store_feature_7">Color picker</string>
 
+    <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
+    <string name="font_support_ligatures">* Support ligatures</string>
+
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>
     <string name="pref_header_editor_title">Editor</string>
@@ -183,6 +189,7 @@
     <string name="pref_font_size_title">Editor font size</string>
     <string name="pref_font_size_summary">Specify the default font size of editor.</string>
     <string name="pref_font_type_title">Editor font type</string>
+    <string name="pref_font_type_summary">Specify the default font type of editor.</string>
     <string name="pref_resume_session_title">Resume session</string>
     <string name="pref_resume_session_summary">Restore opened files for next launch.</string>
     <string name="pref_tab_limit_title">Tab Limit</string>

@@ -40,7 +40,7 @@ import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.EventsQueue
 import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
-import com.lightteam.modpeide.utils.theming.ThemeFactory
+import com.lightteam.modpeide.data.utils.commons.ThemeFactory
 import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(

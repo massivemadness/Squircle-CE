@@ -19,6 +19,8 @@ package com.lightteam.modpeide.data.storage.keyvalue
 
 import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.lightteam.modpeide.data.utils.commons.Fonts
+import com.lightteam.modpeide.data.utils.commons.ThemeFactory
 
 class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
@@ -32,7 +34,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
         //Font
         const val KEY_FONT_SIZE = "FONT_SIZE_2"
-        const val KEY_FONT_TYPE = "FONT_TYPE_2"
+        const val KEY_FONT_TYPE = "FONT_TYPE_3"
 
         //Tabs
         const val KEY_RESUME_SESSION = "RESUME_SESSION"
@@ -61,13 +63,13 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_SORT_MODE = "SORT_MODE"
     }
 
-    fun getTheme(): Preference<String> = rxSharedPreferences.getString(KEY_THEME, "THEME_DARCULA")
+    fun getTheme(): Preference<String> = rxSharedPreferences.getString(KEY_THEME, ThemeFactory.THEME_DARCULA)
     fun getFullscreenMode(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
 
     fun getConfirmExit(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
 
     fun getFontSize(): Preference<Int> = rxSharedPreferences.getInteger(KEY_FONT_SIZE, 14)
-    fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, "jetbrains_mono")
+    fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, Fonts.JETBRAINS_MONO)
 
     fun getResumeSession(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
     fun getTabLimit(): Preference<Int> = rxSharedPreferences.getInteger(KEY_TAB_LIMIT, 5)

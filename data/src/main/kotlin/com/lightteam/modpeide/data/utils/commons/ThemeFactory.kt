@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.utils.theming
+package com.lightteam.modpeide.data.utils.commons
 
 import com.lightteam.modpeide.data.feature.scheme.*
 import com.lightteam.language.scheme.ColorScheme
@@ -30,14 +30,16 @@ object ThemeFactory {
     const val THEME_VISUAL_STUDIO_2013 = "THEME_VISUAL_STUDIO_2013"
 
     fun create(theme: String): ColorScheme {
-        return when(theme) {
+        return when (theme) {
             THEME_DARCULA -> Darcula()
             THEME_MONOKAI -> Monokai()
             THEME_OBSIDIAN -> Obsidian()
             THEME_LADIES_NIGHT -> LadiesNight()
             THEME_TOMORROW_NIGHT -> TomorrowNight()
             THEME_VISUAL_STUDIO_2013 -> VisualStudio2013()
-            else -> create(THEME_DARCULA)
+            else -> create(
+                THEME_DARCULA
+            )
         }
     }
 }

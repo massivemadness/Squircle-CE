@@ -10,11 +10,11 @@ import com.lightteam.modpeide.databinding.FragmentHeadersBinding
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.settings.adapter.PreferenceAdapter
-import com.lightteam.modpeide.ui.settings.adapter.PreferenceModel
+import com.lightteam.modpeide.ui.settings.adapter.item.PreferenceItem
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import javax.inject.Inject
 
-class HeadersFragment : BaseFragment(), OnItemClickListener<PreferenceModel> {
+class HeadersFragment : BaseFragment(), OnItemClickListener<PreferenceItem> {
 
     @Inject
     lateinit var viewModel: SettingsViewModel
@@ -37,7 +37,7 @@ class HeadersFragment : BaseFragment(), OnItemClickListener<PreferenceModel> {
         viewModel.fetchHeaders()
     }
 
-    override fun onClick(item: PreferenceModel) {
+    override fun onClick(item: PreferenceItem) {
         navController.navigate(item.navigationId)
     }
 

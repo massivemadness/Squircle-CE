@@ -207,7 +207,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     }
                     is PreferenceEvent.FontType -> {
                         val newConfiguration = binding.editor.configuration.copy(
-                            fontType = requireContext().createTypefaceFromAssets(event.value)
+                            fontType = requireContext().createTypefaceFromPath(event.value)
                         )
                         binding.editor.configuration = newConfiguration
                     }

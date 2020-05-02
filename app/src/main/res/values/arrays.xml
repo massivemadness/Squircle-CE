@@ -44,21 +44,4 @@
         <item>THEME_TOMORROW_NIGHT</item>
         <item>THEME_VISUAL_STUDIO_2013</item>
     </string-array>
-
-    <string-array name="font_type_entries">
-        <item>Fira Code</item>
-        <item>Source Code Pro</item>
-        <item>Anonymous Pro</item>
-        <item>JetBrains Mono</item>
-        <item>Droid Sans Mono</item>
-        <item>DejaVu Sans Mono</item>
-    </string-array>
-    <string-array name="font_type_values">
-        <item>fira_code</item>
-        <item>source_code_pro</item>
-        <item>anonymous_pro</item>
-        <item>jetbrains_mono</item>
-        <item>droid_sans_mono</item>
-        <item>dejavu_sans_mono</item>
-    </string-array>
 </resources>
