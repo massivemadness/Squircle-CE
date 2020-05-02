@@ -61,7 +61,8 @@ class JavaScriptParser : LanguageParser {
                 context.evaluateString(scope, source, name, 1, null)
                 return@fromCallable ParseModel(null)
             } catch (e: RhinoException) {
-                return@fromCallable ParseModel(ParseException(e.message, e.lineNumber()))
+                val parseException = ParseException(e.message, e.lineNumber(), e.columnNumber())
+                return@fromCallable ParseModel(parseException)
             } finally {
                 Context.exit()
             }
