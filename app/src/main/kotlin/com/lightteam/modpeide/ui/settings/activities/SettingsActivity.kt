@@ -21,10 +21,14 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.core.view.isGone
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.utils.extensions.fragment
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
@@ -33,6 +37,7 @@ class SettingsActivity : BaseActivity() {
     @Inject
     lateinit var viewModel: SettingsViewModel
 
+    private lateinit var navController: NavController
     private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,11 +46,18 @@ class SettingsActivity : BaseActivity() {
         setContentView(binding.root)
         observeViewModel()
 
+        navController = supportFragmentManager
+            .fragment<NavHostFragment>(R.id.nav_host).navController
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.toolbar.title = destination.label
+        }
+
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+
         binding.buttonContainer.isGone = isUltimate()
         binding.buttonUnlockFeatures.setOnClickListener {
             DialogStore.Builder(this).show()

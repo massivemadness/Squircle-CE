@@ -19,10 +19,12 @@ package com.lightteam.modpeide.ui.settings.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.ui.settings.adapter.PreferenceModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -32,6 +34,37 @@ class SettingsViewModel(
 ) : BaseViewModel() {
 
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val headersEvent: SingleLiveEvent<List<PreferenceModel>> = SingleLiveEvent()
+
+    fun fetchHeaders() {
+        headersEvent.value = listOf(
+            PreferenceModel(
+                R.string.pref_header_application_title,
+                R.string.pref_header_application_summary,
+                R.id.applicationFragment
+            ),
+            PreferenceModel(
+                R.string.pref_header_editor_title,
+                R.string.pref_header_editor_summary,
+                R.id.editorFragment
+            ),
+            PreferenceModel(
+                R.string.pref_header_codeStyle_title,
+                R.string.pref_header_codeStyle_summary,
+                R.id.codeStyleFragment
+            ),
+            PreferenceModel(
+                R.string.pref_header_files_title,
+                R.string.pref_header_files_summary,
+                R.id.filesFragment
+            ),
+            PreferenceModel(
+                R.string.pref_header_about_title,
+                R.string.pref_header_about_summary,
+                R.id.aboutFragment
+            )
+        )
+    }
 
     fun observePreferences() {
         preferenceHandler.getFullscreenMode()

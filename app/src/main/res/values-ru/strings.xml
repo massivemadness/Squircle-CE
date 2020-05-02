@@ -19,8 +19,13 @@
 
     <string name="label_permissions">Разрешения</string>
     <string name="label_directory">Директория</string>
-    <string name="label_settings">Настройки</string>
     <string name="label_local_storage">На устройстве</string>
+    <string name="label_settings">Настройки</string>
+    <string name="label_application">Приложение</string>
+    <string name="label_editor">Редактор</string>
+    <string name="label_code_style">Стиль кода</string>
+    <string name="label_files">Файлы</string>
+    <string name="label_about">О программе</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_enter_file_name">Введите имя файла</string>

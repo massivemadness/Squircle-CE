@@ -40,7 +40,7 @@ class FileAdapter(
                 return oldItem.path == newItem.path
             }
             override fun areContentsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {
-                return oldItem.name == newItem.name
+                return oldItem == newItem
             }
         }
     }

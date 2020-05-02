@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.internal.di.settings
 
-import com.lightteam.modpeide.ui.settings.fragments.PreferenceFragment
+import com.lightteam.modpeide.ui.settings.fragments.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,5 +25,20 @@ import dagger.android.ContributesAndroidInjector
 abstract class SettingsFragmentsProvider {
 
     @ContributesAndroidInjector
-    abstract fun bindPreferenceFragment(): PreferenceFragment
+    abstract fun bindHeadersFragment(): HeadersFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindApplicationFragment(): ApplicationFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindEditorFragment(): EditorFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindCodeStyleFragment(): CodeStyleFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindFilesFragment(): FilesFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindAboutFragment(): AboutFragment
 }
