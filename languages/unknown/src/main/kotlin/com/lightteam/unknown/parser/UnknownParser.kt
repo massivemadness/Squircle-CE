@@ -25,7 +25,7 @@ import io.reactivex.Single
 class UnknownParser : LanguageParser {
 
     override fun execute(name: String, source: String): Single<ParseModel> {
-        val parseException = ParseException("Unable to parse unsupported language", 0)
+        val parseException = ParseException("Unable to parse unsupported language", 0, 0)
         val parseModel = ParseModel(parseException)
         return Single.just(parseModel)
     }

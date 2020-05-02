@@ -17,8 +17,8 @@
 
 package com.lightteam.modpeide.data.feature.undoredo
 
+import com.lightteam.modpeide.domain.editor.TextChange
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
-import com.lightteam.modpeide.domain.model.editor.TextChange
 
 class UndoStackImpl : UndoStack {
 

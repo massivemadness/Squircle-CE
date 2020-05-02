@@ -31,14 +31,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/Theme.Darcula"
+        android:theme="@style/AppTheme"
         android:name="com.lightteam.modpeide.BaseApplication"
         tools:replace="android:supportsRtl">
 
         <activity
             android:name="com.lightteam.modpeide.ui.main.activities.MainActivity"
             android:windowSoftInputMode="adjustResize"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

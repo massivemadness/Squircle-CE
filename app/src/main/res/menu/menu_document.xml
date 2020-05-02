@@ -27,7 +27,7 @@
         android:id="@+id/action_close_others"
         android:title="@string/action_close_others"
         android:icon="@drawable/ic_row_others"
-        app:iconTint="@color/colorIcon" />
+        app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/action_close_all"
         android:title="@string/action_close_all"

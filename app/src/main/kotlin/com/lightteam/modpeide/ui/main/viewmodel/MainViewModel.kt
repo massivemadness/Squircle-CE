@@ -18,6 +18,8 @@
 package com.lightteam.modpeide.ui.main.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -25,6 +27,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.installStatus
+import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -34,8 +37,8 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class MainViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val appUpdateManager: AppUpdateManager,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val appUpdateManager: AppUpdateManager
 ) : BaseViewModel() {
 
     companion object {
@@ -46,6 +49,10 @@ class MainViewModel(
     val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+
+    // События для связи проводника и редактора
+    val openFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
+    val propertiesEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
 
     private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
         if (state.installStatus == InstallStatus.DOWNLOADED) {
@@ -89,5 +96,26 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { backEvent.value = it }
             .disposeOnViewModelDestroy()
+    }
+
+    class Factory(
+        private val schedulersProvider: SchedulersProvider,
+        private val preferenceHandler: PreferenceHandler,
+        private val appUpdateManager: AppUpdateManager
+    ) : ViewModelProvider.NewInstanceFactory() {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return when {
+                modelClass === MainViewModel::class.java -> {
+                    MainViewModel(
+                        schedulersProvider,
+                        preferenceHandler,
+                        appUpdateManager
+                    ) as T
+                }
+                else -> null as T
+            }
+        }
     }
 }

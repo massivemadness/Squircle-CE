@@ -17,26 +17,37 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- region TEXTVIEW -->
+    <!-- region TEXT -->
 
-    <style name="Widget.Darcula.SnackBarTextView" parent="Widget.MaterialComponents.Snackbar.TextView">
+    <style name="Widget.AppTheme.SnackBarTextView" parent="Widget.MaterialComponents.Snackbar.TextView">
         <item name="android:textColor">?colorOnSurface</item>
     </style>
 
-    <!-- endregion TEXTVIEW -->
+    <!-- endregion TEXT -->
+
+    <!-- region INPUT -->
+
+    <style name="Widget.AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+
+    <!-- endregion INPUT -->
 
     <!-- region BUTTON -->
 
-    <style name="Widget.Darcula.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="Widget.AppTheme.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="rippleColor">?colorControlHighlight</item>
         <item name="cornerRadius">2dp</item>
+    </style>
+
+    <style name="Widget.AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="rippleColor">?colorControlHighlight</item>
+        <item name="cornerRadius">3dp</item>
     </style>
 
     <!-- endregion BUTTON -->
 
     <!-- region MENU -->
 
-    <style name="Widget.Darcula.PopupMenu" parent="Theme.MaterialComponents.Light">
+    <style name="Widget.AppTheme.PopupMenu" parent="Theme.MaterialComponents.Light">
         <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu.Overflow</item>
     </style>
 
@@ -53,7 +64,7 @@
 
         <item name="android:windowAnimationStyle">@style/MD_WindowAnimation</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.32</item> <!-- That's new line -->
+        <item name="android:backgroundDimAmount">0.32</item> <!-- new line -->
         <item name="android:windowNoTitle">true</item>
 
         <item name="md_divider_color">@color/md_divider_dark_theme</item>
@@ -61,14 +72,14 @@
         <item name="md_button_selector">@drawable/md_btn_selector_dark</item>
     </style>
 
-    <style name="Dialog.Darcula.Preference" parent="ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="buttonBarNegativeButtonStyle">@style/Dialog.Darcula.Button</item>
-        <item name="buttonBarPositiveButtonStyle">@style/Dialog.Darcula.Button</item>
+    <style name="Dialog.AppTheme.Preference" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/Dialog.AppTheme.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Dialog.AppTheme.Button</item>
         <item name="dialogCornerRadius">4dp</item>
         <item name="android:backgroundDimAmount">0.32</item>
     </style>
 
-    <style name="Dialog.Darcula.Button" parent="Widget.Darcula.TextButton">
+    <style name="Dialog.AppTheme.Button" parent="Widget.AppTheme.TextButton">
         <item name="android:minWidth" tools:ignore="PrivateResource">@dimen/mtrl_btn_dialog_btn_min_width</item>
         <item name="android:letterSpacing">0.01</item>
     </style>
@@ -77,7 +88,7 @@
 
     <!-- region SNACKBAR -->
 
-    <style name="Widget.Darcula.Snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
+    <style name="Widget.AppTheme.Snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
         <item name="backgroundTint">?colorSecondaryVariant</item>
     </style>
 

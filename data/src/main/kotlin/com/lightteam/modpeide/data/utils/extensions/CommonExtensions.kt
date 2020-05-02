@@ -17,14 +17,8 @@
 
 package com.lightteam.modpeide.data.utils.extensions
 
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
-import com.lightteam.modpeide.domain.model.explorer.FileModel
-import java.io.File
-import java.text.DecimalFormat
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.math.log10
-import kotlin.math.pow
+import com.lightteam.filesystem.model.FileModel
+import com.lightteam.modpeide.domain.editor.DocumentModel
 
 fun String.isValidFileName(): Boolean {
     return !isEmpty() &&
@@ -33,7 +27,7 @@ fun String.isValidFileName(): Boolean {
             !equals("..")
 }
 
-fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
+fun Collection<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
     forEach { indexedModel ->
         if (indexedModel.path == fileModel.path) {
             return true
@@ -42,7 +36,7 @@ fun MutableList<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
     return false
 }
 
-fun MutableList<DocumentModel>.containsDocumentModel(documentModel: DocumentModel): Boolean {
+fun Collection<DocumentModel>.containsDocumentModel(documentModel: DocumentModel): Boolean {
     forEach { indexedModel ->
         if (indexedModel.path == documentModel.path) {
             return true
@@ -51,42 +45,25 @@ fun MutableList<DocumentModel>.containsDocumentModel(documentModel: DocumentMode
     return false
 }
 
-fun MutableList<DocumentModel>.index(documentModel: DocumentModel): Int {
+fun Collection<DocumentModel>.indexBy(uuid: String): Int? {
+    forEachIndexed { index, indexedModel ->
+        if (indexedModel.uuid == uuid) {
+            return index
+        }
+    }
+    return null
+}
+
+fun Collection<DocumentModel>.indexBy(documentModel: DocumentModel): Int? {
     forEachIndexed { index, indexedModel ->
         if (indexedModel.path == documentModel.path) {
             return index
         }
     }
-    return -1
+    return null
 }
 
 fun <T> MutableList<T>.replaceList(collection: Collection<T>) {
     clear()
     addAll(collection)
-}
-
-fun File.size(): Long {
-    if (isDirectory) {
-        var length = 0L
-        for (child in listFiles()!!) {
-            length += child.size()
-        }
-        return length
-    }
-    return length()
-}
-
-
-fun Long.formatAsDate(): String {
-    val dateFormat = SimpleDateFormat("dd/MM/yyyy EEE HH:mm", Locale.getDefault())
-    return dateFormat.format(this)
-}
-
-fun Long.formatAsSize(): String {
-    if (this <= 0)
-        return "0"
-    val units = arrayOf("B", "KB", "MB", "GB", "TB")
-    val digitGroups = (log10(this.toDouble()) / log10(1024.0)).toInt()
-    return (DecimalFormat("#,##0.#").format(this / 1024.0.pow(digitGroups.toDouble()))
-            + " " + units[digitGroups])
 }

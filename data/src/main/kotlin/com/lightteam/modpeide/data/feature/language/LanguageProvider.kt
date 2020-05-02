@@ -19,7 +19,7 @@ package com.lightteam.modpeide.data.feature.language
 
 import com.lightteam.javascript.language.JavaScriptLanguage
 import com.lightteam.language.language.Language
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.unknown.language.UnknownLanguage
 
 object LanguageProvider {

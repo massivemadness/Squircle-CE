@@ -29,35 +29,33 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
+import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.model.FileTree
+import com.lightteam.filesystem.model.PropertiesModel
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
-import com.lightteam.modpeide.domain.model.explorer.FileModel
-import com.lightteam.modpeide.domain.model.explorer.FileTree
-import com.lightteam.modpeide.domain.model.explorer.PropertiesModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
-import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.base.adapters.ItemCallback
+import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
+import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.clipText
 import javax.inject.Inject
 
-class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
+class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
     @Inject
+    lateinit var sharedViewModel: MainViewModel
+    @Inject
     lateinit var viewModel: ExplorerViewModel
-    @Inject
-    lateinit var editorViewModel: EditorViewModel
-    @Inject
-    lateinit var adapter: FileAdapter
 
     private val args: DirectoryFragmentArgs by navArgs()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
+    private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
 
     override fun layoutId(): Int = R.layout.fragment_directory
@@ -70,6 +68,7 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
         observeViewModel()
 
         navController = findNavController()
+        adapter = FileAdapter(this)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = adapter
 
@@ -81,7 +80,7 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
             val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
             navController.navigate(destination)
         } else {
-            editorViewModel.openFile(DocumentConverter.toModel(item))
+            sharedViewModel.openFileEvent.value = item
         }
     }
 
@@ -110,6 +109,9 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
         viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
             showPropertiesDialog(it)
         })
+        sharedViewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
+            viewModel.propertiesOf(it)
+        })
     }
 
     private fun loadDirectory() {
@@ -126,7 +128,7 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
     private fun showChooseDialog(fileModel: FileModel) {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_choose_action)
-            customView(R.layout.dialog_file_action)
+            customView(R.layout.dialog_file_action, scrollable = true)
 
             val actionCopyPath = getCustomView().findViewById<View>(R.id.action_copy_path)
             val actionProperties = getCustomView().findViewById<View>(R.id.action_properties)
@@ -135,19 +137,19 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
 
             actionCopyPath.setOnClickListener {
                 dismiss()
-                copyPath(fileModel) // copy path
+                copyPath(fileModel)
             }
             actionProperties.setOnClickListener {
                 dismiss()
-                viewModel.propertiesOf(fileModel) // properties
+                viewModel.propertiesOf(fileModel)
             }
             actionRename.setOnClickListener {
                 dismiss()
-                showRenameDialog(fileModel) // rename file
+                showRenameDialog(fileModel)
             }
             actionDelete.setOnClickListener {
                 dismiss()
-                showDeleteDialog(fileModel) // delete file
+                showDeleteDialog(fileModel)
             }
         }
     }
@@ -222,7 +224,7 @@ class DirectoryFragment : BaseFragment(), ItemCallback<FileModel> {
                     getString(R.string.properties_word_count).format(propertiesModel.words) +
                     getString(R.string.properties_char_count).format(propertiesModel.chars)).asHtml()
             )
-            customView(R.layout.dialog_properties)
+            customView(R.layout.dialog_properties, scrollable = true)
 
             val readable = this.findViewById<CheckBox>(R.id.readable)
             val writable = this.findViewById<CheckBox>(R.id.writable)

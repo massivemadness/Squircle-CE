@@ -17,58 +17,57 @@
 
 package com.lightteam.modpeide.data.converter
 
+import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.data.model.entity.DocumentEntity
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
-import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.domain.editor.DocumentModel
 import java.util.*
 
 object DocumentConverter {
 
-    /*fun toModel(file: File): DocumentModel {
-        return DocumentModel(
-            UUID.randomUUID().toString(),
-            file.name,
-            file.absolutePath,
-            0,
-            0,
-            0,
-            0
+    fun toModel(documentModel: DocumentModel): FileModel {
+        return FileModel(
+            name = documentModel.name,
+            path = documentModel.path,
+            size = 0,
+            lastModified = 0,
+            isFolder = false,
+            isHidden = documentModel.name.startsWith(".")
         )
-    }*/
+    }
 
     fun toModel(fileModel: FileModel): DocumentModel {
         return DocumentModel(
-            UUID.randomUUID().toString(),
-            fileModel.name,
-            fileModel.path,
-            0,
-            0,
-            0,
-            0
+            uuid = UUID.randomUUID().toString(),
+            name = fileModel.name,
+            path = fileModel.path,
+            scrollX = 0,
+            scrollY = 0,
+            selectionStart = 0,
+            selectionEnd = 0
         )
     }
 
     fun toModel(entity: DocumentEntity): DocumentModel {
         return DocumentModel(
-            entity.uuid,
-            entity.name,
-            entity.path,
-            entity.scrollX,
-            entity.scrollY,
-            entity.selectionStart,
-            entity.selectionEnd
+            uuid = entity.uuid,
+            name = entity.name,
+            path = entity.path,
+            scrollX = entity.scrollX,
+            scrollY = entity.scrollY,
+            selectionStart = entity.selectionStart,
+            selectionEnd = entity.selectionEnd
         )
     }
 
     fun toEntity(model: DocumentModel): DocumentEntity {
         return DocumentEntity(
-            model.uuid,
-            model.name,
-            model.path,
-            model.scrollX,
-            model.scrollY,
-            model.selectionStart,
-            model.selectionEnd
+            uuid = model.uuid,
+            name = model.name,
+            path = model.path,
+            scrollX = model.scrollX,
+            scrollY = model.scrollY,
+            selectionStart = model.selectionStart,
+            selectionEnd = model.selectionEnd
         )
     }
 }

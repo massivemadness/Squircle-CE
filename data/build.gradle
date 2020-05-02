@@ -62,6 +62,8 @@ dependencies {
 
     //Modules
     implementation project(':domain')
+    implementation project(':filesystems:filesystem')
+    implementation project(':filesystems:localfilesystem')
     implementation project(':languages:language')
     implementation project(':languages:unknown')
     implementation project(':languages:javascript')

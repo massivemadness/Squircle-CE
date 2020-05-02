@@ -17,8 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
+import com.lightteam.javascript.parser.JavaScriptParser
+
 @SuppressWarnings
-internal class Global : com.lightteam.javascript.parser.JavaScriptParser.FunctionRegistrar {
+internal class Global : JavaScriptParser.FunctionRegistrar {
 
     // Entity
     fun bl_setMobSkin(ent: Any, image: String) {}

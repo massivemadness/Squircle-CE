@@ -20,11 +20,8 @@ package com.lightteam.modpeide.ui.main.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.core.view.GravityCompat
-import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.snackbar.Snackbar
@@ -54,32 +51,14 @@ class MainActivity : BaseActivity(), EditorFragment.DrawerHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         observeViewModel()
 
-        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerStateChanged(newState: Int) {}
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-            override fun onDrawerClosed(drawerView: View) {}
-            override fun onDrawerOpened(drawerView: View) {
-                closeKeyboard()
-            }
-        })
-
-        binding.fragmentExplorer.post {
-            backPressedHandler = binding.fragmentExplorer.fragment<ExplorerFragment>()
-        }
+        backPressedHandler = supportFragmentManager
+            .fragment<ExplorerFragment>(R.id.fragment_explorer)
 
         viewModel.checkForUpdates()
-
-        /* FIXME this feature just doesn't work, idk how to fix it
-        // Check if user opened a file from external file explorer
-        if (intent.action == Intent.ACTION_VIEW) {
-            // path must be started with /storage/emulated/0/...
-            val file = File(intent.data?.path)
-            val documentModel = DocumentConverter.toModel(file)
-            viewModel.openFile(documentModel)
-        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -96,20 +75,20 @@ class MainActivity : BaseActivity(), EditorFragment.DrawerHandler {
     }
 
     override fun handleDrawerOpen() {
-        binding.drawerLayout.openDrawer(GravityCompat.START)
+        binding.drawerLayout?.openDrawer(GravityCompat.START)
     }
 
     override fun handleDrawerClose() {
-        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        binding.drawerLayout?.closeDrawer(GravityCompat.START)
     }
 
     override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
             if (!backPressedHandler.handleOnBackPressed()) {
                 handleDrawerClose()
             }
         } else {
-            if (viewModel.backEvent.value!!) {
+            if (viewModel.backEvent.value != false) {
                 MaterialDialog(this).show {
                     title(R.string.dialog_title_exit)
                     message(R.string.dialog_message_exit)

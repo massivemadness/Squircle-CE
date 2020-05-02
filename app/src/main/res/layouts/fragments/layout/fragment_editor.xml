@@ -116,11 +116,11 @@
                 android:padding="10.5dp"
                 android:visibility="visible"
                 android:src="@drawable/ic_undo"
-                android:tint="@{viewModel.canUndo ? @android:color/white : @color/colorIcon}"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_menu_undo"
                 android:clickable="@{viewModel.canUndo}"
-                tools:ignore="UseAppTint"/>
+                app:alpha="@{viewModel.canUndo ? 1f : 0.35f}"
+                app:tint="?colorOnSurface"/>
 
             <ImageView
                 android:layout_width="45dp"
@@ -129,11 +129,11 @@
                 android:padding="10.5dp"
                 android:visibility="visible"
                 android:src="@drawable/ic_redo"
-                android:tint="@{viewModel.canRedo ? @android:color/white : @color/colorIcon}"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_menu_redo"
                 android:clickable="@{viewModel.canRedo}"
-                tools:ignore="UseAppTint"/>
+                app:alpha="@{viewModel.canRedo ? 1f : 0.35f}"
+                app:tint="?colorOnSurface"/>
 
             <ImageView
                 android:layout_width="45dp"
@@ -148,17 +148,16 @@
 
         </RelativeLayout>
 
-        <com.google.android.material.tabs.TabLayout
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:clipChildren="true"
-            android:id="@+id/tab_document_layout"
+            android:orientation="horizontal"
             android:background="?colorSecondaryVariant"
             android:elevation="3.5dp"
-            app:tabRippleColor="?colorControlHighlight"
-            app:tabUnboundedRipple="false"
-            app:tabGravity="start"
-            app:tabMode="scrollable"/>
+            android:id="@+id/document_recycler_view"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_tab_document"
+            tools:itemCount="1"/>
 
         <!-- endregion TOOLBAR -->
 
@@ -176,7 +175,7 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
                 android:src="@drawable/ic_file_search"
-                app:tint="@color/colorIcon"/>
+                app:tint="?colorOnBackground"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -184,7 +183,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="56dp"
                 android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
-                android:textColor="@color/colorIcon"
+                android:textColor="?colorOnBackground"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:text="@string/message_no_open_files"/>
@@ -202,7 +201,7 @@
                 android:gravity="top|start"
                 android:visibility="@{(viewModel.stateLoadingDocuments || viewModel.stateNothingFound) ? View.INVISIBLE : View.VISIBLE}"
                 android:textCursorDrawable="@drawable/caret"
-                android:dropDownAnchor="@id/tab_document_layout"
+                android:dropDownAnchor="@id/document_recycler_view"
                 android:completionThreshold="2"
                 android:popupBackground="?colorSurface"
                 android:scrollbars="none"

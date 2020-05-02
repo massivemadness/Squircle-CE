@@ -19,23 +19,23 @@ package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
-import com.lightteam.modpeide.data.storage.cache.CacheHandler
+import com.lightteam.modpeide.data.repository.CacheRepository
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.data.utils.extensions.containsDocumentModel
-import com.lightteam.modpeide.data.utils.extensions.index
-import com.lightteam.modpeide.data.utils.extensions.replaceList
-import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
-import com.lightteam.modpeide.domain.exception.FileNotFoundException
+import com.lightteam.modpeide.data.utils.extensions.*
+import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.modpeide.data.repository.FileRepository
+import com.lightteam.modpeide.domain.editor.DocumentContent
+import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
-import com.lightteam.modpeide.domain.model.editor.DocumentContent
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.domain.repository.FileRepository
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.EventsQueue
 import com.lightteam.modpeide.utils.event.PreferenceEvent
@@ -45,10 +45,10 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val fileRepository: FileRepository,
-    private val cacheHandler: CacheHandler,
+    private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase,
-    private val preferenceHandler: PreferenceHandler
+    private val fileRepository: FileRepository,
+    private val cacheRepository: CacheRepository
 ) : BaseViewModel() {
 
     companion object {
@@ -67,11 +67,10 @@ class EditorViewModel(
 
     // region EVENTS
 
+    val tabsEvent: MutableLiveData<MutableList<DocumentModel>> = MutableLiveData() //Обновление списка вкладок
+    val tabSelectionEvent: MutableLiveData<Int> = MutableLiveData() //Текущая позиция выбранной вкладки
+
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
-    val documentsEvent: SingleLiveEvent<List<DocumentModel>> = SingleLiveEvent() //Список документов
-    val documentEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Получение документа из проводника
-    val selectionEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Выделение вкладки уже открытого файла
-    val unopenableEvent: SingleLiveEvent<DocumentModel> = SingleLiveEvent() //Неподдерживаемый файл
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
     val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
     val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() //События с измененными настройками
@@ -98,9 +97,14 @@ class EditorViewModel(
                 .map { it.map(DocumentConverter::toModel) }
                 .schedulersIoToMain(schedulersProvider)
                 .subscribeBy(
-                    onSuccess = {
-                        tabsList.replaceList(it)
-                        documentsEvent.value = it
+                    onSuccess = { list ->
+                        tabsList.replaceList(list)
+                        tabsEvent.value = tabsList
+                        tabSelectionEvent.value = if (list.isNotEmpty()) {
+                            tabsList.indexBy(getSelectedDocumentId()) ?: 0
+                        } else {
+                            -1
+                        }
                     },
                     onError = {
                         Log.e(TAG, it.message, it)
@@ -116,24 +120,23 @@ class EditorViewModel(
                     stateNothingFound.set(true)
                 }
                 .schedulersIoToMain(schedulersProvider)
-                .subscribeBy { cacheHandler.deleteAllCaches() }
+                .subscribeBy { cacheRepository.deleteAllCaches() }
                 .disposeOnViewModelDestroy()
         }
     }
 
     fun loadFile(documentModel: DocumentModel) {
-        val dataSource = if (cacheHandler.isCached(documentModel)) {
-            cacheHandler.loadFromCache(documentModel)
+        val dataSource = if (cacheRepository.isCached(documentModel)) {
+            cacheRepository
         } else {
-            fileRepository.loadFile(documentModel)
+            fileRepository
         }
-        dataSource
+        dataSource.loadFile(documentModel)
             .doOnSubscribe { stateLoadingDocuments.set(true) }
             .doOnSuccess { stateLoadingDocuments.set(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    saveToCache(it.documentModel, it.text)
                     contentEvent.value = it
                 },
                 onError = {
@@ -167,7 +170,7 @@ class EditorViewModel(
     }
 
     fun deleteCache(documentModel: DocumentModel) {
-        cacheHandler.deleteCache(documentModel)
+        cacheRepository.deleteCache(documentModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
@@ -179,7 +182,7 @@ class EditorViewModel(
     }
 
     fun saveToCache(documentModel: DocumentModel, text: String) {
-        cacheHandler.saveToCache(documentModel, text)
+        cacheRepository.saveFile(documentModel, text)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
@@ -191,7 +194,7 @@ class EditorViewModel(
     }
 
     fun saveUndoStack(documentModel: DocumentModel, undoStack: UndoStack) {
-        cacheHandler.saveUndoStack(documentModel, undoStack)
+        cacheRepository.saveUndoStack(documentModel, undoStack)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
@@ -203,7 +206,7 @@ class EditorViewModel(
     }
 
     fun saveRedoStack(documentModel: DocumentModel, redoStack: UndoStack) {
-        cacheHandler.saveRedoStack(documentModel, redoStack)
+        cacheRepository.saveRedoStack(documentModel, redoStack)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {
@@ -215,20 +218,17 @@ class EditorViewModel(
     }
 
     fun openFile(documentModel: DocumentModel) {
-        if (documentModel.isOpenable()) {
-            if (!tabsList.containsDocumentModel(documentModel)) {
-                if (tabsList.size < tabLimitEvent.value!!) {
-                    tabsList.add(documentModel)
-                    stateNothingFound.set(tabsList.isEmpty())
-                    documentEvent.value = documentModel
-                } else {
-                    toastEvent.value = R.string.message_tab_limit_achieved
-                }
+        if (!tabsList.containsDocumentModel(documentModel)) {
+            if (tabsList.size < tabLimitEvent.value!!) {
+                tabsList.add(documentModel)
+                stateNothingFound.set(tabsList.isEmpty())
+                tabsEvent.value = tabsList
+                tabSelectionEvent.value = tabsList.size - 1
             } else {
-                selectionEvent.value = tabsList.index(documentModel)
+                toastEvent.value = R.string.message_tab_limit_achieved
             }
         } else {
-            unopenableEvent.value = documentModel
+            tabSelectionEvent.value = tabsList.indexBy(documentModel)
         }
     }
 
@@ -241,6 +241,14 @@ class EditorViewModel(
     }
 
     // region PREFERENCES
+
+    fun getSelectedDocumentId(): String {
+        return preferenceHandler.getSelectedDocumentId().get()
+    }
+
+    fun setSelectedDocumentId(uuid: String) {
+        preferenceHandler.getSelectedDocumentId().set(uuid)
+    }
 
     fun observePreferences() {
         preferenceHandler.getTheme()
@@ -267,7 +275,7 @@ class EditorViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {
                 resumeSessionEvent.value = it
-                if (documentsEvent.value == null) {
+                if (tabsEvent.value == null) {
                     loadFiles()
                 }
             }
@@ -341,4 +349,28 @@ class EditorViewModel(
     }
 
     // endregion PREFERENCES
+
+    class Factory(
+        private val schedulersProvider: SchedulersProvider,
+        private val preferenceHandler: PreferenceHandler,
+        private val appDatabase: AppDatabase,
+        private val fileRepository: FileRepository,
+        private val cacheRepository: CacheRepository
+    ) : ViewModelProvider.NewInstanceFactory() {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return when {
+                modelClass === EditorViewModel::class.java ->
+                    EditorViewModel(
+                        schedulersProvider,
+                        preferenceHandler,
+                        appDatabase,
+                        fileRepository,
+                        cacheRepository
+                    ) as T
+                else -> null as T
+            }
+        }
+    }
 }

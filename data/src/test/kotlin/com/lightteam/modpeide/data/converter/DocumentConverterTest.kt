@@ -17,9 +17,9 @@
 
 package com.lightteam.modpeide.data.converter
 
+import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.data.model.entity.DocumentEntity
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
-import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.modpeide.domain.editor.DocumentModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4

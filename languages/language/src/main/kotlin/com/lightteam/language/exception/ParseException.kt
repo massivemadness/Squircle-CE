@@ -19,5 +19,6 @@ package com.lightteam.language.exception
 
 class ParseException(
     message: String?,
-    val lineNumber: Int
+    val lineNumber: Int,
+    val columnNumber: Int
 ) : RuntimeException(message)

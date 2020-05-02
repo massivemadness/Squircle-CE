@@ -23,7 +23,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -51,9 +50,7 @@ class PermissionsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)!!
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        binding = FragmentPermissionsBinding.bind(view)
         observeViewModel()
 
         navController = findNavController()
@@ -85,8 +82,8 @@ class PermissionsFragment : BaseFragment() {
         viewModel.hasAccessEvent.observe(viewLifecycleOwner, Observer { hasAccess ->
             viewModel.hasPermission.set(hasAccess)
             if (hasAccess) {
-                val action = PermissionsFragmentDirections.toDirectoryFragment(null)
-                navController.navigate(action)
+                val destination = PermissionsFragmentDirections.toDirectoryFragment(null)
+                navController.navigate(destination)
             } else {
                 binding.actionAccess.setOnClickListener {
                     requestPermissionsUsingActivity()

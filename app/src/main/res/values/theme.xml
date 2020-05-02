@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.Darcula" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSurface">@color/colorSurface</item>
@@ -34,10 +34,11 @@
         <item name="colorOnBackground">@color/colorOnBackground</item>
 
         <item name="colorBackgroundFloating">?colorSurface</item>
-        <item name="snackbarStyle">@style/Widget.Darcula.Snackbar</item>
-        <item name="snackbarButtonStyle">@style/Widget.Darcula.TextButton</item>
-        <item name="snackbarTextViewStyle">@style/Widget.Darcula.SnackBarTextView</item>
-        <item name="alertDialogTheme">@style/Dialog.Darcula.Preference</item>
+        <item name="snackbarStyle">@style/Widget.AppTheme.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/Widget.AppTheme.TextButton</item>
+        <item name="snackbarTextViewStyle">@style/Widget.AppTheme.SnackBarTextView</item>
+        <item name="alertDialogTheme">@style/Dialog.AppTheme.Preference</item>
+        <item name="textInputStyle">@style/Widget.AppTheme.TextInputLayout</item>
         <item name="md_ripple_color">?colorControlHighlight</item>
         <item name="md_corner_radius">4dp</item>
 

@@ -75,8 +75,8 @@ class ToolbarManager(
 
     private fun setMenuClickListener(view: View, menuRes: Int) {
         view.setOnClickListener {
-            val wrapper = ContextThemeWrapper(view.context, R.style.Widget_Darcula_PopupMenu)
-            val popupMenu = PopupMenu(wrapper, view)
+            val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
+            val popupMenu = PopupMenu(wrapper, it)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)
             popupMenu.makeRightPaddingRecursively()
@@ -91,6 +91,7 @@ class ToolbarManager(
             R.id.menu_file_new -> listener.onNewButton()
             R.id.menu_file_open -> listener.onOpenButton()
             R.id.menu_file_save -> listener.onSaveButton()
+            R.id.menu_file_properties -> listener.onPropertiesButton()
             R.id.menu_file_close -> listener.onCloseButton()
 
             //Edit Menu
@@ -110,7 +111,7 @@ class ToolbarManager(
             //Tools Menu
             R.id.menu_tools_errorChecking -> listener.onErrorCheckingButton()
             R.id.menu_tools_insertColor -> listener.onInsertColorButton()
-            //R.id.menu_tools_downloadSource: -> listener.onDownloadSourceButton()
+            //R.id.menu_tools_downloadSource -> listener.onDownloadSourceButton()
 
             //Overflow Menu
             R.id.menu_overflow_settings -> listener.onSettingsButton()
@@ -124,6 +125,7 @@ class ToolbarManager(
         fun onNewButton()
         fun onOpenButton()
         fun onSaveButton()
+        fun onPropertiesButton()
         fun onCloseButton()
 
         fun onCutButton()

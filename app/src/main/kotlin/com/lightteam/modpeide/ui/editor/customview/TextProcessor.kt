@@ -38,6 +38,7 @@ import androidx.core.content.getSystemService
 import androidx.core.graphics.toColorInt
 import androidx.core.text.getSpans
 import com.lightteam.language.language.Language
+import com.lightteam.language.parser.span.ErrorSpan
 import com.lightteam.language.scheme.ColorScheme
 import com.lightteam.language.styler.Styleable
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
@@ -46,9 +47,8 @@ import com.lightteam.modpeide.data.feature.LinesCollection
 import com.lightteam.modpeide.data.feature.scheme.Darcula
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
-import com.lightteam.modpeide.data.utils.extensions.replaceList
+import com.lightteam.modpeide.domain.editor.TextChange
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
-import com.lightteam.modpeide.domain.model.editor.TextChange
 import com.lightteam.modpeide.ui.editor.adapters.SuggestionAdapter
 import com.lightteam.modpeide.ui.editor.customview.internal.OnScrollChangedListener
 import com.lightteam.modpeide.ui.editor.customview.internal.SymbolsTokenizer
@@ -107,7 +107,7 @@ class TextProcessor @JvmOverloads constructor(
 
     private val textScroller = Scroller(context)
     private val suggestionAdapter = SuggestionAdapter(context, R.layout.item_suggestion)
-    private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    private var syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val wordsManager: WordsManager = WordsManager()
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
@@ -164,9 +164,9 @@ class TextProcessor @JvmOverloads constructor(
             }
         }
         override fun afterTextChanged(s: Editable?) {
-            clearSearchSpans()
+            clearSpans()
             updateGutter()
-            /*if (!isSyntaxHighlighting && !isDoingUndoRedo) {
+            /*if (!isSyntaxHighlighting) {
                 shiftSpans(selectionStart, addedTextCount)
             }*/
             addedTextCount = 0
@@ -183,7 +183,6 @@ class TextProcessor @JvmOverloads constructor(
     private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
 
-    private val tabString = "    " // 4 spaces
     private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
 
     private var openBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
@@ -193,6 +192,7 @@ class TextProcessor @JvmOverloads constructor(
     private var isSyntaxHighlighting = false
     private var isAutoIndenting = false
     private var isFindSpansVisible = false
+    private var isErrorSpansVisible = false
 
     private var scrollListeners = arrayOf<OnScrollChangedListener>()
     private var maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
@@ -280,7 +280,7 @@ class TextProcessor @JvmOverloads constructor(
             gutterTextPaint.isDither = false
             gutterTextPaint.textAlign = Paint.Align.RIGHT
 
-            suggestionAdapter.color = colorScheme.filterableColor.toColorInt()
+            suggestionAdapter.setColorScheme(colorScheme)
 
             openBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
             closedBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
@@ -397,8 +397,8 @@ class TextProcessor @JvmOverloads constructor(
         setText(newText)
 
         wordsManager.clear()
-        undoStack.clear()
-        redoStack.clear()
+        // undoStack.clear()
+        // redoStack.clear()
         facadeText.clear()
         replaceText(0, facadeText.length, newText)
         lines.clear()
@@ -421,6 +421,8 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     fun clearText() {
+        undoStack.clear()
+        redoStack.clear()
         processText("")
     }
 
@@ -518,9 +520,9 @@ class TextProcessor @JvmOverloads constructor(
             if (end > text.length) {
                 end = text.length
             }
+            redoStack.push(textChange)
             text.replace(textChange.start, end, textChange.oldText)
             setSelection(textChange.start + textChange.oldText.length)
-            redoStack.push(textChange)
             isDoingUndoRedo = false
         } else {
             undoStack.clear()
@@ -531,12 +533,12 @@ class TextProcessor @JvmOverloads constructor(
         val textChange = redoStack.pop()
         if (textChange.start >= 0) {
             isDoingUndoRedo = true
+            undoStack.push(textChange)
             text.replace(
                 textChange.start,
                 textChange.start + textChange.oldText.length, textChange.newText
             )
             setSelection(textChange.start + textChange.newText.length)
-            undoStack.push(textChange)
             isDoingUndoRedo = false
         } else {
             undoStack.clear()
@@ -566,7 +568,7 @@ class TextProcessor @JvmOverloads constructor(
                 }
             }
         }
-        clearSearchSpans()
+        clearSpans()
         val matcher = pattern.matcher(text)
         while (matcher.find()) {
             text.setSpan(
@@ -761,7 +763,7 @@ class TextProcessor @JvmOverloads constructor(
             val indentation = StringBuilder(prevLineIndentation)
             var newCursorPosition = indentation.length + start + 1
             if (start > 0 && text[start - 1] == '{') {
-                indentation.append(tabString)
+                indentation.append("    ") // 4 spaces
                 newCursorPosition = indentation.length + start + 1
             }
             if (start + 1 < text.length && text[start + 1] == '}') {
@@ -913,8 +915,20 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     override fun setSpans(spans: List<SyntaxHighlightSpan>) {
-        syntaxHighlightSpans.replaceList(spans)
+        syntaxHighlightSpans = spans as MutableList<SyntaxHighlightSpan>
         updateSyntaxHighlighting()
+    }
+
+    fun setErrorSpan(lineNumber: Int) {
+        if (lineNumber == 0) {
+            return
+        }
+        val lineStart = getIndexForStartOfLine(lineNumber - 1)
+        val lineEnd = getIndexForEndOfLine(lineNumber - 1)
+        if (lineStart < text.length || lineEnd < text.length) {
+            isErrorSpansVisible = true
+            text.setSpan(ErrorSpan(), lineStart, lineEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
     }
 
     private fun syntaxHighlight() {
@@ -926,13 +940,20 @@ class TextProcessor @JvmOverloads constructor(
         language.cancelStyler()
     }
 
-    private fun clearSearchSpans() {
+    private fun clearSpans() {
         if (isFindSpansVisible) {
             val spans = text.getSpans<BackgroundColorSpan>(0, text.length)
             for (span in spans) {
                 text.removeSpan(span)
             }
             isFindSpansVisible = false
+        }
+        if (isErrorSpansVisible) {
+            val spans = text.getSpans<ErrorSpan>(0, text.length)
+            for (span in spans) {
+                text.removeSpan(span)
+            }
+            isErrorSpansVisible = false
         }
     }
 
@@ -948,7 +969,7 @@ class TextProcessor @JvmOverloads constructor(
                 syntaxHighlightSpans.remove(span)
             }
         }
-        //clearSearchSpans()
+        //clearSpans()
     }*/
 
     private fun checkMatchingBracket(pos: Int) {

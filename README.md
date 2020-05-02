@@ -1,4 +1,4 @@
-# ModPE IDE v2020.1.2
+# ModPE IDE v2020.1.3
 
 <b>ModPE IDE</b> is a professional code editor or IDE primarily for ModPE Script development.
 
@@ -24,7 +24,8 @@
 <b>•</b> Search, Replace, Go to Line  
 <b>•</b> Word Wrap  
 <b>•</b> Pinch Zoom  
-<b>•</b> Powerful File Explorer  
+<b>•</b> Built-in File Explorer  
+<b>•</b> Tablet UI  
 <b>•</b> <i>No Ads!</i>  
 <b>And much more!</b>
 

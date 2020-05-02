@@ -17,37 +17,36 @@
 
 package com.lightteam.modpeide.data.utils.commons
 
-import com.lightteam.modpeide.domain.model.explorer.FileModel
+import com.lightteam.filesystem.model.FileModel
 import kotlin.Comparator
 
 object FileSorter {
 
-    const val SORT_BY_NAME = 0 //Сортировка по имени
-    const val SORT_BY_SIZE = 1 //Сортировка по размеру
-    const val SORT_BY_DATE = 2 //Сортировка по дате
+    const val SORT_BY_NAME = 0
+    const val SORT_BY_SIZE = 1
+    const val SORT_BY_DATE = 2
 
-    private fun getFileNameComparator(): Comparator<in FileModel> {
-        return Comparator { first, second ->
+    private val fileNameComparator: Comparator<in FileModel>
+        get() = Comparator { first, second ->
             first.name.compareTo(second.name)
         }
-    }
-    private fun getFileSizeComparator(): Comparator<in FileModel> {
-        return Comparator { first, second ->
+
+    private val fileSizeComparator: Comparator<in FileModel>
+        get() = Comparator { first, second ->
             first.size.compareTo(second.size)
         }
-    }
-    private fun getFileDateComparator(): Comparator<in FileModel> {
-        return Comparator { first, second ->
+
+    private val fileDateComparator: Comparator<in FileModel>
+        get() = Comparator { first, second ->
             first.lastModified.compareTo(second.lastModified)
         }
-    }
 
     fun getComparator(sortMode: Int): Comparator<in FileModel> {
         return when (sortMode) {
-            SORT_BY_NAME -> getFileNameComparator()
-            SORT_BY_DATE -> getFileDateComparator()
-            SORT_BY_SIZE -> getFileSizeComparator()
-            else -> getFileNameComparator()
+            SORT_BY_NAME -> fileNameComparator
+            SORT_BY_SIZE -> fileSizeComparator
+            SORT_BY_DATE -> fileDateComparator
+            else -> throw IllegalArgumentException("Unknown sort type")
         }
     }
 }

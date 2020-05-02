@@ -20,12 +20,9 @@ package com.lightteam.modpeide.ui.editor.fragments
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -34,18 +31,22 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
+import com.lightteam.filesystem.model.FileType
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import com.lightteam.modpeide.domain.editor.DocumentModel
+import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
+import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
 import com.lightteam.modpeide.ui.editor.customview.TextScroller
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
+import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.extensions.*
@@ -53,15 +54,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class EditorFragment : BaseFragment(),
-    ToolbarManager.OnPanelClickListener, ExtendedKeyboard.OnKeyListener {
+class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
+    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, DocumentAdapter.TabInteractor {
 
+    @Inject
+    lateinit var sharedViewModel: MainViewModel
     @Inject
     lateinit var viewModel: EditorViewModel
     @Inject
     lateinit var toolbarManager: ToolbarManager
+    @Inject
+    lateinit var adapter: DocumentAdapter
 
     private lateinit var binding: FragmentEditorBinding
     private lateinit var drawerHandler: DrawerHandler
@@ -77,6 +83,11 @@ class EditorFragment : BaseFragment(),
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.observePreferences() // and loadFiles()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)!!
@@ -85,17 +96,9 @@ class EditorFragment : BaseFragment(),
         observeViewModel()
 
         toolbarManager.bind(binding)
-        binding.tabDocumentLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                saveDocument(tab.position)
-                closeKeyboard() // Обход бага, когда после переключения вкладок
-                // позиция курсора не менялась с предыдущей вкладки
-            }
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                loadDocument(tab.position)
-            }
-        })
+        adapter.onTabSelectedListener = this
+        binding.documentRecyclerView.adapter = adapter
+        binding.documentRecyclerView.setHasFixedSize(true)
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
@@ -108,21 +111,42 @@ class EditorFragment : BaseFragment(),
                 viewModel.canRedo.set(binding.editor.canRedo())
             }
             .disposeOnFragmentDestroyView()
+
+        if (requireContext().isUltimate()) {
+            binding.editor
+                .afterTextChangeEvents()
+                .skipInitialValue()
+                .debounce(1500, TimeUnit.MILLISECONDS)
+                .filter { it.editable?.isNotEmpty() ?: false }
+                .distinctUntilChanged()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy {
+                    if (adapter.selectedPosition > -1) {
+                        viewModel.parse(
+                            binding.editor.language,
+                            adapter.selectedPosition,
+                            binding.editor.getProcessedText()
+                        )
+                    }
+                }
+                .disposeOnFragmentDestroyView()
+        }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        toolbarManager.orientation = newConfig.orientation
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.tabSelectionEvent.value = adapter.selectedPosition
+        viewModel.tabsEvent.value = viewModel.tabsList
     }
 
     override fun onPause() {
         super.onPause()
-        saveDocument(binding.tabDocumentLayout.selectedTabPosition)
+        saveDocument(adapter.selectedPosition)
     }
 
     override fun onResume() {
         super.onResume()
-        loadDocument(binding.tabDocumentLayout.selectedTabPosition)
+        loadDocument(adapter.selectedPosition)
     }
 
     override fun onKey(char: String) {
@@ -133,38 +157,27 @@ class EditorFragment : BaseFragment(),
         viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
             showToast(it)
         })
-        viewModel.documentsEvent.observe(viewLifecycleOwner, Observer { documents ->
-            for (document in documents) {
-                addTab(document, false)
+        viewModel.tabsEvent.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+        viewModel.tabSelectionEvent.observe(viewLifecycleOwner, Observer { position ->
+            drawerHandler.handleDrawerClose()
+            if (position > -1) {
+                adapter.select(position)
             }
         })
-        viewModel.documentEvent.observe(viewLifecycleOwner, Observer { document ->
-            addTab(document, true)
-            drawerHandler.handleDrawerClose()
-        })
-        viewModel.selectionEvent.observe(viewLifecycleOwner, Observer {
-            binding.tabDocumentLayout.getTabAt(it)?.select()
-            drawerHandler.handleDrawerClose()
-        })
-        viewModel.unopenableEvent.observe(viewLifecycleOwner, Observer {
-            openFile(it)
-        })
         viewModel.parseEvent.observe(viewLifecycleOwner, Observer { model ->
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_result)
-                message(R.string.message_no_errors_detected)
-                model.exception?.let { exception ->
-                    message(text = exception.message)
-                }
-                positiveButton(R.string.action_ok)
+            model.exception?.let {
+                binding.editor.setErrorSpan(it.lineNumber)
             }
         })
         viewModel.contentEvent.observe(viewLifecycleOwner, Observer { content ->
+            viewModel.setSelectedDocumentId(content.documentModel.uuid)
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.language = content.language
-            binding.editor.processText(content.text)
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
+            binding.editor.processText(content.text)
             binding.editor.scrollX = content.documentModel.scrollX
             binding.editor.scrollY = content.documentModel.scrollY
             binding.editor.setSelection(
@@ -172,6 +185,14 @@ class EditorFragment : BaseFragment(),
                 content.documentModel.selectionEnd
             )
             binding.editor.requestFocus()
+        })
+        sharedViewModel.openFileEvent.observe(viewLifecycleOwner, Observer { fileModel ->
+            val documentModel = DocumentConverter.toModel(fileModel)
+            if (fileModel.getType() == FileType.TEXT) {
+                viewModel.openFile(documentModel)
+            } else {
+                openFile(documentModel)
+            }
         })
 
         // region PREFERENCES
@@ -240,8 +261,6 @@ class EditorFragment : BaseFragment(),
         })
 
         // endregion PREFERENCES
-
-        viewModel.observePreferences() // and loadFiles()
     }
 
     private fun openFile(documentModel: DocumentModel) {
@@ -260,6 +279,42 @@ class EditorFragment : BaseFragment(),
         } catch (e: ActivityNotFoundException) {
             viewModel.toastEvent.value = R.string.message_cannot_be_opened
         }
+    }
+
+    // region TABS
+
+    override fun onTabReselected(position: Int) {}
+    override fun onTabUnselected(position: Int) {
+        saveDocument(position)
+        closeKeyboard() // Обход бага, когда после переключения вкладок позиция курсора не менялась с предыдущей вкладки
+    }
+    override fun onTabSelected(position: Int) {
+        loadDocument(position)
+    }
+
+    override fun close(position: Int) {
+        val selectedPosition = adapter.selectedPosition
+        if (position == selectedPosition) {
+            binding.scroller.state = TextScroller.STATE_HIDDEN
+            binding.editor.clearText() // TTL Exception bypass
+            closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
+        }
+        removeDocument(position)
+        adapter.close(position)
+    }
+
+    override fun closeOthers(position: Int) {
+        val tabCount = adapter.itemCount - 1
+        for (index in tabCount downTo 0) {
+            if (index != position) {
+                close(index)
+            }
+        }
+    }
+
+    override fun closeAll(position: Int) {
+        closeOthers(position)
+        close(adapter.selectedPosition)
     }
 
     private fun loadDocument(position: Int) {
@@ -282,74 +337,15 @@ class EditorFragment : BaseFragment(),
             viewModel.saveToCache(document, binding.editor.getProcessedText())
             viewModel.saveUndoStack(document, binding.editor.undoStack)
             viewModel.saveRedoStack(document, binding.editor.redoStack)
-            binding.editor.clearText() //TTL Exception bypass
+            binding.editor.clearText() // TTL Exception bypass
         }
     }
 
     private fun removeDocument(position: Int) {
-        val document = viewModel.tabsList[position]
+        val documentModel = viewModel.tabsList[position]
         viewModel.tabsList.removeAt(position)
         viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
-        viewModel.deleteCache(document)
-    }
-
-    // region TABS
-
-    private fun addTab(documentModel: DocumentModel, selection: Boolean) {
-        binding.tabDocumentLayout.newTab(documentModel.name, R.layout.item_tab_document) { tab ->
-            val closeIcon = tab.customView?.findViewById<View>(R.id.item_icon)
-            closeIcon?.setOnClickListener {
-                removeTab(tab.position)
-            }
-            tab.view.setOnLongClickListener {
-                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_Darcula_PopupMenu)
-                val popupMenu = PopupMenu(wrapper, it)
-                popupMenu.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.action_close -> removeTab(tab.position)
-                        R.id.action_close_others -> removeOtherTabs(tab.position)
-                        R.id.action_close_all -> removeAllTabs(tab.position)
-                    }
-                    return@setOnMenuItemClickListener true
-                }
-                popupMenu.inflate(R.menu.menu_document)
-                popupMenu.makeRightPaddingRecursively()
-                popupMenu.show()
-                return@setOnLongClickListener true
-            }
-            if (selection) {
-                tab.select()
-            }
-        }
-    }
-
-    private fun removeAllTabs(position: Int) {
-        removeOtherTabs(position)
-        removeTab(binding.tabDocumentLayout.selectedTabPosition)
-    }
-
-    private fun removeOtherTabs(position: Int) {
-        val tabCount = binding.tabDocumentLayout.tabCount - 1
-        for (index in tabCount downTo 0) {
-            if (index != position) {
-                removeTab(index)
-            }
-        }
-    }
-
-    private fun removeTab(index: Int) {
-        val selectedIndex = binding.tabDocumentLayout.selectedTabPosition
-        if (index == selectedIndex) {
-            binding.scroller.state = TextScroller.STATE_HIDDEN
-            binding.editor.clearText() //TTL Exception bypass
-            closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
-        }
-        // Обход бага, когда после удаления вкладки индикатор не обновлял свою позицию
-        if (index < selectedIndex) {
-            binding.tabDocumentLayout.setScrollPosition(selectedIndex - 1, 0f, false)
-        }
-        removeDocument(index)
-        binding.tabDocumentLayout.removeTabAt(index)
+        viewModel.deleteCache(documentModel)
     }
 
     // endregion TABS
@@ -370,7 +366,7 @@ class EditorFragment : BaseFragment(),
     }
 
     override fun onSaveButton() {
-        val position = binding.tabDocumentLayout.selectedTabPosition
+        val position = adapter.selectedPosition
         if (position > -1) {
             val document = viewModel.tabsList[position]
             viewModel.saveFile(document, binding.editor.getProcessedText())
@@ -382,10 +378,20 @@ class EditorFragment : BaseFragment(),
         }
     }
 
-    override fun onCloseButton() {
-        val position = binding.tabDocumentLayout.selectedTabPosition
+    override fun onPropertiesButton() {
+        val position = adapter.selectedPosition
         if (position > -1) {
-            removeTab(position)
+            val document = viewModel.tabsList[position]
+            sharedViewModel.propertiesEvent.value = DocumentConverter.toModel(document)
+        } else {
+            viewModel.toastEvent.value = R.string.message_no_open_files
+        }
+    }
+
+    override fun onCloseButton() {
+        val position = adapter.selectedPosition
+        if (position > -1) {
+            close(position)
         } else {
             viewModel.toastEvent.value = R.string.message_no_open_files
         }
@@ -408,7 +414,7 @@ class EditorFragment : BaseFragment(),
     }
 
     override fun onPasteButton() {
-        val position = binding.tabDocumentLayout.selectedTabPosition
+        val position = adapter.selectedPosition
         if (binding.editor.hasPrimaryClip() && position > -1) {
             binding.editor.paste()
         } else {
@@ -433,11 +439,11 @@ class EditorFragment : BaseFragment(),
     }
 
     override fun onFindButton() {
-        val position = binding.tabDocumentLayout.selectedTabPosition
+        val position = adapter.selectedPosition
         if (position > -1) {
             MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_find)
-                customView(R.layout.dialog_find)
+                customView(R.layout.dialog_find, scrollable = true)
                 negativeButton(R.string.action_cancel)
                 positiveButton(R.string.action_find) {
                     val textToFind = it.getCustomView()
@@ -461,7 +467,7 @@ class EditorFragment : BaseFragment(),
     }
 
     override fun onReplaceAllButton() {
-        val position = binding.tabDocumentLayout.selectedTabPosition
+        val position = adapter.selectedPosition
         if (position > -1) {
             MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_replace_all)
@@ -485,7 +491,7 @@ class EditorFragment : BaseFragment(),
     }
 
     override fun onGoToLineButton() {
-        val position = binding.tabDocumentLayout.selectedTabPosition
+        val position = adapter.selectedPosition
         if (position > -1) {
             MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_goto_line)
@@ -513,13 +519,19 @@ class EditorFragment : BaseFragment(),
 
     override fun onErrorCheckingButton() {
         if (requireContext().isUltimate()) {
-            val position = binding.tabDocumentLayout.selectedTabPosition
+            val position = adapter.selectedPosition
             if (position > -1) {
-                viewModel.parse(
-                    binding.editor.language,
-                    position,
-                    binding.editor.getProcessedText()
-                )
+                MaterialDialog(requireContext()).show {
+                    title(R.string.dialog_title_result)
+                    message(R.string.message_no_errors_detected)
+                    viewModel.parseEvent.value?.let { model ->
+                        model.exception?.let {
+                            message(text = it.message)
+                            binding.editor.setErrorSpan(it.lineNumber)
+                        }
+                    }
+                    positiveButton(R.string.action_ok)
+                }
             } else {
                 viewModel.toastEvent.value = R.string.message_no_open_files
             }
@@ -530,7 +542,7 @@ class EditorFragment : BaseFragment(),
 
     override fun onInsertColorButton() {
         if (requireContext().isUltimate()) {
-            val position = binding.tabDocumentLayout.selectedTabPosition
+            val position = adapter.selectedPosition
             if (position > -1) {
                 MaterialDialog(requireContext()).show {
                     title(R.string.dialog_title_color_picker)

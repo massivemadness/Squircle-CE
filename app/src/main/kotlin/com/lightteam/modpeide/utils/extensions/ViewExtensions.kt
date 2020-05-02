@@ -23,21 +23,39 @@ import android.graphics.drawable.InsetDrawable
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.annotation.ColorRes
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.get
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.findFragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.tabs.TabLayout
 
-// https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
+fun Fragment.setSupportActionBar(toolbar: Toolbar) {
+    val parentActivity = activity as AppCompatActivity
+    parentActivity.setSupportActionBar(toolbar)
+}
 
+@Suppress("UNCHECKED_CAST")
+fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T {
+    return findFragmentById(id) as T
+}
+
+val NavHostFragment.backStackEntryCount: Int
+    get() = childFragmentManager.backStackEntryCount
+
+fun NavController.popBackStack(n: Int) {
+    for (index in 0 until n) {
+        popBackStack()
+    }
+}
+
+/**
+ * https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
+ */
 @SuppressLint("RestrictedApi")
 fun PopupMenu.makeRightPaddingRecursively() {
     if (menu is MenuBuilder) {
@@ -58,41 +76,6 @@ fun MenuItem.makeRightPadding() {
     if (icon != null) {
         val iconMargin = 8.dpToPx() // 8 dp to px
         icon = InsetDrawable(icon, iconMargin, 0, iconMargin, 0)
-    }
-}
-
-fun Fragment.setSupportActionBar(toolbar: Toolbar) {
-    val parentActivity = activity as AppCompatActivity
-    parentActivity.setSupportActionBar(toolbar)
-}
-
-fun <T : Fragment> FragmentContainerView.fragment(): T {
-    return get(0).findFragment()
-}
-
-val NavHostFragment.backStackEntryCount: Int
-    get() = childFragmentManager.backStackEntryCount
-
-fun NavController.popBackStack(n: Int) {
-    for (index in 0 until n) {
-        popBackStack()
-    }
-}
-
-fun TabLayout.newTab(name: String, resId: Int, callback: (TabLayout.Tab) -> Unit) {
-    val tab = newTab()
-    tab.text = name
-    tab.setCustomView(resId)
-    addTab(tab)
-    post {
-        callback.invoke(tab)
-    }
-}
-
-fun TabLayout.removeLast(n: Int) {
-    for (index in 0 until n) {
-        val count = tabCount - 1
-        removeTabAt(count)
     }
 }
 

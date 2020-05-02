@@ -16,32 +16,29 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
+    tools:context=".ui.main.activities.MainActivity">
 
-    <androidx.drawerlayout.widget.DrawerLayout
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/drawer_layout"
-        tools:context=".ui.main.activities.MainActivity">
+        android:id="@+id/fragment_editor"
+        android:name="com.lightteam.modpeide.ui.editor.fragments.EditorFragment"
+        tools:layout="@layout/fragment_editor"
+        tools:ignore="FragmentTagUsage"/>
 
-        <!-- Editor -->
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/fragment_editor"
-            android:name="com.lightteam.modpeide.ui.editor.fragments.EditorFragment"
-            tools:layout="@layout/fragment_editor"/>
+    <fragment
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:id="@+id/fragment_explorer"
+        android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
+        tools:layout="@layout/fragment_explorer"
+        tools:ignore="FragmentTagUsage"/>
 
-        <!-- Explorer -->
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="280dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:id="@+id/fragment_explorer"
-            android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
-            tools:layout="@layout/fragment_explorer"/>
-
-    </androidx.drawerlayout.widget.DrawerLayout>
-
-</layout>
+</androidx.drawerlayout.widget.DrawerLayout>

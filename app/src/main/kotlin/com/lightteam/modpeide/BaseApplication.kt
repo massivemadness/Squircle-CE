@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide
 
-import com.lightteam.modpeide.internal.di.DaggerAppComponent
+import com.lightteam.modpeide.internal.di.app.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 
