@@ -30,7 +30,8 @@
         android:id="@+id/toolbar"
         android:background="?colorSurface"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        android:elevation="4dp"/>
+        android:elevation="4dp"
+        tools:title="Settings"/>
 
     <fragment
         android:layout_width="match_parent"

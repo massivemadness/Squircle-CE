@@ -1,9 +1,9 @@
-package com.lightteam.modpeide.ui.settings.adapter.item
+package com.lightteam.modpeide.data.feature.font
 
-data class FontItem(
+data class FontModel(
     val fontName: String,
     val fontPath: String,
     val supportLigatures: Boolean,
-    /*val isExternal: Boolean,*/
+    val isExternal: Boolean,
     val isPaid: Boolean
 )

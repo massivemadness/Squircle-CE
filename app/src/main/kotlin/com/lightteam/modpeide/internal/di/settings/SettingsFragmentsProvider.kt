@@ -43,5 +43,8 @@ abstract class SettingsFragmentsProvider {
     abstract fun bindAboutFragment(): AboutFragment
 
     @ContributesAndroidInjector
+    abstract fun bindThemesFragment(): ThemesFragment
+
+    @ContributesAndroidInjector
     abstract fun bindFontsFragment(): FontsFragment
 }

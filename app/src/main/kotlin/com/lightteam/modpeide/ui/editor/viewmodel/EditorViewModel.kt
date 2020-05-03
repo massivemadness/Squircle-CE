@@ -31,6 +31,7 @@ import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.repository.FileRepository
 import com.lightteam.modpeide.domain.editor.DocumentContent
 import com.lightteam.modpeide.domain.editor.DocumentModel
@@ -40,7 +41,6 @@ import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.EventsQueue
 import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
-import com.lightteam.modpeide.data.utils.commons.ThemeFactory
 import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel(
@@ -254,7 +254,15 @@ class EditorViewModel(
         preferenceHandler.getTheme()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.Theme(ThemeFactory.create(it))) }
+            .subscribeBy {
+                appDatabase.themeDao().load(it)
+                    .map(ThemeConverter::toModel)
+                    .schedulersIoToMain(schedulersProvider)
+                    .subscribeBy { theme ->
+                        preferenceEvent.offer(PreferenceEvent.ThemePref(theme))
+                    }
+                    .disposeOnViewModelDestroy()
+            }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getFontSize()

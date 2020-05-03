@@ -17,28 +17,14 @@
 
 package com.lightteam.language.scheme
 
-interface ColorScheme {
-    val textColor: String
-    val backgroundColor: String
-    val gutterColor: String
-    val gutterDividerColor: String
-    val gutterCurrentLineNumberColor: String
-    val gutterTextColor: String
-    val selectedLineColor: String
-    val selectionColor: String
-    val filterableColor: String
-
-    val searchBgColor: String
-    val bracketBgColor: String
-
-    //Syntax Highlighting
-    val numberColor: String
-    val operatorColor: String
-    val bracketColor: String
-    val keywordColor: String
-    val typeColor: String
-    val langConstColor: String
-    val methodColor: String
-    val stringColor: String
-    val commentColor: String
-}
+data class SyntaxScheme(
+    val numberColor: Int,
+    val operatorColor: Int,
+    val bracketColor: Int,
+    val keywordColor: Int,
+    val typeColor: Int,
+    val langConstColor: Int,
+    val methodColor: Int,
+    val stringColor: Int,
+    val commentColor: Int
+)

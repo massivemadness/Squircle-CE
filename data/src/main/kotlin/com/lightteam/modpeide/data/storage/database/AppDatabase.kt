@@ -18,8 +18,12 @@
 package com.lightteam.modpeide.data.storage.database
 
 import com.lightteam.modpeide.data.storage.database.dao.document.DocumentDao
+import com.lightteam.modpeide.data.storage.database.dao.font.FontDao
+import com.lightteam.modpeide.data.storage.database.dao.theme.ThemeDao
 
 interface AppDatabase {
     fun documentDao(): DocumentDao
+    fun fontDao(): FontDao
+    fun themeDao(): ThemeDao
     fun shutDown()
 }

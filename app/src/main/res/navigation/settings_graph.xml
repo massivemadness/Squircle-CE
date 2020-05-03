@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_headers">
         <action
             android:id="@+id/to_applicationFragment"
-            app:destination="@id/applicationFragment"/>
+            app:destination="@id/applicationFragment" />
         <action
             android:id="@+id/to_editorFragment"
             app:destination="@id/editorFragment"/>
@@ -47,7 +47,11 @@
     <fragment
         android:id="@+id/applicationFragment"
         android:name="com.lightteam.modpeide.ui.settings.fragments.ApplicationFragment"
-        android:label="@string/label_application"/>
+        android:label="@string/label_application">
+        <action
+            android:id="@+id/to_themesFragment"
+            app:destination="@id/themesFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/editorFragment"
@@ -78,5 +82,11 @@
         android:name="com.lightteam.modpeide.ui.settings.fragments.FontsFragment"
         android:label="@string/label_fonts"
         tools:layout="@layout/fragment_fonts"/>
+
+    <fragment
+        android:id="@+id/themesFragment"
+        android:name="com.lightteam.modpeide.ui.settings.fragments.ThemesFragment"
+        android:label="@string/label_themes"
+        tools:layout="@layout/fragment_themes"/>
 
 </navigation>

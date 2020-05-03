@@ -17,10 +17,10 @@
 
 package com.lightteam.modpeide.utils.event
 
-import com.lightteam.language.scheme.ColorScheme
+import com.lightteam.modpeide.data.feature.scheme.Theme
 
 sealed class PreferenceEvent<T>(val value: T) {
-    class Theme(value: ColorScheme) : PreferenceEvent<ColorScheme>(value)
+    class ThemePref(value: Theme) : PreferenceEvent<Theme>(value)
     class FontSize(value: Float) : PreferenceEvent<Float>(value)
     class FontType(value: String) : PreferenceEvent<String>(value)
     class WordWrap(value: Boolean) : PreferenceEvent<Boolean>(value)

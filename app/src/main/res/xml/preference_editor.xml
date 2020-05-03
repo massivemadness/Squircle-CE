@@ -17,9 +17,7 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:title="@string/pref_header_editor_title"
-    android:key="KEY_HEADER_EDITOR">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/pref_category_font">
 

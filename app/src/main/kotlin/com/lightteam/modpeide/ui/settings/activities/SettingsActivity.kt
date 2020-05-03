@@ -54,14 +54,15 @@ class SettingsActivity : BaseActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
 
         binding.buttonContainer.isGone = isUltimate()
         binding.buttonUnlockFeatures.setOnClickListener {
             DialogStore.Builder(this).show()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     private fun observeViewModel() {

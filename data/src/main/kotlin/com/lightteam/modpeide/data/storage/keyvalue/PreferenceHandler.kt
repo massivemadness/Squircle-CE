@@ -19,14 +19,12 @@ package com.lightteam.modpeide.data.storage.keyvalue
 
 import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.lightteam.modpeide.data.utils.commons.Fonts
-import com.lightteam.modpeide.data.utils.commons.ThemeFactory
 
 class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     companion object {
         //Look And Feel
-        const val KEY_THEME = "THEME"
+        const val KEY_THEME = "THEME_1"
         const val KEY_FULLSCREEN_MODE = "FULLSCREEN_MODE"
 
         //Other
@@ -63,13 +61,13 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_SORT_MODE = "SORT_MODE"
     }
 
-    fun getTheme(): Preference<String> = rxSharedPreferences.getString(KEY_THEME, ThemeFactory.THEME_DARCULA)
+    fun getTheme(): Preference<String> = rxSharedPreferences.getString(KEY_THEME, "964c249d-ad3c-4d85-8010-f3d55c1ae0a2") // Darcula UUID
     fun getFullscreenMode(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
 
     fun getConfirmExit(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
 
     fun getFontSize(): Preference<Int> = rxSharedPreferences.getInteger(KEY_FONT_SIZE, 14)
-    fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, Fonts.JETBRAINS_MONO)
+    fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf") // JetBrains Mono
 
     fun getResumeSession(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
     fun getTabLimit(): Preference<Int> = rxSharedPreferences.getInteger(KEY_TAB_LIMIT, 5)

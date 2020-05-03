@@ -21,12 +21,14 @@ import android.content.Context
 import androidx.room.Room
 import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.database.AppDatabaseImpl
+import com.lightteam.modpeide.data.storage.database.Migrations
 
 object DataLayerDelegate {
 
     fun provideAppDatabase(context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
-            .fallbackToDestructiveMigrationFrom(1)
+            .createFromAsset("database/database.db")
+            .addMigrations(Migrations.MIGRATION_1_2, Migrations.MIGRATION_2_3)
             .build()
     }
 }

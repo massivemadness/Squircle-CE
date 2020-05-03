@@ -16,9 +16,7 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/pref_header_about_title"
-    android:key="KEY_HEADER_ABOUT">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/pref_category_about">
 

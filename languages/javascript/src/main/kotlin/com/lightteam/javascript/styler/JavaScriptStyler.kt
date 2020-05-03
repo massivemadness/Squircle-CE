@@ -17,7 +17,6 @@
 
 package com.lightteam.javascript.styler
 
-import android.graphics.Color
 import com.lightteam.language.styler.LanguageStyler
 import com.lightteam.language.styler.span.StyleSpan
 import java.util.regex.Pattern
@@ -46,55 +45,55 @@ class JavaScriptStyler : LanguageStyler() {
         var matcher = NUMBER.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.numberColor))
+            val span = StyleSpan(syntaxScheme.numberColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = OPERATOR.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.operatorColor))
+            val span = StyleSpan(syntaxScheme.operatorColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = BRACKET.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.bracketColor))
+            val span = StyleSpan(syntaxScheme.bracketColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = KEYWORD.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.keywordColor))
+            val span = StyleSpan(syntaxScheme.keywordColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = TYPE.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.typeColor))
+            val span = StyleSpan(syntaxScheme.typeColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = LANG_CONST.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.langConstColor))
+            val span = StyleSpan(syntaxScheme.langConstColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = METHOD.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.methodColor))
+            val span = StyleSpan(syntaxScheme.methodColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = STRING.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.stringColor))
+            val span = StyleSpan(syntaxScheme.stringColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = COMMENT.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
-            val span = StyleSpan(Color.parseColor(colorScheme.commentColor), italic = true)
+            val span = StyleSpan(syntaxScheme.commentColor, italic = true)
             addSpan(span, matcher.start(), matcher.end())
         }
     }

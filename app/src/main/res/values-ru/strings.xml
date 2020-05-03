@@ -27,6 +27,7 @@
     <string name="label_files">Файлы</string>
     <string name="label_about">О программе</string>
     <string name="label_fonts">Шрифты</string>
+    <string name="label_themes">Темы</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_enter_file_name">Введите имя файла</string>

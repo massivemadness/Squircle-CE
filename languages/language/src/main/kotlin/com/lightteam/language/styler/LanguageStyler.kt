@@ -19,7 +19,7 @@ package com.lightteam.language.styler
 
 import android.os.AsyncTask
 import android.util.Log
-import com.lightteam.language.scheme.ColorScheme
+import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.language.styler.span.StyleSpan
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 
@@ -36,19 +36,19 @@ abstract class LanguageStyler {
     private var cancelled = false
 
     protected lateinit var sourceCode: String
-    protected lateinit var colorScheme: ColorScheme
+    protected lateinit var syntaxScheme: SyntaxScheme
 
     protected var parseStart = 0
     protected var parseEnd = 0
 
     abstract fun parse()
 
-    fun runStyler(styleable: Styleable, source: String, scheme: ColorScheme) {
+    fun runStyler(styleable: Styleable, source: String, scheme: SyntaxScheme) {
         task?.cancelTask()
         task = StylingTask()
         syntaxStyleable = styleable
         sourceCode = source
-        colorScheme = scheme
+        syntaxScheme = scheme
         parseStart = 0
         parseEnd = source.length
         try {

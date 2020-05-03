@@ -200,7 +200,9 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         viewModel.preferenceEvent.observe(viewLifecycleOwner, Observer { queue ->
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
-                    is PreferenceEvent.Theme -> binding.editor.colorScheme = event.value
+                    is PreferenceEvent.ThemePref -> {
+                        binding.editor.theme = event.value
+                    }
                     is PreferenceEvent.FontSize -> {
                         val newConfiguration = binding.editor.configuration.copy(fontSize = event.value)
                         binding.editor.configuration = newConfiguration

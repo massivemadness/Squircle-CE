@@ -19,4 +19,6 @@ package com.lightteam.modpeide.data.storage.database
 
 object Tables {
     const val DOCUMENTS = "tbl_file_history"
+    const val FONTS = "tbl_fonts"
+    const val THEMES = "tbl_themes"
 }

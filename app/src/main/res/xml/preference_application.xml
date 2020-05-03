@@ -16,19 +16,14 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/pref_header_application_title"
-    android:key="KEY_HEADER_APPLICATION">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/pref_category_look_and_feel">
 
-        <ListPreference
+        <Preference
             android:title="@string/pref_color_scheme_title"
             android:summary="@string/pref_color_scheme_summary"
-            android:key="THEME"
-            android:defaultValue="THEME_DARCULA"
-            android:entries="@array/theme_entries"
-            android:entryValues="@array/theme_values"/>
+            android:key="THEME_1"/>
 
         <SwitchPreference
             android:title="@string/pref_fullscreen_title"

@@ -46,17 +46,19 @@
         android:textSize="24sp"
         android:text="@string/font_panagram"/>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/action_select"
             android:id="@+id/item_subtitle"
             android:textSize="14sp"
             android:singleLine="true"
@@ -66,16 +68,10 @@
             style="@style/Widget.AppTheme.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_alignParentEnd="true"
             android:id="@+id/action_select"
             android:text="@string/action_select"/>
 
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="4dp"
-        android:background="?android:attr/listDivider"/>
+    </RelativeLayout>
 
 </LinearLayout>

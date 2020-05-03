@@ -20,25 +20,30 @@ package com.lightteam.modpeide.ui.settings.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.FontConverter
+import com.lightteam.modpeide.data.converter.ThemeConverter
+import com.lightteam.modpeide.data.feature.font.FontModel
+import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.ui.settings.adapter.item.FontItem
 import com.lightteam.modpeide.ui.settings.adapter.item.PreferenceItem
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
-import com.lightteam.modpeide.data.utils.commons.Fonts
 import io.reactivex.rxkotlin.subscribeBy
 
 class SettingsViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val appDatabase: AppDatabase
 ) : BaseViewModel() {
 
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     val headersEvent: SingleLiveEvent<List<PreferenceItem>> = SingleLiveEvent()
-    val fontsEvent: SingleLiveEvent<List<FontItem>> = SingleLiveEvent()
+    val fontsEvent: SingleLiveEvent<List<FontModel>> = SingleLiveEvent()
+    val themesEvent: SingleLiveEvent<List<Theme>> = SingleLiveEvent()
     val selectionEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     fun fetchHeaders() {
@@ -72,49 +77,29 @@ class SettingsViewModel(
     }
 
     fun fetchFonts() {
-        fontsEvent.value = listOf(
-            FontItem(
-                "Droid Sans Mono",
-                Fonts.DROID_SANS_MONO,
-                supportLigatures = false,
-                isPaid = false
-            ),
-            FontItem(
-                "JetBrains Mono",
-                Fonts.JETBRAINS_MONO,
-                supportLigatures = true,
-                isPaid = false
-            ),
-            FontItem(
-                "Fira Code",
-                Fonts.FIRA_CODE,
-                supportLigatures = true,
-                isPaid = true
-            ),
-            FontItem(
-                "Source Code Pro",
-                Fonts.SOURCE_CODE_PRO,
-                supportLigatures = false,
-                isPaid = true
-            ),
-            FontItem(
-                "Anonymous Pro",
-                Fonts.ANONYMOUS_PRO,
-                supportLigatures = false,
-                isPaid = true
-            ),
-            FontItem(
-                "DejaVu Sans Mono",
-                Fonts.DEJAVU_SANS_MONO,
-                supportLigatures = false,
-                isPaid = true
-            )
-        )
+        appDatabase.fontDao().loadAll()
+            .map { it.map(FontConverter::toModel) }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { fontsEvent.value = it }
+            .disposeOnViewModelDestroy()
     }
 
-    fun selectFont(fontItem: FontItem) {
-        preferenceHandler.getFontType().set(fontItem.fontPath)
-        selectionEvent.value = fontItem.fontName
+    fun fetchThemes() {
+        appDatabase.themeDao().loadAll()
+            .map { it.map(ThemeConverter::toModel) }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { themesEvent.value = it }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun selectFont(fontModel: FontModel) {
+        preferenceHandler.getFontType().set(fontModel.fontPath)
+        selectionEvent.value = fontModel.fontName
+    }
+
+    fun selectTheme(theme: Theme) {
+        preferenceHandler.getTheme().set(theme.uuid)
+        selectionEvent.value = theme.name
     }
 
     fun observePreferences() {
@@ -127,7 +112,8 @@ class SettingsViewModel(
 
     class Factory(
         private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler
+        private val preferenceHandler: PreferenceHandler,
+        private val appDatabase: AppDatabase
     ) : ViewModelProvider.NewInstanceFactory() {
 
         @Suppress("UNCHECKED_CAST")
@@ -136,7 +122,8 @@ class SettingsViewModel(
                 modelClass === SettingsViewModel::class.java ->
                     SettingsViewModel(
                         schedulersProvider,
-                        preferenceHandler
+                        preferenceHandler,
+                        appDatabase
                     ) as T
                 else -> null as T
             }

@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import com.lightteam.modpeide.BaseApplication
 import java.io.BufferedReader
+import java.lang.IllegalArgumentException
 
 fun Context.isUltimate(): Boolean {
     return when (packageName) {
@@ -55,11 +56,14 @@ fun Context.getRawFileText(@RawRes resId: Int): String {
     return inputStream.bufferedReader().use(BufferedReader::readText)
 }
 
+private const val ASSET_PATH = "file:///android_asset/"
+
 fun Context.createTypefaceFromPath(path: String): Typeface {
-    return if (path.startsWith("file:///android_asset/")) {
-        Typeface.createFromAsset(assets, path.substring(22))
+    return if (path.startsWith(ASSET_PATH)) {
+        val newPath = path.substring(22)
+        Typeface.createFromAsset(assets, newPath)
     } else {
-        Typeface.createFromFile(path)
+        throw IllegalArgumentException("No external font support") // Typeface.createFromFile(path)
     }
 }
 

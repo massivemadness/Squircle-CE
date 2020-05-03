@@ -16,15 +16,13 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <string-array name="sort_mode_entries">
-        <item>@string/sort_by_name</item>
-        <item>@string/sort_by_size</item>
-        <item>@string/sort_by_date</item>
-    </string-array>
-    <string-array name="sort_mode_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-</resources>
+<androidx.recyclerview.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/recycler_view"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    tools:listitem="@layout/item_theme"
+    tools:itemCount="3"/>

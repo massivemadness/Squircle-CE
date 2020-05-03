@@ -27,10 +27,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
-import androidx.core.graphics.toColorInt
 import com.lightteam.language.model.SuggestionModel
-import com.lightteam.language.scheme.ColorScheme
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.feature.scheme.ColorScheme
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import java.util.*
 
@@ -70,7 +69,7 @@ class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<Sugges
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val viewHolder = SuggestionViewHolder.create(parent, colorScheme.filterableColor.toColorInt())
+        val viewHolder = SuggestionViewHolder.create(parent, colorScheme.suggestionMatchColor)
         viewHolder.bind(getItem(position), query)
         return viewHolder.itemView
     }

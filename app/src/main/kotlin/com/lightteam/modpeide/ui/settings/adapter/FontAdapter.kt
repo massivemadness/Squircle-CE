@@ -5,22 +5,22 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.lightteam.modpeide.data.feature.font.FontModel
 import com.lightteam.modpeide.databinding.ItemFontBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
-import com.lightteam.modpeide.ui.settings.adapter.item.FontItem
 import com.lightteam.modpeide.utils.extensions.*
 
 class FontAdapter(
-    private val onItemClickListener: OnItemClickListener<FontItem>
-) : ListAdapter<FontItem, FontAdapter.FontViewHolder>(diffCallback) {
+    private val onItemClickListener: OnItemClickListener<FontModel>
+) : ListAdapter<FontModel, FontAdapter.FontViewHolder>(diffCallback) {
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<FontItem>() {
-            override fun areItemsTheSame(oldItem: FontItem, newItem: FontItem): Boolean {
+        private val diffCallback = object : DiffUtil.ItemCallback<FontModel>() {
+            override fun areItemsTheSame(oldItem: FontModel, newItem: FontModel): Boolean {
                 return oldItem.fontPath == newItem.fontPath
             }
-            override fun areContentsTheSame(oldItem: FontItem, newItem: FontItem): Boolean {
+            override fun areContentsTheSame(oldItem: FontModel, newItem: FontModel): Boolean {
                 return oldItem == newItem
             }
         }
@@ -36,36 +36,36 @@ class FontAdapter(
 
     class FontViewHolder(
         private val binding: ItemFontBinding,
-        private val onItemClickListener: OnItemClickListener<FontItem>
-    ) : BaseViewHolder<FontItem>(binding.root) {
+        private val onItemClickListener: OnItemClickListener<FontModel>
+    ) : BaseViewHolder<FontModel>(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FontItem>): FontViewHolder {
+            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FontModel>): FontViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemFontBinding.inflate(inflater, parent, false)
                 return FontViewHolder(binding, onItemClickListener)
             }
         }
 
-        private lateinit var fontItem: FontItem
+        private lateinit var fontModel: FontModel
 
         init {
             binding.actionSelect.setOnClickListener {
-                onItemClickListener.onClick(fontItem)
+                onItemClickListener.onClick(fontModel)
+            }
+            itemView.setOnClickListener {
+                if (!binding.actionSelect.isEnabled) {
+                    onItemClickListener.onClick(fontModel)
+                }
             }
         }
 
-        override fun bind(item: FontItem) {
-            fontItem = item
+        override fun bind(item: FontModel) {
+            fontModel = item
             binding.itemTitle.text = item.fontName
             binding.itemContent.typeface = itemView.context.createTypefaceFromPath(item.fontPath)
             binding.itemSubtitle.isVisible = item.supportLigatures
             binding.actionSelect.isEnabled = !item.isPaid || itemView.context.isUltimate()
-            itemView.setOnClickListener {
-                if (!binding.actionSelect.isEnabled) {
-                    onItemClickListener.onClick(fontItem)
-                }
-            }
         }
     }
 }

@@ -35,16 +35,15 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Scroller
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.content.getSystemService
-import androidx.core.graphics.toColorInt
 import androidx.core.text.getSpans
 import com.lightteam.language.language.Language
 import com.lightteam.language.parser.span.ErrorSpan
-import com.lightteam.language.scheme.ColorScheme
 import com.lightteam.language.styler.Styleable
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.feature.LinesCollection
-import com.lightteam.modpeide.data.feature.scheme.Darcula
+import com.lightteam.modpeide.data.feature.scheme.Theme
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.domain.editor.TextChange
@@ -62,7 +61,7 @@ import kotlin.math.sqrt
 class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.editTextStyle
+    defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr), Styleable {
 
     data class Configuration(
@@ -92,7 +91,7 @@ class TextProcessor @JvmOverloads constructor(
             configure()
         }
 
-    var colorScheme: ColorScheme = Darcula()
+    var theme: Theme? = null
         set(value) {
             field = value
             colorize()
@@ -185,8 +184,8 @@ class TextProcessor @JvmOverloads constructor(
 
     private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
 
-    private var openBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
-    private var closedBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
+    private var openBracketSpan: BackgroundColorSpan? = null
+    private var closedBracketSpan: BackgroundColorSpan? = null
 
     private var isDoingUndoRedo = false
     private var isSyntaxHighlighting = false
@@ -251,39 +250,41 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     private fun colorize() {
-        post {
-            setTextColor(colorScheme.textColor.toColorInt())
-            setBackgroundColor(colorScheme.backgroundColor.toColorInt())
-            highlightColor = colorScheme.selectionColor.toColorInt()
+        theme?.let {
+            post {
+                setTextColor(it.colorScheme.textColor)
+                setBackgroundColor(it.colorScheme.backgroundColor)
+                highlightColor = it.colorScheme.selectionColor
 
-            selectedLinePaint.color = colorScheme.selectedLineColor.toColorInt()
-            selectedLinePaint.isAntiAlias = false
-            selectedLinePaint.isDither = false
+                selectedLinePaint.color = it.colorScheme.selectedLineColor
+                selectedLinePaint.isAntiAlias = false
+                selectedLinePaint.isDither = false
 
-            gutterPaint.color = colorScheme.gutterColor.toColorInt()
-            gutterPaint.isAntiAlias = false
-            gutterPaint.isDither = false
+                gutterPaint.color = it.colorScheme.gutterColor
+                gutterPaint.isAntiAlias = false
+                gutterPaint.isDither = false
 
-            gutterDividerPaint.color = colorScheme.gutterDividerColor.toColorInt()
-            gutterDividerPaint.isAntiAlias = false
-            gutterDividerPaint.isDither = false
-            gutterDividerPaint.style = Paint.Style.STROKE
-            gutterDividerPaint.strokeWidth = 2.6f
+                gutterDividerPaint.color = it.colorScheme.gutterDividerColor
+                gutterDividerPaint.isAntiAlias = false
+                gutterDividerPaint.isDither = false
+                gutterDividerPaint.style = Paint.Style.STROKE
+                gutterDividerPaint.strokeWidth = 2.6f
 
-            gutterCurrentLineNumberPaint.color = colorScheme.gutterCurrentLineNumberColor.toColorInt()
-            gutterCurrentLineNumberPaint.isAntiAlias = true
-            gutterCurrentLineNumberPaint.isDither = false
-            gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
+                gutterCurrentLineNumberPaint.color = it.colorScheme.gutterCurrentLineNumberColor
+                gutterCurrentLineNumberPaint.isAntiAlias = true
+                gutterCurrentLineNumberPaint.isDither = false
+                gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
-            gutterTextPaint.color = colorScheme.gutterTextColor.toColorInt()
-            gutterTextPaint.isAntiAlias = true
-            gutterTextPaint.isDither = false
-            gutterTextPaint.textAlign = Paint.Align.RIGHT
+                gutterTextPaint.color = it.colorScheme.gutterTextColor
+                gutterTextPaint.isAntiAlias = true
+                gutterTextPaint.isDither = false
+                gutterTextPaint.textAlign = Paint.Align.RIGHT
 
-            suggestionAdapter.setColorScheme(colorScheme)
+                suggestionAdapter.setColorScheme(it.colorScheme)
 
-            openBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
-            closedBracketSpan = BackgroundColorSpan(colorScheme.bracketBgColor.toColorInt())
+                openBracketSpan = BackgroundColorSpan(it.colorScheme.bracketBackgroundColor)
+                closedBracketSpan = BackgroundColorSpan(it.colorScheme.bracketBackgroundColor)
+            }
         }
     }
 
@@ -571,12 +572,14 @@ class TextProcessor @JvmOverloads constructor(
         clearSpans()
         val matcher = pattern.matcher(text)
         while (matcher.find()) {
-            text.setSpan(
-                BackgroundColorSpan(colorScheme.searchBgColor.toColorInt()),
-                matcher.start(),
-                matcher.end(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+            theme?.let {
+                text.setSpan(
+                    BackgroundColorSpan(it.colorScheme.searchBackgroundColor),
+                    matcher.start(),
+                    matcher.end(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
         }
         isFindSpansVisible = true
     }
@@ -925,7 +928,7 @@ class TextProcessor @JvmOverloads constructor(
         }
         val lineStart = getIndexForStartOfLine(lineNumber - 1)
         val lineEnd = getIndexForEndOfLine(lineNumber - 1)
-        if (lineStart < text.length || lineEnd < text.length) {
+        if (lineStart < text.length && lineEnd < text.length && lineStart > -1 && lineEnd > -1) {
             isErrorSpansVisible = true
             text.setSpan(ErrorSpan(), lineStart, lineEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
@@ -933,7 +936,13 @@ class TextProcessor @JvmOverloads constructor(
 
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
-        language.createStyler().runStyler(this, getProcessedText(), colorScheme)
+        theme?.let {
+            language.createStyler().runStyler(
+                this,
+                getProcessedText(),
+                ThemeConverter.toSyntaxScheme(it)
+            )
+        }
     }
 
     private fun cancelSyntaxHighlighting() {
@@ -974,8 +983,10 @@ class TextProcessor @JvmOverloads constructor(
 
     private fun checkMatchingBracket(pos: Int) {
         if (layout != null) {
-            text.removeSpan(openBracketSpan)
-            text.removeSpan(closedBracketSpan)
+            if (openBracketSpan != null && closedBracketSpan != null) {
+                text.removeSpan(openBracketSpan)
+                text.removeSpan(closedBracketSpan)
+            }
             if (configuration.highlightDelimiters) {
                 if (pos > 0 && pos <= text.length) {
                     val c1 = text[pos - 1]
@@ -1024,8 +1035,10 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     private fun showBracket(i: Int, j: Int) {
-        text.setSpan(openBracketSpan, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        text.setSpan(closedBracketSpan, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        if (openBracketSpan != null && closedBracketSpan != null) {
+            text.setSpan(openBracketSpan, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(closedBracketSpan, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
     }
 
     // endregion SYNTAX_HIGHLIGHT

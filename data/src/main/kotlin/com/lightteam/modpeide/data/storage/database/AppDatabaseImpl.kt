@@ -21,10 +21,16 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.lightteam.modpeide.data.storage.database.dao.document.DocumentDao
 import com.lightteam.modpeide.data.model.entity.DocumentEntity
+import com.lightteam.modpeide.data.model.entity.FontEntity
+import com.lightteam.modpeide.data.model.entity.ThemeEntity
+import com.lightteam.modpeide.data.storage.database.dao.font.FontDao
+import com.lightteam.modpeide.data.storage.database.dao.theme.ThemeDao
 
 @Database(entities = [
-    DocumentEntity::class
-], version = 2)
+    DocumentEntity::class,
+    FontEntity::class,
+    ThemeEntity::class
+], version = 3)
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
     companion object {
@@ -32,6 +38,8 @@ abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
     }
 
     abstract override fun documentDao(): DocumentDao
+    abstract override fun fontDao(): FontDao
+    abstract override fun themeDao(): ThemeDao
 
     override fun shutDown() {
         clearAllTables()

@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.internal.di.settings
 
 import androidx.lifecycle.ViewModelProvider
+import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
@@ -32,11 +33,13 @@ class SettingsActivityModule {
     @SettingsScope
     fun provideSettingsViewModelFactory(
         schedulersProvider: SchedulersProvider,
-        preferenceHandler: PreferenceHandler
+        preferenceHandler: PreferenceHandler,
+        appDatabase: AppDatabase
     ): SettingsViewModel.Factory {
         return SettingsViewModel.Factory(
             schedulersProvider,
-            preferenceHandler
+            preferenceHandler,
+            appDatabase
         )
     }
 

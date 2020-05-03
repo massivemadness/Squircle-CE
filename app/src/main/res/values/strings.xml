@@ -28,6 +28,7 @@
     <string name="label_files">Files</string>
     <string name="label_about">About</string>
     <string name="label_fonts">Fonts</string>
+    <string name="label_themes">Themes</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_enter_file_name">Enter file name</string>
