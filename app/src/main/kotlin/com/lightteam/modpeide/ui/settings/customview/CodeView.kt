@@ -21,7 +21,7 @@ class CodeView @JvmOverloads constructor(
     companion object {
         val CODE_PREVIEW = """
             function useItem(x, y, z, itemId, blockId, side) {
-                if (itemId == 280) { // Simple stick
+                if (itemId == 280) { // Stick
                     Level.explode(x, y, z, 16);
                 }
             }

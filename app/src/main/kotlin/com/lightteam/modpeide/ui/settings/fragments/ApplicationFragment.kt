@@ -11,7 +11,7 @@ import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
 class ApplicationFragment : DaggerPreferenceFragmentCompat() {
 
     companion object {
-        private const val KEY_THEME = PreferenceHandler.KEY_THEME
+        private const val KEY_COLOR_SCHEME = PreferenceHandler.KEY_COLOR_SCHEME
     }
 
     private lateinit var navController: NavController
@@ -20,7 +20,7 @@ class ApplicationFragment : DaggerPreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preference_application, rootKey)
 
         navController = findNavController()
-        findPreference<Preference>(KEY_THEME)?.setOnPreferenceClickListener {
+        findPreference<Preference>(KEY_COLOR_SCHEME)?.setOnPreferenceClickListener {
             navController.navigate(R.id.themesFragment)
             true
         }

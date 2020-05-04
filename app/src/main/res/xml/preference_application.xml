@@ -23,7 +23,7 @@
         <Preference
             android:title="@string/pref_color_scheme_title"
             android:summary="@string/pref_color_scheme_summary"
-            android:key="THEME_1"/>
+            android:key="COLOR_SCHEME"/>
 
         <SwitchPreference
             android:title="@string/pref_fullscreen_title"

@@ -45,7 +45,7 @@ class CacheRepository(
         val fileModel = DocumentConverter.toModel(cacheModel)
         return filesystem.loadFile(fileModel)
             .map { text ->
-                val language = LanguageProvider.provide(documentModel)
+                val language = LanguageProvider.provide(documentModel.name)
                 val undoStack = loadUndoStack(documentModel)
                 val redoStack = loadRedoStack(documentModel)
 

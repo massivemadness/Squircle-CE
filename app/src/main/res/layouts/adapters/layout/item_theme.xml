@@ -56,9 +56,10 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:typeface="monospace"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:id="@+id/editor"
-            tools:text="// TODO: Implement this method"/>
+            tools:text="// TODO: Implement this method"
+            tools:ignore="SmallSp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

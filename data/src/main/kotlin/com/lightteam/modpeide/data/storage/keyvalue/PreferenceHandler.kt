@@ -23,45 +23,46 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     companion object {
-        //Look And Feel
-        const val KEY_THEME = "THEME_1"
+        // Look And Feel
+        //const val KEY_THEME = "THEME_1"
+        const val KEY_COLOR_SCHEME = "COLOR_SCHEME"
         const val KEY_FULLSCREEN_MODE = "FULLSCREEN_MODE"
 
-        //Other
+        // Other
         const val KEY_CONFIRM_EXIT = "CONFIRM_EXIT"
 
-        //Font
+        // Font
         const val KEY_FONT_SIZE = "FONT_SIZE_2"
         const val KEY_FONT_TYPE = "FONT_TYPE_3"
 
-        //Tabs
+        // Tabs
         const val KEY_RESUME_SESSION = "RESUME_SESSION"
         const val KEY_TAB_LIMIT = "TAB_LIMIT"
         const val KEY_SELECTED_DOCUMENT_ID = "SELECTED_DOCUMENT_ID"
 
-        //Editor
+        // Editor
         const val KEY_WORD_WRAP = "WORD_WRAP"
         const val KEY_CODE_COMPLETION = "CODE_COMPLETION"
         const val KEY_PINCH_ZOOM = "PINCH_ZOOM"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
         const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
 
-        //Keyboard
+        // Keyboard
         const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYBOARD"
         const val KEY_USE_SOFT_KEYBOARD = "USE_SOFT_KEYBOARD"
 
-        //Code Style
+        // Code Style
         const val KEY_AUTO_INDENTATION = "AUTO_INDENTATION"
         const val KEY_AUTOCLOSE_BRACKETS = "AUTOCLOSE_BRACKETS"
         const val KEY_AUTOCLOSE_QUOTES = "AUTOCLOSE_QUOTES"
 
-        //File Explorer
+        // File Explorer
         const val KEY_SHOW_HIDDEN_FILES = "SHOW_HIDDEN_FILES"
         const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
         const val KEY_SORT_MODE = "SORT_MODE"
     }
 
-    fun getTheme(): Preference<String> = rxSharedPreferences.getString(KEY_THEME, "964c249d-ad3c-4d85-8010-f3d55c1ae0a2") // Darcula UUID
+    fun getColorScheme(): Preference<String> = rxSharedPreferences.getString(KEY_COLOR_SCHEME, "964c249d-ad3c-4d85-8010-f3d55c1ae0a2") // Darcula UUID
     fun getFullscreenMode(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
 
     fun getConfirmExit(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)

@@ -2,20 +2,18 @@ package com.lightteam.modpeide.ui.settings.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.data.feature.language.LanguageProvider
 import com.lightteam.modpeide.data.feature.scheme.Theme
 import com.lightteam.modpeide.databinding.ItemThemeBinding
-import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
-import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.settings.customview.CodeView
 import com.lightteam.modpeide.utils.extensions.isUltimate
 
 class ThemeAdapter(
-    private val onItemClickListener: OnItemClickListener<Theme>
+    private val themeInteractor: ThemeInteractor
 ) : ListAdapter<Theme, ThemeAdapter.ThemeViewHolder>(diffCallback) {
 
     companion object {
@@ -30,7 +28,7 @@ class ThemeAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThemeViewHolder {
-        return ThemeViewHolder.create(parent, onItemClickListener)
+        return ThemeViewHolder.create(parent, themeInteractor)
     }
 
     override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) {
@@ -39,14 +37,14 @@ class ThemeAdapter(
 
     class ThemeViewHolder(
         private val binding: ItemThemeBinding,
-        private val onItemClickListener: OnItemClickListener<Theme>
+        private val themeInteractor: ThemeInteractor
     ) : BaseViewHolder<Theme>(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<Theme>): ThemeViewHolder {
+            fun create(parent: ViewGroup, themeInteractor: ThemeInteractor): ThemeViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemThemeBinding.inflate(inflater, parent, false)
-                return ThemeViewHolder(binding, onItemClickListener)
+                return ThemeViewHolder(binding, themeInteractor)
             }
         }
 
@@ -54,14 +52,14 @@ class ThemeAdapter(
 
         init {
             binding.actionSelect.setOnClickListener {
-                onItemClickListener.onClick(theme)
+                themeInteractor.selectTheme(theme)
             }
             binding.actionInfo.setOnClickListener {
-                Toast.makeText(itemView.context, theme.description, Toast.LENGTH_SHORT).show()
+                themeInteractor.openInfo(theme)
             }
             itemView.setOnClickListener {
                 if (!binding.actionSelect.isEnabled) {
-                    onItemClickListener.onClick(theme)
+                    themeInteractor.selectTheme(theme)
                 }
             }
         }
@@ -72,15 +70,20 @@ class ThemeAdapter(
             binding.itemSubtitle.text = item.author
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)
-            binding.editor.theme = item
+            binding.editor.doOnPreDraw {
+                binding.editor.theme = theme
+                binding.editor.language = LanguageProvider.provide(".js")
+            }
             binding.editor.text = CodeView.CODE_PREVIEW
-
-            val documentModel = DocumentModel("none", ".js", "none", 0, 0, 0, 0)
-            binding.editor.language = LanguageProvider.provide(documentModel) // JavaScript
 
             val isUltimate = itemView.context.isUltimate()
             binding.actionInfo.isEnabled = !item.isPaid || isUltimate
             binding.actionSelect.isEnabled = !item.isPaid || isUltimate
         }
+    }
+
+    interface ThemeInteractor {
+        fun selectTheme(theme: Theme)
+        fun openInfo(theme: Theme)
     }
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.scheme.Theme
 import com.lightteam.modpeide.databinding.FragmentThemesBinding
-import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.settings.adapter.ThemeAdapter
@@ -14,7 +13,7 @@ import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
-class ThemesFragment : BaseFragment(), OnItemClickListener<Theme> {
+class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
 
     @Inject
     lateinit var viewModel: SettingsViewModel
@@ -35,12 +34,16 @@ class ThemesFragment : BaseFragment(), OnItemClickListener<Theme> {
         viewModel.fetchThemes()
     }
 
-    override fun onClick(item: Theme) {
-        if (item.isPaid && !requireContext().isUltimate()) {
+    override fun selectTheme(theme: Theme) {
+        if (theme.isPaid && !requireContext().isUltimate()) {
             DialogStore.Builder(requireContext()).show()
         } else {
-            viewModel.selectTheme(item)
+            viewModel.selectTheme(theme)
         }
+    }
+
+    override fun openInfo(theme: Theme) {
+        showToast(text = theme.description)
     }
 
     private fun observeViewModel() {

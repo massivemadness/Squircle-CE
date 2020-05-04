@@ -22,7 +22,7 @@ class FileRepository(
             .map { text ->
                 appDatabase.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
 
-                val language = LanguageProvider.provide(documentModel)
+                val language = LanguageProvider.provide(documentModel.name)
                 val undoStack = UndoStackImpl()
                 val redoStack = UndoStackImpl()
 

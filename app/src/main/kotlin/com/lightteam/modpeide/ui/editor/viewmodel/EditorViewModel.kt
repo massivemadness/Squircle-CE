@@ -251,7 +251,7 @@ class EditorViewModel(
     }
 
     fun observePreferences() {
-        preferenceHandler.getTheme()
+        preferenceHandler.getColorScheme()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {

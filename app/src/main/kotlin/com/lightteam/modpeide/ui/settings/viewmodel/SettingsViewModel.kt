@@ -98,7 +98,7 @@ class SettingsViewModel(
     }
 
     fun selectTheme(theme: Theme) {
-        preferenceHandler.getTheme().set(theme.uuid)
+        preferenceHandler.getColorScheme().set(theme.uuid)
         selectionEvent.value = theme.name
     }
 
