@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "1851ded74f9a759e333f21a9dbecd943",
+    "identityHash": "4cda801915bdb2d3b247a6a397c8844e",
     "entities": [
       {
-        "tableName": "tbl_file_history",
+        "tableName": "tbl_documents",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `path` TEXT NOT NULL, `scroll_x` INTEGER NOT NULL, `scroll_y` INTEGER NOT NULL, `selection_start` INTEGER NOT NULL, `selection_end` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
@@ -278,7 +278,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1851ded74f9a759e333f21a9dbecd943')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4cda801915bdb2d3b247a6a397c8844e')"
     ]
   }
 }

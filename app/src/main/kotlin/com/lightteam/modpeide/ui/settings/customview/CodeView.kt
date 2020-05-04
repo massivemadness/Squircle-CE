@@ -101,7 +101,7 @@ class CodeView @JvmOverloads constructor(
 
     private fun syntaxHighlight() {
         theme?.let {
-            language.createStyler().runStyler(
+            language.runStyler(
                 this,
                 text.toString(),
                 ThemeConverter.toSyntaxScheme(it)

@@ -18,7 +18,9 @@
 package com.lightteam.modpeide.database.utils
 
 object Tables {
-    const val DOCUMENTS = "tbl_file_history"
+    @Deprecated("Use Tables.DOCUMENTS instead")
+    const val FILE_HISTORY = "tbl_file_history"
+    const val DOCUMENTS = "tbl_documents"
     const val FONTS = "tbl_fonts"
     const val THEMES = "tbl_themes"
 }

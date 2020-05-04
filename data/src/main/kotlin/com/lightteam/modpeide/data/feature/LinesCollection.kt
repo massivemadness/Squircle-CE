@@ -46,7 +46,10 @@ class LinesCollection : Iterable<Line> {
     }
 
     fun shiftIndexes(fromLine: Int, shiftBy: Int) {
-        if (fromLine in 1..lineCount) {
+        if (fromLine <= 0) {
+            return
+        }
+        if (fromLine < lineCount) {
             var i = fromLine
             while (i < lineCount) {
                 val newIndex = getIndexForLine(i) + shiftBy

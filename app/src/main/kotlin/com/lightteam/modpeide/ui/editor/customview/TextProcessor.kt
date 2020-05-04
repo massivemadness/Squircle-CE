@@ -937,7 +937,7 @@ class TextProcessor @JvmOverloads constructor(
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
         theme?.let {
-            language.createStyler().runStyler(
+            language.runStyler(
                 this,
                 getProcessedText(),
                 ThemeConverter.toSyntaxScheme(it)

@@ -17,8 +17,11 @@
 
 package com.lightteam.unknown.styler
 
+import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.language.styler.LanguageStyler
+import com.lightteam.language.styler.Styleable
 
-class UnknownStyler : LanguageStyler() {
-    override fun parse() = Unit
+class UnknownStyler : LanguageStyler {
+    override fun runTask(styleable: Styleable, sourceCode: String, syntaxScheme: SyntaxScheme) = Unit
+    override fun cancelTask() = Unit
 }

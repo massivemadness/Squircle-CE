@@ -22,7 +22,8 @@ import com.lightteam.javascript.styler.JavaScriptStyler
 import com.lightteam.javascript.suggestions.ModPESuggestions
 import com.lightteam.language.language.Language
 import com.lightteam.language.parser.LanguageParser
-import com.lightteam.language.styler.LanguageStyler
+import com.lightteam.language.scheme.SyntaxScheme
+import com.lightteam.language.styler.Styleable
 import com.lightteam.language.suggestion.SuggestionProvider
 
 class JavaScriptLanguage : Language {
@@ -47,12 +48,13 @@ class JavaScriptLanguage : Language {
         return ModPESuggestions()
     }
 
-    override fun createStyler(): LanguageStyler {
-        return JavaScriptStyler()
-            .also { javaScriptStyler = it }
+    override fun runStyler(styleable: Styleable, sourceCode: String, syntaxScheme: SyntaxScheme) {
+        javaScriptStyler = JavaScriptStyler().also {
+            it.runTask(styleable, sourceCode, syntaxScheme)
+        }
     }
 
     override fun cancelStyler() {
-        javaScriptStyler?.cancelStyler()
+        javaScriptStyler?.cancelTask()
     }
 }

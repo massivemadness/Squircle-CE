@@ -7,12 +7,13 @@ object Migrations {
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("DROP TABLE ${Tables.DOCUMENTS}")
+            database.execSQL("DROP TABLE ${Tables.FILE_HISTORY}")
         }
     }
 
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE `${Tables.FILE_HISTORY}` RENAME TO `${Tables.DOCUMENTS}`")
             database.execSQL("""
                 CREATE TABLE IF NOT EXISTS `${Tables.FONTS}` (
                     `font_name` TEXT NOT NULL, 
