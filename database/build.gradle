@@ -17,6 +17,7 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     def buildConfig = rootProject.extensions.getByName("ext")
@@ -26,6 +27,16 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"
+                ]
+            }
+        }
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -39,19 +50,13 @@ dependencies {
     //Kotlin
     implementation library.kotlin
 
+    //AAC
+    implementation library.room
+    implementation library.rxroom
+    kapt library.room_compiler
+
     //Rx
     implementation library.rxjava2
-    implementation library.rxkotlin
-    implementation library.rxpreferences
-
-    //Modules
-    implementation project(':domain')
-    implementation project(':database')
-    implementation project(':filesystems:filesystem')
-    implementation project(':filesystems:localfilesystem')
-    implementation project(':languages:language')
-    implementation project(':languages:unknown')
-    implementation project(':languages:javascript')
 
     //Tests
     testImplementation testLibrary.junit

@@ -20,7 +20,7 @@ package com.lightteam.modpeide.data.repository
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.feature.language.LanguageProvider
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
-import com.lightteam.modpeide.data.storage.database.AppDatabase
+import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.domain.editor.DocumentContent

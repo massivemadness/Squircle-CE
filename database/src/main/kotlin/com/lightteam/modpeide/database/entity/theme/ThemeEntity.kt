@@ -1,9 +1,9 @@
-package com.lightteam.modpeide.data.model.entity
+package com.lightteam.modpeide.database.entity.theme
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.lightteam.modpeide.data.storage.database.Tables
+import com.lightteam.modpeide.database.utils.Tables
 
 @Entity(tableName = Tables.THEMES)
 data class ThemeEntity(

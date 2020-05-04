@@ -25,9 +25,9 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.repository.LocalFilesystem
 import com.lightteam.modpeide.BaseApplication
-import com.lightteam.modpeide.data.delegate.DataLayerDelegate
-import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.database.AppDatabase
+import com.lightteam.modpeide.database.delegate.DatabaseDelegate
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.internal.providers.rx.SchedulersProviderImpl
 import dagger.Module
@@ -71,7 +71,7 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
-        return DataLayerDelegate.provideAppDatabase(context)
+        return DatabaseDelegate.provideAppDatabase(context)
     }
 
     @Provides

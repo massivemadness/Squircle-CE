@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/ModPE-IDE.iml" filepath="$PROJECT_DIR$/ModPE-IDE.iml" group="ModPE-IDE" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="ModPE-IDE/app" />
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" group="ModPE-IDE/data" />
+      <module fileurl="file://$PROJECT_DIR$/database/database.iml" filepath="$PROJECT_DIR$/database/database.iml" group="ModPE-IDE/database" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" group="ModPE-IDE/domain" />
       <module fileurl="file://$PROJECT_DIR$/filesystems/filesystem/filesystem.iml" filepath="$PROJECT_DIR$/filesystems/filesystem/filesystem.iml" group="ModPE-IDE/filesystems/filesystem" />
       <module fileurl="file://$PROJECT_DIR$/filesystems/filesystems.iml" filepath="$PROJECT_DIR$/filesystems/filesystems.iml" group="ModPE-IDE/filesystems" />

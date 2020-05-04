@@ -15,15 +15,20 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.storage.database
+package com.lightteam.modpeide.database.delegate
 
-import com.lightteam.modpeide.data.storage.database.dao.document.DocumentDao
-import com.lightteam.modpeide.data.storage.database.dao.font.FontDao
-import com.lightteam.modpeide.data.storage.database.dao.theme.ThemeDao
+import android.content.Context
+import androidx.room.Room
+import com.lightteam.modpeide.database.AppDatabase
+import com.lightteam.modpeide.database.AppDatabaseImpl
+import com.lightteam.modpeide.database.utils.Migrations
 
-interface AppDatabase {
-    fun documentDao(): DocumentDao
-    fun fontDao(): FontDao
-    fun themeDao(): ThemeDao
-    fun shutDown()
+object DatabaseDelegate {
+
+    fun provideAppDatabase(context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
+            .createFromAsset("database/database.db")
+            .addMigrations(Migrations.MIGRATION_1_2, Migrations.MIGRATION_2_3)
+            .build()
+    }
 }

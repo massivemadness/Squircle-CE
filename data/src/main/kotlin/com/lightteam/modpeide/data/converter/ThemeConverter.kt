@@ -4,7 +4,7 @@ import android.graphics.Color
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.modpeide.data.feature.scheme.ColorScheme
 import com.lightteam.modpeide.data.feature.scheme.Theme
-import com.lightteam.modpeide.data.model.entity.ThemeEntity
+import com.lightteam.modpeide.database.entity.theme.ThemeEntity
 
 object ThemeConverter {
 

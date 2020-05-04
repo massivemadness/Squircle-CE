@@ -15,28 +15,21 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.model.entity
+package com.lightteam.modpeide.database.dao.base
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.lightteam.modpeide.data.storage.database.Tables
+import androidx.room.*
 
-@Entity(tableName = Tables.DOCUMENTS)
-data class DocumentEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "uuid")
-    val uuid: String,
-    @ColumnInfo(name = "name")
-    val name: String,
-    @ColumnInfo(name = "path")
-    val path: String,
-    @ColumnInfo(name = "scroll_x")
-    val scrollX: Int,
-    @ColumnInfo(name = "scroll_y")
-    val scrollY: Int,
-    @ColumnInfo(name = "selection_start")
-    val selectionStart: Int,
-    @ColumnInfo(name = "selection_end")
-    val selectionEnd: Int
-)
+interface BaseDao<in T> {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(obj: T): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vararg obj: T)
+
+    @Update
+    fun update(obj: T)
+
+    @Delete
+    fun delete(obj: T)
+}

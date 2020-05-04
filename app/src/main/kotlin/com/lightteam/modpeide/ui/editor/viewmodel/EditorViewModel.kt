@@ -27,7 +27,7 @@ import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.repository.CacheRepository
-import com.lightteam.modpeide.data.storage.database.AppDatabase
+import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.filesystem.exception.FileNotFoundException

@@ -1,4 +1,4 @@
-package com.lightteam.modpeide.data.storage.database
+package com.lightteam.modpeide.database.utils
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

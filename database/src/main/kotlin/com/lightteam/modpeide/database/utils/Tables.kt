@@ -15,21 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.storage.database.dao.base
+package com.lightteam.modpeide.database.utils
 
-import androidx.room.*
-
-interface BaseDao<in T> {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(obj: T): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg obj: T)
-
-    @Update
-    fun update(obj: T)
-
-    @Delete
-    fun delete(obj: T)
+object Tables {
+    const val DOCUMENTS = "tbl_file_history"
+    const val FONTS = "tbl_fonts"
+    const val THEMES = "tbl_themes"
 }

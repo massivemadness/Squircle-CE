@@ -24,9 +24,9 @@ import com.lightteam.modpeide.data.converter.FontConverter
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.feature.font.FontModel
 import com.lightteam.modpeide.data.feature.scheme.Theme
-import com.lightteam.modpeide.data.storage.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.settings.adapter.item.PreferenceItem

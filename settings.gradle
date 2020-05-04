@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data'
+include ':app', ':domain', ':data', ':database'
 include ':languages:language', ':languages:unknown', ':languages:javascript'
 include ':filesystems:filesystem', ':filesystems:localfilesystem'

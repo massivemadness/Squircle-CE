@@ -15,10 +15,28 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.storage.database
+package com.lightteam.modpeide.database.entity.document
 
-object Tables {
-    const val DOCUMENTS = "tbl_file_history"
-    const val FONTS = "tbl_fonts"
-    const val THEMES = "tbl_themes"
-}
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.lightteam.modpeide.database.utils.Tables
+
+@Entity(tableName = Tables.DOCUMENTS)
+data class DocumentEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "uuid")
+    val uuid: String,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "path")
+    val path: String,
+    @ColumnInfo(name = "scroll_x")
+    val scrollX: Int,
+    @ColumnInfo(name = "scroll_y")
+    val scrollY: Int,
+    @ColumnInfo(name = "selection_start")
+    val selectionStart: Int,
+    @ColumnInfo(name = "selection_end")
+    val selectionEnd: Int
+)
