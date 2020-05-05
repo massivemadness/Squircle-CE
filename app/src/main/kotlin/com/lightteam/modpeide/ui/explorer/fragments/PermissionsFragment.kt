@@ -58,21 +58,25 @@ class PermissionsFragment : BaseFragment() {
             requestPermissionsUsingDialog()
         }
 
-        checkIfPermissionsAlreadyGiven()
+        checkIfPermissionsAlreadyGiven(false)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_STORAGE_DIALOG -> {
-                viewModel.hasAccessEvent.value = grantResults[0] == PackageManager.PERMISSION_GRANTED
+                checkIfPermissionsAlreadyGiven(true)
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        checkIfPermissionsAlreadyGiven()
+        when (requestCode) {
+            REQUEST_STORAGE_ACTIVITY -> {
+                checkIfPermissionsAlreadyGiven(true)
+            }
+        }
     }
 
     private fun observeViewModel() {
@@ -92,12 +96,14 @@ class PermissionsFragment : BaseFragment() {
         })
     }
 
-    private fun checkIfPermissionsAlreadyGiven() {
+    private fun checkIfPermissionsAlreadyGiven(shouldUseActivity: Boolean) {
         if (ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED) {
             viewModel.hasAccessEvent.value = true
+        } else if (shouldUseActivity) {
+            viewModel.hasAccessEvent.value = false
         }
     }
 
