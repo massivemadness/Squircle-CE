@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/toolbar"
         android:background="?colorSurface"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         android:elevation="4dp"
         tools:title="Settings"/>
 

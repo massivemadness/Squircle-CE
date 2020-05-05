@@ -23,7 +23,7 @@ import com.lightteam.unknown.language.UnknownLanguage
 
 object LanguageProvider {
 
-    fun provide(fileName: String): Language {
+    fun provideLanguage(fileName: String): Language {
         return when {
             fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
             else -> UnknownLanguage()

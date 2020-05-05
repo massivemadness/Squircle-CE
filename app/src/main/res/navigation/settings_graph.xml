@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_headers">
         <action
             android:id="@+id/to_applicationFragment"
-            app:destination="@id/applicationFragment" />
+            app:destination="@id/applicationFragment"/>
         <action
             android:id="@+id/to_editorFragment"
             app:destination="@id/editorFragment"/>

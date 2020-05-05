@@ -23,6 +23,7 @@ import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.modpeide.domain.editor.DocumentContent
 import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.domain.editor.TextChange
@@ -41,14 +42,11 @@ class CacheRepository(
 ) : DocumentRepository {
 
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
-        val cacheModel = documentModel.copy(
-            name = "${documentModel.name}.cache",
-            path = "$cacheDirectory/${documentModel.name}"
-        )
-        val fileModel = DocumentConverter.toModel(cacheModel)
+        val file = cache("${documentModel.name}.cache")
+        val fileModel = FileConverter.toModel(file)
         return filesystem.loadFile(fileModel)
             .map { text ->
-                val language = LanguageProvider.provide(documentModel.name)
+                val language = LanguageProvider.provideLanguage(documentModel.name)
                 val undoStack = loadUndoStack(documentModel)
                 val redoStack = loadRedoStack(documentModel)
 
@@ -63,11 +61,8 @@ class CacheRepository(
     }
 
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
-        val cacheModel = documentModel.copy(
-            name = "${documentModel.uuid}.cache",
-            path = "$cacheDirectory/${documentModel.name}"
-        )
-        val fileModel = DocumentConverter.toModel(cacheModel)
+        val file = cache("${documentModel.name}.cache")
+        val fileModel = FileConverter.toModel(file)
         return filesystem.saveFile(fileModel, text)
             .doOnComplete {
                 appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
