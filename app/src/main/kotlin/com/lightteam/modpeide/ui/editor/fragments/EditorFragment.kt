@@ -64,13 +64,11 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     lateinit var sharedViewModel: MainViewModel
     @Inject
     lateinit var viewModel: EditorViewModel
-    @Inject
-    lateinit var toolbarManager: ToolbarManager
-    @Inject
-    lateinit var adapter: DocumentAdapter
 
     private lateinit var binding: FragmentEditorBinding
     private lateinit var drawerHandler: DrawerHandler
+    private lateinit var toolbarManager: ToolbarManager
+    private lateinit var adapter: DocumentAdapter
 
     override fun layoutId(): Int = R.layout.fragment_editor
 
@@ -95,10 +93,15 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         binding.viewModel = viewModel
         observeViewModel()
 
+        toolbarManager = ToolbarManager(this)
         toolbarManager.bind(binding)
-        adapter.onTabSelectedListener = this
-        binding.documentRecyclerView.adapter = adapter
+
         binding.documentRecyclerView.setHasFixedSize(true)
+        binding.documentRecyclerView.adapter = DocumentAdapter(this).also {
+            adapter = it
+            adapter.onTabSelectedListener = this
+        }
+
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)

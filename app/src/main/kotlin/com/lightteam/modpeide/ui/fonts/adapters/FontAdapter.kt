@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.adapter
+package com.lightteam.modpeide.ui.fonts.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

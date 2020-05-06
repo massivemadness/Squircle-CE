@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.fragments
+package com.lightteam.modpeide.ui.fonts.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -27,15 +27,15 @@ import com.lightteam.modpeide.databinding.FragmentFontsBinding
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
-import com.lightteam.modpeide.ui.settings.adapter.FontAdapter
-import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.ui.fonts.adapters.FontAdapter
+import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
 class FontsFragment : BaseFragment(), OnItemClickListener<FontModel> {
 
     @Inject
-    lateinit var viewModel: SettingsViewModel
+    lateinit var viewModel: FontsViewModel
 
     private lateinit var binding: FragmentFontsBinding
     private lateinit var adapter: FontAdapter
@@ -43,15 +43,16 @@ class FontsFragment : BaseFragment(), OnItemClickListener<FontModel> {
     override fun layoutId(): Int = R.layout.fragment_fonts
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentFontsBinding.bind(view)
         observeViewModel()
 
-        adapter = FontAdapter(this)
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.setHasFixedSize(true)
-
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(itemDecoration)
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.adapter = FontAdapter(this).also {
+            adapter = it
+        }
 
         viewModel.fetchFonts()
     }

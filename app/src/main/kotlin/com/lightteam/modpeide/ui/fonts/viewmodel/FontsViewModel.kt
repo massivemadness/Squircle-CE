@@ -15,77 +15,56 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.viewmodel
+package com.lightteam.modpeide.ui.fonts.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.FontConverter
+import com.lightteam.modpeide.data.feature.font.FontModel
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.ui.settings.adapters.item.PreferenceItem
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 
-class SettingsViewModel(
+class FontsViewModel(
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler
+    private val preferenceHandler: PreferenceHandler,
+    private val appDatabase: AppDatabase
 ) : BaseViewModel() {
 
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val headersEvent: SingleLiveEvent<List<PreferenceItem>> = SingleLiveEvent()
+    val fontsEvent: SingleLiveEvent<List<FontModel>> = SingleLiveEvent()
+    val selectionEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
-    fun fetchHeaders() {
-        headersEvent.value = listOf(
-            PreferenceItem(
-                R.string.pref_header_application_title,
-                R.string.pref_header_application_summary,
-                R.id.applicationFragment
-            ),
-            PreferenceItem(
-                R.string.pref_header_editor_title,
-                R.string.pref_header_editor_summary,
-                R.id.editorFragment
-            ),
-            PreferenceItem(
-                R.string.pref_header_codeStyle_title,
-                R.string.pref_header_codeStyle_summary,
-                R.id.codeStyleFragment
-            ),
-            PreferenceItem(
-                R.string.pref_header_files_title,
-                R.string.pref_header_files_summary,
-                R.id.filesFragment
-            ),
-            PreferenceItem(
-                R.string.pref_header_about_title,
-                R.string.pref_header_about_summary,
-                R.id.aboutFragment
-            )
-        )
+    fun fetchFonts() {
+        appDatabase.fontDao().loadAll()
+            .map { it.map(FontConverter::toModel) }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { fontsEvent.value = it }
+            .disposeOnViewModelDestroy()
     }
 
-    fun observePreferences() {
-        preferenceHandler.getFullscreenMode()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { fullscreenEvent.value = it }
-            .disposeOnViewModelDestroy()
+    fun selectFont(fontModel: FontModel) {
+        preferenceHandler.getFontType().set(fontModel.fontPath)
+        selectionEvent.value = fontModel.fontName
     }
 
     class Factory(
         private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler
+        private val preferenceHandler: PreferenceHandler,
+        private val appDatabase: AppDatabase
     ) : ViewModelProvider.NewInstanceFactory() {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return when {
-                modelClass === SettingsViewModel::class.java ->
-                    SettingsViewModel(
+                modelClass === FontsViewModel::class.java ->
+                    FontsViewModel(
                         schedulersProvider,
-                        preferenceHandler
+                        preferenceHandler,
+                        appDatabase
                     ) as T
                 else -> null as T
             }

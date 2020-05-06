@@ -68,9 +68,10 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         observeViewModel()
 
         navController = findNavController()
-        adapter = FileAdapter(this)
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = FileAdapter(this).also {
+            adapter = it
+        }
 
         loadDirectory()
     }

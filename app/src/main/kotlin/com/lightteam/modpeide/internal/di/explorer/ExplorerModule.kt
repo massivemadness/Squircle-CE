@@ -15,40 +15,42 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.settings
+package com.lightteam.modpeide.internal.di.explorer
 
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.database.AppDatabase
+import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
-import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
+import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
-class SettingsActivityModule {
+class ExplorerModule {
 
     @Provides
-    @SettingsScope
-    fun provideSettingsViewModelFactory(
+    @ExplorerScope
+    fun provideExplorerViewModelFactory(
         schedulersProvider: SchedulersProvider,
         preferenceHandler: PreferenceHandler,
-        appDatabase: AppDatabase
-    ): SettingsViewModel.Factory {
-        return SettingsViewModel.Factory(
+        @Named("Local")
+        filesystem: Filesystem
+    ): ExplorerViewModel.Factory {
+        return ExplorerViewModel.Factory(
             schedulersProvider,
             preferenceHandler,
-            appDatabase
+            filesystem
         )
     }
 
     @Provides
-    @SettingsScope
-    fun provideSettingsViewModel(
-        activity: SettingsActivity,
-        factory: SettingsViewModel.Factory
-    ): SettingsViewModel {
-        return ViewModelProvider(activity, factory).get(SettingsViewModel::class.java)
+    @ExplorerScope
+    fun provideExplorerViewModel(
+        fragment: ExplorerFragment,
+        factory: ExplorerViewModel.Factory
+    ): ExplorerViewModel {
+        return ViewModelProvider(fragment, factory).get(ExplorerViewModel::class.java)
     }
 }

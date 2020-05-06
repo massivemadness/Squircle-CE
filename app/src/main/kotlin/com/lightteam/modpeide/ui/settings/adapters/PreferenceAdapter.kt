@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.adapter
+package com.lightteam.modpeide.ui.settings.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.databinding.ItemPreferenceBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
-import com.lightteam.modpeide.ui.settings.adapter.item.PreferenceItem
+import com.lightteam.modpeide.ui.settings.adapters.item.PreferenceItem
 
 class PreferenceAdapter(
     private val onItemClickListener: OnItemClickListener<PreferenceItem>

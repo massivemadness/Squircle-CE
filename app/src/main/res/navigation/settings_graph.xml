@@ -79,13 +79,13 @@
 
     <fragment
         android:id="@+id/fontsFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.FontsFragment"
+        android:name="com.lightteam.modpeide.ui.fonts.fragments.FontsFragment"
         android:label="@string/label_fonts"
         tools:layout="@layout/fragment_fonts"/>
 
     <fragment
         android:id="@+id/themesFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.ThemesFragment"
+        android:name="com.lightteam.modpeide.ui.themes.fragments.ThemesFragment"
         android:label="@string/label_themes"
         tools:layout="@layout/fragment_themes"/>
 

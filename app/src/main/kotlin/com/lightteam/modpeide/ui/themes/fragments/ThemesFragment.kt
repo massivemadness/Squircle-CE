@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.fragments
+package com.lightteam.modpeide.ui.themes.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -25,15 +25,15 @@ import com.lightteam.modpeide.data.feature.scheme.Theme
 import com.lightteam.modpeide.databinding.FragmentThemesBinding
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
-import com.lightteam.modpeide.ui.settings.adapter.ThemeAdapter
-import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+import com.lightteam.modpeide.ui.themes.adapters.ThemeAdapter
+import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
 class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
 
     @Inject
-    lateinit var viewModel: SettingsViewModel
+    lateinit var viewModel: ThemesViewModel
 
     private lateinit var binding: FragmentThemesBinding
     private lateinit var adapter: ThemeAdapter
@@ -41,12 +41,14 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
     override fun layoutId(): Int = R.layout.fragment_themes
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentThemesBinding.bind(view)
         observeViewModel()
 
-        adapter = ThemeAdapter(this)
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = ThemeAdapter(this).also {
+            adapter = it
+        }
 
         viewModel.fetchThemes()
     }

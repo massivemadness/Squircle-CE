@@ -15,30 +15,15 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.settings
+package com.lightteam.modpeide.internal.di.fonts
 
-import com.lightteam.modpeide.ui.settings.fragments.*
+import com.lightteam.modpeide.ui.fonts.fragments.FontsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class SettingsFragmentsProvider {
+abstract class FontsFragmentsProvider {
 
     @ContributesAndroidInjector
-    abstract fun bindHeadersFragment(): HeadersFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindApplicationFragment(): ApplicationFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindEditorFragment(): EditorFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindCodeStyleFragment(): CodeStyleFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindFilesFragment(): FilesFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindAboutFragment(): AboutFragment
+    abstract fun bindFontsFragment(): FontsFragment
 }

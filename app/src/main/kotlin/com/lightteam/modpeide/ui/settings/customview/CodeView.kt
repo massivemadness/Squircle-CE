@@ -49,7 +49,7 @@ class CodeView @JvmOverloads constructor(
                     if (command[1] == "start") {
                         // TODO: Implement this method
                     }
-                    if (command[1] == "test") {
+                    if (command[1] == "tools") {
                         // TODO: Implement this method
                     }
                 }

@@ -25,16 +25,14 @@ import com.lightteam.modpeide.data.repository.FileRepository
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
-import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
 
 @Module
-class EditorFragmentModule {
+class EditorModule {
 
     @Provides
     @EditorScope
@@ -82,17 +80,5 @@ class EditorFragmentModule {
         filesystem: Filesystem
     ): FileRepository {
         return FileRepository(appDatabase, filesystem)
-    }
-
-    @Provides
-    @EditorScope
-    fun provideToolbarManager(fragment: EditorFragment): ToolbarManager {
-        return ToolbarManager(fragment)
-    }
-
-    @Provides
-    @EditorScope
-    fun provideDocumentAdapter(fragment: EditorFragment): DocumentAdapter {
-        return DocumentAdapter(fragment)
     }
 }

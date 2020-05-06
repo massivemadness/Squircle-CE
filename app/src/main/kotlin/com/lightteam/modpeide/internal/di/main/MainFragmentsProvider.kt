@@ -17,9 +17,9 @@
 
 package com.lightteam.modpeide.internal.di.main
 
-import com.lightteam.modpeide.internal.di.editor.EditorFragmentModule
+import com.lightteam.modpeide.internal.di.editor.EditorModule
 import com.lightteam.modpeide.internal.di.editor.EditorScope
-import com.lightteam.modpeide.internal.di.explorer.ExplorerFragmentModule
+import com.lightteam.modpeide.internal.di.explorer.ExplorerModule
 import com.lightteam.modpeide.internal.di.explorer.ExplorerFragmentsProvider
 import com.lightteam.modpeide.internal.di.explorer.ExplorerScope
 import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
@@ -32,13 +32,13 @@ abstract class MainFragmentsProvider {
 
     @EditorScope
     @ContributesAndroidInjector(modules = [
-        EditorFragmentModule::class
+        EditorModule::class
     ])
     abstract fun bindEditorFragment(): EditorFragment
 
     @ExplorerScope
     @ContributesAndroidInjector(modules = [
-        ExplorerFragmentModule::class,
+        ExplorerModule::class,
         ExplorerFragmentsProvider::class
     ])
     abstract fun bindExplorerFragment(): ExplorerFragment

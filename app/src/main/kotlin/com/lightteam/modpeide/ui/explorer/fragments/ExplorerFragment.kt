@@ -46,11 +46,10 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
 
     @Inject
     lateinit var viewModel: ExplorerViewModel
-    @Inject
-    lateinit var adapter: DirectoryAdapter
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentExplorerBinding
+    private lateinit var adapter: DirectoryAdapter
 
     override fun layoutId(): Int = R.layout.fragment_explorer
 
@@ -74,9 +73,13 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             viewModel.filesUpdateEvent.call()
             binding.swipeRefresh.isRefreshing = false
         }
+
         binding.directoryRecyclerView.setHasFixedSize(true)
         binding.directoryRecyclerView.itemAnimator = null
-        binding.directoryRecyclerView.adapter = adapter
+        binding.directoryRecyclerView.adapter = DirectoryAdapter(this).also {
+            adapter = it
+        }
+
         binding.actionHome.setOnClickListener {
             val backStackCount = childFragmentManager
                 .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount

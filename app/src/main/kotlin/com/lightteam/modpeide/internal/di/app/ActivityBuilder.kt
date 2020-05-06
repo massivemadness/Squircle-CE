@@ -17,12 +17,16 @@
 
 package com.lightteam.modpeide.internal.di.app
 
-import com.lightteam.modpeide.internal.di.main.MainActivityModule
+import com.lightteam.modpeide.internal.di.fonts.FontsFragmentsProvider
+import com.lightteam.modpeide.internal.di.fonts.FontsModule
+import com.lightteam.modpeide.internal.di.main.MainModule
 import com.lightteam.modpeide.internal.di.main.MainFragmentsProvider
 import com.lightteam.modpeide.internal.di.main.MainScope
-import com.lightteam.modpeide.internal.di.settings.SettingsActivityModule
+import com.lightteam.modpeide.internal.di.settings.SettingsModule
 import com.lightteam.modpeide.internal.di.settings.SettingsFragmentsProvider
 import com.lightteam.modpeide.internal.di.settings.SettingsScope
+import com.lightteam.modpeide.internal.di.themes.ThemesFragmentsProvider
+import com.lightteam.modpeide.internal.di.themes.ThemesModule
 import com.lightteam.modpeide.ui.main.activities.MainActivity
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import dagger.Module
@@ -33,15 +37,19 @@ abstract class ActivityBuilder {
 
     @MainScope
     @ContributesAndroidInjector(modules = [
-        MainActivityModule::class,
+        MainModule::class,
         MainFragmentsProvider::class
     ])
     abstract fun buildMainActivity(): MainActivity
 
     @SettingsScope
     @ContributesAndroidInjector(modules = [
-        SettingsActivityModule::class,
-        SettingsFragmentsProvider::class
+        SettingsModule::class,
+        SettingsFragmentsProvider::class,
+        ThemesModule::class,
+        ThemesFragmentsProvider::class,
+        FontsModule::class,
+        FontsFragmentsProvider::class
     ])
     abstract fun buildSettingsActivity(): SettingsActivity
 }

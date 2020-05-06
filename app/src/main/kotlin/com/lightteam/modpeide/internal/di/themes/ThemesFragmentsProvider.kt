@@ -15,16 +15,15 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.adapter.item
+package com.lightteam.modpeide.internal.di.themes
 
-import androidx.annotation.IdRes
-import androidx.annotation.StringRes
+import com.lightteam.modpeide.ui.themes.fragments.ThemesFragment
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
-data class PreferenceItem(
-    @StringRes
-    val title: Int,
-    @StringRes
-    val subtitle: Int,
-    @IdRes
-    val navigationId: Int
-)
+@Module
+abstract class ThemesFragmentsProvider {
+
+    @ContributesAndroidInjector
+    abstract fun bindThemesFragment(): ThemesFragment
+}

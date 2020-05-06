@@ -15,49 +15,41 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.explorer
+package com.lightteam.modpeide.internal.di.themes
 
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
-import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
-import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
+import com.lightteam.modpeide.internal.di.settings.SettingsScope
+import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
+import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 
 @Module
-class ExplorerFragmentModule {
+class ThemesModule {
 
     @Provides
-    @ExplorerScope
-    fun provideExplorerViewModelFactory(
+    @SettingsScope // @ThemesScope
+    fun provideThemesViewModelFactory(
         schedulersProvider: SchedulersProvider,
         preferenceHandler: PreferenceHandler,
-        @Named("Local")
-        filesystem: Filesystem
-    ): ExplorerViewModel.Factory {
-        return ExplorerViewModel.Factory(
+        appDatabase: AppDatabase
+    ): ThemesViewModel.Factory {
+        return ThemesViewModel.Factory(
             schedulersProvider,
             preferenceHandler,
-            filesystem
+            appDatabase
         )
     }
 
     @Provides
-    @ExplorerScope
-    fun provideExplorerViewModel(
-        fragment: ExplorerFragment,
-        factory: ExplorerViewModel.Factory
-    ): ExplorerViewModel {
-        return ViewModelProvider(fragment, factory).get(ExplorerViewModel::class.java)
-    }
-
-    @Provides
-    @ExplorerScope
-    fun provideDirectoryAdapter(explorerFragment: ExplorerFragment): DirectoryAdapter {
-        return DirectoryAdapter(explorerFragment)
+    @SettingsScope // @ThemesScope
+    fun provideThemesViewModel(
+        activity: SettingsActivity,
+        factory: ThemesViewModel.Factory
+    ): ThemesViewModel {
+        return ViewModelProvider(activity, factory).get(ThemesViewModel::class.java)
     }
 }
