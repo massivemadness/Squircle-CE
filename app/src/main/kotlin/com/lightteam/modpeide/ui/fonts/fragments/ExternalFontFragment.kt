@@ -60,14 +60,17 @@ class ExternalFontFragment : BaseFragment() {
                 isExternal = true,
                 isPaid = true
             )
-            viewModel.addFont(fontModel)
-            navController.navigateUp()
+            viewModel.insertFont(fontModel)
         }
     }
 
     private fun observeViewModel() {
         viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
             binding.actionAdd.isEnabled = it
+        })
+        viewModel.insertEvent.observe(viewLifecycleOwner, Observer {
+            showToast(text = String.format(getString(R.string.message_new_font_available), it))
+            navController.navigateUp()
         })
     }
 }

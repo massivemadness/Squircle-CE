@@ -38,8 +38,11 @@ class FontsViewModel(
 ) : BaseViewModel() {
 
     val fontsEvent: SingleLiveEvent<List<FontModel>> = SingleLiveEvent()
-    val selectionEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+
+    val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     private var fontName: String = ""
     private var fontPath: String = ""
@@ -54,16 +57,29 @@ class FontsViewModel(
 
     fun selectFont(fontModel: FontModel) {
         preferenceHandler.getFontType().set(fontModel.fontPath)
-        selectionEvent.value = fontModel.fontName
+        selectEvent.value = fontModel.fontName
     }
 
-    fun addFont(fontModel: FontModel) {
+    fun removeFont(fontModel: FontModel) {
+        Completable
+            .fromAction {
+                appDatabase.fontDao().delete(FontConverter.toEntity(fontModel))
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy {
+                removeEvent.value = fontModel.fontName
+                fetchFonts() // Update list
+            }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun insertFont(fontModel: FontModel) {
         Completable
             .fromAction {
                 appDatabase.fontDao().insert(FontConverter.toEntity(fontModel))
             }
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy {  }
+            .subscribeBy { insertEvent.value = fontModel.fontName }
             .disposeOnViewModelDestroy()
     }
 

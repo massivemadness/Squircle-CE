@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.font.FontModel
 import com.lightteam.modpeide.databinding.FragmentFontsBinding
-import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.fonts.adapters.FontAdapter
@@ -34,7 +33,7 @@ import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
-class FontsFragment : BaseFragment(), OnItemClickListener<FontModel> {
+class FontsFragment : BaseFragment(), FontAdapter.FontInteractor {
 
     @Inject
     lateinit var viewModel: FontsViewModel
@@ -70,11 +69,17 @@ class FontsFragment : BaseFragment(), OnItemClickListener<FontModel> {
         viewModel.fetchFonts()
     }
 
-    override fun onClick(item: FontModel) {
-        if (item.isPaid && !requireContext().isUltimate()) {
+    override fun selectFont(fontModel: FontModel) {
+        if (fontModel.isPaid && !requireContext().isUltimate()) {
             DialogStore.Builder(requireContext()).show()
         } else {
-            viewModel.selectFont(item)
+            viewModel.selectFont(fontModel)
+        }
+    }
+
+    override fun removeFont(fontModel: FontModel) {
+        if (fontModel.isExternal) {
+            viewModel.removeFont(fontModel)
         }
     }
 
@@ -82,8 +87,11 @@ class FontsFragment : BaseFragment(), OnItemClickListener<FontModel> {
         viewModel.fontsEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
-        viewModel.selectionEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = String.format(getString(R.string.message_selected), it))
+        })
+        viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
+            showToast(text = String.format(getString(R.string.message_font_removed), it))
         })
     }
 }

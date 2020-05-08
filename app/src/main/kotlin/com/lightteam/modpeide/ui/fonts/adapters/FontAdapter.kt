@@ -25,11 +25,10 @@ import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.data.feature.font.FontModel
 import com.lightteam.modpeide.databinding.ItemFontBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
-import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.utils.extensions.*
 
 class FontAdapter(
-    private val onItemClickListener: OnItemClickListener<FontModel>
+    private val fontInteractor: FontInteractor
 ) : ListAdapter<FontModel, FontAdapter.FontViewHolder>(diffCallback) {
 
     companion object {
@@ -44,7 +43,7 @@ class FontAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontViewHolder {
-        return FontViewHolder.create(parent, onItemClickListener)
+        return FontViewHolder.create(parent, fontInteractor)
     }
 
     override fun onBindViewHolder(holder: FontViewHolder, position: Int) {
@@ -53,14 +52,14 @@ class FontAdapter(
 
     class FontViewHolder(
         private val binding: ItemFontBinding,
-        private val onItemClickListener: OnItemClickListener<FontModel>
+        private val fontInteractor: FontInteractor
     ) : BaseViewHolder<FontModel>(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FontModel>): FontViewHolder {
+            fun create(parent: ViewGroup, fontInteractor: FontInteractor): FontViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemFontBinding.inflate(inflater, parent, false)
-                return FontViewHolder(binding, onItemClickListener)
+                return FontViewHolder(binding, fontInteractor)
             }
         }
 
@@ -68,11 +67,14 @@ class FontAdapter(
 
         init {
             binding.actionSelect.setOnClickListener {
-                onItemClickListener.onClick(fontModel)
+                fontInteractor.selectFont(fontModel)
+            }
+            binding.actionRemove.setOnClickListener {
+                fontInteractor.removeFont(fontModel)
             }
             itemView.setOnClickListener {
                 if (!binding.actionSelect.isEnabled) {
-                    onItemClickListener.onClick(fontModel)
+                    fontInteractor.selectFont(fontModel)
                 }
             }
         }
@@ -82,7 +84,13 @@ class FontAdapter(
             binding.itemTitle.text = item.fontName
             binding.itemContent.typeface = itemView.context.createTypefaceFromPath(item.fontPath)
             binding.itemSubtitle.isVisible = item.supportLigatures
+            binding.actionRemove.isVisible = item.isExternal
             binding.actionSelect.isEnabled = !item.isPaid || itemView.context.isUltimate()
         }
+    }
+
+    interface FontInteractor {
+        fun selectFont(fontModel: FontModel)
+        fun removeFont(fontModel: FontModel)
     }
 }
