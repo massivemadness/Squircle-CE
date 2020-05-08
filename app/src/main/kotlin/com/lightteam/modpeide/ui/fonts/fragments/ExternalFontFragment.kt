@@ -1,0 +1,73 @@
+/*
+ * Licensed to the Light Team Software (Light Team) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The Light Team licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.lightteam.modpeide.ui.fonts.fragments
+
+import android.os.Bundle
+import android.view.View
+import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.feature.font.FontModel
+import com.lightteam.modpeide.databinding.FragmentExternalFontBinding
+import com.lightteam.modpeide.ui.base.fragments.BaseFragment
+import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
+import javax.inject.Inject
+
+class ExternalFontFragment : BaseFragment() {
+
+    @Inject
+    lateinit var viewModel: FontsViewModel
+
+    private lateinit var navController: NavController
+    private lateinit var binding: FragmentExternalFontBinding
+
+    override fun layoutId(): Int = R.layout.fragment_external_font
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentExternalFontBinding.bind(view)
+        observeViewModel()
+
+        navController = findNavController()
+        binding.textInputFontName.doAfterTextChanged {
+            viewModel.onFontNameChanged(it.toString())
+        }
+        binding.textInputFontPath.doAfterTextChanged {
+            viewModel.onFontPathChanged(it.toString())
+        }
+        binding.actionAdd.setOnClickListener {
+            val fontModel = FontModel(
+                fontName = binding.textInputFontName.text.toString().trim(),
+                fontPath = binding.textInputFontPath.text.toString().trim(),
+                supportLigatures = binding.supportLigatures.isChecked,
+                isExternal = true,
+                isPaid = true
+            )
+            viewModel.addFont(fontModel)
+            navController.navigateUp()
+        }
+    }
+
+    private fun observeViewModel() {
+        viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
+            binding.actionAdd.isEnabled = it
+        })
+    }
+}

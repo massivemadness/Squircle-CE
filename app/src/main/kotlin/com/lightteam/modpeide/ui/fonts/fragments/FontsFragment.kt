@@ -20,6 +20,8 @@ package com.lightteam.modpeide.ui.fonts.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.font.FontModel
@@ -37,6 +39,7 @@ class FontsFragment : BaseFragment(), OnItemClickListener<FontModel> {
     @Inject
     lateinit var viewModel: FontsViewModel
 
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentFontsBinding
     private lateinit var adapter: FontAdapter
 
@@ -47,11 +50,21 @@ class FontsFragment : BaseFragment(), OnItemClickListener<FontModel> {
         binding = FragmentFontsBinding.bind(view)
         observeViewModel()
 
+        navController = findNavController()
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(itemDecoration)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = FontAdapter(this).also {
             adapter = it
+        }
+
+        binding.actionAdd.setOnClickListener {
+            if (requireContext().isUltimate()) {
+                val destination = FontsFragmentDirections.toExternalFontFragment()
+                navController.navigate(destination)
+            } else {
+                DialogStore.Builder(requireContext()).show()
+            }
         }
 
         viewModel.fetchFonts()

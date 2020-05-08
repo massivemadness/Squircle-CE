@@ -31,4 +31,14 @@ object FontConverter {
             isPaid = entity.isPaid
         )
     }
+
+    fun toEntity(fontModel: FontModel): FontEntity {
+        return FontEntity(
+            fontName = fontModel.fontName,
+            fontPath = fontModel.fontPath,
+            supportLigatures = fontModel.supportLigatures,
+            isExternal = fontModel.isExternal,
+            isPaid = fontModel.isPaid
+        )
+    }
 }

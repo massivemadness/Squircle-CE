@@ -33,9 +33,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/input"
             android:hint="@string/hint_replace_what"
-            android:inputType="text"
-            android:maxLength="50"
-            android:maxLines="1"/>
+            android:singleLine="true"
+            android:maxLength="50"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,9 +48,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/input2"
             android:hint="@string/hint_replace_with"
-            android:inputType="text"
-            android:maxLength="50"
-            android:maxLines="1"/>
+            android:singleLine="true"
+            android:maxLength="50"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

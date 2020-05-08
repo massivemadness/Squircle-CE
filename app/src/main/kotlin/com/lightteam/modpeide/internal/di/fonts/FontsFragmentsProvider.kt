@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.internal.di.fonts
 
+import com.lightteam.modpeide.ui.fonts.fragments.ExternalFontFragment
 import com.lightteam.modpeide.ui.fonts.fragments.FontsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -26,4 +27,7 @@ abstract class FontsFragmentsProvider {
 
     @ContributesAndroidInjector
     abstract fun bindFontsFragment(): FontsFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindExternalFontFragment(): ExternalFontFragment
 }

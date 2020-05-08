@@ -29,7 +29,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import com.lightteam.modpeide.BaseApplication
 import java.io.BufferedReader
-import java.lang.IllegalArgumentException
 
 fun Context.isUltimate(): Boolean {
     return when (packageName) {
@@ -63,7 +62,11 @@ fun Context.createTypefaceFromPath(path: String): Typeface {
         val newPath = path.substring(22)
         Typeface.createFromAsset(assets, newPath)
     } else {
-        throw IllegalArgumentException("No external font support") // Typeface.createFromFile(path)
+        try {
+            Typeface.createFromFile(path)
+        } catch (e: Exception) {
+            Typeface.MONOSPACE
+        }
     }
 }
 

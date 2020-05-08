@@ -81,7 +81,17 @@
         android:id="@+id/fontsFragment"
         android:name="com.lightteam.modpeide.ui.fonts.fragments.FontsFragment"
         android:label="@string/label_fonts"
-        tools:layout="@layout/fragment_fonts"/>
+        tools:layout="@layout/fragment_fonts">
+        <action
+            android:id="@+id/to_externalFontFragment"
+            app:destination="@id/externalFontFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/externalFontFragment"
+        android:name="com.lightteam.modpeide.ui.fonts.fragments.ExternalFontFragment"
+        android:label="@string/label_external_font"
+        tools:layout="@layout/fragment_external_font"/>
 
     <fragment
         android:id="@+id/themesFragment"

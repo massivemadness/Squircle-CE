@@ -27,6 +27,7 @@
     <string name="label_files">Файлы</string>
     <string name="label_about">О программе</string>
     <string name="label_fonts">Шрифты</string>
+    <string name="label_external_font">Внешний шрифт</string>
     <string name="label_themes">Темы</string>
 
     <string name="hint_search">Поиск…</string>
@@ -35,6 +36,8 @@
     <string name="hint_replace_what">Заменить что?</string>
     <string name="hint_replace_with">Заменить на:</string>
     <string name="hint_line_number">Номер строки</string>
+    <string name="hint_enter_font_name">Название шрифта</string>
+    <string name="hint_enter_font_path">Путь к шрифту</string>
 
     <string name="action_restart">Обновить</string>
     <string name="action_grant_access">Предоставить</string>
@@ -63,6 +66,7 @@
     <string name="action_maybe_later">Может позже</string>
     <string name="action_unlock_all_features">Получить все возможности</string>
     <string name="action_select">Выбрать</string>
+    <string name="action_add_font">Добавить шрифт</string>
 
     <string name="dialog_title_choose_action">Выберите действие</string>
     <string name="dialog_title_create">Создать…</string>
@@ -153,6 +157,7 @@
     <string name="store_feature_7">Вставка цвета</string>
 
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
+    <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
 
     <string name="pref_header_application_title">Приложение</string>
     <string name="pref_header_application_summary">Настройте основной функционал.</string>

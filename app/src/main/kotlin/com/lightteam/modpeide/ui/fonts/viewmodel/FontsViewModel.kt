@@ -27,7 +27,9 @@ import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
+import java.io.File
 
 class FontsViewModel(
     private val schedulersProvider: SchedulersProvider,
@@ -37,6 +39,10 @@ class FontsViewModel(
 
     val fontsEvent: SingleLiveEvent<List<FontModel>> = SingleLiveEvent()
     val selectionEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+
+    private var fontName: String = ""
+    private var fontPath: String = ""
 
     fun fetchFonts() {
         appDatabase.fontDao().loadAll()
@@ -49,6 +55,32 @@ class FontsViewModel(
     fun selectFont(fontModel: FontModel) {
         preferenceHandler.getFontType().set(fontModel.fontPath)
         selectionEvent.value = fontModel.fontName
+    }
+
+    fun addFont(fontModel: FontModel) {
+        Completable
+            .fromAction {
+                appDatabase.fontDao().insert(FontConverter.toEntity(fontModel))
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy {  }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun onFontNameChanged(fontName: String) {
+        this.fontName = fontName.trim()
+        validateInput()
+    }
+
+    fun onFontPathChanged(fontPath: String) {
+        this.fontPath = fontPath.trim()
+        validateInput()
+    }
+
+    private fun validateInput() {
+        val isFontNameValid = fontName.isNotBlank()
+        val isFontPathValid = fontPath.isNotBlank() && File(fontPath).run { exists() && name.endsWith(".ttf") }
+        validationEvent.value = isFontNameValid && isFontPathValid
     }
 
     class Factory(

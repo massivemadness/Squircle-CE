@@ -13,6 +13,8 @@
 
 ----------
 
+ModPE Script is a script language based on JavaScript and used to create mods for Minecraft PE. This app has nothing common with popular JavaScript editors and <b>you shouldn't use it for web programming</b>.
+
 ### STANDARD EDITION FEATURES
 <b>•</b> Syntax Highlighting  
 <b>•</b> Code Completion (Beta)  
