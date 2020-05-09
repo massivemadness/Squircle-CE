@@ -156,7 +156,7 @@
     <string name="store_feature_1">Basic functionality</string>
     <!--<string name="store_feature_2">No advertisements</string>-->
     <string name="store_feature_2">Color schemes</string>
-    <string name="store_feature_3">New font types</string>
+    <string name="store_feature_3">External fonts</string>
     <string name="store_feature_4">Increased tab limit</string>
     <string name="store_feature_5">Auto-close quotes</string>
     <string name="store_feature_6">Error checking</string>

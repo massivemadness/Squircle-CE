@@ -31,21 +31,21 @@ class DocumentConverterTest {
     @Test
     fun `convert FileModel to DocumentModel`() {
         val fileModel = FileModel(
-            "Test",
-            "/mnt/test",
-            0L,
-            1L,
+            name = "Test",
+            path = "/mnt/test",
+            size = 0L,
+            lastModified = 1L,
             isFolder = false,
             isHidden = false
         )
         val documentModel = DocumentModel(
-            "0",
-            "Test",
-            "/mnt/test",
-            0,
-            0,
-            0,
-            0
+            uuid = "0",
+            name = "Test",
+            path = "/mnt/test",
+            scrollX = 0,
+            scrollY = 0,
+            selectionStart = 0,
+            selectionEnd = 0
         )
         val convert = DocumentConverter.toModel(fileModel)
 
@@ -60,22 +60,22 @@ class DocumentConverterTest {
     @Test
     fun `convert DocumentEntity to DocumentModel`() {
         val documentEntity = DocumentEntity(
-            "0",
-            "Test",
-            "/mnt/test",
-            0,
-            50,
-            8,
-            10
+            uuid = "0",
+            name = "Test",
+            path = "/mnt/test",
+            scrollX = 0,
+            scrollY = 50,
+            selectionStart = 8,
+            selectionEnd = 10
         )
         val documentModel = DocumentModel(
-            "0",
-            "Test",
-            "/mnt/test",
-            0,
-            50,
-            8,
-            10
+            uuid = "0",
+            name = "Test",
+            path = "/mnt/test",
+            scrollX = 0,
+            scrollY = 50,
+            selectionStart = 8,
+            selectionEnd = 10
         )
         val convert = DocumentConverter.toModel(documentEntity)
 
@@ -90,22 +90,22 @@ class DocumentConverterTest {
     @Test
     fun `convert DocumentModel to DocumentEntity`() {
         val documentModel = DocumentModel(
-            "0",
-            "Test",
-            "/mnt/test",
-            0,
-            50,
-            8,
-            10
+            uuid = "0",
+            name = "Test",
+            path = "/mnt/test",
+            scrollX = 0,
+            scrollY = 50,
+            selectionStart = 8,
+            selectionEnd = 10
         )
         val documentEntity = DocumentEntity(
-            "0",
-            "Test",
-            "/mnt/test",
-            0,
-            50,
-            8,
-            10
+            uuid = "0",
+            name = "Test",
+            path = "/mnt/test",
+            scrollX = 0,
+            scrollY = 50,
+            selectionStart = 8,
+            selectionEnd = 10
         )
         val convert = DocumentConverter.toEntity(documentModel)
 

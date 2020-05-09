@@ -44,9 +44,6 @@ class FontsViewModel(
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
-    private var fontName: String = ""
-    private var fontPath: String = ""
-
     fun fetchFonts() {
         appDatabase.fontDao().loadAll()
             .map { it.map(FontConverter::toModel) }
@@ -83,19 +80,9 @@ class FontsViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun onFontNameChanged(fontName: String) {
-        this.fontName = fontName.trim()
-        validateInput()
-    }
-
-    fun onFontPathChanged(fontPath: String) {
-        this.fontPath = fontPath.trim()
-        validateInput()
-    }
-
-    private fun validateInput() {
-        val isFontNameValid = fontName.isNotBlank()
-        val isFontPathValid = fontPath.isNotBlank() && File(fontPath).run { exists() && name.endsWith(".ttf") }
+    fun validateInput(fontName: String, fontPath: String) {
+        val isFontNameValid = fontName.trim().isNotBlank()
+        val isFontPathValid = fontPath.trim().isNotBlank() && File(fontPath).run { exists() && name.endsWith(".ttf") }
         validationEvent.value = isFontNameValid && isFontPathValid
     }
 

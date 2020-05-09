@@ -47,10 +47,16 @@ class ExternalFontFragment : BaseFragment() {
 
         navController = findNavController()
         binding.textInputFontName.doAfterTextChanged {
-            viewModel.onFontNameChanged(it.toString())
+            viewModel.validateInput(
+                it.toString(),
+                binding.textInputFontPath.text.toString()
+            )
         }
         binding.textInputFontPath.doAfterTextChanged {
-            viewModel.onFontPathChanged(it.toString())
+            viewModel.validateInput(
+                binding.textInputFontName.text.toString(),
+                it.toString()
+            )
         }
         binding.actionAdd.setOnClickListener {
             val fontModel = FontModel(
