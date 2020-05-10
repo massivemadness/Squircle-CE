@@ -30,6 +30,7 @@
     <string name="label_fonts">Fonts</string>
     <string name="label_external_font">External Font</string>
     <string name="label_themes">Themes</string>
+    <string name="label_new_theme">New Theme</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_enter_file_name">Enter file name</string>
@@ -39,6 +40,9 @@
     <string name="hint_line_number">Line number</string>
     <string name="hint_enter_font_name">Enter font name</string>
     <string name="hint_enter_font_path">Enter font path</string>
+    <string name="hint_enter_theme_name">Enter theme name</string>
+    <string name="hint_enter_theme_author">Enter theme author</string>
+    <string name="hint_short_description">Short description</string>
 
     <string name="action_restart">Restart</string>
     <string name="action_grant_access">Grant Access</string>
@@ -68,6 +72,7 @@
     <string name="action_unlock_all_features">Unlock all features</string>
     <string name="action_select">Select</string>
     <string name="action_add_font">Add font</string>
+    <string name="action_save_theme">Save theme</string>
 
     <string name="dialog_title_choose_action">Choose action</string>
     <string name="dialog_title_create">Create…</string>
@@ -146,7 +151,6 @@
     <string name="menu_search_gotoLine">Go to Line</string>
     <string name="menu_tools_errorChecking">Error Checking</string>
     <string name="menu_tools_insertColor">Insert Color</string>
-    <!--<string name="menu_tools_downloadSource">Download Source</string>-->
     <string name="menu_overflow_settings">Settings</string>
     <string name="menu_overflow_search">Search</string>
     <string name="menu_overflow_tools">Tools</string>
@@ -165,6 +169,26 @@
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>
     <string name="font_disclaimer">If you want to use this font, do not delete .ttf file at the specified path</string>
+    <string name="theme_property_text_color">Defines the text color of the editor</string>
+    <string name="theme_property_background_color">Defines the background color of the editor</string>
+    <string name="theme_property_gutter_color">Defines the background color of gutter</string>
+    <string name="theme_property_gutter_divider_color">Defines the divider color of gutter</string>
+    <string name="theme_property_gutter_divider_current_line_number_color">Defines the line number color of selected line in gutter</string>
+    <string name="theme_property_gutter_text_color">Defines the line numbers color in gutter</string>
+    <string name="theme_property_selected_line_color">Defines color of selected line in the editor</string>
+    <string name="theme_property_selection_color">Defines the selection color in the editor</string>
+    <string name="theme_property_suggestion_match_color">Defines the suggestion text color in dropdown menu</string>
+    <string name="theme_property_search_background_color">Defines the background color of found results</string>
+    <string name="theme_property_delimiters_background_color">Defines the background color of matching delimiters</string>
+    <string name="theme_property_numbers_color">Defines the numbers color of syntax highlighting: 123, 0.5, 0xFF, etc.</string>
+    <string name="theme_property_operators_color">Defines the operators color of syntax highlighting: +-*/=</string>
+    <string name="theme_property_brackets_color">Defines the brackets/braces/parentheses color of syntax highlighting: [, ], {, }, (, )</string>
+    <string name="theme_property_keywords_color">Defines the keywords color of syntax highlighting: function, if, else, etc.</string>
+    <string name="theme_property_types_color">Defines the types color of syntax highlighting: const, var, let, etc.</string>
+    <string name="theme_property_lang_const_color">Defines the language constants color of syntax highlighting: true, false, null, etc.</string>
+    <string name="theme_property_methods_color">Defines the methods color of syntax highlighting</string>
+    <string name="theme_property_strings_color">Defines the string literals color of syntax highlighting</string>
+    <string name="theme_property_comments_color">Defines the comments color of syntax highlighting: //, /**/</string>
 
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>

@@ -44,7 +44,7 @@ object ThemeConverter {
                 selectionColor = Color.parseColor(entity.selectionColor),
                 suggestionMatchColor = Color.parseColor(entity.suggestionMatchColor),
                 searchBackgroundColor = Color.parseColor(entity.searchBackgroundColor),
-                bracketBackgroundColor = Color.parseColor(entity.bracketBackgroundColor),
+                delimitersBackgroundColor = Color.parseColor(entity.delimitersBackgroundColor),
                 numberColor = Color.parseColor(entity.numberColor),
                 operatorColor = Color.parseColor(entity.operatorColor),
                 bracketColor = Color.parseColor(entity.bracketColor),

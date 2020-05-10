@@ -282,8 +282,8 @@ class TextProcessor @JvmOverloads constructor(
 
                 suggestionAdapter.setColorScheme(it.colorScheme)
 
-                openBracketSpan = BackgroundColorSpan(it.colorScheme.bracketBackgroundColor)
-                closedBracketSpan = BackgroundColorSpan(it.colorScheme.bracketBackgroundColor)
+                openBracketSpan = BackgroundColorSpan(it.colorScheme.delimitersBackgroundColor)
+                closedBracketSpan = BackgroundColorSpan(it.colorScheme.delimitersBackgroundColor)
             }
         }
     }

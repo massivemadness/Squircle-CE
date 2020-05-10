@@ -15,19 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.themes
+package com.lightteam.modpeide.domain.feature.theme
 
-import com.lightteam.modpeide.ui.themes.fragments.NewThemeFragment
-import com.lightteam.modpeide.ui.themes.fragments.ThemesFragment
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
-
-@Module
-abstract class ThemesFragmentsProvider {
-
-    @ContributesAndroidInjector
-    abstract fun bindThemesFragment(): ThemesFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindNewThemeFragment(): NewThemeFragment
-}
+data class Meta(
+    val uuid: String,
+    val name: String,
+    val author: String,
+    val description: String,
+    val isExternal: Boolean,
+    val isPaid: Boolean
+)

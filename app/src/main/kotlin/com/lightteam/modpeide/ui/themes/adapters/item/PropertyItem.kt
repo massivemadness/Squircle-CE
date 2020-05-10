@@ -15,19 +15,14 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.themes
+package com.lightteam.modpeide.ui.themes.adapters.item
 
-import com.lightteam.modpeide.ui.themes.fragments.NewThemeFragment
-import com.lightteam.modpeide.ui.themes.fragments.ThemesFragment
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import androidx.annotation.StringRes
+import com.lightteam.modpeide.domain.feature.theme.Property
 
-@Module
-abstract class ThemesFragmentsProvider {
-
-    @ContributesAndroidInjector
-    abstract fun bindThemesFragment(): ThemesFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindNewThemeFragment(): NewThemeFragment
-}
+data class PropertyItem(
+    val propertyKey: Property,
+    var propertyValue: String,
+    @StringRes
+    val description: Int
+)

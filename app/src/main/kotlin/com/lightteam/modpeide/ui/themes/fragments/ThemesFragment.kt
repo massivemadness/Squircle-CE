@@ -20,6 +20,8 @@ package com.lightteam.modpeide.ui.themes.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.scheme.Theme
 import com.lightteam.modpeide.databinding.FragmentThemesBinding
@@ -35,6 +37,7 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
     @Inject
     lateinit var viewModel: ThemesViewModel
 
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentThemesBinding
     private lateinit var adapter: ThemeAdapter
 
@@ -45,9 +48,19 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
         binding = FragmentThemesBinding.bind(view)
         observeViewModel()
 
+        navController = findNavController()
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = ThemeAdapter(this).also {
             adapter = it
+        }
+
+        binding.actionAdd.setOnClickListener {
+            if (requireContext().isUltimate()) {
+                val destination = ThemesFragmentDirections.toNewThemeFragment(null)
+                navController.navigate(destination)
+            } else {
+                DialogStore.Builder(requireContext()).show()
+            }
         }
 
         viewModel.fetchThemes()
@@ -69,7 +82,7 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
         viewModel.themesEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
-        viewModel.selectionEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = String.format(getString(R.string.message_selected), it))
         })
     }

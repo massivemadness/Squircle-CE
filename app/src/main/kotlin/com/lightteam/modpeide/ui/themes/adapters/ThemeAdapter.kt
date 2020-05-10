@@ -26,7 +26,7 @@ import com.lightteam.modpeide.data.feature.language.LanguageProvider
 import com.lightteam.modpeide.data.feature.scheme.Theme
 import com.lightteam.modpeide.databinding.ItemThemeBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
-import com.lightteam.modpeide.ui.settings.customview.CodeView
+import com.lightteam.modpeide.ui.themes.customview.CodeView
 import com.lightteam.modpeide.utils.extensions.isUltimate
 
 class ThemeAdapter(

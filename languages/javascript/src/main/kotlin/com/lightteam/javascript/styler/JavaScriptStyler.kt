@@ -35,13 +35,13 @@ class JavaScriptStyler : LanguageStyler {
         private val OPERATOR = Pattern.compile("!|\\$|%|&|\\*|-|\\+|~|=|<|>|\\?|:|\\^|\\||\\b")
         private val BRACKET = Pattern.compile("([(){}\\[\\]])")
         private val KEYWORD = Pattern.compile(
-            "\\b(function|prototype|debugger|super|this|const|var|let|export|extends|final" +
+            "\\b(function|prototype|debugger|super|this|export|extends|final" +
                     "|implements|native|private|protected|public|static|synchronized|throws" +
                     "|transient|volatile|delete|new|in|instanceof|typeof|of|with|break|case|catch" +
                     "|continue|default|do|else|finally|for|goto|if|import|package|return|switch" +
                     "|throw|try|while)\\b")
         private val TYPE = Pattern.compile(
-            "\\b(boolean|byte|char|class|double|enum|float|int|interface|long|short|void)\\b")
+            "\\b(boolean|byte|char|class|double|enum|float|int|interface|long|short|void|const|var|let)\\b")
         private val LANG_CONST = Pattern.compile("\\b(true|false|null|NaN|Infinity|undefined)\\b")
         private val METHOD = Pattern.compile("(?<=(function) )(\\w+)")
         private val STRING = Pattern.compile("\"(.*?)\"|'(.*?)'")

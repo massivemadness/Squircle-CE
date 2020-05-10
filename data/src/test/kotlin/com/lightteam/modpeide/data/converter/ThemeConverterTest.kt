@@ -49,7 +49,7 @@ class ThemeConverterTest {
             selectionColor = "#FF3000",
             suggestionMatchColor = "#FF9000",
             searchBackgroundColor = "#FEFEFE",
-            bracketBackgroundColor = "#FEFEFE",
+            delimitersBackgroundColor = "#FEFEFE",
             numberColor = "#FF3000",
             operatorColor = "#FF3000",
             bracketColor = "#FF3000",
@@ -78,7 +78,7 @@ class ThemeConverterTest {
                 selectionColor = Color.parseColor("#FF3000"),
                 suggestionMatchColor = Color.parseColor("#FF9000"),
                 searchBackgroundColor = Color.parseColor("#FEFEFE"),
-                bracketBackgroundColor = Color.parseColor("#FEFEFE"),
+                delimitersBackgroundColor = Color.parseColor("#FEFEFE"),
                 numberColor = Color.parseColor("#FF3000"),
                 operatorColor = Color.parseColor("#FF3000"),
                 bracketColor = Color.parseColor("#FF3000"),
@@ -108,7 +108,7 @@ class ThemeConverterTest {
         assertEquals(theme.colorScheme.selectionColor, convert.colorScheme.selectionColor)
         assertEquals(theme.colorScheme.suggestionMatchColor, convert.colorScheme.suggestionMatchColor)
         assertEquals(theme.colorScheme.searchBackgroundColor, convert.colorScheme.searchBackgroundColor)
-        assertEquals(theme.colorScheme.bracketBackgroundColor, convert.colorScheme.bracketBackgroundColor)
+        assertEquals(theme.colorScheme.delimitersBackgroundColor, convert.colorScheme.delimitersBackgroundColor)
         assertEquals(theme.colorScheme.numberColor, convert.colorScheme.numberColor)
         assertEquals(theme.colorScheme.operatorColor, convert.colorScheme.operatorColor)
         assertEquals(theme.colorScheme.bracketColor, convert.colorScheme.bracketColor)
@@ -140,7 +140,7 @@ class ThemeConverterTest {
                 selectionColor = Color.parseColor("#FF3000"),
                 suggestionMatchColor = Color.parseColor("#FF9000"),
                 searchBackgroundColor = Color.parseColor("#FEFEFE"),
-                bracketBackgroundColor = Color.parseColor("#FEFEFE"),
+                delimitersBackgroundColor = Color.parseColor("#FEFEFE"),
                 numberColor = Color.parseColor("#FF3000"),
                 operatorColor = Color.parseColor("#FF3000"),
                 bracketColor = Color.parseColor("#FF3000"),

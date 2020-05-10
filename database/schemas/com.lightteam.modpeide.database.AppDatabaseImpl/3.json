@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "4cda801915bdb2d3b247a6a397c8844e",
+    "identityHash": "cdd630bf29be4bc788bd11d3295f95f5",
     "entities": [
       {
         "tableName": "tbl_documents",
@@ -106,7 +106,7 @@
       },
       {
         "tableName": "tbl_themes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `description` TEXT NOT NULL, `is_external` INTEGER NOT NULL, `is_paid` INTEGER NOT NULL, `text_color` TEXT NOT NULL, `background_color` TEXT NOT NULL, `gutter_color` TEXT NOT NULL, `gutter_divider_color` TEXT NOT NULL, `gutter_current_line_number_color` TEXT NOT NULL, `gutter_text_color` TEXT NOT NULL, `selected_line_color` TEXT NOT NULL, `selection_color` TEXT NOT NULL, `suggestion_match_color` TEXT NOT NULL, `search_background_color` TEXT NOT NULL, `bracket_background_color` TEXT NOT NULL, `number_color` TEXT NOT NULL, `operator_color` TEXT NOT NULL, `bracket_color` TEXT NOT NULL, `keyword_color` TEXT NOT NULL, `type_color` TEXT NOT NULL, `lang_const_color` TEXT NOT NULL, `method_color` TEXT NOT NULL, `string_color` TEXT NOT NULL, `comment_color` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `description` TEXT NOT NULL, `is_external` INTEGER NOT NULL, `is_paid` INTEGER NOT NULL, `text_color` TEXT NOT NULL, `background_color` TEXT NOT NULL, `gutter_color` TEXT NOT NULL, `gutter_divider_color` TEXT NOT NULL, `gutter_current_line_number_color` TEXT NOT NULL, `gutter_text_color` TEXT NOT NULL, `selected_line_color` TEXT NOT NULL, `selection_color` TEXT NOT NULL, `suggestion_match_color` TEXT NOT NULL, `search_background_color` TEXT NOT NULL, `delimiters_background_color` TEXT NOT NULL, `number_color` TEXT NOT NULL, `operator_color` TEXT NOT NULL, `bracket_color` TEXT NOT NULL, `keyword_color` TEXT NOT NULL, `type_color` TEXT NOT NULL, `lang_const_color` TEXT NOT NULL, `method_color` TEXT NOT NULL, `string_color` TEXT NOT NULL, `comment_color` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -205,8 +205,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "bracketBackgroundColor",
-            "columnName": "bracket_background_color",
+            "fieldPath": "delimitersBackgroundColor",
+            "columnName": "delimiters_background_color",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -278,7 +278,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4cda801915bdb2d3b247a6a397c8844e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cdd630bf29be4bc788bd11d3295f95f5')"
     ]
   }
 }

@@ -41,7 +41,7 @@ data class ColorScheme(
     @ColorInt
     val searchBackgroundColor: Int,
     @ColorInt
-    val bracketBackgroundColor: Int,
+    val delimitersBackgroundColor: Int,
     @ColorInt
     val numberColor: Int,
     @ColorInt

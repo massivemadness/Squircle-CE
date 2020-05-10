@@ -68,7 +68,7 @@ object Migrations {
                     `selection_color` TEXT NOT NULL, 
                     `suggestion_match_color` TEXT NOT NULL, 
                     `search_background_color` TEXT NOT NULL, 
-                    `bracket_background_color` TEXT NOT NULL, 
+                    `delimiters_background_color` TEXT NOT NULL, 
                     `number_color` TEXT NOT NULL, 
                     `operator_color` TEXT NOT NULL, 
                     `bracket_color` TEXT NOT NULL, 

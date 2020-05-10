@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.customview
+package com.lightteam.modpeide.ui.themes.customview
 
 import android.content.Context
 import android.text.Spannable
@@ -38,7 +38,7 @@ class CodeView @JvmOverloads constructor(
     companion object {
         val CODE_PREVIEW = """
             function useItem(x, y, z, itemId, blockId, side) {
-                if (itemId == 280) { // Stick
+                if (itemId == 280) { // Any ID
                     Level.explode(x, y, z, 16);
                 }
             }

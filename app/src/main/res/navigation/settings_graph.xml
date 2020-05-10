@@ -97,6 +97,21 @@
         android:id="@+id/themesFragment"
         android:name="com.lightteam.modpeide.ui.themes.fragments.ThemesFragment"
         android:label="@string/label_themes"
-        tools:layout="@layout/fragment_themes"/>
+        tools:layout="@layout/fragment_themes">
+        <action
+            android:id="@+id/to_newThemeFragment"
+            app:destination="@id/newThemeFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/newThemeFragment"
+        android:name="com.lightteam.modpeide.ui.themes.fragments.NewThemeFragment"
+        android:label="@string/label_new_theme"
+        tools:layout="@layout/fragment_new_theme">
+        <argument
+            android:name="uuid"
+            app:nullable="true"
+            app:argType="string"/>
+    </fragment>
 
 </navigation>

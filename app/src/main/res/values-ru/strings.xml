@@ -29,6 +29,7 @@
     <string name="label_fonts">Шрифты</string>
     <string name="label_external_font">Внешний шрифт</string>
     <string name="label_themes">Темы</string>
+    <string name="label_new_theme">Новая тема</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
@@ -38,6 +39,9 @@
     <string name="hint_line_number">Номер строки</string>
     <string name="hint_enter_font_name">Название шрифта</string>
     <string name="hint_enter_font_path">Путь к шрифту</string>
+    <string name="hint_enter_theme_name">Название темы</string>
+    <string name="hint_enter_theme_author">Автор темы</string>
+    <string name="hint_short_description">Краткое описание</string>
 
     <string name="action_restart">Обновить</string>
     <string name="action_grant_access">Предоставить</string>
@@ -67,6 +71,7 @@
     <string name="action_unlock_all_features">Получить все возможности</string>
     <string name="action_select">Выбрать</string>
     <string name="action_add_font">Добавить шрифт</string>
+    <string name="action_save_theme">Сохранить тему</string>
 
     <string name="dialog_title_choose_action">Выберите действие</string>
     <string name="dialog_title_create">Создать…</string>
@@ -76,7 +81,7 @@
     <string name="dialog_title_privacy_policy">Политика конфиденциальности</string>
     <string name="dialog_title_exit">Выход</string>
     <string name="dialog_title_properties">Свойства</string>
-    <string name="dialog_title_color_picker">Вставить цвет</string>
+    <string name="dialog_title_color_picker">Выберите цвет</string>
     <string name="dialog_title_find">Найти…</string>
     <string name="dialog_title_replace_all">Заменить все…</string>
     <string name="dialog_title_goto_line">Перейти к строке…</string>
@@ -160,6 +165,26 @@
 
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
+    <string name="theme_property_text_color">Определяет цвет текста в редакторе</string>
+    <string name="theme_property_background_color">Определяет цвет фона редактора</string>
+    <string name="theme_property_gutter_color">Определяет цвет фона гуттера</string>
+    <string name="theme_property_gutter_divider_color">Определяет цвет разделителя гуттера</string>
+    <string name="theme_property_gutter_divider_current_line_number_color">Определяет цвет текущего номера строки в гуттере</string>
+    <string name="theme_property_gutter_text_color">Определяет цвет номеров линий в гуттере</string>
+    <string name="theme_property_selected_line_color">Определяет цвет текущей строки в редакторе</string>
+    <string name="theme_property_selection_color">Определяет цвет выделения текста в редакторе</string>
+    <string name="theme_property_suggestion_match_color">Определяет цвет поискового запроса в выпадающем меню</string>
+    <string name="theme_property_search_background_color">Определяет цвет найденных результатов в поиске</string>
+    <string name="theme_property_delimiters_background_color">Определяет цвет фона совпадающих скобок</string>
+    <string name="theme_property_numbers_color">Определяет цвет чисел подсветки синтаксиса: 123, 0.5, 0xFF, и тд.</string>
+    <string name="theme_property_operators_color">Определяет цвет операторов подсветки синтаксиса: +-*/=</string>
+    <string name="theme_property_brackets_color">Определяет цвет скобок подсветки синтаксиса: [, ], {, }, (, )</string>
+    <string name="theme_property_keywords_color">Определяет цвет ключевых слов подсветки синтаксиса: function, if, else, и тд.</string>
+    <string name="theme_property_types_color">Определяет цвет типов подсветки синтаксиса: const, var, let, etc.</string>
+    <string name="theme_property_lang_const_color">Определяет цвет языковых констант подсветки синтаксиса: true, false, null, и тд.</string>
+    <string name="theme_property_methods_color">Определяет цвет методов подсветки синтаксиса</string>
+    <string name="theme_property_strings_color">Определяет цвет строк подсветки синтаксиса</string>
+    <string name="theme_property_comments_color">Определяет цвет комментариев подсветки синтаксиса: //, /**/</string>
 
     <string name="pref_header_application_title">Приложение</string>
     <string name="pref_header_application_summary">Настройте основной функционал.</string>

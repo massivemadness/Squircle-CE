@@ -50,7 +50,7 @@
             android:singleLine="true"
             tools:text="Darcula"/>
 
-        <com.lightteam.modpeide.ui.settings.customview.CodeView
+        <com.lightteam.modpeide.ui.themes.customview.CodeView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
