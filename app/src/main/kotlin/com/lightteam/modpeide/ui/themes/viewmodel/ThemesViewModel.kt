@@ -43,7 +43,7 @@ class ThemesViewModel(
 ) : BaseViewModel() {
 
     companion object {
-        private const val FALLBACK_META = ""
+        private const val FALLBACK_META = "" // empty string
         private const val FALLBACK_COLOR = "#000000"
     }
 
@@ -54,6 +54,8 @@ class ThemesViewModel(
     val propertiesEvent: SingleLiveEvent<List<PropertyItem>> = SingleLiveEvent()
 
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     // region PROPERTIES
 
@@ -91,6 +93,19 @@ class ThemesViewModel(
     fun selectTheme(theme: Theme) {
         preferenceHandler.getColorScheme().set(theme.uuid)
         selectEvent.value = theme.name
+    }
+
+    fun removeTheme(theme: Theme) {
+        Completable
+            .fromAction {
+                appDatabase.themeDao().delete(ThemeConverter.toEntity(theme))
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy {
+                removeEvent.value = theme.name
+                fetchThemes() // Update list
+            }
+            .disposeOnViewModelDestroy()
     }
 
     fun validateInput(name: String, author: String, description: String) {
@@ -173,7 +188,7 @@ class ThemesViewModel(
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {
-                // navigateUp()
+                insertEvent.value = meta.name
                 textColor = FALLBACK_COLOR
                 backgroundColor = FALLBACK_COLOR
                 gutterColor = FALLBACK_COLOR

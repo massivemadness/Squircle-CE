@@ -36,6 +36,7 @@ import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.filesystem.model.FileType
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
+import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
 import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter

@@ -33,14 +33,14 @@
     app:cardElevation="0dp"
     tools:ignore="PrivateResource">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/action_edit"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="12dp"
             android:layout_marginStart="12dp"
@@ -50,9 +50,34 @@
             android:singleLine="true"
             tools:text="Darcula"/>
 
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toStartOf="@id/action_remove"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:padding="2dp"
+            android:id="@+id/action_edit"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/colorIcon"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:id="@+id/action_remove"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close"
+            android:tint="@color/colorIcon"/>
+
         <com.lightteam.modpeide.ui.themes.customview.CodeView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/item_title"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:typeface="monospace"
@@ -64,6 +89,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/editor"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_marginStart="12dp"
@@ -113,6 +139,6 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

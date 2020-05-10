@@ -20,6 +20,7 @@ package com.lightteam.modpeide.ui.themes.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.data.feature.language.LanguageProvider
@@ -71,8 +72,14 @@ class ThemeAdapter(
             binding.actionSelect.setOnClickListener {
                 themeInteractor.selectTheme(theme)
             }
+            binding.actionEdit.setOnClickListener {
+                themeInteractor.editTheme(theme)
+            }
+            binding.actionRemove.setOnClickListener {
+                themeInteractor.removeTheme(theme)
+            }
             binding.actionInfo.setOnClickListener {
-                themeInteractor.openInfo(theme)
+                themeInteractor.showInfo(theme)
             }
             itemView.setOnClickListener {
                 if (!binding.actionSelect.isEnabled) {
@@ -85,6 +92,8 @@ class ThemeAdapter(
             theme = item
             binding.itemTitle.text = item.name
             binding.itemSubtitle.text = item.author
+            binding.actionRemove.isVisible = item.isExternal
+            binding.actionEdit.isVisible = item.isExternal
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)
             binding.editor.doOnPreDraw {
@@ -101,6 +110,8 @@ class ThemeAdapter(
 
     interface ThemeInteractor {
         fun selectTheme(theme: Theme)
-        fun openInfo(theme: Theme)
+        fun removeTheme(theme: Theme)
+        fun editTheme(theme: Theme)
+        fun showInfo(theme: Theme)
     }
 }

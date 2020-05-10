@@ -40,8 +40,8 @@ class FontsViewModel(
     val fontsEvent: SingleLiveEvent<List<FontModel>> = SingleLiveEvent()
     val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
-    val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     fun fetchFonts() {

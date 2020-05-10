@@ -20,6 +20,14 @@ package com.lightteam.modpeide.data.utils.extensions
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.domain.editor.DocumentModel
 
+fun Int.toHexString(fallbackColor: String = "#000000"): String {
+    return try {
+        "#" + Integer.toHexString(this)
+    } catch (e: Exception) {
+        fallbackColor
+    }
+}
+
 fun String.isValidFileName(): Boolean {
     return !isEmpty() &&
             !contains("/") &&

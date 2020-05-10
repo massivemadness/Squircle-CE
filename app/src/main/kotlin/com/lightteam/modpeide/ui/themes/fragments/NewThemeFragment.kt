@@ -29,6 +29,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentNewThemeBinding
 import com.lightteam.modpeide.domain.feature.theme.Meta
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
@@ -36,7 +37,6 @@ import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.themes.adapters.PropertyAdapter
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
-import com.lightteam.modpeide.utils.extensions.toHexString
 import javax.inject.Inject
 
 class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
@@ -108,7 +108,7 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
                 showAlphaSelector = false
             ) { _, color ->
                 val index = adapter.currentList.indexOf(item)
-                adapter.currentList[index].propertyValue = "#${color.toHexString()}"
+                adapter.currentList[index].propertyValue = color.toHexString()
                 adapter.notifyItemChanged(index)
             }
             positiveButton(R.string.action_select)
@@ -119,6 +119,10 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
     private fun observeViewModel() {
         viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
             binding.actionSaveTheme.isEnabled = it
+        })
+        viewModel.insertEvent.observe(viewLifecycleOwner, Observer {
+            showToast(text = String.format(getString(R.string.message_new_theme_available), it))
+            navController.navigateUp()
         })
         viewModel.metaEvent.observe(viewLifecycleOwner, Observer {
             meta = it

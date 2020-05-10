@@ -130,7 +130,9 @@
     <string name="message_in_app_update_failed">Произошла ошибка при установке пакета</string>
     <string name="message_selected">Выбран %1$s</string>
     <string name="message_new_font_available">Добавлен новый шрифт: %1$s</string>
-    <string name="message_font_removed">Шрифт %1$s удален</string>
+    <string name="message_font_removed">Шрифт «%1$s» удален</string>
+    <string name="message_new_theme_available">Добавлена новая тема: %1$s</string>
+    <string name="message_theme_removed">Тема «%1$s» удалена</string>
 
     <string name="menu_file_new">Новый файл</string>
     <string name="menu_file_open">Открыть</string>
@@ -167,10 +169,10 @@
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
     <string name="theme_property_text_color">Определяет цвет текста в редакторе</string>
     <string name="theme_property_background_color">Определяет цвет фона редактора</string>
-    <string name="theme_property_gutter_color">Определяет цвет фона гуттера</string>
-    <string name="theme_property_gutter_divider_color">Определяет цвет разделителя гуттера</string>
-    <string name="theme_property_gutter_divider_current_line_number_color">Определяет цвет текущего номера строки в гуттере</string>
-    <string name="theme_property_gutter_text_color">Определяет цвет номеров линий в гуттере</string>
+    <string name="theme_property_gutter_color">Определяет цвет фона панели номеров строк</string>
+    <string name="theme_property_gutter_divider_color">Определяет цвет разделителя панели номеров строк</string>
+    <string name="theme_property_gutter_divider_current_line_number_color">Определяет цвет текущего номера строки в панели номеров строк</string>
+    <string name="theme_property_gutter_text_color">Определяет цвет номеров в панели номеров строк</string>
     <string name="theme_property_selected_line_color">Определяет цвет текущей строки в редакторе</string>
     <string name="theme_property_selection_color">Определяет цвет выделения текста в редакторе</string>
     <string name="theme_property_suggestion_match_color">Определяет цвет поискового запроса в выпадающем меню</string>

@@ -47,27 +47,27 @@ object DocumentConverter {
         )
     }
 
-    fun toModel(entity: DocumentEntity): DocumentModel {
+    fun toModel(documentEntity: DocumentEntity): DocumentModel {
         return DocumentModel(
-            uuid = entity.uuid,
-            name = entity.name,
-            path = entity.path,
-            scrollX = entity.scrollX,
-            scrollY = entity.scrollY,
-            selectionStart = entity.selectionStart,
-            selectionEnd = entity.selectionEnd
+            uuid = documentEntity.uuid,
+            name = documentEntity.name,
+            path = documentEntity.path,
+            scrollX = documentEntity.scrollX,
+            scrollY = documentEntity.scrollY,
+            selectionStart = documentEntity.selectionStart,
+            selectionEnd = documentEntity.selectionEnd
         )
     }
 
-    fun toEntity(model: DocumentModel): DocumentEntity {
+    fun toEntity(documentModel: DocumentModel): DocumentEntity {
         return DocumentEntity(
-            uuid = model.uuid,
-            name = model.name,
-            path = model.path,
-            scrollX = model.scrollX,
-            scrollY = model.scrollY,
-            selectionStart = model.selectionStart,
-            selectionEnd = model.selectionEnd
+            uuid = documentModel.uuid,
+            name = documentModel.name,
+            path = documentModel.path,
+            scrollX = documentModel.scrollX,
+            scrollY = documentModel.scrollY,
+            selectionStart = documentModel.selectionStart,
+            selectionEnd = documentModel.selectionEnd
         )
     }
 }

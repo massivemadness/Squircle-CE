@@ -74,7 +74,20 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
         }
     }
 
-    override fun openInfo(theme: Theme) {
+    override fun removeTheme(theme: Theme) {
+        if (theme.isExternal) {
+            viewModel.removeTheme(theme)
+        }
+    }
+
+    override fun editTheme(theme: Theme) {
+        if (theme.isExternal) {
+            val destination = ThemesFragmentDirections.toNewThemeFragment(theme.uuid)
+            navController.navigate(destination)
+        }
+    }
+
+    override fun showInfo(theme: Theme) {
         showToast(text = theme.description)
     }
 
@@ -84,6 +97,9 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
         })
         viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = String.format(getString(R.string.message_selected), it))
+        })
+        viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
+            showToast(text = String.format(getString(R.string.message_theme_removed), it))
         })
     }
 }

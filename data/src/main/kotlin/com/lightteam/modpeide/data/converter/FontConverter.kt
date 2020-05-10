@@ -22,13 +22,13 @@ import com.lightteam.modpeide.database.entity.font.FontEntity
 
 object FontConverter {
 
-    fun toModel(entity: FontEntity): FontModel {
+    fun toModel(fontEntity: FontEntity): FontModel {
         return FontModel(
-            fontName = entity.fontName,
-            fontPath = entity.fontPath,
-            supportLigatures = entity.supportLigatures,
-            isExternal = entity.isExternal,
-            isPaid = entity.isPaid
+            fontName = fontEntity.fontName,
+            fontPath = fontEntity.fontPath,
+            supportLigatures = fontEntity.supportLigatures,
+            isExternal = fontEntity.isExternal,
+            isPaid = fontEntity.isPaid
         )
     }
 

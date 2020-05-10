@@ -33,11 +33,3 @@ fun String.asHtml(): Spanned {
         Html.fromHtml(this)
     }
 }
-
-fun Int.toHexString(fallbackColor: String = "#000000"): String {
-    return try {
-        Integer.toHexString(this)
-    } catch (e: Exception) {
-        fallbackColor
-    }
-}

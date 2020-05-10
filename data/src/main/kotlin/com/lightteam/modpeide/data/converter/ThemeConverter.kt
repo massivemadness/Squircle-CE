@@ -21,40 +21,72 @@ import android.graphics.Color
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.modpeide.data.feature.scheme.ColorScheme
 import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
 
 object ThemeConverter {
 
-    fun toModel(entity: ThemeEntity): Theme {
+    fun toModel(themeEntity: ThemeEntity): Theme {
         return Theme(
-            uuid = entity.uuid,
-            name = entity.name,
-            author = entity.author,
-            description = entity.description,
-            isExternal = entity.isExternal,
-            isPaid = entity.isPaid,
+            uuid = themeEntity.uuid,
+            name = themeEntity.name,
+            author = themeEntity.author,
+            description = themeEntity.description,
+            isExternal = themeEntity.isExternal,
+            isPaid = themeEntity.isPaid,
             colorScheme = ColorScheme(
-                textColor = Color.parseColor(entity.textColor),
-                backgroundColor = Color.parseColor(entity.backgroundColor),
-                gutterColor = Color.parseColor(entity.gutterColor),
-                gutterDividerColor = Color.parseColor(entity.gutterDividerColor),
-                gutterCurrentLineNumberColor = Color.parseColor(entity.gutterCurrentLineNumberColor),
-                gutterTextColor = Color.parseColor(entity.gutterTextColor),
-                selectedLineColor = Color.parseColor(entity.selectedLineColor),
-                selectionColor = Color.parseColor(entity.selectionColor),
-                suggestionMatchColor = Color.parseColor(entity.suggestionMatchColor),
-                searchBackgroundColor = Color.parseColor(entity.searchBackgroundColor),
-                delimitersBackgroundColor = Color.parseColor(entity.delimitersBackgroundColor),
-                numberColor = Color.parseColor(entity.numberColor),
-                operatorColor = Color.parseColor(entity.operatorColor),
-                bracketColor = Color.parseColor(entity.bracketColor),
-                keywordColor = Color.parseColor(entity.keywordColor),
-                typeColor = Color.parseColor(entity.typeColor),
-                langConstColor = Color.parseColor(entity.langConstColor),
-                methodColor = Color.parseColor(entity.methodColor),
-                stringColor = Color.parseColor(entity.stringColor),
-                commentColor = Color.parseColor(entity.commentColor)
+                textColor = Color.parseColor(themeEntity.textColor),
+                backgroundColor = Color.parseColor(themeEntity.backgroundColor),
+                gutterColor = Color.parseColor(themeEntity.gutterColor),
+                gutterDividerColor = Color.parseColor(themeEntity.gutterDividerColor),
+                gutterCurrentLineNumberColor = Color.parseColor(themeEntity.gutterCurrentLineNumberColor),
+                gutterTextColor = Color.parseColor(themeEntity.gutterTextColor),
+                selectedLineColor = Color.parseColor(themeEntity.selectedLineColor),
+                selectionColor = Color.parseColor(themeEntity.selectionColor),
+                suggestionMatchColor = Color.parseColor(themeEntity.suggestionMatchColor),
+                searchBackgroundColor = Color.parseColor(themeEntity.searchBackgroundColor),
+                delimitersBackgroundColor = Color.parseColor(themeEntity.delimitersBackgroundColor),
+                numberColor = Color.parseColor(themeEntity.numberColor),
+                operatorColor = Color.parseColor(themeEntity.operatorColor),
+                bracketColor = Color.parseColor(themeEntity.bracketColor),
+                keywordColor = Color.parseColor(themeEntity.keywordColor),
+                typeColor = Color.parseColor(themeEntity.typeColor),
+                langConstColor = Color.parseColor(themeEntity.langConstColor),
+                methodColor = Color.parseColor(themeEntity.methodColor),
+                stringColor = Color.parseColor(themeEntity.stringColor),
+                commentColor = Color.parseColor(themeEntity.commentColor)
             )
+        )
+    }
+
+    fun toEntity(theme: Theme): ThemeEntity {
+        return ThemeEntity(
+            uuid = theme.uuid,
+            name = theme.name,
+            author = theme.author,
+            description = theme.description,
+            isExternal = theme.isExternal,
+            isPaid = theme.isPaid,
+            textColor = theme.colorScheme.textColor.toHexString(),
+            backgroundColor = theme.colorScheme.backgroundColor.toHexString(),
+            gutterColor = theme.colorScheme.gutterColor.toHexString(),
+            gutterDividerColor = theme.colorScheme.gutterDividerColor.toHexString(),
+            gutterCurrentLineNumberColor = theme.colorScheme.gutterCurrentLineNumberColor.toHexString(),
+            gutterTextColor = theme.colorScheme.gutterTextColor.toHexString(),
+            selectedLineColor = theme.colorScheme.selectedLineColor.toHexString(),
+            selectionColor = theme.colorScheme.selectionColor.toHexString(),
+            suggestionMatchColor = theme.colorScheme.suggestionMatchColor.toHexString(),
+            searchBackgroundColor = theme.colorScheme.searchBackgroundColor.toHexString(),
+            delimitersBackgroundColor = theme.colorScheme.delimitersBackgroundColor.toHexString(),
+            numberColor = theme.colorScheme.numberColor.toHexString(),
+            operatorColor = theme.colorScheme.operatorColor.toHexString(),
+            bracketColor = theme.colorScheme.bracketColor.toHexString(),
+            keywordColor = theme.colorScheme.keywordColor.toHexString(),
+            typeColor = theme.colorScheme.typeColor.toHexString(),
+            langConstColor = theme.colorScheme.langConstColor.toHexString(),
+            methodColor = theme.colorScheme.methodColor.toHexString(),
+            stringColor = theme.colorScheme.stringColor.toHexString(),
+            commentColor = theme.colorScheme.commentColor.toHexString()
         )
     }
 
