@@ -32,8 +32,7 @@ class JavaScriptStyler : LanguageStyler {
         private const val TAG = "JavaScriptStyler"
 
         private val NUMBER = Pattern.compile("\\b((0([xX])[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b")
-        private val OPERATOR = Pattern.compile("!|\\$|%|&|\\*|-|\\+|~|=|<|>|\\?|:|\\^|\\||\\b")
-        private val BRACKET = Pattern.compile("([(){}\\[\\]])")
+        private val OPERATOR = Pattern.compile("(!\\$%&*-+~=<>?:\\^|[(){}\\[\\]])")
         private val KEYWORD = Pattern.compile(
             "\\b(function|prototype|debugger|super|this|export|extends|final" +
                     "|implements|native|private|protected|public|static|synchronized|throws" +
@@ -94,12 +93,6 @@ class JavaScriptStyler : LanguageStyler {
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
             val span = StyleSpan(syntaxScheme.operatorColor)
-            addSpan(span, matcher.start(), matcher.end())
-        }
-        matcher = BRACKET.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val span = StyleSpan(syntaxScheme.bracketColor)
             addSpan(span, matcher.start(), matcher.end())
         }
         matcher = KEYWORD.matcher(sourceCode)

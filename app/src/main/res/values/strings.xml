@@ -179,12 +179,11 @@
     <string name="theme_property_gutter_text_color">Defines the line numbers color in gutter</string>
     <string name="theme_property_selected_line_color">Defines color of selected line in the editor</string>
     <string name="theme_property_selection_color">Defines the selection color in the editor</string>
-    <string name="theme_property_suggestion_match_color">Defines the suggestion text color in dropdown menu</string>
-    <string name="theme_property_search_background_color">Defines the background color of found results</string>
-    <string name="theme_property_delimiters_background_color">Defines the background color of matching delimiters</string>
+    <string name="theme_property_suggestion_query_color">Defines the suggestion text color in dropdown menu</string>
+    <string name="theme_property_find_result_background_color">Defines the background color of found results</string>
+    <string name="theme_property_delimiter_background_color">Defines the background color of matching delimiters</string>
     <string name="theme_property_numbers_color">Defines the numbers color of syntax highlighting: 123, 0.5, 0xFF, etc.</string>
-    <string name="theme_property_operators_color">Defines the operators color of syntax highlighting: +-*/=</string>
-    <string name="theme_property_brackets_color">Defines the brackets/braces/parentheses color of syntax highlighting: [, ], {, }, (, )</string>
+    <string name="theme_property_operators_color">Defines the operators color of syntax highlighting: +-*/=, [, ], {, }, (, )</string>
     <string name="theme_property_keywords_color">Defines the keywords color of syntax highlighting: function, if, else, etc.</string>
     <string name="theme_property_types_color">Defines the types color of syntax highlighting: const, var, let, etc.</string>
     <string name="theme_property_lang_const_color">Defines the language constants color of syntax highlighting: true, false, null, etc.</string>

@@ -175,14 +175,13 @@
     <string name="theme_property_gutter_text_color">Определяет цвет номеров в панели номеров строк</string>
     <string name="theme_property_selected_line_color">Определяет цвет текущей строки в редакторе</string>
     <string name="theme_property_selection_color">Определяет цвет выделения текста в редакторе</string>
-    <string name="theme_property_suggestion_match_color">Определяет цвет поискового запроса в выпадающем меню</string>
-    <string name="theme_property_search_background_color">Определяет цвет найденных результатов в поиске</string>
-    <string name="theme_property_delimiters_background_color">Определяет цвет фона совпадающих скобок</string>
+    <string name="theme_property_suggestion_query_color">Определяет цвет поискового запроса в выпадающем меню</string>
+    <string name="theme_property_find_result_background_color">Определяет цвет найденных результатов в поиске</string>
+    <string name="theme_property_delimiter_background_color">Определяет цвет фона совпадающих скобок</string>
     <string name="theme_property_numbers_color">Определяет цвет чисел подсветки синтаксиса: 123, 0.5, 0xFF, и тд.</string>
-    <string name="theme_property_operators_color">Определяет цвет операторов подсветки синтаксиса: +-*/=</string>
-    <string name="theme_property_brackets_color">Определяет цвет скобок подсветки синтаксиса: [, ], {, }, (, )</string>
+    <string name="theme_property_operators_color">Определяет цвет операторов подсветки синтаксиса: +-*/=, [, ], {, }, (, )</string>
     <string name="theme_property_keywords_color">Определяет цвет ключевых слов подсветки синтаксиса: function, if, else, и тд.</string>
-    <string name="theme_property_types_color">Определяет цвет типов подсветки синтаксиса: const, var, let, etc.</string>
+    <string name="theme_property_types_color">Определяет цвет типов подсветки синтаксиса: const, var, let, и тд.</string>
     <string name="theme_property_lang_const_color">Определяет цвет языковых констант подсветки синтаксиса: true, false, null, и тд.</string>
     <string name="theme_property_methods_color">Определяет цвет методов подсветки синтаксиса</string>
     <string name="theme_property_strings_color">Определяет цвет строк подсветки синтаксиса</string>

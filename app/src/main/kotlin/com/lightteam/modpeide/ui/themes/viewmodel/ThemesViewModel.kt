@@ -67,12 +67,11 @@ class ThemesViewModel(
     private var gutterTextColor: String = FALLBACK_COLOR
     private var selectedLineColor: String = FALLBACK_COLOR
     private var selectionColor: String = FALLBACK_COLOR
-    private var suggestionMatchColor: String = FALLBACK_COLOR
-    private var searchBackgroundColor: String = FALLBACK_COLOR
-    private var delimitersBackgroundColor: String = FALLBACK_COLOR
+    private var suggestionQueryColor: String = FALLBACK_COLOR
+    private var findResultBackgroundColor: String = FALLBACK_COLOR
+    private var delimiterBackgroundColor: String = FALLBACK_COLOR
     private var numberColor: String = FALLBACK_COLOR
     private var operatorColor: String = FALLBACK_COLOR
-    private var bracketColor: String = FALLBACK_COLOR
     private var keywordColor: String = FALLBACK_COLOR
     private var typeColor: String = FALLBACK_COLOR
     private var langConstColor: String = FALLBACK_COLOR
@@ -140,12 +139,11 @@ class ThemesViewModel(
                 Property.GUTTER_TEXT_COLOR -> gutterTextColor = property.propertyValue
                 Property.SELECTED_LINE_COLOR -> selectedLineColor = property.propertyValue
                 Property.SELECTION_COLOR -> selectionColor = property.propertyValue
-                Property.SUGGESTION_MATCH_COLOR -> suggestionMatchColor = property.propertyValue
-                Property.SEARCH_BACKGROUND_COLOR -> searchBackgroundColor = property.propertyValue
-                Property.DELIMITERS_BACKGROUND_COLOR -> delimitersBackgroundColor = property.propertyValue
+                Property.SUGGESTION_QUERY_COLOR -> suggestionQueryColor = property.propertyValue
+                Property.FIND_RESULT_BACKGROUND_COLOR -> findResultBackgroundColor = property.propertyValue
+                Property.DELIMITER_BACKGROUND_COLOR -> delimiterBackgroundColor = property.propertyValue
                 Property.NUMBER_COLOR -> numberColor = property.propertyValue
                 Property.OPERATOR_COLOR -> operatorColor = property.propertyValue
-                Property.BRACKET_COLOR -> bracketColor = property.propertyValue
                 Property.KEYWORD_COLOR -> keywordColor = property.propertyValue
                 Property.TYPE_COLOR -> typeColor = property.propertyValue
                 Property.LANG_CONST_COLOR -> langConstColor = property.propertyValue
@@ -171,12 +169,11 @@ class ThemesViewModel(
                     gutterTextColor = gutterTextColor,
                     selectedLineColor = selectedLineColor,
                     selectionColor = selectionColor,
-                    suggestionMatchColor = suggestionMatchColor,
-                    searchBackgroundColor = searchBackgroundColor,
-                    delimitersBackgroundColor = delimitersBackgroundColor,
+                    suggestionQueryColor = suggestionQueryColor,
+                    findResultBackgroundColor = findResultBackgroundColor,
+                    delimiterBackgroundColor = delimiterBackgroundColor,
                     numberColor = numberColor,
                     operatorColor = operatorColor,
-                    bracketColor = bracketColor,
                     keywordColor = keywordColor,
                     typeColor = typeColor,
                     langConstColor = langConstColor,
@@ -197,12 +194,11 @@ class ThemesViewModel(
                 gutterTextColor = FALLBACK_COLOR
                 selectedLineColor = FALLBACK_COLOR
                 selectionColor = FALLBACK_COLOR
-                suggestionMatchColor = FALLBACK_COLOR
-                searchBackgroundColor = FALLBACK_COLOR
-                delimitersBackgroundColor = FALLBACK_COLOR
+                suggestionQueryColor = FALLBACK_COLOR
+                findResultBackgroundColor = FALLBACK_COLOR
+                delimiterBackgroundColor = FALLBACK_COLOR
                 numberColor = FALLBACK_COLOR
                 operatorColor = FALLBACK_COLOR
-                bracketColor = FALLBACK_COLOR
                 keywordColor = FALLBACK_COLOR
                 typeColor = FALLBACK_COLOR
                 langConstColor = FALLBACK_COLOR
@@ -264,19 +260,19 @@ class ThemesViewModel(
                 R.string.theme_property_selection_color
             ),
             PropertyItem(
-                Property.SUGGESTION_MATCH_COLOR,
-                themeEntity?.suggestionMatchColor ?: FALLBACK_COLOR,
-                R.string.theme_property_suggestion_match_color
+                Property.SUGGESTION_QUERY_COLOR,
+                themeEntity?.suggestionQueryColor ?: FALLBACK_COLOR,
+                R.string.theme_property_suggestion_query_color
             ),
             PropertyItem(
-                Property.SEARCH_BACKGROUND_COLOR,
-                themeEntity?.searchBackgroundColor ?: FALLBACK_COLOR,
-                R.string.theme_property_search_background_color
+                Property.FIND_RESULT_BACKGROUND_COLOR,
+                themeEntity?.findResultBackgroundColor ?: FALLBACK_COLOR,
+                R.string.theme_property_find_result_background_color
             ),
             PropertyItem(
-                Property.DELIMITERS_BACKGROUND_COLOR,
-                themeEntity?.delimitersBackgroundColor ?: FALLBACK_COLOR,
-                R.string.theme_property_delimiters_background_color
+                Property.DELIMITER_BACKGROUND_COLOR,
+                themeEntity?.delimiterBackgroundColor ?: FALLBACK_COLOR,
+                R.string.theme_property_delimiter_background_color
             ),
             PropertyItem(
                 Property.NUMBER_COLOR,
@@ -287,11 +283,6 @@ class ThemesViewModel(
                 Property.OPERATOR_COLOR,
                 themeEntity?.operatorColor ?: FALLBACK_COLOR,
                 R.string.theme_property_operators_color
-            ),
-            PropertyItem(
-                Property.BRACKET_COLOR,
-                themeEntity?.bracketColor ?: FALLBACK_COLOR,
-                R.string.theme_property_brackets_color
             ),
             PropertyItem(
                 Property.KEYWORD_COLOR,

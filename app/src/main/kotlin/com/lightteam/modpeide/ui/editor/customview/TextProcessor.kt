@@ -282,8 +282,8 @@ class TextProcessor @JvmOverloads constructor(
 
                 suggestionAdapter.setColorScheme(it.colorScheme)
 
-                openBracketSpan = BackgroundColorSpan(it.colorScheme.delimitersBackgroundColor)
-                closedBracketSpan = BackgroundColorSpan(it.colorScheme.delimitersBackgroundColor)
+                openBracketSpan = BackgroundColorSpan(it.colorScheme.delimiterBackgroundColor)
+                closedBracketSpan = BackgroundColorSpan(it.colorScheme.delimiterBackgroundColor)
             }
         }
     }
@@ -574,7 +574,7 @@ class TextProcessor @JvmOverloads constructor(
         while (matcher.find()) {
             theme?.let {
                 text.setSpan(
-                    BackgroundColorSpan(it.colorScheme.searchBackgroundColor),
+                    BackgroundColorSpan(it.colorScheme.findResultBackgroundColor),
                     matcher.start(),
                     matcher.end(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

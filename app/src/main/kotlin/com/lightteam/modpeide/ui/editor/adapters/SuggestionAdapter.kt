@@ -69,7 +69,7 @@ class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<Sugges
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val viewHolder = SuggestionViewHolder.create(parent, colorScheme.suggestionMatchColor)
+        val viewHolder = SuggestionViewHolder.create(parent, colorScheme.suggestionQueryColor)
         viewHolder.bind(getItem(position), query)
         return viewHolder.itemView
     }

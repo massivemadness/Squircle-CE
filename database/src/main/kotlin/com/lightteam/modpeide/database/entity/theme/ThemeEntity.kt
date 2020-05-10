@@ -53,18 +53,16 @@ data class ThemeEntity(
     val selectedLineColor: String,
     @ColumnInfo(name = "selection_color")
     val selectionColor: String,
-    @ColumnInfo(name = "suggestion_match_color")
-    val suggestionMatchColor: String,
-    @ColumnInfo(name = "search_background_color")
-    val searchBackgroundColor: String,
-    @ColumnInfo(name = "delimiters_background_color")
-    val delimitersBackgroundColor: String,
+    @ColumnInfo(name = "suggestion_query_color")
+    val suggestionQueryColor: String,
+    @ColumnInfo(name = "find_result_background_color")
+    val findResultBackgroundColor: String,
+    @ColumnInfo(name = "delimiter_background_color")
+    val delimiterBackgroundColor: String,
     @ColumnInfo(name = "number_color")
     val numberColor: String,
     @ColumnInfo(name = "operator_color")
     val operatorColor: String,
-    @ColumnInfo(name = "bracket_color")
-    val bracketColor: String,
     @ColumnInfo(name = "keyword_color")
     val keywordColor: String,
     @ColumnInfo(name = "type_color")

@@ -47,12 +47,11 @@ class ThemeConverterTest {
             gutterTextColor = "#FFFFFF",
             selectedLineColor = "#EEEEEE",
             selectionColor = "#FF3000",
-            suggestionMatchColor = "#FF9000",
-            searchBackgroundColor = "#FEFEFE",
-            delimitersBackgroundColor = "#FEFEFE",
+            suggestionQueryColor = "#FF9000",
+            findResultBackgroundColor = "#FEFEFE",
+            delimiterBackgroundColor = "#FEFEFE",
             numberColor = "#FF3000",
             operatorColor = "#FF3000",
-            bracketColor = "#FF3000",
             keywordColor = "#FF3000",
             typeColor = "#FF3000",
             langConstColor = "#FF3000",
@@ -76,12 +75,11 @@ class ThemeConverterTest {
                 gutterTextColor = Color.parseColor("#FFFFFF"),
                 selectedLineColor = Color.parseColor("#EEEEEE"),
                 selectionColor = Color.parseColor("#FF3000"),
-                suggestionMatchColor = Color.parseColor("#FF9000"),
-                searchBackgroundColor = Color.parseColor("#FEFEFE"),
-                delimitersBackgroundColor = Color.parseColor("#FEFEFE"),
+                suggestionQueryColor = Color.parseColor("#FF9000"),
+                findResultBackgroundColor = Color.parseColor("#FEFEFE"),
+                delimiterBackgroundColor = Color.parseColor("#FEFEFE"),
                 numberColor = Color.parseColor("#FF3000"),
                 operatorColor = Color.parseColor("#FF3000"),
-                bracketColor = Color.parseColor("#FF3000"),
                 keywordColor = Color.parseColor("#FF3000"),
                 typeColor = Color.parseColor("#FF3000"),
                 langConstColor = Color.parseColor("#FF3000"),
@@ -106,12 +104,11 @@ class ThemeConverterTest {
         assertEquals(theme.colorScheme.gutterTextColor, convert.colorScheme.gutterTextColor)
         assertEquals(theme.colorScheme.selectedLineColor, convert.colorScheme.selectedLineColor)
         assertEquals(theme.colorScheme.selectionColor, convert.colorScheme.selectionColor)
-        assertEquals(theme.colorScheme.suggestionMatchColor, convert.colorScheme.suggestionMatchColor)
-        assertEquals(theme.colorScheme.searchBackgroundColor, convert.colorScheme.searchBackgroundColor)
-        assertEquals(theme.colorScheme.delimitersBackgroundColor, convert.colorScheme.delimitersBackgroundColor)
+        assertEquals(theme.colorScheme.suggestionQueryColor, convert.colorScheme.suggestionQueryColor)
+        assertEquals(theme.colorScheme.findResultBackgroundColor, convert.colorScheme.findResultBackgroundColor)
+        assertEquals(theme.colorScheme.delimiterBackgroundColor, convert.colorScheme.delimiterBackgroundColor)
         assertEquals(theme.colorScheme.numberColor, convert.colorScheme.numberColor)
         assertEquals(theme.colorScheme.operatorColor, convert.colorScheme.operatorColor)
-        assertEquals(theme.colorScheme.bracketColor, convert.colorScheme.bracketColor)
         assertEquals(theme.colorScheme.keywordColor, convert.colorScheme.keywordColor)
         assertEquals(theme.colorScheme.typeColor, convert.colorScheme.typeColor)
         assertEquals(theme.colorScheme.langConstColor, convert.colorScheme.langConstColor)
@@ -138,12 +135,11 @@ class ThemeConverterTest {
                 gutterTextColor = Color.parseColor("#FFFFFF"),
                 selectedLineColor = Color.parseColor("#EEEEEE"),
                 selectionColor = Color.parseColor("#FF3000"),
-                suggestionMatchColor = Color.parseColor("#FF9000"),
-                searchBackgroundColor = Color.parseColor("#FEFEFE"),
-                delimitersBackgroundColor = Color.parseColor("#FEFEFE"),
+                suggestionQueryColor = Color.parseColor("#FF9000"),
+                findResultBackgroundColor = Color.parseColor("#FEFEFE"),
+                delimiterBackgroundColor = Color.parseColor("#FEFEFE"),
                 numberColor = Color.parseColor("#FF3000"),
                 operatorColor = Color.parseColor("#FF3000"),
-                bracketColor = Color.parseColor("#FF3000"),
                 keywordColor = Color.parseColor("#FF3000"),
                 typeColor = Color.parseColor("#FF3000"),
                 langConstColor = Color.parseColor("#FF3000"),
@@ -167,12 +163,11 @@ class ThemeConverterTest {
             gutterTextColor = "#FFFFFF",
             selectedLineColor = "#EEEEEE",
             selectionColor = "#FF3000",
-            suggestionMatchColor = "#FF9000",
-            searchBackgroundColor = "#FEFEFE",
-            delimitersBackgroundColor = "#FEFEFE",
+            suggestionQueryColor = "#FF9000",
+            findResultBackgroundColor = "#FEFEFE",
+            delimiterBackgroundColor = "#FEFEFE",
             numberColor = "#FF3000",
             operatorColor = "#FF3000",
-            bracketColor = "#FF3000",
             keywordColor = "#FF3000",
             typeColor = "#FF3000",
             langConstColor = "#FF3000",
@@ -196,12 +191,11 @@ class ThemeConverterTest {
         assertEquals(themeEntity.gutterTextColor, convert.gutterTextColor)
         assertEquals(themeEntity.selectedLineColor, convert.selectedLineColor)
         assertEquals(themeEntity.selectionColor, convert.selectionColor)
-        assertEquals(themeEntity.suggestionMatchColor, convert.suggestionMatchColor)
-        assertEquals(themeEntity.searchBackgroundColor, convert.searchBackgroundColor)
-        assertEquals(themeEntity.delimitersBackgroundColor, convert.delimitersBackgroundColor)
+        assertEquals(themeEntity.suggestionQueryColor, convert.suggestionQueryColor)
+        assertEquals(themeEntity.findResultBackgroundColor, convert.findResultBackgroundColor)
+        assertEquals(themeEntity.delimiterBackgroundColor, convert.delimiterBackgroundColor)
         assertEquals(themeEntity.numberColor, convert.numberColor)
         assertEquals(themeEntity.operatorColor, convert.operatorColor)
-        assertEquals(themeEntity.bracketColor, convert.bracketColor)
         assertEquals(themeEntity.keywordColor, convert.keywordColor)
         assertEquals(themeEntity.typeColor, convert.typeColor)
         assertEquals(themeEntity.langConstColor, convert.langConstColor)
@@ -228,12 +222,11 @@ class ThemeConverterTest {
                 gutterTextColor = Color.parseColor("#FFFFFF"),
                 selectedLineColor = Color.parseColor("#EEEEEE"),
                 selectionColor = Color.parseColor("#FF3000"),
-                suggestionMatchColor = Color.parseColor("#FF9000"),
-                searchBackgroundColor = Color.parseColor("#FEFEFE"),
-                delimitersBackgroundColor = Color.parseColor("#FEFEFE"),
+                suggestionQueryColor = Color.parseColor("#FF9000"),
+                findResultBackgroundColor = Color.parseColor("#FEFEFE"),
+                delimiterBackgroundColor = Color.parseColor("#FEFEFE"),
                 numberColor = Color.parseColor("#FF3000"),
                 operatorColor = Color.parseColor("#FF3000"),
-                bracketColor = Color.parseColor("#FF3000"),
                 keywordColor = Color.parseColor("#FF3000"),
                 typeColor = Color.parseColor("#FF3000"),
                 langConstColor = Color.parseColor("#FF3000"),
@@ -245,7 +238,6 @@ class ThemeConverterTest {
         val syntaxScheme = SyntaxScheme(
             numberColor = Color.parseColor("#FF3000"),
             operatorColor = Color.parseColor("#FF3000"),
-            bracketColor = Color.parseColor("#FF3000"),
             keywordColor = Color.parseColor("#FF3000"),
             typeColor = Color.parseColor("#FF3000"),
             langConstColor = Color.parseColor("#FF3000"),
@@ -257,7 +249,6 @@ class ThemeConverterTest {
 
         assertEquals(syntaxScheme.numberColor, convert.numberColor)
         assertEquals(syntaxScheme.operatorColor, convert.operatorColor)
-        assertEquals(syntaxScheme.bracketColor, convert.bracketColor)
         assertEquals(syntaxScheme.keywordColor, convert.keywordColor)
         assertEquals(syntaxScheme.typeColor, convert.typeColor)
         assertEquals(syntaxScheme.langConstColor, convert.langConstColor)

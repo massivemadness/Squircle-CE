@@ -20,7 +20,6 @@ package com.lightteam.language.scheme
 data class SyntaxScheme(
     val numberColor: Int,
     val operatorColor: Int,
-    val bracketColor: Int,
     val keywordColor: Int,
     val typeColor: Int,
     val langConstColor: Int,

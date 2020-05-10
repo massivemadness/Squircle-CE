@@ -37,17 +37,15 @@ data class ColorScheme(
     @ColorInt
     val selectionColor: Int,
     @ColorInt
-    val suggestionMatchColor: Int,
+    val suggestionQueryColor: Int,
     @ColorInt
-    val searchBackgroundColor: Int,
+    val findResultBackgroundColor: Int,
     @ColorInt
-    val delimitersBackgroundColor: Int,
+    val delimiterBackgroundColor: Int,
     @ColorInt
     val numberColor: Int,
     @ColorInt
     val operatorColor: Int,
-    @ColorInt
-    val bracketColor: Int,
     @ColorInt
     val keywordColor: Int,
     @ColorInt
