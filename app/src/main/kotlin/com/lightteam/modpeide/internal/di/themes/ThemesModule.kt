@@ -18,6 +18,9 @@
 package com.lightteam.modpeide.internal.di.themes
 
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -26,6 +29,7 @@ import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
 class ThemesModule {
@@ -35,12 +39,17 @@ class ThemesModule {
     fun provideThemesViewModelFactory(
         schedulersProvider: SchedulersProvider,
         preferenceHandler: PreferenceHandler,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        @Named("Local")
+        filesystem: Filesystem,
+        gson: Gson
     ): ThemesViewModel.Factory {
         return ThemesViewModel.Factory(
             schedulersProvider,
             preferenceHandler,
-            appDatabase
+            appDatabase,
+            filesystem,
+            gson
         )
     }
 
@@ -51,5 +60,11 @@ class ThemesModule {
         factory: ThemesViewModel.Factory
     ): ThemesViewModel {
         return ViewModelProvider(activity, factory).get(ThemesViewModel::class.java)
+    }
+
+    @Provides
+    @SettingsScope // @ThemesScope
+    fun provideGson(): Gson {
+        return GsonBuilder().setPrettyPrinting().create()
     }
 }

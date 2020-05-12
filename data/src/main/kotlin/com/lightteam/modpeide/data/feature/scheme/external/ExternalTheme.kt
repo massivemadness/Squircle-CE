@@ -15,13 +15,23 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature
+package com.lightteam.modpeide.data.feature.scheme.external
 
-data class Line(
-    var start: Int
-) : Comparable<Line> {
+import com.google.gson.annotations.SerializedName
 
-    override fun compareTo(other: Line): Int {
-        return start - other.start
-    }
-}
+data class ExternalTheme(
+    @SerializedName("uuid")
+    val uuid: String,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("author")
+    val author: String,
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("is_external")
+    val isExternal: Boolean,
+    @SerializedName("is_paid")
+    val isPaid: Boolean,
+    @SerializedName("color_scheme")
+    val externalScheme: ExternalScheme
+)

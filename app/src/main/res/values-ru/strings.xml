@@ -72,6 +72,7 @@
     <string name="action_select">Выбрать</string>
     <string name="action_add_font">Добавить шрифт</string>
     <string name="action_save_theme">Сохранить тему</string>
+    <string name="action_export">Экспортировать</string>
     <string name="action_edit">Редактировать</string>
     <string name="action_remove">Удалить</string>
 
@@ -108,7 +109,7 @@
     <string name="sort_by_date">Сорт. по дате</string>
 
     <string name="message_access_denied">Доступ запрещён</string>
-    <string name="message_access_required">Проводник требует разрешения для работы с файлами</string>
+    <string name="message_access_required">Приложение требует разрешения для работы с файлами</string>
     <string name="message_no_result">Нет результатов</string>
     <string name="message_no_open_files">Нет файлов</string>
     <string name="message_tab_limit_achieved">Вы достигли лимита вкладок</string>
@@ -130,11 +131,12 @@
     <string name="message_no_errors_detected">Синтакcических ошибок не найдено</string>
     <string name="message_in_app_update_ready">Обновление загружено</string>
     <string name="message_in_app_update_failed">Произошла ошибка при установке пакета</string>
-    <string name="message_selected">Выбран %1$s</string>
+    <string name="message_selected">Выбран «%1$s»</string>
     <string name="message_new_font_available">Добавлен новый шрифт: %1$s</string>
     <string name="message_font_removed">Шрифт «%1$s» удален</string>
     <string name="message_new_theme_available">Добавлена новая тема: %1$s</string>
     <string name="message_theme_removed">Тема «%1$s» удалена</string>
+    <string name="message_theme_exported">Тема сохранена %1$s</string>
 
     <string name="menu_file_new">Новый файл</string>
     <string name="menu_file_open">Открыть</string>

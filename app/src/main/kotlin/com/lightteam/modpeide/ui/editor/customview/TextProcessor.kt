@@ -42,8 +42,8 @@ import com.lightteam.language.styler.Styleable
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
-import com.lightteam.modpeide.data.feature.LinesCollection
-import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.feature.lines.LinesCollection
+import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.domain.editor.TextChange
@@ -173,7 +173,8 @@ class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    private val lines = LinesCollection()
+    private val lines =
+        LinesCollection()
     private val editableFactory = Editable.Factory.getInstance()
 
     private val selectedLinePaint = Paint()

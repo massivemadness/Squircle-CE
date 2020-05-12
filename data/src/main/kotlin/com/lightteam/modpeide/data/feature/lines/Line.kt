@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature.scheme
+package com.lightteam.modpeide.data.feature.lines
 
-data class Theme(
-    val uuid: String,
-    val name: String,
-    val author: String,
-    val description: String,
-    val isExternal: Boolean,
-    val isPaid: Boolean,
-    val colorScheme: ColorScheme
-)
+data class Line(
+    var start: Int
+) : Comparable<Line> {
+
+    override fun compareTo(other: Line): Int {
+        return start - other.start
+    }
+}

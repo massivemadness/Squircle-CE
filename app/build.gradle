@@ -110,6 +110,7 @@ dependencies {
 
     //Network
     implementation library.playcore
+    implementation library.gson
 
     //Rx
     implementation library.rxjava2

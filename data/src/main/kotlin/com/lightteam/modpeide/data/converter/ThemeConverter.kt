@@ -19,12 +19,46 @@ package com.lightteam.modpeide.data.converter
 
 import android.graphics.Color
 import com.lightteam.language.scheme.SyntaxScheme
-import com.lightteam.modpeide.data.feature.scheme.ColorScheme
-import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.feature.scheme.external.ExternalScheme
+import com.lightteam.modpeide.data.feature.scheme.external.ExternalTheme
+import com.lightteam.modpeide.data.feature.scheme.internal.ColorScheme
+import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
 
 object ThemeConverter {
+    
+    fun toExternalTheme(theme: Theme): ExternalTheme {
+        return ExternalTheme(
+            uuid = theme.uuid,
+            name = theme.name,
+            author = theme.author,
+            description = theme.description,
+            isExternal = theme.isExternal,
+            isPaid = theme.isPaid,
+            externalScheme = ExternalScheme(
+                textColor = theme.colorScheme.textColor.toHexString(),
+                backgroundColor = theme.colorScheme.backgroundColor.toHexString(),
+                gutterColor = theme.colorScheme.gutterColor.toHexString(),
+                gutterDividerColor = theme.colorScheme.gutterDividerColor.toHexString(),
+                gutterCurrentLineNumberColor = theme.colorScheme.gutterCurrentLineNumberColor.toHexString(),
+                gutterTextColor = theme.colorScheme.gutterTextColor.toHexString(),
+                selectedLineColor = theme.colorScheme.selectedLineColor.toHexString(),
+                selectionColor = theme.colorScheme.selectionColor.toHexString(),
+                suggestionQueryColor = theme.colorScheme.suggestionQueryColor.toHexString(),
+                findResultBackgroundColor = theme.colorScheme.findResultBackgroundColor.toHexString(),
+                delimiterBackgroundColor = theme.colorScheme.delimiterBackgroundColor.toHexString(),
+                numberColor = theme.colorScheme.numberColor.toHexString(),
+                operatorColor = theme.colorScheme.operatorColor.toHexString(),
+                keywordColor = theme.colorScheme.keywordColor.toHexString(),
+                typeColor = theme.colorScheme.typeColor.toHexString(),
+                langConstColor = theme.colorScheme.langConstColor.toHexString(),
+                methodColor = theme.colorScheme.methodColor.toHexString(),
+                stringColor = theme.colorScheme.stringColor.toHexString(),
+                commentColor = theme.colorScheme.commentColor.toHexString()
+            )
+        )
+    }
 
     fun toModel(themeEntity: ThemeEntity): Theme {
         return Theme(

@@ -91,7 +91,7 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
                 author = binding.textInputThemeAuthor.text.toString(),
                 description = binding.textInputThemeDescription.text.toString()
             )
-            viewModel.insertTheme(meta, adapter.currentList)
+            viewModel.createTheme(meta, adapter.currentList)
         }
 
         viewModel.fetchProperties(args.uuid)
@@ -120,7 +120,7 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
         viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
             binding.actionSaveTheme.isEnabled = it
         })
-        viewModel.insertEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.createEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = String.format(getString(R.string.message_new_theme_available), it))
             navController.navigateUp()
         })

@@ -17,13 +17,17 @@
 
 package com.lightteam.modpeide.ui.themes.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.databinding.FragmentThemesBinding
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
@@ -74,9 +78,14 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
         }
     }
 
-    override fun removeTheme(theme: Theme) {
-        if (theme.isExternal) {
-            viewModel.removeTheme(theme)
+    override fun exportTheme(theme: Theme) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED) {
+            viewModel.exportTheme(theme)
+        } else {
+            showToast(R.string.message_access_required)
         }
     }
 
@@ -87,16 +96,28 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
         }
     }
 
+    override fun removeTheme(theme: Theme) {
+        if (theme.isExternal) {
+            viewModel.removeTheme(theme)
+        }
+    }
+
     override fun showInfo(theme: Theme) {
         showToast(text = theme.description)
     }
 
     private fun observeViewModel() {
+        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
+            showToast(it)
+        })
         viewModel.themesEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
         viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = String.format(getString(R.string.message_selected), it))
+        })
+        viewModel.exportEvent.observe(viewLifecycleOwner, Observer {
+            showToast(text = String.format(getString(R.string.message_theme_exported), it), duration = Toast.LENGTH_LONG)
         })
         viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = String.format(getString(R.string.message_theme_removed), it))

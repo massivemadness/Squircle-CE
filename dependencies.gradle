@@ -44,6 +44,7 @@ ext {
 
     //Network
     playcore_version = '1.7.0'
+    gson_version = '2.8.6'
 
     //Rx
     rxjava2_version = '2.2.19'
@@ -91,6 +92,7 @@ ext {
 
             //Network
             playcore: "com.google.android.play:core-ktx:$playcore_version",
+            gson: "com.google.code.gson:gson:$gson_version",
 
             //Rx
             rxjava2: "io.reactivex.rxjava2:rxjava:$rxjava2_version",

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature.scheme
+package com.lightteam.modpeide.data.feature.scheme.internal
 
 import androidx.annotation.ColorInt
 

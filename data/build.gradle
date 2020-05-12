@@ -42,6 +42,9 @@ dependencies {
     //Kotlin
     implementation library.kotlin
 
+    //Network
+    implementation library.gson
+
     //Rx
     implementation library.rxjava2
     implementation library.rxkotlin

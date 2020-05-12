@@ -26,7 +26,7 @@ import com.lightteam.language.language.Language
 import com.lightteam.language.styler.Styleable
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.data.converter.ThemeConverter
-import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.unknown.language.UnknownLanguage
 
 class CodeView @JvmOverloads constructor(

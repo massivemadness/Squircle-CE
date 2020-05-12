@@ -29,7 +29,7 @@ import android.widget.Filter
 import android.widget.TextView
 import com.lightteam.language.model.SuggestionModel
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.feature.scheme.ColorScheme
+import com.lightteam.modpeide.data.feature.scheme.internal.ColorScheme
 import com.lightteam.modpeide.data.feature.suggestion.WordsManager
 import java.util.*
 

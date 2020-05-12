@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.data.feature.suggestion
 
 import android.text.Editable
-import com.lightteam.modpeide.data.feature.Line
+import com.lightteam.modpeide.data.feature.lines.Line
 import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.language.model.SuggestionModel
 import com.lightteam.language.suggestion.SuggestionProvider

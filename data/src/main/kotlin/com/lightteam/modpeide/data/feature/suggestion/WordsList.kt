@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.feature.suggestion
 
-import com.lightteam.modpeide.data.feature.Line
+import com.lightteam.modpeide.data.feature.lines.Line
 import java.util.*
 import kotlin.collections.HashMap
 

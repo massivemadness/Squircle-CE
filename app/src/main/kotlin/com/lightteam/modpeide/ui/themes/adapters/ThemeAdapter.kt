@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.language.LanguageProvider
-import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.databinding.ItemThemeBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.themes.customview.CodeView
@@ -89,6 +89,7 @@ class ThemeAdapter(
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
+                        R.id.action_export -> themeInteractor.exportTheme(theme)
                         R.id.action_edit -> themeInteractor.editTheme(theme)
                         R.id.action_remove -> themeInteractor.removeTheme(theme)
                     }
@@ -121,8 +122,9 @@ class ThemeAdapter(
 
     interface ThemeInteractor {
         fun selectTheme(theme: Theme)
-        fun removeTheme(theme: Theme)
+        fun exportTheme(theme: Theme)
         fun editTheme(theme: Theme)
+        fun removeTheme(theme: Theme)
         fun showInfo(theme: Theme)
     }
 }

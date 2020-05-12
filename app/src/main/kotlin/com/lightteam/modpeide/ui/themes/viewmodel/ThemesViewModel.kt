@@ -17,12 +17,18 @@
 
 package com.lightteam.modpeide.ui.themes.viewmodel
 
+import android.os.Environment
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
+import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
-import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
@@ -34,19 +40,25 @@ import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
+import java.io.File
 import java.util.*
 
 class ThemesViewModel(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
-    private val appDatabase: AppDatabase
+    private val appDatabase: AppDatabase,
+    private val filesystem: Filesystem,
+    private val gson: Gson
 ) : BaseViewModel() {
 
     companion object {
+        private const val TAG = "ThemesViewModel"
+
         private const val FALLBACK_META = "" // empty string
         private const val FALLBACK_COLOR = "#000000"
     }
 
+    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent()
     val themesEvent: SingleLiveEvent<List<Theme>> = SingleLiveEvent()
 
     val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -54,7 +66,8 @@ class ThemesViewModel(
     val propertiesEvent: SingleLiveEvent<List<PropertyItem>> = SingleLiveEvent()
 
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
-    val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val exportEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val createEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     // region PROPERTIES
@@ -94,6 +107,36 @@ class ThemesViewModel(
         selectEvent.value = theme.name
     }
 
+    fun exportTheme(theme: Theme) {
+        val externalTheme = ThemeConverter.toExternalTheme(theme)
+        val fileName = "${theme.name}.theme"
+        val fileText = gson.toJson(externalTheme)
+        val directory = File(
+            Environment.getExternalStorageDirectory(),
+            Environment.DIRECTORY_DOWNLOADS
+        )
+        val fileModel = FileModel(
+            name = fileName,
+            path = File(directory, fileName).absolutePath,
+            size = 0L,
+            lastModified = 0L,
+            isFolder = false,
+            isHidden = false
+        )
+        filesystem.saveFile(fileModel, fileText)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onComplete = {
+                    exportEvent.value = fileModel.path
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    toastEvent.value = R.string.message_unknown_exception
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
     fun removeTheme(theme: Theme) {
         Completable
             .fromAction {
@@ -111,7 +154,7 @@ class ThemesViewModel(
     }
 
     fun validateInput(name: String, author: String, description: String) {
-        val isNameValid = name.trim().isNotBlank()
+        val isNameValid = name.trim().isNotBlank() && name.trim().isValidFileName()
         val isAuthorValid = author.trim().isNotBlank()
         val isDescriptionValid = description.trim().isNotBlank()
         validationEvent.value = isNameValid && isAuthorValid && isDescriptionValid
@@ -131,7 +174,7 @@ class ThemesViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun insertTheme(meta: Meta, properties: List<PropertyItem>) {
+    fun createTheme(meta: Meta, properties: List<PropertyItem>) {
         for (property in properties) {
             when (property.propertyKey) {
                 Property.TEXT_COLOR -> textColor = property.propertyValue
@@ -188,7 +231,7 @@ class ThemesViewModel(
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {
-                insertEvent.value = meta.name
+                createEvent.value = meta.name
                 textColor = FALLBACK_COLOR
                 backgroundColor = FALLBACK_COLOR
                 gutterColor = FALLBACK_COLOR
@@ -323,7 +366,9 @@ class ThemesViewModel(
     class Factory(
         private val schedulersProvider: SchedulersProvider,
         private val preferenceHandler: PreferenceHandler,
-        private val appDatabase: AppDatabase
+        private val appDatabase: AppDatabase,
+        private val filesystem: Filesystem,
+        private val gson: Gson
     ) : ViewModelProvider.NewInstanceFactory() {
 
         @Suppress("UNCHECKED_CAST")
@@ -333,7 +378,9 @@ class ThemesViewModel(
                     ThemesViewModel(
                         schedulersProvider,
                         preferenceHandler,
-                        appDatabase
+                        appDatabase,
+                        filesystem,
+                        gson
                     ) as T
                 else -> null as T
             }

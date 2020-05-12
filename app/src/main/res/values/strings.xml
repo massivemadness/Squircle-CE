@@ -73,6 +73,7 @@
     <string name="action_select">Select</string>
     <string name="action_add_font">Add font</string>
     <string name="action_save_theme">Save theme</string>
+    <string name="action_export">Export</string>
     <string name="action_edit">Edit</string>
     <string name="action_remove">Remove</string>
 
@@ -109,7 +110,7 @@
     <string name="sort_by_date">Sort by Date</string>
 
     <string name="message_access_denied">Access Denied</string>
-    <string name="message_access_required">Explorer requires access to files in order to function correctly</string>
+    <string name="message_access_required">Application requires access to files to work correctly</string>
     <string name="message_no_result">No result</string>
     <string name="message_no_open_files">No open files</string>
     <string name="message_tab_limit_achieved">Tab limit achieved</string>
@@ -131,11 +132,12 @@
     <string name="message_no_errors_detected">No syntax errors detected</string>
     <string name="message_in_app_update_ready">App is ready to update</string>
     <string name="message_in_app_update_failed">Update installation failed</string>
-    <string name="message_selected">Selected %1$s</string>
+    <string name="message_selected">Selected «%1$s»</string>
     <string name="message_new_font_available">New font available: %1$s</string>
     <string name="message_font_removed">Font «%1$s» removed</string>
     <string name="message_new_theme_available">New theme available: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» removed</string>
+    <string name="message_theme_exported">Theme saved to %1$s</string>
 
     <string name="menu_file_new">New</string>
     <string name="menu_file_open">Open</string>

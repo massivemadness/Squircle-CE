@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.utils.event
 
-import com.lightteam.modpeide.data.feature.scheme.Theme
+import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 
 sealed class PreferenceEvent<T>(val value: T) {
     class ThemePref(value: Theme) : PreferenceEvent<Theme>(value)
