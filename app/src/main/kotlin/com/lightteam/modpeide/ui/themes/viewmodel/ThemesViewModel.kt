@@ -101,6 +101,9 @@ class ThemesViewModel(
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {
+                if (preferenceHandler.getColorScheme().get() == theme.uuid) {
+                    preferenceHandler.getColorScheme().delete()
+                }
                 removeEvent.value = theme.name
                 fetchThemes() // Update list
             }

@@ -73,6 +73,8 @@
     <string name="action_select">Select</string>
     <string name="action_add_font">Add font</string>
     <string name="action_save_theme">Save theme</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_remove">Remove</string>
 
     <string name="dialog_title_choose_action">Choose action</string>
     <string name="dialog_title_create">Create…</string>

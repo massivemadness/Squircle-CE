@@ -60,4 +60,4 @@ limitations under the License.
 
 ### SCREENSHOTS
 
-![Image](.images/screenshots.png)
+![Image](.images/repository-screenshots.png)

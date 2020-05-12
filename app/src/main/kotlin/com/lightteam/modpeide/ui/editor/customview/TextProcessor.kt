@@ -182,7 +182,7 @@ class TextProcessor @JvmOverloads constructor(
     private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
 
-    private val bracketTypes = charArrayOf('{', '[', '(', '}', ']', ')')
+    private val delimiters = charArrayOf('{', '[', '(', '}', ']', ')')
 
     private var openBracketSpan: BackgroundColorSpan? = null
     private var closedBracketSpan: BackgroundColorSpan? = null
@@ -990,10 +990,10 @@ class TextProcessor @JvmOverloads constructor(
             if (configuration.highlightDelimiters) {
                 if (pos > 0 && pos <= text.length) {
                     val c1 = text[pos - 1]
-                    for (i in bracketTypes.indices) {
-                        if (bracketTypes[i] == c1) {
+                    for (i in delimiters.indices) {
+                        if (delimiters[i] == c1) {
                             val open = i <= 2
-                            val c2 = bracketTypes[(i + 3) % 6]
+                            val c2 = delimiters[(i + 3) % 6]
                             var k = pos
                             if (open) {
                                 var nob = 1
@@ -1155,9 +1155,9 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     private fun getDistanceBetweenTouches(event: MotionEvent): Float {
-        val xx = event.getX(1) - event.getX(0)
-        val yy = event.getY(1) - event.getY(0)
-        return sqrt((xx * xx + yy * yy).toDouble()).toFloat()
+        val x = event.getX(0) - event.getX(1)
+        val y = event.getY(0) - event.getY(1)
+        return sqrt(x * x + y * y)
     }
 
     private fun validateTextSize(size: Float) {

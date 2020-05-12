@@ -72,6 +72,8 @@
     <string name="action_select">Выбрать</string>
     <string name="action_add_font">Добавить шрифт</string>
     <string name="action_save_theme">Сохранить тему</string>
+    <string name="action_edit">Редактировать</string>
+    <string name="action_remove">Удалить</string>
 
     <string name="dialog_title_choose_action">Выберите действие</string>
     <string name="dialog_title_create">Создать…</string>

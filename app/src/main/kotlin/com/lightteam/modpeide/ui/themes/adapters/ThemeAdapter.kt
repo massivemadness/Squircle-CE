@@ -19,16 +19,20 @@ package com.lightteam.modpeide.ui.themes.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.feature.language.LanguageProvider
 import com.lightteam.modpeide.data.feature.scheme.Theme
 import com.lightteam.modpeide.databinding.ItemThemeBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.themes.customview.CodeView
 import com.lightteam.modpeide.utils.extensions.isUltimate
+import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 
 class ThemeAdapter(
     private val themeInteractor: ThemeInteractor
@@ -69,22 +73,30 @@ class ThemeAdapter(
         private lateinit var theme: Theme
 
         init {
-            binding.actionSelect.setOnClickListener {
-                themeInteractor.selectTheme(theme)
-            }
-            binding.actionEdit.setOnClickListener {
-                themeInteractor.editTheme(theme)
-            }
-            binding.actionRemove.setOnClickListener {
-                themeInteractor.removeTheme(theme)
-            }
-            binding.actionInfo.setOnClickListener {
-                themeInteractor.showInfo(theme)
-            }
             itemView.setOnClickListener {
                 if (!binding.actionSelect.isEnabled) {
                     themeInteractor.selectTheme(theme)
                 }
+            }
+            binding.actionSelect.setOnClickListener {
+                themeInteractor.selectTheme(theme)
+            }
+            binding.actionInfo.setOnClickListener {
+                themeInteractor.showInfo(theme)
+            }
+            binding.actionOverflow.setOnClickListener {
+                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
+                val popupMenu = PopupMenu(wrapper, it)
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.action_edit -> themeInteractor.editTheme(theme)
+                        R.id.action_remove -> themeInteractor.removeTheme(theme)
+                    }
+                    true
+                }
+                popupMenu.inflate(R.menu.menu_theme)
+                popupMenu.makeRightPaddingRecursively()
+                popupMenu.show()
             }
         }
 
@@ -92,8 +104,7 @@ class ThemeAdapter(
             theme = item
             binding.itemTitle.text = item.name
             binding.itemSubtitle.text = item.author
-            binding.actionRemove.isVisible = item.isExternal
-            binding.actionEdit.isVisible = item.isExternal
+            binding.actionOverflow.isVisible = item.isExternal
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)
             binding.editor.doOnPreDraw {
