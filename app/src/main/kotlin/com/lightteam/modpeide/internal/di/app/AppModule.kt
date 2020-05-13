@@ -22,10 +22,13 @@ import android.content.SharedPreferences
 import android.os.Environment
 import androidx.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.repository.LocalFilesystem
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.commons.NullableTypeAdapterFactory
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.delegate.DatabaseDelegate
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -72,6 +75,15 @@ class AppModule {
     @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
         return DatabaseDelegate.provideAppDatabase(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .registerTypeAdapterFactory(NullableTypeAdapterFactory())
+            .setPrettyPrinting()
+            .create()
     }
 
     @Provides

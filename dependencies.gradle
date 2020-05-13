@@ -70,6 +70,7 @@ ext {
     library = [
             //Kotlin
             kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
+            kotlin_reflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             core_ktx: "androidx.core:core-ktx:$core_version",
 
             //Design

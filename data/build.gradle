@@ -41,6 +41,7 @@ dependencies {
 
     //Kotlin
     implementation library.kotlin
+    implementation library.kotlin_reflect
 
     //Network
     implementation library.gson

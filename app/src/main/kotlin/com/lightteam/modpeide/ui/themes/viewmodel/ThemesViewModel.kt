@@ -22,7 +22,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
+import com.google.gson.JsonParseException
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.R
@@ -117,7 +117,7 @@ class ThemesViewModel(
             val externalTheme = gson.fromJson(fileText, ExternalTheme::class.java)
             val themeEntity = ThemeConverter.toEntity(externalTheme)
             loadProperties(themeEntity)
-        } catch (e: JsonSyntaxException) {
+        } catch (e: JsonParseException) {
             toastEvent.value = R.string.message_theme_syntax_exception
         }
     }

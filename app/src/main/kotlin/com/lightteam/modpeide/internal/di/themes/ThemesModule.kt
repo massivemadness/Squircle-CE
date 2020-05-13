@@ -19,7 +19,6 @@ package com.lightteam.modpeide.internal.di.themes
 
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.database.AppDatabase
@@ -60,11 +59,5 @@ class ThemesModule {
         factory: ThemesViewModel.Factory
     ): ThemesViewModel {
         return ViewModelProvider(activity, factory).get(ThemesViewModel::class.java)
-    }
-
-    @Provides
-    @SettingsScope // @ThemesScope
-    fun provideGson(): Gson {
-        return GsonBuilder().setPrettyPrinting().create()
     }
 }
