@@ -19,6 +19,8 @@ package com.lightteam.modpeide.data.converter
 
 import android.graphics.Color
 import com.lightteam.language.scheme.SyntaxScheme
+import com.lightteam.modpeide.data.feature.scheme.external.ExternalScheme
+import com.lightteam.modpeide.data.feature.scheme.external.ExternalTheme
 import com.lightteam.modpeide.data.feature.scheme.internal.ColorScheme
 import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
@@ -203,6 +205,93 @@ class ThemeConverterTest {
         assertEquals(themeEntity.stringColor, convert.stringColor)
         assertEquals(themeEntity.commentColor, convert.commentColor)
     }*/
+
+    @Test
+    fun `convert ExternalTheme to ThemeEntity`() {
+        val externalTheme = ExternalTheme(
+            uuid = "0",
+            name = "Test",
+            author = "Light Team Software",
+            description = "Default color scheme",
+            isExternal = false,
+            isPaid = false,
+            externalScheme = ExternalScheme(
+                textColor = "#FFFFFF",
+                backgroundColor = "#303030",
+                gutterColor = "#F0F0F0",
+                gutterDividerColor = "#FFFFFF",
+                gutterCurrentLineNumberColor = "#FEFEFE",
+                gutterTextColor = "#FFFFFF",
+                selectedLineColor = "#EEEEEE",
+                selectionColor = "#FF3000",
+                suggestionQueryColor = "#FF9000",
+                findResultBackgroundColor = "#FEFEFE",
+                delimiterBackgroundColor = "#FEFEFE",
+                numberColor = "#FF3000",
+                operatorColor = "#FF3000",
+                keywordColor = "#FF3000",
+                typeColor = "#FF3000",
+                langConstColor = "#FF3000",
+                methodColor = "#FF3000",
+                stringColor = "#FF3000",
+                commentColor = "#FF3000"
+            )
+        )
+        val themeEntity = ThemeEntity(
+            uuid = "0",
+            name = "Test",
+            author = "Light Team Software",
+            description = "Default color scheme",
+            isExternal = false,
+            isPaid = false,
+            textColor = "#FFFFFF",
+            backgroundColor = "#303030",
+            gutterColor = "#F0F0F0",
+            gutterDividerColor = "#FFFFFF",
+            gutterCurrentLineNumberColor = "#FEFEFE",
+            gutterTextColor = "#FFFFFF",
+            selectedLineColor = "#EEEEEE",
+            selectionColor = "#FF3000",
+            suggestionQueryColor = "#FF9000",
+            findResultBackgroundColor = "#FEFEFE",
+            delimiterBackgroundColor = "#FEFEFE",
+            numberColor = "#FF3000",
+            operatorColor = "#FF3000",
+            keywordColor = "#FF3000",
+            typeColor = "#FF3000",
+            langConstColor = "#FF3000",
+            methodColor = "#FF3000",
+            stringColor = "#FF3000",
+            commentColor = "#FF3000"
+        )
+        val convert = ThemeConverter.toEntity(externalTheme)
+
+        assertEquals(themeEntity.uuid, convert.uuid)
+        assertEquals(themeEntity.name, convert.name)
+        assertEquals(themeEntity.author, convert.author)
+        assertEquals(themeEntity.description, convert.description)
+        assertEquals(themeEntity.isExternal, convert.isExternal)
+        assertEquals(themeEntity.isPaid, convert.isPaid)
+        assertEquals(themeEntity.textColor, convert.textColor)
+        assertEquals(themeEntity.backgroundColor, convert.backgroundColor)
+        assertEquals(themeEntity.gutterColor, convert.gutterColor)
+        assertEquals(themeEntity.gutterDividerColor, convert.gutterDividerColor)
+        assertEquals(themeEntity.gutterCurrentLineNumberColor, convert.gutterCurrentLineNumberColor)
+        assertEquals(themeEntity.gutterTextColor, convert.gutterTextColor)
+        assertEquals(themeEntity.selectedLineColor, convert.selectedLineColor)
+        assertEquals(themeEntity.selectionColor, convert.selectionColor)
+        assertEquals(themeEntity.suggestionQueryColor, convert.suggestionQueryColor)
+        assertEquals(themeEntity.findResultBackgroundColor, convert.findResultBackgroundColor)
+        assertEquals(themeEntity.delimiterBackgroundColor, convert.delimiterBackgroundColor)
+        assertEquals(themeEntity.numberColor, convert.numberColor)
+        assertEquals(themeEntity.operatorColor, convert.operatorColor)
+        assertEquals(themeEntity.keywordColor, convert.keywordColor)
+        assertEquals(themeEntity.typeColor, convert.typeColor)
+        assertEquals(themeEntity.langConstColor, convert.langConstColor)
+        assertEquals(themeEntity.methodColor, convert.methodColor)
+        assertEquals(themeEntity.stringColor, convert.stringColor)
+        assertEquals(themeEntity.commentColor, convert.commentColor)
+    }
 
     @Test
     fun `convert Theme to SyntaxScheme`() {

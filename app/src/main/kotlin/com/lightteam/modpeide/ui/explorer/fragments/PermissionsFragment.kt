@@ -36,8 +36,8 @@ import javax.inject.Inject
 class PermissionsFragment : BaseFragment() {
 
     companion object {
-        private const val REQUEST_STORAGE_DIALOG = 1
-        private const val REQUEST_STORAGE_ACTIVITY = 2
+        private const val REQUEST_CODE_STORAGE_DIALOG = 1
+        private const val REQUEST_CODE_STORAGE_ACTIVITY = 2
     }
 
     @Inject
@@ -64,7 +64,7 @@ class PermissionsFragment : BaseFragment() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            REQUEST_STORAGE_DIALOG -> {
+            REQUEST_CODE_STORAGE_DIALOG -> {
                 checkIfPermissionsAlreadyGiven(true)
             }
         }
@@ -73,7 +73,7 @@ class PermissionsFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            REQUEST_STORAGE_ACTIVITY -> {
+            REQUEST_CODE_STORAGE_ACTIVITY -> {
                 checkIfPermissionsAlreadyGiven(true)
             }
         }
@@ -110,11 +110,11 @@ class PermissionsFragment : BaseFragment() {
     private fun requestPermissionsUsingDialog() {
         requestPermissions(
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-            REQUEST_STORAGE_DIALOG
+            REQUEST_CODE_STORAGE_DIALOG
         )
     }
 
     private fun requestPermissionsUsingActivity() {
-        launchPermissionActivity(REQUEST_STORAGE_ACTIVITY)
+        launchPermissionActivity(REQUEST_CODE_STORAGE_ACTIVITY)
     }
 }

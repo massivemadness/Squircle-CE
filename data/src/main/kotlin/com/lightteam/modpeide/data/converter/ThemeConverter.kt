@@ -122,6 +122,36 @@ object ThemeConverter {
         )
     }
 
+    fun toEntity(externalTheme: ExternalTheme): ThemeEntity {
+        return ThemeEntity(
+            uuid = externalTheme.uuid,
+            name = externalTheme.name,
+            author = externalTheme.author,
+            description = externalTheme.description,
+            isExternal = externalTheme.isExternal,
+            isPaid = externalTheme.isPaid,
+            textColor = externalTheme.externalScheme.textColor,
+            backgroundColor = externalTheme.externalScheme.backgroundColor,
+            gutterColor = externalTheme.externalScheme.gutterColor,
+            gutterDividerColor = externalTheme.externalScheme.gutterDividerColor,
+            gutterCurrentLineNumberColor = externalTheme.externalScheme.gutterCurrentLineNumberColor,
+            gutterTextColor = externalTheme.externalScheme.gutterTextColor,
+            selectedLineColor = externalTheme.externalScheme.selectedLineColor,
+            selectionColor = externalTheme.externalScheme.selectionColor,
+            suggestionQueryColor = externalTheme.externalScheme.suggestionQueryColor,
+            findResultBackgroundColor = externalTheme.externalScheme.findResultBackgroundColor,
+            delimiterBackgroundColor = externalTheme.externalScheme.delimiterBackgroundColor,
+            numberColor = externalTheme.externalScheme.numberColor,
+            operatorColor = externalTheme.externalScheme.operatorColor,
+            keywordColor = externalTheme.externalScheme.keywordColor,
+            typeColor = externalTheme.externalScheme.typeColor,
+            langConstColor = externalTheme.externalScheme.langConstColor,
+            methodColor = externalTheme.externalScheme.methodColor,
+            stringColor = externalTheme.externalScheme.stringColor,
+            commentColor = externalTheme.externalScheme.commentColor
+        )
+    }
+
     fun toSyntaxScheme(theme: Theme): SyntaxScheme {
         return SyntaxScheme(
             numberColor = theme.colorScheme.numberColor,

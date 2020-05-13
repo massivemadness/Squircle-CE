@@ -17,8 +17,16 @@
 
 package com.lightteam.modpeide.ui.themes.fragments
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
@@ -41,6 +49,10 @@ import javax.inject.Inject
 
 class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
 
+    companion object {
+        private const val REQUEST_CODE_FILE_CHOOSER = 11
+    }
+
     @Inject
     lateinit var viewModel: ThemesViewModel
 
@@ -52,6 +64,11 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
     private lateinit var meta: Meta
 
     override fun layoutId(): Int = R.layout.fragment_new_theme
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,6 +114,46 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
         viewModel.fetchProperties(args.uuid)
     }
 
+
+    // region MENU
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_new_theme, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_import -> {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED) {
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        type = "application/octet-stream" // Only way to choose .json files
+                    }
+                    val fileChooser = Intent.createChooser(intent, getString(R.string.message_choose_theme_json))
+                    startActivityForResult(fileChooser, REQUEST_CODE_FILE_CHOOSER)
+                } else {
+                    showToast(R.string.message_access_required)
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    // endregion MENU
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_FILE_CHOOSER && resultCode == Activity.RESULT_OK) {
+            data?.data?.let {
+                val inputStream = requireContext().contentResolver.openInputStream(it)
+                viewModel.importTheme(inputStream)
+            }
+        }
+    }
+
     override fun onClick(item: PropertyItem) {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_color_picker)
@@ -117,6 +174,9 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
     }
 
     private fun observeViewModel() {
+        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
+            showToast(it)
+        })
         viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
             binding.actionSaveTheme.isEnabled = it
         })

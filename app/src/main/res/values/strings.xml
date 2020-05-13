@@ -73,6 +73,7 @@
     <string name="action_select">Select</string>
     <string name="action_add_font">Add font</string>
     <string name="action_save_theme">Save theme</string>
+    <string name="action_import">Import</string>
     <string name="action_export">Export</string>
     <string name="action_edit">Edit</string>
     <string name="action_remove">Remove</string>
@@ -138,6 +139,8 @@
     <string name="message_new_theme_available">New theme available: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» removed</string>
     <string name="message_theme_exported">Theme saved to %1$s</string>
+    <string name="message_choose_theme_json">Choose .json theme file</string>
+    <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
 
     <string name="menu_file_new">New</string>
     <string name="menu_file_open">Open</string>

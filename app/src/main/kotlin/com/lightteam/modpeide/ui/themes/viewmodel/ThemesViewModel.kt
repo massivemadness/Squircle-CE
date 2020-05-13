@@ -22,10 +22,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
+import com.lightteam.modpeide.data.feature.scheme.external.ExternalTheme
 import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.isValidFileName
@@ -40,7 +42,9 @@ import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
+import java.io.BufferedReader
 import java.io.File
+import java.io.InputStream
 import java.util.*
 
 class ThemesViewModel(
@@ -107,9 +111,20 @@ class ThemesViewModel(
         selectEvent.value = theme.name
     }
 
+    fun importTheme(inputStream: InputStream?) {
+        try {
+            val fileText = inputStream?.bufferedReader()?.use(BufferedReader::readText) ?: ""
+            val externalTheme = gson.fromJson(fileText, ExternalTheme::class.java)
+            val themeEntity = ThemeConverter.toEntity(externalTheme)
+            loadProperties(themeEntity)
+        } catch (e: JsonSyntaxException) {
+            toastEvent.value = R.string.message_theme_syntax_exception
+        }
+    }
+
     fun exportTheme(theme: Theme) {
         val externalTheme = ThemeConverter.toExternalTheme(theme)
-        val fileName = "${theme.name}.theme"
+        val fileName = "${theme.name}.json"
         val fileText = gson.toJson(externalTheme)
         val directory = File(
             Environment.getExternalStorageDirectory(),
