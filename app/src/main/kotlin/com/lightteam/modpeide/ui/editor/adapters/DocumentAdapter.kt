@@ -30,8 +30,9 @@ import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 
 class DocumentAdapter(
+    onTabSelectedListener: OnTabSelectedListener,
     private val tabInteractor: TabInteractor
-) : TabAdapter<DocumentModel, DocumentAdapter.DocumentViewHolder>() {
+) : TabAdapter<DocumentModel, DocumentAdapter.DocumentViewHolder>(onTabSelectedListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentViewHolder {
         return DocumentViewHolder.create(parent, tabInteractor) {

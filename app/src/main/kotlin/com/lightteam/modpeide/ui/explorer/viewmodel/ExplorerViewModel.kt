@@ -62,7 +62,7 @@ class ExplorerViewModel(
 
     // region EVENTS
 
-    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() //Обновление списка вкладок
+    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() //Список вкладок
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
@@ -78,7 +78,7 @@ class ExplorerViewModel(
     var sortMode: Int = FileSorter.SORT_BY_NAME
     var showHidden: Boolean = true
 
-    private val tabsList: MutableList<FileModel> = mutableListOf()
+    val tabsList: MutableList<FileModel> = mutableListOf()
     private val searchList: MutableList<FileModel> = mutableListOf()
     private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     private var foldersOnTop: Boolean = true
@@ -247,11 +247,6 @@ class ExplorerViewModel(
                 }
             )
             .disposeOnViewModelDestroy()
-    }
-
-    fun removeLastTabs(n: Int) {
-        tabsList.subList(tabsList.size - n, tabsList.size).clear()
-        tabsEvent.value = tabsList
     }
 
     // region PREFERENCES

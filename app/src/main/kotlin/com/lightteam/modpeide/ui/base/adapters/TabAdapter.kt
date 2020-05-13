@@ -20,13 +20,13 @@ package com.lightteam.modpeide.ui.base.adapters
 import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.data.utils.extensions.replaceList
 
-abstract class TabAdapter <T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
+abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
+    private val onTabSelectedListener: OnTabSelectedListener
+) : RecyclerView.Adapter<VH>() {
 
     val selectedPosition
         get() = _selectedPosition
     private var _selectedPosition = -1
-
-    var onTabSelectedListener: OnTabSelectedListener? = null
 
     private var recyclerView: RecyclerView? = null
     private var currentList: MutableList<T> = mutableListOf()
@@ -57,19 +57,19 @@ abstract class TabAdapter <T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapt
 
     fun select(newPosition: Int) {
         if (newPosition == selectedPosition && !isClosing) {
-            onTabSelectedListener?.onTabReselected(selectedPosition)
+            onTabSelectedListener.onTabReselected(selectedPosition)
         } else {
             val previousPosition = selectedPosition
             _selectedPosition = newPosition
             if (previousPosition > -1 && selectedPosition > -1 && previousPosition < currentList.size) {
                 notifyItemChanged(previousPosition) // Update previous selected item
                 if (!isClosing) {
-                    onTabSelectedListener?.onTabUnselected(previousPosition)
+                    onTabSelectedListener.onTabUnselected(previousPosition)
                 }
             }
             if (selectedPosition > -1) {
                 notifyItemChanged(selectedPosition) // Update new selected item
-                onTabSelectedListener?.onTabSelected(selectedPosition)
+                onTabSelectedListener.onTabSelected(selectedPosition)
                 recyclerView?.smoothScrollToPosition(selectedPosition)
             }
         }

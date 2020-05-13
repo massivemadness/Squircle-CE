@@ -51,6 +51,8 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
     private lateinit var binding: FragmentExplorerBinding
     private lateinit var adapter: DirectoryAdapter
 
+    private var isClosing = false // TODO remove this
+
     override fun layoutId(): Int = R.layout.fragment_explorer
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +77,6 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         }
 
         binding.directoryRecyclerView.setHasFixedSize(true)
-        binding.directoryRecyclerView.itemAnimator = null
         binding.directoryRecyclerView.adapter = DirectoryAdapter(this).also {
             adapter = it
         }
@@ -84,7 +85,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             val backStackCount = childFragmentManager
                 .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
             navController.popBackStack(backStackCount - 1)
-            removeTab(backStackCount - 1)
+            removeTabs(backStackCount - 1)
         }
         binding.actionCreate.setOnClickListener {
             viewModel.fabEvent.call()
@@ -96,7 +97,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
         if (backStackCount > 1) {
             navController.popBackStack()
-            removeTab(1)
+            removeTabs(1)
             return true
         }
         return false
@@ -105,9 +106,13 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
     override fun onTabReselected(position: Int) {}
     override fun onTabUnselected(position: Int) {}
     override fun onTabSelected(position: Int) {
-        val howMany = adapter.itemCount - position - 1
-        navController.popBackStack(howMany)
-        removeTab(howMany)
+        if (!isClosing) {
+            isClosing = true
+            val howMany = adapter.itemCount - position - 1
+            navController.popBackStack(howMany)
+            removeTabs(howMany)
+            isClosing = false
+        }
     }
 
     // region MENU
@@ -173,14 +178,19 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             showToast(it)
         })
         viewModel.tabsEvent.observe(viewLifecycleOwner, Observer {
-            val selectedPosition = it.size - 1
-            adapter.submitList(it, selectedPosition)
-            binding.directoryRecyclerView.smoothScrollToPosition(selectedPosition)
+            adapter.submitList(it)
+            adapter.select(adapter.itemCount - 1)
         })
         viewModel.observePreferences()
     }
 
-    private fun removeTab(n: Int) {
-        viewModel.removeLastTabs(n)
+    private fun removeTabs(howMany: Int) {
+        viewModel.tabsList.subList(
+            viewModel.tabsList.size - howMany,
+            viewModel.tabsList.size
+        ).clear()
+        for (i in 0 until howMany) {
+            adapter.close(adapter.itemCount - 1)
+        }
     }
 }
