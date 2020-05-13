@@ -104,11 +104,13 @@ class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<Sugges
 
         fun bind(suggestion: SuggestionModel?, query: String) {
             val spannable = SpannableStringBuilder(suggestion?.text)
-            spannable.setSpan(
-                ForegroundColorSpan(itemColor),
-                0, query.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+            if (query.length < spannable.length) {
+                spannable.setSpan(
+                    ForegroundColorSpan(itemColor),
+                    0, query.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
             textView.text = spannable
         }
     }

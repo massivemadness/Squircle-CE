@@ -162,6 +162,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         })
         viewModel.tabsEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            viewModel.loadSelection()
         })
         viewModel.tabSelectionEvent.observe(viewLifecycleOwner, Observer { position ->
             drawerHandler.handleDrawerClose()
@@ -277,8 +278,8 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             )
             val mime = context?.contentResolver?.getType(uri)
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(uri, mime)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                setDataAndType(uri, mime)
             }
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
@@ -323,14 +324,14 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     }
 
     private fun loadDocument(position: Int) {
-        if (position > -1) { // if there's at least 1 tab
+        if (position > -1 && position < viewModel.tabsList.size) {
             val document = viewModel.tabsList[position]
             viewModel.loadFile(document)
         }
     }
 
     private fun saveDocument(position: Int) {
-        if (position > -1) { // if there's at least 1 tab
+        if (position > -1 && position < viewModel.tabsList.size) {
             viewModel.stateLoadingDocuments.set(true) // show loading indicator
             val document = viewModel.tabsList[position].copy(
                 scrollX = binding.editor.scrollX,
@@ -347,10 +348,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     }
 
     private fun removeDocument(position: Int) {
-        val documentModel = viewModel.tabsList[position]
-        viewModel.tabsList.removeAt(position)
-        viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
-        viewModel.deleteCache(documentModel)
+        if (position > -1 && position < viewModel.tabsList.size) {
+            val documentModel = viewModel.tabsList[position]
+            viewModel.tabsList.removeAt(position)
+            viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
+            viewModel.deleteCache(documentModel)
+        }
     }
 
     // endregion TABS

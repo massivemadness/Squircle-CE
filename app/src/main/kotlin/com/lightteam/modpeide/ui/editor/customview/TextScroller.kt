@@ -90,9 +90,9 @@ class TextScroller @JvmOverloads constructor(
     private val thumbPaint: Paint = Paint()
     private val thumbHeight: Int = thumbNormal.intrinsicHeight
 
-    private var scrollMax: Float = 0f
-    private var scrollY: Float = 0f
-    private var thumbTop: Float = 0f
+    private var thumbTop: Float = 0F
+    private var textScrollMax: Float = 0F
+    private var textScrollY: Float = 0F
 
     init {
         val typedArray = context.theme
@@ -203,7 +203,7 @@ class TextScroller @JvmOverloads constructor(
 
     private fun scrollView() {
         val scrollToAsFraction = thumbTop / (height - thumbHeight)
-        textProcessor.scrollTo(textProcessor.scrollX, (scrollMax * scrollToAsFraction).toInt() -
+        textProcessor.scrollTo(textProcessor.scrollX, (textScrollMax * scrollToAsFraction).toInt() -
             (scrollToAsFraction * (textProcessor.height - textProcessor.lineHeight)).toInt()
         )
     }
@@ -214,15 +214,20 @@ class TextScroller @JvmOverloads constructor(
 
     private fun getMeasurements() {
         if (::textProcessor.isInitialized && textProcessor.layout != null) {
-            scrollMax = textProcessor.layout.height.toFloat()
-            scrollY = textProcessor.scrollY.toFloat()
+            textScrollMax = textProcessor.layout.height.toFloat()
+            textScrollY = textProcessor.scrollY.toFloat()
             thumbTop = getThumbTop().toFloat()
         }
     }
 
     private fun getThumbTop(): Int {
-        val absoluteThumbTop = ((height - thumbHeight) * (scrollY /
-                (scrollMax - textProcessor.height + textProcessor.lineHeight))).roundToInt()
+        val calculatedThumbTop = ((height - thumbHeight) * (textScrollY /
+                (textScrollMax - textProcessor.height + textProcessor.lineHeight)))
+        val absoluteThumbTop = if (!calculatedThumbTop.isNaN()) {
+            calculatedThumbTop.roundToInt()
+        } else {
+            0
+        }
         return if (absoluteThumbTop > height - thumbHeight) {
             height - thumbHeight
         } else {
@@ -231,6 +236,6 @@ class TextScroller @JvmOverloads constructor(
     }
 
     private fun isShowScrollerJustified(): Boolean {
-        return scrollMax / textProcessor.height >= 1.5
+        return textScrollMax / textProcessor.height >= 1.5
     }
 }

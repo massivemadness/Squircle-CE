@@ -100,11 +100,6 @@ class EditorViewModel(
                     onSuccess = { list ->
                         tabsList.replaceList(list)
                         tabsEvent.value = tabsList
-                        tabSelectionEvent.value = if (list.isNotEmpty()) {
-                            tabsList.indexBy(getSelectedDocumentId()) ?: 0
-                        } else {
-                            -1
-                        }
                     },
                     onError = {
                         Log.e(TAG, it.message, it)
@@ -122,6 +117,14 @@ class EditorViewModel(
                 .schedulersIoToMain(schedulersProvider)
                 .subscribeBy { cacheRepository.deleteAllCaches() }
                 .disposeOnViewModelDestroy()
+        }
+    }
+
+    fun loadSelection() {
+        tabSelectionEvent.value = if (tabsList.isNotEmpty()) {
+            tabsList.indexBy(getSelectedDocumentId()) ?: 0
+        } else {
+            -1
         }
     }
 

@@ -42,7 +42,7 @@ class CacheRepository(
 ) : DocumentRepository {
 
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
-        val file = cache("${documentModel.name}.cache")
+        val file = cache("${documentModel.uuid}.cache")
         val fileModel = FileConverter.toModel(file)
         return filesystem.loadFile(fileModel)
             .map { text ->
@@ -61,7 +61,7 @@ class CacheRepository(
     }
 
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
-        val file = cache("${documentModel.name}.cache")
+        val file = cache("${documentModel.uuid}.cache")
         val fileModel = FileConverter.toModel(file)
         return filesystem.saveFile(fileModel, text)
             .doOnComplete {
