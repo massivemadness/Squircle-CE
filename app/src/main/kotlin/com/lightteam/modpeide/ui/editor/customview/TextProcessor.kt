@@ -188,6 +188,9 @@ class TextProcessor @JvmOverloads constructor(
     private var openBracketSpan: BackgroundColorSpan? = null
     private var closedBracketSpan: BackgroundColorSpan? = null
 
+    private var isConfigured = false
+    private var isThemeLoaded = false
+    private var isInitialized = false
     private var isDoingUndoRedo = false
     private var isSyntaxHighlighting = false
     private var isAutoIndenting = false
@@ -248,6 +251,8 @@ class TextProcessor @JvmOverloads constructor(
                 onTouchEvent(event)
             }
         }
+        isConfigured = true
+        isInitialized = isConfigured && isThemeLoaded
     }
 
     private fun colorize() {
@@ -285,6 +290,9 @@ class TextProcessor @JvmOverloads constructor(
 
                 openBracketSpan = BackgroundColorSpan(it.colorScheme.delimiterBackgroundColor)
                 closedBracketSpan = BackgroundColorSpan(it.colorScheme.delimiterBackgroundColor)
+
+                isThemeLoaded = true
+                isInitialized = isConfigured && isThemeLoaded
             }
         }
     }
@@ -310,7 +318,7 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        if (layout != null) {
+        if (layout != null && isInitialized) {
             val currentLineStart = lines.getLineForIndex(selectionStart)
             if (configuration.highlightCurrentLine) {
                 if (currentLineStart == lines.getLineForIndex(selectionEnd)) {
