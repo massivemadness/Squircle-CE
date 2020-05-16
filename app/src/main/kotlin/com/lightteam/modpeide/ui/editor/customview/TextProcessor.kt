@@ -891,14 +891,14 @@ class TextProcessor @JvmOverloads constructor(
                 text.removeSpan(span)
             }
 
-            var topLine = scrollY / lineHeight - 30
+            var topLine = scrollY / lineHeight - 10
             if (topLine >= lineCount) {
                 topLine = lineCount - 1
             } else if (topLine < 0) {
                 topLine = 0
             }
 
-            var bottomLine = (scrollY + height) / lineHeight + 30
+            var bottomLine = (scrollY + height) / lineHeight + 10
             if (bottomLine >= lineCount) {
                 bottomLine = lineCount - 1
             } else if (bottomLine < 0) {

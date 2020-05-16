@@ -17,8 +17,6 @@
 
 package com.lightteam.modpeide.data.feature.scheme.internal
 
-import com.lightteam.modpeide.data.feature.scheme.internal.ColorScheme
-
 data class Theme(
     val uuid: String,
     val name: String,

@@ -32,7 +32,7 @@ data class FileModel(
 ) : Parcelable {
 
     companion object {
-        val OPENABLE = arrayOf(
+        val TEXT = arrayOf(
             ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua"
         )
         val ARCHIVE = arrayOf(
@@ -51,7 +51,7 @@ data class FileModel(
 
     fun getType(): FileType {
         return when {
-            name.endsWith(OPENABLE) -> FileType.TEXT
+            name.endsWith(TEXT) -> FileType.TEXT
             name.endsWith(ARCHIVE) -> FileType.ARCHIVE
             name.endsWith(IMAGE) -> FileType.IMAGE
             name.endsWith(AUDIO) -> FileType.AUDIO

@@ -46,12 +46,14 @@ class SuggestionAdapter(context: Context, resourceId: Int) : ArrayAdapter<Sugges
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val filterResults = FilterResults()
             suggestions.clear()
-            val name = constraint.toString().toLowerCase(Locale.getDefault())
-            for (suggestion in wordsManager.getSuggestions()) {
-                val suggestionText = suggestion.text.toString().toLowerCase(Locale.getDefault())
-                if (suggestionText.startsWith(name) && suggestionText != name) {
-                    query = name
-                    suggestions.add(suggestion)
+            if (::wordsManager.isInitialized) {
+                val name = constraint.toString().toLowerCase(Locale.getDefault())
+                for (suggestion in wordsManager.getSuggestions()) {
+                    val suggestionText = suggestion.text.toString().toLowerCase(Locale.getDefault())
+                    if (suggestionText.startsWith(name) && suggestionText != name) {
+                        query = name
+                        suggestions.add(suggestion)
+                    }
                 }
             }
             filterResults.values = suggestions

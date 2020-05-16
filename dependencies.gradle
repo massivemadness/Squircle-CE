@@ -30,9 +30,9 @@ ext {
     core_version = '1.3.0-rc01'
 
     //Design
-    appcompat_version = '1.2.0-beta01'
+    appcompat_version = '1.2.0-rc01'
     materialdesign_version = '1.2.0-alpha06'
-    constraintlayout_version = '2.0.0-beta4'
+    constraintlayout_version = '2.0.0-beta5'
     swiperefreshlayout_version = '1.1.0-rc01'
     preferencescompat_version = '1.1.1'
     materialdialogs_version = '2.8.1'

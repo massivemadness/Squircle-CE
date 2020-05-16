@@ -30,6 +30,7 @@ object Migrations {
 
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("DELETE FROM `${Tables.FILE_HISTORY}`")
             database.execSQL("ALTER TABLE `${Tables.FILE_HISTORY}` RENAME TO `${Tables.DOCUMENTS}`")
             database.execSQL("""
                 CREATE TABLE IF NOT EXISTS `${Tables.FONTS}` (

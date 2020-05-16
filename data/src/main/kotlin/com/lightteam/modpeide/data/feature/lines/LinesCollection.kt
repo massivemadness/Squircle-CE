@@ -17,8 +17,6 @@
 
 package com.lightteam.modpeide.data.feature.lines
 
-import com.lightteam.modpeide.data.feature.lines.Line
-
 class LinesCollection : Iterable<Line> {
 
     private val lines = mutableListOf(
