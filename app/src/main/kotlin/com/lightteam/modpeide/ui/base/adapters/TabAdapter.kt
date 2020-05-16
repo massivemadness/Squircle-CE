@@ -18,7 +18,6 @@
 package com.lightteam.modpeide.ui.base.adapters
 
 import androidx.recyclerview.widget.RecyclerView
-import com.lightteam.modpeide.data.utils.extensions.replaceList
 
 abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
     private val onTabSelectedListener: OnTabSelectedListener
@@ -51,7 +50,7 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
     }
 
     fun submitList(list: List<T>) {
-        currentList.replaceList(list)
+        currentList = list as MutableList<T>
         notifyDataSetChanged()
     }
 

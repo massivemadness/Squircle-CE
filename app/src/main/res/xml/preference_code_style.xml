@@ -30,13 +30,13 @@
             android:title="@string/pref_close_brackets_title"
             android:summary="@string/pref_close_brackets_summary"
             android:defaultValue="true"
-            android:key="AUTOCLOSE_BRACKETS"/>
+            android:key="AUTO_CLOSE_BRACKETS"/>
 
         <SwitchPreference
             android:title="@string/pref_close_quotes_title"
             android:summary="@string/pref_close_quotes_summary"
-            android:defaultValue="false"
-            android:key="AUTOCLOSE_QUOTES"/>
+            android:defaultValue="true"
+            android:key="AUTO_CLOSE_QUOTES"/>
 
     </PreferenceCategory>
 

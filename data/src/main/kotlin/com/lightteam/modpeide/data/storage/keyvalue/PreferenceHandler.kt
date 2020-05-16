@@ -53,8 +53,8 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
         // Code Style
         const val KEY_AUTO_INDENTATION = "AUTO_INDENTATION"
-        const val KEY_AUTOCLOSE_BRACKETS = "AUTOCLOSE_BRACKETS"
-        const val KEY_AUTOCLOSE_QUOTES = "AUTOCLOSE_QUOTES"
+        const val KEY_AUTO_CLOSE_BRACKETS = "AUTO_CLOSE_BRACKETS"
+        const val KEY_AUTO_CLOSE_QUOTES = "AUTO_CLOSE_QUOTES"
 
         // File Explorer
         const val KEY_SHOW_HIDDEN_FILES = "SHOW_HIDDEN_FILES"
@@ -84,8 +84,8 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getSoftKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
 
     fun getAutoIndentation(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)
-    fun getAutoCloseBrackets(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTOCLOSE_BRACKETS, true)
-    fun getAutoCloseQuotes(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTOCLOSE_QUOTES, false)
+    fun getAutoCloseBrackets(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_CLOSE_BRACKETS, true)
+    fun getAutoCloseQuotes(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_CLOSE_QUOTES, true)
 
     fun getFilterHidden(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
     fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)

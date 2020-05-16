@@ -162,15 +162,12 @@
     <string name="menu_overflow_search">Поиск</string>
     <string name="menu_overflow_tools">Инструменты</string>
 
-    <string name="store_standard">Standard</string>
-    <string name="store_ultimate">Ultimate</string>
     <string name="store_feature_1">Базовый функционал</string>
     <string name="store_feature_2">Цветовые схемы</string>
     <string name="store_feature_3">Внешние шрифты</string>
     <string name="store_feature_4">Увел. лимит вкладок</string>
-    <string name="store_feature_5">Авто-закрытие кавычек</string>
-    <string name="store_feature_6">Проверка ошибок</string>
-    <string name="store_feature_7">Вставка цвета</string>
+    <string name="store_feature_5">Проверка ошибок</string>
+    <string name="store_feature_6">Вставка цвета</string>
 
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>

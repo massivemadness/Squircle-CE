@@ -164,16 +164,14 @@
     <string name="menu_overflow_search">Search</string>
     <string name="menu_overflow_tools">Tools</string>
 
-    <string name="store_standard">Standard</string>
-    <string name="store_ultimate">Ultimate</string>
+    <string name="store_standard" translatable="false">Standard</string>
+    <string name="store_ultimate" translatable="false">Ultimate</string>
     <string name="store_feature_1">Basic functionality</string>
-    <!--<string name="store_feature_2">No advertisements</string>-->
     <string name="store_feature_2">Color schemes</string>
     <string name="store_feature_3">External fonts</string>
     <string name="store_feature_4">Increased tab limit</string>
-    <string name="store_feature_5">Auto-close quotes</string>
-    <string name="store_feature_6">Error checking</string>
-    <string name="store_feature_7">Color picker</string>
+    <string name="store_feature_5">Error checking</string>
+    <string name="store_feature_6">Color picker</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>

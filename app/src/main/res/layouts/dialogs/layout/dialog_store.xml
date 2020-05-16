@@ -261,36 +261,6 @@
 
             </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="2dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:text="@string/store_feature_7"
-                    android:ellipsize="end"
-                    android:singleLine="true"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:src="@drawable/ic_close"
-                    app:tint="@color/colorRed"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:src="@drawable/ic_check"
-                    app:tint="@color/colorGreen"/>
-
-            </TableRow>
-
         </TableLayout>
 
         <LinearLayout
