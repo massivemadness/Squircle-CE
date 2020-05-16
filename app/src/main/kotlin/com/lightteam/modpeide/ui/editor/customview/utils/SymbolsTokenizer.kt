@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.customview.internal
+package com.lightteam.modpeide.ui.editor.customview.utils
 
 import android.widget.MultiAutoCompleteTextView
 

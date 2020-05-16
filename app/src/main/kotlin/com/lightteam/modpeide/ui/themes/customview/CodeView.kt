@@ -27,7 +27,6 @@ import com.lightteam.language.styler.Styleable
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.feature.scheme.internal.Theme
-import com.lightteam.unknown.language.UnknownLanguage
 
 class CodeView @JvmOverloads constructor(
     context: Context,
@@ -57,7 +56,7 @@ class CodeView @JvmOverloads constructor(
         """.trimIndent()
     }
 
-    var language: Language = UnknownLanguage()
+    var language: Language? = null
         set(value) {
             field = value
             syntaxHighlight()
@@ -118,7 +117,7 @@ class CodeView @JvmOverloads constructor(
 
     private fun syntaxHighlight() {
         theme?.let {
-            language.runStyler(
+            language?.runStyler(
                 this,
                 text.toString(),
                 ThemeConverter.toSyntaxScheme(it)

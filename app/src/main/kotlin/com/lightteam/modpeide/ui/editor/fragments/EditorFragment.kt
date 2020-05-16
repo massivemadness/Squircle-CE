@@ -45,6 +45,7 @@ import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
 import com.lightteam.modpeide.ui.editor.customview.TextScroller
+import com.lightteam.modpeide.ui.editor.customview.internal.UndoRedoEditText
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
@@ -106,14 +107,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
 
-        binding.editor
-            .afterTextChangeEvents()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy {
+        binding.editor.onUndoRedoChangedListener = object : UndoRedoEditText.OnUndoRedoChangedListener {
+            override fun onUndoRedoChanged() {
                 viewModel.canUndo.set(binding.editor.canUndo())
                 viewModel.canRedo.set(binding.editor.canRedo())
             }
-            .disposeOnFragmentDestroyView()
+        }
 
         if (requireContext().isUltimate()) {
             binding.editor
@@ -125,11 +124,13 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy {
                     if (adapter.selectedPosition > -1) {
-                        viewModel.parse(
-                            binding.editor.language,
-                            adapter.selectedPosition,
-                            binding.editor.getProcessedText()
-                        )
+                        binding.editor.language?.let {
+                            viewModel.parse(
+                                it,
+                                adapter.selectedPosition,
+                                binding.editor.getProcessedText()
+                            )
+                        }
                     }
                 }
                 .disposeOnFragmentDestroyView()
@@ -208,34 +209,34 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                         binding.editor.theme = event.value
                     }
                     is PreferenceEvent.FontSize -> {
-                        val newConfiguration = binding.editor.configuration.copy(fontSize = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(fontSize = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.FontType -> {
-                        val newConfiguration = binding.editor.configuration.copy(
+                        val newConfiguration = binding.editor.config.copy(
                             fontType = requireContext().createTypefaceFromPath(event.value)
                         )
-                        binding.editor.configuration = newConfiguration
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.WordWrap -> {
-                        val newConfiguration = binding.editor.configuration.copy(wordWrap = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(wordWrap = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.CodeCompletion -> {
-                        val newConfiguration = binding.editor.configuration.copy(codeCompletion = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(codeCompletion = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.PinchZoom -> {
-                        val newConfiguration = binding.editor.configuration.copy(pinchZoom = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(pinchZoom = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.CurrentLine -> {
-                        val newConfiguration = binding.editor.configuration.copy(highlightCurrentLine = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(highlightCurrentLine = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.Delimiters -> {
-                        val newConfiguration = binding.editor.configuration.copy(highlightDelimiters = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(highlightDelimiters = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
@@ -247,20 +248,20 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                         }
                     }
                     is PreferenceEvent.SoftKeys -> {
-                        val newConfiguration = binding.editor.configuration.copy(softKeyboard = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(softKeyboard = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.AutoIndent -> {
-                        val newConfiguration = binding.editor.configuration.copy(autoIndentation = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(autoIndentation = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.AutoBrackets -> {
-                        val newConfiguration = binding.editor.configuration.copy(autoCloseBrackets = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(autoCloseBrackets = event.value)
+                        binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.AutoQuotes -> {
-                        val newConfiguration = binding.editor.configuration.copy(autoCloseQuotes = event.value)
-                        binding.editor.configuration = newConfiguration
+                        val newConfiguration = binding.editor.config.copy(autoCloseQuotes = event.value)
+                        binding.editor.config = newConfiguration
                     }
                 }
             }

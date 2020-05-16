@@ -32,8 +32,8 @@ android {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
 
-        versionCode 10031
-        versionName "2020.1.4"
+        versionCode 10032
+        versionName "2020.1.5"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -135,7 +135,6 @@ dependencies {
     implementation project(':filesystems:filesystem')
     implementation project(':filesystems:localfilesystem')
     implementation project(':languages:language')
-    implementation project(':languages:unknown')
 
     //Tests
     testImplementation testLibrary.junit

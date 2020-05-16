@@ -26,7 +26,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.ui.editor.customview.internal.OnScrollChangedListener
+import com.lightteam.modpeide.ui.editor.customview.internal.ScrollableEditText
 import com.lightteam.modpeide.utils.extensions.getDrawableCompat
 import kotlin.math.roundToInt
 
@@ -34,7 +34,7 @@ class TextScroller @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr), OnScrollChangedListener {
+) : View(context, attrs, defStyleAttr), ScrollableEditText.OnScrollChangedListener {
 
     companion object {
         const val STATE_HIDDEN = 0
@@ -74,7 +74,7 @@ class TextScroller @JvmOverloads constructor(
             }
         }
 
-    private lateinit var textProcessor: TextProcessor
+    private lateinit var scrollableEditText: ScrollableEditText
 
     private lateinit var draggingBitmap: Bitmap
     private lateinit var normalBitmap: Bitmap
@@ -113,7 +113,7 @@ class TextScroller @JvmOverloads constructor(
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
-        if (::textProcessor.isInitialized && state != STATE_HIDDEN) {
+        if (::scrollableEditText.isInitialized && state != STATE_HIDDEN) {
             if (!::normalBitmap.isInitialized) {
                 thumbNormal.bounds = Rect(0, 0, width, thumbHeight)
                 normalBitmap = Bitmap.createBitmap(width, thumbHeight, Bitmap.Config.ARGB_8888)
@@ -147,7 +147,7 @@ class TextScroller @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (!::textProcessor.isInitialized || state == STATE_HIDDEN) {
+        if (!::scrollableEditText.isInitialized || state == STATE_HIDDEN) {
             return false
         }
         getMeasurements()
@@ -156,7 +156,7 @@ class TextScroller @JvmOverloads constructor(
                 if (!isPointInThumb(event.x, event.y)) {
                     return false
                 }
-                textProcessor.abortFling()
+                scrollableEditText.abortFling()
                 state = STATE_DRAGGING
                 isPressed = true
                 return true
@@ -172,7 +172,7 @@ class TextScroller @JvmOverloads constructor(
                     return false
                 }
                 isPressed = true
-                textProcessor.abortFling()
+                scrollableEditText.abortFling()
                 var newThumbTop = event.y.toInt() - thumbHeight / 2
                 if (newThumbTop < 0) {
                     newThumbTop = 0
@@ -196,15 +196,16 @@ class TextScroller @JvmOverloads constructor(
         }
     }
 
-    fun link(editor: TextProcessor) {
-        textProcessor = editor
-        textProcessor.addOnScrollChangedListener(this)
+    fun link(scrollableEditText: ScrollableEditText) {
+        this.scrollableEditText = scrollableEditText
+        this.scrollableEditText.addOnScrollChangedListener(this)
     }
 
     private fun scrollView() {
         val scrollToAsFraction = thumbTop / (height - thumbHeight)
-        textProcessor.scrollTo(textProcessor.scrollX, (textScrollMax * scrollToAsFraction).toInt() -
-            (scrollToAsFraction * (textProcessor.height - textProcessor.lineHeight)).toInt()
+        scrollableEditText.scrollTo(
+            scrollableEditText.scrollX,
+            (textScrollMax * scrollToAsFraction).toInt() - (scrollToAsFraction * (scrollableEditText.height - scrollableEditText.lineHeight)).toInt()
         )
     }
 
@@ -213,16 +214,16 @@ class TextScroller @JvmOverloads constructor(
     }
 
     private fun getMeasurements() {
-        if (::textProcessor.isInitialized && textProcessor.layout != null) {
-            textScrollMax = textProcessor.layout.height.toFloat()
-            textScrollY = textProcessor.scrollY.toFloat()
+        if (::scrollableEditText.isInitialized && scrollableEditText.layout != null) {
+            textScrollMax = scrollableEditText.layout.height.toFloat()
+            textScrollY = scrollableEditText.scrollY.toFloat()
             thumbTop = getThumbTop().toFloat()
         }
     }
 
     private fun getThumbTop(): Int {
         val calculatedThumbTop = ((height - thumbHeight) * (textScrollY /
-                (textScrollMax - textProcessor.height + textProcessor.lineHeight)))
+                (textScrollMax - scrollableEditText.height + scrollableEditText.lineHeight)))
         val absoluteThumbTop = if (!calculatedThumbTop.isNaN()) {
             calculatedThumbTop.roundToInt()
         } else {
@@ -236,6 +237,6 @@ class TextScroller @JvmOverloads constructor(
     }
 
     private fun isShowScrollerJustified(): Boolean {
-        return textScrollMax / textProcessor.height >= 1.5
+        return textScrollMax / scrollableEditText.height >= 1.5
     }
 }

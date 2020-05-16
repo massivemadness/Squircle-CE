@@ -15,8 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.editor.customview.internal
+package com.lightteam.modpeide.ui.editor.customview.utils
 
-interface OnScrollChangedListener {
-    fun onScrollChanged(x: Int, y: Int, oldX: Int, oldY: Int)
+import android.text.Editable
+
+interface TextChangeListener {
+    fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int)
+    fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int)
+    fun doAfterTextChanged(text: Editable?)
 }
