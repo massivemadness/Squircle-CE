@@ -19,28 +19,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_file_new"
-        android:title="@string/menu_file_new"
+        android:id="@+id/action_new"
+        android:title="@string/action_new"
         android:icon="@drawable/ic_plus"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_file_open"
-        android:title="@string/menu_file_open"
+        android:id="@+id/action_open"
+        android:title="@string/action_open"
         android:icon="@drawable/ic_folder_open"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_file_save"
-        android:title="@string/menu_file_save"
+        android:id="@+id/action_save"
+        android:title="@string/action_save"
         android:icon="@drawable/ic_save"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_file_properties"
-        android:title="@string/menu_file_properties"
+        android:id="@+id/action_save_as"
+        android:title="@string/action_save_as"
+        android:icon="@drawable/ic_save_as"
+        app:iconTint="@color/colorIcon"/>
+    <item
+        android:id="@+id/action_properties"
+        android:title="@string/action_properties"
         android:icon="@drawable/ic_file_properties"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_file_close"
-        android:title="@string/menu_file_close"
+        android:id="@+id/action_close"
+        android:title="@string/action_close"
         android:icon="@drawable/ic_close"
         app:iconTint="@color/colorIcon"/>
 </menu>

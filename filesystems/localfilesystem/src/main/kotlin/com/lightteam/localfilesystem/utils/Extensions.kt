@@ -24,6 +24,10 @@ import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
 
+fun String.isValidFileName(): Boolean {
+    return isNotBlank() && !contains("/") && !equals(".") && !equals("..")
+}
+
 fun File.size(): Long {
     if (isDirectory) {
         var length = 0L

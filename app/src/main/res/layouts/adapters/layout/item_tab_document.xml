@@ -50,7 +50,7 @@
         android:padding="5dp"
         android:src="@drawable/ic_close"
         android:background="@drawable/ripple_14dp"
-        android:contentDescription="@string/menu_file_close"
+        android:contentDescription="@string/action_close"
         android:id="@+id/item_icon"
         app:tint="?colorOnSurface"
         app:layout_constraintStart_toEndOf="@id/item_title"

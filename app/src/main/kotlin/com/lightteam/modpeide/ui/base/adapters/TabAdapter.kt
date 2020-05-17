@@ -27,8 +27,8 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
         get() = _selectedPosition
     private var _selectedPosition = -1
 
+    private val currentList: MutableList<T> = mutableListOf()
     private var recyclerView: RecyclerView? = null
-    private var currentList: MutableList<T> = mutableListOf()
     private var isClosing = false
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -50,7 +50,8 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
     }
 
     fun submitList(list: List<T>) {
-        currentList = list as MutableList<T>
+        currentList.clear()
+        currentList.addAll(list)
         notifyDataSetChanged()
     }
 

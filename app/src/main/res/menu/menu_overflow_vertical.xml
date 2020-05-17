@@ -19,52 +19,49 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_menu_search"
-        android:title="@string/menu_overflow_search"
+        android:id="@+id/action_search"
+        android:title="@string/action_search"
         android:icon="@drawable/ic_file_search"
         app:iconTint="@color/colorIcon">
         <menu>
             <item
-                android:id="@+id/menu_search_find"
-                android:title="@string/menu_search_find"
+                android:id="@+id/action_find"
+                android:title="@string/action_find"
                 android:icon="@drawable/ic_search"
                 app:iconTint="@color/colorIcon"/>
             <item
-                android:id="@+id/menu_search_replace_all"
-                android:title="@string/menu_search_replace_all"
+                android:id="@+id/action_replace_all"
+                android:title="@string/action_replace_all"
                 android:icon="@drawable/ic_replace"
                 app:iconTint="@color/colorIcon"/>
             <item
-                android:id="@+id/menu_search_gotoLine"
-                android:title="@string/menu_search_gotoLine"
+                android:id="@+id/action_goto_line"
+                android:title="@string/action_goto_line"
                 android:icon="@drawable/ic_line_goto"
                 app:iconTint="@color/colorIcon"/>
         </menu>
     </item>
     <item
-        android:id="@+id/action_menu_tools"
-        android:title="@string/menu_overflow_tools"
+        android:id="@+id/action_tools"
+        android:title="@string/action_tools"
         android:icon="@drawable/ic_tools"
         app:iconTint="@color/colorIcon">
         <menu>
             <item
-                android:id="@+id/menu_tools_errorChecking"
-                android:title="@string/menu_tools_errorChecking"
+                android:id="@+id/action_error_checking"
+                android:title="@string/action_error_checking"
                 android:icon="@drawable/ic_code_check"
                 app:iconTint="@color/colorIcon"/>
             <item
-                android:id="@+id/menu_tools_insertColor"
-                android:title="@string/menu_tools_insertColor"
+                android:id="@+id/action_insert_color"
+                android:title="@string/action_insert_color"
                 android:icon="@drawable/ic_palette"
                 app:iconTint="@color/colorIcon"/>
-            <!--<item
-                android:id="@+id/menu_tools_downloadSource"
-                android:title="@string/menu_tools_downloadSource"/>-->
         </menu>
     </item>
     <item
-        android:id="@+id/menu_overflow_settings"
-        android:title="@string/menu_overflow_settings"
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
         android:icon="@drawable/ic_settings"
         app:iconTint="@color/colorIcon"/>
 </menu>

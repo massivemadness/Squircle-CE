@@ -19,38 +19,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_edit_cut"
-        android:title="@string/menu_edit_cut"
+        android:id="@+id/action_cut"
+        android:title="@string/action_cut"
         android:icon="@drawable/ic_cut"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_edit_copy"
-        android:title="@string/menu_edit_copy"
+        android:id="@+id/action_copy"
+        android:title="@string/action_copy"
         android:icon="@drawable/ic_copy"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_edit_paste"
-        android:title="@string/menu_edit_paste"
+        android:id="@+id/action_paste"
+        android:title="@string/action_paste"
         android:icon="@drawable/ic_paste"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_edit_selectAll"
-        android:title="@string/menu_edit_selectAll"
+        android:id="@+id/action_select_all"
+        android:title="@string/action_select_all"
         android:icon="@drawable/ic_select_all"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_edit_selectLine"
-        android:title="@string/menu_edit_selectLine"
+        android:id="@+id/action_select_line"
+        android:title="@string/action_select_line"
         android:icon="@drawable/ic_line_select"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_edit_deleteLine"
-        android:title="@string/menu_edit_deleteLine"
+        android:id="@+id/action_delete_line"
+        android:title="@string/action_delete_line"
         android:icon="@drawable/ic_minus"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_edit_duplicateLine"
-        android:title="@string/menu_edit_duplicateLine"
+        android:id="@+id/action_duplicate_line"
+        android:title="@string/action_duplicate_line"
         android:icon="@drawable/ic_line_duplicate"
         app:iconTint="@color/colorIcon"/>
 </menu>

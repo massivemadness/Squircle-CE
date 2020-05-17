@@ -19,16 +19,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_tools_errorChecking"
-        android:title="@string/menu_tools_errorChecking"
+        android:id="@+id/action_error_checking"
+        android:title="@string/action_error_checking"
         android:icon="@drawable/ic_code_check"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/menu_tools_insertColor"
-        android:title="@string/menu_tools_insertColor"
+        android:id="@+id/action_insert_color"
+        android:title="@string/action_insert_color"
         android:icon="@drawable/ic_palette"
         app:iconTint="@color/colorIcon"/>
-    <!--<item
-        android:id="@+id/menu_tools_downloadSource"
-        android:title="@string/menu_tools_downloadSource"/>-->
 </menu>

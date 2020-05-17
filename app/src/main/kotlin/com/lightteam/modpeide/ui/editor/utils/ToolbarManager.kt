@@ -87,33 +87,34 @@ class ToolbarManager(
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
 
-            //File Menu
-            R.id.menu_file_new -> listener.onNewButton()
-            R.id.menu_file_open -> listener.onOpenButton()
-            R.id.menu_file_save -> listener.onSaveButton()
-            R.id.menu_file_properties -> listener.onPropertiesButton()
-            R.id.menu_file_close -> listener.onCloseButton()
+            // File Menu
+            R.id.action_new -> listener.onNewButton()
+            R.id.action_open -> listener.onOpenButton()
+            R.id.action_save -> listener.onSaveButton()
+            R.id.action_save_as -> listener.onSaveAsButton()
+            R.id.action_properties -> listener.onPropertiesButton()
+            R.id.action_close -> listener.onCloseButton()
 
-            //Edit Menu
-            R.id.menu_edit_cut -> listener.onCutButton()
-            R.id.menu_edit_copy -> listener.onCopyButton()
-            R.id.menu_edit_paste -> listener.onPasteButton()
-            R.id.menu_edit_selectAll -> listener.onSelectAllButton()
-            R.id.menu_edit_selectLine -> listener.onSelectLineButton()
-            R.id.menu_edit_deleteLine -> listener.onDeleteLineButton()
-            R.id.menu_edit_duplicateLine -> listener.onDuplicateLineButton()
+            // Edit Menu
+            R.id.action_cut -> listener.onCutButton()
+            R.id.action_copy -> listener.onCopyButton()
+            R.id.action_paste -> listener.onPasteButton()
+            R.id.action_select_all -> listener.onSelectAllButton()
+            R.id.action_select_line -> listener.onSelectLineButton()
+            R.id.action_delete_line -> listener.onDeleteLineButton()
+            R.id.action_duplicate_line -> listener.onDuplicateLineButton()
 
-            //Search Menu
-            R.id.menu_search_find -> listener.onFindButton()
-            R.id.menu_search_replace_all -> listener.onReplaceAllButton()
-            R.id.menu_search_gotoLine -> listener.onGoToLineButton()
+            // Search Menu
+            R.id.action_find -> listener.onFindButton()
+            R.id.action_replace_all -> listener.onReplaceAllButton()
+            R.id.action_goto_line -> listener.onGoToLineButton()
             
-            //Tools Menu
-            R.id.menu_tools_errorChecking -> listener.onErrorCheckingButton()
-            R.id.menu_tools_insertColor -> listener.onInsertColorButton()
+            // Tools Menu
+            R.id.action_error_checking -> listener.onErrorCheckingButton()
+            R.id.action_insert_color -> listener.onInsertColorButton()
 
-            //Overflow Menu
-            R.id.menu_overflow_settings -> listener.onSettingsButton()
+            // Overflow Menu
+            R.id.action_settings -> listener.onSettingsButton()
         }
         return false
     }
@@ -124,6 +125,7 @@ class ToolbarManager(
         fun onNewButton()
         fun onOpenButton()
         fun onSaveButton()
+        fun onSaveAsButton()
         fun onPropertiesButton()
         fun onCloseButton()
 

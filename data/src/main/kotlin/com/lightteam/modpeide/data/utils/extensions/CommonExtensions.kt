@@ -28,13 +28,6 @@ fun Int.toHexString(fallbackColor: String = "#000000"): String {
     }
 }
 
-fun String.isValidFileName(): Boolean {
-    return !isEmpty() &&
-            !contains("/") &&
-            !equals(".") &&
-            !equals("..")
-}
-
 fun Collection<FileModel>.containsFileModel(fileModel: FileModel): Boolean {
     forEach { indexedModel ->
         if (indexedModel.path == fileModel.path) {

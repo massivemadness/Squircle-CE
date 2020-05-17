@@ -17,4 +17,4 @@
 
 package com.lightteam.filesystem.exception
 
-class DirectoryExpectedException : RuntimeException("Attempt to invoke listFiles() on a file")
+class DirectoryExpectedException : RuntimeException("Unable to get list of files from file")

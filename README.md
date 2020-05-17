@@ -33,9 +33,8 @@ ModPE Script is a script language based on JavaScript and used to create mods fo
 
 ### ULTIMATE EDITION FEATURES
 <b>•</b> Color Schemes  
-<b>•</b> New font types  
+<b>•</b> External fonts  
 <b>•</b> Increased tab limit  
-<b>•</b> Auto-close quotes  
 <b>•</b> Error Checking  
 <b>•</b> Color Picker
 

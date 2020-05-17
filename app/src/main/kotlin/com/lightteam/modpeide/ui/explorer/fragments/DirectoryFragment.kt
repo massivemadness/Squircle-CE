@@ -32,8 +32,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileTree
 import com.lightteam.filesystem.model.PropertiesModel
+import com.lightteam.localfilesystem.utils.isValidFileName
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
@@ -121,7 +121,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
     private fun copyPath(fileModel: FileModel) {
         fileModel.path.clipText(context)
-        viewModel.toastEvent.value = R.string.message_done
+        showToast(R.string.message_done)
     }
 
     // region DIALOGS
@@ -174,7 +174,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                     )
                     viewModel.createFile(child)
                 } else {
-                    viewModel.toastEvent.value = R.string.message_invalid_file_name
+                    showToast(R.string.message_invalid_file_name)
                 }
             }
         }
@@ -196,7 +196,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                 if (isValid) {
                     viewModel.renameFile(fileModel, fileName)
                 } else {
-                    viewModel.toastEvent.value = R.string.message_invalid_file_name
+                    showToast(R.string.message_invalid_file_name)
                 }
             }
         }

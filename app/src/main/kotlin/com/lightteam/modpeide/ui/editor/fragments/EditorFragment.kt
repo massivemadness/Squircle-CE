@@ -284,7 +284,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             }
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            viewModel.toastEvent.value = R.string.message_cannot_be_opened
+            showToast(R.string.message_cannot_be_opened)
         }
     }
 
@@ -371,7 +371,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
 
     override fun onOpenButton() {
         onDrawerButton()
-        viewModel.toastEvent.value = R.string.message_select_file
+        showToast(R.string.message_select_file)
     }
 
     override fun onSaveButton() {
@@ -383,7 +383,34 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             viewModel.saveUndoStack(document, binding.editor.undoStack)
             viewModel.saveRedoStack(document, binding.editor.redoStack)
         } else {
-            viewModel.toastEvent.value = R.string.message_no_open_files
+            showToast(R.string.message_no_open_files)
+        }
+    }
+
+    override fun onSaveAsButton() {
+        val position = adapter.selectedPosition
+        if (position > -1) {
+            val document = viewModel.tabsList[position]
+            MaterialDialog(requireContext()).show {
+                title(R.string.dialog_title_save_as)
+                customView(R.layout.dialog_save_as, scrollable = true)
+                negativeButton(R.string.action_cancel)
+                positiveButton(R.string.action_save) {
+                    val enterFilePath = findViewById<TextInputEditText>(R.id.input)
+                    val filePath = enterFilePath.text?.toString()?.trim() ?: ""
+
+                    if (filePath.isNotBlank()) {
+                        val updateDocument = document.copy(path = filePath)
+                        viewModel.saveFile(updateDocument, binding.editor.getProcessedText())
+                    } else {
+                        showToast(R.string.message_invalid_file_path)
+                    }
+                }
+                val enterFilePath = findViewById<TextInputEditText>(R.id.input)
+                enterFilePath.setText(document.path)
+            }
+        } else {
+            showToast(R.string.message_no_open_files)
         }
     }
 
@@ -393,7 +420,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             val document = viewModel.tabsList[position]
             sharedViewModel.propertiesEvent.value = DocumentConverter.toModel(document)
         } else {
-            viewModel.toastEvent.value = R.string.message_no_open_files
+            showToast(R.string.message_no_open_files)
         }
     }
 
@@ -402,7 +429,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         if (position > -1) {
             close(position)
         } else {
-            viewModel.toastEvent.value = R.string.message_no_open_files
+            showToast(R.string.message_no_open_files)
         }
     }
 
@@ -410,7 +437,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         if (binding.editor.hasSelection()) {
             binding.editor.cut()
         } else {
-            viewModel.toastEvent.value = R.string.message_nothing_to_cut
+            showToast(R.string.message_no_open_files)
         }
     }
 
@@ -418,7 +445,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         if (binding.editor.hasSelection()) {
             binding.editor.copy()
         } else {
-            viewModel.toastEvent.value = R.string.message_nothing_to_copy
+            showToast(R.string.message_nothing_to_copy)
         }
     }
 
@@ -427,7 +454,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         if (binding.editor.hasPrimaryClip() && position > -1) {
             binding.editor.paste()
         } else {
-            viewModel.toastEvent.value = R.string.message_nothing_to_paste
+            showToast(R.string.message_nothing_to_paste)
         }
     }
 
@@ -466,12 +493,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     if (textToFind.isNotEmpty() && textToFind.isNotBlank()) {
                         binding.editor.find(textToFind, isMatchCaseChecked, isRegExpChecked, isWordsOnlyChecked)
                     } else {
-                        viewModel.toastEvent.value = R.string.message_enter_the_text
+                        showToast(R.string.message_enter_the_text)
                     }
                 }
             }
         } else {
-            viewModel.toastEvent.value = R.string.message_no_open_files
+            showToast(R.string.message_no_open_files)
         }
     }
 
@@ -490,12 +517,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     if (textReplaceWhat.isNotEmpty()) {
                         binding.editor.replaceAll(textReplaceWhat, textReplaceWith)
                     } else {
-                        viewModel.toastEvent.value = R.string.message_enter_the_text
+                        showToast(R.string.message_enter_the_text)
                     }
                 }
             }
         } else {
-            viewModel.toastEvent.value = R.string.message_no_open_files
+            showToast(R.string.message_no_open_files)
         }
     }
 
@@ -512,17 +539,17 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     if (inputResult.isNotEmpty()) {
                         val toLine = inputResult.toInt() - 1 // т.к первая линия 0
                         when {
-                            toLine <= 0 -> viewModel.toastEvent.value = R.string.message_line_above_than_0
+                            toLine <= 0 -> showToast(R.string.message_line_above_than_0)
                             toLine < binding.editor.arrayLineCount -> binding.editor.gotoLine(toLine)
-                            else -> viewModel.toastEvent.value = R.string.message_line_not_exists
+                            else -> showToast(R.string.message_line_not_exists)
                         }
                     } else {
-                        viewModel.toastEvent.value = R.string.message_line_not_exists
+                        showToast(R.string.message_line_not_exists)
                     }
                 }
             }
         } else {
-            viewModel.toastEvent.value = R.string.message_no_open_files
+            showToast(R.string.message_no_open_files)
         }
     }
 
@@ -542,7 +569,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     positiveButton(R.string.action_ok)
                 }
             } else {
-                viewModel.toastEvent.value = R.string.message_no_open_files
+                showToast(R.string.message_no_open_files)
             }
         } else {
             DialogStore.Builder(requireContext()).show()
@@ -567,7 +594,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     negativeButton(R.string.action_cancel)
                 }
             } else {
-                viewModel.toastEvent.value = R.string.message_no_open_files
+                showToast(R.string.message_no_open_files)
             }
         } else {
             DialogStore.Builder(requireContext()).show()

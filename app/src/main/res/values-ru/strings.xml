@@ -33,6 +33,7 @@
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
+    <string name="hint_enter_file_path">Введите путь к файлу</string>
     <string name="hint_find_what">Что искать?</string>
     <string name="hint_replace_what">Заменить что?</string>
     <string name="hint_replace_with">Заменить на:</string>
@@ -54,7 +55,6 @@
     <string name="action_close_others">Закрыть другие</string>
     <string name="action_close_all">Закрыть все</string>
     <string name="action_copy_path">Скопировать путь</string>
-    <string name="action_properties">Свойства</string>
     <string name="action_folder">Папка</string>
     <string name="action_rename">Переименовать</string>
     <string name="action_delete">Удалить</string>
@@ -62,8 +62,6 @@
     <string name="action_match_case">Учитывать регистр</string>
     <string name="action_reg_exp">Регулярные выражения</string>
     <string name="action_word_only">Только слова</string>
-    <string name="action_find">Найти</string>
-    <string name="action_replace_all">Заменить все</string>
     <string name="action_go_to">Перейти</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
     <string name="action_get_it">Приобрести</string>
@@ -76,6 +74,26 @@
     <string name="action_export">Экспортировать</string>
     <string name="action_edit">Редактировать</string>
     <string name="action_remove">Удалить</string>
+    <string name="action_new">Новый файл</string>
+    <string name="action_open">Открыть</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_save_as">Сохранить как</string>
+    <string name="action_properties">Свойства</string>
+    <string name="action_cut">Вырезать</string>
+    <string name="action_copy">Копировать</string>
+    <string name="action_paste">Вставить</string>
+    <string name="action_select_all">Выделить всё</string>
+    <string name="action_select_line">Выделить линию</string>
+    <string name="action_delete_line">Удалить линию</string>
+    <string name="action_duplicate_line">Повторить линию</string>
+    <string name="action_find">Найти</string>
+    <string name="action_replace_all">Заменить все</string>
+    <string name="action_goto_line">Перейти к строке</string>
+    <string name="action_error_checking">Проверка ошибок</string>
+    <string name="action_insert_color">Вставить цвет</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_tools">Инструменты</string>
 
     <string name="dialog_title_choose_action">Выберите действие</string>
     <string name="dialog_title_create">Создать…</string>
@@ -90,6 +108,7 @@
     <string name="dialog_title_replace_all">Заменить все…</string>
     <string name="dialog_title_goto_line">Перейти к строке…</string>
     <string name="dialog_title_result">Результат</string>
+    <string name="dialog_title_save_as">Сохранить как…</string>
 
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл? Это действие нельзя отменить</string>
@@ -115,9 +134,10 @@
     <string name="message_no_open_files">Нет файлов</string>
     <string name="message_tab_limit_achieved">Вы достигли лимита вкладок</string>
     <string name="message_cannot_be_opened">Файл невозможно открыть</string>
-    <string name="message_invalid_file_name">Неправильное имя файла</string>
+    <string name="message_invalid_file_name">Некорректное имя файла</string>
+    <string name="message_invalid_file_path">Некорректный путь к файлу</string>
     <string name="message_unknown_exception">Неизвестная ошибка</string>
-    <string name="message_directory_expected">Попытка получить список файлов из файла</string>
+    <string name="message_directory_expected">Невозможно получить список файлов из файла</string>
     <string name="message_file_already_exists">Такой файл уже существует</string>
     <string name="message_file_not_found">Файл не найден</string>
     <string name="message_done">Готово</string>
@@ -140,27 +160,6 @@
     <string name="message_theme_exported">Тема сохранена %1$s</string>
     <string name="message_choose_theme_json">Выберите файл темы .json</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
-
-    <string name="menu_file_new">Новый файл</string>
-    <string name="menu_file_open">Открыть</string>
-    <string name="menu_file_save">Сохранить</string>
-    <string name="menu_file_properties">Свойства</string>
-    <string name="menu_file_close">Закрыть</string>
-    <string name="menu_edit_cut">Вырезать</string>
-    <string name="menu_edit_copy">Копировать</string>
-    <string name="menu_edit_paste">Вставить</string>
-    <string name="menu_edit_selectAll">Выделить всё</string>
-    <string name="menu_edit_selectLine">Выделить линию</string>
-    <string name="menu_edit_deleteLine">Удалить линию</string>
-    <string name="menu_edit_duplicateLine">Повторить линию</string>
-    <string name="menu_search_find">Найти</string>
-    <string name="menu_search_replace_all">Заменить все</string>
-    <string name="menu_search_gotoLine">Перейти к строке</string>
-    <string name="menu_tools_errorChecking">Проверка ошибок</string>
-    <string name="menu_tools_insertColor">Вставить цвет</string>
-    <string name="menu_overflow_settings">Настройки</string>
-    <string name="menu_overflow_search">Поиск</string>
-    <string name="menu_overflow_tools">Инструменты</string>
 
     <string name="store_feature_1">Базовый функционал</string>
     <string name="store_feature_2">Цветовые схемы</string>

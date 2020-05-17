@@ -36,8 +36,6 @@ import java.io.IOException
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
-    // region EXPLORER
-
     override fun defaultLocation(): Single<FileTree> {
         return Single.create { emitter ->
             val parent = FileConverter.toModel(defaultLocation)
@@ -56,9 +54,9 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     override fun provideDirectory(parent: FileModel?): Single<FileTree> {
         return if (parent != null) {
             Single.create { emitter ->
-                val realFile = FileConverter.toFile(parent)
-                if (realFile.isDirectory) {
-                    val children = realFile.listFiles()!!
+                val file = FileConverter.toFile(parent)
+                if (file.isDirectory) {
+                    val children = file.listFiles()!!
                         .map(FileConverter::toModel)
                         .toList()
                     val fileTree = FileTree(parent, children)
@@ -74,15 +72,19 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     override fun createFile(fileModel: FileModel): Single<FileModel> {
         return Single.create { emitter ->
-            val realFile = FileConverter.toFile(fileModel)
-            if (!realFile.exists()) {
+            val file = FileConverter.toFile(fileModel)
+            if (!file.exists()) {
                 if (fileModel.isFolder) {
-                    realFile.mkdirs()
+                    file.mkdirs()
                 } else {
-                    realFile.createNewFile()
+                    val parentFile = file.parentFile!!
+                    if (!parentFile.exists()) {
+                        parentFile.mkdirs()
+                    }
+                    file.createNewFile()
                 }
-                val modelFile = FileConverter.toModel(realFile)
-                emitter.onSuccess(modelFile)
+                val fileModel2 = FileConverter.toModel(file)
+                emitter.onSuccess(fileModel2)
             } else {
                 emitter.onError(FileAlreadyExistsException())
             }
@@ -91,10 +93,10 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     override fun deleteFile(fileModel: FileModel): Single<FileModel> {
         return Single.create { emitter ->
-            val realFile = FileConverter.toFile(fileModel)
-            if (realFile.exists()) {
-                realFile.deleteRecursively()
-                val parentFile = FileConverter.toModel(realFile.parentFile!!)
+            val file = FileConverter.toFile(fileModel)
+            if (file.exists()) {
+                file.deleteRecursively()
+                val parentFile = FileConverter.toModel(file.parentFile!!)
                 emitter.onSuccess(parentFile)
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))
@@ -105,7 +107,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     override fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel> {
         return Single.create { emitter ->
             val originalFile = FileConverter.toFile(fileModel)
-            val parentFile = File(originalFile.parentFile!!.absolutePath)
+            val parentFile = originalFile.parentFile!!
             val renamedFile = File(parentFile, fileName)
             if (originalFile.exists()) {
                 if (!renamedFile.exists()) {
@@ -123,19 +125,19 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     override fun propertiesOf(fileModel: FileModel): Single<PropertiesModel> {
         return Single.create { emitter ->
-            val realFile = File(fileModel.path)
-            if (realFile.exists()) {
+            val file = File(fileModel.path)
+            if (file.exists()) {
                 val result = PropertiesModel(
-                    realFile.name,
-                    realFile.absolutePath,
-                    realFile.lastModified().formatAsDate(),
-                    realFile.size().formatAsSize(),
-                    getLineCount(realFile),
-                    getWordCount(realFile),
-                    getCharCount(realFile),
-                    realFile.canRead(),
-                    realFile.canWrite(),
-                    realFile.canExecute()
+                    file.name,
+                    file.absolutePath,
+                    file.lastModified().formatAsDate(),
+                    file.size().formatAsSize(),
+                    getLineCount(file),
+                    getWordCount(file),
+                    getCharCount(file),
+                    file.canRead(),
+                    file.canWrite(),
+                    file.canExecute()
                 )
                 emitter.onSuccess(result)
             } else {
@@ -143,10 +145,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             }
         }
     }
-
-    // endregion EXPLORER
-
-    // region EDITOR
 
     override fun loadFile(fileModel: FileModel): Single<String> {
         return Single.create { emitter ->
@@ -165,6 +163,10 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             try {
                 val file = File(fileModel.path)
                 if (!file.exists()) {
+                    val parentFile = file.parentFile!!
+                    if (!parentFile.exists()) {
+                        parentFile.mkdirs()
+                    }
                     file.createNewFile()
                 }
 
@@ -178,8 +180,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             }
         }
     }
-
-    // endregion EDITOR
 
     // region PROPERTIES
 

@@ -225,8 +225,8 @@ class EditorViewModel(
             if (tabsList.size < tabLimitEvent.value!!) {
                 tabsList.add(documentModel)
                 stateNothingFound.set(tabsList.isEmpty())
+                setSelectedDocumentId(documentModel.uuid)
                 tabsEvent.value = tabsList
-                tabSelectionEvent.value = tabsList.size - 1
             } else {
                 toastEvent.value = R.string.message_tab_limit_achieved
             }

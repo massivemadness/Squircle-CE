@@ -25,12 +25,12 @@ import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.localfilesystem.utils.isValidFileName
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.feature.scheme.external.ExternalTheme
 import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
-import com.lightteam.modpeide.data.utils.extensions.isValidFileName
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
@@ -169,7 +169,7 @@ class ThemesViewModel(
     }
 
     fun validateInput(name: String, author: String, description: String) {
-        val isNameValid = name.trim().isNotBlank() && name.trim().isValidFileName()
+        val isNameValid = name.trim().isValidFileName()
         val isAuthorValid = author.trim().isNotBlank()
         val isDescriptionValid = description.trim().isNotBlank()
         validationEvent.value = isNameValid && isAuthorValid && isDescriptionValid
