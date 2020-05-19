@@ -21,7 +21,7 @@
     <item
         android:id="@+id/action_find"
         android:title="@string/action_find"
-        android:icon="@drawable/ic_replace_all"
+        android:icon="@drawable/ic_file_find"
         app:iconTint="@color/colorIcon"/>
     <item
         android:id="@+id/action_tools"

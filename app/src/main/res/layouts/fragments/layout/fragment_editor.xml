@@ -42,10 +42,12 @@
             android:background="?colorSurface"
             android:elevation="4dp">
 
+            <!-- region DEFAULT PANEL -->
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:id="@+id/toolbar_panel"
+                android:id="@+id/default_panel"
                 android:orientation="horizontal"
                 android:background="?colorSurface"
                 android:elevation="4dp">
@@ -102,7 +104,7 @@
                     android:layout_toStartOf="@id/action_tools"
                     android:padding="10.5dp"
                     android:visibility="gone"
-                    android:src="@drawable/ic_replace_all"
+                    android:src="@drawable/ic_file_find"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_find"
                     app:tint="?colorOnSurface"/>
@@ -157,12 +159,50 @@
 
             </RelativeLayout>
 
+            <!-- endregion DEFAULT PANEL -->
+
+            <!-- region FIND PANEL -->
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:id="@+id/find_panel"
                 android:visibility="gone"
                 android:background="?colorSurface">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toStartOf="@id/action_down"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:typeface="monospace"
+                    android:background="@null"
+                    android:hint="@string/action_find"
+                    android:singleLine="true"
+                    android:id="@+id/input_find"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_up"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_arrow_down"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_down"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_find_overflow"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_arrow_up"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_up"
+                    app:tint="?colorOnSurface"/>
 
                 <ImageView
                     android:layout_width="45dp"
@@ -176,6 +216,55 @@
                     app:tint="?colorOnSurface"/>
 
             </RelativeLayout>
+
+            <!-- endregion FIND PANEL -->
+
+            <!-- region REPLACE PANEL -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:id="@+id/replace_panel"
+                android:visibility="gone"
+                android:background="?colorSecondaryVariant">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toStartOf="@id/action_replace"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:typeface="monospace"
+                    android:background="@null"
+                    android:hint="@string/action_replace"
+                    android:singleLine="true"
+                    android:id="@+id/input_replace"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_replace_all"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_replace"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_replace"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_file_find_replace"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_replace_all"
+                    app:tint="?colorOnSurface"/>
+
+            </RelativeLayout>
+
+            <!-- endregion REPLACE PANEL -->
 
         </LinearLayout>
 
@@ -205,7 +294,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
-                android:src="@drawable/ic_replace_all"
+                android:src="@drawable/ic_file_find_replace"
                 app:tint="?colorOnBackground"/>
 
             <TextView

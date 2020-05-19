@@ -78,7 +78,7 @@
     <string name="action_select_line">Выделить линию</string>
     <string name="action_delete_line">Удалить линию</string>
     <string name="action_duplicate_line">Повторить линию</string>
-    <string name="action_regex">Регулярные выражения</string>
+    <string name="action_regex">Регулярки</string>
     <string name="action_match_case">Учитывать регистр</string>
     <string name="action_find">Найти</string>
     <string name="action_close_find">Закрыть поиск</string>

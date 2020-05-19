@@ -22,8 +22,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.FileProvider
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
@@ -45,6 +43,7 @@ import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
 import com.lightteam.modpeide.ui.editor.customview.TextScroller
 import com.lightteam.modpeide.ui.editor.customview.internal.UndoRedoEditText
+import com.lightteam.modpeide.ui.editor.utils.Panel
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
@@ -85,7 +84,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         binding.viewModel = viewModel
         observeViewModel()
 
-        toolbarManager = ToolbarManager(this)
         toolbarManager.bind(binding)
 
         binding.documentRecyclerView.setHasFixedSize(true)
@@ -464,8 +462,52 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         binding.editor.duplicateLine()
     }
 
-    override fun onFindButton() {
-        // toolbarManager.panel = Panel.FIND
+    override fun onOpenFindButton() {
+        toolbarManager.panel = Panel.FIND
+    }
+
+    override fun onCloseFindButton() {
+        toolbarManager.panel = Panel.DEFAULT
+    }
+
+    override fun onOpenReplaceButton() {
+        toolbarManager.panel = Panel.FIND_REPLACE
+    }
+
+    override fun onCloseReplaceButton() {
+        toolbarManager.panel = Panel.FIND
+    }
+
+    override fun onReplaceButton() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onReplaceAllButton() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onResultDownButton() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onResultUpButton() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onRegexChanged(regex: Boolean) {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onMatchCaseChanged(matchCase: Boolean) {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onFindInputChanged(input: String) {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onReplaceInputChanged(input: String) {
+        // TODO("Not yet implemented")
     }
 
     override fun onErrorCheckingButton() {

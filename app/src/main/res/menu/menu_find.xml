@@ -19,21 +19,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_find"
-        android:title="@string/action_find"
+        android:id="@+id/action_switch_find"
+        android:title="@string/action_close_find"
         android:icon="@drawable/ic_search"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/action_replace"
+        android:id="@+id/action_switch_replace"
         android:title="@string/action_replace"
         android:icon="@drawable/ic_replace"
         app:iconTint="@color/colorIcon"/>
-    <item
-        android:id="@+id/action_regex"
-        android:title="@string/action_regex"
-        app:actionViewClass="com.google.android.material.checkbox.MaterialCheckBox"/>
-    <item
-        android:id="@+id/action_match_case"
-        android:title="@string/action_match_case"
-        app:actionViewClass="com.google.android.material.checkbox.MaterialCheckBox"/>
+
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/action_regex"
+            android:title="@string/action_regex"
+            app:actionViewClass="android.widget.CheckBox"/>
+        <item
+            android:id="@+id/action_match_case"
+            android:title="@string/action_match_case"
+            app:actionViewClass="android.widget.CheckBox"/>
+    </group>
+
 </menu>

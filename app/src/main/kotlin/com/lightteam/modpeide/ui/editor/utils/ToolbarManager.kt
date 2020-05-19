@@ -18,10 +18,13 @@
 package com.lightteam.modpeide.ui.editor.utils
 
 import android.content.res.Configuration
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
@@ -39,22 +42,96 @@ class ToolbarManager(
             }
         }
 
+    var panel: Panel = Panel.DEFAULT
+        set(value) {
+            field = value
+            updatePanel()
+        }
+
+    private var isRegex = false
+    private var isMatchCase = true
+
     private lateinit var binding: FragmentEditorBinding
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+
+            // File Menu
+            R.id.action_new -> listener.onNewButton()
+            R.id.action_open -> listener.onOpenButton()
+            R.id.action_save -> listener.onSaveButton()
+            R.id.action_save_as -> listener.onSaveAsButton()
+            R.id.action_properties -> listener.onPropertiesButton()
+            R.id.action_close -> listener.onCloseButton()
+
+            // Edit Menu
+            R.id.action_cut -> listener.onCutButton()
+            R.id.action_copy -> listener.onCopyButton()
+            R.id.action_paste -> listener.onPasteButton()
+            R.id.action_select_all -> listener.onSelectAllButton()
+            R.id.action_select_line -> listener.onSelectLineButton()
+            R.id.action_delete_line -> listener.onDeleteLineButton()
+            R.id.action_duplicate_line -> listener.onDuplicateLineButton()
+
+            // Find Menu
+            R.id.action_find -> listener.onOpenFindButton()
+            R.id.action_switch_find -> {
+                listener.onCloseReplaceButton()
+                listener.onCloseFindButton()
+            }
+            R.id.action_switch_replace -> {
+                if (panel == Panel.FIND) {
+                    listener.onOpenReplaceButton()
+                } else {
+                    listener.onCloseReplaceButton()
+                }
+            }
+            R.id.action_regex -> {
+                isRegex = !isRegex
+                listener.onRegexChanged(isRegex)
+            }
+            R.id.action_match_case -> {
+                isMatchCase = !isMatchCase
+                listener.onMatchCaseChanged(isMatchCase)
+            }
+
+            // Tools Menu
+            R.id.action_error_checking -> listener.onErrorCheckingButton()
+            R.id.action_insert_color -> listener.onInsertColorButton()
+
+            // Overflow Menu
+            R.id.action_settings -> listener.onSettingsButton()
+        }
+        return false
+    }
 
     fun bind(binding: FragmentEditorBinding) {
         this.binding = binding
         orientation = binding.root.resources?.configuration?.orientation ?: Configuration.ORIENTATION_PORTRAIT
+        updatePanel()
 
         binding.actionDrawer.setOnClickListener { listener.onDrawerButton() }
         binding.actionSave.setOnClickListener { listener.onSaveButton() }
-        binding.actionFind.setOnClickListener { listener.onFindButton() }
+        binding.actionFind.setOnClickListener { listener.onOpenFindButton() }
 
         setMenuClickListener(binding.actionFile, R.menu.menu_file)
         setMenuClickListener(binding.actionEdit, R.menu.menu_edit)
         setMenuClickListener(binding.actionTools, R.menu.menu_tools)
+        setMenuClickListener(binding.actionFindOverflow, R.menu.menu_find)
 
         binding.actionUndo.setOnClickListener { listener.onUndoButton() }
         binding.actionRedo.setOnClickListener { listener.onRedoButton() }
+
+        binding.actionReplace.setOnClickListener { listener.onReplaceButton() }
+        binding.actionReplaceAll.setOnClickListener { listener.onReplaceAllButton() }
+        binding.actionDown.setOnClickListener { listener.onResultDownButton() }
+        binding.actionUp.setOnClickListener { listener.onResultUpButton() }
+        binding.inputFind.doAfterTextChanged {
+            listener.onFindInputChanged(it.toString())
+        }
+        binding.inputReplace.doAfterTextChanged {
+            listener.onReplaceInputChanged(it.toString())
+        }
     }
 
     private fun portrait(): Int {
@@ -80,41 +157,42 @@ class ToolbarManager(
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)
             popupMenu.makeRightPaddingRecursively()
+            onPreparePopupMenu(popupMenu.menu)
             popupMenu.show()
         }
     }
 
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        when (item.itemId) {
+    private fun onPreparePopupMenu(menu: Menu) {
+        val switchReplace = menu.findItem(R.id.action_switch_replace)
+        val regex = menu.findItem(R.id.action_regex)
+        val matchCase = menu.findItem(R.id.action_match_case)
 
-            // File Menu
-            R.id.action_new -> listener.onNewButton()
-            R.id.action_open -> listener.onOpenButton()
-            R.id.action_save -> listener.onSaveButton()
-            R.id.action_save_as -> listener.onSaveAsButton()
-            R.id.action_properties -> listener.onPropertiesButton()
-            R.id.action_close -> listener.onCloseButton()
-
-            // Edit Menu
-            R.id.action_cut -> listener.onCutButton()
-            R.id.action_copy -> listener.onCopyButton()
-            R.id.action_paste -> listener.onPasteButton()
-            R.id.action_select_all -> listener.onSelectAllButton()
-            R.id.action_select_line -> listener.onSelectLineButton()
-            R.id.action_delete_line -> listener.onDeleteLineButton()
-            R.id.action_duplicate_line -> listener.onDuplicateLineButton()
-
-            // Find Menu
-            R.id.action_find -> listener.onFindButton()
-            
-            // Tools Menu
-            R.id.action_error_checking -> listener.onErrorCheckingButton()
-            R.id.action_insert_color -> listener.onInsertColorButton()
-
-            // Overflow Menu
-            R.id.action_settings -> listener.onSettingsButton()
+        if (panel == Panel.FIND_REPLACE) {
+            switchReplace?.setTitle(R.string.action_close_replace)
         }
-        return false
+
+        regex?.isChecked = isRegex
+        matchCase?.isChecked = isMatchCase
+    }
+
+    private fun updatePanel() {
+        when (panel) {
+            Panel.DEFAULT -> {
+                binding.defaultPanel.isVisible = true
+                binding.findPanel.isVisible = false
+                binding.replacePanel.isVisible = false
+            }
+            Panel.FIND -> {
+                binding.defaultPanel.isVisible = false
+                binding.findPanel.isVisible = true
+                binding.replacePanel.isVisible = false
+            }
+            Panel.FIND_REPLACE -> {
+                binding.defaultPanel.isVisible = false
+                binding.findPanel.isVisible = true
+                binding.replacePanel.isVisible = true
+            }
+        }
     }
 
     interface OnPanelClickListener {
@@ -135,7 +213,18 @@ class ToolbarManager(
         fun onDeleteLineButton()
         fun onDuplicateLineButton()
 
-        fun onFindButton()
+        fun onOpenFindButton()
+        fun onCloseFindButton()
+        fun onOpenReplaceButton()
+        fun onCloseReplaceButton()
+        fun onReplaceButton()
+        fun onReplaceAllButton()
+        fun onResultDownButton()
+        fun onResultUpButton()
+        fun onRegexChanged(regex: Boolean)
+        fun onMatchCaseChanged(matchCase: Boolean)
+        fun onFindInputChanged(input: String)
+        fun onReplaceInputChanged(input: String)
 
         fun onErrorCheckingButton()
         fun onInsertColorButton()

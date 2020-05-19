@@ -57,6 +57,7 @@
 
     <style name="Widget.AppTheme.PopupMenu" parent="Theme.MaterialComponents.Light">
         <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu.Overflow</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
     </style>
 
     <!-- endregion MENU -->
