@@ -34,10 +34,6 @@
     <string name="hint_search">Поиск…</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
     <string name="hint_enter_file_path">Введите путь к файлу</string>
-    <string name="hint_find_what">Что искать?</string>
-    <string name="hint_replace_what">Заменить что?</string>
-    <string name="hint_replace_with">Заменить на:</string>
-    <string name="hint_line_number">Номер строки</string>
     <string name="hint_enter_font_name">Название шрифта</string>
     <string name="hint_enter_font_path">Путь к шрифту</string>
     <string name="hint_enter_theme_name">Название темы</string>
@@ -59,10 +55,6 @@
     <string name="action_rename">Переименовать</string>
     <string name="action_delete">Удалить</string>
     <string name="action_insert">Вставить</string>
-    <string name="action_match_case">Учитывать регистр</string>
-    <string name="action_reg_exp">Регулярные выражения</string>
-    <string name="action_word_only">Только слова</string>
-    <string name="action_go_to">Перейти</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
     <string name="action_get_it">Приобрести</string>
     <string name="action_maybe_later">Может позже</string>
@@ -86,9 +78,13 @@
     <string name="action_select_line">Выделить линию</string>
     <string name="action_delete_line">Удалить линию</string>
     <string name="action_duplicate_line">Повторить линию</string>
+    <string name="action_regex">Регулярные выражения</string>
+    <string name="action_match_case">Учитывать регистр</string>
     <string name="action_find">Найти</string>
+    <string name="action_close_find">Закрыть поиск</string>
+    <string name="action_replace">Заменить</string>
+    <string name="action_close_replace">Закрыть замену</string>
     <string name="action_replace_all">Заменить все</string>
-    <string name="action_goto_line">Перейти к строке</string>
     <string name="action_error_checking">Проверка ошибок</string>
     <string name="action_insert_color">Вставить цвет</string>
     <string name="action_settings">Настройки</string>
@@ -104,9 +100,6 @@
     <string name="dialog_title_exit">Выход</string>
     <string name="dialog_title_properties">Свойства</string>
     <string name="dialog_title_color_picker">Выберите цвет</string>
-    <string name="dialog_title_find">Найти…</string>
-    <string name="dialog_title_replace_all">Заменить все…</string>
-    <string name="dialog_title_goto_line">Перейти к строке…</string>
     <string name="dialog_title_result">Результат</string>
     <string name="dialog_title_save_as">Сохранить как…</string>
 

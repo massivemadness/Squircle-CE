@@ -30,14 +30,13 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
-import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
 import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
 import com.lightteam.modpeide.utils.extensions.getColour
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), EditorFragment.DrawerHandler {
+class MainActivity : BaseActivity() {
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 10
@@ -74,18 +73,10 @@ class MainActivity : BaseActivity(), EditorFragment.DrawerHandler {
         }
     }
 
-    override fun handleDrawerOpen() {
-        binding.drawerLayout?.openDrawer(GravityCompat.START)
-    }
-
-    override fun handleDrawerClose() {
-        binding.drawerLayout?.closeDrawer(GravityCompat.START)
-    }
-
     override fun onBackPressed() {
         if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
             if (!backPressedHandler.handleOnBackPressed()) {
-                handleDrawerClose()
+                viewModel.closeDrawerEvent.call()
             }
         } else {
             if (viewModel.backEvent.value != false) {
@@ -127,6 +118,12 @@ class MainActivity : BaseActivity(), EditorFragment.DrawerHandler {
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
+        })
+        viewModel.openDrawerEvent.observe(this, Observer {
+            binding.drawerLayout?.openDrawer(GravityCompat.START)
+        })
+        viewModel.closeDrawerEvent.observe(this, Observer {
+            binding.drawerLayout?.closeDrawer(GravityCompat.START)
         })
 
         viewModel.observePreferences()

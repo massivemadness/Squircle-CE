@@ -35,10 +35,6 @@
     <string name="hint_search">Search…</string>
     <string name="hint_enter_file_name">Enter file name</string>
     <string name="hint_enter_file_path">Enter file path</string>
-    <string name="hint_find_what">Find what?</string>
-    <string name="hint_replace_what">Replace what?</string>
-    <string name="hint_replace_with">Replace with:</string>
-    <string name="hint_line_number">Line number</string>
     <string name="hint_enter_font_name">Enter font name</string>
     <string name="hint_enter_font_path">Enter font path</string>
     <string name="hint_enter_theme_name">Enter theme name</string>
@@ -60,10 +56,6 @@
     <string name="action_rename">Rename</string>
     <string name="action_delete">Delete</string>
     <string name="action_insert">Insert</string>
-    <string name="action_match_case">Match Case</string>
-    <string name="action_reg_exp">Regular Expressions</string>
-    <string name="action_word_only">Word Only</string>
-    <string name="action_go_to">Go to</string>
     <string name="action_show_hidden_files">Show hidden files</string>
     <string name="action_get_it">Get it</string>
     <string name="action_maybe_later">Maybe later</string>
@@ -87,9 +79,13 @@
     <string name="action_select_line">Select Line</string>
     <string name="action_delete_line">Delete Line</string>
     <string name="action_duplicate_line">Duplicate Line</string>
+    <string name="action_regex">Regex</string>
+    <string name="action_match_case">Match Case</string>
     <string name="action_find">Find</string>
+    <string name="action_close_find">Close Find</string>
+    <string name="action_replace">Replace</string>
+    <string name="action_close_replace">Close Replace</string>
     <string name="action_replace_all">Replace All</string>
-    <string name="action_goto_line">Go to Line</string>
     <string name="action_error_checking">Error Checking</string>
     <string name="action_insert_color">Insert Color</string>
     <string name="action_settings">Settings</string>
@@ -105,9 +101,6 @@
     <string name="dialog_title_exit">Exit</string>
     <string name="dialog_title_properties">Properties</string>
     <string name="dialog_title_color_picker">Color Picker</string>
-    <string name="dialog_title_find">Find…</string>
-    <string name="dialog_title_replace_all">Replace All…</string>
-    <string name="dialog_title_goto_line">Go to Line…</string>
     <string name="dialog_title_result">Result</string>
     <string name="dialog_title_save_as">Save As…</string>
 

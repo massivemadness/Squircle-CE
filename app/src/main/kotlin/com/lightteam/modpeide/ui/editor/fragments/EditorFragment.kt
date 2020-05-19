@@ -18,19 +18,18 @@
 package com.lightteam.modpeide.ui.editor.fragments
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.CheckBox
 import androidx.core.content.FileProvider
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.filesystem.model.FileType
@@ -66,22 +65,13 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     lateinit var sharedViewModel: MainViewModel
     @Inject
     lateinit var viewModel: EditorViewModel
+    @Inject
+    lateinit var toolbarManager: ToolbarManager
 
     private lateinit var binding: FragmentEditorBinding
-    private lateinit var drawerHandler: DrawerHandler
-    private lateinit var toolbarManager: ToolbarManager
     private lateinit var adapter: DocumentAdapter
 
     override fun layoutId(): Int = R.layout.fragment_editor
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is DrawerHandler) {
-            drawerHandler = context
-        } else {
-            throw IllegalArgumentException("$context must implement DrawerHandler")
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -166,7 +156,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             viewModel.loadSelection()
         })
         viewModel.tabSelectionEvent.observe(viewLifecycleOwner, Observer { position ->
-            drawerHandler.handleDrawerClose()
+            sharedViewModel.closeDrawerEvent.call()
             if (position > -1) {
                 adapter.select(position)
             }
@@ -362,7 +352,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     // region TOOLBAR
 
     override fun onDrawerButton() {
-        drawerHandler.handleDrawerOpen()
+        sharedViewModel.openDrawerEvent.call()
     }
 
     override fun onNewButton() {
@@ -475,82 +465,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     }
 
     override fun onFindButton() {
-        val position = adapter.selectedPosition
-        if (position > -1) {
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_find)
-                customView(R.layout.dialog_find, scrollable = true)
-                negativeButton(R.string.action_cancel)
-                positiveButton(R.string.action_find) {
-                    val textToFind = it.getCustomView()
-                        .findViewById<TextInputEditText>(R.id.input).text.toString()
-                    val isMatchCaseChecked = it.getCustomView()
-                        .findViewById<CheckBox>(R.id.box_matchCase).isChecked
-                    val isRegExpChecked = it.getCustomView()
-                        .findViewById<CheckBox>(R.id.box_regExp).isChecked
-                    val isWordsOnlyChecked = it.getCustomView()
-                        .findViewById<CheckBox>(R.id.box_wordOnly).isChecked
-                    if (textToFind.isNotEmpty() && textToFind.isNotBlank()) {
-                        binding.editor.find(textToFind, isMatchCaseChecked, isRegExpChecked, isWordsOnlyChecked)
-                    } else {
-                        showToast(R.string.message_enter_the_text)
-                    }
-                }
-            }
-        } else {
-            showToast(R.string.message_no_open_files)
-        }
-    }
-
-    override fun onReplaceAllButton() {
-        val position = adapter.selectedPosition
-        if (position > -1) {
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_replace_all)
-                customView(R.layout.dialog_replace_all)
-                negativeButton(R.string.action_cancel)
-                positiveButton(R.string.action_replace_all) {
-                    val textReplaceWhat = it.getCustomView()
-                        .findViewById<TextInputEditText>(R.id.input).text.toString()
-                    val textReplaceWith = it.getCustomView()
-                        .findViewById<TextInputEditText>(R.id.input2).text.toString()
-                    if (textReplaceWhat.isNotEmpty()) {
-                        binding.editor.replaceAll(textReplaceWhat, textReplaceWith)
-                    } else {
-                        showToast(R.string.message_enter_the_text)
-                    }
-                }
-            }
-        } else {
-            showToast(R.string.message_no_open_files)
-        }
-    }
-
-    override fun onGoToLineButton() {
-        val position = adapter.selectedPosition
-        if (position > -1) {
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_goto_line)
-                customView(R.layout.dialog_goto_line)
-                negativeButton(R.string.action_cancel)
-                positiveButton(R.string.action_go_to) {
-                    val input = getCustomView().findViewById<TextInputEditText>(R.id.input)
-                    val inputResult = input.text.toString()
-                    if (inputResult.isNotEmpty()) {
-                        val toLine = inputResult.toInt() - 1 // т.к первая линия 0
-                        when {
-                            toLine <= 0 -> showToast(R.string.message_line_above_than_0)
-                            toLine < binding.editor.arrayLineCount -> binding.editor.gotoLine(toLine)
-                            else -> showToast(R.string.message_line_not_exists)
-                        }
-                    } else {
-                        showToast(R.string.message_line_not_exists)
-                    }
-                }
-            }
-        } else {
-            showToast(R.string.message_no_open_files)
-        }
+        // toolbarManager.panel = Panel.FIND
     }
 
     override fun onErrorCheckingButton() {
@@ -614,9 +529,4 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     }
 
     // endregion TOOLBAR
-
-    interface DrawerHandler {
-        fun handleDrawerOpen()
-        fun handleDrawerClose()
-    }
 }

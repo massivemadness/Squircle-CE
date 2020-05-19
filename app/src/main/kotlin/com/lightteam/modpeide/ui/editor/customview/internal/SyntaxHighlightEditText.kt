@@ -44,9 +44,9 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 
     var language: Language? = null
 
-    private var syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-
+    private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val delimiters = charArrayOf('{', '[', '(', '}', ']', ')')
+
     private var openDelimiterSpan: BackgroundColorSpan? = null
     private var closedDelimiterSpan: BackgroundColorSpan? = null
 
@@ -113,7 +113,8 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     override fun setSpans(spans: List<SyntaxHighlightSpan>) {
-        syntaxHighlightSpans = spans as MutableList<SyntaxHighlightSpan>
+        syntaxHighlightSpans.clear()
+        syntaxHighlightSpans.addAll(spans)
         updateSyntaxHighlighting()
     }
 

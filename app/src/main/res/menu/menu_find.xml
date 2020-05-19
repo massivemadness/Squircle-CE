@@ -21,29 +21,19 @@
     <item
         android:id="@+id/action_find"
         android:title="@string/action_find"
-        android:icon="@drawable/ic_replace_all"
+        android:icon="@drawable/ic_search"
         app:iconTint="@color/colorIcon"/>
     <item
-        android:id="@+id/action_tools"
-        android:title="@string/action_tools"
-        android:icon="@drawable/ic_tools"
-        app:iconTint="@color/colorIcon">
-        <menu>
-            <item
-                android:id="@+id/action_error_checking"
-                android:title="@string/action_error_checking"
-                android:icon="@drawable/ic_code_check"
-                app:iconTint="@color/colorIcon"/>
-            <item
-                android:id="@+id/action_insert_color"
-                android:title="@string/action_insert_color"
-                android:icon="@drawable/ic_palette"
-                app:iconTint="@color/colorIcon"/>
-        </menu>
-    </item>
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:icon="@drawable/ic_settings"
+        android:id="@+id/action_replace"
+        android:title="@string/action_replace"
+        android:icon="@drawable/ic_replace"
         app:iconTint="@color/colorIcon"/>
+    <item
+        android:id="@+id/action_regex"
+        android:title="@string/action_regex"
+        app:actionViewClass="com.google.android.material.checkbox.MaterialCheckBox"/>
+    <item
+        android:id="@+id/action_match_case"
+        android:title="@string/action_match_case"
+        app:actionViewClass="com.google.android.material.checkbox.MaterialCheckBox"/>
 </menu>

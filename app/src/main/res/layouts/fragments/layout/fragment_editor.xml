@@ -34,119 +34,150 @@
 
         <!-- region TOOLBAR -->
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true"
             android:background="?colorSurface"
             android:elevation="4dp">
 
-            <ImageView
-                android:layout_width="45dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_alignParentStart="true"
-                android:padding="10dp"
-                android:visibility="visible"
-                android:src="@drawable/ic_drawer"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_drawer"
-                app:tint="?colorOnSurface"/>
+                android:id="@+id/toolbar_panel"
+                android:orientation="horizontal"
+                android:background="?colorSurface"
+                android:elevation="4dp">
 
-            <ImageView
-                android:layout_width="45dp"
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_alignParentStart="true"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_drawer"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_drawer"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_file"
+                    android:padding="10.5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_save"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_save"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_edit"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_folder"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_file"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_find"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_edit"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_edit"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_tools"
+                    android:padding="10.5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_replace_all"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_find"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_undo"
+                    android:padding="10.5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_tools"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_tools"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_redo"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_undo"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_undo"
+                    android:clickable="@{viewModel.canUndo}"
+                    app:alpha="@{viewModel.canUndo ? 1f : 0.35f}"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_toStartOf="@id/action_overflow"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_redo"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_redo"
+                    android:clickable="@{viewModel.canRedo}"
+                    app:alpha="@{viewModel.canRedo ? 1f : 0.35f}"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_overflow"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_overflow"
+                    app:tint="?colorOnSurface"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_toStartOf="@id/action_menu_file"
-                android:padding="10.5dp"
+                android:id="@+id/find_panel"
                 android:visibility="gone"
-                android:src="@drawable/ic_save"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_save"
-                app:tint="?colorOnSurface"/>
+                android:background="?colorSurface">
 
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_toStartOf="@id/action_menu_edit"
-                android:padding="10.5dp"
-                android:visibility="visible"
-                android:src="@drawable/ic_folder"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_file"
-                app:tint="?colorOnSurface"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="10.5dp"
+                    android:visibility="visible"
+                    android:src="@drawable/ic_overflow"
+                    android:background="@drawable/ripple_20dp"
+                    android:id="@+id/action_find_overflow"
+                    app:tint="?colorOnSurface"/>
 
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_toStartOf="@id/action_menu_search"
-                android:padding="10.5dp"
-                android:visibility="visible"
-                android:src="@drawable/ic_edit"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_edit"
-                app:tint="?colorOnSurface"/>
+            </RelativeLayout>
 
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_toStartOf="@id/action_menu_tools"
-                android:padding="10.5dp"
-                android:visibility="gone"
-                android:src="@drawable/ic_file_search"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_search"
-                app:tint="?colorOnSurface"/>
-
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_toStartOf="@id/action_menu_undo"
-                android:padding="10.5dp"
-                android:visibility="gone"
-                android:src="@drawable/ic_tools"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_tools"
-                app:tint="?colorOnSurface"/>
-
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_toStartOf="@id/action_menu_redo"
-                android:padding="10.5dp"
-                android:visibility="visible"
-                android:src="@drawable/ic_undo"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_undo"
-                android:clickable="@{viewModel.canUndo}"
-                app:alpha="@{viewModel.canUndo ? 1f : 0.35f}"
-                app:tint="?colorOnSurface"/>
-
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_toStartOf="@id/action_menu_overflow"
-                android:padding="10.5dp"
-                android:visibility="visible"
-                android:src="@drawable/ic_redo"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_redo"
-                android:clickable="@{viewModel.canRedo}"
-                app:alpha="@{viewModel.canRedo ? 1f : 0.35f}"
-                app:tint="?colorOnSurface"/>
-
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_alignParentEnd="true"
-                android:padding="10.5dp"
-                android:visibility="visible"
-                android:src="@drawable/ic_overflow"
-                android:background="@drawable/ripple_20dp"
-                android:id="@+id/action_menu_overflow"
-                app:tint="?colorOnSurface"/>
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -174,7 +205,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
-                android:src="@drawable/ic_file_search"
+                android:src="@drawable/ic_replace_all"
                 app:tint="?colorOnBackground"/>
 
             <TextView

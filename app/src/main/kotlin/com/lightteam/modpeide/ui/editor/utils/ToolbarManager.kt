@@ -45,31 +45,31 @@ class ToolbarManager(
         this.binding = binding
         orientation = binding.root.resources?.configuration?.orientation ?: Configuration.ORIENTATION_PORTRAIT
 
-        binding.actionMenuDrawer.setOnClickListener { listener.onDrawerButton() }
-        binding.actionMenuSave.setOnClickListener { listener.onSaveButton() }
+        binding.actionDrawer.setOnClickListener { listener.onDrawerButton() }
+        binding.actionSave.setOnClickListener { listener.onSaveButton() }
+        binding.actionFind.setOnClickListener { listener.onFindButton() }
 
-        setMenuClickListener(binding.actionMenuFile, R.menu.menu_file)
-        setMenuClickListener(binding.actionMenuEdit, R.menu.menu_edit)
-        setMenuClickListener(binding.actionMenuSearch, R.menu.menu_search)
-        setMenuClickListener(binding.actionMenuTools, R.menu.menu_tools)
+        setMenuClickListener(binding.actionFile, R.menu.menu_file)
+        setMenuClickListener(binding.actionEdit, R.menu.menu_edit)
+        setMenuClickListener(binding.actionTools, R.menu.menu_tools)
 
-        binding.actionMenuUndo.setOnClickListener { listener.onUndoButton() }
-        binding.actionMenuRedo.setOnClickListener { listener.onRedoButton() }
+        binding.actionUndo.setOnClickListener { listener.onUndoButton() }
+        binding.actionRedo.setOnClickListener { listener.onRedoButton() }
     }
 
     private fun portrait(): Int {
-        binding.actionMenuSave.visibility = View.GONE
-        binding.actionMenuSearch.visibility = View.GONE
-        binding.actionMenuTools.visibility = View.GONE
-        setMenuClickListener(binding.actionMenuOverflow, R.menu.menu_overflow_vertical)
+        binding.actionSave.visibility = View.GONE
+        binding.actionFind.visibility = View.GONE
+        binding.actionTools.visibility = View.GONE
+        setMenuClickListener(binding.actionOverflow, R.menu.menu_overflow_vertical)
         return Configuration.ORIENTATION_PORTRAIT
     }
 
     private fun landscape(): Int {
-        binding.actionMenuSave.visibility = View.VISIBLE
-        binding.actionMenuSearch.visibility = View.VISIBLE
-        binding.actionMenuTools.visibility = View.VISIBLE
-        setMenuClickListener(binding.actionMenuOverflow, R.menu.menu_overflow_horizontal)
+        binding.actionSave.visibility = View.VISIBLE
+        binding.actionFind.visibility = View.VISIBLE
+        binding.actionTools.visibility = View.VISIBLE
+        setMenuClickListener(binding.actionOverflow, R.menu.menu_overflow_horizontal)
         return Configuration.ORIENTATION_LANDSCAPE
     }
 
@@ -104,10 +104,8 @@ class ToolbarManager(
             R.id.action_delete_line -> listener.onDeleteLineButton()
             R.id.action_duplicate_line -> listener.onDuplicateLineButton()
 
-            // Search Menu
+            // Find Menu
             R.id.action_find -> listener.onFindButton()
-            R.id.action_replace_all -> listener.onReplaceAllButton()
-            R.id.action_goto_line -> listener.onGoToLineButton()
             
             // Tools Menu
             R.id.action_error_checking -> listener.onErrorCheckingButton()
@@ -138,8 +136,6 @@ class ToolbarManager(
         fun onDuplicateLineButton()
 
         fun onFindButton()
-        fun onReplaceAllButton()
-        fun onGoToLineButton()
 
         fun onErrorCheckingButton()
         fun onInsertColorButton()

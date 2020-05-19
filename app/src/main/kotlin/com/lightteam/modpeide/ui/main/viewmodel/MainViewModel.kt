@@ -50,6 +50,9 @@ class MainViewModel(
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
+    val openDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val closeDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+
     // События для связи проводника и редактора
     val openFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
     val propertiesEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()

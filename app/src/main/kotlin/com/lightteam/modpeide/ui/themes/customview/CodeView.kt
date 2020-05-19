@@ -68,10 +68,11 @@ class CodeView @JvmOverloads constructor(
             colorize()
         }
 
-    private var syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
 
     override fun setSpans(spans: List<SyntaxHighlightSpan>) {
-        syntaxHighlightSpans = spans as MutableList<SyntaxHighlightSpan>
+        syntaxHighlightSpans.clear()
+        syntaxHighlightSpans.addAll(spans)
         if (layout != null) {
             var topLine = scrollY / lineHeight - 30
             if (topLine >= lineCount) {

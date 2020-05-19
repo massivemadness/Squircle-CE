@@ -26,6 +26,7 @@ import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
+import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import dagger.Module
 import dagger.Provides
@@ -80,5 +81,11 @@ class EditorModule {
         filesystem: Filesystem
     ): FileRepository {
         return FileRepository(appDatabase, filesystem)
+    }
+
+    @Provides
+    @EditorScope
+    fun provideToolbarManager(fragment: EditorFragment): ToolbarManager {
+        return ToolbarManager(fragment)
     }
 }
