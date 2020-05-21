@@ -38,7 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:animateLayoutChanges="true"
             android:background="?colorSurface"
             android:elevation="4dp">
 
@@ -47,10 +46,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:id="@+id/default_panel"
-                android:orientation="horizontal"
-                android:background="?colorSurface"
-                android:elevation="4dp">
+                android:id="@+id/default_panel">
 
                 <ImageView
                     android:layout_width="45dp"
@@ -167,8 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:id="@+id/find_panel"
-                android:visibility="gone"
-                android:background="?colorSurface">
+                android:visibility="gone">
 
                 <EditText
                     android:layout_width="match_parent"

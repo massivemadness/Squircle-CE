@@ -18,7 +18,6 @@
 package com.lightteam.modpeide.ui.editor.customview.internal
 
 import android.content.Context
-import android.text.Editable
 import android.util.AttributeSet
 import com.lightteam.modpeide.R
 
@@ -31,24 +30,12 @@ open class AutoIndentEditText @JvmOverloads constructor(
     var isAutoIndenting = false
 
     private var newText = ""
-    private var addedTextCount = 0
-
-    override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
-        addedTextCount -= count
-        super.doBeforeTextChanged(text, start, count, after)
-    }
 
     override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-        addedTextCount += count
         newText = text?.subSequence(start, start + count).toString()
         completeIndentation(start, count)
         super.doOnTextChanged(text, start, before, count)
         newText = ""
-    }
-
-    override fun doAfterTextChanged(text: Editable?) {
-        super.doAfterTextChanged(text)
-        addedTextCount = 0
     }
 
     private fun completeIndentation(start: Int, count: Int) {

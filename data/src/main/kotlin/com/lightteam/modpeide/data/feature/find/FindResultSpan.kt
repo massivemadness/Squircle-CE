@@ -15,26 +15,13 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.styler.span
+package com.lightteam.modpeide.data.feature.find
 
-import android.text.TextPaint
-import android.text.style.CharacterStyle
+import android.text.style.BackgroundColorSpan
+import com.lightteam.language.styler.span.StyleSpan
 
-data class SyntaxHighlightSpan(
+data class FindResultSpan(
     private val span: StyleSpan,
     var start: Int,
     var end: Int
-) : CharacterStyle(), Comparable<SyntaxHighlightSpan> {
-
-    override fun updateDrawState(textPaint: TextPaint?) {
-        textPaint?.color = span.color
-        textPaint?.isFakeBoldText = span.bold
-        if (span.italic) {
-            textPaint?.textSkewX = -0.1f
-        }
-    }
-
-    override fun compareTo(other: SyntaxHighlightSpan): Int {
-        return start - other.start
-    }
-}
+) : BackgroundColorSpan(span.color)

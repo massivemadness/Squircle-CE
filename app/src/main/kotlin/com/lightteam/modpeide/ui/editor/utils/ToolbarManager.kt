@@ -122,15 +122,16 @@ class ToolbarManager(
         binding.actionUndo.setOnClickListener { listener.onUndoButton() }
         binding.actionRedo.setOnClickListener { listener.onRedoButton() }
 
-        binding.actionReplace.setOnClickListener { listener.onReplaceButton() }
-        binding.actionReplaceAll.setOnClickListener { listener.onReplaceAllButton() }
-        binding.actionDown.setOnClickListener { listener.onResultDownButton() }
-        binding.actionUp.setOnClickListener { listener.onResultUpButton() }
+        binding.actionReplace.setOnClickListener {
+            listener.onReplaceButton(binding.inputReplace.text.toString())
+        }
+        binding.actionReplaceAll.setOnClickListener {
+            listener.onReplaceAllButton(binding.inputReplace.text.toString())
+        }
+        binding.actionDown.setOnClickListener { listener.onNextResultButton() }
+        binding.actionUp.setOnClickListener { listener.onPreviousResultButton() }
         binding.inputFind.doAfterTextChanged {
             listener.onFindInputChanged(it.toString())
-        }
-        binding.inputReplace.doAfterTextChanged {
-            listener.onReplaceInputChanged(it.toString())
         }
     }
 
@@ -217,14 +218,13 @@ class ToolbarManager(
         fun onCloseFindButton()
         fun onOpenReplaceButton()
         fun onCloseReplaceButton()
-        fun onReplaceButton()
-        fun onReplaceAllButton()
-        fun onResultDownButton()
-        fun onResultUpButton()
+        fun onReplaceButton(replaceText: String)
+        fun onReplaceAllButton(replaceText: String)
+        fun onNextResultButton()
+        fun onPreviousResultButton()
         fun onRegexChanged(regex: Boolean)
         fun onMatchCaseChanged(matchCase: Boolean)
-        fun onFindInputChanged(input: String)
-        fun onReplaceInputChanged(input: String)
+        fun onFindInputChanged(findText: String)
 
         fun onErrorCheckingButton()
         fun onInsertColorButton()

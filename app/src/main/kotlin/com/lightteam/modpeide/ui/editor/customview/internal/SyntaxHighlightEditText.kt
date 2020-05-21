@@ -27,9 +27,11 @@ import androidx.core.text.getSpans
 import com.lightteam.language.language.Language
 import com.lightteam.language.parser.span.ErrorSpan
 import com.lightteam.language.styler.Styleable
+import com.lightteam.language.styler.span.StyleSpan
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
+import com.lightteam.modpeide.data.feature.find.FindResultSpan
 import java.util.regex.Pattern
 
 open class SyntaxHighlightEditText @JvmOverloads constructor(
@@ -39,34 +41,42 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 ) : UndoRedoEditText(context, attrs, defStyleAttr), Styleable {
 
     var isSyntaxHighlighting = false
-    var isFindSpansVisible = false
     var isErrorSpansVisible = false
 
     var language: Language? = null
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    private val findResultSpans = mutableListOf<FindResultSpan>()
     private val delimiters = charArrayOf('{', '[', '(', '}', ']', ')')
 
+    private var findResultStyleSpan: StyleSpan? = null
     private var openDelimiterSpan: BackgroundColorSpan? = null
     private var closedDelimiterSpan: BackgroundColorSpan? = null
 
     private var topDirtyLine = 0
     private var bottomDirtyLine = 0
 
+    private var addedTextCount = 0
+    private var selectedFindResult = 0
+
     override fun colorize() {
         super.colorize()
         theme?.let {
+            findResultStyleSpan = StyleSpan(color = it.colorScheme.findResultBackgroundColor)
             openDelimiterSpan = BackgroundColorSpan(it.colorScheme.delimiterBackgroundColor)
             closedDelimiterSpan = BackgroundColorSpan(it.colorScheme.delimiterBackgroundColor)
         }
     }
 
     override fun processText(newText: String) {
+        syntaxHighlightSpans.clear()
+        findResultSpans.clear()
         super.processText(newText)
         syntaxHighlight()
     }
 
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+        super.onSelectionChanged(selStart, selEnd)
         if (selStart == selEnd) {
             checkMatchingBracket(selStart)
         }
@@ -90,6 +100,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
+        addedTextCount -= count
         cancelSyntaxHighlighting()
         if (!isSyntaxHighlighting) {
             super.doBeforeTextChanged(text, start, count, after)
@@ -98,6 +109,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+        addedTextCount += count
         if (!isSyntaxHighlighting) {
             super.doOnTextChanged(text, start, before, count)
         }
@@ -105,10 +117,11 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 
     override fun doAfterTextChanged(text: Editable?) {
         super.doAfterTextChanged(text)
-        /*if (!isSyntaxHighlighting) {
+        if (!isSyntaxHighlighting) {
+            selectedFindResult = 0
             shiftSpans(selectionStart, addedTextCount)
-        }*/
-        clearSpans()
+        }
+        addedTextCount = 0
         syntaxHighlight()
     }
 
@@ -118,45 +131,15 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         updateSyntaxHighlighting()
     }
 
-    fun find(what: String, matchCase: Boolean, regExp: Boolean, wordsOnly: Boolean) {
-        val pattern: Pattern = if (regExp) {
-            if (matchCase) {
-                Pattern.compile(what)
-            } else {
-                Pattern.compile(what, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
-            }
-        } else {
-            if (wordsOnly) {
-                if (matchCase) {
-                    Pattern.compile("\\s$what\\s")
-                } else {
-                    Pattern.compile("\\s" + Pattern.quote(what) + "\\s",
-                        Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
-                }
-            } else {
-                if (matchCase) {
-                    Pattern.compile(Pattern.quote(what))
-                } else {
-                    Pattern.compile(Pattern.quote(what), Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
-                }
-            }
+    fun clearFindSpans() {
+        findResultSpans.clear()
+        val spans = text.getSpans<FindResultSpan>(0, text.length)
+        for (span in spans) {
+            text.removeSpan(span)
         }
-        clearSpans()
-        val matcher = pattern.matcher(text)
-        while (matcher.find()) {
-            theme?.let {
-                text.setSpan(
-                    BackgroundColorSpan(it.colorScheme.findResultBackgroundColor),
-                    matcher.start(),
-                    matcher.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-        }
-        isFindSpansVisible = true
     }
 
-    fun setErrorSpan(lineNumber: Int) {
+    fun setErrorLine(lineNumber: Int) {
         if (lineNumber == 0) {
             return
         }
@@ -165,6 +148,102 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         if (lineStart < text.length && lineEnd < text.length && lineStart > -1 && lineEnd > -1) {
             isErrorSpansVisible = true
             text.setSpan(ErrorSpan(), lineStart, lineEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
+    fun find(findText: String) {
+        clearFindSpans()
+        selectedFindResult = 0
+
+        if (findText.isNotEmpty()) {
+            val pattern = Pattern.compile(Pattern.quote(findText), Pattern.CASE_INSENSITIVE)
+            val matcher = pattern.matcher(text)
+            while (matcher.find()) {
+                findResultStyleSpan?.let {
+                    val findResultSpan = FindResultSpan(it, matcher.start(), matcher.end())
+                    findResultSpans.add(findResultSpan)
+
+                    text.setSpan(
+                        findResultSpan,
+                        findResultSpan.start,
+                        findResultSpan.end,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            }
+            if (findResultSpans.isNotEmpty()) {
+                selectResult()
+            }
+        }
+    }
+
+    fun findNext() {
+        if (selectedFindResult < findResultSpans.size - 1) {
+            selectedFindResult += 1
+            selectResult()
+        }
+    }
+
+    fun findPrevious() {
+        if (selectedFindResult > 0 && selectedFindResult < findResultSpans.size) {
+            selectedFindResult -= 1
+            selectResult()
+        }
+    }
+
+    fun replaceFindResult(replaceText: String) {
+        val findResult = findResultSpans[selectedFindResult]
+        text.replace(findResult.start, findResult.end, replaceText)
+        if (selectedFindResult >= findResultSpans.size) {
+            selectedFindResult--
+        }
+        findResultSpans.remove(findResult)
+    }
+
+    fun replaceAllFindResults(replaceText: String) {
+        val stringBuilder = StringBuilder(text)
+        for (index in findResultSpans.size - 1 downTo 0) {
+            val findResultSpan = findResultSpans[index]
+            stringBuilder.replace(findResultSpan.start, findResultSpan.end, replaceText)
+            findResultSpans.removeAt(index)
+        }
+        setText(stringBuilder.toString())
+    }
+
+    private fun selectResult() {
+        val findResult = findResultSpans[selectedFindResult]
+        setSelection(findResult.start, findResult.end)
+    }
+
+    private fun shiftSpans(from: Int, byHowMuch: Int) {
+        /*for (span in syntaxHighlightSpans) {
+            if (span.start >= from) {
+                span.start += byHowMuch
+            }
+            if (span.end >= from) {
+                span.end += byHowMuch
+            }
+            if (span.start > span.end) {
+                syntaxHighlightSpans.remove(span)
+            }
+        }*/
+        for (findResult in findResultSpans) {
+            /*if (from > findResult.start && from <= findResult.end) {
+                findResultSpans.remove(findResult) // FIXME may cause IndexOutOfBoundsException
+            }*/
+            if (findResult.start > from) {
+                findResult.start += byHowMuch
+            }
+            if (findResult.end >= from) {
+                findResult.end += byHowMuch
+            }
+        }
+        if (isErrorSpansVisible) {
+            val spans = text.getSpans<ErrorSpan>(0, text.length)
+            for (span in spans) {
+                text.removeSpan(span)
+            }
+            isErrorSpansVisible = false
         }
     }
 
@@ -225,38 +304,6 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     private fun cancelSyntaxHighlighting() {
         language?.cancelStyler()
     }
-
-    private fun clearSpans() {
-        if (isFindSpansVisible) {
-            val spans = text.getSpans<BackgroundColorSpan>(0, text.length)
-            for (span in spans) {
-                text.removeSpan(span)
-            }
-            isFindSpansVisible = false
-        }
-        if (isErrorSpansVisible) {
-            val spans = text.getSpans<ErrorSpan>(0, text.length)
-            for (span in spans) {
-                text.removeSpan(span)
-            }
-            isErrorSpansVisible = false
-        }
-    }
-
-    /*private fun shiftSpans(from: Int, byHowMuch: Int) {
-        for (span in syntaxHighlightSpans) {
-            if (span.start >= from) {
-                span.start += byHowMuch
-            }
-            if (span.end >= from) {
-                span.end += byHowMuch
-            }
-            if (span.start > span.end) {
-                syntaxHighlightSpans.remove(span)
-            }
-        }
-        // clearSpans()
-    }*/
 
     private fun checkMatchingBracket(pos: Int) {
         if (layout != null) {

@@ -161,7 +161,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         })
         viewModel.parseEvent.observe(viewLifecycleOwner, Observer { model ->
             model.exception?.let {
-                binding.editor.setErrorSpan(it.lineNumber)
+                binding.editor.setErrorLine(it.lineNumber)
             }
         })
         viewModel.contentEvent.observe(viewLifecycleOwner, Observer { content ->
@@ -468,6 +468,8 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
 
     override fun onCloseFindButton() {
         toolbarManager.panel = Panel.DEFAULT
+        binding.inputFind.setText("")
+        binding.editor.clearFindSpans()
     }
 
     override fun onOpenReplaceButton() {
@@ -476,22 +478,23 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
 
     override fun onCloseReplaceButton() {
         toolbarManager.panel = Panel.FIND
+        binding.inputReplace.setText("")
     }
 
-    override fun onReplaceButton() {
-        // TODO("Not yet implemented")
+    override fun onReplaceButton(replaceText: String) {
+        binding.editor.replaceFindResult(replaceText)
     }
 
-    override fun onReplaceAllButton() {
-        // TODO("Not yet implemented")
+    override fun onReplaceAllButton(replaceText: String) {
+        binding.editor.replaceAllFindResults(replaceText)
     }
 
-    override fun onResultDownButton() {
-        // TODO("Not yet implemented")
+    override fun onNextResultButton() {
+        binding.editor.findNext()
     }
 
-    override fun onResultUpButton() {
-        // TODO("Not yet implemented")
+    override fun onPreviousResultButton() {
+        binding.editor.findPrevious()
     }
 
     override fun onRegexChanged(regex: Boolean) {
@@ -502,12 +505,8 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         // TODO("Not yet implemented")
     }
 
-    override fun onFindInputChanged(input: String) {
-        // TODO("Not yet implemented")
-    }
-
-    override fun onReplaceInputChanged(input: String) {
-        // TODO("Not yet implemented")
+    override fun onFindInputChanged(findText: String) {
+        binding.editor.find(findText)
     }
 
     override fun onErrorCheckingButton() {
@@ -520,7 +519,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     viewModel.parseEvent.value?.let { model ->
                         model.exception?.let {
                             message(text = it.message)
-                            binding.editor.setErrorSpan(it.lineNumber)
+                            binding.editor.setErrorLine(it.lineNumber)
                         }
                     }
                     positiveButton(R.string.action_ok)
