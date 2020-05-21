@@ -313,6 +313,22 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
                 }
             }
             isSyntaxHighlighting = false
+            
+            val textFindSpans = text.getSpans<FindResultSpan>(0, text.length)
+            for (span in textFindSpans) {
+                text.removeSpan(span)
+            }
+            for (span in findResultSpans) {
+                if (span.start >= 0 && span.end <= text.length && span.start <= span.end
+                    && (span.start in lineStart..lineEnd || span.start <= lineEnd && span.end >= lineStart)) {
+                    text.setSpan(
+                        span,
+                        if (span.start < lineStart) lineStart else span.start,
+                        if (span.end > lineEnd) lineEnd else span.end,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            }
         }
     }
 
