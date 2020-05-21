@@ -33,6 +33,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.feature.find.FindResultSpan
 import java.util.regex.Pattern
+import java.util.regex.PatternSyntaxException
 
 open class SyntaxHighlightEditText @JvmOverloads constructor(
     context: Context,
@@ -42,6 +43,9 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 
     var isSyntaxHighlighting = false
     var isErrorSpansVisible = false
+
+    var isRegexEnabled = false
+    var isMatchCaseEnabled = true
 
     var language: Language? = null
 
@@ -156,23 +160,45 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         selectedFindResult = 0
 
         if (findText.isNotEmpty()) {
-            val pattern = Pattern.compile(Pattern.quote(findText), Pattern.CASE_INSENSITIVE)
-            val matcher = pattern.matcher(text)
-            while (matcher.find()) {
-                findResultStyleSpan?.let {
-                    val findResultSpan = FindResultSpan(it, matcher.start(), matcher.end())
-                    findResultSpans.add(findResultSpan)
-
-                    text.setSpan(
-                        findResultSpan,
-                        findResultSpan.start,
-                        findResultSpan.end,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
+            try {
+                val pattern = if (isRegexEnabled) {
+                    if (isMatchCaseEnabled) {
+                        Pattern.compile(findText)
+                    } else {
+                        Pattern.compile(
+                            findText,
+                            Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
+                        )
+                    }
+                } else {
+                    if (isMatchCaseEnabled) {
+                        Pattern.compile(Pattern.quote(findText))
+                    } else {
+                        Pattern.compile(
+                            Pattern.quote(findText),
+                            Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
+                        )
+                    }
                 }
-            }
-            if (findResultSpans.isNotEmpty()) {
-                selectResult()
+                val matcher = pattern.matcher(text)
+                while (matcher.find()) {
+                    findResultStyleSpan?.let {
+                        val findResultSpan = FindResultSpan(it, matcher.start(), matcher.end())
+                        findResultSpans.add(findResultSpan)
+
+                        text.setSpan(
+                            findResultSpan,
+                            findResultSpan.start,
+                            findResultSpan.end,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                }
+                if (findResultSpans.isNotEmpty()) {
+                    selectResult()
+                }
+            } catch (e: PatternSyntaxException) {
+                // nothing
             }
         }
     }

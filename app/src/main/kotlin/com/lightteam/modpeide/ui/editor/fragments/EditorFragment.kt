@@ -498,11 +498,13 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     }
 
     override fun onRegexChanged(regex: Boolean) {
-        // TODO("Not yet implemented")
+        binding.editor.isRegexEnabled = regex
+        onFindInputChanged(binding.inputFind.text.toString())
     }
 
     override fun onMatchCaseChanged(matchCase: Boolean) {
-        // TODO("Not yet implemented")
+        binding.editor.isMatchCaseEnabled
+        onFindInputChanged(binding.inputFind.text.toString())
     }
 
     override fun onFindInputChanged(findText: String) {
