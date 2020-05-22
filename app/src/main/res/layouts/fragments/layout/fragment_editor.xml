@@ -289,7 +289,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
-                android:src="@drawable/ic_file_find_replace"
+                android:src="@drawable/ic_file_find"
                 app:tint="?colorOnBackground"/>
 
             <TextView

@@ -52,7 +52,7 @@
             android:layout_height="92dp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_file_find_replace"
+            android:src="@drawable/ic_file_find"
             android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
             app:tint="?colorOnBackground"/>
 

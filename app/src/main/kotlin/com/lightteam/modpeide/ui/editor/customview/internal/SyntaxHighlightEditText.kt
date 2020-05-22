@@ -122,7 +122,6 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     override fun doAfterTextChanged(text: Editable?) {
         super.doAfterTextChanged(text)
         if (!isSyntaxHighlighting) {
-            selectedFindResult = 0
             shiftSpans(selectionStart, addedTextCount)
         }
         addedTextCount = 0
@@ -220,10 +219,10 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     fun replaceFindResult(replaceText: String) {
         val findResult = findResultSpans[selectedFindResult]
         text.replace(findResult.start, findResult.end, replaceText)
+        findResultSpans.remove(findResult)
         if (selectedFindResult >= findResultSpans.size) {
             selectedFindResult--
         }
-        findResultSpans.remove(findResult)
     }
 
     fun replaceAllFindResults(replaceText: String) {
@@ -242,17 +241,17 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     private fun shiftSpans(from: Int, byHowMuch: Int) {
-        /*for (span in syntaxHighlightSpans) {
+        for (span in syntaxHighlightSpans) {
             if (span.start >= from) {
                 span.start += byHowMuch
             }
             if (span.end >= from) {
                 span.end += byHowMuch
             }
-            if (span.start > span.end) {
-                syntaxHighlightSpans.remove(span)
-            }
-        }*/
+            /*if (span.start > span.end) {
+                syntaxHighlightSpans.remove(span) // FIXME may cause ConcurrentModificationException
+            }*/
+        }
         for (findResult in findResultSpans) {
             /*if (from > findResult.start && from <= findResult.end) {
                 findResultSpans.remove(findResult) // FIXME may cause IndexOutOfBoundsException
@@ -275,11 +274,6 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private fun updateSyntaxHighlighting() {
         if (layout != null) {
-            val textSyntaxSpans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
-            for (span in textSyntaxSpans) {
-                text.removeSpan(span)
-            }
-
             var topLine = scrollY / lineHeight - 10
             if (topLine >= lineCount) {
                 topLine = lineCount - 1
@@ -301,6 +295,10 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
             val lineEnd = layout.getLineEnd(bottomLine)
 
             isSyntaxHighlighting = true
+            val textSyntaxSpans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
+            for (span in textSyntaxSpans) {
+                text.removeSpan(span)
+            }
             for (span in syntaxHighlightSpans) {
                 if (span.start >= 0 && span.end <= text.length && span.start <= span.end
                     && (span.start in lineStart..lineEnd || span.start <= lineEnd && span.end >= lineStart)) {
@@ -313,7 +311,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
                 }
             }
             isSyntaxHighlighting = false
-            
+
             val textFindSpans = text.getSpans<FindResultSpan>(0, text.length)
             for (span in textFindSpans) {
                 text.removeSpan(span)
