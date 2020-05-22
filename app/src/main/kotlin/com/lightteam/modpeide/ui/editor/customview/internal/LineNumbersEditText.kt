@@ -293,6 +293,36 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
     }
 
+    fun getTopVisibleLine(): Int {
+        if (lineHeight == 0) {
+            return 0
+        }
+        val line = scrollY / lineHeight
+        if (line < 0) {
+            return 0
+        }
+        return if (line >= lineCount) {
+            lineCount - 1
+        } else {
+            line
+        }
+    }
+
+    fun getBottomVisibleLine(): Int {
+        if (lineHeight == 0) {
+            return 0
+        }
+        val line = abs((scrollY + height) / lineHeight) + 1
+        if (line < 0) {
+            return 0
+        }
+        return if (line >= lineCount) {
+            lineCount - 1
+        } else {
+            line
+        }
+    }
+
     private fun updateGutter() {
         var max = 3
         var widestNumber = 0
@@ -317,36 +347,6 @@ open class LineNumbersEditText @JvmOverloads constructor(
         gutterWidth += gutterMargin
         if (paddingLeft != gutterWidth + gutterMargin) {
             setPadding(gutterWidth + gutterMargin, gutterMargin, paddingRight, 0)
-        }
-    }
-
-    private fun getTopVisibleLine(): Int {
-        if (lineHeight == 0) {
-            return 0
-        }
-        val line = scrollY / lineHeight
-        if (line < 0) {
-            return 0
-        }
-        return if (line >= lineCount) {
-            lineCount - 1
-        } else {
-            line
-        }
-    }
-
-    private fun getBottomVisibleLine(): Int {
-        if (lineHeight == 0) {
-            return 0
-        }
-        val line = abs((scrollY + height) / lineHeight) + 1
-        if (line < 0) {
-            return 0
-        }
-        return if (line >= lineCount) {
-            lineCount - 1
-        } else {
-            line
         }
     }
 }

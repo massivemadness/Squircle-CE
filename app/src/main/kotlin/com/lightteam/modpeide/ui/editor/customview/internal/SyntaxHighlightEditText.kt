@@ -238,6 +238,31 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     private fun selectResult() {
         val findResult = findResultSpans[selectedFindResult]
         setSelection(findResult.start, findResult.end)
+        scrollToFindResult()
+    }
+
+    private fun scrollToFindResult() {
+        if (selectedFindResult < findResultSpans.size) {
+            val findResult = findResultSpans[selectedFindResult]
+            val topVisibleLine = getTopVisibleLine()
+            val bottomVisibleLine = getBottomVisibleLine()
+            if (findResult.start >= layout.getLineStart(topVisibleLine)) {
+                if (findResult.end <= layout.getLineEnd(bottomVisibleLine)) {
+                    return
+                }
+            }
+            val height = layout.height - height + paddingBottom + paddingTop
+            var lineTop = layout.getLineTop(layout.getLineForOffset(findResult.start))
+            if (lineTop > height) {
+                lineTop = height
+            }
+            val scrollX = if (!config.wordWrap) {
+                layout.getPrimaryHorizontal(findResult.start).toInt()
+            } else {
+                scrollX
+            }
+            scrollTo(scrollX, lineTop)
+        }
     }
 
     private fun shiftSpans(from: Int, byHowMuch: Int) {
