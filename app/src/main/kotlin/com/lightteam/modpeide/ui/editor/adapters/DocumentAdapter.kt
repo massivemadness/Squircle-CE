@@ -83,7 +83,9 @@ class DocumentAdapter(
                 return@setOnLongClickListener true
             }
             binding.itemIcon.setOnClickListener {
-                tabInteractor.close(adapterPosition)
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    tabInteractor.close(adapterPosition)
+                }
             }
         }
 
