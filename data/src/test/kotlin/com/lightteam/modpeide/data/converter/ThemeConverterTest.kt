@@ -207,9 +207,8 @@ class ThemeConverterTest {
     }*/
 
     @Test
-    fun `convert ExternalTheme to ThemeEntity`() {
-        val externalTheme =
-            ExternalTheme(
+    fun `convert ExternalTheme to ThemeModel`() {
+        val externalTheme = ExternalTheme(
                 uuid = "0",
                 name = "Test",
                 author = "Light Team Software",
@@ -238,60 +237,62 @@ class ThemeConverterTest {
                     commentColor = "#FF3000"
                 )
             )
-        val themeEntity = ThemeEntity(
+        val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
             author = "Light Team Software",
             description = "Default color scheme",
             isExternal = false,
             isPaid = false,
-            textColor = "#FFFFFF",
-            backgroundColor = "#303030",
-            gutterColor = "#F0F0F0",
-            gutterDividerColor = "#FFFFFF",
-            gutterCurrentLineNumberColor = "#FEFEFE",
-            gutterTextColor = "#FFFFFF",
-            selectedLineColor = "#EEEEEE",
-            selectionColor = "#FF3000",
-            suggestionQueryColor = "#FF9000",
-            findResultBackgroundColor = "#FEFEFE",
-            delimiterBackgroundColor = "#FEFEFE",
-            numberColor = "#FF3000",
-            operatorColor = "#FF3000",
-            keywordColor = "#FF3000",
-            typeColor = "#FF3000",
-            langConstColor = "#FF3000",
-            methodColor = "#FF3000",
-            stringColor = "#FF3000",
-            commentColor = "#FF3000"
+            colorScheme = ColorScheme(
+                textColor = Color.parseColor("#FFFFFF"),
+                backgroundColor = Color.parseColor("#303030"),
+                gutterColor = Color.parseColor("#F0F0F0"),
+                gutterDividerColor = Color.parseColor("#FFFFFF"),
+                gutterCurrentLineNumberColor = Color.parseColor("#FEFEFE"),
+                gutterTextColor = Color.parseColor("#FFFFFF"),
+                selectedLineColor = Color.parseColor("#EEEEEE"),
+                selectionColor = Color.parseColor("#FF3000"),
+                suggestionQueryColor = Color.parseColor("#FF9000"),
+                findResultBackgroundColor = Color.parseColor("#FEFEFE"),
+                delimiterBackgroundColor = Color.parseColor("#FEFEFE"),
+                numberColor = Color.parseColor("#FF3000"),
+                operatorColor = Color.parseColor("#FF3000"),
+                keywordColor = Color.parseColor("#FF3000"),
+                typeColor = Color.parseColor("#FF3000"),
+                langConstColor = Color.parseColor("#FF3000"),
+                methodColor = Color.parseColor("#FF3000"),
+                stringColor = Color.parseColor("#FF3000"),
+                commentColor = Color.parseColor("#FF3000")
+            )
         )
-        val convert = ThemeConverter.toEntity(externalTheme)
+        val convert = ThemeConverter.toModel(externalTheme)
 
-        assertEquals(themeEntity.uuid, convert.uuid)
-        assertEquals(themeEntity.name, convert.name)
-        assertEquals(themeEntity.author, convert.author)
-        assertEquals(themeEntity.description, convert.description)
-        assertEquals(themeEntity.isExternal, convert.isExternal)
-        assertEquals(themeEntity.isPaid, convert.isPaid)
-        assertEquals(themeEntity.textColor, convert.textColor)
-        assertEquals(themeEntity.backgroundColor, convert.backgroundColor)
-        assertEquals(themeEntity.gutterColor, convert.gutterColor)
-        assertEquals(themeEntity.gutterDividerColor, convert.gutterDividerColor)
-        assertEquals(themeEntity.gutterCurrentLineNumberColor, convert.gutterCurrentLineNumberColor)
-        assertEquals(themeEntity.gutterTextColor, convert.gutterTextColor)
-        assertEquals(themeEntity.selectedLineColor, convert.selectedLineColor)
-        assertEquals(themeEntity.selectionColor, convert.selectionColor)
-        assertEquals(themeEntity.suggestionQueryColor, convert.suggestionQueryColor)
-        assertEquals(themeEntity.findResultBackgroundColor, convert.findResultBackgroundColor)
-        assertEquals(themeEntity.delimiterBackgroundColor, convert.delimiterBackgroundColor)
-        assertEquals(themeEntity.numberColor, convert.numberColor)
-        assertEquals(themeEntity.operatorColor, convert.operatorColor)
-        assertEquals(themeEntity.keywordColor, convert.keywordColor)
-        assertEquals(themeEntity.typeColor, convert.typeColor)
-        assertEquals(themeEntity.langConstColor, convert.langConstColor)
-        assertEquals(themeEntity.methodColor, convert.methodColor)
-        assertEquals(themeEntity.stringColor, convert.stringColor)
-        assertEquals(themeEntity.commentColor, convert.commentColor)
+        assertEquals(themeModel.uuid, convert.uuid)
+        assertEquals(themeModel.name, convert.name)
+        assertEquals(themeModel.author, convert.author)
+        assertEquals(themeModel.description, convert.description)
+        assertEquals(themeModel.isExternal, convert.isExternal)
+        assertEquals(themeModel.isPaid, convert.isPaid)
+        assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
+        assertEquals(themeModel.colorScheme.backgroundColor, convert.colorScheme.backgroundColor)
+        assertEquals(themeModel.colorScheme.gutterColor, convert.colorScheme.gutterColor)
+        assertEquals(themeModel.colorScheme.gutterDividerColor, convert.colorScheme.gutterDividerColor)
+        assertEquals(themeModel.colorScheme.gutterCurrentLineNumberColor, convert.colorScheme.gutterCurrentLineNumberColor)
+        assertEquals(themeModel.colorScheme.gutterTextColor, convert.colorScheme.gutterTextColor)
+        assertEquals(themeModel.colorScheme.selectedLineColor, convert.colorScheme.selectedLineColor)
+        assertEquals(themeModel.colorScheme.selectionColor, convert.colorScheme.selectionColor)
+        assertEquals(themeModel.colorScheme.suggestionQueryColor, convert.colorScheme.suggestionQueryColor)
+        assertEquals(themeModel.colorScheme.findResultBackgroundColor, convert.colorScheme.findResultBackgroundColor)
+        assertEquals(themeModel.colorScheme.delimiterBackgroundColor, convert.colorScheme.delimiterBackgroundColor)
+        assertEquals(themeModel.colorScheme.numberColor, convert.colorScheme.numberColor)
+        assertEquals(themeModel.colorScheme.operatorColor, convert.colorScheme.operatorColor)
+        assertEquals(themeModel.colorScheme.keywordColor, convert.colorScheme.keywordColor)
+        assertEquals(themeModel.colorScheme.typeColor, convert.colorScheme.typeColor)
+        assertEquals(themeModel.colorScheme.langConstColor, convert.colorScheme.langConstColor)
+        assertEquals(themeModel.colorScheme.methodColor, convert.colorScheme.methodColor)
+        assertEquals(themeModel.colorScheme.stringColor, convert.colorScheme.stringColor)
+        assertEquals(themeModel.colorScheme.commentColor, convert.colorScheme.commentColor)
     }
 
     @Test
