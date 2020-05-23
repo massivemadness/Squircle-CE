@@ -38,16 +38,8 @@ fun Context.isUltimate(): Boolean {
     }
 }
 
-fun Context.getDrawableCompat(@DrawableRes drawable: Int): Drawable {
-    return ContextCompat.getDrawable(this, drawable) as Drawable
-}
-
 fun Context.getColour(@ColorRes colorRes: Int): Int {
     return ContextCompat.getColor(this, colorRes)
-}
-
-fun Context.getScaledDensity(): Float {
-    return resources.displayMetrics.scaledDensity
 }
 
 fun Context.getRawFileText(@RawRes resId: Int): String {

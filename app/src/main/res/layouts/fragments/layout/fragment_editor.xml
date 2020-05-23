@@ -310,7 +310,7 @@
                 android:visibility="@{viewModel.stateLoadingDocuments ? View.VISIBLE : View.GONE}"
                 android:indeterminate="true"/>
 
-            <com.lightteam.modpeide.ui.editor.customview.TextProcessor
+            <com.lightteam.editorkit.widget.TextProcessor
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top|start"
@@ -322,11 +322,13 @@
                 android:scrollbars="none"
                 android:id="@+id/editor"/>
 
-            <com.lightteam.modpeide.ui.editor.customview.TextScroller
+            <com.lightteam.editorkit.widget.TextScroller
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:id="@+id/scroller"
+                app:thumbNormal="@drawable/fastscroll_thumb_default"
+                app:thumbDragging="@drawable/fastscroll_thumb_pressed"
                 app:thumbTint="?colorPrimary"/>
 
         </FrameLayout>

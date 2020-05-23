@@ -34,8 +34,8 @@ import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
-import com.lightteam.modpeide.domain.feature.theme.Meta
-import com.lightteam.modpeide.domain.feature.theme.Property
+import com.lightteam.modpeide.domain.theme.Meta
+import com.lightteam.modpeide.domain.theme.Property
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem

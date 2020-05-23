@@ -39,7 +39,7 @@ import com.afollestad.materialdialogs.color.colorChooser
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentNewThemeBinding
-import com.lightteam.modpeide.domain.feature.theme.Meta
+import com.lightteam.modpeide.domain.theme.Meta
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.themes.adapters.PropertyAdapter

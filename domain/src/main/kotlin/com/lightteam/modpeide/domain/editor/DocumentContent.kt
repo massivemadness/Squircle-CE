@@ -17,8 +17,8 @@
 
 package com.lightteam.modpeide.domain.editor
 
+import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.language.language.Language
-import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 
 data class DocumentContent(
     val documentModel: DocumentModel,

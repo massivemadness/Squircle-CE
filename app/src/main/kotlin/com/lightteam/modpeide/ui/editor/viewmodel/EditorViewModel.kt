@@ -22,6 +22,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
@@ -35,7 +36,6 @@ import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.repository.FileRepository
 import com.lightteam.modpeide.domain.editor.DocumentContent
 import com.lightteam.modpeide.domain.editor.DocumentModel
-import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.EventsQueue

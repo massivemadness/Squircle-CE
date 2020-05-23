@@ -30,6 +30,8 @@ import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
+import com.lightteam.editorkit.internal.UndoRedoEditText
+import com.lightteam.editorkit.widget.TextScroller
 import com.lightteam.filesystem.model.FileType
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
@@ -39,10 +41,9 @@ import com.lightteam.modpeide.domain.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
+import com.lightteam.modpeide.ui.editor.adapters.BasicSuggestionAdapter
 import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
-import com.lightteam.modpeide.ui.editor.customview.TextScroller
-import com.lightteam.modpeide.ui.editor.customview.internal.UndoRedoEditText
 import com.lightteam.modpeide.ui.editor.utils.Panel
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
@@ -95,6 +96,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
 
+        binding.editor.suggestionAdapter = BasicSuggestionAdapter(requireContext())
         binding.editor.onUndoRedoChangedListener = object : UndoRedoEditText.OnUndoRedoChangedListener {
             override fun onUndoRedoChanged() {
                 viewModel.canUndo.set(binding.editor.canUndo())
@@ -194,7 +196,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
                     is PreferenceEvent.ThemePref -> {
-                        binding.editor.theme = event.value
+                        binding.editor.colorScheme = event.value.colorScheme
                     }
                     is PreferenceEvent.FontSize -> {
                         val newConfiguration = binding.editor.config.copy(fontSize = event.value)
@@ -469,7 +471,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     override fun onCloseFindButton() {
         toolbarManager.panel = Panel.DEFAULT
         binding.inputFind.setText("")
-        binding.editor.clearFindSpans()
+        binding.editor.clearFindResultSpans()
     }
 
     override fun onOpenReplaceButton() {
@@ -503,11 +505,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     }
 
     override fun onMatchCaseChanged(matchCase: Boolean) {
-        binding.editor.isMatchCaseEnabled
+        binding.editor.isMatchCaseEnabled = matchCase
         onFindInputChanged(binding.inputFind.text.toString())
     }
 
     override fun onFindInputChanged(findText: String) {
+        binding.editor.clearFindResultSpans()
         binding.editor.find(findText)
     }
 

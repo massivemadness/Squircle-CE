@@ -42,5 +42,6 @@ dependencies {
     implementation library.rxjava2
 
     //Modules
+    implementation project(':editorkit')
     implementation project(':languages:language')
 }

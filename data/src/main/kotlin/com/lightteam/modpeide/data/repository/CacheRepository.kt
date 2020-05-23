@@ -17,16 +17,15 @@
 
 package com.lightteam.modpeide.data.repository
 
+import com.lightteam.editorkit.feature.undoredo.TextChange
+import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.feature.language.LanguageProvider
-import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.database.AppDatabase
-import com.lightteam.modpeide.domain.feature.undoredo.UndoStack
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.modpeide.domain.editor.DocumentContent
 import com.lightteam.modpeide.domain.editor.DocumentModel
-import com.lightteam.modpeide.domain.editor.TextChange
 import com.lightteam.modpeide.domain.repository.DocumentRepository
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -134,7 +133,7 @@ class CacheRepository(
         return try {
             restoreUndoStack(documentModel.uuid)
         } catch (e: NumberFormatException) {
-            UndoStackImpl()
+            UndoStack()
         }
     }
 
@@ -142,7 +141,7 @@ class CacheRepository(
         return try {
             restoreRedoStack(documentModel.uuid)
         } catch (e: NumberFormatException) {
-            UndoStackImpl()
+            UndoStack()
         }
     }
 
@@ -151,7 +150,7 @@ class CacheRepository(
         if (file.exists()) {
             return readUndoStackCache(file)
         }
-        return UndoStackImpl()
+        return UndoStack()
     }
 
     private fun restoreRedoStack(uuid: String): UndoStack {
@@ -159,7 +158,7 @@ class CacheRepository(
         if (file.exists()) {
             return readUndoStackCache(file)
         }
-        return UndoStackImpl()
+        return UndoStack()
     }
 
     private fun readUndoStackCache(file: File): UndoStack {
@@ -186,7 +185,7 @@ class CacheRepository(
     }
 
     private fun decodeUndoStack(raw: String?): UndoStack {
-        val result = UndoStackImpl()
+        val result = UndoStack()
         if (!(raw == null || raw.isEmpty())) {
             val items = raw.split("\u0005").toTypedArray()
             if (items[items.size - 1].endsWith("\n")) {
@@ -196,9 +195,9 @@ class CacheRepository(
             var i = items.size - 3
             while (i >= 0) {
                 val change = TextChange(
-                    items[i + 1],
-                    items[i],
-                    Integer.parseInt(items[i + 2])
+                    newText = items[i + 1],
+                    oldText = items[i],
+                    start = Integer.parseInt(items[i + 2])
                 )
                 result.push(change)
                 i -= 3

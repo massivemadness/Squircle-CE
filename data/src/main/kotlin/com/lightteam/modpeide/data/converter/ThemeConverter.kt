@@ -18,10 +18,10 @@
 package com.lightteam.modpeide.data.converter
 
 import android.graphics.Color
+import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.modpeide.data.feature.scheme.external.ExternalScheme
 import com.lightteam.modpeide.data.feature.scheme.external.ExternalTheme
-import com.lightteam.modpeide.data.feature.scheme.internal.ColorScheme
 import com.lightteam.modpeide.data.feature.scheme.internal.Theme
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity

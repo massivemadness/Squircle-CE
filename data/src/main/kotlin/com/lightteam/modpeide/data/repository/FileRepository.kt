@@ -17,10 +17,10 @@
 
 package com.lightteam.modpeide.data.repository
 
+import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.feature.language.LanguageProvider
-import com.lightteam.modpeide.data.feature.undoredo.UndoStackImpl
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.editor.DocumentContent
 import com.lightteam.modpeide.domain.editor.DocumentModel
@@ -40,8 +40,8 @@ class FileRepository(
                 appDatabase.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
 
                 val language = LanguageProvider.provideLanguage(documentModel.name)
-                val undoStack = UndoStackImpl()
-                val redoStack = UndoStackImpl()
+                val undoStack = UndoStack()
+                val redoStack = UndoStack()
 
                 return@map DocumentContent(
                     documentModel,
