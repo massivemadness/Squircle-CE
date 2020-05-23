@@ -27,6 +27,13 @@ android {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     testOptions {
         unitTests.returnDefaultValues true
     }
@@ -41,7 +48,7 @@ dependencies {
 
     //Kotlin
     implementation library.kotlin
-    implementation library.kotlin_reflect
+    implementation library.core_ktx
 
     //Network
     implementation library.gson

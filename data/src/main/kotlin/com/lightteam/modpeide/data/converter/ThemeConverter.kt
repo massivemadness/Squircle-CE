@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.converter
 
-import android.graphics.Color
+import androidx.core.graphics.toColorInt
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.modpeide.data.model.theme.ExternalScheme
@@ -25,40 +25,9 @@ import com.lightteam.modpeide.data.model.theme.ExternalTheme
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
+import java.util.*
 
 object ThemeConverter {
-    
-    fun toExternalTheme(themeModel: ThemeModel): ExternalTheme {
-        return ExternalTheme(
-            uuid = themeModel.uuid,
-            name = themeModel.name,
-            author = themeModel.author,
-            description = themeModel.description,
-            isExternal = themeModel.isExternal,
-            isPaid = themeModel.isPaid,
-            externalScheme = ExternalScheme(
-                textColor = themeModel.colorScheme.textColor.toHexString(),
-                backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),
-                gutterColor = themeModel.colorScheme.gutterColor.toHexString(),
-                gutterDividerColor = themeModel.colorScheme.gutterDividerColor.toHexString(),
-                gutterCurrentLineNumberColor = themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString(),
-                gutterTextColor = themeModel.colorScheme.gutterTextColor.toHexString(),
-                selectedLineColor = themeModel.colorScheme.selectedLineColor.toHexString(),
-                selectionColor = themeModel.colorScheme.selectionColor.toHexString(),
-                suggestionQueryColor = themeModel.colorScheme.suggestionQueryColor.toHexString(),
-                findResultBackgroundColor = themeModel.colorScheme.findResultBackgroundColor.toHexString(),
-                delimiterBackgroundColor = themeModel.colorScheme.delimiterBackgroundColor.toHexString(),
-                numberColor = themeModel.colorScheme.numberColor.toHexString(),
-                operatorColor = themeModel.colorScheme.operatorColor.toHexString(),
-                keywordColor = themeModel.colorScheme.keywordColor.toHexString(),
-                typeColor = themeModel.colorScheme.typeColor.toHexString(),
-                langConstColor = themeModel.colorScheme.langConstColor.toHexString(),
-                methodColor = themeModel.colorScheme.methodColor.toHexString(),
-                stringColor = themeModel.colorScheme.stringColor.toHexString(),
-                commentColor = themeModel.colorScheme.commentColor.toHexString()
-            )
-        )
-    }
 
     fun toModel(themeEntity: ThemeEntity): ThemeModel {
         return ThemeModel(
@@ -69,25 +38,25 @@ object ThemeConverter {
             isExternal = themeEntity.isExternal,
             isPaid = themeEntity.isPaid,
             colorScheme = ColorScheme(
-                textColor = Color.parseColor(themeEntity.textColor),
-                backgroundColor = Color.parseColor(themeEntity.backgroundColor),
-                gutterColor = Color.parseColor(themeEntity.gutterColor),
-                gutterDividerColor = Color.parseColor(themeEntity.gutterDividerColor),
-                gutterCurrentLineNumberColor = Color.parseColor(themeEntity.gutterCurrentLineNumberColor),
-                gutterTextColor = Color.parseColor(themeEntity.gutterTextColor),
-                selectedLineColor = Color.parseColor(themeEntity.selectedLineColor),
-                selectionColor = Color.parseColor(themeEntity.selectionColor),
-                suggestionQueryColor = Color.parseColor(themeEntity.suggestionQueryColor),
-                findResultBackgroundColor = Color.parseColor(themeEntity.findResultBackgroundColor),
-                delimiterBackgroundColor = Color.parseColor(themeEntity.delimiterBackgroundColor),
-                numberColor = Color.parseColor(themeEntity.numberColor),
-                operatorColor = Color.parseColor(themeEntity.operatorColor),
-                keywordColor = Color.parseColor(themeEntity.keywordColor),
-                typeColor = Color.parseColor(themeEntity.typeColor),
-                langConstColor = Color.parseColor(themeEntity.langConstColor),
-                methodColor = Color.parseColor(themeEntity.methodColor),
-                stringColor = Color.parseColor(themeEntity.stringColor),
-                commentColor = Color.parseColor(themeEntity.commentColor)
+                textColor = themeEntity.textColor.toColorInt(),
+                backgroundColor = themeEntity.backgroundColor.toColorInt(),
+                gutterColor = themeEntity.gutterColor.toColorInt(),
+                gutterDividerColor = themeEntity.gutterDividerColor.toColorInt(),
+                gutterCurrentLineNumberColor = themeEntity.gutterCurrentLineNumberColor.toColorInt(),
+                gutterTextColor = themeEntity.gutterTextColor.toColorInt(),
+                selectedLineColor = themeEntity.selectedLineColor.toColorInt(),
+                selectionColor = themeEntity.selectionColor.toColorInt(),
+                suggestionQueryColor = themeEntity.suggestionQueryColor.toColorInt(),
+                findResultBackgroundColor = themeEntity.findResultBackgroundColor.toColorInt(),
+                delimiterBackgroundColor = themeEntity.delimiterBackgroundColor.toColorInt(),
+                numberColor = themeEntity.numberColor.toColorInt(),
+                operatorColor = themeEntity.operatorColor.toColorInt(),
+                keywordColor = themeEntity.keywordColor.toColorInt(),
+                typeColor = themeEntity.typeColor.toColorInt(),
+                langConstColor = themeEntity.langConstColor.toColorInt(),
+                methodColor = themeEntity.methodColor.toColorInt(),
+                stringColor = themeEntity.stringColor.toColorInt(),
+                commentColor = themeEntity.commentColor.toColorInt()
             )
         )
     }
@@ -122,33 +91,67 @@ object ThemeConverter {
         )
     }
 
-    fun toEntity(externalTheme: ExternalTheme): ThemeEntity {
-        return ThemeEntity(
-            uuid = externalTheme.uuid,
-            name = externalTheme.name,
-            author = externalTheme.author,
-            description = externalTheme.description,
-            isExternal = externalTheme.isExternal,
-            isPaid = externalTheme.isPaid,
-            textColor = externalTheme.externalScheme.textColor,
-            backgroundColor = externalTheme.externalScheme.backgroundColor,
-            gutterColor = externalTheme.externalScheme.gutterColor,
-            gutterDividerColor = externalTheme.externalScheme.gutterDividerColor,
-            gutterCurrentLineNumberColor = externalTheme.externalScheme.gutterCurrentLineNumberColor,
-            gutterTextColor = externalTheme.externalScheme.gutterTextColor,
-            selectedLineColor = externalTheme.externalScheme.selectedLineColor,
-            selectionColor = externalTheme.externalScheme.selectionColor,
-            suggestionQueryColor = externalTheme.externalScheme.suggestionQueryColor,
-            findResultBackgroundColor = externalTheme.externalScheme.findResultBackgroundColor,
-            delimiterBackgroundColor = externalTheme.externalScheme.delimiterBackgroundColor,
-            numberColor = externalTheme.externalScheme.numberColor,
-            operatorColor = externalTheme.externalScheme.operatorColor,
-            keywordColor = externalTheme.externalScheme.keywordColor,
-            typeColor = externalTheme.externalScheme.typeColor,
-            langConstColor = externalTheme.externalScheme.langConstColor,
-            methodColor = externalTheme.externalScheme.methodColor,
-            stringColor = externalTheme.externalScheme.stringColor,
-            commentColor = externalTheme.externalScheme.commentColor
+    fun toExternalTheme(themeModel: ThemeModel): ExternalTheme {
+        return ExternalTheme(
+            uuid = themeModel.uuid,
+            name = themeModel.name,
+            author = themeModel.author,
+            description = themeModel.description,
+            isExternal = themeModel.isExternal,
+            isPaid = themeModel.isPaid,
+            externalScheme = ExternalScheme(
+                textColor = themeModel.colorScheme.textColor.toHexString(),
+                backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),
+                gutterColor = themeModel.colorScheme.gutterColor.toHexString(),
+                gutterDividerColor = themeModel.colorScheme.gutterDividerColor.toHexString(),
+                gutterCurrentLineNumberColor = themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString(),
+                gutterTextColor = themeModel.colorScheme.gutterTextColor.toHexString(),
+                selectedLineColor = themeModel.colorScheme.selectedLineColor.toHexString(),
+                selectionColor = themeModel.colorScheme.selectionColor.toHexString(),
+                suggestionQueryColor = themeModel.colorScheme.suggestionQueryColor.toHexString(),
+                findResultBackgroundColor = themeModel.colorScheme.findResultBackgroundColor.toHexString(),
+                delimiterBackgroundColor = themeModel.colorScheme.delimiterBackgroundColor.toHexString(),
+                numberColor = themeModel.colorScheme.numberColor.toHexString(),
+                operatorColor = themeModel.colorScheme.operatorColor.toHexString(),
+                keywordColor = themeModel.colorScheme.keywordColor.toHexString(),
+                typeColor = themeModel.colorScheme.typeColor.toHexString(),
+                langConstColor = themeModel.colorScheme.langConstColor.toHexString(),
+                methodColor = themeModel.colorScheme.methodColor.toHexString(),
+                stringColor = themeModel.colorScheme.stringColor.toHexString(),
+                commentColor = themeModel.colorScheme.commentColor.toHexString()
+            )
+        )
+    }
+
+    fun toModel(externalTheme: ExternalTheme?): ThemeModel {
+        return ThemeModel(
+            uuid = externalTheme?.uuid ?: UUID.randomUUID().toString(),
+            name = externalTheme?.name ?: "",
+            author = externalTheme?.author ?: "",
+            description = externalTheme?.description ?: "",
+            isExternal = externalTheme?.isExternal ?: true,
+            isPaid = externalTheme?.isPaid ?: true,
+            colorScheme = ColorScheme(
+                textColor = (externalTheme?.externalScheme?.textColor ?: "#000000").toColorInt(),
+                backgroundColor = (externalTheme?.externalScheme?.backgroundColor ?: "#000000").toColorInt(),
+                gutterColor = (externalTheme?.externalScheme?.gutterColor ?: "#000000").toColorInt(),
+                gutterDividerColor = (externalTheme?.externalScheme?.gutterDividerColor ?: "#000000").toColorInt(),
+                gutterCurrentLineNumberColor = (externalTheme?.externalScheme?.gutterCurrentLineNumberColor ?: "#000000").toColorInt(),
+                gutterTextColor = (externalTheme?.externalScheme?.gutterTextColor ?: "#000000").toColorInt(),
+                selectedLineColor = (externalTheme?.externalScheme?.selectedLineColor ?: "#000000").toColorInt(),
+                selectionColor = (externalTheme?.externalScheme?.selectionColor ?: "#000000").toColorInt(),
+                suggestionQueryColor = (externalTheme?.externalScheme?.suggestionQueryColor ?: "#000000").toColorInt(),
+                findResultBackgroundColor = (externalTheme?.externalScheme?.findResultBackgroundColor ?: "#000000").toColorInt(),
+                delimiterBackgroundColor = (externalTheme?.externalScheme?.delimiterBackgroundColor ?: "#000000").toColorInt(),
+                numberColor = (externalTheme?.externalScheme?.numberColor ?: "#000000").toColorInt(),
+                operatorColor = (externalTheme?.externalScheme?.operatorColor ?: "#000000").toColorInt(),
+                keywordColor = (externalTheme?.externalScheme?.keywordColor ?: "#000000").toColorInt(),
+                typeColor = (externalTheme?.externalScheme?.typeColor ?: "#000000").toColorInt(),
+                langConstColor = (externalTheme?.externalScheme?.langConstColor ?: "#000000").toColorInt(),
+                methodColor = (externalTheme?.externalScheme?.methodColor ?: "#000000").toColorInt(),
+                stringColor = (externalTheme?.externalScheme?.stringColor ?: "#000000").toColorInt(),
+                commentColor = (externalTheme?.externalScheme?.commentColor ?: "#000000").toColorInt()
+            )
         )
     }
 

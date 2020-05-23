@@ -28,7 +28,6 @@ import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.repository.LocalFilesystem
 import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.data.utils.commons.NullableTypeAdapterFactory
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.delegate.DatabaseDelegate
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -80,10 +79,7 @@ class AppModule {
     @Provides
     @Singleton
     fun provideGson(): Gson {
-        return GsonBuilder()
-            .registerTypeAdapterFactory(NullableTypeAdapterFactory())
-            .setPrettyPrinting()
-            .create()
+        return GsonBuilder().setPrettyPrinting().create()
     }
 
     @Provides

@@ -21,41 +21,41 @@ import com.google.gson.annotations.SerializedName
 
 data class ExternalScheme(
     @SerializedName("text_color")
-    val textColor: String,
+    val textColor: String?,
     @SerializedName("background_color")
-    val backgroundColor: String,
+    val backgroundColor: String?,
     @SerializedName("gutter_color")
-    val gutterColor: String,
+    val gutterColor: String?,
     @SerializedName("gutter_divider_color")
-    val gutterDividerColor: String,
+    val gutterDividerColor: String?,
     @SerializedName("gutter_current_line_number_color")
-    val gutterCurrentLineNumberColor: String,
+    val gutterCurrentLineNumberColor: String?,
     @SerializedName("gutter_text_color")
-    val gutterTextColor: String,
+    val gutterTextColor: String?,
     @SerializedName("selected_line_color")
-    val selectedLineColor: String,
+    val selectedLineColor: String?,
     @SerializedName("selection_color")
-    val selectionColor: String,
+    val selectionColor: String?,
     @SerializedName("suggestion_query_color")
-    val suggestionQueryColor: String,
+    val suggestionQueryColor: String?,
     @SerializedName("find_result_background_color")
-    val findResultBackgroundColor: String,
+    val findResultBackgroundColor: String?,
     @SerializedName("delimiter_background_color")
-    val delimiterBackgroundColor: String,
+    val delimiterBackgroundColor: String?,
     @SerializedName("number_color")
-    val numberColor: String,
+    val numberColor: String?,
     @SerializedName("operator_color")
-    val operatorColor: String,
+    val operatorColor: String?,
     @SerializedName("keyword_color")
-    val keywordColor: String,
+    val keywordColor: String?,
     @SerializedName("type_color")
-    val typeColor: String,
+    val typeColor: String?,
     @SerializedName("lang_const_color")
-    val langConstColor: String,
+    val langConstColor: String?,
     @SerializedName("method_color")
-    val methodColor: String,
+    val methodColor: String?,
     @SerializedName("string_color")
-    val stringColor: String,
+    val stringColor: String?,
     @SerializedName("comment_color")
-    val commentColor: String
+    val commentColor: String?
 )

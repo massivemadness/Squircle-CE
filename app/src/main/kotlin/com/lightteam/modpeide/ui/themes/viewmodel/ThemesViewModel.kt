@@ -36,6 +36,7 @@ import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
 import com.lightteam.modpeide.data.model.theme.Meta
 import com.lightteam.modpeide.data.model.theme.Property
+import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
@@ -45,7 +46,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
-import java.util.*
 
 class ThemesViewModel(
     private val schedulersProvider: SchedulersProvider,
@@ -58,7 +58,6 @@ class ThemesViewModel(
     companion object {
         private const val TAG = "ThemesViewModel"
 
-        private const val FALLBACK_META = "" // empty string
         private const val FALLBACK_COLOR = "#000000"
     }
 
@@ -115,8 +114,8 @@ class ThemesViewModel(
         try {
             val fileText = inputStream?.bufferedReader()?.use(BufferedReader::readText) ?: ""
             val externalTheme = gson.fromJson(fileText, ExternalTheme::class.java)
-            val themeEntity = ThemeConverter.toEntity(externalTheme)
-            loadProperties(themeEntity)
+            val themeModel = ThemeConverter.toModel(externalTheme)
+            loadProperties(themeModel)
         } catch (e: JsonParseException) {
             toastEvent.value = R.string.message_theme_syntax_exception
         }
@@ -126,9 +125,7 @@ class ThemesViewModel(
         val externalTheme = ThemeConverter.toExternalTheme(themeModel)
         val fileName = "${themeModel.name}.json"
         val fileText = gson.toJson(externalTheme)
-        val directory = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_DOWNLOADS
-        )
+        val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val fileModel = FileModel(
             name = fileName,
             path = File(directory, fileName).absolutePath,
@@ -179,10 +176,12 @@ class ThemesViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    loadProperties(it)
+                    val themeModel = ThemeConverter.toModel(it)
+                    loadProperties(themeModel)
                 },
                 onError = {
-                    loadProperties(null)
+                    val themeModel = ThemeConverter.toModel(null)
+                    loadProperties(themeModel)
                 }
             )
             .disposeOnViewModelDestroy()
@@ -269,109 +268,109 @@ class ThemesViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    private fun loadProperties(themeEntity: ThemeEntity?) {
+    private fun loadProperties(themeModel: ThemeModel) {
         metaEvent.value = Meta(
-            uuid = themeEntity?.uuid ?: UUID.randomUUID().toString(),
-            name = themeEntity?.name ?: FALLBACK_META,
-            author = themeEntity?.author ?: FALLBACK_META,
-            description = themeEntity?.description ?: FALLBACK_META,
-            isExternal = themeEntity?.isExternal ?: true,
-            isPaid = themeEntity?.isPaid ?: true
+            uuid = themeModel.uuid,
+            name = themeModel.name,
+            author = themeModel.author,
+            description = themeModel.description,
+            isExternal = themeModel.isExternal,
+            isPaid = themeModel.isPaid
         )
         propertiesEvent.value = listOf(
             PropertyItem(
                 Property.TEXT_COLOR,
-                themeEntity?.textColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.textColor.toHexString(),
                 R.string.theme_property_text_color
             ),
             PropertyItem(
                 Property.BACKGROUND_COLOR,
-                themeEntity?.backgroundColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.backgroundColor.toHexString(),
                 R.string.theme_property_background_color
             ),
             PropertyItem(
                 Property.GUTTER_COLOR,
-                themeEntity?.gutterColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.gutterColor.toHexString(),
                 R.string.theme_property_gutter_color
             ),
             PropertyItem(
                 Property.GUTTER_DIVIDER_COLOR,
-                themeEntity?.gutterDividerColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString(),
                 R.string.theme_property_gutter_divider_color
             ),
             PropertyItem(
                 Property.GUTTER_CURRENT_LINE_NUMBER_COLOR,
-                themeEntity?.gutterCurrentLineNumberColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString(),
                 R.string.theme_property_gutter_divider_current_line_number_color
             ),
             PropertyItem(
                 Property.GUTTER_TEXT_COLOR,
-                themeEntity?.gutterTextColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.gutterTextColor.toHexString(),
                 R.string.theme_property_gutter_text_color
             ),
             PropertyItem(
                 Property.SELECTED_LINE_COLOR,
-                themeEntity?.selectedLineColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.selectedLineColor.toHexString(),
                 R.string.theme_property_selected_line_color
             ),
             PropertyItem(
                 Property.SELECTION_COLOR,
-                themeEntity?.selectionColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.selectionColor.toHexString(),
                 R.string.theme_property_selection_color
             ),
             PropertyItem(
                 Property.SUGGESTION_QUERY_COLOR,
-                themeEntity?.suggestionQueryColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.suggestionQueryColor.toHexString(),
                 R.string.theme_property_suggestion_query_color
             ),
             PropertyItem(
                 Property.FIND_RESULT_BACKGROUND_COLOR,
-                themeEntity?.findResultBackgroundColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.findResultBackgroundColor.toHexString(),
                 R.string.theme_property_find_result_background_color
             ),
             PropertyItem(
                 Property.DELIMITER_BACKGROUND_COLOR,
-                themeEntity?.delimiterBackgroundColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.delimiterBackgroundColor.toHexString(),
                 R.string.theme_property_delimiter_background_color
             ),
             PropertyItem(
                 Property.NUMBER_COLOR,
-                themeEntity?.numberColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.numberColor.toHexString(),
                 R.string.theme_property_numbers_color
             ),
             PropertyItem(
                 Property.OPERATOR_COLOR,
-                themeEntity?.operatorColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.operatorColor.toHexString(),
                 R.string.theme_property_operators_color
             ),
             PropertyItem(
                 Property.KEYWORD_COLOR,
-                themeEntity?.keywordColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.keywordColor.toHexString(),
                 R.string.theme_property_keywords_color
             ),
             PropertyItem(
                 Property.TYPE_COLOR,
-                themeEntity?.typeColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.typeColor.toHexString(),
                 R.string.theme_property_types_color
             ),
             PropertyItem(
                 Property.LANG_CONST_COLOR,
-                themeEntity?.langConstColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.langConstColor.toHexString(),
                 R.string.theme_property_lang_const_color
             ),
             PropertyItem(
                 Property.METHOD_COLOR,
-                themeEntity?.methodColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.methodColor.toHexString(),
                 R.string.theme_property_methods_color
             ),
             PropertyItem(
                 Property.STRING_COLOR,
-                themeEntity?.stringColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.stringColor.toHexString(),
                 R.string.theme_property_strings_color
             ),
             PropertyItem(
                 Property.COMMENT_COLOR,
-                themeEntity?.commentColor ?: FALLBACK_COLOR,
+                themeModel.colorScheme.commentColor.toHexString(),
                 R.string.theme_property_comments_color
             )
         )

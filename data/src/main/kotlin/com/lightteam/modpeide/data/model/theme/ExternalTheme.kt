@@ -21,17 +21,17 @@ import com.google.gson.annotations.SerializedName
 
 data class ExternalTheme(
     @SerializedName("uuid")
-    val uuid: String,
+    val uuid: String?,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("author")
-    val author: String,
+    val author: String?,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("is_external")
-    val isExternal: Boolean,
+    val isExternal: Boolean?,
     @SerializedName("is_paid")
-    val isPaid: Boolean,
+    val isPaid: Boolean?,
     @SerializedName("color_scheme")
-    val externalScheme: ExternalScheme
+    val externalScheme: ExternalScheme?
 )
