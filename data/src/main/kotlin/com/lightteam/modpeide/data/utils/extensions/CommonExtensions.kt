@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.data.utils.extensions
 
 import com.lightteam.filesystem.model.FileModel
-import com.lightteam.modpeide.domain.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
 
 fun Int.toHexString(fallbackColor: String = "#000000"): String {
     return try {

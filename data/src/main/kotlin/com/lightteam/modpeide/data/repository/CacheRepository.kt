@@ -20,12 +20,12 @@ package com.lightteam.modpeide.data.repository
 import com.lightteam.editorkit.feature.undoredo.TextChange
 import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.modpeide.data.converter.DocumentConverter
-import com.lightteam.modpeide.data.feature.language.LanguageProvider
+import com.lightteam.modpeide.data.delegate.LanguageDelegate
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.converter.FileConverter
-import com.lightteam.modpeide.domain.editor.DocumentContent
-import com.lightteam.modpeide.domain.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.editor.DocumentContent
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.repository.DocumentRepository
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -45,7 +45,7 @@ class CacheRepository(
         val fileModel = FileConverter.toModel(file)
         return filesystem.loadFile(fileModel)
             .map { text ->
-                val language = LanguageProvider.provideLanguage(documentModel.name)
+                val language = LanguageDelegate.provideLanguage(documentModel.name)
                 val undoStack = loadUndoStack(documentModel)
                 val redoStack = loadRedoStack(documentModel)
 

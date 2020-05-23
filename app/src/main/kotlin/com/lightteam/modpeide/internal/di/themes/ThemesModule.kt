@@ -20,7 +20,7 @@ package com.lightteam.modpeide.internal.di.themes
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.internal.di.settings.SettingsScope

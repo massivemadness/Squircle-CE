@@ -19,7 +19,7 @@ package com.lightteam.modpeide.internal.di.explorer
 
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel

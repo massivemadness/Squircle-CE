@@ -24,7 +24,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.feature.font.FontModel
+import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.databinding.FragmentExternalFontBinding
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel

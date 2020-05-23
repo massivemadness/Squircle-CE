@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.ui.themes.adapters.item
 
 import androidx.annotation.StringRes
-import com.lightteam.modpeide.domain.theme.Property
+import com.lightteam.modpeide.data.model.theme.Property
 
 data class PropertyItem(
     val propertyKey: Property,

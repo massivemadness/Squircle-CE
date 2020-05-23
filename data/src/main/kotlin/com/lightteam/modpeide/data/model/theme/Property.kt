@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.theme
+package com.lightteam.modpeide.data.model.theme
 
 enum class Property(val key: String) {
     TEXT_COLOR("text_color"),

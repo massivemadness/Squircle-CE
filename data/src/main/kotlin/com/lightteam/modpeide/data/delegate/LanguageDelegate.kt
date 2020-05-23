@@ -15,15 +15,18 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.editor
+package com.lightteam.modpeide.data.delegate
 
-import com.lightteam.editorkit.feature.undoredo.UndoStack
+import com.lightteam.javascript.language.JavaScriptLanguage
 import com.lightteam.language.language.Language
+import com.lightteam.unknown.language.UnknownLanguage
 
-data class DocumentContent(
-    val documentModel: DocumentModel,
-    val language: Language,
-    val undoStack: UndoStack,
-    val redoStack: UndoStack,
-    val text: String
-)
+object LanguageDelegate {
+
+    fun provideLanguage(fileName: String): Language {
+        return when {
+            fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
+            else -> UnknownLanguage()
+        }
+    }
+}

@@ -26,8 +26,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.feature.language.LanguageProvider
-import com.lightteam.modpeide.data.feature.scheme.internal.Theme
+import com.lightteam.modpeide.data.delegate.LanguageDelegate
+import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.databinding.ItemThemeBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.themes.customview.CodeView
@@ -36,14 +36,14 @@ import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 
 class ThemeAdapter(
     private val themeInteractor: ThemeInteractor
-) : ListAdapter<Theme, ThemeAdapter.ThemeViewHolder>(diffCallback) {
+) : ListAdapter<ThemeModel, ThemeAdapter.ThemeViewHolder>(diffCallback) {
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<Theme>() {
-            override fun areItemsTheSame(oldItem: Theme, newItem: Theme): Boolean {
+        private val diffCallback = object : DiffUtil.ItemCallback<ThemeModel>() {
+            override fun areItemsTheSame(oldItem: ThemeModel, newItem: ThemeModel): Boolean {
                 return oldItem.uuid == newItem.uuid
             }
-            override fun areContentsTheSame(oldItem: Theme, newItem: Theme): Boolean {
+            override fun areContentsTheSame(oldItem: ThemeModel, newItem: ThemeModel): Boolean {
                 return oldItem == newItem
             }
         }
@@ -60,7 +60,7 @@ class ThemeAdapter(
     class ThemeViewHolder(
         private val binding: ItemThemeBinding,
         private val themeInteractor: ThemeInteractor
-    ) : BaseViewHolder<Theme>(binding.root) {
+    ) : BaseViewHolder<ThemeModel>(binding.root) {
 
         companion object {
             fun create(parent: ViewGroup, themeInteractor: ThemeInteractor): ThemeViewHolder {
@@ -70,28 +70,28 @@ class ThemeAdapter(
             }
         }
 
-        private lateinit var theme: Theme
+        private lateinit var themeModel: ThemeModel
 
         init {
             itemView.setOnClickListener {
                 if (!binding.actionSelect.isEnabled) {
-                    themeInteractor.selectTheme(theme)
+                    themeInteractor.selectTheme(themeModel)
                 }
             }
             binding.actionSelect.setOnClickListener {
-                themeInteractor.selectTheme(theme)
+                themeInteractor.selectTheme(themeModel)
             }
             binding.actionInfo.setOnClickListener {
-                themeInteractor.showInfo(theme)
+                themeInteractor.showInfo(themeModel)
             }
             binding.actionOverflow.setOnClickListener {
                 val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.action_export -> themeInteractor.exportTheme(theme)
-                        R.id.action_edit -> themeInteractor.editTheme(theme)
-                        R.id.action_remove -> themeInteractor.removeTheme(theme)
+                        R.id.action_export -> themeInteractor.exportTheme(themeModel)
+                        R.id.action_edit -> themeInteractor.editTheme(themeModel)
+                        R.id.action_remove -> themeInteractor.removeTheme(themeModel)
                     }
                     true
                 }
@@ -101,16 +101,16 @@ class ThemeAdapter(
             }
         }
 
-        override fun bind(item: Theme) {
-            theme = item
+        override fun bind(item: ThemeModel) {
+            themeModel = item
             binding.itemTitle.text = item.name
             binding.itemSubtitle.text = item.author
             binding.actionOverflow.isVisible = item.isExternal
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)
             binding.editor.doOnPreDraw {
-                binding.editor.theme = theme
-                binding.editor.language = LanguageProvider.provideLanguage(".js")
+                binding.editor.themeModel = themeModel
+                binding.editor.language = LanguageDelegate.provideLanguage(".js")
             }
             binding.editor.text = CodeView.CODE_PREVIEW
 
@@ -121,10 +121,10 @@ class ThemeAdapter(
     }
 
     interface ThemeInteractor {
-        fun selectTheme(theme: Theme)
-        fun exportTheme(theme: Theme)
-        fun editTheme(theme: Theme)
-        fun removeTheme(theme: Theme)
-        fun showInfo(theme: Theme)
+        fun selectTheme(themeModel: ThemeModel)
+        fun exportTheme(themeModel: ThemeModel)
+        fun editTheme(themeModel: ThemeModel)
+        fun removeTheme(themeModel: ThemeModel)
+        fun showInfo(themeModel: ThemeModel)
     }
 }

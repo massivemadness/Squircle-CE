@@ -15,23 +15,12 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature.scheme.external
+package com.lightteam.modpeide.domain.model.font
 
-import com.google.gson.annotations.SerializedName
-
-data class ExternalTheme(
-    @SerializedName("uuid")
-    val uuid: String,
-    @SerializedName("name")
-    val name: String,
-    @SerializedName("author")
-    val author: String,
-    @SerializedName("description")
-    val description: String,
-    @SerializedName("is_external")
+data class FontModel(
+    val fontName: String,
+    val fontPath: String,
+    val supportLigatures: Boolean,
     val isExternal: Boolean,
-    @SerializedName("is_paid")
-    val isPaid: Boolean,
-    @SerializedName("color_scheme")
-    val externalScheme: ExternalScheme
+    val isPaid: Boolean
 )

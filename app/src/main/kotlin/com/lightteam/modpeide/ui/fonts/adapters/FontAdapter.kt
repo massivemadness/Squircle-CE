@@ -22,7 +22,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.lightteam.modpeide.data.feature.font.FontModel
+import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.databinding.ItemFontBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.utils.extensions.*

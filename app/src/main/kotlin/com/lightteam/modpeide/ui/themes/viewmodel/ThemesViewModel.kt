@@ -28,14 +28,14 @@ import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.utils.isValidFileName
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
-import com.lightteam.modpeide.data.feature.scheme.external.ExternalTheme
-import com.lightteam.modpeide.data.feature.scheme.internal.Theme
-import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.model.theme.ExternalTheme
+import com.lightteam.modpeide.domain.model.theme.ThemeModel
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
-import com.lightteam.modpeide.domain.theme.Meta
-import com.lightteam.modpeide.domain.theme.Property
+import com.lightteam.modpeide.data.model.theme.Meta
+import com.lightteam.modpeide.data.model.theme.Property
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
@@ -63,7 +63,7 @@ class ThemesViewModel(
     }
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent()
-    val themesEvent: SingleLiveEvent<List<Theme>> = SingleLiveEvent()
+    val themesEvent: SingleLiveEvent<List<ThemeModel>> = SingleLiveEvent()
 
     val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val metaEvent: SingleLiveEvent<Meta> = SingleLiveEvent()
@@ -106,9 +106,9 @@ class ThemesViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun selectTheme(theme: Theme) {
-        preferenceHandler.getColorScheme().set(theme.uuid)
-        selectEvent.value = theme.name
+    fun selectTheme(themeModel: ThemeModel) {
+        preferenceHandler.getColorScheme().set(themeModel.uuid)
+        selectEvent.value = themeModel.name
     }
 
     fun importTheme(inputStream: InputStream?) {
@@ -122,12 +122,11 @@ class ThemesViewModel(
         }
     }
 
-    fun exportTheme(theme: Theme) {
-        val externalTheme = ThemeConverter.toExternalTheme(theme)
-        val fileName = "${theme.name}.json"
+    fun exportTheme(themeModel: ThemeModel) {
+        val externalTheme = ThemeConverter.toExternalTheme(themeModel)
+        val fileName = "${themeModel.name}.json"
         val fileText = gson.toJson(externalTheme)
-        val directory = File(
-            Environment.getExternalStorageDirectory(),
+        val directory = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_DOWNLOADS
         )
         val fileModel = FileModel(
@@ -152,17 +151,17 @@ class ThemesViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun removeTheme(theme: Theme) {
+    fun removeTheme(themeModel: ThemeModel) {
         Completable
             .fromAction {
-                appDatabase.themeDao().delete(ThemeConverter.toEntity(theme))
+                appDatabase.themeDao().delete(ThemeConverter.toEntity(themeModel))
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {
-                if (preferenceHandler.getColorScheme().get() == theme.uuid) {
+                if (preferenceHandler.getColorScheme().get() == themeModel.uuid) {
                     preferenceHandler.getColorScheme().delete()
                 }
-                removeEvent.value = theme.name
+                removeEvent.value = themeModel.name
                 fetchThemes() // Update list
             }
             .disposeOnViewModelDestroy()

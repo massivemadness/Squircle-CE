@@ -21,7 +21,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.main.activities.MainActivity
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel

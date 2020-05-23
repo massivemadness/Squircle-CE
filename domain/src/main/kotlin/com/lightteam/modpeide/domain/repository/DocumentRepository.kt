@@ -17,8 +17,8 @@
 
 package com.lightteam.modpeide.domain.repository
 
-import com.lightteam.modpeide.domain.editor.DocumentContent
-import com.lightteam.modpeide.domain.editor.DocumentModel
+import com.lightteam.modpeide.domain.model.editor.DocumentContent
+import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import io.reactivex.Completable
 import io.reactivex.Single
 

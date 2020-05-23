@@ -15,18 +15,23 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature.language
+package com.lightteam.modpeide.data.model.theme
 
-import com.lightteam.javascript.language.JavaScriptLanguage
-import com.lightteam.language.language.Language
-import com.lightteam.unknown.language.UnknownLanguage
+import com.google.gson.annotations.SerializedName
 
-object LanguageProvider {
-
-    fun provideLanguage(fileName: String): Language {
-        return when {
-            fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
-            else -> UnknownLanguage()
-        }
-    }
-}
+data class ExternalTheme(
+    @SerializedName("uuid")
+    val uuid: String,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("author")
+    val author: String,
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("is_external")
+    val isExternal: Boolean,
+    @SerializedName("is_paid")
+    val isPaid: Boolean,
+    @SerializedName("color_scheme")
+    val externalScheme: ExternalScheme
+)

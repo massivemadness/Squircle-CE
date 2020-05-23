@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.feature.font.FontModel
+import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.databinding.FragmentFontsBinding
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature.scheme.external
+package com.lightteam.modpeide.data.model.theme
 
 import com.google.gson.annotations.SerializedName
 

@@ -26,7 +26,7 @@ import com.lightteam.language.language.Language
 import com.lightteam.language.styler.Styleable
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.data.converter.ThemeConverter
-import com.lightteam.modpeide.data.feature.scheme.internal.Theme
+import com.lightteam.modpeide.domain.model.theme.ThemeModel
 
 class CodeView @JvmOverloads constructor(
     context: Context,
@@ -62,7 +62,7 @@ class CodeView @JvmOverloads constructor(
             syntaxHighlight()
         }
 
-    var theme: Theme? = null
+    var themeModel: ThemeModel? = null
         set(value) {
             field = value
             colorize()
@@ -108,7 +108,7 @@ class CodeView @JvmOverloads constructor(
     }
 
     private fun colorize() {
-        theme?.let {
+        themeModel?.let {
             post {
                 setTextColor(it.colorScheme.textColor)
                 // setBackgroundColor(it.colorScheme.backgroundColor)
@@ -117,7 +117,7 @@ class CodeView @JvmOverloads constructor(
     }
 
     private fun syntaxHighlight() {
-        theme?.let {
+        themeModel?.let {
             language?.runStyler(
                 this,
                 text.toString(),

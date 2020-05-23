@@ -27,7 +27,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.feature.scheme.internal.Theme
+import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.databinding.FragmentThemesBinding
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
@@ -70,40 +70,40 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
         viewModel.fetchThemes()
     }
 
-    override fun selectTheme(theme: Theme) {
-        if (theme.isPaid && !requireContext().isUltimate()) {
+    override fun selectTheme(themeModel: ThemeModel) {
+        if (themeModel.isPaid && !requireContext().isUltimate()) {
             DialogStore.Builder(requireContext()).show()
         } else {
-            viewModel.selectTheme(theme)
+            viewModel.selectTheme(themeModel)
         }
     }
 
-    override fun exportTheme(theme: Theme) {
+    override fun exportTheme(themeModel: ThemeModel) {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED) {
-            viewModel.exportTheme(theme)
+            viewModel.exportTheme(themeModel)
         } else {
             showToast(R.string.message_access_required)
         }
     }
 
-    override fun editTheme(theme: Theme) {
-        if (theme.isExternal) {
-            val destination = ThemesFragmentDirections.toNewThemeFragment(theme.uuid)
+    override fun editTheme(themeModel: ThemeModel) {
+        if (themeModel.isExternal) {
+            val destination = ThemesFragmentDirections.toNewThemeFragment(themeModel.uuid)
             navController.navigate(destination)
         }
     }
 
-    override fun removeTheme(theme: Theme) {
-        if (theme.isExternal) {
-            viewModel.removeTheme(theme)
+    override fun removeTheme(themeModel: ThemeModel) {
+        if (themeModel.isExternal) {
+            viewModel.removeTheme(themeModel)
         }
     }
 
-    override fun showInfo(theme: Theme) {
-        showToast(text = theme.description)
+    override fun showInfo(themeModel: ThemeModel) {
+        showToast(text = themeModel.description)
     }
 
     private fun observeViewModel() {

@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.internal.di.fonts
 
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.internal.di.settings.SettingsScope

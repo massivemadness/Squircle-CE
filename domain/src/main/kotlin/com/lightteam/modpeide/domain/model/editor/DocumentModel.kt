@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.editor
+package com.lightteam.modpeide.domain.model.editor
 
 data class DocumentModel(
     val uuid: String,

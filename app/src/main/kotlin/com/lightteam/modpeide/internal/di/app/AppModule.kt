@@ -27,7 +27,7 @@ import com.google.gson.GsonBuilder
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.repository.LocalFilesystem
 import com.lightteam.modpeide.BaseApplication
-import com.lightteam.modpeide.data.storage.keyvalue.PreferenceHandler
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.commons.NullableTypeAdapterFactory
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.delegate.DatabaseDelegate
@@ -90,7 +90,7 @@ class AppModule {
     @Singleton
     @Named("Local")
     fun provideLocalFilesystem(): Filesystem {
-        return LocalFilesystem(Environment.getExternalStorageDirectory().absoluteFile)
+        return LocalFilesystem(Environment.getExternalStorageDirectory())
     }
 
     @Provides

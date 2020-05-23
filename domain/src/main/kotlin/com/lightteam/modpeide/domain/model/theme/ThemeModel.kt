@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.domain.theme
+package com.lightteam.modpeide.domain.model.theme
 
-data class Meta(
+import com.lightteam.editorkit.feature.colorscheme.ColorScheme
+
+data class ThemeModel(
     val uuid: String,
     val name: String,
     val author: String,
     val description: String,
     val isExternal: Boolean,
-    val isPaid: Boolean
+    val isPaid: Boolean,
+    val colorScheme: ColorScheme
 )

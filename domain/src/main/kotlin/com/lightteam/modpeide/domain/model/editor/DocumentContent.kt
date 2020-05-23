@@ -15,12 +15,15 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.feature.font
+package com.lightteam.modpeide.domain.model.editor
 
-data class FontModel(
-    val fontName: String,
-    val fontPath: String,
-    val supportLigatures: Boolean,
-    val isExternal: Boolean,
-    val isPaid: Boolean
+import com.lightteam.editorkit.feature.undoredo.UndoStack
+import com.lightteam.language.language.Language
+
+data class DocumentContent(
+    val documentModel: DocumentModel,
+    val language: Language,
+    val undoStack: UndoStack,
+    val redoStack: UndoStack,
+    val text: String
 )
