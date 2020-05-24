@@ -23,11 +23,17 @@ class UndoStack {
         const val MAX_SIZE = Integer.MAX_VALUE
     }
 
+    val size: Int
+        get() = stack.size
+
     private val stack = mutableListOf<TextChange>()
     private var currentSize = 0
 
+    operator fun get(index: Int): TextChange {
+        return stack[index]
+    }
+
     fun pop(): TextChange {
-        val size = stack.size
         val item = stack[size - 1]
         stack.removeAt(size - 1)
         currentSize -= item.newText.length + item.oldText.length
@@ -37,8 +43,8 @@ class UndoStack {
     fun push(textChange: TextChange) {
         val delta = textChange.newText.length + textChange.oldText.length
         if (delta < MAX_SIZE) {
-            if (stack.size > 0) {
-                val previous = stack[stack.size - 1]
+            if (size > 0) {
+                val previous = stack[size - 1]
                 val toCharArray: CharArray
                 val length: Int
                 var allWhitespace: Boolean
@@ -137,19 +143,15 @@ class UndoStack {
         removeAll()
     }
 
-    fun getItemAt(index: Int): TextChange {
-        return stack[index]
-    }
-
-    fun removeAll(): Boolean {
+    fun removeAll() {
         currentSize = 0
-        return stack.removeAll(stack)
+        stack.clear()
     }
 
     fun mergeTop(): Boolean {
-        if (stack.size >= 2) {
-            val newer = stack[stack.size - 1]
-            val previous = stack[stack.size - 2]
+        if (size >= 2) {
+            val newer = stack[size - 1]
+            val previous = stack[size - 2]
             if (previous.start + previous.newText.length == newer.start) {
                 previous.newText += newer.newText
                 previous.oldText += newer.oldText
@@ -161,19 +163,11 @@ class UndoStack {
     }
 
     fun canUndo(): Boolean {
-        return stack.size > 0
-    }
-
-    fun count(): Int {
-        return stack.size
-    }
-
-    fun clear() {
-        return stack.clear()
+        return size > 0
     }
 
     private fun removeLast(): Boolean {
-        if (stack.size <= 0) {
+        if (size <= 0) {
             return false
         }
         val item = stack[0]

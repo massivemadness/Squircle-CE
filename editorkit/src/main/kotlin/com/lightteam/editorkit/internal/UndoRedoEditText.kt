@@ -81,8 +81,8 @@ open class UndoRedoEditText @JvmOverloads constructor(
     }
 
     override fun clearText() {
-        undoStack.clear()
-        redoStack.clear()
+        undoStack.removeAll()
+        redoStack.removeAll()
         onUndoRedoChangedListener?.onUndoRedoChanged()
         super.clearText()
     }
@@ -109,7 +109,7 @@ open class UndoRedoEditText @JvmOverloads constructor(
             setSelection(textChange.start + textChange.oldText.length)
             isDoingUndoRedo = false
         } else {
-            undoStack.clear()
+            undoStack.removeAll()
         }
         onUndoRedoChangedListener?.onUndoRedoChanged()
     }
@@ -127,7 +127,7 @@ open class UndoRedoEditText @JvmOverloads constructor(
             setSelection(textChange.start + textChange.newText.length)
             isDoingUndoRedo = false
         } else {
-            undoStack.clear()
+            undoStack.removeAll()
         }
         onUndoRedoChangedListener?.onUndoRedoChanged()
     }

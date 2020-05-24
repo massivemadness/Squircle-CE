@@ -81,20 +81,17 @@ class WordsList {
         override val length: Int = value.length
 
         private val lines: SortedArrayList<Line> = SortedArrayList()
-        private val occurrenceInLines: HashMap<Line, Int> = HashMap()
-
-        var occurrences = 0
 
         init {
             addLine(line)
         }
 
-        override fun get(index: Int): Char {
-            return value[index]
-        }
-
         override fun subSequence(startIndex: Int, endIndex: Int): CharSequence {
             return value.subSequence(startIndex, endIndex)
+        }
+
+        override operator fun get(index: Int): Char {
+            return value[index]
         }
 
         override operator fun compareTo(other: Word): Int {
@@ -109,20 +106,11 @@ class WordsList {
         fun addLine(line: Line?) {
             if (line != null) {
                 lines.add(line)
-                if (occurrenceInLines.containsKey(line)) {
-                    occurrenceInLines[line] = occurrenceInLines[line]!! + 1
-                } else {
-                    occurrenceInLines[line] = 1
-                }
-                occurrences++
             }
         }
 
         fun removeLine(line: Line): Boolean {
             lines.remove(line)
-            if (occurrenceInLines.containsKey(line)) {
-                occurrences -= occurrenceInLines[line]!!
-            }
             return lines.isEmpty()
         }
 

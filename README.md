@@ -17,13 +17,13 @@ ModPE Script is a script language based on JavaScript and used to create mods fo
 
 ### STANDARD EDITION FEATURES
 <b>•</b> Syntax Highlighting  
-<b>•</b> Code Completion (Beta)  
+<b>•</b> Code Completion  
 <b>•</b> Cross-session Editing  
 <b>•</b> Unlimited Undo/Redo  
 <b>•</b> Matching Delimiters  
 <b>•</b> Auto Indentation  
 <b>•</b> Select, Delete, and Duplicate Line  
-<b>•</b> Search, Replace, Go to Line  
+<b>•</b> Find and Replace with navigation between results  
 <b>•</b> Word Wrap  
 <b>•</b> Pinch Zoom  
 <b>•</b> Built-in File Explorer  
@@ -32,7 +32,7 @@ ModPE Script is a script language based on JavaScript and used to create mods fo
 <b>And much more!</b>
 
 ### ULTIMATE EDITION FEATURES
-<b>•</b> Color Schemes  
+<b>•</b> Color Schemes (+ Theme Editor 🎉)  
 <b>•</b> External fonts  
 <b>•</b> Increased tab limit  
 <b>•</b> Error Checking  

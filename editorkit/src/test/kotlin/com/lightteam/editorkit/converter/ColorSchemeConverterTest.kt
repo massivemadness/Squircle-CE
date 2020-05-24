@@ -17,7 +17,7 @@
 
 package com.lightteam.editorkit.converter
 
-import android.graphics.Color
+import androidx.core.graphics.toColorInt
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.language.scheme.SyntaxScheme
 import org.junit.Test
@@ -31,35 +31,35 @@ class ColorSchemeConverterTest {
     @Test
     fun `convert ColorScheme to SyntaxScheme`() {
         val colorScheme = ColorScheme(
-            textColor = Color.parseColor("#FFFFFF"),
-            backgroundColor = Color.parseColor("#303030"),
-            gutterColor = Color.parseColor("#F0F0F0"),
-            gutterDividerColor = Color.parseColor("#FFFFFF"),
-            gutterCurrentLineNumberColor = Color.parseColor("#FEFEFE"),
-            gutterTextColor = Color.parseColor("#FFFFFF"),
-            selectedLineColor = Color.parseColor("#EEEEEE"),
-            selectionColor = Color.parseColor("#FF3000"),
-            suggestionQueryColor = Color.parseColor("#FF9000"),
-            findResultBackgroundColor = Color.parseColor("#FEFEFE"),
-            delimiterBackgroundColor = Color.parseColor("#FEFEFE"),
-            numberColor = Color.parseColor("#FF3000"),
-            operatorColor = Color.parseColor("#FF3000"),
-            keywordColor = Color.parseColor("#FF3000"),
-            typeColor = Color.parseColor("#FF3000"),
-            langConstColor = Color.parseColor("#FF3000"),
-            methodColor = Color.parseColor("#FF3000"),
-            stringColor = Color.parseColor("#FF3000"),
-            commentColor = Color.parseColor("#FF3000")
+            textColor = "#FFFFFF".toColorInt(),
+            backgroundColor = "#303030".toColorInt(),
+            gutterColor = "#F0F0F0".toColorInt(),
+            gutterDividerColor = "#FFFFFF".toColorInt(),
+            gutterCurrentLineNumberColor = "#FEFEFE".toColorInt(),
+            gutterTextColor = "#FFFFFF".toColorInt(),
+            selectedLineColor = "#EEEEEE".toColorInt(),
+            selectionColor = "#FF3000".toColorInt(),
+            suggestionQueryColor = "#FF9000".toColorInt(),
+            findResultBackgroundColor = "#FEFEFE".toColorInt(),
+            delimiterBackgroundColor = "#FEFEFE".toColorInt(),
+            numberColor = "#FF3000".toColorInt(),
+            operatorColor = "#FF3000".toColorInt(),
+            keywordColor = "#FF3000".toColorInt(),
+            typeColor = "#FF3000".toColorInt(),
+            langConstColor = "#FF3000".toColorInt(),
+            methodColor = "#FF3000".toColorInt(),
+            stringColor = "#FF3000".toColorInt(),
+            commentColor = "#FF3000".toColorInt()
         )
         val syntaxScheme = SyntaxScheme(
-            numberColor = Color.parseColor("#FF3000"),
-            operatorColor = Color.parseColor("#FF3000"),
-            keywordColor = Color.parseColor("#FF3000"),
-            typeColor = Color.parseColor("#FF3000"),
-            langConstColor = Color.parseColor("#FF3000"),
-            methodColor = Color.parseColor("#FF3000"),
-            stringColor = Color.parseColor("#FF3000"),
-            commentColor = Color.parseColor("#FF3000")
+            numberColor = "#FF3000".toColorInt(),
+            operatorColor = "#FF3000".toColorInt(),
+            keywordColor = "#FF3000".toColorInt(),
+            typeColor = "#FF3000".toColorInt(),
+            langConstColor = "#FF3000".toColorInt(),
+            methodColor = "#FF3000".toColorInt(),
+            stringColor = "#FF3000".toColorInt(),
+            commentColor = "#FF3000".toColorInt()
         )
         val convert = ColorSchemeConverter.toSyntaxScheme(colorScheme)
 

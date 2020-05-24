@@ -169,8 +169,8 @@ class CacheRepository(
     private fun encodeUndoStack(stack: UndoStack): String {
         val builder = StringBuilder()
         val delimiter = "\u0005"
-        for (i in stack.count() - 1 downTo 0) {
-            val textChange = stack.getItemAt(i)
+        for (i in stack.size - 1 downTo 0) {
+            val textChange = stack[i]
             builder.append(textChange.oldText)
             builder.append(delimiter)
             builder.append(textChange.newText)
