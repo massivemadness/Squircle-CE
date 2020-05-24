@@ -134,7 +134,7 @@ class ThemesViewModel(
             isFolder = false,
             isHidden = false
         )
-        filesystem.saveFile(fileModel, fileText)
+        filesystem.saveFile(fileModel, fileText, Charsets.UTF_8)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onComplete = {

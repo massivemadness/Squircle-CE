@@ -19,6 +19,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/pref_category_encoding">
+
+        <ListPreference
+            android:title="@string/pref_encodingForOpeningFiles_title"
+            android:summary="@string/pref_encodingForOpeningFiles_summary"
+            android:key="ENCODING_FOR_OPENING"
+            android:defaultValue="UTF-8"
+            app:entries="@array/encoding_entries"
+            app:entryValues="@array/encoding_values"/>
+
+        <ListPreference
+            android:title="@string/pref_encodingForSavingFiles_title"
+            android:summary="@string/pref_encodingForSavingFiles_summary"
+            android:key="ENCODING_FOR_SAVING"
+            android:defaultValue="UTF-8"
+            app:entries="@array/encoding_entries"
+            app:entryValues="@array/encoding_values"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_category_file_explorer">
 
         <SwitchPreference
@@ -35,10 +55,10 @@
 
         <ListPreference
             android:title="@string/pref_sortMode_title"
-            android:entries="@array/sort_mode_entries"
-            android:entryValues="@array/sort_mode_values"
             android:defaultValue="0"
             android:key="SORT_MODE"
+            app:entries="@array/sort_mode_entries"
+            app:entryValues="@array/sort_mode_values"
             app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>

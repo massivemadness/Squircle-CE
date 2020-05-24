@@ -30,9 +30,9 @@ import com.lightteam.localfilesystem.utils.formatAsSize
 import com.lightteam.localfilesystem.utils.size
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
+import java.nio.charset.Charset
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
@@ -146,11 +146,11 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun loadFile(fileModel: FileModel): Single<String> {
+    override fun loadFile(fileModel: FileModel, charset: Charset): Single<String> {
         return Single.create { emitter ->
             val file = File(fileModel.path)
             if (file.exists()) {
-                val text = file.inputStream().bufferedReader().use(BufferedReader::readText)
+                val text = file.readText(charset)
                 emitter.onSuccess(text)
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))
@@ -158,7 +158,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun saveFile(fileModel: FileModel, text: String): Completable {
+    override fun saveFile(fileModel: FileModel, text: String, charset: Charset): Completable {
         return Completable.create { emitter ->
             try {
                 val file = File(fileModel.path)
@@ -169,10 +169,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     }
                     file.createNewFile()
                 }
-
-                val writer = file.outputStream().bufferedWriter()
-                writer.write(text)
-                writer.close()
+                file.writeText(text, charset)
 
                 emitter.onComplete()
             } catch (e: IOException) {

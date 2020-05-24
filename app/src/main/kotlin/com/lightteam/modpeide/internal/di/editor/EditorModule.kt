@@ -76,11 +76,12 @@ class EditorModule {
     @Provides
     @EditorScope
     fun provideFileRepository(
+        preferenceHandler: PreferenceHandler,
         appDatabase: AppDatabase,
         @Named("Local")
         filesystem: Filesystem
     ): FileRepository {
-        return FileRepository(appDatabase, filesystem)
+        return FileRepository(preferenceHandler, appDatabase, filesystem)
     }
 
     @Provides

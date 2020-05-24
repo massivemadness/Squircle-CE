@@ -22,6 +22,7 @@ import com.lightteam.filesystem.model.FileTree
 import com.lightteam.filesystem.model.PropertiesModel
 import io.reactivex.Completable
 import io.reactivex.Single
+import java.nio.charset.Charset
 
 interface Filesystem {
     fun defaultLocation(): Single<FileTree>
@@ -32,6 +33,6 @@ interface Filesystem {
     fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
     fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
-    fun loadFile(fileModel: FileModel): Single<String>
-    fun saveFile(fileModel: FileModel, text: String): Completable
+    fun loadFile(fileModel: FileModel, charset: Charset): Single<String>
+    fun saveFile(fileModel: FileModel, text: String, charset: Charset): Completable
 }

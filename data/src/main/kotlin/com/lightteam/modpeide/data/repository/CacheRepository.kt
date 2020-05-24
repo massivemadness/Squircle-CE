@@ -43,7 +43,7 @@ class CacheRepository(
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val file = cache("${documentModel.uuid}.cache")
         val fileModel = FileConverter.toModel(file)
-        return filesystem.loadFile(fileModel)
+        return filesystem.loadFile(fileModel, Charsets.UTF_8)
             .map { text ->
                 val language = LanguageDelegate.provideLanguage(documentModel.name)
                 val undoStack = loadUndoStack(documentModel)
@@ -62,7 +62,7 @@ class CacheRepository(
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
         val file = cache("${documentModel.uuid}.cache")
         val fileModel = FileConverter.toModel(file)
-        return filesystem.saveFile(fileModel, text)
+        return filesystem.saveFile(fileModel, text, Charsets.UTF_8)
             .doOnComplete {
                 appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
             }

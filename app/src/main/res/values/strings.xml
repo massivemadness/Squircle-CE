@@ -187,6 +187,8 @@
     <string name="theme_property_strings_color">Defines the string literals color of syntax highlighting</string>
     <string name="theme_property_comments_color">Defines the comments color of syntax highlighting: //, /**/</string>
 
+    <string name="encoding_utf8_default">UTF-8 (Default)</string>
+
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>
     <string name="pref_header_editor_title">Editor</string>
@@ -205,6 +207,7 @@
     <string name="pref_category_editor">Editor</string>
     <string name="pref_category_keyboard">Keyboard</string>
     <string name="pref_category_code_style">Code Style</string>
+    <string name="pref_category_encoding">Encoding</string>
     <string name="pref_category_file_explorer">File Explorer</string>
     <string name="pref_category_about">About</string>
     <string name="pref_category_contribute">Contribute</string>
@@ -243,6 +246,10 @@
     <string name="pref_close_brackets_summary">Automatically close open parenthesis/bracket/brace when typing.</string>
     <string name="pref_close_quotes_title">Auto-close Quotes</string>
     <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
+    <string name="pref_encodingForOpeningFiles_title">Encoding for opening files</string>
+    <string name="pref_encodingForOpeningFiles_summary">Encoding to use when opening files.</string>
+    <string name="pref_encodingForSavingFiles_title">Encoding for saving files</string>
+    <string name="pref_encodingForSavingFiles_summary">Encoding to use when saving files.</string>
     <string name="pref_showHiddenFiles_title">Show hidden files</string>
     <string name="pref_showHiddenFiles_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
     <string name="pref_foldersOnTop_title">Folders on top</string>

@@ -21,6 +21,8 @@ import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.delegate.LanguageDelegate
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.utils.extensions.safeCharset
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
@@ -29,13 +31,15 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 class FileRepository(
+    private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase,
     private val filesystem: Filesystem
 ) : DocumentRepository {
 
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val fileModel = DocumentConverter.toModel(documentModel)
-        return filesystem.loadFile(fileModel)
+        val charset = safeCharset(preferenceHandler.getEncodingForOpening().get())
+        return filesystem.loadFile(fileModel, charset)
             .map { text ->
                 appDatabase.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
 
@@ -55,7 +59,8 @@ class FileRepository(
 
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
         val fileModel = DocumentConverter.toModel(documentModel)
-        return filesystem.saveFile(fileModel, text)
+        val charset = safeCharset(preferenceHandler.getEncodingForSaving().get())
+        return filesystem.saveFile(fileModel, text, charset)
             .doOnComplete {
                 appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
             }

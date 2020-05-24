@@ -19,6 +19,14 @@ package com.lightteam.modpeide.data.utils.extensions
 
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
+import java.nio.charset.Charset
+import java.nio.charset.UnsupportedCharsetException
+
+fun safeCharset(charsetName: String): Charset = try {
+    charset(charsetName)
+} catch (e: UnsupportedCharsetException) {
+    Charsets.UTF_8
+}
 
 fun Int.toHexString(fallbackColor: String = "#000000"): String {
     return try {

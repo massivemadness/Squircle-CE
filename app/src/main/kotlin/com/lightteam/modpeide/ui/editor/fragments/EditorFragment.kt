@@ -390,7 +390,10 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     val filePath = enterFilePath.text?.toString()?.trim() ?: ""
 
                     if (filePath.isNotBlank()) {
-                        val updateDocument = document.copy(path = filePath)
+                        val updateDocument = document.copy(
+                            uuid = "whatever",
+                            path = filePath
+                        )
                         viewModel.saveFile(updateDocument, binding.editor.getProcessedText())
                     } else {
                         showToast(R.string.message_invalid_file_path)
