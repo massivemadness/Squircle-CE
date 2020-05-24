@@ -218,22 +218,26 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     fun replaceFindResult(replaceText: String) {
-        val findResult = findResultSpans[selectedFindResult]
-        text.replace(findResult.start, findResult.end, replaceText)
-        findResultSpans.remove(findResult)
-        if (selectedFindResult >= findResultSpans.size) {
-            selectedFindResult--
+        if (findResultSpans.isNotEmpty()) {
+            val findResult = findResultSpans[selectedFindResult]
+            text.replace(findResult.start, findResult.end, replaceText)
+            findResultSpans.remove(findResult)
+            if (selectedFindResult >= findResultSpans.size) {
+                selectedFindResult--
+            }
         }
     }
 
     fun replaceAllFindResults(replaceText: String) {
-        val stringBuilder = StringBuilder(text)
-        for (index in findResultSpans.size - 1 downTo 0) {
-            val findResultSpan = findResultSpans[index]
-            stringBuilder.replace(findResultSpan.start, findResultSpan.end, replaceText)
-            findResultSpans.removeAt(index)
+        if (findResultSpans.isNotEmpty()) {
+            val stringBuilder = StringBuilder(text)
+            for (index in findResultSpans.size - 1 downTo 0) {
+                val findResultSpan = findResultSpans[index]
+                stringBuilder.replace(findResultSpan.start, findResultSpan.end, replaceText)
+                findResultSpans.removeAt(index)
+            }
+            setText(stringBuilder.toString())
         }
-        setText(stringBuilder.toString())
     }
 
     private fun selectResult() {

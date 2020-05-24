@@ -465,7 +465,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     }
 
     override fun onOpenFindButton() {
-        toolbarManager.panel = Panel.FIND
+        val position = adapter.selectedPosition
+        if (position > -1) {
+            toolbarManager.panel = Panel.FIND
+        } else {
+            showToast(R.string.message_no_open_files)
+        }
     }
 
     override fun onCloseFindButton() {
@@ -475,7 +480,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     }
 
     override fun onOpenReplaceButton() {
-        toolbarManager.panel = Panel.FIND_REPLACE
+        val position = adapter.selectedPosition
+        if (position > -1) {
+            toolbarManager.panel = Panel.FIND_REPLACE
+        } else {
+            showToast(R.string.message_no_open_files)
+        }
     }
 
     override fun onCloseReplaceButton() {
