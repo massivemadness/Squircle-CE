@@ -47,6 +47,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 
     var isRegexEnabled = false
     var isMatchCaseEnabled = true
+    var isWordsOnlyEnabled = false
 
     var language: Language? = null
 
@@ -171,13 +172,24 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
                         )
                     }
                 } else {
-                    if (isMatchCaseEnabled) {
-                        Pattern.compile(Pattern.quote(findText))
+                    if (isWordsOnlyEnabled) {
+                        if (isMatchCaseEnabled) {
+                            Pattern.compile("\\s$findText\\s")
+                        } else {
+                            Pattern.compile(
+                                "\\s" + Pattern.quote(findText) + "\\s",
+                                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
+                            )
+                        }
                     } else {
-                        Pattern.compile(
-                            Pattern.quote(findText),
-                            Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
-                        )
+                        if (isMatchCaseEnabled) {
+                            Pattern.compile(Pattern.quote(findText))
+                        } else {
+                            Pattern.compile(
+                                Pattern.quote(findText),
+                                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
+                            )
+                        }
                     }
                 }
                 val matcher = pattern.matcher(text)

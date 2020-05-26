@@ -50,6 +50,7 @@ class ToolbarManager(
 
     private var isRegex = false
     private var isMatchCase = true
+    private var isWordsOnly = false
 
     private lateinit var binding: FragmentEditorBinding
 
@@ -93,6 +94,10 @@ class ToolbarManager(
             R.id.action_match_case -> {
                 isMatchCase = !isMatchCase
                 listener.onMatchCaseChanged(isMatchCase)
+            }
+            R.id.action_words_only -> {
+                isWordsOnly = !isWordsOnly
+                listener.onWordsOnlyChanged(isWordsOnly)
             }
 
             // Tools Menu
@@ -167,6 +172,7 @@ class ToolbarManager(
         val switchReplace = menu.findItem(R.id.action_switch_replace)
         val regex = menu.findItem(R.id.action_regex)
         val matchCase = menu.findItem(R.id.action_match_case)
+        val wordsOnly = menu.findItem(R.id.action_words_only)
 
         if (panel == Panel.FIND_REPLACE) {
             switchReplace?.setTitle(R.string.action_close_replace)
@@ -174,6 +180,7 @@ class ToolbarManager(
 
         regex?.isChecked = isRegex
         matchCase?.isChecked = isMatchCase
+        wordsOnly?.isChecked = isWordsOnly
     }
 
     private fun updatePanel() {
@@ -222,9 +229,10 @@ class ToolbarManager(
         fun onReplaceAllButton(replaceText: String)
         fun onNextResultButton()
         fun onPreviousResultButton()
+        fun onFindInputChanged(findText: String)
         fun onRegexChanged(regex: Boolean)
         fun onMatchCaseChanged(matchCase: Boolean)
-        fun onFindInputChanged(findText: String)
+        fun onWordsOnlyChanged(wordsOnly: Boolean)
 
         fun onErrorCheckingButton()
         fun onInsertColorButton()

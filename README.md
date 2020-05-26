@@ -26,6 +26,7 @@ ModPE Script is a script language based on JavaScript and used to create mods fo
 <b>•</b> Find and Replace with navigation between results  
 <b>•</b> Word Wrap  
 <b>•</b> Pinch Zoom  
+<b>•</b> Encoding support  
 <b>•</b> Built-in File Explorer  
 <b>•</b> Tablet UI  
 <b>•</b> <i>No Ads!</i>  

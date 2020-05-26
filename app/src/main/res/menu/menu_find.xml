@@ -38,6 +38,10 @@
             android:id="@+id/action_match_case"
             android:title="@string/action_match_case"
             app:actionViewClass="android.widget.CheckBox"/>
+        <item
+            android:id="@+id/action_words_only"
+            android:title="@string/action_words_only"
+            app:actionViewClass="android.widget.CheckBox"/>
     </group>
 
 </menu>

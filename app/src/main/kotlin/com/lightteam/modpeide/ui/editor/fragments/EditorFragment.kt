@@ -512,6 +512,11 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         binding.editor.findPrevious()
     }
 
+    override fun onFindInputChanged(findText: String) {
+        binding.editor.clearFindResultSpans()
+        binding.editor.find(findText)
+    }
+
     override fun onRegexChanged(regex: Boolean) {
         binding.editor.isRegexEnabled = regex
         onFindInputChanged(binding.inputFind.text.toString())
@@ -522,9 +527,9 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         onFindInputChanged(binding.inputFind.text.toString())
     }
 
-    override fun onFindInputChanged(findText: String) {
-        binding.editor.clearFindResultSpans()
-        binding.editor.find(findText)
+    override fun onWordsOnlyChanged(wordsOnly: Boolean) {
+        binding.editor.isWordsOnlyEnabled = wordsOnly
+        onFindInputChanged(binding.inputFind.text.toString())
     }
 
     override fun onErrorCheckingButton() {

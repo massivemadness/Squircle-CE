@@ -22,16 +22,16 @@
     <PreferenceCategory android:title="@string/pref_category_encoding">
 
         <ListPreference
-            android:title="@string/pref_encodingForOpeningFiles_title"
-            android:summary="@string/pref_encodingForOpeningFiles_summary"
+            android:title="@string/pref_encoding_for_opening_title"
+            android:summary="@string/pref_encoding_for_opening_summary"
             android:key="ENCODING_FOR_OPENING"
             android:defaultValue="UTF-8"
             app:entries="@array/encoding_entries"
             app:entryValues="@array/encoding_values"/>
 
         <ListPreference
-            android:title="@string/pref_encodingForSavingFiles_title"
-            android:summary="@string/pref_encodingForSavingFiles_summary"
+            android:title="@string/pref_encoding_for_saving_title"
+            android:summary="@string/pref_encoding_for_saving_summary"
             android:key="ENCODING_FOR_SAVING"
             android:defaultValue="UTF-8"
             app:entries="@array/encoding_entries"
@@ -42,19 +42,19 @@
     <PreferenceCategory android:title="@string/pref_category_file_explorer">
 
         <SwitchPreference
-            android:title="@string/pref_showHiddenFiles_title"
-            android:summary="@string/pref_showHiddenFiles_summary"
+            android:title="@string/pref_show_hidden_files_title"
+            android:summary="@string/pref_show_hidden_files_summary"
             android:defaultValue="true"
             android:key="SHOW_HIDDEN_FILES"/>
 
         <SwitchPreference
-            android:title="@string/pref_foldersOnTop_title"
-            android:summary="@string/pref_foldersOnTop_summary"
+            android:title="@string/pref_folders_on_top_title"
+            android:summary="@string/pref_folders_on_top_summary"
             android:defaultValue="true"
             android:key="FOLDERS_ON_TOP"/>
 
         <ListPreference
-            android:title="@string/pref_sortMode_title"
+            android:title="@string/pref_sort_mode_title"
             android:defaultValue="0"
             android:key="SORT_MODE"
             app:entries="@array/sort_mode_entries"

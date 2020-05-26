@@ -37,9 +37,9 @@
         <item>UTF-16LE</item>
         <item>US-ASCII</item>
         <item tools:ignore="TypographyDashes">ISO-8859-1</item>
-        <!--<item>UTF-32</item>
+        <item>UTF-32</item>
         <item>UTF-32LE</item>
-        <item>UTF-32BE</item>-->
+        <item>UTF-32BE</item>
     </string-array>
 
     <string-array name="encoding_values">
@@ -49,8 +49,8 @@
         <item>UTF-16</item>
         <item>US-ASCII</item>
         <item tools:ignore="TypographyDashes">ISO-8859-1</item>
-        <!--<item>UTF-32</item>
+        <item>UTF-32</item>
         <item>UTF-32LE</item>
-        <item>UTF-32BE</item>-->
+        <item>UTF-32BE</item>
     </string-array>
 </resources>
