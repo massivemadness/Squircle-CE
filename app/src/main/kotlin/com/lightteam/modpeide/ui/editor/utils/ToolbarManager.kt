@@ -87,6 +87,7 @@ class ToolbarManager(
                     listener.onCloseReplaceButton()
                 }
             }
+            R.id.action_goto_line -> listener.onGoToLineButton()
             R.id.action_regex -> {
                 isRegex = !isRegex
                 listener.onRegexChanged(isRegex)
@@ -225,6 +226,7 @@ class ToolbarManager(
         fun onCloseFindButton()
         fun onOpenReplaceButton()
         fun onCloseReplaceButton()
+        fun onGoToLineButton()
         fun onReplaceButton(replaceText: String)
         fun onReplaceAllButton(replaceText: String)
         fun onNextResultButton()

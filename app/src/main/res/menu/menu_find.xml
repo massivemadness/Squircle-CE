@@ -28,6 +28,11 @@
         android:title="@string/action_replace"
         android:icon="@drawable/ic_replace"
         app:iconTint="@color/colorIcon"/>
+    <item
+        android:id="@+id/action_goto_line"
+        android:title="@string/action_goto_line"
+        android:icon="@drawable/ic_goto_line"
+        app:iconTint="@color/colorIcon"/>
 
     <group android:checkableBehavior="all">
         <item

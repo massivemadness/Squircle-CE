@@ -28,6 +28,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.lightteam.editorkit.internal.UndoRedoEditText
@@ -494,6 +495,33 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     override fun onCloseReplaceButton() {
         toolbarManager.panel = Panel.FIND
         binding.inputReplace.setText("")
+    }
+
+    override fun onGoToLineButton() {
+        val position = adapter.selectedPosition
+        if (position > -1) {
+            MaterialDialog(requireContext()).show {
+                title(R.string.dialog_title_goto_line)
+                customView(R.layout.dialog_goto_line)
+                negativeButton(R.string.action_cancel)
+                positiveButton(R.string.action_go_to) {
+                    val input = getCustomView().findViewById<TextInputEditText>(R.id.input)
+                    val inputResult = input.text.toString()
+                    if (inputResult.isNotEmpty()) {
+                        val toLine = inputResult.toInt() - 1 // т.к первая линия 0
+                        when {
+                            toLine <= 0 -> showToast(R.string.message_line_above_than_0)
+                            toLine < binding.editor.arrayLineCount -> binding.editor.gotoLine(toLine)
+                            else -> showToast(R.string.message_line_not_exists)
+                        }
+                    } else {
+                        showToast(R.string.message_line_not_exists)
+                    }
+                }
+            }
+        } else {
+            showToast(R.string.message_no_open_files)
+        }
     }
 
     override fun onReplaceButton(replaceText: String) {

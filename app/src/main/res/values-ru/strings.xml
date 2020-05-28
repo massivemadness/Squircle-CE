@@ -32,6 +32,7 @@
     <string name="label_new_theme">Новая тема</string>
 
     <string name="hint_search">Поиск…</string>
+    <string name="hint_line_number">Номер строки</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
     <string name="hint_enter_file_path">Введите путь к файлу</string>
     <string name="hint_enter_font_name">Название шрифта</string>
@@ -86,6 +87,8 @@
     <string name="action_replace">Заменить</string>
     <string name="action_close_replace">Закрыть замену</string>
     <string name="action_replace_all">Заменить все</string>
+    <string name="action_goto_line">Перейти к строке</string>
+    <string name="action_go_to">Перейти</string>
     <string name="action_error_checking">Проверка ошибок</string>
     <string name="action_insert_color">Вставить цвет</string>
     <string name="action_settings">Настройки</string>
@@ -103,6 +106,7 @@
     <string name="dialog_title_color_picker">Выберите цвет</string>
     <string name="dialog_title_result">Результат</string>
     <string name="dialog_title_save_as">Сохранить как…</string>
+    <string name="dialog_title_goto_line">Перейти к строке…</string>
 
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл? Это действие нельзя отменить</string>

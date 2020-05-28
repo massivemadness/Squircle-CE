@@ -33,6 +33,7 @@
     <string name="label_new_theme">New Theme</string>
 
     <string name="hint_search">Search…</string>
+    <string name="hint_line_number">Line number</string>
     <string name="hint_enter_file_name">Enter file name</string>
     <string name="hint_enter_file_path">Enter file path</string>
     <string name="hint_enter_font_name">Enter font name</string>
@@ -87,6 +88,8 @@
     <string name="action_replace">Replace</string>
     <string name="action_close_replace">Close Replace</string>
     <string name="action_replace_all">Replace All</string>
+    <string name="action_goto_line">Go to Line</string>
+    <string name="action_go_to">Go to</string>
     <string name="action_error_checking">Error Checking</string>
     <string name="action_insert_color">Insert Color</string>
     <string name="action_settings">Settings</string>
@@ -104,6 +107,7 @@
     <string name="dialog_title_color_picker">Color Picker</string>
     <string name="dialog_title_result">Result</string>
     <string name="dialog_title_save_as">Save As…</string>
+    <string name="dialog_title_goto_line">Go to Line…</string>
 
     <string name="dialog_message_exit">Are you sure you want to exit? All changes will be saved into a cache</string>
     <string name="dialog_message_delete">Are you sure you want to delete this file? This action cannot be undone</string>
