@@ -30,6 +30,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivityMainBinding
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
+import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
 import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
@@ -46,7 +47,8 @@ class MainActivity : BaseActivity() {
     lateinit var viewModel: MainViewModel
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var backPressedHandler: OnBackPressedHandler
+    private lateinit var editorOnBackPressedHandler: OnBackPressedHandler
+    private lateinit var explorerOnBackPressedHandler: OnBackPressedHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,9 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         observeViewModel()
 
-        backPressedHandler = supportFragmentManager
+        editorOnBackPressedHandler = supportFragmentManager
+            .fragment<EditorFragment>(R.id.fragment_editor)
+        explorerOnBackPressedHandler = supportFragmentManager
             .fragment<ExplorerFragment>(R.id.fragment_explorer)
 
         viewModel.checkForUpdates()
@@ -75,21 +79,23 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
-            if (!backPressedHandler.handleOnBackPressed()) {
+            if (!explorerOnBackPressedHandler.handleOnBackPressed()) {
                 viewModel.closeDrawerEvent.call()
             }
         } else {
-            if (viewModel.backEvent.value != false) {
-                MaterialDialog(this).show {
-                    title(R.string.dialog_title_exit)
-                    message(R.string.dialog_message_exit)
-                    negativeButton(R.string.action_no)
-                    positiveButton(R.string.action_yes) {
-                        finish()
+            if (!editorOnBackPressedHandler.handleOnBackPressed()) {
+                if (viewModel.backEvent.value != false) {
+                    MaterialDialog(this).show {
+                        title(R.string.dialog_title_exit)
+                        message(R.string.dialog_message_exit)
+                        negativeButton(R.string.action_no)
+                        positiveButton(R.string.action_yes) {
+                            finish()
+                        }
                     }
+                } else {
+                    finish()
                 }
-            } else {
-                finish()
             }
         }
     }

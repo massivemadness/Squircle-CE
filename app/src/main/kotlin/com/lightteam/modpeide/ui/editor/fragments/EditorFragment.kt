@@ -42,6 +42,7 @@ import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
+import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.editor.adapters.BasicSuggestionAdapter
 import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
@@ -60,7 +61,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
-    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, DocumentAdapter.TabInteractor {
+    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener,
+    DocumentAdapter.TabInteractor, OnBackPressedHandler {
 
     @Inject
     lateinit var sharedViewModel: MainViewModel
@@ -142,6 +144,14 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
     override fun onResume() {
         super.onResume()
         loadDocument(adapter.selectedPosition)
+    }
+
+    override fun handleOnBackPressed(): Boolean {
+        if (toolbarManager.panel != Panel.DEFAULT) {
+            onCloseFindButton()
+            return true
+        }
+        return false
     }
 
     override fun onKey(char: String) {
