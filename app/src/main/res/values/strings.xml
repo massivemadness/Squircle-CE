@@ -164,10 +164,11 @@
     <string name="store_ultimate" translatable="false">Ultimate</string>
     <string name="store_feature_1">Basic functionality</string>
     <string name="store_feature_2">Color schemes</string>
-    <string name="store_feature_3">External fonts</string>
-    <string name="store_feature_4">Increased tab limit</string>
-    <string name="store_feature_5">Error checking</string>
-    <string name="store_feature_6">Color picker</string>
+    <string name="store_feature_3">Theme editor 🎉</string>
+    <string name="store_feature_4">External fonts</string>
+    <string name="store_feature_5">Increased tab limit</string>
+    <string name="store_feature_6">Error checking</string>
+    <string name="store_feature_7">Color picker</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>
