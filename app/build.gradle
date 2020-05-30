@@ -32,8 +32,8 @@ android {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
 
-        versionCode 10032
-        versionName "2020.1.5"
+        versionCode 10033
+        versionName "2020.2.0"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }

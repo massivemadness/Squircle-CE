@@ -27,7 +27,7 @@
 
     <!-- region INPUT -->
 
-    <style name="Widget.AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+    <style name="Widget.AppTheme.TextInputLayout" parent="Widget.Design.TextInputLayout"/>
 
     <!-- endregion INPUT -->
 

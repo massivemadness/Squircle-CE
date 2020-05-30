@@ -27,12 +27,12 @@ ext {
 
     //Kotlin
     kotlin_version = '1.3.72'
-    core_version = '1.3.0-rc01'
+    core_version = '1.4.0-alpha01'
 
     //Design
-    appcompat_version = '1.2.0-rc01'
-    materialdesign_version = '1.2.0-alpha06'
-    constraintlayout_version = '2.0.0-beta5'
+    appcompat_version = '1.3.0-alpha01'
+    materialdesign_version = '1.2.0-beta01'
+    constraintlayout_version = '2.0.0-beta6'
     swiperefreshlayout_version = '1.1.0-rc01'
     preferencescompat_version = '1.1.1'
     materialdialogs_version = '2.8.1'
@@ -62,9 +62,9 @@ ext {
 
     //Tests
     junit_version = '4.13'
-    junit_ext_version = '1.1.2-beta01'
-    test_runner_version = '1.3.0-beta01'
-    espresso_core_version = '3.3.0-beta01'
+    junit_ext_version = '1.1.2-rc01'
+    test_runner_version = '1.3.0-beta02'
+    espresso_core_version = '3.3.0-beta02'
     mockito_version = '3.3.3'
 
     library = [

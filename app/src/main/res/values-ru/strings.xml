@@ -32,14 +32,15 @@
     <string name="label_new_theme">Новая тема</string>
 
     <string name="hint_search">Поиск…</string>
-    <string name="hint_line_number">Номер строки</string>
+    <string name="hint_line">Линия:</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
     <string name="hint_enter_file_path">Введите путь к файлу</string>
     <string name="hint_enter_font_name">Название шрифта</string>
     <string name="hint_enter_font_path">Путь к шрифту</string>
     <string name="hint_enter_theme_name">Название темы</string>
     <string name="hint_enter_theme_author">Автор темы</string>
-    <string name="hint_short_description">Краткое описание</string>
+    <string name="hint_enter_theme_desc">Краткое описание</string>
+    <string name="hint_theme_desc">Новая цветовая схема</string>
 
     <string name="action_restart">Обновить</string>
     <string name="action_grant_access">Предоставить</string>

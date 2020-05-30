@@ -33,14 +33,21 @@
     <string name="label_new_theme">New Theme</string>
 
     <string name="hint_search">Search…</string>
-    <string name="hint_line_number">Line number</string>
+    <string name="hint_line">Line:</string>
+    <string name="hint_line_number" translatable="false">0</string>
     <string name="hint_enter_file_name">Enter file name</string>
     <string name="hint_enter_file_path">Enter file path</string>
+    <string name="hint_file_path" translatable="false">/storage/emulated/0/Download/...</string>
+    <string name="hint_file_name" translatable="false">file.txt</string>
     <string name="hint_enter_font_name">Enter font name</string>
     <string name="hint_enter_font_path">Enter font path</string>
     <string name="hint_enter_theme_name">Enter theme name</string>
     <string name="hint_enter_theme_author">Enter theme author</string>
-    <string name="hint_short_description">Short description</string>
+    <string name="hint_enter_theme_desc">Short description</string>
+    <string name="hint_font_name" translatable="false">Droid Sans Mono</string>
+    <string name="hint_theme_name" translatable="false">Darcula</string>
+    <string name="hint_theme_author" translatable="false">Light Team Software</string>
+    <string name="hint_theme_desc">Default color scheme</string>
 
     <string name="action_restart">Restart</string>
     <string name="action_grant_access">Grant Access</string>
@@ -173,6 +180,7 @@
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>
     <string name="font_disclaimer">If you want to use this font, do not delete .ttf file at the specified path</string>
+
     <string name="theme_property_text_color">Defines the text color of the editor</string>
     <string name="theme_property_background_color">Defines the background color of the editor</string>
     <string name="theme_property_gutter_color">Defines the background color of gutter</string>
