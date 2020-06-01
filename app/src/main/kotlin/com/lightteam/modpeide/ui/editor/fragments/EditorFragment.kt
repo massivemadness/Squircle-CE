@@ -341,9 +341,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                 selectionEnd = binding.editor.selectionEnd
             )
             viewModel.tabsList[position] = document
-            viewModel.saveToCache(document, binding.editor.getProcessedText())
-            viewModel.saveUndoStack(document, binding.editor.undoStack)
-            viewModel.saveRedoStack(document, binding.editor.redoStack)
+            val text = binding.editor.getProcessedText()
+            if (text.isNotEmpty()) {
+                viewModel.saveToCache(document, text)
+                viewModel.saveUndoStack(document, binding.editor.undoStack)
+                viewModel.saveRedoStack(document, binding.editor.redoStack)
+            }
             binding.editor.clearText() // TTL Exception bypass
         }
     }
@@ -440,7 +443,7 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         if (binding.editor.hasSelection()) {
             binding.editor.cut()
         } else {
-            showToast(R.string.message_no_open_files)
+            showToast(R.string.message_nothing_to_cut)
         }
     }
 
