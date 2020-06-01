@@ -268,7 +268,7 @@ class ExplorerViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { show ->
                 showHidden = show
-                if (hasPermission.get() && tabsList.isNotEmpty()) {
+                if (hasPermission.get()) {
                     filesUpdateEvent.call()
                 }
             }
@@ -281,7 +281,7 @@ class ExplorerViewModel(
             .subscribeBy { mode ->
                 sortMode = mode
                 fileSorter = FileSorter.getComparator(mode)
-                if (hasPermission.get() && tabsList.isNotEmpty()) {
+                if (hasPermission.get()) {
                     filesUpdateEvent.call()
                 }
             }
@@ -292,7 +292,7 @@ class ExplorerViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { onTop ->
                 foldersOnTop = onTop
-                if (hasPermission.get() && tabsList.isNotEmpty()) {
+                if (hasPermission.get()) {
                     filesUpdateEvent.call()
                 }
             }
