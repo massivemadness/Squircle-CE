@@ -28,6 +28,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
+import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
@@ -77,9 +78,8 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         }
 
         binding.directoryRecyclerView.setHasFixedSize(true)
-        binding.directoryRecyclerView.adapter = DirectoryAdapter(this).also {
-            adapter = it
-        }
+        binding.directoryRecyclerView.adapter = DirectoryAdapter(this)
+            .also { adapter = it }
 
         binding.actionHome.setOnClickListener {
             val backStackCount = childFragmentManager
@@ -93,12 +93,17 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
     }
 
     override fun handleOnBackPressed(): Boolean {
-        val backStackCount = childFragmentManager
-            .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
-        if (backStackCount > 1) {
-            navController.popBackStack()
-            removeTabs(1)
+        if (!viewModel.selectionEvent.value.isNullOrEmpty()) {
+            stopActionMode()
             return true
+        } else {
+            val backStackCount = childFragmentManager
+                .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
+            if (backStackCount > 1) {
+                navController.popBackStack()
+                removeTabs(1)
+                return true
+            }
         }
         return false
     }
@@ -122,7 +127,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         inflater.inflate(R.menu.menu_explorer, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem.actionView as SearchView
+        val searchView = searchItem?.actionView as SearchView
 
         searchView
             .queryTextChangeEvents()
@@ -147,9 +152,9 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         val sortByDate = menu.findItem(R.id.sort_by_date)
 
         when (viewModel.sortMode) {
-            FileSorter.SORT_BY_NAME -> sortByName.isChecked = true
-            FileSorter.SORT_BY_SIZE -> sortBySize.isChecked = true
-            FileSorter.SORT_BY_DATE -> sortByDate.isChecked = true
+            FileSorter.SORT_BY_NAME -> sortByName?.isChecked = true
+            FileSorter.SORT_BY_SIZE -> sortBySize?.isChecked = true
+            FileSorter.SORT_BY_DATE -> sortByDate?.isChecked = true
         }
     }
 
@@ -181,7 +186,25 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             adapter.submitList(it)
             adapter.select(adapter.itemCount - 1)
         })
+        viewModel.selectionEvent.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) {
+                startActionMode(it)
+            } else {
+                stopActionMode()
+            }
+        })
         viewModel.observePreferences()
+    }
+
+    private fun startActionMode(list: List<FileModel>) {
+        binding.toolbar.title = list.size.toString()
+        // inflateMenu 1
+    }
+
+    private fun stopActionMode() {
+        viewModel.clearSelectionEvent.call()
+        binding.toolbar.setTitle(R.string.label_local_storage)
+        // inflateMenu 2
     }
 
     private fun removeTabs(howMany: Int) {

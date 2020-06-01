@@ -53,25 +53,28 @@ class ExplorerViewModel(
 
     // region UI
 
-    val hasPermission: ObservableBoolean = ObservableBoolean(false) //Отображение интерфейса с разрешениями
+    val hasPermission: ObservableBoolean = ObservableBoolean(false) // Отображение интерфейса с разрешениями
 
-    val stateLoadingFiles: ObservableBoolean = ObservableBoolean(true) //Индикатор загрузки файлов
-    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет файлов
+    val stateLoadingFiles: ObservableBoolean = ObservableBoolean(true) // Индикатор загрузки файлов
+    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение что нет файлов
 
     // endregion UI
 
     // region EVENTS
 
-    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() //Список вкладок
+    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список вкладок
+    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
+    val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Доступ к хранилищу
 
-    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
-    val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() //Доступ к хранилищу
-    val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() //Список файлов
-    val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Запрос на загрузку списка файлов
-    val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() //Отфильтрованый список файлов
-    val fabEvent: SingleLiveEvent<Unit> = SingleLiveEvent() //Кнопка "+"
-    val createEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() //Создание файла
-    val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() //Свойства файла
+    val fabEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Кнопка "+"
+    val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Запрос на загрузку списка файлов
+    val selectionEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() // Список выделенных файлов
+    val clearSelectionEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Очистка выделенных файлов
+
+    val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() // Список файлов
+    val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() // Отфильтрованый список файлов
+    val createEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() // Создание файла
+    val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() // Свойства файла
 
     // endregion EVENTS
 

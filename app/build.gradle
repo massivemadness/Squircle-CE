@@ -17,7 +17,7 @@
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
@@ -101,6 +101,7 @@ dependencies {
     implementation library.preferencescompat
     implementation library.materialdialogs_core
     implementation library.materialdialogs_color
+    implementation library.recyclerview_selection
 
     //AAC
     implementation library.navigation_ui

@@ -19,18 +19,21 @@ package com.lightteam.modpeide.ui.explorer.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileType
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ItemFileBinding
-import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter.FileViewHolder
+import com.lightteam.modpeide.utils.extensions.setSelectableBackground
 import com.lightteam.modpeide.utils.extensions.setTint
 
 class FileAdapter(
+    private val selectionTracker: SelectionTracker<FileModel>,
     private val onItemClickListener: OnItemClickListener<FileModel>
 ) : ListAdapter<FileModel, FileViewHolder>(diffCallback) {
 
@@ -50,13 +53,15 @@ class FileAdapter(
     }
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val fileModel = getItem(position)
+        val isSelected = selectionTracker.isSelected(fileModel)
+        holder.bind(fileModel, isSelected)
     }
 
     class FileViewHolder(
         private val binding: ItemFileBinding,
         private val onItemClickListener: OnItemClickListener<FileModel>
-    ): BaseViewHolder<FileModel>(binding.root) {
+    ): RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FileModel>): FileViewHolder {
@@ -77,8 +82,15 @@ class FileAdapter(
             }
         }
 
-        override fun bind(item: FileModel) {
+        fun bind(item: FileModel, isSelected: Boolean) {
             fileModel = item
+
+            if (isSelected) {
+                itemView.setBackgroundResource(R.color.colorSelection)
+            } else {
+                itemView.setSelectableBackground()
+            }
+
             binding.itemTitle.text = fileModel.name
 
             if (fileModel.isHidden) {

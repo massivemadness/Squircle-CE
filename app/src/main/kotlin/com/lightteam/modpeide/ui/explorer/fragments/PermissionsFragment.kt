@@ -80,9 +80,6 @@ class PermissionsFragment : BaseFragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
-            showToast(it)
-        })
         viewModel.hasAccessEvent.observe(viewLifecycleOwner, Observer { hasAccess ->
             viewModel.hasPermission.set(hasAccess)
             if (hasAccess) {

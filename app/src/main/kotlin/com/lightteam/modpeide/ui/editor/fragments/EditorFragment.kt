@@ -91,9 +91,8 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         toolbarManager.bind(binding)
 
         binding.documentRecyclerView.setHasFixedSize(true)
-        binding.documentRecyclerView.adapter = DocumentAdapter(this, this).also {
-            adapter = it
-        }
+        binding.documentRecyclerView.adapter = DocumentAdapter(this, this)
+            .also { adapter = it }
 
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)

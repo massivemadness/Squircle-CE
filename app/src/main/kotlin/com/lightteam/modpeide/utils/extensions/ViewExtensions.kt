@@ -20,7 +20,9 @@ package com.lightteam.modpeide.utils.extensions
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.InsetDrawable
+import android.util.TypedValue
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
@@ -83,4 +85,9 @@ fun ImageView.setTint(@ColorRes colorRes: Int) {
     imageTintList = ColorStateList.valueOf(
         context.getColour(colorRes)
     )
+}
+
+fun View.setSelectableBackground() = with(TypedValue()) {
+    context.theme.resolveAttribute(android.R.attr.selectableItemBackground, this, true)
+    setBackgroundResource(resourceId)
 }

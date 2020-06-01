@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.ui.explorer.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
@@ -25,6 +26,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.selection.DefaultSelectionTracker
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -35,9 +40,10 @@ import com.lightteam.filesystem.model.PropertiesModel
 import com.lightteam.localfilesystem.utils.isValidFileName
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
+import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
-import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
+import com.lightteam.modpeide.ui.explorer.utils.FileKeyProvider
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
@@ -55,6 +61,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
+    private lateinit var tracker: SelectionTracker<FileModel>
     private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
 
@@ -68,25 +75,63 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         observeViewModel()
 
         navController = findNavController()
+
+        @SuppressLint("RestrictedApi")
+        tracker = DefaultSelectionTracker(
+            args.fileModel?.path ?: "root",
+            FileKeyProvider(binding.recyclerView),
+            SelectionPredicates.createSelectAnything(),
+            StorageStrategy.createParcelableStorage(FileModel::class.java)
+        )
+
+        tracker.addObserver(
+            object : SelectionTracker.SelectionObserver<FileModel>() {
+                override fun onSelectionChanged() {
+                    viewModel.selectionEvent.value = tracker.selection.toList()
+                }
+            }
+        )
+
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = FileAdapter(this).also {
-            adapter = it
-        }
+        binding.recyclerView.adapter = FileAdapter(tracker, this)
+            .also { adapter = it }
 
         loadDirectory()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.selectionEvent.value = emptyList()
+    }
+
     override fun onClick(item: FileModel) {
-        if (item.isFolder) {
-            val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
-            navController.navigate(destination)
+        if (!tracker.hasSelection()) {
+            if (item.isFolder) {
+                val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
+                navController.navigate(destination)
+            } else {
+                sharedViewModel.openFileEvent.value = item
+            }
         } else {
-            sharedViewModel.openFileEvent.value = item
+            val index = adapter.currentList.indexOf(item)
+            if (tracker.isSelected(item)) {
+                tracker.deselect(item)
+            } else {
+                tracker.select(item)
+            }
+            adapter.notifyItemChanged(index)
         }
     }
 
     override fun onLongClick(item: FileModel): Boolean {
-        showChooseDialog(item)
+        val index = adapter.currentList.indexOf(item)
+        if (tracker.isSelected(item)) {
+            tracker.deselect(item)
+        } else {
+            tracker.select(item)
+        }
+        adapter.notifyItemChanged(index)
+        // showChooseDialog(item.fileModel)
         return true
     }
 
@@ -100,6 +145,10 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         })
         viewModel.searchEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+        })
+        viewModel.clearSelectionEvent.observe(viewLifecycleOwner, Observer {
+            tracker.clearSelection()
+            adapter.notifyDataSetChanged() // TODO Use ListAdapter's diff instead
         })
         viewModel.fabEvent.observe(viewLifecycleOwner, Observer {
             showCreateDialog()
