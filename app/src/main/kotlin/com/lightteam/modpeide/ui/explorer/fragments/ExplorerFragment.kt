@@ -90,6 +90,10 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         binding.actionCreate.setOnClickListener {
             viewModel.fabEvent.call()
         }
+
+        if (requireContext().hasExternalStorageAccess()) {
+            viewModel.hasPermission.set(true)
+        }
     }
 
     override fun handleOnBackPressed(): Boolean {

@@ -17,9 +17,11 @@
 
 package com.lightteam.modpeide.utils.extensions
 
+import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
@@ -45,6 +47,10 @@ fun Context.getColour(@ColorRes colorRes: Int): Int {
 fun Context.getRawFileText(@RawRes resId: Int): String {
     val inputStream = resources.openRawResource(resId)
     return inputStream.bufferedReader().use(BufferedReader::readText)
+}
+
+fun Context.hasExternalStorageAccess(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 }
 
 private const val ASSET_PATH = "file:///android_asset/"

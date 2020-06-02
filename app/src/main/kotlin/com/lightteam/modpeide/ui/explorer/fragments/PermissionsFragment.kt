@@ -19,10 +19,8 @@ package com.lightteam.modpeide.ui.explorer.fragments
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -30,6 +28,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentPermissionsBinding
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
+import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
 import com.lightteam.modpeide.utils.extensions.launchPermissionActivity
 import javax.inject.Inject
 
@@ -94,10 +93,7 @@ class PermissionsFragment : BaseFragment() {
     }
 
     private fun checkIfPermissionsAlreadyGiven(shouldUseActivity: Boolean) {
-        if (ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED) {
+        if (requireContext().hasExternalStorageAccess()) {
             viewModel.hasAccessEvent.value = true
         } else if (shouldUseActivity) {
             viewModel.hasAccessEvent.value = false
