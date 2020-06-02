@@ -26,6 +26,8 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
+import androidx.annotation.MenuRes
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -40,6 +42,9 @@ fun Fragment.setSupportActionBar(toolbar: Toolbar) {
     val parentActivity = activity as AppCompatActivity
     parentActivity.setSupportActionBar(toolbar)
 }
+
+val Fragment.supportActionBar: ActionBar?
+    get() = (activity as? AppCompatActivity)?.supportActionBar
 
 @Suppress("UNCHECKED_CAST")
 fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T {
@@ -90,4 +95,9 @@ fun ImageView.setTint(@ColorRes colorRes: Int) {
 fun View.setSelectableBackground() = with(TypedValue()) {
     context.theme.resolveAttribute(android.R.attr.selectableItemBackground, this, true)
     setBackgroundResource(resourceId)
+}
+
+fun Toolbar.replaceMenu(@MenuRes menuRes: Int) {
+    menu.clear()
+    inflateMenu(menuRes)
 }

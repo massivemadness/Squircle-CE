@@ -77,6 +77,7 @@
     <string name="action_remove">Remove</string>
     <string name="action_new">New</string>
     <string name="action_open">Open</string>
+    <string name="action_open_as">Open As</string>
     <string name="action_save">Save</string>
     <string name="action_save_as">Save As</string>
     <string name="action_properties">Properties</string>

@@ -124,7 +124,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_explorer, menu)
+        inflater.inflate(R.menu.menu_explorer_default, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
@@ -144,12 +144,30 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val showHiddenItem = menu.findItem(R.id.action_show_hidden)
-        showHiddenItem.isChecked = viewModel.showHidden
+
+        val actionShowHidden = menu.findItem(R.id.action_show_hidden)
+        /*val actionCopy = menu.findItem(R.id.action_copy)
+        val actionDelete = menu.findItem(R.id.action_delete)
+        val actionCut = menu.findItem(R.id.action_cut)
+        val actionSelectAll = menu.findItem(R.id.action_select_all)*/
+        val actionOpenAs = menu.findItem(R.id.action_open_as)
+        val actionRename = menu.findItem(R.id.action_rename)
+        val actionProperties = menu.findItem(R.id.action_properties)
+        val actionCopyPath = menu.findItem(R.id.action_copy_path)
 
         val sortByName = menu.findItem(R.id.sort_by_name)
         val sortBySize = menu.findItem(R.id.sort_by_size)
         val sortByDate = menu.findItem(R.id.sort_by_date)
+
+        actionShowHidden?.isChecked = viewModel.showHidden
+
+        val selectionSize = viewModel.selectionEvent.value?.size ?: 0
+        if (selectionSize > 1) { // if more than 1 file selected
+            actionOpenAs.isVisible = false
+            actionRename.isVisible = false
+            actionProperties.isVisible = false
+            actionCopyPath.isVisible = false
+        }
 
         when (viewModel.sortMode) {
             FileSorter.SORT_BY_NAME -> sortByName?.isChecked = true
@@ -163,15 +181,33 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             R.id.action_show_hidden -> {
                 viewModel.setFilterHidden(!item.isChecked)
             }
-            R.id.sort_by_name -> {
-                viewModel.setSortMode("0")
+            R.id.action_copy -> {
+                // TODO Implement this method
             }
-            R.id.sort_by_size -> {
-                viewModel.setSortMode("1")
+            R.id.action_delete -> {
+                // TODO Implement this method
             }
-            R.id.sort_by_date -> {
-                viewModel.setSortMode("2")
+            R.id.action_cut -> {
+                // TODO Implement this method
             }
+            R.id.action_select_all -> {
+                // TODO Implement this method
+            }
+            R.id.action_open_as -> {
+                // TODO Implement this method
+            }
+            R.id.action_rename -> {
+                // TODO Implement this method
+            }
+            R.id.action_properties -> {
+                // TODO Implement this method
+            }
+            R.id.action_copy_path -> {
+                // TODO Implement this method
+            }
+            R.id.sort_by_name -> viewModel.setSortMode("0")
+            R.id.sort_by_size -> viewModel.setSortMode("1")
+            R.id.sort_by_date -> viewModel.setSortMode("2")
         }
         return super.onOptionsItemSelected(item)
     }
@@ -198,13 +234,18 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
 
     private fun startActionMode(list: List<FileModel>) {
         binding.toolbar.title = list.size.toString()
-        // inflateMenu 1
+        binding.toolbar.replaceMenu(R.menu.menu_explorer_actions)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.toolbar.setNavigationOnClickListener {
+            stopActionMode()
+        }
     }
 
     private fun stopActionMode() {
         viewModel.clearSelectionEvent.call()
         binding.toolbar.setTitle(R.string.label_local_storage)
-        // inflateMenu 2
+        binding.toolbar.replaceMenu(R.menu.menu_explorer_default)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun removeTabs(howMany: Int) {

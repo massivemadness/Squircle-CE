@@ -50,7 +50,7 @@
                 android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:title="@string/label_local_storage"
-                tools:menu="@menu/menu_explorer"/>
+                tools:menu="@menu/menu_explorer_default"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

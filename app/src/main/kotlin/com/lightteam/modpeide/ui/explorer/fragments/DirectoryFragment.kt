@@ -61,6 +61,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
+
     private lateinit var tracker: SelectionTracker<FileModel>
     private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
@@ -154,7 +155,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             showCreateDialog()
         })
         viewModel.createEvent.observe(viewLifecycleOwner, Observer {
-            onClick(it)
+            onClick(it) // select file
         })
         viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
             showPropertiesDialog(it)

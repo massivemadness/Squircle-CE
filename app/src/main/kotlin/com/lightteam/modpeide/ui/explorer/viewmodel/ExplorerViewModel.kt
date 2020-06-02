@@ -83,6 +83,7 @@ class ExplorerViewModel(
 
     val tabsList: MutableList<FileModel> = mutableListOf()
     private val searchList: MutableList<FileModel> = mutableListOf()
+
     private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     private var foldersOnTop: Boolean = true
 

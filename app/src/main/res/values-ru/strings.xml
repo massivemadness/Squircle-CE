@@ -70,6 +70,7 @@
     <string name="action_remove">Удалить</string>
     <string name="action_new">Новый файл</string>
     <string name="action_open">Открыть</string>
+    <string name="action_open_as">Открыть как</string>
     <string name="action_save">Сохранить</string>
     <string name="action_save_as">Сохранить как</string>
     <string name="action_properties">Свойства</string>
