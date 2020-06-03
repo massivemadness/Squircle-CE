@@ -88,7 +88,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             removeTabs(backStackCount - 1)
         }
         binding.actionCreate.setOnClickListener {
-            viewModel.fabEvent.call()
+            viewModel.createEvent.call()
         }
 
         if (requireContext().hasExternalStorageAccess()) {
@@ -194,21 +194,11 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             R.id.action_cut -> {
                 // TODO Implement this method
             }
-            R.id.action_select_all -> {
-                // TODO Implement this method
-            }
-            R.id.action_open_as -> {
-                // TODO Implement this method
-            }
-            R.id.action_rename -> {
-                // TODO Implement this method
-            }
-            R.id.action_properties -> {
-                // TODO Implement this method
-            }
-            R.id.action_copy_path -> {
-                // TODO Implement this method
-            }
+            R.id.action_select_all -> viewModel.selectAllEvent.call()
+            R.id.action_open_as -> viewModel.openAsEvent.call()
+            R.id.action_rename -> viewModel.renameEvent.call()
+            R.id.action_properties -> viewModel.propertiesEvent.call()
+            R.id.action_copy_path -> viewModel.copyPathEvent.call()
             R.id.sort_by_name -> viewModel.setSortMode("0")
             R.id.sort_by_size -> viewModel.setSortMode("1")
             R.id.sort_by_date -> viewModel.setSortMode("2")
@@ -246,7 +236,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
     }
 
     private fun stopActionMode() {
-        viewModel.clearSelectionEvent.call()
+        viewModel.deselectAllEvent.call()
         binding.toolbar.setTitle(R.string.label_local_storage)
         binding.toolbar.replaceMenu(R.menu.menu_explorer_default)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)

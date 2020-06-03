@@ -18,9 +18,12 @@
 package com.lightteam.modpeide.ui.explorer.fragments
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -48,6 +51,7 @@ import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.clipText
+import java.io.File
 import javax.inject.Inject
 
 class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
@@ -111,7 +115,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                 val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
                 navController.navigate(destination)
             } else {
-                sharedViewModel.openFileEvent.value = item
+                sharedViewModel.openEvent.value = item
             }
         } else {
             val index = adapter.currentList.indexOf(item)
@@ -137,28 +141,68 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
     }
 
     private fun observeViewModel() {
+        viewModel.filesUpdateEvent.observe(viewLifecycleOwner, Observer {
+            loadDirectory()
+        })
+        viewModel.selectAllEvent.observe(viewLifecycleOwner, Observer {
+            tracker.setItemsSelected(adapter.currentList, true)
+            adapter.notifyDataSetChanged()
+        })
+        viewModel.deselectAllEvent.observe(viewLifecycleOwner, Observer {
+            tracker.clearSelection()
+            adapter.notifyDataSetChanged()
+        })
+        viewModel.createEvent.observe(viewLifecycleOwner, Observer {
+            showCreateDialog()
+        })
+        // TODO viewModel.copyEvent.observe
+        // TODO viewModel.deleteEvent.observe
+        // TODO viewModel.cutEvent.observe
+        viewModel.openAsEvent.observe(viewLifecycleOwner, Observer {
+            val fileModel = viewModel.selectionEvent.value?.first()
+            fileModel?.let {
+                viewModel.deselectAllEvent.call()
+                openAs(it)
+            }
+        })
+        viewModel.renameEvent.observe(viewLifecycleOwner, Observer {
+            val fileModel = viewModel.selectionEvent.value?.first()
+            fileModel?.let {
+                viewModel.deselectAllEvent.call()
+                showRenameDialog(it)
+            }
+        })
+        viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
+            val fileModel = viewModel.selectionEvent.value?.first()
+            fileModel?.let {
+                viewModel.deselectAllEvent.call()
+                viewModel.propertiesOf(it)
+            }
+        })
+        viewModel.copyPathEvent.observe(viewLifecycleOwner, Observer {
+            val fileModel = viewModel.selectionEvent.value?.first()
+            fileModel?.let {
+                viewModel.deselectAllEvent.call()
+                copyPath(it)
+            }
+        })
+
         viewModel.filesEvent.observe(viewLifecycleOwner, Observer {
             fileTree = it
             adapter.submitList(fileTree.children)
         })
-        viewModel.filesUpdateEvent.observe(viewLifecycleOwner, Observer {
-            loadDirectory()
-        })
         viewModel.searchEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
-        viewModel.clearSelectionEvent.observe(viewLifecycleOwner, Observer {
-            tracker.clearSelection()
-            adapter.notifyDataSetChanged() // TODO Use ListAdapter's diff instead
-        })
-        viewModel.fabEvent.observe(viewLifecycleOwner, Observer {
-            showCreateDialog()
-        })
-        viewModel.createEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.clickEvent.observe(viewLifecycleOwner, Observer {
             onClick(it) // select file
         })
-        viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.propertiesOfEvent.observe(viewLifecycleOwner, Observer {
             showPropertiesDialog(it)
+        })
+
+        sharedViewModel.openAsEvent.observe(viewLifecycleOwner, Observer {
+            openAs(it)
         })
         sharedViewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
             viewModel.propertiesOf(it)
@@ -167,6 +211,24 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
     private fun loadDirectory() {
         viewModel.provideDirectory(args.fileModel)
+    }
+
+    private fun openAs(fileModel: FileModel) {
+        try { // Открытие файла через подходящую программу
+            val uri = FileProvider.getUriForFile(
+                requireContext(),
+                "${context?.packageName}.provider",
+                File(fileModel.path)
+            )
+            val mime = context?.contentResolver?.getType(uri)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                setDataAndType(uri, mime)
+            }
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            showToast(R.string.message_cannot_be_opened)
+        }
     }
 
     private fun copyPath(fileModel: FileModel) {

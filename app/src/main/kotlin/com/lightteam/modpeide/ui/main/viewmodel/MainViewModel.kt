@@ -54,7 +54,8 @@ class MainViewModel(
     val closeDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     // События для связи проводника и редактора
-    val openFileEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
+    val openEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
+    val openAsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
     val propertiesEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
 
     private val installStateUpdatedListener = InstallStateUpdatedListener { state ->

@@ -62,19 +62,27 @@ class ExplorerViewModel(
 
     // region EVENTS
 
-    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список вкладок
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
     val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Доступ к хранилищу
 
-    val fabEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Кнопка "+"
-    val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Запрос на загрузку списка файлов
-    val selectionEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() // Список выделенных файлов
-    val clearSelectionEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Очистка выделенных файлов
+    val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Запрос на обновление списка файлов
+    val selectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Выделить все файлы
+    val deselectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Сбросить выделение со всех файлов
+    val createEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Создать файл
+    // val copyEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать выделенные файлы
+    // val deleteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Удалить выделенные файлы
+    // val cutEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вырезать выделенные файлы
+    val openAsEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Открыть файл как
+    val renameEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Переименовать файл
+    val propertiesEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Свойства файла
+    val copyPathEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать путь к файлу
 
+    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список вкладок
+    val selectionEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список выделенных файлов
     val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() // Список файлов
     val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() // Отфильтрованый список файлов
-    val createEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() // Создание файла
-    val propertiesEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() // Свойства файла
+    val clickEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() // Имитация нажатия на файл
+    val propertiesOfEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() // Свойства файла
 
     // endregion EVENTS
 
@@ -164,7 +172,8 @@ class ExplorerViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    createEvent.value = it
+                    filesUpdateEvent.call()
+                    clickEvent.value = it
                     toastEvent.value = R.string.message_done
                 },
                 onError = {
@@ -186,8 +195,8 @@ class ExplorerViewModel(
         filesystem.renameFile(fileModel, newName)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = { parent ->
-                    provideDirectory(parent)
+                onSuccess = {
+                    filesUpdateEvent.call()
                     toastEvent.value = R.string.message_done
                 },
                 onError = {
@@ -212,8 +221,8 @@ class ExplorerViewModel(
         filesystem.deleteFile(fileModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = { parent ->
-                    provideDirectory(parent)
+                onSuccess = {
+                    filesUpdateEvent.call()
                     toastEvent.value = R.string.message_done
                 },
                 onError = {
@@ -236,7 +245,7 @@ class ExplorerViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    propertiesEvent.value = it
+                    propertiesOfEvent.value = it
                 },
                 onError = {
                     Log.e(TAG, it.message, it)

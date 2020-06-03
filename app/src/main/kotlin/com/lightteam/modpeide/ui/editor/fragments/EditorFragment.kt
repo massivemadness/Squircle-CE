@@ -17,11 +17,8 @@
 
 package com.lightteam.modpeide.ui.editor.fragments
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
@@ -38,7 +35,6 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
-import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
@@ -52,11 +48,12 @@ import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.event.PreferenceEvent
-import com.lightteam.modpeide.utils.extensions.*
+import com.lightteam.modpeide.utils.extensions.createTypefaceFromPath
+import com.lightteam.modpeide.utils.extensions.isUltimate
+import com.lightteam.modpeide.utils.extensions.launchActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -191,12 +188,12 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             )
             binding.editor.requestFocus()
         })
-        sharedViewModel.openFileEvent.observe(viewLifecycleOwner, Observer { fileModel ->
+        sharedViewModel.openEvent.observe(viewLifecycleOwner, Observer { fileModel ->
             val documentModel = DocumentConverter.toModel(fileModel)
             if (fileModel.getType() == FileType.TEXT) {
                 viewModel.openFile(documentModel)
             } else {
-                openFile(documentModel)
+                sharedViewModel.openAsEvent.value = fileModel
             }
         })
 
@@ -268,24 +265,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
         })
 
         // endregion PREFERENCES
-    }
-
-    private fun openFile(documentModel: DocumentModel) {
-        try { // Открытие файла через подходящую программу
-            val uri = FileProvider.getUriForFile(
-                requireContext(),
-                "${context?.packageName}.provider",
-                File(documentModel.path)
-            )
-            val mime = context?.contentResolver?.getType(uri)
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                setDataAndType(uri, mime)
-            }
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            showToast(R.string.message_cannot_be_opened)
-        }
     }
 
     // region TABS
