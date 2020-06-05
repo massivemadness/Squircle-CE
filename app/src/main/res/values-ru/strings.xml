@@ -57,6 +57,7 @@
     <string name="action_rename">Переименовать</string>
     <string name="action_delete">Удалить</string>
     <string name="action_insert">Вставить</string>
+    <string name="action_run_in_background">Выполнять в фоне</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
     <string name="action_get_it">Приобрести</string>
     <string name="action_maybe_later">Может позже</string>
@@ -100,6 +101,7 @@
     <string name="dialog_title_choose_action">Выберите действие</string>
     <string name="dialog_title_create">Создать…</string>
     <string name="dialog_title_rename">Переименовать…</string>
+    <string name="dialog_title_multi_delete">Множественное удаление</string>
     <string name="dialog_title_store">Получите Ultimate Edition</string>
     <string name="dialog_title_changelog">Список изменений</string>
     <string name="dialog_title_privacy_policy">Политика конфиденциальности</string>
@@ -111,7 +113,8 @@
     <string name="dialog_title_goto_line">Перейти к строке…</string>
 
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
-    <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл? Это действие нельзя отменить</string>
+    <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
+    <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
 
     <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br></string>
     <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br></string>
@@ -160,6 +163,8 @@
     <string name="message_theme_exported">Тема сохранена %1$s</string>
     <string name="message_choose_theme_json">Выберите файл темы .json</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
+    <string name="message_elasped_time">Прошло времени: %1$s</string>
+    <string name="message_deleting_file">Удаление…%1$s</string>
 
     <string name="store_feature_1">Базовый функционал</string>
     <string name="store_feature_2">Цветовые схемы</string>

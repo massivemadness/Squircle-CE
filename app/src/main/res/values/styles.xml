@@ -51,6 +51,10 @@
         <item name="android:letterSpacing">0.01</item>
     </style>
 
+    <style name="Widget.AppTheme.DialogButton" parent="Widget.AppTheme.TextButton">
+        <item name="android:minWidth" tools:ignore="PrivateResource">@dimen/mtrl_btn_dialog_btn_min_width</item>
+    </style>
+
     <!-- endregion BUTTON -->
 
     <!-- region MENU -->
@@ -81,15 +85,11 @@
         <item name="md_button_selector">@drawable/md_btn_selector_dark</item>
     </style>
 
-    <style name="Dialog.AppTheme.Preference" parent="ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="buttonBarNegativeButtonStyle">@style/Dialog.AppTheme.Button</item>
-        <item name="buttonBarPositiveButtonStyle">@style/Dialog.AppTheme.Button</item>
+    <style name="Dialog.AppTheme.Alert" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.AppTheme.DialogButton</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.AppTheme.DialogButton</item>
         <item name="dialogCornerRadius">4dp</item>
         <item name="android:backgroundDimAmount">0.32</item>
-    </style>
-
-    <style name="Dialog.AppTheme.Button" parent="Widget.AppTheme.TextButton">
-        <item name="android:minWidth" tools:ignore="PrivateResource">@dimen/mtrl_btn_dialog_btn_min_width</item>
     </style>
 
     <!-- endregion DIALOG -->

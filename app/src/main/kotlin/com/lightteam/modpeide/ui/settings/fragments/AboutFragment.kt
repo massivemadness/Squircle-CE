@@ -24,7 +24,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.BuildConfig
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
-import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.getRawFileText
 import com.lightteam.modpeide.utils.extensions.isUltimate
 
@@ -60,7 +59,7 @@ class AboutFragment : DaggerPreferenceFragmentCompat() {
     private fun showChangelogDialog(): Boolean {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_changelog)
-            message(text = context.getRawFileText(R.raw.changelog).asHtml())
+            message(text = context.getRawFileText(R.raw.changelog)) { html() }
             findViewById<TextView>(R.id.md_text_message).textSize = 14f
             negativeButton(R.string.action_close)
         }
@@ -70,7 +69,7 @@ class AboutFragment : DaggerPreferenceFragmentCompat() {
     private fun showPrivacyPolicyDialog(): Boolean {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_privacy_policy)
-            message(text = context.getRawFileText(R.raw.privacy_policy).asHtml())
+            message(text = context.getRawFileText(R.raw.privacy_policy)) { html() }
             findViewById<TextView>(R.id.md_text_message).textSize = 14f
             negativeButton(R.string.action_close)
         }

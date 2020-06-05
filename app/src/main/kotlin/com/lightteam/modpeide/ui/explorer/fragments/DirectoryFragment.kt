@@ -23,6 +23,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
+import android.widget.TextView
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -34,8 +35,11 @@ import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.callbacks.onDismiss
+import com.afollestad.materialdialogs.callbacks.onShow
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.google.android.material.progressindicator.ProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileTree
@@ -51,7 +55,13 @@ import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.clipText
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
@@ -156,7 +166,13 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             showCreateDialog()
         })
         // TODO viewModel.copyEvent.observe
-        // TODO viewModel.deleteEvent.observe
+        viewModel.deleteEvent.observe(viewLifecycleOwner, Observer {
+            val fileModels = viewModel.selectionEvent.value
+            fileModels?.let {
+                viewModel.deselectAllEvent.call()
+                showDeleteDialog(it)
+            }
+        })
         // TODO viewModel.cutEvent.observe
         viewModel.openAsEvent.observe(viewLifecycleOwner, Observer {
             val fileModel = viewModel.selectionEvent.value?.first()
@@ -238,35 +254,6 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
     // region DIALOGS
 
-    private fun showChooseDialog(fileModel: FileModel) {
-        MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_choose_action)
-            customView(R.layout.dialog_file_action, scrollable = true)
-
-            val actionCopyPath = getCustomView().findViewById<View>(R.id.action_copy_path)
-            val actionProperties = getCustomView().findViewById<View>(R.id.action_properties)
-            val actionRename = getCustomView().findViewById<View>(R.id.action_rename)
-            val actionDelete = getCustomView().findViewById<View>(R.id.action_delete)
-
-            actionCopyPath.setOnClickListener {
-                dismiss()
-                copyPath(fileModel)
-            }
-            actionProperties.setOnClickListener {
-                dismiss()
-                viewModel.propertiesOf(fileModel)
-            }
-            actionRename.setOnClickListener {
-                dismiss()
-                showRenameDialog(fileModel)
-            }
-            actionDelete.setOnClickListener {
-                dismiss()
-                showDeleteDialog(fileModel)
-            }
-        }
-    }
-
     private fun showCreateDialog() {
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_create)
@@ -314,13 +301,23 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         }
     }
 
-    private fun showDeleteDialog(fileModel: FileModel) {
+    private fun showDeleteDialog(fileModels: List<FileModel>) {
+        val isMultiDelete = fileModels.size > 1
+
+        val dialogTitle = if (isMultiDelete) {
+            getString(R.string.dialog_title_multi_delete)
+        } else fileModels.first().name
+
+        val dialogMessage = if (isMultiDelete) {
+            R.string.dialog_message_multi_delete
+        } else R.string.dialog_message_delete
+
         MaterialDialog(requireContext()).show {
-            title(text = fileModel.name)
-            message(R.string.dialog_message_delete)
+            title(text = dialogTitle)
+            message(dialogMessage)
             negativeButton(R.string.action_cancel)
             positiveButton(R.string.action_delete) {
-                viewModel.deleteFile(fileModel)
+                executeDeleteProcess(fileModels)
             }
         }
     }
@@ -339,9 +336,9 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             )
             customView(R.layout.dialog_properties, scrollable = true)
 
-            val readable = this.findViewById<CheckBox>(R.id.readable)
-            val writable = this.findViewById<CheckBox>(R.id.writable)
-            val executable = this.findViewById<CheckBox>(R.id.executable)
+            val readable = findViewById<CheckBox>(R.id.readable)
+            val writable = findViewById<CheckBox>(R.id.writable)
+            val executable = findViewById<CheckBox>(R.id.executable)
 
             readable.isChecked = propertiesModel.readable
             writable.isChecked = propertiesModel.writable
@@ -349,5 +346,73 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         }
     }
 
+    private fun executeDeleteProcess(fileModels: List<FileModel>) {
+        MaterialDialog(requireContext()).show {
+            title(text = fileModels[0].name)
+            customView(R.layout.dialog_delete_process)
+            cancelOnTouchOutside(false)
+            noAutoDismiss() // TODO remove in prod
+            negativeButton(R.string.action_cancel) {
+                // viewModel.cancelDeleteProcess
+                dismiss() // TODO remove in prod
+            }
+            positiveButton(R.string.action_run_in_background) {
+                viewModel.progressEvent.value = (viewModel.progressEvent.value ?: 0) + 1 // test
+            }
+
+            val textElapsedTime = findViewById<TextView>(R.id.text_elapsed_time)
+            val textDeletingFile = findViewById<TextView>(R.id.text_deleting_file)
+            val textOfTotal = findViewById<TextView>(R.id.text_of_total)
+            val progressIndicator = findViewById<ProgressIndicator>(R.id.progress)
+
+            formatElapsedTime(textElapsedTime, 0L) // 00:00
+
+            val then = System.currentTimeMillis()
+            val timer = Observable.interval(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy {
+                    val difference = System.currentTimeMillis() - then
+                    formatElapsedTime(textElapsedTime, difference)
+                }
+                .disposeOnFragmentDestroyView()
+
+            val totalProgress = fileModels.size
+            progressIndicator.max = totalProgress
+
+            val progressObserver = Observer<Int> { currentProgress ->
+                val fileModel = fileModels[currentProgress]
+                textDeletingFile.text = String.format(
+                    getString(R.string.message_deleting_file),
+                    fileModel.path
+                )
+                textOfTotal.text = String.format(
+                    getString(R.string.message_of_total),
+                    currentProgress + 1,
+                    totalProgress
+                )
+                progressIndicator.progress = currentProgress + 1
+            }
+
+            onShow {
+                viewModel.progressEvent.observe(viewLifecycleOwner, progressObserver)
+                // viewModel.deleteFiles(fileModels)
+                viewModel.progressEvent.value = 0 // TODO move to ExplorerViewModel#deleteFiles
+            }
+            onDismiss {
+                viewModel.progressEvent.removeObserver(progressObserver)
+                timer.dispose()
+            }
+        }
+    }
+
     // endregion DIALOGS
+
+    private fun formatElapsedTime(textView: TextView, timeInMillis: Long) {
+        val formatter = SimpleDateFormat("mm:ss", Locale.getDefault())
+        val elapsedTime = String.format(
+            getString(R.string.message_elasped_time),
+            formatter.format(timeInMillis)
+        )
+        textView.text = elapsedTime
+    }
 }

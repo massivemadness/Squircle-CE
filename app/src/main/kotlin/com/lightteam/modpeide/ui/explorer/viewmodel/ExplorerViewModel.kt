@@ -70,7 +70,7 @@ class ExplorerViewModel(
     val deselectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Сбросить выделение со всех файлов
     val createEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Создать файл
     // val copyEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать выделенные файлы
-    // val deleteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Удалить выделенные файлы
+    val deleteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Удалить выделенные файлы
     // val cutEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вырезать выделенные файлы
     val openAsEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Открыть файл как
     val renameEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Переименовать файл
@@ -79,6 +79,7 @@ class ExplorerViewModel(
 
     val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список вкладок
     val selectionEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список выделенных файлов
+    val progressEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Прогресс выполнения операции
     val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() // Список файлов
     val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() // Отфильтрованый список файлов
     val clickEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() // Имитация нажатия на файл

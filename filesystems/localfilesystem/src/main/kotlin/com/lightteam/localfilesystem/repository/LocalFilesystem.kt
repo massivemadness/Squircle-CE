@@ -23,6 +23,7 @@ import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileTree
 import com.lightteam.filesystem.model.PropertiesModel
+import com.lightteam.filesystem.model.ResolveType
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.localfilesystem.utils.formatAsDate
@@ -91,6 +92,25 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
+    override fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel> {
+        return Single.create { emitter ->
+            val originalFile = FileConverter.toFile(fileModel)
+            val parentFile = originalFile.parentFile!!
+            val renamedFile = File(parentFile, fileName)
+            if (originalFile.exists()) {
+                if (!renamedFile.exists()) {
+                    originalFile.renameTo(renamedFile)
+                    val renamedModel = FileConverter.toModel(renamedFile)
+                    emitter.onSuccess(renamedModel)
+                } else {
+                    emitter.onError(FileAlreadyExistsException())
+                }
+            } else {
+                emitter.onError(FileNotFoundException(fileModel.path))
+            }
+        }
+    }
+
     override fun deleteFile(fileModel: FileModel): Single<FileModel> {
         return Single.create { emitter ->
             val file = FileConverter.toFile(fileModel)
@@ -104,23 +124,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel> {
-        return Single.create { emitter ->
-            val originalFile = FileConverter.toFile(fileModel)
-            val parentFile = originalFile.parentFile!!
-            val renamedFile = File(parentFile, fileName)
-            if (originalFile.exists()) {
-                if (!renamedFile.exists()) {
-                    originalFile.renameTo(renamedFile)
-                    val parentModel = FileConverter.toModel(parentFile)
-                    emitter.onSuccess(parentModel)
-                } else {
-                    emitter.onError(FileAlreadyExistsException())
-                }
-            } else {
-                emitter.onError(FileNotFoundException(fileModel.path))
-            }
-        }
+    override fun copyFile(source: FileModel, dest: FileModel, resolveType: ResolveType): Single<FileModel> {
+        TODO("Not implemented yet")
     }
 
     override fun propertiesOf(fileModel: FileModel): Single<PropertiesModel> {

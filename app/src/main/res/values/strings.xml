@@ -64,6 +64,7 @@
     <string name="action_rename">Rename</string>
     <string name="action_delete">Delete</string>
     <string name="action_insert">Insert</string>
+    <string name="action_run_in_background">Run in background</string>
     <string name="action_show_hidden_files">Show hidden files</string>
     <string name="action_get_it">Get it</string>
     <string name="action_maybe_later">Maybe later</string>
@@ -107,6 +108,7 @@
     <string name="dialog_title_choose_action">Choose action</string>
     <string name="dialog_title_create">Create…</string>
     <string name="dialog_title_rename">Rename…</string>
+    <string name="dialog_title_multi_delete">Multi-delete</string>
     <string name="dialog_title_store">Get the Ultimate Edition</string>
     <string name="dialog_title_changelog">ChangeLog</string>
     <string name="dialog_title_privacy_policy">Privacy Policy</string>
@@ -118,7 +120,8 @@
     <string name="dialog_title_goto_line">Go to Line…</string>
 
     <string name="dialog_message_exit">Are you sure you want to exit? All changes will be saved into a cache</string>
-    <string name="dialog_message_delete">Are you sure you want to delete this file? This action cannot be undone</string>
+    <string name="dialog_message_delete">Are you sure you want to delete this file?</string>
+    <string name="dialog_message_multi_delete">Are you sure you want to delete selected files?</string>
 
     <string name="properties_name">&lt;b>Name:&lt;/b> %s&lt;br></string>
     <string name="properties_path">&lt;b>Path:&lt;/b> %s&lt;br></string>
@@ -167,6 +170,9 @@
     <string name="message_theme_exported">Theme saved to %1$s</string>
     <string name="message_choose_theme_json">Choose .json theme file</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
+    <string name="message_elasped_time">Elapsed time: %1$s</string>
+    <string name="message_deleting_file">Deleting…%1$s</string>
+    <string name="message_of_total" translatable="false">%1$d / %2$d</string>
 
     <string name="store_standard" translatable="false">Standard</string>
     <string name="store_ultimate" translatable="false">Ultimate</string>

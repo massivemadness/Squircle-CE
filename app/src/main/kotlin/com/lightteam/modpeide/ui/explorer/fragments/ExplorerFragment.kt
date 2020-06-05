@@ -188,9 +188,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             R.id.action_copy -> {
                 // TODO Implement this method
             }
-            R.id.action_delete -> {
-                // TODO Implement this method
-            }
+            R.id.action_delete -> viewModel.deleteEvent.call()
             R.id.action_cut -> {
                 // TODO Implement this method
             }
