@@ -51,6 +51,7 @@ import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter
 import com.lightteam.modpeide.ui.explorer.utils.FileKeyProvider
+import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.asHtml
@@ -317,7 +318,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             message(dialogMessage)
             negativeButton(R.string.action_cancel)
             positiveButton(R.string.action_delete) {
-                executeDeleteProcess(fileModels)
+                executeProcess(fileModels, Operation.DELETE)
             }
         }
     }
@@ -346,14 +347,34 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         }
     }
 
-    private fun executeDeleteProcess(fileModels: List<FileModel>) {
+    private fun executeProcess(fileModels: List<FileModel>, operation: Operation) {
+        val dialogTitle: Int
+        val dialogMessage: String
+        val dialogAction: () -> Unit
+        when (operation) {
+            Operation.DELETE -> {
+                dialogTitle = R.string.dialog_title_deleting
+                dialogMessage = getString(R.string.message_deleting)
+                dialogAction = {
+                    // viewModel.deleteFiles(fileModels)
+                }
+            }
+            Operation.COPY -> {
+                dialogTitle = R.string.dialog_title_copying
+                dialogMessage = getString(R.string.message_copying)
+                dialogAction = {
+                    // viewModel.copyFiles(fileModels)
+                }
+            }
+        }
+
         MaterialDialog(requireContext()).show {
-            title(text = fileModels[0].name)
-            customView(R.layout.dialog_delete_process)
+            title(dialogTitle)
+            customView(R.layout.dialog_process)
             cancelOnTouchOutside(false)
             noAutoDismiss() // TODO remove in prod
             negativeButton(R.string.action_cancel) {
-                // viewModel.cancelDeleteProcess
+                // viewModel.cancelProcess
                 dismiss() // TODO remove in prod
             }
             positiveButton(R.string.action_run_in_background) {
@@ -361,7 +382,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             }
 
             val textElapsedTime = findViewById<TextView>(R.id.text_elapsed_time)
-            val textDeletingFile = findViewById<TextView>(R.id.text_deleting_file)
+            val textDetails = findViewById<TextView>(R.id.text_details)
             val textOfTotal = findViewById<TextView>(R.id.text_of_total)
             val progressIndicator = findViewById<ProgressIndicator>(R.id.progress)
 
@@ -381,10 +402,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
             val progressObserver = Observer<Int> { currentProgress ->
                 val fileModel = fileModels[currentProgress]
-                textDeletingFile.text = String.format(
-                    getString(R.string.message_deleting_file),
-                    fileModel.path
-                )
+                textDetails.text = String.format(dialogMessage, fileModel.path)
                 textOfTotal.text = String.format(
                     getString(R.string.message_of_total),
                     currentProgress + 1,
@@ -395,8 +413,8 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
 
             onShow {
                 viewModel.progressEvent.observe(viewLifecycleOwner, progressObserver)
-                // viewModel.deleteFiles(fileModels)
-                viewModel.progressEvent.value = 0 // TODO move to ExplorerViewModel#deleteFiles
+                dialogAction.invoke()
+                viewModel.progressEvent.value = 0 // TODO move to ExplorerViewModel
             }
             onDismiss {
                 viewModel.progressEvent.removeObserver(progressObserver)
