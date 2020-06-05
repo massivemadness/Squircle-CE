@@ -35,8 +35,6 @@ import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.callbacks.onDismiss
-import com.afollestad.materialdialogs.callbacks.onShow
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.progressindicator.ProgressIndicator
@@ -401,24 +399,28 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             progressIndicator.max = totalProgress
 
             val progressObserver = Observer<Int> { currentProgress ->
-                val fileModel = fileModels[currentProgress]
-                textDetails.text = String.format(dialogMessage, fileModel.path)
-                textOfTotal.text = String.format(
-                    getString(R.string.message_of_total),
-                    currentProgress + 1,
-                    totalProgress
-                )
-                progressIndicator.progress = currentProgress + 1
+                if (currentProgress != null) {
+                    val fileModel = fileModels[currentProgress]
+                    textDetails.text = String.format(dialogMessage, fileModel.path)
+                    textOfTotal.text = String.format(
+                        getString(R.string.message_of_total),
+                        currentProgress + 1,
+                        totalProgress
+                    )
+                    progressIndicator.progress = currentProgress + 1
+                }
             }
 
-            onShow {
+            setOnShowListener {
                 viewModel.progressEvent.observe(viewLifecycleOwner, progressObserver)
                 dialogAction.invoke()
                 viewModel.progressEvent.value = 0 // TODO move to ExplorerViewModel
             }
-            onDismiss {
-                viewModel.progressEvent.removeObserver(progressObserver)
+
+            setOnDismissListener {
+                viewModel.progressEvent.removeObservers(viewLifecycleOwner)
                 timer.dispose()
+                viewModel.progressEvent.value = null // TODO move to ExplorerViewModel
             }
         }
     }
