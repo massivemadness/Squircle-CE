@@ -96,15 +96,15 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             FileKeyProvider(binding.recyclerView),
             SelectionPredicates.createSelectAnything(),
             StorageStrategy.createParcelableStorage(FileModel::class.java)
-        )
-
-        tracker.addObserver(
-            object : SelectionTracker.SelectionObserver<FileModel>() {
-                override fun onSelectionChanged() {
-                    viewModel.selectionEvent.value = tracker.selection.toList()
+        ).also {
+            it.addObserver(
+                object : SelectionTracker.SelectionObserver<FileModel>() {
+                    override fun onSelectionChanged() {
+                        viewModel.selectionEvent.value = tracker.selection.toList()
+                    }
                 }
-            }
-        )
+            )
+        }
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = FileAdapter(tracker, this)
@@ -145,7 +145,6 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             tracker.select(item)
         }
         adapter.notifyItemChanged(index)
-        // showChooseDialog(item.fileModel)
         return true
     }
 

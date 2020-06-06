@@ -35,7 +35,9 @@ import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
 import com.lightteam.modpeide.utils.extensions.getColour
+import com.lightteam.modpeide.utils.extensions.multiplyDraggingEdgeSizeBy
 import javax.inject.Inject
+
 
 class MainActivity : BaseActivity() {
 
@@ -60,6 +62,8 @@ class MainActivity : BaseActivity() {
             .fragment<EditorFragment>(R.id.fragment_editor)
         explorerOnBackPressedHandler = supportFragmentManager
             .fragment<ExplorerFragment>(R.id.fragment_explorer)
+
+        binding.drawerLayout?.multiplyDraggingEdgeSizeBy(5)
 
         viewModel.checkForUpdates()
     }

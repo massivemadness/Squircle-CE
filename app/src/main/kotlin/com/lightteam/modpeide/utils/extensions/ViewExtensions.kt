@@ -33,6 +33,8 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.iterator
+import androidx.customview.widget.ViewDragHelper
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -100,4 +102,19 @@ fun View.setSelectableBackground() = with(TypedValue()) {
 fun Toolbar.replaceMenu(@MenuRes menuRes: Int) {
     menu.clear()
     inflateMenu(menuRes)
+}
+
+/**
+ * https://stackoverflow.com/a/17802569/4405457
+ */
+fun DrawerLayout.multiplyDraggingEdgeSizeBy(n: Int) {
+    val leftDragger = javaClass.getDeclaredField("mLeftDragger")
+    leftDragger.isAccessible = true
+
+    val viewDragHelper = leftDragger.get(this) as ViewDragHelper
+    val edgeSize = viewDragHelper.javaClass.getDeclaredField("mEdgeSize")
+    edgeSize.isAccessible = true
+
+    val edge = edgeSize.getInt(viewDragHelper)
+    edgeSize.setInt(viewDragHelper, edge * n)
 }
