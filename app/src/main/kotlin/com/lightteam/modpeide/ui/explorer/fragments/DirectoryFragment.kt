@@ -354,7 +354,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                 dialogTitle = R.string.dialog_title_deleting
                 dialogMessage = getString(R.string.message_deleting)
                 dialogAction = {
-                    // viewModel.deleteFiles(fileModels)
+                    viewModel.deleteFiles(fileModels)
                 }
             }
             Operation.COPY -> {
@@ -370,13 +370,9 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             title(dialogTitle)
             customView(R.layout.dialog_process)
             cancelOnTouchOutside(false)
-            noAutoDismiss() // TODO remove in prod
+            positiveButton(R.string.action_run_in_background)
             negativeButton(R.string.action_cancel) {
                 // viewModel.cancelProcess
-                dismiss() // TODO remove in prod
-            }
-            positiveButton(R.string.action_run_in_background) {
-                viewModel.progressEvent.value = (viewModel.progressEvent.value ?: 0) + 1 // test
             }
 
             val textElapsedTime = findViewById<TextView>(R.id.text_elapsed_time)
@@ -399,7 +395,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             progressIndicator.max = totalProgress
 
             val progressObserver = Observer<Int> { currentProgress ->
-                if (currentProgress != null) {
+                if (currentProgress < fileModels.size) {
                     val fileModel = fileModels[currentProgress]
                     textDetails.text = String.format(dialogMessage, fileModel.path)
                     textOfTotal.text = String.format(
@@ -409,18 +405,19 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                     )
                     progressIndicator.progress = currentProgress + 1
                 }
+                if (currentProgress + 1 > totalProgress) {
+                    dismiss()
+                }
             }
 
             setOnShowListener {
                 viewModel.progressEvent.observe(viewLifecycleOwner, progressObserver)
                 dialogAction.invoke()
-                viewModel.progressEvent.value = 0 // TODO move to ExplorerViewModel
             }
 
             setOnDismissListener {
                 viewModel.progressEvent.removeObservers(viewLifecycleOwner)
                 timer.dispose()
-                viewModel.progressEvent.value = null // TODO move to ExplorerViewModel
             }
         }
     }

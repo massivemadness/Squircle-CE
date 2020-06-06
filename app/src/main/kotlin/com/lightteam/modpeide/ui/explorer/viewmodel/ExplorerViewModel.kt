@@ -22,12 +22,6 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.data.utils.commons.FileSorter
-import com.lightteam.modpeide.data.utils.extensions.containsFileModel
-import com.lightteam.modpeide.data.utils.extensions.replaceList
-import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.filesystem.exception.DirectoryExpectedException
 import com.lightteam.filesystem.exception.FileAlreadyExistsException
 import com.lightteam.filesystem.exception.FileNotFoundException
@@ -35,11 +29,19 @@ import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileTree
 import com.lightteam.filesystem.model.PropertiesModel
 import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.utils.commons.FileSorter
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.utils.extensions.containsFileModel
+import com.lightteam.modpeide.data.utils.extensions.replaceList
+import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class ExplorerViewModel(
     private val schedulersProvider: SchedulersProvider,
@@ -218,11 +220,19 @@ class ExplorerViewModel(
             .disposeOnViewModelDestroy()
     }
 
-    fun deleteFile(fileModel: FileModel) {
-        filesystem.deleteFile(fileModel)
+    fun deleteFiles(fileModels: List<FileModel>) {
+        Observable.fromIterable(fileModels)
+            .doOnSubscribe { progressEvent.postValue(0) }
+            .concatMapSingle {
+                filesystem.deleteFile(it)
+                    .delay(20, TimeUnit.MILLISECONDS)
+            }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = {
+                onNext = {
+                    progressEvent.value = (progressEvent.value ?: 0) + 1
+                },
+                onComplete = {
                     filesUpdateEvent.call()
                     toastEvent.value = R.string.message_done
                 },
