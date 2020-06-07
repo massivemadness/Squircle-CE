@@ -21,7 +21,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.repository.CacheRepository
-import com.lightteam.modpeide.data.repository.FileRepository
+import com.lightteam.modpeide.data.repository.LocalRepository
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -41,14 +41,14 @@ class EditorModule {
         schedulersProvider: SchedulersProvider,
         preferenceHandler: PreferenceHandler,
         appDatabase: AppDatabase,
-        fileRepository: FileRepository,
+        localRepository: LocalRepository,
         cacheRepository: CacheRepository
     ): EditorViewModel.Factory {
         return EditorViewModel.Factory(
             schedulersProvider,
             preferenceHandler,
             appDatabase,
-            fileRepository,
+            localRepository,
             cacheRepository
         )
     }
@@ -80,8 +80,8 @@ class EditorModule {
         appDatabase: AppDatabase,
         @Named("Local")
         filesystem: Filesystem
-    ): FileRepository {
-        return FileRepository(preferenceHandler, appDatabase, filesystem)
+    ): LocalRepository {
+        return LocalRepository(preferenceHandler, appDatabase, filesystem)
     }
 
     @Provides

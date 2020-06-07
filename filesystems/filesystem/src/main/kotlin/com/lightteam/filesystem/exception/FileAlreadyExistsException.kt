@@ -17,4 +17,4 @@
 
 package com.lightteam.filesystem.exception
 
-class FileAlreadyExistsException : RuntimeException("Cannot create file because it already exists")
+class FileAlreadyExistsException(path: String) : RuntimeException("Cannot create file $path because it already exists")

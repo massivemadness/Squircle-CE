@@ -33,7 +33,7 @@ import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.modpeide.data.converter.ThemeConverter
-import com.lightteam.modpeide.data.repository.FileRepository
+import com.lightteam.modpeide.data.repository.LocalRepository
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -47,7 +47,7 @@ class EditorViewModel(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase,
-    private val fileRepository: FileRepository,
+    private val localRepository: LocalRepository,
     private val cacheRepository: CacheRepository
 ) : BaseViewModel() {
 
@@ -57,23 +57,23 @@ class EditorViewModel(
 
     // region UI
 
-    val stateLoadingDocuments: ObservableBoolean = ObservableBoolean(false) //Индикатор загрузки документа
-    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) //Сообщение что нет документов
+    val stateLoadingDocuments: ObservableBoolean = ObservableBoolean(false) // Индикатор загрузки документа
+    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение об отсутствии документов
 
-    val canUndo: ObservableBoolean = ObservableBoolean(false) //Кликабельность кнопки Undo
-    val canRedo: ObservableBoolean = ObservableBoolean(false) //Кликабельность кнопки Redo
+    val canUndo: ObservableBoolean = ObservableBoolean(false) // Кликабельность кнопки Undo
+    val canRedo: ObservableBoolean = ObservableBoolean(false) // Кликабельность кнопки Redo
 
     // endregion UI
 
     // region EVENTS
 
-    val tabsEvent: MutableLiveData<MutableList<DocumentModel>> = MutableLiveData() //Обновление списка вкладок
-    val tabSelectionEvent: MutableLiveData<Int> = MutableLiveData() //Текущая позиция выбранной вкладки
+    val tabsEvent: MutableLiveData<MutableList<DocumentModel>> = MutableLiveData() // Обновление списка вкладок
+    val tabSelectionEvent: MutableLiveData<Int> = MutableLiveData() // Текущая позиция выбранной вкладки
 
-    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() //Отображение сообщений
-    val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() //Проверка ошибок
-    val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() //Контент загруженного файла
-    val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() //События с измененными настройками
+    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
+    val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() // Проверка ошибок
+    val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() // Контент загруженного файла
+    val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() // События с измененными настройками
 
     // endregion EVENTS
 
@@ -132,7 +132,7 @@ class EditorViewModel(
         val dataSource = if (cacheRepository.isCached(documentModel)) {
             cacheRepository
         } else {
-            fileRepository
+            localRepository
         }
         dataSource.loadFile(documentModel)
             .doOnSubscribe { stateLoadingDocuments.set(true) }
@@ -158,7 +158,7 @@ class EditorViewModel(
     }
 
     fun saveFile(documentModel: DocumentModel, text: String) {
-        fileRepository.saveFile(documentModel, text)
+        localRepository.saveFile(documentModel, text)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onComplete = {
@@ -365,7 +365,7 @@ class EditorViewModel(
         private val schedulersProvider: SchedulersProvider,
         private val preferenceHandler: PreferenceHandler,
         private val appDatabase: AppDatabase,
-        private val fileRepository: FileRepository,
+        private val localRepository: LocalRepository,
         private val cacheRepository: CacheRepository
     ) : ViewModelProvider.NewInstanceFactory() {
 
@@ -377,7 +377,7 @@ class EditorViewModel(
                         schedulersProvider,
                         preferenceHandler,
                         appDatabase,
-                        fileRepository,
+                        localRepository,
                         cacheRepository
                     ) as T
                 else -> null as T

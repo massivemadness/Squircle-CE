@@ -30,7 +30,7 @@ import com.lightteam.modpeide.domain.repository.DocumentRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class FileRepository(
+class LocalRepository(
     private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase,
     private val filesystem: Filesystem

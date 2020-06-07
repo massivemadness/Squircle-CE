@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.lightteam.filesystem.exception.DirectoryExpectedException
 import com.lightteam.filesystem.exception.FileAlreadyExistsException
 import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.filesystem.model.CopyOption
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileTree
 import com.lightteam.filesystem.model.PropertiesModel
@@ -60,6 +61,8 @@ class ExplorerViewModel(
     val stateLoadingFiles: ObservableBoolean = ObservableBoolean(true) // Индикатор загрузки файлов
     val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение что нет файлов
 
+    val allowPasteFiles: ObservableBoolean = ObservableBoolean(false) // Отображение кнопки "Вставить"
+
     // endregion UI
 
     // region EVENTS
@@ -71,9 +74,10 @@ class ExplorerViewModel(
     val selectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Выделить все файлы
     val deselectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Сбросить выделение со всех файлов
     val createEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Создать файл
-    // val copyEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать выделенные файлы
+    val copyEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать выделенные файлы
     val deleteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Удалить выделенные файлы
     // val cutEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вырезать выделенные файлы
+    val pasteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вставить скопированные файлы
     val openAsEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Открыть файл как
     val renameEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Переименовать файл
     val propertiesEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Свойства файла
@@ -93,6 +97,7 @@ class ExplorerViewModel(
     var showHidden: Boolean = true
 
     val tabsList: MutableList<FileModel> = mutableListOf()
+    val filesToCopy: MutableList<FileModel> = mutableListOf()
     private val searchList: MutableList<FileModel> = mutableListOf()
 
     private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
@@ -111,8 +116,8 @@ class ExplorerViewModel(
             .map { fileTree ->
                 val newList = mutableListOf<FileModel>()
                 fileTree.children.forEach { file ->
-                    if(file.isHidden) {
-                        if(showHidden) {
+                    if (file.isHidden) {
+                        if (showHidden) {
                             newList.add(file)
                         }
                     } else {
@@ -241,6 +246,40 @@ class ExplorerViewModel(
                     when (it) {
                         is FileNotFoundException -> {
                             toastEvent.value = R.string.message_file_not_found
+                        }
+                        else -> {
+                            toastEvent.value = R.string.message_unknown_exception
+                        }
+                    }
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun copyFiles(source: List<FileModel>, dest: FileModel) {
+        Observable.fromIterable(source)
+            .doOnSubscribe { progressEvent.postValue(0) }
+            .concatMapSingle {
+                filesystem.copyFile(it, dest, CopyOption.ABORT) // TODO: Let user choose CopyOption
+                    .delay(20, TimeUnit.MILLISECONDS)
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onNext = {
+                    progressEvent.value = (progressEvent.value ?: 0) + 1
+                },
+                onComplete = {
+                    filesUpdateEvent.call()
+                    toastEvent.value = R.string.message_done
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    when (it) {
+                        is FileNotFoundException -> {
+                            toastEvent.value = R.string.message_file_not_found
+                        }
+                        is FileAlreadyExistsException -> {
+                            toastEvent.value = R.string.message_file_already_exists
                         }
                         else -> {
                             toastEvent.value = R.string.message_unknown_exception

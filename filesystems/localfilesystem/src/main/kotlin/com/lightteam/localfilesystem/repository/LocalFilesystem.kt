@@ -23,7 +23,7 @@ import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileTree
 import com.lightteam.filesystem.model.PropertiesModel
-import com.lightteam.filesystem.model.ResolveType
+import com.lightteam.filesystem.model.CopyOption
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.localfilesystem.utils.formatAsDate
@@ -87,7 +87,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 val fileModel2 = FileConverter.toModel(file)
                 emitter.onSuccess(fileModel2)
             } else {
-                emitter.onError(FileAlreadyExistsException())
+                emitter.onError(FileAlreadyExistsException(fileModel.path))
             }
         }
     }
@@ -103,7 +103,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     val renamedModel = FileConverter.toModel(renamedFile)
                     emitter.onSuccess(renamedModel)
                 } else {
-                    emitter.onError(FileAlreadyExistsException())
+                    emitter.onError(FileAlreadyExistsException(renamedFile.absolutePath))
                 }
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))
@@ -124,8 +124,27 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun copyFile(source: FileModel, dest: FileModel, resolveType: ResolveType): Single<FileModel> {
-        TODO("Not implemented yet")
+    override fun copyFile(source: FileModel, dest: FileModel, copyOption: CopyOption): Single<FileModel> {
+        return Single.create { emitter ->
+            val directory = FileConverter.toFile(dest)
+            val sourceFile = FileConverter.toFile(source)
+            val destFile = File(directory, sourceFile.name)
+            if (sourceFile.exists()) {
+                if (!destFile.exists()) {
+                    val overwrite = when (copyOption) {
+                        CopyOption.ABORT -> false
+                        CopyOption.REPLACE -> true
+                    }
+                    sourceFile.copyRecursively(destFile, overwrite)
+                    val destFile2 = FileConverter.toModel(destFile)
+                    emitter.onSuccess(destFile2)
+                } else {
+                    emitter.onError(FileAlreadyExistsException(dest.path))
+                }
+            } else {
+                emitter.onError(FileNotFoundException(source.path))
+            }
+        }
     }
 
     override fun propertiesOf(fileModel: FileModel): Single<PropertiesModel> {

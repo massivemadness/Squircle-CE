@@ -87,6 +87,9 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             navController.popBackStack(backStackCount - 1)
             removeTabs(backStackCount - 1)
         }
+        binding.actionPaste.setOnClickListener {
+            viewModel.pasteEvent.call()
+        }
         binding.actionCreate.setOnClickListener {
             viewModel.createEvent.call()
         }
@@ -150,10 +153,6 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         super.onPrepareOptionsMenu(menu)
 
         val actionShowHidden = menu.findItem(R.id.action_show_hidden)
-        /*val actionCopy = menu.findItem(R.id.action_copy)
-        val actionDelete = menu.findItem(R.id.action_delete)
-        val actionCut = menu.findItem(R.id.action_cut)
-        val actionSelectAll = menu.findItem(R.id.action_select_all)*/
         val actionOpenAs = menu.findItem(R.id.action_open_as)
         val actionRename = menu.findItem(R.id.action_rename)
         val actionProperties = menu.findItem(R.id.action_properties)
@@ -185,9 +184,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             R.id.action_show_hidden -> {
                 viewModel.setFilterHidden(!item.isChecked)
             }
-            R.id.action_copy -> {
-                // TODO Implement this method
-            }
+            R.id.action_copy -> viewModel.copyEvent.call()
             R.id.action_delete -> viewModel.deleteEvent.call()
             R.id.action_cut -> {
                 // TODO Implement this method
@@ -216,6 +213,8 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
         })
         viewModel.selectionEvent.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
+                viewModel.allowPasteFiles.set(false)
+                viewModel.filesToCopy.clear()
                 startActionMode(it)
             } else {
                 stopActionMode()

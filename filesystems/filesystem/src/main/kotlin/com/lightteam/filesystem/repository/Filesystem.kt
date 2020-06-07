@@ -19,10 +19,9 @@ package com.lightteam.filesystem.repository
 
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileTree
-import com.lightteam.filesystem.model.ResolveType
+import com.lightteam.filesystem.model.CopyOption
 import com.lightteam.filesystem.model.PropertiesModel
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.Single
 import java.nio.charset.Charset
 
@@ -33,7 +32,7 @@ interface Filesystem {
     fun createFile(fileModel: FileModel): Single<FileModel>
     fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
     fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun copyFile(source: FileModel, dest: FileModel, resolveType: ResolveType): Single<FileModel>
+    fun copyFile(source: FileModel, dest: FileModel, copyOption: CopyOption): Single<FileModel>
     fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
     fun loadFile(fileModel: FileModel, charset: Charset): Single<String>

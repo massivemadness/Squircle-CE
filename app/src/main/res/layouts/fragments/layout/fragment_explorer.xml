@@ -71,7 +71,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toStartOf="@id/action_create"
+                    android:layout_toStartOf="@id/action_paste"
                     android:layout_toEndOf="@id/action_home"
                     android:orientation="horizontal"
                     android:background="@null"
@@ -85,11 +85,27 @@
                     android:layout_height="36dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
+                    android:layout_toStartOf="@id/action_create"
+                    android:layout_alignParentEnd="true"
+                    android:padding="6dp"
+                    android:id="@+id/action_paste"
+                    android:src="@drawable/ic_paste"
+                    android:background="@drawable/ripple_16dp"
+                    android:visibility="@{viewModel.allowPasteFiles ? View.VISIBLE : View.GONE}"
+                    tools:visibility="gone"
+                    app:tint="?colorOnSurface"/>
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_alignParentEnd="true"
                     android:padding="6dp"
                     android:id="@+id/action_create"
                     android:src="@drawable/ic_plus"
                     android:background="@drawable/ripple_16dp"
+                    android:visibility="@{viewModel.allowPasteFiles ? View.GONE : View.VISIBLE}"
                     app:tint="?colorOnSurface"/>
 
             </RelativeLayout>

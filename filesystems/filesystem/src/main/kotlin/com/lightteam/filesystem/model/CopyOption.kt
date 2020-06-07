@@ -17,7 +17,7 @@
 
 package com.lightteam.filesystem.model
 
-enum class ResolveType {
+enum class CopyOption {
     ABORT,
     REPLACE
 }

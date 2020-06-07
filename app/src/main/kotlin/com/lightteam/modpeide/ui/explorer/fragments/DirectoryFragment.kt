@@ -44,6 +44,7 @@ import com.lightteam.filesystem.model.FileTree
 import com.lightteam.filesystem.model.PropertiesModel
 import com.lightteam.localfilesystem.utils.isValidFileName
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
@@ -163,7 +164,14 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         viewModel.createEvent.observe(viewLifecycleOwner, Observer {
             showCreateDialog()
         })
-        // TODO viewModel.copyEvent.observe
+        viewModel.copyEvent.observe(viewLifecycleOwner, Observer {
+            val fileModels = viewModel.selectionEvent.value
+            fileModels?.let {
+                viewModel.deselectAllEvent.call()
+                viewModel.filesToCopy.replaceList(it)
+                viewModel.allowPasteFiles.set(true)
+            }
+        })
         viewModel.deleteEvent.observe(viewLifecycleOwner, Observer {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
@@ -172,6 +180,12 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             }
         })
         // TODO viewModel.cutEvent.observe
+        viewModel.pasteEvent.observe(viewLifecycleOwner, Observer {
+            executeProcess(viewModel.filesToCopy, Operation.COPY) {
+                viewModel.allowPasteFiles.set(false)
+                viewModel.filesToCopy.clear()
+            }
+        })
         viewModel.openAsEvent.observe(viewLifecycleOwner, Observer {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
@@ -344,7 +358,11 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
         }
     }
 
-    private fun executeProcess(fileModels: List<FileModel>, operation: Operation) {
+    private fun executeProcess(
+        fileModels: List<FileModel>,
+        operation: Operation,
+        actionAfter: () -> Unit = {}
+    ) {
         val dialogTitle: Int
         val dialogMessage: String
         val dialogAction: () -> Unit
@@ -360,7 +378,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                 dialogTitle = R.string.dialog_title_copying
                 dialogMessage = getString(R.string.message_copying)
                 dialogAction = {
-                    // viewModel.copyFiles(fileModels)
+                    viewModel.copyFiles(fileModels, fileTree.parent)
                 }
             }
         }
@@ -372,6 +390,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
             positiveButton(R.string.action_run_in_background)
             negativeButton(R.string.action_cancel) {
                 // viewModel.cancelProcess
+                actionAfter.invoke()
             }
 
             val textElapsedTime = findViewById<TextView>(R.id.text_elapsed_time)
@@ -405,6 +424,7 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                     progressIndicator.progress = currentProgress + 1
                 }
                 if (currentProgress + 1 > totalProgress) {
+                    actionAfter.invoke()
                     dismiss()
                 }
             }
