@@ -53,9 +53,8 @@ class FontsFragment : BaseFragment(), FontAdapter.FontInteractor {
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(itemDecoration)
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = FontAdapter(this).also {
-            adapter = it
-        }
+        binding.recyclerView.adapter = FontAdapter(this)
+            .also { adapter = it }
 
         binding.actionAdd.setOnClickListener {
             if (requireContext().isUltimate()) {

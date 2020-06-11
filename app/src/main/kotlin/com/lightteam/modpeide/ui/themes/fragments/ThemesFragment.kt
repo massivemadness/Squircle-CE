@@ -54,9 +54,8 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
 
         navController = findNavController()
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = ThemeAdapter(this).also {
-            adapter = it
-        }
+        binding.recyclerView.adapter = ThemeAdapter(this)
+            .also { adapter = it }
 
         binding.actionAdd.setOnClickListener {
             if (requireContext().isUltimate()) {

@@ -77,9 +77,9 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
 
         navController = findNavController()
         binding.recyclerView.setHasFixedSize(false)
-        binding.recyclerView.adapter = PropertyAdapter(this).also {
-            adapter = it
-        }
+        binding.recyclerView.adapter = PropertyAdapter(this)
+            .also { adapter = it }
+
         binding.textInputThemeName.doAfterTextChanged {
             viewModel.validateInput(
                 it.toString(),

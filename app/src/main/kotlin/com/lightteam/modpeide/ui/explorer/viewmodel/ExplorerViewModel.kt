@@ -96,17 +96,32 @@ class ExplorerViewModel(
 
     // endregion EVENTS
 
-    var sortMode: Int = FileSorter.SORT_BY_NAME
-    var showHidden: Boolean = true
-
     val tabsList: MutableList<FileModel> = mutableListOf()
     val filesToCopy: MutableList<FileModel> = mutableListOf()
     val cancelableDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
-    private val searchList: MutableList<FileModel> = mutableListOf()
+    var showHidden: Boolean
+        get() = preferenceHandler.getFilterHidden().get()
+        set(value) {
+            preferenceHandler.getFilterHidden().set(value)
+            filesUpdateEvent.call()
+        }
 
-    private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
-    private var foldersOnTop: Boolean = true
+    var sortMode: Int
+        get() = Integer.parseInt(preferenceHandler.getSortMode().get())
+        set(value) {
+            preferenceHandler.getSortMode().set(value.toString())
+            filesUpdateEvent.call()
+        }
+
+    var foldersOnTop: Boolean
+        get() = preferenceHandler.getFoldersOnTop().get()
+        set(value) {
+            preferenceHandler.getFoldersOnTop().set(value)
+            filesUpdateEvent.call()
+        }
+
+    private val searchList: MutableList<FileModel> = mutableListOf()
 
     override fun onCleared() {
         super.onCleared()
@@ -137,7 +152,8 @@ class ExplorerViewModel(
                 fileTree.copy(children = newList)
             }
             .map { fileTree ->
-                val children = fileTree.children.sortedWith(fileSorter)
+                val comparator = FileSorter.getComparator(sortMode)
+                val children = fileTree.children.sortedWith(comparator)
                 fileTree.copy(children = children)
             }
             .map { fileTree ->
@@ -359,55 +375,6 @@ class ExplorerViewModel(
             )
             .disposeOnViewModelDestroy()
     }
-
-    // region PREFERENCES
-
-    fun setFilterHidden(filter: Boolean) {
-        preferenceHandler.getFilterHidden().set(filter)
-    }
-
-    fun setSortMode(mode: String) {
-        preferenceHandler.getSortMode().set(mode)
-    }
-
-    fun observePreferences() {
-        preferenceHandler.getFilterHidden()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { show ->
-                showHidden = show
-                if (hasPermission.get()) {
-                    filesUpdateEvent.call()
-                }
-            }
-            .disposeOnViewModelDestroy()
-
-        preferenceHandler.getSortMode()
-            .asObservable()
-            .map(Integer::parseInt)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { mode ->
-                sortMode = mode
-                fileSorter = FileSorter.getComparator(mode)
-                if (hasPermission.get()) {
-                    filesUpdateEvent.call()
-                }
-            }
-            .disposeOnViewModelDestroy()
-
-        preferenceHandler.getFoldersOnTop()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { onTop ->
-                foldersOnTop = onTop
-                if (hasPermission.get()) {
-                    filesUpdateEvent.call()
-                }
-            }
-            .disposeOnViewModelDestroy()
-    }
-
-    // endregion PREFERENCES
 
     class Factory(
         private val schedulersProvider: SchedulersProvider,

@@ -183,26 +183,24 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_show_hidden -> {
-                viewModel.setFilterHidden(!item.isChecked)
-            }
             R.id.action_copy -> {
                 viewModel.copyEvent.call()
                 operation = Operation.COPY
             }
-            R.id.action_delete -> viewModel.deleteEvent.call()
             R.id.action_cut -> {
                 viewModel.cutEvent.call()
                 operation = Operation.CUT
             }
+            R.id.action_delete -> viewModel.deleteEvent.call()
             R.id.action_select_all -> viewModel.selectAllEvent.call()
             R.id.action_open_as -> viewModel.openAsEvent.call()
             R.id.action_rename -> viewModel.renameEvent.call()
             R.id.action_properties -> viewModel.propertiesEvent.call()
             R.id.action_copy_path -> viewModel.copyPathEvent.call()
-            R.id.sort_by_name -> viewModel.setSortMode("0")
-            R.id.sort_by_size -> viewModel.setSortMode("1")
-            R.id.sort_by_date -> viewModel.setSortMode("2")
+            R.id.action_show_hidden -> viewModel.showHidden = !item.isChecked
+            R.id.sort_by_name -> viewModel.sortMode = FileSorter.SORT_BY_NAME
+            R.id.sort_by_size -> viewModel.sortMode = FileSorter.SORT_BY_SIZE
+            R.id.sort_by_date -> viewModel.sortMode = FileSorter.SORT_BY_DATE
         }
         return super.onOptionsItemSelected(item)
     }
@@ -226,7 +224,6 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
                 stopActionMode()
             }
         })
-        viewModel.observePreferences()
     }
 
     private fun startActionMode(list: List<FileModel>) {
