@@ -179,9 +179,16 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                 showDeleteDialog(it)
             }
         })
-        // TODO viewModel.cutEvent.observe
+        viewModel.cutEvent.observe(viewLifecycleOwner, Observer {
+            val fileModels = viewModel.selectionEvent.value
+            fileModels?.let {
+                viewModel.deselectAllEvent.call()
+                viewModel.filesToCopy.replaceList(it)
+                viewModel.allowPasteFiles.set(true)
+            }
+        })
         viewModel.pasteEvent.observe(viewLifecycleOwner, Observer {
-            executeProcess(viewModel.filesToCopy, Operation.COPY) {
+            executeProcess(viewModel.filesToCopy, it) {
                 viewModel.allowPasteFiles.set(false)
                 viewModel.filesToCopy.clear()
             }
@@ -381,15 +388,24 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                     viewModel.copyFiles(fileModels, fileTree.parent)
                 }
             }
+            Operation.CUT -> {
+                dialogTitle = R.string.dialog_title_copying
+                dialogMessage = getString(R.string.message_copying)
+                dialogAction = {
+                    viewModel.cutFiles(fileModels, fileTree.parent)
+                }
+            }
         }
 
         MaterialDialog(requireContext()).show {
             title(dialogTitle)
             customView(R.layout.dialog_process)
             cancelOnTouchOutside(false)
-            positiveButton(R.string.action_run_in_background)
+            positiveButton(R.string.action_run_in_background) {
+                actionAfter.invoke()
+            }
             negativeButton(R.string.action_cancel) {
-                // viewModel.cancelProcess
+                viewModel.cancelableDisposable.dispose()
                 actionAfter.invoke()
             }
 

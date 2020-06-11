@@ -38,8 +38,11 @@ import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -76,8 +79,8 @@ class ExplorerViewModel(
     val createEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Создать файл
     val copyEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать выделенные файлы
     val deleteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Удалить выделенные файлы
-    // val cutEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вырезать выделенные файлы
-    val pasteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вставить скопированные файлы
+    val cutEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вырезать выделенные файлы
+    val pasteEvent: SingleLiveEvent<Operation> = SingleLiveEvent() // Вставить скопированные файлы
     val openAsEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Открыть файл как
     val renameEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Переименовать файл
     val propertiesEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Свойства файла
@@ -98,10 +101,17 @@ class ExplorerViewModel(
 
     val tabsList: MutableList<FileModel> = mutableListOf()
     val filesToCopy: MutableList<FileModel> = mutableListOf()
+    val cancelableDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+
     private val searchList: MutableList<FileModel> = mutableListOf()
 
     private var fileSorter: Comparator<in FileModel> = FileSorter.getComparator(sortMode)
     private var foldersOnTop: Boolean = true
+
+    override fun onCleared() {
+        super.onCleared()
+        cancelableDisposable.dispose()
+    }
 
     fun provideDirectory(fileModel: FileModel?) {
         filesystem.provideDirectory(fileModel)
@@ -141,7 +151,7 @@ class ExplorerViewModel(
                         tabsList.add(fileTree.parent)
                         tabsEvent.value = tabsList
                     }
-                    searchList.replaceList(fileTree.children) //Фильтрация по текущему списку
+                    searchList.replaceList(fileTree.children) // Фильтрация по текущему списку
                     filesEvent.value = fileTree
                 },
                 onError = {
@@ -253,14 +263,14 @@ class ExplorerViewModel(
                     }
                 }
             )
-            .disposeOnViewModelDestroy()
+            .addTo(cancelableDisposable)
     }
 
     fun copyFiles(source: List<FileModel>, dest: FileModel) {
         Observable.fromIterable(source)
             .doOnSubscribe { progressEvent.postValue(0) }
             .concatMapSingle {
-                filesystem.copyFile(it, dest, CopyOption.ABORT) // TODO: Let user choose CopyOption
+                filesystem.copyFile(it, dest, CopyOption.ABORT) // TODO Let user choose CopyOption for each file
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .schedulersIoToMain(schedulersProvider)
@@ -287,7 +297,45 @@ class ExplorerViewModel(
                     }
                 }
             )
-            .disposeOnViewModelDestroy()
+            .addTo(cancelableDisposable)
+    }
+
+    fun cutFiles(source: List<FileModel>, dest: FileModel) {
+        Observable.fromIterable(source)
+            .doOnSubscribe { progressEvent.postValue(0) }
+            .concatMapSingle {
+                filesystem.copyFile(it, dest, CopyOption.REPLACE) // TODO Let user choose CopyOption for each file
+                    .delay(20, TimeUnit.MILLISECONDS)
+            }
+            .concatMapSingle {
+                filesystem.deleteFile(it)
+                    .delay(20, TimeUnit.MILLISECONDS)
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onNext = {
+                    progressEvent.value = (progressEvent.value ?: 0) + 1
+                },
+                onComplete = {
+                    filesUpdateEvent.call()
+                    toastEvent.value = R.string.message_done
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    when (it) {
+                        is FileNotFoundException -> {
+                            toastEvent.value = R.string.message_file_not_found
+                        }
+                        is FileAlreadyExistsException -> {
+                            toastEvent.value = R.string.message_file_already_exists
+                        }
+                        else -> {
+                            toastEvent.value = R.string.message_unknown_exception
+                        }
+                    }
+                }
+            )
+            .addTo(cancelableDisposable)
     }
 
     fun propertiesOf(fileModel: FileModel) {

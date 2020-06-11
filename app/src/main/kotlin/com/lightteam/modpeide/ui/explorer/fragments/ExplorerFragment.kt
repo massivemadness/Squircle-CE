@@ -36,6 +36,7 @@ import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
+import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -53,6 +54,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
     private lateinit var adapter: DirectoryAdapter
 
     private var isClosing = false // TODO remove this
+    private var operation = Operation.COPY
 
     override fun layoutId(): Int = R.layout.fragment_explorer
 
@@ -88,7 +90,7 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             removeTabs(backStackCount - 1)
         }
         binding.actionPaste.setOnClickListener {
-            viewModel.pasteEvent.call()
+            viewModel.pasteEvent.value = operation
         }
         binding.actionCreate.setOnClickListener {
             viewModel.createEvent.call()
@@ -184,10 +186,14 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
             R.id.action_show_hidden -> {
                 viewModel.setFilterHidden(!item.isChecked)
             }
-            R.id.action_copy -> viewModel.copyEvent.call()
+            R.id.action_copy -> {
+                viewModel.copyEvent.call()
+                operation = Operation.COPY
+            }
             R.id.action_delete -> viewModel.deleteEvent.call()
             R.id.action_cut -> {
-                // TODO Implement this method
+                viewModel.cutEvent.call()
+                operation = Operation.CUT
             }
             R.id.action_select_all -> viewModel.selectAllEvent.call()
             R.id.action_open_as -> viewModel.openAsEvent.call()

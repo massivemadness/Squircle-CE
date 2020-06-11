@@ -19,5 +19,6 @@ package com.lightteam.modpeide.ui.explorer.utils
 
 enum class Operation {
     DELETE,
-    COPY
+    COPY,
+    CUT
 }

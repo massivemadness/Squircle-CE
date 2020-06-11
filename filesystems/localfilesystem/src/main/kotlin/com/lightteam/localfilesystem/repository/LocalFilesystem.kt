@@ -136,8 +136,9 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                         CopyOption.REPLACE -> true
                     }
                     sourceFile.copyRecursively(destFile, overwrite)
-                    val destFile2 = FileConverter.toModel(destFile)
-                    emitter.onSuccess(destFile2)
+                    // val destFile2 = FileConverter.toModel(destFile)
+                    // emitter.onSuccess(destFile2)
+                    emitter.onSuccess(source)
                 } else {
                     emitter.onError(FileAlreadyExistsException(dest.path))
                 }

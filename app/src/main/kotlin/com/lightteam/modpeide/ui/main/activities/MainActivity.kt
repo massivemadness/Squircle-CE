@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
         explorerOnBackPressedHandler = supportFragmentManager
             .fragment<ExplorerFragment>(R.id.fragment_explorer)
 
-        binding.drawerLayout?.multiplyDraggingEdgeSizeBy(5)
+        binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
 
         viewModel.checkForUpdates()
     }
