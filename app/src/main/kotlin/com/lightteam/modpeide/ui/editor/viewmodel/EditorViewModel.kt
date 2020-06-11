@@ -310,6 +310,12 @@ class EditorViewModel(
             .subscribeBy { preferenceEvent.offer(PreferenceEvent.CodeCompletion(it)) }
             .disposeOnViewModelDestroy()
 
+        preferenceHandler.getErrorHighlighting()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.ErrorHighlight(it)) }
+            .disposeOnViewModelDestroy()
+
         preferenceHandler.getPinchZoom()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)

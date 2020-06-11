@@ -102,28 +102,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                 viewModel.canRedo.set(binding.editor.canRedo())
             }
         }
-
-        if (requireContext().isUltimate()) {
-            binding.editor
-                .afterTextChangeEvents()
-                .skipInitialValue()
-                .debounce(1500, TimeUnit.MILLISECONDS)
-                .filter { it.editable?.isNotEmpty() ?: false }
-                .distinctUntilChanged()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy {
-                    if (adapter.selectedPosition > -1) {
-                        binding.editor.language?.let {
-                            viewModel.parse(
-                                it,
-                                adapter.selectedPosition,
-                                binding.editor.getProcessedText()
-                            )
-                        }
-                    }
-                }
-                .disposeOnFragmentDestroyView()
-        }
     }
 
     override fun onDestroyView() {
@@ -222,6 +200,29 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
                     is PreferenceEvent.CodeCompletion -> {
                         val newConfiguration = binding.editor.config.copy(codeCompletion = event.value)
                         binding.editor.config = newConfiguration
+                    }
+                    is PreferenceEvent.ErrorHighlight -> {
+                        if (requireContext().isUltimate() && event.value) {
+                            binding.editor
+                                .afterTextChangeEvents()
+                                .skipInitialValue()
+                                .debounce(1500, TimeUnit.MILLISECONDS)
+                                .filter { it.editable?.isNotEmpty() ?: false }
+                                .distinctUntilChanged()
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeBy {
+                                    if (adapter.selectedPosition > -1) {
+                                        binding.editor.language?.let {
+                                            viewModel.parse(
+                                                it,
+                                                adapter.selectedPosition,
+                                                binding.editor.getProcessedText()
+                                            )
+                                        }
+                                    }
+                                }
+                                .disposeOnFragmentDestroyView()
+                        }
                     }
                     is PreferenceEvent.PinchZoom -> {
                         val newConfiguration = binding.editor.config.copy(pinchZoom = event.value)

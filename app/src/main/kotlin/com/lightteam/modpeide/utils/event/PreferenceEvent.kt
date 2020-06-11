@@ -25,6 +25,7 @@ sealed class PreferenceEvent<T>(val value: T) {
     class FontType(value: String) : PreferenceEvent<String>(value)
     class WordWrap(value: Boolean) : PreferenceEvent<Boolean>(value)
     class CodeCompletion(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class ErrorHighlight(value: Boolean) : PreferenceEvent<Boolean>(value)
     class PinchZoom(value: Boolean) : PreferenceEvent<Boolean>(value)
     class CurrentLine(value: Boolean) : PreferenceEvent<Boolean>(value)
     class Delimiters(value: Boolean) : PreferenceEvent<Boolean>(value)

@@ -31,6 +31,7 @@ class EditorFragment : DaggerPreferenceFragmentCompat() {
     companion object {
         private const val KEY_FONT_TYPE = PreferenceHandler.KEY_FONT_TYPE
         private const val KEY_TAB_LIMIT = PreferenceHandler.KEY_TAB_LIMIT
+        private const val KEY_ERROR_HIGHLIGHTING = PreferenceHandler.KEY_ERROR_HIGHLIGHTING
     }
 
     private lateinit var navController: NavController
@@ -40,11 +41,12 @@ class EditorFragment : DaggerPreferenceFragmentCompat() {
 
         navController = findNavController()
         val isUltimate = requireContext().isUltimate()
-        findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = isUltimate
         findPreference<Preference>(KEY_FONT_TYPE)?.setOnPreferenceClickListener {
             val destination = EditorFragmentDirections.toFontsFragment()
             navController.navigate(destination)
             true
         }
+        findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = isUltimate
+        findPreference<Preference>(KEY_ERROR_HIGHLIGHTING)?.isEnabled = isUltimate
     }
 }

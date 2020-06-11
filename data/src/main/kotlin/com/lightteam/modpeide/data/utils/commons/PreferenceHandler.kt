@@ -43,6 +43,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         // Editor
         const val KEY_WORD_WRAP = "WORD_WRAP"
         const val KEY_CODE_COMPLETION = "CODE_COMPLETION"
+        const val KEY_ERROR_HIGHLIGHTING = "ERROR_HIGHLIGHTING"
         const val KEY_PINCH_ZOOM = "PINCH_ZOOM"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
         const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
@@ -80,6 +81,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     fun getWordWrap(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_WORD_WRAP, true)
     fun getCodeCompletion(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
+    fun getErrorHighlighting(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_ERROR_HIGHLIGHTING, true)
     fun getPinchZoom(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
     fun getHighlightCurrentLine(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)
     fun getHighlightMatchingDelimiters(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
