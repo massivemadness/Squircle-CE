@@ -23,7 +23,7 @@ import dagger.android.support.DaggerApplication
 
 class BaseApplication : DaggerApplication() {
 
-    companion object Package {
+    companion object {
         const val STANDARD = "com.KillerBLS.modpeide"
         const val ULTIMATE = "com.LightTeam.modpeidepro"
     }

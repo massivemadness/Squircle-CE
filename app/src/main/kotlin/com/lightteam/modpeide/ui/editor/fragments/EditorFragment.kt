@@ -152,7 +152,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
             }
         })
         viewModel.contentEvent.observe(viewLifecycleOwner, Observer { content ->
-            viewModel.setSelectedDocumentId(content.documentModel.uuid)
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack

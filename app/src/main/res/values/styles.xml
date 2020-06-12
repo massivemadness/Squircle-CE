@@ -98,6 +98,7 @@
 
     <style name="Widget.AppTheme.Snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
         <item name="backgroundTint">?colorSecondaryVariant</item>
+        <item name="actionTextColorAlpha">1.0</item>
     </style>
 
     <!-- endregion SNACKBAR -->

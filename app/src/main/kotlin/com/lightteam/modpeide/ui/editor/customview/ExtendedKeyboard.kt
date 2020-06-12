@@ -27,11 +27,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 
-class ExtendedKeyboard(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
-
-    interface OnKeyListener {
-        fun onKey(char: String)
-    }
+class ExtendedKeyboard @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : RecyclerView(context, attrs, defStyleAttr) {
 
     private lateinit var keyAdapter: KeyAdapter
 
@@ -93,5 +93,9 @@ class ExtendedKeyboard(context: Context, attributeSet: AttributeSet) : RecyclerV
                 textView.text = char
             }
         }
+    }
+
+    interface OnKeyListener {
+        fun onKey(char: String)
     }
 }

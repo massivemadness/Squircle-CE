@@ -319,6 +319,7 @@
                 android:dropDownAnchor="@id/document_recycler_view"
                 android:completionThreshold="2"
                 android:popupBackground="?colorSurface"
+                android:background="@null"
                 android:scrollbars="none"
                 android:id="@+id/editor"/>
 
@@ -327,8 +328,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:id="@+id/scroller"
-                app:thumbNormal="@drawable/fastscroll_thumb_default"
-                app:thumbDragging="@drawable/fastscroll_thumb_pressed"
+                app:thumbNormal="@drawable/fastscroll_default"
+                app:thumbDragging="@drawable/fastscroll_pressed"
                 app:thumbTint="?colorPrimary"/>
 
         </FrameLayout>

@@ -48,7 +48,7 @@ class MainViewModel(
     val updateEvent: SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>> = SingleLiveEvent()
     val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val backEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val confirmExitEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     val openDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
     val closeDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
@@ -98,7 +98,7 @@ class MainViewModel(
         preferenceHandler.getConfirmExit()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { backEvent.value = it }
+            .subscribeBy { confirmExitEvent.value = it }
             .disposeOnViewModelDestroy()
     }
 

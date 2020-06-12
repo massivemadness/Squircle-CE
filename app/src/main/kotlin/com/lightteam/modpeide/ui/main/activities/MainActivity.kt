@@ -34,10 +34,8 @@ import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
 import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
-import com.lightteam.modpeide.utils.extensions.getColour
 import com.lightteam.modpeide.utils.extensions.multiplyDraggingEdgeSizeBy
 import javax.inject.Inject
-
 
 class MainActivity : BaseActivity() {
 
@@ -88,7 +86,7 @@ class MainActivity : BaseActivity() {
             }
         } else {
             if (!editorOnBackPressedHandler.handleOnBackPressed()) {
-                if (viewModel.backEvent.value != false) {
+                if (viewModel.confirmExitEvent.value != false) {
                     MaterialDialog(this).show {
                         title(R.string.dialog_title_exit)
                         message(R.string.dialog_message_exit)
@@ -118,7 +116,6 @@ class MainActivity : BaseActivity() {
         })
         viewModel.installEvent.observe(this, Observer {
             Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
-                .setActionTextColor(getColour(R.color.colorPrimary))
                 .setAction(R.string.action_restart) { viewModel.completeUpdate() }
                 .show()
         })

@@ -29,9 +29,8 @@ import com.lightteam.modpeide.R
 class DialogStore(context: Context, themeResId: Int) : AlertDialog(context, themeResId) {
 
     companion object {
-        private const val PACKAGE_NAME = BaseApplication.ULTIMATE
-        private const val URI_ANDROID_MARKET = "market://details?id=$PACKAGE_NAME"
-        private const val URI_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=$PACKAGE_NAME"
+        private const val URI_ANDROID_MARKET = "market://details?id=${BaseApplication.ULTIMATE}"
+        private const val URI_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=${BaseApplication.ULTIMATE}"
     }
 
     class Builder(context: Context) : AlertDialog.Builder(context, R.style.Theme_MaterialComponents_Light_Dialog_Alert) {

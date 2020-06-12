@@ -102,8 +102,8 @@ class TextScroller @JvmOverloads constructor(
         thumbDragging = typedArray.getDrawableOrThrow(R.styleable.TextScroller_thumbDragging)
 
         val thumbTint = typedArray.getColor(R.styleable.TextScroller_thumbTint, Color.WHITE)
-        thumbNormal.mutate().setColorFilter(thumbTint, PorterDuff.Mode.SRC_IN)
-        thumbDragging.mutate().setColorFilter(thumbTint, PorterDuff.Mode.SRC_IN)
+        thumbNormal.setTint(thumbTint)
+        thumbDragging.setTint(thumbTint)
 
         thumbHeight = thumbNormal.intrinsicHeight
 

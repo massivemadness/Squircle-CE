@@ -86,6 +86,10 @@ class EditorViewModel(
 
     val tabsList: MutableList<DocumentModel> = mutableListOf()
 
+    var selectedDocumentId: String
+        get() = preferenceHandler.getSelectedDocumentId().get()
+        set(value) = preferenceHandler.getSelectedDocumentId().set(value)
+
     private fun loadFiles() {
         if (resumeSessionEvent.value!!) { // must receive value before calling
             appDatabase.documentDao().loadAll()
@@ -122,10 +126,8 @@ class EditorViewModel(
 
     fun loadSelection() {
         tabSelectionEvent.value = if (tabsList.isNotEmpty()) {
-            tabsList.indexBy(getSelectedDocumentId()) ?: 0
-        } else {
-            -1
-        }
+            tabsList.indexBy(selectedDocumentId) ?: 0
+        } else -1
     }
 
     fun loadFile(documentModel: DocumentModel) {
@@ -140,6 +142,7 @@ class EditorViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
+                    selectedDocumentId = it.documentModel.uuid
                     contentEvent.value = it
                 },
                 onError = {
@@ -225,7 +228,7 @@ class EditorViewModel(
             if (tabsList.size < tabLimitEvent.value!!) {
                 tabsList.add(documentModel)
                 stateNothingFound.set(tabsList.isEmpty())
-                setSelectedDocumentId(documentModel.uuid)
+                selectedDocumentId = documentModel.uuid
                 tabsEvent.value = tabsList
             } else {
                 toastEvent.value = R.string.message_tab_limit_achieved
@@ -244,14 +247,6 @@ class EditorViewModel(
     }
 
     // region PREFERENCES
-
-    fun getSelectedDocumentId(): String {
-        return preferenceHandler.getSelectedDocumentId().get()
-    }
-
-    fun setSelectedDocumentId(uuid: String) {
-        preferenceHandler.getSelectedDocumentId().set(uuid)
-    }
 
     fun observePreferences() {
         preferenceHandler.getColorScheme()
