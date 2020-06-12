@@ -30,15 +30,13 @@ import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
 import javax.inject.Inject
 
-class ExternalFontFragment : BaseFragment() {
+class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
 
     @Inject
     lateinit var viewModel: FontsViewModel
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentExternalFontBinding
-
-    override fun layoutId(): Int = R.layout.fragment_external_font
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

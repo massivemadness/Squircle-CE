@@ -18,18 +18,6 @@
 package com.lightteam.modpeide.utils.extensions
 
 import android.content.res.Resources
-import android.os.Build
-import android.text.Html
-import android.text.Spanned
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
-
-fun String.asHtml(): Spanned {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
-    } else {
-        @Suppress("DEPRECATION")
-        Html.fromHtml(this)
-    }
-}

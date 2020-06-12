@@ -36,7 +36,7 @@ import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
-class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
+class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.ThemeInteractor {
 
     @Inject
     lateinit var viewModel: ThemesViewModel
@@ -44,8 +44,6 @@ class ThemesFragment : BaseFragment(), ThemeAdapter.ThemeInteractor {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentThemesBinding
     private lateinit var adapter: ThemeAdapter
-
-    override fun layoutId(): Int = R.layout.fragment_themes
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -32,7 +32,7 @@ import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
 import com.lightteam.modpeide.utils.extensions.launchPermissionActivity
 import javax.inject.Inject
 
-class PermissionsFragment : BaseFragment() {
+class PermissionsFragment : BaseFragment(R.layout.fragment_permissions) {
 
     companion object {
         private const val REQUEST_CODE_STORAGE_DIALOG = 1
@@ -44,8 +44,6 @@ class PermissionsFragment : BaseFragment() {
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentPermissionsBinding
-
-    override fun layoutId(): Int = R.layout.fragment_permissions
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

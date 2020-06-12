@@ -31,7 +31,7 @@ import com.lightteam.modpeide.ui.settings.adapters.item.PreferenceItem
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import javax.inject.Inject
 
-class HeadersFragment : BaseFragment(), OnItemClickListener<PreferenceItem> {
+class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickListener<PreferenceItem> {
 
     @Inject
     lateinit var viewModel: SettingsViewModel
@@ -40,8 +40,6 @@ class HeadersFragment : BaseFragment(), OnItemClickListener<PreferenceItem> {
     private lateinit var binding: FragmentHeadersBinding
     private lateinit var adapter: PreferenceAdapter
 
-    override fun layoutId(): Int = R.layout.fragment_headers
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHeadersBinding.bind(view)
@@ -49,9 +47,8 @@ class HeadersFragment : BaseFragment(), OnItemClickListener<PreferenceItem> {
 
         navController = findNavController()
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = PreferenceAdapter(this).also {
-            adapter = it
-        }
+        binding.recyclerView.adapter = PreferenceAdapter(this)
+            .also { adapter = it }
 
         viewModel.fetchHeaders()
     }

@@ -23,20 +23,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseFragment : DaggerFragment() {
+abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : DaggerFragment() {
 
     private val viewCompositeDisposable by lazy { CompositeDisposable() }
 
-    abstract fun layoutId(): Int
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(layoutId(), container, false)
+        return inflater.inflate(layoutRes, container, false)
     }
 
     override fun onDestroyView() {

@@ -57,7 +57,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
+class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
     ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener,
     DocumentAdapter.TabInteractor, OnBackPressedHandler {
 
@@ -70,8 +70,6 @@ class EditorFragment : BaseFragment(), ToolbarManager.OnPanelClickListener,
 
     private lateinit var binding: FragmentEditorBinding
     private lateinit var adapter: DocumentAdapter
-
-    override fun layoutId(): Int = R.layout.fragment_editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

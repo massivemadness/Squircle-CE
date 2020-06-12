@@ -44,7 +44,8 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabSelectedListener {
+class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
+    OnBackPressedHandler, TabAdapter.OnTabSelectedListener {
 
     @Inject
     lateinit var viewModel: ExplorerViewModel
@@ -55,8 +56,6 @@ class ExplorerFragment : BaseFragment(), OnBackPressedHandler, TabAdapter.OnTabS
 
     private var isClosing = false // TODO remove this
     private var operation = Operation.COPY
-
-    override fun layoutId(): Int = R.layout.fragment_explorer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -53,7 +53,6 @@ import com.lightteam.modpeide.ui.explorer.utils.FileKeyProvider
 import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
-import com.lightteam.modpeide.utils.extensions.asHtml
 import com.lightteam.modpeide.utils.extensions.clipText
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -64,7 +63,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
+class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
 
     @Inject
     lateinit var sharedViewModel: MainViewModel
@@ -79,8 +78,6 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
     private lateinit var tracker: SelectionTracker<FileModel>
     private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
-
-    override fun layoutId(): Int = R.layout.fragment_directory
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -351,8 +348,8 @@ class DirectoryFragment : BaseFragment(), OnItemClickListener<FileModel> {
                     getString(R.string.properties_size).format(propertiesModel.size) +
                     getString(R.string.properties_line_count).format(propertiesModel.lines) +
                     getString(R.string.properties_word_count).format(propertiesModel.words) +
-                    getString(R.string.properties_char_count).format(propertiesModel.chars)).asHtml()
-            )
+                    getString(R.string.properties_char_count).format(propertiesModel.chars))
+            ) { html() }
             customView(R.layout.dialog_properties, scrollable = true)
 
             val readable = findViewById<CheckBox>(R.id.readable)

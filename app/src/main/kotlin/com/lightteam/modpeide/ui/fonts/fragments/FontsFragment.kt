@@ -33,7 +33,7 @@ import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
-class FontsFragment : BaseFragment(), FontAdapter.FontInteractor {
+class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInteractor {
 
     @Inject
     lateinit var viewModel: FontsViewModel
@@ -41,8 +41,6 @@ class FontsFragment : BaseFragment(), FontAdapter.FontInteractor {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentFontsBinding
     private lateinit var adapter: FontAdapter
-
-    override fun layoutId(): Int = R.layout.fragment_fonts
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

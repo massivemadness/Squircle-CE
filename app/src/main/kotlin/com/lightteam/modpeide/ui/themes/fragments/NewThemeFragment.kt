@@ -47,7 +47,7 @@ import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import javax.inject.Inject
 
-class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
+class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickListener<PropertyItem> {
 
     companion object {
         private const val REQUEST_CODE_FILE_CHOOSER = 11
@@ -62,8 +62,6 @@ class NewThemeFragment : BaseFragment(), OnItemClickListener<PropertyItem> {
     private lateinit var binding: FragmentNewThemeBinding
     private lateinit var adapter: PropertyAdapter
     private lateinit var meta: Meta
-
-    override fun layoutId(): Int = R.layout.fragment_new_theme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
