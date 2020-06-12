@@ -17,7 +17,6 @@
 
 package com.lightteam.modpeide.ui.themes.adapters
 
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.graphics.toColorInt
@@ -76,7 +75,7 @@ class PropertyAdapter(
             propertyItem = item
             binding.itemTitle.text = item.propertyKey.key
             binding.itemSubtitle.setText(item.description)
-            binding.itemColor.setColorFilter(item.propertyValue.toColorInt(), PorterDuff.Mode.SRC_IN)
+            binding.itemColor.drawable.setTint(item.propertyValue.toColorInt())
         }
     }
 }

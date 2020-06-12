@@ -59,7 +59,7 @@
         <activity
             android:name="com.lightteam.modpeide.ui.settings.activities.SettingsActivity"
             android:parentActivityName="com.lightteam.modpeide.ui.main.activities.MainActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboard|keyboardHidden"
             android:label="@string/label_settings"/>
 
         <provider

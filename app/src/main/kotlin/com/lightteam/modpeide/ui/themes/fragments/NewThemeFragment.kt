@@ -17,16 +17,13 @@
 
 package com.lightteam.modpeide.ui.themes.fragments
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
@@ -45,6 +42,7 @@ import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.themes.adapters.PropertyAdapter
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
+import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
 import javax.inject.Inject
 
 class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickListener<PropertyItem> {
@@ -66,6 +64,9 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        if (savedInstanceState == null) {
+            viewModel.fetchProperties(args.uuid)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,15 +102,13 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         }
 
         binding.actionSaveTheme.setOnClickListener {
-            val meta = this.meta.copy(
+            val metaData = this.meta.copy(
                 name = binding.textInputThemeName.text.toString(),
                 author = binding.textInputThemeAuthor.text.toString(),
                 description = binding.textInputThemeDescription.text.toString()
             )
-            viewModel.createTheme(meta, adapter.currentList)
+            viewModel.createTheme(metaData, adapter.currentList)
         }
-
-        viewModel.fetchProperties(args.uuid)
     }
 
 
@@ -123,12 +122,9 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_import -> {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED) {
+                if (requireContext().hasExternalStorageAccess()) {
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                        type = "application/octet-stream" // Only way to choose .json files
+                        type = "application/json"
                     }
                     val fileChooser = Intent.createChooser(intent, getString(R.string.message_choose_theme_json))
                     startActivityForResult(fileChooser, REQUEST_CODE_FILE_CHOOSER)

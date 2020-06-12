@@ -40,6 +40,11 @@ class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickList
     private lateinit var binding: FragmentHeadersBinding
     private lateinit var adapter: PreferenceAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.fetchHeaders()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHeadersBinding.bind(view)
@@ -49,8 +54,6 @@ class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickList
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = PreferenceAdapter(this)
             .also { adapter = it }
-
-        viewModel.fetchHeaders()
     }
 
     override fun onClick(item: PreferenceItem) {

@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.ui.settings.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
@@ -33,10 +34,14 @@ class ApplicationFragment : DaggerPreferenceFragmentCompat() {
 
     private lateinit var navController: NavController
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_application, rootKey)
 
-        navController = findNavController()
         findPreference<Preference>(KEY_COLOR_SCHEME)?.setOnPreferenceClickListener {
             val destination = ApplicationFragmentDirections.toThemesFragment()
             navController.navigate(destination)

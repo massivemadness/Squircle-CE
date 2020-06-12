@@ -24,12 +24,13 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_theme"
-        tools:itemCount="3"/>
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="@integer/themes_row_count"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_theme" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"

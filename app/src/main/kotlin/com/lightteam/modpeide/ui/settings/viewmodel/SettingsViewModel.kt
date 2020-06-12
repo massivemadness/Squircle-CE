@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.ui.settings.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.R
@@ -34,7 +35,7 @@ class SettingsViewModel(
 ) : BaseViewModel() {
 
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val headersEvent: SingleLiveEvent<List<PreferenceItem>> = SingleLiveEvent()
+    val headersEvent: MutableLiveData<List<PreferenceItem>> = MutableLiveData()
 
     fun fetchHeaders() {
         headersEvent.value = listOf(

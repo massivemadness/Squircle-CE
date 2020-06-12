@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.themes.viewmodel
 
 import android.os.Environment
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
@@ -62,11 +63,11 @@ class ThemesViewModel(
     }
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent()
-    val themesEvent: SingleLiveEvent<List<ThemeModel>> = SingleLiveEvent()
+    val themesEvent: MutableLiveData<List<ThemeModel>> = MutableLiveData()
 
-    val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val validationEvent: MutableLiveData<Boolean> = MutableLiveData()
     val metaEvent: SingleLiveEvent<Meta> = SingleLiveEvent()
-    val propertiesEvent: SingleLiveEvent<List<PropertyItem>> = SingleLiveEvent()
+    val propertiesEvent: MutableLiveData<List<PropertyItem>> = MutableLiveData()
 
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val exportEvent: SingleLiveEvent<String> = SingleLiveEvent()

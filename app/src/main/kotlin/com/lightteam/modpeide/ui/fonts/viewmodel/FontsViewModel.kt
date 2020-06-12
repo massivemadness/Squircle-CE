@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.ui.fonts.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.data.converter.FontConverter
@@ -37,8 +38,8 @@ class FontsViewModel(
     private val appDatabase: AppDatabase
 ) : BaseViewModel() {
 
-    val fontsEvent: SingleLiveEvent<List<FontModel>> = SingleLiveEvent()
-    val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val fontsEvent: MutableLiveData<List<FontModel>> = MutableLiveData()
+    val validationEvent: MutableLiveData<Boolean> = MutableLiveData()
 
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
@@ -82,7 +83,8 @@ class FontsViewModel(
 
     fun validateInput(fontName: String, fontPath: String) {
         val isFontNameValid = fontName.trim().isNotBlank()
-        val isFontPathValid = fontPath.trim().isNotBlank() && File(fontPath).run { exists() && name.endsWith(".ttf") }
+        val isFontPathValid = fontPath.trim().isNotBlank() && File(fontPath)
+            .run { exists() && name.endsWith(".ttf") }
         validationEvent.value = isFontNameValid && isFontPathValid
     }
 

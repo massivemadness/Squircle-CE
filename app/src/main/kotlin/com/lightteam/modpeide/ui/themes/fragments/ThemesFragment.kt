@@ -17,22 +17,22 @@
 
 package com.lightteam.modpeide.ui.themes.fragments
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.databinding.FragmentThemesBinding
+import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.themes.adapters.ThemeAdapter
+import com.lightteam.modpeide.ui.themes.utils.GridSpacingItemDecoration
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
+import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import javax.inject.Inject
 
@@ -51,7 +51,10 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
         observeViewModel()
 
         navController = findNavController()
+        val gridLayoutManager = binding.recyclerView.layoutManager as GridLayoutManager
+        val gridSpacingDecoration = GridSpacingItemDecoration(8, gridLayoutManager.spanCount)
         binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.addItemDecoration(gridSpacingDecoration)
         binding.recyclerView.adapter = ThemeAdapter(this)
             .also { adapter = it }
 
@@ -76,10 +79,7 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
     }
 
     override fun exportTheme(themeModel: ThemeModel) {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED) {
+        if (requireContext().hasExternalStorageAccess()) {
             viewModel.exportTheme(themeModel)
         } else {
             showToast(R.string.message_access_required)
