@@ -79,36 +79,14 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         binding.recyclerView.adapter = PropertyAdapter(this)
             .also { adapter = it }
 
-        binding.textInputThemeName.doAfterTextChanged {
-            viewModel.validateInput(
-                it.toString(),
-                binding.textInputThemeAuthor.text.toString(),
-                binding.textInputThemeDescription.text.toString()
-            )
-        }
-        binding.textInputThemeAuthor.doAfterTextChanged {
-            viewModel.validateInput(
-                binding.textInputThemeName.text.toString(),
-                it.toString(),
-                binding.textInputThemeDescription.text.toString()
-            )
-        }
-        binding.textInputThemeDescription.doAfterTextChanged {
-            viewModel.validateInput(
-                binding.textInputThemeName.text.toString(),
-                binding.textInputThemeAuthor.text.toString(),
-                it.toString()
-            )
-        }
-
         binding.actionSaveTheme.setOnClickListener {
-            val metaData = this.meta.copy(
-                name = binding.textInputThemeName.text.toString(),
-                author = binding.textInputThemeAuthor.text.toString(),
-                description = binding.textInputThemeDescription.text.toString()
-            )
-            viewModel.createTheme(metaData, adapter.currentList)
+            viewModel.createTheme(meta, adapter.currentList)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.metaEvent.value = meta
     }
 
 
@@ -180,6 +158,11 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         })
         viewModel.metaEvent.observe(viewLifecycleOwner, Observer {
             meta = it
+
+            binding.textInputThemeName.doAfterTextChanged { updateMeta() }
+            binding.textInputThemeAuthor.doAfterTextChanged { updateMeta() }
+            binding.textInputThemeDescription.doAfterTextChanged { updateMeta() }
+
             binding.textInputThemeName.setText(it.name)
             binding.textInputThemeAuthor.setText(it.author)
             binding.textInputThemeDescription.setText(it.description)
@@ -187,5 +170,14 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+    }
+
+    private fun updateMeta() {
+        meta = meta.copy(
+            name = binding.textInputThemeName.text.toString(),
+            author = binding.textInputThemeAuthor.text.toString(),
+            description = binding.textInputThemeDescription.text.toString()
+        )
+        viewModel.validateInput(meta.name, meta.author, meta.description)
     }
 }

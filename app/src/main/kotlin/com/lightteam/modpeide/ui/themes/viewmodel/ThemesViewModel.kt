@@ -65,8 +65,8 @@ class ThemesViewModel(
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent()
     val themesEvent: MutableLiveData<List<ThemeModel>> = MutableLiveData()
 
-    val validationEvent: MutableLiveData<Boolean> = MutableLiveData()
-    val metaEvent: SingleLiveEvent<Meta> = SingleLiveEvent()
+    val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val metaEvent: MutableLiveData<Meta> = MutableLiveData()
     val propertiesEvent: MutableLiveData<List<PropertyItem>> = MutableLiveData()
 
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
