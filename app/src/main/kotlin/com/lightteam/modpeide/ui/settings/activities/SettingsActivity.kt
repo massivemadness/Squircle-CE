@@ -26,7 +26,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
-import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
 import com.lightteam.modpeide.utils.extensions.isUltimate
@@ -57,7 +56,7 @@ class SettingsActivity : BaseActivity() {
 
         binding.buttonContainer.isGone = isUltimate()
         binding.buttonUnlockFeatures.setOnClickListener {
-            DialogStore.Builder(this).show()
+            navController.navigate(R.id.storeDialog)
         }
     }
 

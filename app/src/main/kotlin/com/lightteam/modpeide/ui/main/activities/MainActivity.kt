@@ -23,7 +23,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
-import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.install.model.ActivityResult
 import com.lightteam.modpeide.R
@@ -32,6 +31,7 @@ import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
 import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
+import com.lightteam.modpeide.ui.main.dialogs.ConfirmExitDialog
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
 import com.lightteam.modpeide.utils.extensions.multiplyDraggingEdgeSizeBy
@@ -87,14 +87,7 @@ class MainActivity : BaseActivity() {
         } else {
             if (!editorOnBackPressedHandler.handleOnBackPressed()) {
                 if (viewModel.confirmExitEvent.value != false) {
-                    MaterialDialog(this).show {
-                        title(R.string.dialog_title_exit)
-                        message(R.string.dialog_message_exit)
-                        negativeButton(R.string.action_no)
-                        positiveButton(R.string.action_yes) {
-                            finish()
-                        }
-                    }
+                    ConfirmExitDialog().show(supportFragmentManager, ConfirmExitDialog.DIALOG_TAG)
                 } else {
                     finish()
                 }

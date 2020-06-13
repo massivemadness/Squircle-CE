@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentThemesBinding
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
-import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.themes.adapters.ThemeAdapter
 import com.lightteam.modpeide.ui.themes.utils.GridSpacingItemDecoration
@@ -63,7 +62,7 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
                 val destination = ThemesFragmentDirections.toNewThemeFragment(null)
                 navController.navigate(destination)
             } else {
-                DialogStore.Builder(requireContext()).show()
+                navController.navigate(R.id.storeDialog)
             }
         }
 
@@ -72,7 +71,7 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
 
     override fun selectTheme(themeModel: ThemeModel) {
         if (themeModel.isPaid && !requireContext().isUltimate()) {
-            DialogStore.Builder(requireContext()).show()
+            navController.navigate(R.id.storeDialog)
         } else {
             viewModel.selectTheme(themeModel)
         }

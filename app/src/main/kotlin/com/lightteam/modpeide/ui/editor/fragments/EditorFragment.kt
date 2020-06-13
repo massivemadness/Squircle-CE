@@ -36,7 +36,7 @@ import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
-import com.lightteam.modpeide.ui.base.dialogs.DialogStore
+import com.lightteam.modpeide.ui.base.dialogs.StoreDialog
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.editor.adapters.BasicSuggestionAdapter
@@ -339,6 +339,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     // endregion TABS
 
+    private fun showStoreDialog() {
+        StoreDialog().show(childFragmentManager, StoreDialog.DIALOG_TAG)
+    }
+
     // region TOOLBAR
 
     override fun onDrawerButton() {
@@ -497,10 +501,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     val input = getCustomView().findViewById<TextInputEditText>(R.id.input)
                     val inputResult = input.text.toString()
                     if (inputResult.isNotEmpty()) {
-                        val toLine = inputResult.toInt() - 1 // т.к первая линия 0
+                        val line = inputResult.toInt() - 1 // т.к первая линия 0
                         when {
-                            toLine <= 0 -> showToast(R.string.message_line_above_than_0)
-                            toLine < binding.editor.arrayLineCount -> binding.editor.gotoLine(toLine)
+                            line <= 0 -> showToast(R.string.message_line_above_than_0)
+                            line < binding.editor.arrayLineCount -> binding.editor.gotoLine(line)
                             else -> showToast(R.string.message_line_not_exists)
                         }
                     } else {
@@ -568,7 +572,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 showToast(R.string.message_no_open_files)
             }
         } else {
-            DialogStore.Builder(requireContext()).show()
+            showStoreDialog()
         }
     }
 
@@ -593,7 +597,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 showToast(R.string.message_no_open_files)
             }
         } else {
-            DialogStore.Builder(requireContext()).show()
+            showStoreDialog()
         }
     }
 

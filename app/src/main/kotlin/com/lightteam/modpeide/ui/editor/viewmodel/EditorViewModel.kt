@@ -251,16 +251,13 @@ class EditorViewModel(
     fun observePreferences() {
         preferenceHandler.getColorScheme()
             .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy {
+            .flatMapSingle {
                 appDatabase.themeDao().load(it)
-                    .map(ThemeConverter::toModel)
                     .schedulersIoToMain(schedulersProvider)
-                    .subscribeBy { theme ->
-                        preferenceEvent.offer(PreferenceEvent.ThemePref(theme))
-                    }
-                    .disposeOnViewModelDestroy()
             }
+            .map(ThemeConverter::toModel)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.ThemePref(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getFontSize()

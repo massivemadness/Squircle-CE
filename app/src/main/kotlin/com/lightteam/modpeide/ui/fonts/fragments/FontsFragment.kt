@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.databinding.FragmentFontsBinding
-import com.lightteam.modpeide.ui.base.dialogs.DialogStore
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.fonts.adapters.FontAdapter
 import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
@@ -59,7 +58,7 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
                 val destination = FontsFragmentDirections.toExternalFontFragment()
                 navController.navigate(destination)
             } else {
-                DialogStore.Builder(requireContext()).show()
+                navController.navigate(R.id.storeDialog)
             }
         }
 
@@ -68,7 +67,7 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
 
     override fun selectFont(fontModel: FontModel) {
         if (fontModel.isPaid && !requireContext().isUltimate()) {
-            DialogStore.Builder(requireContext()).show()
+            navController.navigate(R.id.storeDialog)
         } else {
             viewModel.selectFont(fontModel)
         }

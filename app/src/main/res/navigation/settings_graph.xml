@@ -75,7 +75,14 @@
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.lightteam.modpeide.ui.settings.fragments.AboutFragment"
-        android:label="@string/label_about"/>
+        android:label="@string/label_about">
+        <action
+            android:id="@+id/action_aboutFragment_to_changeLogDialog"
+            app:destination="@id/changeLogDialog" />
+        <action
+            android:id="@+id/action_aboutFragment_to_privacyPolicyDialog"
+            app:destination="@id/privacyPolicyDialog" />
+    </fragment>
 
     <fragment
         android:id="@+id/fontsFragment"
@@ -113,5 +120,20 @@
             app:nullable="true"
             app:argType="string"/>
     </fragment>
+
+    <dialog
+        android:id="@+id/changeLogDialog"
+        android:name="com.lightteam.modpeide.ui.settings.dialogs.ChangeLogDialog"
+        android:label="@string/dialog_title_changelog"/>
+
+    <dialog
+        android:id="@+id/privacyPolicyDialog"
+        android:name="com.lightteam.modpeide.ui.settings.dialogs.PrivacyPolicyDialog"
+        android:label="@string/dialog_title_privacy_policy"/>
+
+    <dialog
+        android:id="@+id/storeDialog"
+        android:name="com.lightteam.modpeide.ui.base.dialogs.StoreDialog"
+        android:label="@string/dialog_title_store"/>
 
 </navigation>
