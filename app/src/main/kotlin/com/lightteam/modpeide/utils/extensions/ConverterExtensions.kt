@@ -18,6 +18,13 @@
 package com.lightteam.modpeide.utils.extensions
 
 import android.content.res.Resources
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+fun Long.toReadableDate(): String {
+    val dateFormat = SimpleDateFormat("dd MMM yy E HH:mm:ss", Locale.getDefault())
+    return dateFormat.format(this)
+}

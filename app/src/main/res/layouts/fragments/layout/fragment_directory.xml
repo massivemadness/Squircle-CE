@@ -37,7 +37,7 @@
             android:scrollbars="vertical"
             android:id="@+id/recycler_view"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_file"
+            tools:listitem="@layout/item_file_compact"
             tools:itemCount="10"/>
 
         <ProgressBar

@@ -17,27 +17,27 @@
 
 package com.lightteam.modpeide.ui.explorer.adapters
 
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.filesystem.model.FileModel
-import com.lightteam.filesystem.model.FileType
-import com.lightteam.modpeide.R
-import com.lightteam.modpeide.databinding.ItemFileBinding
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.explorer.adapters.FileAdapter.FileViewHolder
-import com.lightteam.modpeide.utils.extensions.setSelectableBackground
-import com.lightteam.modpeide.utils.extensions.setTint
 
 class FileAdapter(
     private val selectionTracker: SelectionTracker<FileModel>,
-    private val onItemClickListener: OnItemClickListener<FileModel>
+    private val onItemClickListener: OnItemClickListener<FileModel>,
+    private val viewMode: Int
 ) : ListAdapter<FileModel, FileViewHolder>(diffCallback) {
 
     companion object {
+
+        const val VIEW_MODE_COMPACT = 0
+        const val VIEW_MODE_DETAILED = 1
+
         private val diffCallback = object : DiffUtil.ItemCallback<FileModel>() {
             override fun areItemsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {
                 return oldItem.path == newItem.path
@@ -49,7 +49,11 @@ class FileAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
-        return FileViewHolder.create(parent, onItemClickListener)
+        return when (viewMode) {
+            VIEW_MODE_COMPACT -> CompactViewHolder.create(parent, onItemClickListener)
+            VIEW_MODE_DETAILED -> DetailedViewHolder.create(parent, onItemClickListener)
+            else -> CompactViewHolder.create(parent, onItemClickListener)
+        }
     }
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
@@ -58,74 +62,7 @@ class FileAdapter(
         holder.bind(fileModel, isSelected)
     }
 
-    class FileViewHolder(
-        private val binding: ItemFileBinding,
-        private val onItemClickListener: OnItemClickListener<FileModel>
-    ): RecyclerView.ViewHolder(binding.root) {
-
-        companion object {
-            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FileModel>): FileViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                val binding = ItemFileBinding.inflate(inflater, parent, false)
-                return FileViewHolder(binding, onItemClickListener)
-            }
-        }
-
-        private lateinit var fileModel: FileModel
-
-        init {
-            itemView.setOnClickListener {
-                onItemClickListener.onClick(fileModel)
-            }
-            itemView.setOnLongClickListener {
-                onItemClickListener.onLongClick(fileModel)
-            }
-        }
-
-        fun bind(item: FileModel, isSelected: Boolean) {
-            fileModel = item
-
-            if (isSelected) {
-                itemView.setBackgroundResource(R.color.colorSelection)
-            } else {
-                itemView.setSelectableBackground()
-            }
-
-            binding.itemTitle.text = fileModel.name
-
-            if (fileModel.isHidden) {
-                binding.itemIcon.alpha = 0.45f
-            } else {
-                binding.itemIcon.alpha = 1f
-            }
-
-            if (fileModel.isFolder) {
-                binding.itemIcon.setImageResource(R.drawable.ic_folder)
-                binding.itemIcon.setTint(R.color.colorFolder)
-            } else {
-                binding.itemIcon.setImageResource(R.drawable.ic_file)
-                binding.itemIcon.setTint(R.color.colorFile)
-            }
-
-            when (fileModel.getType()) {
-                FileType.TEXT -> {
-                    binding.itemIcon.setImageResource(R.drawable.ic_file_document)
-                }
-                FileType.ARCHIVE -> {
-                    binding.itemIcon.setImageResource(R.drawable.ic_file_archive)
-                    binding.itemIcon.setTint(R.color.colorFolder)
-                }
-                FileType.IMAGE -> {
-                    binding.itemIcon.setImageResource(R.drawable.ic_file_image)
-                }
-                FileType.AUDIO -> {
-                    binding.itemIcon.setImageResource(R.drawable.ic_file_audio)
-                }
-                FileType.VIDEO -> {
-                    binding.itemIcon.setImageResource(R.drawable.ic_file_video)
-                }
-                FileType.DEFAULT -> { /* nothing */ }
-            }
-        }
+    abstract class FileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        abstract fun bind(fileModel: FileModel, isSelected: Boolean)
     }
 }

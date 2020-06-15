@@ -105,8 +105,11 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         }
 
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = FileAdapter(tracker, this)
-            .also { adapter = it }
+        binding.recyclerView.adapter = FileAdapter(
+            selectionTracker = tracker,
+            onItemClickListener = this,
+            viewMode = viewModel.viewMode
+        ).also { adapter = it }
 
         loadDirectory()
     }

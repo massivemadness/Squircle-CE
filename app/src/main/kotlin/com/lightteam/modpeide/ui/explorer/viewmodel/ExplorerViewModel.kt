@@ -107,17 +107,20 @@ class ExplorerViewModel(
             filesUpdateEvent.call()
         }
 
-    var sortMode: Int
-        get() = Integer.parseInt(preferenceHandler.getSortMode().get())
-        set(value) {
-            preferenceHandler.getSortMode().set(value.toString())
-            filesUpdateEvent.call()
-        }
-
     var foldersOnTop: Boolean
         get() = preferenceHandler.getFoldersOnTop().get()
         set(value) {
             preferenceHandler.getFoldersOnTop().set(value)
+            filesUpdateEvent.call()
+        }
+
+    val viewMode: Int
+        get() = Integer.parseInt(preferenceHandler.getViewMode().get())
+
+    var sortMode: Int
+        get() = Integer.parseInt(preferenceHandler.getSortMode().get())
+        set(value) {
+            preferenceHandler.getSortMode().set(value.toString())
             filesUpdateEvent.call()
         }
 

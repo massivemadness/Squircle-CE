@@ -18,6 +18,16 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <string-array name="view_mode_entries">
+        <item>@string/view_mode_compact_list</item>
+        <item>@string/view_mode_detailed_list</item>
+    </string-array>
+
+    <string-array name="view_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
     <string-array name="sort_mode_entries">
         <item>@string/sort_by_name</item>
         <item>@string/sort_by_size</item>

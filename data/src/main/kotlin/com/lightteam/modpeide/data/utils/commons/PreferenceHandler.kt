@@ -24,7 +24,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     companion object {
         // Look And Feel
-        //const val KEY_THEME = "THEME_1"
+        // const val KEY_THEME = "THEME_1"
         const val KEY_COLOR_SCHEME = "COLOR_SCHEME"
         const val KEY_FULLSCREEN_MODE = "FULLSCREEN_MODE"
 
@@ -59,6 +59,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         // File Explorer
         const val KEY_SHOW_HIDDEN_FILES = "SHOW_HIDDEN_FILES"
         const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
+        const val KEY_VIEW_MODE = "VIEW_MODE"
         const val KEY_SORT_MODE = "SORT_MODE"
 
         // Code Style
@@ -94,6 +95,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     fun getFilterHidden(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
     fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
+    fun getViewMode(): Preference<String> = rxSharedPreferences.getString(KEY_VIEW_MODE, "0")
     fun getSortMode(): Preference<String> = rxSharedPreferences.getString(KEY_SORT_MODE, "0")
 
     fun getAutoIndentation(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)

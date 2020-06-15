@@ -19,28 +19,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="36dp"
+    android:layout_height="56dp"
     android:orientation="horizontal"
     android:background="?selectableItemBackground">
 
     <ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="6dp"
         android:id="@+id/item_icon"
-        tools:src="@drawable/ic_folder"/>
+        tools:src="@drawable/ic_folder"
+        tools:tint="@color/colorFolder"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center_vertical"
-        android:id="@+id/item_title"
-        android:ellipsize="middle"
-        android:singleLine="true"
-        android:textSize="16sp"
-        tools:text="File Name"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textColor="?colorOnSurface"
+            android:textSize="16sp"
+            tools:text="File Name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/item_subtitle"
+            android:singleLine="true"
+            android:textSize="13sp"
+            tools:text="15 Jun. 2020 19:45:00"/>
+
+    </LinearLayout>
 
 </LinearLayout>

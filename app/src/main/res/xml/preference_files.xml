@@ -54,6 +54,14 @@
             android:key="FOLDERS_ON_TOP"/>
 
         <ListPreference
+            android:title="@string/pref_view_mode_title"
+            android:defaultValue="0"
+            android:key="VIEW_MODE"
+            app:entries="@array/view_mode_entries"
+            app:entryValues="@array/view_mode_values"
+            app:useSimpleSummaryProvider="true"/>
+
+        <ListPreference
             android:title="@string/pref_sort_mode_title"
             android:defaultValue="0"
             android:key="SORT_MODE"
