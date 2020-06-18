@@ -27,7 +27,7 @@ import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
-import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
+import com.jakewharton.rxbinding3.widget.textChangeEvents
 import com.lightteam.editorkit.internal.UndoRedoEditText
 import com.lightteam.editorkit.widget.TextScroller
 import com.lightteam.filesystem.model.FileType
@@ -201,10 +201,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     is PreferenceEvent.ErrorHighlight -> {
                         if (requireContext().isUltimate() && event.value) {
                             binding.editor
-                                .afterTextChangeEvents()
+                                .textChangeEvents()
                                 .skipInitialValue()
                                 .debounce(1500, TimeUnit.MILLISECONDS)
-                                .filter { it.editable?.isNotEmpty() ?: false }
+                                .filter { it.text.isNotEmpty() }
                                 .distinctUntilChanged()
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeBy {
