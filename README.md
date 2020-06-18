@@ -1,4 +1,4 @@
-# ModPE IDE v2020.2.0
+# ModPE IDE v2020.2.1
 
 <b>ModPE IDE</b> is a professional code editor or IDE primarily for ModPE Script development.
 

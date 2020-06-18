@@ -32,20 +32,21 @@ android {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
 
-        versionCode 10033
-        versionName "2020.2.0"
+        versionCode 10034
+        versionName "2020.2.1"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     flavorDimensions 'version'
