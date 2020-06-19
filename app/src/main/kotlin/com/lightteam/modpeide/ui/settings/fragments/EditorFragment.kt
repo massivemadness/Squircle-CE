@@ -45,13 +45,12 @@ class EditorFragment : DaggerPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_editor, rootKey)
 
-        val isUltimate = requireContext().isUltimate()
         findPreference<Preference>(KEY_FONT_TYPE)?.setOnPreferenceClickListener {
             val destination = EditorFragmentDirections.toFontsFragment()
             navController.navigate(destination)
             true
         }
-        findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = isUltimate
-        findPreference<Preference>(KEY_ERROR_HIGHLIGHTING)?.isEnabled = isUltimate
+        findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = isUltimate()
+        findPreference<Preference>(KEY_ERROR_HIGHLIGHTING)?.isEnabled = isUltimate()
     }
 }

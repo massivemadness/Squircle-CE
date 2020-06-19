@@ -44,15 +44,13 @@ class AboutFragment : DaggerPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_about, rootKey)
 
-        val isUltimate = requireContext().isUltimate()
-
         val changelog = findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
         changelog?.setOnPreferenceClickListener {
             navController.navigate(R.id.changeLogDialog)
             true
         }
 
-        if (isUltimate) {
+        if (isUltimate()) {
             changelog?.setTitle(R.string.pref_about_ultimate_title)
         }
         changelog?.summary = String.format(

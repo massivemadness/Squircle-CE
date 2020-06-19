@@ -85,7 +85,7 @@ class FontAdapter(
             binding.itemContent.typeface = itemView.context.createTypefaceFromPath(item.fontPath)
             binding.itemSubtitle.isVisible = item.supportLigatures
             binding.actionRemove.isVisible = item.isExternal
-            binding.actionSelect.isEnabled = !item.isPaid || itemView.context.isUltimate()
+            binding.actionSelect.isEnabled = !item.isPaid || isUltimate()
         }
     }
 

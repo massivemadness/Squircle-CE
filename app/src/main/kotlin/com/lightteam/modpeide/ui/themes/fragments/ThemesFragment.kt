@@ -58,7 +58,7 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
             .also { adapter = it }
 
         binding.actionAdd.setOnClickListener {
-            if (requireContext().isUltimate()) {
+            if (isUltimate()) {
                 val destination = ThemesFragmentDirections.toNewThemeFragment(null)
                 navController.navigate(destination)
             } else {
@@ -70,7 +70,7 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
     }
 
     override fun selectTheme(themeModel: ThemeModel) {
-        if (themeModel.isPaid && !requireContext().isUltimate()) {
+        if (themeModel.isPaid && !isUltimate()) {
             navController.navigate(R.id.storeDialog)
         } else {
             viewModel.selectTheme(themeModel)

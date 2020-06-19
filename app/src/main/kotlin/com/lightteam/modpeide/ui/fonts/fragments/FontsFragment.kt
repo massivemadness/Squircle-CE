@@ -54,7 +54,7 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
             .also { adapter = it }
 
         binding.actionAdd.setOnClickListener {
-            if (requireContext().isUltimate()) {
+            if (isUltimate()) {
                 val destination = FontsFragmentDirections.toExternalFontFragment()
                 navController.navigate(destination)
             } else {
@@ -66,7 +66,7 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
     }
 
     override fun selectFont(fontModel: FontModel) {
-        if (fontModel.isPaid && !requireContext().isUltimate()) {
+        if (fontModel.isPaid && !isUltimate()) {
             navController.navigate(R.id.storeDialog)
         } else {
             viewModel.selectFont(fontModel)

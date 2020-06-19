@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.lightteam.modpeide.BaseApplication
 import com.lightteam.modpeide.R
 
 class StoreDialog : DialogFragment() {
@@ -33,8 +32,9 @@ class StoreDialog : DialogFragment() {
     companion object {
         const val DIALOG_TAG = "StoreDialog"
 
-        private const val URI_ANDROID_MARKET = "market://details?id=${BaseApplication.ULTIMATE}"
-        private const val URI_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=${BaseApplication.ULTIMATE}"
+        private const val PACKAGE_NAME = "com.LightTeam.modpeidepro"
+        private const val URI_ANDROID_MARKET = "market://details?id=$PACKAGE_NAME"
+        private const val URI_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=$PACKAGE_NAME"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

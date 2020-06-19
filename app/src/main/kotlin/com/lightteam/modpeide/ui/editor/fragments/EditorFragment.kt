@@ -199,7 +199,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.ErrorHighlight -> {
-                        if (requireContext().isUltimate() && event.value) {
+                        if (isUltimate() && event.value) {
                             binding.editor
                                 .textChangeEvents()
                                 .skipInitialValue()
@@ -554,7 +554,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     override fun onErrorCheckingButton() {
-        if (requireContext().isUltimate()) {
+        if (isUltimate()) {
             val position = adapter.selectedPosition
             if (position > -1) {
                 MaterialDialog(requireContext()).show {
@@ -577,7 +577,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     override fun onInsertColorButton() {
-        if (requireContext().isUltimate()) {
+        if (isUltimate()) {
             val position = adapter.selectedPosition
             if (position > -1) {
                 MaterialDialog(requireContext()).show {

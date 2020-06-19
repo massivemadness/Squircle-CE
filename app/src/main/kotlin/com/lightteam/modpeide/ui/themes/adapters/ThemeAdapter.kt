@@ -114,9 +114,8 @@ class ThemeAdapter(
             }
             binding.editor.text = CodeView.CODE_PREVIEW
 
-            val isUltimate = itemView.context.isUltimate()
-            binding.actionInfo.isEnabled = !item.isPaid || isUltimate
-            binding.actionSelect.isEnabled = !item.isPaid || isUltimate
+            binding.actionInfo.isEnabled = !item.isPaid || isUltimate()
+            binding.actionSelect.isEnabled = !item.isPaid || isUltimate()
         }
     }
 

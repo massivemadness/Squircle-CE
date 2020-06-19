@@ -23,11 +23,6 @@ import dagger.android.support.DaggerApplication
 
 class BaseApplication : DaggerApplication() {
 
-    companion object {
-        const val STANDARD = "com.KillerBLS.modpeide"
-        const val ULTIMATE = "com.LightTeam.modpeidepro"
-    }
-
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.factory().create(this)
     }
