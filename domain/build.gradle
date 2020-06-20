@@ -19,13 +19,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    def buildConfig = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
+    compileSdkVersion rootProject.ext.compileSdk
+    buildToolsVersion rootProject.ext.buildTools
     defaultConfig {
-        minSdkVersion buildConfig.minSdk
-        targetSdkVersion buildConfig.targetSdk
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -35,13 +33,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //Kotlin
+    // Kotlin
     implementation library.kotlin
 
-    //Rx
+    // Rx
     implementation library.rxjava2
 
-    //Modules
+    // Modules
     implementation project(':editorkit')
     implementation project(':languages:language')
 }

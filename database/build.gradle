@@ -20,13 +20,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    def buildConfig = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
+    compileSdkVersion rootProject.ext.compileSdk
+    buildToolsVersion rootProject.ext.buildTools
     defaultConfig {
-        minSdkVersion buildConfig.minSdk
-        targetSdkVersion buildConfig.targetSdk
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -47,18 +45,18 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //Kotlin
+    // Kotlin
     implementation library.kotlin
 
-    //AAC
+    // AAC
     implementation library.room
     implementation library.rxroom
     kapt library.room_compiler
 
-    //Rx
+    // Rx
     implementation library.rxjava2
 
-    //Tests
+    // Tests
     testImplementation testLibrary.junit
     testImplementation testLibrary.kunit
     testImplementation testLibrary.mockito

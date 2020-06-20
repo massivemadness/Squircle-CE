@@ -22,15 +22,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
-    def buildConfig = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
+    compileSdkVersion rootProject.ext.compileSdk
+    buildToolsVersion rootProject.ext.buildTools
     defaultConfig {
         applicationId "com.KillerBLS.modpeide"
 
-        minSdkVersion buildConfig.minSdk
-        targetSdkVersion buildConfig.targetSdk
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
 
         versionCode 10034
         versionName "2020.2.1"
@@ -90,11 +88,11 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //Kotlin
+    // Kotlin
     implementation library.kotlin
     implementation library.core_ktx
 
-    //Design
+    // Design
     implementation library.appcompat
     implementation library.materialdesign
     implementation library.constraintlayout
@@ -104,33 +102,33 @@ dependencies {
     implementation library.materialdialogs_color
     implementation library.recyclerview_selection
 
-    //AAC
+    // AAC
     implementation library.navigation_ui
     implementation library.navigation_fragment
     implementation library.livedata
     implementation library.viewmodel
 
-    //Network
+    // Network
     implementation library.playcore
     implementation library.gson
 
-    //Rx
+    // Rx
     implementation library.rxjava2
     implementation library.rxandroid
     implementation library.rxkotlin
     implementation library.rxbinding_appcompat
     implementation library.rxpreferences
 
-    //DI
+    // DI
     implementation library.dagger2
     kapt library.dagger2_compiler
     implementation library.dagger2_android
     kapt library.dagger2_android_processor
 
-    //Other
+    // Other
     implementation library.keyboardevent
 
-    //Modules
+    // Modules
     implementation project(':domain')
     implementation project(':data')
     implementation project(':database')
@@ -139,7 +137,7 @@ dependencies {
     implementation project(':filesystems:localfilesystem')
     implementation project(':languages:language')
 
-    //Tests
+    // Tests
     testImplementation testLibrary.junit
     testImplementation testLibrary.kunit
 

@@ -19,13 +19,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    def buildConfig = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
+    compileSdkVersion rootProject.ext.compileSdk
+    buildToolsVersion rootProject.ext.buildTools
     defaultConfig {
-        minSdkVersion buildConfig.minSdk
-        targetSdkVersion buildConfig.targetSdk
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -46,19 +44,19 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //Kotlin
+    // Kotlin
     implementation library.kotlin
     implementation library.core_ktx
 
-    //Network
+    // Network
     implementation library.gson
 
-    //Rx
+    // Rx
     implementation library.rxjava2
     implementation library.rxkotlin
     implementation library.rxpreferences
 
-    //Modules
+    // Modules
     implementation project(':domain')
     implementation project(':database')
     implementation project(':editorkit')
@@ -68,7 +66,7 @@ dependencies {
     implementation project(':languages:unknown')
     implementation project(':languages:javascript')
 
-    //Tests
+    // Tests
     testImplementation testLibrary.junit
     testImplementation testLibrary.kunit
     testImplementation testLibrary.mockito
