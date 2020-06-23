@@ -75,4 +75,18 @@
         app:iconTint="@color/colorIcon"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_create_zip"
+        android:title="@string/action_create_zip"
+        android:icon="@drawable/ic_file_archive"
+        app:iconTint="@color/colorIcon"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_create_tar"
+        android:title="@string/action_create_tar"
+        android:icon="@drawable/ic_file_archive"
+        app:iconTint="@color/colorIcon"
+        app:showAsAction="never"/>
+
 </menu>

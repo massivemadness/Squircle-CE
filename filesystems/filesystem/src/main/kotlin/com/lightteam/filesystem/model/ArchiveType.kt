@@ -15,12 +15,9 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.explorer.utils
+package com.lightteam.filesystem.model
 
-enum class Operation {
-    DELETE,
-    COPY,
-    CUT,
-    ARCHIVE_ZIP,
-    ARCHIVE_TAR
+enum class ArchiveType {
+    ZIP,
+    TAR
 }

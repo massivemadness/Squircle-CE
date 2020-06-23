@@ -20,10 +20,7 @@ package com.lightteam.localfilesystem.repository
 import com.lightteam.filesystem.exception.DirectoryExpectedException
 import com.lightteam.filesystem.exception.FileAlreadyExistsException
 import com.lightteam.filesystem.exception.FileNotFoundException
-import com.lightteam.filesystem.model.FileModel
-import com.lightteam.filesystem.model.FileTree
-import com.lightteam.filesystem.model.PropertiesModel
-import com.lightteam.filesystem.model.CopyOption
+import com.lightteam.filesystem.model.*
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.localfilesystem.utils.formatAsDate
@@ -124,7 +121,11 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun copyFile(source: FileModel, dest: FileModel, copyOption: CopyOption): Single<FileModel> {
+    override fun copyFile(
+        source: FileModel,
+        dest: FileModel,
+        copyOption: CopyOption
+    ): Single<FileModel> {
         return Single.create { emitter ->
             val directory = FileConverter.toFile(dest)
             val sourceFile = FileConverter.toFile(source)
@@ -169,6 +170,18 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 emitter.onError(FileNotFoundException(fileModel.path))
             }
         }
+    }
+
+    override fun compress(
+        source: List<FileModel>,
+        dest: FileModel,
+        archiveType: ArchiveType
+    ): Single<FileModel> {
+        TODO("Not yet implemented")
+    }
+
+    override fun decompress(source: FileModel, dest: FileModel): Single<FileModel> {
+        TODO("Not yet implemented")
     }
 
     override fun loadFile(fileModel: FileModel, charset: Charset): Single<String> {

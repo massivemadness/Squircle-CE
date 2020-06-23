@@ -85,6 +85,7 @@ class ExplorerViewModel(
     val renameEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Переименовать файл
     val propertiesEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Свойства файла
     val copyPathEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать путь к файлу
+    val archiveEvent: SingleLiveEvent<Operation> = SingleLiveEvent() // Архивация файлов
 
     val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список вкладок
     val selectionEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список выделенных файлов
@@ -97,7 +98,7 @@ class ExplorerViewModel(
     // endregion EVENTS
 
     val tabsList: MutableList<FileModel> = mutableListOf()
-    val filesToCopy: MutableList<FileModel> = mutableListOf()
+    val tempFiles: MutableList<FileModel> = mutableListOf()
     val cancelableDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     var showHidden: Boolean

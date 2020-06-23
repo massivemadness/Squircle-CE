@@ -168,7 +168,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
-                viewModel.filesToCopy.replaceList(it)
+                viewModel.tempFiles.replaceList(it)
                 viewModel.allowPasteFiles.set(true)
             }
         })
@@ -183,14 +183,14 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
-                viewModel.filesToCopy.replaceList(it)
+                viewModel.tempFiles.replaceList(it)
                 viewModel.allowPasteFiles.set(true)
             }
         })
         viewModel.pasteEvent.observe(viewLifecycleOwner, Observer {
-            executeProcess(viewModel.filesToCopy, it) {
+            executeProcess(viewModel.tempFiles, it) {
                 viewModel.allowPasteFiles.set(false)
-                viewModel.filesToCopy.clear()
+                viewModel.tempFiles.clear()
             }
         })
         viewModel.openAsEvent.observe(viewLifecycleOwner, Observer {
@@ -219,6 +219,16 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 copyPath(it)
+            }
+        })
+        viewModel.archiveEvent.observe(viewLifecycleOwner, Observer { operation ->
+            val fileModels = viewModel.selectionEvent.value
+            fileModels?.let {
+                viewModel.deselectAllEvent.call()
+                viewModel.tempFiles.replaceList(it)
+                executeProcess(viewModel.tempFiles, operation) {
+                    viewModel.tempFiles.clear()
+                }
             }
         })
 
@@ -393,6 +403,13 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 dialogMessage = getString(R.string.message_copying)
                 dialogAction = {
                     viewModel.cutFiles(fileModels, fileTree.parent)
+                }
+            }
+            Operation.ARCHIVE_ZIP, Operation.ARCHIVE_TAR -> {
+                dialogTitle = R.string.dialog_title_adding
+                dialogMessage = getString(R.string.message_deleting)
+                dialogAction = {
+                    // viewModel.compressFiles(fileModels)
                 }
             }
         }
