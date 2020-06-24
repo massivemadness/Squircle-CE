@@ -121,15 +121,13 @@ class ProcessDialog : BaseDialogFragment() {
 
     private fun collectData() {
         tempFiles = viewModel.tempFiles
+        viewModel.tempFiles.clear() // Clear immediately
         when (Operation.find(args.operation)) {
             Operation.DELETE -> {
                 dialogTitle = R.string.dialog_title_deleting
                 dialogMessage = R.string.message_deleting
                 dialogAction = {
                     viewModel.deleteFiles(tempFiles)
-                }
-                onCloseAction = {
-                    viewModel.tempFiles.clear()
                 }
             }
             Operation.COPY -> {
@@ -140,7 +138,6 @@ class ProcessDialog : BaseDialogFragment() {
                 }
                 onCloseAction = {
                     viewModel.allowPasteFiles.set(false)
-                    viewModel.tempFiles.clear()
                 }
             }
             Operation.CUT -> {
@@ -151,7 +148,6 @@ class ProcessDialog : BaseDialogFragment() {
                 }
                 onCloseAction = {
                     viewModel.allowPasteFiles.set(false)
-                    viewModel.tempFiles.clear()
                 }
             }
             Operation.ARCHIVE_ZIP/*, Operation.ARCHIVE_TAR, Operation.ARCHIVE_TAR_GZIP*/ -> {
@@ -159,9 +155,6 @@ class ProcessDialog : BaseDialogFragment() {
                 dialogMessage = R.string.message_compressing
                 dialogAction = {
                     // viewModel.compressFiles(fileModels, args.parent)
-                }
-                onCloseAction = {
-                    viewModel.tempFiles.clear()
                 }
             }
         }
