@@ -122,7 +122,7 @@ class ProcessDialog : BaseDialogFragment() {
     private fun collectData() {
         tempFiles = viewModel.tempFiles
         viewModel.tempFiles.clear() // Clear immediately
-        when (Operation.find(args.operation)) {
+        when (args.operation) {
             Operation.DELETE -> {
                 dialogTitle = R.string.dialog_title_deleting
                 dialogMessage = R.string.message_deleting

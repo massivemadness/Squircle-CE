@@ -17,17 +17,11 @@
 
 package com.lightteam.modpeide.ui.explorer.utils
 
-enum class Operation(val key: String) {
-    DELETE("DELETE"),
-    COPY("COPY"),
-    CUT("CUT"),
-    ARCHIVE_ZIP("ZIP");/*,
-    ARCHIVE_TAR("TAR"),
-    ARCHIVE_TAR_GZIP("TAR_GZIP");*/
-
-    companion object {
-        fun find(key: String): Operation {
-            return checkNotNull(values().find { it.key == key })
-        }
-    }
+enum class Operation {
+    DELETE,
+    COPY,
+    CUT,
+    ARCHIVE_ZIP/*,
+    ARCHIVE_TAR,
+    ARCHIVE_TAR_GZIP*/
 }

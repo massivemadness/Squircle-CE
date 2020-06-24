@@ -55,7 +55,7 @@
         tools:layout="@layout/dialog_process">
         <argument
             android:name="operation"
-            app:argType="string"/>
+            app:argType="com.lightteam.modpeide.ui.explorer.utils.Operation"/>
         <argument
             android:name="parent"
             app:argType="com.lightteam.filesystem.model.FileModel"/>

@@ -181,7 +181,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             }
         })
         viewModel.pasteEvent.observe(viewLifecycleOwner, Observer {
-            executeProcess(it)
+            executeProcess(it) // may only be Operation.COPY or Operation.CUT
         })
         viewModel.openAsEvent.observe(viewLifecycleOwner, Observer {
             val fileModel = viewModel.selectionEvent.value?.first()
@@ -217,6 +217,10 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
                 executeProcess(operation)
+                // TODO:
+                // Если это TAR - предложить на выбор тип компрессии - GZIP или NO_COMPRESSION
+                // Если выбрано несколько файлов - показать диалог с вводом названия архива
+                // Если выбран один файл - назвать архив "файл.txt" + ".zip"
             }
         })
 
@@ -365,7 +369,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
 
     private fun executeProcess(operation: Operation) {
         val destination = DirectoryFragmentDirections.toExecuteDialog(
-            operation = operation.key,
+            operation = operation,
             parent = fileTree.parent
         )
         navController.navigate(destination)

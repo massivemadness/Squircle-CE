@@ -55,7 +55,7 @@ ext {
     rxpreferences_version = '2.0.0'
 
     // DI
-    dagger2_version = '2.28'
+    dagger2_version = '2.28.1'
 
     // Other
     keyboardevent_version = '2.3.0'
