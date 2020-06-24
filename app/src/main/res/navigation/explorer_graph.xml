@@ -44,6 +44,21 @@
         <action
             android:id="@+id/to_directoryFragment"
             app:destination="@id/directoryFragment"/>
+        <action
+            android:id="@+id/to_executeDialog"
+            app:destination="@id/executeDialog"/>
     </fragment>
+
+    <dialog
+        android:id="@+id/executeDialog"
+        android:name="com.lightteam.modpeide.ui.explorer.dialogs.ProcessDialog"
+        tools:layout="@layout/dialog_process">
+        <argument
+            android:name="operation"
+            app:argType="string"/>
+        <argument
+            android:name="parent"
+            app:argType="com.lightteam.filesystem.model.FileModel"/>
+    </dialog>
 
 </navigation>

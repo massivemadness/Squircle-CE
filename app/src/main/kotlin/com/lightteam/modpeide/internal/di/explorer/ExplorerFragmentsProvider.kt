@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.internal.di.explorer
 
+import com.lightteam.modpeide.ui.explorer.dialogs.ProcessDialog
 import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment
 import com.lightteam.modpeide.ui.explorer.fragments.PermissionsFragment
 import dagger.Module
@@ -30,4 +31,7 @@ abstract class ExplorerFragmentsProvider {
 
     @ContributesAndroidInjector
     abstract fun bindDirectoryFragment(): DirectoryFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindProcessDialog(): ProcessDialog
 }

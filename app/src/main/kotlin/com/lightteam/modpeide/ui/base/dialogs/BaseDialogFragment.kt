@@ -15,19 +15,23 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.explorer.utils
+package com.lightteam.modpeide.ui.base.dialogs
 
-enum class Operation(val key: String) {
-    DELETE("DELETE"),
-    COPY("COPY"),
-    CUT("CUT"),
-    ARCHIVE_ZIP("ZIP");/*,
-    ARCHIVE_TAR("TAR"),
-    ARCHIVE_TAR_GZIP("TAR_GZIP");*/
+import dagger.android.support.DaggerDialogFragment
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
-    companion object {
-        fun find(key: String): Operation {
-            return checkNotNull(values().find { it.key == key })
-        }
+abstract class BaseDialogFragment : DaggerDialogFragment() {
+
+    private val viewCompositeDisposable by lazy { CompositeDisposable() }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewCompositeDisposable.clear()
+    }
+
+    protected fun Disposable.disposeOnFragmentDestroyView(): Disposable {
+        viewCompositeDisposable.add(this)
+        return this
     }
 }
