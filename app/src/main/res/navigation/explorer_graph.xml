@@ -59,6 +59,10 @@
         <argument
             android:name="parent"
             app:argType="com.lightteam.filesystem.model.FileModel"/>
+        <argument
+            android:name="archiveName"
+            app:argType="string"
+            app:nullable="true"/>
     </dialog>
 
 </navigation>

@@ -25,6 +25,7 @@ import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.google.android.material.progressindicator.ProgressIndicator
+import com.lightteam.filesystem.model.ArchiveType
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.ui.base.dialogs.BaseDialogFragment
@@ -120,7 +121,7 @@ class ProcessDialog : BaseDialogFragment() {
     }
 
     private fun collectData() {
-        tempFiles = viewModel.tempFiles
+        tempFiles = viewModel.tempFiles.toList()
         viewModel.tempFiles.clear() // Clear immediately
         when (args.operation) {
             Operation.DELETE -> {
@@ -154,7 +155,12 @@ class ProcessDialog : BaseDialogFragment() {
                 dialogTitle = R.string.dialog_title_compressing
                 dialogMessage = R.string.message_compressing
                 dialogAction = {
-                    // viewModel.compressFiles(fileModels, args.parent)
+                    viewModel.compressFiles(
+                        source = tempFiles,
+                        dest = args.parent,
+                        archiveName = args.archiveName ?: tempFiles.first().name + ".zip",
+                        archiveType = ArchiveType.ZIP // TODO replace
+                    )
                 }
             }
         }

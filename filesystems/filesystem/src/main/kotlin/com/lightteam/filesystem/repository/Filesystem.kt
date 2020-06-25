@@ -19,6 +19,7 @@ package com.lightteam.filesystem.repository
 
 import com.lightteam.filesystem.model.*
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import java.nio.charset.Charset
 
@@ -32,7 +33,7 @@ interface Filesystem {
     fun copyFile(source: FileModel, dest: FileModel, copyOption: CopyOption): Single<FileModel>
     fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
-    fun compress(source: List<FileModel>, dest: FileModel, archiveType: ArchiveType): Single<FileModel>
+    fun compress(source: List<FileModel>, dest: FileModel, archiveName: String, archiveType: ArchiveType): Observable<FileModel>
     fun decompress(source: FileModel, dest: FileModel): Single<FileModel>
 
     fun loadFile(fileModel: FileModel, charset: Charset): Single<String>

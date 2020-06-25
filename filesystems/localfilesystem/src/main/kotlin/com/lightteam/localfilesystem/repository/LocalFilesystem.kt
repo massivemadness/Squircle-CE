@@ -27,6 +27,7 @@ import com.lightteam.localfilesystem.utils.formatAsDate
 import com.lightteam.localfilesystem.utils.formatAsSize
 import com.lightteam.localfilesystem.utils.size
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import java.io.File
 import java.io.IOException
@@ -175,8 +176,9 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     override fun compress(
         source: List<FileModel>,
         dest: FileModel,
+        archiveName: String,
         archiveType: ArchiveType
-    ): Single<FileModel> {
+    ): Observable<FileModel> {
         TODO("Not yet implemented")
     }
 

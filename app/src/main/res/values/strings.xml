@@ -180,7 +180,6 @@
     <string name="message_copying">Copying…%1$s</string>
     <string name="message_compressing">Compressing…%1$s</string>
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
-    <string name="message_archive_created">Archive created in current directory</string>
 
     <string name="store_standard" translatable="false">Standard</string>
     <string name="store_ultimate" translatable="false">Ultimate</string>

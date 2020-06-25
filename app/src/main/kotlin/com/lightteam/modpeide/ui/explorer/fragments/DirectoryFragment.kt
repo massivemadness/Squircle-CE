@@ -216,11 +216,17 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
-                executeProcess(operation)
+
                 // TODO:
                 // Если это TAR - предложить на выбор тип компрессии - GZIP или NO_COMPRESSION
                 // Если выбрано несколько файлов - показать диалог с вводом названия архива
                 // Если выбран один файл - назвать архив "файл.txt" + ".zip"
+                if (it.size > 1) {
+                    // показать диалог с вводом названия архива
+                    executeProcess(operation, "new_archive")
+                } else {
+                    executeProcess(operation)
+                }
             }
         })
 
@@ -367,10 +373,11 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         }
     }
 
-    private fun executeProcess(operation: Operation) {
+    private fun executeProcess(operation: Operation, archiveName: String? = null) {
         val destination = DirectoryFragmentDirections.toExecuteDialog(
             operation = operation,
-            parent = fileTree.parent
+            parent = fileTree.parent,
+            archiveName = archiveName
         )
         navController.navigate(destination)
     }

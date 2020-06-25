@@ -19,5 +19,6 @@ package com.lightteam.filesystem.model
 
 enum class ArchiveType {
     ZIP,
-    TAR
+    TAR_NO_COMPRESSION,
+    TAR_GZIP
 }
