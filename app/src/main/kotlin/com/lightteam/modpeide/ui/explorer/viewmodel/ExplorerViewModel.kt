@@ -255,6 +255,7 @@ class ExplorerViewModel(
     fun deleteFiles(fileModels: List<FileModel>) {
         Observable.fromIterable(fileModels)
             .doOnSubscribe { progressEvent.postValue(0) }
+            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
                 filesystem.deleteFile(it)
                     .delay(20, TimeUnit.MILLISECONDS)
@@ -286,6 +287,7 @@ class ExplorerViewModel(
     fun copyFiles(source: List<FileModel>, dest: FileModel) {
         Observable.fromIterable(source)
             .doOnSubscribe { progressEvent.postValue(0) }
+            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
                 filesystem.copyFile(it, dest, CopyOption.ABORT) // TODO Let user choose CopyOption for each file
                     .delay(20, TimeUnit.MILLISECONDS)
@@ -320,6 +322,7 @@ class ExplorerViewModel(
     fun cutFiles(source: List<FileModel>, dest: FileModel) {
         Observable.fromIterable(source)
             .doOnSubscribe { progressEvent.postValue(0) }
+            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
                 filesystem.copyFile(it, dest, CopyOption.REPLACE) // TODO Let user choose CopyOption for each file
                     .delay(20, TimeUnit.MILLISECONDS)
@@ -385,6 +388,11 @@ class ExplorerViewModel(
     ) {
         filesystem.compress(source, dest, archiveName, archiveType)
             .doOnSubscribe { progressEvent.postValue(0) }
+            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
+            .concatMap {
+                Observable.just(it)
+                    .delay(20, TimeUnit.MILLISECONDS)
+            }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onNext = {

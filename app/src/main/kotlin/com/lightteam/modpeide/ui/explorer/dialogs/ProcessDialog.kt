@@ -93,7 +93,7 @@ class ProcessDialog : BaseDialogFragment() {
                         .format(currentProgress + 1, totalProgress)
                     progressIndicator.progress = currentProgress + 1
                 }
-                if (currentProgress + 1 > totalProgress) {
+                if (currentProgress >= totalProgress) {
                     onCloseAction.invoke()
                     dismiss()
                 }
