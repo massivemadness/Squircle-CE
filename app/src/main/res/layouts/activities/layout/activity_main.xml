@@ -16,29 +16,35 @@
   ~ limitations under the License.
   -->
 
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer_layout"
     tools:context=".ui.main.activities.MainActivity">
 
-    <fragment
+    <!-- Use nested layout because of Android Gradle Plugin 4.0 restrictions -->
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_editor"
-        android:name="com.lightteam.modpeide.ui.editor.fragments.EditorFragment"
-        tools:layout="@layout/fragment_editor"
-        tools:ignore="FragmentTagUsage"/>
+        android:id="@+id/drawer_layout">
 
-    <fragment
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:id="@+id/fragment_explorer"
-        android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
-        tools:layout="@layout/fragment_explorer"
-        tools:ignore="FragmentTagUsage"/>
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_editor"
+            android:name="com.lightteam.modpeide.ui.editor.fragments.EditorFragment"
+            tools:layout="@layout/fragment_editor"
+            tools:ignore="FragmentTagUsage"/>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+        <fragment
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:id="@+id/fragment_explorer"
+            android:name="com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment"
+            tools:layout="@layout/fragment_explorer"
+            tools:ignore="FragmentTagUsage"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</FrameLayout>
