@@ -29,6 +29,7 @@ import com.lightteam.localfilesystem.utils.size
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import net.lingala.zip4j.ZipFile
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
@@ -179,7 +180,29 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         archiveName: String,
         archiveType: ArchiveType
     ): Observable<FileModel> {
-        TODO("Not yet implemented")
+        // TODO support archiveType
+        return Observable.create { emitter ->
+            val directory = FileConverter.toFile(dest)
+            val archiveFile = ZipFile(File(directory, archiveName))
+            if (!archiveFile.file.exists()) {
+                for (fileModel in source) {
+                    val sourceFile = FileConverter.toFile(fileModel)
+                    if (sourceFile.exists()) {
+                        if (sourceFile.isDirectory) {
+                            archiveFile.addFolder(sourceFile)
+                        } else {
+                            archiveFile.addFile(sourceFile)
+                        }
+                        emitter.onNext(fileModel)
+                    } else {
+                        emitter.onError(FileNotFoundException(fileModel.path))
+                    }
+                }
+            } else {
+                emitter.onError(FileAlreadyExistsException(archiveFile.file.absolutePath))
+            }
+            emitter.onComplete()
+        }
     }
 
     override fun decompress(source: FileModel, dest: FileModel): Single<FileModel> {

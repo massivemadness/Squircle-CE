@@ -41,6 +41,9 @@ dependencies {
     // Rx
     implementation library.rxjava2
 
+    // Other
+    implementation library.zip4j
+
     // Modules
     implementation project(':filesystems:filesystem')
 }

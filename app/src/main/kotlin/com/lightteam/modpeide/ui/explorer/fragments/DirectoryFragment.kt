@@ -223,7 +223,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 // Если выбран один файл - назвать архив "файл.txt" + ".zip"
                 if (it.size > 1) {
                     // показать диалог с вводом названия архива
-                    executeProcess(operation, "new_archive")
+                    executeProcess(operation, "new_archive.zip")
                 } else {
                     executeProcess(operation)
                 }
