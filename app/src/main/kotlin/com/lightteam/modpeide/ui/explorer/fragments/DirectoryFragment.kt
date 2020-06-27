@@ -216,13 +216,25 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
-
-                // TODO:
-                // Если выбрано несколько файлов - показать диалог с вводом названия архива
-                // Если выбран один файл - назвать архив "файл.txt" + ".zip"
                 if (it.size > 1) {
-                    // показать диалог с вводом названия архива
-                    executeProcess(Operation.COMPRESS, "new_archive.zip")
+                    MaterialDialog(requireContext()).show {
+                        title(R.string.dialog_title_archive_name)
+                        customView(R.layout.dialog_archive)
+
+                        val fileNameInput = getCustomView()
+                            .findViewById<TextInputEditText>(R.id.input)
+
+                        negativeButton(R.string.action_cancel)
+                        positiveButton(R.string.action_create_zip) {
+                            val fileName = fileNameInput.text.toString()
+                            val isValid = fileName.isValidFileName()
+                            if (isValid) {
+                                executeProcess(Operation.COMPRESS, fileName)
+                            } else {
+                                showToast(R.string.message_invalid_file_name)
+                            }
+                        }
+                    }
                 } else {
                     executeProcess(Operation.COMPRESS)
                 }

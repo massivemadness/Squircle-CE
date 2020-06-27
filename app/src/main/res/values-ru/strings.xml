@@ -35,6 +35,7 @@
     <string name="hint_line">Линия:</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
     <string name="hint_enter_file_path">Введите путь к файлу</string>
+    <string name="hint_enter_archive_name">Введите название архива</string>
     <string name="hint_enter_font_name">Название шрифта</string>
     <string name="hint_enter_font_path">Путь к шрифту</string>
     <string name="hint_enter_theme_name">Название темы</string>
@@ -115,6 +116,7 @@
     <string name="dialog_title_deleting">Удаление…</string>
     <string name="dialog_title_copying">Копирование…</string>
     <string name="dialog_title_compressing">Сжатие…</string>
+    <string name="dialog_title_archive_name">Название архива</string>
 
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
