@@ -177,10 +177,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     override fun compress(
         source: List<FileModel>,
         dest: FileModel,
-        archiveName: String,
-        archiveType: ArchiveType
+        archiveName: String
     ): Observable<FileModel> {
-        // TODO support archiveType
         return Observable.create { emitter ->
             val directory = FileConverter.toFile(dest)
             val archiveFile = ZipFile(File(directory, archiveName))

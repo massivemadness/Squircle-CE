@@ -211,21 +211,20 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 copyPath(it)
             }
         })
-        viewModel.archiveEvent.observe(viewLifecycleOwner, Observer { operation ->
+        viewModel.archiveEvent.observe(viewLifecycleOwner, Observer {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
 
                 // TODO:
-                // Если это TAR - предложить на выбор тип компрессии - GZIP или NO_COMPRESSION
                 // Если выбрано несколько файлов - показать диалог с вводом названия архива
                 // Если выбран один файл - назвать архив "файл.txt" + ".zip"
                 if (it.size > 1) {
                     // показать диалог с вводом названия архива
-                    executeProcess(operation, "new_archive.zip")
+                    executeProcess(Operation.COMPRESS, "new_archive.zip")
                 } else {
-                    executeProcess(operation)
+                    executeProcess(Operation.COMPRESS)
                 }
             }
         })
@@ -374,7 +373,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     }
 
     private fun executeProcess(operation: Operation, archiveName: String? = null) {
-        val destination = DirectoryFragmentDirections.toExecuteDialog(
+        val destination = DirectoryFragmentDirections.toProcessDialog(
             operation = operation,
             parent = fileTree.parent,
             archiveName = archiveName

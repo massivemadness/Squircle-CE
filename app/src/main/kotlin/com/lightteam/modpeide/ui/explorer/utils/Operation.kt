@@ -21,7 +21,5 @@ enum class Operation {
     DELETE,
     COPY,
     CUT,
-    ARCHIVE_ZIP/*,
-    ARCHIVE_TAR,
-    ARCHIVE_TAR_GZIP*/
+    COMPRESS
 }

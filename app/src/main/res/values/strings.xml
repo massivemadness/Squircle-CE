@@ -67,7 +67,6 @@
     <string name="action_run_in_background">Run in background</string>
     <string name="action_show_hidden_files">Show hidden files</string>
     <string name="action_create_zip">Create .zip</string>
-    <string name="action_create_tar">Create .tar</string>
     <string name="action_get_it">Get it</string>
     <string name="action_maybe_later">Maybe later</string>
     <string name="action_unlock_all_features">Unlock all features</string>

@@ -33,7 +33,7 @@ interface Filesystem {
     fun copyFile(source: FileModel, dest: FileModel, copyOption: CopyOption): Single<FileModel>
     fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
-    fun compress(source: List<FileModel>, dest: FileModel, archiveName: String, archiveType: ArchiveType): Observable<FileModel>
+    fun compress(source: List<FileModel>, dest: FileModel, archiveName: String): Observable<FileModel>
     fun decompress(source: FileModel, dest: FileModel): Single<FileModel>
 
     fun loadFile(fileModel: FileModel, charset: Charset): Single<String>

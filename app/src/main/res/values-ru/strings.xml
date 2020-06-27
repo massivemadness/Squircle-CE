@@ -60,7 +60,6 @@
     <string name="action_run_in_background">Выполнять в фоне</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
     <string name="action_create_zip">Создать .zip</string>
-    <string name="action_create_tar">Создать .tar</string>
     <string name="action_get_it">Приобрести</string>
     <string name="action_maybe_later">Может позже</string>
     <string name="action_unlock_all_features">Получить все возможности</string>

@@ -196,8 +196,7 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
             R.id.action_rename -> viewModel.renameEvent.call()
             R.id.action_properties -> viewModel.propertiesEvent.call()
             R.id.action_copy_path -> viewModel.copyPathEvent.call()
-            R.id.action_create_zip -> viewModel.archiveEvent.value = Operation.ARCHIVE_ZIP
-            R.id.action_create_tar -> viewModel.archiveEvent.value = Operation.ARCHIVE_ZIP // Operation.ARCHIVE_TAR
+            R.id.action_create_zip -> viewModel.archiveEvent.call()
             R.id.action_show_hidden -> viewModel.showHidden = !item.isChecked
             R.id.sort_by_name -> viewModel.sortMode = FileSorter.SORT_BY_NAME
             R.id.sort_by_size -> viewModel.sortMode = FileSorter.SORT_BY_SIZE
