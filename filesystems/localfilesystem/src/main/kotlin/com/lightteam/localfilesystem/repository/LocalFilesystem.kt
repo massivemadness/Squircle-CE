@@ -154,15 +154,16 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     override fun propertiesOf(fileModel: FileModel): Single<PropertiesModel> {
         return Single.create { emitter ->
             val file = File(fileModel.path)
+            val fileType = fileModel.getType()
             if (file.exists()) {
                 val result = PropertiesModel(
                     file.name,
                     file.absolutePath,
                     file.lastModified().formatAsDate(),
                     file.size().formatAsSize(),
-                    getLineCount(file),
-                    getWordCount(file),
-                    getCharCount(file),
+                    getLineCount(file, fileType),
+                    getWordCount(file, fileType),
+                    getCharCount(file, fileType),
                     file.canRead(),
                     file.canWrite(),
                     file.canExecute()
@@ -241,8 +242,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     // region PROPERTIES
 
-    private fun getLineCount(file: File): String {
-        if (file.isFile) {
+    private fun getLineCount(file: File, fileType: FileType): String {
+        if (file.isFile && fileType == FileType.TEXT) {
             var lines = 0
             file.forEachLine {
                 lines++
@@ -252,8 +253,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return "…"
     }
 
-    private fun getWordCount(file: File): String {
-        if (file.isFile) {
+    private fun getWordCount(file: File, fileType: FileType): String {
+        if (file.isFile && fileType == FileType.TEXT) {
             var words = 0
             file.forEachLine {
                 words += it.split(' ').size
@@ -263,8 +264,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return "…"
     }
 
-    private fun getCharCount(file: File): String {
-        if (file.isFile) {
+    private fun getCharCount(file: File, fileType: FileType): String {
+        if (file.isFile && fileType == FileType.TEXT) {
             return file.length().toString()
         }
         return "…"
