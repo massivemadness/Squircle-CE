@@ -289,7 +289,7 @@ class ExplorerViewModel(
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
-                filesystem.copyFile(it, dest, CopyOption.ABORT) // TODO Let user choose CopyOption for each file
+                filesystem.copyFile(it, dest, CopyOption.ABORT) // TODO: Возможность выбора CopyOption для каждого файла
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .schedulersIoToMain(schedulersProvider)
@@ -324,7 +324,7 @@ class ExplorerViewModel(
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
-                filesystem.copyFile(it, dest, CopyOption.REPLACE) // TODO Let user choose CopyOption for each file
+                filesystem.copyFile(it, dest, CopyOption.REPLACE) // TODO: Возможность выбора CopyOption для каждого файла
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .concatMapSingle {
@@ -394,6 +394,35 @@ class ExplorerViewModel(
                     progressEvent.value = (progressEvent.value ?: 0) + 1
                 },
                 onComplete = {
+                    filesUpdateEvent.call()
+                    toastEvent.value = R.string.message_done
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    when (it) {
+                        is FileNotFoundException -> {
+                            toastEvent.value = R.string.message_file_not_found
+                        }
+                        is FileAlreadyExistsException -> {
+                            toastEvent.value = R.string.message_file_already_exists
+                        }
+                        else -> {
+                            toastEvent.value = R.string.message_unknown_exception
+                        }
+                    }
+                }
+            )
+            .disposeOnViewModelDestroy()
+    }
+
+    fun decompressFile(source: FileModel, dest: FileModel) {
+        filesystem.decompress(source, dest)
+            .doOnSubscribe { progressEvent.postValue(0) }
+            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = {
+                    progressEvent.value = (progressEvent.value ?: 0) + 1 // FIXME у диалога всегда будет 1 файл
                     filesUpdateEvent.call()
                     toastEvent.value = R.string.message_done
                 },

@@ -36,7 +36,7 @@ data class FileModel(
             ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua"
         )
         val ARCHIVE = arrayOf(
-            ".zip", ".rar", ".7z", ".tar"
+            ".zip" // ".rar", ".7z", ".tar" are not currently supported
         )
         val IMAGE = arrayOf(
             ".png", ".jpg", ".jpeg", ".gif", ".webp"

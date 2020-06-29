@@ -124,6 +124,7 @@
     <string name="dialog_title_deleting">Deleting…</string>
     <string name="dialog_title_copying">Copying…</string>
     <string name="dialog_title_compressing">Compressing…</string>
+    <string name="dialog_title_extracting">Extracting…</string>
     <string name="dialog_title_archive_name">Archive name</string>
 
     <string name="dialog_message_exit">Are you sure you want to exit? All changes will be saved into a cache</string>
@@ -181,6 +182,7 @@
     <string name="message_deleting">Deleting…%1$s</string>
     <string name="message_copying">Copying…%1$s</string>
     <string name="message_compressing">Compressing…%1$s</string>
+    <string name="message_extracting">Extracting…%1$s</string>
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
 
     <string name="store_standard" translatable="false">Standard</string>

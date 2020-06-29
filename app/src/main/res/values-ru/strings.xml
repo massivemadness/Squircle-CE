@@ -116,6 +116,7 @@
     <string name="dialog_title_deleting">Удаление…</string>
     <string name="dialog_title_copying">Копирование…</string>
     <string name="dialog_title_compressing">Сжатие…</string>
+    <string name="dialog_title_extracting">Извлечение…</string>
     <string name="dialog_title_archive_name">Название архива</string>
 
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
@@ -173,6 +174,7 @@
     <string name="message_deleting">Удаление…%1$s</string>
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>
+    <string name="message_extracting">Извлечение…%1$s</string>
 
     <string name="store_feature_1">Базовый функционал</string>
     <string name="store_feature_2">Цветовые схемы</string>

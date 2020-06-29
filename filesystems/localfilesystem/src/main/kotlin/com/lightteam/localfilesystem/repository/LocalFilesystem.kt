@@ -204,8 +204,17 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun decompress(source: FileModel, dest: FileModel): Single<FileModel> {
-        TODO("Not yet implemented")
+    override fun decompress(source: FileModel, dest: FileModel): Single<FileModel> { // TODO: Use Observable
+        return Single.create { emitter ->
+            val sourceFile = FileConverter.toFile(source)
+            val archiveFile = ZipFile(sourceFile)
+            if (sourceFile.exists()) {
+                archiveFile.extractAll(dest.path)
+                emitter.onSuccess(source)
+            } else {
+                emitter.onError(FileNotFoundException(source.path))
+            }
+        }
     }
 
     override fun loadFile(fileModel: FileModel, charset: Charset): Single<String> {

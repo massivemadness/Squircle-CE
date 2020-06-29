@@ -21,5 +21,6 @@ enum class Operation {
     DELETE,
     COPY,
     CUT,
-    COMPRESS
+    COMPRESS,
+    EXTRACT
 }

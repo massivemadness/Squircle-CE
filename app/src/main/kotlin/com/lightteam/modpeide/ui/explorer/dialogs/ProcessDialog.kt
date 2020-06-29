@@ -49,6 +49,7 @@ class ProcessDialog : BaseDialogFragment() {
     private var dialogMessage: Int = -1
     private var dialogAction: () -> Unit = {} // Действие, которое запустится при открытии диалога
     private var onCloseAction: () -> Unit = {} // Действие, которое выполняемое при закрытии диалога
+    private var indeterminate: Boolean = false // Загрузка без отображения реального прогресса
     private var tempFiles: List<FileModel> = emptyList() // Список файлов для отображения информации
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -83,6 +84,7 @@ class ProcessDialog : BaseDialogFragment() {
 
             val totalProgress = tempFiles.size
             progressIndicator.max = totalProgress
+            progressIndicator.isIndeterminate = indeterminate
 
             val progressObserver = Observer<Int> { currentProgress ->
                 if (currentProgress < tempFiles.size) {
@@ -160,6 +162,14 @@ class ProcessDialog : BaseDialogFragment() {
                         archiveName = args.archiveName ?: tempFiles.first().name + ".zip"
                     )
                 }
+            }
+            Operation.EXTRACT -> {
+                dialogTitle = R.string.dialog_title_extracting
+                dialogMessage = R.string.message_extracting
+                dialogAction = {
+                    viewModel.decompressFile(tempFiles.first(), args.parent)
+                }
+                indeterminate = true
             }
         }
     }

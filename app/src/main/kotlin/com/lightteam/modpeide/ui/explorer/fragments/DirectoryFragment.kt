@@ -39,6 +39,7 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileTree
+import com.lightteam.filesystem.model.FileType
 import com.lightteam.filesystem.model.PropertiesModel
 import com.lightteam.localfilesystem.utils.isValidFileName
 import com.lightteam.modpeide.R
@@ -117,7 +118,13 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
                 navController.navigate(destination)
             } else {
-                sharedViewModel.openEvent.value = item
+                if (item.getType() == FileType.ARCHIVE) {
+                    viewModel.tempFiles.replaceList(listOf(item))
+                    viewModel.allowPasteFiles.set(false)
+                    executeProcess(Operation.EXTRACT)
+                } else {
+                    sharedViewModel.openEvent.value = item
+                }
             }
         } else {
             val index = adapter.currentList.indexOf(item)
