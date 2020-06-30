@@ -60,9 +60,6 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     private var openDelimiterSpan: BackgroundColorSpan? = null
     private var closedDelimiterSpan: BackgroundColorSpan? = null
 
-    private var topDirtyLine = 0
-    private var bottomDirtyLine = 0
-
     private var addedTextCount = 0
     private var selectedFindResult = 0
 
@@ -316,25 +313,10 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private fun updateSyntaxHighlighting() {
         if (layout != null) {
-            var topLine = scrollY / lineHeight - 10
-            if (topLine >= lineCount) {
-                topLine = lineCount - 1
-            } else if (topLine < 0) {
-                topLine = 0
-            }
-
-            var bottomLine = (scrollY + height) / lineHeight + 10
-            if (bottomLine >= lineCount) {
-                bottomLine = lineCount - 1
-            } else if (bottomLine < 0) {
-                bottomLine = 0
-            }
-
-            topDirtyLine = topLine
-            bottomDirtyLine = bottomLine
-
-            val lineStart = layout.getLineStart(topLine)
-            val lineEnd = layout.getLineEnd(bottomLine)
+            val topVisibleLine = getTopVisibleLine()
+            val bottomVisibleLine = getBottomVisibleLine()
+            val lineStart = layout.getLineStart(topVisibleLine)
+            val lineEnd = layout.getLineEnd(bottomVisibleLine)
 
             isSyntaxHighlighting = true
             val textSyntaxSpans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
@@ -342,8 +324,11 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
                 text.removeSpan(span)
             }
             for (span in syntaxHighlightSpans) {
-                if (span.start >= 0 && span.end <= text.length && span.start <= span.end
-                    && (span.start in lineStart..lineEnd || span.start <= lineEnd && span.end >= lineStart)) {
+                val isInText = span.start >= 0 && span.end <= text.length
+                val isValid = span.start <= span.end
+                val isVisible = span.start in lineStart..lineEnd
+                        || span.start <= lineEnd && span.end >= lineStart
+                if (isInText && isValid && isVisible) {
                     text.setSpan(
                         span,
                         if (span.start < lineStart) lineStart else span.start,
@@ -359,8 +344,11 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
                 text.removeSpan(span)
             }
             for (span in findResultSpans) {
-                if (span.start >= 0 && span.end <= text.length && span.start <= span.end
-                    && (span.start in lineStart..lineEnd || span.start <= lineEnd && span.end >= lineStart)) {
+                val isInText = span.start >= 0 && span.end <= text.length
+                val isValid = span.start <= span.end
+                val isVisible = span.start in lineStart..lineEnd
+                        || span.start <= lineEnd && span.end >= lineStart
+                if (isInText && isValid && isVisible) {
                     text.setSpan(
                         span,
                         if (span.start < lineStart) lineStart else span.start,

@@ -305,9 +305,7 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
         return if (line >= lineCount) {
             lineCount - 1
-        } else {
-            line
-        }
+        } else line
     }
 
     fun getBottomVisibleLine(): Int {
@@ -320,13 +318,11 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
         return if (line >= lineCount) {
             lineCount - 1
-        } else {
-            line
-        }
+        } else line
     }
 
     private fun updateGutter() {
-        var max = 3
+        var count = 3
         var widestNumber = 0
         var widestWidth = 0f
 
@@ -338,11 +334,11 @@ open class LineNumbersEditText @JvmOverloads constructor(
                 widestWidth = width
             }
         }
-        if (gutterDigitCount >= max) {
-            max = gutterDigitCount
+        if (gutterDigitCount >= count) {
+            count = gutterDigitCount
         }
         val builder = StringBuilder()
-        for (i in 0 until max) {
+        for (i in 0 until count) {
             builder.append(widestNumber.toString())
         }
         gutterWidth = paint.measureText(builder.toString()).toInt()
