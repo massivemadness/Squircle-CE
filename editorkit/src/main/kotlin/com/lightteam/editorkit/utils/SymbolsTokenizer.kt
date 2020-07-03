@@ -37,23 +37,18 @@ class SymbolsTokenizer : MultiAutoCompleteTextView.Tokenizer {
     }
 
     override fun findTokenEnd(text: CharSequence, cursor: Int): Int {
-        val length = text.length
         var i = cursor
-        while (i < length) {
+        while (i < text.length) {
             if (TOKEN.contains(text[i - 1])) {
                 return i
             } else {
                 i++
             }
         }
-        return length
+        return text.length
     }
 
     override fun terminateToken(text: CharSequence): CharSequence {
-        var i = text.length
-        while (i > 0 && text[i - 1] == ' ') {
-            i--
-        }
         return text
     }
 }

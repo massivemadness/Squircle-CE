@@ -35,8 +35,6 @@ abstract class SuggestionAdapter(
     var colorScheme: ColorScheme? = null
     var wordsManager: WordsManager? = null
 
-    private val suggestions: MutableList<SuggestionModel> = mutableListOf()
-
     private var queryText = ""
 
     abstract fun createViewHolder(parent: ViewGroup): SuggestionViewHolder
@@ -49,15 +47,18 @@ abstract class SuggestionAdapter(
 
     override fun getFilter(): Filter {
         return object : Filter() {
+
+            private val suggestions: MutableList<SuggestionModel> = mutableListOf()
+
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterResults = FilterResults()
                 suggestions.clear()
-                if (wordsManager != null) {
-                    val name = constraint.toString().toLowerCase(Locale.getDefault())
-                    for (suggestion in wordsManager!!.getSuggestions()) {
+                wordsManager?.let {
+                    val query = constraint.toString()
+                    for (suggestion in it.getSuggestions()) {
                         val suggestionText = suggestion.text.toString().toLowerCase(Locale.getDefault())
-                        if (suggestionText.startsWith(name) && suggestionText != name) {
-                            queryText = name
+                        if (suggestionText.startsWith(query, ignoreCase = true) && suggestionText != query) {
+                            queryText = query
                             suggestions.add(suggestion)
                         }
                     }
@@ -69,9 +70,7 @@ abstract class SuggestionAdapter(
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults) {
                 clear()
-                if (suggestions.isNotEmpty()) {
-                    addAll(suggestions)
-                }
+                addAll(suggestions)
                 notifyDataSetChanged()
             }
         }
