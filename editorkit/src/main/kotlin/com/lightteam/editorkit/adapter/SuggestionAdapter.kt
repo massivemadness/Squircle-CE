@@ -55,7 +55,7 @@ abstract class SuggestionAdapter(
                 suggestions.clear()
                 wordsManager?.let {
                     val query = constraint.toString()
-                    for (suggestion in it.getSuggestions()) {
+                    for (suggestion in it.suggestions) {
                         val suggestionText = suggestion.text.toString().toLowerCase(Locale.getDefault())
                         if (suggestionText.startsWith(query, ignoreCase = true) && suggestionText != query) {
                             queryText = query

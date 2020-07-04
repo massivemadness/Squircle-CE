@@ -30,17 +30,16 @@ class WordsManager {
         private const val WORDS_REGEX = "\\w((\\w|-)*(\\w))?"
     }
 
+    val suggestions: List<SuggestionModel>
+        get() = wordsList.words.map { SuggestionModel(it.value) }
+
     private val wordsPattern: Pattern = Pattern.compile(WORDS_REGEX)
     private val wordsList: WordsList = WordsList()
     private val predefinedList: MutableList<SuggestionModel> = mutableListOf()
 
-    fun setSuggestions(suggestions: SuggestionProvider) {
+    fun applySuggestionProvider(suggestions: SuggestionProvider) {
         predefinedList.clear()
         predefinedList.addAll(suggestions.getAll())
-    }
-
-    fun getSuggestions(): List<SuggestionModel> {
-        return wordsList.words.map { SuggestionModel(it.value) }
     }
 
     fun clear() {

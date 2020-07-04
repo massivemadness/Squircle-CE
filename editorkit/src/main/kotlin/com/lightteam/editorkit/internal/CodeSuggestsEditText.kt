@@ -111,39 +111,32 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
     private fun fillWithPredefinedSuggestions() {
         suggestionAdapter?.wordsManager = wordsManager
         language?.let {
-            wordsManager.setSuggestions(it.getSuggestions())
+            wordsManager.applySuggestionProvider(it.getSuggestions())
             wordsManager.processSuggestions()
         }
     }
 
     private fun onDropDownSizeChange(width: Int, height: Int) {
-        val rect = Rect()
-        getWindowVisibleDisplayFrame(rect)
-
-        dropDownWidth = width * 1/2 // 1/2 width of screen
-        dropDownHeight = height * 1/2 // 0.5 height of screen
-
-        onPopupChangePosition() // change position
+        dropDownWidth = width * 1/2
+        dropDownHeight = height * 1/2
+        onPopupChangePosition()
     }
 
     private fun onPopupChangePosition() {
         if (layout != null) {
             val charHeight = paint.measureText("M").toInt()
             val line = layout.getLineForOffset(selectionStart)
-            val baseline = layout.getLineBaseline(line)
-            val ascent = layout.getLineAscent(line)
 
             val x = layout.getPrimaryHorizontal(selectionStart)
-            val y = baseline + ascent
+            val y = layout.getLineBaseline(line)
 
             val offsetHorizontal = x + gutterWidth
             dropDownHorizontalOffset = offsetHorizontal.toInt()
 
-            val offsetVertical = y + charHeight - scrollY
-
+            val offsetVertical = y - scrollY
             var tmp = offsetVertical + dropDownHeight + charHeight
             if (tmp < getVisibleHeight()) {
-                tmp = offsetVertical + charHeight / 2
+                tmp = offsetVertical + charHeight
                 dropDownVerticalOffset = tmp
             } else {
                 tmp = offsetVertical - dropDownHeight - charHeight
