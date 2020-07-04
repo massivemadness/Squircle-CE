@@ -124,9 +124,7 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
 
     private fun onPopupChangePosition() {
         if (layout != null) {
-            val charHeight = paint.measureText("M").toInt()
             val line = layout.getLineForOffset(selectionStart)
-
             val x = layout.getPrimaryHorizontal(selectionStart)
             val y = layout.getLineBaseline(line)
 
@@ -134,12 +132,11 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
             dropDownHorizontalOffset = offsetHorizontal.toInt()
 
             val offsetVertical = y - scrollY
-            var tmp = offsetVertical + dropDownHeight + charHeight
+            var tmp = offsetVertical + dropDownHeight
             if (tmp < getVisibleHeight()) {
-                tmp = offsetVertical + charHeight
-                dropDownVerticalOffset = tmp
+                dropDownVerticalOffset = offsetVertical
             } else {
-                tmp = offsetVertical - dropDownHeight - charHeight
+                tmp = offsetVertical - dropDownHeight
                 dropDownVerticalOffset = tmp
             }
         }
