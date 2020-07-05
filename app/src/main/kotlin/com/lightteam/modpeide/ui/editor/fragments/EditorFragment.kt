@@ -56,8 +56,8 @@ import com.lightteam.modpeide.utils.extensions.launchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.util.concurrent.TimeUnit
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,

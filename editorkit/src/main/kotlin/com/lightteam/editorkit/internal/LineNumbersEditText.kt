@@ -27,8 +27,8 @@ import android.util.AttributeSet
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.editorkit.feature.linenumbers.LinesCollection
-import com.lightteam.editorkit.utils.dpToPx
 import com.lightteam.editorkit.utils.TextChangeListener
+import com.lightteam.editorkit.utils.dpToPx
 import kotlin.math.abs
 
 open class LineNumbersEditText @JvmOverloads constructor(

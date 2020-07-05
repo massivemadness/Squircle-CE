@@ -20,10 +20,10 @@ package com.lightteam.modpeide.ui.fonts.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.lightteam.modpeide.data.converter.FontConverter
-import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.database.AppDatabase
+import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent

@@ -45,7 +45,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
     private class KeyAdapter(
         private val keyListener: OnKeyListener
     ) : RecyclerView.Adapter<KeyAdapter.KeyViewHolder>() {
-        
+
         var keys: Array<Char> = arrayOf()
             set(value) {
                 field = value

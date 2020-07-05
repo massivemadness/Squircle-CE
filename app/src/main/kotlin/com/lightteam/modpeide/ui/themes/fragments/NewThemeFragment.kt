@@ -35,9 +35,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.model.theme.Meta
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentNewThemeBinding
-import com.lightteam.modpeide.data.model.theme.Meta
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.themes.adapters.PropertyAdapter
@@ -88,7 +88,6 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         super.onDestroyView()
         viewModel.metaEvent.value = meta
     }
-
 
     // region MENU
 

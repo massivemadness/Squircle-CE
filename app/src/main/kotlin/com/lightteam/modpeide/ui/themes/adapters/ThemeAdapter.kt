@@ -27,8 +27,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.delegate.LanguageDelegate
-import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.databinding.ItemThemeBinding
+import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.themes.customview.CodeView
 import com.lightteam.modpeide.utils.extensions.isUltimate

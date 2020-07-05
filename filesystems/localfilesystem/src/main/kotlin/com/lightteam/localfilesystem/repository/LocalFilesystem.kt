@@ -29,10 +29,10 @@ import com.lightteam.localfilesystem.utils.size
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import net.lingala.zip4j.ZipFile
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
+import net.lingala.zip4j.ZipFile
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 

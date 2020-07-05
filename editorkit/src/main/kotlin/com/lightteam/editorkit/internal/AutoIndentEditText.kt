@@ -160,8 +160,8 @@ open class AutoIndentEditText @JvmOverloads constructor(
             strArr[1] = "]"
             strArr[3] = (start + 1).toString()
             return strArr
-        } else if (newText == "]" && config.autoCloseBrackets
-            && start + 1 < text.length && text[start + 1] == ']') {
+        } else if (newText == "]" && config.autoCloseBrackets &&
+            start + 1 < text.length && text[start + 1] == ']') {
             strArr = arrayOfNulls(4)
             strArr[2] = ""
             strArr[3] = (start + 1).toString()

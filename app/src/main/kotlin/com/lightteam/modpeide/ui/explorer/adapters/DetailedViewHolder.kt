@@ -31,7 +31,7 @@ import com.lightteam.modpeide.utils.extensions.toReadableDate
 class DetailedViewHolder(
     private val binding: ItemFileDetailedBinding,
     private val onItemClickListener: OnItemClickListener<FileModel>
-): FileAdapter.FileViewHolder(binding.root) {
+) : FileAdapter.FileViewHolder(binding.root) {
 
     companion object {
         fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FileModel>): DetailedViewHolder {

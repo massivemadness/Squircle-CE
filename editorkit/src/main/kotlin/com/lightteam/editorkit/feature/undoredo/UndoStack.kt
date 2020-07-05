@@ -50,9 +50,9 @@ class UndoStack {
                 var allWhitespace: Boolean
                 var allLettersDigits: Boolean
                 var i = 0
-                if (textChange.oldText.isEmpty()
-                    && textChange.newText.length == 1
-                    && previous.oldText.isEmpty()) {
+                if (textChange.oldText.isEmpty() &&
+                    textChange.newText.length == 1 &&
+                    previous.oldText.isEmpty()) {
                     if (previous.start + previous.newText.length != textChange.start) {
                         stack.add(textChange)
                     } else if (textChange.newText[0].isWhitespace()) {
@@ -88,9 +88,9 @@ class UndoStack {
                     } else {
                         stack.add(textChange)
                     }
-                } else if (textChange.oldText.length != 1
-                    || textChange.newText.isNotEmpty()
-                    || previous.newText.isNotEmpty()) {
+                } else if (textChange.oldText.length != 1 ||
+                    textChange.newText.isNotEmpty() ||
+                    previous.newText.isNotEmpty()) {
                     stack.add(textChange)
                 } else if (previous.start - 1 != textChange.start) {
                     stack.add(textChange)

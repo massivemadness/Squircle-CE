@@ -22,9 +22,9 @@ import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.modpeide.data.model.theme.ExternalScheme
 import com.lightteam.modpeide.data.model.theme.ExternalTheme
-import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
+import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import java.util.*
 
 object ThemeConverter {

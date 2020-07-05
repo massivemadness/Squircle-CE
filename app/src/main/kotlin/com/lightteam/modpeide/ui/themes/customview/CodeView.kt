@@ -93,8 +93,8 @@ class CodeView @JvmOverloads constructor(
 
             val currentText = text.toSpannable()
             for (span in syntaxHighlightSpans) {
-                if (span.start >= 0 && span.end <= text.length && span.start <= span.end
-                    && (span.start in lineStart..lineEnd || span.start <= lineEnd && span.end >= lineStart)) {
+                if (span.start >= 0 && span.end <= text.length && span.start <= span.end &&
+                    (span.start in lineStart..lineEnd || span.start <= lineEnd && span.end >= lineStart)) {
                     currentText.setSpan(
                         span,
                         if (span.start < lineStart) lineStart else span.start,

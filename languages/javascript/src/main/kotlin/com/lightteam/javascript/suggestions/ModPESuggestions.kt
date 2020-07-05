@@ -17,8 +17,8 @@
 
 package com.lightteam.javascript.suggestions
 
-import com.lightteam.language.suggestion.SuggestionProvider
 import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.suggestion.SuggestionProvider
 
 /**
  * This suggestions only used in ModPE Script
@@ -69,7 +69,7 @@ class ModPESuggestions : SuggestionProvider {
         "getOffhandSlotCount",
         "getOffhandSlotData",
         "getPitch",
-        //"getRenderType",
+        // "getRenderType",
         "getRider",
         "getRiding",
         "getTarget",
@@ -102,7 +102,7 @@ class ModPESuggestions : SuggestionProvider {
         "setOffhandSlot",
         "setPosition",
         "setPositionRelative",
-        //"setRenderType",
+        // "setRenderType",
         "setRot",
         "setSneaking",
         "setTarget",
@@ -122,7 +122,7 @@ class ModPESuggestions : SuggestionProvider {
         "getMaxDamage",
         "getMaxStackSize",
         "getName",
-        //"getTextureCoords",
+        // "getTextureCoords",
         "getUseAnimation",
         "internalNameToId",
         "isValidItem",
@@ -233,9 +233,9 @@ class ModPESuggestions : SuggestionProvider {
         "enchant",
         "getArmorSlot",
         "getArmorSlotDamage",
-        //"getCarriedItem",
-        //"getCarriedItemCount",
-        //"getCarriedItemData",
+        // "getCarriedItem",
+        // "getCarriedItemCount",
+        // "getCarriedItemData",
         "getDimension",
         "getEnchantments",
         "getEntity",
@@ -261,9 +261,9 @@ class ModPESuggestions : SuggestionProvider {
         "getSaturation",
         "getScore",
         "getSelectedSlotId",
-        //"getX",
-        //"getY",
-        //"getZ",
+        // "getX",
+        // "getY",
+        // "getZ",
         "isFlying",
         "isPlayer",
         "setArmorSlot",
@@ -271,7 +271,7 @@ class ModPESuggestions : SuggestionProvider {
         "setExhaustion",
         "setExp",
         "setFlying",
-        //"setHealth"
+        // "setHealth"
         "setHunger",
         "setInventorySlot",
         "setItemCustomName",
@@ -281,18 +281,18 @@ class ModPESuggestions : SuggestionProvider {
     )
 
     private val server = arrayOf(
-        //"getAddress",
+        // "getAddress",
         "getAllPlayerNames",
         "getAllPlayers",
         "getPort",
-        //"joinServer",
+        // "joinServer",
         "sendChat"
     )
 
     private val hooks = arrayOf(
         "continueDestroyBlock",
         "customThrowableHitBlockHook",
-        //"destroyBlock",
+        // "destroyBlock",
         "projectileHitBlockHook",
         "startDestroyBlock",
         "chatHook",
@@ -310,7 +310,7 @@ class ModPESuggestions : SuggestionProvider {
         "projectileHitEntityHook",
         "blockEventHook",
         "explodeHook",
-        //"leaveGame",
+        // "leaveGame",
         "levelEventHook",
         "modTick",
         "newLevel",

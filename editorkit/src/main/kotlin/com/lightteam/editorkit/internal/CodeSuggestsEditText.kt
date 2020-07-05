@@ -21,8 +21,8 @@ import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import com.lightteam.editorkit.R
-import com.lightteam.editorkit.feature.suggestions.WordsManager
 import com.lightteam.editorkit.adapter.SuggestionAdapter
+import com.lightteam.editorkit.feature.suggestions.WordsManager
 import com.lightteam.editorkit.utils.SymbolsTokenizer
 
 open class CodeSuggestsEditText @JvmOverloads constructor(
@@ -117,8 +117,8 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
     }
 
     private fun onDropDownSizeChange(width: Int, height: Int) {
-        dropDownWidth = width * 1/2
-        dropDownHeight = height * 1/2
+        dropDownWidth = width * 1 / 2
+        dropDownHeight = height * 1 / 2
         onPopupChangePosition()
     }
 

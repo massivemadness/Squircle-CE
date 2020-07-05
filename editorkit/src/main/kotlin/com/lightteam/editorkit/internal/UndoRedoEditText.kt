@@ -60,9 +60,9 @@ open class UndoRedoEditText @JvmOverloads constructor(
         if (!isDoingUndoRedo && textLastChange != null) {
             if (count < UndoStack.MAX_SIZE) {
                 textLastChange?.newText = text?.subSequence(start, start + count).toString()
-                if (start == textLastChange?.start
-                    && (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!)
-                    && textLastChange?.oldText != textLastChange?.newText) {
+                if (start == textLastChange?.start &&
+                    (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!) &&
+                    textLastChange?.oldText != textLastChange?.newText) {
                     undoStack.push(textLastChange!!)
                     redoStack.removeAll()
                 }
