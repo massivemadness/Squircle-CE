@@ -21,6 +21,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply from: '../ktlint.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdk
@@ -78,11 +79,9 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
-    dataBinding {
-        enabled true
-    }
-    viewBinding {
-        enabled true
+    buildFeatures {
+        dataBinding true
+        viewBinding true
     }
 }
 

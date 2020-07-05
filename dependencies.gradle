@@ -70,6 +70,9 @@ ext {
     espresso_core_version = '3.3.0-rc01'
     mockito_version = '3.3.3'
 
+    // Lint
+    ktlint_version = '0.36.0'
+
     library = [
             // Kotlin
             kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
@@ -127,5 +130,9 @@ ext {
             junit_ext: "androidx.test.ext:junit:$junit_ext_version",
             test_runner: "androidx.test:runner:$test_runner_version",
             espresso_core: "androidx.test.espresso:espresso-core:$espresso_core_version"
+    ]
+
+    lint = [
+            ktlint: "com.pinterest:ktlint:$ktlint_version"
     ]
 }

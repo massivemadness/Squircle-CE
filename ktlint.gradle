@@ -15,31 +15,30 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply from: "$rootProject.projectDir/ktlint.gradle"
+repositories {
+    jcenter()
+}
 
-android {
-    compileSdkVersion rootProject.ext.compileSdk
-    buildToolsVersion rootProject.ext.buildTools
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdk
-        targetSdkVersion rootProject.ext.targetSdk
-
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
+configurations {
+    ktlint
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    ktlint rootProject.ext.lint.ktlint
+}
 
-    // Kotlin
-    implementation library.kotlin
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "src/**/*.kt"
+}
 
-    // Rx
-    implementation library.rxjava2
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "-F", "src/**/*.kt"
 }
