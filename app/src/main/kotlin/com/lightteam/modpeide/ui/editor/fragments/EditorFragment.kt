@@ -20,6 +20,8 @@ package com.lightteam.modpeide.ui.editor.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
@@ -51,22 +53,20 @@ import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.extensions.createTypefaceFromPath
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import com.lightteam.modpeide.utils.extensions.launchActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
     ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener,
     DocumentAdapter.TabInteractor, OnBackPressedHandler {
 
-    @Inject
-    lateinit var sharedViewModel: MainViewModel
-    @Inject
-    lateinit var viewModel: EditorViewModel
-    @Inject
-    lateinit var toolbarManager: ToolbarManager
+    private val sharedViewModel: MainViewModel by activityViewModels()
+    private val viewModel: EditorViewModel by viewModels()
+    private val toolbarManager: ToolbarManager by lazy { ToolbarManager(this) }
 
     private lateinit var binding: FragmentEditorBinding
     private lateinit var adapter: DocumentAdapter

@@ -19,11 +19,11 @@ package com.lightteam.modpeide.ui.main.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.ui.base.dialogs.BaseDialogFragment
 
-class ConfirmExitDialog : DialogFragment() {
+class ConfirmExitDialog : BaseDialogFragment() {
 
     companion object {
         const val DIALOG_TAG = "ConfirmExitDialog"

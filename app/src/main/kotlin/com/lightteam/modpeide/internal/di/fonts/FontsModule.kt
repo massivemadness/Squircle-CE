@@ -17,39 +17,13 @@
 
 package com.lightteam.modpeide.internal.di.fonts
 
-import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.database.AppDatabase
-import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.internal.di.settings.SettingsScope
-import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
-import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
+/*
 import dagger.Module
-import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
 
 @Module
-class FontsModule {
-
-    @Provides
-    @SettingsScope // @FontsScope
-    fun provideFontsViewModelFactory(
-        schedulersProvider: SchedulersProvider,
-        preferenceHandler: PreferenceHandler,
-        appDatabase: AppDatabase
-    ): FontsViewModel.Factory {
-        return FontsViewModel.Factory(
-            schedulersProvider,
-            preferenceHandler,
-            appDatabase
-        )
-    }
-
-    @Provides
-    @SettingsScope // @FontsScope
-    fun provideFontsViewModel(
-        activity: SettingsActivity,
-        factory: FontsViewModel.Factory
-    ): FontsViewModel {
-        return ViewModelProvider(activity, factory).get(FontsViewModel::class.java)
-    }
-}
+@InstallIn(ActivityRetainedComponent::class)
+object FontsModule {
+    // not used
+}*/

@@ -19,9 +19,8 @@ package com.lightteam.modpeide.ui.themes.viewmodel
 
 import android.os.Environment
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.lightteam.filesystem.model.FileModel
@@ -47,11 +46,13 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
+import javax.inject.Named
 
-class ThemesViewModel(
+class ThemesViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase,
+    @Named("Local")
     private val filesystem: Filesystem,
     private val gson: Gson
 ) : BaseViewModel() {
@@ -375,29 +376,5 @@ class ThemesViewModel(
                 R.string.theme_property_comments_color
             )
         )
-    }
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler,
-        private val appDatabase: AppDatabase,
-        private val filesystem: Filesystem,
-        private val gson: Gson
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === ThemesViewModel::class.java ->
-                    ThemesViewModel(
-                        schedulersProvider,
-                        preferenceHandler,
-                        appDatabase,
-                        filesystem,
-                        gson
-                    ) as T
-                else -> null as T
-            }
-        }
     }
 }

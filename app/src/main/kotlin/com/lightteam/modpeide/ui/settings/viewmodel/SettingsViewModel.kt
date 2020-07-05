@@ -17,9 +17,8 @@
 
 package com.lightteam.modpeide.ui.settings.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
@@ -29,7 +28,7 @@ import com.lightteam.modpeide.ui.settings.adapters.item.PreferenceItem
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 
-class SettingsViewModel(
+class SettingsViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler
 ) : BaseViewModel() {
@@ -73,23 +72,5 @@ class SettingsViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fullscreenEvent.value = it }
             .disposeOnViewModelDestroy()
-    }
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === SettingsViewModel::class.java ->
-                    SettingsViewModel(
-                        schedulersProvider,
-                        preferenceHandler
-                    ) as T
-                else -> null as T
-            }
-        }
     }
 }

@@ -21,6 +21,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -35,16 +36,16 @@ import com.lightteam.modpeide.ui.main.dialogs.ConfirmExitDialog
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
 import com.lightteam.modpeide.utils.extensions.multiplyDraggingEdgeSizeBy
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 10
     }
 
-    @Inject
-    lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var editorOnBackPressedHandler: OnBackPressedHandler

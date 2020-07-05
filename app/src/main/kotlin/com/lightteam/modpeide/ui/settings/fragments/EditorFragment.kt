@@ -22,12 +22,12 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.utils.extensions.isUltimate
 
-class EditorFragment : DaggerPreferenceFragmentCompat() {
+class EditorFragment : PreferenceFragmentCompat() {
 
     companion object {
         private const val KEY_FONT_TYPE = PreferenceHandler.KEY_FONT_TYPE

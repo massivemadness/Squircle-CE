@@ -17,11 +17,11 @@
 
 package com.lightteam.modpeide.ui.base.dialogs
 
-import dagger.android.support.DaggerDialogFragment
+import androidx.fragment.app.DialogFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseDialogFragment : DaggerDialogFragment() {
+abstract class BaseDialogFragment : DialogFragment() {
 
     private val viewCompositeDisposable by lazy { CompositeDisposable() }
 

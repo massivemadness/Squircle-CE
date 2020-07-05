@@ -22,11 +22,11 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
 
-class ApplicationFragment : DaggerPreferenceFragmentCompat() {
+class ApplicationFragment : PreferenceFragmentCompat() {
 
     companion object {
         private const val KEY_COLOR_SCHEME = PreferenceHandler.KEY_COLOR_SCHEME

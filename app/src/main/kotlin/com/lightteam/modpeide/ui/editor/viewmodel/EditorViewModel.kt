@@ -19,9 +19,8 @@ package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
@@ -43,7 +42,7 @@ import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 
-class EditorViewModel(
+class EditorViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase,
@@ -358,28 +357,4 @@ class EditorViewModel(
     }
 
     // endregion PREFERENCES
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler,
-        private val appDatabase: AppDatabase,
-        private val localRepository: LocalRepository,
-        private val cacheRepository: CacheRepository
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === EditorViewModel::class.java ->
-                    EditorViewModel(
-                        schedulersProvider,
-                        preferenceHandler,
-                        appDatabase,
-                        localRepository,
-                        cacheRepository
-                    ) as T
-                else -> null as T
-            }
-        }
-    }
 }

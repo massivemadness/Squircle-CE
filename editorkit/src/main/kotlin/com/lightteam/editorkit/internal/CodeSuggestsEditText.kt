@@ -132,12 +132,11 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
             dropDownHorizontalOffset = offsetHorizontal.toInt()
 
             val offsetVertical = y - scrollY
-            var tmp = offsetVertical + dropDownHeight
-            if (tmp < getVisibleHeight()) {
-                dropDownVerticalOffset = offsetVertical
+            val temp = offsetVertical + dropDownHeight
+            dropDownVerticalOffset = if (temp < getVisibleHeight()) {
+                offsetVertical
             } else {
-                tmp = offsetVertical - dropDownHeight
-                dropDownVerticalOffset = tmp
+                offsetVertical - dropDownHeight
             }
         }
     }

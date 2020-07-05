@@ -15,45 +15,43 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.editor
+package com.lightteam.modpeide.internal.di.app
 
 import android.content.Context
+import android.os.Environment
 import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.modpeide.data.repository.CacheRepository
-import com.lightteam.modpeide.data.repository.LocalRepository
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.localfilesystem.repository.LocalFilesystem
 import com.lightteam.modpeide.database.AppDatabase
+import com.lightteam.modpeide.database.delegate.DatabaseDelegate
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
-object EditorModule {
+@InstallIn(ApplicationComponent::class)
+object DataModule {
 
     @Provides
-    @ActivityRetainedScoped
-    fun provideCacheRepository(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        @Named("Cache")
-        filesystem: Filesystem
-    ): CacheRepository {
-        return CacheRepository(context.filesDir, appDatabase, filesystem)
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return DatabaseDelegate.provideAppDatabase(context)
     }
 
     @Provides
-    @ActivityRetainedScoped
-    fun provideFileRepository(
-        preferenceHandler: PreferenceHandler,
-        appDatabase: AppDatabase,
-        @Named("Local")
-        filesystem: Filesystem
-    ): LocalRepository {
-        return LocalRepository(preferenceHandler, appDatabase, filesystem)
+    @Singleton
+    @Named("Local")
+    fun provideLocalFilesystem(): Filesystem {
+        return LocalFilesystem(Environment.getExternalStorageDirectory())
+    }
+
+    @Provides
+    @Singleton
+    @Named("Cache")
+    fun provideCacheFilesystem(@ApplicationContext context: Context): Filesystem {
+        return LocalFilesystem(context.filesDir)
     }
 }

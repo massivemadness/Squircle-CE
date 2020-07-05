@@ -22,12 +22,12 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.BuildConfig
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.utils.extensions.isUltimate
 
-class AboutFragment : DaggerPreferenceFragmentCompat() {
+class AboutFragment : PreferenceFragmentCompat() {
 
     companion object {
         private const val KEY_ABOUT_AND_CHANGELOG = "ABOUT_AND_CHANGELOG"

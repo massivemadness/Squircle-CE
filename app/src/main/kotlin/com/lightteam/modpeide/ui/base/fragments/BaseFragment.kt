@@ -26,11 +26,11 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
-import dagger.android.support.DaggerFragment
+import androidx.fragment.app.Fragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : DaggerFragment() {
+abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment() {
 
     private val viewCompositeDisposable by lazy { CompositeDisposable() }
 

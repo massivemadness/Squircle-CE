@@ -31,7 +31,7 @@
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
-        android:name="com.lightteam.modpeide.BaseApplication"
+        android:name="com.lightteam.modpeide.MainApplication"
         tools:replace="android:supportsRtl">
 
         <activity

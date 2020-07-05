@@ -20,6 +20,7 @@ package com.lightteam.modpeide.ui.themes.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -33,12 +34,12 @@ import com.lightteam.modpeide.ui.themes.utils.GridSpacingItemDecoration
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
 import com.lightteam.modpeide.utils.extensions.isUltimate
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.ThemeInteractor {
 
-    @Inject
-    lateinit var viewModel: ThemesViewModel
+    private val viewModel: ThemesViewModel by viewModels()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentThemesBinding

@@ -17,35 +17,13 @@
 
 package com.lightteam.modpeide.internal.di.settings
 
-import androidx.lifecycle.ViewModelProvider
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
-import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
+/*
 import dagger.Module
-import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
 
 @Module
-class SettingsModule {
-
-    @Provides
-    @SettingsScope
-    fun provideSettingsViewModelFactory(
-        schedulersProvider: SchedulersProvider,
-        preferenceHandler: PreferenceHandler
-    ): SettingsViewModel.Factory {
-        return SettingsViewModel.Factory(
-            schedulersProvider,
-            preferenceHandler
-        )
-    }
-
-    @Provides
-    @SettingsScope
-    fun provideSettingsViewModel(
-        activity: SettingsActivity,
-        factory: SettingsViewModel.Factory
-    ): SettingsViewModel {
-        return ViewModelProvider(activity, factory).get(SettingsViewModel::class.java)
-    }
-}
+@InstallIn(ActivityRetainedComponent::class)
+object SettingsModule {
+    // not used
+}*/

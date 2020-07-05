@@ -20,6 +20,7 @@ package com.lightteam.modpeide.ui.explorer.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
@@ -30,19 +31,18 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.ui.base.dialogs.BaseDialogFragment
 import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProcessDialog : BaseDialogFragment() {
 
-    @Inject
-    lateinit var viewModel: ExplorerViewModel
-
+    private val viewModel: ExplorerViewModel by activityViewModels()
     private val args: ProcessDialogArgs by navArgs()
 
     private var dialogTitle: Int = -1

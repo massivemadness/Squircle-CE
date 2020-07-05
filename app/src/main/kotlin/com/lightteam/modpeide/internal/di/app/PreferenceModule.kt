@@ -15,45 +15,39 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.editor
+package com.lightteam.modpeide.internal.di.app
 
 import android.content.Context
-import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.modpeide.data.repository.CacheRepository
-import com.lightteam.modpeide.data.repository.LocalRepository
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
+import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityRetainedScoped
-import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
-object EditorModule {
+@InstallIn(ApplicationComponent::class)
+object PreferenceModule {
 
     @Provides
-    @ActivityRetainedScoped
-    fun provideCacheRepository(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        @Named("Cache")
-        filesystem: Filesystem
-    ): CacheRepository {
-        return CacheRepository(context.filesDir, appDatabase, filesystem)
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     @Provides
-    @ActivityRetainedScoped
-    fun provideFileRepository(
-        preferenceHandler: PreferenceHandler,
-        appDatabase: AppDatabase,
-        @Named("Local")
-        filesystem: Filesystem
-    ): LocalRepository {
-        return LocalRepository(preferenceHandler, appDatabase, filesystem)
+    @Singleton
+    fun provideRxSharedPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences {
+        return RxSharedPreferences.create(sharedPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferenceHandler(rxSharedPreferences: RxSharedPreferences): PreferenceHandler {
+        return PreferenceHandler(rxSharedPreferences)
     }
 }

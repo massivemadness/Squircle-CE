@@ -20,12 +20,12 @@ package com.lightteam.modpeide.ui.settings.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.TextView
-import androidx.fragment.app.DialogFragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.ui.base.dialogs.BaseDialogFragment
 import com.lightteam.modpeide.utils.extensions.getRawFileText
 
-class PrivacyPolicyDialog : DialogFragment() {
+class PrivacyPolicyDialog : BaseDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {

@@ -26,6 +26,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -43,17 +44,16 @@ import com.lightteam.modpeide.ui.themes.adapters.PropertyAdapter
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickListener<PropertyItem> {
 
     companion object {
         private const val REQUEST_CODE_FILE_CHOOSER = 11
     }
 
-    @Inject
-    lateinit var viewModel: ThemesViewModel
-
+    private val viewModel: ThemesViewModel by viewModels()
     private val args: NewThemeFragmentArgs by navArgs()
 
     private lateinit var navController: NavController

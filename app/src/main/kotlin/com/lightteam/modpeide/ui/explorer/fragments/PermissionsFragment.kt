@@ -21,6 +21,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -30,8 +31,9 @@ import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
 import com.lightteam.modpeide.utils.extensions.launchPermissionActivity
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PermissionsFragment : BaseFragment(R.layout.fragment_permissions) {
 
     companion object {
@@ -39,8 +41,7 @@ class PermissionsFragment : BaseFragment(R.layout.fragment_permissions) {
         private const val REQUEST_CODE_STORAGE_ACTIVITY = 2
     }
 
-    @Inject
-    lateinit var viewModel: ExplorerViewModel
+    private val viewModel: ExplorerViewModel by activityViewModels()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentPermissionsBinding

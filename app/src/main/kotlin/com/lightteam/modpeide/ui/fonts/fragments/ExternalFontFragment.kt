@@ -20,6 +20,7 @@ package com.lightteam.modpeide.ui.fonts.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -28,12 +29,12 @@ import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.databinding.FragmentExternalFontBinding
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
 
-    @Inject
-    lateinit var viewModel: FontsViewModel
+    private val viewModel: FontsViewModel by viewModels()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentExternalFontBinding
