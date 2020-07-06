@@ -25,7 +25,6 @@ import android.widget.Filter
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.editorkit.feature.suggestions.WordsManager
 import com.lightteam.language.model.SuggestionModel
-import java.util.*
 
 abstract class SuggestionAdapter(
     context: Context,
@@ -56,8 +55,9 @@ abstract class SuggestionAdapter(
                 wordsManager?.let {
                     val query = constraint.toString()
                     for (suggestion in it.suggestions) {
-                        val suggestionText = suggestion.text.toString().toLowerCase(Locale.getDefault())
-                        if (suggestionText.startsWith(query, ignoreCase = true) && suggestionText != query) {
+                        val word = suggestion.text.toString()
+                        if (word.startsWith(query, ignoreCase = true) &&
+                            !word.equals(query, ignoreCase = true)) {
                             queryText = query
                             suggestions.add(suggestion)
                         }
