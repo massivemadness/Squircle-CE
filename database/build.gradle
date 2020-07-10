@@ -18,7 +18,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply from: '../ktlint.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdk

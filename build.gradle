@@ -31,6 +31,7 @@ buildscript {
 }
 
 allprojects {
+    apply from: "$rootDir/ktlint.gradle"
     repositories {
         google()
         jcenter()

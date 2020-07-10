@@ -18,7 +18,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: "$rootProject.projectDir/ktlint.gradle"
 
 android {
     compileSdkVersion rootProject.ext.compileSdk
