@@ -30,7 +30,7 @@ import com.lightteam.editorkit.adapter.SuggestionAdapter
 import com.lightteam.language.model.SuggestionModel
 import com.lightteam.modpeide.R
 
-class BasicSuggestionAdapter(context: Context) : SuggestionAdapter(context, R.layout.item_suggestion) {
+class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layout.item_suggestion) {
 
     override fun createViewHolder(parent: ViewGroup): SuggestionViewHolder {
         return BasicSuggestionViewHolder.create(

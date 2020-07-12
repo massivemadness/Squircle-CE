@@ -23,6 +23,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
@@ -33,35 +35,40 @@ class ExtendedKeyboard @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
+    companion object {
+        private val DATA_SET = listOf('{', '}', '(', ')', ';', ',', '.', '=', '\\', '|',
+            '&', '!', '[', ']', '<', '>', '+', '-', '/', '*', '?', ':', '_')
+    }
+
     private lateinit var keyAdapter: KeyAdapter
 
     fun setKeyListener(keyListener: OnKeyListener) {
         keyAdapter = KeyAdapter(keyListener)
         adapter = keyAdapter
-        keyAdapter.keys = arrayOf('{', '}', '(', ')', ';', ',', '.', '=', '\\', '|',
-            '&', '!', '[', ']', '<', '>', '+', '-', '/', '*', '?', ':', '_')
+        keyAdapter.submitList(DATA_SET)
     }
 
     private class KeyAdapter(
         private val keyListener: OnKeyListener
-    ) : RecyclerView.Adapter<KeyAdapter.KeyViewHolder>() {
+    ) : ListAdapter<Char, KeyAdapter.KeyViewHolder>(diffCallback) {
 
-        var keys: Array<Char> = arrayOf()
-            set(value) {
-                field = value
-                notifyDataSetChanged()
+        companion object {
+            private val diffCallback = object : DiffUtil.ItemCallback<Char>() {
+                override fun areItemsTheSame(oldItem: Char, newItem: Char): Boolean {
+                    return oldItem == newItem
+                }
+                override fun areContentsTheSame(oldItem: Char, newItem: Char): Boolean {
+                    return oldItem == newItem
+                }
             }
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KeyViewHolder {
             return KeyViewHolder.create(parent, keyListener)
         }
 
         override fun onBindViewHolder(holder: KeyViewHolder, position: Int) {
-            holder.bind(keys[position])
-        }
-
-        override fun getItemCount(): Int {
-            return keys.size
+            holder.bind(getItem(position))
         }
 
         private class KeyViewHolder(

@@ -42,7 +42,7 @@ import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.StoreDialog
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
-import com.lightteam.modpeide.ui.editor.adapters.BasicSuggestionAdapter
+import com.lightteam.modpeide.ui.editor.adapters.AutoCompleteAdapter
 import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
 import com.lightteam.modpeide.ui.editor.utils.Panel
@@ -94,7 +94,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
 
-        binding.editor.suggestionAdapter = BasicSuggestionAdapter(requireContext())
+        binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
         binding.editor.onUndoRedoChangedListener = object : UndoRedoEditText.OnUndoRedoChangedListener {
             override fun onUndoRedoChanged() {
                 viewModel.canUndo.set(binding.editor.canUndo())
@@ -385,9 +385,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 negativeButton(R.string.action_cancel)
                 positiveButton(R.string.action_save) {
                     val enterFilePath = findViewById<TextInputEditText>(R.id.input)
-                    val filePath = enterFilePath.text?.toString()?.trim() ?: ""
+                    val filePath = enterFilePath.text?.toString()?.trim()
 
-                    if (filePath.isNotBlank()) {
+                    if (!filePath.isNullOrBlank()) {
                         val updateDocument = document.copy(
                             uuid = "whatever",
                             path = filePath
