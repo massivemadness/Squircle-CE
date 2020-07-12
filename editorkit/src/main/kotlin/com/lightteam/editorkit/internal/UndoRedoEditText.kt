@@ -76,8 +76,8 @@ open class UndoRedoEditText @JvmOverloads constructor(
         }
     }
 
-    override fun processText(newText: String, textParams: PrecomputedTextCompat?) {
-        super.processText(newText, textParams)
+    override fun processText(textParams: PrecomputedTextCompat?) {
+        super.processText(textParams)
         onUndoRedoChangedListener?.onUndoRedoChanged()
     }
 

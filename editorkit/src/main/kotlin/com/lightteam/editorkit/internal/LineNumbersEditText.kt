@@ -208,18 +208,18 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
     }
 
-    open fun processText(newText: String, textParams: PrecomputedTextCompat?) {
+    open fun processText(textParams: PrecomputedTextCompat?) {
         abortFling()
         removeTextChangedListener(textWatcher)
-        setText(textParams ?: newText)
+        setText(textParams ?: "")
 
         processedText.clear()
-        replaceText(0, processedText.length, newText)
+        replaceText(0, processedText.length, textParams?.toString() ?: "")
         lines.clear()
 
         var lineNumber = 0
         var lineStart = 0
-        newText.lines().forEach {
+        text.lines().forEach {
             addLine(lineNumber, lineStart, it.length)
             lineStart += it.length + 1
             lineNumber++
@@ -229,7 +229,7 @@ open class LineNumbersEditText @JvmOverloads constructor(
     }
 
     open fun clearText() {
-        processText("", null)
+        processText(null)
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
