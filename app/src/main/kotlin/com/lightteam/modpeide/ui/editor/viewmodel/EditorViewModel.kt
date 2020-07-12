@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
+import androidx.core.text.PrecomputedTextCompat
 import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
@@ -71,7 +72,7 @@ class EditorViewModel @ViewModelInject constructor(
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() // Проверка ошибок
-    val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() // Контент загруженного файла
+    val contentEvent: SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>> = SingleLiveEvent() // Контент загруженного файла
     val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() // События с измененными настройками
 
     // endregion EVENTS
@@ -129,19 +130,19 @@ class EditorViewModel @ViewModelInject constructor(
         } else -1
     }
 
-    fun loadFile(documentModel: DocumentModel) {
+    fun loadFile(documentModel: DocumentModel, params: PrecomputedTextCompat.Params) {
         val dataSource = if (cacheRepository.isCached(documentModel)) {
             cacheRepository
-        } else {
-            localRepository
-        }
+        } else localRepository
+
         dataSource.loadFile(documentModel)
             .doOnSubscribe { stateLoadingDocuments.set(true) }
             .doOnSuccess { stateLoadingDocuments.set(false) }
+            .map { it to PrecomputedTextCompat.create(it.text, params) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    selectedDocumentId = it.documentModel.uuid
+                    selectedDocumentId = it.first.documentModel.uuid
                     contentEvent.value = it
                 },
                 onError = {

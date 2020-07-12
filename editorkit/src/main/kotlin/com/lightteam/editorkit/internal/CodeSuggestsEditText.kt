@@ -20,6 +20,7 @@ package com.lightteam.editorkit.internal
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
+import androidx.core.text.PrecomputedTextCompat
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.adapter.SuggestionAdapter
 import com.lightteam.editorkit.feature.suggestions.WordsManager
@@ -74,9 +75,9 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun processText(newText: String) {
+    override fun processText(newText: String, textParams: PrecomputedTextCompat?) {
         wordsManager.clear()
-        super.processText(newText)
+        super.processText(newText, textParams)
         fillWithPredefinedSuggestions()
     }
 

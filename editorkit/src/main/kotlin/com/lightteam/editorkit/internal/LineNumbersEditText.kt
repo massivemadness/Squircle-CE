@@ -24,6 +24,7 @@ import android.graphics.Typeface
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import androidx.core.text.PrecomputedTextCompat
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.editorkit.feature.linenumbers.LinesCollection
@@ -207,10 +208,10 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
     }
 
-    open fun processText(newText: String) {
+    open fun processText(newText: String, textParams: PrecomputedTextCompat?) {
         abortFling()
         removeTextChangedListener(textWatcher)
-        setText(newText)
+        setText(textParams ?: newText)
 
         processedText.clear()
         replaceText(0, processedText.length, newText)
@@ -228,7 +229,7 @@ open class LineNumbersEditText @JvmOverloads constructor(
     }
 
     open fun clearText() {
-        processText("")
+        processText("", null)
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {

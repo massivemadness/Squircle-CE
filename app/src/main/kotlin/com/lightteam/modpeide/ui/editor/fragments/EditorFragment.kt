@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.editor.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -149,12 +150,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 binding.editor.setErrorLine(it.lineNumber)
             }
         })
-        viewModel.contentEvent.observe(viewLifecycleOwner, Observer { content ->
+        viewModel.contentEvent.observe(viewLifecycleOwner, Observer {
+            val content = it.first
+            val textParams = it.second
+
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
-            binding.editor.processText(content.text)
+            binding.editor.processText(content.text, textParams)
             binding.editor.scrollX = content.documentModel.scrollX
             binding.editor.scrollY = content.documentModel.scrollY
             binding.editor.setSelection(
@@ -304,7 +308,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     private fun loadDocument(position: Int) {
         if (position > -1 && position < viewModel.tabsList.size) {
             val document = viewModel.tabsList[position]
-            viewModel.loadFile(document)
+            viewModel.loadFile(document, TextViewCompat.getTextMetricsParams(binding.editor))
         }
     }
 

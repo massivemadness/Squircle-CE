@@ -19,6 +19,7 @@ package com.lightteam.editorkit.internal
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.core.text.PrecomputedTextCompat
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.feature.undoredo.TextChange
 import com.lightteam.editorkit.feature.undoredo.UndoStack
@@ -75,8 +76,8 @@ open class UndoRedoEditText @JvmOverloads constructor(
         }
     }
 
-    override fun processText(newText: String) {
-        super.processText(newText)
+    override fun processText(newText: String, textParams: PrecomputedTextCompat?) {
+        super.processText(newText, textParams)
         onUndoRedoChangedListener?.onUndoRedoChanged()
     }
 
