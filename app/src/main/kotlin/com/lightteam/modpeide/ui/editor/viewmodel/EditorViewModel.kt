@@ -114,7 +114,7 @@ class EditorViewModel @ViewModelInject constructor(
         } else {
             appDatabase.documentDao().deleteAll()
                 .doOnSubscribe { stateLoadingDocuments.set(true) }
-                .doOnComplete {
+                .doFinally {
                     stateLoadingDocuments.set(false)
                     stateNothingFound.set(true)
                 }
@@ -137,8 +137,8 @@ class EditorViewModel @ViewModelInject constructor(
 
         dataSource.loadFile(documentModel)
             .doOnSubscribe { stateLoadingDocuments.set(true) }
-            .doOnSuccess { stateLoadingDocuments.set(false) }
             .map { it to PrecomputedTextCompat.create(it.text, params) }
+            .doFinally { stateLoadingDocuments.set(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
