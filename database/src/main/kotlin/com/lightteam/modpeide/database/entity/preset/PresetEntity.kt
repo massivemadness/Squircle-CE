@@ -15,17 +15,20 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.database
+package com.lightteam.modpeide.database.entity.preset
 
-import com.lightteam.modpeide.database.dao.document.DocumentDao
-import com.lightteam.modpeide.database.dao.font.FontDao
-import com.lightteam.modpeide.database.dao.preset.PresetDao
-import com.lightteam.modpeide.database.dao.theme.ThemeDao
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.lightteam.modpeide.database.utils.Tables
 
-interface AppDatabase {
-    fun documentDao(): DocumentDao
-    fun fontDao(): FontDao
-    fun themeDao(): ThemeDao
-    fun presetDao(): PresetDao
-    fun shutDown()
-}
+@Entity(tableName = Tables.PRESETS)
+data class PresetEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "uuid")
+    val uuid: String,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "keys")
+    val keys: String
+)

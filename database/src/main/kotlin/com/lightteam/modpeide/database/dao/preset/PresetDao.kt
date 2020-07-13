@@ -15,17 +15,22 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.database
+package com.lightteam.modpeide.database.dao.preset
 
-import com.lightteam.modpeide.database.dao.document.DocumentDao
-import com.lightteam.modpeide.database.dao.font.FontDao
-import com.lightteam.modpeide.database.dao.preset.PresetDao
-import com.lightteam.modpeide.database.dao.theme.ThemeDao
+import androidx.room.Dao
+import androidx.room.Query
+import com.lightteam.modpeide.database.dao.base.BaseDao
+import com.lightteam.modpeide.database.entity.preset.PresetEntity
+import com.lightteam.modpeide.database.utils.Tables
+import io.reactivex.Completable
+import io.reactivex.Single
 
-interface AppDatabase {
-    fun documentDao(): DocumentDao
-    fun fontDao(): FontDao
-    fun themeDao(): ThemeDao
-    fun presetDao(): PresetDao
-    fun shutDown()
+@Dao
+abstract class PresetDao : BaseDao<PresetEntity> {
+
+    @Query("SELECT * FROM ${Tables.PRESETS} WHERE name LIKE '%' || :searchQuery || '%'")
+    abstract fun loadAll(searchQuery: String): Single<List<PresetEntity>>
+
+    @Query("DELETE FROM ${Tables.PRESETS}")
+    abstract fun deleteAll(): Completable
 }

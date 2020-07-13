@@ -78,4 +78,19 @@ object Migrations {
             )
         }
     }
+
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS `${Tables.PRESETS}` (
+                    `uuid` TEXT NOT NULL, 
+                    `name` TEXT NOT NULL, 
+                    `keys` TEXT NOT NULL, 
+                    PRIMARY KEY(`uuid`)
+                )
+                """
+            )
+        }
+    }
 }

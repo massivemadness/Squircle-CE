@@ -15,17 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.database
+package com.lightteam.modpeide.domain.model.preset
 
-import com.lightteam.modpeide.database.dao.document.DocumentDao
-import com.lightteam.modpeide.database.dao.font.FontDao
-import com.lightteam.modpeide.database.dao.preset.PresetDao
-import com.lightteam.modpeide.database.dao.theme.ThemeDao
-
-interface AppDatabase {
-    fun documentDao(): DocumentDao
-    fun fontDao(): FontDao
-    fun themeDao(): ThemeDao
-    fun presetDao(): PresetDao
-    fun shutDown()
-}
+data class PresetModel(
+    val uuid: String,
+    val name: String,
+    val keys: List<String>
+)
