@@ -44,8 +44,10 @@ class FontsViewModel @ViewModelInject constructor(
     val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
+    var searchQuery = ""
+
     fun fetchFonts() {
-        appDatabase.fontDao().loadAll()
+        appDatabase.fontDao().loadAll(searchQuery)
             .map { it.map(FontConverter::toModel) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fontsEvent.value = it }

@@ -18,12 +18,17 @@
 package com.lightteam.modpeide.ui.fonts.fragments
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentFontsBinding
 import com.lightteam.modpeide.domain.model.font.FontModel
@@ -32,6 +37,9 @@ import com.lightteam.modpeide.ui.fonts.adapters.FontAdapter
 import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInteractor {
@@ -41,6 +49,11 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
     private lateinit var navController: NavController
     private lateinit var binding: FragmentFontsBinding
     private lateinit var adapter: FontAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,6 +79,31 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
         viewModel.fetchFonts()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_fonts, menu)
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+
+        if (viewModel.searchQuery.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.searchQuery, false)
+        }
+
+        searchView
+            .queryTextChangeEvents()
+            .skipInitialValue()
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy {
+                viewModel.searchQuery = it.queryText.toString()
+                viewModel.fetchFonts()
+            }
+            .disposeOnFragmentDestroyView()
+    }
+
     override fun selectFont(fontModel: FontModel) {
         if (fontModel.isPaid && !isUltimate()) {
             navController.navigate(R.id.storeDialog)
@@ -83,6 +121,7 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
     private fun observeViewModel() {
         viewModel.fontsEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            binding.emptyView.isVisible = it.isEmpty()
         })
         viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = String.format(getString(R.string.message_selected), it))
