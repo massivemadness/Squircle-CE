@@ -95,7 +95,7 @@ class ThemeAdapter(
                     }
                     true
                 }
-                popupMenu.inflate(R.menu.menu_theme)
+                popupMenu.inflate(R.menu.menu_theme_actions)
                 popupMenu.makeRightPaddingRecursively()
                 popupMenu.show()
             }

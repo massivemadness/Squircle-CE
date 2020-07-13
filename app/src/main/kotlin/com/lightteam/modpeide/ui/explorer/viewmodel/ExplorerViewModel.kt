@@ -169,7 +169,7 @@ class ExplorerViewModel @ViewModelInject constructor(
                         tabsList.add(fileTree.parent)
                         tabsEvent.value = tabsList
                     }
-                    searchList.replaceList(fileTree.children) // Фильтрация по текущему списку
+                    searchList.replaceList(fileTree.children)
                     filesEvent.value = fileTree
                 },
                 onError = {

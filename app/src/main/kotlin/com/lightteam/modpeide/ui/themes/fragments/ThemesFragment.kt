@@ -18,13 +18,18 @@
 package com.lightteam.modpeide.ui.themes.fragments
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentThemesBinding
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
@@ -35,6 +40,9 @@ import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.ThemeInteractor {
@@ -44,6 +52,11 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
     private lateinit var navController: NavController
     private lateinit var binding: FragmentThemesBinding
     private lateinit var adapter: ThemeAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,6 +81,31 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
         }
 
         viewModel.fetchThemes()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_themes, menu)
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+
+        if (viewModel.searchQuery.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.searchQuery, false)
+        }
+
+        searchView
+            .queryTextChangeEvents()
+            .skipInitialValue()
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy {
+                viewModel.searchQuery = it.queryText.toString()
+                viewModel.fetchThemes()
+            }
+            .disposeOnFragmentDestroyView()
     }
 
     override fun selectTheme(themeModel: ThemeModel) {
@@ -109,6 +147,7 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
         })
         viewModel.themesEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            binding.emptyView.isVisible = it.isEmpty()
         })
         viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = String.format(getString(R.string.message_selected), it))

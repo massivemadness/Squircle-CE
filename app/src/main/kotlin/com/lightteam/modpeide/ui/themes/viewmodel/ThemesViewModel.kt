@@ -75,6 +75,8 @@ class ThemesViewModel @ViewModelInject constructor(
     val createEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
+    var searchQuery: String = ""
+
     // region PROPERTIES
 
     private var textColor: String = FALLBACK_COLOR
@@ -100,7 +102,7 @@ class ThemesViewModel @ViewModelInject constructor(
     // endregion PROPERTIES
 
     fun fetchThemes() {
-        appDatabase.themeDao().loadAll()
+        appDatabase.themeDao().loadAll(searchQuery)
             .map { it.map(ThemeConverter::toModel) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { themesEvent.value = it }
