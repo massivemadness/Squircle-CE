@@ -20,5 +20,6 @@ package com.lightteam.modpeide.domain.model.preset
 data class PresetModel(
     val uuid: String,
     val name: String,
+    val isExternal: Boolean,
     val keys: List<String>
 )

@@ -15,22 +15,28 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.database.entity.preset
+package com.lightteam.modpeide.data.converter
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.lightteam.modpeide.database.utils.Tables
+import com.lightteam.modpeide.database.entity.preset.PresetEntity
+import com.lightteam.modpeide.domain.model.preset.PresetModel
 
-@Entity(tableName = Tables.PRESETS)
-data class PresetEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "uuid")
-    val uuid: String,
-    @ColumnInfo(name = "name")
-    val name: String,
-    @ColumnInfo(name = "is_external")
-    val isExternal: Boolean,
-    @ColumnInfo(name = "keys")
-    val keys: String
-)
+object PresetConverter {
+
+    fun toModel(presetEntity: PresetEntity): PresetModel {
+        return PresetModel(
+            uuid = presetEntity.uuid,
+            name = presetEntity.name,
+            isExternal = presetEntity.isExternal,
+            keys = presetEntity.keys.toCharArray().map { it.toString() }
+        )
+    }
+
+    fun toEntity(presetModel: PresetModel): PresetEntity {
+        return PresetEntity(
+            uuid = presetModel.uuid,
+            name = presetModel.name,
+            isExternal = presetModel.isExternal,
+            keys = presetModel.keys.joinToString(separator = "")
+        )
+    }
+}

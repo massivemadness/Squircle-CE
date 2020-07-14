@@ -60,7 +60,7 @@ object DatabaseDelegate {
                     )
                     db.execSQL("""
                         INSERT OR IGNORE INTO `${Tables.PRESETS}` VALUES
-                            ('59d24164-3e1f-4a6d-bb8d-0ee23b4083e6', 'Default', '{}();,.=\|&![]<>+-/*?:_')
+                            ('59d24164-3e1f-4a6d-bb8d-0ee23b4083e6', 'Default', 1, '{}();,.=\|&![]<>+-/*?:_')
                             """
                     )
                 }
