@@ -47,6 +47,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_PINCH_ZOOM = "PINCH_ZOOM"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
         const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
+        const val KEY_KEYBOARD_PRESET = "KEYBOARD_PRESET"
 
         // Keyboard
         const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYBOARD"

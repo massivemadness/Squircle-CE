@@ -80,7 +80,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
                 fun create(parent: ViewGroup, keyListener: OnKeyListener): KeyViewHolder {
                     val itemView = LayoutInflater
                         .from(parent.context)
-                        .inflate(R.layout.item_key, parent, false)
+                        .inflate(R.layout.item_keyboard_key, parent, false)
                     return KeyViewHolder(itemView, keyListener)
                 }
             }

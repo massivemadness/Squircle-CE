@@ -31,6 +31,7 @@
     <string name="label_external_font">External Font</string>
     <string name="label_themes">Themes</string>
     <string name="label_new_theme">New Theme</string>
+    <string name="label_presets">Keyboard presets</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_line">Line:</string>
@@ -276,6 +277,8 @@
     <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the caret at its pair.</string>
     <string name="pref_extended_keyboard_title">Extended Keyboard</string>
     <string name="pref_extended_keyboard_summary">Show additional keys above the keyboard.</string>
+    <string name="pref_keyboard_presets_title">Keyboard Presets</string>
+    <string name="pref_keyboard_presets_summary">Choose preset for extended keyboard.</string>
     <string name="pref_soft_keyboard_title">Soft Keyboard</string>
     <string name="pref_soft_keyboard_summary">Always use soft keyboard.</string>
 

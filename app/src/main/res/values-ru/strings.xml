@@ -30,6 +30,7 @@
     <string name="label_external_font">Внешний шрифт</string>
     <string name="label_themes">Темы</string>
     <string name="label_new_theme">Новая тема</string>
+    <string name="label_presets">Клавиатурные пресеты</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_line">Линия:</string>
@@ -67,9 +68,9 @@
     <string name="action_select">Выбрать</string>
     <string name="action_add_font">Добавить шрифт</string>
     <string name="action_save_theme">Сохранить тему</string>
-    <string name="action_import">Импортировать</string>
-    <string name="action_export">Экспортировать</string>
-    <string name="action_edit">Редактировать</string>
+    <string name="action_import">Импорт</string>
+    <string name="action_export">Экспорт</string>
+    <string name="action_edit">Изменить</string>
     <string name="action_remove">Удалить</string>
     <string name="action_new">Новый файл</string>
     <string name="action_open">Открыть</string>
@@ -263,6 +264,8 @@
     <string name="pref_highlight_delimiters_summary">Подсвечивать открытые/закрытые скобки рядом с курсором.</string>
     <string name="pref_extended_keyboard_title">Расширенная клавиатура</string>
     <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
+    <string name="pref_keyboard_presets_title">Клавиатурные пресеты</string>
+    <string name="pref_keyboard_presets_summary">Настройте раскладку расширенной клавиатуры.</string>
     <string name="pref_soft_keyboard_title">Soft-клавиатура</string>
     <string name="pref_soft_keyboard_summary">Использовать soft-клавиатуру в горизонтальном режиме.</string>
 
