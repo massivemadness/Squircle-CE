@@ -33,6 +33,7 @@ class EditorFragment : PreferenceFragmentCompat() {
         private const val KEY_FONT_TYPE = PreferenceHandler.KEY_FONT_TYPE
         private const val KEY_TAB_LIMIT = PreferenceHandler.KEY_TAB_LIMIT
         private const val KEY_ERROR_HIGHLIGHTING = PreferenceHandler.KEY_ERROR_HIGHLIGHTING
+        private const val KEY_KEYBOARD_PRESET = PreferenceHandler.KEY_KEYBOARD_PRESET
     }
 
     private lateinit var navController: NavController
@@ -52,5 +53,10 @@ class EditorFragment : PreferenceFragmentCompat() {
         }
         findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = isUltimate()
         findPreference<Preference>(KEY_ERROR_HIGHLIGHTING)?.isEnabled = isUltimate()
+        findPreference<Preference>(KEY_KEYBOARD_PRESET)?.setOnPreferenceClickListener {
+            val destination = EditorFragmentDirections.toPresetsFragment()
+            navController.navigate(destination)
+            true
+        }
     }
 }

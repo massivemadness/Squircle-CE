@@ -60,6 +60,9 @@
         <action
             android:id="@+id/to_fontsFragment"
             app:destination="@id/fontsFragment"/>
+        <action
+            android:id="@+id/to_presetsFragment"
+            app:destination="@id/presetsFragment"/>
     </fragment>
 
     <fragment
@@ -78,10 +81,10 @@
         android:label="@string/label_about">
         <action
             android:id="@+id/action_aboutFragment_to_changeLogDialog"
-            app:destination="@id/changeLogDialog" />
+            app:destination="@id/changeLogDialog"/>
         <action
             android:id="@+id/action_aboutFragment_to_privacyPolicyDialog"
-            app:destination="@id/privacyPolicyDialog" />
+            app:destination="@id/privacyPolicyDialog"/>
     </fragment>
 
     <fragment
@@ -120,6 +123,12 @@
             app:nullable="true"
             app:argType="string"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/presetsFragment"
+        android:name="com.lightteam.modpeide.ui.presets.fragments.PresetsFragment"
+        android:label="@string/label_presets"
+        tools:layout="@layout/fragment_presets"/>
 
     <dialog
         android:id="@+id/changeLogDialog"
