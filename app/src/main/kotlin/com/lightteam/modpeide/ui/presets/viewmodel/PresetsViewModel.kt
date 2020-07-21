@@ -20,19 +20,26 @@ package com.lightteam.modpeide.ui.presets.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.lightteam.modpeide.data.converter.PresetConverter
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.model.preset.PresetModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 
 class PresetsViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
+    private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase
 ) : BaseViewModel() {
 
     val presetsEvent: MutableLiveData<List<PresetModel>> = MutableLiveData()
+
+    val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    // val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    // val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     var searchQuery = ""
 
@@ -42,5 +49,10 @@ class PresetsViewModel @ViewModelInject constructor(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { presetsEvent.value = it }
             .disposeOnViewModelDestroy()
+    }
+
+    fun selectPreset(presetModel: PresetModel) {
+        preferenceHandler.getKeyboardPreset().set(presetModel.uuid)
+        selectEvent.value = presetModel.name
     }
 }

@@ -115,7 +115,7 @@ class ProcessDialog : BaseDialogFragment() {
     private fun formatElapsedTime(textView: TextView, timeInMillis: Long) {
         val formatter = SimpleDateFormat("mm:ss", Locale.getDefault())
         val elapsedTime = String.format(
-            getString(R.string.message_elasped_time),
+            getString(R.string.message_elapsed_time),
             formatter.format(timeInMillis)
         )
         textView.text = elapsedTime

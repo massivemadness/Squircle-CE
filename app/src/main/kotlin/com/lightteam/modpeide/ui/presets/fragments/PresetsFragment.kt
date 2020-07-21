@@ -105,7 +105,7 @@ class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), Preset
     }
 
     override fun selectPreset(presetModel: PresetModel) {
-        // viewModel.selectPreset
+        viewModel.selectPreset(presetModel)
     }
 
     override fun editPreset(presetModel: PresetModel) {
@@ -125,11 +125,11 @@ class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), Preset
             adapter.submitList(it)
             binding.emptyView.isVisible = it.isEmpty()
         })
-        /*viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_selected), it))
+        viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
+            showToast(text = getString(R.string.message_selected, it))
         })
-        viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_preset_removed), it))
+        /*viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
+            showToast(text = getString(R.string.message_preset_removed, it))
         })*/
     }
 }
