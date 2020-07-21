@@ -30,7 +30,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.databinding.FragmentPresetsBinding
+import com.lightteam.modpeide.databinding.FragmentKeyboardPresetsBinding
 import com.lightteam.modpeide.domain.model.preset.PresetModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.presets.adapters.PresetAdapter
@@ -42,12 +42,12 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class PresetsFragment : BaseFragment(R.layout.fragment_presets), PresetAdapter.PresetInteractor {
+class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), PresetAdapter.PresetInteractor {
 
     private val viewModel: PresetsViewModel by viewModels()
 
     private lateinit var navController: NavController
-    private lateinit var binding: FragmentPresetsBinding
+    private lateinit var binding: FragmentKeyboardPresetsBinding
     private lateinit var adapter: PresetAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ class PresetsFragment : BaseFragment(R.layout.fragment_presets), PresetAdapter.P
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentPresetsBinding.bind(view)
+        binding = FragmentKeyboardPresetsBinding.bind(view)
         observeViewModel()
 
         navController = findNavController()

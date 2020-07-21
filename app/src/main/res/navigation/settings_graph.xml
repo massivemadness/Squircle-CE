@@ -127,8 +127,8 @@
     <fragment
         android:id="@+id/presetsFragment"
         android:name="com.lightteam.modpeide.ui.presets.fragments.PresetsFragment"
-        android:label="@string/label_presets"
-        tools:layout="@layout/fragment_presets"/>
+        android:label="@string/label_keyboard_presets"
+        tools:layout="@layout/fragment_keyboard_presets"/>
 
     <dialog
         android:id="@+id/changeLogDialog"

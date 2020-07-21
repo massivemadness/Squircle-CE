@@ -55,10 +55,7 @@ class PresetKeyAdapter : RecyclerView.Adapter<PresetKeyAdapter.PresetKeyViewHold
             }
         }
 
-        private lateinit var presetKey: String
-
         override fun bind(item: String) {
-            presetKey = item
             binding.itemTitle.text = item
         }
     }

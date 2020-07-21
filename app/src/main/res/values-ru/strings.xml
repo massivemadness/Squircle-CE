@@ -30,7 +30,7 @@
     <string name="label_external_font">Внешний шрифт</string>
     <string name="label_themes">Темы</string>
     <string name="label_new_theme">Новая тема</string>
-    <string name="label_presets">Клавиатурные пресеты</string>
+    <string name="label_keyboard_presets">Клавиатурные пресеты</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_line">Линия:</string>

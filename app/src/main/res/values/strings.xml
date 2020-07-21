@@ -31,7 +31,7 @@
     <string name="label_external_font">External Font</string>
     <string name="label_themes">Themes</string>
     <string name="label_new_theme">New Theme</string>
-    <string name="label_presets">Keyboard presets</string>
+    <string name="label_keyboard_presets">Keyboard presets</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_line">Line:</string>
