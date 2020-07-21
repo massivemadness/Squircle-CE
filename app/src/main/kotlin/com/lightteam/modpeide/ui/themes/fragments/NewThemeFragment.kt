@@ -152,7 +152,7 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
             binding.actionSaveTheme.isEnabled = it
         })
         viewModel.createEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_new_theme_available), it))
+            showToast(text = getString(R.string.message_new_theme_available, it))
             navController.navigateUp()
         })
         viewModel.metaEvent.observe(viewLifecycleOwner, Observer {

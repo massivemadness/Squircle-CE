@@ -74,7 +74,7 @@ class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
             binding.actionAdd.isEnabled = it
         })
         viewModel.insertEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_new_font_available), it))
+            showToast(text = getString(R.string.message_new_font_available, it))
             navController.navigateUp()
         })
     }

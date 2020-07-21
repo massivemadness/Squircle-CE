@@ -150,13 +150,13 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
             binding.emptyView.isVisible = it.isEmpty()
         })
         viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_selected), it))
+            showToast(text = getString(R.string.message_selected, it))
         })
         viewModel.exportEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_theme_exported), it), duration = Toast.LENGTH_LONG)
+            showToast(text = getString(R.string.message_theme_exported, it), duration = Toast.LENGTH_LONG)
         })
         viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_theme_removed), it))
+            showToast(text = getString(R.string.message_theme_removed, it))
         })
     }
 }

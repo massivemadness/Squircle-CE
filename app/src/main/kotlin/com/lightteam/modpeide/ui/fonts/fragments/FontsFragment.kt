@@ -124,10 +124,10 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
             binding.emptyView.isVisible = it.isEmpty()
         })
         viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_selected), it))
+            showToast(text = getString(R.string.message_selected, it))
         })
         viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_font_removed), it))
+            showToast(text = getString(R.string.message_font_removed, it))
         })
     }
 }

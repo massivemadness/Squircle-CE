@@ -53,8 +53,8 @@ class AboutFragment : PreferenceFragmentCompat() {
         if (isUltimate()) {
             changelog?.setTitle(R.string.pref_about_ultimate_title)
         }
-        changelog?.summary = String.format(
-            getString(R.string.pref_about_summary),
+        changelog?.summary = getString(
+            R.string.pref_about_summary,
             BuildConfig.VERSION_NAME,
             BuildConfig.VERSION_CODE
         )
