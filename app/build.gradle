@@ -66,6 +66,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    lintOptions {
+        disable "NullSafeMutableLiveData"
+    }
     sourceSets {
         main {
             java.srcDirs += 'src/main/kotlin'
