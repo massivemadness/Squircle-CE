@@ -20,13 +20,11 @@ package com.lightteam.modpeide.ui.editor.customview
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lightteam.modpeide.R
+import com.lightteam.modpeide.databinding.ItemKeyboardKeyBinding
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 
 class ExtendedKeyboard @JvmOverloads constructor(
@@ -35,29 +33,27 @@ class ExtendedKeyboard @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
-    companion object {
-        private val DATA_SET = listOf('{', '}', '(', ')', ';', ',', '.', '=', '\\', '|',
-            '&', '!', '[', ']', '<', '>', '+', '-', '/', '*', '?', ':', '_')
-    }
-
     private lateinit var keyAdapter: KeyAdapter
 
     fun setKeyListener(keyListener: OnKeyListener) {
         keyAdapter = KeyAdapter(keyListener)
         adapter = keyAdapter
-        keyAdapter.submitList(DATA_SET)
+    }
+
+    fun submitList(keys: List<String>) {
+        keyAdapter.submitList(keys)
     }
 
     private class KeyAdapter(
         private val keyListener: OnKeyListener
-    ) : ListAdapter<Char, KeyAdapter.KeyViewHolder>(diffCallback) {
+    ) : ListAdapter<String, KeyAdapter.KeyViewHolder>(diffCallback) {
 
         companion object {
-            private val diffCallback = object : DiffUtil.ItemCallback<Char>() {
-                override fun areItemsTheSame(oldItem: Char, newItem: Char): Boolean {
+            private val diffCallback = object : DiffUtil.ItemCallback<String>() {
+                override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
                     return oldItem == newItem
                 }
-                override fun areContentsTheSame(oldItem: Char, newItem: Char): Boolean {
+                override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
                     return oldItem == newItem
                 }
             }
@@ -72,20 +68,17 @@ class ExtendedKeyboard @JvmOverloads constructor(
         }
 
         private class KeyViewHolder(
-            itemView: View,
+            private val binding: ItemKeyboardKeyBinding,
             private val keyListener: OnKeyListener
-        ) : BaseViewHolder<Char>(itemView) {
+        ) : BaseViewHolder<String>(binding.root) {
 
             companion object {
                 fun create(parent: ViewGroup, keyListener: OnKeyListener): KeyViewHolder {
-                    val itemView = LayoutInflater
-                        .from(parent.context)
-                        .inflate(R.layout.item_keyboard_key, parent, false)
-                    return KeyViewHolder(itemView, keyListener)
+                    val inflater = LayoutInflater.from(parent.context)
+                    val binding = ItemKeyboardKeyBinding.inflate(inflater, parent, false)
+                    return KeyViewHolder(binding, keyListener)
                 }
             }
-
-            private val textView: TextView = itemView.findViewById(R.id.item_title)
 
             private lateinit var char: String
 
@@ -95,9 +88,9 @@ class ExtendedKeyboard @JvmOverloads constructor(
                 }
             }
 
-            override fun bind(item: Char) {
-                char = item.toString()
-                textView.text = char
+            override fun bind(item: String) {
+                char = item
+                binding.itemTitle.text = char
             }
         }
     }

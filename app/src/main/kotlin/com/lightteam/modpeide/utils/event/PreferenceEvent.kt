@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.utils.event
 
+import com.lightteam.modpeide.domain.model.preset.PresetModel
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
 
 sealed class PreferenceEvent<T>(val value: T) {
@@ -30,6 +31,7 @@ sealed class PreferenceEvent<T>(val value: T) {
     class CurrentLine(value: Boolean) : PreferenceEvent<Boolean>(value)
     class Delimiters(value: Boolean) : PreferenceEvent<Boolean>(value)
     class ExtendedKeys(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class KeyboardPreset(value: PresetModel) : PreferenceEvent<PresetModel>(value)
     class SoftKeys(value: Boolean) : PreferenceEvent<Boolean>(value)
     class AutoIndent(value: Boolean) : PreferenceEvent<Boolean>(value)
     class AutoBrackets(value: Boolean) : PreferenceEvent<Boolean>(value)

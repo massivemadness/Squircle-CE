@@ -31,6 +31,9 @@ abstract class PresetDao : BaseDao<PresetEntity> {
     @Query("SELECT * FROM ${Tables.PRESETS} WHERE name LIKE '%' || :searchQuery || '%'")
     abstract fun loadAll(searchQuery: String): Single<List<PresetEntity>>
 
+    @Query("SELECT * FROM ${Tables.PRESETS} WHERE uuid = :uuid")
+    abstract fun load(uuid: String): Single<PresetEntity>
+
     @Query("DELETE FROM ${Tables.PRESETS}")
     abstract fun deleteAll(): Completable
 }

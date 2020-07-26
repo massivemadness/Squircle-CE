@@ -28,6 +28,7 @@ import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
+import com.lightteam.modpeide.data.converter.PresetConverter
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.repository.CacheRepository
 import com.lightteam.modpeide.data.repository.LocalRepository
@@ -330,6 +331,17 @@ class EditorViewModel @ViewModelInject constructor(
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { preferenceEvent.offer(PreferenceEvent.ExtendedKeys(it)) }
+            .disposeOnViewModelDestroy()
+
+        preferenceHandler.getKeyboardPreset()
+            .asObservable()
+            .flatMapSingle {
+                appDatabase.presetDao().load(it)
+                    .schedulersIoToMain(schedulersProvider)
+            }
+            .map(PresetConverter::toModel)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.KeyboardPreset(it)) }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getSoftKeyboard()

@@ -246,6 +246,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                             }
                         }
                     }
+                    is PreferenceEvent.KeyboardPreset -> {
+                        binding.extendedKeyboard.submitList(event.value.keys)
+                    }
                     is PreferenceEvent.SoftKeys -> {
                         val newConfiguration = binding.editor.config.copy(softKeyboard = event.value)
                         binding.editor.config = newConfiguration
