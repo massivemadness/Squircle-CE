@@ -69,8 +69,8 @@ class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), Preset
 
         binding.actionAdd.setOnClickListener {
             if (isUltimate()) {
-                // val destination = PresetsFragmentDirections.toNewPresetFragment()
-                // navController.navigate(destination)
+                val destination = PresetsFragmentDirections.toNewPresetFragment()
+                navController.navigate(destination)
             } else {
                 navController.navigate(R.id.storeDialog)
             }

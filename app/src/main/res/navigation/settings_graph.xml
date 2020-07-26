@@ -128,7 +128,17 @@
         android:id="@+id/presetsFragment"
         android:name="com.lightteam.modpeide.ui.presets.fragments.PresetsFragment"
         android:label="@string/label_keyboard_presets"
-        tools:layout="@layout/fragment_keyboard_presets"/>
+        tools:layout="@layout/fragment_keyboard_presets">
+        <action
+            android:id="@+id/to_newPresetFragment"
+            app:destination="@id/newPresetFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/newPresetFragment"
+        android:name="com.lightteam.modpeide.ui.presets.fragments.NewPresetFragment"
+        android:label="@string/label_new_preset"
+        tools:layout="@layout/fragment_new_preset"/>
 
     <dialog
         android:id="@+id/changeLogDialog"

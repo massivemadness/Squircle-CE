@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.fonts.fragments
+package com.lightteam.modpeide.ui.presets.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -25,47 +25,47 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.databinding.FragmentExternalFontBinding
-import com.lightteam.modpeide.domain.model.font.FontModel
+import com.lightteam.modpeide.databinding.FragmentNewPresetBinding
+import com.lightteam.modpeide.domain.model.preset.PresetModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
-import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
+import com.lightteam.modpeide.ui.presets.viewmodel.PresetsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
-class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
+class NewPresetFragment : BaseFragment(R.layout.fragment_new_preset) {
 
-    private val viewModel: FontsViewModel by viewModels()
+    private val viewModel: PresetsViewModel by viewModels()
 
     private lateinit var navController: NavController
-    private lateinit var binding: FragmentExternalFontBinding
+    private lateinit var binding: FragmentNewPresetBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentExternalFontBinding.bind(view)
+        binding = FragmentNewPresetBinding.bind(view)
         observeViewModel()
 
         navController = findNavController()
-        binding.textInputFontName.doAfterTextChanged {
+        binding.textInputPresetName.doAfterTextChanged {
             viewModel.validateInput(
-                fontName = it.toString(),
-                fontPath = binding.textInputFontPath.text.toString()
+                presetName = it.toString(),
+                presetChars = binding.textInputPresetChars.text.toString()
             )
         }
-        binding.textInputFontPath.doAfterTextChanged {
+        binding.textInputPresetChars.doAfterTextChanged {
             viewModel.validateInput(
-                fontName = binding.textInputFontName.text.toString(),
-                fontPath = it.toString()
+                presetName = binding.textInputPresetName.text.toString(),
+                presetChars = it.toString()
             )
         }
         binding.actionSave.setOnClickListener {
-            val fontModel = FontModel(
-                fontName = binding.textInputFontName.text.toString().trim(),
-                fontPath = binding.textInputFontPath.text.toString().trim(),
-                supportLigatures = binding.supportLigatures.isChecked,
+            val presetModel = PresetModel(
+                uuid = UUID.randomUUID().toString(),
+                name = binding.textInputPresetName.text.toString(),
                 isExternal = true,
-                isPaid = true
+                keys = binding.textInputPresetChars.text.toString().split("")
             )
-            viewModel.insertFont(fontModel)
+            viewModel.insertPreset(presetModel)
         }
     }
 
@@ -74,7 +74,7 @@ class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
             binding.actionSave.isEnabled = it
         })
         viewModel.insertEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = getString(R.string.message_new_font_available, it))
+            showToast(text = getString(R.string.message_new_preset_available, it))
             navController.navigateUp()
         })
     }

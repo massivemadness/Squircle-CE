@@ -79,7 +79,7 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         binding.recyclerView.adapter = PropertyAdapter(this)
             .also { adapter = it }
 
-        binding.actionSaveTheme.setOnClickListener {
+        binding.actionSave.setOnClickListener {
             viewModel.createTheme(meta, adapter.currentList)
         }
     }
@@ -149,7 +149,7 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
             showToast(it)
         })
         viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
-            binding.actionSaveTheme.isEnabled = it
+            binding.actionSave.isEnabled = it
         })
         viewModel.createEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = getString(R.string.message_new_theme_available, it))

@@ -32,6 +32,7 @@
     <string name="label_themes">Themes</string>
     <string name="label_new_theme">New Theme</string>
     <string name="label_keyboard_presets">Keyboard presets</string>
+    <string name="label_new_preset">New Preset</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_line">Line:</string>
@@ -47,10 +48,14 @@
     <string name="hint_enter_theme_name">Enter theme name</string>
     <string name="hint_enter_theme_author">Enter theme author</string>
     <string name="hint_enter_theme_desc">Short description</string>
+    <string name="hint_enter_preset_name">Enter preset name</string>
     <string name="hint_font_name" translatable="false">Droid Sans Mono</string>
     <string name="hint_theme_name" translatable="false">Darcula</string>
     <string name="hint_theme_author" translatable="false">Light Team Software</string>
     <string name="hint_theme_desc">Default color scheme</string>
+    <string name="hint_preset_name">Custom</string>
+    <string name="hint_preset_chars_no_separation">Characters (no separation)</string>
+    <string name="hint_preset_characters" translatable="false">{}();,.=\|&amp;![]&lt;&gt;+-/*?:_</string>
 
     <string name="action_restart">Restart</string>
     <string name="action_grant_access">Grant Access</string>
@@ -74,8 +79,6 @@
     <string name="action_maybe_later">Maybe later</string>
     <string name="action_unlock_all_features">Unlock all features</string>
     <string name="action_select">Select</string>
-    <string name="action_add_font">Add font</string>
-    <string name="action_save_theme">Save theme</string>
     <string name="action_import">Import</string>
     <string name="action_export">Export</string>
     <string name="action_edit">Edit</string>
@@ -179,6 +182,7 @@
     <string name="message_theme_exported">Theme saved to %1$s</string>
     <string name="message_choose_theme_json">Choose .json theme file</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
+    <string name="message_new_preset_available">New preset available: %1$s</string>
     <string name="message_preset_removed">Preset «%1$s» removed</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
     <string name="message_deleting">Deleting…%1$s</string>
@@ -200,6 +204,7 @@
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>
     <string name="font_disclaimer">If you want to use this font, do not delete .ttf file at the specified path</string>
+    <string name="preset_disclaimer">You can repeat characters multiple times</string>
 
     <string name="theme_property_text_color">Defines the text color of the editor</string>
     <string name="theme_property_background_color">Defines the background color of the editor</string>

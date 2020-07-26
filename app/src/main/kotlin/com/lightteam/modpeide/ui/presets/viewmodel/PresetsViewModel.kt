@@ -27,6 +27,7 @@ import com.lightteam.modpeide.domain.model.preset.PresetModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 
 class PresetsViewModel @ViewModelInject constructor(
@@ -36,9 +37,10 @@ class PresetsViewModel @ViewModelInject constructor(
 ) : BaseViewModel() {
 
     val presetsEvent: MutableLiveData<List<PresetModel>> = MutableLiveData()
+    val validationEvent: MutableLiveData<Boolean> = MutableLiveData()
 
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
-    // val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
     // val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     var searchQuery = ""
@@ -54,5 +56,21 @@ class PresetsViewModel @ViewModelInject constructor(
     fun selectPreset(presetModel: PresetModel) {
         preferenceHandler.getKeyboardPreset().set(presetModel.uuid)
         selectEvent.value = presetModel.name
+    }
+
+    fun insertPreset(presetModel: PresetModel) {
+        Completable
+            .fromAction {
+                appDatabase.presetDao().insert(PresetConverter.toEntity(presetModel))
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { insertEvent.value = presetModel.name }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun validateInput(presetName: String, presetChars: String) {
+        val isPresetNameValid = presetName.trim().isNotBlank()
+        val isPresetCharsValid = presetChars.length <= 32 && presetChars.trim().isNotBlank()
+        validationEvent.value = isPresetNameValid && isPresetCharsValid
     }
 }

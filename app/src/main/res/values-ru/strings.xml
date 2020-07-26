@@ -31,6 +31,7 @@
     <string name="label_themes">Темы</string>
     <string name="label_new_theme">Новая тема</string>
     <string name="label_keyboard_presets">Клавиатурные пресеты</string>
+    <string name="label_new_preset">Новый пресет</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_line">Линия:</string>
@@ -42,7 +43,10 @@
     <string name="hint_enter_theme_name">Название темы</string>
     <string name="hint_enter_theme_author">Автор темы</string>
     <string name="hint_enter_theme_desc">Краткое описание</string>
+    <string name="hint_enter_preset_name">Введите название пресета</string>
     <string name="hint_theme_desc">Новая цветовая схема</string>
+    <string name="hint_preset_name">Пользовательский</string>
+    <string name="hint_preset_chars_no_separation">Символы (без разделителей)</string>
 
     <string name="action_restart">Обновить</string>
     <string name="action_grant_access">Предоставить</string>
@@ -66,8 +70,6 @@
     <string name="action_maybe_later">Может позже</string>
     <string name="action_unlock_all_features">Получить все возможности</string>
     <string name="action_select">Выбрать</string>
-    <string name="action_add_font">Добавить шрифт</string>
-    <string name="action_save_theme">Сохранить тему</string>
     <string name="action_import">Импорт</string>
     <string name="action_export">Экспорт</string>
     <string name="action_edit">Изменить</string>
@@ -171,6 +173,7 @@
     <string name="message_theme_exported">Тема сохранена %1$s</string>
     <string name="message_choose_theme_json">Выберите файл темы .json</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
+    <string name="message_new_preset_available">Добавлен новый пресет: %1$s</string>
     <string name="message_preset_removed">Пресет «%1$s» удален</string>
     <string name="message_elapsed_time">Прошло времени: %1$s</string>
     <string name="message_deleting">Удаление…%1$s</string>
@@ -188,6 +191,7 @@
 
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
+    <string name="preset_disclaimer">Символы могут повторяться несколько раз</string>
     <string name="theme_property_text_color">Определяет цвет текста в редакторе</string>
     <string name="theme_property_background_color">Определяет цвет фона редактора</string>
     <string name="theme_property_gutter_color">Определяет цвет фона панели номеров строк</string>
