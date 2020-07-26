@@ -46,7 +46,7 @@ dependencies {
 
     // Kotlin
     implementation library.kotlin
-    implementation library.core_ktx
+    implementation library.core
 
     // Network
     implementation library.gson

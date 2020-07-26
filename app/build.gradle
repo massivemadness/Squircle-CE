@@ -87,11 +87,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Kotlin
+    // Core
     implementation library.kotlin
-    implementation library.core_ktx
+    implementation library.core
+    implementation library.activity
+    implementation library.fragment
 
-    // Design
+    // UI
     implementation library.appcompat
     implementation library.materialdesign
     implementation library.constraintlayout
