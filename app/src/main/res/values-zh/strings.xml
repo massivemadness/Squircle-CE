@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Licensed to the Light Team Software (Light Team) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The Light Team licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+
+    <string name="label_permissions">权限</string>
+    <string name="label_directory">目录</string>
+    <string name="label_local_storage">本地存储</string>
+    <string name="label_settings">设置</string>
+    <string name="label_application">应用</string>
+    <string name="label_editor">编辑器</string>
+    <string name="label_code_style">代码样式</string>
+    <string name="label_files">文件</string>
+    <string name="label_about">关于</string>
+    <string name="label_fonts">字体</string>
+    <string name="label_external_font">外部字体</string>
+    <string name="label_themes">主题</string>
+    <string name="label_new_theme">新建主题</string>
+    <string name="label_keyboard_presets">键盘预设</string>
+    <string name="label_new_preset">New Preset</string>
+
+    <string name="hint_search">搜素…</string>
+    <string name="hint_line">行:</string>
+    <string name="hint_enter_file_name">输入文件名称</string>
+    <string name="hint_enter_file_path">输入文件路径</string>
+    <string name="hint_enter_archive_name">输入归档名称</string>
+    <string name="hint_enter_font_name">输入字体名称</string>
+    <string name="hint_enter_font_path">输入字体路径</string>
+    <string name="hint_enter_theme_name">输入主题名称</string>
+    <string name="hint_enter_theme_author">输入主题作者</string>
+    <string name="hint_enter_theme_desc">主题简要描述</string>
+    <string name="hint_enter_preset_name">Enter preset name</string>
+    <string name="hint_theme_desc">如：默认配色方案</string>
+    <string name="hint_preset_name">Custom</string>
+    <string name="hint_preset_chars_no_separation">Characters (no separation)</string>
+
+    <string name="action_restart">重启</string>
+    <string name="action_grant_access">授予访问权限</string>
+    <string name="action_yes">是</string>
+    <string name="action_no">否</string>
+    <string name="action_ok">确定</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_create">创建</string>
+    <string name="action_close">关闭</string>
+    <string name="action_close_others">关闭其他</string>
+    <string name="action_close_all">关闭全部</string>
+    <string name="action_copy_path">复制路径</string>
+    <string name="action_folder">文件夹</string>
+    <string name="action_rename">重命名</string>
+    <string name="action_delete">删除</string>
+    <string name="action_insert">插入</string>
+    <string name="action_run_in_background">在后台运行</string>
+
+    <string name="action_show_hidden_files">显示隐藏文件</string>
+    <string name="action_create_zip">创建 .zip</string>
+    <string name="action_get_it">立即获取</string>
+    <string name="action_maybe_later">稍候再说</string>
+    <string name="action_unlock_all_features">解锁全部功能</string>
+    <string name="action_select">选择</string>
+    <string name="action_import">导入</string>
+    <string name="action_export">导出</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_remove">移除</string>
+    <string name="action_new">新建</string>
+    <string name="action_open">打开</string>
+    <string name="action_open_as">另开为</string>
+    <string name="action_save">保存</string>
+    <string name="action_save_as">另存为</string>
+    <string name="action_properties">属性</string>
+    <string name="action_cut">剪切</string>
+    <string name="action_copy">复制</string>
+    <string name="action_paste">粘贴</string>
+    <string name="action_select_all">全选</string>
+    <string name="action_select_line">选择行</string>
+    <string name="action_delete_line">删除行</string>
+    <string name="action_duplicate_line">复制行</string>
+    <string name="action_regex">正则表达式</string>
+    <string name="action_match_case">区分大小写</string>
+    <string name="action_words_only">仅匹配单词</string>
+    <string name="action_find">查找</string>
+    <string name="action_close_find">关闭查找</string>
+    <string name="action_replace">替换</string>
+    <string name="action_close_replace">关闭替换</string>
+    <string name="action_replace_all">替换全部</string>
+    <string name="action_goto_line">转到行</string>
+    <string name="action_go_to">转到</string>
+    <string name="action_error_checking">错误检查</string>
+    <string name="action_insert_color">插入颜色</string>
+    <string name="action_settings">设置</string>
+    <string name="action_search">搜素</string>
+    <string name="action_tools">工具</string>
+
+    <string name="dialog_title_choose_action">选择操作</string>
+    <string name="dialog_title_create">创建文件</string>
+    <string name="dialog_title_rename">重命名文件</string>
+    <string name="dialog_title_multi_delete">选择删除文件</string>
+    <string name="dialog_title_store">获取旗舰版</string>
+    <string name="dialog_title_changelog">更新日志</string>
+    <string name="dialog_title_privacy_policy">隐私政策</string>
+    <string name="dialog_title_exit">退出应用</string>
+    <string name="dialog_title_properties">属性</string>
+    <string name="dialog_title_color_picker">颜色选择器</string>
+    <string name="dialog_title_result">结果</string>
+    <string name="dialog_title_save_as">另文件存为</string>
+    <string name="dialog_title_goto_line">跳转到行</string>
+    <string name="dialog_title_deleting">文件删除中</string>
+    <string name="dialog_title_copying">文件复制中</string>
+    <string name="dialog_title_compressing">归档压缩中</string>
+    <string name="dialog_title_extracting">归档解压中</string>
+    <string name="dialog_title_archive_name">归档名称</string>
+
+    <string name="dialog_message_exit">你确定要退出吗？所有更改将会保存到缓存中</string>
+    <string name="dialog_message_delete">确定要删除此文件吗？</string>
+    <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
+
+    <string name="properties_name">&lt;b>名称:&lt;/b> %s&lt;br></string>
+    <string name="properties_path">&lt;b>路径:&lt;/b> %s&lt;br></string>
+    <string name="properties_modified">&lt;b>修改:&lt;/b> %s&lt;br></string>
+    <string name="properties_size">&lt;b>大小:&lt;/b> %s&lt;br></string>
+    <string name="properties_line_count">&lt;b>行数:&lt;/b> %s&lt;br></string>
+    <string name="properties_word_count">&lt;b>单词数:&lt;/b> %s&lt;br></string>
+    <string name="properties_char_count">&lt;b>符号数:&lt;/b> %s</string>
+    <string name="properties_readable">可读</string>
+    <string name="properties_writable">可写</string>
+    <string name="properties_executable">可执行</string>
+
+    <string name="sort_by_name">按名称排序</string>
+    <string name="sort_by_size">按大小排序</string>
+    <string name="sort_by_date">按日期排序</string>
+
+    <string name="message_access_denied">没有访问权限</string>
+    <string name="message_access_required">本应用需要访问文件才能正常工作</string>
+    <string name="message_no_result">没有结果</string>
+    <string name="message_no_open_files">没有打开任何文件</string>
+    <string name="message_tab_limit_achieved">标签页已达上限</string>
+    <string name="message_cannot_be_opened">文件无法打开</string>
+    <string name="message_invalid_file_name">无效的文件名称</string>
+    <string name="message_invalid_file_path">无效的文件路径</string>
+    <string name="message_unknown_exception">发生错误</string>
+    <string name="message_directory_expected">无法获取文件列表</string>
+    <string name="message_file_already_exists">文件已存在</string>
+    <string name="message_file_not_found">文件未找到</string>
+    <string name="message_done">已完毕</string>
+    <string name="message_saved">已保存</string>
+    <string name="message_select_file">选择文件</string>
+    <string name="message_nothing_to_cut">没有任何内容可剪切</string>
+    <string name="message_nothing_to_copy">没有任何内容可复制</string>
+    <string name="message_nothing_to_paste">没有任何内容可粘贴</string>
+    <string name="message_enter_the_text">输入文本</string>
+    <string name="message_line_above_than_0">行号必须大于0</string>
+    <string name="message_line_not_exists">行号不存在</string>
+    <string name="message_no_errors_detected">未检测到语法错误</string>
+    <string name="message_in_app_update_ready">应用已准备好新版本</string>
+    <string name="message_in_app_update_failed">新版本安装失败</string>
+    <string name="message_selected">已选择 «%1$s»</string>
+    <string name="message_new_font_available">新字体可用: %1$s</string>
+    <string name="message_font_removed">字体 «%1$s» 已移除</string>
+    <string name="message_new_theme_available">新主题可用: %1$s</string>
+    <string name="message_theme_removed">主题 «%1$s» 已移除</string>
+    <string name="message_theme_exported">主题已保存到 %1$s</string>
+    <string name="message_choose_theme_json">选择 .json 主题文件</string>
+    <string name="message_theme_syntax_exception">读取主题文件时出错</string>
+    <string name="message_new_preset_available">New preset available: %1$s</string>
+    <string name="message_preset_removed">Preset «%1$s» removed</string>
+    <string name="message_elapsed_time">运行时间: %1$s</string>
+    <string name="message_deleting">删除中…%1$s</string>
+    <string name="message_copying">复制中…%1$s</string>
+    <string name="message_compressing">压缩中…%1$s</string>
+    <string name="message_extracting">解压中…%1$s</string>
+
+    <string name="store_feature_1">基本功能</string>
+    <string name="store_feature_2">配色方案</string>
+    <string name="store_feature_3">主题编辑器 🎉</string>
+    <string name="store_feature_4">外部字体</string>
+    <string name="store_feature_5">键盘预设</string>
+    <string name="store_feature_6">增加标签页上限</string>
+    <string name="store_feature_7">错误检查</string>
+    <string name="store_feature_8">颜色选择器</string>
+
+    <string name="font_support_ligatures">* 支持连体字母</string>
+    <string name="font_disclaimer">如果要使用此字体，请千万不要删除上面指定路径下的 .ttf 文件</string>
+    <string name="preset_disclaimer">You can repeat characters multiple times</string>
+
+    <string name="theme_property_text_color">定义编辑器的文本颜色</string>
+    <string name="theme_property_background_color">定义编辑器的背景颜色</string>
+    <string name="theme_property_gutter_color">定义行号栏的背景颜色</string>
+    <string name="theme_property_gutter_divider_color">定义行号栏的分割线颜色</string>
+    <string name="theme_property_gutter_divider_current_line_number_color">定义行号栏的当前所选行号颜色</string>
+    <string name="theme_property_gutter_text_color">定义行号栏的行号颜色</string>
+    <string name="theme_property_selected_line_color">定义编辑器的当前所选行背景颜色</string>
+    <string name="theme_property_selection_color">定义编辑器的当前所选文本背景颜色</string>
+    <string name="theme_property_suggestion_query_color">定义代码提示下拉菜单中的文字颜色</string>
+    <string name="theme_property_find_result_background_color">定义查找结果的背景颜色</string>
+    <string name="theme_property_delimiter_background_color">定义成对的分隔符的背景颜色</string>
+    <string name="theme_property_numbers_color">定义语法高亮显示的数字颜色，如：123、0.5、0xFF</string>
+    <string name="theme_property_operators_color">定义语法高亮显示的操作符颜色，如：+-*/=、[]、 {}、()</string>
+    <string name="theme_property_keywords_color">定义语法高亮显示的关键词颜色，如：function, if, else</string>
+    <string name="theme_property_types_color">定义语法高亮显示的类型颜色，如：const, var, let</string>
+    <string name="theme_property_lang_const_color">定义语法高亮显示的语言常量颜色，如：true, false, null</string>
+    <string name="theme_property_methods_color">定义语法高亮显示的方法颜色</string>
+    <string name="theme_property_strings_color">定义语法高亮显示的字符串颜色</string>
+    <string name="theme_property_comments_color">定义语法高亮显示的注释颜色，如: //、/**/</string>
+
+    <string name="encoding_utf8_default">UTF-8 (默认)</string>
+
+    <string name="view_mode_compact_list">紧凑列表</string>
+    <string name="view_mode_detailed_list">详细列表</string>
+
+    <string name="pref_header_application_title">应用</string>
+    <string name="pref_header_application_summary">配置全局应用设置。</string>
+    <string name="pref_header_editor_title">编辑器</string>
+    <string name="pref_header_editor_summary">配置编辑器。</string>
+    <string name="pref_header_codeStyle_title">代码样式</string>
+    <string name="pref_header_codeStyle_summary">配置代码样式。</string>
+    <string name="pref_header_files_title">文件</string>
+    <string name="pref_header_files_summary">配置文件的处理方式。</string>
+    <string name="pref_header_about_title">关于</string>
+    <string name="pref_header_about_summary">查看有关 ModPE IDE 的信息。</string>
+
+    <string name="pref_category_look_and_feel">观感</string>
+    <string name="pref_category_other">其他</string>
+    <string name="pref_category_font">字体</string>
+    <string name="pref_category_tabs">标签页</string>
+    <string name="pref_category_editor">编辑器</string>
+    <string name="pref_category_keyboard">键盘</string>
+    <string name="pref_category_code_style">代码样式</string>
+    <string name="pref_category_encoding">文本编码</string>
+    <string name="pref_category_file_explorer">文件浏览器</string>
+    <string name="pref_category_about">关于</string>
+    <string name="pref_category_contribute">贡献</string>
+
+    <string name="pref_color_scheme_title">配色方案</string>
+    <string name="pref_color_scheme_summary">配置语法高亮显示颜色方案。</string>
+    <string name="pref_fullscreen_title">全屏模式</string>
+    <string name="pref_fullscreen_summary">以全屏模式启动本应用。</string>
+    <string name="pref_confirm_exit_title">退出确认</string>
+    <string name="pref_confirm_exit_summary">启用后按下返回键将弹出退出确认对话框，否则直接退出。</string>
+
+    <string name="pref_font_size_title">编辑器字体大小</string>
+    <string name="pref_font_size_summary">指定编辑器的默认字体大小。</string>
+    <string name="pref_font_type_title">编辑器字体类型</string>
+    <string name="pref_font_type_summary">指定编辑器的默认字体类型。</string>
+    <string name="pref_resume_session_title">恢复会话</string>
+    <string name="pref_resume_session_summary">下次启动时将恢复已打开的文件。</string>
+    <string name="pref_tab_limit_title">标签页限制</string>
+    <string name="pref_tab_limit_summary">限制屏幕上显示的最大标签页数。</string>
+    <string name="pref_word_wrap_title">自动换行</string>
+    <string name="pref_word_wrap_summary">启用自动换行以适应屏幕宽度。</string>
+    <string name="pref_code_completion_title">代码提示</string>
+    <string name="pref_code_completion_summary">在输入时将自动在下拉菜单中显示代码补全建议。</string>
+    <string name="pref_error_highlighting_title">错误高亮</string>
+    <string name="pref_error_highlighting_summary">启用实时错误高亮显示（需要重启本应用才能生效）。</string>
+    <string name="pref_pinch_zoom_title">手势缩放</string>
+    <string name="pref_pinch_zoom_summary">在编辑器中启用缩放手势。</string>
+    <string name="pref_highlight_line_title">高亮当前行</string>
+    <string name="pref_highlight_line_summary">高亮显示光标当前所在的行。</string>
+    <string name="pref_highlight_delimiters_title">高亮成对的符号</string>
+    <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
+    <string name="pref_extended_keyboard_title">快捷符号栏</string>
+    <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘上面显示常用的符号栏以便快捷输入</string>
+    <string name="pref_keyboard_presets_title">Keyboard Presets</string>
+    <string name="pref_keyboard_presets_summary">Choose preset for extended keyboard.</string>
+    <string name="pref_soft_keyboard_title">软键盘</string>
+    <string name="pref_soft_keyboard_summary">始终使用软键盘。</string>
+
+    <string name="pref_auto_indent_title">自动缩进</string>
+    <string name="pref_auto_indent_summary">自动缩进新行以匹配上面的行。</string>
+    <string name="pref_close_brackets_title">括号配对</string>
+    <string name="pref_close_brackets_summary">输入时自动关闭小括号/方括号/大括号。</string>
+    <string name="pref_close_quotes_title">引号配对</string>
+    <string name="pref_close_quotes_summary">输入时自动闭合单引号/双引号。</string>
+
+    <string name="pref_encoding_for_opening_title">打开文本的编码</string>
+    <string name="pref_encoding_for_opening_summary">打开文本文件时使用的编码。</string>
+    <string name="pref_encoding_for_saving_title">保存文本的编码</string>
+    <string name="pref_encoding_for_saving_summary">保存文本文件时使用的编码。</string>
+    <string name="pref_show_hidden_files_title">显示隐藏文件</string>
+    <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
+    <string name="pref_folders_on_top_title">文件夹置顶</string>
+    <string name="pref_folders_on_top_summary">文件夹将优先显示在文件的前面。</string>
+    <string name="pref_view_mode_title">视图模式</string>
+    <string name="pref_sort_mode_title">排序方式</string>
+
+    <string name="pref_about_summary">Copyright 2020 Light Team Software\n保留所有权利\n\n版本: %1$s (%2$d)</string>
+    <string name="pref_privacy_policy_title">查看“隐私政策”</string>
+    <string name="pref_contribute_title">促进发展</string>
+    <string name="pref_contribute_summary">您可以在 GitHub 上提问讨论或将本应用翻译为您的母语。\n\n谢谢！</string>
+
+</resources>

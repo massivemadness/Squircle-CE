@@ -193,6 +193,7 @@
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
     <string name="preset_disclaimer">Символы могут повторяться несколько раз</string>
+
     <string name="theme_property_text_color">Определяет цвет текста в редакторе</string>
     <string name="theme_property_background_color">Определяет цвет фона редактора</string>
     <string name="theme_property_gutter_color">Определяет цвет фона панели номеров строк</string>
@@ -297,4 +298,5 @@
     <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
     <string name="pref_contribute_title">Внести вклад в разработку</string>
     <string name="pref_contribute_summary">Вы можете создать Issue на GitHub или перевести приложение на свой родной язык.\n\nСпасибо!</string>
+
 </resources>
