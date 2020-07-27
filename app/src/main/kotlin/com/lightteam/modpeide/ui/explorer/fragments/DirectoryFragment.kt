@@ -62,7 +62,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
 
     private val sharedViewModel: MainViewModel by activityViewModels()
     private val viewModel: ExplorerViewModel by activityViewModels()
-    private val args: DirectoryFragmentArgs by navArgs()
+    private val navArgs: DirectoryFragmentArgs by navArgs()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
@@ -82,7 +82,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
 
         @SuppressLint("RestrictedApi")
         tracker = DefaultSelectionTracker(
-            args.fileModel?.path ?: "root",
+            navArgs.fileModel?.path ?: "root",
             FileKeyProvider(binding.recyclerView),
             SelectionPredicates.createSelectAnything(),
             StorageStrategy.createParcelableStorage(FileModel::class.java)
@@ -270,7 +270,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     }
 
     private fun loadDirectory() {
-        viewModel.provideDirectory(args.fileModel)
+        viewModel.provideDirectory(navArgs.fileModel)
     }
 
     private fun openAs(fileModel: FileModel) {

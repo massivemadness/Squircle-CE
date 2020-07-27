@@ -19,15 +19,16 @@ package com.lightteam.modpeide.data.converter
 
 import com.lightteam.modpeide.database.entity.preset.PresetEntity
 import com.lightteam.modpeide.domain.model.preset.PresetModel
+import java.util.*
 
 object PresetConverter {
 
-    fun toModel(presetEntity: PresetEntity): PresetModel {
+    fun toModel(presetEntity: PresetEntity?): PresetModel {
         return PresetModel(
-            uuid = presetEntity.uuid,
-            name = presetEntity.name,
-            isExternal = presetEntity.isExternal,
-            keys = presetEntity.keys.toCharArray().map { it.toString() }
+            uuid = presetEntity?.uuid ?: UUID.randomUUID().toString(),
+            name = presetEntity?.name ?: "",
+            isExternal = presetEntity?.isExternal ?: true,
+            keys = presetEntity?.keys?.toCharArray()?.map { it.toString() } ?: emptyList()
         )
     }
 

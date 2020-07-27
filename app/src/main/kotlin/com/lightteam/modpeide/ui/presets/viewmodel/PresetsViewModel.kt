@@ -37,6 +37,7 @@ class PresetsViewModel @ViewModelInject constructor(
 ) : BaseViewModel() {
 
     val presetsEvent: MutableLiveData<List<PresetModel>> = MutableLiveData()
+    val presetEvent: MutableLiveData<PresetModel> = MutableLiveData()
     val validationEvent: MutableLiveData<Boolean> = MutableLiveData()
 
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
@@ -50,6 +51,20 @@ class PresetsViewModel @ViewModelInject constructor(
             .map { it.map(PresetConverter::toModel) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { presetsEvent.value = it }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun fetchPreset(uuid: String?) {
+        appDatabase.presetDao().load(uuid ?: "unknown")
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = {
+                    presetEvent.value = PresetConverter.toModel(it)
+                },
+                onError = {
+                    presetEvent.value = PresetConverter.toModel(null)
+                }
+            )
             .disposeOnViewModelDestroy()
     }
 

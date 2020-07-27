@@ -138,7 +138,12 @@
         android:id="@+id/newPresetFragment"
         android:name="com.lightteam.modpeide.ui.presets.fragments.NewPresetFragment"
         android:label="@string/label_new_preset"
-        tools:layout="@layout/fragment_new_preset"/>
+        tools:layout="@layout/fragment_new_preset">
+        <argument
+            android:name="uuid"
+            app:nullable="true"
+            app:argType="string"/>
+    </fragment>
 
     <dialog
         android:id="@+id/changeLogDialog"

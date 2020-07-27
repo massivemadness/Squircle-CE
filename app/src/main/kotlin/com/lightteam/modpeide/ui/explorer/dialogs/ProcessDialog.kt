@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit
 class ProcessDialog : BaseDialogFragment() {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
-    private val args: ProcessDialogArgs by navArgs()
+    private val navArgs: ProcessDialogArgs by navArgs()
 
     private var dialogTitle: Int = -1
     private var dialogMessage: Int = -1
@@ -124,7 +124,7 @@ class ProcessDialog : BaseDialogFragment() {
     private fun collectData() {
         tempFiles = viewModel.tempFiles.toList()
         viewModel.tempFiles.clear() // Clear immediately
-        when (args.operation) {
+        when (navArgs.operation) {
             Operation.DELETE -> {
                 dialogTitle = R.string.dialog_title_deleting
                 dialogMessage = R.string.message_deleting
@@ -136,7 +136,7 @@ class ProcessDialog : BaseDialogFragment() {
                 dialogTitle = R.string.dialog_title_copying
                 dialogMessage = R.string.message_copying
                 dialogAction = {
-                    viewModel.copyFiles(tempFiles, args.parent)
+                    viewModel.copyFiles(tempFiles, navArgs.parent)
                 }
                 onCloseAction = {
                     viewModel.allowPasteFiles.set(false)
@@ -146,7 +146,7 @@ class ProcessDialog : BaseDialogFragment() {
                 dialogTitle = R.string.dialog_title_copying
                 dialogMessage = R.string.message_copying
                 dialogAction = {
-                    viewModel.cutFiles(tempFiles, args.parent)
+                    viewModel.cutFiles(tempFiles, navArgs.parent)
                 }
                 onCloseAction = {
                     viewModel.allowPasteFiles.set(false)
@@ -158,8 +158,8 @@ class ProcessDialog : BaseDialogFragment() {
                 dialogAction = {
                     viewModel.compressFiles(
                         source = tempFiles,
-                        dest = args.parent,
-                        archiveName = args.archiveName ?: tempFiles.first().name + ".zip"
+                        dest = navArgs.parent,
+                        archiveName = navArgs.archiveName ?: tempFiles.first().name + ".zip"
                     )
                 }
             }
@@ -167,7 +167,7 @@ class ProcessDialog : BaseDialogFragment() {
                 dialogTitle = R.string.dialog_title_extracting
                 dialogMessage = R.string.message_extracting
                 dialogAction = {
-                    viewModel.decompressFile(tempFiles.first(), args.parent)
+                    viewModel.decompressFile(tempFiles.first(), navArgs.parent)
                 }
                 indeterminate = true
             }

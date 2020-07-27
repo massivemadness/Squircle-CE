@@ -54,7 +54,7 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
     }
 
     private val viewModel: ThemesViewModel by viewModels()
-    private val args: NewThemeFragmentArgs by navArgs()
+    private val navArgs: NewThemeFragmentArgs by navArgs()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentNewThemeBinding
@@ -65,7 +65,7 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         if (savedInstanceState == null) {
-            viewModel.fetchProperties(args.uuid)
+            viewModel.fetchProperties(navArgs.uuid)
         }
     }
 

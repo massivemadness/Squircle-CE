@@ -24,21 +24,30 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentNewPresetBinding
 import com.lightteam.modpeide.domain.model.preset.PresetModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.presets.viewmodel.PresetsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class NewPresetFragment : BaseFragment(R.layout.fragment_new_preset) {
 
     private val viewModel: PresetsViewModel by viewModels()
+    private val navArgs: NewPresetFragmentArgs by navArgs()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentNewPresetBinding
+    private lateinit var presetModel: PresetModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            viewModel.fetchPreset(navArgs.uuid)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,30 +55,26 @@ class NewPresetFragment : BaseFragment(R.layout.fragment_new_preset) {
         observeViewModel()
 
         navController = findNavController()
-        binding.textInputPresetName.doAfterTextChanged {
-            viewModel.validateInput(
-                presetName = it.toString(),
-                presetChars = binding.textInputPresetChars.text.toString()
-            )
-        }
-        binding.textInputPresetChars.doAfterTextChanged {
-            viewModel.validateInput(
-                presetName = binding.textInputPresetName.text.toString(),
-                presetChars = it.toString()
-            )
-        }
         binding.actionSave.setOnClickListener {
-            val presetModel = PresetModel(
-                uuid = UUID.randomUUID().toString(),
-                name = binding.textInputPresetName.text.toString(),
-                isExternal = true,
-                keys = binding.textInputPresetChars.text.toString().split("")
-            )
             viewModel.insertPreset(presetModel)
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.presetEvent.value = presetModel
+    }
+
     private fun observeViewModel() {
+        viewModel.presetEvent.observe(viewLifecycleOwner, Observer {
+            presetModel = it
+
+            binding.textInputPresetName.doAfterTextChanged { updatePreset() }
+            binding.textInputPresetChars.doAfterTextChanged { updatePreset() }
+
+            binding.textInputPresetName.setText(it.name)
+            binding.textInputPresetChars.setText(it.keys.joinToString(separator = ""))
+        })
         viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
             binding.actionSave.isEnabled = it
         })
@@ -77,5 +82,17 @@ class NewPresetFragment : BaseFragment(R.layout.fragment_new_preset) {
             showToast(text = getString(R.string.message_new_preset_available, it))
             navController.navigateUp()
         })
+    }
+
+    private fun updatePreset() {
+        presetModel = presetModel.copy(
+            name = binding.textInputPresetName.text.toString(),
+            keys = binding.textInputPresetChars.text?.split("") ?: emptyList()
+        )
+
+        viewModel.validateInput(
+            presetName = binding.textInputPresetName.text.toString(),
+            presetChars = binding.textInputPresetChars.text.toString()
+        )
     }
 }

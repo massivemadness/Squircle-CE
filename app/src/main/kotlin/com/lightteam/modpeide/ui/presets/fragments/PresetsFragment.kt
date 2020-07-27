@@ -69,7 +69,7 @@ class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), Preset
 
         binding.actionAdd.setOnClickListener {
             if (isUltimate()) {
-                val destination = PresetsFragmentDirections.toNewPresetFragment()
+                val destination = PresetsFragmentDirections.toNewPresetFragment(null)
                 navController.navigate(destination)
             } else {
                 navController.navigate(R.id.storeDialog)
@@ -110,7 +110,8 @@ class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), Preset
 
     override fun editPreset(presetModel: PresetModel) {
         if (presetModel.isExternal) {
-            // viewModel.editPreset(presetModel)
+            val destination = PresetsFragmentDirections.toNewPresetFragment(presetModel.uuid)
+            navController.navigate(destination)
         }
     }
 
