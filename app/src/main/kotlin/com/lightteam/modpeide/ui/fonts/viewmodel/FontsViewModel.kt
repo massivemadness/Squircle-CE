@@ -63,6 +63,9 @@ class FontsViewModel @ViewModelInject constructor(
         Completable
             .fromAction {
                 appDatabase.fontDao().delete(FontConverter.toEntity(fontModel))
+                if (preferenceHandler.getFontType().get() == fontModel.fontPath) {
+                    preferenceHandler.getFontType().delete()
+                }
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {

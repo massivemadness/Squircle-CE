@@ -156,12 +156,12 @@ class ThemesViewModel @ViewModelInject constructor(
         Completable
             .fromAction {
                 appDatabase.themeDao().delete(ThemeConverter.toEntity(themeModel))
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy {
                 if (preferenceHandler.getColorScheme().get() == themeModel.uuid) {
                     preferenceHandler.getColorScheme().delete()
                 }
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy {
                 removeEvent.value = themeModel.name
                 fetchThemes() // Update list
             }

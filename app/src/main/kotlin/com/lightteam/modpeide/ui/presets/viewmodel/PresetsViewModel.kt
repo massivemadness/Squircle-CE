@@ -72,6 +72,9 @@ class PresetsViewModel @ViewModelInject constructor(
         Completable
             .fromAction {
                 appDatabase.presetDao().delete(PresetConverter.toEntity(presetModel))
+                if (preferenceHandler.getKeyboardPreset().get() == presetModel.uuid) {
+                    preferenceHandler.getKeyboardPreset().delete()
+                }
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {
