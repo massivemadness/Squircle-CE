@@ -116,7 +116,7 @@ class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), Preset
 
     override fun removePreset(presetModel: PresetModel) {
         if (presetModel.isExternal) {
-            // viewModel.removePreset(presetModel)
+            viewModel.removePreset(presetModel)
         }
     }
 
@@ -128,8 +128,8 @@ class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), Preset
         viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = getString(R.string.message_selected, it))
         })
-        /*viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
             showToast(text = getString(R.string.message_preset_removed, it))
-        })*/
+        })
     }
 }

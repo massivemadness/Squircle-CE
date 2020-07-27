@@ -41,7 +41,7 @@ class PresetsViewModel @ViewModelInject constructor(
 
     val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
-    // val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
     var searchQuery = ""
 
@@ -65,6 +65,19 @@ class PresetsViewModel @ViewModelInject constructor(
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { insertEvent.value = presetModel.name }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun removePreset(presetModel: PresetModel) {
+        Completable
+            .fromAction {
+                appDatabase.presetDao().delete(PresetConverter.toEntity(presetModel))
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy {
+                removeEvent.value = presetModel.name
+                fetchPresets() // Update list
+            }
             .disposeOnViewModelDestroy()
     }
 
