@@ -31,9 +31,9 @@
     <string name="label_themes">主题</string>
     <string name="label_new_theme">新建主题</string>
     <string name="label_keyboard_presets">键盘预设</string>
-    <string name="label_new_preset">New Preset</string>
+    <string name="label_new_preset">新建预设</string>
 
-    <string name="hint_search">搜素…</string>
+    <string name="hint_search">索</string>
     <string name="hint_line">行:</string>
     <string name="hint_enter_file_name">输入文件名称</string>
     <string name="hint_enter_file_path">输入文件路径</string>
@@ -43,10 +43,10 @@
     <string name="hint_enter_theme_name">输入主题名称</string>
     <string name="hint_enter_theme_author">输入主题作者</string>
     <string name="hint_enter_theme_desc">主题简要描述</string>
-    <string name="hint_enter_preset_name">Enter preset name</string>
+    <string name="hint_enter_preset_name">输入预设名称</string>
     <string name="hint_theme_desc">如：默认配色方案</string>
-    <string name="hint_preset_name">Custom</string>
-    <string name="hint_preset_chars_no_separation">Characters (no separation)</string>
+    <string name="hint_preset_name">自定义</string>
+    <string name="hint_preset_chars_no_separation">预设字符（不要带分隔符）</string>
 
     <string name="action_restart">重启</string>
     <string name="action_grant_access">授予访问权限</string>
@@ -64,7 +64,6 @@
     <string name="action_delete">删除</string>
     <string name="action_insert">插入</string>
     <string name="action_run_in_background">在后台运行</string>
-
     <string name="action_show_hidden_files">显示隐藏文件</string>
     <string name="action_create_zip">创建 .zip</string>
     <string name="action_get_it">立即获取</string>
@@ -101,7 +100,7 @@
     <string name="action_error_checking">错误检查</string>
     <string name="action_insert_color">插入颜色</string>
     <string name="action_settings">设置</string>
-    <string name="action_search">搜素</string>
+    <string name="action_search">索</string>
     <string name="action_tools">工具</string>
 
     <string name="dialog_title_choose_action">选择操作</string>
@@ -174,8 +173,8 @@
     <string name="message_theme_exported">主题已保存到 %1$s</string>
     <string name="message_choose_theme_json">选择 .json 主题文件</string>
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
-    <string name="message_new_preset_available">New preset available: %1$s</string>
-    <string name="message_preset_removed">Preset «%1$s» removed</string>
+    <string name="message_new_preset_available">新的预设可用: %1$s</string>
+    <string name="message_preset_removed">预设 «%1$s» 已移除</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
     <string name="message_deleting">删除中…%1$s</string>
     <string name="message_copying">复制中…%1$s</string>
@@ -193,7 +192,7 @@
 
     <string name="font_support_ligatures">* 支持连体字母</string>
     <string name="font_disclaimer">如果要使用此字体，请千万不要删除上面指定路径下的 .ttf 文件</string>
-    <string name="preset_disclaimer">You can repeat characters multiple times</string>
+    <string name="preset_disclaimer">您可以多次重写符号</string>
 
     <string name="theme_property_text_color">定义编辑器的文本颜色</string>
     <string name="theme_property_background_color">定义编辑器的背景颜色</string>
@@ -272,8 +271,8 @@
     <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
     <string name="pref_extended_keyboard_title">快捷符号栏</string>
     <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘上面显示常用的符号栏以便快捷输入</string>
-    <string name="pref_keyboard_presets_title">Keyboard Presets</string>
-    <string name="pref_keyboard_presets_summary">Choose preset for extended keyboard.</string>
+    <string name="pref_keyboard_presets_title">键盘预设</string>
+    <string name="pref_keyboard_presets_summary">为快捷字符栏选择预设项。</string>
     <string name="pref_soft_keyboard_title">软键盘</string>
     <string name="pref_soft_keyboard_summary">始终使用软键盘。</string>
 
