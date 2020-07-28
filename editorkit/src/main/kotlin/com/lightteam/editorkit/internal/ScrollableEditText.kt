@@ -109,6 +109,7 @@ open class ScrollableEditText @JvmOverloads constructor(
         if (!isInEditMode) {
             if (textScroller.computeScrollOffset()) {
                 scrollTo(textScroller.currX, textScroller.currY)
+                postInvalidate()
             }
         }
     }
