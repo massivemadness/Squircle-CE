@@ -41,4 +41,4 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     args "-F", "src/**/*.kt"
 }
 
-tasks.getByPath(':app:preBuild').dependsOn ktlint
+tasks.getByPath(':app:preBuild').dependsOn ktlintFormat
