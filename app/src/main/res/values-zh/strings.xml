@@ -33,7 +33,7 @@
     <string name="label_keyboard_presets">键盘预设</string>
     <string name="label_new_preset">新建预设</string>
 
-    <string name="hint_search">索</string>
+    <string name="hint_search">搜索...</string>
     <string name="hint_line">行:</string>
     <string name="hint_enter_file_name">输入文件名称</string>
     <string name="hint_enter_file_path">输入文件路径</string>
@@ -100,7 +100,7 @@
     <string name="action_error_checking">错误检查</string>
     <string name="action_insert_color">插入颜色</string>
     <string name="action_settings">设置</string>
-    <string name="action_search">索</string>
+    <string name="action_search">搜索</string>
     <string name="action_tools">工具</string>
 
     <string name="dialog_title_choose_action">选择操作</string>
