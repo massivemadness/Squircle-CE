@@ -86,6 +86,7 @@ object Migrations {
                 CREATE TABLE IF NOT EXISTS `${Tables.PRESETS}` (
                     `uuid` TEXT NOT NULL, 
                     `name` TEXT NOT NULL, 
+                    `is_external` INTEGER NOT NULL,
                     `keys` TEXT NOT NULL, 
                     PRIMARY KEY(`uuid`)
                 )
