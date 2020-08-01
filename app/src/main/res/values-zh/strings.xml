@@ -32,8 +32,10 @@
     <string name="label_new_theme">新建主题</string>
     <string name="label_keyboard_presets">键盘预设</string>
     <string name="label_new_preset">新建预设</string>
+    <string name="label_changelog">更新日志</string>
+    <string name="label_latest_release">Latest release</string>
 
-    <string name="hint_search">搜索...</string>
+    <string name="hint_search">搜索…</string>
     <string name="hint_line">行:</string>
     <string name="hint_enter_file_name">输入文件名称</string>
     <string name="hint_enter_file_path">输入文件路径</string>
@@ -108,7 +110,6 @@
     <string name="dialog_title_rename">重命名文件</string>
     <string name="dialog_title_multi_delete">选择删除文件</string>
     <string name="dialog_title_store">获取旗舰版</string>
-    <string name="dialog_title_changelog">更新日志</string>
     <string name="dialog_title_privacy_policy">隐私政策</string>
     <string name="dialog_title_exit">退出应用</string>
     <string name="dialog_title_properties">属性</string>

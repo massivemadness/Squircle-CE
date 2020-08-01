@@ -15,24 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.dialogs
+package com.lightteam.modpeide.domain.model.changelog
 
-import android.app.Dialog
-import android.os.Bundle
-import android.widget.TextView
-import com.afollestad.materialdialogs.MaterialDialog
-import com.lightteam.modpeide.R
-import com.lightteam.modpeide.ui.base.dialogs.BaseDialogFragment
-import com.lightteam.modpeide.utils.extensions.getRawFileText
-
-class ChangeLogDialog : BaseDialogFragment() {
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_changelog)
-            message(text = context.getRawFileText(R.raw.changelog)) { html() }
-            findViewById<TextView>(R.id.md_text_message).textSize = 14f
-            negativeButton(R.string.action_close)
-        }
-    }
-}
+data class ReleaseModel(
+    val versionName: String,
+    val releaseDate: String,
+    val releaseNotes: String
+)

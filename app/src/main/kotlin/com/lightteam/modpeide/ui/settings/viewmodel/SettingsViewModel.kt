@@ -20,8 +20,10 @@ package com.lightteam.modpeide.ui.settings.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.ReleaseConverter
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.domain.model.changelog.ReleaseModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.settings.adapters.item.PreferenceItem
@@ -35,6 +37,7 @@ class SettingsViewModel @ViewModelInject constructor(
 
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val headersEvent: MutableLiveData<List<PreferenceItem>> = MutableLiveData()
+    val changelogEvent: MutableLiveData<List<ReleaseModel>> = MutableLiveData()
 
     fun fetchHeaders() {
         headersEvent.value = listOf(
@@ -64,6 +67,10 @@ class SettingsViewModel @ViewModelInject constructor(
                 R.id.aboutFragment
             )
         )
+    }
+
+    fun fetchChangeLog(changelog: String) {
+        changelogEvent.value = ReleaseConverter.toReleaseModels(changelog)
     }
 
     fun observePreferences() {

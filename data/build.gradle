@@ -44,7 +44,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Kotlin
+    // Core
     implementation library.kotlin
     implementation library.core
 

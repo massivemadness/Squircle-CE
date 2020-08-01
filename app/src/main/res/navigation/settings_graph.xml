@@ -80,10 +80,10 @@
         android:name="com.lightteam.modpeide.ui.settings.fragments.AboutFragment"
         android:label="@string/label_about">
         <action
-            android:id="@+id/action_aboutFragment_to_changeLogDialog"
-            app:destination="@id/changeLogDialog"/>
+            android:id="@+id/to_changeLogFragment"
+            app:destination="@id/changeLogFragment"/>
         <action
-            android:id="@+id/action_aboutFragment_to_privacyPolicyDialog"
+            android:id="@+id/to_privacyPolicyDialog"
             app:destination="@id/privacyPolicyDialog"/>
     </fragment>
 
@@ -145,10 +145,11 @@
             app:argType="string"/>
     </fragment>
 
-    <dialog
-        android:id="@+id/changeLogDialog"
-        android:name="com.lightteam.modpeide.ui.settings.dialogs.ChangeLogDialog"
-        android:label="@string/dialog_title_changelog"/>
+    <fragment
+        android:id="@+id/changeLogFragment"
+        android:name="com.lightteam.modpeide.ui.settings.fragments.ChangeLogFragment"
+        android:label="@string/label_changelog"
+        tools:layout="@layout/fragment_changelog"/>
 
     <dialog
         android:id="@+id/privacyPolicyDialog"

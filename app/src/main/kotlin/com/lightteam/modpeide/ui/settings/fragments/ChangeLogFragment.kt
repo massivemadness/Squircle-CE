@@ -21,48 +21,38 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.databinding.FragmentHeadersBinding
-import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
+import com.lightteam.modpeide.databinding.FragmentChangelogBinding
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
-import com.lightteam.modpeide.ui.settings.adapters.PreferenceAdapter
-import com.lightteam.modpeide.ui.settings.adapters.item.PreferenceItem
+import com.lightteam.modpeide.ui.settings.adapters.ReleaseAdapter
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import com.lightteam.modpeide.utils.extensions.getRawFileText
 
-@AndroidEntryPoint
-class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickListener<PreferenceItem> {
+class ChangeLogFragment : BaseFragment(R.layout.fragment_changelog) {
 
     private val viewModel: SettingsViewModel by activityViewModels()
 
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentHeadersBinding
-    private lateinit var adapter: PreferenceAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.fetchHeaders()
-    }
+    private lateinit var binding: FragmentChangelogBinding
+    private lateinit var adapter: ReleaseAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentHeadersBinding.bind(view)
+        binding = FragmentChangelogBinding.bind(view)
         observeViewModel()
 
-        navController = findNavController()
+        val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        binding.recyclerView.addItemDecoration(itemDecoration)
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = PreferenceAdapter(this)
+        binding.recyclerView.adapter = ReleaseAdapter()
             .also { adapter = it }
-    }
 
-    override fun onClick(item: PreferenceItem) {
-        navController.navigate(item.navigationId)
+        val changeLog = requireContext().getRawFileText(R.raw.changelog)
+        viewModel.fetchChangeLog(changeLog)
     }
 
     private fun observeViewModel() {
-        viewModel.headersEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.changelogEvent.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
     }

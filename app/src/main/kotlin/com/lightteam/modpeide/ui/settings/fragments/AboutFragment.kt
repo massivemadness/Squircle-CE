@@ -46,7 +46,8 @@ class AboutFragment : PreferenceFragmentCompat() {
 
         val changelog = findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
         changelog?.setOnPreferenceClickListener {
-            navController.navigate(R.id.changeLogDialog)
+            val destination = AboutFragmentDirections.toChangeLogFragment()
+            navController.navigate(destination)
             true
         }
 
@@ -61,7 +62,8 @@ class AboutFragment : PreferenceFragmentCompat() {
 
         val privacy = findPreference<Preference>(KEY_PRIVACY_POLICY)
         privacy?.setOnPreferenceClickListener {
-            navController.navigate(R.id.privacyPolicyDialog)
+            val destination = AboutFragmentDirections.toPrivacyPolicyDialog()
+            navController.navigate(destination)
             true
         }
     }

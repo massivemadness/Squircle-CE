@@ -32,6 +32,8 @@
     <string name="label_new_theme">Новая тема</string>
     <string name="label_keyboard_presets">Клавиатурные пресеты</string>
     <string name="label_new_preset">Новый пресет</string>
+    <string name="label_changelog">Список изменений</string>
+    <string name="label_latest_release">Последний релиз</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_line">Линия:</string>
@@ -108,7 +110,6 @@
     <string name="dialog_title_rename">Переименовать…</string>
     <string name="dialog_title_multi_delete">Множественное удаление</string>
     <string name="dialog_title_store">Получите Ultimate Edition</string>
-    <string name="dialog_title_changelog">Список изменений</string>
     <string name="dialog_title_privacy_policy">Политика конфиденциальности</string>
     <string name="dialog_title_exit">Выход</string>
     <string name="dialog_title_properties">Свойства</string>

@@ -33,6 +33,8 @@
     <string name="label_new_theme">New Theme</string>
     <string name="label_keyboard_presets">Keyboard presets</string>
     <string name="label_new_preset">New Preset</string>
+    <string name="label_changelog">ChangeLog</string>
+    <string name="label_latest_release">Latest release</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_line">Line:</string>
@@ -117,7 +119,6 @@
     <string name="dialog_title_rename">Rename…</string>
     <string name="dialog_title_multi_delete">Multi-delete</string>
     <string name="dialog_title_store">Get the Ultimate Edition</string>
-    <string name="dialog_title_changelog">ChangeLog</string>
     <string name="dialog_title_privacy_policy">Privacy Policy</string>
     <string name="dialog_title_exit">Exit</string>
     <string name="dialog_title_properties">Properties</string>
