@@ -18,45 +18,22 @@
 package com.lightteam.modpeide.internal.di.main
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.ui.main.activities.MainActivity
-import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 
 @Module
-class MainModule {
+@InstallIn(ActivityRetainedComponent::class)
+object MainModule {
 
     @Provides
-    @MainScope
-    fun provideMainViewModelFactory(
-        schedulersProvider: SchedulersProvider,
-        preferenceHandler: PreferenceHandler,
-        appUpdateManager: AppUpdateManager
-    ): MainViewModel.Factory {
-        return MainViewModel.Factory(
-            schedulersProvider,
-            preferenceHandler,
-            appUpdateManager
-        )
-    }
-
-    @Provides
-    @MainScope
-    fun provideMainViewModel(
-        activity: MainActivity,
-        factory: MainViewModel.Factory
-    ): MainViewModel {
-        return ViewModelProvider(activity, factory).get(MainViewModel::class.java)
-    }
-
-    @Provides
-    @MainScope
-    fun provideAppUpdateManager(context: Context): AppUpdateManager {
+    @ActivityRetainedScoped
+    fun provideAppUpdateManager(@ApplicationContext context: Context): AppUpdateManager {
         return AppUpdateManagerFactory.create(context)
     }
 }

@@ -17,25 +17,27 @@
 
 package com.lightteam.modpeide.ui.settings.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.converter.ReleaseConverter
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
+import com.lightteam.modpeide.domain.model.changelog.ReleaseModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.settings.adapters.item.PreferenceItem
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 
-class SettingsViewModel(
+class SettingsViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler
 ) : BaseViewModel() {
 
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val headersEvent: MutableLiveData<List<PreferenceItem>> = MutableLiveData()
+    val changelogEvent: MutableLiveData<List<ReleaseModel>> = MutableLiveData()
 
     fun fetchHeaders() {
         headersEvent.value = listOf(
@@ -67,29 +69,15 @@ class SettingsViewModel(
         )
     }
 
+    fun fetchChangeLog(changelog: String) {
+        changelogEvent.value = ReleaseConverter.toReleaseModels(changelog)
+    }
+
     fun observePreferences() {
         preferenceHandler.getFullscreenMode()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fullscreenEvent.value = it }
             .disposeOnViewModelDestroy()
-    }
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === SettingsViewModel::class.java ->
-                    SettingsViewModel(
-                        schedulersProvider,
-                        preferenceHandler
-                    ) as T
-                else -> null as T
-            }
-        }
     }
 }

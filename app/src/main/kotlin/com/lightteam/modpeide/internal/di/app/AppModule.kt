@@ -17,34 +17,17 @@
 
 package com.lightteam.modpeide.internal.di.app
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.os.Environment
-import androidx.preference.PreferenceManager
-import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.localfilesystem.repository.LocalFilesystem
-import com.lightteam.modpeide.BaseApplication
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.database.AppDatabase
-import com.lightteam.modpeide.database.delegate.DatabaseDelegate
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.internal.providers.rx.SchedulersProviderImpl
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 @Module
-class AppModule {
-
-    @Provides
-    @Singleton
-    fun provideContext(application: BaseApplication): Context {
-        return application
-    }
+@InstallIn(ApplicationComponent::class)
+object AppModule {
 
     @Provides
     @Singleton
@@ -52,47 +35,5 @@ class AppModule {
         return SchedulersProviderImpl()
     }
 
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(context: Context): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideRxSharedPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences {
-        return RxSharedPreferences.create(sharedPreferences)
-    }
-
-    @Provides
-    @Singleton
-    fun providePreferenceHandler(rxSharedPreferences: RxSharedPreferences): PreferenceHandler {
-        return PreferenceHandler(rxSharedPreferences)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAppDatabase(context: Context): AppDatabase {
-        return DatabaseDelegate.provideAppDatabase(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGson(): Gson {
-        return GsonBuilder().setPrettyPrinting().create()
-    }
-
-    @Provides
-    @Singleton
-    @Named("Local")
-    fun provideLocalFilesystem(): Filesystem {
-        return LocalFilesystem(Environment.getExternalStorageDirectory())
-    }
-
-    @Provides
-    @Singleton
-    @Named("Cache")
-    fun provideCacheFilesystem(context: Context): Filesystem {
-        return LocalFilesystem(context.filesDir)
-    }
+    /* я думал тут будет больше хлама */
 }

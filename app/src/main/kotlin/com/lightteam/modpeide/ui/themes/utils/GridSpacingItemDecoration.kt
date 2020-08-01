@@ -25,7 +25,7 @@ import com.lightteam.modpeide.utils.extensions.dpToPx
 class GridSpacingItemDecoration(
     marginDp: Int,
     private val columnCount: Int
-): RecyclerView.ItemDecoration() {
+) : RecyclerView.ItemDecoration() {
 
     /**
      * In this algorithm space should divide by 3 without remnant or width of items can have

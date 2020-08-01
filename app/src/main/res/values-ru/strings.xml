@@ -30,6 +30,10 @@
     <string name="label_external_font">Внешний шрифт</string>
     <string name="label_themes">Темы</string>
     <string name="label_new_theme">Новая тема</string>
+    <string name="label_keyboard_presets">Клавиатурные пресеты</string>
+    <string name="label_new_preset">Новый пресет</string>
+    <string name="label_changelog">Список изменений</string>
+    <string name="label_latest_release">Последний релиз</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_line">Линия:</string>
@@ -41,7 +45,10 @@
     <string name="hint_enter_theme_name">Название темы</string>
     <string name="hint_enter_theme_author">Автор темы</string>
     <string name="hint_enter_theme_desc">Краткое описание</string>
+    <string name="hint_enter_preset_name">Введите название пресета</string>
     <string name="hint_theme_desc">Новая цветовая схема</string>
+    <string name="hint_preset_name">Пользовательский</string>
+    <string name="hint_preset_chars_no_separation">Символы (без разделителей)</string>
 
     <string name="action_restart">Обновить</string>
     <string name="action_grant_access">Предоставить</string>
@@ -65,11 +72,9 @@
     <string name="action_maybe_later">Может позже</string>
     <string name="action_unlock_all_features">Получить все возможности</string>
     <string name="action_select">Выбрать</string>
-    <string name="action_add_font">Добавить шрифт</string>
-    <string name="action_save_theme">Сохранить тему</string>
-    <string name="action_import">Импортировать</string>
-    <string name="action_export">Экспортировать</string>
-    <string name="action_edit">Редактировать</string>
+    <string name="action_import">Импорт</string>
+    <string name="action_export">Экспорт</string>
+    <string name="action_edit">Изменить</string>
     <string name="action_remove">Удалить</string>
     <string name="action_new">Новый файл</string>
     <string name="action_open">Открыть</string>
@@ -105,7 +110,6 @@
     <string name="dialog_title_rename">Переименовать…</string>
     <string name="dialog_title_multi_delete">Множественное удаление</string>
     <string name="dialog_title_store">Получите Ultimate Edition</string>
-    <string name="dialog_title_changelog">Список изменений</string>
     <string name="dialog_title_privacy_policy">Политика конфиденциальности</string>
     <string name="dialog_title_exit">Выход</string>
     <string name="dialog_title_properties">Свойства</string>
@@ -170,7 +174,9 @@
     <string name="message_theme_exported">Тема сохранена %1$s</string>
     <string name="message_choose_theme_json">Выберите файл темы .json</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
-    <string name="message_elasped_time">Прошло времени: %1$s</string>
+    <string name="message_new_preset_available">Добавлен новый пресет: %1$s</string>
+    <string name="message_preset_removed">Пресет «%1$s» удален</string>
+    <string name="message_elapsed_time">Прошло времени: %1$s</string>
     <string name="message_deleting">Удаление…%1$s</string>
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>
@@ -180,12 +186,15 @@
     <string name="store_feature_2">Цветовые схемы</string>
     <string name="store_feature_3">Редактор тем 🎉</string>
     <string name="store_feature_4">Внешние шрифты</string>
-    <string name="store_feature_5">Увел. лимит вкладок</string>
-    <string name="store_feature_6">Проверка ошибок</string>
-    <string name="store_feature_7">Вставка цвета</string>
+    <string name="store_feature_5">Пресеты для клавиатуры</string>
+    <string name="store_feature_6">Увел. лимит вкладок</string>
+    <string name="store_feature_7">Проверка ошибок</string>
+    <string name="store_feature_8">Вставка цвета</string>
 
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
+    <string name="preset_disclaimer">Символы могут повторяться несколько раз</string>
+
     <string name="theme_property_text_color">Определяет цвет текста в редакторе</string>
     <string name="theme_property_background_color">Определяет цвет фона редактора</string>
     <string name="theme_property_gutter_color">Определяет цвет фона панели номеров строк</string>
@@ -263,6 +272,8 @@
     <string name="pref_highlight_delimiters_summary">Подсвечивать открытые/закрытые скобки рядом с курсором.</string>
     <string name="pref_extended_keyboard_title">Расширенная клавиатура</string>
     <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
+    <string name="pref_keyboard_presets_title">Клавиатурные пресеты</string>
+    <string name="pref_keyboard_presets_summary">Настройте раскладку расширенной клавиатуры.</string>
     <string name="pref_soft_keyboard_title">Soft-клавиатура</string>
     <string name="pref_soft_keyboard_summary">Использовать soft-клавиатуру в горизонтальном режиме.</string>
 
@@ -284,10 +295,9 @@
     <string name="pref_view_mode_title">Режим просмотра</string>
     <string name="pref_sort_mode_title">Режим сортировки</string>
 
-    <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
-    <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
     <string name="pref_about_summary">Copyright 2020 Light Team Software\nВсе права защищены\n\nВерсия: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
     <string name="pref_contribute_title">Внести вклад в разработку</string>
     <string name="pref_contribute_summary">Вы можете создать Issue на GitHub или перевести приложение на свой родной язык.\n\nСпасибо!</string>
+
 </resources>

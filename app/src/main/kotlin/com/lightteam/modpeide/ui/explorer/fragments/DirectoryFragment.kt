@@ -25,6 +25,7 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -53,17 +54,15 @@ import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.clipText
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
 
-    @Inject
-    lateinit var sharedViewModel: MainViewModel
-    @Inject
-    lateinit var viewModel: ExplorerViewModel
-
-    private val args: DirectoryFragmentArgs by navArgs()
+    private val sharedViewModel: MainViewModel by activityViewModels()
+    private val viewModel: ExplorerViewModel by activityViewModels()
+    private val navArgs: DirectoryFragmentArgs by navArgs()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
@@ -83,7 +82,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
 
         @SuppressLint("RestrictedApi")
         tracker = DefaultSelectionTracker(
-            args.fileModel?.path ?: "root",
+            navArgs.fileModel?.path ?: "root",
             FileKeyProvider(binding.recyclerView),
             SelectionPredicates.createSelectAnything(),
             StorageStrategy.createParcelableStorage(FileModel::class.java)
@@ -271,7 +270,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     }
 
     private fun loadDirectory() {
-        viewModel.provideDirectory(args.fileModel)
+        viewModel.provideDirectory(navArgs.fileModel)
     }
 
     private fun openAs(fileModel: FileModel) {

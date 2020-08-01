@@ -17,40 +17,13 @@
 
 package com.lightteam.modpeide.internal.di.explorer
 
-import androidx.lifecycle.ViewModelProvider
-import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.ui.explorer.fragments.ExplorerFragment
-import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
+/*
 import dagger.Module
-import dagger.Provides
-import javax.inject.Named
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
 
 @Module
-class ExplorerModule {
-
-    @Provides
-    @ExplorerScope
-    fun provideExplorerViewModelFactory(
-        schedulersProvider: SchedulersProvider,
-        preferenceHandler: PreferenceHandler,
-        @Named("Local")
-        filesystem: Filesystem
-    ): ExplorerViewModel.Factory {
-        return ExplorerViewModel.Factory(
-            schedulersProvider,
-            preferenceHandler,
-            filesystem
-        )
-    }
-
-    @Provides
-    @ExplorerScope
-    fun provideExplorerViewModel(
-        fragment: ExplorerFragment,
-        factory: ExplorerViewModel.Factory
-    ): ExplorerViewModel {
-        return ViewModelProvider(fragment, factory).get(ExplorerViewModel::class.java)
-    }
-}
+@InstallIn(ActivityRetainedComponent::class)
+object ExplorerModule {
+    // not used
+}*/

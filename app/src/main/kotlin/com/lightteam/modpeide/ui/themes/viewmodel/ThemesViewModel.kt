@@ -19,9 +19,8 @@ package com.lightteam.modpeide.ui.themes.viewmodel
 
 import android.os.Environment
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.lightteam.filesystem.model.FileModel
@@ -30,14 +29,14 @@ import com.lightteam.localfilesystem.utils.isValidFileName
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.model.theme.ExternalTheme
-import com.lightteam.modpeide.domain.model.theme.ThemeModel
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
-import com.lightteam.modpeide.database.AppDatabase
-import com.lightteam.modpeide.database.entity.theme.ThemeEntity
 import com.lightteam.modpeide.data.model.theme.Meta
 import com.lightteam.modpeide.data.model.theme.Property
+import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.data.utils.extensions.toHexString
+import com.lightteam.modpeide.database.AppDatabase
+import com.lightteam.modpeide.database.entity.theme.ThemeEntity
+import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
@@ -47,11 +46,13 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
+import javax.inject.Named
 
-class ThemesViewModel(
+class ThemesViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase,
+    @Named("Local")
     private val filesystem: Filesystem,
     private val gson: Gson
 ) : BaseViewModel() {
@@ -73,6 +74,8 @@ class ThemesViewModel(
     val exportEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val createEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
+
+    var searchQuery: String = ""
 
     // region PROPERTIES
 
@@ -99,7 +102,7 @@ class ThemesViewModel(
     // endregion PROPERTIES
 
     fun fetchThemes() {
-        appDatabase.themeDao().loadAll()
+        appDatabase.themeDao().loadAll(searchQuery)
             .map { it.map(ThemeConverter::toModel) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { themesEvent.value = it }
@@ -153,12 +156,12 @@ class ThemesViewModel(
         Completable
             .fromAction {
                 appDatabase.themeDao().delete(ThemeConverter.toEntity(themeModel))
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy {
                 if (preferenceHandler.getColorScheme().get() == themeModel.uuid) {
                     preferenceHandler.getColorScheme().delete()
                 }
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy {
                 removeEvent.value = themeModel.name
                 fetchThemes() // Update list
             }
@@ -375,29 +378,5 @@ class ThemesViewModel(
                 R.string.theme_property_comments_color
             )
         )
-    }
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler,
-        private val appDatabase: AppDatabase,
-        private val filesystem: Filesystem,
-        private val gson: Gson
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === ThemesViewModel::class.java ->
-                    ThemesViewModel(
-                        schedulersProvider,
-                        preferenceHandler,
-                        appDatabase,
-                        filesystem,
-                        gson
-                    ) as T
-                else -> null as T
-            }
-        }
     }
 }

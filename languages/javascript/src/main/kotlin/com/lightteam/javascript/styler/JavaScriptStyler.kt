@@ -134,8 +134,8 @@ class JavaScriptStyler : LanguageStyler {
     }
 
     private fun addSpan(styleSpan: StyleSpan, start: Int, end: Int) {
-        if (end > start && end >= 0 && start >= 0
-            && start <= sourceCode.length && end <= sourceCode.length) {
+        if (end > start && end >= 0 && start >= 0 &&
+            start <= sourceCode.length && end <= sourceCode.length) {
             syntaxHighlightSpans.add(SyntaxHighlightSpan(styleSpan, start, end))
         }
     }

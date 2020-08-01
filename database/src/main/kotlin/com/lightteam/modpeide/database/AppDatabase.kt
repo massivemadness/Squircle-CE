@@ -19,11 +19,13 @@ package com.lightteam.modpeide.database
 
 import com.lightteam.modpeide.database.dao.document.DocumentDao
 import com.lightteam.modpeide.database.dao.font.FontDao
+import com.lightteam.modpeide.database.dao.preset.PresetDao
 import com.lightteam.modpeide.database.dao.theme.ThemeDao
 
 interface AppDatabase {
     fun documentDao(): DocumentDao
     fun fontDao(): FontDao
     fun themeDao(): ThemeDao
+    fun presetDao(): PresetDao
     fun shutDown()
 }

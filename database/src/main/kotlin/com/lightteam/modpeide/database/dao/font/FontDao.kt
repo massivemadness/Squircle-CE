@@ -28,8 +28,8 @@ import io.reactivex.Single
 @Dao
 abstract class FontDao : BaseDao<FontEntity> {
 
-    @Query("SELECT * FROM ${Tables.FONTS}")
-    abstract fun loadAll(): Single<List<FontEntity>>
+    @Query("SELECT * FROM ${Tables.FONTS} WHERE font_name LIKE '%' || :searchQuery || '%'")
+    abstract fun loadAll(searchQuery: String): Single<List<FontEntity>>
 
     @Query("DELETE FROM ${Tables.FONTS}")
     abstract fun deleteAll(): Completable

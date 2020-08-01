@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.settings.activities
 
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -29,12 +30,12 @@ import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
 import com.lightteam.modpeide.utils.extensions.isUltimate
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsActivity : BaseActivity() {
 
-    @Inject
-    lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModels()
 
     private lateinit var navController: NavController
     private lateinit var binding: ActivitySettingsBinding

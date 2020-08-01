@@ -18,54 +18,27 @@
 package com.lightteam.modpeide.internal.di.editor
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.repository.CacheRepository
 import com.lightteam.modpeide.data.repository.LocalRepository
-import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.ui.editor.fragments.EditorFragment
-import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
-import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
+import com.lightteam.modpeide.database.AppDatabase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Named
 
 @Module
-class EditorModule {
+@InstallIn(ActivityRetainedComponent::class)
+object EditorModule {
 
     @Provides
-    @EditorScope
-    fun provideEditorViewModelFactory(
-        schedulersProvider: SchedulersProvider,
-        preferenceHandler: PreferenceHandler,
-        appDatabase: AppDatabase,
-        localRepository: LocalRepository,
-        cacheRepository: CacheRepository
-    ): EditorViewModel.Factory {
-        return EditorViewModel.Factory(
-            schedulersProvider,
-            preferenceHandler,
-            appDatabase,
-            localRepository,
-            cacheRepository
-        )
-    }
-
-    @Provides
-    @EditorScope
-    fun provideEditorViewModel(
-        fragment: EditorFragment,
-        factory: EditorViewModel.Factory
-    ): EditorViewModel {
-        return ViewModelProvider(fragment, factory).get(EditorViewModel::class.java)
-    }
-
-    @Provides
-    @EditorScope
+    @ActivityRetainedScoped
     fun provideCacheRepository(
-        context: Context,
+        @ApplicationContext context: Context,
         appDatabase: AppDatabase,
         @Named("Cache")
         filesystem: Filesystem
@@ -74,7 +47,7 @@ class EditorModule {
     }
 
     @Provides
-    @EditorScope
+    @ActivityRetainedScoped
     fun provideFileRepository(
         preferenceHandler: PreferenceHandler,
         appDatabase: AppDatabase,
@@ -82,11 +55,5 @@ class EditorModule {
         filesystem: Filesystem
     ): LocalRepository {
         return LocalRepository(preferenceHandler, appDatabase, filesystem)
-    }
-
-    @Provides
-    @EditorScope
-    fun provideToolbarManager(fragment: EditorFragment): ToolbarManager {
-        return ToolbarManager(fragment)
     }
 }

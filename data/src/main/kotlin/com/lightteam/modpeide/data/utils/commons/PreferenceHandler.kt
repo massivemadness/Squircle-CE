@@ -50,6 +50,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
         // Keyboard
         const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYBOARD"
+        const val KEY_KEYBOARD_PRESET = "KEYBOARD_PRESET"
         const val KEY_USE_SOFT_KEYBOARD = "USE_SOFT_KEYBOARD"
 
         // Encoding
@@ -68,7 +69,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_AUTO_CLOSE_QUOTES = "AUTO_CLOSE_QUOTES"
     }
 
-    fun getColorScheme(): Preference<String> = rxSharedPreferences.getString(KEY_COLOR_SCHEME, "964c249d-ad3c-4d85-8010-f3d55c1ae0a2") // Darcula UUID
+    fun getColorScheme(): Preference<String> = rxSharedPreferences.getString(KEY_COLOR_SCHEME, "964c249d-ad3c-4d85-8010-f3d55c1ae0a2") // Darcula
     fun getFullscreenMode(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
 
     fun getConfirmExit(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
@@ -88,6 +89,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getHighlightMatchingDelimiters(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
 
     fun getExtendedKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
+    fun getKeyboardPreset(): Preference<String> = rxSharedPreferences.getString(KEY_KEYBOARD_PRESET, "59d24164-3e1f-4a6d-bb8d-0ee23b4083e6") // Default
     fun getSoftKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
 
     fun getEncodingForOpening(): Preference<String> = rxSharedPreferences.getString(KEY_ENCODING_FOR_OPENING, "UTF-8")

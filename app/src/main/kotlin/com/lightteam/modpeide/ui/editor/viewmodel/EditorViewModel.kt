@@ -18,22 +18,23 @@
 package com.lightteam.modpeide.ui.editor.viewmodel
 
 import android.util.Log
+import androidx.core.text.PrecomputedTextCompat
 import androidx.databinding.ObservableBoolean
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.lightteam.editorkit.feature.undoredo.UndoStack
+import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
+import com.lightteam.modpeide.data.converter.PresetConverter
+import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.repository.CacheRepository
-import com.lightteam.modpeide.database.AppDatabase
+import com.lightteam.modpeide.data.repository.LocalRepository
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.*
-import com.lightteam.filesystem.exception.FileNotFoundException
-import com.lightteam.modpeide.data.converter.ThemeConverter
-import com.lightteam.modpeide.data.repository.LocalRepository
+import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -43,7 +44,7 @@ import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 
-class EditorViewModel(
+class EditorViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase,
@@ -72,7 +73,7 @@ class EditorViewModel(
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() // Проверка ошибок
-    val contentEvent: SingleLiveEvent<DocumentContent> = SingleLiveEvent() // Контент загруженного файла
+    val contentEvent: SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>> = SingleLiveEvent() // Контент загруженного файла
     val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() // События с измененными настройками
 
     // endregion EVENTS
@@ -114,7 +115,7 @@ class EditorViewModel(
         } else {
             appDatabase.documentDao().deleteAll()
                 .doOnSubscribe { stateLoadingDocuments.set(true) }
-                .doOnComplete {
+                .doFinally {
                     stateLoadingDocuments.set(false)
                     stateNothingFound.set(true)
                 }
@@ -130,19 +131,19 @@ class EditorViewModel(
         } else -1
     }
 
-    fun loadFile(documentModel: DocumentModel) {
+    fun loadFile(documentModel: DocumentModel, params: PrecomputedTextCompat.Params) {
         val dataSource = if (cacheRepository.isCached(documentModel)) {
             cacheRepository
-        } else {
-            localRepository
-        }
+        } else localRepository
+
         dataSource.loadFile(documentModel)
             .doOnSubscribe { stateLoadingDocuments.set(true) }
-            .doOnSuccess { stateLoadingDocuments.set(false) }
+            .map { it to PrecomputedTextCompat.create(it.text, params) }
+            .doFinally { stateLoadingDocuments.set(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
-                    selectedDocumentId = it.documentModel.uuid
+                    selectedDocumentId = it.first.documentModel.uuid
                     contentEvent.value = it
                 },
                 onError = {
@@ -332,6 +333,17 @@ class EditorViewModel(
             .subscribeBy { preferenceEvent.offer(PreferenceEvent.ExtendedKeys(it)) }
             .disposeOnViewModelDestroy()
 
+        preferenceHandler.getKeyboardPreset()
+            .asObservable()
+            .flatMapSingle {
+                appDatabase.presetDao().load(it)
+                    .schedulersIoToMain(schedulersProvider)
+            }
+            .map(PresetConverter::toModel)
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.KeyboardPreset(it)) }
+            .disposeOnViewModelDestroy()
+
         preferenceHandler.getSoftKeyboard()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
@@ -358,28 +370,4 @@ class EditorViewModel(
     }
 
     // endregion PREFERENCES
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler,
-        private val appDatabase: AppDatabase,
-        private val localRepository: LocalRepository,
-        private val cacheRepository: CacheRepository
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === EditorViewModel::class.java ->
-                    EditorViewModel(
-                        schedulersProvider,
-                        preferenceHandler,
-                        appDatabase,
-                        localRepository,
-                        cacheRepository
-                    ) as T
-                else -> null as T
-            }
-        }
-    }
 }

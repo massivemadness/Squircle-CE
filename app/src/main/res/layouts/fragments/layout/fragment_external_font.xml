@@ -82,9 +82,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="8dp"
-            android:text="@string/action_add_font"
+            android:text="@string/action_save"
             android:enabled="false"
-            android:id="@+id/action_add"/>
+            android:id="@+id/action_save"/>
 
     </LinearLayout>
 

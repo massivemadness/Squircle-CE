@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.settings.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -29,12 +30,12 @@ import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.settings.adapters.PreferenceAdapter
 import com.lightteam.modpeide.ui.settings.adapters.item.PreferenceItem
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickListener<PreferenceItem> {
 
-    @Inject
-    lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by activityViewModels()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentHeadersBinding

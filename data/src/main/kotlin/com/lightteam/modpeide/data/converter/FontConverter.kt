@@ -17,8 +17,8 @@
 
 package com.lightteam.modpeide.data.converter
 
-import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.database.entity.font.FontEntity
+import com.lightteam.modpeide.domain.model.font.FontModel
 
 object FontConverter {
 

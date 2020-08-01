@@ -17,15 +17,23 @@
 
 package com.lightteam.javascript.parser.predefined
 
-import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Scriptable
 
 @SuppressWarnings
 internal class Item {
     fun addCraftRecipe(id: Int, count: Int, data: Int, recipe: Scriptable) {}
     fun addFurnaceRecipe(inputId: Int, outputId: Int, outputDamage: Int) {}
     fun addShapedRecipe(id: Int, count: Int, data: Int, items: Scriptable, recipe: Scriptable) {}
-    fun defineArmor(id: Int, iconName: String, offset: Int, name: String, texture: String,
-                    damageReduceAmount: Int, maxDamage: Int, armorType: Int) {}
+    fun defineArmor(
+        id: Int,
+        iconName: String,
+        offset: Int,
+        name: String,
+        texture: String,
+        damageReduceAmount: Int,
+        maxDamage: Int,
+        armorType: Int
+    ) {}
     fun defineThrowable(id: Int, textureName: String, textureGroup: Int, itemName: String, stackLimit: Int) {}
     fun getCustomThrowableRenderType(id: Int) {}
     fun getMaxDamage(id: Int) {}

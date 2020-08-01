@@ -18,8 +18,7 @@
 package com.lightteam.modpeide.ui.main.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.hilt.lifecycle.ViewModelInject
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -35,7 +34,7 @@ import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.rxkotlin.subscribeBy
 
-class MainViewModel(
+class MainViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val appUpdateManager: AppUpdateManager
@@ -100,26 +99,5 @@ class MainViewModel(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { confirmExitEvent.value = it }
             .disposeOnViewModelDestroy()
-    }
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler,
-        private val appUpdateManager: AppUpdateManager
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === MainViewModel::class.java -> {
-                    MainViewModel(
-                        schedulersProvider,
-                        preferenceHandler,
-                        appUpdateManager
-                    ) as T
-                }
-                else -> null as T
-            }
-        }
     }
 }

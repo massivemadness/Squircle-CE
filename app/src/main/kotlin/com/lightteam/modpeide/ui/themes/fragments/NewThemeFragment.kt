@@ -26,6 +26,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -34,27 +35,26 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.model.theme.Meta
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentNewThemeBinding
-import com.lightteam.modpeide.data.model.theme.Meta
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.themes.adapters.PropertyAdapter
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickListener<PropertyItem> {
 
     companion object {
         private const val REQUEST_CODE_FILE_CHOOSER = 11
     }
 
-    @Inject
-    lateinit var viewModel: ThemesViewModel
-
-    private val args: NewThemeFragmentArgs by navArgs()
+    private val viewModel: ThemesViewModel by viewModels()
+    private val navArgs: NewThemeFragmentArgs by navArgs()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentNewThemeBinding
@@ -65,7 +65,7 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         if (savedInstanceState == null) {
-            viewModel.fetchProperties(args.uuid)
+            viewModel.fetchProperties(navArgs.uuid)
         }
     }
 
@@ -79,7 +79,7 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         binding.recyclerView.adapter = PropertyAdapter(this)
             .also { adapter = it }
 
-        binding.actionSaveTheme.setOnClickListener {
+        binding.actionSave.setOnClickListener {
             viewModel.createTheme(meta, adapter.currentList)
         }
     }
@@ -88,7 +88,6 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         super.onDestroyView()
         viewModel.metaEvent.value = meta
     }
-
 
     // region MENU
 
@@ -150,10 +149,10 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
             showToast(it)
         })
         viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
-            binding.actionSaveTheme.isEnabled = it
+            binding.actionSave.isEnabled = it
         })
         viewModel.createEvent.observe(viewLifecycleOwner, Observer {
-            showToast(text = String.format(getString(R.string.message_new_theme_available), it))
+            showToast(text = getString(R.string.message_new_theme_available, it))
             navController.navigateUp()
         })
         viewModel.metaEvent.observe(viewLifecycleOwner, Observer {

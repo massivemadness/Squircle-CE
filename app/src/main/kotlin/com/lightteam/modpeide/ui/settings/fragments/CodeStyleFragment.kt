@@ -18,10 +18,10 @@
 package com.lightteam.modpeide.ui.settings.fragments
 
 import android.os.Bundle
+import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
 
-class CodeStyleFragment : DaggerPreferenceFragmentCompat() {
+class CodeStyleFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_code_style, rootKey)

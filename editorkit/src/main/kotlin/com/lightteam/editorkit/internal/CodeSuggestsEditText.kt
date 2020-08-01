@@ -20,9 +20,10 @@ package com.lightteam.editorkit.internal
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
+import androidx.core.text.PrecomputedTextCompat
 import com.lightteam.editorkit.R
-import com.lightteam.editorkit.feature.suggestions.WordsManager
 import com.lightteam.editorkit.adapter.SuggestionAdapter
+import com.lightteam.editorkit.feature.suggestions.WordsManager
 import com.lightteam.editorkit.utils.SymbolsTokenizer
 
 open class CodeSuggestsEditText @JvmOverloads constructor(
@@ -74,9 +75,9 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun processText(newText: String) {
+    override fun processText(textParams: PrecomputedTextCompat?) {
         wordsManager.clear()
-        super.processText(newText)
+        super.processText(textParams)
         fillWithPredefinedSuggestions()
     }
 
@@ -117,8 +118,8 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
     }
 
     private fun onDropDownSizeChange(width: Int, height: Int) {
-        dropDownWidth = width * 1/2
-        dropDownHeight = height * 1/2
+        dropDownWidth = width * 1 / 2
+        dropDownHeight = height * 1 / 2
         onPopupChangePosition()
     }
 
@@ -132,12 +133,11 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
             dropDownHorizontalOffset = offsetHorizontal.toInt()
 
             val offsetVertical = y - scrollY
-            var tmp = offsetVertical + dropDownHeight
-            if (tmp < getVisibleHeight()) {
-                dropDownVerticalOffset = offsetVertical
+            val temp = offsetVertical + dropDownHeight
+            dropDownVerticalOffset = if (temp < getVisibleHeight()) {
+                offsetVertical
             } else {
-                tmp = offsetVertical - dropDownHeight
-                dropDownVerticalOffset = tmp
+                offsetVertical - dropDownHeight
             }
         }
     }

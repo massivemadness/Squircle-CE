@@ -15,23 +15,11 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.explorer
+package com.lightteam.modpeide.domain.model.preset
 
-import com.lightteam.modpeide.ui.explorer.dialogs.ProcessDialog
-import com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment
-import com.lightteam.modpeide.ui.explorer.fragments.PermissionsFragment
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
-
-@Module
-abstract class ExplorerFragmentsProvider {
-
-    @ContributesAndroidInjector
-    abstract fun bindPermissionsFragment(): PermissionsFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindDirectoryFragment(): DirectoryFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindProcessDialog(): ProcessDialog
-}
+data class PresetModel(
+    val uuid: String,
+    val name: String,
+    val isExternal: Boolean,
+    val keys: List<String>
+)

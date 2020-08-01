@@ -19,6 +19,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 // apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
@@ -30,8 +31,8 @@ android {
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
 
-        versionCode 10034
-        versionName "2020.2.1"
+        versionCode 10036
+        versionName "2020.2.2"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -77,22 +78,22 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
-    dataBinding {
-        enabled true
-    }
-    viewBinding {
-        enabled true
+    buildFeatures {
+        dataBinding true
+        viewBinding true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Kotlin
+    // Core
     implementation library.kotlin
-    implementation library.core_ktx
+    implementation library.core
+    implementation library.activity
+    implementation library.fragment
 
-    // Design
+    // UI
     implementation library.appcompat
     implementation library.materialdesign
     implementation library.constraintlayout
@@ -120,10 +121,10 @@ dependencies {
     implementation library.rxpreferences
 
     // DI
-    implementation library.dagger2
-    kapt library.dagger2_compiler
-    implementation library.dagger2_android
-    kapt library.dagger2_android_processor
+    implementation library.hilt
+    kapt library.hilt_compiler
+    implementation library.dagger_hilt
+    kapt library.dagger_hilt_compiler
 
     // Other
     implementation library.keyboardevent

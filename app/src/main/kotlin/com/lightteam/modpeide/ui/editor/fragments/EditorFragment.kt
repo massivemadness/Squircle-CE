@@ -19,7 +19,10 @@ package com.lightteam.modpeide.ui.editor.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
@@ -39,7 +42,7 @@ import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.StoreDialog
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
-import com.lightteam.modpeide.ui.editor.adapters.BasicSuggestionAdapter
+import com.lightteam.modpeide.ui.editor.adapters.AutoCompleteAdapter
 import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
 import com.lightteam.modpeide.ui.editor.utils.Panel
@@ -51,22 +54,20 @@ import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.extensions.createTypefaceFromPath
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import com.lightteam.modpeide.utils.extensions.launchActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
+@AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
     ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener,
     DocumentAdapter.TabInteractor, OnBackPressedHandler {
 
-    @Inject
-    lateinit var sharedViewModel: MainViewModel
-    @Inject
-    lateinit var viewModel: EditorViewModel
-    @Inject
-    lateinit var toolbarManager: ToolbarManager
+    private val sharedViewModel: MainViewModel by activityViewModels()
+    private val viewModel: EditorViewModel by viewModels()
+    private val toolbarManager: ToolbarManager by lazy { ToolbarManager(this) }
 
     private lateinit var binding: FragmentEditorBinding
     private lateinit var adapter: DocumentAdapter
@@ -93,7 +94,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
 
-        binding.editor.suggestionAdapter = BasicSuggestionAdapter(requireContext())
+        binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
         binding.editor.onUndoRedoChangedListener = object : UndoRedoEditText.OnUndoRedoChangedListener {
             override fun onUndoRedoChanged() {
                 viewModel.canUndo.set(binding.editor.canUndo())
@@ -149,12 +150,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 binding.editor.setErrorLine(it.lineNumber)
             }
         })
-        viewModel.contentEvent.observe(viewLifecycleOwner, Observer { content ->
+        viewModel.contentEvent.observe(viewLifecycleOwner, Observer {
+            val content = it.first
+            val textParams = it.second
+
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
-            binding.editor.processText(content.text)
+            binding.editor.processText(textParams)
             binding.editor.scrollX = content.documentModel.scrollX
             binding.editor.scrollY = content.documentModel.scrollY
             binding.editor.setSelection(
@@ -242,6 +246,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                             }
                         }
                     }
+                    is PreferenceEvent.KeyboardPreset -> {
+                        binding.extendedKeyboard.submitList(event.value.keys)
+                    }
                     is PreferenceEvent.SoftKeys -> {
                         val newConfiguration = binding.editor.config.copy(softKeyboard = event.value)
                         binding.editor.config = newConfiguration
@@ -304,7 +311,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     private fun loadDocument(position: Int) {
         if (position > -1 && position < viewModel.tabsList.size) {
             val document = viewModel.tabsList[position]
-            viewModel.loadFile(document)
+            viewModel.loadFile(document, TextViewCompat.getTextMetricsParams(binding.editor))
         }
     }
 
@@ -381,9 +388,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 negativeButton(R.string.action_cancel)
                 positiveButton(R.string.action_save) {
                     val enterFilePath = findViewById<TextInputEditText>(R.id.input)
-                    val filePath = enterFilePath.text?.toString()?.trim() ?: ""
+                    val filePath = enterFilePath.text?.toString()?.trim()
 
-                    if (filePath.isNotBlank()) {
+                    if (!filePath.isNullOrBlank()) {
                         val updateDocument = document.copy(
                             uuid = "whatever",
                             path = filePath

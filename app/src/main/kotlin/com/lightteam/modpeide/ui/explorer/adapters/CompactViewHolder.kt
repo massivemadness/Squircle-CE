@@ -30,7 +30,7 @@ import com.lightteam.modpeide.utils.extensions.setTint
 class CompactViewHolder(
     private val binding: ItemFileCompactBinding,
     private val onItemClickListener: OnItemClickListener<FileModel>
-): FileAdapter.FileViewHolder(binding.root) {
+) : FileAdapter.FileViewHolder(binding.root) {
 
     companion object {
         fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<FileModel>): CompactViewHolder {

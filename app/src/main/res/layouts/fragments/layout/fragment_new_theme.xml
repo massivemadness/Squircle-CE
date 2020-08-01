@@ -98,9 +98,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/action_save_theme"
+            android:text="@string/action_save"
             android:enabled="false"
-            android:id="@+id/action_save_theme"/>
+            android:id="@+id/action_save"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

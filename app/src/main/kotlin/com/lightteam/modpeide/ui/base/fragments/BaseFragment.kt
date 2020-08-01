@@ -17,26 +17,18 @@
 
 package com.lightteam.modpeide.ui.base.fragments
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
-import dagger.android.support.DaggerFragment
+import androidx.fragment.app.Fragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : DaggerFragment() {
+abstract class BaseFragment(@LayoutRes layoutRes: Int) : Fragment(layoutRes) {
 
     private val viewCompositeDisposable by lazy { CompositeDisposable() }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(layoutRes, container, false)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -22,12 +22,12 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.BuildConfig
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.utils.extensions.isUltimate
 
-class AboutFragment : DaggerPreferenceFragmentCompat() {
+class AboutFragment : PreferenceFragmentCompat() {
 
     companion object {
         private const val KEY_ABOUT_AND_CHANGELOG = "ABOUT_AND_CHANGELOG"
@@ -46,22 +46,24 @@ class AboutFragment : DaggerPreferenceFragmentCompat() {
 
         val changelog = findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
         changelog?.setOnPreferenceClickListener {
-            navController.navigate(R.id.changeLogDialog)
+            val destination = AboutFragmentDirections.toChangeLogFragment()
+            navController.navigate(destination)
             true
         }
 
         if (isUltimate()) {
             changelog?.setTitle(R.string.pref_about_ultimate_title)
         }
-        changelog?.summary = String.format(
-            getString(R.string.pref_about_summary),
+        changelog?.summary = getString(
+            R.string.pref_about_summary,
             BuildConfig.VERSION_NAME,
             BuildConfig.VERSION_CODE
         )
 
         val privacy = findPreference<Preference>(KEY_PRIVACY_POLICY)
         privacy?.setOnPreferenceClickListener {
-            navController.navigate(R.id.privacyPolicyDialog)
+            val destination = AboutFragmentDirections.toPrivacyPolicyDialog()
+            navController.navigate(destination)
             true
         }
     }

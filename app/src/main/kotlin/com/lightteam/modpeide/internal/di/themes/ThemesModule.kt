@@ -17,47 +17,21 @@
 
 package com.lightteam.modpeide.internal.di.themes
 
-import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
-import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.database.AppDatabase
-import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
-import com.lightteam.modpeide.internal.di.settings.SettingsScope
-import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
-import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 
 @Module
-class ThemesModule {
+@InstallIn(ActivityRetainedComponent::class)
+object ThemesModule {
 
     @Provides
-    @SettingsScope // @ThemesScope
-    fun provideThemesViewModelFactory(
-        schedulersProvider: SchedulersProvider,
-        preferenceHandler: PreferenceHandler,
-        appDatabase: AppDatabase,
-        @Named("Local")
-        filesystem: Filesystem,
-        gson: Gson
-    ): ThemesViewModel.Factory {
-        return ThemesViewModel.Factory(
-            schedulersProvider,
-            preferenceHandler,
-            appDatabase,
-            filesystem,
-            gson
-        )
-    }
-
-    @Provides
-    @SettingsScope // @ThemesScope
-    fun provideThemesViewModel(
-        activity: SettingsActivity,
-        factory: ThemesViewModel.Factory
-    ): ThemesViewModel {
-        return ViewModelProvider(activity, factory).get(ThemesViewModel::class.java)
+    @ActivityRetainedScoped
+    fun provideGson(): Gson {
+        return GsonBuilder().setPrettyPrinting().create()
     }
 }

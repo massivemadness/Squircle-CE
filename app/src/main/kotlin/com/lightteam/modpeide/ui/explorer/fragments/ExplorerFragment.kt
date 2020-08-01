@@ -24,6 +24,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -39,16 +40,16 @@ import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
 import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.*
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
     OnBackPressedHandler, TabAdapter.OnTabSelectedListener {
 
-    @Inject
-    lateinit var viewModel: ExplorerViewModel
+    private val viewModel: ExplorerViewModel by activityViewModels()
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentExplorerBinding

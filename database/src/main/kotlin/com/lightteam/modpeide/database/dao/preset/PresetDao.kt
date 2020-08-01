@@ -15,19 +15,25 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.fonts
+package com.lightteam.modpeide.database.dao.preset
 
-import com.lightteam.modpeide.ui.fonts.fragments.ExternalFontFragment
-import com.lightteam.modpeide.ui.fonts.fragments.FontsFragment
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import androidx.room.Dao
+import androidx.room.Query
+import com.lightteam.modpeide.database.dao.base.BaseDao
+import com.lightteam.modpeide.database.entity.preset.PresetEntity
+import com.lightteam.modpeide.database.utils.Tables
+import io.reactivex.Completable
+import io.reactivex.Single
 
-@Module
-abstract class FontsFragmentsProvider {
+@Dao
+abstract class PresetDao : BaseDao<PresetEntity> {
 
-    @ContributesAndroidInjector
-    abstract fun bindFontsFragment(): FontsFragment
+    @Query("SELECT * FROM ${Tables.PRESETS} WHERE name LIKE '%' || :searchQuery || '%'")
+    abstract fun loadAll(searchQuery: String): Single<List<PresetEntity>>
 
-    @ContributesAndroidInjector
-    abstract fun bindExternalFontFragment(): ExternalFontFragment
+    @Query("SELECT * FROM ${Tables.PRESETS} WHERE uuid = :uuid")
+    abstract fun load(uuid: String): Single<PresetEntity>
+
+    @Query("DELETE FROM ${Tables.PRESETS}")
+    abstract fun deleteAll(): Completable
 }

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.internal.di.explorer
+package com.lightteam.modpeide.domain.model.changelog
 
-import javax.inject.Scope
-
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class ExplorerScope
+data class ReleaseModel(
+    val versionName: String,
+    val releaseDate: String,
+    val releaseNotes: String
+)

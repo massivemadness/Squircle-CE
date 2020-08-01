@@ -22,17 +22,18 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
-import com.lightteam.modpeide.ui.base.fragments.DaggerPreferenceFragmentCompat
 import com.lightteam.modpeide.utils.extensions.isUltimate
 
-class EditorFragment : DaggerPreferenceFragmentCompat() {
+class EditorFragment : PreferenceFragmentCompat() {
 
     companion object {
         private const val KEY_FONT_TYPE = PreferenceHandler.KEY_FONT_TYPE
         private const val KEY_TAB_LIMIT = PreferenceHandler.KEY_TAB_LIMIT
         private const val KEY_ERROR_HIGHLIGHTING = PreferenceHandler.KEY_ERROR_HIGHLIGHTING
+        private const val KEY_KEYBOARD_PRESET = PreferenceHandler.KEY_KEYBOARD_PRESET
     }
 
     private lateinit var navController: NavController
@@ -52,5 +53,10 @@ class EditorFragment : DaggerPreferenceFragmentCompat() {
         }
         findPreference<Preference>(KEY_TAB_LIMIT)?.isEnabled = isUltimate()
         findPreference<Preference>(KEY_ERROR_HIGHLIGHTING)?.isEnabled = isUltimate()
+        findPreference<Preference>(KEY_KEYBOARD_PRESET)?.setOnPreferenceClickListener {
+            val destination = EditorFragmentDirections.toPresetsFragment()
+            navController.navigate(destination)
+            true
+        }
     }
 }

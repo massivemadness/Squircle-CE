@@ -19,9 +19,8 @@ package com.lightteam.modpeide.ui.explorer.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.lightteam.filesystem.exception.DirectoryExpectedException
 import com.lightteam.filesystem.exception.FileAlreadyExistsException
 import com.lightteam.filesystem.exception.FileNotFoundException
@@ -43,10 +42,12 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 
-class ExplorerViewModel(
+class ExplorerViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
+    @Named("Local")
     private val filesystem: Filesystem
 ) : BaseViewModel() {
 
@@ -168,7 +169,7 @@ class ExplorerViewModel(
                         tabsList.add(fileTree.parent)
                         tabsEvent.value = tabsList
                     }
-                    searchList.replaceList(fileTree.children) // Фильтрация по текущему списку
+                    searchList.replaceList(fileTree.children)
                     filesEvent.value = fileTree
                 },
                 onError = {
@@ -442,25 +443,5 @@ class ExplorerViewModel(
                 }
             )
             .disposeOnViewModelDestroy()
-    }
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler,
-        private val filesystem: Filesystem
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === ExplorerViewModel::class.java ->
-                    ExplorerViewModel(
-                        schedulersProvider,
-                        preferenceHandler,
-                        filesystem
-                    ) as T
-                else -> null as T
-            }
-        }
     }
 }

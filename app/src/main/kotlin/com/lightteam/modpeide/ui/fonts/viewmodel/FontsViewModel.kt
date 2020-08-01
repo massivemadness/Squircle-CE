@@ -17,14 +17,13 @@
 
 package com.lightteam.modpeide.ui.fonts.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.lightteam.modpeide.data.converter.FontConverter
-import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.database.AppDatabase
+import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
@@ -32,7 +31,7 @@ import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.File
 
-class FontsViewModel(
+class FontsViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val preferenceHandler: PreferenceHandler,
     private val appDatabase: AppDatabase
@@ -45,8 +44,10 @@ class FontsViewModel(
     val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
     val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
 
+    var searchQuery = ""
+
     fun fetchFonts() {
-        appDatabase.fontDao().loadAll()
+        appDatabase.fontDao().loadAll(searchQuery)
             .map { it.map(FontConverter::toModel) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fontsEvent.value = it }
@@ -62,6 +63,9 @@ class FontsViewModel(
         Completable
             .fromAction {
                 appDatabase.fontDao().delete(FontConverter.toEntity(fontModel))
+                if (preferenceHandler.getFontType().get() == fontModel.fontPath) {
+                    preferenceHandler.getFontType().delete()
+                }
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy {
@@ -86,25 +90,5 @@ class FontsViewModel(
         val isFontPathValid = fontPath.trim().isNotBlank() && File(fontPath)
             .run { exists() && name.endsWith(".ttf") }
         validationEvent.value = isFontNameValid && isFontPathValid
-    }
-
-    class Factory(
-        private val schedulersProvider: SchedulersProvider,
-        private val preferenceHandler: PreferenceHandler,
-        private val appDatabase: AppDatabase
-    ) : ViewModelProvider.NewInstanceFactory() {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return when {
-                modelClass === FontsViewModel::class.java ->
-                    FontsViewModel(
-                        schedulersProvider,
-                        preferenceHandler,
-                        appDatabase
-                    ) as T
-                else -> null as T
-            }
-        }
     }
 }

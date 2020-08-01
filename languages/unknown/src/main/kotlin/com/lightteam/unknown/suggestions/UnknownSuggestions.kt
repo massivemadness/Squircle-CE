@@ -17,8 +17,8 @@
 
 package com.lightteam.unknown.suggestions
 
-import com.lightteam.language.suggestion.SuggestionProvider
 import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.suggestion.SuggestionProvider
 
 class UnknownSuggestions : SuggestionProvider {
 

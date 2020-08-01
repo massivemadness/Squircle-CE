@@ -31,6 +31,10 @@
     <string name="label_external_font">External Font</string>
     <string name="label_themes">Themes</string>
     <string name="label_new_theme">New Theme</string>
+    <string name="label_keyboard_presets">Keyboard presets</string>
+    <string name="label_new_preset">New Preset</string>
+    <string name="label_changelog">ChangeLog</string>
+    <string name="label_latest_release">Latest release</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_line">Line:</string>
@@ -46,10 +50,14 @@
     <string name="hint_enter_theme_name">Enter theme name</string>
     <string name="hint_enter_theme_author">Enter theme author</string>
     <string name="hint_enter_theme_desc">Short description</string>
+    <string name="hint_enter_preset_name">Enter preset name</string>
     <string name="hint_font_name" translatable="false">Droid Sans Mono</string>
     <string name="hint_theme_name" translatable="false">Darcula</string>
     <string name="hint_theme_author" translatable="false">Light Team Software</string>
     <string name="hint_theme_desc">Default color scheme</string>
+    <string name="hint_preset_name">Custom</string>
+    <string name="hint_preset_chars_no_separation">Characters (no separation)</string>
+    <string name="hint_preset_characters" translatable="false">{}();,.=\|&amp;![]&lt;&gt;+-/*?:_</string>
 
     <string name="action_restart">Restart</string>
     <string name="action_grant_access">Grant Access</string>
@@ -73,8 +81,6 @@
     <string name="action_maybe_later">Maybe later</string>
     <string name="action_unlock_all_features">Unlock all features</string>
     <string name="action_select">Select</string>
-    <string name="action_add_font">Add font</string>
-    <string name="action_save_theme">Save theme</string>
     <string name="action_import">Import</string>
     <string name="action_export">Export</string>
     <string name="action_edit">Edit</string>
@@ -113,7 +119,6 @@
     <string name="dialog_title_rename">Rename…</string>
     <string name="dialog_title_multi_delete">Multi-delete</string>
     <string name="dialog_title_store">Get the Ultimate Edition</string>
-    <string name="dialog_title_changelog">ChangeLog</string>
     <string name="dialog_title_privacy_policy">Privacy Policy</string>
     <string name="dialog_title_exit">Exit</string>
     <string name="dialog_title_properties">Properties</string>
@@ -178,7 +183,9 @@
     <string name="message_theme_exported">Theme saved to %1$s</string>
     <string name="message_choose_theme_json">Choose .json theme file</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
-    <string name="message_elasped_time">Elapsed time: %1$s</string>
+    <string name="message_new_preset_available">New preset available: %1$s</string>
+    <string name="message_preset_removed">Preset «%1$s» removed</string>
+    <string name="message_elapsed_time">Elapsed time: %1$s</string>
     <string name="message_deleting">Deleting…%1$s</string>
     <string name="message_copying">Copying…%1$s</string>
     <string name="message_compressing">Compressing…%1$s</string>
@@ -191,13 +198,15 @@
     <string name="store_feature_2">Color schemes</string>
     <string name="store_feature_3">Theme editor 🎉</string>
     <string name="store_feature_4">External fonts</string>
-    <string name="store_feature_5">Increased tab limit</string>
-    <string name="store_feature_6">Error checking</string>
-    <string name="store_feature_7">Color picker</string>
+    <string name="store_feature_5">Keyboard presets</string>
+    <string name="store_feature_6">Increased tab limit</string>
+    <string name="store_feature_7">Error checking</string>
+    <string name="store_feature_8">Color picker</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>
     <string name="font_disclaimer">If you want to use this font, do not delete .ttf file at the specified path</string>
+    <string name="preset_disclaimer">You can repeat characters multiple times</string>
 
     <string name="theme_property_text_color">Defines the text color of the editor</string>
     <string name="theme_property_background_color">Defines the background color of the editor</string>
@@ -276,6 +285,8 @@
     <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the caret at its pair.</string>
     <string name="pref_extended_keyboard_title">Extended Keyboard</string>
     <string name="pref_extended_keyboard_summary">Show additional keys above the keyboard.</string>
+    <string name="pref_keyboard_presets_title">Keyboard Presets</string>
+    <string name="pref_keyboard_presets_summary">Choose preset for extended keyboard.</string>
     <string name="pref_soft_keyboard_title">Soft Keyboard</string>
     <string name="pref_soft_keyboard_summary">Always use soft keyboard.</string>
 
@@ -297,10 +308,11 @@
     <string name="pref_view_mode_title">View Mode</string>
     <string name="pref_sort_mode_title">Sort Mode</string>
 
-    <string name="pref_about_standard_title">ModPE IDE - Standard Edition</string>
-    <string name="pref_about_ultimate_title">ModPE IDE - Ultimate Edition</string>
+    <string name="pref_about_standard_title" translatable="false">ModPE IDE - Standard Edition</string>
+    <string name="pref_about_ultimate_title" translatable="false">ModPE IDE - Ultimate Edition</string>
     <string name="pref_about_summary">Copyright 2020 Light Team Software\nAll right reserved\n\nVersion: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Privacy Policy</string>
     <string name="pref_contribute_title">Contribute to development</string>
     <string name="pref_contribute_summary">You can create an issue on GitHub or translate this app to your native language.\n\nThank you!</string>
+
 </resources>

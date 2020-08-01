@@ -15,24 +15,30 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.settings.dialogs
-
-import android.app.Dialog
-import android.os.Bundle
-import android.widget.TextView
-import androidx.fragment.app.DialogFragment
-import com.afollestad.materialdialogs.MaterialDialog
-import com.lightteam.modpeide.R
-import com.lightteam.modpeide.utils.extensions.getRawFileText
-
-class ChangeLogDialog : DialogFragment() {
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_changelog)
-            message(text = context.getRawFileText(R.raw.changelog)) { html() }
-            findViewById<TextView>(R.id.md_text_message).textSize = 14f
-            negativeButton(R.string.action_close)
-        }
-    }
+repositories {
+    jcenter()
 }
+
+configurations {
+    ktlint
+}
+
+dependencies {
+    ktlint rootProject.ext.lint.ktlint
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "src/**/*.kt"
+}
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "-F", "src/**/*.kt"
+}
+
+tasks.getByPath(':app:preBuild').dependsOn ktlintFormat

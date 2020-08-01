@@ -24,10 +24,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.lightteam.modpeide.R
 
-class StoreDialog : DialogFragment() {
+class StoreDialog : BaseDialogFragment() {
 
     companion object {
         const val DIALOG_TAG = "StoreDialog"

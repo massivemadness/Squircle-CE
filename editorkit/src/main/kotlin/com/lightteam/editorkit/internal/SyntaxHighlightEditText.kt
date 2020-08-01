@@ -23,6 +23,7 @@ import android.text.Spannable
 import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.util.AttributeSet
+import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.getSpans
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.converter.ColorSchemeConverter
@@ -73,10 +74,10 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun processText(newText: String) {
+    override fun processText(textParams: PrecomputedTextCompat?) {
         syntaxHighlightSpans.clear()
         findResultSpans.clear()
-        super.processText(newText)
+        super.processText(textParams)
         syntaxHighlight()
     }
 
@@ -326,8 +327,8 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
             for (span in syntaxHighlightSpans) {
                 val isInText = span.start >= 0 && span.end <= text.length
                 val isValid = span.start <= span.end
-                val isVisible = span.start in lineStart..lineEnd
-                        || span.start <= lineEnd && span.end >= lineStart
+                val isVisible = span.start in lineStart..lineEnd ||
+                        span.start <= lineEnd && span.end >= lineStart
                 if (isInText && isValid && isVisible) {
                     text.setSpan(
                         span,
@@ -346,8 +347,8 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
             for (span in findResultSpans) {
                 val isInText = span.start >= 0 && span.end <= text.length
                 val isValid = span.start <= span.end
-                val isVisible = span.start in lineStart..lineEnd
-                        || span.start <= lineEnd && span.end >= lineStart
+                val isVisible = span.start in lineStart..lineEnd ||
+                        span.start <= lineEnd && span.end >= lineStart
                 if (isInText && isValid && isVisible) {
                     text.setSpan(
                         span,
