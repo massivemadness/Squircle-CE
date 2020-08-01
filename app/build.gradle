@@ -31,7 +31,7 @@ android {
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
 
-        versionCode 10035
+        versionCode 10036
         versionName "2020.2.2"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -65,9 +65,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-    }
-    lintOptions {
-        disable "NullSafeMutableLiveData"
     }
     sourceSets {
         main {
