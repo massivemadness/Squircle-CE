@@ -143,7 +143,7 @@
     <string name="sort_by_date">按日期排序</string>
 
     <string name="message_access_denied">没有访问权限</string>
-    <string name="message_access_required">须要请求存储权限访问文件才能正常工作</string>
+    <string name="message_access_required">本应用必须访问文件才能正常工作</string>
     <string name="message_no_result">没有结果</string>
     <string name="message_no_open_files">还没有打开任何文件</string>
     <string name="message_tab_limit_achieved">标签页已达上限</string>
@@ -192,8 +192,8 @@
     <string name="store_feature_8">颜色选择器</string>
 
     <string name="font_support_ligatures">* 支持连体字母</string>
-    <string name="font_disclaimer">声明：如果要使用该字体，请千万不要删除上面指定路径下的 .ttf 文件</string>
-    <string name="preset_disclaimer">声明：您可以重写多个快捷符号栏预设符号</string>
+    <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>
+    <string name="preset_disclaimer">注：字符可以重复多次</string>
 
     <string name="theme_property_text_color">定义编辑器的文本颜色</string>
     <string name="theme_property_background_color">定义编辑器的背景颜色</string>
