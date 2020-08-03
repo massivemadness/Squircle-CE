@@ -123,22 +123,14 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun copyFile(
-        source: FileModel,
-        dest: FileModel,
-        copyOption: CopyOption
-    ): Single<FileModel> {
+    override fun copyFile(source: FileModel, dest: FileModel): Single<FileModel> {
         return Single.create { emitter ->
             val directory = FileConverter.toFile(dest)
             val sourceFile = FileConverter.toFile(source)
             val destFile = File(directory, sourceFile.name)
             if (sourceFile.exists()) {
                 if (!destFile.exists()) {
-                    val overwrite = when (copyOption) {
-                        CopyOption.ABORT -> false
-                        CopyOption.REPLACE -> true
-                    }
-                    sourceFile.copyRecursively(destFile, overwrite)
+                    sourceFile.copyRecursively(destFile, overwrite = false)
                     // val destFile2 = FileConverter.toModel(destFile)
                     // emitter.onSuccess(destFile2)
                     emitter.onSuccess(source)

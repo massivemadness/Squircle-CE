@@ -30,7 +30,7 @@ interface Filesystem {
     fun createFile(fileModel: FileModel): Single<FileModel>
     fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
     fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun copyFile(source: FileModel, dest: FileModel, copyOption: CopyOption): Single<FileModel>
+    fun copyFile(source: FileModel, dest: FileModel): Single<FileModel>
     fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
     fun compress(source: List<FileModel>, dest: FileModel, archiveName: String): Observable<FileModel>
