@@ -609,11 +609,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     override fun onUndoButton() {
-        binding.editor.undo()
+        if (binding.editor.canUndo()) {
+            binding.editor.undo()
+        }
     }
 
     override fun onRedoButton() {
-        binding.editor.redo()
+        if (binding.editor.canRedo()) {
+            binding.editor.redo()
+        }
     }
 
     override fun onSettingsButton() {
