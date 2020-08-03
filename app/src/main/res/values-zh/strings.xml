@@ -108,7 +108,7 @@
     <string name="dialog_title_choose_action">选择操作</string>
     <string name="dialog_title_create">创建文件</string>
     <string name="dialog_title_rename">重命名文件</string>
-    <string name="dialog_title_multi_delete">选择删除文件</string>
+    <string name="dialog_title_multi_delete">删除所选文件</string>
     <string name="dialog_title_store">获取旗舰版</string>
     <string name="dialog_title_privacy_policy">隐私政策</string>
     <string name="dialog_title_exit">退出应用</string>
@@ -124,16 +124,16 @@
     <string name="dialog_title_archive_name">归档名称</string>
 
     <string name="dialog_message_exit">你确定要退出吗？所有更改将会保存到缓存中</string>
-    <string name="dialog_message_delete">确定要删除此文件吗？</string>
+    <string name="dialog_message_delete">确定要删除该文件吗？</string>
     <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
 
     <string name="properties_name">&lt;b>名称:&lt;/b> %s&lt;br></string>
     <string name="properties_path">&lt;b>路径:&lt;/b> %s&lt;br></string>
-    <string name="properties_modified">&lt;b>修改:&lt;/b> %s&lt;br></string>
+    <string name="properties_modified">&lt;b>日期:&lt;/b> %s&lt;br></string>
     <string name="properties_size">&lt;b>大小:&lt;/b> %s&lt;br></string>
     <string name="properties_line_count">&lt;b>行数:&lt;/b> %s&lt;br></string>
-    <string name="properties_word_count">&lt;b>单词数:&lt;/b> %s&lt;br></string>
-    <string name="properties_char_count">&lt;b>符号数:&lt;/b> %s</string>
+    <string name="properties_word_count">&lt;b>词数:&lt;/b> %s&lt;br></string>
+    <string name="properties_char_count">&lt;b>字数:&lt;/b> %s</string>
     <string name="properties_readable">可读</string>
     <string name="properties_writable">可写</string>
     <string name="properties_executable">可执行</string>
@@ -143,7 +143,7 @@
     <string name="sort_by_date">按日期排序</string>
 
     <string name="message_access_denied">没有访问权限</string>
-    <string name="message_access_required">本应用需要访问文件才能正常工作</string>
+    <string name="message_access_required">本应用需要请求存储空间权限才能正常工作</string>
     <string name="message_no_result">没有结果</string>
     <string name="message_no_open_files">没有打开任何文件</string>
     <string name="message_tab_limit_achieved">标签页已达上限</string>
@@ -192,8 +192,8 @@
     <string name="store_feature_8">颜色选择器</string>
 
     <string name="font_support_ligatures">* 支持连体字母</string>
-    <string name="font_disclaimer">如果要使用此字体，请千万不要删除上面指定路径下的 .ttf 文件</string>
-    <string name="preset_disclaimer">您可以多次重写符号</string>
+    <string name="font_disclaimer">声明：如果要使用该字体，请千万不要删除上面指定路径下的 .ttf 文件</string>
+    <string name="preset_disclaimer">声明：您可以多次重写符号</string>
 
     <string name="theme_property_text_color">定义编辑器的文本颜色</string>
     <string name="theme_property_background_color">定义编辑器的背景颜色</string>
@@ -208,12 +208,12 @@
     <string name="theme_property_delimiter_background_color">定义成对的分隔符的背景颜色</string>
     <string name="theme_property_numbers_color">定义语法高亮显示的数字颜色，如：123、0.5、0xFF</string>
     <string name="theme_property_operators_color">定义语法高亮显示的操作符颜色，如：+-*/=、[]、 {}、()</string>
-    <string name="theme_property_keywords_color">定义语法高亮显示的关键词颜色，如：function, if, else</string>
-    <string name="theme_property_types_color">定义语法高亮显示的类型颜色，如：const, var, let</string>
+    <string name="theme_property_keywords_color">定义语法高亮显示的关键词颜色，如：function、if、else</string>
+    <string name="theme_property_types_color">定义语法高亮显示的类型颜色，如：const、var、let</string>
     <string name="theme_property_lang_const_color">定义语法高亮显示的语言常量颜色，如：true, false, null</string>
-    <string name="theme_property_methods_color">定义语法高亮显示的方法颜色</string>
-    <string name="theme_property_strings_color">定义语法高亮显示的字符串颜色</string>
-    <string name="theme_property_comments_color">定义语法高亮显示的注释颜色，如: //、/**/</string>
+    <string name="theme_property_methods_color">定义语法高亮显示的方法名颜色，如：function foo() {}</string>
+    <string name="theme_property_strings_color">定义语法高亮显示的字符串颜色，如：str = 'Hello'</string>
+    <string name="theme_property_comments_color">定义语法高亮显示的注释颜色，如: 以“//”开头的内容</string>
 
     <string name="encoding_utf8_default">UTF-8 (默认)</string>
 
@@ -250,9 +250,9 @@
     <string name="pref_confirm_exit_title">退出确认</string>
     <string name="pref_confirm_exit_summary">启用后按下返回键将弹出退出确认对话框，否则直接退出。</string>
 
-    <string name="pref_font_size_title">编辑器字体大小</string>
+    <string name="pref_font_size_title">字体大小</string>
     <string name="pref_font_size_summary">指定编辑器的默认字体大小。</string>
-    <string name="pref_font_type_title">编辑器字体类型</string>
+    <string name="pref_font_type_title">字体类型</string>
     <string name="pref_font_type_summary">指定编辑器的默认字体类型。</string>
     <string name="pref_resume_session_title">恢复会话</string>
     <string name="pref_resume_session_summary">下次启动时将恢复已打开的文件。</string>
@@ -271,7 +271,7 @@
     <string name="pref_highlight_delimiters_title">高亮成对的符号</string>
     <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
     <string name="pref_extended_keyboard_title">快捷符号栏</string>
-    <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘上面显示常用的符号栏以便快捷输入</string>
+    <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘之上显示符号栏以便快捷输入</string>
     <string name="pref_keyboard_presets_title">键盘预设</string>
     <string name="pref_keyboard_presets_summary">为快捷字符栏选择预设项。</string>
     <string name="pref_soft_keyboard_title">软键盘</string>
@@ -298,6 +298,6 @@
     <string name="pref_about_summary">Copyright 2020 Light Team Software\n保留所有权利\n\n版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看“隐私政策”</string>
     <string name="pref_contribute_title">促进发展</string>
-    <string name="pref_contribute_summary">您可以在 GitHub 上提问讨论或将本应用翻译为您的母语。\n\n谢谢！</string>
+    <string name="pref_contribute_summary">您可以点击此处到 GitHub 上提问、讨论或将本应用翻译为您的母语。\n\n谢谢！</string>
 
 </resources>
