@@ -231,7 +231,7 @@
     <string name="pref_header_about_title">关于</string>
     <string name="pref_header_about_summary">查看 ModPE IDE 的有关信息。</string>
 
-    <string name="pref_category_look_and_feel">观感</string>
+    <string name="pref_category_look_and_feel">外观</string>
     <string name="pref_category_other">其他</string>
     <string name="pref_category_font">字体</string>
     <string name="pref_category_tabs">标签页</string>
@@ -239,7 +239,7 @@
     <string name="pref_category_keyboard">键盘</string>
     <string name="pref_category_code_style">代码范</string>
     <string name="pref_category_encoding">文本编码</string>
-    <string name="pref_category_file_explorer">文件浏览器</string>
+    <string name="pref_category_file_explorer">文件浏览</string>
     <string name="pref_category_about">关于</string>
     <string name="pref_category_contribute">贡献</string>
 
@@ -268,20 +268,20 @@
     <string name="pref_pinch_zoom_summary">在编辑器中启用缩放手势。</string>
     <string name="pref_highlight_line_title">高亮当前行</string>
     <string name="pref_highlight_line_summary">高亮显示光标当前所在的行。</string>
-    <string name="pref_highlight_delimiters_title">高亮成对的符号</string>
+    <string name="pref_highlight_delimiters_title">高亮成对符</string>
     <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
     <string name="pref_extended_keyboard_title">快捷符号栏</string>
     <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘之上显示符号栏以便快捷输入</string>
-    <string name="pref_keyboard_presets_title">快捷符号栏</string>
+    <string name="pref_keyboard_presets_title">预设符号</string>
     <string name="pref_keyboard_presets_summary">为快捷符号栏选择预设符号。</string>
     <string name="pref_soft_keyboard_title">软键盘</string>
     <string name="pref_soft_keyboard_summary">始终使用软键盘。</string>
 
     <string name="pref_auto_indent_title">自动缩进</string>
     <string name="pref_auto_indent_summary">根据上面的行自动缩进新行。</string>
-    <string name="pref_close_brackets_title">括号配对</string>
+    <string name="pref_close_brackets_title">括号闭合</string>
     <string name="pref_close_brackets_summary">输入时自动闭合小括号、方括号或大括号。</string>
-    <string name="pref_close_quotes_title">引号配对</string>
+    <string name="pref_close_quotes_title">引号闭合</string>
     <string name="pref_close_quotes_summary">输入时自动闭合单引号或双引号。</string>
 
     <string name="pref_encoding_for_opening_title">打开文本的编码</string>
