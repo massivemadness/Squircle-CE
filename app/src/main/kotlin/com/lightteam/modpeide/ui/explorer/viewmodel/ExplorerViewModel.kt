@@ -290,7 +290,7 @@ class ExplorerViewModel @ViewModelInject constructor(
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
-                filesystem.copyFile(it, dest, CopyOption.ABORT) // TODO: Возможность выбора CopyOption для каждого файла
+                filesystem.copyFile(it, dest)
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .schedulersIoToMain(schedulersProvider)
@@ -325,7 +325,7 @@ class ExplorerViewModel @ViewModelInject constructor(
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
-                filesystem.copyFile(it, dest, CopyOption.REPLACE) // TODO: Возможность выбора CopyOption для каждого файла
+                filesystem.copyFile(it, dest)
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .concatMapSingle {
