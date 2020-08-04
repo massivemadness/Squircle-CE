@@ -18,6 +18,8 @@
 package com.lightteam.modpeide.data.repository
 
 import com.lightteam.editorkit.feature.undoredo.UndoStack
+import com.lightteam.filesystem.model.FileParams
+import com.lightteam.filesystem.model.LineBreak
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.delegate.LanguageDelegate
@@ -29,6 +31,7 @@ import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.repository.DocumentRepository
 import io.reactivex.Completable
 import io.reactivex.Single
+import java.nio.charset.Charset
 
 class LocalRepository(
     private val preferenceHandler: PreferenceHandler,
@@ -36,10 +39,20 @@ class LocalRepository(
     private val filesystem: Filesystem
 ) : DocumentRepository {
 
+    private val encodingForOpening: Charset
+        get() = safeCharset(preferenceHandler.getEncodingForOpening().get())
+    private val encodingForSaving: Charset
+        get() = safeCharset(preferenceHandler.getEncodingForSaving().get())
+
+    private val linebreakForSaving: LineBreak
+        get() = LineBreak.find(preferenceHandler.getLinebreakForSaving().get())
+
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val fileModel = DocumentConverter.toModel(documentModel)
-        val charset = safeCharset(preferenceHandler.getEncodingForOpening().get())
-        return filesystem.loadFile(fileModel, charset)
+        val fileParams = FileParams(
+            charset = encodingForOpening
+        )
+        return filesystem.loadFile(fileModel, fileParams)
             .map { text ->
                 appDatabase.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
 
@@ -59,8 +72,11 @@ class LocalRepository(
 
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
         val fileModel = DocumentConverter.toModel(documentModel)
-        val charset = safeCharset(preferenceHandler.getEncodingForSaving().get())
-        return filesystem.saveFile(fileModel, text, charset)
+        val fileParams = FileParams(
+            charset = encodingForSaving,
+            linebreak = linebreakForSaving
+        )
+        return filesystem.saveFile(fileModel, text, fileParams)
             .doOnComplete {
                 appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
             }

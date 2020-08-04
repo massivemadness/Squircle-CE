@@ -31,7 +31,6 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import java.io.File
 import java.io.IOException
-import java.nio.charset.Charset
 import net.lingala.zip4j.ZipFile
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
@@ -209,11 +208,11 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun loadFile(fileModel: FileModel, charset: Charset): Single<String> {
+    override fun loadFile(fileModel: FileModel, fileParams: FileParams): Single<String> {
         return Single.create { emitter ->
             val file = File(fileModel.path)
             if (file.exists()) {
-                val text = file.readText(charset)
+                val text = file.readText(fileParams.charset)
                 emitter.onSuccess(text)
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))
@@ -221,7 +220,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun saveFile(fileModel: FileModel, text: String, charset: Charset): Completable {
+    override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams): Completable {
         return Completable.create { emitter ->
             try {
                 val file = File(fileModel.path)
@@ -232,7 +231,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     }
                     file.createNewFile()
                 }
-                file.writeText(text, charset)
+                file.writeText(fileParams.linebreak(text), fileParams.charset)
 
                 emitter.onComplete()
             } catch (e: IOException) {

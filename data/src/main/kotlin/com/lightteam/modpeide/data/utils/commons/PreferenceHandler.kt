@@ -57,6 +57,9 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_ENCODING_FOR_OPENING = "ENCODING_FOR_OPENING"
         const val KEY_ENCODING_FOR_SAVING = "ENCODING_FOR_SAVING"
 
+        // Linebreaks
+        const val KEY_LINEBREAK_FOR_SAVING = "LINEBREAK_FOR_SAVING"
+
         // File Explorer
         const val KEY_SHOW_HIDDEN_FILES = "SHOW_HIDDEN_FILES"
         const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
@@ -94,6 +97,8 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     fun getEncodingForOpening(): Preference<String> = rxSharedPreferences.getString(KEY_ENCODING_FOR_OPENING, "UTF-8")
     fun getEncodingForSaving(): Preference<String> = rxSharedPreferences.getString(KEY_ENCODING_FOR_SAVING, "UTF-8")
+
+    fun getLinebreakForSaving(): Preference<String> = rxSharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2")
 
     fun getFilterHidden(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
     fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)

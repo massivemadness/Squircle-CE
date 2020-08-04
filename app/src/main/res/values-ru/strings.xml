@@ -239,6 +239,7 @@
     <string name="pref_category_keyboard">Клавиатура</string>
     <string name="pref_category_code_style">Стиль кода</string>
     <string name="pref_category_encoding">Кодировка</string>
+    <string name="pref_category_linebreaks">Разделители строк</string>
     <string name="pref_category_file_explorer">Проводник</string>
     <string name="pref_category_about">О программе</string>
     <string name="pref_category_contribute">Внести вклад</string>
@@ -288,6 +289,8 @@
     <string name="pref_encoding_for_opening_summary">Выбранная кодировка будет использоваться для открытия файлов.</string>
     <string name="pref_encoding_for_saving_title">Кодировка для сохранения</string>
     <string name="pref_encoding_for_saving_summary">Выбранная кодировка будет использоваться для сохранения файлов.</string>
+    <string name="pref_linebreaks_for_saving_files_title">Разделители для сохранения</string>
+    <string name="pref_linebreaks_for_saving_files_summary">Выбранные разделители будут использоваться для сохранения файлов.</string>
     <string name="pref_show_hidden_files_title">Показывать скрытые файлы</string>
     <string name="pref_show_hidden_files_summary">Скрытые файлы и папки (начинающиеся с точки) будут отображаться.</string>
     <string name="pref_folders_on_top_title">Папки сверху</string>

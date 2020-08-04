@@ -233,6 +233,10 @@
     <string name="view_mode_compact_list">Compact List</string>
     <string name="view_mode_detailed_list">Detailed List</string>
 
+    <string name="linebreak_cr" translatable="false">CR (Mac/Unix)</string>
+    <string name="linebreak_lf" translatable="false">LF (Android/Linux)</string>
+    <string name="linebreak_crlf" translatable="false">CRLF (Windows)</string>
+
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>
     <string name="pref_header_editor_title">Editor</string>
@@ -252,6 +256,7 @@
     <string name="pref_category_keyboard">Keyboard</string>
     <string name="pref_category_code_style">Code Style</string>
     <string name="pref_category_encoding">Encoding</string>
+    <string name="pref_category_linebreaks">Linebreaks</string>
     <string name="pref_category_file_explorer">File Explorer</string>
     <string name="pref_category_about">About</string>
     <string name="pref_category_contribute">Contribute</string>
@@ -301,6 +306,8 @@
     <string name="pref_encoding_for_opening_summary">Encoding to use when opening files.</string>
     <string name="pref_encoding_for_saving_title">Encoding for saving files</string>
     <string name="pref_encoding_for_saving_summary">Encoding to use when saving files.</string>
+    <string name="pref_linebreaks_for_saving_files_title">Linebreaks for saving files</string>
+    <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files.</string>
     <string name="pref_show_hidden_files_title">Show hidden files</string>
     <string name="pref_show_hidden_files_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
     <string name="pref_folders_on_top_title">Folders on top</string>

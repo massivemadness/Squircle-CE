@@ -24,6 +24,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.model.FileParams
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.utils.isValidFileName
 import com.lightteam.modpeide.R
@@ -138,7 +139,7 @@ class ThemesViewModel @ViewModelInject constructor(
             isFolder = false,
             isHidden = false
         )
-        filesystem.saveFile(fileModel, fileText, Charsets.UTF_8)
+        filesystem.saveFile(fileModel, fileText, FileParams())
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onComplete = {

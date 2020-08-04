@@ -63,4 +63,17 @@
         <item>UTF-32LE</item>
         <item>UTF-32BE</item>
     </string-array>
+
+    <string-array name="linebreak_entries">
+        <item>@string/linebreak_cr</item>
+        <item>@string/linebreak_lf</item>
+        <item>@string/linebreak_crlf</item>
+    </string-array>
+
+    <string-array name="linebreak_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 </resources>

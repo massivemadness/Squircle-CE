@@ -239,6 +239,7 @@
     <string name="pref_category_keyboard">键盘</string>
     <string name="pref_category_code_style">代码范</string>
     <string name="pref_category_encoding">文本编码</string>
+    <string name="pref_category_linebreaks">Linebreaks</string>
     <string name="pref_category_file_explorer">文件浏览</string>
     <string name="pref_category_about">关于</string>
     <string name="pref_category_contribute">贡献</string>
@@ -288,6 +289,8 @@
     <string name="pref_encoding_for_opening_summary">打开文本文件时使用的编码。</string>
     <string name="pref_encoding_for_saving_title">保存文本的编码</string>
     <string name="pref_encoding_for_saving_summary">保存文本文件时使用的编码。</string>
+    <string name="pref_linebreaks_for_saving_files_title">Linebreaks for saving files</string>
+    <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files.</string>
     <string name="pref_show_hidden_files_title">显示隐藏文件</string>
     <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
     <string name="pref_folders_on_top_title">文件夹置顶</string>

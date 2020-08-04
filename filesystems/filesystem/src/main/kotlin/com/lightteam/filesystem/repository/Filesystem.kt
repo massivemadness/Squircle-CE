@@ -21,7 +21,6 @@ import com.lightteam.filesystem.model.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import java.nio.charset.Charset
 
 interface Filesystem {
     fun defaultLocation(): Single<FileTree>
@@ -36,6 +35,6 @@ interface Filesystem {
     fun compress(source: List<FileModel>, dest: FileModel, archiveName: String): Observable<FileModel>
     fun decompress(source: FileModel, dest: FileModel): Single<FileModel>
 
-    fun loadFile(fileModel: FileModel, charset: Charset): Single<String>
-    fun saveFile(fileModel: FileModel, text: String, charset: Charset): Completable
+    fun loadFile(fileModel: FileModel, fileParams: FileParams): Single<String>
+    fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams): Completable
 }

@@ -19,6 +19,7 @@ package com.lightteam.modpeide.data.repository
 
 import com.lightteam.editorkit.feature.undoredo.TextChange
 import com.lightteam.editorkit.feature.undoredo.UndoStack
+import com.lightteam.filesystem.model.FileParams
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.modpeide.data.converter.DocumentConverter
@@ -32,7 +33,6 @@ import io.reactivex.Single
 import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
-import java.lang.NumberFormatException
 
 class CacheRepository(
     private val cacheDirectory: File,
@@ -43,7 +43,7 @@ class CacheRepository(
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val file = cache("${documentModel.uuid}.cache")
         val fileModel = FileConverter.toModel(file)
-        return filesystem.loadFile(fileModel, Charsets.UTF_8)
+        return filesystem.loadFile(fileModel, FileParams())
             .map { text ->
                 val language = LanguageDelegate.provideLanguage(documentModel.name)
                 val undoStack = loadUndoStack(documentModel)
@@ -62,7 +62,7 @@ class CacheRepository(
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
         val file = cache("${documentModel.uuid}.cache")
         val fileModel = FileConverter.toModel(file)
-        return filesystem.saveFile(fileModel, text, Charsets.UTF_8)
+        return filesystem.saveFile(fileModel, text, FileParams())
             .doOnComplete {
                 appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
             }

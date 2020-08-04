@@ -39,6 +39,18 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_category_linebreaks">
+
+        <ListPreference
+            android:title="@string/pref_linebreaks_for_saving_files_title"
+            android:summary="@string/pref_linebreaks_for_saving_files_summary"
+            android:key="LINEBREAK_FOR_SAVING"
+            android:defaultValue="2"
+            app:entries="@array/linebreak_entries"
+            app:entryValues="@array/linebreak_values"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_category_file_explorer">
 
         <SwitchPreference
