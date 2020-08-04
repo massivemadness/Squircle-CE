@@ -77,7 +77,7 @@
         android:layout_marginBottom="12dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_date"
