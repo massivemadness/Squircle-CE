@@ -39,8 +39,12 @@ class LocalRepository(
     private val filesystem: Filesystem
 ) : DocumentRepository {
 
+    private val encodingForOpeningAutoDetect: Boolean
+        get() = preferenceHandler.getEncodingForOpening().get().trim().isEmpty()
     private val encodingForOpening: Charset
         get() = safeCharset(preferenceHandler.getEncodingForOpening().get())
+    private val encodingForSavingAutoDetect: Boolean
+        get() = preferenceHandler.getEncodingForSaving().get().trim().isEmpty()
     private val encodingForSaving: Charset
         get() = safeCharset(preferenceHandler.getEncodingForSaving().get())
 
@@ -50,6 +54,7 @@ class LocalRepository(
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val fileModel = DocumentConverter.toModel(documentModel)
         val fileParams = FileParams(
+            autoDetectEncoding = encodingForOpeningAutoDetect,
             charset = encodingForOpening
         )
         return filesystem.loadFile(fileModel, fileParams)
@@ -73,6 +78,7 @@ class LocalRepository(
     override fun saveFile(documentModel: DocumentModel, text: String): Completable {
         val fileModel = DocumentConverter.toModel(documentModel)
         val fileParams = FileParams(
+            autoDetectEncoding = encodingForSavingAutoDetect,
             charset = encodingForSaving,
             linebreak = linebreakForSaving
         )

@@ -228,6 +228,7 @@
     <string name="theme_property_strings_color">Defines the string literals color of syntax highlighting</string>
     <string name="theme_property_comments_color">Defines the comments color of syntax highlighting: //, /**/</string>
 
+    <string name="encoding_auto_detection">Auto</string>
     <string name="encoding_utf8_default">UTF-8 (Default)</string>
 
     <string name="view_mode_compact_list">Compact List</string>

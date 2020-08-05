@@ -41,6 +41,7 @@
     </string-array>
 
     <string-array name="encoding_entries">
+        <item>@string/encoding_auto_detection</item>
         <item>@string/encoding_utf8_default</item>
         <item>UTF-16</item>
         <item>UTF-16BE</item>
@@ -50,9 +51,12 @@
         <item>UTF-32</item>
         <item>UTF-32LE</item>
         <item>UTF-32BE</item>
+        <item>GBK/GB2312</item>
+        <item>Big5</item>
     </string-array>
 
     <string-array name="encoding_values">
+        <item />
         <item>UTF-8</item>
         <item>UTF-16BE</item>
         <item>UTF-16LE</item>
@@ -62,6 +66,8 @@
         <item>UTF-32</item>
         <item>UTF-32LE</item>
         <item>UTF-32BE</item>
+        <item>GBK</item>
+        <item>BIG5</item>
     </string-array>
 
     <string-array name="linebreak_entries">

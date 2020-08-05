@@ -215,6 +215,7 @@
     <string name="theme_property_strings_color">Определяет цвет строк подсветки синтаксиса</string>
     <string name="theme_property_comments_color">Определяет цвет комментариев подсветки синтаксиса: //, /**/</string>
 
+    <string name="encoding_auto_detection">автоматическое</string>
     <string name="encoding_utf8_default">UTF-8 (По умолчанию)</string>
 
     <string name="view_mode_compact_list">Компактный список</string>

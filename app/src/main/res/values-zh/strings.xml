@@ -215,6 +215,7 @@
     <string name="theme_property_strings_color">定义语法高亮显示的字符串颜色，如：str = \'Hello\'</string>
     <string name="theme_property_comments_color">定义语法高亮显示的注释颜色，如: 以“//”开头的内容</string>
 
+    <string name="encoding_auto_detection">自动检测</string>
     <string name="encoding_utf8_default">UTF-8 (默认)</string>
 
     <string name="view_mode_compact_list">紧凑列表</string>
@@ -285,12 +286,12 @@
     <string name="pref_close_quotes_title">引号闭合</string>
     <string name="pref_close_quotes_summary">输入时自动闭合单引号或双引号。</string>
 
-    <string name="pref_encoding_for_opening_title">打开文本的编码</string>
-    <string name="pref_encoding_for_opening_summary">打开文本文件时使用的编码。</string>
-    <string name="pref_encoding_for_saving_title">保存文本的编码</string>
-    <string name="pref_encoding_for_saving_summary">保存文本文件时使用的编码。</string>
-    <string name="pref_linebreaks_for_saving_files_title">以该换行符保存文件</string>
-    <string name="pref_linebreaks_for_saving_files_summary">保存文件时使用的换行符类型</string>
+    <string name="pref_encoding_for_opening_title">打开文件编码</string>
+    <string name="pref_encoding_for_opening_summary">默认使用该编码类型打开文本文件。</string>
+    <string name="pref_encoding_for_saving_title">保存文件编码</string>
+    <string name="pref_encoding_for_saving_summary">默认使用该编码类型保存文本文件。</string>
+    <string name="pref_linebreaks_for_saving_files_title">保存文件换行符</string>
+    <string name="pref_linebreaks_for_saving_files_summary">默认使用该换行符类型保存文件</string>
     <string name="pref_show_hidden_files_title">显示隐藏文件</string>
     <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
     <string name="pref_folders_on_top_title">文件夹置顶</string>

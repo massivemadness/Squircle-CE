@@ -31,6 +31,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import java.io.File
 import java.io.IOException
+import java.nio.charset.StandardCharsets
 import net.lingala.zip4j.ZipFile
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
@@ -212,7 +213,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return Single.create { emitter ->
             val file = File(fileModel.path)
             if (file.exists()) {
-                val text = file.readText(fileParams.charset)
+                val charset = if (fileParams.autoDetectEncoding) {
+                    // TODO: 2020/8/5 待实现
+                    StandardCharsets.UTF_8
+                } else {
+                    fileParams.charset
+                }
+                val text = file.readText(charset)
                 emitter.onSuccess(text)
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))
@@ -231,7 +238,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     }
                     file.createNewFile()
                 }
-                file.writeText(fileParams.linebreak(text), fileParams.charset)
+                val charset = if (fileParams.autoDetectEncoding) {
+                    // TODO: 2020/8/5 待实现
+                    StandardCharsets.UTF_8
+                } else {
+                    fileParams.charset
+                }
+                file.writeText(fileParams.linebreak(text), charset)
 
                 emitter.onComplete()
             } catch (e: IOException) {
