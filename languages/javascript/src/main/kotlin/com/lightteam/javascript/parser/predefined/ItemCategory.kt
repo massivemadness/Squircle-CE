@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused")
 internal class ItemCategory {
     val DECORATION: Int = -1
     val FOOD: Int = -1

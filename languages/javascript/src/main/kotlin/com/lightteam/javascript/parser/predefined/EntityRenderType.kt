@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused")
 internal class EntityRenderType {
     val arrow: Int = -1
     val bat: Int = -1

@@ -19,7 +19,10 @@ package com.lightteam.javascript.parser.predefined
 
 import com.lightteam.javascript.parser.JavaScriptParser
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused", "unused_parameter")
 internal class Global : JavaScriptParser.FunctionRegistrar {
 
     // Entity

@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused")
 internal class ParticleType {
     val angryVillager: Int = -1
     val bubble: Int = -1

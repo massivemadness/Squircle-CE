@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused")
 internal class MobEffect {
     val absorption: Int = -1
     val blindness: Int = -1

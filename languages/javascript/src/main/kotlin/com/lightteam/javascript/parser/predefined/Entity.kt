@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused", "unused_parameter")
 internal class Entity {
     fun addEffect(ent: Any, effect: Int, duration: Int, amplification: Int, ambient: Boolean, showParticles: Boolean) {}
     fun getAll() {}

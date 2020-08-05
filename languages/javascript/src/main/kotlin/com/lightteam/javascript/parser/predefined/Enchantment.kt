@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused")
 internal class Enchantment {
     val AQUA_AFFINITY: Int = -1
     val BANE_OF_ARTHROPODS: Int = -1

@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused", "unused_parameter")
 internal class ModPE {
     fun dumpVtable(className: String, vtableSize: Int) {}
     fun getBytesFromTexturePack(texture: String) {}
