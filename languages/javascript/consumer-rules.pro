@@ -1,1 +1,2 @@
 -keep class org.mozilla.** { *; }
+-keep class com.lightteam.javascript.parser.predefined.** { *; }
