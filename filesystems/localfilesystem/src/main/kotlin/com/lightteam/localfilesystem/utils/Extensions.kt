@@ -39,9 +39,18 @@ fun File.size(): Long {
     return length()
 }
 
-fun Long.formatAsDate(): String {
-    val dateFormat = SimpleDateFormat("dd/MM/yyyy EEE HH:mm", Locale.getDefault())
+// TODO: 2020/8/5 Require localized
+fun Long.formatAsDate(pattern: String): String {
+    val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
     return dateFormat.format(this)
+}
+
+@Deprecated(
+    "Require localized, such as format is `yyyy/MM/dd EEE HH:mm` in China",
+    replaceWith = ReplaceWith("formatAsDate(pattern)")
+)
+fun Long.formatAsDate(): String {
+    return this.formatAsDate("dd/MM/yyyy EEE HH:mm")
 }
 
 fun Long.formatAsSize(): String {
@@ -50,5 +59,5 @@ fun Long.formatAsSize(): String {
     val units = arrayOf("B", "KB", "MB", "GB", "TB")
     val digitGroups = (log10(toDouble()) / log10(1024.0)).toInt()
     return (DecimalFormat("#,##0.#").format(this / 1024.0.pow(digitGroups.toDouble())) +
-            " " + units[digitGroups])
+        " " + units[digitGroups])
 }
