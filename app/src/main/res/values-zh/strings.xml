@@ -181,6 +181,7 @@
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
+    <string name="message_file_was_loaded_in_wrong_encoding">文件以错误的编码加载</string>
 
     <string name="store_feature_1">基本功能</string>
     <string name="store_feature_2">配色方案</string>
@@ -215,7 +216,6 @@
     <string name="theme_property_strings_color">定义语法高亮显示的字符串颜色，如：str = \'Hello\'</string>
     <string name="theme_property_comments_color">定义语法高亮显示的注释颜色，如: 以“//”开头的内容</string>
 
-    <string name="encoding_auto_detection">自动检测</string>
     <string name="encoding_utf8_default">UTF-8 (默认)</string>
 
     <string name="view_mode_compact_list">紧凑列表</string>
@@ -286,6 +286,8 @@
     <string name="pref_close_quotes_title">引号闭合</string>
     <string name="pref_close_quotes_summary">输入时自动闭合单引号或双引号。</string>
 
+    <string name="pref_encoding_auto_detect">自动检测编码</string>
+    <string name="pref_encoding_auto_detect_summary">自动检测编码对中文、日文、韩文文档来说是很有用的。</string>
     <string name="pref_encoding_for_opening_title">以该编码打开文件</string>
     <string name="pref_encoding_for_opening_summary">默认使用该编码类型打开文本文件。</string>
     <string name="pref_encoding_for_saving_title">以该编码保存文件</string>

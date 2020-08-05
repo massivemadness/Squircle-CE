@@ -43,6 +43,7 @@ dependencies {
 
     // Other
     implementation library.zip4j
+    implementation library.chardet
 
     // Modules
     implementation project(':filesystems:filesystem')

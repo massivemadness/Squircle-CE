@@ -191,6 +191,7 @@
     <string name="message_compressing">Compressing…%1$s</string>
     <string name="message_extracting">Extracting…%1$s</string>
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
+    <string name="message_file_was_loaded_in_wrong_encoding">File was loaded in wrong encoding</string>
 
     <string name="store_standard" translatable="false">Standard</string>
     <string name="store_ultimate" translatable="false">Ultimate</string>
@@ -228,7 +229,6 @@
     <string name="theme_property_strings_color">Defines the string literals color of syntax highlighting</string>
     <string name="theme_property_comments_color">Defines the comments color of syntax highlighting: //, /**/</string>
 
-    <string name="encoding_auto_detection">Auto</string>
     <string name="encoding_utf8_default">UTF-8 (Default)</string>
 
     <string name="view_mode_compact_list">Compact List</string>
@@ -304,7 +304,7 @@
     <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
 
     <string name="pref_encoding_auto_detect">Encoding auto-detect</string>
-    <string name="pref_encoding_auto_detect_summary">Encoding may be auto-detected. This is very useful for Chinese, Japanese and Korean documents.</string>
+    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is very useful for Chinese, Japanese and Korean documents.</string>
     <string name="pref_encoding_for_opening_title">Encoding for opening files</string>
     <string name="pref_encoding_for_opening_summary">Encoding to use when opening files.</string>
     <string name="pref_encoding_for_saving_title">Encoding for saving files</string>

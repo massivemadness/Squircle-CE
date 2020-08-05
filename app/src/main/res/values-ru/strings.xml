@@ -181,6 +181,7 @@
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>
     <string name="message_extracting">Извлечение…%1$s</string>
+    <string name="message_file_was_loaded_in_wrong_encoding">File was loaded in wrong encoding</string>
 
     <string name="store_feature_1">Базовый функционал</string>
     <string name="store_feature_2">Цветовые схемы</string>
@@ -215,7 +216,6 @@
     <string name="theme_property_strings_color">Определяет цвет строк подсветки синтаксиса</string>
     <string name="theme_property_comments_color">Определяет цвет комментариев подсветки синтаксиса: //, /**/</string>
 
-    <string name="encoding_auto_detection">автоматическое</string>
     <string name="encoding_utf8_default">UTF-8 (По умолчанию)</string>
 
     <string name="view_mode_compact_list">Компактный список</string>
@@ -287,7 +287,7 @@
     <string name="pref_close_quotes_summary">Автоматически закрывать открытые кавычки во время ввода.</string>
 
     <string name="pref_encoding_auto_detect">Encoding auto-detect</string>
-    <string name="pref_encoding_auto_detect_summary">Encoding may be auto-detected. This is very useful for Chinese, Japanese and Korean documents.</string>
+    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is very useful for Chinese, Japanese and Korean documents.</string>
     <string name="pref_encoding_for_opening_title">Кодировка для открытия</string>
     <string name="pref_encoding_for_opening_summary">Выбранная кодировка будет использоваться для открытия файлов.</string>
     <string name="pref_encoding_for_saving_title">Кодировка для сохранения</string>
