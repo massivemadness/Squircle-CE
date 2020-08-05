@@ -86,9 +86,9 @@
     <string name="action_copy">复制</string>
     <string name="action_paste">粘贴</string>
     <string name="action_select_all">全选</string>
-    <string name="action_select_line">选择行</string>
-    <string name="action_delete_line">删除行</string>
-    <string name="action_duplicate_line">复制行</string>
+    <string name="action_select_line">选择当前行</string>
+    <string name="action_delete_line">删除当前行</string>
+    <string name="action_duplicate_line">复制当前行</string>
     <string name="action_regex">正则表达式</string>
     <string name="action_match_case">区分大小写</string>
     <string name="action_words_only">仅匹配单词</string>
@@ -115,7 +115,7 @@
     <string name="dialog_title_properties">属性</string>
     <string name="dialog_title_color_picker">颜色选择器</string>
     <string name="dialog_title_result">结果</string>
-    <string name="dialog_title_save_as">另文件存为</string>
+    <string name="dialog_title_save_as">文件另存为</string>
     <string name="dialog_title_goto_line">跳转到行</string>
     <string name="dialog_title_deleting">文件删除中</string>
     <string name="dialog_title_copying">文件复制中</string>
@@ -130,7 +130,7 @@
     <string name="properties_name">&lt;b&gt;名称:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b&gt;路径:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_modified">&lt;b&gt;日期:&lt;/b&gt; %s&lt;br&gt;</string>
-    <string name="properties_size">&lt;b>大小:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_size">&lt;b&gt;大小:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_line_count">&lt;b&gt;行数:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_word_count">&lt;b&gt;词数:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_char_count">&lt;b&gt;字数:&lt;/b&gt; %s</string>
@@ -239,7 +239,7 @@
     <string name="pref_category_keyboard">键盘</string>
     <string name="pref_category_code_style">代码范</string>
     <string name="pref_category_encoding">文本编码</string>
-    <string name="pref_category_linebreaks">Linebreaks</string>
+    <string name="pref_category_linebreaks">换行符</string>
     <string name="pref_category_file_explorer">文件浏览</string>
     <string name="pref_category_about">关于</string>
     <string name="pref_category_contribute">贡献</string>
@@ -285,12 +285,12 @@
     <string name="pref_close_quotes_title">引号闭合</string>
     <string name="pref_close_quotes_summary">输入时自动闭合单引号或双引号。</string>
 
-    <string name="pref_encoding_for_opening_title">打开文本的编码</string>
-    <string name="pref_encoding_for_opening_summary">打开文本文件时使用的编码。</string>
-    <string name="pref_encoding_for_saving_title">保存文本的编码</string>
-    <string name="pref_encoding_for_saving_summary">保存文本文件时使用的编码。</string>
-    <string name="pref_linebreaks_for_saving_files_title">Linebreaks for saving files</string>
-    <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files.</string>
+    <string name="pref_encoding_for_opening_title">以该编码打开文件</string>
+    <string name="pref_encoding_for_opening_summary">默认使用该编码类型打开文本文件。</string>
+    <string name="pref_encoding_for_saving_title">以该编码保存文件</string>
+    <string name="pref_encoding_for_saving_summary">默认使用该编码类型保存文本文件。</string>
+    <string name="pref_linebreaks_for_saving_files_title">以该换行符保存文件</string>
+    <string name="pref_linebreaks_for_saving_files_summary">默认使用该换行符类型保存文本文件</string>
     <string name="pref_show_hidden_files_title">显示隐藏文件</string>
     <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
     <string name="pref_folders_on_top_title">文件夹置顶</string>

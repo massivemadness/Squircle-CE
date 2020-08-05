@@ -36,7 +36,7 @@ captures/
 *.iml
 /.idea
 .idea/modules.xml
-.idea/caches/build_file_checksums.ser
+.idea/caches/
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
