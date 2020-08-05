@@ -303,6 +303,8 @@
     <string name="pref_close_quotes_title">Auto-close Quotes</string>
     <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
 
+    <string name="pref_encoding_auto_detect">Encoding auto-detect</string>
+    <string name="pref_encoding_auto_detect_summary">Encoding may be auto-detected. This is very useful for Chinese, Japanese and Korean documents.</string>
     <string name="pref_encoding_for_opening_title">Encoding for opening files</string>
     <string name="pref_encoding_for_opening_summary">Encoding to use when opening files.</string>
     <string name="pref_encoding_for_saving_title">Encoding for saving files</string>

@@ -286,6 +286,8 @@
     <string name="pref_close_quotes_title">Авто-закрытие кавычек</string>
     <string name="pref_close_quotes_summary">Автоматически закрывать открытые кавычки во время ввода.</string>
 
+    <string name="pref_encoding_auto_detect">Encoding auto-detect</string>
+    <string name="pref_encoding_auto_detect_summary">Encoding may be auto-detected. This is very useful for Chinese, Japanese and Korean documents.</string>
     <string name="pref_encoding_for_opening_title">Кодировка для открытия</string>
     <string name="pref_encoding_for_opening_summary">Выбранная кодировка будет использоваться для открытия файлов.</string>
     <string name="pref_encoding_for_saving_title">Кодировка для сохранения</string>
