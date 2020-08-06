@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused", "unused_parameter")
 internal class Level {
     fun addParticle(type: Int, x: Double, y: Double, z: Double, velX: Double, velY: Double, velZ: Double, size: Int) {}
     fun biomeIdToName(biomeId: Int) {}

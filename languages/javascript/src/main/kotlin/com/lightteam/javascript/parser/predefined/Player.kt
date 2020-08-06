@@ -17,7 +17,10 @@
 
 package com.lightteam.javascript.parser.predefined
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused", "unused_parameter")
 internal class Player {
     fun addExp(exp: Int) {}
     fun addItemCreativeInv(id: Int, count: Int, data: Int) {}

@@ -19,7 +19,10 @@ package com.lightteam.javascript.parser.predefined
 
 import org.mozilla.javascript.Scriptable
 
-@SuppressWarnings
+/**
+ * This class is a part of ModPE API. Simply ignore it.
+ */
+@Suppress("unused", "unused_parameter")
 internal class Block {
     fun defineBlock(id: Int, name: String, scriptable: Any, type: Any, transparency: Any, render: Any) {}
     fun defineLiquidBlock(id: Int, name: String, texture: Any, type: Any) {}
