@@ -154,6 +154,9 @@
     <string name="message_directory_expected">Невозможно получить список файлов из файла</string>
     <string name="message_file_already_exists">Такой файл уже существует</string>
     <string name="message_file_not_found">Файл не найден</string>
+    <string name="message_zip_file_invalided">Zip file is invalided</string>
+    <string name="message_zip_file_split">Zip file is split</string>
+    <string name="message_zip_file_encrypted">Zip file is encrypted</string>
     <string name="message_done">Готово</string>
     <string name="message_saved">Сохранено</string>
     <string name="message_select_file">Выберите файл</string>
@@ -286,7 +289,7 @@
     <string name="pref_close_quotes_title">Авто-закрытие кавычек</string>
     <string name="pref_close_quotes_summary">Автоматически закрывать открытые кавычки во время ввода.</string>
 
-    <string name="pref_encoding_auto_detect">Encoding auto-detect</string>
+    <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
     <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is very useful for Chinese, Japanese and Korean documents.</string>
     <string name="pref_encoding_for_opening_title">Кодировка для открытия</string>
     <string name="pref_encoding_for_opening_summary">Выбранная кодировка будет использоваться для открытия файлов.</string>

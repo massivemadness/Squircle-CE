@@ -154,6 +154,9 @@
     <string name="message_directory_expected">无法获取文件列表</string>
     <string name="message_file_already_exists">文件已存在</string>
     <string name="message_file_not_found">文件未找到</string>
+    <string name="message_zip_file_invalided">ZIP文件无效</string>
+    <string name="message_zip_file_split">ZIP文件已分卷</string>
+    <string name="message_zip_file_encrypted">ZIP文件已加密</string>
     <string name="message_done">已完毕</string>
     <string name="message_saved">已保存</string>
     <string name="message_select_file">选择文件</string>
@@ -286,7 +289,7 @@
     <string name="pref_close_quotes_title">引号闭合</string>
     <string name="pref_close_quotes_summary">输入时自动闭合单引号或双引号。</string>
 
-    <string name="pref_encoding_auto_detect">自动检测编码</string>
+    <string name="pref_encoding_auto_detect_title">自动检测编码</string>
     <string name="pref_encoding_auto_detect_summary">自动检测编码对中文、日文、韩文文档来说是很有用的。</string>
     <string name="pref_encoding_for_opening_title">以该编码打开文件</string>
     <string name="pref_encoding_for_opening_summary">默认使用该编码类型打开文本文件。</string>

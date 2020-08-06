@@ -18,9 +18,7 @@
 package com.lightteam.localfilesystem.repository
 
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
-import com.lightteam.filesystem.exception.DirectoryExpectedException
-import com.lightteam.filesystem.exception.FileAlreadyExistsException
-import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.filesystem.exception.*
 import com.lightteam.filesystem.model.*
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.BuildConfig
@@ -205,8 +203,21 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             val sourceFile = FileConverter.toFile(source)
             val archiveFile = ZipFile(sourceFile)
             if (sourceFile.exists()) {
-                archiveFile.extractAll(dest.path)
-                emitter.onSuccess(source)
+                when {
+                    archiveFile.isEncrypted -> {
+                        emitter.onError(ZipEncryptedException(source.path))
+                    }
+                    archiveFile.isSplitArchive -> {
+                        emitter.onError(ZipSplitException(source.path))
+                    }
+                    archiveFile.isValidZipFile -> {
+                        emitter.onError(ZipInvalidedException(source.path))
+                    }
+                    else -> {
+                        archiveFile.extractAll(dest.path)
+                        emitter.onSuccess(source)
+                    }
+                }
             } else {
                 emitter.onError(FileNotFoundException(source.path))
             }
