@@ -18,10 +18,12 @@
 package com.lightteam.modpeide.ui.explorer.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileType
 import com.lightteam.localfilesystem.utils.formatAsDate
+import com.lightteam.localfilesystem.utils.formatAsSize
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ItemFileDetailedBinding
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
@@ -63,6 +65,7 @@ class DetailedViewHolder(
 
         binding.itemTitle.text = fileModel.name
         binding.itemSubtitle.text = fileModel.lastModified.formatAsDate()
+        binding.itemFileLength.text = fileModel.size.formatAsSize()
 
         if (fileModel.isHidden) {
             binding.itemIcon.alpha = 0.45f
@@ -73,9 +76,11 @@ class DetailedViewHolder(
         if (fileModel.isFolder) {
             binding.itemIcon.setImageResource(R.drawable.ic_folder)
             binding.itemIcon.setTint(R.color.colorFolder)
+            binding.itemFileLength.visibility = View.GONE
         } else {
             binding.itemIcon.setImageResource(R.drawable.ic_file)
             binding.itemIcon.setTint(R.color.colorFile)
+            binding.itemFileLength.visibility = View.VISIBLE
         }
 
         when (fileModel.getType()) {

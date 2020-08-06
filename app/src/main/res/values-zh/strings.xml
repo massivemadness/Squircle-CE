@@ -154,6 +154,7 @@
     <string name="message_directory_expected">无法获取文件列表</string>
     <string name="message_file_already_exists">文件已存在</string>
     <string name="message_file_not_found">文件未找到</string>
+    <string name="message_out_of_memory">内存不足</string>
     <string name="message_zip_file_invalided">ZIP文件无效</string>
     <string name="message_zip_file_split">ZIP文件已分卷</string>
     <string name="message_zip_file_encrypted">ZIP文件已加密</string>

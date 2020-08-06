@@ -154,6 +154,7 @@
     <string name="message_directory_expected">Невозможно получить список файлов из файла</string>
     <string name="message_file_already_exists">Такой файл уже существует</string>
     <string name="message_file_not_found">Файл не найден</string>
+    <string name="message_out_of_memory">Out of memory</string>
     <string name="message_zip_file_invalided">Zip file is invalided</string>
     <string name="message_zip_file_split">Zip file is split</string>
     <string name="message_zip_file_encrypted">Zip file is encrypted</string>

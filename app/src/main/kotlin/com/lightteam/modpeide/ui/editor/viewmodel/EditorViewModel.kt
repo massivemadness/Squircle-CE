@@ -156,6 +156,9 @@ class EditorViewModel @ViewModelInject constructor(
                         is FileNotFoundException -> {
                             toastEvent.value = R.string.message_file_not_found
                         }
+                        is OutOfMemoryError -> {
+                            toastEvent.value = R.string.message_out_of_memory
+                        }
                         else -> {
                             toastEvent.value = R.string.message_unknown_exception
                         }

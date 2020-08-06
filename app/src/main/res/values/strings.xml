@@ -163,6 +163,7 @@
     <string name="message_directory_expected">Unable to get list of files from file</string>
     <string name="message_file_already_exists">File already exists</string>
     <string name="message_file_not_found">File not found</string>
+    <string name="message_out_of_memory">Out of memory</string>
     <string name="message_zip_file_invalided">Zip file is invalided</string>
     <string name="message_zip_file_split">Zip file is split</string>
     <string name="message_zip_file_encrypted">Zip file is encrypted</string>

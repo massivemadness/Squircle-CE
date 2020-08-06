@@ -234,8 +234,12 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 } else {
                     fileParams.charset
                 }
-                val text = file.readText(charset = charset)
-                emitter.onSuccess(text)
+                try {
+                    val text = file.readText(charset = charset)
+                    emitter.onSuccess(text)
+                } catch (e: OutOfMemoryError) {
+                    emitter.onError(OutOfMemoryError(fileModel.path + " OOM"))
+                }
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))
             }
