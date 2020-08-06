@@ -21,12 +21,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileType
+import com.lightteam.localfilesystem.utils.formatAsDate
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ItemFileDetailedBinding
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.utils.extensions.setSelectableBackground
 import com.lightteam.modpeide.utils.extensions.setTint
-import com.lightteam.modpeide.utils.extensions.toReadableDate
 
 class DetailedViewHolder(
     private val binding: ItemFileDetailedBinding,
@@ -62,7 +62,7 @@ class DetailedViewHolder(
         }
 
         binding.itemTitle.text = fileModel.name
-        binding.itemSubtitle.text = fileModel.lastModified.toReadableDate()
+        binding.itemSubtitle.text = fileModel.lastModified.formatAsDate()
 
         if (fileModel.isHidden) {
             binding.itemIcon.alpha = 0.45f

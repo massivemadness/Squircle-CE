@@ -39,18 +39,21 @@ fun File.size(): Long {
     return length()
 }
 
-// TODO: 2020/8/5 Require localized
-fun Long.formatAsDate(pattern: String): String {
-    val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+fun Long.formatAsDate(pattern: String, locale: Locale): String {
+    val dateFormat = SimpleDateFormat(pattern, locale)
     return dateFormat.format(this)
 }
 
-@Deprecated(
-    "Require localized, such as format is `yyyy/MM/dd EEE HH:mm` in China",
-    replaceWith = ReplaceWith("formatAsDate(pattern)")
-)
 fun Long.formatAsDate(): String {
-    return this.formatAsDate("dd/MM/yyyy EEE HH:mm")
+    val locale = Locale.getDefault()
+    val languageTag = locale.toLanguageTag()
+    // e.g. zh-CN, zh-Hans, zh-hans-CN
+    if (languageTag.contains("zh")) {
+        // Date format in Chinese
+        return formatAsDate("yyyy/MM/dd EEE HH:mm", locale)
+    }
+    // toReadableDate ? dd MMM yy E HH:mm:ss
+    return formatAsDate("dd/MM/yyyy EEE HH:mm", locale)
 }
 
 fun Long.formatAsSize(): String {

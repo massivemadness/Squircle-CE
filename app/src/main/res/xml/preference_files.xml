@@ -21,6 +21,12 @@
 
     <PreferenceCategory android:title="@string/pref_category_encoding">
 
+        <SwitchPreference
+            android:title="@string/pref_encoding_auto_detect"
+            android:summary="@string/pref_encoding_auto_detect_summary"
+            android:defaultValue="false"
+            android:key="ENCODING_AUTO_DETECT"/>
+
         <ListPreference
             android:title="@string/pref_encoding_for_opening_title"
             android:summary="@string/pref_encoding_for_opening_summary"

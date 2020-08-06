@@ -22,6 +22,7 @@ import androidx.core.text.PrecomputedTextCompat
 import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.language.language.Language
@@ -145,6 +146,9 @@ class EditorViewModel @ViewModelInject constructor(
                 onSuccess = {
                     selectedDocumentId = it.first.documentModel.uuid
                     contentEvent.value = it
+                    if (CJKCharsetDetector.inWrongEncoding(it.first.text)) {
+                        toastEvent.value = R.string.message_file_was_loaded_in_wrong_encoding
+                    }
                 },
                 onError = {
                     Log.e(TAG, it.message, it)

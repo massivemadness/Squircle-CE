@@ -17,11 +17,13 @@
 
 package com.lightteam.localfilesystem.repository
 
+import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import com.lightteam.filesystem.exception.DirectoryExpectedException
 import com.lightteam.filesystem.exception.FileAlreadyExistsException
 import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.filesystem.model.*
 import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.localfilesystem.BuildConfig
 import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.localfilesystem.utils.formatAsDate
 import com.lightteam.localfilesystem.utils.formatAsSize
@@ -31,7 +33,6 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import java.io.File
 import java.io.IOException
-import java.nio.charset.StandardCharsets
 import net.lingala.zip4j.ZipFile
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
@@ -196,7 +197,10 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun decompress(source: FileModel, dest: FileModel): Single<FileModel> { // TODO: Use Observable
+    override fun decompress(
+        source: FileModel,
+        dest: FileModel
+    ): Single<FileModel> { // TODO: Use Observable
         return Single.create { emitter ->
             val sourceFile = FileConverter.toFile(source)
             val archiveFile = ZipFile(sourceFile)
@@ -213,13 +217,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return Single.create { emitter ->
             val file = File(fileModel.path)
             if (file.exists()) {
-                val charset = if (fileParams.autoDetectEncoding) {
-                    // TODO: 2020/8/5 待实现
-                    StandardCharsets.UTF_8
+                val charset = if (fileParams.chardet) {
+                    CJKCharsetDetector.DEBUG = BuildConfig.DEBUG
+                    CJKCharsetDetector.detect(file.inputStream()) ?: fileParams.charset
                 } else {
                     fileParams.charset
                 }
-                val text = file.readText(charset)
+                val text = file.readText(charset = charset)
                 emitter.onSuccess(text)
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))
@@ -238,13 +242,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     }
                     file.createNewFile()
                 }
-                val charset = if (fileParams.autoDetectEncoding) {
-                    // TODO: 2020/8/5 待实现
-                    StandardCharsets.UTF_8
-                } else {
-                    fileParams.charset
-                }
-                file.writeText(fileParams.linebreak(text), charset)
+                file.writeText(fileParams.linebreak(text), fileParams.charset)
 
                 emitter.onComplete()
             } catch (e: IOException) {
