@@ -23,8 +23,6 @@ import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.filesystem.model.*
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.localfilesystem.converter.FileConverter
-import com.lightteam.localfilesystem.utils.formatAsDate
-import com.lightteam.localfilesystem.utils.formatAsSize
 import com.lightteam.localfilesystem.utils.size
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -150,8 +148,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 val result = PropertiesModel(
                     file.name,
                     file.absolutePath,
-                    file.lastModified().formatAsDate(),
-                    file.size().formatAsSize(),
+                    file.lastModified(),
+                    file.size(),
                     getLineCount(file, fileType),
                     getWordCount(file, fileType),
                     getCharCount(file, fileType),

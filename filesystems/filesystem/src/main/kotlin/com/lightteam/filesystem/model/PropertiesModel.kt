@@ -20,8 +20,8 @@ package com.lightteam.filesystem.model
 data class PropertiesModel(
     val name: String,
     val path: String,
-    val lastModified: String,
-    val size: String,
+    val lastModified: Long,
+    val size: Long,
     val lines: String,
     val words: String,
     val chars: String,

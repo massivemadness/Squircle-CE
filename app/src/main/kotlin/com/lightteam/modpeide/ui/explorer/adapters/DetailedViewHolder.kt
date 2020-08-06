@@ -62,7 +62,9 @@ class DetailedViewHolder(
         }
 
         binding.itemTitle.text = fileModel.name
-        binding.itemSubtitle.text = fileModel.lastModified.toReadableDate()
+        binding.itemSubtitle.text = fileModel.lastModified.toReadableDate(
+            pattern = itemView.context.getString(R.string.explorer_date_format)
+        )
 
         if (fileModel.isHidden) {
             binding.itemIcon.alpha = 0.45f

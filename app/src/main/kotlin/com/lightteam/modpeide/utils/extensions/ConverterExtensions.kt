@@ -18,13 +18,25 @@
 package com.lightteam.modpeide.utils.extensions
 
 import android.content.res.Resources
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.log10
+import kotlin.math.pow
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
 
-fun Long.toReadableDate(): String {
-    val dateFormat = SimpleDateFormat("dd MMM yy E HH:mm:ss", Locale.getDefault())
+fun Long.toReadableDate(pattern: String): String {
+    val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
     return dateFormat.format(this)
+}
+
+fun Long.toReadableSize(): String {
+    if (this <= 0)
+        return "0"
+    val units = arrayOf("B", "KB", "MB", "GB", "TB")
+    val digitGroups = (log10(toDouble()) / log10(1024.0)).toInt()
+    return (DecimalFormat("#,##0.#").format(this / 1024.0.pow(digitGroups.toDouble())) +
+            " " + units[digitGroups])
 }
