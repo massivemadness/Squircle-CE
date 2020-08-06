@@ -54,8 +54,6 @@ import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.utils.extensions.clipText
-import com.lightteam.modpeide.utils.extensions.toReadableDate
-import com.lightteam.modpeide.utils.extensions.toReadableSize
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -369,22 +367,17 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     }
 
     private fun showPropertiesDialog(propertiesModel: PropertiesModel) {
-        val readableSize = propertiesModel.size.toReadableSize()
-        val readableDate = propertiesModel.lastModified
-            .toReadableDate(requireContext().getString(R.string.properties_date_format))
-
-        val properties =
-                getString(R.string.properties_name, propertiesModel.name) +
-                getString(R.string.properties_path, propertiesModel.path) +
-                getString(R.string.properties_modified, readableDate) +
-                getString(R.string.properties_size, readableSize) +
-                getString(R.string.properties_line_count, propertiesModel.lines) +
-                getString(R.string.properties_word_count, propertiesModel.words) +
-                getString(R.string.properties_char_count, propertiesModel.chars)
-
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_properties)
-            message(text = properties) { html() }
+            message(text = (
+                    getString(R.string.properties_name).format(propertiesModel.name) +
+                    getString(R.string.properties_path).format(propertiesModel.path) +
+                    getString(R.string.properties_modified).format(propertiesModel.lastModified) +
+                    getString(R.string.properties_size).format(propertiesModel.size) +
+                    getString(R.string.properties_line_count).format(propertiesModel.lines) +
+                    getString(R.string.properties_word_count).format(propertiesModel.words) +
+                    getString(R.string.properties_char_count).format(propertiesModel.chars))
+            ) { html() }
             customView(R.layout.dialog_properties, scrollable = true)
 
             val readable = findViewById<CheckBox>(R.id.readable)
