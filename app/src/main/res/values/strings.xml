@@ -164,6 +164,7 @@
     <string name="message_file_already_exists">File already exists</string>
     <string name="message_file_not_found">File not found</string>
     <string name="message_out_of_memory">Out of memory</string>
+    <string name="message_archive_unsupported">The archive are unsupported.</string>
     <string name="message_zip_file_invalided">Zip file is invalided</string>
     <string name="message_zip_file_split">Zip file is split</string>
     <string name="message_zip_file_encrypted">Zip file is encrypted</string>
@@ -308,13 +309,15 @@
     <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
 
     <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
-    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is very useful for Chinese, Japanese and Korean documents.</string>
+    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is useful for multi-byte language.</string>
     <string name="pref_encoding_for_opening_title">Encoding for opening files</string>
     <string name="pref_encoding_for_opening_summary">Encoding to use when opening files.</string>
     <string name="pref_encoding_for_saving_title">Encoding for saving files</string>
     <string name="pref_encoding_for_saving_summary">Encoding to use when saving files.</string>
     <string name="pref_linebreaks_for_saving_files_title">Linebreaks for saving files</string>
     <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files.</string>
+    <string name="pref_allow_open_unknown_file_title">Open unknown file</string>
+    <string name="pref_allow_open_unknown_file_summary">Allows to open unknown files in editor.</string>
     <string name="pref_show_hidden_files_title">Show hidden files</string>
     <string name="pref_show_hidden_files_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
     <string name="pref_folders_on_top_title">Folders on top</string>

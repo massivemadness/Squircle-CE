@@ -33,19 +33,23 @@ data class FileModel(
 
     companion object {
         val TEXT = arrayOf(
-            ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua"
+            ".txt", ".js", ".htm", ".html", ".css", ".json", ".md",
+            ".java", ".kt", ".lua"
         )
         val ARCHIVE = arrayOf(
-            ".zip" // ".rar", ".7z", ".tar" are not currently supported
+            ".zip", ".jar", ".apk", ".rar", ".7z", ".tar", ".gz", ".tgz",
+            ".zipx", ".epub", ".z", ".xz", ".bz", ".bz2", ".arj"
         )
         val IMAGE = arrayOf(
-            ".png", ".jpg", ".jpeg", ".gif", ".webp"
+            ".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".ico"
         )
         val AUDIO = arrayOf(
-            ".mp3", ".ogg", ".wma", ".aac", ".wav", ".flac"
+            ".mp2", ".mp3", ".ogg", ".wma", ".aac", ".wav", ".flac",
+            ".aar", ".m4a", ".m4b", ".m4p", ".mid", ".midi", ".mpga", ".m3u"
         )
         val VIDEO = arrayOf(
-            ".mp4", ".avi", ".wmv", ".mkv"
+            ".3gp", ".mp4", ".avi", ".wmv", ".mkv", ".mpe", ".mpg",
+            ".mpeg", ".asf", ".m4u", ".m4v", ".mov", ".rmvb"
         )
     }
 

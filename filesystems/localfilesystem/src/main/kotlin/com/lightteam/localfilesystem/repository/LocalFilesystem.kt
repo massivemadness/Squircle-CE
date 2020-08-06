@@ -21,6 +21,7 @@ import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import com.lightteam.filesystem.exception.*
 import com.lightteam.filesystem.model.*
 import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.filesystem.utils.endsWith
 import com.lightteam.localfilesystem.BuildConfig
 import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.localfilesystem.utils.formatAsDate
@@ -201,25 +202,31 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     ): Single<FileModel> { // TODO: Use Observable
         return Single.create { emitter ->
             val sourceFile = FileConverter.toFile(source)
-            val archiveFile = ZipFile(sourceFile)
-            if (sourceFile.exists()) {
-                when {
-                    archiveFile.isEncrypted -> {
-                        emitter.onError(ZipEncryptedException(source.path))
-                    }
-                    archiveFile.isSplitArchive -> {
-                        emitter.onError(ZipSplitException(source.path))
-                    }
-                    archiveFile.isValidZipFile -> {
-                        emitter.onError(ZipInvalidedException(source.path))
-                    }
-                    else -> {
-                        archiveFile.extractAll(dest.path)
-                        emitter.onSuccess(source)
+            when {
+                !sourceFile.name.endsWith(arrayOf(".zip", ".zipx", ".jar")) -> {
+                    emitter.onError(ArchiveUnsupportedException(source.path))
+                }
+                sourceFile.exists() -> {
+                    val archiveFile = ZipFile(sourceFile)
+                    when {
+                        archiveFile.isEncrypted -> {
+                            emitter.onError(ZipEncryptedException(source.path))
+                        }
+                        archiveFile.isSplitArchive -> {
+                            emitter.onError(ZipSplitException(source.path))
+                        }
+                        archiveFile.isValidZipFile -> {
+                            emitter.onError(ZipInvalidedException(source.path))
+                        }
+                        else -> {
+                            archiveFile.extractAll(dest.path)
+                            emitter.onSuccess(source)
+                        }
                     }
                 }
-            } else {
-                emitter.onError(FileNotFoundException(source.path))
+                else -> {
+                    emitter.onError(FileNotFoundException(source.path))
+                }
             }
         }
     }
@@ -230,7 +237,9 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             if (file.exists()) {
                 val charset = if (fileParams.chardet) {
                     CJKCharsetDetector.DEBUG = BuildConfig.DEBUG
-                    CJKCharsetDetector.detect(file.inputStream()) ?: fileParams.charset
+                    file.inputStream().use {
+                        CJKCharsetDetector.detect(it) ?: fileParams.charset
+                    }
                 } else {
                     fileParams.charset
                 }

@@ -434,6 +434,9 @@ class ExplorerViewModel @ViewModelInject constructor(
                         is FileAlreadyExistsException -> {
                             toastEvent.value = R.string.message_file_already_exists
                         }
+                        is ArchiveUnsupportedException -> {
+                            toastEvent.value = R.string.message_archive_unsupported
+                        }
                         is ZipEncryptedException -> {
                             toastEvent.value = R.string.message_zip_file_encrypted
                         }
