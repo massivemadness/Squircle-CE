@@ -62,7 +62,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_LINEBREAK_FOR_SAVING = "LINEBREAK_FOR_SAVING"
 
         // File Explorer
-        const val KEY_OPEN_UNKNOWN_FILE_IN_EDITOR = "OPEN_UNKNOWN_FILE_IN_EDITOR"
+        const val KEY_OPEN_UNKNOWN_FILES = "OPEN_UNKNOWN_FILES"
         const val KEY_SHOW_HIDDEN_FILES = "SHOW_HIDDEN_FILES"
         const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
         const val KEY_VIEW_MODE = "VIEW_MODE"
@@ -103,7 +103,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
     fun getLinebreakForSaving(): Preference<String> = rxSharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2")
 
-    fun getOpenUnknownFile(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_OPEN_UNKNOWN_FILE_IN_EDITOR, false)
+    fun getOpenUnknownFiles(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_OPEN_UNKNOWN_FILES, false)
     fun getFilterHidden(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
     fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
     fun getViewMode(): Preference<String> = rxSharedPreferences.getString(KEY_VIEW_MODE, "0")

@@ -29,7 +29,6 @@ object FileSorter {
 
     private val fileNameComparator: Comparator<in FileModel>
         get() = Comparator { first, second ->
-            // Case insensitive
             first.name.compareTo(second.name, ignoreCase = true)
         }
 

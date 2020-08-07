@@ -44,9 +44,6 @@ class MainViewModel @ViewModelInject constructor(
         private const val TAG = "MainViewModel"
     }
 
-    val openUnknownFileInEditor: Boolean
-        get() = preferenceHandler.getOpenUnknownFile().get()
-
     val updateEvent: SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>> = SingleLiveEvent()
     val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()

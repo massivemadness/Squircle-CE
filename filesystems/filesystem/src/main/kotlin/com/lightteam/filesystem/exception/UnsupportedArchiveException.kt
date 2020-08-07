@@ -17,4 +17,4 @@
 
 package com.lightteam.filesystem.exception
 
-class ZipEncryptedException(path: String) : RuntimeException("$path (Zip encrypted)")
+class UnsupportedArchiveException(path: String) : RuntimeException("$path (Cannot open unsupported archive)")

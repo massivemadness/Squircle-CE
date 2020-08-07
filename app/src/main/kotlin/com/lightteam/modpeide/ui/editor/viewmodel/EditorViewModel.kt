@@ -88,6 +88,8 @@ class EditorViewModel @ViewModelInject constructor(
 
     val tabsList: MutableList<DocumentModel> = mutableListOf()
 
+    val openUnknownFiles: Boolean
+        get() = preferenceHandler.getOpenUnknownFiles().get()
     var selectedDocumentId: String
         get() = preferenceHandler.getSelectedDocumentId().get()
         set(value) = preferenceHandler.getSelectedDocumentId().set(value)
@@ -147,7 +149,7 @@ class EditorViewModel @ViewModelInject constructor(
                     selectedDocumentId = it.first.documentModel.uuid
                     contentEvent.value = it
                     if (CJKCharsetDetector.inWrongEncoding(it.first.text)) {
-                        toastEvent.value = R.string.message_file_was_loaded_in_wrong_encoding
+                        toastEvent.value = R.string.message_wrong_encoding
                     }
                 },
                 onError = {

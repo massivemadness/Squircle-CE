@@ -434,17 +434,17 @@ class ExplorerViewModel @ViewModelInject constructor(
                         is FileAlreadyExistsException -> {
                             toastEvent.value = R.string.message_file_already_exists
                         }
-                        is ArchiveUnsupportedException -> {
-                            toastEvent.value = R.string.message_archive_unsupported
+                        is UnsupportedArchiveException -> {
+                            toastEvent.value = R.string.message_unsupported_archive
                         }
-                        is ZipEncryptedException -> {
-                            toastEvent.value = R.string.message_zip_file_encrypted
+                        is EncryptedArchiveException -> {
+                            toastEvent.value = R.string.message_encrypted_archive
                         }
-                        is ZipSplitException -> {
-                            toastEvent.value = R.string.message_zip_file_split
+                        is SplitArchiveException -> {
+                            toastEvent.value = R.string.message_split_archive
                         }
-                        is ZipInvalidedException -> {
-                            toastEvent.value = R.string.message_zip_file_invalided
+                        is InvalidArchiveException -> {
+                            toastEvent.value = R.string.message_invalid_archive
                         }
                         else -> {
                             toastEvent.value = R.string.message_unknown_exception

@@ -33,23 +33,37 @@ data class FileModel(
 
     companion object {
         val TEXT = arrayOf(
-            ".txt", ".js", ".htm", ".html", ".css", ".json", ".md",
-            ".java", ".kt", ".lua"
+            ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua"
         )
         val ARCHIVE = arrayOf(
-            ".zip", ".jar", ".apk", ".rar", ".7z", ".tar", ".gz", ".tgz",
-            ".zipx", ".epub", ".z", ".xz", ".bz", ".bz2", ".arj"
+            ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",
+            ".zipx", ".gtar", "xtar", ".z", ".xz", ".bz", ".bz2",
+            ".zst", ".lzh", ".lzma", ".arj"
+        )
+        val SUPPORTED_ARCHIVES = arrayOf(
+            ".zip", ".jar"
         )
         val IMAGE = arrayOf(
             ".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".ico"
         )
         val AUDIO = arrayOf(
             ".mp2", ".mp3", ".ogg", ".wma", ".aac", ".wav", ".flac",
-            ".aar", ".m4a", ".m4b", ".m4p", ".mid", ".midi", ".mpga", ".m3u"
+            ".amr", ".m4a", ".m4b", ".m4p", ".mid", ".midi", ".mpga",
+            ".m3u"
         )
         val VIDEO = arrayOf(
             ".3gp", ".mp4", ".avi", ".wmv", ".mkv", ".mpe", ".mpg",
-            ".mpeg", ".asf", ".m4u", ".m4v", ".mov", ".rmvb"
+            ".mpeg", ".asf", ".m4v", ".mov", ".rmvb", ".m4u", ".m3u8"
+        )
+        val DOCUMENT = arrayOf(
+            ".rtf", ".doc", ".docx", ".ppt", ".pptx", ".pps", ".ppsx",
+            ".xls", ".xlsx", ".csv", ".wps", ".pdf"
+        )
+        val EBOOK = arrayOf(
+            ".epub", ".umb", ".chm", ".ceb", ".pdg", ".caj"
+        )
+        val APPLICATION = arrayOf(
+            ".apk", ".aab"
         )
     }
 
@@ -60,6 +74,9 @@ data class FileModel(
             name.endsWith(IMAGE) -> FileType.IMAGE
             name.endsWith(AUDIO) -> FileType.AUDIO
             name.endsWith(VIDEO) -> FileType.VIDEO
+            name.endsWith(DOCUMENT) -> FileType.DOCUMENT
+            name.endsWith(EBOOK) -> FileType.EBOOK
+            name.endsWith(APPLICATION) -> FileType.APPLICATION
             else -> FileType.DEFAULT
         }
     }

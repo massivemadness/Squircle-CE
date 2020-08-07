@@ -22,7 +22,6 @@ import com.lightteam.filesystem.exception.*
 import com.lightteam.filesystem.model.*
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.filesystem.utils.endsWith
-import com.lightteam.localfilesystem.BuildConfig
 import com.lightteam.localfilesystem.converter.FileConverter
 import com.lightteam.localfilesystem.utils.size
 import io.reactivex.Completable
@@ -200,30 +199,28 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     ): Single<FileModel> { // TODO: Use Observable
         return Single.create { emitter ->
             val sourceFile = FileConverter.toFile(source)
+            if (!sourceFile.exists()) {
+                emitter.onError(FileNotFoundException(source.path))
+                return@create
+            }
+            if (!sourceFile.name.endsWith(FileModel.SUPPORTED_ARCHIVES)) {
+                emitter.onError(UnsupportedArchiveException(source.path))
+                return@create
+            }
+            val archiveFile = ZipFile(sourceFile)
             when {
-                !sourceFile.name.endsWith(arrayOf(".zip", ".zipx", ".jar")) -> {
-                    emitter.onError(ArchiveUnsupportedException(source.path))
+                archiveFile.isEncrypted -> {
+                    emitter.onError(EncryptedArchiveException(source.path))
                 }
-                sourceFile.exists() -> {
-                    val archiveFile = ZipFile(sourceFile)
-                    when {
-                        archiveFile.isEncrypted -> {
-                            emitter.onError(ZipEncryptedException(source.path))
-                        }
-                        archiveFile.isSplitArchive -> {
-                            emitter.onError(ZipSplitException(source.path))
-                        }
-                        archiveFile.isValidZipFile -> {
-                            emitter.onError(ZipInvalidedException(source.path))
-                        }
-                        else -> {
-                            archiveFile.extractAll(dest.path)
-                            emitter.onSuccess(source)
-                        }
-                    }
+                archiveFile.isSplitArchive -> {
+                    emitter.onError(SplitArchiveException(source.path))
+                }
+                archiveFile.isValidZipFile -> {
+                    archiveFile.extractAll(dest.path)
+                    emitter.onSuccess(source)
                 }
                 else -> {
-                    emitter.onError(FileNotFoundException(source.path))
+                    emitter.onError(InvalidArchiveException(source.path))
                 }
             }
         }
@@ -234,7 +231,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             val file = File(fileModel.path)
             if (file.exists()) {
                 val charset = if (fileParams.chardet) {
-                    CJKCharsetDetector.DEBUG = BuildConfig.DEBUG
                     file.inputStream().use {
                         CJKCharsetDetector.detect(it) ?: fileParams.charset
                     }
@@ -245,7 +241,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     val text = file.readText(charset = charset)
                     emitter.onSuccess(text)
                 } catch (e: OutOfMemoryError) {
-                    emitter.onError(OutOfMemoryError(fileModel.path + " OOM"))
+                    emitter.onError(OutOfMemoryError(fileModel.path + " (Out of memory)"))
                 }
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))

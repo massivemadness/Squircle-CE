@@ -39,7 +39,7 @@
     <string name="hint_line">行:</string>
     <string name="hint_enter_file_name">输入文件名称</string>
     <string name="hint_enter_file_path">输入文件路径</string>
-    <string name="hint_enter_archive_name">输入存档名称</string>
+    <string name="hint_enter_archive_name">输入压缩包名称</string>
     <string name="hint_enter_font_name">输入字体名称</string>
     <string name="hint_enter_font_path">输入字体路径</string>
     <string name="hint_enter_theme_name">输入主题名称</string>
@@ -119,9 +119,9 @@
     <string name="dialog_title_goto_line">跳转到行</string>
     <string name="dialog_title_deleting">文件删除中</string>
     <string name="dialog_title_copying">文件复制中</string>
-    <string name="dialog_title_compressing">存档压缩中</string>
-    <string name="dialog_title_extracting">存档解压中</string>
-    <string name="dialog_title_archive_name">存档名称</string>
+    <string name="dialog_title_compressing">正在压缩中</string>
+    <string name="dialog_title_extracting">正在解压中</string>
+    <string name="dialog_title_archive_name">压缩包名称</string>
 
     <string name="dialog_message_exit">你确定要退出吗？所有更改将会保存到缓存中</string>
     <string name="dialog_message_delete">确定要删除该文件吗？</string>
@@ -156,12 +156,12 @@
     <string name="message_unknown_exception">发生错误</string>
     <string name="message_directory_expected">无法获取文件列表</string>
     <string name="message_file_already_exists">文件已存在</string>
-    <string name="message_file_not_found">文件未找到</string>
+    <string name="message_file_not_found">文件不存在</string>
     <string name="message_out_of_memory">内存不足</string>
-    <string name="message_archive_unsupported">暂不支持该存档格式</string>
-    <string name="message_zip_file_invalided">ZIP文件无效</string>
-    <string name="message_zip_file_split">ZIP文件已分卷</string>
-    <string name="message_zip_file_encrypted">ZIP文件已加密</string>
+    <string name="message_unsupported_archive">暂不支持该压缩包格式</string>
+    <string name="message_invalid_archive">该压缩包已损坏</string>
+    <string name="message_split_archive">暂不支持已分卷的压缩包</string>
+    <string name="message_encrypted_archive">暂不支持已加密的压缩包</string>
     <string name="message_done">已完毕</string>
     <string name="message_saved">已保存</string>
     <string name="message_select_file">选择文件</string>
@@ -189,7 +189,7 @@
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
-    <string name="message_file_was_loaded_in_wrong_encoding">文件以错误的编码加载</string>
+    <string name="message_wrong_encoding">文件加载时使用了错误的编码</string>
 
     <string name="store_feature_1">基本功能</string>
     <string name="store_feature_2">配色方案</string>
@@ -305,8 +305,8 @@
     <string name="pref_linebreaks_for_saving_files_summary">默认使用该换行符类型保存文本文件</string>
     <string name="pref_show_hidden_files_title">显示隐藏文件</string>
     <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
-    <string name="pref_allow_open_unknown_file_title">打开未知类型</string>
-    <string name="pref_allow_open_unknown_file_summary">允许在编辑器中以文本方式打开未知的文件类型。</string>
+    <string name="pref_allow_open_unknown_files_title">打开未知类型</string>
+    <string name="pref_allow_open_unknown_files_summary">允许在编辑器中以文本方式打开未知的文件类型。</string>
     <string name="pref_folders_on_top_title">文件夹置顶</string>
     <string name="pref_folders_on_top_summary">文件夹将优先显示在文件的前面。</string>
     <string name="pref_view_mode_title">视图模式</string>
