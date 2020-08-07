@@ -64,6 +64,7 @@ class MainViewModel @ViewModelInject constructor(
     }
 
     fun checkForUpdates() {
+        // TODO: 2020/8/5  Google Play is not available in Chinese mainland
         appUpdateManager.registerListener(installStateUpdatedListener)
         appUpdateManager.appUpdateInfo
             .addOnSuccessListener { appUpdateInfo ->

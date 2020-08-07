@@ -23,5 +23,8 @@ enum class FileType {
     ARCHIVE,
     IMAGE,
     AUDIO,
-    VIDEO
+    VIDEO,
+    DOCUMENT,
+    EBOOK,
+    APPLICATION
 }

@@ -157,6 +157,11 @@
     <string name="message_directory_expected">Невозможно получить список файлов из файла</string>
     <string name="message_file_already_exists">Такой файл уже существует</string>
     <string name="message_file_not_found">Файл не найден</string>
+    <string name="message_out_of_memory">Недостаточно памяти</string>
+    <string name="message_unsupported_archive">Неподдерживаемый архив</string>
+    <string name="message_invalid_archive">Архив поврежден</string>
+    <string name="message_split_archive">Архив разделен</string>
+    <string name="message_encrypted_archive">Архив зашифрован</string>
     <string name="message_done">Готово</string>
     <string name="message_saved">Сохранено</string>
     <string name="message_select_file">Выберите файл</string>
@@ -184,6 +189,7 @@
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>
     <string name="message_extracting">Извлечение…%1$s</string>
+    <string name="message_wrong_encoding">Файл загружен с неверной кодировкой</string>
 
     <string name="store_feature_1">Базовый функционал</string>
     <string name="store_feature_2">Цветовые схемы</string>
@@ -288,6 +294,8 @@
     <string name="pref_close_quotes_title">Авто-закрытие кавычек</string>
     <string name="pref_close_quotes_summary">Автоматически закрывать открытые кавычки во время ввода.</string>
 
+    <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
+    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is useful for multi-byte language.</string>
     <string name="pref_encoding_for_opening_title">Кодировка для открытия</string>
     <string name="pref_encoding_for_opening_summary">Выбранная кодировка будет использоваться для открытия файлов.</string>
     <string name="pref_encoding_for_saving_title">Кодировка для сохранения</string>
@@ -296,6 +304,8 @@
     <string name="pref_linebreaks_for_saving_files_summary">Выбранные разделители будут использоваться для сохранения файлов.</string>
     <string name="pref_show_hidden_files_title">Показывать скрытые файлы</string>
     <string name="pref_show_hidden_files_summary">Скрытые файлы и папки (начинающиеся с точки) будут отображаться.</string>
+    <string name="pref_allow_open_unknown_files_title">Открывать любые файлы</string>
+    <string name="pref_allow_open_unknown_files_summary">Позволяет открывать любые файлы в редакторе.</string>
     <string name="pref_folders_on_top_title">Папки сверху</string>
     <string name="pref_folders_on_top_summary">Папки будут отображаться сверху.</string>
     <string name="pref_view_mode_title">Режим просмотра</string>

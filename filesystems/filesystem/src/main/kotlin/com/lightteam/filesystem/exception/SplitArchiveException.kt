@@ -15,36 +15,6 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+package com.lightteam.filesystem.exception
 
-android {
-    compileSdkVersion rootProject.ext.compileSdk
-    buildToolsVersion rootProject.ext.buildTools
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdk
-        targetSdkVersion rootProject.ext.targetSdk
-
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-}
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    // Kotlin
-    implementation library.kotlin
-
-    // Rx
-    implementation library.rxjava2
-
-    // Other
-    implementation library.zip4j
-    implementation library.chardet
-
-    // Modules
-    implementation project(':filesystems:filesystem')
-}
+class SplitArchiveException(path: String) : RuntimeException("$path (Cannot open split archive)")

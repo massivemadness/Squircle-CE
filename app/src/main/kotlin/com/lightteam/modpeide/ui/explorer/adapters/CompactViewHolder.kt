@@ -93,7 +93,7 @@ class CompactViewHolder(
             FileType.VIDEO -> {
                 binding.itemIcon.setImageResource(R.drawable.ic_file_video)
             }
-            FileType.DEFAULT -> { /* nothing */ }
+            else -> { /* nothing */ }
         }
     }
 }

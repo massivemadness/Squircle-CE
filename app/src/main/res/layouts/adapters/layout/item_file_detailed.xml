@@ -19,23 +19,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:gravity="center_vertical"
     android:background="?selectableItemBackground">
 
     <ImageView
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:padding="6dp"
         android:id="@+id/item_icon"
         tools:src="@drawable/ic_folder"
-        tools:tint="@color/colorFolder"/>
+        tools:tint="@color/colorFolder"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
 
         <TextView
             android:id="@+id/item_title"
@@ -58,6 +61,16 @@
             android:singleLine="true"
             android:textSize="13sp"
             tools:text="15 Jun. 2020 19:45:00"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:id="@+id/item_file_length"
+            android:layout_gravity="start"
+            android:singleLine="true"
+            android:textSize="13sp"
+            tools:text="0KB"/>
 
     </LinearLayout>
 

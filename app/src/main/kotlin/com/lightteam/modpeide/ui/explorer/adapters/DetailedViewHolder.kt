@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.ui.explorer.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.lightteam.filesystem.model.FileModel
 import com.lightteam.filesystem.model.FileType
@@ -27,6 +28,7 @@ import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener
 import com.lightteam.modpeide.utils.extensions.setSelectableBackground
 import com.lightteam.modpeide.utils.extensions.setTint
 import com.lightteam.modpeide.utils.extensions.toReadableDate
+import com.lightteam.modpeide.utils.extensions.toReadableSize
 
 class DetailedViewHolder(
     private val binding: ItemFileDetailedBinding,
@@ -65,6 +67,7 @@ class DetailedViewHolder(
         binding.itemSubtitle.text = fileModel.lastModified.toReadableDate(
             pattern = itemView.context.getString(R.string.explorer_date_format)
         )
+        binding.itemFileLength.text = fileModel.size.toReadableSize()
 
         if (fileModel.isHidden) {
             binding.itemIcon.alpha = 0.45f
@@ -75,9 +78,11 @@ class DetailedViewHolder(
         if (fileModel.isFolder) {
             binding.itemIcon.setImageResource(R.drawable.ic_folder)
             binding.itemIcon.setTint(R.color.colorFolder)
+            binding.itemFileLength.visibility = View.GONE
         } else {
             binding.itemIcon.setImageResource(R.drawable.ic_file)
             binding.itemIcon.setTint(R.color.colorFile)
+            binding.itemFileLength.visibility = View.VISIBLE
         }
 
         when (fileModel.getType()) {
@@ -97,7 +102,7 @@ class DetailedViewHolder(
             FileType.VIDEO -> {
                 binding.itemIcon.setImageResource(R.drawable.ic_file_video)
             }
-            FileType.DEFAULT -> { /* nothing */ }
+            else -> { /* nothing */ }
         }
     }
 }

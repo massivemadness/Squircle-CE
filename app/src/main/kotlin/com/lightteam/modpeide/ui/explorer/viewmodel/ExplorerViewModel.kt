@@ -21,9 +21,7 @@ import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import com.lightteam.filesystem.exception.DirectoryExpectedException
-import com.lightteam.filesystem.exception.FileAlreadyExistsException
-import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.filesystem.exception.*
 import com.lightteam.filesystem.model.*
 import com.lightteam.filesystem.repository.Filesystem
 import com.lightteam.modpeide.R
@@ -435,6 +433,18 @@ class ExplorerViewModel @ViewModelInject constructor(
                         }
                         is FileAlreadyExistsException -> {
                             toastEvent.value = R.string.message_file_already_exists
+                        }
+                        is UnsupportedArchiveException -> {
+                            toastEvent.value = R.string.message_unsupported_archive
+                        }
+                        is EncryptedArchiveException -> {
+                            toastEvent.value = R.string.message_encrypted_archive
+                        }
+                        is SplitArchiveException -> {
+                            toastEvent.value = R.string.message_split_archive
+                        }
+                        is InvalidArchiveException -> {
+                            toastEvent.value = R.string.message_invalid_archive
                         }
                         else -> {
                             toastEvent.value = R.string.message_unknown_exception

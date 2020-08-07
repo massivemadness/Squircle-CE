@@ -16,8 +16,6 @@
   -->
 <resources>
 
-    <string name="app_name" translatable="false">ModPE IDE</string>
-
     <string name="label_permissions">Permissions</string>
     <string name="label_directory">Directory</string>
     <string name="label_local_storage">Local Storage</string>
@@ -166,6 +164,11 @@
     <string name="message_directory_expected">Unable to get list of files from file</string>
     <string name="message_file_already_exists">File already exists</string>
     <string name="message_file_not_found">File not found</string>
+    <string name="message_out_of_memory">Out of memory</string>
+    <string name="message_unsupported_archive">Unsupported archive</string>
+    <string name="message_invalid_archive">Invalid archive</string>
+    <string name="message_split_archive">Archive is split</string>
+    <string name="message_encrypted_archive">Archive is encrypted</string>
     <string name="message_done">Done</string>
     <string name="message_saved">Saved</string>
     <string name="message_select_file">Select File</string>
@@ -194,6 +197,7 @@
     <string name="message_compressing">Compressing…%1$s</string>
     <string name="message_extracting">Extracting…%1$s</string>
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
+    <string name="message_wrong_encoding">File was loaded using wrong encoding</string>
 
     <string name="store_standard" translatable="false">Standard</string>
     <string name="store_ultimate" translatable="false">Ultimate</string>
@@ -305,12 +309,16 @@
     <string name="pref_close_quotes_title">Auto-close Quotes</string>
     <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
 
+    <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
+    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is useful for multi-byte language.</string>
     <string name="pref_encoding_for_opening_title">Encoding for opening files</string>
     <string name="pref_encoding_for_opening_summary">Encoding to use when opening files.</string>
     <string name="pref_encoding_for_saving_title">Encoding for saving files</string>
     <string name="pref_encoding_for_saving_summary">Encoding to use when saving files.</string>
     <string name="pref_linebreaks_for_saving_files_title">Linebreaks for saving files</string>
     <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files.</string>
+    <string name="pref_allow_open_unknown_files_title">Open unknown files</string>
+    <string name="pref_allow_open_unknown_files_summary">Allows you to open any files in the editor.</string>
     <string name="pref_show_hidden_files_title">Show hidden files</string>
     <string name="pref_show_hidden_files_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
     <string name="pref_folders_on_top_title">Folders on top</string>

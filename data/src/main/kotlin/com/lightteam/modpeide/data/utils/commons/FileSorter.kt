@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.data.utils.commons
 
 import com.lightteam.filesystem.model.FileModel
+import java.util.*
 import kotlin.Comparator
 
 object FileSorter {
@@ -28,7 +29,7 @@ object FileSorter {
 
     private val fileNameComparator: Comparator<in FileModel>
         get() = Comparator { first, second ->
-            first.name.compareTo(second.name)
+            first.name.compareTo(second.name, ignoreCase = true)
         }
 
     private val fileSizeComparator: Comparator<in FileModel>

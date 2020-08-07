@@ -64,6 +64,7 @@ ext {
     keyboardevent_version = '2.3.0'
     rhino_version = '1.7.12'
     zip4j_version = '2.6.1'
+    chardet_version = '1.0.1'
 
     // Tests
     junit_version = '4.13'
@@ -121,7 +122,8 @@ ext {
             // Other
             keyboardevent: "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboardevent_version",
             rhino: "org.mozilla:rhino:$rhino_version",
-            zip4j: "net.lingala.zip4j:zip4j:$zip4j_version"
+            zip4j: "net.lingala.zip4j:zip4j:$zip4j_version",
+            chardet: "com.github.gzu-liyujiang:CJKCharsetDetector:$chardet_version"
     ]
 
     testLibrary = [

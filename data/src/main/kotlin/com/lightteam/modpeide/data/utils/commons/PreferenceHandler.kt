@@ -54,6 +54,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_USE_SOFT_KEYBOARD = "USE_SOFT_KEYBOARD"
 
         // Encoding
+        const val KEY_ENCODING_AUTO_DETECT = "ENCODING_AUTO_DETECT"
         const val KEY_ENCODING_FOR_OPENING = "ENCODING_FOR_OPENING"
         const val KEY_ENCODING_FOR_SAVING = "ENCODING_FOR_SAVING"
 
@@ -61,6 +62,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_LINEBREAK_FOR_SAVING = "LINEBREAK_FOR_SAVING"
 
         // File Explorer
+        const val KEY_OPEN_UNKNOWN_FILES = "OPEN_UNKNOWN_FILES"
         const val KEY_SHOW_HIDDEN_FILES = "SHOW_HIDDEN_FILES"
         const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
         const val KEY_VIEW_MODE = "VIEW_MODE"
@@ -95,11 +97,15 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getKeyboardPreset(): Preference<String> = rxSharedPreferences.getString(KEY_KEYBOARD_PRESET, "59d24164-3e1f-4a6d-bb8d-0ee23b4083e6") // Default
     fun getSoftKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
 
+    fun getEncodingAutoDetect(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_ENCODING_AUTO_DETECT, false)
     fun getEncodingForOpening(): Preference<String> = rxSharedPreferences.getString(KEY_ENCODING_FOR_OPENING, "UTF-8")
     fun getEncodingForSaving(): Preference<String> = rxSharedPreferences.getString(KEY_ENCODING_FOR_SAVING, "UTF-8")
 
     fun getLinebreakForSaving(): Preference<String> = rxSharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2")
 
+    fun getOpenUnknownFiles(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_OPEN_UNKNOWN_FILES, false)
+
+    // TODO: 2020/8/7  For the following lines, the file explorer needs to refresh when its value changes
     fun getFilterHidden(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
     fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
     fun getViewMode(): Preference<String> = rxSharedPreferences.getString(KEY_VIEW_MODE, "0")

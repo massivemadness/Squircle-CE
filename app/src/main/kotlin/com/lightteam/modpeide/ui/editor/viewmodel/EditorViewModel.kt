@@ -22,6 +22,7 @@ import androidx.core.text.PrecomputedTextCompat
 import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.language.language.Language
@@ -87,6 +88,8 @@ class EditorViewModel @ViewModelInject constructor(
 
     val tabsList: MutableList<DocumentModel> = mutableListOf()
 
+    val openUnknownFiles: Boolean
+        get() = preferenceHandler.getOpenUnknownFiles().get()
     var selectedDocumentId: String
         get() = preferenceHandler.getSelectedDocumentId().get()
         set(value) = preferenceHandler.getSelectedDocumentId().set(value)
@@ -145,12 +148,18 @@ class EditorViewModel @ViewModelInject constructor(
                 onSuccess = {
                     selectedDocumentId = it.first.documentModel.uuid
                     contentEvent.value = it
+                    if (CJKCharsetDetector.inWrongEncoding(it.first.text)) {
+                        toastEvent.value = R.string.message_wrong_encoding
+                    }
                 },
                 onError = {
                     Log.e(TAG, it.message, it)
                     when (it) {
                         is FileNotFoundException -> {
                             toastEvent.value = R.string.message_file_not_found
+                        }
+                        is OutOfMemoryError -> {
+                            toastEvent.value = R.string.message_out_of_memory
                         }
                         else -> {
                             toastEvent.value = R.string.message_unknown_exception

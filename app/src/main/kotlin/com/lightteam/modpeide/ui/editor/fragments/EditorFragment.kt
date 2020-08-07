@@ -95,12 +95,13 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.scroller.link(binding.editor)
 
         binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
-        binding.editor.onUndoRedoChangedListener = object : UndoRedoEditText.OnUndoRedoChangedListener {
-            override fun onUndoRedoChanged() {
-                viewModel.canUndo.set(binding.editor.canUndo())
-                viewModel.canRedo.set(binding.editor.canRedo())
+        binding.editor.onUndoRedoChangedListener =
+            object : UndoRedoEditText.OnUndoRedoChangedListener {
+                override fun onUndoRedoChanged() {
+                    viewModel.canUndo.set(binding.editor.canUndo())
+                    viewModel.canRedo.set(binding.editor.canRedo())
+                }
             }
-        }
     }
 
     override fun onDestroyView() {
@@ -169,7 +170,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         })
         sharedViewModel.openEvent.observe(viewLifecycleOwner, Observer { fileModel ->
             val documentModel = DocumentConverter.toModel(fileModel)
-            if (fileModel.getType() == FileType.TEXT) {
+            val type = fileModel.getType()
+            if ((type == FileType.DEFAULT && viewModel.openUnknownFiles) ||
+                type == FileType.TEXT
+            ) {
                 viewModel.openFile(documentModel)
             } else {
                 sharedViewModel.openAsEvent.value = fileModel
@@ -199,7 +203,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.CodeCompletion -> {
-                        val newConfiguration = binding.editor.config.copy(codeCompletion = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(codeCompletion = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.ErrorHighlight -> {
@@ -230,17 +235,20 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.CurrentLine -> {
-                        val newConfiguration = binding.editor.config.copy(highlightCurrentLine = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(highlightCurrentLine = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.Delimiters -> {
-                        val newConfiguration = binding.editor.config.copy(highlightDelimiters = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(highlightDelimiters = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                             if (event.value) {
-                                binding.extendedKeyboard.visibility = if (isOpen) View.VISIBLE else View.GONE
+                                binding.extendedKeyboard.visibility =
+                                    if (isOpen) View.VISIBLE else View.GONE
                             } else {
                                 binding.extendedKeyboard.visibility = View.GONE
                             }
@@ -250,19 +258,23 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         binding.extendedKeyboard.submitList(event.value.keys)
                     }
                     is PreferenceEvent.SoftKeys -> {
-                        val newConfiguration = binding.editor.config.copy(softKeyboard = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(softKeyboard = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.AutoIndent -> {
-                        val newConfiguration = binding.editor.config.copy(autoIndentation = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(autoIndentation = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.AutoBrackets -> {
-                        val newConfiguration = binding.editor.config.copy(autoCloseBrackets = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(autoCloseBrackets = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.AutoQuotes -> {
-                        val newConfiguration = binding.editor.config.copy(autoCloseQuotes = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(autoCloseQuotes = event.value)
                         binding.editor.config = newConfiguration
                     }
                 }
@@ -279,6 +291,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         saveDocument(position)
         closeKeyboard() // Обход бага, когда после переключения вкладок позиция курсора не менялась с предыдущей вкладки
     }
+
     override fun onTabSelected(position: Int) {
         loadDocument(position)
     }

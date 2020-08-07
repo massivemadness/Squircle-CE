@@ -39,6 +39,8 @@ class LocalRepository(
     private val filesystem: Filesystem
 ) : DocumentRepository {
 
+    private val encodingAutoDetect: Boolean
+        get() = preferenceHandler.getEncodingAutoDetect().get()
     private val encodingForOpening: Charset
         get() = safeCharset(preferenceHandler.getEncodingForOpening().get())
     private val encodingForSaving: Charset
@@ -50,6 +52,7 @@ class LocalRepository(
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val fileModel = DocumentConverter.toModel(documentModel)
         val fileParams = FileParams(
+            chardet = encodingAutoDetect,
             charset = encodingForOpening
         )
         return filesystem.loadFile(fileModel, fileParams)
