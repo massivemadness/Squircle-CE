@@ -294,8 +294,8 @@
     <string name="pref_close_quotes_title">Авто-закрытие кавычек</string>
     <string name="pref_close_quotes_summary">Автоматически закрывать открытые кавычки во время ввода.</string>
 
-    <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
-    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is useful for multi-byte language.</string>
+    <string name="pref_encoding_auto_detect_title">Автоопределение кодировки</string>
+    <string name="pref_encoding_auto_detect_summary">Подбирать правильную кодировку автоматически при открытии файла.</string>
     <string name="pref_encoding_for_opening_title">Кодировка для открытия</string>
     <string name="pref_encoding_for_opening_summary">Выбранная кодировка будет использоваться для открытия файлов.</string>
     <string name="pref_encoding_for_saving_title">Кодировка для сохранения</string>

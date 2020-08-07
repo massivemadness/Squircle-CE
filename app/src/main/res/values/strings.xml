@@ -16,6 +16,8 @@
   -->
 <resources>
 
+    <string name="app_name" translatable="false">ModPE IDE</string>
+
     <string name="label_permissions">Permissions</string>
     <string name="label_directory">Directory</string>
     <string name="label_local_storage">Local Storage</string>

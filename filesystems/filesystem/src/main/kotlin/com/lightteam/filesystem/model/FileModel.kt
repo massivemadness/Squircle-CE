@@ -40,9 +40,6 @@ data class FileModel(
             ".zipx", ".gtar", "xtar", ".z", ".xz", ".bz", ".bz2",
             ".zst", ".lzh", ".lzma", ".arj"
         )
-        val SUPPORTED_ARCHIVES = arrayOf(
-            ".zip", ".jar"
-        )
         val IMAGE = arrayOf(
             ".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".ico"
         )

@@ -53,12 +53,10 @@ android {
         standard {
             dimension 'version'
             applicationId "com.KillerBLS.modpeide"
-            resValue "string", "app_name", "ModPE IDE"
         }
         ultimate {
             dimension 'version'
             applicationId "com.LightTeam.modpeidepro"
-            resValue "string", "app_name", "ModPE IDE Pro"
         }
     }
     compileOptions {

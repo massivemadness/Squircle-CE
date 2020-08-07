@@ -33,6 +33,14 @@ import net.lingala.zip4j.ZipFile
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
+    companion object {
+
+        /**
+         * zip4j only supports these formats
+         */
+        private val SUPPORTED_ARCHIVES = arrayOf(".zip", ".jar")
+    }
+
     override fun defaultLocation(): Single<FileTree> {
         return Single.create { emitter ->
             val parent = FileConverter.toModel(defaultLocation)
@@ -168,7 +176,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         source: List<FileModel>,
         dest: FileModel,
         archiveName: String
-    ): Observable<FileModel> {
+    ): Observable<FileModel> { // TODO: Use ProgressMonitor
         return Observable.create { emitter ->
             val directory = FileConverter.toFile(dest)
             val archiveFile = ZipFile(File(directory, archiveName))
@@ -193,35 +201,33 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun decompress(
-        source: FileModel,
-        dest: FileModel
-    ): Single<FileModel> { // TODO: Use Observable
+    // TODO: Use Observable with ProgressMonitor
+    override fun decompress(source: FileModel, dest: FileModel): Single<FileModel> {
         return Single.create { emitter ->
             val sourceFile = FileConverter.toFile(source)
-            if (!sourceFile.exists()) {
+            if (sourceFile.exists()) {
+                if (sourceFile.name.endsWith(SUPPORTED_ARCHIVES)) {
+                    val archiveFile = ZipFile(sourceFile)
+                    when {
+                        archiveFile.isValidZipFile -> {
+                            archiveFile.extractAll(dest.path)
+                            emitter.onSuccess(source)
+                        }
+                        archiveFile.isEncrypted -> {
+                            emitter.onError(EncryptedArchiveException(source.path))
+                        }
+                        archiveFile.isSplitArchive -> {
+                            emitter.onError(SplitArchiveException(source.path))
+                        }
+                        else -> {
+                            emitter.onError(InvalidArchiveException(source.path))
+                        }
+                    }
+                } else {
+                    emitter.onError(UnsupportedArchiveException(source.path))
+                }
+            } else {
                 emitter.onError(FileNotFoundException(source.path))
-                return@create
-            }
-            if (!sourceFile.name.endsWith(FileModel.SUPPORTED_ARCHIVES)) {
-                emitter.onError(UnsupportedArchiveException(source.path))
-                return@create
-            }
-            val archiveFile = ZipFile(sourceFile)
-            when {
-                archiveFile.isEncrypted -> {
-                    emitter.onError(EncryptedArchiveException(source.path))
-                }
-                archiveFile.isSplitArchive -> {
-                    emitter.onError(SplitArchiveException(source.path))
-                }
-                archiveFile.isValidZipFile -> {
-                    archiveFile.extractAll(dest.path)
-                    emitter.onSuccess(source)
-                }
-                else -> {
-                    emitter.onError(InvalidArchiveException(source.path))
-                }
             }
         }
     }
@@ -231,9 +237,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             val file = File(fileModel.path)
             if (file.exists()) {
                 val charset = if (fileParams.chardet) {
-                    file.inputStream().use {
-                        CJKCharsetDetector.detect(it) ?: fileParams.charset
-                    }
+                    file.inputStream().use(CJKCharsetDetector::detect)
                 } else {
                     fileParams.charset
                 }
@@ -241,7 +245,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     val text = file.readText(charset = charset)
                     emitter.onSuccess(text)
                 } catch (e: OutOfMemoryError) {
-                    emitter.onError(OutOfMemoryError(fileModel.path + " (Out of memory)"))
+                    emitter.onError(OutOfMemoryError(fileModel.path))
                 }
             } else {
                 emitter.onError(FileNotFoundException(fileModel.path))

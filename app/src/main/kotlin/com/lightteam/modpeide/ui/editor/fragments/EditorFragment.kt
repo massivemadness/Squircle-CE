@@ -171,9 +171,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         sharedViewModel.openEvent.observe(viewLifecycleOwner, Observer { fileModel ->
             val documentModel = DocumentConverter.toModel(fileModel)
             val type = fileModel.getType()
-            if ((type == FileType.DEFAULT && viewModel.openUnknownFiles) ||
-                type == FileType.TEXT
-            ) {
+            if ((type == FileType.DEFAULT && viewModel.openUnknownFiles) || type == FileType.TEXT) {
                 viewModel.openFile(documentModel)
             } else {
                 sharedViewModel.openAsEvent.value = fileModel
@@ -189,7 +187,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         binding.editor.colorScheme = event.value.colorScheme
                     }
                     is PreferenceEvent.FontSize -> {
-                        val newConfiguration = binding.editor.config.copy(fontSize = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(fontSize = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.FontType -> {
@@ -199,7 +198,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.WordWrap -> {
-                        val newConfiguration = binding.editor.config.copy(wordWrap = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(wordWrap = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.CodeCompletion -> {
@@ -231,7 +231,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         }
                     }
                     is PreferenceEvent.PinchZoom -> {
-                        val newConfiguration = binding.editor.config.copy(pinchZoom = event.value)
+                        val newConfiguration =
+                            binding.editor.config.copy(pinchZoom = event.value)
                         binding.editor.config = newConfiguration
                     }
                     is PreferenceEvent.CurrentLine -> {
