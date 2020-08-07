@@ -175,7 +175,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 type == FileType.TEXT
             ) {
                 viewModel.openFile(documentModel)
-                viewModel.openFile(documentModel)
             } else {
                 sharedViewModel.openAsEvent.value = fileModel
             }
