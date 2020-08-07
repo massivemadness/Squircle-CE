@@ -16,8 +16,6 @@
   -->
 <resources>
 
-    <string name="app_name" translatable="false">ModPE IDE</string>
-
     <string name="label_permissions">Permissions</string>
     <string name="label_directory">Directory</string>
     <string name="label_local_storage">Local Storage</string>
@@ -167,10 +165,10 @@
     <string name="message_file_already_exists">File already exists</string>
     <string name="message_file_not_found">File not found</string>
     <string name="message_out_of_memory">Out of memory</string>
-    <string name="message_unsupported_archive">The archive are unsupported.</string>
-    <string name="message_invalid_archive">Zip file is invalided</string>
-    <string name="message_split_archive">Zip file is split</string>
-    <string name="message_encrypted_archive">Zip file is encrypted</string>
+    <string name="message_unsupported_archive">Unsupported archive</string>
+    <string name="message_invalid_archive">Invalid archive</string>
+    <string name="message_split_archive">Archive is split</string>
+    <string name="message_encrypted_archive">Archive is encrypted</string>
     <string name="message_done">Done</string>
     <string name="message_saved">Saved</string>
     <string name="message_select_file">Select File</string>

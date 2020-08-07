@@ -315,6 +315,6 @@
     <string name="pref_about_summary">Copyright 2020 Light Team Software\n保留所有权利\n\n当前版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看“隐私政策”</string>
     <string name="pref_contribute_title">参与贡献，促进发展</string>
-    <string name="pref_contribute_summary">您可以点击此处到 GitHub 上反馈缺陷、提出建议，或将本应用翻译为您的母语。\n\n谢谢！</string>
+    <string name="pref_contribute_summary">您可以点击此处到 GitHub 上提 Issue ，或将本应用翻译为您的母语。\n\n谢谢！</string>
 
 </resources>
