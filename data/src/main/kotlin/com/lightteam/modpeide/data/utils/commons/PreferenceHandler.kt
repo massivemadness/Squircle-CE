@@ -104,6 +104,8 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getLinebreakForSaving(): Preference<String> = rxSharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2")
 
     fun getOpenUnknownFiles(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_OPEN_UNKNOWN_FILES, false)
+
+    // TODO: 2020/8/7  For the following lines, the file explorer needs to refresh when its value changes
     fun getFilterHidden(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
     fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
     fun getViewMode(): Preference<String> = rxSharedPreferences.getString(KEY_VIEW_MODE, "0")
