@@ -171,13 +171,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         sharedViewModel.openEvent.observe(viewLifecycleOwner, Observer { fileModel ->
             val documentModel = DocumentConverter.toModel(fileModel)
             val type = fileModel.getType()
-            if (sharedViewModel.openUnknownFileInEditor) {
-                if (type == FileType.DEFAULT) {
-                    viewModel.openFile(documentModel)
-                    return@Observer
-                }
-            }
-            if (type == FileType.TEXT) {
+            if ((type == FileType.DEFAULT && viewModel.openUnknownFiles) ||
+                type == FileType.TEXT
+            ) {
+                viewModel.openFile(documentModel)
                 viewModel.openFile(documentModel)
             } else {
                 sharedViewModel.openAsEvent.value = fileModel

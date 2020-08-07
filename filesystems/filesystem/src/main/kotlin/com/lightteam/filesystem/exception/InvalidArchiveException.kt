@@ -17,4 +17,4 @@
 
 package com.lightteam.filesystem.exception
 
-class ZipInvalidedException(path: String) : RuntimeException("$path (Zip invalided)")
+class InvalidArchiveException(path: String) : RuntimeException("$path (Invalid archive)")

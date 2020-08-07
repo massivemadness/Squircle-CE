@@ -17,4 +17,4 @@
 
 package com.lightteam.filesystem.exception
 
-class ArchiveUnsupportedException(path: String) : RuntimeException("$path (Archive unsupported)")
+class EncryptedArchiveException(path: String) : RuntimeException("$path (Cannot open encrypted archive)")

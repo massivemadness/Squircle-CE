@@ -17,4 +17,4 @@
 
 package com.lightteam.filesystem.exception
 
-class ZipSplitException(path: String) : RuntimeException("$path (Zip split)")
+class SplitArchiveException(path: String) : RuntimeException("$path (Cannot open split archive)")
