@@ -23,7 +23,6 @@ import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
-import com.lightteam.editorkit.feature.undoredo.UndoStack
 import com.lightteam.filesystem.exception.FileNotFoundException
 import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
@@ -145,10 +144,10 @@ class EditorViewModel @ViewModelInject constructor(
             .doFinally { stateLoadingDocuments.set(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = {
-                    selectedDocumentId = it.first.documentModel.uuid
-                    contentEvent.value = it
-                    if (CJKCharsetDetector.inWrongEncoding(it.first.text)) {
+                onSuccess = { (documentContent, precomputedText) ->
+                    selectedDocumentId = documentContent.documentModel.uuid
+                    contentEvent.value = documentContent to precomputedText
+                    if (CJKCharsetDetector.inWrongEncoding(documentContent.text)) {
                         toastEvent.value = R.string.message_wrong_encoding
                     }
                 },
@@ -170,12 +169,16 @@ class EditorViewModel @ViewModelInject constructor(
             .disposeOnViewModelDestroy()
     }
 
-    fun saveFile(documentModel: DocumentModel, text: String) {
-        localRepository.saveFile(documentModel, text)
+    fun saveFile(documentContent: DocumentContent, toCache: Boolean = false) {
+        val dataSource = if (toCache) {
+            cacheRepository
+        } else localRepository
+
+        dataSource.saveFile(documentContent)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onComplete = {
-                    toastEvent.value = R.string.message_saved
+                    if (!toCache) { toastEvent.value = R.string.message_saved }
                 },
                 onError = {
                     Log.e(TAG, it.message, it)
@@ -187,42 +190,6 @@ class EditorViewModel @ViewModelInject constructor(
 
     fun deleteCache(documentModel: DocumentModel) {
         cacheRepository.deleteCache(documentModel)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun saveToCache(documentModel: DocumentModel, text: String) {
-        cacheRepository.saveFile(documentModel, text)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun saveUndoStack(documentModel: DocumentModel, undoStack: UndoStack) {
-        cacheRepository.saveUndoStack(documentModel, undoStack)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun saveRedoStack(documentModel: DocumentModel, redoStack: UndoStack) {
-        cacheRepository.saveRedoStack(documentModel, redoStack)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onError = {

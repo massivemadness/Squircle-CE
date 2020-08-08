@@ -53,6 +53,7 @@ dependencies {
 
     // Modules
     implementation project(':languages:language')
+    implementation project(':languages:unknown')
 
     // Tests
     testImplementation testLibrary.junit

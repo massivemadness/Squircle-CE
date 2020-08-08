@@ -51,37 +51,32 @@ class LocalRepository(
 
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val fileModel = DocumentConverter.toModel(documentModel)
-        val fileParams = FileParams(
-            chardet = encodingAutoDetect,
-            charset = encodingForOpening
-        )
+        val fileParams = FileParams(chardet = encodingAutoDetect, charset = encodingForOpening)
+        val documentEntity = DocumentConverter.toEntity(documentModel)
+
         return filesystem.loadFile(fileModel, fileParams)
             .map { text ->
-                appDatabase.documentDao().insert(DocumentConverter.toEntity(documentModel)) // Save to Database
+                appDatabase.documentDao().insert(documentEntity)
 
-                val language = LanguageDelegate.provideLanguage(documentModel.name)
-                val undoStack = UndoStack()
-                val redoStack = UndoStack()
-
-                return@map DocumentContent(
-                    documentModel,
-                    language,
-                    undoStack,
-                    redoStack,
-                    text
+                DocumentContent(
+                    documentModel = documentModel,
+                    language = LanguageDelegate.provideLanguage(documentModel.name),
+                    undoStack = UndoStack(),
+                    redoStack = UndoStack(),
+                    text = text
                 )
             }
     }
 
-    override fun saveFile(documentModel: DocumentModel, text: String): Completable {
+    override fun saveFile(documentContent: DocumentContent): Completable {
+        val documentModel = documentContent.documentModel
+        val text = documentContent.text
+
         val fileModel = DocumentConverter.toModel(documentModel)
-        val fileParams = FileParams(
-            charset = encodingForSaving,
-            linebreak = linebreakForSaving
-        )
+        val fileParams = FileParams(charset = encodingForSaving, linebreak = linebreakForSaving)
+        val documentEntity = DocumentConverter.toEntity(documentModel)
+
         return filesystem.saveFile(fileModel, text, fileParams)
-            .doOnComplete {
-                appDatabase.documentDao().update(DocumentConverter.toEntity(documentModel)) // Save to Database
-            }
+            .doOnComplete { appDatabase.documentDao().update(documentEntity) }
     }
 }

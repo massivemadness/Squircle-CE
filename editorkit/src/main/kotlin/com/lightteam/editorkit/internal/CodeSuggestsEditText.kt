@@ -111,10 +111,8 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
 
     private fun fillWithPredefinedSuggestions() {
         suggestionAdapter?.wordsManager = wordsManager
-        language?.let {
-            wordsManager.applySuggestionProvider(it.getSuggestions())
-            wordsManager.processSuggestions()
-        }
+        wordsManager.applySuggestionProvider(language.getSuggestions())
+        wordsManager.processSuggestions()
     }
 
     private fun onDropDownSizeChange(width: Int, height: Int) {

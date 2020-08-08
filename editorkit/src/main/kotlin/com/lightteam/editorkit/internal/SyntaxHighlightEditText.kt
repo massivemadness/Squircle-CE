@@ -33,6 +33,7 @@ import com.lightteam.language.parser.span.ErrorSpan
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.language.styler.span.StyleSpan
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
+import com.lightteam.unknown.language.UnknownLanguage
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
@@ -49,7 +50,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     var isMatchCaseEnabled = true
     var isWordsOnlyEnabled = false
 
-    var language: Language? = null
+    var language: Language = UnknownLanguage()
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val findResultSpans = mutableListOf<FindResultSpan>()
@@ -357,7 +358,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
         syntaxScheme?.let {
-            language?.executeStyler(getProcessedText(), it) { spans ->
+            language.executeStyler(getProcessedText(), it) { spans ->
                 syntaxHighlightSpans.clear()
                 syntaxHighlightSpans.addAll(spans)
                 updateSyntaxHighlighting()
@@ -366,7 +367,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     private fun cancelSyntaxHighlighting() {
-        language?.cancelStyler()
+        language.cancelStyler()
     }
 
     private fun checkMatchingBracket(pos: Int) {

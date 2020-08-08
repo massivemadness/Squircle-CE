@@ -24,5 +24,5 @@ import io.reactivex.Single
 
 interface DocumentRepository {
     fun loadFile(documentModel: DocumentModel): Single<DocumentContent>
-    fun saveFile(documentModel: DocumentModel, text: String): Completable
+    fun saveFile(documentContent: DocumentContent): Completable
 }

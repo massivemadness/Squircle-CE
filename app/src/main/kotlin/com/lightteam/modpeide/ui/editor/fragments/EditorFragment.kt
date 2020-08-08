@@ -38,6 +38,7 @@ import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
+import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.dialogs.StoreDialog
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
@@ -218,13 +219,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeBy {
                                     if (adapter.selectedPosition > -1) {
-                                        binding.editor.language?.let {
-                                            viewModel.parse(
-                                                it,
-                                                adapter.selectedPosition,
-                                                binding.editor.getProcessedText()
-                                            )
-                                        }
+                                        viewModel.parse(
+                                            binding.editor.language,
+                                            adapter.selectedPosition,
+                                            binding.editor.getProcessedText()
+                                        )
                                     }
                                 }
                                 .disposeOnFragmentDestroyView()
@@ -341,9 +340,14 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             viewModel.tabsList[position] = document
             val text = binding.editor.getProcessedText()
             if (text.isNotEmpty()) {
-                viewModel.saveToCache(document, text)
-                viewModel.saveUndoStack(document, binding.editor.undoStack)
-                viewModel.saveRedoStack(document, binding.editor.redoStack)
+                val documentContent = DocumentContent(
+                    documentModel = document,
+                    language = binding.editor.language,
+                    undoStack = binding.editor.undoStack,
+                    redoStack = binding.editor.redoStack,
+                    text = text
+                )
+                viewModel.saveFile(documentContent, toCache = true)
             }
             binding.editor.clearText() // TTL Exception bypass
         }
@@ -382,11 +386,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     override fun onSaveButton() {
         val position = adapter.selectedPosition
         if (position > -1) {
-            val document = viewModel.tabsList[position]
-            viewModel.saveFile(document, binding.editor.getProcessedText())
-            viewModel.saveToCache(document, binding.editor.getProcessedText())
-            viewModel.saveUndoStack(document, binding.editor.undoStack)
-            viewModel.saveRedoStack(document, binding.editor.redoStack)
+            val documentContent = DocumentContent(
+                documentModel = viewModel.tabsList[position],
+                language = binding.editor.language,
+                undoStack = binding.editor.undoStack,
+                redoStack = binding.editor.redoStack,
+                text = binding.editor.getProcessedText()
+            )
+            viewModel.saveFile(documentContent, toCache = false) // Save to local storage
+            viewModel.saveFile(documentContent, toCache = true) // Save to app cache
         } else {
             showToast(R.string.message_no_open_files)
         }
@@ -409,7 +417,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                             uuid = "whatever",
                             path = filePath
                         )
-                        viewModel.saveFile(updateDocument, binding.editor.getProcessedText())
+                        val documentContent = DocumentContent(
+                            documentModel = updateDocument,
+                            language = binding.editor.language,
+                            undoStack = binding.editor.undoStack,
+                            redoStack = binding.editor.redoStack,
+                            text = binding.editor.getProcessedText()
+                        )
+
+                        viewModel.saveFile(documentContent)
                     } else {
                         showToast(R.string.message_invalid_file_path)
                     }
