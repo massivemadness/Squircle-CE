@@ -18,8 +18,10 @@
 package com.lightteam.language.styler
 
 import com.lightteam.language.scheme.SyntaxScheme
+import com.lightteam.language.styler.span.SyntaxHighlightSpan
 
 interface LanguageStyler {
-    fun runTask(styleable: Styleable, sourceCode: String, syntaxScheme: SyntaxScheme)
+    fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable)
     fun cancelTask()
+    fun parse(): List<SyntaxHighlightSpan>
 }

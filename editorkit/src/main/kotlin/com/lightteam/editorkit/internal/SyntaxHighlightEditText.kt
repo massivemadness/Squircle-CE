@@ -31,7 +31,6 @@ import com.lightteam.editorkit.feature.findreplace.FindResultSpan
 import com.lightteam.language.language.Language
 import com.lightteam.language.parser.span.ErrorSpan
 import com.lightteam.language.scheme.SyntaxScheme
-import com.lightteam.language.styler.Styleable
 import com.lightteam.language.styler.span.StyleSpan
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import java.util.regex.Pattern
@@ -41,7 +40,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : UndoRedoEditText(context, attrs, defStyleAttr), Styleable {
+) : UndoRedoEditText(context, attrs, defStyleAttr) {
 
     var isSyntaxHighlighting = false
     var isErrorSpansVisible = false
@@ -128,12 +127,6 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         }
         addedTextCount = 0
         syntaxHighlight()
-    }
-
-    override fun setSpans(spans: List<SyntaxHighlightSpan>) {
-        syntaxHighlightSpans.clear()
-        syntaxHighlightSpans.addAll(spans)
-        updateSyntaxHighlighting()
     }
 
     fun clearFindResultSpans() {
@@ -364,7 +357,11 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
         syntaxScheme?.let {
-            language?.runStyler(this, getProcessedText(), it)
+            language?.executeStyler(getProcessedText(), it) { spans ->
+                syntaxHighlightSpans.clear()
+                syntaxHighlightSpans.addAll(spans)
+                updateSyntaxHighlighting()
+            }
         }
     }
 

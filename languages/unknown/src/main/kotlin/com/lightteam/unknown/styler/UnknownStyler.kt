@@ -20,8 +20,10 @@ package com.lightteam.unknown.styler
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.language.styler.LanguageStyler
 import com.lightteam.language.styler.Styleable
+import com.lightteam.language.styler.span.SyntaxHighlightSpan
 
 class UnknownStyler : LanguageStyler {
-    override fun runTask(styleable: Styleable, sourceCode: String, syntaxScheme: SyntaxScheme) = Unit
+    override fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) = Unit
     override fun cancelTask() = Unit
+    override fun parse(): List<SyntaxHighlightSpan> = emptyList()
 }

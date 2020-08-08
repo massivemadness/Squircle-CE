@@ -340,7 +340,17 @@ class ModPESuggestions : SuggestionProvider {
     )
 
     override fun getAll(): List<SuggestionModel> {
-        return arrayOf(*block, *entity, *item, *level, *modpe, *player, *server, *hooks, *global, *javascript)
-            .map { SuggestionModel(it) }
+        return arrayOf(
+            *block,
+            *entity,
+            *item,
+            *level,
+            *modpe,
+            *player,
+            *server,
+            *hooks,
+            *global,
+            *javascript
+        ).map { SuggestionModel(it) }
     }
 }

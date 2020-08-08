@@ -44,9 +44,9 @@ class UnknownLanguage : Language {
         return UnknownSuggestions()
     }
 
-    override fun runStyler(styleable: Styleable, sourceCode: String, syntaxScheme: SyntaxScheme) {
+    override fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) {
         unknownStyler = UnknownStyler().also {
-            it.runTask(styleable, sourceCode, syntaxScheme)
+            it.executeTask(sourceCode, syntaxScheme, styleable)
         }
     }
 

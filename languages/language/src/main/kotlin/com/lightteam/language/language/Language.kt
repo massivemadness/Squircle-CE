@@ -26,6 +26,7 @@ interface Language {
     fun getName(): String
     fun getParser(): LanguageParser
     fun getSuggestions(): SuggestionProvider
-    fun runStyler(styleable: Styleable, sourceCode: String, syntaxScheme: SyntaxScheme)
+
+    fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable)
     fun cancelStyler()
 }

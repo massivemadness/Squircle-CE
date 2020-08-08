@@ -34,6 +34,7 @@ class JavaScriptLanguage : Language {
 
     private var javaScriptParser: JavaScriptParser? = null
     private var javaScriptStyler: JavaScriptStyler? = null
+    private var suggestionProvider: SuggestionProvider? = null
 
     override fun getName(): String {
         return "javascript"
@@ -45,12 +46,13 @@ class JavaScriptLanguage : Language {
     }
 
     override fun getSuggestions(): SuggestionProvider {
-        return ModPESuggestions()
+        return suggestionProvider ?: ModPESuggestions()
+            .also { suggestionProvider = it }
     }
 
-    override fun runStyler(styleable: Styleable, sourceCode: String, syntaxScheme: SyntaxScheme) {
+    override fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) {
         javaScriptStyler = JavaScriptStyler().also {
-            it.runTask(styleable, sourceCode, syntaxScheme)
+            it.executeTask(sourceCode, syntaxScheme, styleable)
         }
     }
 

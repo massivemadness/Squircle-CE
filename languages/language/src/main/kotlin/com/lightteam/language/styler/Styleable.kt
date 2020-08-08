@@ -19,6 +19,4 @@ package com.lightteam.language.styler
 
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 
-interface Styleable {
-    fun setSpans(spans: List<SyntaxHighlightSpan>)
-}
+typealias Styleable = (List<SyntaxHighlightSpan>) -> Unit
