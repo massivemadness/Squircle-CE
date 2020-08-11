@@ -29,7 +29,7 @@ class JavaScriptStyler : LanguageStyler {
 
     companion object {
         private val NUMBER = Pattern.compile("\\b((0([xX])[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b")
-        private val OPERATOR = Pattern.compile("([!$%&*\\-+=<>?:^`/|(){}\\[\\]])")
+        private val OPERATOR = Pattern.compile("[!$%&*\\-+=<>?:^`/|(){}\\[\\]]")
         private val KEYWORD = Pattern.compile(
             "\\b(function|prototype|debugger|super|this|export|extends|final" +
                     "|implements|native|private|protected|public|static|synchronized|throws" +

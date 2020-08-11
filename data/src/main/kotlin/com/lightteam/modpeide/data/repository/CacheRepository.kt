@@ -148,7 +148,7 @@ class CacheRepository(
     private fun restoreUndoStack(uuid: String): UndoStack {
         val file = cache("$uuid-undo.cache")
         if (file.exists()) {
-            return readStackCache(file)
+            return decodeStack(file.readText())
         }
         return UndoStack()
     }
@@ -156,13 +156,9 @@ class CacheRepository(
     private fun restoreRedoStack(uuid: String): UndoStack {
         val file = cache("$uuid-redo.cache")
         if (file.exists()) {
-            return readStackCache(file)
+            return decodeStack(file.readText())
         }
         return UndoStack()
-    }
-
-    private fun readStackCache(file: File): UndoStack {
-        return decodeStack(file.readText())
     }
 
     private fun encodeStack(stack: UndoStack): String {
@@ -196,7 +192,7 @@ class CacheRepository(
                 val change = TextChange(
                     newText = items[i + 1],
                     oldText = items[i],
-                    start = Integer.parseInt(items[i + 2])
+                    start = items[i + 2].toInt()
                 )
                 result.push(change)
                 i -= 3
