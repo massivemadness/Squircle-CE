@@ -21,12 +21,12 @@ typealias Region = Pair<Int, Int>
 
 /**
  * @param startIndex позиция начала комментария
- * @param endIndex позиция окончания комментария
+ * @param endIndex позиция конца комментария
  */
 fun List<Region>.inRegion(startIndex: Int, endIndex: Int): Boolean {
     for ((start, end) in this) {
-        if (start < startIndex && end > endIndex &&
-            (startIndex in start until end || endIndex - 1 in start until end)) {
+        if (start <= startIndex && end >= endIndex &&
+            (startIndex in start until end || endIndex in start until end)) {
             return true
         }
     }
