@@ -15,18 +15,8 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.language
+package com.lightteam.language.styler.utils
 
-import com.lightteam.language.parser.LanguageParser
-import com.lightteam.language.scheme.SyntaxScheme
-import com.lightteam.language.styler.utils.Styleable
-import com.lightteam.language.suggestion.SuggestionProvider
+import com.lightteam.language.styler.span.SyntaxHighlightSpan
 
-interface Language {
-    fun getName(): String
-    fun getParser(): LanguageParser
-    fun getSuggestions(): SuggestionProvider
-
-    fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable)
-    fun cancelStyler()
-}
+typealias Styleable = (List<SyntaxHighlightSpan>) -> Unit

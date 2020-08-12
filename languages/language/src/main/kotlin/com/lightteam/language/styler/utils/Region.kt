@@ -15,8 +15,20 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.styler
+package com.lightteam.language.styler.utils
 
-import com.lightteam.language.styler.span.SyntaxHighlightSpan
+typealias Region = Pair<Int, Int>
 
-typealias Styleable = (List<SyntaxHighlightSpan>) -> Unit
+/**
+ * @param startIndex позиция начала комментария
+ * @param endIndex позиция окончания комментария
+ */
+fun List<Region>.inRegion(startIndex: Int, endIndex: Int): Boolean {
+    for ((start, end) in this) {
+        if (start < startIndex && end > endIndex &&
+            (startIndex in start until end || endIndex - 1 in start until end)) {
+            return true
+        }
+    }
+    return false
+}

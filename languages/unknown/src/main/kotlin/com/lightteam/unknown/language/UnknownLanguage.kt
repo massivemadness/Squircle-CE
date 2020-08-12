@@ -20,7 +20,7 @@ package com.lightteam.unknown.language
 import com.lightteam.language.language.Language
 import com.lightteam.language.parser.LanguageParser
 import com.lightteam.language.scheme.SyntaxScheme
-import com.lightteam.language.styler.Styleable
+import com.lightteam.language.styler.utils.Styleable
 import com.lightteam.language.suggestion.SuggestionProvider
 import com.lightteam.unknown.parser.UnknownParser
 import com.lightteam.unknown.styler.UnknownStyler

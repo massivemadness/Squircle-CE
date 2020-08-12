@@ -23,7 +23,7 @@ import com.lightteam.javascript.suggestions.ModPESuggestions
 import com.lightteam.language.language.Language
 import com.lightteam.language.parser.LanguageParser
 import com.lightteam.language.scheme.SyntaxScheme
-import com.lightteam.language.styler.Styleable
+import com.lightteam.language.styler.utils.Styleable
 import com.lightteam.language.suggestion.SuggestionProvider
 
 class JavaScriptLanguage : Language {

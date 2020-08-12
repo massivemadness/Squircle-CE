@@ -19,10 +19,12 @@ package com.lightteam.javascript.styler
 
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.language.styler.LanguageStyler
-import com.lightteam.language.styler.Styleable
 import com.lightteam.language.styler.span.StyleSpan
 import com.lightteam.language.styler.span.SyntaxHighlightSpan
 import com.lightteam.language.styler.task.StylingTask
+import com.lightteam.language.styler.utils.Region
+import com.lightteam.language.styler.utils.Styleable
+import com.lightteam.language.styler.utils.inRegion
 import java.util.regex.Pattern
 
 class JavaScriptStyler : LanguageStyler {
@@ -73,6 +75,7 @@ class JavaScriptStyler : LanguageStyler {
 
     override fun parse(): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans: MutableList<SyntaxHighlightSpan> = mutableListOf()
+        val stringRegions: MutableList<Region> = mutableListOf()
 
         var matcher = NUMBER.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
@@ -119,16 +122,23 @@ class JavaScriptStyler : LanguageStyler {
         matcher = STRING.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
+            val start = matcher.start()
+            val end = matcher.end()
             val styleSpan = StyleSpan(syntaxScheme.stringColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
+            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, start, end)
             syntaxHighlightSpans.add(syntaxHighlightSpan)
+            stringRegions.add(start to end)
         }
         matcher = COMMENT.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
         while (matcher.find()) {
+            val start = matcher.start()
+            val end = matcher.end()
             val styleSpan = StyleSpan(syntaxScheme.commentColor, italic = true)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
+            if (!stringRegions.inRegion(start, end)) {
+                val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, start, end)
+                syntaxHighlightSpans.add(syntaxHighlightSpan)
+            }
         }
 
         return syntaxHighlightSpans
