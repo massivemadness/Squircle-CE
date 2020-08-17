@@ -20,6 +20,8 @@ package com.lightteam.language.styler.utils
 typealias Region = Pair<Int, Int>
 
 /**
+ * Проверяет, находится ли комментарий внутри двойных кавычек (строки).
+ * FIXME https://github.com/massivemadness/ModPE-IDE/issues/9#issuecomment-672956922
  * @param startIndex позиция начала комментария
  * @param endIndex позиция конца комментария
  */
