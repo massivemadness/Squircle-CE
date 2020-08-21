@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "properties": [],
-      "versionCode": 10036,
-      "versionName": "2020.2.2",
+      "versionCode": 10037,
+      "versionName": "2020.2.3",
       "enabled": true,
       "outputFile": "app-ultimate-release.apk"
     }
