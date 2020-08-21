@@ -24,7 +24,6 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -119,14 +118,14 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
     }
 
     private fun observeViewModel() {
-        viewModel.fontsEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.fontsEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             binding.emptyView.isVisible = it.isEmpty()
         })
-        viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.selectEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_selected, it))
         })
-        viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.removeEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_font_removed, it))
         })
     }

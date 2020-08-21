@@ -23,7 +23,6 @@ import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
@@ -134,25 +133,25 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.toastEvent.observe(viewLifecycleOwner, {
             showToast(it)
         })
-        viewModel.tabsEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.tabsEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             viewModel.loadSelection()
         })
-        viewModel.tabSelectionEvent.observe(viewLifecycleOwner, Observer { position ->
+        viewModel.tabSelectionEvent.observe(viewLifecycleOwner, { position ->
             sharedViewModel.closeDrawerEvent.call()
             if (position > -1) {
                 adapter.select(position)
             }
         })
-        viewModel.parseEvent.observe(viewLifecycleOwner, Observer { model ->
+        viewModel.parseEvent.observe(viewLifecycleOwner, { model ->
             model.exception?.let {
                 binding.editor.setErrorLine(it.lineNumber)
             }
         })
-        viewModel.contentEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.contentEvent.observe(viewLifecycleOwner, {
             val content = it.first
             val textParams = it.second
 
@@ -169,7 +168,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             )
             binding.editor.requestFocus()
         })
-        sharedViewModel.openEvent.observe(viewLifecycleOwner, Observer { fileModel ->
+        sharedViewModel.openEvent.observe(viewLifecycleOwner, { fileModel ->
             val documentModel = DocumentConverter.toModel(fileModel)
             val type = fileModel.getType()
             if ((type == FileType.DEFAULT && viewModel.openUnknownFiles) || type == FileType.TEXT) {
@@ -181,7 +180,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         // region PREFERENCES
 
-        viewModel.preferenceEvent.observe(viewLifecycleOwner, Observer { queue ->
+        viewModel.preferenceEvent.observe(viewLifecycleOwner, { queue ->
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
                     is PreferenceEvent.ThemePref -> {

@@ -27,7 +27,6 @@ import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -145,17 +144,17 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.toastEvent.observe(viewLifecycleOwner, {
             showToast(it)
         })
-        viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.validationEvent.observe(viewLifecycleOwner, {
             binding.actionSave.isEnabled = it
         })
-        viewModel.createEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.createEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_new_theme_available, it))
             navController.navigateUp()
         })
-        viewModel.metaEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.metaEvent.observe(viewLifecycleOwner, {
             meta = it
 
             binding.textInputThemeName.doAfterTextChanged { updateMeta() }
@@ -166,7 +165,7 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
             binding.textInputThemeAuthor.setText(it.author)
             binding.textInputThemeDescription.setText(it.description)
         })
-        viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.propertiesEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
     }

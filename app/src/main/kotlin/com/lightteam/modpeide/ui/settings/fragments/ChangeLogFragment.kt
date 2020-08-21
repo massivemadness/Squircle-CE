@@ -20,7 +20,6 @@ package com.lightteam.modpeide.ui.settings.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentChangelogBinding
@@ -52,7 +51,7 @@ class ChangeLogFragment : BaseFragment(R.layout.fragment_changelog) {
     }
 
     private fun observeViewModel() {
-        viewModel.changelogEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.changelogEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
     }

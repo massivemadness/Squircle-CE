@@ -20,7 +20,6 @@ package com.lightteam.modpeide.ui.settings.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
@@ -62,7 +61,7 @@ class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickList
     }
 
     private fun observeViewModel() {
-        viewModel.headersEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.headersEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
     }

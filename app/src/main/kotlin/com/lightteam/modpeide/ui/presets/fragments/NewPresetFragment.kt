@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -66,7 +65,7 @@ class NewPresetFragment : BaseFragment(R.layout.fragment_new_preset) {
     }
 
     private fun observeViewModel() {
-        viewModel.presetEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.presetEvent.observe(viewLifecycleOwner, {
             presetModel = it
 
             binding.textInputPresetName.doAfterTextChanged { updatePreset() }
@@ -75,10 +74,10 @@ class NewPresetFragment : BaseFragment(R.layout.fragment_new_preset) {
             binding.textInputPresetName.setText(it.name)
             binding.textInputPresetChars.setText(it.keys.joinToString(separator = ""))
         })
-        viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.validationEvent.observe(viewLifecycleOwner, {
             binding.actionSave.isEnabled = it
         })
-        viewModel.insertEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.insertEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_new_preset_available, it))
             navController.navigateUp()
         })

@@ -22,7 +22,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
@@ -78,7 +77,7 @@ class PermissionsFragment : BaseFragment(R.layout.fragment_permissions) {
     }
 
     private fun observeViewModel() {
-        viewModel.hasAccessEvent.observe(viewLifecycleOwner, Observer { hasAccess ->
+        viewModel.hasAccessEvent.observe(viewLifecycleOwner, { hasAccess ->
             viewModel.hasPermission.set(hasAccess)
             if (hasAccess) {
                 val destination = PermissionsFragmentDirections.toDirectoryFragment(null)

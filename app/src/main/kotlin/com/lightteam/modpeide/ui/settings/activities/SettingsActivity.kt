@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.core.view.isGone
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.lightteam.modpeide.R
@@ -66,7 +65,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.fullscreenEvent.observe(this, Observer { enabled ->
+        viewModel.fullscreenEvent.observe(this, { enabled ->
             if (enabled) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             } else {

@@ -25,7 +25,6 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
@@ -209,14 +208,14 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
     // endregion MENU
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.toastEvent.observe(viewLifecycleOwner, {
             showToast(it)
         })
-        viewModel.tabsEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.tabsEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             adapter.select(adapter.itemCount - 1)
         })
-        viewModel.selectionEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.selectionEvent.observe(viewLifecycleOwner, {
             if (it.isNotEmpty()) {
                 viewModel.allowPasteFiles.set(false)
                 viewModel.tempFiles.clear()

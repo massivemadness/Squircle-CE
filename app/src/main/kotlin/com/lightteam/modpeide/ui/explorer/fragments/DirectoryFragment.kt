@@ -26,7 +26,6 @@ import android.widget.CheckBox
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -150,21 +149,21 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     }
 
     private fun observeViewModel() {
-        viewModel.filesUpdateEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.filesUpdateEvent.observe(viewLifecycleOwner, {
             loadDirectory()
         })
-        viewModel.selectAllEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.selectAllEvent.observe(viewLifecycleOwner, {
             tracker.setItemsSelected(adapter.currentList, true)
             adapter.notifyDataSetChanged()
         })
-        viewModel.deselectAllEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.deselectAllEvent.observe(viewLifecycleOwner, {
             tracker.clearSelection()
             adapter.notifyDataSetChanged()
         })
-        viewModel.createEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.createEvent.observe(viewLifecycleOwner, {
             showCreateDialog()
         })
-        viewModel.copyEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.copyEvent.observe(viewLifecycleOwner, {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
@@ -172,7 +171,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 viewModel.allowPasteFiles.set(true)
             }
         })
-        viewModel.deleteEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.deleteEvent.observe(viewLifecycleOwner, {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
@@ -180,7 +179,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 showDeleteDialog(it)
             }
         })
-        viewModel.cutEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.cutEvent.observe(viewLifecycleOwner, {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
@@ -188,38 +187,38 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 viewModel.allowPasteFiles.set(true)
             }
         })
-        viewModel.pasteEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.pasteEvent.observe(viewLifecycleOwner, {
             executeProcess(it) // may only be Operation.COPY or Operation.CUT
         })
-        viewModel.openAsEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.openAsEvent.observe(viewLifecycleOwner, {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 openAs(it)
             }
         })
-        viewModel.renameEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.renameEvent.observe(viewLifecycleOwner, {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 showRenameDialog(it)
             }
         })
-        viewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.propertiesEvent.observe(viewLifecycleOwner, {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 viewModel.propertiesOf(it)
             }
         })
-        viewModel.copyPathEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.copyPathEvent.observe(viewLifecycleOwner, {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 copyPath(it)
             }
         })
-        viewModel.archiveEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.archiveEvent.observe(viewLifecycleOwner, {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
@@ -249,24 +248,24 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             }
         })
 
-        viewModel.filesEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.filesEvent.observe(viewLifecycleOwner, {
             fileTree = it
             adapter.submitList(fileTree.children)
         })
-        viewModel.searchEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.searchEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
-        viewModel.clickEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.clickEvent.observe(viewLifecycleOwner, {
             onClick(it) // select file
         })
-        viewModel.propertiesOfEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.propertiesOfEvent.observe(viewLifecycleOwner, {
             showPropertiesDialog(it)
         })
 
-        sharedViewModel.openAsEvent.observe(viewLifecycleOwner, Observer {
+        sharedViewModel.openAsEvent.observe(viewLifecycleOwner, {
             openAs(it)
         })
-        sharedViewModel.propertiesEvent.observe(viewLifecycleOwner, Observer {
+        sharedViewModel.propertiesEvent.observe(viewLifecycleOwner, {
             viewModel.propertiesOf(it)
         })
     }

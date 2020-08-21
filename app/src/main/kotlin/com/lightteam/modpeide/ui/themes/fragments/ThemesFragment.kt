@@ -25,7 +25,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -142,20 +141,20 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.toastEvent.observe(viewLifecycleOwner, {
             showToast(it)
         })
-        viewModel.themesEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.themesEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             binding.emptyView.isVisible = it.isEmpty()
         })
-        viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.selectEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_selected, it))
         })
-        viewModel.exportEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.exportEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_theme_exported, it), duration = Toast.LENGTH_LONG)
         })
-        viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.removeEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_theme_removed, it))
         })
     }

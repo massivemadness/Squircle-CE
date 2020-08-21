@@ -24,7 +24,6 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -122,14 +121,14 @@ class PresetsFragment : BaseFragment(R.layout.fragment_keyboard_presets), Preset
     }
 
     private fun observeViewModel() {
-        viewModel.presetsEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.presetsEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             binding.emptyView.isVisible = it.isEmpty()
         })
-        viewModel.selectEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.selectEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_selected, it))
         })
-        viewModel.removeEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.removeEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_preset_removed, it))
         })
     }

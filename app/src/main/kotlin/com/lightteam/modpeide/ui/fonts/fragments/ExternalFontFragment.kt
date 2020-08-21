@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
@@ -70,10 +69,10 @@ class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
     }
 
     private fun observeViewModel() {
-        viewModel.validationEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.validationEvent.observe(viewLifecycleOwner, {
             binding.actionSave.isEnabled = it
         })
-        viewModel.insertEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.insertEvent.observe(viewLifecycleOwner, {
             showToast(text = getString(R.string.message_new_font_available, it))
             navController.navigateUp()
         })
