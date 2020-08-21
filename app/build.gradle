@@ -31,8 +31,8 @@ android {
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
 
-        versionCode 10037
-        versionName "2020.2.3"
+        versionCode 10038
+        versionName "2020.2.4"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
