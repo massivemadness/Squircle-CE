@@ -50,12 +50,12 @@ open class AutoIndentEditText @JvmOverloads constructor(
                     return
                 }
             } else if (result[2] != null) {
-                result[2]!!
+                result[2] ?: ""
             } else {
                 return
             }
             val newCursorPosition = if (result[3] != null) {
-                Integer.parseInt(result[3]!!)
+                result[3]!!.toInt()
             } else {
                 start + replacementValue.length
             }
@@ -82,7 +82,11 @@ open class AutoIndentEditText @JvmOverloads constructor(
             val indentation = StringBuilder(prevLineIndentation)
             var newCursorPosition = indentation.length + start + 1
             if (start > 0 && text[start - 1] == '{') {
-                indentation.append("    ") // 4 spaces
+                if (config.useSpacesInsteadOfTabs) {
+                    indentation.append(" ".repeat(4))
+                } else {
+                    indentation.append("\t")
+                }
                 newCursorPosition = indentation.length + start + 1
             }
             if (start + 1 < text.length && text[start + 1] == '}') {

@@ -53,6 +53,15 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_KEYBOARD_PRESET = "KEYBOARD_PRESET"
         const val KEY_USE_SOFT_KEYBOARD = "USE_SOFT_KEYBOARD"
 
+        // Code Style
+        const val KEY_AUTO_INDENTATION = "AUTO_INDENTATION"
+        const val KEY_AUTO_CLOSE_BRACKETS = "AUTO_CLOSE_BRACKETS"
+        const val KEY_AUTO_CLOSE_QUOTES = "AUTO_CLOSE_QUOTES"
+
+        // Tab Options
+        const val KEY_USE_SPACES_NOT_TABS = "USE_SPACES_NOT_TABS"
+        const val KEY_TAB_WIDTH = "TAB_WIDTH"
+
         // Encoding
         const val KEY_ENCODING_AUTO_DETECT = "ENCODING_AUTO_DETECT"
         const val KEY_ENCODING_FOR_OPENING = "ENCODING_FOR_OPENING"
@@ -67,11 +76,6 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
         const val KEY_VIEW_MODE = "VIEW_MODE"
         const val KEY_SORT_MODE = "SORT_MODE"
-
-        // Code Style
-        const val KEY_AUTO_INDENTATION = "AUTO_INDENTATION"
-        const val KEY_AUTO_CLOSE_BRACKETS = "AUTO_CLOSE_BRACKETS"
-        const val KEY_AUTO_CLOSE_QUOTES = "AUTO_CLOSE_QUOTES"
     }
 
     fun getColorScheme(): Preference<String> = rxSharedPreferences.getString(KEY_COLOR_SCHEME, "964c249d-ad3c-4d85-8010-f3d55c1ae0a2") // Darcula
@@ -97,6 +101,13 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getKeyboardPreset(): Preference<String> = rxSharedPreferences.getString(KEY_KEYBOARD_PRESET, "59d24164-3e1f-4a6d-bb8d-0ee23b4083e6") // Default
     fun getSoftKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
 
+    fun getAutoIndentation(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)
+    fun getAutoCloseBrackets(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_CLOSE_BRACKETS, true)
+    fun getAutoCloseQuotes(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_CLOSE_QUOTES, true)
+
+    fun getUseSpacesNotTabs(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SPACES_NOT_TABS, true)
+    fun getTabWidth(): Preference<Int> = rxSharedPreferences.getInteger(KEY_TAB_WIDTH, 4)
+
     fun getEncodingAutoDetect(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_ENCODING_AUTO_DETECT, false)
     fun getEncodingForOpening(): Preference<String> = rxSharedPreferences.getString(KEY_ENCODING_FOR_OPENING, "UTF-8")
     fun getEncodingForSaving(): Preference<String> = rxSharedPreferences.getString(KEY_ENCODING_FOR_SAVING, "UTF-8")
@@ -110,8 +121,4 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getFoldersOnTop(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
     fun getViewMode(): Preference<String> = rxSharedPreferences.getString(KEY_VIEW_MODE, "0")
     fun getSortMode(): Preference<String> = rxSharedPreferences.getString(KEY_SORT_MODE, "0")
-
-    fun getAutoIndentation(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)
-    fun getAutoCloseBrackets(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_CLOSE_BRACKETS, true)
-    fun getAutoCloseQuotes(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_CLOSE_QUOTES, true)
 }

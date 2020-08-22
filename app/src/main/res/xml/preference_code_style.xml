@@ -16,7 +16,8 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/pref_category_code_style">
 
@@ -37,6 +38,26 @@
             android:summary="@string/pref_close_quotes_summary"
             android:defaultValue="true"
             android:key="AUTO_CLOSE_QUOTES"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_tab_options">
+
+        <SwitchPreference
+            android:title="@string/pref_use_spaces_not_tabs_title"
+            android:summary="@string/pref_use_spaces_not_tabs_summary"
+            android:defaultValue="true"
+            android:key="USE_SPACES_NOT_TABS"/>
+
+        <SeekBarPreference
+            android:title="@string/pref_tab_width_title"
+            android:summary="@string/pref_tab_width_summary"
+            android:defaultValue="4"
+            android:key="TAB_WIDTH"
+            android:max="8"
+            app:min="2"
+            app:seekBarIncrement="2"
+            app:showSeekBarValue="true"/>
 
     </PreferenceCategory>
 

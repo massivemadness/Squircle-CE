@@ -276,6 +276,16 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                             binding.editor.config.copy(autoCloseQuotes = event.value)
                         binding.editor.config = newConfiguration
                     }
+                    is PreferenceEvent.UseSpacesNotTabs -> {
+                        val newConfiguration =
+                            binding.editor.config.copy(useSpacesInsteadOfTabs = event.value)
+                        binding.editor.config = newConfiguration
+                    }
+                    is PreferenceEvent.TabWidth -> {
+                        val newConfiguration =
+                            binding.editor.config.copy(tabWidth = event.value)
+                        binding.editor.config = newConfiguration
+                    }
                 }
             }
         })

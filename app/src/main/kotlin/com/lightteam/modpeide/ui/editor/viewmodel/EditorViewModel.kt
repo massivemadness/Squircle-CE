@@ -343,6 +343,18 @@ class EditorViewModel @ViewModelInject constructor(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { preferenceEvent.offer(PreferenceEvent.AutoQuotes(it)) }
             .disposeOnViewModelDestroy()
+
+        preferenceHandler.getUseSpacesNotTabs()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.UseSpacesNotTabs(it)) }
+            .disposeOnViewModelDestroy()
+
+        preferenceHandler.getTabWidth()
+            .asObservable()
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { preferenceEvent.offer(PreferenceEvent.TabWidth(it)) }
+            .disposeOnViewModelDestroy()
     }
 
     // endregion PREFERENCES

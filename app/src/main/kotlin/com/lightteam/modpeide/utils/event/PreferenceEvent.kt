@@ -36,4 +36,6 @@ sealed class PreferenceEvent<T>(val value: T) {
     class AutoIndent(value: Boolean) : PreferenceEvent<Boolean>(value)
     class AutoBrackets(value: Boolean) : PreferenceEvent<Boolean>(value)
     class AutoQuotes(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class UseSpacesNotTabs(value: Boolean) : PreferenceEvent<Boolean>(value)
+    class TabWidth(value: Int) : PreferenceEvent<Int>(value)
 }

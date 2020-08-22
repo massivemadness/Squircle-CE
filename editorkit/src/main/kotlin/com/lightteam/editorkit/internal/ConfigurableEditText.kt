@@ -68,6 +68,8 @@ open class ConfigurableEditText @JvmOverloads constructor(
         // Code Style
         var autoIndentation: Boolean = true,
         var autoCloseBrackets: Boolean = true,
-        var autoCloseQuotes: Boolean = false
+        var autoCloseQuotes: Boolean = false,
+        var useSpacesInsteadOfTabs: Boolean = true,
+        var tabWidth: Int = 4
     )
 }
