@@ -151,10 +151,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 binding.editor.setErrorLine(it.lineNumber)
             }
         })
-        viewModel.contentEvent.observe(viewLifecycleOwner, {
-            val content = it.first
-            val textParams = it.second
-
+        viewModel.contentEvent.observe(viewLifecycleOwner, { (content, textParams) ->
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
@@ -181,32 +178,18 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         // region PREFERENCES
 
         viewModel.preferenceEvent.observe(viewLifecycleOwner, { queue ->
+            val tempConfig = binding.editor.config
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
                     is PreferenceEvent.ThemePref -> {
-                        binding.editor.colorScheme = event.value.colorScheme
-                    }
-                    is PreferenceEvent.FontSize -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(fontSize = event.value)
-                        binding.editor.config = newConfiguration
-                    }
+                    binding.editor.colorScheme = event.value.colorScheme
+                }
+                    is PreferenceEvent.FontSize -> tempConfig.fontSize = event.value
                     is PreferenceEvent.FontType -> {
-                        val newConfiguration = binding.editor.config.copy(
-                            fontType = requireContext().createTypefaceFromPath(event.value)
-                        )
-                        binding.editor.config = newConfiguration
+                        tempConfig.fontType = requireContext().createTypefaceFromPath(event.value)
                     }
-                    is PreferenceEvent.WordWrap -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(wordWrap = event.value)
-                        binding.editor.config = newConfiguration
-                    }
-                    is PreferenceEvent.CodeCompletion -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(codeCompletion = event.value)
-                        binding.editor.config = newConfiguration
-                    }
+                    is PreferenceEvent.WordWrap -> tempConfig.wordWrap = event.value
+                    is PreferenceEvent.CodeCompletion -> tempConfig.codeCompletion = event.value
                     is PreferenceEvent.ErrorHighlight -> {
                         if (isUltimate() && event.value) {
                             binding.editor
@@ -228,21 +211,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .disposeOnFragmentDestroyView()
                         }
                     }
-                    is PreferenceEvent.PinchZoom -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(pinchZoom = event.value)
-                        binding.editor.config = newConfiguration
-                    }
-                    is PreferenceEvent.CurrentLine -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(highlightCurrentLine = event.value)
-                        binding.editor.config = newConfiguration
-                    }
-                    is PreferenceEvent.Delimiters -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(highlightDelimiters = event.value)
-                        binding.editor.config = newConfiguration
-                    }
+                    is PreferenceEvent.PinchZoom -> tempConfig.pinchZoom = event.value
+                    is PreferenceEvent.CurrentLine -> tempConfig.highlightCurrentLine = event.value
+                    is PreferenceEvent.Delimiters -> tempConfig.highlightDelimiters = event.value
                     is PreferenceEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                             if (event.value) {
@@ -256,38 +227,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     is PreferenceEvent.KeyboardPreset -> {
                         binding.extendedKeyboard.submitList(event.value.keys)
                     }
-                    is PreferenceEvent.SoftKeys -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(softKeyboard = event.value)
-                        binding.editor.config = newConfiguration
-                    }
-                    is PreferenceEvent.AutoIndent -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(autoIndentation = event.value)
-                        binding.editor.config = newConfiguration
-                    }
-                    is PreferenceEvent.AutoBrackets -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(autoCloseBrackets = event.value)
-                        binding.editor.config = newConfiguration
-                    }
-                    is PreferenceEvent.AutoQuotes -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(autoCloseQuotes = event.value)
-                        binding.editor.config = newConfiguration
-                    }
-                    is PreferenceEvent.UseSpacesNotTabs -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(useSpacesInsteadOfTabs = event.value)
-                        binding.editor.config = newConfiguration
-                    }
-                    is PreferenceEvent.TabWidth -> {
-                        val newConfiguration =
-                            binding.editor.config.copy(tabWidth = event.value)
-                        binding.editor.config = newConfiguration
-                    }
+                    is PreferenceEvent.SoftKeys -> tempConfig.softKeyboard = event.value
+                    is PreferenceEvent.AutoIndent -> tempConfig.autoIndentation = event.value
+                    is PreferenceEvent.AutoBrackets -> tempConfig.autoCloseBrackets = event.value
+                    is PreferenceEvent.AutoQuotes -> tempConfig.autoCloseQuotes = event.value
+                    is PreferenceEvent.UseSpacesNotTabs -> tempConfig.useSpacesInsteadOfTabs = event.value
+                    is PreferenceEvent.TabWidth -> tempConfig.tabWidth = event.value
                 }
             }
+            binding.editor.config = tempConfig
         })
 
         // endregion PREFERENCES
