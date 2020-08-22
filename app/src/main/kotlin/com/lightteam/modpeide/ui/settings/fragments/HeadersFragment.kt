@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.FragmentHeadersBinding
@@ -57,7 +58,13 @@ class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickList
     }
 
     override fun onClick(item: PreferenceItem) {
-        navController.navigate(item.navigationId)
+        val navOptions = NavOptions.Builder()
+            .setEnterAnim(R.anim.nav_default_enter_anim)
+            .setExitAnim(R.anim.nav_default_exit_anim)
+            .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+            .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+            .build()
+        navController.navigate(item.navigationId, null, navOptions)
     }
 
     private fun observeViewModel() {

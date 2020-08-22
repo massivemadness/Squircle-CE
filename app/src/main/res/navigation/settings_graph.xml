@@ -50,6 +50,10 @@
         android:label="@string/label_application">
         <action
             android:id="@+id/to_themesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/themesFragment"/>
     </fragment>
 
@@ -59,9 +63,17 @@
         android:label="@string/label_editor">
         <action
             android:id="@+id/to_fontsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/fontsFragment"/>
         <action
             android:id="@+id/to_presetsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/presetsFragment"/>
     </fragment>
 
@@ -81,6 +93,10 @@
         android:label="@string/label_about">
         <action
             android:id="@+id/to_changeLogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/changeLogFragment"/>
         <action
             android:id="@+id/to_privacyPolicyDialog"
@@ -94,6 +110,10 @@
         tools:layout="@layout/fragment_fonts">
         <action
             android:id="@+id/to_externalFontFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/externalFontFragment"/>
     </fragment>
 
@@ -110,6 +130,10 @@
         tools:layout="@layout/fragment_themes">
         <action
             android:id="@+id/to_newThemeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/newThemeFragment"/>
     </fragment>
 
@@ -131,6 +155,10 @@
         tools:layout="@layout/fragment_keyboard_presets">
         <action
             android:id="@+id/to_newPresetFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/newPresetFragment"/>
     </fragment>
 
