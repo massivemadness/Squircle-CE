@@ -28,6 +28,7 @@ import androidx.core.text.getSpans
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.converter.ColorSchemeConverter
 import com.lightteam.editorkit.feature.findreplace.FindResultSpan
+import com.lightteam.editorkit.feature.tabwidth.TabWidthSpan
 import com.lightteam.language.language.Language
 import com.lightteam.language.parser.span.ErrorSpan
 import com.lightteam.language.scheme.SyntaxScheme
@@ -350,6 +351,29 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
                         if (span.end > lineEnd) lineEnd else span.end,
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
+                }
+            }
+
+            if (!config.useSpacesInsteadOfTabs) {
+                // FIXME works pretty bad with word wrap
+                val textTabSpans = text.getSpans<TabWidthSpan>(0, text.length)
+                for (span in textTabSpans) {
+                    text.removeSpan(span)
+                }
+
+                val tabPattern = Pattern.compile("\t")
+                val matcher = tabPattern.matcher(text.subSequence(lineStart, lineEnd))
+                while (matcher.find()) {
+                    val start = matcher.start() + lineStart
+                    val end = matcher.end() + lineStart
+                    if (start >= 0 && end <= text.length) {
+                        text.setSpan(
+                            TabWidthSpan(config.tabWidth),
+                            start,
+                            end,
+                            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                        )
+                    }
                 }
             }
         }
