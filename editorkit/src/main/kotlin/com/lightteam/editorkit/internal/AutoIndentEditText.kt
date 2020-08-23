@@ -38,6 +38,12 @@ open class AutoIndentEditText @JvmOverloads constructor(
         newText = ""
     }
 
+    fun tab(): String {
+        return if (config.useSpacesInsteadOfTabs) {
+            " ".repeat(4)
+        } else "\t"
+    }
+
     private fun completeIndentation(start: Int, count: Int) {
         if (!isDoingUndoRedo && !isAutoIndenting) {
             val result = executeIndentation(start)
@@ -82,11 +88,7 @@ open class AutoIndentEditText @JvmOverloads constructor(
             val indentation = StringBuilder(prevLineIndentation)
             var newCursorPosition = indentation.length + start + 1
             if (start > 0 && text[start - 1] == '{') {
-                if (config.useSpacesInsteadOfTabs) {
-                    indentation.append(" ".repeat(4))
-                } else {
-                    indentation.append("\t")
-                }
+                indentation.append(tab())
                 newCursorPosition = indentation.length + start + 1
             }
             if (start + 1 < text.length && text[start + 1] == '}') {

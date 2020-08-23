@@ -308,7 +308,8 @@
                 android:layout_height="64dp"
                 android:layout_gravity="center"
                 android:visibility="@{viewModel.stateLoadingDocuments ? View.VISIBLE : View.GONE}"
-                android:indeterminate="true"/>
+                android:indeterminate="true"
+                tools:visibility="gone"/>
 
             <com.lightteam.editorkit.widget.TextProcessor
                 android:layout_width="match_parent"
@@ -335,15 +336,39 @@
 
         </FrameLayout>
 
-        <com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
+        <!-- region EXTENDED KEYBOARD -->
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:background="?colorSecondaryVariant"
             android:elevation="2dp"
-            android:id="@+id/extended_keyboard"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:visibility="gone"
+            android:id="@+id/keyboard_container"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/action_tab"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="8dp"
+                android:background="?colorSurface"
+                android:src="@drawable/ic_keyboard_tab"
+                android:tint="?colorOnSurface"/>
+
+            <com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="?colorSecondaryVariant"
+                android:id="@+id/extended_keyboard"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_keyboard_key"
+                tools:itemCount="24"/>
+
+        </LinearLayout>
+
+        <!-- endregion EXTENDED KEYBOARD-->
 
         <!-- endregion DOCUMENT -->
 

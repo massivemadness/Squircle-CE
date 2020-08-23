@@ -102,6 +102,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     viewModel.canRedo.set(binding.editor.canRedo())
                 }
             }
+
+        binding.actionTab.setOnClickListener {
+            onKey(binding.editor.tab())
+        }
     }
 
     override fun onDestroyView() {
@@ -217,10 +221,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     is PreferenceEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                             if (event.value) {
-                                binding.extendedKeyboard.visibility =
+                                binding.keyboardContainer.visibility =
                                     if (isOpen) View.VISIBLE else View.GONE
                             } else {
-                                binding.extendedKeyboard.visibility = View.GONE
+                                binding.keyboardContainer.visibility = View.GONE
                             }
                         }
                     }
