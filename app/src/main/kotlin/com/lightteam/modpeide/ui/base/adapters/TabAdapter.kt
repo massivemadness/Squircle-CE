@@ -69,9 +69,12 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         currentList.removeAt(from)
         currentList.add(to, temp)
 
-        if (selectedPosition == from) {
-            _selectedPosition = to
+        when {
+            selectedPosition in to until from -> _selectedPosition++
+            selectedPosition in (from + 1)..to -> _selectedPosition--
+            from == selectedPosition -> _selectedPosition = to
         }
+
         onTabMovedListener?.onTabMoved(from, to)
         notifyItemMoved(from, to)
         return true
