@@ -46,6 +46,7 @@ import com.lightteam.modpeide.ui.editor.adapters.AutoCompleteAdapter
 import com.lightteam.modpeide.ui.editor.adapters.DocumentAdapter
 import com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
 import com.lightteam.modpeide.ui.editor.utils.Panel
+import com.lightteam.modpeide.ui.editor.utils.TabController
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
@@ -62,12 +63,13 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
-    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener,
+    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, TabAdapter.OnTabMovedListener,
     DocumentAdapter.TabInteractor, OnBackPressedHandler {
 
     private val sharedViewModel: MainViewModel by activityViewModels()
     private val viewModel: EditorViewModel by viewModels()
     private val toolbarManager: ToolbarManager by lazy { ToolbarManager(this) }
+    private val tabController: TabController by lazy { TabController() }
 
     private lateinit var binding: FragmentEditorBinding
     private lateinit var adapter: DocumentAdapter
@@ -87,8 +89,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         toolbarManager.bind(binding)
 
         binding.documentRecyclerView.setHasFixedSize(true)
-        binding.documentRecyclerView.adapter = DocumentAdapter(this, this)
+        binding.documentRecyclerView.adapter = DocumentAdapter(this)
             .also { adapter = it }
+        adapter.setOnTabSelectedListener(this)
+        adapter.setOnTabMovedListener(this)
+        tabController.attachToRecyclerView(binding.documentRecyclerView)
 
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)
@@ -186,8 +191,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
                     is PreferenceEvent.ThemePref -> {
-                    binding.editor.colorScheme = event.value.colorScheme
-                }
+                        binding.editor.colorScheme = event.value.colorScheme
+                    }
                     is PreferenceEvent.FontSize -> tempConfig.fontSize = event.value
                     is PreferenceEvent.FontType -> {
                         tempConfig.fontType = requireContext().createTypefaceFromPath(event.value)
@@ -255,6 +260,12 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     override fun onTabSelected(position: Int) {
         loadDocument(position)
+    }
+
+    override fun onTabMoved(from: Int, to: Int) {
+        val temp = viewModel.tabsList[from]
+        viewModel.tabsList.removeAt(from)
+        viewModel.tabsList.add(to, temp)
     }
 
     override fun close(position: Int) {

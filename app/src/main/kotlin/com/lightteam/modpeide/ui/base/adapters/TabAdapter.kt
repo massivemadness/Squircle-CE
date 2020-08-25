@@ -19,15 +19,16 @@ package com.lightteam.modpeide.ui.base.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
-    private val onTabSelectedListener: OnTabSelectedListener
-) : RecyclerView.Adapter<VH>() {
+abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
     val selectedPosition
         get() = _selectedPosition
     private var _selectedPosition = -1
 
     private val currentList: MutableList<T> = mutableListOf()
+
+    private var onTabSelectedListener: OnTabSelectedListener? = null
+    private var onTabMovedListener: OnTabMovedListener? = null
     private var recyclerView: RecyclerView? = null
     private var isClosing = false
 
@@ -45,6 +46,14 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
         return currentList.size
     }
 
+    fun setOnTabSelectedListener(listener: OnTabSelectedListener) {
+        onTabSelectedListener = listener
+    }
+
+    fun setOnTabMovedListener(listener: OnTabMovedListener) {
+        onTabMovedListener = listener
+    }
+
     fun getItem(position: Int): T {
         return currentList[position]
     }
@@ -55,21 +64,34 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
         notifyDataSetChanged()
     }
 
+    fun move(from: Int, to: Int): Boolean {
+        val temp = currentList[from]
+        currentList.removeAt(from)
+        currentList.add(to, temp)
+
+        if (selectedPosition == from) {
+            _selectedPosition = to
+        }
+        onTabMovedListener?.onTabMoved(from, to)
+        notifyItemMoved(from, to)
+        return true
+    }
+
     fun select(newPosition: Int) {
         if (newPosition == selectedPosition && !isClosing) {
-            onTabSelectedListener.onTabReselected(selectedPosition)
+            onTabSelectedListener?.onTabReselected(selectedPosition)
         } else {
             val previousPosition = selectedPosition
             _selectedPosition = newPosition
             if (previousPosition > -1 && selectedPosition > -1 && previousPosition < currentList.size) {
                 notifyItemChanged(previousPosition) // Update previous selected item
                 if (!isClosing) {
-                    onTabSelectedListener.onTabUnselected(previousPosition)
+                    onTabSelectedListener?.onTabUnselected(previousPosition)
                 }
             }
             if (selectedPosition > -1) {
                 notifyItemChanged(selectedPosition) // Update new selected item
-                onTabSelectedListener.onTabSelected(selectedPosition)
+                onTabSelectedListener?.onTabSelected(selectedPosition)
                 recyclerView?.smoothScrollToPosition(selectedPosition)
             }
         }
@@ -99,5 +121,9 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
         fun onTabReselected(position: Int)
         fun onTabUnselected(position: Int)
         fun onTabSelected(position: Int)
+    }
+
+    interface OnTabMovedListener {
+        fun onTabMoved(from: Int, to: Int)
     }
 }

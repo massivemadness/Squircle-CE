@@ -79,8 +79,9 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
         }
 
         binding.directoryRecyclerView.setHasFixedSize(true)
-        binding.directoryRecyclerView.adapter = DirectoryAdapter(this)
+        binding.directoryRecyclerView.adapter = DirectoryAdapter()
             .also { adapter = it }
+        adapter.setOnTabSelectedListener(this)
 
         binding.actionHome.setOnClickListener {
             val backStackCount = childFragmentManager

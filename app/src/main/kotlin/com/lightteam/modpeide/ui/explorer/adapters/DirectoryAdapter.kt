@@ -25,14 +25,10 @@ import com.lightteam.filesystem.model.FileModel
 import com.lightteam.modpeide.databinding.ItemTabDirectoryBinding
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 
-class DirectoryAdapter(
-    onTabSelectedListener: OnTabSelectedListener
-) : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>(onTabSelectedListener) {
+class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
-        return DirectoryViewHolder.create(parent) {
-            select(it)
-        }
+        return DirectoryViewHolder.create(parent) { select(it) }
     }
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
