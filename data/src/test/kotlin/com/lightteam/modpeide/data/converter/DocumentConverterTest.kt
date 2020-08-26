@@ -42,6 +42,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            position = 0,
             scrollX = 0,
             scrollY = 0,
             selectionStart = 0,
@@ -51,6 +52,7 @@ class DocumentConverterTest {
 
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
+        assertEquals(documentModel.position, convert.position)
         assertEquals(documentModel.scrollX, convert.scrollX)
         assertEquals(documentModel.scrollY, convert.scrollY)
         assertEquals(documentModel.selectionStart, convert.selectionStart)
@@ -63,6 +65,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            position = 10,
             scrollX = 0,
             scrollY = 50,
             selectionStart = 8,
@@ -72,6 +75,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            position = 10,
             scrollX = 0,
             scrollY = 50,
             selectionStart = 8,
@@ -81,6 +85,7 @@ class DocumentConverterTest {
 
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
+        assertEquals(documentModel.position, convert.position)
         assertEquals(documentModel.scrollX, convert.scrollX)
         assertEquals(documentModel.scrollY, convert.scrollY)
         assertEquals(documentModel.selectionStart, convert.selectionStart)
@@ -93,6 +98,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            position = 10,
             scrollX = 0,
             scrollY = 50,
             selectionStart = 8,
@@ -102,6 +108,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            position = 10,
             scrollX = 0,
             scrollY = 50,
             selectionStart = 8,
@@ -111,6 +118,7 @@ class DocumentConverterTest {
 
         assertEquals(documentEntity.name, convert.name)
         assertEquals(documentEntity.path, convert.path)
+        assertEquals(documentEntity.position, convert.position)
         assertEquals(documentEntity.scrollX, convert.scrollX)
         assertEquals(documentEntity.scrollY, convert.scrollY)
         assertEquals(documentEntity.selectionStart, convert.selectionStart)
