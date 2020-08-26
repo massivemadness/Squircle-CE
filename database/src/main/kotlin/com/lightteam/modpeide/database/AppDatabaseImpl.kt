@@ -33,7 +33,7 @@ import com.lightteam.modpeide.database.entity.theme.ThemeEntity
     FontEntity::class,
     ThemeEntity::class,
     PresetEntity::class
-], version = 4)
+], version = 5)
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
     companion object {

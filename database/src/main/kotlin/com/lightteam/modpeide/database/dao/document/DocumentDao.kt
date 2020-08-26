@@ -28,7 +28,7 @@ import io.reactivex.Single
 @Dao
 abstract class DocumentDao : BaseDao<DocumentEntity> {
 
-    @Query("SELECT * FROM ${Tables.DOCUMENTS}")
+    @Query("SELECT * FROM ${Tables.DOCUMENTS} ORDER BY position ASC")
     abstract fun loadAll(): Single<List<DocumentEntity>>
 
     @Query("DELETE FROM ${Tables.DOCUMENTS}")
