@@ -122,6 +122,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     override fun onPause() {
         super.onPause()
         saveDocument(adapter.selectedPosition)
+        viewModel.updatePositions()
     }
 
     override fun onResume() {

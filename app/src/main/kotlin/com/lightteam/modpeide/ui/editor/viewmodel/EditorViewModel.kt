@@ -42,6 +42,7 @@ import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.EventsQueue
 import com.lightteam.modpeide.utils.event.PreferenceEvent
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
+import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel @ViewModelInject constructor(
@@ -125,6 +126,20 @@ class EditorViewModel @ViewModelInject constructor(
                 .subscribeBy { cacheRepository.deleteAllCaches() }
                 .disposeOnViewModelDestroy()
         }
+    }
+
+    fun updatePositions() {
+        Completable
+            .fromCallable {
+                tabsList.forEachIndexed { index, documentModel ->
+                    val updatedDocument = documentModel.copy(position = index)
+                    val documentEntity = DocumentConverter.toEntity(updatedDocument)
+                    appDatabase.documentDao().update(documentEntity)
+                }
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy()
+            .disposeOnViewModelDestroy()
     }
 
     fun loadSelection() {
