@@ -187,6 +187,7 @@
     <dialog
         android:id="@+id/storeDialog"
         android:name="com.lightteam.modpeide.ui.base.dialogs.StoreDialog"
-        android:label="@string/dialog_title_store"/>
+        android:label="@string/dialog_title_store"
+        tools:layout="@layout/dialog_store"/>
 
 </navigation>

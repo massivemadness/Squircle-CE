@@ -32,7 +32,7 @@ class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHol
     }
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
-        holder.bind(getItem(position), position == selectedPosition)
+        holder.bind(currentList[position], position == selectedPosition)
     }
 
     class DirectoryViewHolder(

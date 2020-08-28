@@ -38,7 +38,7 @@ class DocumentAdapter(
     }
 
     override fun onBindViewHolder(holder: DocumentViewHolder, position: Int) {
-        holder.bind(getItem(position), position == selectedPosition)
+        holder.bind(currentList[position], position == selectedPosition)
     }
 
     class DocumentViewHolder(

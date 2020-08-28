@@ -118,8 +118,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.tabSelectionEvent.value = adapter.selectedPosition
-        viewModel.tabsEvent.value = viewModel.tabsList
+        viewModel.loadFilesEvent.value = adapter.currentList
+        viewModel.selectTabEvent.value = adapter.selectedPosition
     }
 
     override fun onPause() {
@@ -149,11 +149,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         viewModel.toastEvent.observe(viewLifecycleOwner, {
             showToast(it)
         })
-        viewModel.tabsEvent.observe(viewLifecycleOwner, {
+        viewModel.loadFilesEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
-            viewModel.loadSelection()
+            viewModel.fetchRecentTab()
         })
-        viewModel.tabSelectionEvent.observe(viewLifecycleOwner, { position ->
+        viewModel.selectTabEvent.observe(viewLifecycleOwner, { position ->
             sharedViewModel.closeDrawerEvent.call()
             if (position > -1) {
                 adapter.select(position)
@@ -298,22 +298,22 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     private fun loadDocument(position: Int) {
-        if (position > -1 && position < viewModel.tabsList.size) {
-            val document = viewModel.tabsList[position]
+        if (position > -1) {
+            val document = adapter.currentList[position]
             viewModel.loadFile(document, TextViewCompat.getTextMetricsParams(binding.editor))
         }
     }
 
     private fun saveDocument(position: Int) {
-        if (position > -1 && position < viewModel.tabsList.size) {
+        if (position > -1) {
             viewModel.stateLoadingDocuments.set(true) // show loading indicator
-            val document = viewModel.tabsList[position].copy(
-                scrollX = binding.editor.scrollX,
-                scrollY = binding.editor.scrollY,
-                selectionStart = binding.editor.selectionStart,
+            val document = adapter.currentList[position].apply {
+                scrollX = binding.editor.scrollX
+                scrollY = binding.editor.scrollY
+                selectionStart = binding.editor.selectionStart
                 selectionEnd = binding.editor.selectionEnd
-            )
-            viewModel.tabsList[position] = document
+            }
+            viewModel.tabsList[position] = adapter.currentList[position]
             val text = binding.editor.getProcessedText()
             if (text.isNotEmpty()) {
                 val documentContent = DocumentContent(
@@ -330,8 +330,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     private fun removeDocument(position: Int) {
-        if (position > -1 && position < viewModel.tabsList.size) {
-            val documentModel = viewModel.tabsList[position]
+        if (position > -1) {
+            val documentModel = adapter.currentList[position]
             viewModel.tabsList.removeAt(position)
             viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
             viewModel.deleteCache(documentModel)
@@ -363,7 +363,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         val position = adapter.selectedPosition
         if (position > -1) {
             val documentContent = DocumentContent(
-                documentModel = viewModel.tabsList[position],
+                documentModel = adapter.currentList[position],
                 language = binding.editor.language,
                 undoStack = binding.editor.undoStack,
                 redoStack = binding.editor.redoStack,
@@ -379,7 +379,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     override fun onSaveAsButton() {
         val position = adapter.selectedPosition
         if (position > -1) {
-            val document = viewModel.tabsList[position]
+            val document = adapter.currentList[position]
             MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_save_as)
                 customView(R.layout.dialog_save_as, scrollable = true)
@@ -417,7 +417,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     override fun onPropertiesButton() {
         val position = adapter.selectedPosition
         if (position > -1) {
-            val document = viewModel.tabsList[position]
+            val document = adapter.currentList[position]
             sharedViewModel.propertiesEvent.value = DocumentConverter.toModel(document)
         } else {
             showToast(R.string.message_no_open_files)

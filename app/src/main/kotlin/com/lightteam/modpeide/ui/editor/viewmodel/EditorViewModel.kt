@@ -70,8 +70,8 @@ class EditorViewModel @ViewModelInject constructor(
 
     // region EVENTS
 
-    val tabsEvent: MutableLiveData<MutableList<DocumentModel>> = MutableLiveData() // Обновление списка вкладок
-    val tabSelectionEvent: MutableLiveData<Int> = MutableLiveData() // Текущая позиция выбранной вкладки
+    val loadFilesEvent: MutableLiveData<List<DocumentModel>> = MutableLiveData() // Загрузка недавних файлов
+    val selectTabEvent: MutableLiveData<Int> = MutableLiveData() // Текущая позиция выбранной вкладки
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() // Проверка ошибок
@@ -100,7 +100,7 @@ class EditorViewModel @ViewModelInject constructor(
             .subscribeBy(
                 onSuccess = { list ->
                     tabsList.replaceList(list)
-                    tabsEvent.value = tabsList
+                    loadFilesEvent.value = tabsList
                 },
                 onError = {
                     Log.e(TAG, it.message, it)
@@ -108,26 +108,6 @@ class EditorViewModel @ViewModelInject constructor(
                 }
             )
             .disposeOnViewModelDestroy()
-    }
-
-    fun updatePositions() {
-        Completable
-            .fromCallable {
-                tabsList.forEachIndexed { index, documentModel ->
-                    val updatedDocument = documentModel.copy(position = index)
-                    val documentEntity = DocumentConverter.toEntity(updatedDocument)
-                    appDatabase.documentDao().update(documentEntity)
-                }
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy()
-            .disposeOnViewModelDestroy()
-    }
-
-    fun loadSelection() {
-        tabSelectionEvent.value = if (tabsList.isNotEmpty()) {
-            tabsList.indexBy(selectedDocumentId) ?: 0
-        } else -1
     }
 
     fun loadFile(documentModel: DocumentModel, params: PrecomputedTextCompat.Params) {
@@ -203,12 +183,12 @@ class EditorViewModel @ViewModelInject constructor(
                 tabsList.add(documentModel)
                 stateNothingFound.set(tabsList.isEmpty())
                 selectedDocumentId = documentModel.uuid
-                tabsEvent.value = tabsList
+                loadFilesEvent.value = tabsList
             } else {
                 toastEvent.value = R.string.message_tab_limit_achieved
             }
         } else {
-            tabSelectionEvent.value = tabsList.indexBy(documentModel)
+            selectTabEvent.value = tabsList.indexBy(documentModel)
         }
     }
 
@@ -217,6 +197,26 @@ class EditorViewModel @ViewModelInject constructor(
             .execute(tabsList[position].name, sourceCode)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { parseEvent.value = it }
+            .disposeOnViewModelDestroy()
+    }
+
+    fun fetchRecentTab() {
+        selectTabEvent.value = if (tabsList.isNotEmpty()) {
+            tabsList.indexBy(selectedDocumentId) ?: 0
+        } else -1
+    }
+
+    fun updatePositions() {
+        Completable
+            .fromCallable {
+                tabsList.forEachIndexed { index, documentModel ->
+                    documentModel.position = index
+                    val documentEntity = DocumentConverter.toEntity(documentModel)
+                    appDatabase.documentDao().update(documentEntity)
+                }
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy()
             .disposeOnViewModelDestroy()
     }
 

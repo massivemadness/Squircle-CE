@@ -25,7 +25,9 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         get() = _selectedPosition
     private var _selectedPosition = -1
 
-    private val currentList: MutableList<T> = mutableListOf()
+    val currentList: List<T>
+        get() = _currentList
+    private var _currentList: MutableList<T> = mutableListOf()
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
     private var onTabMovedListener: OnTabMovedListener? = null
@@ -42,9 +44,7 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         this.recyclerView = null
     }
 
-    override fun getItemCount(): Int {
-        return currentList.size
-    }
+    override fun getItemCount(): Int = currentList.size
 
     fun setOnTabSelectedListener(listener: OnTabSelectedListener) {
         onTabSelectedListener = listener
@@ -54,20 +54,15 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         onTabMovedListener = listener
     }
 
-    fun getItem(position: Int): T {
-        return currentList[position]
-    }
-
     fun submitList(list: List<T>) {
-        currentList.clear()
-        currentList.addAll(list)
+        _currentList = list.toMutableList()
         notifyDataSetChanged()
     }
 
     fun move(from: Int, to: Int): Boolean {
         val temp = currentList[from]
-        currentList.removeAt(from)
-        currentList.add(to, temp)
+        _currentList.removeAt(from)
+        _currentList.add(to, temp)
 
         when {
             selectedPosition in to until from -> _selectedPosition++
@@ -114,7 +109,7 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         if (position < selectedPosition) {
             newPosition -= 1
         }
-        currentList.removeAt(position)
+        _currentList.removeAt(position)
         notifyItemRemoved(position)
         select(newPosition)
         isClosing = false
