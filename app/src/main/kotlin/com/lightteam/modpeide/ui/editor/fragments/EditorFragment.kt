@@ -64,7 +64,12 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 @AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
     ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, TabAdapter.OnTabMovedListener,
-    DocumentAdapter.TabInteractor, OnBackPressedHandler {
+    TabAdapter.OnTabsChangedListener, DocumentAdapter.TabInteractor, OnBackPressedHandler {
+
+    companion object {
+        private const val ALPHA_FULL = 255
+        private const val ALPHA_SEMI = 90
+    }
 
     private val sharedViewModel: MainViewModel by activityViewModels()
     private val viewModel: EditorViewModel by viewModels()
@@ -91,12 +96,14 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         toolbarManager.bind(binding)
 
-        binding.documentRecyclerView.setHasFixedSize(true)
-        binding.documentRecyclerView.adapter = DocumentAdapter(this)
-            .also { adapter = it }
-        adapter.setOnTabSelectedListener(this)
-        adapter.setOnTabMovedListener(this)
-        tabController.attachToRecyclerView(binding.documentRecyclerView)
+        binding.tabLayout.setHasFixedSize(true)
+        binding.tabLayout.adapter = DocumentAdapter(this).also {
+            it.setOnTabSelectedListener(this)
+            it.setOnTabMovedListener(this)
+            it.setOnTabsChangedListener(this)
+            adapter = it
+        }
+        tabController.attachToRecyclerView(binding.tabLayout)
 
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)
@@ -106,10 +113,18 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.editor.onUndoRedoChangedListener =
             object : UndoRedoEditText.OnUndoRedoChangedListener {
                 override fun onUndoRedoChanged() {
-                    viewModel.canUndo.set(binding.editor.canUndo())
-                    viewModel.canRedo.set(binding.editor.canRedo())
+                    val canUndo = binding.editor.canUndo()
+                    val canRedo = binding.editor.canRedo()
+
+                    binding.actionUndo.isClickable = canUndo
+                    binding.actionRedo.isClickable = canRedo
+
+                    binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
+                    binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
                 }
             }
+
+        binding.editor.onUndoRedoChangedListener?.onUndoRedoChanged() // update undo/redo alpha
 
         binding.actionTab.setOnClickListener {
             onKey(binding.editor.tab())
@@ -272,6 +287,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         viewModel.tabsList.add(to, temp)
     }
 
+    override fun onTabsChanged() {
+        viewModel.stateNothingFound.set(adapter.currentList.isEmpty())
+    }
+
     override fun close(position: Int) {
         val selectedPosition = adapter.selectedPosition
         if (position == selectedPosition) {
@@ -333,7 +352,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         if (position > -1) {
             val documentModel = adapter.currentList[position]
             viewModel.tabsList.removeAt(position)
-            viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
             viewModel.deleteCache(documentModel)
         }
     }

@@ -125,8 +125,6 @@
                     android:src="@drawable/ic_undo"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_undo"
-                    android:clickable="@{viewModel.canUndo}"
-                    app:alpha="@{viewModel.canUndo ? 1f : 0.35f}"
                     app:tint="?colorOnSurface"/>
 
                 <ImageView
@@ -138,8 +136,6 @@
                     android:src="@drawable/ic_redo"
                     android:background="@drawable/ripple_20dp"
                     android:id="@+id/action_redo"
-                    android:clickable="@{viewModel.canRedo}"
-                    app:alpha="@{viewModel.canRedo ? 1f : 0.35f}"
                     app:tint="?colorOnSurface"/>
 
                 <ImageView
@@ -269,7 +265,7 @@
             android:orientation="horizontal"
             android:background="?colorSecondaryVariant"
             android:elevation="3.5dp"
-            android:id="@+id/document_recycler_view"
+            android:id="@+id/tab_layout"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_tab_document"
             tools:itemCount="1"/>
@@ -318,7 +314,7 @@
                 android:importantForAutofill="no"
                 android:visibility="@{(viewModel.stateLoadingDocuments || viewModel.stateNothingFound) ? View.INVISIBLE : View.VISIBLE}"
                 android:textCursorDrawable="@drawable/caret"
-                android:dropDownAnchor="@id/document_recycler_view"
+                android:dropDownAnchor="@id/tab_layout"
                 android:completionThreshold="2"
                 android:popupBackground="?colorSurface"
                 android:background="@null"

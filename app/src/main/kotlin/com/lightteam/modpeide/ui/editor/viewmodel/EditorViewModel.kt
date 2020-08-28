@@ -63,9 +63,6 @@ class EditorViewModel @ViewModelInject constructor(
     val stateLoadingDocuments: ObservableBoolean = ObservableBoolean(false) // Индикатор загрузки документа
     val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение об отсутствии документов
 
-    val canUndo: ObservableBoolean = ObservableBoolean(false) // Кликабельность кнопки Undo
-    val canRedo: ObservableBoolean = ObservableBoolean(false) // Кликабельность кнопки Redo
-
     // endregion UI
 
     // region EVENTS
@@ -91,10 +88,7 @@ class EditorViewModel @ViewModelInject constructor(
     fun loadFiles() {
         appDatabase.documentDao().loadAll()
             .doOnSubscribe { stateLoadingDocuments.set(true) }
-            .doOnSuccess {
-                stateLoadingDocuments.set(false)
-                stateNothingFound.set(it.isEmpty())
-            }
+            .doOnSuccess { stateLoadingDocuments.set(false) }
             .map { it.map(DocumentConverter::toModel) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
@@ -181,7 +175,6 @@ class EditorViewModel @ViewModelInject constructor(
         if (!tabsList.containsDocumentModel(documentModel)) {
             if (tabsList.size < TAB_LIMIT) {
                 tabsList.add(documentModel)
-                stateNothingFound.set(tabsList.isEmpty())
                 selectedDocumentId = documentModel.uuid
                 loadFilesEvent.value = tabsList
             } else {

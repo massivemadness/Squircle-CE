@@ -31,6 +31,8 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
     private var onTabMovedListener: OnTabMovedListener? = null
+    private var onTabsChangedListener: OnTabsChangedListener? = null
+
     private var recyclerView: RecyclerView? = null
     private var isClosing = false
 
@@ -54,9 +56,14 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         onTabMovedListener = listener
     }
 
+    fun setOnTabsChangedListener(listener: OnTabsChangedListener) {
+        onTabsChangedListener = listener
+    }
+
     fun submitList(list: List<T>) {
         _currentList = list.toMutableList()
         notifyDataSetChanged()
+        onTabsChangedListener?.onTabsChanged()
     }
 
     fun move(from: Int, to: Int): Boolean {
@@ -111,6 +118,7 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         }
         _currentList.removeAt(position)
         notifyItemRemoved(position)
+        onTabsChangedListener?.onTabsChanged()
         select(newPosition)
         isClosing = false
     }
@@ -123,5 +131,9 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     interface OnTabMovedListener {
         fun onTabMoved(from: Int, to: Int)
+    }
+
+    interface OnTabsChangedListener {
+        fun onTabsChanged()
     }
 }
