@@ -37,25 +37,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_category_tabs">
-
-        <SwitchPreference
-            android:title="@string/pref_resume_session_title"
-            android:summary="@string/pref_resume_session_summary"
-            android:key="RESUME_SESSION"
-            android:defaultValue="true"/>
-
-        <SeekBarPreference
-            android:title="@string/pref_tab_limit_title"
-            android:summary="@string/pref_tab_limit_summary"
-            android:key="TAB_LIMIT"
-            android:defaultValue="5"
-            android:max="10"
-            app:min="2"
-            app:showSeekBarValue="true"/>
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/pref_category_editor">
 
         <SwitchPreference

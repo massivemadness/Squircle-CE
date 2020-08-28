@@ -36,8 +36,6 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_FONT_TYPE = "FONT_TYPE_3"
 
         // Tabs
-        const val KEY_RESUME_SESSION = "RESUME_SESSION"
-        const val KEY_TAB_LIMIT = "TAB_LIMIT"
         const val KEY_SELECTED_DOCUMENT_ID = "SELECTED_DOCUMENT_ID"
 
         // Editor
@@ -86,8 +84,6 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getFontSize(): Preference<Int> = rxSharedPreferences.getInteger(KEY_FONT_SIZE, 14)
     fun getFontType(): Preference<String> = rxSharedPreferences.getString(KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf") // JetBrains Mono
 
-    fun getResumeSession(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_RESUME_SESSION, true)
-    fun getTabLimit(): Preference<Int> = rxSharedPreferences.getInteger(KEY_TAB_LIMIT, 5)
     fun getSelectedDocumentId(): Preference<String> = rxSharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "whatever")
 
     fun getWordWrap(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_WORD_WRAP, true)

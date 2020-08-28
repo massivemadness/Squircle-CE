@@ -196,9 +196,8 @@
     <string name="store_feature_3">Редактор тем 🎉</string>
     <string name="store_feature_4">Внешние шрифты</string>
     <string name="store_feature_5">Пресеты для клавиатуры</string>
-    <string name="store_feature_6">Увел. лимит вкладок</string>
-    <string name="store_feature_7">Проверка ошибок</string>
-    <string name="store_feature_8">Вставка цвета</string>
+    <string name="store_feature_6">Проверка ошибок</string>
+    <string name="store_feature_7">Вставка цвета</string>
 
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
@@ -243,7 +242,6 @@
     <string name="pref_category_look_and_feel">Внешний вид</string>
     <string name="pref_category_other">Другое</string>
     <string name="pref_category_font">Шрифт</string>
-    <string name="pref_category_tabs">Вкладки</string>
     <string name="pref_category_editor">Редактор</string>
     <string name="pref_category_keyboard">Клавиатура</string>
     <string name="pref_category_code_style">Стиль кода</string>
@@ -265,10 +263,6 @@
     <string name="pref_font_size_summary">Укажите размер шрифта по умолчанию.</string>
     <string name="pref_font_type_title">Тип шрифта</string>
     <string name="pref_font_type_summary">Укажите тип шрифта по умолчанию.</string>
-    <string name="pref_resume_session_title">Возобновление сеанса</string>
-    <string name="pref_resume_session_summary">Восстанавливать открытые файлы при следующем запуске.</string>
-    <string name="pref_tab_limit_title">Лимит вкладок</string>
-    <string name="pref_tab_limit_summary">Кол-во максимально отображаемых вкладок на экране.</string>
     <string name="pref_word_wrap_title">Перенос слов</string>
     <string name="pref_word_wrap_summary">Включите перенос слов для отображения текста по ширине экрана.</string>
     <string name="pref_code_completion_title">Автодополнение кода</string>

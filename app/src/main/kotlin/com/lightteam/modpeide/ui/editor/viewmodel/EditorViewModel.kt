@@ -55,6 +55,7 @@ class EditorViewModel @ViewModelInject constructor(
 
     companion object {
         private const val TAG = "EditorViewModel"
+        private const val TAB_LIMIT = 10
     }
 
     // region UI
@@ -79,53 +80,34 @@ class EditorViewModel @ViewModelInject constructor(
 
     // endregion EVENTS
 
-    // region PREFERENCES
-
-    private val resumeSessionEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    private val tabLimitEvent: SingleLiveEvent<Int> = SingleLiveEvent()
-
-    // endregion PREFERENCES
-
     val tabsList: MutableList<DocumentModel> = mutableListOf()
 
     val openUnknownFiles: Boolean
         get() = preferenceHandler.getOpenUnknownFiles().get()
-    var selectedDocumentId: String
+    private var selectedDocumentId: String
         get() = preferenceHandler.getSelectedDocumentId().get()
         set(value) = preferenceHandler.getSelectedDocumentId().set(value)
 
-    private fun loadFiles() {
-        if (resumeSessionEvent.value!!) { // must receive value before calling
-            appDatabase.documentDao().loadAll()
-                .doOnSubscribe { stateLoadingDocuments.set(true) }
-                .doOnSuccess {
-                    stateLoadingDocuments.set(false)
-                    stateNothingFound.set(it.isEmpty())
+    fun loadFiles() {
+        appDatabase.documentDao().loadAll()
+            .doOnSubscribe { stateLoadingDocuments.set(true) }
+            .doOnSuccess {
+                stateLoadingDocuments.set(false)
+                stateNothingFound.set(it.isEmpty())
+            }
+            .map { it.map(DocumentConverter::toModel) }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy(
+                onSuccess = { list ->
+                    tabsList.replaceList(list)
+                    tabsEvent.value = tabsList
+                },
+                onError = {
+                    Log.e(TAG, it.message, it)
+                    toastEvent.value = R.string.message_unknown_exception
                 }
-                .map { it.map(DocumentConverter::toModel) }
-                .schedulersIoToMain(schedulersProvider)
-                .subscribeBy(
-                    onSuccess = { list ->
-                        tabsList.replaceList(list)
-                        tabsEvent.value = tabsList
-                    },
-                    onError = {
-                        Log.e(TAG, it.message, it)
-                        toastEvent.value = R.string.message_unknown_exception
-                    }
-                )
-                .disposeOnViewModelDestroy()
-        } else {
-            appDatabase.documentDao().deleteAll()
-                .doOnSubscribe { stateLoadingDocuments.set(true) }
-                .doFinally {
-                    stateLoadingDocuments.set(false)
-                    stateNothingFound.set(true)
-                }
-                .schedulersIoToMain(schedulersProvider)
-                .subscribeBy { cacheRepository.deleteAllCaches() }
-                .disposeOnViewModelDestroy()
-        }
+            )
+            .disposeOnViewModelDestroy()
     }
 
     fun updatePositions() {
@@ -217,7 +199,7 @@ class EditorViewModel @ViewModelInject constructor(
 
     fun openFile(documentModel: DocumentModel) {
         if (!tabsList.containsDocumentModel(documentModel)) {
-            if (tabsList.size < tabLimitEvent.value!!) {
+            if (tabsList.size < TAB_LIMIT) {
                 tabsList.add(documentModel)
                 stateNothingFound.set(tabsList.isEmpty())
                 selectedDocumentId = documentModel.uuid
@@ -263,23 +245,6 @@ class EditorViewModel @ViewModelInject constructor(
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { preferenceEvent.offer(PreferenceEvent.FontType(it)) }
-            .disposeOnViewModelDestroy()
-
-        preferenceHandler.getResumeSession()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy {
-                resumeSessionEvent.value = it
-                if (tabsEvent.value == null) {
-                    loadFiles()
-                }
-            }
-            .disposeOnViewModelDestroy()
-
-        preferenceHandler.getTabLimit()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { tabLimitEvent.value = it }
             .disposeOnViewModelDestroy()
 
         preferenceHandler.getWordWrap()

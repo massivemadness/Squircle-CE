@@ -76,7 +76,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.observePreferences() // and loadFiles()
+        viewModel.observePreferences()
+        if (savedInstanceState == null) {
+            viewModel.loadFiles()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -208,9 +208,8 @@
     <string name="store_feature_3">Theme editor 🎉</string>
     <string name="store_feature_4">External fonts</string>
     <string name="store_feature_5">Keyboard presets</string>
-    <string name="store_feature_6">Increased tab limit</string>
-    <string name="store_feature_7">Error checking</string>
-    <string name="store_feature_8">Color picker</string>
+    <string name="store_feature_6">Error checking</string>
+    <string name="store_feature_7">Color picker</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>
@@ -260,7 +259,6 @@
     <string name="pref_category_look_and_feel">Look And Feel</string>
     <string name="pref_category_other">Other</string>
     <string name="pref_category_font">Font</string>
-    <string name="pref_category_tabs">Tabs</string>
     <string name="pref_category_editor">Editor</string>
     <string name="pref_category_keyboard">Keyboard</string>
     <string name="pref_category_code_style">Code Style</string>
@@ -282,10 +280,6 @@
     <string name="pref_font_size_summary">Specify the default font size of editor.</string>
     <string name="pref_font_type_title">Editor font type</string>
     <string name="pref_font_type_summary">Specify the default font type of editor.</string>
-    <string name="pref_resume_session_title">Resume session</string>
-    <string name="pref_resume_session_summary">Restore opened files for next launch.</string>
-    <string name="pref_tab_limit_title">Tab Limit</string>
-    <string name="pref_tab_limit_summary">Number of maximum tabs display on the screen.</string>
     <string name="pref_word_wrap_title">Word Wrap</string>
     <string name="pref_word_wrap_summary">Enable word wrap to fit screen width.</string>
     <string name="pref_code_completion_title">Code Completion</string>

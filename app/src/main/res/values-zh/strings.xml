@@ -196,9 +196,8 @@
     <string name="store_feature_3">主题编辑器 🎉</string>
     <string name="store_feature_4">外部字体</string>
     <string name="store_feature_5">快捷符号栏</string>
-    <string name="store_feature_6">增加标签页上限</string>
-    <string name="store_feature_7">错误检查</string>
-    <string name="store_feature_8">颜色选择器</string>
+    <string name="store_feature_6">错误检查</string>
+    <string name="store_feature_7">颜色选择器</string>
 
     <string name="font_support_ligatures">* 支持连体字母</string>
     <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>
@@ -243,7 +242,6 @@
     <string name="pref_category_look_and_feel">外观</string>
     <string name="pref_category_other">其他</string>
     <string name="pref_category_font">字体</string>
-    <string name="pref_category_tabs">标签页</string>
     <string name="pref_category_editor">编辑器</string>
     <string name="pref_category_keyboard">键盘</string>
     <string name="pref_category_code_style">代码范</string>
@@ -265,10 +263,6 @@
     <string name="pref_font_size_summary">指定编辑器的默认字体大小。</string>
     <string name="pref_font_type_title">字体类型</string>
     <string name="pref_font_type_summary">指定编辑器的默认字体类型。</string>
-    <string name="pref_resume_session_title">恢复会话</string>
-    <string name="pref_resume_session_summary">下次启动时将恢复已打开的文件。</string>
-    <string name="pref_tab_limit_title">标签页上限</string>
-    <string name="pref_tab_limit_summary">限制标签页所能打开文件的最大数目。</string>
     <string name="pref_word_wrap_title">自动换行</string>
     <string name="pref_word_wrap_summary">是否根据屏幕宽度自动换行。</string>
     <string name="pref_code_completion_title">代码补全</string>
