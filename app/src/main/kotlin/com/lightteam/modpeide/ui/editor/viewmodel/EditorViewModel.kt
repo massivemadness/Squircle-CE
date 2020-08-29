@@ -77,8 +77,6 @@ class EditorViewModel @ViewModelInject constructor(
 
     // endregion EVENTS
 
-    val tabsList: MutableList<DocumentModel> = mutableListOf()
-
     val openUnknownFiles: Boolean
         get() = preferenceHandler.getOpenUnknownFiles().get()
     private var selectedDocumentId: String
@@ -88,13 +86,12 @@ class EditorViewModel @ViewModelInject constructor(
     fun loadFiles() {
         appDatabase.documentDao().loadAll()
             .doOnSubscribe { stateLoadingDocuments.set(true) }
-            .doOnSuccess { stateLoadingDocuments.set(false) }
             .map { it.map(DocumentConverter::toModel) }
+            .doOnSuccess { stateLoadingDocuments.set(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = { list ->
-                    tabsList.replaceList(list)
-                    loadFilesEvent.value = tabsList
+                onSuccess = {
+                    loadFilesEvent.value = it
                 },
                 onError = {
                     Log.e(TAG, it.message, it)
@@ -171,38 +168,37 @@ class EditorViewModel @ViewModelInject constructor(
             .disposeOnViewModelDestroy()
     }
 
-    fun openFile(documentModel: DocumentModel) {
-        if (!tabsList.containsDocumentModel(documentModel)) {
-            if (tabsList.size < TAB_LIMIT) {
-                tabsList.add(documentModel)
+    fun openFile(list: List<DocumentModel>, documentModel: DocumentModel) {
+        if (!list.containsDocumentModel(documentModel)) {
+            if (list.size < TAB_LIMIT) {
                 selectedDocumentId = documentModel.uuid
-                loadFilesEvent.value = tabsList
+                loadFilesEvent.value = list.toMutableList().apply { add(documentModel) }
             } else {
                 toastEvent.value = R.string.message_tab_limit_achieved
             }
         } else {
-            selectTabEvent.value = tabsList.indexBy(documentModel)
+            selectTabEvent.value = list.indexBy(documentModel)
         }
     }
 
-    fun parse(language: Language, position: Int, sourceCode: String) {
+    fun parse(documentModel: DocumentModel, language: Language, sourceCode: String) {
         language.getParser()
-            .execute(tabsList[position].name, sourceCode)
+            .execute(documentModel.name, sourceCode)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { parseEvent.value = it }
             .disposeOnViewModelDestroy()
     }
 
-    fun fetchRecentTab() {
-        selectTabEvent.value = if (tabsList.isNotEmpty()) {
-            tabsList.indexBy(selectedDocumentId) ?: 0
+    fun findRecentTab(list: List<DocumentModel>) {
+        selectTabEvent.value = if (list.isNotEmpty()) {
+            list.indexBy(selectedDocumentId) ?: 0
         } else -1
     }
 
-    fun updatePositions() {
+    fun updateDocuments(list: List<DocumentModel>) {
         Completable
             .fromCallable {
-                tabsList.forEachIndexed { index, documentModel ->
+                list.forEachIndexed { index, documentModel ->
                     documentModel.position = index
                     val documentEntity = DocumentConverter.toEntity(documentModel)
                     appDatabase.documentDao().update(documentEntity)

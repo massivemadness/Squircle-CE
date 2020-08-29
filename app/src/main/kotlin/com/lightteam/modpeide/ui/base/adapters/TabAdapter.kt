@@ -31,7 +31,7 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
     private var onTabMovedListener: OnTabMovedListener? = null
-    private var onTabsChangedListener: OnTabsChangedListener? = null
+    private var onDataRefreshListener: OnDataRefreshListener? = null
 
     private var recyclerView: RecyclerView? = null
     private var isClosing = false
@@ -56,14 +56,14 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         onTabMovedListener = listener
     }
 
-    fun setOnTabsChangedListener(listener: OnTabsChangedListener) {
-        onTabsChangedListener = listener
+    fun setOnDataRefreshListener(listener: OnDataRefreshListener) {
+        onDataRefreshListener = listener
     }
 
     fun submitList(list: List<T>) {
         _currentList = list.toMutableList()
         notifyDataSetChanged()
-        onTabsChangedListener?.onTabsChanged()
+        onDataRefreshListener?.onDataRefresh()
     }
 
     fun move(from: Int, to: Int): Boolean {
@@ -118,22 +118,22 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         }
         _currentList.removeAt(position)
         notifyItemRemoved(position)
-        onTabsChangedListener?.onTabsChanged()
+        onDataRefreshListener?.onDataRefresh()
         select(newPosition)
         isClosing = false
     }
 
     interface OnTabSelectedListener {
-        fun onTabReselected(position: Int)
-        fun onTabUnselected(position: Int)
-        fun onTabSelected(position: Int)
+        fun onTabReselected(position: Int) { /* optional */ }
+        fun onTabUnselected(position: Int) { /* optional */ }
+        fun onTabSelected(position: Int) { /* optional */ }
     }
 
     interface OnTabMovedListener {
         fun onTabMoved(from: Int, to: Int)
     }
 
-    interface OnTabsChangedListener {
-        fun onTabsChanged()
+    interface OnDataRefreshListener {
+        fun onDataRefresh()
     }
 }

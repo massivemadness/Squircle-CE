@@ -63,8 +63,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
-    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, TabAdapter.OnTabMovedListener,
-    TabAdapter.OnTabsChangedListener, DocumentAdapter.TabInteractor, OnBackPressedHandler {
+    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, TabAdapter.OnDataRefreshListener,
+    DocumentAdapter.TabInteractor, OnBackPressedHandler {
 
     companion object {
         private const val ALPHA_FULL = 255
@@ -99,8 +99,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.tabLayout.setHasFixedSize(true)
         binding.tabLayout.adapter = DocumentAdapter(this).also {
             it.setOnTabSelectedListener(this)
-            it.setOnTabMovedListener(this)
-            it.setOnTabsChangedListener(this)
+            it.setOnDataRefreshListener(this)
             adapter = it
         }
         tabController.attachToRecyclerView(binding.tabLayout)
@@ -140,7 +139,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     override fun onPause() {
         super.onPause()
         saveDocument(adapter.selectedPosition)
-        viewModel.updatePositions()
+        viewModel.updateDocuments(adapter.currentList)
     }
 
     override fun onResume() {
@@ -166,7 +165,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         })
         viewModel.loadFilesEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)
-            viewModel.fetchRecentTab()
+            viewModel.findRecentTab(it)
         })
         viewModel.selectTabEvent.observe(viewLifecycleOwner, { position ->
             sharedViewModel.closeDrawerEvent.call()
@@ -194,10 +193,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             binding.editor.requestFocus()
         })
         sharedViewModel.openEvent.observe(viewLifecycleOwner, { fileModel ->
-            val documentModel = DocumentConverter.toModel(fileModel)
             val type = fileModel.getType()
-            if ((type == FileType.DEFAULT && viewModel.openUnknownFiles) || type == FileType.TEXT) {
-                viewModel.openFile(documentModel)
+            val documentModel = DocumentConverter.toModel(fileModel)
+            val canOpenUnknownFile = type == FileType.DEFAULT && viewModel.openUnknownFiles
+            if (canOpenUnknownFile || type == FileType.TEXT) {
+                viewModel.openFile(adapter.currentList, documentModel)
             } else {
                 sharedViewModel.openAsEvent.value = fileModel
             }
@@ -230,8 +230,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .subscribeBy {
                                     if (adapter.selectedPosition > -1) {
                                         viewModel.parse(
+                                            adapter.currentList[adapter.selectedPosition],
                                             binding.editor.language,
-                                            adapter.selectedPosition,
                                             binding.editor.getProcessedText()
                                         )
                                     }
@@ -271,7 +271,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     // region TABS
 
-    override fun onTabReselected(position: Int) {}
     override fun onTabUnselected(position: Int) {
         saveDocument(position)
         closeKeyboard() // Обход бага, когда после переключения вкладок позиция курсора не менялась с предыдущей вкладки
@@ -281,13 +280,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         loadDocument(position)
     }
 
-    override fun onTabMoved(from: Int, to: Int) {
-        val temp = viewModel.tabsList[from]
-        viewModel.tabsList.removeAt(from)
-        viewModel.tabsList.add(to, temp)
-    }
-
-    override fun onTabsChanged() {
+    override fun onDataRefresh() {
         viewModel.stateNothingFound.set(adapter.currentList.isEmpty())
     }
 
@@ -332,7 +325,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 selectionStart = binding.editor.selectionStart
                 selectionEnd = binding.editor.selectionEnd
             }
-            viewModel.tabsList[position] = adapter.currentList[position]
             val text = binding.editor.getProcessedText()
             if (text.isNotEmpty()) {
                 val documentContent = DocumentContent(
@@ -351,7 +343,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     private fun removeDocument(position: Int) {
         if (position > -1) {
             val documentModel = adapter.currentList[position]
-            viewModel.tabsList.removeAt(position)
             viewModel.deleteCache(documentModel)
         }
     }
