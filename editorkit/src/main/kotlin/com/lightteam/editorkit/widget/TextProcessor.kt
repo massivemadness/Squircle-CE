@@ -39,12 +39,6 @@ class TextProcessor @JvmOverloads constructor(
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
 
     fun insert(delta: CharSequence) {
-        var selectionStart = 0.coerceAtLeast(selectionStart)
-        var selectionEnd = 0.coerceAtLeast(selectionEnd)
-
-        selectionStart = selectionStart.coerceAtMost(selectionEnd)
-        selectionEnd = selectionStart.coerceAtLeast(selectionEnd)
-
         text.replace(selectionStart, selectionEnd, delta)
     }
 
@@ -63,11 +57,8 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     fun selectLine() {
-        var start = selectionStart.coerceAtMost(selectionEnd)
-        var end = selectionStart.coerceAtLeast(selectionEnd)
-        if (end > start) {
-            end--
-        }
+        var start = selectionStart
+        var end = selectionEnd
         while (end < text.length && text[end] != '\n') {
             end++
         }
@@ -78,11 +69,8 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     fun deleteLine() {
-        var start = selectionStart.coerceAtMost(selectionEnd)
-        var end = selectionStart.coerceAtLeast(selectionEnd)
-        if (end > start) {
-            end--
-        }
+        var start = selectionStart
+        var end = selectionEnd
         while (end < text.length && text[end] != '\n') {
             end++
         }
@@ -93,11 +81,8 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     fun duplicateLine() {
-        var start = selectionStart.coerceAtMost(selectionEnd)
-        var end = selectionStart.coerceAtLeast(selectionEnd)
-        if (end > start) {
-            end--
-        }
+        var start = selectionStart
+        var end = selectionEnd
         while (end < text.length && text[end] != '\n') {
             end++
         }
