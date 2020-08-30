@@ -21,6 +21,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.util.AttributeSet
+import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.internal.CodeSuggestsEditText
@@ -38,58 +39,101 @@ class TextProcessor @JvmOverloads constructor(
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
 
-    fun insert(delta: CharSequence) {
-        text.replace(selectionStart, selectionEnd, delta)
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (event == null) {
+            return super.onKeyDown(keyCode, event)
+        }
+
+        val ctrl = event.isCtrlPressed
+        val shift = event.isShiftPressed
+        val alt = event.isAltPressed
+
+        return when {
+            ctrl && (shift || alt) && keyCode == KeyEvent.KEYCODE_A -> selectLine()
+            ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> if (canRedo()) redo() else true
+            ctrl && keyCode == KeyEvent.KEYCODE_X -> cut()
+            ctrl && keyCode == KeyEvent.KEYCODE_C -> copy()
+            ctrl && keyCode == KeyEvent.KEYCODE_V -> paste()
+            ctrl && keyCode == KeyEvent.KEYCODE_A -> { selectAll(); true }
+            ctrl && keyCode == KeyEvent.KEYCODE_DEL -> deleteLine()
+            ctrl && keyCode == KeyEvent.KEYCODE_D -> duplicateLine()
+            ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> moveCaretToStartOfLine()
+            ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> moveCaretToEndOfLine()
+            ctrl && keyCode == KeyEvent.KEYCODE_Z -> if (canUndo()) undo() else true
+            ctrl && keyCode == KeyEvent.KEYCODE_Y -> if (canRedo()) redo() else true
+            // ctrl && keyCode == KeyEvent.KEYCODE_S -> // TODO Save
+            // ctrl && keyCode == KeyEvent.KEYCODE_W -> // TODO Close
+            // ctrl && keyCode == KeyEvent.KEYCODE_F -> // TODO Find
+            // ctrl && keyCode == KeyEvent.KEYCODE_R -> // TODO Find & Replace
+            // ctrl && keyCode == KeyEvent.KEYCODE_G -> // TODO Go to Line
+            // alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> moveCaretToPrevWord() // TODO
+            // alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> moveCaretToNextWord() // TODO
+            keyCode == KeyEvent.KEYCODE_TAB -> insert(tab())
+            else -> super.onKeyDown(keyCode, event)
+        }
     }
 
-    fun cut() {
+    fun insert(delta: CharSequence): Boolean {
+        text.replace(selectionStart, selectionEnd, delta)
+        return true
+    }
+
+    fun cut(): Boolean {
         clipboardManager.setPrimaryClip(ClipData.newPlainText(LABEL_CUT, selectedText()))
         text.replace(selectionStart, selectionEnd, "")
+        return true
     }
 
-    fun copy() {
+    fun copy(): Boolean {
         clipboardManager.setPrimaryClip(ClipData.newPlainText(LABEL_COPY, selectedText()))
+        return true
     }
 
-    fun paste() {
+    fun paste(): Boolean {
         val clip = clipboardManager.primaryClip?.getItemAt(0)?.coerceToText(context)
         text.replace(selectionStart, selectionEnd, clip)
+        return true
     }
 
-    fun selectLine() {
-        var start = selectionStart
-        var end = selectionEnd
-        while (end < text.length && text[end] != '\n') {
-            end++
-        }
-        while (start > 0 && text[start - 1] != '\n') {
-            start--
-        }
-        setSelection(start, end)
+    fun selectLine(): Boolean {
+        val currentLine = lines.getLineForIndex(selectionStart)
+        val lineStart = getIndexForStartOfLine(currentLine)
+        val lineEnd = getIndexForEndOfLine(currentLine)
+        setSelection(lineStart, lineEnd)
+        return true
     }
 
-    fun deleteLine() {
-        var start = selectionStart
-        var end = selectionEnd
-        while (end < text.length && text[end] != '\n') {
-            end++
-        }
-        while (start > 0 && text[start - 1] != '\n') {
-            start--
-        }
-        text.delete(start, end)
+    fun deleteLine(): Boolean {
+        val currentLine = lines.getLineForIndex(selectionStart)
+        val lineStart = getIndexForStartOfLine(currentLine)
+        val lineEnd = getIndexForEndOfLine(currentLine)
+        text.delete(lineStart, lineEnd)
+        return true
     }
 
-    fun duplicateLine() {
-        var start = selectionStart
-        var end = selectionEnd
-        while (end < text.length && text[end] != '\n') {
-            end++
-        }
-        while (start > 0 && text[start - 1] != '\n') {
-            start--
-        }
-        text.insert(end, "\n" + text.subSequence(start, end))
+    fun duplicateLine(): Boolean {
+        val currentLine = lines.getLineForIndex(selectionStart)
+        val lineStart = getIndexForStartOfLine(currentLine)
+        val lineEnd = getIndexForEndOfLine(currentLine)
+        val lineText = text.subSequence(lineStart, lineEnd)
+        text.insert(lineEnd, "\n" + lineText)
+        return true
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    fun moveCaretToStartOfLine(): Boolean {
+        val currentLine = lines.getLineForIndex(selectionStart)
+        val lineStart = getIndexForStartOfLine(currentLine)
+        setSelection(lineStart, lineStart)
+        return true
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    fun moveCaretToEndOfLine(): Boolean {
+        val currentLine = lines.getLineForIndex(selectionEnd)
+        val lineEnd = getIndexForEndOfLine(currentLine)
+        setSelection(lineEnd, lineEnd)
+        return true
     }
 
     fun gotoLine(lineNumber: Int) {

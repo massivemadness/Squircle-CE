@@ -91,7 +91,7 @@ open class UndoRedoEditText @JvmOverloads constructor(
     fun canUndo(): Boolean = undoStack.canUndo()
     fun canRedo(): Boolean = redoStack.canUndo()
 
-    fun undo() {
+    fun undo(): Boolean {
         val textChange = undoStack.pop()
         if (textChange.start >= 0) {
             isDoingUndoRedo = true
@@ -113,9 +113,10 @@ open class UndoRedoEditText @JvmOverloads constructor(
             undoStack.removeAll()
         }
         onUndoRedoChangedListener?.onUndoRedoChanged()
+        return true
     }
 
-    fun redo() {
+    fun redo(): Boolean {
         val textChange = redoStack.pop()
         if (textChange.start >= 0) {
             isDoingUndoRedo = true
@@ -131,6 +132,7 @@ open class UndoRedoEditText @JvmOverloads constructor(
             undoStack.removeAll()
         }
         onUndoRedoChangedListener?.onUndoRedoChanged()
+        return true
     }
 
     interface OnUndoRedoChangedListener {
