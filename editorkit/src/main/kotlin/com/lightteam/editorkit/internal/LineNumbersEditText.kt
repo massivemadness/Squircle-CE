@@ -39,8 +39,6 @@ open class LineNumbersEditText @JvmOverloads constructor(
 ) : ScalableEditText(context, attrs, defStyleAttr), TextChangeListener {
 
     val lines = LinesCollection()
-    val arrayLineCount: Int
-        get() = lines.lineCount - 1
 
     var isReadyToDraw = false
     var colorScheme: ColorScheme? = null

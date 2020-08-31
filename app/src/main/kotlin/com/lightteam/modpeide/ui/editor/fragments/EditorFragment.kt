@@ -31,6 +31,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.textChangeEvents
+import com.lightteam.editorkit.feature.gotoline.LineException
 import com.lightteam.editorkit.internal.UndoRedoEditText
 import com.lightteam.editorkit.widget.TextProcessor
 import com.lightteam.editorkit.widget.TextScroller
@@ -569,15 +570,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 negativeButton(R.string.action_cancel)
                 positiveButton(R.string.action_go_to) {
                     val input = getCustomView().findViewById<TextInputEditText>(R.id.input)
-                    val inputResult = input.text.toString()
-                    if (inputResult.isNotEmpty()) {
-                        val line = inputResult.toInt() - 1 // т.к первая линия 0
-                        when {
-                            line <= 0 -> showToast(R.string.message_line_above_than_0)
-                            line < binding.editor.arrayLineCount -> binding.editor.gotoLine(line)
-                            else -> showToast(R.string.message_line_not_exists)
-                        }
-                    } else {
+                    val inputNumber = input.text.toString()
+                    try {
+                        val lineNumber = inputNumber.toIntOrNull() ?: 0
+                        binding.editor.gotoLine(lineNumber)
+                    } catch (e: LineException) {
                         showToast(R.string.message_line_not_exists)
                     }
                 }

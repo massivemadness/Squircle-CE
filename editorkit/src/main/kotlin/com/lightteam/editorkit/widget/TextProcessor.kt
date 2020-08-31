@@ -24,7 +24,9 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import com.lightteam.editorkit.R
+import com.lightteam.editorkit.feature.gotoline.LineException
 import com.lightteam.editorkit.internal.CodeSuggestsEditText
+import kotlin.jvm.Throws
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
@@ -102,8 +104,13 @@ class TextProcessor @JvmOverloads constructor(
         return true
     }
 
+    @Throws(LineException::class)
     fun gotoLine(lineNumber: Int) {
-        setSelection(lines.getIndexForLine(lineNumber))
+        val line = lineNumber - 1
+        if (line < 0 || line >= lines.lineCount - 1) {
+            throw LineException(lineNumber)
+        }
+        setSelection(lines.getIndexForLine(line))
     }
 
     fun hasPrimaryClip(): Boolean {
