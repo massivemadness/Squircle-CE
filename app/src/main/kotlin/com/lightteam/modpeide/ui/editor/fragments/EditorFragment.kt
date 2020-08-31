@@ -18,6 +18,7 @@
 package com.lightteam.modpeide.ui.editor.fragments
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
@@ -31,6 +32,7 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.textChangeEvents
 import com.lightteam.editorkit.internal.UndoRedoEditText
+import com.lightteam.editorkit.widget.TextProcessor
 import com.lightteam.editorkit.widget.TextScroller
 import com.lightteam.filesystem.model.FileType
 import com.lightteam.modpeide.R
@@ -128,6 +130,41 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.actionTab.setOnClickListener {
             onKey(binding.editor.tab())
         }
+
+        // region SHORTCUTS
+
+        binding.editor.onKeyDownListener = object : TextProcessor.OnKeyDownListener {
+            override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean? {
+                val ctrl = event.isCtrlPressed
+                val shift = event.isShiftPressed
+                val alt = event.isAltPressed
+                return when {
+                    ctrl && (shift || alt) && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
+                    ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
+                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
+                    // alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord() // TODO
+                    // alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord() // TODO
+                    keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
+                    else -> null
+                }
+            }
+        }
+
+        // endregion SHORTCUTS
     }
 
     override fun onDestroyView() {
@@ -368,7 +405,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         showToast(R.string.message_select_file)
     }
 
-    override fun onSaveButton() {
+    override fun onSaveButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             val documentContent = DocumentContent(
@@ -383,6 +420,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
     override fun onSaveAsButton() {
@@ -433,63 +471,72 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         }
     }
 
-    override fun onCloseButton() {
+    override fun onCloseButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             close(position)
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
-    override fun onCutButton() {
+    override fun onCutButton(): Boolean {
         if (binding.editor.hasSelection()) {
             binding.editor.cut()
         } else {
             showToast(R.string.message_nothing_to_cut)
         }
+        return true
     }
 
-    override fun onCopyButton() {
+    override fun onCopyButton(): Boolean {
         if (binding.editor.hasSelection()) {
             binding.editor.copy()
         } else {
             showToast(R.string.message_nothing_to_copy)
         }
+        return true
     }
 
-    override fun onPasteButton() {
+    override fun onPasteButton(): Boolean {
         val position = adapter.selectedPosition
         if (binding.editor.hasPrimaryClip() && position > -1) {
             binding.editor.paste()
         } else {
             showToast(R.string.message_nothing_to_paste)
         }
+        return true
     }
 
-    override fun onSelectAllButton() {
+    override fun onSelectAllButton(): Boolean {
         binding.editor.selectAll()
+        return true
     }
 
-    override fun onSelectLineButton() {
+    override fun onSelectLineButton(): Boolean {
         binding.editor.selectLine()
+        return true
     }
 
-    override fun onDeleteLineButton() {
+    override fun onDeleteLineButton(): Boolean {
         binding.editor.deleteLine()
+        return true
     }
 
-    override fun onDuplicateLineButton() {
+    override fun onDuplicateLineButton(): Boolean {
         binding.editor.duplicateLine()
+        return true
     }
 
-    override fun onOpenFindButton() {
+    override fun onOpenFindButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             toolbarManager.panel = Panel.FIND
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
     override fun onCloseFindButton() {
@@ -498,13 +545,14 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.editor.clearFindResultSpans()
     }
 
-    override fun onOpenReplaceButton() {
+    override fun onOpenReplaceButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             toolbarManager.panel = Panel.FIND_REPLACE
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
     override fun onCloseReplaceButton() {
@@ -512,7 +560,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.inputReplace.setText("")
     }
 
-    override fun onGoToLineButton() {
+    override fun onGoToLineButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             MaterialDialog(requireContext()).show {
@@ -537,6 +585,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
     override fun onReplaceButton(replaceText: String) {
@@ -623,20 +672,23 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         }
     }
 
-    override fun onUndoButton() {
+    override fun onUndoButton(): Boolean {
         if (binding.editor.canUndo()) {
             binding.editor.undo()
         }
+        return true
     }
 
-    override fun onRedoButton() {
+    override fun onRedoButton(): Boolean {
         if (binding.editor.canRedo()) {
             binding.editor.redo()
         }
+        return true
     }
 
-    override fun onSettingsButton() {
+    override fun onSettingsButton(): Boolean {
         context?.launchActivity<SettingsActivity>()
+        return true
     }
 
     // endregion TOOLBAR
