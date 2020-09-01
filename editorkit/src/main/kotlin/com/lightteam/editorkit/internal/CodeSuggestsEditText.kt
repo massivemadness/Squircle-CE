@@ -84,8 +84,10 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
     override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
         super.addLine(lineNumber, lineStart, lineLength)
         wordsManager.processLine(
-            processedText, lines.getLine(lineNumber),
-            lineStart, lineStart + lineLength
+            text = text,
+            line = lines.getLine(lineNumber),
+            startIndex = lineStart,
+            endIndex = lineStart + lineLength
         )
     }
 
@@ -101,10 +103,10 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
         val endLine = lines.getLineForIndex(newText.length + start)
         for (currentLine in startLine..endLine) {
             wordsManager.processLine(
-                processedText,
-                lines.getLine(currentLine),
-                getIndexForStartOfLine(currentLine),
-                getIndexForEndOfLine(currentLine)
+                text = text,
+                line = lines.getLine(currentLine),
+                startIndex = getIndexForStartOfLine(currentLine),
+                endIndex = getIndexForEndOfLine(currentLine)
             )
         }
     }
@@ -127,7 +129,7 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
             val x = layout.getPrimaryHorizontal(selectionStart)
             val y = layout.getLineBaseline(line)
 
-            val offsetHorizontal = x + gutterWidth
+            val offsetHorizontal = x + paddingStart
             dropDownHorizontalOffset = offsetHorizontal.toInt()
 
             val offsetVertical = y - scrollY

@@ -69,11 +69,11 @@ open class LineNumbersEditText @JvmOverloads constructor(
     private var textChangeEnd = 0
     private var textChangedNewText = ""
 
-    protected var gutterWidth = 0
+    private var gutterWidth = 0
     private var gutterDigitCount = 0
     private var gutterMargin = 4.dpToPx()
 
-    protected var processedText: Editable = Editable.Factory.getInstance().newEditable("")
+    private var processedText = Editable.Factory.getInstance().newEditable("")
 
     override fun onDraw(canvas: Canvas?) {
         if (layout != null && isReadyToDraw) {

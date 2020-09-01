@@ -57,17 +57,17 @@ class WordsManager {
         }
     }
 
-    fun processLine(editableText: Editable, line: Line, startIndex: Int, endIndex: Int) {
-        if (endIndex >= startIndex && editableText.length >= endIndex) {
-            val textLine = editableText.subSequence(startIndex, endIndex)
+    fun processLine(text: Editable, line: Line, startIndex: Int, endIndex: Int) {
+        if (endIndex >= startIndex && text.length >= endIndex) {
+            val textLine = text.subSequence(startIndex, endIndex)
             processLine(wordsPattern.matcher(textLine), textLine, line)
         }
     }
 
-    private fun processLine(matcher: Matcher, textLine: CharSequence, line: Line) {
+    private fun processLine(matcher: Matcher, text: CharSequence, line: Line) {
         wordsList.clearLine(line)
         while (matcher.find()) {
-            val word = textLine.subSequence(matcher.start(), matcher.end())
+            val word = text.subSequence(matcher.start(), matcher.end())
             wordsList.addWord(word, line)
         }
     }
