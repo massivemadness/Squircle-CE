@@ -142,6 +142,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 return when {
                     ctrl && (shift || alt) && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
                     ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                    ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
@@ -151,14 +152,16 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
                     ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
-                    // alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord() // TODO
-                    // alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord() // TODO
+                    alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
+                    alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
+                    alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
                     keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
                     else -> null
                 }
@@ -424,7 +427,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         return true
     }
 
-    override fun onSaveAsButton() {
+    override fun onSaveAsButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             val document = adapter.currentList[position]
@@ -460,9 +463,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
-    override fun onPropertiesButton() {
+    override fun onPropertiesButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             val document = adapter.currentList[position]
@@ -470,6 +474,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
     override fun onCloseButton(): Boolean {

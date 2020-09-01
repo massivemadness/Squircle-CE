@@ -26,7 +26,6 @@ import androidx.core.content.getSystemService
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.feature.gotoline.LineException
 import com.lightteam.editorkit.internal.CodeSuggestsEditText
-import kotlin.jvm.Throws
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
@@ -101,6 +100,56 @@ class TextProcessor @JvmOverloads constructor(
         val currentLine = lines.getLineForIndex(selectionEnd)
         val lineEnd = getIndexForEndOfLine(currentLine)
         setSelection(lineEnd)
+        return true
+    }
+
+    fun moveCaretToPrevWord(): Boolean {
+        if (selectionStart > 0) {
+            val currentChar = text[selectionStart - 1]
+            val isLetterDigitOrUnderscore = currentChar.isLetterOrDigit() || currentChar == '_'
+            if (isLetterDigitOrUnderscore) {
+                for (i in selectionStart downTo 0) {
+                    val char = text[i - 1]
+                    if (!char.isLetterOrDigit() && char != '_') {
+                        setSelection(i)
+                        break
+                    }
+                }
+            } else {
+                for (i in selectionStart downTo 0) {
+                    val char = text[i - 1]
+                    if (char.isLetterOrDigit() || char == '_') {
+                        setSelection(i)
+                        break
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    fun moveCaretToNextWord(): Boolean {
+        if (selectionStart < text.length) {
+            val currentChar = text[selectionStart]
+            val isLetterDigitOrUnderscore = currentChar.isLetterOrDigit() || currentChar == '_'
+            if (isLetterDigitOrUnderscore) {
+                for (i in selectionStart until text.length) {
+                    val char = text[i]
+                    if (!char.isLetterOrDigit() && char != '_') {
+                        setSelection(i)
+                        break
+                    }
+                }
+            } else {
+                for (i in selectionStart until text.length) {
+                    val char = text[i]
+                    if (char.isLetterOrDigit() || char == '_') {
+                        setSelection(i)
+                        break
+                    }
+                }
+            }
+        }
         return true
     }
 

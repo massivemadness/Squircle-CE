@@ -213,8 +213,8 @@ class ToolbarManager(
         fun onNewButton()
         fun onOpenButton()
         fun onSaveButton(): Boolean
-        fun onSaveAsButton()
-        fun onPropertiesButton()
+        fun onSaveAsButton(): Boolean
+        fun onPropertiesButton(): Boolean
         fun onCloseButton(): Boolean
 
         fun onCutButton(): Boolean
