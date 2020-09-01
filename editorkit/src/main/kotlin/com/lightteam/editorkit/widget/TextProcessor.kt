@@ -25,6 +25,8 @@ import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.feature.gotoline.LineException
+import com.lightteam.editorkit.feature.shortcuts.Shortcut
+import com.lightteam.editorkit.feature.shortcuts.ShortcutListener
 import com.lightteam.editorkit.internal.CodeSuggestsEditText
 
 class TextProcessor @JvmOverloads constructor(
@@ -38,15 +40,23 @@ class TextProcessor @JvmOverloads constructor(
         private const val LABEL_COPY = "COPY"
     }
 
-    var onKeyDownListener: OnKeyDownListener? = null
+    var shortcutListener: ShortcutListener? = null
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (event == null) {
-            return super.onKeyDown(keyCode, event)
+        if (event != null) {
+            val shortcut = Shortcut(
+                ctrl = event.isCtrlPressed,
+                shift = event.isShiftPressed,
+                alt = event.isAltPressed,
+                keyCode = keyCode
+            )
+            if (shortcutListener?.onShortcut(shortcut) == true) {
+                return true
+            }
         }
-        return onKeyDownListener?.onKeyDown(keyCode, event) ?: super.onKeyDown(keyCode, event)
+        return super.onKeyDown(keyCode, event)
     }
 
     fun insert(delta: CharSequence) {
@@ -168,9 +178,5 @@ class TextProcessor @JvmOverloads constructor(
 
     private fun selectedText(): CharSequence {
         return text.subSequence(selectionStart, selectionEnd)
-    }
-
-    interface OnKeyDownListener {
-        fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean?
     }
 }

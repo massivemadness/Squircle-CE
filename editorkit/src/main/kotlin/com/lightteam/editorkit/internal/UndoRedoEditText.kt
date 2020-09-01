@@ -21,6 +21,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import com.lightteam.editorkit.R
+import com.lightteam.editorkit.feature.undoredo.OnUndoRedoChangedListener
 import com.lightteam.editorkit.feature.undoredo.TextChange
 import com.lightteam.editorkit.feature.undoredo.UndoStack
 
@@ -131,9 +132,5 @@ open class UndoRedoEditText @JvmOverloads constructor(
             undoStack.removeAll()
         }
         onUndoRedoChangedListener?.onUndoRedoChanged()
-    }
-
-    interface OnUndoRedoChangedListener {
-        fun onUndoRedoChanged()
     }
 }

@@ -32,8 +32,9 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.textChangeEvents
 import com.lightteam.editorkit.feature.gotoline.LineException
-import com.lightteam.editorkit.internal.UndoRedoEditText
-import com.lightteam.editorkit.widget.TextProcessor
+import com.lightteam.editorkit.feature.shortcuts.Shortcut
+import com.lightteam.editorkit.feature.shortcuts.ShortcutListener
+import com.lightteam.editorkit.feature.undoredo.OnUndoRedoChangedListener
 import com.lightteam.editorkit.widget.TextScroller
 import com.lightteam.filesystem.model.FileType
 import com.lightteam.modpeide.R
@@ -112,19 +113,18 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.scroller.link(binding.editor)
 
         binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
-        binding.editor.onUndoRedoChangedListener =
-            object : UndoRedoEditText.OnUndoRedoChangedListener {
-                override fun onUndoRedoChanged() {
-                    val canUndo = binding.editor.canUndo()
-                    val canRedo = binding.editor.canRedo()
+        binding.editor.onUndoRedoChangedListener = object : OnUndoRedoChangedListener {
+            override fun onUndoRedoChanged() {
+                val canUndo = binding.editor.canUndo()
+                val canRedo = binding.editor.canRedo()
 
-                    binding.actionUndo.isClickable = canUndo
-                    binding.actionRedo.isClickable = canRedo
+                binding.actionUndo.isClickable = canUndo
+                binding.actionRedo.isClickable = canRedo
 
-                    binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
-                    binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
-                }
+                binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
+                binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
             }
+        }
 
         binding.editor.onUndoRedoChangedListener?.onUndoRedoChanged() // update undo/redo alpha
 
@@ -134,13 +134,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         // region SHORTCUTS
 
-        binding.editor.onKeyDownListener = object : TextProcessor.OnKeyDownListener {
-            override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean? {
-                val ctrl = event.isCtrlPressed
-                val shift = event.isShiftPressed
-                val alt = event.isAltPressed
+        binding.editor.shortcutListener = object : ShortcutListener {
+            override fun onShortcut(shortcut: Shortcut): Boolean {
+                val (ctrl, shift, alt, keyCode) = shortcut
                 return when {
-                    ctrl && (shift || alt) && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
                     ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
                     ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
                     ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
@@ -161,9 +158,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
                     alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
                     alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
+                    alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
                     alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
                     keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
-                    else -> null
+                    else -> false
                 }
             }
         }
