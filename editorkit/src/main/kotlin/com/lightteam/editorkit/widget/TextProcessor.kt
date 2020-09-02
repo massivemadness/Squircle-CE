@@ -64,17 +64,20 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     fun cut() {
-        clipboardManager.setPrimaryClip(ClipData.newPlainText(LABEL_CUT, selectedText()))
+        val clipData = ClipData.newPlainText(LABEL_CUT, selectedText())
+        clipboardManager.setPrimaryClip(clipData)
         text.replace(selectionStart, selectionEnd, "")
     }
 
     fun copy() {
-        clipboardManager.setPrimaryClip(ClipData.newPlainText(LABEL_COPY, selectedText()))
+        val clipData = ClipData.newPlainText(LABEL_COPY, selectedText())
+        clipboardManager.setPrimaryClip(clipData)
     }
 
     fun paste() {
-        val clip = clipboardManager.primaryClip?.getItemAt(0)?.coerceToText(context)
-        text.replace(selectionStart, selectionEnd, clip)
+        val clipData = clipboardManager.primaryClip?.getItemAt(0)
+        val clipText = clipData?.coerceToText(context)
+        text.replace(selectionStart, selectionEnd, clipText)
     }
 
     fun selectLine() {

@@ -47,6 +47,8 @@ open class LineNumbersEditText @JvmOverloads constructor(
             colorize()
         }
 
+    private val processedText = Editable.Factory.getInstance().newEditable("")
+
     private val selectedLinePaint = Paint()
     private val gutterPaint = Paint()
     private val gutterDividerPaint = Paint()
@@ -69,11 +71,9 @@ open class LineNumbersEditText @JvmOverloads constructor(
     private var textChangeEnd = 0
     private var textChangedNewText = ""
 
+    private val gutterMargin = 4.dpToPx()
     private var gutterWidth = 0
     private var gutterDigitCount = 0
-    private var gutterMargin = 4.dpToPx()
-
-    private var processedText = Editable.Factory.getInstance().newEditable("")
 
     override fun onDraw(canvas: Canvas?) {
         if (layout != null && isReadyToDraw) {
@@ -86,8 +86,8 @@ open class LineNumbersEditText @JvmOverloads constructor(
                     val bottomVisualLine = layout.getLineForOffset(selectedLineEndIndex)
 
                     val lineTop = layout.getLineTop(topVisualLine) + paddingTop
-                    val width = layout.width + paddingLeft + paddingRight
                     val lineBottom = layout.getLineBottom(bottomVisualLine) + paddingTop
+                    val width = layout.width + paddingLeft + paddingRight
                     canvas?.drawRect(
                         gutterWidth.toFloat(),
                         lineTop.toFloat(),
@@ -342,8 +342,8 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
         gutterWidth = paint.measureText(builder.toString()).toInt()
         gutterWidth += gutterMargin
-        if (paddingLeft != gutterWidth + gutterMargin) {
-            setPadding(gutterWidth + gutterMargin, gutterMargin, paddingRight, 0)
+        if (paddingStart != gutterWidth + gutterMargin) {
+            setPadding(gutterWidth + gutterMargin, gutterMargin, paddingEnd, paddingBottom)
         }
     }
 }

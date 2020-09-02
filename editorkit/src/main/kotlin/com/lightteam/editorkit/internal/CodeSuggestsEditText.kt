@@ -34,7 +34,7 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
 
     var suggestionAdapter: SuggestionAdapter? = null
 
-    private val wordsManager: WordsManager = WordsManager()
+    private val wordsManager = WordsManager()
 
     override fun showDropDown() {
         if (!isPopupShowing) {

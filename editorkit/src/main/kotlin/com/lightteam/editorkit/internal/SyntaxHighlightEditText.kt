@@ -90,12 +90,6 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         // invalidate()
     }
 
-    override fun setSelection(start: Int, stop: Int) {
-        if (start <= text.length && stop <= text.length) {
-            super.setSelection(start, stop)
-        }
-    }
-
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         updateSyntaxHighlighting()
         super.onSizeChanged(w, h, oldw, oldh)
@@ -256,10 +250,9 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
             val findResult = findResultSpans[selectedFindResult]
             val topVisibleLine = getTopVisibleLine()
             val bottomVisibleLine = getBottomVisibleLine()
-            if (findResult.start >= layout.getLineStart(topVisibleLine)) {
-                if (findResult.end <= layout.getLineEnd(bottomVisibleLine)) {
-                    return
-                }
+            if (findResult.start >= layout.getLineStart(topVisibleLine) &&
+                findResult.end <= layout.getLineEnd(bottomVisibleLine)) {
+                return
             }
             val height = layout.height - height + paddingBottom + paddingTop
             var lineTop = layout.getLineTop(layout.getLineForOffset(findResult.start))
@@ -268,9 +261,8 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
             }
             val scrollX = if (!config.wordWrap) {
                 layout.getPrimaryHorizontal(findResult.start).toInt()
-            } else {
-                scrollX
-            }
+            } else scrollX
+
             scrollTo(scrollX, lineTop)
         }
     }
