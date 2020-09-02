@@ -86,12 +86,14 @@ open class ScrollableEditText @JvmOverloads constructor(
                         velocityTracker = null
                     }
                 }
-                textScroller.fling(
-                    scrollX, scrollY,
-                    -velocityX, -velocityY,
-                    0, layout.width - width + paddingLeft + paddingRight,
-                    0, layout.height - height + paddingTop + paddingBottom
-                )
+                if (layout != null) {
+                    textScroller.fling(
+                        scrollX, scrollY,
+                        -velocityX, -velocityY,
+                        0, layout.width - width + paddingStart + paddingEnd,
+                        0, layout.height - height + paddingTop + paddingBottom
+                    )
+                }
             }
             MotionEvent.ACTION_MOVE -> {
                 velocityTracker?.addMovement(event)

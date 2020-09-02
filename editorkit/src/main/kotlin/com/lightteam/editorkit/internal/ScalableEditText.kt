@@ -17,6 +17,7 @@
 
 package com.lightteam.editorkit.internal
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -35,33 +36,24 @@ open class ScalableEditText @JvmOverloads constructor(
 
     private var pinchFactor = 1f
 
-    override fun configure() {
-        super.configure()
-        // TODO Move to onTouchEvent()
-        setOnTouchListener { _, event ->
-            if (config.pinchZoom) {
-                return@setOnTouchListener pinchZoom(event)
-            }
-            return@setOnTouchListener false
-        }
-    }
-
-    private fun pinchZoom(event: MotionEvent): Boolean {
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_CANCEL,
             MotionEvent.ACTION_UP -> isDoingPinchZoom = false
             MotionEvent.ACTION_MOVE -> {
-                if (event.pointerCount == 2) {
+                if (config.pinchZoom && event.pointerCount == 2) {
                     val distance = getDistanceBetweenTouches(event)
                     if (!isDoingPinchZoom) {
                         pinchFactor = textSize / scaledDensity / distance
                         isDoingPinchZoom = true
                     }
                     validateTextSize(pinchFactor * distance)
+                    return true
                 }
             }
         }
-        return isDoingPinchZoom
+        return super.onTouchEvent(event)
     }
 
     private fun getDistanceBetweenTouches(event: MotionEvent): Float {
