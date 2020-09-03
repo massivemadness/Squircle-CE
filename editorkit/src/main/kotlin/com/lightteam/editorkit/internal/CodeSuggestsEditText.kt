@@ -75,7 +75,7 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun processText(textParams: PrecomputedTextCompat?) {
+    override fun processText(textParams: PrecomputedTextCompat) {
         wordsManager.clear()
         super.processText(textParams)
         fillWithPredefinedSuggestions()

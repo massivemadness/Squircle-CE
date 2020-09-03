@@ -25,6 +25,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.editorkit.feature.linenumbers.LinesCollection
@@ -206,66 +207,47 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
     }
 
-    open fun processText(textParams: PrecomputedTextCompat?) {
+    open fun processText(textParams: PrecomputedTextCompat) {
         abortFling()
         removeTextChangedListener(textWatcher)
-        setText(textParams ?: "")
 
+        setText(textParams)
         processedText.clear()
-        replaceText(0, processedText.length, textParams?.toString() ?: "")
-        lines.clear()
+        replaceText(0, processedText.length, textParams.toString())
 
+        lines.clear()
         var lineNumber = 0
         var lineStart = 0
-        text.lines().forEach {
-            addLine(lineNumber, lineStart, it.length)
-            lineStart += it.length + 1
+        text.lines().forEach { line ->
+            addLine(lineNumber, lineStart, line.length)
+            lineStart += line.length + 1
             lineNumber++
         }
         lines.add(lineNumber, lineStart)
+
         addTextChangedListener(textWatcher)
     }
 
     open fun clearText() {
-        processText(null)
+        val textParams = TextViewCompat.getTextMetricsParams(this)
+        processText(PrecomputedTextCompat.create("", textParams))
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
-        var start = if (newStart < 0) 0 else newStart
-        var end = if (newEnd >= processedText.length) processedText.length else newEnd
-
+        val start = if (newStart < 0) 0 else newStart
+        val end = if (newEnd >= processedText.length) processedText.length else newEnd
         val newCharCount = newText.length - (end - start)
         val startLine = lines.getLineForIndex(start)
-
-        var i = start
-        while (i < end) {
+        for (i in start until end) {
             if (processedText[i] == '\n') {
                 removeLine(startLine + 1)
             }
-            i++
         }
         lines.shiftIndexes(lines.getLineForIndex(start) + 1, newCharCount)
-        i = 0
-        while (i < newText.length) {
+        for (i in newText.indices) {
             if (newText[i] == '\n') {
                 lines.add(lines.getLineForIndex(start + i) + 1, start + i + 1)
             }
-            i++
-        }
-        if (start > end) {
-            end = start
-        }
-        if (start > processedText.length) {
-            start = processedText.length
-        }
-        if (end > processedText.length) {
-            end = processedText.length
-        }
-        if (start < 0) {
-            start = 0
-        }
-        if (end < 0) {
-            end = 0
         }
         processedText.replace(start, end, newText)
     }
