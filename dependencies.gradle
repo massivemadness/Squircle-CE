@@ -27,21 +27,21 @@ ext {
 
     // Core
     kotlin_version = '1.4.0'
-    core_version = '1.5.0-alpha01'
-    activity_version = '1.2.0-alpha07'
-    fragment_version = '1.3.0-alpha07'
+    core_version = '1.5.0-alpha02'
+    activity_version = '1.2.0-alpha08'
+    fragment_version = '1.3.0-alpha08'
 
     // UI
-    appcompat_version = '1.3.0-alpha01'
+    appcompat_version = '1.3.0-alpha02'
     materialdesign_version = '1.3.0-alpha02'
-    constraintlayout_version = '2.0.0-rc1'
+    constraintlayout_version = '2.0.0'
     swiperefreshlayout_version = '1.2.0-alpha01'
     preferencescompat_version = '1.1.1'
     materialdialogs_version = '3.3.0'
-    recyclerview_selection_version = '1.1.0-rc01'
+    recyclerview_selection_version = '1.1.0-rc02'
 
     // AAC
-    lifecycle_version = '2.3.0-alpha06'
+    lifecycle_version = '2.3.0-alpha07'
     navigation_version = '2.3.0'
     room_version = '2.3.0-alpha02'
 
@@ -62,16 +62,16 @@ ext {
 
     // Other
     keyboardevent_version = '2.3.0'
-    rhino_version = '1.7.12'
-    zip4j_version = '2.6.1'
+    rhino_version = '1.7.13'
+    zip4j_version = '2.6.2'
     chardet_version = '1.0.1'
 
     // Tests
     junit_version = '4.13'
-    junit_ext_version = '1.1.2-rc03'
-    test_runner_version = '1.3.0-rc03'
-    espresso_core_version = '3.3.0-rc03'
-    mockito_version = '3.5.2'
+    junit_ext_version = '1.1.2'
+    test_runner_version = '1.3.0'
+    espresso_core_version = '3.3.0'
+    mockito_version = '3.5.10'
 
     // Lint
     ktlint_version = '0.36.0'
