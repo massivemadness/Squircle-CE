@@ -121,7 +121,9 @@ dependencies {
     implementation library.rxandroid
     implementation library.rxkotlin
     implementation library.rxbinding_appcompat
-    implementation library.rxpreferences
+    implementation (library.rxpreferences) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
     // DI
     implementation library.hilt

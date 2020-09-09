@@ -54,7 +54,9 @@ dependencies {
     // Rx
     implementation library.rxjava2
     implementation library.rxkotlin
-    implementation library.rxpreferences
+    implementation (library.rxpreferences) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
     // Modules
     implementation project(':domain')
