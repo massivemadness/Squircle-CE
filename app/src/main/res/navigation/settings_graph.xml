@@ -98,9 +98,6 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/changeLogFragment"/>
-        <action
-            android:id="@+id/to_privacyPolicyDialog"
-            app:destination="@id/privacyPolicyDialog"/>
     </fragment>
 
     <fragment
@@ -178,11 +175,6 @@
         android:name="com.lightteam.modpeide.ui.settings.fragments.ChangeLogFragment"
         android:label="@string/label_changelog"
         tools:layout="@layout/fragment_changelog"/>
-
-    <dialog
-        android:id="@+id/privacyPolicyDialog"
-        android:name="com.lightteam.modpeide.ui.settings.dialogs.PrivacyPolicyDialog"
-        android:label="@string/dialog_title_privacy_policy"/>
 
     <dialog
         android:id="@+id/storeDialog"
