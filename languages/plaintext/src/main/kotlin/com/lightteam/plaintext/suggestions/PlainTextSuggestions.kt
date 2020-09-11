@@ -15,15 +15,14 @@
  * limitations under the License.
  */
 
-package com.lightteam.unknown.styler
+package com.lightteam.plaintext.suggestions
 
-import com.lightteam.language.scheme.SyntaxScheme
-import com.lightteam.language.styler.LanguageStyler
-import com.lightteam.language.styler.span.SyntaxHighlightSpan
-import com.lightteam.language.styler.utils.Styleable
+import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.suggestion.SuggestionProvider
 
-class UnknownStyler : LanguageStyler {
-    override fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) = Unit
-    override fun cancelTask() = Unit
-    override fun parse(): List<SyntaxHighlightSpan> = emptyList()
+class PlainTextSuggestions : SuggestionProvider {
+
+    override fun getAll(): List<SuggestionModel> {
+        return emptyList()
+    }
 }

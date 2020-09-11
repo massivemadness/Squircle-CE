@@ -18,7 +18,6 @@
 package com.lightteam.modpeide.data.utils.commons
 
 import com.lightteam.filesystem.model.FileModel
-import java.util.*
 import kotlin.Comparator
 
 object FileSorter {

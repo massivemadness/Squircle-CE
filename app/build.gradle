@@ -25,14 +25,15 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 android {
     compileSdkVersion rootProject.ext.compileSdk
     buildToolsVersion rootProject.ext.buildTools
+
     defaultConfig {
         applicationId "com.lightteam.modpeide"
 
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
 
-        versionCode 10038
-        versionName "2020.2.4"
+        versionCode 10039
+        versionName "2020.2.5"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -65,9 +66,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-    }
-    lintOptions {
-        disable "NullSafeMutableLiveData"
     }
     sourceSets {
         main {

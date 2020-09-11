@@ -15,18 +15,15 @@
  * limitations under the License.
  */
 
-package com.lightteam.unknown.parser
+package com.lightteam.plaintext.styler
 
-import com.lightteam.language.exception.ParseException
-import com.lightteam.language.model.ParseModel
-import com.lightteam.language.parser.LanguageParser
-import io.reactivex.Single
+import com.lightteam.language.scheme.SyntaxScheme
+import com.lightteam.language.styler.LanguageStyler
+import com.lightteam.language.styler.span.SyntaxHighlightSpan
+import com.lightteam.language.styler.utils.Styleable
 
-class UnknownParser : LanguageParser {
-
-    override fun execute(name: String, source: String): Single<ParseModel> {
-        val parseException = ParseException("Unable to parse unsupported language", 0, 0)
-        val parseModel = ParseModel(parseException)
-        return Single.just(parseModel)
-    }
+class PlainTextStyler : LanguageStyler {
+    override fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) = Unit
+    override fun cancelTask() = Unit
+    override fun parse(): List<SyntaxHighlightSpan> = emptyList()
 }

@@ -15,42 +15,42 @@
  * limitations under the License.
  */
 
-package com.lightteam.unknown.language
+package com.lightteam.plaintext.language
 
 import com.lightteam.language.language.Language
 import com.lightteam.language.parser.LanguageParser
 import com.lightteam.language.scheme.SyntaxScheme
 import com.lightteam.language.styler.utils.Styleable
 import com.lightteam.language.suggestion.SuggestionProvider
-import com.lightteam.unknown.parser.UnknownParser
-import com.lightteam.unknown.styler.UnknownStyler
-import com.lightteam.unknown.suggestions.UnknownSuggestions
+import com.lightteam.plaintext.parser.PlainTextParser
+import com.lightteam.plaintext.styler.PlainTextStyler
+import com.lightteam.plaintext.suggestions.PlainTextSuggestions
 
-class UnknownLanguage : Language {
+class PlainTextLanguage : Language {
 
-    private var unknownParser: UnknownParser? = null
-    private var unknownStyler: UnknownStyler? = null
+    private var plainTextParser: PlainTextParser? = null
+    private var plainTextStyler: PlainTextStyler? = null
 
     override fun getName(): String {
-        return "unknown"
+        return "plaintext"
     }
 
     override fun getParser(): LanguageParser {
-        return unknownParser ?: UnknownParser()
-            .also { unknownParser = it }
+        return plainTextParser ?: PlainTextParser()
+            .also { plainTextParser = it }
     }
 
     override fun getSuggestions(): SuggestionProvider {
-        return UnknownSuggestions()
+        return PlainTextSuggestions()
     }
 
     override fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) {
-        unknownStyler = UnknownStyler().also {
+        plainTextStyler = PlainTextStyler().also {
             it.executeTask(sourceCode, syntaxScheme, styleable)
         }
     }
 
     override fun cancelStyler() {
-        unknownStyler?.cancelTask()
+        plainTextStyler?.cancelTask()
     }
 }

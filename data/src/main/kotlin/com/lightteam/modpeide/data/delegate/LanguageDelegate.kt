@@ -19,14 +19,14 @@ package com.lightteam.modpeide.data.delegate
 
 import com.lightteam.javascript.language.JavaScriptLanguage
 import com.lightteam.language.language.Language
-import com.lightteam.unknown.language.UnknownLanguage
+import com.lightteam.plaintext.language.PlainTextLanguage
 
 object LanguageDelegate {
 
     fun provideLanguage(fileName: String): Language {
         return when {
             fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
-            else -> UnknownLanguage()
+            else -> PlainTextLanguage()
         }
     }
 }

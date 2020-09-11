@@ -21,7 +21,7 @@
             <option value="$PROJECT_DIR$/languages" />
             <option value="$PROJECT_DIR$/languages/javascript" />
             <option value="$PROJECT_DIR$/languages/language" />
-            <option value="$PROJECT_DIR$/languages/unknown" />
+            <option value="$PROJECT_DIR$/languages/plaintext" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

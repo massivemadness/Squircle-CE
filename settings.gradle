@@ -16,6 +16,6 @@
  */
 
 include ':app', ':domain', ':data', ':database'
-include ':languages:language', ':languages:unknown', ':languages:javascript'
+include ':languages:language', ':languages:plaintext', ':languages:javascript'
 include ':filesystems:filesystem', ':filesystems:localfilesystem'
 include ':editorkit'

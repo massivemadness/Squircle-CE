@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 
-package com.lightteam.unknown.suggestions
+package com.lightteam.plaintext.parser
 
-import com.lightteam.language.model.SuggestionModel
-import com.lightteam.language.suggestion.SuggestionProvider
+import com.lightteam.language.exception.ParseException
+import com.lightteam.language.model.ParseModel
+import com.lightteam.language.parser.LanguageParser
+import io.reactivex.Single
 
-class UnknownSuggestions : SuggestionProvider {
+class PlainTextParser : LanguageParser {
 
-    override fun getAll(): List<SuggestionModel> {
-        return emptyList()
+    override fun execute(name: String, source: String): Single<ParseModel> {
+        val parseException = ParseException("Unable to parse unsupported language", 0, 0)
+        val parseModel = ParseModel(parseException)
+        return Single.just(parseModel)
     }
 }

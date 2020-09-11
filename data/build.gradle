@@ -21,6 +21,7 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion rootProject.ext.compileSdk
     buildToolsVersion rootProject.ext.buildTools
+
     defaultConfig {
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
@@ -65,7 +66,7 @@ dependencies {
     implementation project(':filesystems:filesystem')
     implementation project(':filesystems:localfilesystem')
     implementation project(':languages:language')
-    implementation project(':languages:unknown')
+    implementation project(':languages:plaintext')
     implementation project(':languages:javascript')
 
     // Tests
