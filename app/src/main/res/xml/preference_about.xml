@@ -30,7 +30,7 @@
             android:title="@string/pref_privacy_policy_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/massivemadness/ModPE-IDE/blob/develop/PRIVACY-POLICY.md"/>
+                android:data="https://github.com/massivemadness/ModPE-IDE/blob/master/PRIVACY-POLICY.md"/>
         </Preference>
 
     </PreferenceCategory>
