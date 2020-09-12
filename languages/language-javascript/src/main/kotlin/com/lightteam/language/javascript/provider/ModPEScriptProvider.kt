@@ -15,15 +15,26 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.javascript.suggestions
+package com.lightteam.language.javascript.provider
 
 import com.lightteam.language.base.model.SuggestionModel
-import com.lightteam.language.base.suggestion.SuggestionProvider
+import com.lightteam.language.base.provider.SuggestionProvider
 
 /**
  * This suggestions only used in ModPE Script
  */
-class ModPESuggestions : SuggestionProvider {
+class ModPEScriptProvider private constructor() : SuggestionProvider {
+
+    companion object {
+
+        private var modpeScriptProvider: ModPEScriptProvider? = null
+
+        fun getInstance(): ModPEScriptProvider {
+            return modpeScriptProvider ?: ModPEScriptProvider().also {
+                modpeScriptProvider = it
+            }
+        }
+    }
 
     private val block = arrayOf(
         "defineBlock",

@@ -19,16 +19,15 @@ package com.lightteam.language.plaintext
 
 import com.lightteam.language.base.Language
 import com.lightteam.language.base.parser.LanguageParser
+import com.lightteam.language.base.provider.SuggestionProvider
 import com.lightteam.language.base.scheme.SyntaxScheme
 import com.lightteam.language.base.styler.utils.Styleable
-import com.lightteam.language.base.suggestion.SuggestionProvider
 import com.lightteam.language.plaintext.parser.PlainTextParser
+import com.lightteam.language.plaintext.provider.PlainTextProvider
 import com.lightteam.language.plaintext.styler.PlainTextStyler
-import com.lightteam.language.plaintext.suggestions.PlainTextSuggestions
 
 class PlainTextLanguage : Language {
 
-    private var plainTextParser: PlainTextParser? = null
     private var plainTextStyler: PlainTextStyler? = null
 
     override fun getName(): String {
@@ -36,12 +35,11 @@ class PlainTextLanguage : Language {
     }
 
     override fun getParser(): LanguageParser {
-        return plainTextParser ?: PlainTextParser()
-            .also { plainTextParser = it }
+        return PlainTextParser.getInstance()
     }
 
-    override fun getSuggestions(): SuggestionProvider {
-        return PlainTextSuggestions()
+    override fun getProvider(): SuggestionProvider {
+        return PlainTextProvider.getInstance()
     }
 
     override fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) {

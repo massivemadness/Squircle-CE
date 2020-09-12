@@ -24,7 +24,18 @@ import com.lightteam.language.javascript.parser.predefined.*
 import io.reactivex.Single
 import org.mozilla.javascript.*
 
-class JavaScriptParser : LanguageParser {
+class JavaScriptParser private constructor() : LanguageParser {
+
+    companion object {
+
+        private var javaScriptParser: JavaScriptParser? = null
+
+        fun getInstance(): JavaScriptParser {
+            return javaScriptParser ?: JavaScriptParser().also {
+                javaScriptParser = it
+            }
+        }
+    }
 
     override fun execute(name: String, source: String): Single<ParseModel> {
         return Single.fromCallable {

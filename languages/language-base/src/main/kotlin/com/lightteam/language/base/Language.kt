@@ -18,14 +18,14 @@
 package com.lightteam.language.base
 
 import com.lightteam.language.base.parser.LanguageParser
+import com.lightteam.language.base.provider.SuggestionProvider
 import com.lightteam.language.base.scheme.SyntaxScheme
 import com.lightteam.language.base.styler.utils.Styleable
-import com.lightteam.language.base.suggestion.SuggestionProvider
 
 interface Language {
     fun getName(): String
     fun getParser(): LanguageParser
-    fun getSuggestions(): SuggestionProvider
+    fun getProvider(): SuggestionProvider
 
     fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable)
     fun cancelStyler()

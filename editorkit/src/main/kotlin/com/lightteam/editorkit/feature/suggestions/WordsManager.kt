@@ -20,7 +20,7 @@ package com.lightteam.editorkit.feature.suggestions
 import android.text.Editable
 import com.lightteam.editorkit.feature.linenumbers.Line
 import com.lightteam.language.base.model.SuggestionModel
-import com.lightteam.language.base.suggestion.SuggestionProvider
+import com.lightteam.language.base.provider.SuggestionProvider
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 

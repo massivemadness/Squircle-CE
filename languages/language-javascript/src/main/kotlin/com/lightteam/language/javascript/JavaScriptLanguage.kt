@@ -19,12 +19,12 @@ package com.lightteam.language.javascript
 
 import com.lightteam.language.base.Language
 import com.lightteam.language.base.parser.LanguageParser
+import com.lightteam.language.base.provider.SuggestionProvider
 import com.lightteam.language.base.scheme.SyntaxScheme
 import com.lightteam.language.base.styler.utils.Styleable
-import com.lightteam.language.base.suggestion.SuggestionProvider
 import com.lightteam.language.javascript.parser.JavaScriptParser
+import com.lightteam.language.javascript.provider.ModPEScriptProvider
 import com.lightteam.language.javascript.styler.JavaScriptStyler
-import com.lightteam.language.javascript.suggestions.ModPESuggestions
 
 class JavaScriptLanguage : Language {
 
@@ -32,22 +32,18 @@ class JavaScriptLanguage : Language {
         const val FILE_EXTENSION = ".js"
     }
 
-    private var javaScriptParser: JavaScriptParser? = null
     private var javaScriptStyler: JavaScriptStyler? = null
-    private var suggestionProvider: SuggestionProvider? = null
 
     override fun getName(): String {
         return "javascript"
     }
 
     override fun getParser(): LanguageParser {
-        return javaScriptParser ?: JavaScriptParser()
-            .also { javaScriptParser = it }
+        return JavaScriptParser.getInstance()
     }
 
-    override fun getSuggestions(): SuggestionProvider {
-        return suggestionProvider ?: ModPESuggestions()
-            .also { suggestionProvider = it }
+    override fun getProvider(): SuggestionProvider {
+        return ModPEScriptProvider.getInstance()
     }
 
     override fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) {

@@ -15,12 +15,23 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.plaintext.suggestions
+package com.lightteam.language.plaintext.provider
 
 import com.lightteam.language.base.model.SuggestionModel
-import com.lightteam.language.base.suggestion.SuggestionProvider
+import com.lightteam.language.base.provider.SuggestionProvider
 
-class PlainTextSuggestions : SuggestionProvider {
+class PlainTextProvider private constructor() : SuggestionProvider {
+
+    companion object {
+
+        private var plainTextProvider: PlainTextProvider? = null
+
+        fun getInstance(): PlainTextProvider {
+            return plainTextProvider ?: PlainTextProvider().also {
+                plainTextProvider = it
+            }
+        }
+    }
 
     override fun getAll(): List<SuggestionModel> {
         return emptyList()

@@ -113,7 +113,7 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
 
     private fun fillWithPredefinedSuggestions() {
         suggestionAdapter?.wordsManager = wordsManager
-        wordsManager.applySuggestionProvider(language.getSuggestions())
+        wordsManager.applySuggestionProvider(language.getProvider())
         wordsManager.processSuggestions()
     }
 

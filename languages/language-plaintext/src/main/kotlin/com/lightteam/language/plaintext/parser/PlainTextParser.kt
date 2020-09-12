@@ -22,7 +22,18 @@ import com.lightteam.language.base.model.ParseModel
 import com.lightteam.language.base.parser.LanguageParser
 import io.reactivex.Single
 
-class PlainTextParser : LanguageParser {
+class PlainTextParser private constructor() : LanguageParser {
+
+    companion object {
+
+        private var plainTextParser: PlainTextParser? = null
+
+        fun getInstance(): PlainTextParser {
+            return plainTextParser ?: PlainTextParser().also {
+                plainTextParser = it
+            }
+        }
+    }
 
     override fun execute(name: String, source: String): Single<ParseModel> {
         val parseException = ParseException("Unable to parse unsupported language", 0, 0)

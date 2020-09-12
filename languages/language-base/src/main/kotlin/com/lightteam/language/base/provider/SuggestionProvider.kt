@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.base.suggestion
+package com.lightteam.language.base.provider
 
 import com.lightteam.language.base.model.SuggestionModel
 
