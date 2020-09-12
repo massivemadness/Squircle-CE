@@ -23,7 +23,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
-import com.lightteam.filesystem.exception.FileNotFoundException
+import com.lightteam.filesystem.base.exception.FileNotFoundException
 import com.lightteam.language.language.Language
 import com.lightteam.language.model.ParseModel
 import com.lightteam.modpeide.R

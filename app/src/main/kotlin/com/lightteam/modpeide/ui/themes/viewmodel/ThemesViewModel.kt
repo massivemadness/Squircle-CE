@@ -23,10 +23,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
-import com.lightteam.filesystem.model.FileModel
-import com.lightteam.filesystem.model.FileParams
-import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.localfilesystem.utils.isValidFileName
+import com.lightteam.filesystem.base.Filesystem
+import com.lightteam.filesystem.base.model.FileModel
+import com.lightteam.filesystem.base.model.FileParams
+import com.lightteam.filesystem.local.utils.isValidFileName
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.model.theme.ExternalTheme

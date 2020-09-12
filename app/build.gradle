@@ -138,8 +138,8 @@ dependencies {
     implementation project(':data')
     implementation project(':database')
     implementation project(':editorkit')
-    implementation project(':filesystems:filesystem')
-    implementation project(':filesystems:localfilesystem')
+    implementation project(':filesystems:base')
+    implementation project(':filesystems:local')
     implementation project(':languages:language')
 
     // Tests

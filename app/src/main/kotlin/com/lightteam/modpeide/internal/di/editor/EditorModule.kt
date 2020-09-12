@@ -18,7 +18,7 @@
 package com.lightteam.modpeide.internal.di.editor
 
 import android.content.Context
-import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.filesystem.base.Filesystem
 import com.lightteam.modpeide.data.repository.CacheRepository
 import com.lightteam.modpeide.data.repository.LocalRepository
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler

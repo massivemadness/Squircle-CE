@@ -16,8 +16,8 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/editorkit" />
             <option value="$PROJECT_DIR$/filesystems" />
-            <option value="$PROJECT_DIR$/filesystems/filesystem" />
-            <option value="$PROJECT_DIR$/filesystems/localfilesystem" />
+            <option value="$PROJECT_DIR$/filesystems/base" />
+            <option value="$PROJECT_DIR$/filesystems/local" />
             <option value="$PROJECT_DIR$/languages" />
             <option value="$PROJECT_DIR$/languages/javascript" />
             <option value="$PROJECT_DIR$/languages/language" />

@@ -20,7 +20,7 @@ package com.lightteam.modpeide.ui.explorer.utils
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 
 class FileKeyProvider(
     private val recyclerView: RecyclerView

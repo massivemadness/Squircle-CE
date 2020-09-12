@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.converter
 
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.modpeide.database.entity.document.DocumentEntity
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import java.util.*

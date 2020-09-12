@@ -36,7 +36,7 @@ import com.lightteam.editorkit.feature.shortcuts.Shortcut
 import com.lightteam.editorkit.feature.shortcuts.ShortcutListener
 import com.lightteam.editorkit.feature.undoredo.OnUndoRedoChangedListener
 import com.lightteam.editorkit.widget.TextScroller
-import com.lightteam.filesystem.model.FileType
+import com.lightteam.filesystem.base.model.FileType
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.toHexString

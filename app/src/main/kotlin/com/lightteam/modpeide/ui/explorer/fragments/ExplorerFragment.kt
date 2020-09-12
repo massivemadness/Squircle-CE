@@ -28,7 +28,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding

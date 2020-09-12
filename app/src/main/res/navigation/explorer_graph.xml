@@ -40,7 +40,7 @@
         <argument
             android:name="fileModel"
             app:nullable="true"
-            app:argType="com.lightteam.filesystem.model.FileModel"/>
+            app:argType="com.lightteam.filesystem.base.model.FileModel"/>
         <action
             android:id="@+id/to_directoryFragment"
             app:destination="@id/directoryFragment"/>
@@ -58,7 +58,7 @@
             app:argType="com.lightteam.modpeide.ui.explorer.utils.Operation"/>
         <argument
             android:name="parent"
-            app:argType="com.lightteam.filesystem.model.FileModel"/>
+            app:argType="com.lightteam.filesystem.base.model.FileModel"/>
         <argument
             android:name="archiveName"
             app:argType="string"

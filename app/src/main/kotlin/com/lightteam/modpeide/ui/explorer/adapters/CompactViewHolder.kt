@@ -19,8 +19,8 @@ package com.lightteam.modpeide.ui.explorer.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.lightteam.filesystem.model.FileModel
-import com.lightteam.filesystem.model.FileType
+import com.lightteam.filesystem.base.model.FileModel
+import com.lightteam.filesystem.base.model.FileType
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.databinding.ItemFileCompactBinding
 import com.lightteam.modpeide.ui.base.adapters.OnItemClickListener

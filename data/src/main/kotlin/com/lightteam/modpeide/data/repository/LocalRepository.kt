@@ -18,9 +18,9 @@
 package com.lightteam.modpeide.data.repository
 
 import com.lightteam.editorkit.feature.undoredo.UndoStack
-import com.lightteam.filesystem.model.FileParams
-import com.lightteam.filesystem.model.LineBreak
-import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.filesystem.base.Filesystem
+import com.lightteam.filesystem.base.model.FileParams
+import com.lightteam.filesystem.base.model.LineBreak
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.delegate.LanguageDelegate
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler

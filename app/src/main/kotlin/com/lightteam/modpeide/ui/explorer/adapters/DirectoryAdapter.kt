@@ -21,7 +21,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.modpeide.databinding.ItemTabDirectoryBinding
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 

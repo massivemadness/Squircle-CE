@@ -21,9 +21,9 @@ import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import com.lightteam.filesystem.exception.*
-import com.lightteam.filesystem.model.*
-import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.filesystem.base.Filesystem
+import com.lightteam.filesystem.base.exception.*
+import com.lightteam.filesystem.base.model.*
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler

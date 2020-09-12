@@ -37,11 +37,11 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
-import com.lightteam.filesystem.model.FileModel
-import com.lightteam.filesystem.model.FileTree
-import com.lightteam.filesystem.model.FileType
-import com.lightteam.filesystem.model.PropertiesModel
-import com.lightteam.localfilesystem.utils.isValidFileName
+import com.lightteam.filesystem.base.model.FileModel
+import com.lightteam.filesystem.base.model.FileTree
+import com.lightteam.filesystem.base.model.FileType
+import com.lightteam.filesystem.base.model.PropertiesModel
+import com.lightteam.filesystem.local.utils.isValidFileName
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
