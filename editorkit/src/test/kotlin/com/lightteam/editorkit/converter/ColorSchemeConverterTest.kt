@@ -19,7 +19,7 @@ package com.lightteam.editorkit.converter
 
 import androidx.core.graphics.toColorInt
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
-import com.lightteam.language.scheme.SyntaxScheme
+import com.lightteam.language.base.scheme.SyntaxScheme
 import kotlin.test.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

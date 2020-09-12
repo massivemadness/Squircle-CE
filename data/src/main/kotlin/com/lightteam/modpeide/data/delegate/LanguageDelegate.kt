@@ -17,9 +17,9 @@
 
 package com.lightteam.modpeide.data.delegate
 
-import com.lightteam.javascript.language.JavaScriptLanguage
-import com.lightteam.language.language.Language
-import com.lightteam.plaintext.language.PlainTextLanguage
+import com.lightteam.language.base.Language
+import com.lightteam.language.javascript.JavaScriptLanguage
+import com.lightteam.language.plaintext.PlainTextLanguage
 
 object LanguageDelegate {
 

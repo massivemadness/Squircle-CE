@@ -140,7 +140,7 @@ dependencies {
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
     implementation project(':filesystems:filesystem-local')
-    implementation project(':languages:language')
+    implementation project(':languages:language-base')
 
     // Tests
     testImplementation testLibrary.junit

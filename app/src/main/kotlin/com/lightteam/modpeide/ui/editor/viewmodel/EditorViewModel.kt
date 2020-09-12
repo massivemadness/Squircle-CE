@@ -24,8 +24,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import com.lightteam.filesystem.base.exception.FileNotFoundException
-import com.lightteam.language.language.Language
-import com.lightteam.language.model.ParseModel
+import com.lightteam.language.base.Language
+import com.lightteam.language.base.model.ParseModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.PresetConverter

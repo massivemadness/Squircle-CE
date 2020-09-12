@@ -18,7 +18,7 @@
 package com.lightteam.editorkit.feature.findreplace
 
 import android.text.style.BackgroundColorSpan
-import com.lightteam.language.styler.span.StyleSpan
+import com.lightteam.language.base.styler.span.StyleSpan
 
 data class FindResultSpan(
     private val span: StyleSpan,

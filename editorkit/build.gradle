@@ -53,8 +53,8 @@ dependencies {
     implementation library.appcompat
 
     // Modules
-    implementation project(':languages:language')
-    implementation project(':languages:plaintext')
+    implementation project(':languages:language-base')
+    implementation project(':languages:language-plaintext')
 
     // Tests
     testImplementation testLibrary.junit

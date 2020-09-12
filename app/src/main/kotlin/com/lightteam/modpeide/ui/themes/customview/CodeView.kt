@@ -22,8 +22,8 @@ import android.text.Spannable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.toSpannable
-import com.lightteam.language.language.Language
-import com.lightteam.language.styler.span.SyntaxHighlightSpan
+import com.lightteam.language.base.Language
+import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
 

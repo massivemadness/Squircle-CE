@@ -24,7 +24,7 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.editorkit.feature.suggestions.WordsManager
-import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.base.model.SuggestionModel
 
 abstract class SuggestionAdapter(
     context: Context,

@@ -65,9 +65,9 @@ dependencies {
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
     implementation project(':filesystems:filesystem-local')
-    implementation project(':languages:language')
-    implementation project(':languages:plaintext')
-    implementation project(':languages:javascript')
+    implementation project(':languages:language-base')
+    implementation project(':languages:language-plaintext')
+    implementation project(':languages:language-javascript')
 
     // Tests
     testImplementation testLibrary.junit

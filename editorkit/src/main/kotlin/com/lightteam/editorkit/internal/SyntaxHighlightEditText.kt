@@ -29,12 +29,12 @@ import com.lightteam.editorkit.R
 import com.lightteam.editorkit.converter.ColorSchemeConverter
 import com.lightteam.editorkit.feature.findreplace.FindResultSpan
 import com.lightteam.editorkit.feature.tabwidth.TabWidthSpan
-import com.lightteam.language.language.Language
-import com.lightteam.language.parser.span.ErrorSpan
-import com.lightteam.language.scheme.SyntaxScheme
-import com.lightteam.language.styler.span.StyleSpan
-import com.lightteam.language.styler.span.SyntaxHighlightSpan
-import com.lightteam.plaintext.language.PlainTextLanguage
+import com.lightteam.language.base.Language
+import com.lightteam.language.base.parser.span.ErrorSpan
+import com.lightteam.language.base.scheme.SyntaxScheme
+import com.lightteam.language.base.styler.span.StyleSpan
+import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
+import com.lightteam.language.plaintext.PlainTextLanguage
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 

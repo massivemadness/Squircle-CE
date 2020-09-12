@@ -27,7 +27,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.lightteam.editorkit.adapter.SuggestionAdapter
-import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.base.model.SuggestionModel
 import com.lightteam.modpeide.R
 
 class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layout.item_suggestion) {
