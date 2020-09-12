@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.language.base.scheme
+package com.lightteam.language.base.model
 
 data class SyntaxScheme(
     val numberColor: Int,

@@ -17,7 +17,7 @@
 
 package com.lightteam.language.javascript.styler
 
-import com.lightteam.language.base.scheme.SyntaxScheme
+import com.lightteam.language.base.model.SyntaxScheme
 import com.lightteam.language.base.styler.LanguageStyler
 import com.lightteam.language.base.styler.span.StyleSpan
 import com.lightteam.language.base.styler.span.SyntaxHighlightSpan

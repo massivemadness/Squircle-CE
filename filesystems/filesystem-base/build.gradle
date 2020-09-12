@@ -29,9 +29,6 @@ android {
 
         consumerProguardFiles 'consumer-rules.pro'
     }
-    subprojects {
-        group = "filesystems.base"
-    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }

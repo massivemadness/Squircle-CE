@@ -18,7 +18,7 @@
 package com.lightteam.editorkit.converter
 
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
-import com.lightteam.language.base.scheme.SyntaxScheme
+import com.lightteam.language.base.model.SyntaxScheme
 
 object ColorSchemeConverter {
 

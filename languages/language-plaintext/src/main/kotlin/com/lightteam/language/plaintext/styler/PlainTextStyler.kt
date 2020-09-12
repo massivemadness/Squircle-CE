@@ -17,7 +17,7 @@
 
 package com.lightteam.language.plaintext.styler
 
-import com.lightteam.language.base.scheme.SyntaxScheme
+import com.lightteam.language.base.model.SyntaxScheme
 import com.lightteam.language.base.styler.LanguageStyler
 import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
 import com.lightteam.language.base.styler.utils.Styleable
