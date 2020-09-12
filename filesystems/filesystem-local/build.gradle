@@ -47,5 +47,5 @@ dependencies {
     implementation library.chardet
 
     // Modules
-    implementation project(':filesystems:base')
+    implementation project(':filesystems:filesystem-base')
 }

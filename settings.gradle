@@ -17,5 +17,5 @@
 
 include ':app', ':domain', ':data', ':database'
 include ':languages:language', ':languages:plaintext', ':languages:javascript'
-include ':filesystems:base', ':filesystems:local'
+include ':filesystems:filesystem-base', ':filesystems:filesystem-local'
 include ':editorkit'
