@@ -260,10 +260,6 @@ open class LineNumbersEditText @JvmOverloads constructor(
         lines.remove(line)
     }
 
-    fun getProcessedText(): String {
-        return processedText.toString()
-    }
-
     fun getIndexForStartOfLine(lineNumber: Int): Int {
         return lines.getIndexForLine(lineNumber)
     }

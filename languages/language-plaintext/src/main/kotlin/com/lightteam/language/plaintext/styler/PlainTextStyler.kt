@@ -22,8 +22,20 @@ import com.lightteam.language.base.styler.LanguageStyler
 import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
 import com.lightteam.language.base.styler.utils.Styleable
 
-class PlainTextStyler : LanguageStyler {
+class PlainTextStyler private constructor() : LanguageStyler {
+
+    companion object {
+
+        private var plainTextStyler: PlainTextStyler? = null
+
+        fun getInstance(): PlainTextStyler {
+            return plainTextStyler ?: PlainTextStyler().also {
+                plainTextStyler = it
+            }
+        }
+    }
+
     override fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) = Unit
     override fun cancelTask() = Unit
-    override fun parse(): List<SyntaxHighlightSpan> = emptyList()
+    override fun parse(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> = emptyList()
 }

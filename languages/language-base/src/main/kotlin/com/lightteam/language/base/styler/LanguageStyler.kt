@@ -24,5 +24,5 @@ import com.lightteam.language.base.styler.utils.Styleable
 interface LanguageStyler {
     fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable)
     fun cancelTask()
-    fun parse(): List<SyntaxHighlightSpan>
+    fun parse(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan>
 }

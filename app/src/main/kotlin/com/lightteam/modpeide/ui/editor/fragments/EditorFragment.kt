@@ -271,7 +271,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                         viewModel.parse(
                                             adapter.currentList[adapter.selectedPosition],
                                             binding.editor.language,
-                                            binding.editor.getProcessedText()
+                                            binding.editor.text.toString()
                                         )
                                     }
                                 }
@@ -364,7 +364,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 selectionStart = binding.editor.selectionStart
                 selectionEnd = binding.editor.selectionEnd
             }
-            val text = binding.editor.getProcessedText()
+            val text = binding.editor.text.toString()
             if (text.isNotEmpty()) {
                 val documentContent = DocumentContent(
                     documentModel = document,
@@ -415,7 +415,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 language = binding.editor.language,
                 undoStack = binding.editor.undoStack,
                 redoStack = binding.editor.redoStack,
-                text = binding.editor.getProcessedText()
+                text = binding.editor.text.toString()
             )
             viewModel.saveFile(documentContent, toCache = false) // Save to local storage
             viewModel.saveFile(documentContent, toCache = true) // Save to app cache
@@ -447,7 +447,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                             language = binding.editor.language,
                             undoStack = binding.editor.undoStack,
                             redoStack = binding.editor.redoStack,
-                            text = binding.editor.getProcessedText()
+                            text = binding.editor.text.toString()
                         )
 
                         viewModel.saveFile(documentContent)

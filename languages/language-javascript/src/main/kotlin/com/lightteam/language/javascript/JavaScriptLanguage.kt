@@ -20,8 +20,7 @@ package com.lightteam.language.javascript
 import com.lightteam.language.base.Language
 import com.lightteam.language.base.parser.LanguageParser
 import com.lightteam.language.base.provider.SuggestionProvider
-import com.lightteam.language.base.scheme.SyntaxScheme
-import com.lightteam.language.base.styler.utils.Styleable
+import com.lightteam.language.base.styler.LanguageStyler
 import com.lightteam.language.javascript.parser.JavaScriptParser
 import com.lightteam.language.javascript.provider.ModPEScriptProvider
 import com.lightteam.language.javascript.styler.JavaScriptStyler
@@ -31,8 +30,6 @@ class JavaScriptLanguage : Language {
     companion object {
         const val FILE_EXTENSION = ".js"
     }
-
-    private var javaScriptStyler: JavaScriptStyler? = null
 
     override fun getName(): String {
         return "javascript"
@@ -46,13 +43,7 @@ class JavaScriptLanguage : Language {
         return ModPEScriptProvider.getInstance()
     }
 
-    override fun executeStyler(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) {
-        javaScriptStyler = JavaScriptStyler().also {
-            it.executeTask(sourceCode, syntaxScheme, styleable)
-        }
-    }
-
-    override fun cancelStyler() {
-        javaScriptStyler?.cancelTask()
+    override fun getStyler(): LanguageStyler {
+        return JavaScriptStyler.getInstance()
     }
 }

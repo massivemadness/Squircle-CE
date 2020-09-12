@@ -374,7 +374,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
         syntaxScheme?.let {
-            language.executeStyler(getProcessedText(), it) { spans ->
+            language.getStyler().executeTask(text.toString(), it) { spans ->
                 syntaxHighlightSpans.clear()
                 syntaxHighlightSpans.addAll(spans)
                 updateSyntaxHighlighting()
@@ -383,7 +383,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     private fun cancelSyntaxHighlighting() {
-        language.cancelStyler()
+        language.getStyler().cancelTask()
     }
 
     private fun checkMatchingBracket(pos: Int) {

@@ -44,25 +44,22 @@ class JavaScriptStyler : LanguageStyler {
         private val METHOD = Pattern.compile("(?<=(function) )(\\w+)")
         private val STRING = Pattern.compile("\"(.*?)\"|'(.*?)'")
         private val COMMENT = Pattern.compile("/\\*(?:.|[\\n\\r])*?\\*/|//.*")
+
+        private var javaScriptStyler: JavaScriptStyler? = null
+
+        fun getInstance(): JavaScriptStyler {
+            return javaScriptStyler ?: JavaScriptStyler().also {
+                javaScriptStyler = it
+            }
+        }
     }
 
-    private lateinit var sourceCode: String
-    private lateinit var syntaxScheme: SyntaxScheme
-
     private var task: StylingTask? = null
-    private var parseStart = 0
-    private var parseEnd = 0
 
     override fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) {
-        this.sourceCode = sourceCode
-        this.syntaxScheme = syntaxScheme
-
-        parseStart = 0
-        parseEnd = sourceCode.length
-
         task?.cancelTask()
         task = StylingTask(
-            doAsync = ::parse,
+            doAsync = { parse(sourceCode, syntaxScheme) },
             onSuccess = styleable
         )
         task?.executeTask()
@@ -73,9 +70,12 @@ class JavaScriptStyler : LanguageStyler {
         task = null
     }
 
-    override fun parse(): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans: MutableList<SyntaxHighlightSpan> = mutableListOf()
-        val stringRegions: MutableList<Region> = mutableListOf()
+    override fun parse(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+        val stringRegions = mutableListOf<Region>()
+
+        val parseStart = 0
+        val parseEnd = sourceCode.length
 
         var matcher = NUMBER.matcher(sourceCode)
         matcher.region(parseStart, parseEnd)
