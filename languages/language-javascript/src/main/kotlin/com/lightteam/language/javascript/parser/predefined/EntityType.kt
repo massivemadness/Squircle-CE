@@ -22,47 +22,90 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class EntityType {
+    @JvmField
     val ARROW: Int = -1
+    @JvmField
     val BAT: Int = -1
+    @JvmField
     val BLAZE: Int = -1
+    @JvmField
     val BOAT: Int = -1
+    @JvmField
     val CAVE_SPIDER: Int = -1
+    @JvmField
     val CHICKEN: Int = -1
+    @JvmField
     val COW: Int = -1
+    @JvmField
     val CREEPER: Int = -1
+    @JvmField
     val EGG: Int = -1
+    @JvmField
     val ENDERMAN: Int = -1
+    @JvmField
     val EXPERIENCE_ORB: Int = -1
+    @JvmField
     val EXPERIENCE_POTION: Int = -1
+    @JvmField
     val FALLING_BLOCK: Int = -1
+    @JvmField
     val FIREBALL: Int = -1
+    @JvmField
     val FISHING_HOOK: Int = -1
+    @JvmField
     val GHAST: Int = -1
+    @JvmField
     val IRON_GOLEM: Int = -1
+    @JvmField
     val ITEM: Int = -1
+    @JvmField
     val LAVA_SLIME: Int = -1
+    @JvmField
     val LIGHTNING_BOLT: Int = -1
+    @JvmField
     val MINECART: Int = -1
+    @JvmField
     val MUSHROOM_COW: Int = -1
+    @JvmField
     val OCELOT: Int = -1
+    @JvmField
     val PAINTING: Int = -1
+    @JvmField
     val PIG: Int = -1
+    @JvmField
     val PIG_ZOMBIE: Int = -1
+    @JvmField
     val PLAYER: Int = -1
+    @JvmField
     val PRIMED_TNT: Int = -1
+    @JvmField
     val RABBIT: Int = -1
+    @JvmField
     val SHEEP: Int = -1
+    @JvmField
     val SILVERFISH: Int = -1
+    @JvmField
     val SKELETON: Int = -1
+    @JvmField
     val SLIME: Int = -1
+    @JvmField
     val SMALL_FIREBALL: Int = -1
+    @JvmField
     val SNOWBALL: Int = -1
+    @JvmField
     val SNOW_GOLEM: Int = -1
+    @JvmField
     val SPIDER: Int = -1
+    @JvmField
     val SQUID: Int = -1
+    @JvmField
     val THROWN_POTION: Int = -1
+    @JvmField
     val VILLAGER: Int = -1
+    @JvmField
     val WOLF: Int = -1
+    @JvmField
     val ZOMBIE: Int = -1
+    @JvmField
     val ZOMBIE_VILLAGER: Int = -1
 }

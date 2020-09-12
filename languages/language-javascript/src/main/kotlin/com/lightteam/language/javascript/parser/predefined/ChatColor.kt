@@ -22,23 +22,42 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class ChatColor {
+    @JvmField
     val AQUA: String = ""
+    @JvmField
     val BEGIN: String = ""
+    @JvmField
     val BLACK: String = ""
+    @JvmField
     val BLUE: String = ""
+    @JvmField
     val BOLD: String = ""
+    @JvmField
     val DARK_AQUA: String = ""
+    @JvmField
     val DARK_BLUE: String = ""
+    @JvmField
     val DARK_GRAY: String = ""
+    @JvmField
     val DARK_GREEN: String = ""
+    @JvmField
     val DARK_PURPLE: String = ""
+    @JvmField
     val DARK_RED: String = ""
+    @JvmField
     val GOLD: String = ""
+    @JvmField
     val GRAY: String = ""
+    @JvmField
     val GREEN: String = ""
+    @JvmField
     val LIGHT_PURPLE: String = ""
+    @JvmField
     val RED: String = ""
+    @JvmField
     val RESET: String = ""
+    @JvmField
     val WHITE: String = ""
+    @JvmField
     val YELLOW: String = ""
 }

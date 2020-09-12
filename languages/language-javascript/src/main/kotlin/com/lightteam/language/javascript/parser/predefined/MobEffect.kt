@@ -22,30 +22,56 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class MobEffect {
+    @JvmField
     val absorption: Int = -1
+    @JvmField
     val blindness: Int = -1
+    @JvmField
     val confusion: Int = -1
+    @JvmField
     val damageBoost: Int = -1
+    @JvmField
     val damageResistance: Int = -1
+    @JvmField
     val digSlowdown: Int = -1
+    @JvmField
     val digSpeed: Int = -1
+    @JvmField
     val effectIds: Int = -1
+    @JvmField
     val fatalPoison: Int = -1
+    @JvmField
     val fireResistance: Int = -1
+    @JvmField
     val harm: Int = -1
+    @JvmField
     val heal: Int = -1
+    @JvmField
     val healthBoost: Int = -1
+    @JvmField
     val hunger: Int = -1
+    @JvmField
     val invisibility: Int = -1
+    @JvmField
     val jump: Int = -1
+    @JvmField
     val levitation: Int = -1
+    @JvmField
     val movementSlowdown: Int = -1
+    @JvmField
     val movementSpeed: Int = -1
+    @JvmField
     val nightVision: Int = -1
+    @JvmField
     val poison: Int = -1
+    @JvmField
     val regeneration: Int = -1
+    @JvmField
     val saturation: Int = -1
+    @JvmField
     val waterBreathing: Int = -1
+    @JvmField
     val weakness: Int = -1
+    @JvmField
     val wither: Int = -1
 }

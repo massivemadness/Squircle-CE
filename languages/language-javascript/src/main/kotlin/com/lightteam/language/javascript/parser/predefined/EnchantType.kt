@@ -22,15 +22,26 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class EnchantType {
+    @JvmField
     val all: Int = -1
+    @JvmField
     val axe: Int = -1
+    @JvmField
     val book: Int = -1
+    @JvmField
     val bow: Int = -1
+    @JvmField
     val fishingRod: Int = -1
+    @JvmField
     val flintAndSteel: Int = -1
+    @JvmField
     val hoe: Int = -1
+    @JvmField
     val pickaxe: Int = -1
+    @JvmField
     val shears: Int = -1
+    @JvmField
     val shovel: Int = -1
+    @JvmField
     val weapon: Int = -1
 }

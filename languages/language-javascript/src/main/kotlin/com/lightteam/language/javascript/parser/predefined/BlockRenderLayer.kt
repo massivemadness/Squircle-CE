@@ -22,15 +22,26 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class BlockRenderLayer {
+    @JvmField
     val alpha: Int = -1
+    @JvmField
     val alpha_seasons: Int = -1
+    @JvmField
     val alpha_single_side: Int = -1
+    @JvmField
     val blend: Int = -1
+    @JvmField
     val doubleside: Int = -1
+    @JvmField
     val far: Int = -1
+    @JvmField
     val opaque: Int = -1
+    @JvmField
     val opaque_seasons: Int = -1
+    @JvmField
     val seasons_far: Int = -1
+    @JvmField
     val seasons_far_alpha: Int = -1
+    @JvmField
     val water: Int = -1
 }

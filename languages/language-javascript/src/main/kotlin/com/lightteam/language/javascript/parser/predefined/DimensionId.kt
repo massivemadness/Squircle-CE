@@ -22,6 +22,8 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class DimensionId {
+    @JvmField
     val NETHER: Int = -1
+    @JvmField
     val NORMAL: Int = -1
 }

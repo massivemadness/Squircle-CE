@@ -22,10 +22,16 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class BlockFace {
+    @JvmField
     val DOWN: Int = -1
+    @JvmField
     val EAST: Int = -1
+    @JvmField
     val NORTH: Int = -1
+    @JvmField
     val SOUTH: Int = -1
+    @JvmField
     val UP: Int = -1
+    @JvmField
     val WEST: Int = -1
 }

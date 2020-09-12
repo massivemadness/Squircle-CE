@@ -22,6 +22,8 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class UseAnimation {
+    @JvmField
     val bow: Int = -1
+    @JvmField
     val normal: Int = -1
 }

@@ -22,8 +22,12 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class ArmorType {
+    @JvmField
     val boots: Int = -1
+    @JvmField
     val chestplate: Int = -1
+    @JvmField
     val helmet: Int = -1
+    @JvmField
     val leggings: Int = -1
 }

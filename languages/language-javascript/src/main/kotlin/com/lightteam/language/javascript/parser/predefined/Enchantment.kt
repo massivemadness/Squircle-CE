@@ -22,31 +22,58 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class Enchantment {
+    @JvmField
     val AQUA_AFFINITY: Int = -1
+    @JvmField
     val BANE_OF_ARTHROPODS: Int = -1
+    @JvmField
     val BLAST_PROTECTION: Int = -1
+    @JvmField
     val DEPTH_STRIDER: Int = -1
+    @JvmField
     val EFFICIENCY: Int = -1
+    @JvmField
     val FEATHER_FALLING: Int = -1
+    @JvmField
     val FIRE_ASPECT: Int = -1
+    @JvmField
     val FIRE_PROTECTION: Int = -1
+    @JvmField
     val FLAME: Int = -1
+    @JvmField
     val FORTUNE: Int = -1
+    @JvmField
     val FROST_WALKER: Int = -1
+    @JvmField
     val INFINITY: Int = -1
+    @JvmField
     val KNOCKBACK: Int = -1
+    @JvmField
     val LOOTING: Int = -1
+    @JvmField
     val LUCK_OF_THE_SEA: Int = -1
+    @JvmField
     val LURE: Int = -1
+    @JvmField
     val MENDING: Int = -1
+    @JvmField
     val POWER: Int = -1
+    @JvmField
     val PROJECTILE_PROTECTION: Int = -1
+    @JvmField
     val PROTECTION: Int = -1
+    @JvmField
     val PUNCH: Int = -1
+    @JvmField
     val RESPIRATION: Int = -1
+    @JvmField
     val SHARPNESS: Int = -1
+    @JvmField
     val SILK_TOUCH: Int = -1
+    @JvmField
     val SMITE: Int = -1
+    @JvmField
     val THORNS: Int = -1
+    @JvmField
     val UNBREAKING: Int = -1
 }

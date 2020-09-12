@@ -22,39 +22,74 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class ParticleType {
+    @JvmField
     val angryVillager: Int = -1
+    @JvmField
     val bubble: Int = -1
+    @JvmField
     val carrotboost: Int = -1
+    @JvmField
     val cloud: Int = -1
+    @JvmField
     val crit: Int = -1
+    @JvmField
     val dripLava: Int = -1
+    @JvmField
     val dripWater: Int = -1
+    @JvmField
     val enchantmenttable: Int = -1
+    @JvmField
     val fallingDust: Int = -1
+    @JvmField
     val flame: Int = -1
+    @JvmField
     val happyVillager: Int = -1
+    @JvmField
     val heart: Int = -1
+    @JvmField
     val hugeexplosion: Int = -1
+    @JvmField
     val hugeexplosionSeed: Int = -1
+    @JvmField
     val ink: Int = -1
+    @JvmField
     val itemBreak: Int = -1
+    @JvmField
     val largeexplode: Int = -1
+    @JvmField
     val lava: Int = -1
+    @JvmField
     val mobFlame: Int = -1
+    @JvmField
     val note: Int = -1
+    @JvmField
     val portal: Int = -1
+    @JvmField
     val rainSplash: Int = -1
+    @JvmField
     val redstone: Int = -1
+    @JvmField
     val slime: Int = -1
+    @JvmField
     val smoke: Int = -1
+    @JvmField
     val smoke2: Int = -1
+    @JvmField
     val snowballpoof: Int = -1
+    @JvmField
     val spell: Int = -1
+    @JvmField
     val spell2: Int = -1
+    @JvmField
     val spell3: Int = -1
+    @JvmField
     val splash: Int = -1
+    @JvmField
     val suspendedTown: Int = -1
+    @JvmField
     val terrain: Int = -1
+    @JvmField
     val waterWake: Int = -1
+    @JvmField
     val witchspell: Int = -1
 }

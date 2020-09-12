@@ -22,9 +22,14 @@ package com.lightteam.language.javascript.parser.predefined
  */
 @Suppress("unused")
 internal class ItemCategory {
+    @JvmField
     val DECORATION: Int = -1
+    @JvmField
     val FOOD: Int = -1
+    @JvmField
     val INTERNAL: Int = -1
+    @JvmField
     val MATERIAL: Int = -1
+    @JvmField
     val TOOL: Int = -1
 }
