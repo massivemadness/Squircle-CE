@@ -18,6 +18,7 @@
 package com.lightteam.language.javascript.provider
 
 import com.lightteam.language.base.model.SuggestionModel
+import com.lightteam.language.base.model.SuggestionType
 import com.lightteam.language.base.provider.SuggestionProvider
 import com.lightteam.language.base.provider.utils.WordsManager
 import com.lightteam.language.javascript.parser.predefined.*
@@ -57,6 +58,7 @@ class ModPEScriptProvider private constructor() : SuggestionProvider {
             EntityRenderType::class.java,
             EnchantType::class.java,
             Global::class.java,
+            Hooks::class.java,
             Item::class.java,
             ItemCategory::class.java,
             Level::class.java,
@@ -69,23 +71,42 @@ class ModPEScriptProvider private constructor() : SuggestionProvider {
         )
         for (clazz in modpeApi) {
             for (field in clazz.declaredFields) {
-                val suggestionModel = SuggestionModel(clazz.simpleName + "." + field.name)
+                val suggestionModel = SuggestionModel(
+                    type = SuggestionType.FIELD,
+                    text = clazz.simpleName + "." + field.name,
+                    returnType = field.type.simpleName
+                )
                 modpeScriptApi.add(suggestionModel)
             }
             for (method in clazz.declaredMethods) {
-                val suggestionModel = SuggestionModel(method.name)
+                val suggestionModel = SuggestionModel(
+                    type = SuggestionType.METHOD,
+                    text = method.name,
+                    returnType = method.returnType.simpleName
+                )
                 modpeScriptApi.add(suggestionModel)
             }
         }
 
         // JavaScript predefined suggestions
-        modpeScriptApi.add(SuggestionModel("function"))
+        val function = SuggestionModel(
+            type = SuggestionType.NONE,
+            text = "function",
+            returnType = ""
+        )
+        modpeScriptApi.add(function)
         // TODO add
     }
 
     override fun getAll(): Set<SuggestionModel> {
         return modpeScriptApi + wordsManager.getWords()
-            .map { SuggestionModel(it.value) }
+            .map {
+                SuggestionModel(
+                    type = SuggestionType.NONE,
+                    text = it.value,
+                    returnType = ""
+                )
+            }
     }
 
     override fun processLine(lineNumber: Int, text: String) {

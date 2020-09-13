@@ -17,13 +17,8 @@
 
 package com.lightteam.language.base.model
 
-data class SuggestionModel(
-    val type: SuggestionType,
-    val text: String,
-    val returnType: String
-) {
-
-    override fun toString(): String {
-        return text
-    }
+enum class SuggestionType(val value: String) {
+    FIELD("v"),
+    METHOD("m"),
+    NONE("none")
 }

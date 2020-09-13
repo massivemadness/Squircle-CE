@@ -18,6 +18,7 @@
 package com.lightteam.language.plaintext.provider
 
 import com.lightteam.language.base.model.SuggestionModel
+import com.lightteam.language.base.model.SuggestionType
 import com.lightteam.language.base.provider.SuggestionProvider
 import com.lightteam.language.base.provider.utils.WordsManager
 
@@ -38,7 +39,13 @@ class PlainTextProvider private constructor() : SuggestionProvider {
 
     override fun getAll(): Set<SuggestionModel> {
         return wordsManager.getWords()
-            .map { SuggestionModel(it.value) }
+            .map {
+                SuggestionModel(
+                    type = SuggestionType.NONE,
+                    text = it.value,
+                    returnType = ""
+                )
+            }
             .toHashSet()
     }
 

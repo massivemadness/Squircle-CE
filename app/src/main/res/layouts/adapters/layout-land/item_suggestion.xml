@@ -36,8 +36,9 @@
         tools:text="m"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:padding="6dp"
         android:id="@+id/item_suggestion"
         android:singleLine="true"
@@ -45,6 +46,18 @@
         android:textSize="10sp"
         android:typeface="monospace"
         tools:text="function"
+        tools:ignore="SmallSp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="6dp"
+        android:id="@+id/item_return_type"
+        android:singleLine="true"
+        android:textColor="@color/md_disabled_text_light_theme"
+        android:textSize="10sp"
+        android:typeface="monospace"
+        tools:text="int"
         tools:ignore="SmallSp"/>
 
 </LinearLayout>
