@@ -256,8 +256,8 @@ open class LineNumbersEditText @JvmOverloads constructor(
         lines.add(lineNumber, lineStart)
     }
 
-    open fun removeLine(line: Int) {
-        lines.remove(line)
+    open fun removeLine(lineNumber: Int) {
+        lines.remove(lineNumber)
     }
 
     fun getIndexForStartOfLine(lineNumber: Int): Int {

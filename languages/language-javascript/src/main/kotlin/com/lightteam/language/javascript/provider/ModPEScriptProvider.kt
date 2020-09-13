@@ -19,6 +19,8 @@ package com.lightteam.language.javascript.provider
 
 import com.lightteam.language.base.model.SuggestionModel
 import com.lightteam.language.base.provider.SuggestionProvider
+import com.lightteam.language.base.provider.utils.WordsManager
+import com.lightteam.language.javascript.parser.predefined.*
 
 /**
  * This suggestions only used in ModPE Script
@@ -36,332 +38,65 @@ class ModPEScriptProvider private constructor() : SuggestionProvider {
         }
     }
 
-    private val block = arrayOf(
-        "defineBlock",
-        "defineLiquidBlock",
-        "getAllBlockIds",
-        "getDestroyTime",
-        "getFriction",
-        "getRenderLayer",
-        "getRenderType",
-        "getTextureCoords",
-        "setColor",
-        "setDestroyTime",
-        "setExplosionResistance",
-        "setFriction",
-        "setLightLevel",
-        "setLightOpacity",
-        "setRedstoneConsumer",
-        "setRenderLayer",
-        "setRenderType",
-        "setShape"
-    )
+    private val wordsManager = WordsManager()
+    private val modpeScriptApi = hashSetOf<SuggestionModel>()
 
-    private val entity = arrayOf(
-        "addEffect",
-        "getAll",
-        "getAnimalAge",
-        "getArmor",
-        "getArmorCustomName",
-        "getArmorDamage",
-        "getCarriedItem",
-        "getCarriedItemCount",
-        "getCarriedItemData",
-        "getEntityTypeId",
-        "getExtraData",
-        "getHealth",
-        "getItemEntityCount",
-        "getItemEntityData",
-        "getItemEntityId",
-        "getMaxHealth",
-        "getMobSkin",
-        "getNameTag",
-        "getOffhandSlot",
-        "getOffhandSlotCount",
-        "getOffhandSlotData",
-        "getPitch",
-        // "getRenderType",
-        "getRider",
-        "getRiding",
-        "getTarget",
-        "getUniqueId",
-        "getVelX",
-        "getVelY",
-        "getVelZ",
-        "getX",
-        "getY",
-        "getYaw",
-        "getZ",
-        "isSneaking",
-        "remove",
-        "removeAllEffects",
-        "removeEffect",
-        "rideAnimal",
-        "setAnimalAge",
-        "setArmor",
-        "setArmorCustomName",
-        "setCape",
-        "setCarriedItem",
-        "setCollisionSize",
-        "setExtraData",
-        "setFireTicks",
-        "setHealth",
-        "setImmobile",
-        "setMaxHealth",
-        "setMobSkin",
-        "setNameTag",
-        "setOffhandSlot",
-        "setPosition",
-        "setPositionRelative",
-        // "setRenderType",
-        "setRot",
-        "setSneaking",
-        "setTarget",
-        "setVelX",
-        "setVelY",
-        "setVelZ",
-        "spawnMob"
-    )
+    init {
 
-    private val item = arrayOf(
-        "addCraftRecipe",
-        "addFurnaceRecipe",
-        "addShapedRecipe",
-        "defineArmor",
-        "defineThrowable",
-        "getCustomThrowableRenderType",
-        "getMaxDamage",
-        "getMaxStackSize",
-        "getName",
-        // "getTextureCoords",
-        "getUseAnimation",
-        "internalNameToId",
-        "isValidItem",
-        "setAllowOffhand",
-        "setCategory",
-        "setEnchantType",
-        "setHandEquipped",
-        "setMaxDamage",
-        "setProperties",
-        "setStackedByData",
-        "setUseAnimation",
-        "translatedNameToId"
-    )
+        // ModPE Script predefined suggestions
+        val modpeApi = arrayOf(
+            ArmorType::class.java,
+            Block::class.java,
+            BlockFace::class.java,
+            BlockRenderLayer::class.java,
+            ChatColor::class.java,
+            DimensionId::class.java,
+            Enchantment::class.java,
+            EnchantType::class.java,
+            Entity::class.java,
+            EntityRenderType::class.java,
+            EnchantType::class.java,
+            Global::class.java,
+            Item::class.java,
+            ItemCategory::class.java,
+            Level::class.java,
+            MobEffect::class.java,
+            ModPE::class.java,
+            ParticleType::class.java,
+            Player::class.java,
+            Server::class.java,
+            UseAnimation::class.java
+        )
+        for (clazz in modpeApi) {
+            for (field in clazz.declaredFields) {
+                val suggestionModel = SuggestionModel(clazz.simpleName + "." + field.name)
+                modpeScriptApi.add(suggestionModel)
+            }
+            for (method in clazz.declaredMethods) {
+                val suggestionModel = SuggestionModel(method.name)
+                modpeScriptApi.add(suggestionModel)
+            }
+        }
 
-    private val level = arrayOf(
-        "addParticle",
-        "biomeIdToName",
-        "canSeeSky",
-        "destroyBlock",
-        "dropItem",
-        "executeCommand",
-        "explode",
-        "getAddress",
-        "getBiome",
-        "getBiomeName",
-        "getBrightness",
-        "getChestSlot",
-        "getChestSlotCount",
-        "getChestSlotCustomName",
-        "getChestSlotData",
-        "getData",
-        "getDifficulty",
-        "getFurnaceSlot",
-        "getFurnaceSlotCount",
-        "getFurnaceSlotData",
-        "getGameMode",
-        "getGrassColor",
-        "getLightningLevel",
-        "getRainLevel",
-        "getSignText",
-        "getSpawnerEntityType",
-        "getTile",
-        "getTime",
-        "getWorldDir",
-        "getWorldName",
-        "isRemote",
-        "playSound",
-        "playSoundEnt",
-        "setBlockExtraData",
-        "setChestSlot",
-        "setChestSlotCustomName",
-        "setDifficulty",
-        "setFurnaceSlot",
-        "setGameMode",
-        "setGrassColor",
-        "setLightningLevel",
-        "setNightMode",
-        "setRainLevel",
-        "setSignText",
-        "setSpawn",
-        "setSpawnerEntityType",
-        "setTile",
-        "setTime",
-        "spawnChicken",
-        "spawnCow",
-        "spawnMob",
-        "spawnPigZombie"
-    )
+        // JavaScript predefined suggestions
+        modpeScriptApi.add(SuggestionModel("function"))
+        // TODO add
+    }
 
-    private val modpe = arrayOf(
-        "dumpVtable",
-        "getBytesFromTexturePack",
-        "getI18n",
-        "getLanguage",
-        "getMinecraftVersion",
-        "getOS",
-        "joinServer",
-        "langEdit",
-        "leaveGame",
-        "log",
-        "openInputStreamFromTexturePack",
-        "overrideTexture",
-        "readData",
-        "removeData",
-        "resetFov",
-        "resetImages",
-        "saveData",
-        "selectLevel",
-        "setCamera",
-        "setFoodItem",
-        "setFov",
-        "setGameSpeed",
-        "setGuiBlocks",
-        "setItem",
-        "setItems",
-        "setTerrain",
-        "setUiRenderDebug",
-        "showTipMessage",
-        "takeScreenshot"
-    )
+    override fun getAll(): Set<SuggestionModel> {
+        return modpeScriptApi + wordsManager.getWords()
+            .map { SuggestionModel(it.value) }
+    }
 
-    private val player = arrayOf(
-        "addExp",
-        "addItemCreativeInv",
-        "addItemInventory",
-        "canFly",
-        "clearInventorySlot",
-        "enchant",
-        "getArmorSlot",
-        "getArmorSlotDamage",
-        // "getCarriedItem",
-        // "getCarriedItemCount",
-        // "getCarriedItemData",
-        "getDimension",
-        "getEnchantments",
-        "getEntity",
-        "getExhaustion",
-        "getExp",
-        "getHunger",
-        "getInventorySlot",
-        "getInventorySlotCount",
-        "getInventorySlotData",
-        "getItemCustomName",
-        "getLevel",
-        "getName",
-        "getPointedBlockData",
-        "getPointedBlockId",
-        "getPointedBlockSide",
-        "getPointedBlockX",
-        "getPointedBlockY",
-        "getPointedBlockZ",
-        "getPointedEntity",
-        "getPointedVecX",
-        "getPointedVecY",
-        "getPointedVecZ",
-        "getSaturation",
-        "getScore",
-        "getSelectedSlotId",
-        // "getX",
-        // "getY",
-        // "getZ",
-        "isFlying",
-        "isPlayer",
-        "setArmorSlot",
-        "setCanFly",
-        "setExhaustion",
-        "setExp",
-        "setFlying",
-        // "setHealth"
-        "setHunger",
-        "setInventorySlot",
-        "setItemCustomName",
-        "setLevel",
-        "setSaturation",
-        "setSelectedSlotId"
-    )
+    override fun processLine(lineNumber: Int, text: String) {
+        wordsManager.processLine(lineNumber, text)
+    }
 
-    private val server = arrayOf(
-        // "getAddress",
-        "getAllPlayerNames",
-        "getAllPlayers",
-        "getPort",
-        // "joinServer",
-        "sendChat"
-    )
+    override fun deleteLine(lineNumber: Int) {
+        wordsManager.deleteLine(lineNumber)
+    }
 
-    private val hooks = arrayOf(
-        "continueDestroyBlock",
-        "customThrowableHitBlockHook",
-        // "destroyBlock",
-        "projectileHitBlockHook",
-        "startDestroyBlock",
-        "chatHook",
-        "chatReceiveHook",
-        "procCmd",
-        "serverMessageReceiveHook",
-        "newLevel",
-        "selectLevelHook",
-        "attackHook",
-        "customThrowableHitEntityHook",
-        "deathHook",
-        "entityAddedHook",
-        "entityHurtHook",
-        "entityRemovedHook",
-        "projectileHitEntityHook",
-        "blockEventHook",
-        "explodeHook",
-        // "leaveGame",
-        "levelEventHook",
-        "modTick",
-        "newLevel",
-        "redstoneUpdateHook",
-        "screenChangeHook",
-        "selectLevelHook",
-        "eatHook",
-        "playerAddExpHook",
-        "playerExpLevelChangeHook",
-        "useItem"
-    )
-
-    private val global = arrayOf(
-        "bl_setMobSkin",
-        "bl_spawnMob",
-        "preventDefault",
-        "getPlayerX",
-        "getPlayerY",
-        "getPlayerZ",
-        "getPlayerEnt",
-        "clientMessage",
-        "print"
-    )
-
-    private val javascript = arrayOf(
-        "function"
-    )
-
-    override fun getAll(): List<SuggestionModel> {
-        return arrayOf(
-            *block,
-            *entity,
-            *item,
-            *level,
-            *modpe,
-            *player,
-            *server,
-            *hooks,
-            *global,
-            *javascript
-        ).map { SuggestionModel(it) }
+    override fun clearLines() {
+        wordsManager.clearLines()
     }
 }

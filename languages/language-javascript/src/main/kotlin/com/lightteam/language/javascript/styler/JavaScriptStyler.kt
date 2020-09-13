@@ -27,7 +27,7 @@ import com.lightteam.language.base.styler.utils.Styleable
 import com.lightteam.language.base.styler.utils.inRegion
 import java.util.regex.Pattern
 
-class JavaScriptStyler : LanguageStyler {
+class JavaScriptStyler private constructor() : LanguageStyler {
 
     companion object {
         private val NUMBER = Pattern.compile("\\b((0([xX])[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b")

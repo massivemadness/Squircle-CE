@@ -20,5 +20,8 @@ package com.lightteam.language.base.provider
 import com.lightteam.language.base.model.SuggestionModel
 
 interface SuggestionProvider {
-    fun getAll(): List<SuggestionModel>
+    fun getAll(): Set<SuggestionModel>
+    fun processLine(lineNumber: Int, text: String)
+    fun deleteLine(lineNumber: Int)
+    fun clearLines()
 }

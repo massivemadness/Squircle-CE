@@ -20,7 +20,7 @@ package com.lightteam.modpeide.ui.editor.adapters
 import android.content.Context
 import android.graphics.Color
 import android.text.Spannable
-import android.text.SpannableStringBuilder
+import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +56,7 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
         private val textView: TextView = itemView.findViewById(R.id.item_title)
 
         override fun bind(suggestion: SuggestionModel?, query: String) {
-            val spannable = SpannableStringBuilder(suggestion?.text)
+            val spannable = SpannableString(suggestion?.text)
             if (query.length < spannable.length) {
                 spannable.setSpan(
                     ForegroundColorSpan(itemColor),

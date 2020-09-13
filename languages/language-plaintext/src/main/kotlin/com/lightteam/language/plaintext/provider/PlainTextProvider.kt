@@ -19,6 +19,7 @@ package com.lightteam.language.plaintext.provider
 
 import com.lightteam.language.base.model.SuggestionModel
 import com.lightteam.language.base.provider.SuggestionProvider
+import com.lightteam.language.base.provider.utils.WordsManager
 
 class PlainTextProvider private constructor() : SuggestionProvider {
 
@@ -33,7 +34,23 @@ class PlainTextProvider private constructor() : SuggestionProvider {
         }
     }
 
-    override fun getAll(): List<SuggestionModel> {
-        return emptyList()
+    private val wordsManager = WordsManager()
+
+    override fun getAll(): Set<SuggestionModel> {
+        return wordsManager.getWords()
+            .map { SuggestionModel(it.value) }
+            .toHashSet()
+    }
+
+    override fun processLine(lineNumber: Int, text: String) {
+        wordsManager.processLine(lineNumber, text)
+    }
+
+    override fun deleteLine(lineNumber: Int) {
+        wordsManager.deleteLine(lineNumber)
+    }
+
+    override fun clearLines() {
+        wordsManager.clearLines()
     }
 }

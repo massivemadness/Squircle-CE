@@ -15,28 +15,6 @@
  * limitations under the License.
  */
 
-package com.lightteam.editorkit.feature.suggestions
+package com.lightteam.language.base.provider.utils
 
-import java.util.*
-import kotlin.collections.ArrayList
-
-class SortedArrayList<E : Comparable<E>> : ArrayList<E>() {
-
-    override fun add(element: E): Boolean {
-        var binarySearch = Collections.binarySearch(this, element)
-        if (binarySearch < 0) {
-            binarySearch = (binarySearch + 1) * -1
-        }
-        super.add(binarySearch, element)
-        return true
-    }
-
-    override fun remove(element: E): Boolean {
-        val binarySearch = Collections.binarySearch(this, element)
-        if (binarySearch < 0) {
-            return false
-        }
-        super.removeAt(binarySearch)
-        return true
-    }
-}
+data class Word(val value: String)

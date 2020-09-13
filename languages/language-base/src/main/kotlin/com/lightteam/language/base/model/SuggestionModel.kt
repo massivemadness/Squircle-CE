@@ -17,11 +17,9 @@
 
 package com.lightteam.language.base.model
 
-data class SuggestionModel(
-    val text: CharSequence
-) {
+data class SuggestionModel(val text: String) {
 
     override fun toString(): String {
-        return text.toString()
+        return text
     }
 }
