@@ -31,7 +31,7 @@
         android:background="?colorSecondaryVariant"
         android:textColor="?colorSecondary"
         android:textStyle="bold"
-        android:textSize="13sp"
+        android:textSize="14sp"
         android:id="@+id/item_type"
         tools:text="m"/>
 
@@ -43,7 +43,7 @@
         android:id="@+id/item_suggestion"
         android:singleLine="true"
         android:ellipsize="end"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:typeface="monospace"
         tools:text="function"
         tools:ignore="SmallSp"/>
@@ -55,9 +55,8 @@
         android:id="@+id/item_return_type"
         android:singleLine="true"
         android:textColor="@color/md_disabled_text_light_theme"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:typeface="monospace"
-        tools:text="int"
-        tools:ignore="SmallSp"/>
+        tools:text="int"/>
 
 </LinearLayout>

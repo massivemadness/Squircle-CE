@@ -90,7 +90,7 @@ class ModPEScriptProvider private constructor() : SuggestionProvider {
 
         // JavaScript predefined suggestions
         val function = SuggestionModel(
-            type = SuggestionType.NONE,
+            type = SuggestionType.WORD,
             text = "function",
             returnType = ""
         )
@@ -102,7 +102,7 @@ class ModPEScriptProvider private constructor() : SuggestionProvider {
         return modpeScriptApi + wordsManager.getWords()
             .map {
                 SuggestionModel(
-                    type = SuggestionType.NONE,
+                    type = SuggestionType.WORD,
                     text = it.value,
                     returnType = ""
                 )

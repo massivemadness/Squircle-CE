@@ -20,5 +20,6 @@ package com.lightteam.language.base.model
 enum class SuggestionType(val value: String) {
     FIELD("v"),
     METHOD("m"),
+    WORD("w"),
     NONE("none")
 }

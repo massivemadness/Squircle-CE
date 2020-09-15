@@ -41,7 +41,7 @@ class PlainTextProvider private constructor() : SuggestionProvider {
         return wordsManager.getWords()
             .map {
                 SuggestionModel(
-                    type = SuggestionType.NONE,
+                    type = SuggestionType.WORD,
                     text = it.value,
                     returnType = ""
                 )
