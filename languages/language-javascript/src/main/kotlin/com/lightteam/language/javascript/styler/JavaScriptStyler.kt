@@ -17,33 +17,23 @@
 
 package com.lightteam.language.javascript.styler
 
+import android.util.Log
 import com.lightteam.language.base.model.SyntaxScheme
 import com.lightteam.language.base.styler.LanguageStyler
 import com.lightteam.language.base.styler.span.StyleSpan
 import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
 import com.lightteam.language.base.styler.task.StylingTask
-import com.lightteam.language.base.styler.utils.Region
 import com.lightteam.language.base.styler.utils.Styleable
-import com.lightteam.language.base.styler.utils.inRegion
-import java.util.regex.Pattern
+import com.lightteam.language.javascript.styler.lexer.JavaScriptLexer
+import com.lightteam.language.javascript.styler.lexer.JavaScriptToken
+import java.io.StringReader
+import java.lang.RuntimeException
 
 class JavaScriptStyler private constructor() : LanguageStyler {
 
     companion object {
-        private val NUMBER = Pattern.compile("\\b((0([xX])[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b")
-        private val OPERATOR = Pattern.compile("[!$%&*\\-+=<>?:^`/|(){}\\[\\]]")
-        private val KEYWORD = Pattern.compile(
-            "\\b(function|prototype|debugger|super|this|export|extends|final" +
-                    "|implements|native|private|protected|public|static|synchronized|throws" +
-                    "|transient|volatile|delete|new|in|instanceof|typeof|of|with|break|case|catch" +
-                    "|continue|default|do|else|finally|for|goto|if|import|package|return|switch" +
-                    "|throw|try|while)\\b")
-        private val TYPE = Pattern.compile("\\b(boolean|byte|char|class|double|enum|float|int" +
-                "|interface|long|short|void|const|var|let)\\b")
-        private val LANG_CONST = Pattern.compile("\\b(true|false|null|NaN|Infinity|undefined)\\b")
-        private val METHOD = Pattern.compile("(?<=(function) )(\\w+)")
-        private val STRING = Pattern.compile("\"(.*?)\"|'(.*?)'")
-        private val COMMENT = Pattern.compile("/\\*(?:.|[\\n\\r])*?\\*/|//.*")
+
+        private const val TAG = "JavaScriptStyler"
 
         private var javaScriptStyler: JavaScriptStyler? = null
 
@@ -72,75 +62,173 @@ class JavaScriptStyler private constructor() : LanguageStyler {
 
     override fun parse(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val stringRegions = mutableListOf<Region>()
+        val sourceReader = StringReader(sourceCode)
+        val lexer = JavaScriptLexer(sourceReader)
 
-        val parseStart = 0
-        val parseEnd = sourceCode.length
-
-        var matcher = NUMBER.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.numberColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
-        }
-        matcher = OPERATOR.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.operatorColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
-        }
-        matcher = KEYWORD.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.keywordColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
-        }
-        matcher = TYPE.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.typeColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
-        }
-        matcher = LANG_CONST.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.langConstColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
-        }
-        matcher = METHOD.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.methodColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
-        }
-        matcher = STRING.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val start = matcher.start()
-            val end = matcher.end()
-            val styleSpan = StyleSpan(syntaxScheme.stringColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, start, end)
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
-            stringRegions.add(start to end)
-        }
-        matcher = COMMENT.matcher(sourceCode)
-        matcher.region(parseStart, parseEnd)
-        while (matcher.find()) {
-            val start = matcher.start()
-            val end = matcher.end()
-            val styleSpan = StyleSpan(syntaxScheme.commentColor, italic = true)
-            if (!stringRegions.inRegion(start, end)) {
-                val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, start, end)
-                syntaxHighlightSpans.add(syntaxHighlightSpan)
+        while (true) {
+            try {
+                when (lexer.advance()) {
+                    JavaScriptToken.LONG_LITERAL,
+                    JavaScriptToken.INTEGER_LITERAL,
+                    JavaScriptToken.FLOAT_LITERAL,
+                    JavaScriptToken.DOUBLE_LITERAL -> {
+                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                    JavaScriptToken.EQEQ,
+                    JavaScriptToken.NOTEQ,
+                    JavaScriptToken.OROR,
+                    JavaScriptToken.PLUSPLUS,
+                    JavaScriptToken.MINUSMINUS,
+                    JavaScriptToken.LT,
+                    JavaScriptToken.LTLT,
+                    JavaScriptToken.LTEQ,
+                    JavaScriptToken.LTLTEQ,
+                    JavaScriptToken.GT,
+                    JavaScriptToken.GTGT,
+                    JavaScriptToken.GTGTGT,
+                    JavaScriptToken.GTEQ,
+                    JavaScriptToken.GTGTEQ,
+                    JavaScriptToken.GTGTGTEQ,
+                    JavaScriptToken.AND,
+                    JavaScriptToken.ANDAND,
+                    JavaScriptToken.PLUSEQ,
+                    JavaScriptToken.MINUSEQ,
+                    JavaScriptToken.MULTEQ,
+                    JavaScriptToken.DIVEQ,
+                    JavaScriptToken.ANDEQ,
+                    JavaScriptToken.OREQ,
+                    JavaScriptToken.XOREQ,
+                    JavaScriptToken.MODEQ,
+                    JavaScriptToken.LPAREN,
+                    JavaScriptToken.RPAREN,
+                    JavaScriptToken.LBRACE,
+                    JavaScriptToken.RBRACE,
+                    JavaScriptToken.LBRACK,
+                    JavaScriptToken.RBRACK,
+                    JavaScriptToken.SEMICOLON,
+                    JavaScriptToken.COMMA,
+                    JavaScriptToken.DOT,
+                    JavaScriptToken.EQ,
+                    JavaScriptToken.NOT,
+                    JavaScriptToken.TILDE,
+                    JavaScriptToken.QUEST,
+                    JavaScriptToken.COLON,
+                    JavaScriptToken.PLUS,
+                    JavaScriptToken.MINUS,
+                    JavaScriptToken.MULT,
+                    JavaScriptToken.DIV,
+                    JavaScriptToken.OR,
+                    JavaScriptToken.XOR,
+                    JavaScriptToken.MOD,
+                    JavaScriptToken.ARROW -> {
+                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                    JavaScriptToken.FUNCTION,
+                    JavaScriptToken.PROTOTYPE,
+                    JavaScriptToken.DEBUGGER,
+                    JavaScriptToken.SUPER,
+                    JavaScriptToken.THIS,
+                    JavaScriptToken.ASYNC,
+                    JavaScriptToken.AWAIT,
+                    JavaScriptToken.EXPORT,
+                    JavaScriptToken.FROM,
+                    JavaScriptToken.EXTENDS,
+                    JavaScriptToken.FINAL,
+                    JavaScriptToken.IMPLEMENTS,
+                    JavaScriptToken.NATIVE,
+                    JavaScriptToken.PRIVATE,
+                    JavaScriptToken.PROTECTED,
+                    JavaScriptToken.PUBLIC,
+                    JavaScriptToken.STATIC,
+                    JavaScriptToken.SYNCHRONIZED,
+                    JavaScriptToken.THROWS,
+                    JavaScriptToken.TRANSIENT,
+                    JavaScriptToken.VOLATILE,
+                    JavaScriptToken.YIELD,
+                    JavaScriptToken.DELETE,
+                    JavaScriptToken.NEW,
+                    JavaScriptToken.IN,
+                    JavaScriptToken.INSTANCEOF,
+                    JavaScriptToken.TYPEOF,
+                    JavaScriptToken.OF,
+                    JavaScriptToken.WITH,
+                    JavaScriptToken.BREAK,
+                    JavaScriptToken.CASE,
+                    JavaScriptToken.CATCH,
+                    JavaScriptToken.CONTINUE,
+                    JavaScriptToken.DEFAULT,
+                    JavaScriptToken.DO,
+                    JavaScriptToken.ELSE,
+                    JavaScriptToken.FINALLY,
+                    JavaScriptToken.FOR,
+                    JavaScriptToken.GOTO,
+                    JavaScriptToken.IF,
+                    JavaScriptToken.IMPORT,
+                    JavaScriptToken.PACKAGE,
+                    JavaScriptToken.RETURN,
+                    JavaScriptToken.SWITCH,
+                    JavaScriptToken.THROW,
+                    JavaScriptToken.TRY,
+                    JavaScriptToken.WHILE -> {
+                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                    JavaScriptToken.CLASS,
+                    JavaScriptToken.INTERFACE,
+                    JavaScriptToken.ENUM,
+                    JavaScriptToken.BOOLEAN,
+                    JavaScriptToken.BYTE,
+                    JavaScriptToken.CHAR,
+                    JavaScriptToken.DOUBLE,
+                    JavaScriptToken.FLOAT,
+                    JavaScriptToken.INT,
+                    JavaScriptToken.LONG,
+                    JavaScriptToken.SHORT,
+                    JavaScriptToken.VOID,
+                    JavaScriptToken.CONST,
+                    JavaScriptToken.VAR,
+                    JavaScriptToken.LET -> {
+                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                    JavaScriptToken.TRUE,
+                    JavaScriptToken.FALSE,
+                    JavaScriptToken.NULL,
+                    JavaScriptToken.NAN -> {
+                        val styleSpan = StyleSpan(syntaxScheme.langConstColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                    JavaScriptToken.STRING_LITERAL -> {
+                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                    JavaScriptToken.COMMENT -> {
+                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                    JavaScriptToken.IDENTIFIER,
+                    JavaScriptToken.WHITESPACE -> {
+                        continue
+                    }
+                    JavaScriptToken.BAD_CHARACTER,
+                    JavaScriptToken.EOF -> {
+                        break
+                    }
+                }
+            } catch (e: RuntimeException) {
+                Log.e(TAG, e.message, e)
+                break
             }
         }
-
         return syntaxHighlightSpans
     }
 }
