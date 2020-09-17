@@ -76,7 +76,7 @@ class CodeView @JvmOverloads constructor(
     private fun syntaxHighlight() {
         themeModel?.let {
             val syntaxScheme = ThemeConverter.toSyntaxScheme(it)
-            language?.getStyler()?.parse(text.toString(), syntaxScheme)?.let { spans ->
+            language?.getStyler()?.execute(text.toString(), syntaxScheme)?.let { spans ->
                 if (layout != null) {
                     val currentText = text.toSpannable()
                     for (span in spans) {

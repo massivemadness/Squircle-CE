@@ -19,10 +19,10 @@ package com.lightteam.language.base.styler
 
 import com.lightteam.language.base.model.SyntaxScheme
 import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
-import com.lightteam.language.base.styler.utils.Styleable
+import com.lightteam.language.base.styler.utils.StylingResult
 
 interface LanguageStyler {
-    fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable)
-    fun cancelTask()
-    fun parse(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan>
+    fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan>
+    fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult)
+    fun cancel()
 }

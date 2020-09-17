@@ -19,4 +19,4 @@ package com.lightteam.language.base.styler.utils
 
 import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
 
-typealias Styleable = (List<SyntaxHighlightSpan>) -> Unit
+typealias StylingResult = (List<SyntaxHighlightSpan>) -> Unit

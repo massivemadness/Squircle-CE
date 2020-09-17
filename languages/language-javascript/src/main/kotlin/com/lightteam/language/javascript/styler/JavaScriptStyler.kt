@@ -23,7 +23,7 @@ import com.lightteam.language.base.styler.LanguageStyler
 import com.lightteam.language.base.styler.span.StyleSpan
 import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
 import com.lightteam.language.base.styler.task.StylingTask
-import com.lightteam.language.base.styler.utils.Styleable
+import com.lightteam.language.base.styler.utils.StylingResult
 import com.lightteam.language.javascript.styler.lexer.JavaScriptLexer
 import com.lightteam.language.javascript.styler.lexer.JavaScriptToken
 import java.io.StringReader
@@ -46,21 +46,7 @@ class JavaScriptStyler private constructor() : LanguageStyler {
 
     private var task: StylingTask? = null
 
-    override fun executeTask(sourceCode: String, syntaxScheme: SyntaxScheme, styleable: Styleable) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { parse(sourceCode, syntaxScheme) },
-            onSuccess = styleable
-        )
-        task?.executeTask()
-    }
-
-    override fun cancelTask() {
-        task?.cancelTask()
-        task = null
-    }
-
-    override fun parse(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
         val sourceReader = StringReader(sourceCode)
         val lexer = JavaScriptLexer(sourceReader)
@@ -216,10 +202,10 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     JavaScriptToken.IDENTIFIER,
-                    JavaScriptToken.WHITESPACE -> {
+                    JavaScriptToken.WHITESPACE,
+                    JavaScriptToken.BAD_CHARACTER -> {
                         continue
                     }
-                    JavaScriptToken.BAD_CHARACTER,
                     JavaScriptToken.EOF -> {
                         break
                     }
@@ -230,5 +216,19 @@ class JavaScriptStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
+    }
+
+    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
+        task?.cancelTask()
+        task = StylingTask(
+            doAsync = { execute(sourceCode, syntaxScheme) },
+            onSuccess = stylingResult
+        )
+        task?.executeTask()
+    }
+
+    override fun cancel() {
+        task?.cancelTask()
+        task = null
     }
 }
