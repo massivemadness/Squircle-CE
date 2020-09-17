@@ -48,7 +48,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
 
         // Keyboard
         const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYBOARD"
-        const val KEY_KEYBOARD_PRESET = "KEYBOARD_PRESET"
+        const val KEY_KEYBOARD_PRESET = "KEYBOARD_PRESET_1"
         const val KEY_USE_SOFT_KEYBOARD = "USE_SOFT_KEYBOARD"
 
         // Code Style
@@ -94,7 +94,7 @@ class PreferenceHandler(private val rxSharedPreferences: RxSharedPreferences) {
     fun getHighlightMatchingDelimiters(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
 
     fun getExtendedKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
-    fun getKeyboardPreset(): Preference<String> = rxSharedPreferences.getString(KEY_KEYBOARD_PRESET, "59d24164-3e1f-4a6d-bb8d-0ee23b4083e6") // Default
+    fun getKeyboardPreset(): Preference<String> = rxSharedPreferences.getString(KEY_KEYBOARD_PRESET, "{}();,.=|&![]<>+-/*?:_")
     fun getSoftKeyboard(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
 
     fun getAutoIndentation(): Preference<Boolean> = rxSharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)

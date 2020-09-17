@@ -292,7 +292,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         }
                     }
                     is PreferenceEvent.KeyboardPreset -> {
-                        binding.extendedKeyboard.submitList(event.value.keys)
+                        binding.extendedKeyboard.submitList(event.value)
                     }
                     is PreferenceEvent.SoftKeys -> tempConfig.softKeyboard = event.value
                     is PreferenceEvent.AutoIndent -> tempConfig.autoIndentation = event.value

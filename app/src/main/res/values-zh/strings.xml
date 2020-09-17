@@ -30,8 +30,7 @@
     <string name="label_external_font">外部字体</string>
     <string name="label_themes">主题</string>
     <string name="label_new_theme">新建主题</string>
-    <string name="label_keyboard_presets">快捷符号栏</string>
-    <string name="label_new_preset">新建符号栏</string>
+    <string name="label_keyboard_preset">快捷符号栏</string>
     <string name="label_changelog">更新日志</string>
     <string name="label_latest_release">最新版本</string>
 
@@ -45,11 +44,10 @@
     <string name="hint_enter_theme_name">输入主题名称</string>
     <string name="hint_enter_theme_author">输入主题作者</string>
     <string name="hint_enter_theme_desc">主题简要描述</string>
-    <string name="hint_enter_preset_name">输入符号栏名称</string>
     <string name="hint_theme_desc">如：默认配色方案</string>
-    <string name="hint_preset_name">自定义</string>
-    <string name="hint_preset_chars_no_separation">符号栏预设符号（不要带分隔符）</string>
+    <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
 
+    <string name="action_reset">Reset</string>
     <string name="action_restart">重启</string>
     <string name="action_grant_access">授予访问权限</string>
     <string name="action_yes">是</string>
@@ -181,8 +179,6 @@
     <string name="message_theme_exported">主题已保存到 %1$s</string>
     <string name="message_choose_theme_json">选择 .json 主题文件</string>
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
-    <string name="message_new_preset_available">新的快捷符号栏可用: %1$s</string>
-    <string name="message_preset_removed">快捷符号栏 «%1$s» 已移除</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
     <string name="message_deleting">删除中…%1$s</string>
     <string name="message_copying">复制中…%1$s</string>
@@ -194,9 +190,8 @@
     <string name="store_feature_2">配色方案</string>
     <string name="store_feature_3">主题编辑器 🎉</string>
     <string name="store_feature_4">外部字体</string>
-    <string name="store_feature_5">快捷符号栏</string>
-    <string name="store_feature_6">错误检查</string>
-    <string name="store_feature_7">颜色选择器</string>
+    <string name="store_feature_5">错误检查</string>
+    <string name="store_feature_6">颜色选择器</string>
 
     <string name="font_support_ligatures">* 支持连体字母</string>
     <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>
@@ -276,8 +271,8 @@
     <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
     <string name="pref_extended_keyboard_title">快捷符号栏</string>
     <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘之上显示符号栏以便快捷输入</string>
-    <string name="pref_keyboard_presets_title">预设符号</string>
-    <string name="pref_keyboard_presets_summary">为快捷符号栏选择预设符号。</string>
+    <string name="pref_keyboard_preset_title">预设符号</string>
+    <string name="pref_keyboard_preset_summary">为快捷符号栏选择预设符号。</string>
     <string name="pref_soft_keyboard_title">软键盘</string>
     <string name="pref_soft_keyboard_summary">始终使用软键盘。</string>
 

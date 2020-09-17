@@ -52,7 +52,7 @@ class EditorFragment : PreferenceFragmentCompat() {
         }
         findPreference<Preference>(KEY_ERROR_HIGHLIGHTING)?.isEnabled = isUltimate()
         findPreference<Preference>(KEY_KEYBOARD_PRESET)?.setOnPreferenceClickListener {
-            val destination = EditorFragmentDirections.toPresetsFragment()
+            val destination = EditorFragmentDirections.toPresetDialog()
             navController.navigate(destination)
             true
         }

@@ -86,9 +86,9 @@
             android:key="USE_EXTENDED_KEYBOARD"/>
 
         <Preference
-            android:title="@string/pref_keyboard_presets_title"
-            android:summary="@string/pref_keyboard_presets_summary"
-            android:key="KEYBOARD_PRESET"/>
+            android:title="@string/pref_keyboard_preset_title"
+            android:summary="@string/pref_keyboard_preset_summary"
+            android:key="KEYBOARD_PRESET_1"/>
 
         <SwitchPreference
             android:title="@string/pref_soft_keyboard_title"

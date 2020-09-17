@@ -69,12 +69,8 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/fontsFragment"/>
         <action
-            android:id="@+id/to_presetsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/presetsFragment"/>
+            android:id="@+id/to_presetDialog"
+            app:destination="@id/presetDialog"/>
     </fragment>
 
     <fragment
@@ -145,30 +141,11 @@
             app:argType="string"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/presetsFragment"
-        android:name="com.lightteam.modpeide.ui.presets.fragments.PresetsFragment"
-        android:label="@string/label_keyboard_presets"
-        tools:layout="@layout/fragment_keyboard_presets">
-        <action
-            android:id="@+id/to_newPresetFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/newPresetFragment"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/newPresetFragment"
-        android:name="com.lightteam.modpeide.ui.presets.fragments.NewPresetFragment"
-        android:label="@string/label_new_preset"
-        tools:layout="@layout/fragment_new_preset">
-        <argument
-            android:name="uuid"
-            app:nullable="true"
-            app:argType="string"/>
-    </fragment>
+    <dialog
+        android:id="@+id/presetDialog"
+        android:name="com.lightteam.modpeide.ui.settings.dialogs.PresetDialog"
+        android:label="@string/label_keyboard_preset"
+        tools:layout="@layout/dialog_preset"/>
 
     <fragment
         android:id="@+id/changeLogFragment"

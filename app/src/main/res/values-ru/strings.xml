@@ -30,8 +30,7 @@
     <string name="label_external_font">Внешний шрифт</string>
     <string name="label_themes">Темы</string>
     <string name="label_new_theme">Новая тема</string>
-    <string name="label_keyboard_presets">Клавиатурные пресеты</string>
-    <string name="label_new_preset">Новый пресет</string>
+    <string name="label_keyboard_preset">Клавиатурный пресет</string>
     <string name="label_changelog">Список изменений</string>
     <string name="label_latest_release">Последний релиз</string>
 
@@ -45,11 +44,10 @@
     <string name="hint_enter_theme_name">Название темы</string>
     <string name="hint_enter_theme_author">Автор темы</string>
     <string name="hint_enter_theme_desc">Краткое описание</string>
-    <string name="hint_enter_preset_name">Введите название пресета</string>
     <string name="hint_theme_desc">Новая цветовая схема</string>
-    <string name="hint_preset_name">Пользовательский</string>
-    <string name="hint_preset_chars_no_separation">Символы (без разделителей)</string>
+    <string name="hint_enter_preset_chars">Символы (без разделителей)</string>
 
+    <string name="action_reset">Сброс</string>
     <string name="action_restart">Обновить</string>
     <string name="action_grant_access">Предоставить</string>
     <string name="action_yes">Да</string>
@@ -181,8 +179,6 @@
     <string name="message_theme_exported">Тема сохранена %1$s</string>
     <string name="message_choose_theme_json">Выберите файл темы .json</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
-    <string name="message_new_preset_available">Добавлен новый пресет: %1$s</string>
-    <string name="message_preset_removed">Пресет «%1$s» удален</string>
     <string name="message_elapsed_time">Прошло времени: %1$s</string>
     <string name="message_deleting">Удаление…%1$s</string>
     <string name="message_copying">Копирование…%1$s</string>
@@ -194,9 +190,8 @@
     <string name="store_feature_2">Цветовые схемы</string>
     <string name="store_feature_3">Редактор тем 🎉</string>
     <string name="store_feature_4">Внешние шрифты</string>
-    <string name="store_feature_5">Пресеты для клавиатуры</string>
-    <string name="store_feature_6">Проверка ошибок</string>
-    <string name="store_feature_7">Вставка цвета</string>
+    <string name="store_feature_5">Проверка ошибок</string>
+    <string name="store_feature_6">Вставка цвета</string>
 
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
@@ -276,8 +271,8 @@
     <string name="pref_highlight_delimiters_summary">Подсвечивать открытые/закрытые скобки рядом с курсором.</string>
     <string name="pref_extended_keyboard_title">Расширенная клавиатура</string>
     <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
-    <string name="pref_keyboard_presets_title">Клавиатурные пресеты</string>
-    <string name="pref_keyboard_presets_summary">Настройте раскладку расширенной клавиатуры.</string>
+    <string name="pref_keyboard_preset_title">Клавиатурный пресет</string>
+    <string name="pref_keyboard_preset_summary">Настройте раскладку расширенной клавиатуры.</string>
     <string name="pref_soft_keyboard_title">Soft-клавиатура</string>
     <string name="pref_soft_keyboard_summary">Использовать soft-клавиатуру в горизонтальном режиме.</string>
 

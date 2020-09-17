@@ -19,6 +19,7 @@ package com.lightteam.modpeide.ui.settings.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import com.f2prateek.rx.preferences2.Preference
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ReleaseConverter
 import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
@@ -35,9 +36,12 @@ class SettingsViewModel @ViewModelInject constructor(
     private val preferenceHandler: PreferenceHandler
 ) : BaseViewModel() {
 
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Полноэкранный режим
+
     val headersEvent: MutableLiveData<List<PreferenceItem>> = MutableLiveData()
     val changelogEvent: MutableLiveData<List<ReleaseModel>> = MutableLiveData()
+
+    var keyboardPreset: Preference<String> = preferenceHandler.getKeyboardPreset()
 
     fun fetchHeaders() {
         headersEvent.value = listOf(
