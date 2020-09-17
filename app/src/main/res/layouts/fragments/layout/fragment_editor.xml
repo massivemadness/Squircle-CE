@@ -316,7 +316,7 @@
                 android:textCursorDrawable="@drawable/caret"
                 android:dropDownAnchor="@id/tab_layout"
                 android:completionThreshold="2"
-                android:popupBackground="?colorSurface"
+                android:popupBackground="@drawable/autocomplete_bg"
                 android:background="@null"
                 android:scrollbars="none"
                 android:id="@+id/editor"/>

@@ -28,11 +28,11 @@
         android:layout_height="match_parent"
         android:paddingBottom="4dp"
         android:gravity="center"
-        android:background="?colorSecondaryVariant"
         android:textColor="?colorSecondary"
         android:textStyle="bold"
         android:textSize="14sp"
         android:id="@+id/item_type"
+        tools:background="?colorSecondaryVariant"
         tools:text="m"/>
 
     <TextView
