@@ -28,12 +28,15 @@ import com.lightteam.language.javascript.styler.lexer.JavaScriptLexer
 import com.lightteam.language.javascript.styler.lexer.JavaScriptToken
 import java.io.StringReader
 import java.lang.RuntimeException
+import java.util.regex.Pattern
 
 class JavaScriptStyler private constructor() : LanguageStyler {
 
     companion object {
 
         private const val TAG = "JavaScriptStyler"
+
+        private val METHOD = Pattern.compile("(?<=(function)) (\\w+)")
 
         private var javaScriptStyler: JavaScriptStyler? = null
 
@@ -50,6 +53,15 @@ class JavaScriptStyler private constructor() : LanguageStyler {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
         val sourceReader = StringReader(sourceCode)
         val lexer = JavaScriptLexer(sourceReader)
+
+        // FIXME flex doesn't support positive lookbehind
+        val matcher = METHOD.matcher(sourceCode)
+        matcher.region(0, sourceCode.length)
+        while (matcher.find()) {
+            val styleSpan = StyleSpan(syntaxScheme.methodColor)
+            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
+            syntaxHighlightSpans.add(syntaxHighlightSpan)
+        }
 
         while (true) {
             try {
@@ -93,9 +105,6 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.RBRACE,
                     JavaScriptToken.LBRACK,
                     JavaScriptToken.RBRACK,
-                    JavaScriptToken.SEMICOLON,
-                    JavaScriptToken.COMMA,
-                    JavaScriptToken.DOT,
                     JavaScriptToken.EQ,
                     JavaScriptToken.NOT,
                     JavaScriptToken.TILDE,
@@ -112,6 +121,11 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                         val styleSpan = StyleSpan(syntaxScheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                    JavaScriptToken.SEMICOLON,
+                    JavaScriptToken.COMMA,
+                    JavaScriptToken.DOT -> {
+                        continue // skip
                     }
                     JavaScriptToken.FUNCTION,
                     JavaScriptToken.PROTOTYPE,

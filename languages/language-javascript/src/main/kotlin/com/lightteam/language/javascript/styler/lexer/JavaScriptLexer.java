@@ -17,7 +17,6 @@
 
 package com.lightteam.language.javascript.styler.lexer;
 
-
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("all")
@@ -37,8 +36,8 @@ public class JavaScriptLexer {
 
   // Lexical states.
   public static final int YYINITIAL = 0;
-  public static final int DOUBLE_QUOTE_STRING = 2;
-  public static final int SINGLE_QUOTE_STRING = 4;
+  public static final int DOUBLE_QUOTED_STRING = 2;
+  public static final int SINGLE_QUOTED_STRING = 4;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -1363,7 +1362,7 @@ public class JavaScriptLexer {
             // fall through
           case 130: break;
           case 4:
-            { yybegin(DOUBLE_QUOTE_STRING); return JavaScriptToken.STRING_LITERAL;
+            { yybegin(DOUBLE_QUOTED_STRING); return JavaScriptToken.STRING_LITERAL;
             }
             // fall through
           case 131: break;
@@ -1383,7 +1382,7 @@ public class JavaScriptLexer {
             // fall through
           case 134: break;
           case 8:
-            { yybegin(SINGLE_QUOTE_STRING); return JavaScriptToken.STRING_LITERAL;
+            { yybegin(SINGLE_QUOTED_STRING); return JavaScriptToken.STRING_LITERAL;
             }
             // fall through
           case 135: break;

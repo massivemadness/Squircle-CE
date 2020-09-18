@@ -1,12 +1,13 @@
 package com.lightteam.language.javascript.styler.lexer;
 
+@SuppressWarnings("all")
 %%
 
 %public
 %class JavaScriptLexer
-%unicode
 %type JavaScriptToken
 %function advance
+%unicode
 %line
 %column
 %char
@@ -42,19 +43,19 @@ HEX_FP_LITERAL = {HEX_SIGNIFICAND} {HEX_EXPONENT}
 HEX_SIGNIFICAND = 0 [Xx] ({HEX_DIGIT_OR_UNDERSCORE}+ "."? | {HEX_DIGIT_OR_UNDERSCORE}* "." {HEX_DIGIT_OR_UNDERSCORE}+)
 HEX_EXPONENT = [Pp] [+-]? {DIGIT_OR_UNDERSCORE}*
 
-DOUBLE_QUOTE_STRING = [^\r\n\"\\]
-SINGLE_QUOTE_STRING = [^\r\n\'\\]
+DOUBLE_QUOTED_STRING = [^\r\n\"\\]
+SINGLE_QUOTED_STRING = [^\r\n\'\\]
 
 LINE_TERMINATOR = \r|\n|\r\n
 INPUT_CHARACTER = [^\r\n]
 WHITESPACE = {LINE_TERMINATOR} | [ \t\f]
 
-MULTILINE_COMMENT = "/*" [^*] ~"*/" | "/*" "*"+ "/"
-EOL_COMMENT = "//" {INPUT_CHARACTER}* {LINE_TERMINATOR}?
-DOC_COMMENT = "/*" "*"+ [^/*] ~"*/"
-COMMENT = {MULTILINE_COMMENT} | {EOL_COMMENT} | {DOC_COMMENT}
+BLOCK_COMMENT = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+LINE_COMMENT = "//" {INPUT_CHARACTER}* {LINE_TERMINATOR}?
+DOCUMENTATION_COMMENT = "/*" "*"+ [^/*] ~"*/"
+COMMENT = {LINE_COMMENT} | {BLOCK_COMMENT} | {DOCUMENTATION_COMMENT}
 
-%state DOUBLE_QUOTE_STRING, SINGLE_QUOTE_STRING
+%state DOUBLE_QUOTED_STRING, SINGLE_QUOTED_STRING
 
 %%
 
@@ -189,18 +190,18 @@ COMMENT = {MULTILINE_COMMENT} | {EOL_COMMENT} | {DOC_COMMENT}
 
   "=>" { return JavaScriptToken.ARROW; }
 
-  \" { yybegin(DOUBLE_QUOTE_STRING); return JavaScriptToken.STRING_LITERAL; }
-  \' { yybegin(SINGLE_QUOTE_STRING); return JavaScriptToken.STRING_LITERAL; }
+  \" { yybegin(DOUBLE_QUOTED_STRING); return JavaScriptToken.STRING_LITERAL; }
+  \' { yybegin(SINGLE_QUOTED_STRING); return JavaScriptToken.STRING_LITERAL; }
 
   {IDENTIFIER} { return JavaScriptToken.IDENTIFIER; }
   {COMMENT} { return JavaScriptToken.COMMENT; }
   {WHITESPACE} { return JavaScriptToken.WHITESPACE; }
 }
 
-<DOUBLE_QUOTE_STRING> {
+<DOUBLE_QUOTED_STRING> {
   \" { yybegin(YYINITIAL); return JavaScriptToken.STRING_LITERAL; }
 
-  {DOUBLE_QUOTE_STRING}+ { return JavaScriptToken.STRING_LITERAL; }
+  {DOUBLE_QUOTED_STRING}+ { return JavaScriptToken.STRING_LITERAL; }
 
   "\\b" { return JavaScriptToken.STRING_LITERAL; }
   "\\t" { return JavaScriptToken.STRING_LITERAL; }
@@ -215,10 +216,10 @@ COMMENT = {MULTILINE_COMMENT} | {EOL_COMMENT} | {DOC_COMMENT}
   {LINE_TERMINATOR} { throw new RuntimeException("Unterminated string at end of line"); }
 }
 
-<SINGLE_QUOTE_STRING> {
+<SINGLE_QUOTED_STRING> {
   \' { yybegin(YYINITIAL); return JavaScriptToken.STRING_LITERAL; }
 
-  {SINGLE_QUOTE_STRING}+ { return JavaScriptToken.STRING_LITERAL; }
+  {SINGLE_QUOTED_STRING}+ { return JavaScriptToken.STRING_LITERAL; }
 
   "\\b" { return JavaScriptToken.STRING_LITERAL; }
   "\\t" { return JavaScriptToken.STRING_LITERAL; }
