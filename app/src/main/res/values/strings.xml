@@ -149,7 +149,7 @@
     <string name="sort_by_date">Sort by Date</string>
 
     <string name="message_access_denied">Access Denied</string>
-    <string name="message_access_required">Application requires access to files to work correctly</string>
+    <string name="message_access_required">Application requires storage access to work with files</string>
     <string name="message_no_result">No result</string>
     <string name="message_no_open_files">No open files</string>
     <string name="message_tab_limit_achieved">Tab limit achieved</string>

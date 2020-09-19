@@ -39,8 +39,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="?colorSurface"
-            android:visibility="@{viewModel.hasPermission ? View.VISIBLE : View.GONE}"
-            android:elevation="4dp">
+            android:elevation="4dp"
+            android:visibility="gone"
+            android:id="@+id/app_bar">
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"

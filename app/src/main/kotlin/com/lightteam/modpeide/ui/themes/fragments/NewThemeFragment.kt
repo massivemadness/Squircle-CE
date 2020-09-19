@@ -17,13 +17,13 @@
 
 package com.lightteam.modpeide.ui.themes.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -42,18 +42,21 @@ import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.themes.adapters.PropertyAdapter
 import com.lightteam.modpeide.ui.themes.adapters.item.PropertyItem
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
-import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickListener<PropertyItem> {
 
-    companion object {
-        private const val REQUEST_CODE_FILE_CHOOSER = 11
-    }
-
     private val viewModel: ThemesViewModel by viewModels()
     private val navArgs: NewThemeFragmentArgs by navArgs()
+
+    private val importThemeContract: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri != null) {
+                val inputStream = requireContext().contentResolver.openInputStream(uri)
+                viewModel.importTheme(inputStream)
+            }
+        }
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentNewThemeBinding
@@ -88,8 +91,6 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         viewModel.metaEvent.value = meta
     }
 
-    // region MENU
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_new_theme, menu)
@@ -97,31 +98,9 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_import -> {
-                if (requireContext().hasExternalStorageAccess()) {
-                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                        type = "application/json"
-                    }
-                    val fileChooser = Intent.createChooser(intent, getString(R.string.message_choose_theme_json))
-                    startActivityForResult(fileChooser, REQUEST_CODE_FILE_CHOOSER)
-                } else {
-                    showToast(R.string.message_access_required)
-                }
-            }
+            R.id.action_import -> importThemeContract.launch(arrayOf("application/json"))
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    // endregion MENU
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_FILE_CHOOSER && resultCode == Activity.RESULT_OK) {
-            data?.data?.let {
-                val inputStream = requireContext().contentResolver.openInputStream(it)
-                viewModel.importTheme(inputStream)
-            }
-        }
     }
 
     override fun onClick(item: PropertyItem) {

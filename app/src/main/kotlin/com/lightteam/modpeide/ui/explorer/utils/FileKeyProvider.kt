@@ -27,12 +27,12 @@ class FileKeyProvider(
 ) : ItemKeyProvider<FileModel>(SCOPE_CACHED) {
 
     override fun getKey(position: Int): FileModel? {
-        val adapter = recyclerView.adapter as ListAdapter<FileModel, *>
-        return adapter.currentList[position]
+        val adapter = recyclerView.adapter as ListAdapter<*, *>
+        return adapter.currentList[position] as? FileModel
     }
 
     override fun getPosition(key: FileModel): Int {
-        val adapter = recyclerView.adapter as ListAdapter<FileModel, *>
+        val adapter = recyclerView.adapter as ListAdapter<*, *>
         return adapter.currentList.indexOf(key)
     }
 }

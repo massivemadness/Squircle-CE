@@ -17,6 +17,7 @@
 
 package com.lightteam.modpeide.ui.editor.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -58,7 +59,6 @@ import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.event.SettingsEvent
 import com.lightteam.modpeide.utils.extensions.createTypefaceFromPath
 import com.lightteam.modpeide.utils.extensions.isUltimate
-import com.lightteam.modpeide.utils.extensions.launchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -687,7 +687,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     override fun onSettingsButton(): Boolean {
-        context?.launchActivity<SettingsActivity>()
+        val intent = Intent(context, SettingsActivity::class.java)
+        startActivity(intent)
         return true
     }
 

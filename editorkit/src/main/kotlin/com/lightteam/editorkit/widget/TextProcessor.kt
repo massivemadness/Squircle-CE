@@ -45,15 +45,19 @@ class TextProcessor @JvmOverloads constructor(
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (event != null) {
+        if (event != null && shortcutListener != null) {
             val shortcut = Shortcut(
                 ctrl = event.isCtrlPressed,
                 shift = event.isShiftPressed,
                 alt = event.isAltPressed,
                 keyCode = keyCode
             )
-            if (shortcutListener?.onShortcut(shortcut) == true) {
-                return true
+
+            // Shortcuts can be handled only if one of these keys is pressed
+            if (shortcut.ctrl || shortcut.shift || shortcut.alt) {
+                if (shortcutListener!!.onShortcut(shortcut)) {
+                    return true
+                }
             }
         }
         return super.onKeyDown(keyCode, event)

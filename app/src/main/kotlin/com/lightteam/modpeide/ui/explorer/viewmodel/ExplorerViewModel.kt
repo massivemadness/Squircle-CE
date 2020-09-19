@@ -55,8 +55,6 @@ class ExplorerViewModel @ViewModelInject constructor(
 
     // region UI
 
-    val hasPermission: ObservableBoolean = ObservableBoolean(false) // Отображение интерфейса с разрешениями
-
     val stateLoadingFiles: ObservableBoolean = ObservableBoolean(true) // Индикатор загрузки файлов
     val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение что нет файлов
 
@@ -67,7 +65,7 @@ class ExplorerViewModel @ViewModelInject constructor(
     // region EVENTS
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
-    val hasAccessEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Доступ к хранилищу
+    val showAppBarEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Отображение вкладок
 
     val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Запрос на обновление списка файлов
     val selectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Выделить все файлы
