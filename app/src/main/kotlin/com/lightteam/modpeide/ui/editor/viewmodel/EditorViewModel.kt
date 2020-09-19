@@ -31,7 +31,7 @@ import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.repository.CacheRepository
 import com.lightteam.modpeide.data.repository.LocalRepository
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.data.utils.extensions.*
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
@@ -39,14 +39,14 @@ import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.utils.event.EventsQueue
-import com.lightteam.modpeide.utils.event.PreferenceEvent
+import com.lightteam.modpeide.utils.event.SettingsEvent
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler,
+    private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
     private val localRepository: LocalRepository,
     private val cacheRepository: CacheRepository
@@ -72,15 +72,15 @@ class EditorViewModel @ViewModelInject constructor(
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
     val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() // Проверка ошибок
     val contentEvent: SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>> = SingleLiveEvent() // Контент загруженного файла
-    val preferenceEvent: EventsQueue<PreferenceEvent<*>> = EventsQueue() // События с измененными настройками
+    val settingsEvent: EventsQueue<SettingsEvent<*>> = EventsQueue() // События с измененными настройками
 
     // endregion EVENTS
 
     val openUnknownFiles: Boolean
-        get() = preferenceHandler.getOpenUnknownFiles().get()
+        get() = settingsManager.getOpenUnknownFiles().get()
     private var selectedDocumentId: String
-        get() = preferenceHandler.getSelectedDocumentId().get()
-        set(value) = preferenceHandler.getSelectedDocumentId().set(value)
+        get() = settingsManager.getSelectedDocumentId().get()
+        set(value) = settingsManager.getSelectedDocumentId().set(value)
 
     fun loadFiles() {
         appDatabase.documentDao().loadAll()
@@ -210,8 +210,8 @@ class EditorViewModel @ViewModelInject constructor(
 
     // region PREFERENCES
 
-    fun observePreferences() {
-        preferenceHandler.getColorScheme()
+    fun observeSettings() {
+        settingsManager.getColorScheme()
             .asObservable()
             .flatMapSingle {
                 appDatabase.themeDao().load(it)
@@ -219,105 +219,105 @@ class EditorViewModel @ViewModelInject constructor(
             }
             .map(ThemeConverter::toModel)
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.ThemePref(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.ThemePref(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getFontSize()
+        settingsManager.getFontSize()
             .asObservable()
             .map { it.toFloat() }
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.FontSize(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.FontSize(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getFontType()
+        settingsManager.getFontType()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.FontType(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.FontType(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getWordWrap()
+        settingsManager.getWordWrap()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.WordWrap(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.WordWrap(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getCodeCompletion()
+        settingsManager.getCodeCompletion()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.CodeCompletion(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.CodeCompletion(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getErrorHighlighting()
+        settingsManager.getErrorHighlighting()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.ErrorHighlight(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.ErrorHighlight(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getPinchZoom()
+        settingsManager.getPinchZoom()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.PinchZoom(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.PinchZoom(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getHighlightCurrentLine()
+        settingsManager.getHighlightCurrentLine()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.CurrentLine(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.CurrentLine(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getHighlightMatchingDelimiters()
+        settingsManager.getHighlightMatchingDelimiters()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.Delimiters(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.Delimiters(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getExtendedKeyboard()
+        settingsManager.getExtendedKeyboard()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.ExtendedKeys(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.ExtendedKeys(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getKeyboardPreset()
+        settingsManager.getKeyboardPreset()
             .asObservable()
             .map { it.toCharArray().map(Char::toString) }
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.KeyboardPreset(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.KeyboardPreset(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getSoftKeyboard()
+        settingsManager.getSoftKeyboard()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.SoftKeys(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.SoftKeys(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getAutoIndentation()
+        settingsManager.getAutoIndentation()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.AutoIndent(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoIndent(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getAutoCloseBrackets()
+        settingsManager.getAutoCloseBrackets()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.AutoBrackets(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoBrackets(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getAutoCloseQuotes()
+        settingsManager.getAutoCloseQuotes()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.AutoQuotes(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoQuotes(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getUseSpacesNotTabs()
+        settingsManager.getUseSpacesNotTabs()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.UseSpacesNotTabs(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.UseSpacesNotTabs(it)) }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getTabWidth()
+        settingsManager.getTabWidth()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { preferenceEvent.offer(PreferenceEvent.TabWidth(it)) }
+            .subscribeBy { settingsEvent.offer(SettingsEvent.TabWidth(it)) }
             .disposeOnViewModelDestroy()
     }
 

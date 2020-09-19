@@ -25,8 +25,8 @@ import com.lightteam.filesystem.base.Filesystem
 import com.lightteam.filesystem.base.exception.*
 import com.lightteam.filesystem.base.model.*
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.data.utils.commons.FileSorter
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
 import com.lightteam.modpeide.data.utils.extensions.containsFileModel
 import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
@@ -44,7 +44,7 @@ import javax.inject.Named
 
 class ExplorerViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler,
+    private val settingsManager: SettingsManager,
     @Named("Local")
     private val filesystem: Filesystem
 ) : BaseViewModel() {
@@ -98,26 +98,26 @@ class ExplorerViewModel @ViewModelInject constructor(
     val cancelableDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     var showHidden: Boolean
-        get() = preferenceHandler.getFilterHidden().get()
+        get() = settingsManager.getFilterHidden().get()
         set(value) {
-            preferenceHandler.getFilterHidden().set(value)
+            settingsManager.getFilterHidden().set(value)
             filesUpdateEvent.call()
         }
 
     var foldersOnTop: Boolean
-        get() = preferenceHandler.getFoldersOnTop().get()
+        get() = settingsManager.getFoldersOnTop().get()
         set(value) {
-            preferenceHandler.getFoldersOnTop().set(value)
+            settingsManager.getFoldersOnTop().set(value)
             filesUpdateEvent.call()
         }
 
     val viewMode: Int
-        get() = Integer.parseInt(preferenceHandler.getViewMode().get())
+        get() = Integer.parseInt(settingsManager.getViewMode().get())
 
     var sortMode: Int
-        get() = Integer.parseInt(preferenceHandler.getSortMode().get())
+        get() = Integer.parseInt(settingsManager.getSortMode().get())
         set(value) {
-            preferenceHandler.getSortMode().set(value.toString())
+            settingsManager.getSortMode().set(value.toString())
             filesUpdateEvent.call()
         }
 

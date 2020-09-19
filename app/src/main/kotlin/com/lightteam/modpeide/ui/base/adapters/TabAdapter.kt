@@ -48,18 +48,6 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     override fun getItemCount(): Int = currentList.size
 
-    fun setOnTabSelectedListener(listener: OnTabSelectedListener) {
-        onTabSelectedListener = listener
-    }
-
-    fun setOnTabMovedListener(listener: OnTabMovedListener) {
-        onTabMovedListener = listener
-    }
-
-    fun setOnDataRefreshListener(listener: OnDataRefreshListener) {
-        onDataRefreshListener = listener
-    }
-
     fun submitList(list: List<T>) {
         _currentList = list.toMutableList()
         notifyDataSetChanged()
@@ -121,6 +109,18 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         onDataRefreshListener?.onDataRefresh()
         select(newPosition)
         isClosing = false
+    }
+
+    fun setOnTabSelectedListener(listener: OnTabSelectedListener) {
+        onTabSelectedListener = listener
+    }
+
+    fun setOnTabMovedListener(listener: OnTabMovedListener) {
+        onTabMovedListener = listener
+    }
+
+    fun setOnDataRefreshListener(listener: OnDataRefreshListener) {
+        onDataRefreshListener = listener
     }
 
     interface OnTabSelectedListener {

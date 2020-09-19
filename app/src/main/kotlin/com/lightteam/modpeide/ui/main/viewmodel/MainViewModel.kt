@@ -27,7 +27,7 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.installStatus
 import com.lightteam.filesystem.base.model.FileModel
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
@@ -36,7 +36,7 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class MainViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler,
+    private val settingsManager: SettingsManager,
     private val appUpdateManager: AppUpdateManager
 ) : BaseViewModel() {
 
@@ -88,14 +88,14 @@ class MainViewModel @ViewModelInject constructor(
         appUpdateManager.completeUpdate()
     }
 
-    fun observePreferences() {
-        preferenceHandler.getFullscreenMode()
+    fun observeSettings() {
+        settingsManager.getFullscreenMode()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fullscreenEvent.value = it }
             .disposeOnViewModelDestroy()
 
-        preferenceHandler.getConfirmExit()
+        settingsManager.getConfirmExit()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { confirmExitEvent.value = it }

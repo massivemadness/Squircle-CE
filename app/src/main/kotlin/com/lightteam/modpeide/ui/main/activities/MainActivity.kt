@@ -126,6 +126,6 @@ class MainActivity : BaseActivity() {
             binding.drawerLayout?.closeDrawer(GravityCompat.START)
         })
 
-        viewModel.observePreferences()
+        viewModel.observeSettings()
     }
 }

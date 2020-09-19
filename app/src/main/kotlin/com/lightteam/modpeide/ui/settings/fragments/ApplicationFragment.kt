@@ -24,12 +24,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 
     companion object {
-        private const val KEY_COLOR_SCHEME = PreferenceHandler.KEY_COLOR_SCHEME
+        private const val KEY_COLOR_SCHEME = SettingsManager.KEY_COLOR_SCHEME
     }
 
     private lateinit var navController: NavController

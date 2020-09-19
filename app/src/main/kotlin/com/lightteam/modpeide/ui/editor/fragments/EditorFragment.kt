@@ -55,7 +55,7 @@ import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
-import com.lightteam.modpeide.utils.event.PreferenceEvent
+import com.lightteam.modpeide.utils.event.SettingsEvent
 import com.lightteam.modpeide.utils.extensions.createTypefaceFromPath
 import com.lightteam.modpeide.utils.extensions.isUltimate
 import com.lightteam.modpeide.utils.extensions.launchActivity
@@ -85,7 +85,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.observePreferences()
+        viewModel.observeSettings()
         if (savedInstanceState == null) {
             viewModel.loadFiles()
         }
@@ -202,9 +202,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         viewModel.toastEvent.observe(viewLifecycleOwner, {
             showToast(it)
         })
-        viewModel.loadFilesEvent.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-            viewModel.findRecentTab(it)
+        viewModel.loadFilesEvent.observe(viewLifecycleOwner, { list ->
+            adapter.submitList(list)
+            viewModel.findRecentTab(list)
         })
         viewModel.selectTabEvent.observe(viewLifecycleOwner, { position ->
             sharedViewModel.closeDrawerEvent.call()
@@ -244,20 +244,20 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         // region PREFERENCES
 
-        viewModel.preferenceEvent.observe(viewLifecycleOwner, { queue ->
+        viewModel.settingsEvent.observe(viewLifecycleOwner, { queue ->
             val tempConfig = binding.editor.config
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
-                    is PreferenceEvent.ThemePref -> {
+                    is SettingsEvent.ThemePref -> {
                         binding.editor.colorScheme = event.value.colorScheme
                     }
-                    is PreferenceEvent.FontSize -> tempConfig.fontSize = event.value
-                    is PreferenceEvent.FontType -> {
+                    is SettingsEvent.FontSize -> tempConfig.fontSize = event.value
+                    is SettingsEvent.FontType -> {
                         tempConfig.fontType = requireContext().createTypefaceFromPath(event.value)
                     }
-                    is PreferenceEvent.WordWrap -> tempConfig.wordWrap = event.value
-                    is PreferenceEvent.CodeCompletion -> tempConfig.codeCompletion = event.value
-                    is PreferenceEvent.ErrorHighlight -> {
+                    is SettingsEvent.WordWrap -> tempConfig.wordWrap = event.value
+                    is SettingsEvent.CodeCompletion -> tempConfig.codeCompletion = event.value
+                    is SettingsEvent.ErrorHighlight -> {
                         if (isUltimate() && event.value) {
                             binding.editor
                                 .textChangeEvents()
@@ -278,10 +278,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .disposeOnFragmentDestroyView()
                         }
                     }
-                    is PreferenceEvent.PinchZoom -> tempConfig.pinchZoom = event.value
-                    is PreferenceEvent.CurrentLine -> tempConfig.highlightCurrentLine = event.value
-                    is PreferenceEvent.Delimiters -> tempConfig.highlightDelimiters = event.value
-                    is PreferenceEvent.ExtendedKeys -> {
+                    is SettingsEvent.PinchZoom -> tempConfig.pinchZoom = event.value
+                    is SettingsEvent.CurrentLine -> tempConfig.highlightCurrentLine = event.value
+                    is SettingsEvent.Delimiters -> tempConfig.highlightDelimiters = event.value
+                    is SettingsEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                             if (event.value) {
                                 binding.keyboardContainer.visibility =
@@ -291,15 +291,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                             }
                         }
                     }
-                    is PreferenceEvent.KeyboardPreset -> {
+                    is SettingsEvent.KeyboardPreset -> {
                         binding.extendedKeyboard.submitList(event.value)
                     }
-                    is PreferenceEvent.SoftKeys -> tempConfig.softKeyboard = event.value
-                    is PreferenceEvent.AutoIndent -> tempConfig.autoIndentation = event.value
-                    is PreferenceEvent.AutoBrackets -> tempConfig.autoCloseBrackets = event.value
-                    is PreferenceEvent.AutoQuotes -> tempConfig.autoCloseQuotes = event.value
-                    is PreferenceEvent.UseSpacesNotTabs -> tempConfig.useSpacesInsteadOfTabs = event.value
-                    is PreferenceEvent.TabWidth -> tempConfig.tabWidth = event.value
+                    is SettingsEvent.SoftKeys -> tempConfig.softKeyboard = event.value
+                    is SettingsEvent.AutoIndent -> tempConfig.autoIndentation = event.value
+                    is SettingsEvent.AutoBrackets -> tempConfig.autoCloseBrackets = event.value
+                    is SettingsEvent.AutoQuotes -> tempConfig.autoCloseQuotes = event.value
+                    is SettingsEvent.UseSpacesNotTabs -> tempConfig.useSpacesInsteadOfTabs = event.value
+                    is SettingsEvent.TabWidth -> tempConfig.tabWidth = event.value
                 }
             }
             binding.editor.config = tempConfig

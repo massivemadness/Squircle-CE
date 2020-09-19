@@ -24,15 +24,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.utils.extensions.isUltimate
 
 class EditorFragment : PreferenceFragmentCompat() {
 
     companion object {
-        private const val KEY_FONT_TYPE = PreferenceHandler.KEY_FONT_TYPE
-        private const val KEY_ERROR_HIGHLIGHTING = PreferenceHandler.KEY_ERROR_HIGHLIGHTING
-        private const val KEY_KEYBOARD_PRESET = PreferenceHandler.KEY_KEYBOARD_PRESET
+        private const val KEY_FONT_TYPE = SettingsManager.KEY_FONT_TYPE
+        private const val KEY_ERROR_HIGHLIGHTING = SettingsManager.KEY_ERROR_HIGHLIGHTING
+        private const val KEY_KEYBOARD_PRESET = SettingsManager.KEY_KEYBOARD_PRESET
     }
 
     private lateinit var navController: NavController

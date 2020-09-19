@@ -32,7 +32,7 @@ import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.model.theme.ExternalTheme
 import com.lightteam.modpeide.data.model.theme.Meta
 import com.lightteam.modpeide.data.model.theme.Property
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.database.AppDatabase
@@ -51,7 +51,7 @@ import javax.inject.Named
 
 class ThemesViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler,
+    private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
     @Named("Local")
     private val filesystem: Filesystem,
@@ -111,7 +111,7 @@ class ThemesViewModel @ViewModelInject constructor(
     }
 
     fun selectTheme(themeModel: ThemeModel) {
-        preferenceHandler.getColorScheme().set(themeModel.uuid)
+        settingsManager.getColorScheme().set(themeModel.uuid)
         selectEvent.value = themeModel.name
     }
 
@@ -157,8 +157,8 @@ class ThemesViewModel @ViewModelInject constructor(
         Completable
             .fromAction {
                 appDatabase.themeDao().delete(ThemeConverter.toEntity(themeModel))
-                if (preferenceHandler.getColorScheme().get() == themeModel.uuid) {
-                    preferenceHandler.getColorScheme().delete()
+                if (settingsManager.getColorScheme().get() == themeModel.uuid) {
+                    settingsManager.getColorScheme().delete()
                 }
             }
             .schedulersIoToMain(schedulersProvider)

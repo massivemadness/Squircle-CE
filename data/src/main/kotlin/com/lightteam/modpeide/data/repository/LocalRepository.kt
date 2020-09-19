@@ -23,7 +23,7 @@ import com.lightteam.filesystem.base.model.FileParams
 import com.lightteam.filesystem.base.model.LineBreak
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.delegate.LanguageDelegate
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.data.utils.extensions.safeCharset
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
@@ -34,20 +34,20 @@ import io.reactivex.Single
 import java.nio.charset.Charset
 
 class LocalRepository(
-    private val preferenceHandler: PreferenceHandler,
+    private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
     private val filesystem: Filesystem
 ) : DocumentRepository {
 
     private val encodingAutoDetect: Boolean
-        get() = preferenceHandler.getEncodingAutoDetect().get()
+        get() = settingsManager.getEncodingAutoDetect().get()
     private val encodingForOpening: Charset
-        get() = safeCharset(preferenceHandler.getEncodingForOpening().get())
+        get() = safeCharset(settingsManager.getEncodingForOpening().get())
     private val encodingForSaving: Charset
-        get() = safeCharset(preferenceHandler.getEncodingForSaving().get())
+        get() = safeCharset(settingsManager.getEncodingForSaving().get())
 
     private val linebreakForSaving: LineBreak
-        get() = LineBreak.find(preferenceHandler.getLinebreakForSaving().get())
+        get() = LineBreak.find(settingsManager.getLinebreakForSaving().get())
 
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val fileModel = DocumentConverter.toModel(documentModel)

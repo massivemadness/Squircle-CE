@@ -21,7 +21,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,7 +31,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object PreferenceModule {
+object SettingsModule {
 
     @Provides
     @Singleton
@@ -47,7 +47,7 @@ object PreferenceModule {
 
     @Provides
     @Singleton
-    fun providePreferenceHandler(rxSharedPreferences: RxSharedPreferences): PreferenceHandler {
-        return PreferenceHandler(rxSharedPreferences)
+    fun provideSettingsManager(rxSharedPreferences: RxSharedPreferences): SettingsManager {
+        return SettingsManager(rxSharedPreferences)
     }
 }
