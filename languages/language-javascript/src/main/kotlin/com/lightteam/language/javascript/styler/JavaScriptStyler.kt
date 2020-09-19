@@ -26,8 +26,8 @@ import com.lightteam.language.base.styler.task.StylingTask
 import com.lightteam.language.base.styler.utils.StylingResult
 import com.lightteam.language.javascript.styler.lexer.JavaScriptLexer
 import com.lightteam.language.javascript.styler.lexer.JavaScriptToken
+import java.io.IOException
 import java.io.StringReader
-import java.lang.RuntimeException
 import java.util.regex.Pattern
 
 class JavaScriptStyler private constructor() : LanguageStyler {
@@ -224,7 +224,7 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                         break
                     }
                 }
-            } catch (e: RuntimeException) {
+            } catch (e: IOException) {
                 Log.e(TAG, e.message, e)
                 break
             }

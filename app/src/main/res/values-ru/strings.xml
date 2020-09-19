@@ -94,21 +94,17 @@
     <string name="action_close_find">Закрыть поиск</string>
     <string name="action_replace">Заменить</string>
     <string name="action_close_replace">Закрыть замену</string>
-    <string name="action_replace_all">Заменить все</string>
     <string name="action_goto_line">Перейти к строке</string>
     <string name="action_go_to">Перейти</string>
     <string name="action_error_checking">Проверка ошибок</string>
     <string name="action_insert_color">Вставить цвет</string>
     <string name="action_settings">Настройки</string>
-    <string name="action_search">Поиск</string>
     <string name="action_tools">Инструменты</string>
 
-    <string name="dialog_title_choose_action">Выберите действие</string>
     <string name="dialog_title_create">Создать…</string>
     <string name="dialog_title_rename">Переименовать…</string>
     <string name="dialog_title_multi_delete">Множественное удаление</string>
     <string name="dialog_title_store">Получите Ultimate Edition</string>
-    <string name="dialog_title_privacy_policy">Политика конфиденциальности</string>
     <string name="dialog_title_exit">Выход</string>
     <string name="dialog_title_properties">Свойства</string>
     <string name="dialog_title_color_picker">Выберите цвет</string>
@@ -166,7 +162,6 @@
     <string name="message_nothing_to_cut">Невозможно вырезать</string>
     <string name="message_nothing_to_copy">Невозможно копировать</string>
     <string name="message_nothing_to_paste">Невозможно вставить</string>
-    <string name="message_enter_the_text">Введите текст</string>
     <string name="message_line_not_exists">Такой линии не существует</string>
     <string name="message_no_errors_detected">Синтакcических ошибок не найдено</string>
     <string name="message_in_app_update_ready">Обновление загружено</string>

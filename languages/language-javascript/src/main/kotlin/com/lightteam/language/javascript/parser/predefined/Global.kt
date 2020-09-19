@@ -22,7 +22,7 @@ import com.lightteam.language.javascript.parser.JavaScriptParser
 /**
  * This class is a part of ModPE API. Simply ignore it.
  */
-@Suppress("unused", "unused_parameter")
+@Suppress("unused", "unused_parameter", "FunctionName")
 internal class Global : JavaScriptParser.FunctionRegistrar {
 
     // Entity

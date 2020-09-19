@@ -94,21 +94,17 @@
     <string name="action_close_find">关闭查找</string>
     <string name="action_replace">替换</string>
     <string name="action_close_replace">关闭替换</string>
-    <string name="action_replace_all">替换全部</string>
     <string name="action_goto_line">转到行</string>
     <string name="action_go_to">转到</string>
     <string name="action_error_checking">错误检查</string>
     <string name="action_insert_color">插入颜色</string>
     <string name="action_settings">设置</string>
-    <string name="action_search">搜索</string>
     <string name="action_tools">工具</string>
 
-    <string name="dialog_title_choose_action">选择操作</string>
     <string name="dialog_title_create">创建文件</string>
     <string name="dialog_title_rename">重命名文件</string>
     <string name="dialog_title_multi_delete">删除所选文件</string>
     <string name="dialog_title_store">获取 Ultimate Edition</string>
-    <string name="dialog_title_privacy_policy">隐私政策</string>
     <string name="dialog_title_exit">退出应用</string>
     <string name="dialog_title_properties">属性</string>
     <string name="dialog_title_color_picker">颜色选择器</string>
@@ -166,7 +162,6 @@
     <string name="message_nothing_to_cut">没有任何内容可剪切</string>
     <string name="message_nothing_to_copy">没有任何内容可复制</string>
     <string name="message_nothing_to_paste">没有任何内容可粘贴</string>
-    <string name="message_enter_the_text">输入文本</string>
     <string name="message_line_not_exists">行号不存在</string>
     <string name="message_no_errors_detected">未检测到语法错误</string>
     <string name="message_in_app_update_ready">应用已准备好新版本</string>

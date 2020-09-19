@@ -32,7 +32,7 @@
 
         <Preference
             android:title="@string/pref_font_type_title"
-            android:summary="@string/pref_font_size_summary"
+            android:summary="@string/pref_font_type_summary"
             android:key="FONT_TYPE_3"/>
 
     </PreferenceCategory>

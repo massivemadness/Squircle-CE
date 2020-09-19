@@ -20,7 +20,7 @@ package com.lightteam.language.javascript.parser.predefined
 /**
  * This class is a part of ModPE API. Simply ignore it.
  */
-@Suppress("unused")
+@Suppress("unused", "PropertyName")
 internal class BlockRenderLayer {
     @JvmField
     val alpha: Int = -1
