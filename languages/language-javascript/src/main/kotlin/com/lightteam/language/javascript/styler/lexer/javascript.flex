@@ -212,8 +212,8 @@ COMMENT = {LINE_COMMENT} | {BLOCK_COMMENT} | {DOCUMENTATION_COMMENT}
   "\\'" { return JavaScriptToken.STRING_LITERAL; }
   "\\\\" { return JavaScriptToken.STRING_LITERAL; }
 
-  \\. { throw new RuntimeException("Illegal escape sequence \""+yytext()+"\""); }
-  {LINE_TERMINATOR} { throw new RuntimeException("Unterminated string at end of line"); }
+  \\. { return JavaScriptToken.BAD_CHARACTER; }
+  {LINE_TERMINATOR} { return JavaScriptToken.BAD_CHARACTER; }
 }
 
 <SINGLE_QUOTED_STRING> {
@@ -230,8 +230,8 @@ COMMENT = {LINE_COMMENT} | {BLOCK_COMMENT} | {DOCUMENTATION_COMMENT}
   "\\'" { return JavaScriptToken.STRING_LITERAL; }
   "\\\\" { return JavaScriptToken.STRING_LITERAL; }
 
-  \\. { throw new RuntimeException("Illegal escape sequence \""+yytext()+"\""); }
-  {LINE_TERMINATOR} { throw new RuntimeException("Unterminated string at end of line"); }
+  \\. { return JavaScriptToken.BAD_CHARACTER; }
+  {LINE_TERMINATOR} { return JavaScriptToken.BAD_CHARACTER; }
 }
 
 [^] { return JavaScriptToken.BAD_CHARACTER; }

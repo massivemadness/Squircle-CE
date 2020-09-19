@@ -20,6 +20,7 @@ package com.lightteam.language.plaintext.styler
 import com.lightteam.language.base.model.SyntaxScheme
 import com.lightteam.language.base.styler.LanguageStyler
 import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
+import com.lightteam.language.base.styler.utils.StylingResult
 
 class PlainTextStyler private constructor() : LanguageStyler {
 
@@ -42,7 +43,7 @@ class PlainTextStyler private constructor() : LanguageStyler {
     override fun enqueue(
         sourceCode: String,
         syntaxScheme: SyntaxScheme,
-        callback: (List<SyntaxHighlightSpan>) -> Unit
+        stylingResult: StylingResult
     ) = Unit
 
     override fun cancel() = Unit
