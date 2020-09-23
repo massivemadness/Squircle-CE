@@ -47,7 +47,7 @@
     <string name="hint_theme_desc">如：默认配色方案</string>
     <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
 
-    <string name="action_reset">Reset</string>
+    <string name="action_reset">重置</string>
     <string name="action_restart">重启</string>
     <string name="action_grant_access">授予访问权限</string>
     <string name="action_yes">是</string>
