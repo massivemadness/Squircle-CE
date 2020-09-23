@@ -47,7 +47,7 @@
     <string name="hint_theme_desc">如：默认配色方案</string>
     <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
 
-    <string name="action_reset">Reset</string>
+    <string name="action_reset">重置</string>
     <string name="action_restart">重启</string>
     <string name="action_grant_access">授予访问权限</string>
     <string name="action_yes">是</string>
@@ -234,7 +234,7 @@
     <string name="pref_category_editor">编辑器</string>
     <string name="pref_category_keyboard">键盘</string>
     <string name="pref_category_code_style">代码范</string>
-    <string name="pref_category_tab_options">Tab Options</string>
+    <string name="pref_category_tab_options">制表符</string>
     <string name="pref_category_encoding">文本编码</string>
     <string name="pref_category_linebreaks">换行符</string>
     <string name="pref_category_file_explorer">文件管理器</string>
@@ -277,10 +277,10 @@
     <string name="pref_close_brackets_summary">输入时自动闭合小括号、方括号或大括号。</string>
     <string name="pref_close_quotes_title">引号闭合</string>
     <string name="pref_close_quotes_summary">输入时自动闭合单引号或双引号。</string>
-    <string name="pref_use_spaces_not_tabs_title">Use spaces instead of tabs</string>
-    <string name="pref_use_spaces_not_tabs_summary">Insert spaces instead of tabs when using auto-indentation.</string>
-    <string name="pref_tab_width_title">Tab Width</string>
-    <string name="pref_tab_width_summary">Specify the displayed width of tabs in the editor.</string>
+    <string name="pref_use_spaces_not_tabs_title">空格代替制表符</string>
+    <string name="pref_use_spaces_not_tabs_summary">自动缩进时插入空格代替制表符</string>
+    <string name="pref_tab_width_title">制表符个数</string>
+    <string name="pref_tab_width_summary">指定编辑器中展示的制表符个数</string>
 
     <string name="pref_encoding_auto_detect_title">自动检测编码</string>
     <string name="pref_encoding_auto_detect_summary">自动检测编码对多字节语言是很有用的。</string>
