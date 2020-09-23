@@ -26,7 +26,7 @@ import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.google.android.material.progressindicator.ProgressIndicator
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.ui.base.dialogs.BaseDialogFragment
 import com.lightteam.modpeide.ui.explorer.utils.Operation

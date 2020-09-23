@@ -25,10 +25,14 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         get() = _selectedPosition
     private var _selectedPosition = -1
 
-    private val currentList: MutableList<T> = mutableListOf()
+    val currentList: List<T>
+        get() = _currentList
+    private var _currentList: MutableList<T> = mutableListOf()
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
     private var onTabMovedListener: OnTabMovedListener? = null
+    private var onDataRefreshListener: OnDataRefreshListener? = null
+
     private var recyclerView: RecyclerView? = null
     private var isClosing = false
 
@@ -42,32 +46,18 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         this.recyclerView = null
     }
 
-    override fun getItemCount(): Int {
-        return currentList.size
-    }
-
-    fun setOnTabSelectedListener(listener: OnTabSelectedListener) {
-        onTabSelectedListener = listener
-    }
-
-    fun setOnTabMovedListener(listener: OnTabMovedListener) {
-        onTabMovedListener = listener
-    }
-
-    fun getItem(position: Int): T {
-        return currentList[position]
-    }
+    override fun getItemCount(): Int = currentList.size
 
     fun submitList(list: List<T>) {
-        currentList.clear()
-        currentList.addAll(list)
+        _currentList = list.toMutableList()
         notifyDataSetChanged()
+        onDataRefreshListener?.onDataRefresh()
     }
 
     fun move(from: Int, to: Int): Boolean {
         val temp = currentList[from]
-        currentList.removeAt(from)
-        currentList.add(to, temp)
+        _currentList.removeAt(from)
+        _currentList.add(to, temp)
 
         when {
             selectedPosition in to until from -> _selectedPosition++
@@ -114,19 +104,36 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         if (position < selectedPosition) {
             newPosition -= 1
         }
-        currentList.removeAt(position)
+        _currentList.removeAt(position)
         notifyItemRemoved(position)
+        onDataRefreshListener?.onDataRefresh()
         select(newPosition)
         isClosing = false
     }
 
+    fun setOnTabSelectedListener(listener: OnTabSelectedListener) {
+        onTabSelectedListener = listener
+    }
+
+    fun setOnTabMovedListener(listener: OnTabMovedListener) {
+        onTabMovedListener = listener
+    }
+
+    fun setOnDataRefreshListener(listener: OnDataRefreshListener) {
+        onDataRefreshListener = listener
+    }
+
     interface OnTabSelectedListener {
-        fun onTabReselected(position: Int)
-        fun onTabUnselected(position: Int)
-        fun onTabSelected(position: Int)
+        fun onTabReselected(position: Int) { /* optional */ }
+        fun onTabUnselected(position: Int) { /* optional */ }
+        fun onTabSelected(position: Int) { /* optional */ }
     }
 
     interface OnTabMovedListener {
         fun onTabMoved(from: Int, to: Int)
+    }
+
+    interface OnDataRefreshListener {
+        fun onDataRefresh()
     }
 }

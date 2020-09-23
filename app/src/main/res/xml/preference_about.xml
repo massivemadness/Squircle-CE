@@ -24,11 +24,14 @@
             android:icon="@mipmap/ic_launch_screen"
             android:title="@string/pref_about_standard_title"
             android:summary="@string/pref_about_summary"
-            android:key="ABOUT_AND_CHANGELOG"/>
+            android:key="CHANGELOG"/>
 
         <Preference
-            android:title="@string/pref_privacy_policy_title"
-            android:key="PRIVACY_POLICY"/>
+            android:title="@string/pref_privacy_policy_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/massivemadness/ModPE-IDE/blob/master/PRIVACY-POLICY.md"/>
+        </Preference>
 
     </PreferenceCategory>
 

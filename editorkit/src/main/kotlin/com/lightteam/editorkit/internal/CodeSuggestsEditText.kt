@@ -23,7 +23,6 @@ import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.adapter.SuggestionAdapter
-import com.lightteam.editorkit.feature.suggestions.WordsManager
 import com.lightteam.editorkit.utils.SymbolsTokenizer
 
 open class CodeSuggestsEditText @JvmOverloads constructor(
@@ -33,8 +32,6 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
 ) : AutoIndentEditText(context, attrs, defStyleAttr) {
 
     var suggestionAdapter: SuggestionAdapter? = null
-
-    private val wordsManager: WordsManager = WordsManager()
 
     override fun showDropDown() {
         if (!isPopupShowing) {
@@ -75,44 +72,39 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun processText(textParams: PrecomputedTextCompat?) {
-        wordsManager.clear()
+    override fun processText(textParams: PrecomputedTextCompat) {
+        language.getProvider().clearLines()
         super.processText(textParams)
-        fillWithPredefinedSuggestions()
+        suggestionAdapter?.setSuggestionProvider(language.getProvider())
     }
 
     override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
         super.addLine(lineNumber, lineStart, lineLength)
-        wordsManager.processLine(
-            processedText, lines.getLine(lineNumber),
-            lineStart, lineStart + lineLength
+        language.getProvider().processLine(
+            lineNumber = lineNumber,
+            text = text.substring(lineStart, lineStart + lineLength)
         )
     }
 
-    override fun removeLine(line: Int) {
-        wordsManager.deleteLine(lines.getLine(line))
-        super.removeLine(line)
+    override fun removeLine(lineNumber: Int) {
+        language.getProvider().deleteLine(lines.getIndexForLine(lineNumber))
+        super.removeLine(lineNumber)
     }
 
     override fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
         super.replaceText(newStart, newEnd, newText)
-        val start = if (newStart < 0) 0 else newStart
-        val startLine = lines.getLineForIndex(start)
-        val endLine = lines.getLineForIndex(newText.length + start)
+        val startLine = lines.getLineForIndex(newStart)
+        val endLine = lines.getLineForIndex(newText.length + newStart)
         for (currentLine in startLine..endLine) {
-            wordsManager.processLine(
-                processedText,
-                lines.getLine(currentLine),
-                getIndexForStartOfLine(currentLine),
-                getIndexForEndOfLine(currentLine)
-            )
+            val lineStart = getIndexForStartOfLine(currentLine)
+            val lineEnd = getIndexForEndOfLine(currentLine)
+            if (lineStart <= lineEnd && lineEnd <= text.length) {
+                language.getProvider().processLine(
+                    lineNumber = currentLine,
+                    text = text.substring(lineStart, lineEnd)
+                )
+            }
         }
-    }
-
-    private fun fillWithPredefinedSuggestions() {
-        suggestionAdapter?.wordsManager = wordsManager
-        wordsManager.applySuggestionProvider(language.getSuggestions())
-        wordsManager.processSuggestions()
     }
 
     private fun onDropDownSizeChange(width: Int, height: Int) {
@@ -127,7 +119,7 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
             val x = layout.getPrimaryHorizontal(selectionStart)
             val y = layout.getLineBaseline(line)
 
-            val offsetHorizontal = x + gutterWidth
+            val offsetHorizontal = x + paddingStart
             dropDownHorizontalOffset = offsetHorizontal.toInt()
 
             val offsetVertical = y - scrollY

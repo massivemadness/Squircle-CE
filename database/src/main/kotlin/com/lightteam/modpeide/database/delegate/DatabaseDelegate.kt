@@ -34,7 +34,8 @@ object DatabaseDelegate {
                 Migrations.MIGRATION_1_2,
                 Migrations.MIGRATION_2_3,
                 Migrations.MIGRATION_3_4,
-                Migrations.MIGRATION_4_5
+                Migrations.MIGRATION_4_5,
+                Migrations.MIGRATION_5_6
             )
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onOpen(db: SupportSQLiteDatabase) {
@@ -57,11 +58,6 @@ object DatabaseDelegate {
                             ('a484d6ae-9410-4798-9a34-d27538d6255d','Ladies Night','Light Team Software','Default color scheme',0,1,'#E0E2E4','#22282C','#2A3134','#4F575A','#E0E2E4','#859599','#373340','#5B2B41','#6E8BAE','#8A4364','#616161','#7EFBFD','#E7E2BC','#DA89A2','#DA89A2','#DA89A2','#8FB4C5','#75D367','#808C92'),
                             ('8a627f6f-59a8-40f9-8ad3-1ab32150cabe','Tomorrow Night','Light Team Software','Default color scheme',0,1,'#C6C8C6','#222426','#222426','#4B4D51','#FFFFFF','#C6C8C6','#2D2F33','#383B40','#EAC780','#4B4E54','#616161','#D49668','#CFD1CF','#AD95B8','#AD95B8','#AD95B8','#87A1BB','#B7BC73','#969896'),
                             ('f3ba9e8a-b594-4697-b0d1-526c2465f8d9','Visual Studio 2013','Light Team Software','Default color scheme',0,1,'#C8C8C8','#232323','#2C2C2C','#555555','#FFFFFF','#C6C8C6','#141414','#454464','#4F98F7','#1C3D6B','#616161','#BACDAB','#DCDCDC','#669BD1','#669BD1','#669BD1','#71C6B1','#CE9F89','#6BA455');
-                            """
-                    )
-                    db.execSQL("""
-                        INSERT OR IGNORE INTO `${Tables.PRESETS}` VALUES
-                            ('59d24164-3e1f-4a6d-bb8d-0ee23b4083e6', 'Default', 0, '{}();,.=\|&![]<>+-/*?:_')
                             """
                     )
                 }

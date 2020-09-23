@@ -19,8 +19,8 @@ package com.lightteam.modpeide.internal.di.app
 
 import android.content.Context
 import android.os.Environment
-import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.localfilesystem.repository.LocalFilesystem
+import com.lightteam.filesystem.base.Filesystem
+import com.lightteam.filesystem.local.LocalFilesystem
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.delegate.DatabaseDelegate
 import dagger.Module

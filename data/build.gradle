@@ -21,6 +21,7 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion rootProject.ext.compileSdk
     buildToolsVersion rootProject.ext.buildTools
+
     defaultConfig {
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
@@ -54,17 +55,19 @@ dependencies {
     // Rx
     implementation library.rxjava2
     implementation library.rxkotlin
-    implementation library.rxpreferences
+    implementation (library.rxpreferences) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
     // Modules
     implementation project(':domain')
     implementation project(':database')
     implementation project(':editorkit')
-    implementation project(':filesystems:filesystem')
-    implementation project(':filesystems:localfilesystem')
-    implementation project(':languages:language')
-    implementation project(':languages:unknown')
-    implementation project(':languages:javascript')
+    implementation project(':filesystems:filesystem-base')
+    implementation project(':filesystems:filesystem-local')
+    implementation project(':languages:language-base')
+    implementation project(':languages:language-plaintext')
+    implementation project(':languages:language-javascript')
 
     // Tests
     testImplementation testLibrary.junit

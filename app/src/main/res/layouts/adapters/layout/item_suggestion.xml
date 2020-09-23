@@ -16,14 +16,34 @@
   ~ limitations under the License.
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp"
-    android:id="@+id/item_title"
-    android:ellipsize="end"
-    android:singleLine="true"
-    android:textSize="14sp"
-    android:typeface="monospace"
-    tools:text="Suggestion"/>
+    android:orientation="horizontal"
+    tools:background="?colorSurface">
+
+    <TextView
+        android:layout_width="28dp"
+        android:layout_height="match_parent"
+        android:paddingBottom="4dp"
+        android:gravity="center"
+        android:textColor="?colorSecondary"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:id="@+id/item_type"
+        tools:background="?colorSecondaryVariant"
+        tools:text="m"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="6dp"
+        android:id="@+id/item_suggestion"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        android:typeface="monospace"
+        tools:text="function"/>
+
+</LinearLayout>

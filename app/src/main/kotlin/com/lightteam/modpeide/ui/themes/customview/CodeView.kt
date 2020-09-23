@@ -22,8 +22,7 @@ import android.text.Spannable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.toSpannable
-import com.lightteam.language.language.Language
-import com.lightteam.language.styler.span.SyntaxHighlightSpan
+import com.lightteam.language.base.Language
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
 
@@ -67,55 +66,21 @@ class CodeView @JvmOverloads constructor(
             colorize()
         }
 
-    private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-
     private fun colorize() {
         themeModel?.let {
-            post {
-                setTextColor(it.colorScheme.textColor)
-                // setBackgroundColor(it.colorScheme.backgroundColor)
-            }
+            setTextColor(it.colorScheme.textColor)
+            // setBackgroundColor(it.colorScheme.backgroundColor)
         }
     }
 
     private fun syntaxHighlight() {
         themeModel?.let {
-            language?.executeStyler(text.toString(), ThemeConverter.toSyntaxScheme(it)) { spans ->
-                syntaxHighlightSpans.clear()
-                syntaxHighlightSpans.addAll(spans)
-
+            val syntaxScheme = ThemeConverter.toSyntaxScheme(it)
+            language?.getStyler()?.execute(text.toString(), syntaxScheme)?.let { spans ->
                 if (layout != null) {
-                    var topLine = scrollY / lineHeight - 30
-                    if (topLine >= lineCount) {
-                        topLine = lineCount - 1
-                    } else if (topLine < 0) {
-                        topLine = 0
-                    }
-
-                    var bottomLine = (scrollY + height) / lineHeight + 30
-                    if (bottomLine >= lineCount) {
-                        bottomLine = lineCount - 1
-                    } else if (bottomLine < 0) {
-                        bottomLine = 0
-                    }
-
-                    val lineStart = layout.getLineStart(topLine)
-                    val lineEnd = layout.getLineEnd(bottomLine)
-
                     val currentText = text.toSpannable()
-                    for (span in syntaxHighlightSpans) {
-                        val isInText = span.start >= 0 && span.end <= text.length
-                        val isValid = span.start <= span.end
-                        val isVisible = span.start in lineStart..lineEnd ||
-                                span.start <= lineEnd && span.end >= lineStart
-                        if (isInText && isValid && isVisible) {
-                            currentText.setSpan(
-                                span,
-                                if (span.start < lineStart) lineStart else span.start,
-                                if (span.end > lineEnd) lineEnd else span.end,
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                        }
+                    for (span in spans) {
+                        currentText.setSpan(span, span.start, span.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     }
                     text = currentText
                 }

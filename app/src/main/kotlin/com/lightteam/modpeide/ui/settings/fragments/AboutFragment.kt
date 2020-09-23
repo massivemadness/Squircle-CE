@@ -30,8 +30,7 @@ import com.lightteam.modpeide.utils.extensions.isUltimate
 class AboutFragment : PreferenceFragmentCompat() {
 
     companion object {
-        private const val KEY_ABOUT_AND_CHANGELOG = "ABOUT_AND_CHANGELOG"
-        private const val KEY_PRIVACY_POLICY = "PRIVACY_POLICY"
+        private const val KEY_CHANGELOG = "CHANGELOG"
     }
 
     private lateinit var navController: NavController
@@ -44,7 +43,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_about, rootKey)
 
-        val changelog = findPreference<Preference>(KEY_ABOUT_AND_CHANGELOG)
+        val changelog = findPreference<Preference>(KEY_CHANGELOG)
         changelog?.setOnPreferenceClickListener {
             val destination = AboutFragmentDirections.toChangeLogFragment()
             navController.navigate(destination)
@@ -59,12 +58,5 @@ class AboutFragment : PreferenceFragmentCompat() {
             BuildConfig.VERSION_NAME,
             BuildConfig.VERSION_CODE
         )
-
-        val privacy = findPreference<Preference>(KEY_PRIVACY_POLICY)
-        privacy?.setOnPreferenceClickListener {
-            val destination = AboutFragmentDirections.toPrivacyPolicyDialog()
-            navController.navigate(destination)
-            true
-        }
     }
 }

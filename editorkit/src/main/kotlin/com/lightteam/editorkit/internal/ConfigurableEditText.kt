@@ -19,13 +19,11 @@ package com.lightteam.editorkit.internal
 
 import android.content.Context
 import android.graphics.Typeface
-import android.text.InputType
 import android.util.AttributeSet
-import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import com.lightteam.editorkit.R
 
-open class ConfigurableEditText @JvmOverloads constructor(
+abstract class ConfigurableEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
@@ -37,18 +35,7 @@ open class ConfigurableEditText @JvmOverloads constructor(
             configure()
         }
 
-    open fun configure() {
-        imeOptions = if (config.softKeyboard) {
-            EditorInfo.IME_ACTION_UNSPECIFIED
-        } else {
-            EditorInfo.IME_FLAG_NO_EXTRACT_UI
-        }
-        inputType = InputType.TYPE_CLASS_TEXT or
-                InputType.TYPE_TEXT_FLAG_MULTI_LINE or
-                InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-        textSize = config.fontSize
-        typeface = config.fontType
-    }
+    abstract fun configure()
 
     data class Config(
         // Font

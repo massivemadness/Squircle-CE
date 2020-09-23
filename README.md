@@ -1,4 +1,4 @@
-# ModPE IDE v2020.2.4
+# ModPE IDE v2020.2.5
 
 <b>ModPE IDE</b> is a professional code editor or IDE primarily for ModPE Script development.
 
@@ -36,7 +36,6 @@ ModPE Script is a script language based on JavaScript and used to create mods fo
 <b>•</b> Color Schemes  
 <b>•</b> Theme Editor 🎉  
 <b>•</b> External fonts  
-<b>•</b> Increased tab limit  
 <b>•</b> Error Checking  
 <b>•</b> Color Picker
 

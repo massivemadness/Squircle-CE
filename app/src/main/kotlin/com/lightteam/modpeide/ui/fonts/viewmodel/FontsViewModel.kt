@@ -20,7 +20,7 @@ package com.lightteam.modpeide.ui.fonts.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.lightteam.modpeide.data.converter.FontConverter
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.domain.model.font.FontModel
@@ -33,7 +33,7 @@ import java.io.File
 
 class FontsViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler,
+    private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase
 ) : BaseViewModel() {
 
@@ -55,7 +55,7 @@ class FontsViewModel @ViewModelInject constructor(
     }
 
     fun selectFont(fontModel: FontModel) {
-        preferenceHandler.getFontType().set(fontModel.fontPath)
+        settingsManager.getFontType().set(fontModel.fontPath)
         selectEvent.value = fontModel.fontName
     }
 
@@ -63,8 +63,8 @@ class FontsViewModel @ViewModelInject constructor(
         Completable
             .fromAction {
                 appDatabase.fontDao().delete(FontConverter.toEntity(fontModel))
-                if (preferenceHandler.getFontType().get() == fontModel.fontPath) {
-                    preferenceHandler.getFontType().delete()
+                if (settingsManager.getFontType().get() == fontModel.fontPath) {
+                    settingsManager.getFontType().delete()
                 }
             }
             .schedulersIoToMain(schedulersProvider)

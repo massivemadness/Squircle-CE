@@ -16,12 +16,12 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/editorkit" />
             <option value="$PROJECT_DIR$/filesystems" />
-            <option value="$PROJECT_DIR$/filesystems/filesystem" />
-            <option value="$PROJECT_DIR$/filesystems/localfilesystem" />
+            <option value="$PROJECT_DIR$/filesystems/filesystem-base" />
+            <option value="$PROJECT_DIR$/filesystems/filesystem-local" />
             <option value="$PROJECT_DIR$/languages" />
-            <option value="$PROJECT_DIR$/languages/javascript" />
-            <option value="$PROJECT_DIR$/languages/language" />
-            <option value="$PROJECT_DIR$/languages/unknown" />
+            <option value="$PROJECT_DIR$/languages/language-base" />
+            <option value="$PROJECT_DIR$/languages/language-javascript" />
+            <option value="$PROJECT_DIR$/languages/language-plaintext" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

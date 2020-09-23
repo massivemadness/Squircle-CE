@@ -108,11 +108,11 @@ class ThemeAdapter(
             binding.actionOverflow.isVisible = item.isExternal
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)
+            binding.editor.themeModel = themeModel
+            binding.editor.text = CodeView.CODE_PREVIEW
             binding.editor.doOnPreDraw {
-                binding.editor.themeModel = themeModel
                 binding.editor.language = LanguageDelegate.provideLanguage(".js")
             }
-            binding.editor.text = CodeView.CODE_PREVIEW
 
             binding.actionInfo.isEnabled = !item.isPaid || isUltimate()
             binding.actionSelect.isEnabled = !item.isPaid || isUltimate()

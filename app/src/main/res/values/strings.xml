@@ -31,8 +31,7 @@
     <string name="label_external_font">External Font</string>
     <string name="label_themes">Themes</string>
     <string name="label_new_theme">New Theme</string>
-    <string name="label_keyboard_presets">Keyboard presets</string>
-    <string name="label_new_preset">New Preset</string>
+    <string name="label_keyboard_preset">Keyboard preset</string>
     <string name="label_changelog">ChangeLog</string>
     <string name="label_latest_release">Latest release</string>
 
@@ -50,15 +49,14 @@
     <string name="hint_enter_theme_name">Enter theme name</string>
     <string name="hint_enter_theme_author">Enter theme author</string>
     <string name="hint_enter_theme_desc">Short description</string>
-    <string name="hint_enter_preset_name">Enter preset name</string>
     <string name="hint_font_name" translatable="false">Droid Sans Mono</string>
     <string name="hint_theme_name" translatable="false">Darcula</string>
     <string name="hint_theme_author" translatable="false">Light Team Software</string>
     <string name="hint_theme_desc">Default color scheme</string>
-    <string name="hint_preset_name">Custom</string>
-    <string name="hint_preset_chars_no_separation">Characters (no separation)</string>
-    <string name="hint_preset_characters" translatable="false">{}();,.=\|&amp;![]&lt;&gt;+-/*?:_</string>
+    <string name="hint_enter_preset_chars">Enter characters (without separation)</string>
+    <string name="hint_preset_chars" translatable="false">{}();,.=|&amp;![]&lt;&gt;+-/*?:_</string>
 
+    <string name="action_reset">Reset</string>
     <string name="action_restart">Restart</string>
     <string name="action_grant_access">Grant Access</string>
     <string name="action_yes">Yes</string>
@@ -105,21 +103,17 @@
     <string name="action_close_find">Close Find</string>
     <string name="action_replace">Replace</string>
     <string name="action_close_replace">Close Replace</string>
-    <string name="action_replace_all">Replace All</string>
     <string name="action_goto_line">Go to Line</string>
     <string name="action_go_to">Go to</string>
     <string name="action_error_checking">Error Checking</string>
     <string name="action_insert_color">Insert Color</string>
     <string name="action_settings">Settings</string>
-    <string name="action_search">Search</string>
     <string name="action_tools">Tools</string>
 
-    <string name="dialog_title_choose_action">Choose action</string>
     <string name="dialog_title_create">Create…</string>
     <string name="dialog_title_rename">Rename…</string>
     <string name="dialog_title_multi_delete">Multi-delete</string>
     <string name="dialog_title_store">Get the Ultimate Edition</string>
-    <string name="dialog_title_privacy_policy">Privacy Policy</string>
     <string name="dialog_title_exit">Exit</string>
     <string name="dialog_title_properties">Properties</string>
     <string name="dialog_title_color_picker">Color Picker</string>
@@ -155,7 +149,7 @@
     <string name="sort_by_date">Sort by Date</string>
 
     <string name="message_access_denied">Access Denied</string>
-    <string name="message_access_required">Application requires access to files to work correctly</string>
+    <string name="message_access_required">Application requires storage access to work with files</string>
     <string name="message_no_result">No result</string>
     <string name="message_no_open_files">No open files</string>
     <string name="message_tab_limit_achieved">Tab limit achieved</string>
@@ -177,8 +171,6 @@
     <string name="message_nothing_to_cut">Nothing to cut</string>
     <string name="message_nothing_to_copy">Nothing to copy</string>
     <string name="message_nothing_to_paste">Nothing to paste</string>
-    <string name="message_enter_the_text">Enter the text</string>
-    <string name="message_line_above_than_0">Line must be above 0</string>
     <string name="message_line_not_exists">Line does not exists</string>
     <string name="message_no_errors_detected">No syntax errors detected</string>
     <string name="message_in_app_update_ready">App is ready to update</string>
@@ -191,8 +183,6 @@
     <string name="message_theme_exported">Theme saved to %1$s</string>
     <string name="message_choose_theme_json">Choose .json theme file</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
-    <string name="message_new_preset_available">New preset available: %1$s</string>
-    <string name="message_preset_removed">Preset «%1$s» removed</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
     <string name="message_deleting">Deleting…%1$s</string>
     <string name="message_copying">Copying…%1$s</string>
@@ -207,10 +197,8 @@
     <string name="store_feature_2">Color schemes</string>
     <string name="store_feature_3">Theme editor 🎉</string>
     <string name="store_feature_4">External fonts</string>
-    <string name="store_feature_5">Keyboard presets</string>
-    <string name="store_feature_6">Increased tab limit</string>
-    <string name="store_feature_7">Error checking</string>
-    <string name="store_feature_8">Color picker</string>
+    <string name="store_feature_5">Error checking</string>
+    <string name="store_feature_6">Color picker</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>
@@ -260,7 +248,6 @@
     <string name="pref_category_look_and_feel">Look And Feel</string>
     <string name="pref_category_other">Other</string>
     <string name="pref_category_font">Font</string>
-    <string name="pref_category_tabs">Tabs</string>
     <string name="pref_category_editor">Editor</string>
     <string name="pref_category_keyboard">Keyboard</string>
     <string name="pref_category_code_style">Code Style</string>
@@ -282,10 +269,6 @@
     <string name="pref_font_size_summary">Specify the default font size of editor.</string>
     <string name="pref_font_type_title">Editor font type</string>
     <string name="pref_font_type_summary">Specify the default font type of editor.</string>
-    <string name="pref_resume_session_title">Resume session</string>
-    <string name="pref_resume_session_summary">Restore opened files for next launch.</string>
-    <string name="pref_tab_limit_title">Tab Limit</string>
-    <string name="pref_tab_limit_summary">Number of maximum tabs display on the screen.</string>
     <string name="pref_word_wrap_title">Word Wrap</string>
     <string name="pref_word_wrap_summary">Enable word wrap to fit screen width.</string>
     <string name="pref_code_completion_title">Code Completion</string>
@@ -300,8 +283,8 @@
     <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the caret at its pair.</string>
     <string name="pref_extended_keyboard_title">Extended Keyboard</string>
     <string name="pref_extended_keyboard_summary">Show additional keys above the keyboard.</string>
-    <string name="pref_keyboard_presets_title">Keyboard Presets</string>
-    <string name="pref_keyboard_presets_summary">Choose preset for extended keyboard.</string>
+    <string name="pref_keyboard_preset_title">Keyboard Preset</string>
+    <string name="pref_keyboard_preset_summary">Choose preset for extended keyboard.</string>
     <string name="pref_soft_keyboard_title">Soft Keyboard</string>
     <string name="pref_soft_keyboard_summary">Always use soft keyboard.</string>
 

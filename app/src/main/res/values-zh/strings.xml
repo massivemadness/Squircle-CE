@@ -30,8 +30,7 @@
     <string name="label_external_font">外部字体</string>
     <string name="label_themes">主题</string>
     <string name="label_new_theme">新建主题</string>
-    <string name="label_keyboard_presets">快捷符号栏</string>
-    <string name="label_new_preset">新建符号栏</string>
+    <string name="label_keyboard_preset">快捷符号栏</string>
     <string name="label_changelog">更新日志</string>
     <string name="label_latest_release">最新版本</string>
 
@@ -45,11 +44,10 @@
     <string name="hint_enter_theme_name">输入主题名称</string>
     <string name="hint_enter_theme_author">输入主题作者</string>
     <string name="hint_enter_theme_desc">主题简要描述</string>
-    <string name="hint_enter_preset_name">输入符号栏名称</string>
     <string name="hint_theme_desc">如：默认配色方案</string>
-    <string name="hint_preset_name">自定义</string>
-    <string name="hint_preset_chars_no_separation">符号栏预设符号（不要带分隔符）</string>
+    <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
 
+    <string name="action_reset">Reset</string>
     <string name="action_restart">重启</string>
     <string name="action_grant_access">授予访问权限</string>
     <string name="action_yes">是</string>
@@ -96,21 +94,17 @@
     <string name="action_close_find">关闭查找</string>
     <string name="action_replace">替换</string>
     <string name="action_close_replace">关闭替换</string>
-    <string name="action_replace_all">替换全部</string>
     <string name="action_goto_line">转到行</string>
     <string name="action_go_to">转到</string>
     <string name="action_error_checking">错误检查</string>
     <string name="action_insert_color">插入颜色</string>
     <string name="action_settings">设置</string>
-    <string name="action_search">搜索</string>
     <string name="action_tools">工具</string>
 
-    <string name="dialog_title_choose_action">选择操作</string>
     <string name="dialog_title_create">创建文件</string>
     <string name="dialog_title_rename">重命名文件</string>
     <string name="dialog_title_multi_delete">删除所选文件</string>
     <string name="dialog_title_store">获取 Ultimate Edition</string>
-    <string name="dialog_title_privacy_policy">隐私政策</string>
     <string name="dialog_title_exit">退出应用</string>
     <string name="dialog_title_properties">属性</string>
     <string name="dialog_title_color_picker">颜色选择器</string>
@@ -168,8 +162,6 @@
     <string name="message_nothing_to_cut">没有任何内容可剪切</string>
     <string name="message_nothing_to_copy">没有任何内容可复制</string>
     <string name="message_nothing_to_paste">没有任何内容可粘贴</string>
-    <string name="message_enter_the_text">输入文本</string>
-    <string name="message_line_above_than_0">行号必须大于0</string>
     <string name="message_line_not_exists">行号不存在</string>
     <string name="message_no_errors_detected">未检测到语法错误</string>
     <string name="message_in_app_update_ready">应用已准备好新版本</string>
@@ -182,8 +174,6 @@
     <string name="message_theme_exported">主题已保存到 %1$s</string>
     <string name="message_choose_theme_json">选择 .json 主题文件</string>
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
-    <string name="message_new_preset_available">新的快捷符号栏可用: %1$s</string>
-    <string name="message_preset_removed">快捷符号栏 «%1$s» 已移除</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
     <string name="message_deleting">删除中…%1$s</string>
     <string name="message_copying">复制中…%1$s</string>
@@ -195,10 +185,8 @@
     <string name="store_feature_2">配色方案</string>
     <string name="store_feature_3">主题编辑器 🎉</string>
     <string name="store_feature_4">外部字体</string>
-    <string name="store_feature_5">快捷符号栏</string>
-    <string name="store_feature_6">增加标签页上限</string>
-    <string name="store_feature_7">错误检查</string>
-    <string name="store_feature_8">颜色选择器</string>
+    <string name="store_feature_5">错误检查</string>
+    <string name="store_feature_6">颜色选择器</string>
 
     <string name="font_support_ligatures">* 支持连体字母</string>
     <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>
@@ -243,7 +231,6 @@
     <string name="pref_category_look_and_feel">外观</string>
     <string name="pref_category_other">其他</string>
     <string name="pref_category_font">字体</string>
-    <string name="pref_category_tabs">标签页</string>
     <string name="pref_category_editor">编辑器</string>
     <string name="pref_category_keyboard">键盘</string>
     <string name="pref_category_code_style">代码范</string>
@@ -265,10 +252,6 @@
     <string name="pref_font_size_summary">指定编辑器的默认字体大小。</string>
     <string name="pref_font_type_title">字体类型</string>
     <string name="pref_font_type_summary">指定编辑器的默认字体类型。</string>
-    <string name="pref_resume_session_title">恢复会话</string>
-    <string name="pref_resume_session_summary">下次启动时将恢复已打开的文件。</string>
-    <string name="pref_tab_limit_title">标签页上限</string>
-    <string name="pref_tab_limit_summary">限制标签页所能打开文件的最大数目。</string>
     <string name="pref_word_wrap_title">自动换行</string>
     <string name="pref_word_wrap_summary">是否根据屏幕宽度自动换行。</string>
     <string name="pref_code_completion_title">代码补全</string>
@@ -283,8 +266,8 @@
     <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
     <string name="pref_extended_keyboard_title">快捷符号栏</string>
     <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘之上显示符号栏以便快捷输入</string>
-    <string name="pref_keyboard_presets_title">预设符号</string>
-    <string name="pref_keyboard_presets_summary">为快捷符号栏选择预设符号。</string>
+    <string name="pref_keyboard_preset_title">预设符号</string>
+    <string name="pref_keyboard_preset_summary">为快捷符号栏选择预设符号。</string>
     <string name="pref_soft_keyboard_title">软键盘</string>
     <string name="pref_soft_keyboard_summary">始终使用软键盘。</string>
 

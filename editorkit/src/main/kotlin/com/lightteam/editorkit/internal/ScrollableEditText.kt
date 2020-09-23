@@ -19,10 +19,12 @@ package com.lightteam.editorkit.internal
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.ViewConfiguration
+import android.view.inputmethod.EditorInfo
 import android.widget.Scroller
 import com.lightteam.editorkit.R
 import kotlin.math.abs
@@ -34,13 +36,23 @@ open class ScrollableEditText @JvmOverloads constructor(
 ) : ConfigurableEditText(context, attrs, defStyleAttr) {
 
     private val textScroller = Scroller(context)
+    private val scrollListeners = mutableListOf<OnScrollChangedListener>()
+    private val maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
 
-    private var scrollListeners = arrayOf<OnScrollChangedListener>()
-    private var maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
     private var velocityTracker: VelocityTracker? = null
 
     override fun configure() {
-        super.configure()
+        imeOptions = if (config.softKeyboard) {
+            EditorInfo.IME_ACTION_UNSPECIFIED
+        } else {
+            EditorInfo.IME_FLAG_NO_EXTRACT_UI
+        }
+        inputType = InputType.TYPE_CLASS_TEXT or
+                InputType.TYPE_TEXT_FLAG_MULTI_LINE or
+                InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+        textSize = config.fontSize
+        typeface = config.fontType
+
         setHorizontallyScrolling(!config.wordWrap)
     }
 
@@ -61,41 +73,33 @@ open class ScrollableEditText @JvmOverloads constructor(
                 } else {
                     velocityTracker?.clear()
                 }
-                super.onTouchEvent(event)
             }
             MotionEvent.ACTION_UP -> {
                 velocityTracker?.computeCurrentVelocity(1000, maximumVelocity)
-                val velocityX = if (config.wordWrap) {
-                    0
-                } else {
+                val velocityX = if (!config.wordWrap) {
                     velocityTracker?.xVelocity?.toInt() ?: 0
-                }
+                } else 0
                 val velocityY = velocityTracker?.yVelocity?.toInt() ?: 0
                 if (abs(velocityY) < 0 || abs(velocityX) < 0) {
                     if (velocityTracker != null) {
                         velocityTracker?.recycle()
                         velocityTracker = null
                     }
-                    super.onTouchEvent(event)
                 }
-                if (layout == null) {
-                    return super.onTouchEvent(event)
+                if (layout != null) {
+                    textScroller.fling(
+                        scrollX, scrollY,
+                        -velocityX, -velocityY,
+                        0, layout.width - width + paddingStart + paddingEnd,
+                        0, layout.height - height + paddingTop + paddingBottom
+                    )
                 }
-                textScroller.fling(
-                    scrollX, scrollY,
-                    -velocityX, -velocityY,
-                    0, layout.width - width + paddingLeft + paddingRight,
-                    0, layout.height - height + paddingTop + paddingBottom
-                )
-                super.onTouchEvent(event)
             }
             MotionEvent.ACTION_MOVE -> {
                 velocityTracker?.addMovement(event)
-                super.onTouchEvent(event)
             }
-            else -> super.onTouchEvent(event)
         }
-        return true
+        return super.onTouchEvent(event)
     }
 
     override fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) {
@@ -115,11 +119,7 @@ open class ScrollableEditText @JvmOverloads constructor(
     }
 
     fun addOnScrollChangedListener(listener: OnScrollChangedListener) {
-        val newListener = arrayOfNulls<OnScrollChangedListener>(scrollListeners.size + 1)
-        val length = scrollListeners.size
-        System.arraycopy(scrollListeners, 0, newListener, 0, length)
-        newListener[newListener.size - 1] = listener
-        scrollListeners = newListener.requireNoNulls()
+        scrollListeners.add(listener)
     }
 
     fun abortFling() {

@@ -21,6 +21,7 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion rootProject.ext.compileSdk
     buildToolsVersion rootProject.ext.buildTools
+
     defaultConfig {
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
@@ -41,5 +42,5 @@ dependencies {
 
     // Modules
     implementation project(':editorkit')
-    implementation project(':languages:language')
+    implementation project(':languages:language-base')
 }

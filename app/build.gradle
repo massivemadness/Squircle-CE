@@ -17,7 +17,6 @@
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-// apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
@@ -25,14 +24,15 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 android {
     compileSdkVersion rootProject.ext.compileSdk
     buildToolsVersion rootProject.ext.buildTools
+
     defaultConfig {
-        applicationId "com.KillerBLS.modpeide"
+        applicationId "com.lightteam.modpeide"
 
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
 
-        versionCode 10038
-        versionName "2020.2.4"
+        versionCode 10039
+        versionName "2020.2.5"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -40,12 +40,12 @@ android {
         release {
             minifyEnabled true
             debuggable false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             debuggable true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     flavorDimensions 'version'
@@ -65,9 +65,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-    }
-    lintOptions {
-        disable "NullSafeMutableLiveData"
     }
     sourceSets {
         main {
@@ -121,7 +118,9 @@ dependencies {
     implementation library.rxandroid
     implementation library.rxkotlin
     implementation library.rxbinding_appcompat
-    implementation library.rxpreferences
+    implementation (library.rxpreferences) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
     // DI
     implementation library.hilt
@@ -138,9 +137,9 @@ dependencies {
     implementation project(':data')
     implementation project(':database')
     implementation project(':editorkit')
-    implementation project(':filesystems:filesystem')
-    implementation project(':filesystems:localfilesystem')
-    implementation project(':languages:language')
+    implementation project(':filesystems:filesystem-base')
+    implementation project(':filesystems:filesystem-local')
+    implementation project(':languages:language-base')
 
     // Tests
     testImplementation testLibrary.junit

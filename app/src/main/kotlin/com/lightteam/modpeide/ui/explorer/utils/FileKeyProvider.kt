@@ -20,19 +20,19 @@ package com.lightteam.modpeide.ui.explorer.utils
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 
 class FileKeyProvider(
     private val recyclerView: RecyclerView
 ) : ItemKeyProvider<FileModel>(SCOPE_CACHED) {
 
     override fun getKey(position: Int): FileModel? {
-        val adapter = recyclerView.adapter as ListAdapter<FileModel, *>
-        return adapter.currentList[position]
+        val adapter = recyclerView.adapter as ListAdapter<*, *>
+        return adapter.currentList[position] as? FileModel
     }
 
     override fun getPosition(key: FileModel): Int {
-        val adapter = recyclerView.adapter as ListAdapter<FileModel, *>
+        val adapter = recyclerView.adapter as ListAdapter<*, *>
         return adapter.currentList.indexOf(key)
     }
 }

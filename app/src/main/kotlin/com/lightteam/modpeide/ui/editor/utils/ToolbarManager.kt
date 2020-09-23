@@ -190,16 +190,19 @@ class ToolbarManager(
                 binding.defaultPanel.isVisible = true
                 binding.findPanel.isVisible = false
                 binding.replacePanel.isVisible = false
+                binding.editor.requestFocus()
             }
             Panel.FIND -> {
                 binding.defaultPanel.isVisible = false
                 binding.findPanel.isVisible = true
                 binding.replacePanel.isVisible = false
+                binding.inputFind.requestFocus()
             }
             Panel.FIND_REPLACE -> {
                 binding.defaultPanel.isVisible = false
                 binding.findPanel.isVisible = true
                 binding.replacePanel.isVisible = true
+                binding.inputReplace.requestFocus()
             }
         }
     }
@@ -209,24 +212,24 @@ class ToolbarManager(
 
         fun onNewButton()
         fun onOpenButton()
-        fun onSaveButton()
-        fun onSaveAsButton()
-        fun onPropertiesButton()
-        fun onCloseButton()
+        fun onSaveButton(): Boolean
+        fun onSaveAsButton(): Boolean
+        fun onPropertiesButton(): Boolean
+        fun onCloseButton(): Boolean
 
-        fun onCutButton()
-        fun onCopyButton()
-        fun onPasteButton()
-        fun onSelectAllButton()
-        fun onSelectLineButton()
-        fun onDeleteLineButton()
-        fun onDuplicateLineButton()
+        fun onCutButton(): Boolean
+        fun onCopyButton(): Boolean
+        fun onPasteButton(): Boolean
+        fun onSelectAllButton(): Boolean
+        fun onSelectLineButton(): Boolean
+        fun onDeleteLineButton(): Boolean
+        fun onDuplicateLineButton(): Boolean
 
-        fun onOpenFindButton()
+        fun onOpenFindButton(): Boolean
         fun onCloseFindButton()
-        fun onOpenReplaceButton()
+        fun onOpenReplaceButton(): Boolean
         fun onCloseReplaceButton()
-        fun onGoToLineButton()
+        fun onGoToLineButton(): Boolean
         fun onReplaceButton(replaceText: String)
         fun onReplaceAllButton(replaceText: String)
         fun onNextResultButton()
@@ -239,9 +242,9 @@ class ToolbarManager(
         fun onErrorCheckingButton()
         fun onInsertColorButton()
 
-        fun onUndoButton()
-        fun onRedoButton()
+        fun onUndoButton(): Boolean
+        fun onRedoButton(): Boolean
 
-        fun onSettingsButton()
+        fun onSettingsButton(): Boolean
     }
 }

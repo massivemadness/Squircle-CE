@@ -17,7 +17,7 @@
 
 package com.lightteam.modpeide.data.utils.extensions
 
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
 import java.nio.charset.Charset
 import java.nio.charset.UnsupportedCharsetException

@@ -20,51 +20,56 @@ package com.lightteam.modpeide.ui.editor.adapters
 import android.content.Context
 import android.graphics.Color
 import android.text.Spannable
-import android.text.SpannableStringBuilder
+import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.core.view.isVisible
 import com.lightteam.editorkit.adapter.SuggestionAdapter
-import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.base.model.SuggestionModel
+import com.lightteam.language.base.model.SuggestionType
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.databinding.ItemSuggestionBinding
 
 class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layout.item_suggestion) {
 
     override fun createViewHolder(parent: ViewGroup): SuggestionViewHolder {
-        return BasicSuggestionViewHolder.create(
+        return AutoCompleteViewHolder.create(
             parent,
             colorScheme?.suggestionQueryColor ?: Color.WHITE
         )
     }
 
-    class BasicSuggestionViewHolder(
-        itemView: View,
-        private val itemColor: Int
-    ) : SuggestionViewHolder(itemView) {
+    class AutoCompleteViewHolder(
+        private val binding: ItemSuggestionBinding,
+        private val queryColor: Int
+    ) : SuggestionViewHolder(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, itemColor: Int): SuggestionViewHolder {
-                val itemView = LayoutInflater
-                    .from(parent.context)
-                    .inflate(R.layout.item_suggestion, parent, false)
-                return BasicSuggestionViewHolder(itemView, itemColor)
+            fun create(parent: ViewGroup, queryColor: Int): SuggestionViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = ItemSuggestionBinding.inflate(inflater, parent, false)
+                return AutoCompleteViewHolder(binding, queryColor)
             }
         }
 
-        private val textView: TextView = itemView.findViewById(R.id.item_title)
-
         override fun bind(suggestion: SuggestionModel?, query: String) {
-            val spannable = SpannableStringBuilder(suggestion?.text)
-            if (query.length < spannable.length) {
-                spannable.setSpan(
-                    ForegroundColorSpan(itemColor),
-                    0, query.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+            if (suggestion != null) {
+                val spannable = SpannableString(suggestion.text)
+                if (query.length < spannable.length) {
+                    spannable.setSpan(
+                        ForegroundColorSpan(queryColor),
+                        0, query.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+
+                binding.itemType.isVisible = suggestion.type != SuggestionType.NONE
+
+                binding.itemType.text = suggestion.type.value
+                binding.itemSuggestion.text = spannable
+                binding.itemReturnType?.text = suggestion.returnType
             }
-            textView.text = spannable
         }
     }
 }

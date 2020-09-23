@@ -21,7 +21,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.modpeide.databinding.ItemTabDirectoryBinding
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 
@@ -32,7 +32,7 @@ class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHol
     }
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
-        holder.bind(getItem(position), position == selectedPosition)
+        holder.bind(currentList[position], position == selectedPosition)
     }
 
     class DirectoryViewHolder(

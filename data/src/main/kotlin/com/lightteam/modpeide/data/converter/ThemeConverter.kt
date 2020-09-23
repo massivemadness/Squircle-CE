@@ -19,7 +19,7 @@ package com.lightteam.modpeide.data.converter
 
 import androidx.core.graphics.toColorInt
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
-import com.lightteam.language.scheme.SyntaxScheme
+import com.lightteam.language.base.model.SyntaxScheme
 import com.lightteam.modpeide.data.model.theme.ExternalScheme
 import com.lightteam.modpeide.data.model.theme.ExternalTheme
 import com.lightteam.modpeide.data.utils.extensions.toHexString

@@ -23,8 +23,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
-import com.lightteam.editorkit.feature.suggestions.WordsManager
-import com.lightteam.language.model.SuggestionModel
+import com.lightteam.language.base.model.SuggestionModel
+import com.lightteam.language.base.provider.SuggestionProvider
 
 abstract class SuggestionAdapter(
     context: Context,
@@ -32,7 +32,7 @@ abstract class SuggestionAdapter(
 ) : ArrayAdapter<SuggestionModel>(context, resourceId) {
 
     var colorScheme: ColorScheme? = null
-    var wordsManager: WordsManager? = null
+    private var suggestionProvider: SuggestionProvider? = null
 
     private var queryText = ""
 
@@ -52,10 +52,10 @@ abstract class SuggestionAdapter(
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterResults = FilterResults()
                 suggestions.clear()
-                wordsManager?.let {
+                suggestionProvider?.let {
                     val query = constraint.toString()
-                    for (suggestion in it.suggestions) {
-                        val word = suggestion.text.toString()
+                    for (suggestion in it.getAll()) {
+                        val word = suggestion.text
                         if (word.startsWith(query, ignoreCase = true) &&
                             !word.equals(query, ignoreCase = true)) {
                             queryText = query
@@ -74,6 +74,10 @@ abstract class SuggestionAdapter(
                 notifyDataSetChanged()
             }
         }
+    }
+
+    fun setSuggestionProvider(suggestionProvider: SuggestionProvider) {
+        this.suggestionProvider = suggestionProvider
     }
 
     abstract class SuggestionViewHolder(val itemView: View) {

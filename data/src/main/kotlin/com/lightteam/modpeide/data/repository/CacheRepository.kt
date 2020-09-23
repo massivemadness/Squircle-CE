@@ -19,9 +19,9 @@ package com.lightteam.modpeide.data.repository
 
 import com.lightteam.editorkit.feature.undoredo.TextChange
 import com.lightteam.editorkit.feature.undoredo.UndoStack
-import com.lightteam.filesystem.model.FileParams
-import com.lightteam.filesystem.repository.Filesystem
-import com.lightteam.localfilesystem.converter.FileConverter
+import com.lightteam.filesystem.base.Filesystem
+import com.lightteam.filesystem.base.model.FileParams
+import com.lightteam.filesystem.local.converter.FileConverter
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.delegate.LanguageDelegate
 import com.lightteam.modpeide.database.AppDatabase
@@ -90,12 +90,6 @@ class CacheRepository(
             }
         } catch (e: IOException) {
             Completable.error(e)
-        }
-    }
-
-    fun deleteAllCaches() {
-        cacheDirectory.listFiles()?.forEach {
-            it.deleteRecursively()
         }
     }
 
@@ -179,23 +173,21 @@ class CacheRepository(
         return builder.toString()
     }
 
-    private fun decodeStack(raw: String?): UndoStack {
+    private fun decodeStack(raw: String): UndoStack {
         val result = UndoStack()
-        if (!(raw == null || raw.isEmpty())) {
+        if (raw.isNotEmpty()) {
             val items = raw.split("\u0005").toTypedArray()
             if (items[items.size - 1].endsWith("\n")) {
                 val item = items[items.size - 1]
                 items[items.size - 1] = item.substring(0, item.length - 1)
             }
-            var i = items.size - 3
-            while (i >= 0) {
+            for (i in items.size - 3 downTo 0 step 3) {
                 val change = TextChange(
                     newText = items[i + 1],
                     oldText = items[i],
                     start = items[i + 2].toInt()
                 )
                 result.push(change)
-                i -= 3
             }
         }
         return result

@@ -29,12 +29,12 @@ import com.lightteam.editorkit.R
 import com.lightteam.editorkit.converter.ColorSchemeConverter
 import com.lightteam.editorkit.feature.findreplace.FindResultSpan
 import com.lightteam.editorkit.feature.tabwidth.TabWidthSpan
-import com.lightteam.language.language.Language
-import com.lightteam.language.parser.span.ErrorSpan
-import com.lightteam.language.scheme.SyntaxScheme
-import com.lightteam.language.styler.span.StyleSpan
-import com.lightteam.language.styler.span.SyntaxHighlightSpan
-import com.lightteam.unknown.language.UnknownLanguage
+import com.lightteam.language.base.Language
+import com.lightteam.language.base.model.SyntaxScheme
+import com.lightteam.language.base.parser.span.ErrorSpan
+import com.lightteam.language.base.styler.span.StyleSpan
+import com.lightteam.language.base.styler.span.SyntaxHighlightSpan
+import com.lightteam.language.plaintext.PlainTextLanguage
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
@@ -51,7 +51,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     var isMatchCaseEnabled = true
     var isWordsOnlyEnabled = false
 
-    var language: Language = UnknownLanguage()
+    var language: Language = PlainTextLanguage()
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val findResultSpans = mutableListOf<FindResultSpan>()
@@ -75,7 +75,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun processText(textParams: PrecomputedTextCompat?) {
+    override fun processText(textParams: PrecomputedTextCompat) {
         syntaxHighlightSpans.clear()
         findResultSpans.clear()
         super.processText(textParams)
@@ -88,12 +88,6 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
             checkMatchingBracket(selStart)
         }
         // invalidate()
-    }
-
-    override fun setSelection(start: Int, stop: Int) {
-        if (start <= text.length && stop <= text.length) {
-            super.setSelection(start, stop)
-        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -256,10 +250,9 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
             val findResult = findResultSpans[selectedFindResult]
             val topVisibleLine = getTopVisibleLine()
             val bottomVisibleLine = getBottomVisibleLine()
-            if (findResult.start >= layout.getLineStart(topVisibleLine)) {
-                if (findResult.end <= layout.getLineEnd(bottomVisibleLine)) {
-                    return
-                }
+            if (findResult.start >= layout.getLineStart(topVisibleLine) &&
+                findResult.end <= layout.getLineEnd(bottomVisibleLine)) {
+                return
             }
             val height = layout.height - height + paddingBottom + paddingTop
             var lineTop = layout.getLineTop(layout.getLineForOffset(findResult.start))
@@ -268,9 +261,8 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
             }
             val scrollX = if (!config.wordWrap) {
                 layout.getPrimaryHorizontal(findResult.start).toInt()
-            } else {
-                scrollX
-            }
+            } else scrollX
+
             scrollTo(scrollX, lineTop)
         }
     }
@@ -382,7 +374,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
         syntaxScheme?.let {
-            language.executeStyler(getProcessedText(), it) { spans ->
+            language.getStyler().enqueue(text.toString(), it) { spans ->
                 syntaxHighlightSpans.clear()
                 syntaxHighlightSpans.addAll(spans)
                 updateSyntaxHighlighting()
@@ -391,7 +383,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     private fun cancelSyntaxHighlighting() {
-        language.cancelStyler()
+        language.getStyler().cancel()
     }
 
     private fun checkMatchingBracket(pos: Int) {

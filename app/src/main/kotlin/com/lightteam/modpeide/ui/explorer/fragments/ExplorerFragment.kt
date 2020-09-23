@@ -23,12 +23,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
-import com.lightteam.filesystem.model.FileModel
+import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.commons.FileSorter
 import com.lightteam.modpeide.databinding.FragmentExplorerBinding
@@ -94,10 +95,6 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
         }
         binding.actionCreate.setOnClickListener {
             viewModel.createEvent.call()
-        }
-
-        if (requireContext().hasExternalStorageAccess()) {
-            viewModel.hasPermission.set(true)
         }
     }
 
@@ -211,6 +208,9 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
     private fun observeViewModel() {
         viewModel.toastEvent.observe(viewLifecycleOwner, {
             showToast(it)
+        })
+        viewModel.showAppBarEvent.observe(viewLifecycleOwner, {
+            binding.appBar.isVisible = it
         })
         viewModel.tabsEvent.observe(viewLifecycleOwner, {
             adapter.submitList(it)

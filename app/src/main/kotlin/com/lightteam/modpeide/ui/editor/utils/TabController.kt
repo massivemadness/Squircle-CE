@@ -24,7 +24,7 @@ import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 class TabController : ItemTouchHelper(itemTouchCallback) {
 
     companion object {
-        private val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(START or END, 0) {
+        private val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(START or END, ACTION_STATE_IDLE) {
 
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -32,10 +32,7 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
                 target: RecyclerView.ViewHolder
             ): Boolean {
                 val adapter = recyclerView.adapter as TabAdapter<*, *>
-                return adapter.move(
-                    from = viewHolder.adapterPosition,
-                    to = target.adapterPosition
-                )
+                return adapter.move(from = viewHolder.adapterPosition, to = target.adapterPosition)
             }
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {

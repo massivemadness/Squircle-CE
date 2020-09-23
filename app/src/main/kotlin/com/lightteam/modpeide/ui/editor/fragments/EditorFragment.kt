@@ -17,7 +17,9 @@
 
 package com.lightteam.modpeide.ui.editor.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
@@ -30,9 +32,12 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxbinding3.widget.textChangeEvents
-import com.lightteam.editorkit.internal.UndoRedoEditText
+import com.lightteam.editorkit.feature.gotoline.LineException
+import com.lightteam.editorkit.feature.shortcuts.Shortcut
+import com.lightteam.editorkit.feature.shortcuts.ShortcutListener
+import com.lightteam.editorkit.feature.undoredo.OnUndoRedoChangedListener
 import com.lightteam.editorkit.widget.TextScroller
-import com.lightteam.filesystem.model.FileType
+import com.lightteam.filesystem.base.model.FileType
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.DocumentConverter
 import com.lightteam.modpeide.data.utils.extensions.toHexString
@@ -51,10 +56,9 @@ import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
-import com.lightteam.modpeide.utils.event.PreferenceEvent
+import com.lightteam.modpeide.utils.event.SettingsEvent
 import com.lightteam.modpeide.utils.extensions.createTypefaceFromPath
 import com.lightteam.modpeide.utils.extensions.isUltimate
-import com.lightteam.modpeide.utils.extensions.launchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -63,8 +67,13 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
-    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, TabAdapter.OnTabMovedListener,
+    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, TabAdapter.OnDataRefreshListener,
     DocumentAdapter.TabInteractor, OnBackPressedHandler {
+
+    companion object {
+        private const val ALPHA_FULL = 255
+        private const val ALPHA_SEMI = 90
+    }
 
     private val sharedViewModel: MainViewModel by activityViewModels()
     private val viewModel: EditorViewModel by viewModels()
@@ -76,7 +85,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.observePreferences() // and loadFiles()
+        viewModel.observeSettings()
+        if (savedInstanceState == null) {
+            viewModel.loadFiles()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,41 +100,85 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         toolbarManager.bind(binding)
 
-        binding.documentRecyclerView.setHasFixedSize(true)
-        binding.documentRecyclerView.adapter = DocumentAdapter(this)
-            .also { adapter = it }
-        adapter.setOnTabSelectedListener(this)
-        adapter.setOnTabMovedListener(this)
-        tabController.attachToRecyclerView(binding.documentRecyclerView)
+        binding.tabLayout.setHasFixedSize(true)
+        binding.tabLayout.adapter = DocumentAdapter(this).also {
+            it.setOnTabSelectedListener(this)
+            it.setOnDataRefreshListener(this)
+            adapter = it
+        }
+        tabController.attachToRecyclerView(binding.tabLayout)
 
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.link(binding.editor)
 
         binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
-        binding.editor.onUndoRedoChangedListener =
-            object : UndoRedoEditText.OnUndoRedoChangedListener {
-                override fun onUndoRedoChanged() {
-                    viewModel.canUndo.set(binding.editor.canUndo())
-                    viewModel.canRedo.set(binding.editor.canRedo())
-                }
+        binding.editor.onUndoRedoChangedListener = object : OnUndoRedoChangedListener {
+            override fun onUndoRedoChanged() {
+                val canUndo = binding.editor.canUndo()
+                val canRedo = binding.editor.canRedo()
+
+                binding.actionUndo.isClickable = canUndo
+                binding.actionRedo.isClickable = canRedo
+
+                binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
+                binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
             }
+        }
+
+        binding.editor.onUndoRedoChangedListener?.onUndoRedoChanged() // update undo/redo alpha
 
         binding.actionTab.setOnClickListener {
             onKey(binding.editor.tab())
         }
+
+        // region SHORTCUTS
+
+        binding.editor.shortcutListener = object : ShortcutListener {
+            override fun onShortcut(shortcut: Shortcut): Boolean {
+                val (ctrl, shift, alt, keyCode) = shortcut
+                return when {
+                    ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                    ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
+                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
+                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
+                    alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
+                    alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
+                    alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
+                    alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
+                    keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
+                    else -> false
+                }
+            }
+        }
+
+        // endregion SHORTCUTS
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.tabSelectionEvent.value = adapter.selectedPosition
-        viewModel.tabsEvent.value = viewModel.tabsList
+        viewModel.loadFilesEvent.value = adapter.currentList
+        viewModel.selectTabEvent.value = adapter.selectedPosition
     }
 
     override fun onPause() {
         super.onPause()
         saveDocument(adapter.selectedPosition)
-        viewModel.updatePositions()
+        viewModel.updateDocuments(adapter.currentList)
     }
 
     override fun onResume() {
@@ -146,11 +202,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         viewModel.toastEvent.observe(viewLifecycleOwner, {
             showToast(it)
         })
-        viewModel.tabsEvent.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-            viewModel.loadSelection()
+        viewModel.loadFilesEvent.observe(viewLifecycleOwner, { list ->
+            adapter.submitList(list)
+            viewModel.findRecentTab(list)
         })
-        viewModel.tabSelectionEvent.observe(viewLifecycleOwner, { position ->
+        viewModel.selectTabEvent.observe(viewLifecycleOwner, { position ->
             sharedViewModel.closeDrawerEvent.call()
             if (position > -1) {
                 adapter.select(position)
@@ -176,10 +232,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             binding.editor.requestFocus()
         })
         sharedViewModel.openEvent.observe(viewLifecycleOwner, { fileModel ->
-            val documentModel = DocumentConverter.toModel(fileModel)
             val type = fileModel.getType()
-            if ((type == FileType.DEFAULT && viewModel.openUnknownFiles) || type == FileType.TEXT) {
-                viewModel.openFile(documentModel)
+            val documentModel = DocumentConverter.toModel(fileModel)
+            val canOpenUnknownFile = type == FileType.DEFAULT && viewModel.openUnknownFiles
+            if (canOpenUnknownFile || type == FileType.TEXT) {
+                viewModel.openFile(adapter.currentList, documentModel)
             } else {
                 sharedViewModel.openAsEvent.value = fileModel
             }
@@ -187,20 +244,20 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         // region PREFERENCES
 
-        viewModel.preferenceEvent.observe(viewLifecycleOwner, { queue ->
+        viewModel.settingsEvent.observe(viewLifecycleOwner, { queue ->
             val tempConfig = binding.editor.config
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
-                    is PreferenceEvent.ThemePref -> {
+                    is SettingsEvent.ThemePref -> {
                         binding.editor.colorScheme = event.value.colorScheme
                     }
-                    is PreferenceEvent.FontSize -> tempConfig.fontSize = event.value
-                    is PreferenceEvent.FontType -> {
+                    is SettingsEvent.FontSize -> tempConfig.fontSize = event.value
+                    is SettingsEvent.FontType -> {
                         tempConfig.fontType = requireContext().createTypefaceFromPath(event.value)
                     }
-                    is PreferenceEvent.WordWrap -> tempConfig.wordWrap = event.value
-                    is PreferenceEvent.CodeCompletion -> tempConfig.codeCompletion = event.value
-                    is PreferenceEvent.ErrorHighlight -> {
+                    is SettingsEvent.WordWrap -> tempConfig.wordWrap = event.value
+                    is SettingsEvent.CodeCompletion -> tempConfig.codeCompletion = event.value
+                    is SettingsEvent.ErrorHighlight -> {
                         if (isUltimate() && event.value) {
                             binding.editor
                                 .textChangeEvents()
@@ -212,19 +269,19 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .subscribeBy {
                                     if (adapter.selectedPosition > -1) {
                                         viewModel.parse(
+                                            adapter.currentList[adapter.selectedPosition],
                                             binding.editor.language,
-                                            adapter.selectedPosition,
-                                            binding.editor.getProcessedText()
+                                            binding.editor.text.toString()
                                         )
                                     }
                                 }
                                 .disposeOnFragmentDestroyView()
                         }
                     }
-                    is PreferenceEvent.PinchZoom -> tempConfig.pinchZoom = event.value
-                    is PreferenceEvent.CurrentLine -> tempConfig.highlightCurrentLine = event.value
-                    is PreferenceEvent.Delimiters -> tempConfig.highlightDelimiters = event.value
-                    is PreferenceEvent.ExtendedKeys -> {
+                    is SettingsEvent.PinchZoom -> tempConfig.pinchZoom = event.value
+                    is SettingsEvent.CurrentLine -> tempConfig.highlightCurrentLine = event.value
+                    is SettingsEvent.Delimiters -> tempConfig.highlightDelimiters = event.value
+                    is SettingsEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                             if (event.value) {
                                 binding.keyboardContainer.visibility =
@@ -234,15 +291,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                             }
                         }
                     }
-                    is PreferenceEvent.KeyboardPreset -> {
-                        binding.extendedKeyboard.submitList(event.value.keys)
+                    is SettingsEvent.KeyboardPreset -> {
+                        binding.extendedKeyboard.submitList(event.value)
                     }
-                    is PreferenceEvent.SoftKeys -> tempConfig.softKeyboard = event.value
-                    is PreferenceEvent.AutoIndent -> tempConfig.autoIndentation = event.value
-                    is PreferenceEvent.AutoBrackets -> tempConfig.autoCloseBrackets = event.value
-                    is PreferenceEvent.AutoQuotes -> tempConfig.autoCloseQuotes = event.value
-                    is PreferenceEvent.UseSpacesNotTabs -> tempConfig.useSpacesInsteadOfTabs = event.value
-                    is PreferenceEvent.TabWidth -> tempConfig.tabWidth = event.value
+                    is SettingsEvent.SoftKeys -> tempConfig.softKeyboard = event.value
+                    is SettingsEvent.AutoIndent -> tempConfig.autoIndentation = event.value
+                    is SettingsEvent.AutoBrackets -> tempConfig.autoCloseBrackets = event.value
+                    is SettingsEvent.AutoQuotes -> tempConfig.autoCloseQuotes = event.value
+                    is SettingsEvent.UseSpacesNotTabs -> tempConfig.useSpacesInsteadOfTabs = event.value
+                    is SettingsEvent.TabWidth -> tempConfig.tabWidth = event.value
                 }
             }
             binding.editor.config = tempConfig
@@ -253,7 +310,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     // region TABS
 
-    override fun onTabReselected(position: Int) {}
     override fun onTabUnselected(position: Int) {
         saveDocument(position)
         closeKeyboard() // Обход бага, когда после переключения вкладок позиция курсора не менялась с предыдущей вкладки
@@ -263,10 +319,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         loadDocument(position)
     }
 
-    override fun onTabMoved(from: Int, to: Int) {
-        val temp = viewModel.tabsList[from]
-        viewModel.tabsList.removeAt(from)
-        viewModel.tabsList.add(to, temp)
+    override fun onDataRefresh() {
+        viewModel.stateNothingFound.set(adapter.currentList.isEmpty())
     }
 
     override fun close(position: Int) {
@@ -295,23 +349,22 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     private fun loadDocument(position: Int) {
-        if (position > -1 && position < viewModel.tabsList.size) {
-            val document = viewModel.tabsList[position]
+        if (position > -1) {
+            val document = adapter.currentList[position]
             viewModel.loadFile(document, TextViewCompat.getTextMetricsParams(binding.editor))
         }
     }
 
     private fun saveDocument(position: Int) {
-        if (position > -1 && position < viewModel.tabsList.size) {
+        if (position > -1) {
             viewModel.stateLoadingDocuments.set(true) // show loading indicator
-            val document = viewModel.tabsList[position].copy(
-                scrollX = binding.editor.scrollX,
-                scrollY = binding.editor.scrollY,
-                selectionStart = binding.editor.selectionStart,
+            val document = adapter.currentList[position].apply {
+                scrollX = binding.editor.scrollX
+                scrollY = binding.editor.scrollY
+                selectionStart = binding.editor.selectionStart
                 selectionEnd = binding.editor.selectionEnd
-            )
-            viewModel.tabsList[position] = document
-            val text = binding.editor.getProcessedText()
+            }
+            val text = binding.editor.text.toString()
             if (text.isNotEmpty()) {
                 val documentContent = DocumentContent(
                     documentModel = document,
@@ -327,10 +380,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     private fun removeDocument(position: Int) {
-        if (position > -1 && position < viewModel.tabsList.size) {
-            val documentModel = viewModel.tabsList[position]
-            viewModel.tabsList.removeAt(position)
-            viewModel.stateNothingFound.set(viewModel.tabsList.isEmpty())
+        if (position > -1) {
+            val documentModel = adapter.currentList[position]
             viewModel.deleteCache(documentModel)
         }
     }
@@ -356,27 +407,28 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         showToast(R.string.message_select_file)
     }
 
-    override fun onSaveButton() {
+    override fun onSaveButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             val documentContent = DocumentContent(
-                documentModel = viewModel.tabsList[position],
+                documentModel = adapter.currentList[position],
                 language = binding.editor.language,
                 undoStack = binding.editor.undoStack,
                 redoStack = binding.editor.redoStack,
-                text = binding.editor.getProcessedText()
+                text = binding.editor.text.toString()
             )
             viewModel.saveFile(documentContent, toCache = false) // Save to local storage
             viewModel.saveFile(documentContent, toCache = true) // Save to app cache
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
-    override fun onSaveAsButton() {
+    override fun onSaveAsButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
-            val document = viewModel.tabsList[position]
+            val document = adapter.currentList[position]
             MaterialDialog(requireContext()).show {
                 title(R.string.dialog_title_save_as)
                 customView(R.layout.dialog_save_as, scrollable = true)
@@ -395,7 +447,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                             language = binding.editor.language,
                             undoStack = binding.editor.undoStack,
                             redoStack = binding.editor.redoStack,
-                            text = binding.editor.getProcessedText()
+                            text = binding.editor.text.toString()
                         )
 
                         viewModel.saveFile(documentContent)
@@ -409,75 +461,86 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
-    override fun onPropertiesButton() {
+    override fun onPropertiesButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
-            val document = viewModel.tabsList[position]
+            val document = adapter.currentList[position]
             sharedViewModel.propertiesEvent.value = DocumentConverter.toModel(document)
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
-    override fun onCloseButton() {
+    override fun onCloseButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             close(position)
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
-    override fun onCutButton() {
+    override fun onCutButton(): Boolean {
         if (binding.editor.hasSelection()) {
             binding.editor.cut()
         } else {
             showToast(R.string.message_nothing_to_cut)
         }
+        return true
     }
 
-    override fun onCopyButton() {
+    override fun onCopyButton(): Boolean {
         if (binding.editor.hasSelection()) {
             binding.editor.copy()
         } else {
             showToast(R.string.message_nothing_to_copy)
         }
+        return true
     }
 
-    override fun onPasteButton() {
+    override fun onPasteButton(): Boolean {
         val position = adapter.selectedPosition
         if (binding.editor.hasPrimaryClip() && position > -1) {
             binding.editor.paste()
         } else {
             showToast(R.string.message_nothing_to_paste)
         }
+        return true
     }
 
-    override fun onSelectAllButton() {
+    override fun onSelectAllButton(): Boolean {
         binding.editor.selectAll()
+        return true
     }
 
-    override fun onSelectLineButton() {
+    override fun onSelectLineButton(): Boolean {
         binding.editor.selectLine()
+        return true
     }
 
-    override fun onDeleteLineButton() {
+    override fun onDeleteLineButton(): Boolean {
         binding.editor.deleteLine()
+        return true
     }
 
-    override fun onDuplicateLineButton() {
+    override fun onDuplicateLineButton(): Boolean {
         binding.editor.duplicateLine()
+        return true
     }
 
-    override fun onOpenFindButton() {
+    override fun onOpenFindButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             toolbarManager.panel = Panel.FIND
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
     override fun onCloseFindButton() {
@@ -486,13 +549,14 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.editor.clearFindResultSpans()
     }
 
-    override fun onOpenReplaceButton() {
+    override fun onOpenReplaceButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             toolbarManager.panel = Panel.FIND_REPLACE
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
     override fun onCloseReplaceButton() {
@@ -500,7 +564,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.inputReplace.setText("")
     }
 
-    override fun onGoToLineButton() {
+    override fun onGoToLineButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
             MaterialDialog(requireContext()).show {
@@ -509,15 +573,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 negativeButton(R.string.action_cancel)
                 positiveButton(R.string.action_go_to) {
                     val input = getCustomView().findViewById<TextInputEditText>(R.id.input)
-                    val inputResult = input.text.toString()
-                    if (inputResult.isNotEmpty()) {
-                        val line = inputResult.toInt() - 1 // т.к первая линия 0
-                        when {
-                            line <= 0 -> showToast(R.string.message_line_above_than_0)
-                            line < binding.editor.arrayLineCount -> binding.editor.gotoLine(line)
-                            else -> showToast(R.string.message_line_not_exists)
-                        }
-                    } else {
+                    val inputNumber = input.text.toString()
+                    try {
+                        val lineNumber = inputNumber.toIntOrNull() ?: 0
+                        binding.editor.gotoLine(lineNumber)
+                    } catch (e: LineException) {
                         showToast(R.string.message_line_not_exists)
                     }
                 }
@@ -525,6 +585,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         } else {
             showToast(R.string.message_no_open_files)
         }
+        return true
     }
 
     override fun onReplaceButton(replaceText: String) {
@@ -611,20 +672,24 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         }
     }
 
-    override fun onUndoButton() {
+    override fun onUndoButton(): Boolean {
         if (binding.editor.canUndo()) {
             binding.editor.undo()
         }
+        return true
     }
 
-    override fun onRedoButton() {
+    override fun onRedoButton(): Boolean {
         if (binding.editor.canRedo()) {
             binding.editor.redo()
         }
+        return true
     }
 
-    override fun onSettingsButton() {
-        context?.launchActivity<SettingsActivity>()
+    override fun onSettingsButton(): Boolean {
+        val intent = Intent(context, SettingsActivity::class.java)
+        startActivity(intent)
+        return true
     }
 
     // endregion TOOLBAR

@@ -19,9 +19,10 @@ package com.lightteam.modpeide.ui.settings.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import com.f2prateek.rx.preferences2.Preference
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ReleaseConverter
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.model.changelog.ReleaseModel
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
@@ -32,12 +33,15 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class SettingsViewModel @ViewModelInject constructor(
     private val schedulersProvider: SchedulersProvider,
-    private val preferenceHandler: PreferenceHandler
+    private val settingsManager: SettingsManager
 ) : BaseViewModel() {
 
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Полноэкранный режим
+
     val headersEvent: MutableLiveData<List<PreferenceItem>> = MutableLiveData()
     val changelogEvent: MutableLiveData<List<ReleaseModel>> = MutableLiveData()
+
+    var keyboardPreset: Preference<String> = settingsManager.getKeyboardPreset()
 
     fun fetchHeaders() {
         headersEvent.value = listOf(
@@ -73,8 +77,8 @@ class SettingsViewModel @ViewModelInject constructor(
         changelogEvent.value = ReleaseConverter.toReleaseModels(changelog)
     }
 
-    fun observePreferences() {
-        preferenceHandler.getFullscreenMode()
+    fun observeSettings() {
+        settingsManager.getFullscreenMode()
             .asObservable()
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fullscreenEvent.value = it }

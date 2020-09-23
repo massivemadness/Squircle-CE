@@ -18,10 +18,10 @@
 package com.lightteam.modpeide.internal.di.editor
 
 import android.content.Context
-import com.lightteam.filesystem.repository.Filesystem
+import com.lightteam.filesystem.base.Filesystem
 import com.lightteam.modpeide.data.repository.CacheRepository
 import com.lightteam.modpeide.data.repository.LocalRepository
-import com.lightteam.modpeide.data.utils.commons.PreferenceHandler
+import com.lightteam.modpeide.data.settings.SettingsManager
 import com.lightteam.modpeide.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -49,11 +49,11 @@ object EditorModule {
     @Provides
     @ActivityRetainedScoped
     fun provideFileRepository(
-        preferenceHandler: PreferenceHandler,
+        settingsManager: SettingsManager,
         appDatabase: AppDatabase,
         @Named("Local")
         filesystem: Filesystem
     ): LocalRepository {
-        return LocalRepository(preferenceHandler, appDatabase, filesystem)
+        return LocalRepository(settingsManager, appDatabase, filesystem)
     }
 }

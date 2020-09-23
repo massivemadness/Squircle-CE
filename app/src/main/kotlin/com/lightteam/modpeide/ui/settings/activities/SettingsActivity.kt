@@ -73,6 +73,6 @@ class SettingsActivity : BaseActivity() {
             }
         })
 
-        viewModel.observePreferences()
+        viewModel.observeSettings()
     }
 }
