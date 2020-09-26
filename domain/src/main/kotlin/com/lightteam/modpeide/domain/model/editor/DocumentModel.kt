@@ -21,6 +21,7 @@ data class DocumentModel(
     val uuid: String,
     val name: String,
     val path: String,
+    var modified: Boolean,
     var position: Int,
     var scrollX: Int,
     var scrollY: Int,

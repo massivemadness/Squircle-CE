@@ -44,7 +44,6 @@ import com.lightteam.modpeide.data.utils.extensions.toHexString
 import com.lightteam.modpeide.databinding.FragmentEditorBinding
 import com.lightteam.modpeide.domain.model.editor.DocumentContent
 import com.lightteam.modpeide.ui.base.adapters.TabAdapter
-import com.lightteam.modpeide.ui.base.dialogs.StoreDialog
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.editor.adapters.AutoCompleteAdapter
@@ -54,6 +53,7 @@ import com.lightteam.modpeide.ui.editor.utils.Panel
 import com.lightteam.modpeide.ui.editor.utils.TabController
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
+import com.lightteam.modpeide.ui.main.dialogs.StoreDialog
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.event.SettingsEvent

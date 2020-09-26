@@ -42,6 +42,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            modified = false,
             position = 0,
             scrollX = 0,
             scrollY = 0,
@@ -52,6 +53,7 @@ class DocumentConverterTest {
 
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
+        assertEquals(documentModel.modified, convert.modified)
         assertEquals(documentModel.position, convert.position)
         assertEquals(documentModel.scrollX, convert.scrollX)
         assertEquals(documentModel.scrollY, convert.scrollY)
@@ -65,6 +67,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            modified = true,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -75,6 +78,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            modified = true,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -85,6 +89,7 @@ class DocumentConverterTest {
 
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
+        assertEquals(documentModel.modified, convert.modified)
         assertEquals(documentModel.position, convert.position)
         assertEquals(documentModel.scrollX, convert.scrollX)
         assertEquals(documentModel.scrollY, convert.scrollY)
@@ -98,6 +103,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            modified = false,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -108,6 +114,7 @@ class DocumentConverterTest {
             uuid = "0",
             name = "Test",
             path = "/mnt/test",
+            modified = false,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -118,6 +125,7 @@ class DocumentConverterTest {
 
         assertEquals(documentEntity.name, convert.name)
         assertEquals(documentEntity.path, convert.path)
+        assertEquals(documentEntity.modified, convert.modified)
         assertEquals(documentEntity.position, convert.position)
         assertEquals(documentEntity.scrollX, convert.scrollX)
         assertEquals(documentEntity.scrollY, convert.scrollY)

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.ui.base.dialogs
+package com.lightteam.modpeide.ui.main.dialogs
 
 import android.app.Dialog
 import android.content.ActivityNotFoundException
@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.lightteam.modpeide.R
+import com.lightteam.modpeide.ui.base.dialogs.BaseDialogFragment
 
 class StoreDialog : BaseDialogFragment() {
 

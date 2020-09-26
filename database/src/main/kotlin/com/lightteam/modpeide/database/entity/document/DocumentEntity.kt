@@ -31,6 +31,8 @@ data class DocumentEntity(
     val name: String,
     @ColumnInfo(name = "path")
     val path: String,
+    @ColumnInfo(name = "modified")
+    val modified: Boolean,
     @ColumnInfo(name = "position")
     val position: Int,
     @ColumnInfo(name = "scroll_x")
