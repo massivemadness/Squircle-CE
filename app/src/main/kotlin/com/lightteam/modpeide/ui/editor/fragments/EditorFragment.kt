@@ -36,6 +36,7 @@ import com.lightteam.editorkit.feature.gotoline.LineException
 import com.lightteam.editorkit.feature.shortcuts.Shortcut
 import com.lightteam.editorkit.feature.shortcuts.ShortcutListener
 import com.lightteam.editorkit.feature.undoredo.OnUndoRedoChangedListener
+import com.lightteam.editorkit.utils.OnChangeListener
 import com.lightteam.editorkit.widget.TextScroller
 import com.lightteam.filesystem.base.model.FileType
 import com.lightteam.modpeide.R
@@ -127,6 +128,19 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         }
 
         binding.editor.onUndoRedoChangedListener?.onUndoRedoChanged() // update undo/redo alpha
+
+        binding.editor.onChangeListener = object : OnChangeListener {
+            override fun onChange() {
+                val position = adapter.selectedPosition
+                if (position > -1) {
+                    val isModified = adapter.currentList[position].modified
+                    if (!isModified) {
+                        adapter.currentList[position].modified = true
+                        adapter.notifyItemChanged(position)
+                    }
+                }
+            }
+        }
 
         binding.actionTab.setOnClickListener {
             onKey(binding.editor.tab())
@@ -410,6 +424,12 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     override fun onSaveButton(): Boolean {
         val position = adapter.selectedPosition
         if (position > -1) {
+            val isModified = adapter.currentList[position].modified
+            if (isModified) {
+                adapter.currentList[position].modified = false
+                adapter.notifyItemChanged(position)
+            }
+
             val documentContent = DocumentContent(
                 documentModel = adapter.currentList[position],
                 language = binding.editor.language,
@@ -417,6 +437,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 redoStack = binding.editor.redoStack,
                 text = binding.editor.text.toString()
             )
+
             viewModel.saveFile(documentContent, toCache = false) // Save to local storage
             viewModel.saveFile(documentContent, toCache = true) // Save to app cache
         } else {

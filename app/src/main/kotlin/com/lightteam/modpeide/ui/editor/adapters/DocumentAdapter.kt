@@ -88,7 +88,7 @@ class DocumentAdapter(
 
         fun bind(item: DocumentModel, isSelected: Boolean) {
             binding.selectionIndicator.isVisible = isSelected
-            binding.itemTitle.text = item.name
+            binding.itemTitle.text = if (item.modified) "• ${item.name}" else item.name
         }
     }
 
