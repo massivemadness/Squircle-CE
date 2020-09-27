@@ -32,7 +32,9 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
         android:name="com.lightteam.modpeide.MainApplication"
-        tools:replace="android:supportsRtl">
+        android:fullBackupContent="@xml/backup_descriptor"
+        tools:replace="android:supportsRtl"
+        tools:targetApi="q">
 
         <activity
             android:name="com.lightteam.modpeide.ui.main.activities.MainActivity"
