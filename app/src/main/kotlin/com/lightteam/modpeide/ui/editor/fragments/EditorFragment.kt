@@ -222,7 +222,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
-            binding.editor.processText(textParams)
+            binding.editor.setContent(textParams)
             binding.editor.scrollX = content.documentModel.scrollX
             binding.editor.scrollY = content.documentModel.scrollY
             binding.editor.setSelection(

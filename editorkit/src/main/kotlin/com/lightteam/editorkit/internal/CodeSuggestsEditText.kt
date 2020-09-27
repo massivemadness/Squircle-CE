@@ -23,7 +23,7 @@ import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.adapter.SuggestionAdapter
-import com.lightteam.editorkit.utils.SymbolsTokenizer
+import com.lightteam.editorkit.feature.suggestions.SymbolsTokenizer
 
 open class CodeSuggestsEditText @JvmOverloads constructor(
     context: Context,
@@ -72,9 +72,9 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun processText(textParams: PrecomputedTextCompat) {
+    override fun setContent(textParams: PrecomputedTextCompat) {
         language.getProvider().clearLines()
-        super.processText(textParams)
+        super.setContent(textParams)
         suggestionAdapter?.setSuggestionProvider(language.getProvider())
     }
 

@@ -17,10 +17,6 @@
 
 package com.lightteam.editorkit.utils
 
-import android.text.Editable
-
-interface TextChangeListener {
-    fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int)
-    fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int)
-    fun doAfterTextChanged(text: Editable?)
+interface OnChangeListener {
+    fun onChange()
 }

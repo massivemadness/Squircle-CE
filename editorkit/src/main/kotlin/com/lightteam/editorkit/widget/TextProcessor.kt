@@ -20,14 +20,17 @@ package com.lightteam.editorkit.widget
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.text.Editable
 import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
+import androidx.core.text.PrecomputedTextCompat
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.feature.gotoline.LineException
 import com.lightteam.editorkit.feature.shortcuts.Shortcut
 import com.lightteam.editorkit.feature.shortcuts.ShortcutListener
 import com.lightteam.editorkit.internal.CodeSuggestsEditText
+import com.lightteam.editorkit.utils.OnChangeListener
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
@@ -40,9 +43,25 @@ class TextProcessor @JvmOverloads constructor(
         private const val LABEL_COPY = "COPY"
     }
 
+    var onChangeListener: OnChangeListener? = null
     var shortcutListener: ShortcutListener? = null
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
+
+    private var isNewContent = false
+
+    override fun doAfterTextChanged(text: Editable?) {
+        super.doAfterTextChanged(text)
+        if (!isNewContent) {
+            onChangeListener?.onChange()
+        }
+    }
+
+    override fun setContent(textParams: PrecomputedTextCompat) {
+        isNewContent = true
+        super.setContent(textParams)
+        isNewContent = false
+    }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (event != null && shortcutListener != null) {

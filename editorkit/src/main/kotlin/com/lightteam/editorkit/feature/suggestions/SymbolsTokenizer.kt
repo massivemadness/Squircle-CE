@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lightteam.editorkit.utils
+package com.lightteam.editorkit.feature.suggestions
 
 import android.widget.MultiAutoCompleteTextView
 

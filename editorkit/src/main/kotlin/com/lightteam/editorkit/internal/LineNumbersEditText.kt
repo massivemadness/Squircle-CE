@@ -29,7 +29,7 @@ import androidx.core.widget.TextViewCompat
 import com.lightteam.editorkit.R
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.editorkit.feature.linenumbers.LinesCollection
-import com.lightteam.editorkit.utils.TextChangeListener
+import com.lightteam.editorkit.feature.linenumbers.TextChangeListener
 import com.lightteam.editorkit.utils.dpToPx
 import kotlin.math.abs
 
@@ -207,7 +207,7 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
     }
 
-    open fun processText(textParams: PrecomputedTextCompat) {
+    open fun setContent(textParams: PrecomputedTextCompat) {
         abortFling()
         removeTextChangedListener(textWatcher)
 
@@ -230,7 +230,7 @@ open class LineNumbersEditText @JvmOverloads constructor(
 
     open fun clearText() {
         val textParams = TextViewCompat.getTextMetricsParams(this)
-        processText(PrecomputedTextCompat.create("", textParams))
+        setContent(PrecomputedTextCompat.create("", textParams))
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {

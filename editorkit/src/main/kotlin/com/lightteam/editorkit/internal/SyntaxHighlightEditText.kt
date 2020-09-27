@@ -75,10 +75,10 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun processText(textParams: PrecomputedTextCompat) {
+    override fun setContent(textParams: PrecomputedTextCompat) {
         syntaxHighlightSpans.clear()
         findResultSpans.clear()
-        super.processText(textParams)
+        super.setContent(textParams)
         syntaxHighlight()
     }
 
