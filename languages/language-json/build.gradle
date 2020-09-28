@@ -15,20 +15,33 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.delegate
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
-import com.lightteam.language.base.Language
-import com.lightteam.language.javascript.JavaScriptLanguage
-import com.lightteam.language.json.JsonLanguage
-import com.lightteam.language.plaintext.PlainTextLanguage
+android {
+    compileSdkVersion rootProject.ext.compileSdk
+    buildToolsVersion rootProject.ext.buildTools
 
-object LanguageDelegate {
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
 
-    fun provideLanguage(fileName: String): Language {
-        return when {
-            fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
-            fileName.endsWith(JsonLanguage.FILE_EXTENSION) -> JsonLanguage()
-            else -> PlainTextLanguage()
-        }
+        consumerProguardFiles 'consumer-rules.pro'
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Core
+    implementation library.kotlin
+
+    // Rx
+    implementation library.rxjava2
+
+    // Modules
+    implementation project(':languages:language-base')
 }

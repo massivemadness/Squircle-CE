@@ -15,20 +15,29 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.delegate
+package com.lightteam.language.json.styler.lexer
 
-import com.lightteam.language.base.Language
-import com.lightteam.language.javascript.JavaScriptLanguage
-import com.lightteam.language.json.JsonLanguage
-import com.lightteam.language.plaintext.PlainTextLanguage
+enum class JsonToken {
+    NUMBER,
 
-object LanguageDelegate {
+    TRUE,
+    FALSE,
+    NULL,
 
-    fun provideLanguage(fileName: String): Language {
-        return when {
-            fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
-            fileName.endsWith(JsonLanguage.FILE_EXTENSION) -> JsonLanguage()
-            else -> PlainTextLanguage()
-        }
-    }
+    LBRACE,
+    RBRACE,
+    LBRACK,
+    RBRACK,
+    COMMA,
+    COLON,
+
+    DOUBLE_QUOTED_STRING,
+    SINGLE_QUOTED_STRING,
+    LINE_COMMENT,
+    BLOCK_COMMENT,
+
+    IDENTIFIER,
+    WHITESPACE,
+    BAD_CHARACTER,
+    EOF
 }

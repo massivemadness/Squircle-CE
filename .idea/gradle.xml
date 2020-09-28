@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/languages" />
             <option value="$PROJECT_DIR$/languages/language-base" />
             <option value="$PROJECT_DIR$/languages/language-javascript" />
+            <option value="$PROJECT_DIR$/languages/language-json" />
             <option value="$PROJECT_DIR$/languages/language-plaintext" />
           </set>
         </option>

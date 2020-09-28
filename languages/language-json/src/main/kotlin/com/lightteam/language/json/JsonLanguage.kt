@@ -15,20 +15,35 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.delegate
+package com.lightteam.language.json
 
 import com.lightteam.language.base.Language
-import com.lightteam.language.javascript.JavaScriptLanguage
-import com.lightteam.language.json.JsonLanguage
-import com.lightteam.language.plaintext.PlainTextLanguage
+import com.lightteam.language.base.parser.LanguageParser
+import com.lightteam.language.base.provider.SuggestionProvider
+import com.lightteam.language.base.styler.LanguageStyler
+import com.lightteam.language.json.parser.JsonParser
+import com.lightteam.language.json.provider.JsonProvider
+import com.lightteam.language.json.styler.JsonStyler
 
-object LanguageDelegate {
+class JsonLanguage : Language {
 
-    fun provideLanguage(fileName: String): Language {
-        return when {
-            fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
-            fileName.endsWith(JsonLanguage.FILE_EXTENSION) -> JsonLanguage()
-            else -> PlainTextLanguage()
-        }
+    companion object {
+        const val FILE_EXTENSION = ".json"
+    }
+
+    override fun getName(): String {
+        return "json"
+    }
+
+    override fun getParser(): LanguageParser {
+        return JsonParser.getInstance()
+    }
+
+    override fun getProvider(): SuggestionProvider {
+        return JsonProvider.getInstance()
+    }
+
+    override fun getStyler(): LanguageStyler {
+        return JsonStyler.getInstance()
     }
 }

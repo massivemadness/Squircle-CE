@@ -15,20 +15,29 @@
  * limitations under the License.
  */
 
-package com.lightteam.modpeide.data.delegate
+package com.lightteam.language.json.parser
 
-import com.lightteam.language.base.Language
-import com.lightteam.language.javascript.JavaScriptLanguage
-import com.lightteam.language.json.JsonLanguage
-import com.lightteam.language.plaintext.PlainTextLanguage
+import com.lightteam.language.base.exception.ParseException
+import com.lightteam.language.base.model.ParseModel
+import com.lightteam.language.base.parser.LanguageParser
+import io.reactivex.Single
 
-object LanguageDelegate {
+class JsonParser private constructor() : LanguageParser {
 
-    fun provideLanguage(fileName: String): Language {
-        return when {
-            fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
-            fileName.endsWith(JsonLanguage.FILE_EXTENSION) -> JsonLanguage()
-            else -> PlainTextLanguage()
+    companion object {
+
+        private var jsonParser: JsonParser? = null
+
+        fun getInstance(): JsonParser {
+            return jsonParser ?: JsonParser().also {
+                jsonParser = it
+            }
         }
+    }
+
+    override fun execute(name: String, source: String): Single<ParseModel> {
+        val parseException = ParseException("Unable to parse unsupported language", 0, 0)
+        val parseModel = ParseModel(parseException)
+        return Single.just(parseModel)
     }
 }

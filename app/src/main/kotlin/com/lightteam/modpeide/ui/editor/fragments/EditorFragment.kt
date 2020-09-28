@@ -278,7 +278,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .skipInitialValue()
                                 .debounce(1500, TimeUnit.MILLISECONDS)
                                 .filter { it.text.isNotEmpty() }
-                                .distinctUntilChanged()
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeBy {
                                     if (adapter.selectedPosition > -1) {

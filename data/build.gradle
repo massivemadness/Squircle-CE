@@ -63,11 +63,14 @@ dependencies {
     implementation project(':domain')
     implementation project(':database')
     implementation project(':editorkit')
+
     implementation project(':filesystems:filesystem-base')
     implementation project(':filesystems:filesystem-local')
+
     implementation project(':languages:language-base')
     implementation project(':languages:language-plaintext')
     implementation project(':languages:language-javascript')
+    implementation project(':languages:language-json')
 
     // Tests
     testImplementation testLibrary.junit
