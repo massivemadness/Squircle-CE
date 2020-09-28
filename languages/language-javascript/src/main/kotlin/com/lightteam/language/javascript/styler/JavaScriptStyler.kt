@@ -205,12 +205,14 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
-                    JavaScriptToken.STRING_LITERAL -> {
+                    JavaScriptToken.DOUBLE_QUOTED_STRING,
+                    JavaScriptToken.SINGLE_QUOTED_STRING -> {
                         val styleSpan = StyleSpan(syntaxScheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
-                    JavaScriptToken.COMMENT -> {
+                    JavaScriptToken.LINE_COMMENT,
+                    JavaScriptToken.BLOCK_COMMENT -> {
                         val styleSpan = StyleSpan(syntaxScheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)

@@ -43,19 +43,15 @@ HEX_FP_LITERAL = {HEX_SIGNIFICAND} {HEX_EXPONENT}
 HEX_SIGNIFICAND = 0 [Xx] ({HEX_DIGIT_OR_UNDERSCORE}+ "."? | {HEX_DIGIT_OR_UNDERSCORE}* "." {HEX_DIGIT_OR_UNDERSCORE}+)
 HEX_EXPONENT = [Pp] [+-]? {DIGIT_OR_UNDERSCORE}*
 
-DOUBLE_QUOTED_STRING = [^\r\n\"\\]
-SINGLE_QUOTED_STRING = [^\r\n\'\\]
+CRLF = [\ \t \f]* \R
+DOUBLE_QUOTED_STRING = \"([^\\\"\r\n] | \\[^\r\n] | \\{CRLF})*\"?
+SINGLE_QUOTED_STRING = '([^\\'\r\n] | \\[^\r\n] | \\{CRLF})*'?
 
 LINE_TERMINATOR = \r|\n|\r\n
-INPUT_CHARACTER = [^\r\n]
 WHITESPACE = {LINE_TERMINATOR} | [ \t\f]
 
-BLOCK_COMMENT = "/*" [^*] ~"*/" | "/*" "*"+ "/"
-LINE_COMMENT = "//" {INPUT_CHARACTER}* {LINE_TERMINATOR}?
-DOCUMENTATION_COMMENT = "/*" "*"+ [^/*] ~"*/"
-COMMENT = {LINE_COMMENT} | {BLOCK_COMMENT} | {DOCUMENTATION_COMMENT}
-
-%state DOUBLE_QUOTED_STRING, SINGLE_QUOTED_STRING
+LINE_COMMENT = "//".*
+BLOCK_COMMENT = "/"\*([^*] | \*+[^*/])*(\*+"/")?
 
 %%
 
@@ -190,48 +186,14 @@ COMMENT = {LINE_COMMENT} | {BLOCK_COMMENT} | {DOCUMENTATION_COMMENT}
 
   "=>" { return JavaScriptToken.ARROW; }
 
-  \" { yybegin(DOUBLE_QUOTED_STRING); return JavaScriptToken.STRING_LITERAL; }
-  \' { yybegin(SINGLE_QUOTED_STRING); return JavaScriptToken.STRING_LITERAL; }
+  {LINE_COMMENT} { return JavaScriptToken.LINE_COMMENT; }
+  {BLOCK_COMMENT} { return JavaScriptToken.BLOCK_COMMENT; }
+
+  {DOUBLE_QUOTED_STRING} { return JavaScriptToken.DOUBLE_QUOTED_STRING; }
+  {SINGLE_QUOTED_STRING} { return JavaScriptToken.SINGLE_QUOTED_STRING; }
 
   {IDENTIFIER} { return JavaScriptToken.IDENTIFIER; }
-  {COMMENT} { return JavaScriptToken.COMMENT; }
   {WHITESPACE} { return JavaScriptToken.WHITESPACE; }
-}
-
-<DOUBLE_QUOTED_STRING> {
-  \" { yybegin(YYINITIAL); return JavaScriptToken.STRING_LITERAL; }
-
-  {DOUBLE_QUOTED_STRING}+ { return JavaScriptToken.STRING_LITERAL; }
-
-  "\\b" { return JavaScriptToken.STRING_LITERAL; }
-  "\\t" { return JavaScriptToken.STRING_LITERAL; }
-  "\\n" { return JavaScriptToken.STRING_LITERAL; }
-  "\\f" { return JavaScriptToken.STRING_LITERAL; }
-  "\\r" { return JavaScriptToken.STRING_LITERAL; }
-  "\\\"" { return JavaScriptToken.STRING_LITERAL; }
-  "\\'" { return JavaScriptToken.STRING_LITERAL; }
-  "\\\\" { return JavaScriptToken.STRING_LITERAL; }
-
-  \\. { return JavaScriptToken.BAD_CHARACTER; }
-  {LINE_TERMINATOR} { return JavaScriptToken.BAD_CHARACTER; }
-}
-
-<SINGLE_QUOTED_STRING> {
-  \' { yybegin(YYINITIAL); return JavaScriptToken.STRING_LITERAL; }
-
-  {SINGLE_QUOTED_STRING}+ { return JavaScriptToken.STRING_LITERAL; }
-
-  "\\b" { return JavaScriptToken.STRING_LITERAL; }
-  "\\t" { return JavaScriptToken.STRING_LITERAL; }
-  "\\n" { return JavaScriptToken.STRING_LITERAL; }
-  "\\f" { return JavaScriptToken.STRING_LITERAL; }
-  "\\r" { return JavaScriptToken.STRING_LITERAL; }
-  "\\\"" { return JavaScriptToken.STRING_LITERAL; }
-  "\\'" { return JavaScriptToken.STRING_LITERAL; }
-  "\\\\" { return JavaScriptToken.STRING_LITERAL; }
-
-  \\. { return JavaScriptToken.BAD_CHARACTER; }
-  {LINE_TERMINATOR} { return JavaScriptToken.BAD_CHARACTER; }
 }
 
 [^] { return JavaScriptToken.BAD_CHARACTER; }
