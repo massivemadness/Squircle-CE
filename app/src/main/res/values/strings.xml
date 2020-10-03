@@ -181,7 +181,6 @@
     <string name="message_new_theme_available">New theme available: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» removed</string>
     <string name="message_theme_exported">Theme saved to %1$s</string>
-    <string name="message_choose_theme_json">Choose .json theme file</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
     <string name="message_deleting">Deleting…%1$s</string>

@@ -172,7 +172,6 @@
     <string name="message_new_theme_available">新主题可用: %1$s</string>
     <string name="message_theme_removed">主题 «%1$s» 已移除</string>
     <string name="message_theme_exported">主题已保存到 %1$s</string>
-    <string name="message_choose_theme_json">选择 .json 主题文件</string>
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
     <string name="message_deleting">删除中…%1$s</string>

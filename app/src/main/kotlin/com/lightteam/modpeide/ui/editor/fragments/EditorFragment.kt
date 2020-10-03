@@ -280,9 +280,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .filter { it.text.isNotEmpty() }
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeBy {
-                                    if (adapter.selectedPosition > -1) {
+                                    val position = adapter.selectedPosition
+                                    if (position > -1) {
                                         viewModel.parse(
-                                            adapter.currentList[adapter.selectedPosition],
+                                            adapter.currentList[position],
                                             binding.editor.language,
                                             binding.editor.text.toString()
                                         )
