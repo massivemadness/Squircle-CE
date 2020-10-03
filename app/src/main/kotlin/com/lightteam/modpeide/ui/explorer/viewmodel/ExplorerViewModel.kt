@@ -34,12 +34,9 @@ import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
 import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Named
 
 class ExplorerViewModel @ViewModelInject constructor(
@@ -83,7 +80,7 @@ class ExplorerViewModel @ViewModelInject constructor(
 
     val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список вкладок
     val selectionEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список выделенных файлов
-    val progressEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Прогресс выполнения операции
+    val progressEvent: SingleLiveEvent<FileProgress> = SingleLiveEvent() // Прогресс выполнения операции
     val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() // Список файлов
     val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() // Отфильтрованый список файлов
     val clickEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() // Имитация нажатия на файл
@@ -250,7 +247,7 @@ class ExplorerViewModel @ViewModelInject constructor(
     }
 
     fun deleteFiles(fileModels: List<FileModel>) {
-        Observable.fromIterable(fileModels)
+        /*Observable.fromIterable(fileModels)
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
@@ -278,11 +275,11 @@ class ExplorerViewModel @ViewModelInject constructor(
                     }
                 }
             )
-            .addTo(cancelableDisposable)
+            .addTo(cancelableDisposable)*/
     }
 
     fun copyFiles(source: List<FileModel>, dest: FileModel) {
-        Observable.fromIterable(source)
+        /*Observable.fromIterable(source)
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
@@ -313,11 +310,11 @@ class ExplorerViewModel @ViewModelInject constructor(
                     }
                 }
             )
-            .addTo(cancelableDisposable)
+            .addTo(cancelableDisposable)*/
     }
 
     fun cutFiles(source: List<FileModel>, dest: FileModel) {
-        Observable.fromIterable(source)
+        /*Observable.fromIterable(source)
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMapSingle {
@@ -352,7 +349,7 @@ class ExplorerViewModel @ViewModelInject constructor(
                     }
                 }
             )
-            .addTo(cancelableDisposable)
+            .addTo(cancelableDisposable)*/
     }
 
     fun propertiesOf(fileModel: FileModel) {
@@ -379,20 +376,14 @@ class ExplorerViewModel @ViewModelInject constructor(
 
     fun compressFiles(source: List<FileModel>, dest: FileModel, archiveName: String) {
         filesystem.compress(source, dest, archiveName)
-            .doOnSubscribe { progressEvent.postValue(0) }
-            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMap {
-                Observable.just(it)
-                    .delay(20, TimeUnit.MILLISECONDS)
-            }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onNext = {
-                    progressEvent.value = (progressEvent.value ?: 0) + 1
-                },
                 onComplete = {
                     filesUpdateEvent.call()
                     toastEvent.value = R.string.message_done
+                },
+                onNext = {
+                    progressEvent.value = it
                 },
                 onError = {
                     Log.e(TAG, it.message, it)
@@ -414,14 +405,14 @@ class ExplorerViewModel @ViewModelInject constructor(
 
     fun decompressFile(source: FileModel, dest: FileModel) {
         filesystem.decompress(source, dest)
-            .doOnSubscribe { progressEvent.postValue(0) }
-            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
-                onSuccess = {
-                    progressEvent.value = (progressEvent.value ?: 0) + 1 // FIXME у диалога всегда будет 1 файл
+                onComplete = {
                     filesUpdateEvent.call()
                     toastEvent.value = R.string.message_done
+                },
+                onNext = {
+                    progressEvent.value = it
                 },
                 onError = {
                     Log.e(TAG, it.message, it)

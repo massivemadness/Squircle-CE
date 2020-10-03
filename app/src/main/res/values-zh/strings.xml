@@ -174,6 +174,8 @@
     <string name="message_theme_exported">主题已保存到 %1$s</string>
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
+    <string name="message_total_size">Total size: %1$s</string>
+    <string name="message_written_so_far">Written so far: %1$s</string>
     <string name="message_deleting">删除中…%1$s</string>
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>

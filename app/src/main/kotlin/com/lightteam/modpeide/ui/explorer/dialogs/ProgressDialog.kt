@@ -27,10 +27,12 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.lightteam.filesystem.base.model.FileModel
+import com.lightteam.filesystem.base.model.FileProgress
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.ui.base.dialogs.BaseDialogFragment
 import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
+import com.lightteam.modpeide.utils.extensions.toReadableSize
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -40,23 +42,22 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ProcessDialog : BaseDialogFragment() {
+class ProgressDialog : BaseDialogFragment() {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
-    private val navArgs: ProcessDialogArgs by navArgs()
+    private val navArgs: ProgressDialogArgs by navArgs()
 
     private var dialogTitle: Int = -1
     private var dialogMessage: Int = -1
     private var dialogAction: () -> Unit = {} // Действие, которое запустится при открытии диалога
     private var onCloseAction: () -> Unit = {} // Действие, которое выполняемое при закрытии диалога
-    private var indeterminate: Boolean = false // Загрузка без отображения реального прогресса
     private var tempFiles: List<FileModel> = emptyList() // Список файлов для отображения информации
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         collectData()
         return MaterialDialog(requireContext()).show {
             title(dialogTitle)
-            customView(R.layout.dialog_process)
+            customView(R.layout.dialog_progress)
             cancelOnTouchOutside(false)
             positiveButton(R.string.action_run_in_background) {
                 onCloseAction.invoke()
@@ -67,8 +68,10 @@ class ProcessDialog : BaseDialogFragment() {
             }
 
             val textElapsedTime = findViewById<TextView>(R.id.text_elapsed_time)
-            val textDetails = findViewById<TextView>(R.id.text_details)
-            val textOfTotal = findViewById<TextView>(R.id.text_of_total)
+            val textTotalSize = findViewById<TextView>(R.id.text_total_size)
+            val textWrittenSoFar = findViewById<TextView>(R.id.text_written_so_far)
+            val textCurrentFile = findViewById<TextView>(R.id.text_current_file)
+            val textPercent = findViewById<TextView>(R.id.text_percent)
             val progressIndicator = findViewById<ProgressIndicator>(R.id.progress)
 
             formatElapsedTime(textElapsedTime, 0L) // 00:00
@@ -82,31 +85,25 @@ class ProcessDialog : BaseDialogFragment() {
                 }
                 .disposeOnFragmentDestroyView()
 
-            val totalProgress = tempFiles.size
-            progressIndicator.max = totalProgress
-            progressIndicator.isIndeterminate = indeterminate
-
-            val progressObserver = Observer<Int> { currentProgress ->
-                if (currentProgress < tempFiles.size) {
-                    val fileModel = tempFiles[currentProgress]
-                    textDetails.text = getString(dialogMessage).format(fileModel.path)
-                    textOfTotal.text = getString(R.string.message_of_total)
-                        .format(currentProgress + 1, totalProgress)
-                    progressIndicator.progress = currentProgress + 1
-                }
-                if (currentProgress >= totalProgress) {
+            val progressObserver = Observer<FileProgress> {
+                textTotalSize.text = getString(R.string.message_total_size, it.totalWork.toReadableSize())
+                textWrittenSoFar.text = getString(R.string.message_written_so_far, it.workCompleted.toReadableSize())
+                textCurrentFile.text = getString(dialogMessage, it.fileName)
+                textPercent.text = getString(R.string.message_percent, it.percentDone)
+                progressIndicator.progress = it.percentDone
+                if (it.percentDone >= 100) {
                     onCloseAction.invoke()
                     dismiss()
                 }
             }
 
             setOnShowListener {
-                viewModel.progressEvent.observe(this@ProcessDialog, progressObserver)
+                viewModel.progressEvent.observe(this@ProgressDialog, progressObserver)
                 dialogAction.invoke()
             }
 
             setOnDismissListener {
-                viewModel.progressEvent.removeObservers(this@ProcessDialog)
+                viewModel.progressEvent.removeObservers(this@ProgressDialog)
                 timer.dispose()
             }
         }
@@ -169,7 +166,6 @@ class ProcessDialog : BaseDialogFragment() {
                 dialogAction = {
                     viewModel.decompressFile(tempFiles.first(), navArgs.parent)
                 }
-                indeterminate = true
             }
         }
     }

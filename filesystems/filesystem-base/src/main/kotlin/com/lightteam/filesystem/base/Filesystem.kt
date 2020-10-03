@@ -32,8 +32,8 @@ interface Filesystem {
     fun copyFile(source: FileModel, dest: FileModel): Single<FileModel>
     fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
-    fun compress(source: List<FileModel>, dest: FileModel, archiveName: String): Observable<FileModel>
-    fun decompress(source: FileModel, dest: FileModel): Single<FileModel>
+    fun compress(source: List<FileModel>, dest: FileModel, archiveName: String): Observable<FileProgress>
+    fun decompress(source: FileModel, dest: FileModel): Observable<FileProgress>
 
     fun loadFile(fileModel: FileModel, fileParams: FileParams): Single<String>
     fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams): Completable

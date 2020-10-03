@@ -30,6 +30,7 @@ import io.reactivex.Single
 import java.io.File
 import java.io.IOException
 import net.lingala.zip4j.ZipFile
+import net.lingala.zip4j.progress.ProgressMonitor
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
@@ -176,22 +177,71 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         source: List<FileModel>,
         dest: FileModel,
         archiveName: String
-    ): Observable<FileModel> { // TODO: Use ProgressMonitor
+    ): Observable<FileProgress> {
         return Observable.create { emitter ->
             val directory = FileConverter.toFile(dest)
-            val archiveFile = ZipFile(File(directory, archiveName))
+            val archiveFile = ZipFile(File(directory, archiveName)).also {
+                it.isRunInThread = true
+            }
+
+            var containsFolders = false
+            val validFiles = mutableListOf<File>()
             if (!archiveFile.file.exists()) {
                 for (fileModel in source) {
-                    val sourceFile = FileConverter.toFile(fileModel)
-                    if (sourceFile.exists()) {
-                        if (sourceFile.isDirectory) {
-                            archiveFile.addFolder(sourceFile)
-                        } else {
-                            archiveFile.addFile(sourceFile)
+                    if (fileModel.isFolder) {
+                        containsFolders = true
+                    }
+                }
+
+                // FIXME zip4j can't create an archive when there's File+Folder in the same directory
+                // TODO? wait for library update
+                if (containsFolders) {
+                    for (fileModel in source) {
+                        while (archiveFile.progressMonitor.state == ProgressMonitor.State.BUSY) {
+                            Thread.sleep(20)
                         }
-                        emitter.onNext(fileModel)
-                    } else {
-                        emitter.onError(FileNotFoundException(fileModel.path))
+
+                        val sourceFile = FileConverter.toFile(fileModel)
+                        if (sourceFile.exists()) {
+                            if (sourceFile.isDirectory) {
+                                archiveFile.addFolder(sourceFile)
+                            } else {
+                                archiveFile.addFile(sourceFile)
+                            }
+                        }
+
+                        val progressMonitor = archiveFile.progressMonitor
+                        while (progressMonitor.state == ProgressMonitor.State.BUSY) {
+                            Thread.sleep(20)
+                            val fileProgress = FileProgress(
+                                fileName = progressMonitor.fileName ?: dest.path,
+                                totalWork = progressMonitor.totalWork,
+                                workCompleted = progressMonitor.workCompleted,
+                                percentDone = progressMonitor.percentDone
+                            )
+                            emitter.onNext(fileProgress)
+                        }
+                    }
+                } else {
+                    for (fileModel in source) {
+                        val sourceFile = FileConverter.toFile(fileModel)
+                        if (sourceFile.exists()) {
+                            validFiles.add(sourceFile)
+                        }
+                    }
+
+                    archiveFile.addFiles(validFiles)
+
+                    val progressMonitor = archiveFile.progressMonitor
+                    while (progressMonitor.state == ProgressMonitor.State.BUSY) {
+                        Thread.sleep(20)
+                        val fileProgress = FileProgress(
+                            fileName = progressMonitor.fileName ?: dest.path,
+                            totalWork = progressMonitor.totalWork,
+                            workCompleted = progressMonitor.workCompleted,
+                            percentDone = progressMonitor.percentDone
+                        )
+                        emitter.onNext(fileProgress)
                     }
                 }
             } else {
@@ -201,17 +251,29 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    // TODO: Use Observable with ProgressMonitor
-    override fun decompress(source: FileModel, dest: FileModel): Single<FileModel> {
-        return Single.create { emitter ->
+    override fun decompress(source: FileModel, dest: FileModel): Observable<FileProgress> {
+        return Observable.create { emitter ->
             val sourceFile = FileConverter.toFile(source)
             if (sourceFile.exists()) {
                 if (sourceFile.name.endsWith(SUPPORTED_ARCHIVES)) {
-                    val archiveFile = ZipFile(sourceFile)
+                    val archiveFile = ZipFile(sourceFile).also {
+                        it.isRunInThread = true
+                    }
                     when {
                         archiveFile.isValidZipFile -> {
                             archiveFile.extractAll(dest.path)
-                            emitter.onSuccess(source)
+
+                            val progressMonitor = archiveFile.progressMonitor
+                            while (progressMonitor.state == ProgressMonitor.State.BUSY) {
+                                Thread.sleep(20)
+                                val fileProgress = FileProgress(
+                                    fileName = progressMonitor.fileName,
+                                    totalWork = progressMonitor.totalWork,
+                                    workCompleted = progressMonitor.workCompleted,
+                                    percentDone = progressMonitor.percentDone
+                                )
+                                emitter.onNext(fileProgress)
+                            }
                         }
                         archiveFile.isEncrypted -> {
                             emitter.onError(EncryptedArchiveException(source.path))
@@ -229,6 +291,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             } else {
                 emitter.onError(FileNotFoundException(source.path))
             }
+            emitter.onComplete()
         }
     }
 
