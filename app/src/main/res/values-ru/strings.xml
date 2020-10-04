@@ -174,8 +174,6 @@
     <string name="message_theme_exported">Тема сохранена %1$s</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
     <string name="message_elapsed_time">Прошло времени: %1$s</string>
-    <string name="message_total_size">Общий размер: %1$s</string>
-    <string name="message_written_so_far">Записано: %1$s</string>
     <string name="message_deleting">Удаление…%1$s</string>
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>

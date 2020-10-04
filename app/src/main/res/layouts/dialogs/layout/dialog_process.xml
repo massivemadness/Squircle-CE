@@ -28,54 +28,39 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
         android:id="@+id/text_elapsed_time"
-        tools:text="Elapsed time: 01:56"/>
+        android:textSize="14sp"
+        tools:text="Elapsed time: 00:01:56"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="18dp"
+        android:id="@+id/text_details"
         android:textSize="14sp"
-        android:id="@+id/text_total_size"
-        tools:text="Total size: 195 MB"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:id="@+id/text_written_so_far"
-        tools:text="Written so far: 121.67 MB"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="14sp"
-        android:id="@+id/text_current_file"
         tools:text="Deleting…/storage/emulated/0/Download/JavaScriptAPI.js"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/text_percent"
+            android:id="@+id/text_of_total"
             android:textSize="14sp"
-            tools:text="64%"/>
+            tools:text="6 / 18"/>
 
         <com.google.android.material.progressindicator.ProgressIndicator
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_gravity="center"
-            android:layout_marginStart="12dp"
-            android:max="100"
             android:id="@+id/progress"
-            tools:progress="64"/>
+            tools:progress="6"
+            tools:max="18"/>
 
     </LinearLayout>
 

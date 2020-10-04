@@ -397,7 +397,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     }
 
     private fun executeProcess(operation: Operation, archiveName: String? = null) {
-        val destination = DirectoryFragmentDirections.toProgressDialog(
+        val destination = DirectoryFragmentDirections.toProcessDialog(
             operation = operation,
             parent = fileTree.parent,
             archiveName = archiveName

@@ -183,14 +183,12 @@
     <string name="message_theme_exported">Theme saved to %1$s</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
-    <string name="message_total_size">Total size: %1$s</string>
-    <string name="message_written_so_far">Written so far: %1$s</string>
     <string name="message_deleting">Deleting…%1$s</string>
     <string name="message_copying">Copying…%1$s</string>
     <string name="message_compressing">Compressing…%1$s</string>
     <string name="message_extracting">Extracting…%1$s</string>
+    <string name="message_of_total" translatable="false">%1$d / %2$d</string>
     <string name="message_wrong_encoding">File was loaded using wrong encoding</string>
-    <string name="message_percent" translatable="false">%d%%</string>
 
     <string name="store_standard" translatable="false">Standard</string>
     <string name="store_ultimate" translatable="false">Ultimate</string>
