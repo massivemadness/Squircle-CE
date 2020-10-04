@@ -40,10 +40,10 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ProcessDialog : BaseDialogFragment() {
+class ProgressDialog : BaseDialogFragment() {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
-    private val navArgs: ProcessDialogArgs by navArgs()
+    private val navArgs: ProgressDialogArgs by navArgs()
 
     private var dialogTitle: Int = -1
     private var dialogMessage: Int = -1
@@ -56,7 +56,7 @@ class ProcessDialog : BaseDialogFragment() {
         collectData()
         return MaterialDialog(requireContext()).show {
             title(dialogTitle)
-            customView(R.layout.dialog_process)
+            customView(R.layout.dialog_progress)
             cancelOnTouchOutside(false)
             positiveButton(R.string.action_run_in_background) {
                 onCloseAction.invoke()
@@ -101,12 +101,12 @@ class ProcessDialog : BaseDialogFragment() {
             }
 
             setOnShowListener {
-                viewModel.progressEvent.observe(this@ProcessDialog, progressObserver)
+                viewModel.progressEvent.observe(this@ProgressDialog, progressObserver)
                 dialogAction.invoke()
             }
 
             setOnDismissListener {
-                viewModel.progressEvent.removeObservers(this@ProcessDialog)
+                viewModel.progressEvent.removeObservers(this@ProgressDialog)
                 timer.dispose()
             }
         }
