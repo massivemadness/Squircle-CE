@@ -412,8 +412,8 @@ class ExplorerViewModel @ViewModelInject constructor(
             .disposeOnViewModelDestroy()
     }
 
-    fun decompressFile(source: FileModel, dest: FileModel) {
-        filesystem.decompress(source, dest)
+    fun extractAll(source: FileModel, dest: FileModel) {
+        filesystem.extractAll(source, dest)
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .schedulersIoToMain(schedulersProvider)

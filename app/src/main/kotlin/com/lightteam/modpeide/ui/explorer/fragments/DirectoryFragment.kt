@@ -372,14 +372,15 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         val readableDate = propertiesModel.lastModified
             .toReadableDate(requireContext().getString(R.string.properties_date_format))
 
-        val properties =
-                getString(R.string.properties_name, propertiesModel.name) +
-                getString(R.string.properties_path, propertiesModel.path) +
-                getString(R.string.properties_modified, readableDate) +
-                getString(R.string.properties_size, readableSize) +
-                getString(R.string.properties_line_count, propertiesModel.lines) +
-                getString(R.string.properties_word_count, propertiesModel.words) +
-                getString(R.string.properties_char_count, propertiesModel.chars)
+        val properties = StringBuilder().apply {
+            append(getString(R.string.properties_name, propertiesModel.name))
+            append(getString(R.string.properties_path, propertiesModel.path))
+            append(getString(R.string.properties_modified, readableDate))
+            append(getString(R.string.properties_size, readableSize))
+            propertiesModel.lines?.let { append(getString(R.string.properties_line_count, it)) }
+            propertiesModel.words?.let { append(getString(R.string.properties_word_count, it)) }
+            propertiesModel.chars?.let { append(getString(R.string.properties_char_count, it)) }
+        }
 
         MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_properties)

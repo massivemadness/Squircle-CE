@@ -22,9 +22,9 @@ data class PropertiesModel(
     val path: String,
     val lastModified: Long,
     val size: Long,
-    val lines: String,
-    val words: String,
-    val chars: String,
+    val lines: Int?,
+    val words: Int?,
+    val chars: Int?,
     val readable: Boolean,
     val writable: Boolean,
     val executable: Boolean

@@ -202,7 +202,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     }
 
     // TODO: Use Observable with ProgressMonitor
-    override fun decompress(source: FileModel, dest: FileModel): Single<FileModel> {
+    override fun extractAll(source: FileModel, dest: FileModel): Single<FileModel> {
         return Single.create { emitter ->
             val sourceFile = FileConverter.toFile(source)
             if (sourceFile.exists()) {
@@ -275,33 +275,33 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     // region PROPERTIES
 
-    private fun getLineCount(file: File, fileType: FileType): String {
+    private fun getLineCount(file: File, fileType: FileType): Int? {
         if (file.isFile && fileType == FileType.TEXT) {
             var lines = 0
             file.forEachLine {
                 lines++
             }
-            return lines.toString()
+            return lines
         }
-        return "…"
+        return null
     }
 
-    private fun getWordCount(file: File, fileType: FileType): String {
+    private fun getWordCount(file: File, fileType: FileType): Int? {
         if (file.isFile && fileType == FileType.TEXT) {
             var words = 0
             file.forEachLine {
                 words += it.split(' ').size
             }
-            return words.toString()
+            return words
         }
-        return "…"
+        return null
     }
 
-    private fun getCharCount(file: File, fileType: FileType): String {
+    private fun getCharCount(file: File, fileType: FileType): Int? {
         if (file.isFile && fileType == FileType.TEXT) {
-            return file.length().toString()
+            return file.length().toInt()
         }
-        return "…"
+        return null
     }
 
     // endregion PROPERTIES

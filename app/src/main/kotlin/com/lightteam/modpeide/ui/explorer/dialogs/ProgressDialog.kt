@@ -167,7 +167,7 @@ class ProgressDialog : BaseDialogFragment() {
                 dialogTitle = R.string.dialog_title_extracting
                 dialogMessage = R.string.message_extracting
                 dialogAction = {
-                    viewModel.decompressFile(tempFiles.first(), navArgs.parent)
+                    viewModel.extractAll(tempFiles.first(), navArgs.parent)
                 }
                 indeterminate = true
             }

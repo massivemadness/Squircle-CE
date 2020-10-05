@@ -121,13 +121,13 @@
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
 
-    <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br></string>
-    <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br></string>
-    <string name="properties_modified">&lt;b>Изменён:&lt;/b> %s&lt;br></string>
-    <string name="properties_size">&lt;b>Размер:&lt;/b> %s&lt;br></string>
-    <string name="properties_line_count">&lt;b>Линий:&lt;/b> %s&lt;br></string>
-    <string name="properties_word_count">&lt;b>Слов:&lt;/b> %s&lt;br></string>
-    <string name="properties_char_count">&lt;b>Символов:&lt;/b> %s</string>
+    <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_modified">&lt;b>Изменён:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_size">&lt;b>Размер:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_line_count">&lt;b>Линий:&lt;/b> %d&lt;br&gt;</string>
+    <string name="properties_word_count">&lt;b>Слов:&lt;/b> %d&lt;br&gt;</string>
+    <string name="properties_char_count">&lt;b>Символов:&lt;/b> %d</string>
     <string name="properties_readable">R</string>
     <string name="properties_writable">W</string>
     <string name="properties_executable">X</string>

@@ -125,9 +125,9 @@
     <string name="properties_path">&lt;b&gt;路径:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_modified">&lt;b&gt;日期:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_size">&lt;b&gt;大小:&lt;/b&gt; %s&lt;br&gt;</string>
-    <string name="properties_line_count">&lt;b&gt;行数:&lt;/b&gt; %s&lt;br&gt;</string>
-    <string name="properties_word_count">&lt;b&gt;词数:&lt;/b&gt; %s&lt;br&gt;</string>
-    <string name="properties_char_count">&lt;b&gt;字数:&lt;/b&gt; %s</string>
+    <string name="properties_line_count">&lt;b&gt;行数:&lt;/b&gt; %d&lt;br&gt;</string>
+    <string name="properties_word_count">&lt;b&gt;词数:&lt;/b&gt; %d&lt;br&gt;</string>
+    <string name="properties_char_count">&lt;b&gt;字数:&lt;/b&gt; %d</string>
     <string name="properties_readable">可读</string>
     <string name="properties_writable">可写</string>
     <string name="properties_executable">可执行</string>
