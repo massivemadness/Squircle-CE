@@ -20,12 +20,9 @@ package com.lightteam.editorkit.converter
 import androidx.core.graphics.toColorInt
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
 import com.lightteam.language.base.model.SyntaxScheme
-import kotlin.test.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
-@RunWith(JUnit4::class)
 class ColorSchemeConverterTest {
 
     @Test

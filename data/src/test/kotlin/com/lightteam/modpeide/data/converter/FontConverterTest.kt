@@ -19,12 +19,9 @@ package com.lightteam.modpeide.data.converter
 
 import com.lightteam.modpeide.database.entity.font.FontEntity
 import com.lightteam.modpeide.domain.model.font.FontModel
-import kotlin.test.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
-@RunWith(JUnit4::class)
 class FontConverterTest {
 
     @Test

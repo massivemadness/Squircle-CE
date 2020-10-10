@@ -24,12 +24,9 @@ import com.lightteam.modpeide.data.model.theme.ExternalScheme
 import com.lightteam.modpeide.data.model.theme.ExternalTheme
 import com.lightteam.modpeide.database.entity.theme.ThemeEntity
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
-import kotlin.test.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
-@RunWith(JUnit4::class)
 class ThemeConverterTest {
 
     @Test

@@ -20,12 +20,9 @@ package com.lightteam.modpeide.data.converter
 import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.modpeide.database.entity.document.DocumentEntity
 import com.lightteam.modpeide.domain.model.editor.DocumentModel
-import kotlin.test.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
-@RunWith(JUnit4::class)
 class DocumentConverterTest {
 
     @Test

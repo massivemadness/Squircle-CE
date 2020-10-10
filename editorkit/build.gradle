@@ -58,6 +58,5 @@ dependencies {
 
     // Tests
     testImplementation testLibrary.junit
-    testImplementation testLibrary.kunit
     testImplementation testLibrary.mockito
 }

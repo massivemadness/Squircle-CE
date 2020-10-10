@@ -27,30 +27,30 @@ ext {
 
     // Core
     kotlin_version = '1.4.10'
-    core_version = '1.5.0-alpha03'
-    activity_version = '1.2.0-alpha08'
-    fragment_version = '1.3.0-alpha08'
+    core_version = '1.5.0-alpha04'
+    activity_version = '1.2.0-beta01'
+    fragment_version = '1.3.0-beta01'
+    playcore_version = '1.8.1'
 
     // UI
     appcompat_version = '1.3.0-alpha02'
-    materialdesign_version = '1.3.0-alpha02'
+    materialdesign_version = '1.3.0-alpha03'
     constraintlayout_version = '2.0.1'
     swiperefreshlayout_version = '1.2.0-alpha01'
     preferencescompat_version = '1.1.1'
     materialdialogs_version = '3.3.0'
-    recyclerview_selection_version = '1.1.0-rc02'
+    recyclerview_selection_version = '1.1.0-rc03'
 
     // AAC
-    lifecycle_version = '2.3.0-alpha07'
+    lifecycle_version = '2.3.0-beta01'
     navigation_version = '2.3.0'
     room_version = '2.3.0-alpha02'
 
     // Network
-    playcore_version = '1.8.1'
     gson_version = '2.8.6'
 
     // Rx
-    rxjava2_version = '2.2.19'
+    rxjava2_version = '2.2.20'
     rxandroid_version = '2.1.1'
     rxkotlin_version = '2.4.0'
     rxbinding_version = '3.1.0'
@@ -82,6 +82,7 @@ ext {
             core: "androidx.core:core-ktx:$core_version",
             activity: "androidx.activity:activity-ktx:$activity_version",
             fragment: "androidx.fragment:fragment-ktx:$fragment_version",
+            playcore: "com.google.android.play:core-ktx:$playcore_version",
 
             // UI
             appcompat: "androidx.appcompat:appcompat:$appcompat_version",
@@ -103,7 +104,6 @@ ext {
             rxroom: "androidx.room:room-rxjava2:$room_version",
 
             // Network
-            playcore: "com.google.android.play:core-ktx:$playcore_version",
             gson: "com.google.code.gson:gson:$gson_version",
 
             // Rx
@@ -128,7 +128,6 @@ ext {
 
     testLibrary = [
             junit: "junit:junit:$junit_version",
-            kunit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
             mockito: "org.mockito:mockito-core:$mockito_version"
     ]
 

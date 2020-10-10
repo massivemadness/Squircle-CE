@@ -92,6 +92,7 @@ dependencies {
     implementation library.core
     implementation library.activity
     implementation library.fragment
+    implementation library.playcore
 
     // UI
     implementation library.appcompat
@@ -110,7 +111,6 @@ dependencies {
     implementation library.viewmodel
 
     // Network
-    implementation library.playcore
     implementation library.gson
 
     // Rx
@@ -141,7 +141,6 @@ dependencies {
 
     // Tests
     testImplementation testLibrary.junit
-    testImplementation testLibrary.kunit
 
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner
