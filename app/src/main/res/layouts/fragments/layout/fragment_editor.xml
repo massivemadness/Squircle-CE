@@ -354,7 +354,7 @@
                 android:padding="8dp"
                 android:background="?colorSurface"
                 android:src="@drawable/ic_keyboard_tab"
-                android:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface"/>
 
             <com.lightteam.modpeide.ui.editor.customview.ExtendedKeyboard
                 android:layout_width="match_parent"

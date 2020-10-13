@@ -55,7 +55,7 @@
             android:id="@+id/action_overflow"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/ic_overflow"
-            android:tint="@color/colorIcon"/>
+            app:tint="@color/colorIcon"/>
 
         <com.lightteam.modpeide.ui.themes.customview.CodeView
             android:layout_width="match_parent"
