@@ -69,12 +69,12 @@ class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
     }
 
     private fun observeViewModel() {
-        viewModel.validationEvent.observe(viewLifecycleOwner, {
+        viewModel.validationEvent.observe(viewLifecycleOwner) {
             binding.actionSave.isEnabled = it
-        })
-        viewModel.insertEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.insertEvent.observe(viewLifecycleOwner) {
             showToast(text = getString(R.string.message_new_font_available, it))
             navController.navigateUp()
-        })
+        }
     }
 }

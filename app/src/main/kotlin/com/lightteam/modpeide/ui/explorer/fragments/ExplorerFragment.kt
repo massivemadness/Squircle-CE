@@ -206,17 +206,17 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
     // endregion MENU
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, {
+        viewModel.toastEvent.observe(viewLifecycleOwner) {
             showToast(it)
-        })
-        viewModel.showAppBarEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.showAppBarEvent.observe(viewLifecycleOwner) {
             binding.appBar.isVisible = it
-        })
-        viewModel.tabsEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.tabsEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             adapter.select(adapter.itemCount - 1)
-        })
-        viewModel.selectionEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.selectionEvent.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 viewModel.allowPasteFiles.set(false)
                 viewModel.tempFiles.clear()
@@ -224,7 +224,7 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
             } else {
                 stopActionMode()
             }
-        })
+        }
     }
 
     private fun startActionMode(list: List<FileModel>) {

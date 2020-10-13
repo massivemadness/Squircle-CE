@@ -96,7 +96,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.updateEvent.observe(this, {
+        viewModel.updateEvent.observe(this) {
             val appUpdateManager = it.first
             val appUpdateInfo = it.second
             val appUpdateType = it.third
@@ -106,25 +106,25 @@ class MainActivity : BaseActivity() {
                 this,
                 REQUEST_CODE_UPDATE
             )
-        })
-        viewModel.installEvent.observe(this, {
+        }
+        viewModel.installEvent.observe(this) {
             Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_restart) { viewModel.completeUpdate() }
                 .show()
-        })
-        viewModel.fullscreenEvent.observe(this, { enabled ->
+        }
+        viewModel.fullscreenEvent.observe(this) { enabled ->
             if (enabled) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
-        })
-        viewModel.openDrawerEvent.observe(this, {
+        }
+        viewModel.openDrawerEvent.observe(this) {
             binding.drawerLayout?.openDrawer(GravityCompat.START)
-        })
-        viewModel.closeDrawerEvent.observe(this, {
+        }
+        viewModel.closeDrawerEvent.observe(this) {
             binding.drawerLayout?.closeDrawer(GravityCompat.START)
-        })
+        }
 
         viewModel.observeSettings()
     }

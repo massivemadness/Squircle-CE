@@ -68,8 +68,8 @@ class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickList
     }
 
     private fun observeViewModel() {
-        viewModel.headersEvent.observe(viewLifecycleOwner, {
+        viewModel.headersEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
+        }
     }
 }

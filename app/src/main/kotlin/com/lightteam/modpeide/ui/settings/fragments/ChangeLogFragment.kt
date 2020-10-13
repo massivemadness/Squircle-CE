@@ -51,8 +51,8 @@ class ChangeLogFragment : BaseFragment(R.layout.fragment_changelog) {
     }
 
     private fun observeViewModel() {
-        viewModel.changelogEvent.observe(viewLifecycleOwner, {
+        viewModel.changelogEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
+        }
     }
 }

@@ -213,25 +213,25 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, {
+        viewModel.toastEvent.observe(viewLifecycleOwner) {
             showToast(it)
-        })
-        viewModel.loadFilesEvent.observe(viewLifecycleOwner, { list ->
+        }
+        viewModel.loadFilesEvent.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
             viewModel.findRecentTab(list)
-        })
-        viewModel.selectTabEvent.observe(viewLifecycleOwner, { position ->
+        }
+        viewModel.selectTabEvent.observe(viewLifecycleOwner) { position ->
             sharedViewModel.closeDrawerEvent.call()
             if (position > -1) {
                 adapter.select(position)
             }
-        })
-        viewModel.parseEvent.observe(viewLifecycleOwner, { model ->
+        }
+        viewModel.parseEvent.observe(viewLifecycleOwner) { model ->
             model.exception?.let {
                 binding.editor.setErrorLine(it.lineNumber)
             }
-        })
-        viewModel.contentEvent.observe(viewLifecycleOwner, { (content, textParams) ->
+        }
+        viewModel.contentEvent.observe(viewLifecycleOwner) { (content, textParams) ->
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
@@ -244,8 +244,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 content.documentModel.selectionEnd
             )
             binding.editor.requestFocus()
-        })
-        sharedViewModel.openEvent.observe(viewLifecycleOwner, { fileModel ->
+        }
+        sharedViewModel.openEvent.observe(viewLifecycleOwner) { fileModel ->
             val type = fileModel.getType()
             val documentModel = DocumentConverter.toModel(fileModel)
             val canOpenUnknownFile = type == FileType.DEFAULT && viewModel.openUnknownFiles
@@ -254,11 +254,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             } else {
                 sharedViewModel.openAsEvent.value = fileModel
             }
-        })
+        }
 
         // region PREFERENCES
 
-        viewModel.settingsEvent.observe(viewLifecycleOwner, { queue ->
+        viewModel.settingsEvent.observe(viewLifecycleOwner) { queue ->
             val tempConfig = binding.editor.config
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
@@ -317,7 +317,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 }
             }
             binding.editor.config = tempConfig
-        })
+        }
 
         // endregion PREFERENCES
     }

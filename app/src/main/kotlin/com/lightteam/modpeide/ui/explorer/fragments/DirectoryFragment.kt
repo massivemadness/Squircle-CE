@@ -149,76 +149,76 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     }
 
     private fun observeViewModel() {
-        viewModel.filesUpdateEvent.observe(viewLifecycleOwner, {
+        viewModel.filesUpdateEvent.observe(viewLifecycleOwner) {
             loadDirectory()
-        })
-        viewModel.selectAllEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.selectAllEvent.observe(viewLifecycleOwner) {
             tracker.setItemsSelected(adapter.currentList, true)
             adapter.notifyDataSetChanged()
-        })
-        viewModel.deselectAllEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.deselectAllEvent.observe(viewLifecycleOwner) {
             tracker.clearSelection()
             adapter.notifyDataSetChanged()
-        })
-        viewModel.createEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.createEvent.observe(viewLifecycleOwner) {
             showCreateDialog()
-        })
-        viewModel.copyEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.copyEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
                 viewModel.allowPasteFiles.set(true)
             }
-        })
-        viewModel.deleteEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.deleteEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
                 showDeleteDialog(it)
             }
-        })
-        viewModel.cutEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.cutEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
                 viewModel.allowPasteFiles.set(true)
             }
-        })
-        viewModel.pasteEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.pasteEvent.observe(viewLifecycleOwner) {
             executeProcess(it) // may only be Operation.COPY or Operation.CUT
-        })
-        viewModel.openAsEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.openAsEvent.observe(viewLifecycleOwner) {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 openAs(it)
             }
-        })
-        viewModel.renameEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.renameEvent.observe(viewLifecycleOwner) {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 showRenameDialog(it)
             }
-        })
-        viewModel.propertiesEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.propertiesEvent.observe(viewLifecycleOwner) {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 viewModel.propertiesOf(it)
             }
-        })
-        viewModel.copyPathEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.copyPathEvent.observe(viewLifecycleOwner) {
             val fileModel = viewModel.selectionEvent.value?.first()
             fileModel?.let {
                 viewModel.deselectAllEvent.call()
                 copyPath(it)
             }
-        })
-        viewModel.archiveEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.archiveEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
                 viewModel.deselectAllEvent.call()
@@ -246,28 +246,28 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                     executeProcess(Operation.COMPRESS)
                 }
             }
-        })
+        }
 
-        viewModel.filesEvent.observe(viewLifecycleOwner, {
+        viewModel.filesEvent.observe(viewLifecycleOwner) {
             fileTree = it
             adapter.submitList(fileTree.children)
-        })
-        viewModel.searchEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.searchEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
-        viewModel.clickEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.clickEvent.observe(viewLifecycleOwner) {
             onClick(it) // select file
-        })
-        viewModel.propertiesOfEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.propertiesOfEvent.observe(viewLifecycleOwner) {
             showPropertiesDialog(it)
-        })
+        }
 
-        sharedViewModel.openAsEvent.observe(viewLifecycleOwner, {
+        sharedViewModel.openAsEvent.observe(viewLifecycleOwner) {
             openAs(it)
-        })
-        sharedViewModel.propertiesEvent.observe(viewLifecycleOwner, {
+        }
+        sharedViewModel.propertiesEvent.observe(viewLifecycleOwner) {
             viewModel.propertiesOf(it)
-        })
+        }
     }
 
     private fun loadDirectory() {

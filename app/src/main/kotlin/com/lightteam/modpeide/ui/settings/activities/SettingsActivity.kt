@@ -65,13 +65,13 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.fullscreenEvent.observe(this, { enabled ->
+        viewModel.fullscreenEvent.observe(this) { enabled ->
             if (enabled) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
-        })
+        }
 
         viewModel.observeSettings()
     }

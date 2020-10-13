@@ -123,17 +123,17 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, {
+        viewModel.toastEvent.observe(viewLifecycleOwner) {
             showToast(it)
-        })
-        viewModel.validationEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.validationEvent.observe(viewLifecycleOwner) {
             binding.actionSave.isEnabled = it
-        })
-        viewModel.createEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.createEvent.observe(viewLifecycleOwner) {
             showToast(text = getString(R.string.message_new_theme_available, it))
             navController.navigateUp()
-        })
-        viewModel.metaEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.metaEvent.observe(viewLifecycleOwner) {
             meta = it
 
             binding.textInputThemeName.doAfterTextChanged { updateMeta() }
@@ -143,10 +143,10 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
             binding.textInputThemeName.setText(it.name)
             binding.textInputThemeAuthor.setText(it.author)
             binding.textInputThemeDescription.setText(it.description)
-        })
-        viewModel.propertiesEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.propertiesEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
+        }
     }
 
     private fun updateMeta() {

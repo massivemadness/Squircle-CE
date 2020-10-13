@@ -141,21 +141,21 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner, {
+        viewModel.toastEvent.observe(viewLifecycleOwner) {
             showToast(it)
-        })
-        viewModel.themesEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.themesEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.emptyView.isVisible = it.isEmpty()
-        })
-        viewModel.selectEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.selectEvent.observe(viewLifecycleOwner) {
             showToast(text = getString(R.string.message_selected, it))
-        })
-        viewModel.exportEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.exportEvent.observe(viewLifecycleOwner) {
             showToast(text = getString(R.string.message_theme_exported, it), duration = Toast.LENGTH_LONG)
-        })
-        viewModel.removeEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.removeEvent.observe(viewLifecycleOwner) {
             showToast(text = getString(R.string.message_theme_removed, it))
-        })
+        }
     }
 }

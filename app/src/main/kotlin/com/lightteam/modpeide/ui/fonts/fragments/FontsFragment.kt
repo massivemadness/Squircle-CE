@@ -118,15 +118,15 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
     }
 
     private fun observeViewModel() {
-        viewModel.fontsEvent.observe(viewLifecycleOwner, {
+        viewModel.fontsEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.emptyView.isVisible = it.isEmpty()
-        })
-        viewModel.selectEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.selectEvent.observe(viewLifecycleOwner) {
             showToast(text = getString(R.string.message_selected, it))
-        })
-        viewModel.removeEvent.observe(viewLifecycleOwner, {
+        }
+        viewModel.removeEvent.observe(viewLifecycleOwner) {
             showToast(text = getString(R.string.message_font_removed, it))
-        })
+        }
     }
 }
