@@ -65,7 +65,7 @@ class ExplorerViewModel @ViewModelInject constructor(
     // region EVENTS
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
-    val showAppBarEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Отображение вкладок
+    val showAppBarEvent: MutableLiveData<Boolean> = MutableLiveData() // Отображение вкладок
 
     val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Запрос на обновление списка файлов
     val selectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Выделить все файлы
