@@ -35,7 +35,7 @@ ext {
     // UI
     appcompat_version = '1.3.0-alpha02'
     materialdesign_version = '1.3.0-alpha03'
-    constraintlayout_version = '2.0.1'
+    constraintlayout_version = '2.0.2'
     swiperefreshlayout_version = '1.2.0-alpha01'
     preferencescompat_version = '1.1.1'
     materialdialogs_version = '3.3.0'
@@ -43,8 +43,8 @@ ext {
 
     // AAC
     lifecycle_version = '2.3.0-beta01'
-    navigation_version = '2.3.0'
-    room_version = '2.3.0-alpha02'
+    navigation_version = '2.3.1'
+    room_version = '2.3.0-alpha03'
 
     // Network
     gson_version = '2.8.6'
@@ -67,7 +67,7 @@ ext {
     chardet_version = '1.0.1'
 
     // Tests
-    junit_version = '4.13'
+    junit_version = '4.13.1'
     junit_ext_version = '1.1.2'
     test_runner_version = '1.3.0'
     espresso_core_version = '3.3.0'

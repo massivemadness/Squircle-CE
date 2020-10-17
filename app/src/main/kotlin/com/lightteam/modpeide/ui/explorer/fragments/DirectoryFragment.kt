@@ -18,7 +18,6 @@
 package com.lightteam.modpeide.ui.explorer.fragments
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -57,6 +56,7 @@ import com.lightteam.modpeide.utils.extensions.toReadableDate
 import com.lightteam.modpeide.utils.extensions.toReadableSize
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import java.io.FileNotFoundException
 
 @AndroidEntryPoint
 class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
@@ -64,6 +64,8 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     private val sharedViewModel: MainViewModel by activityViewModels()
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val navArgs: DirectoryFragmentArgs by navArgs()
+
+    private var operation = Operation.COPY
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
@@ -120,7 +122,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             } else {
                 if (item.getType() == FileType.ARCHIVE) {
                     viewModel.tempFiles.replaceList(listOf(item))
-                    viewModel.allowPasteFiles.set(false)
+                    viewModel.allowPasteFiles.value = false
                     executeProcess(Operation.EXTRACT)
                 } else {
                     sharedViewModel.openEvent.value = item
@@ -166,9 +168,10 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         viewModel.copyEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
+                operation = Operation.COPY
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
-                viewModel.allowPasteFiles.set(true)
+                viewModel.allowPasteFiles.value = true
             }
         }
         viewModel.deleteEvent.observe(viewLifecycleOwner) {
@@ -182,13 +185,14 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         viewModel.cutEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
+                operation = Operation.CUT
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
-                viewModel.allowPasteFiles.set(true)
+                viewModel.allowPasteFiles.value = true
             }
         }
         viewModel.pasteEvent.observe(viewLifecycleOwner) {
-            executeProcess(it) // may only be Operation.COPY or Operation.CUT
+            executeProcess(operation)
         }
         viewModel.openAsEvent.observe(viewLifecycleOwner) {
             val fileModel = viewModel.selectionEvent.value?.first()
@@ -255,16 +259,12 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         viewModel.searchEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewModel.clickEvent.observe(viewLifecycleOwner) {
-            onClick(it) // select file
-        }
+        viewModel.clickEvent.observe(viewLifecycleOwner, ::onClick)
         viewModel.propertiesOfEvent.observe(viewLifecycleOwner) {
             showPropertiesDialog(it)
         }
 
-        sharedViewModel.openAsEvent.observe(viewLifecycleOwner) {
-            openAs(it)
-        }
+        sharedViewModel.openAsEvent.observe(viewLifecycleOwner, ::openAs)
         sharedViewModel.propertiesEvent.observe(viewLifecycleOwner) {
             viewModel.propertiesOf(it)
         }
@@ -276,18 +276,24 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
 
     private fun openAs(fileModel: FileModel) {
         try { // Открытие файла через подходящую программу
+            val file = File(fileModel.path)
+            if (!file.exists()) {
+                throw FileNotFoundException(file.path)
+            }
+
             val uri = FileProvider.getUriForFile(
                 requireContext(),
                 "${context?.packageName}.provider",
-                File(fileModel.path)
+                file
             )
+
             val mime = context?.contentResolver?.getType(uri)
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 setDataAndType(uri, mime)
             }
             startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
+        } catch (e: Exception) {
             showToast(R.string.message_cannot_be_opened)
         }
     }

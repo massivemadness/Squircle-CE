@@ -139,7 +139,7 @@ class ProgressDialog : BaseDialogFragment() {
                     viewModel.copyFiles(tempFiles, navArgs.parent)
                 }
                 onCloseAction = {
-                    viewModel.allowPasteFiles.set(false)
+                    viewModel.allowPasteFiles.value = false
                 }
             }
             Operation.CUT -> {
@@ -149,7 +149,7 @@ class ProgressDialog : BaseDialogFragment() {
                     viewModel.cutFiles(tempFiles, navArgs.parent)
                 }
                 onCloseAction = {
-                    viewModel.allowPasteFiles.set(false)
+                    viewModel.allowPasteFiles.value = false
                 }
             }
             Operation.COMPRESS -> {

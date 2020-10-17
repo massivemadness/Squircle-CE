@@ -24,7 +24,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -37,7 +36,6 @@ import com.lightteam.modpeide.ui.base.adapters.TabAdapter
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.base.utils.OnBackPressedHandler
 import com.lightteam.modpeide.ui.explorer.adapters.DirectoryAdapter
-import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.ui.explorer.viewmodel.ExplorerViewModel
 import com.lightteam.modpeide.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,7 +54,6 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
     private lateinit var adapter: DirectoryAdapter
 
     private var isClosing = false // TODO remove this
-    private var operation = Operation.COPY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,9 +62,7 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)!!
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        binding = FragmentExplorerBinding.bind(view)
         observeViewModel()
 
         navController = childFragmentManager
@@ -91,7 +86,7 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
             removeTabs(backStackCount - 1)
         }
         binding.actionPaste.setOnClickListener {
-            viewModel.pasteEvent.value = operation
+            viewModel.pasteEvent.call()
         }
         binding.actionCreate.setOnClickListener {
             viewModel.createEvent.call()
@@ -180,14 +175,8 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_copy -> {
-                viewModel.copyEvent.call()
-                operation = Operation.COPY
-            }
-            R.id.action_cut -> {
-                viewModel.cutEvent.call()
-                operation = Operation.CUT
-            }
+            R.id.action_copy -> viewModel.copyEvent.call()
+            R.id.action_cut -> viewModel.cutEvent.call()
             R.id.action_delete -> viewModel.deleteEvent.call()
             R.id.action_select_all -> viewModel.selectAllEvent.call()
             R.id.action_open_as -> viewModel.openAsEvent.call()
@@ -212,13 +201,17 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
         viewModel.showAppBarEvent.observe(viewLifecycleOwner) {
             binding.appBar.isVisible = it
         }
+        viewModel.allowPasteFiles.observe(viewLifecycleOwner) {
+            binding.actionPaste.isVisible = it
+            binding.actionCreate.isVisible = !it
+        }
         viewModel.tabsEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             adapter.select(adapter.itemCount - 1)
         }
         viewModel.selectionEvent.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
-                viewModel.allowPasteFiles.set(false)
+                viewModel.allowPasteFiles.value = false
                 viewModel.tempFiles.clear()
                 startActionMode(it)
             } else {

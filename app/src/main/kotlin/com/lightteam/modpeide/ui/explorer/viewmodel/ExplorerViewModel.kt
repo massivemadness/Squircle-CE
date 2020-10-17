@@ -32,7 +32,6 @@ import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
-import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -58,14 +57,13 @@ class ExplorerViewModel @ViewModelInject constructor(
     val stateLoadingFiles: ObservableBoolean = ObservableBoolean(true) // Индикатор загрузки файлов
     val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение что нет файлов
 
-    val allowPasteFiles: ObservableBoolean = ObservableBoolean(false) // Отображение кнопки "Вставить"
-
     // endregion UI
 
     // region EVENTS
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
     val showAppBarEvent: MutableLiveData<Boolean> = MutableLiveData() // Отображение вкладок
+    val allowPasteFiles: MutableLiveData<Boolean> = MutableLiveData() // Отображение кнопки "Вставить"
 
     val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Запрос на обновление списка файлов
     val selectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Выделить все файлы
@@ -74,7 +72,7 @@ class ExplorerViewModel @ViewModelInject constructor(
     val copyEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать выделенные файлы
     val deleteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Удалить выделенные файлы
     val cutEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вырезать выделенные файлы
-    val pasteEvent: SingleLiveEvent<Operation> = SingleLiveEvent() // Вставить скопированные файлы
+    val pasteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вставить скопированные файлы
     val openAsEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Открыть файл как
     val renameEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Переименовать файл
     val propertiesEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Свойства файла
