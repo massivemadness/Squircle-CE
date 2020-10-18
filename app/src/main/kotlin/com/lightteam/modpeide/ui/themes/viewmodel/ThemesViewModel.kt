@@ -21,8 +21,6 @@ import android.os.Environment
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import com.google.gson.JsonParseException
 import com.lightteam.filesystem.base.Filesystem
 import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.filesystem.base.model.FileParams
@@ -54,8 +52,7 @@ class ThemesViewModel @ViewModelInject constructor(
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
     @Named("Local")
-    private val filesystem: Filesystem,
-    private val gson: Gson
+    private val filesystem: Filesystem
 ) : BaseViewModel() {
 
     companion object {
@@ -117,11 +114,11 @@ class ThemesViewModel @ViewModelInject constructor(
 
     fun importTheme(inputStream: InputStream?) {
         try {
-            val themeJson = inputStream?.bufferedReader()?.use(BufferedReader::readText) ?: ""
-            val externalTheme = gson.fromJson(themeJson, ExternalTheme::class.java)
+            val themeJson = inputStream?.bufferedReader()?.use(BufferedReader::readText)!!
+            val externalTheme = ExternalTheme.deserialize(themeJson)
             val themeModel = ThemeConverter.toModel(externalTheme)
             loadProperties(themeModel)
-        } catch (e: JsonParseException) {
+        } catch (e: Exception) {
             Log.e(TAG, e.message, e)
             toastEvent.value = R.string.message_theme_syntax_exception
         }
@@ -130,7 +127,7 @@ class ThemesViewModel @ViewModelInject constructor(
     fun exportTheme(themeModel: ThemeModel) {
         val externalTheme = ThemeConverter.toExternalTheme(themeModel)
         val fileName = "${themeModel.name}.json"
-        val fileText = gson.toJson(externalTheme)
+        val fileText = ExternalTheme.serialize(externalTheme)
         val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val fileModel = FileModel(
             name = fileName,
