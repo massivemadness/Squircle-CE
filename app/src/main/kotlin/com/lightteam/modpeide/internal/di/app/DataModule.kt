@@ -20,7 +20,7 @@ package com.lightteam.modpeide.internal.di.app
 import android.content.Context
 import android.os.Environment
 import com.lightteam.filesystem.base.Filesystem
-import com.lightteam.filesystem.local.LocalFilesystem
+import com.lightteam.modpeide.data.delegate.FilesystemDelegate
 import com.lightteam.modpeide.database.AppDatabase
 import com.lightteam.modpeide.database.delegate.DatabaseDelegate
 import dagger.Module
@@ -45,13 +45,13 @@ object DataModule {
     @Singleton
     @Named("Local")
     fun provideLocalFilesystem(): Filesystem {
-        return LocalFilesystem(Environment.getExternalStorageDirectory())
+        return FilesystemDelegate.provideFilesystem(Environment.getExternalStorageDirectory())
     }
 
     @Provides
     @Singleton
     @Named("Cache")
     fun provideCacheFilesystem(@ApplicationContext context: Context): Filesystem {
-        return LocalFilesystem(context.filesDir)
+        return FilesystemDelegate.provideFilesystem(context.filesDir)
     }
 }
