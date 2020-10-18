@@ -19,7 +19,6 @@ package com.lightteam.modpeide.data.converter
 
 import androidx.core.graphics.toColorInt
 import com.lightteam.editorkit.feature.colorscheme.ColorScheme
-import com.lightteam.language.base.model.SyntaxScheme
 import com.lightteam.modpeide.data.model.theme.ExternalScheme
 import com.lightteam.modpeide.data.model.theme.ExternalTheme
 import com.lightteam.modpeide.data.utils.extensions.toHexString
@@ -152,19 +151,6 @@ object ThemeConverter {
                 stringColor = (externalTheme?.externalScheme?.stringColor ?: "#000000").toColorInt(),
                 commentColor = (externalTheme?.externalScheme?.commentColor ?: "#000000").toColorInt()
             )
-        )
-    }
-
-    fun toSyntaxScheme(themeModel: ThemeModel): SyntaxScheme {
-        return SyntaxScheme(
-            numberColor = themeModel.colorScheme.numberColor,
-            operatorColor = themeModel.colorScheme.operatorColor,
-            keywordColor = themeModel.colorScheme.keywordColor,
-            typeColor = themeModel.colorScheme.typeColor,
-            langConstColor = themeModel.colorScheme.langConstColor,
-            methodColor = themeModel.colorScheme.methodColor,
-            stringColor = themeModel.colorScheme.stringColor,
-            commentColor = themeModel.colorScheme.commentColor
         )
     }
 }

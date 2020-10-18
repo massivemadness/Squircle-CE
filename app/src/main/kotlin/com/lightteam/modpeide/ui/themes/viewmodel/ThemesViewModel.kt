@@ -117,11 +117,12 @@ class ThemesViewModel @ViewModelInject constructor(
 
     fun importTheme(inputStream: InputStream?) {
         try {
-            val fileText = inputStream?.bufferedReader()?.use(BufferedReader::readText) ?: ""
-            val externalTheme = gson.fromJson(fileText, ExternalTheme::class.java)
+            val themeJson = inputStream?.bufferedReader()?.use(BufferedReader::readText) ?: ""
+            val externalTheme = gson.fromJson(themeJson, ExternalTheme::class.java)
             val themeModel = ThemeConverter.toModel(externalTheme)
             loadProperties(themeModel)
         } catch (e: JsonParseException) {
+            Log.e(TAG, e.message, e)
             toastEvent.value = R.string.message_theme_syntax_exception
         }
     }

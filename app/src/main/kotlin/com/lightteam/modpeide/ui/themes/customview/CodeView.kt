@@ -22,8 +22,8 @@ import android.text.Spannable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.toSpannable
+import com.lightteam.editorkit.converter.ColorSchemeConverter
 import com.lightteam.language.base.Language
-import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
 
 class CodeView @JvmOverloads constructor(
@@ -75,7 +75,7 @@ class CodeView @JvmOverloads constructor(
 
     private fun syntaxHighlight() {
         themeModel?.let {
-            val syntaxScheme = ThemeConverter.toSyntaxScheme(it)
+            val syntaxScheme = ColorSchemeConverter.toSyntaxScheme(it.colorScheme)
             language?.getStyler()?.execute(text.toString(), syntaxScheme)?.let { spans ->
                 if (layout != null) {
                     val currentText = text.toSpannable()
