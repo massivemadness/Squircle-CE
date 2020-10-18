@@ -19,10 +19,6 @@ package com.lightteam.filesystem.local.utils
 
 import java.io.File
 
-fun String.isValidFileName(): Boolean {
-    return isNotBlank() && !contains("/") && !equals(".") && !equals("..")
-}
-
 fun File.size(): Long {
     if (isDirectory) {
         var length = 0L

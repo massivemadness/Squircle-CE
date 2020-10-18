@@ -26,7 +26,7 @@ import com.google.gson.JsonParseException
 import com.lightteam.filesystem.base.Filesystem
 import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.filesystem.base.model.FileParams
-import com.lightteam.filesystem.local.utils.isValidFileName
+import com.lightteam.filesystem.base.utils.isValidFileName
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.converter.ThemeConverter
 import com.lightteam.modpeide.data.model.theme.ExternalTheme

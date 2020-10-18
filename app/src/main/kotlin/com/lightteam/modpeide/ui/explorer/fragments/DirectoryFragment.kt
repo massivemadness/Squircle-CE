@@ -40,7 +40,7 @@ import com.lightteam.filesystem.base.model.FileModel
 import com.lightteam.filesystem.base.model.FileTree
 import com.lightteam.filesystem.base.model.FileType
 import com.lightteam.filesystem.base.model.PropertiesModel
-import com.lightteam.filesystem.local.utils.isValidFileName
+import com.lightteam.filesystem.base.utils.isValidFileName
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.databinding.FragmentDirectoryBinding
@@ -64,8 +64,6 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     private val sharedViewModel: MainViewModel by activityViewModels()
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val navArgs: DirectoryFragmentArgs by navArgs()
-
-    private var operation = Operation.COPY
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
@@ -168,7 +166,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         viewModel.copyEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
-                operation = Operation.COPY
+                viewModel.operation = Operation.COPY
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
                 viewModel.allowPasteFiles.value = true
@@ -185,14 +183,14 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         viewModel.cutEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
-                operation = Operation.CUT
+                viewModel.operation = Operation.CUT
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
                 viewModel.allowPasteFiles.value = true
             }
         }
         viewModel.pasteEvent.observe(viewLifecycleOwner) {
-            executeProcess(operation)
+            executeProcess(viewModel.operation)
         }
         viewModel.openAsEvent.observe(viewLifecycleOwner) {
             val fileModel = viewModel.selectionEvent.value?.first()

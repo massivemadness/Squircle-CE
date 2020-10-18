@@ -17,6 +17,10 @@
 
 package com.lightteam.filesystem.base.utils
 
+fun String.isValidFileName(): Boolean {
+    return isNotBlank() && !contains("/") && !equals(".") && !equals("..")
+}
+
 fun String.endsWith(suffixes: Array<String>): Boolean {
     for (suffix in suffixes) {
         if (endsWith(suffix, ignoreCase = true)) {

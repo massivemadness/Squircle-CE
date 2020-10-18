@@ -32,6 +32,7 @@ import com.lightteam.modpeide.data.utils.extensions.replaceList
 import com.lightteam.modpeide.data.utils.extensions.schedulersIoToMain
 import com.lightteam.modpeide.domain.providers.rx.SchedulersProvider
 import com.lightteam.modpeide.ui.base.viewmodel.BaseViewModel
+import com.lightteam.modpeide.ui.explorer.utils.Operation
 import com.lightteam.modpeide.utils.event.SingleLiveEvent
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -92,6 +93,8 @@ class ExplorerViewModel @ViewModelInject constructor(
     val tabsList: MutableList<FileModel> = mutableListOf()
     val tempFiles: MutableList<FileModel> = mutableListOf()
     val cancelableDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+
+    var operation: Operation = Operation.COPY
 
     var showHidden: Boolean
         get() = settingsManager.getFilterHidden().get()
