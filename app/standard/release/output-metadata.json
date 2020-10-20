@@ -1,19 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
   },
   "applicationId": "com.KillerBLS.modpeide",
-  "variantName": "standardRelease",
+  "variantName": "processStandardReleaseResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "properties": [],
-      "versionCode": 10038,
-      "versionName": "2020.2.4",
-      "enabled": true,
+      "versionCode": 10039,
+      "versionName": "2020.2.5",
       "outputFile": "app-standard-release.apk"
     }
   ]

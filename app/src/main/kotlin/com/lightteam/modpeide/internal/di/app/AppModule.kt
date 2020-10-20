@@ -34,6 +34,4 @@ object AppModule {
     fun provideSchedulersProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
     }
-
-    /* я думал тут будет больше хлама */
 }

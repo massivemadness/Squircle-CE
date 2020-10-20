@@ -1,19 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
   },
   "applicationId": "com.LightTeam.modpeidepro",
-  "variantName": "ultimateRelease",
+  "variantName": "processUltimateReleaseResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "properties": [],
-      "versionCode": 10038,
-      "versionName": "2020.2.4",
-      "enabled": true,
+      "versionCode": 10039,
+      "versionName": "2020.2.5",
       "outputFile": "app-ultimate-release.apk"
     }
   ]
