@@ -54,12 +54,10 @@ import com.lightteam.modpeide.ui.editor.utils.Panel
 import com.lightteam.modpeide.ui.editor.utils.TabController
 import com.lightteam.modpeide.ui.editor.utils.ToolbarManager
 import com.lightteam.modpeide.ui.editor.viewmodel.EditorViewModel
-import com.lightteam.modpeide.ui.main.dialogs.StoreDialog
 import com.lightteam.modpeide.ui.main.viewmodel.MainViewModel
 import com.lightteam.modpeide.ui.settings.activities.SettingsActivity
 import com.lightteam.modpeide.utils.event.SettingsEvent
 import com.lightteam.modpeide.utils.extensions.createTypefaceFromPath
-import com.lightteam.modpeide.utils.extensions.isUltimate
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -272,7 +270,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     is SettingsEvent.WordWrap -> tempConfig.wordWrap = event.value
                     is SettingsEvent.CodeCompletion -> tempConfig.codeCompletion = event.value
                     is SettingsEvent.ErrorHighlight -> {
-                        if (isUltimate() && event.value) {
+                        if (event.value) {
                             binding.editor
                                 .textChangeEvents()
                                 .skipInitialValue()
@@ -401,10 +399,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     // endregion TABS
-
-    private fun showStoreDialog() {
-        StoreDialog().show(childFragmentManager, StoreDialog.DIALOG_TAG)
-    }
 
     // region TOOLBAR
 
@@ -646,50 +640,42 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     override fun onErrorCheckingButton() {
-        if (isUltimate()) {
-            val position = adapter.selectedPosition
-            if (position > -1) {
-                MaterialDialog(requireContext()).show {
-                    title(R.string.dialog_title_result)
-                    message(R.string.message_no_errors_detected)
-                    viewModel.parseEvent.value?.let { model ->
-                        model.exception?.let {
-                            message(text = it.message)
-                            binding.editor.setErrorLine(it.lineNumber)
-                        }
+        val position = adapter.selectedPosition
+        if (position > -1) {
+            MaterialDialog(requireContext()).show {
+                title(R.string.dialog_title_result)
+                message(R.string.message_no_errors_detected)
+                viewModel.parseEvent.value?.let { model ->
+                    model.exception?.let {
+                        message(text = it.message)
+                        binding.editor.setErrorLine(it.lineNumber)
                     }
-                    positiveButton(R.string.action_ok)
                 }
-            } else {
-                showToast(R.string.message_no_open_files)
+                positiveButton(R.string.action_ok)
             }
         } else {
-            showStoreDialog()
+            showToast(R.string.message_no_open_files)
         }
     }
 
     override fun onInsertColorButton() {
-        if (isUltimate()) {
-            val position = adapter.selectedPosition
-            if (position > -1) {
-                MaterialDialog(requireContext()).show {
-                    title(R.string.dialog_title_color_picker)
-                    colorChooser(
-                        colors = ColorPalette.Primary,
-                        subColors = ColorPalette.PrimarySub,
-                        allowCustomArgb = true,
-                        showAlphaSelector = true
-                    ) { _, color ->
-                        binding.editor.insert(color.toHexString())
-                    }
-                    positiveButton(R.string.action_insert)
-                    negativeButton(R.string.action_cancel)
+        val position = adapter.selectedPosition
+        if (position > -1) {
+            MaterialDialog(requireContext()).show {
+                title(R.string.dialog_title_color_picker)
+                colorChooser(
+                    colors = ColorPalette.Primary,
+                    subColors = ColorPalette.PrimarySub,
+                    allowCustomArgb = true,
+                    showAlphaSelector = true
+                ) { _, color ->
+                    binding.editor.insert(color.toHexString())
                 }
-            } else {
-                showToast(R.string.message_no_open_files)
+                positiveButton(R.string.action_insert)
+                negativeButton(R.string.action_cancel)
             }
         } else {
-            showStoreDialog()
+            showToast(R.string.message_no_open_files)
         }
     }
 

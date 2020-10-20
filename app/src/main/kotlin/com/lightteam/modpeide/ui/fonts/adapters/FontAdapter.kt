@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.lightteam.modpeide.databinding.ItemFontBinding
 import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
-import com.lightteam.modpeide.utils.extensions.*
+import com.lightteam.modpeide.utils.extensions.createTypefaceFromPath
 
 class FontAdapter(
     private val fontInteractor: FontInteractor
@@ -85,7 +85,6 @@ class FontAdapter(
             binding.itemContent.typeface = itemView.context.createTypefaceFromPath(item.fontPath)
             binding.itemSubtitle.isVisible = item.supportLigatures
             binding.actionRemove.isVisible = item.isExternal
-            binding.actionSelect.isEnabled = !item.isPaid || isUltimate()
         }
     }
 

@@ -27,19 +27,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import com.lightteam.modpeide.BuildConfig
 import java.io.BufferedReader
-
-private const val FLAVOR_STANDARD = "standard"
-private const val FLAVOR_ULTIMATE = "ultimate"
-
-fun isUltimate(): Boolean {
-    return when (BuildConfig.FLAVOR) {
-        FLAVOR_STANDARD -> false
-        FLAVOR_ULTIMATE -> true
-        else -> false
-    }
-}
 
 fun Context.getColour(@ColorRes colorRes: Int): Int {
     return ContextCompat.getColor(this, colorRes)

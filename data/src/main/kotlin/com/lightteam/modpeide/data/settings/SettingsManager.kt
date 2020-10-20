@@ -23,8 +23,8 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
 
     companion object {
+
         // Look And Feel
-        // const val KEY_THEME = "THEME_1"
         const val KEY_COLOR_SCHEME = "COLOR_SCHEME"
         const val KEY_FULLSCREEN_MODE = "FULLSCREEN_MODE"
 

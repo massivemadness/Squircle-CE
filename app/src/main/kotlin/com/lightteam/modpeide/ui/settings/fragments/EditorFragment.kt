@@ -25,13 +25,11 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.R
 import com.lightteam.modpeide.data.settings.SettingsManager
-import com.lightteam.modpeide.utils.extensions.isUltimate
 
 class EditorFragment : PreferenceFragmentCompat() {
 
     companion object {
         private const val KEY_FONT_TYPE = SettingsManager.KEY_FONT_TYPE
-        private const val KEY_ERROR_HIGHLIGHTING = SettingsManager.KEY_ERROR_HIGHLIGHTING
         private const val KEY_KEYBOARD_PRESET = SettingsManager.KEY_KEYBOARD_PRESET
     }
 
@@ -50,7 +48,6 @@ class EditorFragment : PreferenceFragmentCompat() {
             navController.navigate(destination)
             true
         }
-        findPreference<Preference>(KEY_ERROR_HIGHLIGHTING)?.isEnabled = isUltimate()
         findPreference<Preference>(KEY_KEYBOARD_PRESET)?.setOnPreferenceClickListener {
             val destination = EditorFragmentDirections.toPresetDialog()
             navController.navigate(destination)

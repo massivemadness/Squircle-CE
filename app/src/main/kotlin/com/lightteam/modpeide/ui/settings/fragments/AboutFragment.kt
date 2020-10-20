@@ -25,7 +25,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.lightteam.modpeide.BuildConfig
 import com.lightteam.modpeide.R
-import com.lightteam.modpeide.utils.extensions.isUltimate
 
 class AboutFragment : PreferenceFragmentCompat() {
 
@@ -50,9 +49,6 @@ class AboutFragment : PreferenceFragmentCompat() {
             true
         }
 
-        if (isUltimate()) {
-            changelog?.setTitle(R.string.pref_about_ultimate_title)
-        }
         changelog?.summary = getString(
             R.string.pref_about_summary,
             BuildConfig.VERSION_NAME,

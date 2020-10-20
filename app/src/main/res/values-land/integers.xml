@@ -17,5 +17,7 @@
   -->
 
 <resources>
+
     <integer name="themes_row_count">2</integer>
+
 </resources>

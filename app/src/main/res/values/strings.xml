@@ -75,9 +75,6 @@
     <string name="action_run_in_background">Run in background</string>
     <string name="action_show_hidden_files">Show hidden files</string>
     <string name="action_create_zip">Create .zip</string>
-    <string name="action_get_it">Get it</string>
-    <string name="action_maybe_later">Maybe later</string>
-    <string name="action_unlock_all_features">Unlock all features</string>
     <string name="action_select">Select</string>
     <string name="action_import">Import</string>
     <string name="action_export">Export</string>
@@ -113,7 +110,6 @@
     <string name="dialog_title_create">Create…</string>
     <string name="dialog_title_rename">Rename…</string>
     <string name="dialog_title_multi_delete">Multi-delete</string>
-    <string name="dialog_title_store">Get the Ultimate Edition</string>
     <string name="dialog_title_exit">Exit</string>
     <string name="dialog_title_properties">Properties</string>
     <string name="dialog_title_color_picker">Color Picker</string>
@@ -189,15 +185,6 @@
     <string name="message_extracting">Extracting…%1$s</string>
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
     <string name="message_wrong_encoding">File was loaded using wrong encoding</string>
-
-    <string name="store_standard" translatable="false">Standard</string>
-    <string name="store_ultimate" translatable="false">Ultimate</string>
-    <string name="store_feature_1">Basic functionality</string>
-    <string name="store_feature_2">Color schemes</string>
-    <string name="store_feature_3">Theme editor 🎉</string>
-    <string name="store_feature_4">External fonts</string>
-    <string name="store_feature_5">Error checking</string>
-    <string name="store_feature_6">Color picker</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>
@@ -315,8 +302,6 @@
     <string name="pref_view_mode_title">View Mode</string>
     <string name="pref_sort_mode_title">Sort Mode</string>
 
-    <string name="pref_about_standard_title" translatable="false">ModPE IDE - Standard Edition</string>
-    <string name="pref_about_ultimate_title" translatable="false">ModPE IDE - Ultimate Edition</string>
     <string name="pref_about_summary">Copyright 2020 Light Team Software\nAll right reserved\n\nVersion: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Privacy Policy</string>
     <string name="pref_contribute_title">Contribute to development</string>

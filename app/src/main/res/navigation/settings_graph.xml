@@ -153,10 +153,4 @@
         android:label="@string/label_changelog"
         tools:layout="@layout/fragment_changelog"/>
 
-    <dialog
-        android:id="@+id/storeDialog"
-        android:name="com.lightteam.modpeide.ui.main.dialogs.StoreDialog"
-        android:label="@string/dialog_title_store"
-        tools:layout="@layout/dialog_store"/>
-
 </navigation>

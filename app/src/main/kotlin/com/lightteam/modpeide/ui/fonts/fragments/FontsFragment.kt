@@ -34,7 +34,6 @@ import com.lightteam.modpeide.domain.model.font.FontModel
 import com.lightteam.modpeide.ui.base.fragments.BaseFragment
 import com.lightteam.modpeide.ui.fonts.adapters.FontAdapter
 import com.lightteam.modpeide.ui.fonts.viewmodel.FontsViewModel
-import com.lightteam.modpeide.utils.extensions.isUltimate
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -67,12 +66,8 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
             .also { adapter = it }
 
         binding.actionAdd.setOnClickListener {
-            if (isUltimate()) {
-                val destination = FontsFragmentDirections.toExternalFontFragment()
-                navController.navigate(destination)
-            } else {
-                navController.navigate(R.id.storeDialog)
-            }
+            val destination = FontsFragmentDirections.toExternalFontFragment()
+            navController.navigate(destination)
         }
 
         viewModel.fetchFonts()
@@ -104,11 +99,7 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
     }
 
     override fun selectFont(fontModel: FontModel) {
-        if (fontModel.isPaid && !isUltimate()) {
-            navController.navigate(R.id.storeDialog)
-        } else {
-            viewModel.selectFont(fontModel)
-        }
+        viewModel.selectFont(fontModel)
     }
 
     override fun removeFont(fontModel: FontModel) {

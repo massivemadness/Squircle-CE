@@ -22,7 +22,7 @@
 
         <Preference
             android:icon="@mipmap/ic_launch_screen"
-            android:title="@string/pref_about_standard_title"
+            android:title="@string/app_name"
             android:summary="@string/pref_about_summary"
             android:key="CHANGELOG"/>
 

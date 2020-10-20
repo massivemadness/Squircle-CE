@@ -31,7 +31,6 @@ import com.lightteam.modpeide.databinding.ItemThemeBinding
 import com.lightteam.modpeide.domain.model.theme.ThemeModel
 import com.lightteam.modpeide.ui.base.adapters.BaseViewHolder
 import com.lightteam.modpeide.ui.themes.customview.CodeView
-import com.lightteam.modpeide.utils.extensions.isUltimate
 import com.lightteam.modpeide.utils.extensions.makeRightPaddingRecursively
 
 class ThemeAdapter(
@@ -113,9 +112,6 @@ class ThemeAdapter(
             binding.editor.doOnPreDraw {
                 binding.editor.language = LanguageDelegate.provideLanguage(".js")
             }
-
-            binding.actionInfo.isEnabled = !item.isPaid || isUltimate()
-            binding.actionSelect.isEnabled = !item.isPaid || isUltimate()
         }
     }
 

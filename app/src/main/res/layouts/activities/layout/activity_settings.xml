@@ -35,33 +35,11 @@
 
     <fragment
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:id="@+id/nav_host"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:navGraph="@navigation/settings_graph"
         app:defaultNavHost="true"
         tools:ignore="FragmentTagUsage"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="?colorSecondaryVariant"
-        android:id="@+id/button_container"
-        android:elevation="2dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="?selectableItemBackground"
-            android:textColor="?colorPrimary"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:text="@string/action_unlock_all_features"
-            android:id="@+id/button_unlock_features"/>
-
-    </FrameLayout>
 
 </LinearLayout>

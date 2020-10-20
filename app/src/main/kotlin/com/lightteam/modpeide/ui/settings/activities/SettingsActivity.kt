@@ -20,7 +20,6 @@ package com.lightteam.modpeide.ui.settings.activities
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
-import androidx.core.view.isGone
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.lightteam.modpeide.R
@@ -28,7 +27,6 @@ import com.lightteam.modpeide.databinding.ActivitySettingsBinding
 import com.lightteam.modpeide.ui.base.activities.BaseActivity
 import com.lightteam.modpeide.ui.settings.viewmodel.SettingsViewModel
 import com.lightteam.modpeide.utils.extensions.fragment
-import com.lightteam.modpeide.utils.extensions.isUltimate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,11 +51,6 @@ class SettingsActivity : BaseActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding.buttonContainer.isGone = isUltimate()
-        binding.buttonUnlockFeatures.setOnClickListener {
-            navController.navigate(R.id.storeDialog)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

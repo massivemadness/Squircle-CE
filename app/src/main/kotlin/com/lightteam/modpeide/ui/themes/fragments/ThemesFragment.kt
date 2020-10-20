@@ -37,7 +37,6 @@ import com.lightteam.modpeide.ui.themes.adapters.ThemeAdapter
 import com.lightteam.modpeide.ui.themes.utils.GridSpacingItemDecoration
 import com.lightteam.modpeide.ui.themes.viewmodel.ThemesViewModel
 import com.lightteam.modpeide.utils.extensions.hasExternalStorageAccess
-import com.lightteam.modpeide.utils.extensions.isUltimate
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -71,12 +70,8 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
             .also { adapter = it }
 
         binding.actionAdd.setOnClickListener {
-            if (isUltimate()) {
-                val destination = ThemesFragmentDirections.toNewThemeFragment(null)
-                navController.navigate(destination)
-            } else {
-                navController.navigate(R.id.storeDialog)
-            }
+            val destination = ThemesFragmentDirections.toNewThemeFragment(null)
+            navController.navigate(destination)
         }
 
         viewModel.fetchThemes()
@@ -108,11 +103,7 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
     }
 
     override fun selectTheme(themeModel: ThemeModel) {
-        if (themeModel.isPaid && !isUltimate()) {
-            navController.navigate(R.id.storeDialog)
-        } else {
-            viewModel.selectTheme(themeModel)
-        }
+        viewModel.selectTheme(themeModel)
     }
 
     override fun exportTheme(themeModel: ThemeModel) {

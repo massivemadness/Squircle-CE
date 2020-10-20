@@ -17,6 +17,7 @@
   -->
 
 <resources>
+
     <color name="colorPrimary">#FF8000</color>
     <color name="colorSecondary">#FF8000</color>
     <color name="colorSurface">#3C3F41</color>
@@ -42,4 +43,5 @@
     <color name="colorGreen">#008860</color>
     <color name="colorRed">#CD0000</color>
     <color name="colorGray">#D7D7D7</color>
+
  </resources>

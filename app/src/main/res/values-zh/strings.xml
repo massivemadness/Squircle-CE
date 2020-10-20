@@ -66,9 +66,6 @@
     <string name="action_run_in_background">在后台运行</string>
     <string name="action_show_hidden_files">显示隐藏文件</string>
     <string name="action_create_zip">创建 .zip</string>
-    <string name="action_get_it">立即获取</string>
-    <string name="action_maybe_later">稍候再说</string>
-    <string name="action_unlock_all_features">解锁全部功能</string>
     <string name="action_select">选择</string>
     <string name="action_import">导入</string>
     <string name="action_export">导出</string>
@@ -104,7 +101,6 @@
     <string name="dialog_title_create">创建文件</string>
     <string name="dialog_title_rename">重命名文件</string>
     <string name="dialog_title_multi_delete">删除所选文件</string>
-    <string name="dialog_title_store">获取 Ultimate Edition</string>
     <string name="dialog_title_exit">退出应用</string>
     <string name="dialog_title_properties">属性</string>
     <string name="dialog_title_color_picker">颜色选择器</string>
@@ -179,13 +175,6 @@
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
     <string name="message_wrong_encoding">文件加载时使用了错误的编码</string>
-
-    <string name="store_feature_1">基本功能</string>
-    <string name="store_feature_2">配色方案</string>
-    <string name="store_feature_3">主题编辑器 🎉</string>
-    <string name="store_feature_4">外部字体</string>
-    <string name="store_feature_5">错误检查</string>
-    <string name="store_feature_6">颜色选择器</string>
 
     <string name="font_support_ligatures">* 支持连体字母</string>
     <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>

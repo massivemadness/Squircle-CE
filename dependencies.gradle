@@ -63,7 +63,7 @@ ext {
     // Other
     keyboardevent_version = '2.3.0'
     rhino_version = '1.7.13'
-    zip4j_version = '2.6.3'
+    zip4j_version = '2.6.4'
     chardet_version = '1.0.1'
 
     // Tests
