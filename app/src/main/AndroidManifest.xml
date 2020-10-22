@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Licensed to the Light Team Software (Light Team) under one or more
-  ~ contributor license agreements.  See the NOTICE file distributed with
-  ~ this work for additional information regarding copyright ownership.
-  ~ The Light Team licenses this file to You under the Apache License, Version 2.0
-  ~ (the "License"); you may not use this file except in compliance with
-  ~ the License.  You may obtain a copy of the License at
+  ~ Copyright 2020 Brackeys IDE contributors.
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +17,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.lightteam.modpeide">
+    package="com.brackeys.ui">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -31,13 +30,13 @@
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
-        android:name="com.lightteam.modpeide.MainApplication"
+        android:name="com.brackeys.ui.MainApplication"
         android:fullBackupContent="@xml/backup_descriptor"
         tools:replace="android:supportsRtl"
         tools:targetApi="q">
 
         <activity
-            android:name="com.lightteam.modpeide.ui.main.activities.MainActivity"
+            android:name="com.brackeys.ui.feature.main.activities.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTask">
@@ -59,8 +58,8 @@
         </activity>
 
         <activity
-            android:name="com.lightteam.modpeide.ui.settings.activities.SettingsActivity"
-            android:parentActivityName="com.lightteam.modpeide.ui.main.activities.MainActivity"
+            android:name="com.brackeys.ui.feature.settings.activities.SettingsActivity"
+            android:parentActivityName="com.brackeys.ui.feature.main.activities.MainActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/label_settings"/>
 

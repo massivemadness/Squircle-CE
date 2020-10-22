@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Licensed to the Light Team Software (Light Team) under one or more
-  ~ contributor license agreements.  See the NOTICE file distributed with
-  ~ this work for additional information regarding copyright ownership.
-  ~ The Light Team licenses this file to You under the Apache License, Version 2.0
-  ~ (the "License"); you may not use this file except in compliance with
-  ~ the License.  You may obtain a copy of the License at
+  ~ Copyright 2020 Brackeys IDE contributors.
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +23,7 @@
 
     <fragment
         android:id="@+id/permissionsFragment"
-        android:name="com.lightteam.modpeide.ui.explorer.fragments.PermissionsFragment"
+        android:name="com.brackeys.ui.feature.explorer.fragments.PermissionsFragment"
         android:label="@string/label_permissions"
         tools:layout="@layout/fragment_permissions">
         <action
@@ -34,13 +33,13 @@
 
     <fragment
         android:id="@+id/directoryFragment"
-        android:name="com.lightteam.modpeide.ui.explorer.fragments.DirectoryFragment"
+        android:name="com.brackeys.ui.feature.explorer.fragments.DirectoryFragment"
         android:label="@string/label_directory"
         tools:layout="@layout/fragment_directory">
         <argument
             android:name="fileModel"
             app:nullable="true"
-            app:argType="com.lightteam.filesystem.base.model.FileModel"/>
+            app:argType="com.brackeys.ui.filesystem.base.model.FileModel"/>
         <action
             android:id="@+id/to_directoryFragment"
             app:destination="@id/directoryFragment"/>
@@ -51,14 +50,14 @@
 
     <dialog
         android:id="@+id/progressDialog"
-        android:name="com.lightteam.modpeide.ui.explorer.dialogs.ProgressDialog"
+        android:name="com.brackeys.ui.feature.explorer.dialogs.ProgressDialog"
         tools:layout="@layout/dialog_progress">
         <argument
             android:name="operation"
-            app:argType="com.lightteam.modpeide.ui.explorer.utils.Operation"/>
+            app:argType="com.brackeys.ui.feature.explorer.utils.Operation"/>
         <argument
             android:name="parent"
-            app:argType="com.lightteam.filesystem.base.model.FileModel"/>
+            app:argType="com.brackeys.ui.filesystem.base.model.FileModel"/>
         <argument
             android:name="archiveName"
             app:argType="string"

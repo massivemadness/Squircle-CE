@@ -1,12 +1,11 @@
 <!--
-  ~ Licensed to the Light Team Software (Light Team) under one or more
-  ~ contributor license agreements.  See the NOTICE file distributed with
-  ~ this work for additional information regarding copyright ownership.
-  ~ The Light Team licenses this file to You under the Apache License, Version 2.0
-  ~ (the "License"); you may not use this file except in compliance with
-  ~ the License.  You may obtain a copy of the License at
+  ~ Copyright 2020 Brackeys IDE contributors.
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +15,7 @@
   -->
 <resources>
 
-    <string name="app_name" translatable="false">ModPE IDE</string>
+    <string name="app_name" translatable="false">Brackeys IDE</string>
 
     <string name="label_permissions">Permissions</string>
     <string name="label_directory">Directory</string>
@@ -229,7 +228,7 @@
     <string name="pref_header_files_title">Files</string>
     <string name="pref_header_files_summary">Configure how files are handled.</string>
     <string name="pref_header_about_title">About</string>
-    <string name="pref_header_about_summary">View information about ModPE IDE.</string>
+    <string name="pref_header_about_summary">View information about Brackeys IDE.</string>
 
     <string name="pref_category_look_and_feel">Look And Feel</string>
     <string name="pref_category_other">Other</string>
@@ -249,7 +248,7 @@
     <string name="pref_fullscreen_title">Full screen</string>
     <string name="pref_fullscreen_summary">Launch the application in full screen mode.</string>
     <string name="pref_confirm_exit_title">Confirm exit from the app</string>
-    <string name="pref_confirm_exit_summary">If you press back, ModPE IDE ask for confirmation to exit.</string>
+    <string name="pref_confirm_exit_summary">If you press back, Brackeys IDE ask for confirmation to exit.</string>
 
     <string name="pref_font_size_title">Editor font size</string>
     <string name="pref_font_size_summary">Specify the default font size of editor.</string>
