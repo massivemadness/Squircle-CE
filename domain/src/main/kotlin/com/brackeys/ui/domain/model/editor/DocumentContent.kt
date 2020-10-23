@@ -16,12 +16,12 @@
 
 package com.brackeys.ui.domain.model.editor
 
-import com.brackeys.ui.editorkit.feature.undoredo.UndoStack
+import com.brackeys.ui.editorkit.utils.UndoStack
 import com.brackeys.ui.language.base.Language
 
 data class DocumentContent(
     val documentModel: DocumentModel,
-    val language: Language,
+    val language: Language?,
     val undoStack: UndoStack,
     val redoStack: UndoStack,
     val text: String

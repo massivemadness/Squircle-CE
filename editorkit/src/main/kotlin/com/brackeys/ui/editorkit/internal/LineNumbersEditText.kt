@@ -26,13 +26,13 @@ import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.brackeys.ui.editorkit.R
-import com.brackeys.ui.editorkit.feature.colorscheme.ColorScheme
-import com.brackeys.ui.editorkit.feature.linenumbers.LinesCollection
-import com.brackeys.ui.editorkit.feature.linenumbers.TextChangeListener
+import com.brackeys.ui.editorkit.model.ColorScheme
+import com.brackeys.ui.editorkit.utils.LinesCollection
+import com.brackeys.ui.editorkit.utils.TextChangeListener
 import com.brackeys.ui.editorkit.utils.dpToPx
 import kotlin.math.abs
 
-open class LineNumbersEditText @JvmOverloads constructor(
+abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
@@ -40,7 +40,6 @@ open class LineNumbersEditText @JvmOverloads constructor(
 
     val lines = LinesCollection()
 
-    var isReadyToDraw = false
     var colorScheme: ColorScheme? = null
         set(value) {
             field = value
@@ -48,7 +47,6 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
 
     private val processedText = Editable.Factory.getInstance().newEditable("")
-
     private val selectedLinePaint = Paint()
     private val gutterPaint = Paint()
     private val gutterDividerPaint = Paint()
@@ -67,13 +65,15 @@ open class LineNumbersEditText @JvmOverloads constructor(
         }
     }
 
+    private val gutterMargin = 4.dpToPx()
+    private var gutterWidth = 0
+    private var gutterDigitCount = 0
+
     private var textChangeStart = 0
     private var textChangeEnd = 0
     private var textChangedNewText = ""
 
-    private val gutterMargin = 4.dpToPx()
-    private var gutterWidth = 0
-    private var gutterDigitCount = 0
+    private var isReadyToDraw = false
 
     override fun onDraw(canvas: Canvas?) {
         if (layout != null && isReadyToDraw) {
@@ -88,6 +88,7 @@ open class LineNumbersEditText @JvmOverloads constructor(
                     val lineTop = layout.getLineTop(topVisualLine) + paddingTop
                     val lineBottom = layout.getLineBottom(bottomVisualLine) + paddingTop
                     val width = layout.width + paddingLeft + paddingRight
+
                     canvas?.drawRect(
                         gutterWidth.toFloat(),
                         lineTop.toFloat(),

@@ -28,7 +28,7 @@ import android.widget.Scroller
 import com.brackeys.ui.editorkit.R
 import kotlin.math.abs
 
-open class ScrollableEditText @JvmOverloads constructor(
+abstract class ScrollableEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
@@ -46,9 +46,11 @@ open class ScrollableEditText @JvmOverloads constructor(
         } else {
             EditorInfo.IME_FLAG_NO_EXTRACT_UI
         }
+
         inputType = InputType.TYPE_CLASS_TEXT or
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE or
                 InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+
         textSize = config.fontSize
         typeface = config.fontType
 

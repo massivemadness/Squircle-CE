@@ -17,9 +17,9 @@
 package com.brackeys.ui.language.plaintext.styler
 
 import com.brackeys.ui.language.base.model.SyntaxScheme
+import com.brackeys.ui.language.base.span.SyntaxHighlightSpan
 import com.brackeys.ui.language.base.styler.LanguageStyler
-import com.brackeys.ui.language.base.styler.span.SyntaxHighlightSpan
-import com.brackeys.ui.language.base.styler.utils.StylingResult
+import com.brackeys.ui.language.base.utils.StylingResult
 
 class PlainTextStyler private constructor() : LanguageStyler {
 

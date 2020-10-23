@@ -16,13 +16,23 @@
 
 package com.brackeys.ui.language.base.model
 
+import androidx.annotation.ColorInt
+
 data class SyntaxScheme(
+    @ColorInt
     val numberColor: Int,
+    @ColorInt
     val operatorColor: Int,
+    @ColorInt
     val keywordColor: Int,
+    @ColorInt
     val typeColor: Int,
+    @ColorInt
     val langConstColor: Int,
+    @ColorInt
     val methodColor: Int,
+    @ColorInt
     val stringColor: Int,
+    @ColorInt
     val commentColor: Int
 )

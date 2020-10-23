@@ -35,7 +35,7 @@ import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.filesystem.base.exception.FileNotFoundException
 import com.brackeys.ui.language.base.Language
-import com.brackeys.ui.language.base.model.ParseModel
+import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.utils.event.EventsQueue
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
@@ -69,7 +69,7 @@ class EditorViewModel @ViewModelInject constructor(
     val selectTabEvent: MutableLiveData<Int> = MutableLiveData() // Текущая позиция выбранной вкладки
 
     val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
-    val parseEvent: SingleLiveEvent<ParseModel> = SingleLiveEvent() // Проверка ошибок
+    val parseEvent: SingleLiveEvent<ParseResult> = SingleLiveEvent() // Проверка ошибок
     val contentEvent: SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>> = SingleLiveEvent() // Контент загруженного файла
     val settingsEvent: EventsQueue<SettingsEvent<*>> = EventsQueue() // События с измененными настройками
 
@@ -179,12 +179,12 @@ class EditorViewModel @ViewModelInject constructor(
         }
     }
 
-    fun parse(documentModel: DocumentModel, language: Language, sourceCode: String) {
-        language.getParser()
-            .execute(documentModel.name, sourceCode)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { parseEvent.value = it }
-            .disposeOnViewModelDestroy()
+    fun parse(documentModel: DocumentModel, language: Language?, sourceCode: String) {
+        language?.getParser()
+            ?.execute(documentModel.name, sourceCode)
+            ?.schedulersIoToMain(schedulersProvider)
+            ?.subscribeBy { parseEvent.value = it }
+            ?.disposeOnViewModelDestroy()
     }
 
     fun findRecentTab(list: List<DocumentModel>) {

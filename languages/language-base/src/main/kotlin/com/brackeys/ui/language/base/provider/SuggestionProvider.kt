@@ -16,10 +16,10 @@
 
 package com.brackeys.ui.language.base.provider
 
-import com.brackeys.ui.language.base.model.SuggestionModel
+import com.brackeys.ui.language.base.model.Suggestion
 
 interface SuggestionProvider {
-    fun getAll(): Set<SuggestionModel>
+    fun getAll(): Set<Suggestion>
     fun processLine(lineNumber: Int, text: String)
     fun deleteLine(lineNumber: Int)
     fun clearLines()

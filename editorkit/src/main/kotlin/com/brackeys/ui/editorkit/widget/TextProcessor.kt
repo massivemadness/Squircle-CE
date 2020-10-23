@@ -25,11 +25,11 @@ import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import androidx.core.text.PrecomputedTextCompat
 import com.brackeys.ui.editorkit.R
-import com.brackeys.ui.editorkit.feature.gotoline.LineException
-import com.brackeys.ui.editorkit.feature.shortcuts.Shortcut
-import com.brackeys.ui.editorkit.feature.shortcuts.ShortcutListener
+import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.internal.CodeSuggestsEditText
+import com.brackeys.ui.editorkit.model.Shortcut
 import com.brackeys.ui.editorkit.utils.OnChangeListener
+import com.brackeys.ui.editorkit.utils.ShortcutListener
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,

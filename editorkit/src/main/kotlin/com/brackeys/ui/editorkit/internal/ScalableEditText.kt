@@ -21,19 +21,17 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import com.brackeys.ui.editorkit.R
+import com.brackeys.ui.editorkit.utils.scaledDensity
 import kotlin.math.sqrt
 
-open class ScalableEditText @JvmOverloads constructor(
+abstract class ScalableEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : ScrollableEditText(context, attrs, defStyleAttr) {
 
-    var isDoingPinchZoom = false
-
-    private val scaledDensity = context.resources.displayMetrics.scaledDensity
-
     private var pinchFactor = 1f
+    private var isDoingPinchZoom = false
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -44,11 +42,10 @@ open class ScalableEditText @JvmOverloads constructor(
                 if (config.pinchZoom && event.pointerCount == 2) {
                     val distance = getDistanceBetweenTouches(event)
                     if (!isDoingPinchZoom) {
-                        pinchFactor = textSize / scaledDensity / distance
+                        pinchFactor = textSize / context.scaledDensity / distance
                         isDoingPinchZoom = true
                     }
-                    validateTextSize(pinchFactor * distance)
-                    return true
+                    return validateTextSize(pinchFactor * distance)
                 }
             }
         }
@@ -61,11 +58,12 @@ open class ScalableEditText @JvmOverloads constructor(
         return sqrt(x * x + y * y)
     }
 
-    private fun validateTextSize(size: Float) {
+    private fun validateTextSize(size: Float): Boolean {
         textSize = when {
             size < 10 -> 10f // minimum
             size > 20 -> 20f // maximum
             else -> size
         }
+        return true
     }
 }

@@ -27,8 +27,7 @@ import androidx.core.view.isVisible
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ItemSuggestionBinding
 import com.brackeys.ui.editorkit.adapter.SuggestionAdapter
-import com.brackeys.ui.language.base.model.SuggestionModel
-import com.brackeys.ui.language.base.model.SuggestionType
+import com.brackeys.ui.language.base.model.Suggestion
 
 class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layout.item_suggestion) {
 
@@ -52,7 +51,7 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
             }
         }
 
-        override fun bind(suggestion: SuggestionModel?, query: String) {
+        override fun bind(suggestion: Suggestion?, query: String) {
             if (suggestion != null) {
                 val spannable = SpannableString(suggestion.text)
                 if (query.length < spannable.length) {
@@ -63,7 +62,7 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
                     )
                 }
 
-                binding.itemType.isVisible = suggestion.type != SuggestionType.NONE
+                binding.itemType.isVisible = suggestion.type != Suggestion.Type.NONE
 
                 binding.itemType.text = suggestion.type.value
                 binding.itemSuggestion.text = spannable

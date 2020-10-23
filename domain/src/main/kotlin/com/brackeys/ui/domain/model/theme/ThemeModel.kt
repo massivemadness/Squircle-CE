@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.domain.model.theme
 
-import com.brackeys.ui.editorkit.feature.colorscheme.ColorScheme
+import com.brackeys.ui.editorkit.model.ColorScheme
 
 data class ThemeModel(
     val uuid: String,

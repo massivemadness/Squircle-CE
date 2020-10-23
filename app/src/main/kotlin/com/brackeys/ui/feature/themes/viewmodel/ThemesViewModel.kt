@@ -337,42 +337,42 @@ class ThemesViewModel @ViewModelInject constructor(
             ),
             PropertyItem(
                 Property.NUMBER_COLOR,
-                themeModel.colorScheme.numberColor.toHexString(),
+                themeModel.colorScheme.syntaxScheme.numberColor.toHexString(),
                 R.string.theme_property_numbers_color
             ),
             PropertyItem(
                 Property.OPERATOR_COLOR,
-                themeModel.colorScheme.operatorColor.toHexString(),
+                themeModel.colorScheme.syntaxScheme.operatorColor.toHexString(),
                 R.string.theme_property_operators_color
             ),
             PropertyItem(
                 Property.KEYWORD_COLOR,
-                themeModel.colorScheme.keywordColor.toHexString(),
+                themeModel.colorScheme.syntaxScheme.keywordColor.toHexString(),
                 R.string.theme_property_keywords_color
             ),
             PropertyItem(
                 Property.TYPE_COLOR,
-                themeModel.colorScheme.typeColor.toHexString(),
+                themeModel.colorScheme.syntaxScheme.typeColor.toHexString(),
                 R.string.theme_property_types_color
             ),
             PropertyItem(
                 Property.LANG_CONST_COLOR,
-                themeModel.colorScheme.langConstColor.toHexString(),
+                themeModel.colorScheme.syntaxScheme.langConstColor.toHexString(),
                 R.string.theme_property_lang_const_color
             ),
             PropertyItem(
                 Property.METHOD_COLOR,
-                themeModel.colorScheme.methodColor.toHexString(),
+                themeModel.colorScheme.syntaxScheme.methodColor.toHexString(),
                 R.string.theme_property_methods_color
             ),
             PropertyItem(
                 Property.STRING_COLOR,
-                themeModel.colorScheme.stringColor.toHexString(),
+                themeModel.colorScheme.syntaxScheme.stringColor.toHexString(),
                 R.string.theme_property_strings_color
             ),
             PropertyItem(
                 Property.COMMENT_COLOR,
-                themeModel.colorScheme.commentColor.toHexString(),
+                themeModel.colorScheme.syntaxScheme.commentColor.toHexString(),
                 R.string.theme_property_comments_color
             )
         )

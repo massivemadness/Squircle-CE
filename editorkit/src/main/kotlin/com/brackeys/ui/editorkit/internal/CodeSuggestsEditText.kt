@@ -22,9 +22,9 @@ import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import com.brackeys.ui.editorkit.R
 import com.brackeys.ui.editorkit.adapter.SuggestionAdapter
-import com.brackeys.ui.editorkit.feature.suggestions.SymbolsTokenizer
+import com.brackeys.ui.editorkit.utils.SymbolsTokenizer
 
-open class CodeSuggestsEditText @JvmOverloads constructor(
+abstract class CodeSuggestsEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
@@ -65,28 +65,28 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
     }
 
     override fun colorize() {
-        colorScheme?.let {
-            suggestionAdapter?.colorScheme = it
-        }
+        suggestionAdapter?.colorScheme = colorScheme
         super.colorize()
     }
 
     override fun setContent(textParams: PrecomputedTextCompat) {
-        language.getProvider().clearLines()
+        language?.getProvider()?.clearLines()
         super.setContent(textParams)
-        suggestionAdapter?.setSuggestionProvider(language.getProvider())
+        language?.let {
+            suggestionAdapter?.setSuggestionProvider(it.getProvider())
+        }
     }
 
     override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
         super.addLine(lineNumber, lineStart, lineLength)
-        language.getProvider().processLine(
+        language?.getProvider()?.processLine(
             lineNumber = lineNumber,
             text = text.substring(lineStart, lineStart + lineLength)
         )
     }
 
     override fun removeLine(lineNumber: Int) {
-        language.getProvider().deleteLine(lines.getIndexForLine(lineNumber))
+        language?.getProvider()?.deleteLine(lines.getIndexForLine(lineNumber))
         super.removeLine(lineNumber)
     }
 
@@ -98,7 +98,7 @@ open class CodeSuggestsEditText @JvmOverloads constructor(
             val lineStart = getIndexForStartOfLine(currentLine)
             val lineEnd = getIndexForEndOfLine(currentLine)
             if (lineStart <= lineEnd && lineEnd <= text.length) {
-                language.getProvider().processLine(
+                language?.getProvider()?.processLine(
                     lineNumber = currentLine,
                     text = text.substring(lineStart, lineEnd)
                 )

@@ -21,16 +21,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
-import com.brackeys.ui.editorkit.feature.colorscheme.ColorScheme
-import com.brackeys.ui.language.base.model.SuggestionModel
+import com.brackeys.ui.editorkit.model.ColorScheme
+import com.brackeys.ui.language.base.model.Suggestion
 import com.brackeys.ui.language.base.provider.SuggestionProvider
 
 abstract class SuggestionAdapter(
     context: Context,
     resourceId: Int
-) : ArrayAdapter<SuggestionModel>(context, resourceId) {
+) : ArrayAdapter<Suggestion>(context, resourceId) {
 
     var colorScheme: ColorScheme? = null
+
     private var suggestionProvider: SuggestionProvider? = null
 
     private var queryText = ""
@@ -46,7 +47,7 @@ abstract class SuggestionAdapter(
     override fun getFilter(): Filter {
         return object : Filter() {
 
-            private val suggestions: MutableList<SuggestionModel> = mutableListOf()
+            private val suggestions: MutableList<Suggestion> = mutableListOf()
 
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterResults = FilterResults()
@@ -80,6 +81,6 @@ abstract class SuggestionAdapter(
     }
 
     abstract class SuggestionViewHolder(val itemView: View) {
-        abstract fun bind(suggestion: SuggestionModel?, query: String)
+        abstract fun bind(suggestion: Suggestion?, query: String)
     }
 }

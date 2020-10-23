@@ -34,11 +34,11 @@ import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.data.utils.extensions.toHexString
 import com.brackeys.ui.databinding.FragmentEditorBinding
 import com.brackeys.ui.domain.model.editor.DocumentContent
-import com.brackeys.ui.editorkit.feature.gotoline.LineException
-import com.brackeys.ui.editorkit.feature.shortcuts.Shortcut
-import com.brackeys.ui.editorkit.feature.shortcuts.ShortcutListener
-import com.brackeys.ui.editorkit.feature.undoredo.OnUndoRedoChangedListener
+import com.brackeys.ui.editorkit.exception.LineException
+import com.brackeys.ui.editorkit.model.Shortcut
 import com.brackeys.ui.editorkit.utils.OnChangeListener
+import com.brackeys.ui.editorkit.utils.OnUndoRedoChangedListener
+import com.brackeys.ui.editorkit.utils.ShortcutListener
 import com.brackeys.ui.editorkit.widget.TextScroller
 import com.brackeys.ui.feature.base.adapters.TabAdapter
 import com.brackeys.ui.feature.base.fragments.BaseFragment
@@ -620,22 +620,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     override fun onFindInputChanged(findText: String) {
         binding.editor.clearFindResultSpans()
-        binding.editor.find(findText)
-    }
-
-    override fun onRegexChanged(regex: Boolean) {
-        binding.editor.isRegexEnabled = regex
-        onFindInputChanged(binding.inputFind.text.toString())
-    }
-
-    override fun onMatchCaseChanged(matchCase: Boolean) {
-        binding.editor.isMatchCaseEnabled = matchCase
-        onFindInputChanged(binding.inputFind.text.toString())
-    }
-
-    override fun onWordsOnlyChanged(wordsOnly: Boolean) {
-        binding.editor.isWordsOnlyEnabled = wordsOnly
-        onFindInputChanged(binding.inputFind.text.toString())
+        binding.editor.find(findText, toolbarManager.findParams())
     }
 
     override fun onErrorCheckingButton() {

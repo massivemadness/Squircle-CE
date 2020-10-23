@@ -16,7 +16,11 @@
 
 package com.brackeys.ui.editorkit.utils
 
+import android.content.Context
 import android.content.res.Resources
+
+internal val Context.scaledDensity
+    get() = resources.displayMetrics.scaledDensity
 
 internal fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 internal fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()

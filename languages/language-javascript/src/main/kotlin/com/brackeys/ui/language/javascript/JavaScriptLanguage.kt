@@ -21,7 +21,7 @@ import com.brackeys.ui.language.base.parser.LanguageParser
 import com.brackeys.ui.language.base.provider.SuggestionProvider
 import com.brackeys.ui.language.base.styler.LanguageStyler
 import com.brackeys.ui.language.javascript.parser.JavaScriptParser
-import com.brackeys.ui.language.javascript.provider.ModPEScriptProvider
+import com.brackeys.ui.language.javascript.provider.JavaScriptProvider
 import com.brackeys.ui.language.javascript.styler.JavaScriptStyler
 
 class JavaScriptLanguage : Language {
@@ -39,7 +39,7 @@ class JavaScriptLanguage : Language {
     }
 
     override fun getProvider(): SuggestionProvider {
-        return ModPEScriptProvider.getInstance()
+        return JavaScriptProvider.getInstance()
     }
 
     override fun getStyler(): LanguageStyler {

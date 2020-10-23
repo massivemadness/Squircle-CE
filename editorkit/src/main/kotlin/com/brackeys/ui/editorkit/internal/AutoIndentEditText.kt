@@ -20,15 +20,14 @@ import android.content.Context
 import android.util.AttributeSet
 import com.brackeys.ui.editorkit.R
 
-open class AutoIndentEditText @JvmOverloads constructor(
+abstract class AutoIndentEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : SyntaxHighlightEditText(context, attrs, defStyleAttr) {
 
-    var isAutoIndenting = false
-
     private var newText = ""
+    private var isAutoIndenting = false
 
     override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
         newText = text?.subSequence(start, start + count).toString()

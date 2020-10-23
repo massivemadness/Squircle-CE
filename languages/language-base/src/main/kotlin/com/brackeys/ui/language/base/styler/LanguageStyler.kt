@@ -17,8 +17,8 @@
 package com.brackeys.ui.language.base.styler
 
 import com.brackeys.ui.language.base.model.SyntaxScheme
-import com.brackeys.ui.language.base.styler.span.SyntaxHighlightSpan
-import com.brackeys.ui.language.base.styler.utils.StylingResult
+import com.brackeys.ui.language.base.span.SyntaxHighlightSpan
+import com.brackeys.ui.language.base.utils.StylingResult
 
 interface LanguageStyler {
     fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan>

@@ -24,7 +24,7 @@ import com.brackeys.ui.database.AppDatabase
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.domain.repository.DocumentRepository
-import com.brackeys.ui.editorkit.feature.undoredo.UndoStack
+import com.brackeys.ui.editorkit.utils.UndoStack
 import com.brackeys.ui.filesystem.base.Filesystem
 import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.base.model.LineBreak

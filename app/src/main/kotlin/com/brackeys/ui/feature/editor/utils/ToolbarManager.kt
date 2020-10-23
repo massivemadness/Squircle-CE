@@ -26,6 +26,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentEditorBinding
+import com.brackeys.ui.editorkit.model.FindParams
 import com.brackeys.ui.utils.extensions.makeRightPaddingRecursively
 
 class ToolbarManager(
@@ -89,15 +90,15 @@ class ToolbarManager(
             R.id.action_goto_line -> listener.onGoToLineButton()
             R.id.action_regex -> {
                 isRegex = !isRegex
-                listener.onRegexChanged(isRegex)
+                listener.onFindInputChanged(binding.inputFind.text.toString())
             }
             R.id.action_match_case -> {
                 isMatchCase = !isMatchCase
-                listener.onMatchCaseChanged(isMatchCase)
+                listener.onFindInputChanged(binding.inputFind.text.toString())
             }
             R.id.action_words_only -> {
                 isWordsOnly = !isWordsOnly
-                listener.onWordsOnlyChanged(isWordsOnly)
+                listener.onFindInputChanged(binding.inputFind.text.toString())
             }
 
             // Tools Menu
@@ -138,6 +139,14 @@ class ToolbarManager(
         binding.inputFind.doAfterTextChanged {
             listener.onFindInputChanged(it.toString())
         }
+    }
+
+    fun findParams(): FindParams {
+        return FindParams(
+            regex = isRegex,
+            matchCase = isMatchCase,
+            wordsOnly = isWordsOnly
+        )
     }
 
     private fun portrait(): Int {
@@ -234,9 +243,6 @@ class ToolbarManager(
         fun onNextResultButton()
         fun onPreviousResultButton()
         fun onFindInputChanged(findText: String)
-        fun onRegexChanged(regex: Boolean)
-        fun onMatchCaseChanged(matchCase: Boolean)
-        fun onWordsOnlyChanged(wordsOnly: Boolean)
 
         fun onErrorCheckingButton()
         fun onInsertColorButton()

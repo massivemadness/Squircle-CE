@@ -16,9 +16,9 @@
 
 package com.brackeys.ui.language.base.parser
 
-import com.brackeys.ui.language.base.model.ParseModel
+import com.brackeys.ui.language.base.model.ParseResult
 import io.reactivex.Single
 
 interface LanguageParser {
-    fun execute(name: String, source: String): Single<ParseModel>
+    fun execute(name: String, source: String): Single<ParseResult>
 }

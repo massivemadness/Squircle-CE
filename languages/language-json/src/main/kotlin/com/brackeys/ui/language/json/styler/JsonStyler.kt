@@ -18,13 +18,13 @@ package com.brackeys.ui.language.json.styler
 
 import android.util.Log
 import com.brackeys.ui.language.base.model.SyntaxScheme
+import com.brackeys.ui.language.base.span.StyleSpan
+import com.brackeys.ui.language.base.span.SyntaxHighlightSpan
 import com.brackeys.ui.language.base.styler.LanguageStyler
-import com.brackeys.ui.language.base.styler.span.StyleSpan
-import com.brackeys.ui.language.base.styler.span.SyntaxHighlightSpan
-import com.brackeys.ui.language.base.styler.task.StylingTask
-import com.brackeys.ui.language.base.styler.utils.StylingResult
-import com.brackeys.ui.language.json.styler.lexer.JsonLexer
-import com.brackeys.ui.language.json.styler.lexer.JsonToken
+import com.brackeys.ui.language.base.utils.StylingResult
+import com.brackeys.ui.language.base.utils.StylingTask
+import com.brackeys.ui.language.json.lexer.JsonLexer
+import com.brackeys.ui.language.json.lexer.JsonToken
 import java.io.IOException
 import java.io.StringReader
 

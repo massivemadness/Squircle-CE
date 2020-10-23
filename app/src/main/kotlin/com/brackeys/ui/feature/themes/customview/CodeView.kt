@@ -22,7 +22,6 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.toSpannable
 import com.brackeys.ui.domain.model.theme.ThemeModel
-import com.brackeys.ui.editorkit.converter.ColorSchemeConverter
 import com.brackeys.ui.language.base.Language
 
 class CodeView @JvmOverloads constructor(
@@ -74,8 +73,7 @@ class CodeView @JvmOverloads constructor(
 
     private fun syntaxHighlight() {
         themeModel?.let {
-            val syntaxScheme = ColorSchemeConverter.toSyntaxScheme(it.colorScheme)
-            language?.getStyler()?.execute(text.toString(), syntaxScheme)?.let { spans ->
+            language?.getStyler()?.execute(text.toString(), it.colorScheme.syntaxScheme)?.let { spans ->
                 if (layout != null) {
                     val currentText = text.toSpannable()
                     for (span in spans) {

@@ -16,10 +16,9 @@
 
 package com.brackeys.ui.language.json.provider
 
-import com.brackeys.ui.language.base.model.SuggestionModel
-import com.brackeys.ui.language.base.model.SuggestionType
+import com.brackeys.ui.language.base.model.Suggestion
 import com.brackeys.ui.language.base.provider.SuggestionProvider
-import com.brackeys.ui.language.base.provider.utils.WordsManager
+import com.brackeys.ui.language.base.utils.WordsManager
 
 class JsonProvider private constructor() : SuggestionProvider {
 
@@ -36,11 +35,11 @@ class JsonProvider private constructor() : SuggestionProvider {
 
     private val wordsManager = WordsManager()
 
-    override fun getAll(): Set<SuggestionModel> {
+    override fun getAll(): Set<Suggestion> {
         return wordsManager.getWords()
             .map {
-                SuggestionModel(
-                    type = SuggestionType.WORD,
+                Suggestion(
+                    type = Suggestion.Type.WORD,
                     text = it.value,
                     returnType = ""
                 )

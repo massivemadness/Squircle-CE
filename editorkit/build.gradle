@@ -34,9 +34,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    testOptions {
-        unitTests.returnDefaultValues true
-    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
@@ -55,7 +52,6 @@ dependencies {
 
     // Modules
     implementation project(':languages:language-base')
-    implementation project(':languages:language-plaintext')
 
     // Tests
     testImplementation testLibrary.junit

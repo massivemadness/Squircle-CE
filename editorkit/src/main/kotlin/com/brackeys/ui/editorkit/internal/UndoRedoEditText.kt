@@ -20,11 +20,11 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import com.brackeys.ui.editorkit.R
-import com.brackeys.ui.editorkit.feature.undoredo.OnUndoRedoChangedListener
-import com.brackeys.ui.editorkit.feature.undoredo.TextChange
-import com.brackeys.ui.editorkit.feature.undoredo.UndoStack
+import com.brackeys.ui.editorkit.model.TextChange
+import com.brackeys.ui.editorkit.utils.OnUndoRedoChangedListener
+import com.brackeys.ui.editorkit.utils.UndoStack
 
-open class UndoRedoEditText @JvmOverloads constructor(
+abstract class UndoRedoEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle

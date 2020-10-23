@@ -25,38 +25,31 @@ import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.getSpans
 import com.brackeys.ui.editorkit.R
-import com.brackeys.ui.editorkit.converter.ColorSchemeConverter
-import com.brackeys.ui.editorkit.feature.findreplace.FindResultSpan
-import com.brackeys.ui.editorkit.feature.tabwidth.TabWidthSpan
+import com.brackeys.ui.editorkit.model.FindParams
+import com.brackeys.ui.editorkit.span.ErrorSpan
+import com.brackeys.ui.editorkit.span.FindResultSpan
+import com.brackeys.ui.editorkit.span.TabWidthSpan
 import com.brackeys.ui.language.base.Language
-import com.brackeys.ui.language.base.model.SyntaxScheme
-import com.brackeys.ui.language.base.parser.span.ErrorSpan
-import com.brackeys.ui.language.base.styler.span.StyleSpan
-import com.brackeys.ui.language.base.styler.span.SyntaxHighlightSpan
-import com.brackeys.ui.language.plaintext.PlainTextLanguage
+import com.brackeys.ui.language.base.span.StyleSpan
+import com.brackeys.ui.language.base.span.SyntaxHighlightSpan
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
-open class SyntaxHighlightEditText @JvmOverloads constructor(
+abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : UndoRedoEditText(context, attrs, defStyleAttr) {
 
+    var language: Language? = null
+
     var isSyntaxHighlighting = false
     var isErrorSpansVisible = false
-
-    var isRegexEnabled = false
-    var isMatchCaseEnabled = true
-    var isWordsOnlyEnabled = false
-
-    var language: Language = PlainTextLanguage()
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val findResultSpans = mutableListOf<FindResultSpan>()
     private val delimiters = charArrayOf('{', '[', '(', '}', ']', ')')
 
-    private var syntaxScheme: SyntaxScheme? = null
     private var findResultStyleSpan: StyleSpan? = null
     private var openDelimiterSpan: BackgroundColorSpan? = null
     private var closedDelimiterSpan: BackgroundColorSpan? = null
@@ -66,7 +59,6 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 
     override fun colorize() {
         colorScheme?.let {
-            syntaxScheme = ColorSchemeConverter.toSyntaxScheme(it)
             findResultStyleSpan = StyleSpan(color = it.findResultBackgroundColor)
             openDelimiterSpan = BackgroundColorSpan(it.delimiterBackgroundColor)
             closedDelimiterSpan = BackgroundColorSpan(it.delimiterBackgroundColor)
@@ -145,21 +137,18 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
         }
     }
 
-    fun find(findText: String) {
+    fun find(findText: String, findParams: FindParams) {
         if (findText.isNotEmpty()) {
             try {
-                val pattern = if (isRegexEnabled) {
-                    if (isMatchCaseEnabled) {
+                val pattern = if (findParams.regex) {
+                    if (findParams.matchCase) {
                         Pattern.compile(findText)
                     } else {
-                        Pattern.compile(
-                            findText,
-                            Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
-                        )
+                        Pattern.compile(findText, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
                     }
                 } else {
-                    if (isWordsOnlyEnabled) {
-                        if (isMatchCaseEnabled) {
+                    if (findParams.wordsOnly) {
+                        if (findParams.matchCase) {
                             Pattern.compile("\\s$findText\\s")
                         } else {
                             Pattern.compile(
@@ -168,7 +157,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
                             )
                         }
                     } else {
-                        if (isMatchCaseEnabled) {
+                        if (findParams.matchCase) {
                             Pattern.compile(Pattern.quote(findText))
                         } else {
                             Pattern.compile(
@@ -372,8 +361,8 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
-        syntaxScheme?.let {
-            language.getStyler().enqueue(text.toString(), it) { spans ->
+        colorScheme?.let {
+            language?.getStyler()?.enqueue(text.toString(), it.syntaxScheme) { spans ->
                 syntaxHighlightSpans.clear()
                 syntaxHighlightSpans.addAll(spans)
                 updateSyntaxHighlighting()
@@ -382,7 +371,7 @@ open class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     private fun cancelSyntaxHighlighting() {
-        language.getStyler().cancel()
+        language?.getStyler()?.cancel()
     }
 
     private fun checkMatchingBracket(pos: Int) {
