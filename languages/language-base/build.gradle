@@ -40,7 +40,4 @@ dependencies {
     // Core
     implementation library.kotlin
     implementation library.core
-
-    // Rx
-    implementation library.rxjava2
 }

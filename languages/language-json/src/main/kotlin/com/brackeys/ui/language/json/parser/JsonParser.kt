@@ -19,7 +19,6 @@ package com.brackeys.ui.language.json.parser
 import com.brackeys.ui.language.base.exception.ParseException
 import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.language.base.parser.LanguageParser
-import io.reactivex.Single
 
 class JsonParser private constructor() : LanguageParser {
 
@@ -34,9 +33,8 @@ class JsonParser private constructor() : LanguageParser {
         }
     }
 
-    override fun execute(name: String, source: String): Single<ParseResult> {
+    override fun execute(name: String, source: String): ParseResult {
         val parseException = ParseException("Unable to parse unsupported language", 0, 0)
-        val parseModel = ParseResult(parseException)
-        return Single.just(parseModel)
+        return ParseResult(parseException)
     }
 }

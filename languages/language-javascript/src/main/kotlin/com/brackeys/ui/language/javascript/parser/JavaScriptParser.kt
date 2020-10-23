@@ -19,7 +19,6 @@ package com.brackeys.ui.language.javascript.parser
 import com.brackeys.ui.language.base.exception.ParseException
 import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.language.base.parser.LanguageParser
-import io.reactivex.Single
 import org.mozilla.javascript.*
 
 class JavaScriptParser private constructor() : LanguageParser {
@@ -35,21 +34,19 @@ class JavaScriptParser private constructor() : LanguageParser {
         }
     }
 
-    override fun execute(name: String, source: String): Single<ParseResult> {
-        return Single.fromCallable {
-            val context = Context.enter()
-            context.optimizationLevel = -1
-            context.maximumInterpreterStackDepth = 1 // to avoid recursive calls
-            try {
-                val scope = context.initStandardObjects()
-                context.evaluateString(scope, source, name, 1, null)
-                return@fromCallable ParseResult(null)
-            } catch (e: RhinoException) {
-                val parseException = ParseException(e.message, e.lineNumber(), e.columnNumber())
-                return@fromCallable ParseResult(parseException)
-            } finally {
-                Context.exit()
-            }
+    override fun execute(name: String, source: String): ParseResult {
+        val context = Context.enter()
+        context.optimizationLevel = -1
+        context.maximumInterpreterStackDepth = 1 // to avoid recursive calls
+        return try {
+            val scope = context.initStandardObjects()
+            context.evaluateString(scope, source, name, 1, null)
+            ParseResult(null)
+        } catch (e: RhinoException) {
+            val parseException = ParseException(e.message, e.lineNumber(), e.columnNumber())
+            ParseResult(parseException)
+        } finally {
+            Context.exit()
         }
     }
 }

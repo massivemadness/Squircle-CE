@@ -41,6 +41,7 @@ import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 
 class EditorViewModel @ViewModelInject constructor(
@@ -180,11 +181,15 @@ class EditorViewModel @ViewModelInject constructor(
     }
 
     fun parse(documentModel: DocumentModel, language: Language?, sourceCode: String) {
-        language?.getParser()
-            ?.execute(documentModel.name, sourceCode)
-            ?.schedulersIoToMain(schedulersProvider)
-            ?.subscribeBy { parseEvent.value = it }
-            ?.disposeOnViewModelDestroy()
+        Single
+            .create<ParseResult> { emitter ->
+                val parser = language?.getParser()
+                val parseResult = parser?.execute(documentModel.name, sourceCode)
+                parseResult?.let(emitter::onSuccess)
+            }
+            .schedulersIoToMain(schedulersProvider)
+            .subscribeBy { parseEvent.value = it }
+            .disposeOnViewModelDestroy()
     }
 
     fun findRecentTab(list: List<DocumentModel>) {

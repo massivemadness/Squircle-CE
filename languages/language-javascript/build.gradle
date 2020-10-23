@@ -43,9 +43,6 @@ dependencies {
     // Core
     implementation library.kotlin
 
-    // Rx
-    implementation library.rxjava2
-
     // Other
     implementation library.rhino
 
