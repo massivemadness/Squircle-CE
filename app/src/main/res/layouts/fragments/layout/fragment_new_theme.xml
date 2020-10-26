@@ -66,7 +66,7 @@
             android:singleLine="true"
             android:hint="@string/hint_theme_author"
             android:id="@+id/text_input_theme_author"
-            tools:text="Light Team Software"/>
+            tools:text="Brackeys IDE"/>
 
         <TextView
             android:layout_width="match_parent"

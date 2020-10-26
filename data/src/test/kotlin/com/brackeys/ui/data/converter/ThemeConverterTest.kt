@@ -33,7 +33,7 @@ class ThemeConverterTest {
         val themeEntity = ThemeEntity(
             uuid = "0",
             name = "Test",
-            author = "Light Team Software",
+            author = "Brackeys IDE",
             description = "Default color scheme",
             isExternal = false,
             textColor = "#FFFFFF",
@@ -59,7 +59,7 @@ class ThemeConverterTest {
         val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
-            author = "Light Team Software",
+            author = "Brackeys IDE",
             description = "Default color scheme",
             isExternal = false,
             colorScheme = ColorScheme(
@@ -119,7 +119,7 @@ class ThemeConverterTest {
         val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
-            author = "Light Team Software",
+            author = "Brackeys IDE",
             description = "Default color scheme",
             isExternal = false,
             colorScheme = ColorScheme(
@@ -149,7 +149,7 @@ class ThemeConverterTest {
         val themeEntity = ThemeEntity(
             uuid = "0",
             name = "Test",
-            author = "Light Team Software",
+            author = "Brackeys IDE",
             description = "Default color scheme",
             isExternal = false,
             textColor = "#FFFFFF",
@@ -205,7 +205,7 @@ class ThemeConverterTest {
         val externalTheme = ExternalTheme(
                 uuid = "0",
                 name = "Test",
-                author = "Light Team Software",
+                author = "Brackeys IDE",
                 description = "Default color scheme",
                 externalScheme = ExternalScheme(
                     textColor = "#FFFFFF",
@@ -232,7 +232,7 @@ class ThemeConverterTest {
         val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
-            author = "Light Team Software",
+            author = "Brackeys IDE",
             description = "Default color scheme",
             isExternal = true,
             colorScheme = ColorScheme(

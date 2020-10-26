@@ -97,7 +97,7 @@
                 android:id="@+id/item_subtitle"
                 android:textSize="14sp"
                 android:singleLine="true"
-                tools:text="Light Team Software"/>
+                tools:text="Brackeys IDE"/>
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.AppTheme.OutlinedButton"
