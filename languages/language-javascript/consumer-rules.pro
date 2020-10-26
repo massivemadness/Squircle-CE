@@ -1,2 +1,1 @@
 -keep class org.mozilla.** { *; }
--keep class com.brackeys.ui.language.javascript.parser.predefined.** { *; }

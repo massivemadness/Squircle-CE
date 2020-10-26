@@ -118,9 +118,10 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 navController.navigate(destination)
             } else {
                 if (item.getType() == FileType.ARCHIVE) {
+                    viewModel.operation = Operation.EXTRACT
                     viewModel.tempFiles.replaceList(listOf(item))
                     viewModel.allowPasteFiles.value = false
-                    executeProcess(Operation.EXTRACT)
+                    executeOperation()
                 } else {
                     sharedViewModel.openEvent.value = item
                 }
@@ -189,7 +190,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             }
         }
         viewModel.pasteEvent.observe(viewLifecycleOwner) {
-            executeProcess(viewModel.operation)
+            executeOperation()
         }
         viewModel.openAsEvent.observe(viewLifecycleOwner) {
             val fileModel = viewModel.selectionEvent.value?.first()
@@ -222,6 +223,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         viewModel.archiveEvent.observe(viewLifecycleOwner) {
             val fileModels = viewModel.selectionEvent.value
             fileModels?.let {
+                viewModel.operation = Operation.COMPRESS
                 viewModel.deselectAllEvent.call()
                 viewModel.tempFiles.replaceList(it)
                 if (it.size > 1) {
@@ -237,14 +239,14 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                             val fileName = fileNameInput.text.toString()
                             val isValid = fileName.isValidFileName()
                             if (isValid) {
-                                executeProcess(Operation.COMPRESS, fileName)
+                                executeOperation(fileName)
                             } else {
                                 showToast(R.string.message_invalid_file_name)
                             }
                         }
                     }
                 } else {
-                    executeProcess(Operation.COMPRESS)
+                    executeOperation()
                 }
             }
         }
@@ -365,7 +367,8 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             message(dialogMessage)
             negativeButton(R.string.action_cancel)
             positiveButton(R.string.action_delete) {
-                executeProcess(Operation.DELETE)
+                viewModel.operation = Operation.DELETE
+                executeOperation()
             }
         }
     }
@@ -400,9 +403,8 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         }
     }
 
-    private fun executeProcess(operation: Operation, archiveName: String? = null) {
+    private fun executeOperation(archiveName: String? = null) {
         val destination = DirectoryFragmentDirections.toProgressDialog(
-            operation = operation,
             parent = fileTree.parent,
             archiveName = archiveName
         )

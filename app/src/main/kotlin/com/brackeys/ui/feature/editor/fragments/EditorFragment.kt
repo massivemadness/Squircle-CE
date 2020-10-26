@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
@@ -294,12 +295,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     is SettingsEvent.Delimiters -> tempConfig.highlightDelimiters = event.value
                     is SettingsEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
-                            if (event.value) {
-                                binding.keyboardContainer.visibility =
-                                    if (isOpen) View.VISIBLE else View.GONE
-                            } else {
-                                binding.keyboardContainer.visibility = View.GONE
-                            }
+                            binding.keyboardContainer.isVisible = event.value && isOpen
                         }
                     }
                     is SettingsEvent.KeyboardPreset -> {

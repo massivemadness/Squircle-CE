@@ -123,7 +123,7 @@ class ProgressDialog : BaseDialogFragment() {
     private fun collectData() {
         tempFiles = viewModel.tempFiles.toList()
         viewModel.tempFiles.clear() // Clear immediately
-        when (navArgs.operation) {
+        when (viewModel.operation) {
             Operation.DELETE -> {
                 dialogTitle = R.string.dialog_title_deleting
                 dialogMessage = R.string.message_deleting
