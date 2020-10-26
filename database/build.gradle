@@ -43,8 +43,6 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
-        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 }
 
@@ -66,7 +64,6 @@ dependencies {
     testImplementation testLibrary.junit
     testImplementation testLibrary.mockito
 
-    androidTestImplementation androidTestLibrary.room
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner
 }

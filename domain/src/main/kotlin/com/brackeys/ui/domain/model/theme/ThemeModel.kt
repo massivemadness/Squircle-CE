@@ -24,6 +24,5 @@ data class ThemeModel(
     val author: String,
     val description: String,
     val isExternal: Boolean,
-    val isPaid: Boolean,
     val colorScheme: ColorScheme
 )

@@ -31,7 +31,5 @@ data class FontEntity(
     @ColumnInfo(name = "support_ligatures")
     val supportLigatures: Boolean,
     @ColumnInfo(name = "is_external")
-    val isExternal: Boolean,
-    @ColumnInfo(name = "is_paid")
-    val isPaid: Boolean
+    val isExternal: Boolean
 )

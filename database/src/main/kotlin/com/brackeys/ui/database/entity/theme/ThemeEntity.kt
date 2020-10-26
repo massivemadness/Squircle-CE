@@ -34,8 +34,6 @@ data class ThemeEntity(
     val description: String,
     @ColumnInfo(name = "is_external")
     val isExternal: Boolean,
-    @ColumnInfo(name = "is_paid")
-    val isPaid: Boolean,
     @ColumnInfo(name = "text_color")
     val textColor: String,
     @ColumnInfo(name = "background_color")

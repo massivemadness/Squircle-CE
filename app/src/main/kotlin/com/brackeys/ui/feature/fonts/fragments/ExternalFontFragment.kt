@@ -60,8 +60,7 @@ class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
                 fontName = binding.textInputFontName.text.toString().trim(),
                 fontPath = binding.textInputFontPath.text.toString().trim(),
                 supportLigatures = binding.supportLigatures.isChecked,
-                isExternal = true,
-                isPaid = true
+                isExternal = true
             )
             viewModel.insertFont(fontModel)
         }

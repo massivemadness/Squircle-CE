@@ -131,7 +131,6 @@ ext {
     ]
 
     androidTestLibrary = [
-            room: "androidx.room:room-testing:$room_version",
             junit_ext: "androidx.test.ext:junit:$junit_ext_version",
             test_runner: "androidx.test:runner:$test_runner_version",
             espresso_core: "androidx.test.espresso:espresso-core:$espresso_core_version"

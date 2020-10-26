@@ -27,12 +27,12 @@ import io.reactivex.Single
 @Dao
 abstract class ThemeDao : BaseDao<ThemeEntity> {
 
-    @Query("SELECT * FROM ${Tables.THEMES} WHERE name LIKE '%' || :searchQuery || '%'")
+    @Query("SELECT * FROM `${Tables.THEMES}` WHERE `name` LIKE '%' || :searchQuery || '%'")
     abstract fun loadAll(searchQuery: String): Single<List<ThemeEntity>>
 
-    @Query("SELECT * FROM ${Tables.THEMES} WHERE uuid = :uuid")
+    @Query("SELECT * FROM `${Tables.THEMES}` WHERE `uuid` = :uuid")
     abstract fun load(uuid: String): Single<ThemeEntity>
 
-    @Query("DELETE FROM ${Tables.THEMES}")
+    @Query("DELETE FROM `${Tables.THEMES}`")
     abstract fun deleteAll(): Completable
 }

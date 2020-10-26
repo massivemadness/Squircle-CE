@@ -29,7 +29,7 @@ import com.brackeys.ui.database.entity.theme.ThemeEntity
     DocumentEntity::class,
     FontEntity::class,
     ThemeEntity::class
-], version = 6)
+], version = 1)
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
     companion object {

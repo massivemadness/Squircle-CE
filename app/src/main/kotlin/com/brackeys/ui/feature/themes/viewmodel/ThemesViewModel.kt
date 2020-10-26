@@ -220,8 +220,7 @@ class ThemesViewModel @ViewModelInject constructor(
                     name = meta.name,
                     author = meta.author,
                     description = meta.description,
-                    isExternal = meta.isExternal,
-                    isPaid = meta.isPaid,
+                    isExternal = true,
                     textColor = textColor,
                     backgroundColor = backgroundColor,
                     gutterColor = gutterColor,
@@ -275,9 +274,7 @@ class ThemesViewModel @ViewModelInject constructor(
             uuid = themeModel.uuid,
             name = themeModel.name,
             author = themeModel.author,
-            description = themeModel.description,
-            isExternal = themeModel.isExternal,
-            isPaid = themeModel.isPaid
+            description = themeModel.description
         )
         propertiesEvent.value = listOf(
             PropertyItem(

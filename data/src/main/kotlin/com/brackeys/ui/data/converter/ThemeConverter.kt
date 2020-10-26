@@ -35,7 +35,6 @@ object ThemeConverter {
             author = themeEntity.author,
             description = themeEntity.description,
             isExternal = themeEntity.isExternal,
-            isPaid = themeEntity.isPaid,
             colorScheme = ColorScheme(
                 textColor = themeEntity.textColor.toColorInt(),
                 backgroundColor = themeEntity.backgroundColor.toColorInt(),
@@ -69,7 +68,6 @@ object ThemeConverter {
             author = themeModel.author,
             description = themeModel.description,
             isExternal = themeModel.isExternal,
-            isPaid = themeModel.isPaid,
             textColor = themeModel.colorScheme.textColor.toHexString(),
             backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),
             gutterColor = themeModel.colorScheme.gutterColor.toHexString(),
@@ -98,8 +96,6 @@ object ThemeConverter {
             name = themeModel.name,
             author = themeModel.author,
             description = themeModel.description,
-            isExternal = themeModel.isExternal,
-            isPaid = themeModel.isPaid,
             externalScheme = ExternalScheme(
                 textColor = themeModel.colorScheme.textColor.toHexString(),
                 backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),
@@ -130,8 +126,7 @@ object ThemeConverter {
             name = externalTheme?.name ?: "",
             author = externalTheme?.author ?: "",
             description = externalTheme?.description ?: "",
-            isExternal = externalTheme?.isExternal ?: true,
-            isPaid = externalTheme?.isPaid ?: true,
+            isExternal = true,
             colorScheme = ColorScheme(
                 textColor = (externalTheme?.externalScheme?.textColor ?: "#000000").toColorInt(),
                 backgroundColor = (externalTheme?.externalScheme?.backgroundColor ?: "#000000").toColorInt(),

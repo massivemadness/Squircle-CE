@@ -20,7 +20,5 @@ data class Meta(
     val uuid: String,
     val name: String,
     val author: String,
-    val description: String,
-    val isExternal: Boolean,
-    val isPaid: Boolean
+    val description: String
 )

@@ -26,8 +26,7 @@ object FontConverter {
             fontName = fontEntity.fontName,
             fontPath = fontEntity.fontPath,
             supportLigatures = fontEntity.supportLigatures,
-            isExternal = fontEntity.isExternal,
-            isPaid = fontEntity.isPaid
+            isExternal = fontEntity.isExternal
         )
     }
 
@@ -36,8 +35,7 @@ object FontConverter {
             fontName = fontModel.fontName,
             fontPath = fontModel.fontPath,
             supportLigatures = fontModel.supportLigatures,
-            isExternal = fontModel.isExternal,
-            isPaid = fontModel.isPaid
+            isExternal = fontModel.isExternal
         )
     }
 }

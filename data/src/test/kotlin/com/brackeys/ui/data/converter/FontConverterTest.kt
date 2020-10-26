@@ -29,15 +29,13 @@ class FontConverterTest {
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
             supportLigatures = false,
-            isExternal = false,
-            isPaid = false
+            isExternal = false
         )
         val fontModel = FontModel(
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
             supportLigatures = false,
-            isExternal = false,
-            isPaid = false
+            isExternal = false
         )
         val convert = FontConverter.toModel(fontEntity)
 
@@ -45,7 +43,6 @@ class FontConverterTest {
         assertEquals(fontModel.fontPath, convert.fontPath)
         assertEquals(fontModel.supportLigatures, convert.supportLigatures)
         assertEquals(fontModel.isExternal, convert.isExternal)
-        assertEquals(fontModel.isPaid, convert.isPaid)
     }
 
     @Test
@@ -54,15 +51,13 @@ class FontConverterTest {
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
             supportLigatures = false,
-            isExternal = false,
-            isPaid = false
+            isExternal = false
         )
         val fontModel = FontModel(
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
             supportLigatures = false,
-            isExternal = false,
-            isPaid = false
+            isExternal = false
         )
         val convert = FontConverter.toEntity(fontModel)
 
@@ -70,6 +65,5 @@ class FontConverterTest {
         assertEquals(fontEntity.fontPath, convert.fontPath)
         assertEquals(fontEntity.supportLigatures, convert.supportLigatures)
         assertEquals(fontEntity.isExternal, convert.isExternal)
-        assertEquals(fontEntity.isPaid, convert.isPaid)
     }
 }

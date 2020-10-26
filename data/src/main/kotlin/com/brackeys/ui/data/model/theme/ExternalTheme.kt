@@ -28,10 +28,6 @@ data class ExternalTheme(
     val author: String?,
     @SerializedName("description")
     val description: String?,
-    @SerializedName("is_external")
-    val isExternal: Boolean?,
-    @SerializedName("is_paid")
-    val isPaid: Boolean?,
     @SerializedName("color_scheme")
     val externalScheme: ExternalScheme?
 ) {

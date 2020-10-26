@@ -17,11 +17,7 @@
 package com.brackeys.ui.database.utils
 
 object Tables {
-    @Deprecated("Use Tables.DOCUMENTS instead")
-    const val FILE_HISTORY = "tbl_file_history"
     const val DOCUMENTS = "tbl_documents"
     const val FONTS = "tbl_fonts"
     const val THEMES = "tbl_themes"
-    @Deprecated("Keyboard presets have been removed in v2020.2.5")
-    const val PRESETS = "tbl_presets"
 }

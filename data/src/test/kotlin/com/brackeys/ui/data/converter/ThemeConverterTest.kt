@@ -36,7 +36,6 @@ class ThemeConverterTest {
             author = "Light Team Software",
             description = "Default color scheme",
             isExternal = false,
-            isPaid = false,
             textColor = "#FFFFFF",
             backgroundColor = "#303030",
             gutterColor = "#F0F0F0",
@@ -63,7 +62,6 @@ class ThemeConverterTest {
             author = "Light Team Software",
             description = "Default color scheme",
             isExternal = false,
-            isPaid = false,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
                 backgroundColor = "#303030".toColorInt(),
@@ -95,7 +93,6 @@ class ThemeConverterTest {
         assertEquals(themeModel.author, convert.author)
         assertEquals(themeModel.description, convert.description)
         assertEquals(themeModel.isExternal, convert.isExternal)
-        assertEquals(themeModel.isPaid, convert.isPaid)
         assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
         assertEquals(themeModel.colorScheme.backgroundColor, convert.colorScheme.backgroundColor)
         assertEquals(themeModel.colorScheme.gutterColor, convert.colorScheme.gutterColor)
@@ -125,7 +122,6 @@ class ThemeConverterTest {
             author = "Light Team Software",
             description = "Default color scheme",
             isExternal = false,
-            isPaid = false,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
                 backgroundColor = "#303030".toColorInt(),
@@ -156,7 +152,6 @@ class ThemeConverterTest {
             author = "Light Team Software",
             description = "Default color scheme",
             isExternal = false,
-            isPaid = false,
             textColor = "#FFFFFF",
             backgroundColor = "#303030",
             gutterColor = "#F0F0F0",
@@ -184,7 +179,6 @@ class ThemeConverterTest {
         assertEquals(themeEntity.author, convert.author)
         assertEquals(themeEntity.description, convert.description)
         assertEquals(themeEntity.isExternal, convert.isExternal)
-        assertEquals(themeEntity.isPaid, convert.isPaid)
         assertEquals(themeEntity.textColor, convert.textColor)
         assertEquals(themeEntity.backgroundColor, convert.backgroundColor)
         assertEquals(themeEntity.gutterColor, convert.gutterColor)
@@ -213,8 +207,6 @@ class ThemeConverterTest {
                 name = "Test",
                 author = "Light Team Software",
                 description = "Default color scheme",
-                isExternal = false,
-                isPaid = false,
                 externalScheme = ExternalScheme(
                     textColor = "#FFFFFF",
                     backgroundColor = "#303030",
@@ -242,8 +234,7 @@ class ThemeConverterTest {
             name = "Test",
             author = "Light Team Software",
             description = "Default color scheme",
-            isExternal = false,
-            isPaid = false,
+            isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
                 backgroundColor = "#303030".toColorInt(),
@@ -275,7 +266,6 @@ class ThemeConverterTest {
         assertEquals(themeModel.author, convert.author)
         assertEquals(themeModel.description, convert.description)
         assertEquals(themeModel.isExternal, convert.isExternal)
-        assertEquals(themeModel.isPaid, convert.isPaid)
         assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
         assertEquals(themeModel.colorScheme.backgroundColor, convert.colorScheme.backgroundColor)
         assertEquals(themeModel.colorScheme.gutterColor, convert.colorScheme.gutterColor)
