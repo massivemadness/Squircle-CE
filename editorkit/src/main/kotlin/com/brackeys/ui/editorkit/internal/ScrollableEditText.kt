@@ -69,10 +69,9 @@ abstract class ScrollableEditText @JvmOverloads constructor(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 abortFling()
+                velocityTracker?.clear()
                 if (velocityTracker == null) {
                     velocityTracker = VelocityTracker.obtain()
-                } else {
-                    velocityTracker?.clear()
                 }
             }
             MotionEvent.ACTION_UP -> {
@@ -82,10 +81,8 @@ abstract class ScrollableEditText @JvmOverloads constructor(
                 } else 0
                 val velocityY = velocityTracker?.yVelocity?.toInt() ?: 0
                 if (abs(velocityY) < 0 || abs(velocityX) < 0) {
-                    if (velocityTracker != null) {
-                        velocityTracker?.recycle()
-                        velocityTracker = null
-                    }
+                    velocityTracker?.recycle()
+                    velocityTracker = null
                 }
                 if (layout != null) {
                     textScroller.fling(

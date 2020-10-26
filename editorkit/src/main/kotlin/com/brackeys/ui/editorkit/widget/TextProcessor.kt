@@ -27,9 +27,9 @@ import androidx.core.text.PrecomputedTextCompat
 import com.brackeys.ui.editorkit.R
 import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.internal.CodeSuggestsEditText
+import com.brackeys.ui.editorkit.listener.OnChangeListener
+import com.brackeys.ui.editorkit.listener.ShortcutListener
 import com.brackeys.ui.editorkit.model.Shortcut
-import com.brackeys.ui.editorkit.utils.OnChangeListener
-import com.brackeys.ui.editorkit.utils.ShortcutListener
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
@@ -56,9 +56,9 @@ class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    override fun setContent(textParams: PrecomputedTextCompat) {
+    override fun setTextContent(textParams: PrecomputedTextCompat) {
         isNewContent = true
-        super.setContent(textParams)
+        super.setTextContent(textParams)
         isNewContent = false
     }
 

@@ -16,6 +16,7 @@
 
 package com.brackeys.ui.language.base.utils
 
+import com.brackeys.ui.language.base.model.Word
 import java.util.regex.Pattern
 
 class WordsManager {

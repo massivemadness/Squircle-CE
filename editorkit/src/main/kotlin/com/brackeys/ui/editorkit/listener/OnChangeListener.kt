@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.language.base.utils
+package com.brackeys.ui.editorkit.listener
 
-data class Word(val value: String)
+interface OnChangeListener {
+    fun onChange()
+}

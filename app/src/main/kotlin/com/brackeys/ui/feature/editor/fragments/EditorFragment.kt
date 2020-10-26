@@ -36,10 +36,10 @@ import com.brackeys.ui.data.utils.extensions.toHexString
 import com.brackeys.ui.databinding.FragmentEditorBinding
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.editorkit.exception.LineException
+import com.brackeys.ui.editorkit.listener.OnChangeListener
+import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
+import com.brackeys.ui.editorkit.listener.ShortcutListener
 import com.brackeys.ui.editorkit.model.Shortcut
-import com.brackeys.ui.editorkit.utils.OnChangeListener
-import com.brackeys.ui.editorkit.utils.OnUndoRedoChangedListener
-import com.brackeys.ui.editorkit.utils.ShortcutListener
 import com.brackeys.ui.editorkit.widget.TextScroller
 import com.brackeys.ui.feature.base.adapters.TabAdapter
 import com.brackeys.ui.feature.base.fragments.BaseFragment
@@ -234,7 +234,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
-            binding.editor.setContent(textParams)
+            binding.editor.setTextContent(textParams)
             binding.editor.scrollX = content.documentModel.scrollX
             binding.editor.scrollY = content.documentModel.scrollY
             binding.editor.setSelection(

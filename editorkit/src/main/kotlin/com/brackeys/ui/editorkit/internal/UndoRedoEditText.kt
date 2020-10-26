@@ -20,8 +20,8 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import com.brackeys.ui.editorkit.R
+import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.brackeys.ui.editorkit.model.TextChange
-import com.brackeys.ui.editorkit.utils.OnUndoRedoChangedListener
 import com.brackeys.ui.editorkit.utils.UndoStack
 
 abstract class UndoRedoEditText @JvmOverloads constructor(
@@ -76,8 +76,8 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
         }
     }
 
-    override fun setContent(textParams: PrecomputedTextCompat) {
-        super.setContent(textParams)
+    override fun setTextContent(textParams: PrecomputedTextCompat) {
+        super.setTextContent(textParams)
         onUndoRedoChangedListener?.onUndoRedoChanged()
     }
 

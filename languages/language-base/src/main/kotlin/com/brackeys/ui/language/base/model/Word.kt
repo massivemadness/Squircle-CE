@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.editorkit.utils
+package com.brackeys.ui.language.base.model
 
-import com.brackeys.ui.editorkit.model.Shortcut
-
-interface ShortcutListener {
-    fun onShortcut(shortcut: Shortcut): Boolean
-}
+data class Word(val value: String)

@@ -26,9 +26,9 @@ import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.brackeys.ui.editorkit.R
+import com.brackeys.ui.editorkit.listener.TextChangeListener
 import com.brackeys.ui.editorkit.model.ColorScheme
 import com.brackeys.ui.editorkit.utils.LinesCollection
-import com.brackeys.ui.editorkit.utils.TextChangeListener
 import com.brackeys.ui.editorkit.utils.dpToPx
 import kotlin.math.abs
 
@@ -207,7 +207,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         }
     }
 
-    open fun setContent(textParams: PrecomputedTextCompat) {
+    open fun setTextContent(textParams: PrecomputedTextCompat) {
         abortFling()
         removeTextChangedListener(textWatcher)
 
@@ -230,7 +230,8 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     open fun clearText() {
         val textParams = TextViewCompat.getTextMetricsParams(this)
-        setContent(PrecomputedTextCompat.create("", textParams))
+        val precomputedText = PrecomputedTextCompat.create(text, textParams)
+        setTextContent(precomputedText)
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {

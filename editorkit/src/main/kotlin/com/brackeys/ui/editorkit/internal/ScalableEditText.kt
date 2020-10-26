@@ -30,6 +30,11 @@ abstract class ScalableEditText @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : ScrollableEditText(context, attrs, defStyleAttr) {
 
+    companion object {
+        private const val MIN_SIZE = 10f
+        private const val MAX_SIZE = 20f
+    }
+
     private var pinchFactor = 1f
     private var isDoingPinchZoom = false
 
@@ -60,8 +65,8 @@ abstract class ScalableEditText @JvmOverloads constructor(
 
     private fun validateTextSize(size: Float): Boolean {
         textSize = when {
-            size < 10 -> 10f // minimum
-            size > 20 -> 20f // maximum
+            size < MIN_SIZE -> MIN_SIZE
+            size > MAX_SIZE -> MAX_SIZE
             else -> size
         }
         return true

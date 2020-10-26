@@ -69,9 +69,9 @@ abstract class CodeSuggestsEditText @JvmOverloads constructor(
         super.colorize()
     }
 
-    override fun setContent(textParams: PrecomputedTextCompat) {
+    override fun setTextContent(textParams: PrecomputedTextCompat) {
         language?.getProvider()?.clearLines()
-        super.setContent(textParams)
+        super.setTextContent(textParams)
         language?.let {
             suggestionAdapter?.setSuggestionProvider(it.getProvider())
         }

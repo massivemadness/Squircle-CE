@@ -149,20 +149,6 @@ class UndoStack {
         stack.clear()
     }
 
-    fun mergeTop(): Boolean {
-        if (size >= 2) {
-            val newer = stack[size - 1]
-            val previous = stack[size - 2]
-            if (previous.start + previous.newText.length == newer.start) {
-                previous.newText += newer.newText
-                previous.oldText += newer.oldText
-                stack.remove(newer)
-                return true
-            }
-        }
-        return false
-    }
-
     fun canUndo(): Boolean {
         return size > 0
     }

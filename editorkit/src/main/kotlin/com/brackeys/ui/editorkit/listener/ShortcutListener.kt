@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.editorkit.model
+package com.brackeys.ui.editorkit.listener
 
-data class Line(
-    var start: Int
-) : Comparable<Line> {
+import com.brackeys.ui.editorkit.model.Shortcut
 
-    override fun compareTo(other: Line): Int {
-        return start - other.start
-    }
+interface ShortcutListener {
+    fun onShortcut(shortcut: Shortcut): Boolean
 }

@@ -16,23 +16,15 @@
 
 package com.brackeys.ui.editorkit.utils
 
-import com.brackeys.ui.editorkit.model.Line
-
-class LinesCollection : Iterable<Line> {
-
-    private val lines = mutableListOf(
-        Line(0)
-    )
+class LinesCollection : Iterable<LinesCollection.Line> {
 
     val lineCount: Int
         get() = lines.size
 
-    fun add(line: Int, index: Int): Line? {
-        if (lineCount > 0 && line == 0) {
-            return null
-        }
+    private val lines = mutableListOf(Line(0))
+
+    fun add(line: Int, index: Int) {
         lines.add(line, Line(index))
-        return lines[line]
     }
 
     fun remove(line: Int) {
@@ -98,5 +90,14 @@ class LinesCollection : Iterable<Line> {
 
     override fun iterator(): Iterator<Line> {
         return lines.iterator()
+    }
+
+    data class Line(
+        var start: Int
+    ) : Comparable<Line> {
+
+        override fun compareTo(other: Line): Int {
+            return start - other.start
+        }
     }
 }
