@@ -16,6 +16,7 @@
 
 package com.brackeys.ui.data.delegate
 
+import com.brackeys.ui.language.actionscript.ActionScriptLanguage
 import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.javascript.JavaScriptLanguage
 import com.brackeys.ui.language.json.JsonLanguage
@@ -27,6 +28,7 @@ object LanguageDelegate {
         return when {
             fileName.endsWith(JavaScriptLanguage.FILE_EXTENSION) -> JavaScriptLanguage()
             fileName.endsWith(JsonLanguage.FILE_EXTENSION) -> JsonLanguage()
+            fileName.endsWith(ActionScriptLanguage.FILE_EXTENSION) -> ActionScriptLanguage()
             else -> PlainTextLanguage()
         }
     }
