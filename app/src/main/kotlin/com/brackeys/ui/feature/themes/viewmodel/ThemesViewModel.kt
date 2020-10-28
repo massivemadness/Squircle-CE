@@ -92,6 +92,7 @@ class ThemesViewModel @ViewModelInject constructor(
     private var keywordColor: String = FALLBACK_COLOR
     private var typeColor: String = FALLBACK_COLOR
     private var langConstColor: String = FALLBACK_COLOR
+    private var preprocessorColor: String = FALLBACK_COLOR
     private var methodColor: String = FALLBACK_COLOR
     private var stringColor: String = FALLBACK_COLOR
     private var commentColor: String = FALLBACK_COLOR
@@ -208,6 +209,7 @@ class ThemesViewModel @ViewModelInject constructor(
                 Property.KEYWORD_COLOR -> keywordColor = property.propertyValue
                 Property.TYPE_COLOR -> typeColor = property.propertyValue
                 Property.LANG_CONST_COLOR -> langConstColor = property.propertyValue
+                Property.PREPROCESSOR_COLOR -> preprocessorColor = property.propertyValue
                 Property.METHOD_COLOR -> methodColor = property.propertyValue
                 Property.STRING_COLOR -> stringColor = property.propertyValue
                 Property.COMMENT_COLOR -> commentColor = property.propertyValue
@@ -237,6 +239,7 @@ class ThemesViewModel @ViewModelInject constructor(
                     keywordColor = keywordColor,
                     typeColor = typeColor,
                     langConstColor = langConstColor,
+                    preprocessorColor = preprocessorColor,
                     methodColor = methodColor,
                     stringColor = stringColor,
                     commentColor = commentColor
@@ -356,6 +359,11 @@ class ThemesViewModel @ViewModelInject constructor(
                 Property.LANG_CONST_COLOR,
                 themeModel.colorScheme.syntaxScheme.langConstColor.toHexString(),
                 R.string.theme_property_lang_const_color
+            ),
+            PropertyItem(
+                Property.PREPROCESSOR_COLOR,
+                themeModel.colorScheme.syntaxScheme.preprocessorColor.toHexString(),
+                R.string.theme_property_preprocessor_color
             ),
             PropertyItem(
                 Property.METHOD_COLOR,

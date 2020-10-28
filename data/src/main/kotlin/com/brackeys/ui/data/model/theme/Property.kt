@@ -33,6 +33,7 @@ enum class Property(val key: String) {
     KEYWORD_COLOR("keyword_color"),
     TYPE_COLOR("type_color"),
     LANG_CONST_COLOR("lang_const_color"),
+    PREPROCESSOR_COLOR("preprocessor_color"),
     METHOD_COLOR("method_color"),
     STRING_COLOR("string_color"),
     COMMENT_COLOR("comment_color"),

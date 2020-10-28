@@ -206,6 +206,7 @@
     <string name="theme_property_keywords_color">Defines the keywords color of syntax highlighting: function, if, else, etc.</string>
     <string name="theme_property_types_color">Defines the types color of syntax highlighting: const, var, let, etc.</string>
     <string name="theme_property_lang_const_color">Defines the language constants color of syntax highlighting: true, false, null, etc.</string>
+    <string name="theme_property_preprocessor_color">Defines the preprocessor and annotation color: @Override, #include, …</string>
     <string name="theme_property_methods_color">Defines the methods color of syntax highlighting</string>
     <string name="theme_property_strings_color">Defines the string literals color of syntax highlighting</string>
     <string name="theme_property_comments_color">Defines the comments color of syntax highlighting: //, /**/</string>

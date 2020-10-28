@@ -195,6 +195,7 @@
     <string name="theme_property_keywords_color">Определяет цвет ключевых слов подсветки синтаксиса: function, if, else, и тд.</string>
     <string name="theme_property_types_color">Определяет цвет типов подсветки синтаксиса: const, var, let, и тд.</string>
     <string name="theme_property_lang_const_color">Определяет цвет языковых констант подсветки синтаксиса: true, false, null, и тд.</string>
+    <string name="theme_property_preprocessor_color">Определяет цвет препроцессоров и аннотаций: @Override, #include, …</string>
     <string name="theme_property_methods_color">Определяет цвет методов подсветки синтаксиса</string>
     <string name="theme_property_strings_color">Определяет цвет строк подсветки синтаксиса</string>
     <string name="theme_property_comments_color">Определяет цвет комментариев подсветки синтаксиса: //, /**/</string>

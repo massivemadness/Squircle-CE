@@ -52,6 +52,7 @@ class ThemeConverterTest {
             keywordColor = "#FF3000",
             typeColor = "#FF3000",
             langConstColor = "#FF3000",
+            preprocessorColor = "FF3000",
             methodColor = "#FF3000",
             stringColor = "#FF3000",
             commentColor = "#FF3000"
@@ -80,6 +81,7 @@ class ThemeConverterTest {
                     keywordColor = "#FF3000".toColorInt(),
                     typeColor = "#FF3000".toColorInt(),
                     langConstColor = "#FF3000".toColorInt(),
+                    preprocessorColor = "FF3000".toColorInt(),
                     methodColor = "#FF3000".toColorInt(),
                     stringColor = "#FF3000".toColorInt(),
                     commentColor = "#FF3000".toColorInt()
@@ -109,6 +111,7 @@ class ThemeConverterTest {
         assertEquals(themeModel.colorScheme.syntaxScheme.keywordColor, convert.colorScheme.syntaxScheme.keywordColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.typeColor, convert.colorScheme.syntaxScheme.typeColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.langConstColor, convert.colorScheme.syntaxScheme.langConstColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.preprocessorColor, convert.colorScheme.syntaxScheme.preprocessorColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.methodColor, convert.colorScheme.syntaxScheme.methodColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.stringColor, convert.colorScheme.syntaxScheme.stringColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.commentColor, convert.colorScheme.syntaxScheme.commentColor)
@@ -140,6 +143,7 @@ class ThemeConverterTest {
                     keywordColor = "#FF3000".toColorInt(),
                     typeColor = "#FF3000".toColorInt(),
                     langConstColor = "#FF3000".toColorInt(),
+                    preprocessorColor = "FF3000".toColorInt(),
                     methodColor = "#FF3000".toColorInt(),
                     stringColor = "#FF3000".toColorInt(),
                     commentColor = "#FF3000".toColorInt()
@@ -168,6 +172,7 @@ class ThemeConverterTest {
             keywordColor = "#FF3000",
             typeColor = "#FF3000",
             langConstColor = "#FF3000",
+            preprocessorColor = "FF3000",
             methodColor = "#FF3000",
             stringColor = "#FF3000",
             commentColor = "#FF3000"
@@ -195,6 +200,7 @@ class ThemeConverterTest {
         assertEquals(themeEntity.keywordColor, convert.keywordColor)
         assertEquals(themeEntity.typeColor, convert.typeColor)
         assertEquals(themeEntity.langConstColor, convert.langConstColor)
+        assertEquals(themeEntity.preprocessorColor, convert.preprocessorColor)
         assertEquals(themeEntity.methodColor, convert.methodColor)
         assertEquals(themeEntity.stringColor, convert.stringColor)
         assertEquals(themeEntity.commentColor, convert.commentColor)
@@ -224,6 +230,7 @@ class ThemeConverterTest {
                     keywordColor = "#FF3000",
                     typeColor = "#FF3000",
                     langConstColor = "#FF3000",
+                    preprocessorColor = "FF3000",
                     methodColor = "#FF3000",
                     stringColor = "#FF3000",
                     commentColor = "#FF3000"
@@ -253,6 +260,7 @@ class ThemeConverterTest {
                     keywordColor = "#FF3000".toColorInt(),
                     typeColor = "#FF3000".toColorInt(),
                     langConstColor = "#FF3000".toColorInt(),
+                    preprocessorColor = "FF3000".toColorInt(),
                     methodColor = "#FF3000".toColorInt(),
                     stringColor = "#FF3000".toColorInt(),
                     commentColor = "#FF3000".toColorInt()
@@ -282,6 +290,7 @@ class ThemeConverterTest {
         assertEquals(themeModel.colorScheme.syntaxScheme.keywordColor, convert.colorScheme.syntaxScheme.keywordColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.typeColor, convert.colorScheme.syntaxScheme.typeColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.langConstColor, convert.colorScheme.syntaxScheme.langConstColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.preprocessorColor, convert.colorScheme.syntaxScheme.preprocessorColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.methodColor, convert.colorScheme.syntaxScheme.methodColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.stringColor, convert.colorScheme.syntaxScheme.stringColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.commentColor, convert.colorScheme.syntaxScheme.commentColor)

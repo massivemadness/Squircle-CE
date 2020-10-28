@@ -51,6 +51,8 @@ data class ExternalScheme(
     val typeColor: String?,
     @SerializedName("lang_const_color")
     val langConstColor: String?,
+    @SerializedName("preprocessor_color")
+    val preprocessorColor: String?,
     @SerializedName("method_color")
     val methodColor: String?,
     @SerializedName("string_color")

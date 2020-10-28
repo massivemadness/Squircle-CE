@@ -205,7 +205,7 @@ class ActionScriptStyler private constructor() : LanguageStyler {
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     ActionScriptToken.PREPROCESSOR -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor) // TODO preprocessor color
+                        val styleSpan = StyleSpan(syntaxScheme.preprocessorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
