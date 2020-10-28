@@ -172,7 +172,10 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.SWITCH,
                     JavaScriptToken.THROW,
                     JavaScriptToken.TRY,
-                    JavaScriptToken.WHILE -> {
+                    JavaScriptToken.WHILE,
+                    JavaScriptToken.CONST,
+                    JavaScriptToken.VAR,
+                    JavaScriptToken.LET -> {
                         val styleSpan = StyleSpan(syntaxScheme.keywordColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -188,10 +191,7 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.INT,
                     JavaScriptToken.LONG,
                     JavaScriptToken.SHORT,
-                    JavaScriptToken.VOID,
-                    JavaScriptToken.CONST,
-                    JavaScriptToken.VAR,
-                    JavaScriptToken.LET -> {
+                    JavaScriptToken.VOID -> {
                         val styleSpan = StyleSpan(syntaxScheme.typeColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
