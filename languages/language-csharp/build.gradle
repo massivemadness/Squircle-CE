@@ -26,20 +26,11 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    testOptions {
-        unitTests.returnDefaultValues true
+
+        consumerProguardFiles 'consumer-rules.pro'
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
     }
 }
 
@@ -48,32 +39,7 @@ dependencies {
 
     // Core
     implementation library.kotlin
-    implementation library.core
-
-    // Network
-    implementation library.gson
-
-    // Rx
-    implementation library.rxjava2
-    implementation library.rxkotlin
-    implementation library.rxpreferences
 
     // Modules
-    implementation project(':domain')
-    implementation project(':database')
-    implementation project(':editorkit')
-
-    implementation project(':filesystems:filesystem-base')
-    implementation project(':filesystems:filesystem-local')
-
     implementation project(':languages:language-base')
-    implementation project(':languages:language-plaintext')
-    implementation project(':languages:language-javascript')
-    implementation project(':languages:language-json')
-    implementation project(':languages:language-actionscript')
-    implementation project(':languages:language-csharp')
-
-    // Tests
-    testImplementation testLibrary.junit
-    testImplementation testLibrary.mockito
 }

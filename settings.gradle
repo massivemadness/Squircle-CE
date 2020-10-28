@@ -23,4 +23,5 @@ include ':languages:language-base',
         ':languages:language-plaintext',
         ':languages:language-javascript',
         ':languages:language-json',
-        ':languages:language-actionscript'
+        ':languages:language-actionscript',
+        ':languages:language-csharp'

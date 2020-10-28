@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.language.actionscript.parser
+package com.brackeys.ui.language.csharp.parser
 
 import com.brackeys.ui.language.base.exception.ParseException
 import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.language.base.parser.LanguageParser
 
-class ActionScriptParser private constructor() : LanguageParser {
+class CSharpParser private constructor() : LanguageParser {
 
     companion object {
 
-        private var actionScriptParser: ActionScriptParser? = null
+        private var csharpParser: CSharpParser? = null
 
-        fun getInstance(): ActionScriptParser {
-            return actionScriptParser ?: ActionScriptParser().also {
-                actionScriptParser = it
+        fun getInstance(): CSharpParser {
+            return csharpParser ?: CSharpParser().also {
+                csharpParser = it
             }
         }
     }
