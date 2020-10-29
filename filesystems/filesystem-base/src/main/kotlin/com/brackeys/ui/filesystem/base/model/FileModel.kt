@@ -33,7 +33,7 @@ data class FileModel(
     companion object {
         val TEXT = arrayOf(
             ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua",
-            ".as", ".cs"
+            ".as", ".cs", ".c"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",
