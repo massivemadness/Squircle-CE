@@ -50,7 +50,7 @@ SINGLE_QUOTED_STRING = '([^\\'\r\n] | \\[^\r\n] | \\{CRLF})*'?
 LINE_TERMINATOR = \r|\n|\r\n
 WHITESPACE = {LINE_TERMINATOR} | [ \t\f]
 
-PREPROCESSOR = "#"[a-zA-Z]+
+PREPROCESSOR = ({WHITESPACE}?"#"{WHITESPACE}?[a-zA-Z]+([^\n])*)
 
 LINE_COMMENT = "//".*
 BLOCK_COMMENT = "/"\*([^*] | \*+[^*/])*(\*+"/")?
