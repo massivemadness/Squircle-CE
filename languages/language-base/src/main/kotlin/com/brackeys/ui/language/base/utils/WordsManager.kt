@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.language.base.utils
 
-import com.brackeys.ui.language.base.model.Word
+import com.brackeys.ui.language.base.model.Suggestion
 import java.util.regex.Pattern
 
 class WordsManager {
@@ -26,10 +26,10 @@ class WordsManager {
     }
 
     private val wordsPattern = Pattern.compile(WORDS_REGEX)
-    private val lineMap = hashMapOf<Int, MutableList<Word>>()
+    private val lineMap = hashMapOf<Int, MutableList<Suggestion>>()
 
-    fun getWords(): Set<Word> {
-        val wordsSet = hashSetOf<Word>()
+    fun getWords(): Set<Suggestion> {
+        val wordsSet = hashSetOf<Suggestion>()
         for (line in lineMap.values) {
             for (word in line) {
                 wordsSet.add(word)
@@ -42,7 +42,11 @@ class WordsManager {
         lineMap[lineNumber]?.clear()
         val matcher = wordsPattern.matcher(text)
         while (matcher.find()) {
-            val word = Word(text.substring(matcher.start(), matcher.end()))
+            val word = Suggestion(
+                type = Suggestion.Type.WORD,
+                text = text.substring(matcher.start(), matcher.end()),
+                returnType = ""
+            )
             if (lineMap.containsKey(lineNumber)) {
                 lineMap[lineNumber]?.add(word)
             } else {

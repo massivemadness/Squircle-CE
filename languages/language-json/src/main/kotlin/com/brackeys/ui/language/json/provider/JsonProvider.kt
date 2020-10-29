@@ -37,14 +37,6 @@ class JsonProvider private constructor() : SuggestionProvider {
 
     override fun getAll(): Set<Suggestion> {
         return wordsManager.getWords()
-            .map {
-                Suggestion(
-                    type = Suggestion.Type.WORD,
-                    text = it.value,
-                    returnType = ""
-                )
-            }
-            .toHashSet()
     }
 
     override fun processLine(lineNumber: Int, text: String) {
