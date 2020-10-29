@@ -72,6 +72,7 @@ dependencies {
     implementation project(':languages:language-json')
     implementation project(':languages:language-actionscript')
     implementation project(':languages:language-csharp')
+    implementation project(':languages:language-cpp')
     implementation project(':languages:language-c')
 
     // Tests

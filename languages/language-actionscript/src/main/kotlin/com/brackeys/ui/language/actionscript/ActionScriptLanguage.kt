@@ -27,7 +27,12 @@ import com.brackeys.ui.language.base.styler.LanguageStyler
 class ActionScriptLanguage : Language {
 
     companion object {
-        const val FILE_EXTENSION = ".as"
+
+        private const val FILE_EXTENSION = ".as"
+
+        fun supportFormat(fileName: String): Boolean {
+            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+        }
     }
 
     override fun getName(): String {

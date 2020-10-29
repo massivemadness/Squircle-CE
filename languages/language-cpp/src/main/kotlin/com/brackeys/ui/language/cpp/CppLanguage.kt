@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.language.c
+package com.brackeys.ui.language.cpp
 
 import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.base.parser.LanguageParser
 import com.brackeys.ui.language.base.provider.SuggestionProvider
 import com.brackeys.ui.language.base.styler.LanguageStyler
 import com.brackeys.ui.language.base.utils.endsWith
-import com.brackeys.ui.language.c.parser.CParser
-import com.brackeys.ui.language.c.provider.CProvider
-import com.brackeys.ui.language.c.styler.CStyler
+import com.brackeys.ui.language.cpp.parser.CppParser
+import com.brackeys.ui.language.cpp.provider.CppProvider
+import com.brackeys.ui.language.cpp.styler.CppStyler
 
-class CLanguage : Language {
+class CppLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".c", ".h")
+        private val FILE_EXTENSIONS = arrayOf(".c", ".cpp", ".h", ".hpp")
 
         fun supportFormat(fileName: String): Boolean {
             return fileName.endsWith(FILE_EXTENSIONS)
@@ -37,18 +37,18 @@ class CLanguage : Language {
     }
 
     override fun getName(): String {
-        return "c"
+        return "cplusplus"
     }
 
     override fun getParser(): LanguageParser {
-        return CParser.getInstance()
+        return CppParser.getInstance()
     }
 
     override fun getProvider(): SuggestionProvider {
-        return CProvider.getInstance()
+        return CppProvider.getInstance()
     }
 
     override fun getStyler(): LanguageStyler {
-        return CStyler.getInstance()
+        return CppStyler.getInstance()
     }
 }

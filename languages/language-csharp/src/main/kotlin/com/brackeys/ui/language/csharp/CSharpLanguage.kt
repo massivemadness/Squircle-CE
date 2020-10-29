@@ -27,7 +27,12 @@ import com.brackeys.ui.language.csharp.styler.CSharpStyler
 class CSharpLanguage : Language {
 
     companion object {
-        const val FILE_EXTENSION = ".cs"
+
+        private const val FILE_EXTENSION = ".cs"
+
+        fun supportFormat(fileName: String): Boolean {
+            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+        }
     }
 
     override fun getName(): String {

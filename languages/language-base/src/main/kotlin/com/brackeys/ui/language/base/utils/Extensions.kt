@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data', ':database', ':editorkit'
+package com.brackeys.ui.language.base.utils
 
-include ':filesystems:filesystem-base',
-        ':filesystems:filesystem-local'
-
-include ':languages:language-base',
-        ':languages:language-plaintext',
-        ':languages:language-javascript',
-        ':languages:language-json',
-        ':languages:language-actionscript',
-        ':languages:language-csharp',
-        ':languages:language-cpp',
-        ':languages:language-c'
+fun String.endsWith(suffixes: Array<String>): Boolean {
+    for (suffix in suffixes) {
+        if (endsWith(suffix, ignoreCase = true)) {
+            return true
+        }
+    }
+    return false
+}

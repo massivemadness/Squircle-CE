@@ -27,7 +27,12 @@ import com.brackeys.ui.language.json.styler.JsonStyler
 class JsonLanguage : Language {
 
     companion object {
-        const val FILE_EXTENSION = ".json"
+
+        private const val FILE_EXTENSION = ".json"
+
+        fun supportFormat(fileName: String): Boolean {
+            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+        }
     }
 
     override fun getName(): String {

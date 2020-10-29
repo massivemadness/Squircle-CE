@@ -27,7 +27,12 @@ import com.brackeys.ui.language.javascript.styler.JavaScriptStyler
 class JavaScriptLanguage : Language {
 
     companion object {
-        const val FILE_EXTENSION = ".js"
+
+        private const val FILE_EXTENSION = ".js"
+
+        fun supportFormat(fileName: String): Boolean {
+            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+        }
     }
 
     override fun getName(): String {
