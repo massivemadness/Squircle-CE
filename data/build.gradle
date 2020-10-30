@@ -75,6 +75,7 @@ dependencies {
     implementation project(':languages:language-cpp')
     implementation project(':languages:language-c')
     implementation project(':languages:language-java')
+    implementation project(':languages:language-lua')
 
     // Tests
     testImplementation testLibrary.junit

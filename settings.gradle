@@ -27,4 +27,5 @@ include ':languages:language-base',
         ':languages:language-csharp',
         ':languages:language-cpp',
         ':languages:language-c',
-        ':languages:language-java'
+        ':languages:language-java',
+        ':languages:language-lua'
