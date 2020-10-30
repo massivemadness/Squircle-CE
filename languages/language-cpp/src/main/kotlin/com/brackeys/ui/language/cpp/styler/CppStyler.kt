@@ -32,13 +32,13 @@ class CppStyler private constructor() : LanguageStyler {
 
     companion object {
 
-        private const val TAG = "CStyler"
+        private const val TAG = "CppStyler"
 
-        private var cStyler: CppStyler? = null
+        private var cppStyler: CppStyler? = null
 
         fun getInstance(): CppStyler {
-            return cStyler ?: CppStyler().also {
-                cStyler = it
+            return cppStyler ?: CppStyler().also {
+                cppStyler = it
             }
         }
     }

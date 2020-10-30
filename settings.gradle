@@ -26,4 +26,5 @@ include ':languages:language-base',
         ':languages:language-actionscript',
         ':languages:language-csharp',
         ':languages:language-cpp',
-        ':languages:language-c'
+        ':languages:language-c',
+        ':languages:language-java'
