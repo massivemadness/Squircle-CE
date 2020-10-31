@@ -24,6 +24,7 @@ import com.brackeys.ui.language.csharp.CSharpLanguage
 import com.brackeys.ui.language.java.JavaLanguage
 import com.brackeys.ui.language.javascript.JavaScriptLanguage
 import com.brackeys.ui.language.json.JsonLanguage
+import com.brackeys.ui.language.lisp.LispLanguage
 import com.brackeys.ui.language.lua.LuaLanguage
 import com.brackeys.ui.language.plaintext.PlainTextLanguage
 
@@ -38,6 +39,7 @@ object LanguageDelegate {
             CLanguage.supportFormat(fileName) -> CLanguage()
             CppLanguage.supportFormat(fileName) -> CppLanguage()
             JavaLanguage.supportFormat(fileName) -> JavaLanguage()
+            LispLanguage.supportFormat(fileName) -> LispLanguage()
             LuaLanguage.supportFormat(fileName) -> LuaLanguage()
             else -> PlainTextLanguage()
         }

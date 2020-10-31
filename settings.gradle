@@ -28,4 +28,5 @@ include ':languages:language-base',
         ':languages:language-cpp',
         ':languages:language-c',
         ':languages:language-java',
-        ':languages:language-lua'
+        ':languages:language-lua',
+        ':languages:language-lisp'
