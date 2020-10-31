@@ -28,8 +28,12 @@ data class SyntaxHighlightSpan(
     override fun updateDrawState(textPaint: TextPaint?) {
         textPaint?.color = span.color
         textPaint?.isFakeBoldText = span.bold
+        textPaint?.isUnderlineText = span.underline
         if (span.italic) {
             textPaint?.textSkewX = -0.1f
+        }
+        if (span.overline) {
+            textPaint?.flags = TextPaint.STRIKE_THRU_TEXT_FLAG
         }
     }
 

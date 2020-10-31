@@ -21,5 +21,7 @@ import android.graphics.Color
 data class StyleSpan(
     var color: Int = Color.WHITE,
     var bold: Boolean = false,
-    var italic: Boolean = false
+    var italic: Boolean = false,
+    var underline: Boolean = false,
+    var overline: Boolean = false
 )
