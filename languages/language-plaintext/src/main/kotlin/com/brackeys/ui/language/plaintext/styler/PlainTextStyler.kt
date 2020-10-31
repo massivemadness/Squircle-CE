@@ -43,7 +43,7 @@ class PlainTextStyler private constructor() : LanguageStyler {
         sourceCode: String,
         syntaxScheme: SyntaxScheme,
         stylingResult: StylingResult
-    ) = Unit
+    ) = stylingResult(execute(sourceCode, syntaxScheme))
 
     override fun cancel() = Unit
 }

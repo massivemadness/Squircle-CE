@@ -14,16 +14,42 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.language.base.span
+package com.brackeys.ui.language.markdown.lexer
 
-import android.graphics.Color
-import androidx.annotation.ColorInt
+enum class MarkdownToken {
+    HEADER,
 
-data class StyleSpan(
-    @ColorInt
-    var color: Int = Color.WHITE,
-    var bold: Boolean = false,
-    var italic: Boolean = false,
-    var underline: Boolean = false,
-    var strikethrough: Boolean = false
-)
+    UNORDERED_LIST_ITEM,
+    ORDERED_LIST_ITEM,
+
+    BOLDITALIC1,
+    BOLDITALIC2,
+    BOLD1,
+    BOLD2,
+    ITALIC1,
+    ITALIC2,
+    STRIKETHROUGH,
+
+    CODE,
+    CODE_BLOCK,
+
+    LT,
+    GT,
+    EQ,
+    NOT,
+    DIV,
+    MINUS,
+
+    LPAREN,
+    RPAREN,
+    LBRACE,
+    RBRACE,
+    LBRACK,
+    RBRACK,
+
+    URL,
+    IDENTIFIER,
+    WHITESPACE,
+    BAD_CHARACTER,
+    EOF
+}

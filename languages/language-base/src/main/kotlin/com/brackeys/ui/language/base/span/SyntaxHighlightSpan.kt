@@ -32,7 +32,7 @@ data class SyntaxHighlightSpan(
         if (span.italic) {
             textPaint?.textSkewX = -0.1f
         }
-        if (span.overline) {
+        if (span.strikethrough) {
             textPaint?.flags = TextPaint.STRIKE_THRU_TEXT_FLAG
         }
     }
