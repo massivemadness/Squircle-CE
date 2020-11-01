@@ -32,4 +32,5 @@ include ':languages:language-base',
         ':languages:language-lisp',
         ':languages:language-markdown',
         ':languages:language-python',
+        ':languages:language-sql',
         ':languages:language-visualbasic'
