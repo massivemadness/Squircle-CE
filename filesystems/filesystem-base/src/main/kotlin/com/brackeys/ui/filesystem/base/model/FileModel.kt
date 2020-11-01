@@ -34,7 +34,7 @@ data class FileModel(
         val TEXT = arrayOf(
             ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua",
             ".as", ".cs", ".c", ".cpp", ".h", ".hpp", ".lisp", ".lsp",
-            ".cl", ".l"
+            ".cl", ".l", ".py"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",

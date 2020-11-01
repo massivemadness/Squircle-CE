@@ -78,6 +78,7 @@ dependencies {
     implementation project(':languages:language-lua')
     implementation project(':languages:language-lisp')
     implementation project(':languages:language-markdown')
+    implementation project(':languages:language-python')
 
     // Tests
     testImplementation testLibrary.junit
