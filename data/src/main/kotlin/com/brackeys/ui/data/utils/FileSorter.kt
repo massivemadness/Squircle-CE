@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.utils.commons
+package com.brackeys.ui.data.utils
 
 import com.brackeys.ui.filesystem.base.model.FileModel
 import kotlin.Comparator

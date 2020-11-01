@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.ReleaseConverter
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.extensions.schedulersIoToMain
+import com.brackeys.ui.data.utils.schedulersIoToMain
 import com.brackeys.ui.domain.model.changelog.ReleaseModel
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel

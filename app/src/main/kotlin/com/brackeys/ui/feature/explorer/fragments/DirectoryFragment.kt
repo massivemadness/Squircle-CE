@@ -35,7 +35,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
-import com.brackeys.ui.data.utils.extensions.replaceList
+import com.brackeys.ui.data.utils.replaceList
 import com.brackeys.ui.databinding.FragmentDirectoryBinding
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
 import com.brackeys.ui.feature.base.fragments.BaseFragment

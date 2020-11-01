@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.utils.extensions
+package com.brackeys.ui.data.utils
 
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.filesystem.base.model.FileModel

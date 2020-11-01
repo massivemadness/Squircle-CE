@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.utils.themes
+package com.brackeys.ui.data.utils
 
 import com.brackeys.ui.domain.model.theme.ThemeModel
 import com.brackeys.ui.editorkit.theme.EditorTheme

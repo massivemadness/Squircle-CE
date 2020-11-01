@@ -32,7 +32,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.DocumentConverter
-import com.brackeys.ui.data.utils.extensions.toHexString
+import com.brackeys.ui.data.utils.toHexString
 import com.brackeys.ui.databinding.FragmentEditorBinding
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.editorkit.exception.LineException

@@ -27,7 +27,10 @@ import com.brackeys.ui.data.converter.ThemeConverter
 import com.brackeys.ui.data.repository.CacheRepository
 import com.brackeys.ui.data.repository.LocalRepository
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.extensions.*
+import com.brackeys.ui.data.utils.InternalTheme
+import com.brackeys.ui.data.utils.containsDocumentModel
+import com.brackeys.ui.data.utils.indexBy
+import com.brackeys.ui.data.utils.schedulersIoToMain
 import com.brackeys.ui.database.AppDatabase
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
@@ -39,7 +42,6 @@ import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.utils.event.EventsQueue
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
-import com.brackeys.ui.utils.themes.InternalTheme
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import io.reactivex.Completable
 import io.reactivex.Single

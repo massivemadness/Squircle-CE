@@ -26,8 +26,9 @@ import com.brackeys.ui.data.model.theme.ExternalTheme
 import com.brackeys.ui.data.model.theme.Meta
 import com.brackeys.ui.data.model.theme.Property
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.extensions.schedulersIoToMain
-import com.brackeys.ui.data.utils.extensions.toHexString
+import com.brackeys.ui.data.utils.InternalTheme
+import com.brackeys.ui.data.utils.schedulersIoToMain
+import com.brackeys.ui.data.utils.toHexString
 import com.brackeys.ui.database.AppDatabase
 import com.brackeys.ui.database.entity.theme.ThemeEntity
 import com.brackeys.ui.domain.model.theme.ThemeModel
@@ -39,7 +40,6 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
 import com.brackeys.ui.utils.event.SingleLiveEvent
-import com.brackeys.ui.utils.themes.InternalTheme
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.BufferedReader

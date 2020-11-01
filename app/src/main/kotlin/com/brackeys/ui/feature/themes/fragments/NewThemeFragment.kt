@@ -34,7 +34,7 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.brackeys.ui.R
 import com.brackeys.ui.data.model.theme.Meta
-import com.brackeys.ui.data.utils.extensions.toHexString
+import com.brackeys.ui.data.utils.toHexString
 import com.brackeys.ui.databinding.FragmentNewThemeBinding
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
 import com.brackeys.ui.feature.base.fragments.BaseFragment

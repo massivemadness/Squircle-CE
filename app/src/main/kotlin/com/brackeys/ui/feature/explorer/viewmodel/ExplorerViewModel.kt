@@ -22,10 +22,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.commons.FileSorter
-import com.brackeys.ui.data.utils.extensions.containsFileModel
-import com.brackeys.ui.data.utils.extensions.replaceList
-import com.brackeys.ui.data.utils.extensions.schedulersIoToMain
+import com.brackeys.ui.data.utils.FileSorter
+import com.brackeys.ui.data.utils.containsFileModel
+import com.brackeys.ui.data.utils.replaceList
+import com.brackeys.ui.data.utils.schedulersIoToMain
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.feature.explorer.utils.Operation

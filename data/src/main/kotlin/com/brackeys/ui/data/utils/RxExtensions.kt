@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.utils.extensions
+package com.brackeys.ui.data.utils
 
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import io.reactivex.*

@@ -19,7 +19,7 @@ package com.brackeys.ui.feature.main.viewmodel
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.extensions.schedulersIoToMain
+import com.brackeys.ui.data.utils.schedulersIoToMain
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel

@@ -27,7 +27,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.brackeys.ui.R
-import com.brackeys.ui.data.utils.commons.FileSorter
+import com.brackeys.ui.data.utils.FileSorter
 import com.brackeys.ui.databinding.FragmentExplorerBinding
 import com.brackeys.ui.feature.base.adapters.TabAdapter
 import com.brackeys.ui.feature.base.fragments.BaseFragment
