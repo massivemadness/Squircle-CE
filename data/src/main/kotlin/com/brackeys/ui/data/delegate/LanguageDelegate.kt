@@ -29,6 +29,7 @@ import com.brackeys.ui.language.lua.LuaLanguage
 import com.brackeys.ui.language.markdown.MarkdownLanguage
 import com.brackeys.ui.language.plaintext.PlainTextLanguage
 import com.brackeys.ui.language.python.PythonLanguage
+import com.brackeys.ui.language.visualbasic.VisualBasicLanguage
 
 object LanguageDelegate {
 
@@ -45,6 +46,7 @@ object LanguageDelegate {
             LuaLanguage.supportFormat(fileName) -> LuaLanguage()
             MarkdownLanguage.supportFormat(fileName) -> MarkdownLanguage()
             PythonLanguage.supportFormat(fileName) -> PythonLanguage()
+            VisualBasicLanguage.supportFormat(fileName) -> VisualBasicLanguage()
             else -> PlainTextLanguage()
         }
     }

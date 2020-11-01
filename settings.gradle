@@ -31,4 +31,5 @@ include ':languages:language-base',
         ':languages:language-lua',
         ':languages:language-lisp',
         ':languages:language-markdown',
-        ':languages:language-python'
+        ':languages:language-python',
+        ':languages:language-visualbasic'
