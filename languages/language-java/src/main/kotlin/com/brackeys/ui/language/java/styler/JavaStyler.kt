@@ -116,6 +116,7 @@ class JavaStyler private constructor() : LanguageStyler {
                     JavaToken.OR,
                     JavaToken.XOR,
                     JavaToken.MOD,
+                    JavaToken.ELLISPIS,
                     JavaToken.DOUBLE_COLON,
                     JavaToken.ARROW -> {
                         val styleSpan = StyleSpan(syntaxScheme.operatorColor)
@@ -124,7 +125,6 @@ class JavaStyler private constructor() : LanguageStyler {
                     }
                     JavaToken.SEMICOLON,
                     JavaToken.COMMA,
-                    JavaToken.ELLISPIS,
                     JavaToken.DOT -> {
                         continue // skip
                     }
