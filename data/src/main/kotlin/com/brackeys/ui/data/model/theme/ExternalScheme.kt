@@ -58,5 +58,15 @@ data class ExternalScheme(
     @SerializedName("string_color")
     val stringColor: String?,
     @SerializedName("comment_color")
-    val commentColor: String?
+    val commentColor: String?,
+    @SerializedName("tag_color")
+    val tagColor: String?,
+    @SerializedName("tag_name_color")
+    val tagNameColor: String?,
+    @SerializedName("attr_name_color")
+    val attrNameColor: String?,
+    @SerializedName("attr_value_color")
+    val attrValueColor: String?,
+    @SerializedName("entity_ref_color")
+    val entityRefColor: String?
 )

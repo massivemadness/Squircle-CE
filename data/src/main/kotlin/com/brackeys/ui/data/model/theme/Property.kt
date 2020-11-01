@@ -37,4 +37,9 @@ enum class Property(val key: String) {
     METHOD_COLOR("method_color"),
     STRING_COLOR("string_color"),
     COMMENT_COLOR("comment_color"),
+    TAG_COLOR("tag_color"),
+    TAG_NAME_COLOR("tag_name_color"),
+    ATTR_NAME_COLOR("attr_name_color"),
+    ATTR_VALUE_COLOR("attr_value_color"),
+    ENTITY_REF_COLOR("entity_ref_color")
 }

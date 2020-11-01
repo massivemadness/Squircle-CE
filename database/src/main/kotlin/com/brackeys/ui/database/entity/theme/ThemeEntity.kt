@@ -32,8 +32,6 @@ data class ThemeEntity(
     val author: String,
     @ColumnInfo(name = "description")
     val description: String,
-    @ColumnInfo(name = "is_external")
-    val isExternal: Boolean,
     @ColumnInfo(name = "text_color")
     val textColor: String,
     @ColumnInfo(name = "background_color")
@@ -73,5 +71,15 @@ data class ThemeEntity(
     @ColumnInfo(name = "string_color")
     val stringColor: String,
     @ColumnInfo(name = "comment_color")
-    val commentColor: String
+    val commentColor: String,
+    @ColumnInfo(name = "tag_color")
+    val tagColor: String,
+    @ColumnInfo(name = "tag_name_color")
+    val tagNameColor: String,
+    @ColumnInfo(name = "attr_name_color")
+    val attrNameColor: String,
+    @ColumnInfo(name = "attr_value_color")
+    val attrValueColor: String,
+    @ColumnInfo(name = "entity_ref_color")
+    val entityRefColor: String
 )

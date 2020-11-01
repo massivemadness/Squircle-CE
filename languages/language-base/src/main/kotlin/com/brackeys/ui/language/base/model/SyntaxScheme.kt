@@ -36,5 +36,15 @@ data class SyntaxScheme(
     @ColorInt
     val stringColor: Int,
     @ColorInt
-    val commentColor: Int
+    val commentColor: Int,
+    @ColorInt
+    val tagColor: Int,
+    @ColorInt
+    val tagNameColor: Int,
+    @ColorInt
+    val attrNameColor: Int,
+    @ColorInt
+    val attrValueColor: Int,
+    @ColorInt
+    val entityRefColor: Int
 )

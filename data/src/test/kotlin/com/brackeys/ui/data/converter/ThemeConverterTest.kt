@@ -35,7 +35,6 @@ class ThemeConverterTest {
             name = "Test",
             author = "Brackeys IDE",
             description = "Default color scheme",
-            isExternal = false,
             textColor = "#FFFFFF",
             backgroundColor = "#303030",
             gutterColor = "#F0F0F0",
@@ -55,14 +54,19 @@ class ThemeConverterTest {
             preprocessorColor = "FF3000",
             methodColor = "#FF3000",
             stringColor = "#FF3000",
-            commentColor = "#FF3000"
+            commentColor = "#FF3000",
+            tagColor = "#FF3000",
+            tagNameColor = "#FF3000",
+            attrNameColor = "#FF3000",
+            attrValueColor = "#FF3000",
+            entityRefColor = "#FF3000"
         )
         val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
             author = "Brackeys IDE",
             description = "Default color scheme",
-            isExternal = false,
+            isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
                 backgroundColor = "#303030".toColorInt(),
@@ -84,7 +88,12 @@ class ThemeConverterTest {
                     preprocessorColor = "FF3000".toColorInt(),
                     methodColor = "#FF3000".toColorInt(),
                     stringColor = "#FF3000".toColorInt(),
-                    commentColor = "#FF3000".toColorInt()
+                    commentColor = "#FF3000".toColorInt(),
+                    tagColor = "#FF3000".toColorInt(),
+                    tagNameColor = "#FF3000".toColorInt(),
+                    attrNameColor = "#FF3000".toColorInt(),
+                    attrValueColor = "#FF3000".toColorInt(),
+                    entityRefColor = "#FF3000".toColorInt()
                 )
             )
         )
@@ -115,6 +124,11 @@ class ThemeConverterTest {
         assertEquals(themeModel.colorScheme.syntaxScheme.methodColor, convert.colorScheme.syntaxScheme.methodColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.stringColor, convert.colorScheme.syntaxScheme.stringColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.commentColor, convert.colorScheme.syntaxScheme.commentColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.tagColor, convert.colorScheme.syntaxScheme.tagColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.tagNameColor, convert.colorScheme.syntaxScheme.tagNameColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.attrNameColor, convert.colorScheme.syntaxScheme.attrNameColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.attrValueColor, convert.colorScheme.syntaxScheme.attrValueColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.entityRefColor, convert.colorScheme.syntaxScheme.entityRefColor)
     }
 
     /*@Test
@@ -124,7 +138,7 @@ class ThemeConverterTest {
             name = "Test",
             author = "Brackeys IDE",
             description = "Default color scheme",
-            isExternal = false,
+            isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
                 backgroundColor = "#303030".toColorInt(),
@@ -155,7 +169,6 @@ class ThemeConverterTest {
             name = "Test",
             author = "Brackeys IDE",
             description = "Default color scheme",
-            isExternal = false,
             textColor = "#FFFFFF",
             backgroundColor = "#303030",
             gutterColor = "#F0F0F0",
@@ -233,7 +246,12 @@ class ThemeConverterTest {
                     preprocessorColor = "FF3000",
                     methodColor = "#FF3000",
                     stringColor = "#FF3000",
-                    commentColor = "#FF3000"
+                    commentColor = "#FF3000",
+                    tagColor = "#FF3000",
+                    tagNameColor = "#FF3000",
+                    attrNameColor = "#FF3000",
+                    attrValueColor = "#FF3000",
+                    entityRefColor = "#FF3000"
                 )
             )
         val themeModel = ThemeModel(
@@ -263,7 +281,12 @@ class ThemeConverterTest {
                     preprocessorColor = "FF3000".toColorInt(),
                     methodColor = "#FF3000".toColorInt(),
                     stringColor = "#FF3000".toColorInt(),
-                    commentColor = "#FF3000".toColorInt()
+                    commentColor = "#FF3000".toColorInt(),
+                    tagColor = "#FF3000".toColorInt(),
+                    tagNameColor = "#FF3000".toColorInt(),
+                    attrNameColor = "#FF3000".toColorInt(),
+                    attrValueColor = "#FF3000".toColorInt(),
+                    entityRefColor = "#FF3000".toColorInt()
                 )
             )
         )
@@ -294,5 +317,10 @@ class ThemeConverterTest {
         assertEquals(themeModel.colorScheme.syntaxScheme.methodColor, convert.colorScheme.syntaxScheme.methodColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.stringColor, convert.colorScheme.syntaxScheme.stringColor)
         assertEquals(themeModel.colorScheme.syntaxScheme.commentColor, convert.colorScheme.syntaxScheme.commentColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.tagColor, convert.colorScheme.syntaxScheme.tagColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.tagNameColor, convert.colorScheme.syntaxScheme.tagNameColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.attrNameColor, convert.colorScheme.syntaxScheme.attrNameColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.attrValueColor, convert.colorScheme.syntaxScheme.attrValueColor)
+        assertEquals(themeModel.colorScheme.syntaxScheme.entityRefColor, convert.colorScheme.syntaxScheme.entityRefColor)
     }
 }

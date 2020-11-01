@@ -34,7 +34,7 @@ object ThemeConverter {
             name = themeEntity.name,
             author = themeEntity.author,
             description = themeEntity.description,
-            isExternal = themeEntity.isExternal,
+            isExternal = true,
             colorScheme = ColorScheme(
                 textColor = themeEntity.textColor.toColorInt(),
                 backgroundColor = themeEntity.backgroundColor.toColorInt(),
@@ -56,7 +56,12 @@ object ThemeConverter {
                     preprocessorColor = themeEntity.preprocessorColor.toColorInt(),
                     methodColor = themeEntity.methodColor.toColorInt(),
                     stringColor = themeEntity.stringColor.toColorInt(),
-                    commentColor = themeEntity.commentColor.toColorInt()
+                    commentColor = themeEntity.commentColor.toColorInt(),
+                    tagColor = themeEntity.tagColor.toColorInt(),
+                    tagNameColor = themeEntity.tagNameColor.toColorInt(),
+                    attrNameColor = themeEntity.attrNameColor.toColorInt(),
+                    attrValueColor = themeEntity.attrValueColor.toColorInt(),
+                    entityRefColor = themeEntity.entityRefColor.toColorInt()
                 )
             )
         )
@@ -68,7 +73,6 @@ object ThemeConverter {
             name = themeModel.name,
             author = themeModel.author,
             description = themeModel.description,
-            isExternal = themeModel.isExternal,
             textColor = themeModel.colorScheme.textColor.toHexString(),
             backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),
             gutterColor = themeModel.colorScheme.gutterColor.toHexString(),
@@ -88,7 +92,12 @@ object ThemeConverter {
             preprocessorColor = themeModel.colorScheme.syntaxScheme.preprocessorColor.toHexString(),
             methodColor = themeModel.colorScheme.syntaxScheme.methodColor.toHexString(),
             stringColor = themeModel.colorScheme.syntaxScheme.stringColor.toHexString(),
-            commentColor = themeModel.colorScheme.syntaxScheme.commentColor.toHexString()
+            commentColor = themeModel.colorScheme.syntaxScheme.commentColor.toHexString(),
+            tagColor = themeModel.colorScheme.syntaxScheme.tagColor.toHexString(),
+            tagNameColor = themeModel.colorScheme.syntaxScheme.tagNameColor.toHexString(),
+            attrNameColor = themeModel.colorScheme.syntaxScheme.attrNameColor.toHexString(),
+            attrValueColor = themeModel.colorScheme.syntaxScheme.attrValueColor.toHexString(),
+            entityRefColor = themeModel.colorScheme.syntaxScheme.entityRefColor.toHexString()
         )
     }
 
@@ -118,7 +127,12 @@ object ThemeConverter {
                 preprocessorColor = themeModel.colorScheme.syntaxScheme.preprocessorColor.toHexString(),
                 methodColor = themeModel.colorScheme.syntaxScheme.methodColor.toHexString(),
                 stringColor = themeModel.colorScheme.syntaxScheme.stringColor.toHexString(),
-                commentColor = themeModel.colorScheme.syntaxScheme.commentColor.toHexString()
+                commentColor = themeModel.colorScheme.syntaxScheme.commentColor.toHexString(),
+                tagColor = themeModel.colorScheme.syntaxScheme.tagColor.toHexString(),
+                tagNameColor = themeModel.colorScheme.syntaxScheme.tagNameColor.toHexString(),
+                attrNameColor = themeModel.colorScheme.syntaxScheme.attrNameColor.toHexString(),
+                attrValueColor = themeModel.colorScheme.syntaxScheme.attrValueColor.toHexString(),
+                entityRefColor = themeModel.colorScheme.syntaxScheme.entityRefColor.toHexString()
             )
         )
     }
@@ -151,7 +165,12 @@ object ThemeConverter {
                     preprocessorColor = (externalTheme?.externalScheme?.preprocessorColor ?: "#000000").toColorInt(),
                     methodColor = (externalTheme?.externalScheme?.methodColor ?: "#000000").toColorInt(),
                     stringColor = (externalTheme?.externalScheme?.stringColor ?: "#000000").toColorInt(),
-                    commentColor = (externalTheme?.externalScheme?.commentColor ?: "#000000").toColorInt()
+                    commentColor = (externalTheme?.externalScheme?.commentColor ?: "#000000").toColorInt(),
+                    tagColor = (externalTheme?.externalScheme?.tagColor ?: "#000000").toColorInt(),
+                    tagNameColor = (externalTheme?.externalScheme?.tagNameColor ?: "#000000").toColorInt(),
+                    attrNameColor = (externalTheme?.externalScheme?.attrNameColor ?: "#000000").toColorInt(),
+                    attrValueColor = (externalTheme?.externalScheme?.attrValueColor ?: "#000000").toColorInt(),
+                    entityRefColor = (externalTheme?.externalScheme?.entityRefColor ?: "#000000").toColorInt()
                 )
             )
         )

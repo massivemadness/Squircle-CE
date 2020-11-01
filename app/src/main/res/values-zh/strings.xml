@@ -199,6 +199,11 @@
     <string name="theme_property_methods_color">定义语法高亮显示的方法名颜色，如：function foo() {}</string>
     <string name="theme_property_strings_color">定义语法高亮显示的字符串颜色，如：str = \'Hello\'</string>
     <string name="theme_property_comments_color">定义语法高亮显示的注释颜色，如: 以“//”开头的内容</string>
+    <string name="theme_property_tag_color">Defines the color of tags in markup languages: &lt;, &lt;&gt;, /&gt;</string>
+    <string name="theme_property_tag_name_color">Defines the color of tag names in markup languages: &lt;tag&gt;</string>
+    <string name="theme_property_attr_name_color">Defines the color of attribute names in markup languages: &lt;tag attr=…/&gt;</string>
+    <string name="theme_property_attr_value_color">Defines the color of attribute values in markup languages: &lt;tag attr=\"value\"/&gt;</string>
+    <string name="theme_property_entity_ref_color">Defines the color of entity references in markup languages: &amp;amp; &amp;lt; &amp;gt; …</string>
 
     <string name="encoding_utf8_default">UTF-8 (默认)</string>
 

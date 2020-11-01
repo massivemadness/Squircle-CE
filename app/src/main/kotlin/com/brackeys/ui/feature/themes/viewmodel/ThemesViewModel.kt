@@ -39,6 +39,7 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import com.brackeys.ui.utils.themes.InternalTheme
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.BufferedReader
@@ -96,12 +97,24 @@ class ThemesViewModel @ViewModelInject constructor(
     private var methodColor: String = FALLBACK_COLOR
     private var stringColor: String = FALLBACK_COLOR
     private var commentColor: String = FALLBACK_COLOR
+    private var tagColor: String = FALLBACK_COLOR
+    private var tagNameColor: String = FALLBACK_COLOR
+    private var attrNameColor: String = FALLBACK_COLOR
+    private var attrValueColor: String = FALLBACK_COLOR
+    private var entityRefColor: String = FALLBACK_COLOR
 
     // endregion PROPERTIES
 
     fun fetchThemes() {
         appDatabase.themeDao().loadAll(searchQuery)
             .map { it.map(ThemeConverter::toModel) }
+            .map {
+                if (searchQuery.isEmpty()) {
+                    it + InternalTheme.fetchThemes()
+                } else {
+                    it
+                }
+            }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { themesEvent.value = it }
             .disposeOnViewModelDestroy()
@@ -213,6 +226,11 @@ class ThemesViewModel @ViewModelInject constructor(
                 Property.METHOD_COLOR -> methodColor = property.propertyValue
                 Property.STRING_COLOR -> stringColor = property.propertyValue
                 Property.COMMENT_COLOR -> commentColor = property.propertyValue
+                Property.TAG_COLOR -> tagColor = property.propertyValue
+                Property.TAG_NAME_COLOR -> tagNameColor = property.propertyValue
+                Property.ATTR_NAME_COLOR -> attrNameColor = property.propertyValue
+                Property.ATTR_VALUE_COLOR -> attrValueColor = property.propertyValue
+                Property.ENTITY_REF_COLOR -> entityRefColor = property.propertyValue
             }
         }
         Completable
@@ -222,7 +240,6 @@ class ThemesViewModel @ViewModelInject constructor(
                     name = meta.name,
                     author = meta.author,
                     description = meta.description,
-                    isExternal = true,
                     textColor = textColor,
                     backgroundColor = backgroundColor,
                     gutterColor = gutterColor,
@@ -242,7 +259,12 @@ class ThemesViewModel @ViewModelInject constructor(
                     preprocessorColor = preprocessorColor,
                     methodColor = methodColor,
                     stringColor = stringColor,
-                    commentColor = commentColor
+                    commentColor = commentColor,
+                    tagColor = tagColor,
+                    tagNameColor = tagNameColor,
+                    attrNameColor = attrNameColor,
+                    attrValueColor = attrValueColor,
+                    entityRefColor = entityRefColor
                 )
                 appDatabase.themeDao().insert(themeEntity)
             }
@@ -268,6 +290,11 @@ class ThemesViewModel @ViewModelInject constructor(
                 methodColor = FALLBACK_COLOR
                 stringColor = FALLBACK_COLOR
                 commentColor = FALLBACK_COLOR
+                tagColor = FALLBACK_COLOR
+                tagNameColor = FALLBACK_COLOR
+                attrNameColor = FALLBACK_COLOR
+                attrValueColor = FALLBACK_COLOR
+                entityRefColor = FALLBACK_COLOR
             }
             .disposeOnViewModelDestroy()
     }
@@ -379,6 +406,31 @@ class ThemesViewModel @ViewModelInject constructor(
                 Property.COMMENT_COLOR,
                 themeModel.colorScheme.syntaxScheme.commentColor.toHexString(),
                 R.string.theme_property_comments_color
+            ),
+            PropertyItem(
+                Property.TAG_COLOR,
+                themeModel.colorScheme.syntaxScheme.tagColor.toHexString(),
+                R.string.theme_property_tag_color
+            ),
+            PropertyItem(
+                Property.TAG_NAME_COLOR,
+                themeModel.colorScheme.syntaxScheme.tagNameColor.toHexString(),
+                R.string.theme_property_tag_name_color
+            ),
+            PropertyItem(
+                Property.ATTR_NAME_COLOR,
+                themeModel.colorScheme.syntaxScheme.attrNameColor.toHexString(),
+                R.string.theme_property_attr_name_color
+            ),
+            PropertyItem(
+                Property.ATTR_VALUE_COLOR,
+                themeModel.colorScheme.syntaxScheme.attrValueColor.toHexString(),
+                R.string.theme_property_attr_value_color
+            ),
+            PropertyItem(
+                Property.ENTITY_REF_COLOR,
+                themeModel.colorScheme.syntaxScheme.entityRefColor.toHexString(),
+                R.string.theme_property_entity_ref_color
             )
         )
     }

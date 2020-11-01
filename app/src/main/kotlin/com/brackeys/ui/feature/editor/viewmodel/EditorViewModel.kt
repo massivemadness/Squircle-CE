@@ -39,6 +39,7 @@ import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.utils.event.EventsQueue
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import com.brackeys.ui.utils.themes.InternalTheme
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -218,10 +219,14 @@ class EditorViewModel @ViewModelInject constructor(
         settingsManager.getColorScheme()
             .asObservable()
             .flatMapSingle {
-                appDatabase.themeDao().load(it)
-                    .schedulersIoToMain(schedulersProvider)
+                InternalTheme.fetchTheme(it)?.let { themeModel ->
+                    Single.just(themeModel)
+                } ?: run {
+                    appDatabase.themeDao().load(it)
+                        .map(ThemeConverter::toModel)
+                        .schedulersIoToMain(schedulersProvider)
+                }
             }
-            .map(ThemeConverter::toModel)
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { settingsEvent.offer(SettingsEvent.ThemePref(it)) }
             .disposeOnViewModelDestroy()

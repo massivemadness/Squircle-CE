@@ -76,7 +76,7 @@ class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
     }
 
     fun getColorScheme(): Preference<String> =
-        rxSharedPreferences.getString(KEY_COLOR_SCHEME, "964c249d-ad3c-4d85-8010-f3d55c1ae0a2") // Darcula
+        rxSharedPreferences.getString(KEY_COLOR_SCHEME, "DARCULA")
     fun getFullscreenMode(): Preference<Boolean> =
         rxSharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
 
