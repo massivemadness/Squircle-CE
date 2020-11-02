@@ -33,6 +33,7 @@ import com.brackeys.ui.language.plaintext.PlainTextLanguage
 import com.brackeys.ui.language.python.PythonLanguage
 import com.brackeys.ui.language.sql.SqlLanguage
 import com.brackeys.ui.language.visualbasic.VisualBasicLanguage
+import com.brackeys.ui.language.xml.XmlLanguage
 
 object LanguageDelegate {
 
@@ -53,6 +54,7 @@ object LanguageDelegate {
             PythonLanguage.supportFormat(fileName) -> PythonLanguage()
             SqlLanguage.supportFormat(fileName) -> SqlLanguage()
             VisualBasicLanguage.supportFormat(fileName) -> VisualBasicLanguage()
+            XmlLanguage.supportFormat(fileName) -> XmlLanguage()
             else -> PlainTextLanguage()
         }
     }

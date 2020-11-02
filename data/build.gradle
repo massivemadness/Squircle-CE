@@ -83,6 +83,7 @@ dependencies {
     implementation project(':languages:language-python')
     implementation project(':languages:language-sql')
     implementation project(':languages:language-visualbasic')
+    implementation project(':languages:language-xml')
 
     // Tests
     testImplementation testLibrary.junit

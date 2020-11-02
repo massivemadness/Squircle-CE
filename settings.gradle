@@ -35,4 +35,5 @@ include ':languages:language-base',
         ':languages:language-markdown',
         ':languages:language-python',
         ':languages:language-sql',
-        ':languages:language-visualbasic'
+        ':languages:language-visualbasic',
+        ':languages:language-xml'
