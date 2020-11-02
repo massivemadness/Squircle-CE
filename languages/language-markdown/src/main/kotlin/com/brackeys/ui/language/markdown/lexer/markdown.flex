@@ -29,8 +29,8 @@ LINE_TERMINATOR = \r|\n|\r\n
 WHITESPACE = {LINE_TERMINATOR} | [ \t\f]
 
 HEADER = "#".*
-UNORDERED_LIST_ITEM = [-*+]" "
-ORDERED_LIST_ITEM = [0-9]+". "
+UNORDERED_LIST_ITEM = [-*+]" ".*
+ORDERED_LIST_ITEM = [0-9]+". ".*
 
 BOLDITALIC1 = "***"([^\\"***"\r\n] | \\{CRLF})*"***"
 BOLDITALIC2 = "___"([^\\"___"\r\n] | \\{CRLF})*"___"

@@ -54,20 +54,20 @@ class MarkdownStyler private constructor() : LanguageStyler {
             try {
                 when (lexer.advance()) {
                     MarkdownToken.HEADER -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val styleSpan = StyleSpan(syntaxScheme.tagNameColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     MarkdownToken.UNORDERED_LIST_ITEM,
                     MarkdownToken.ORDERED_LIST_ITEM -> {
-                        val styleSpan = StyleSpan(syntaxScheme.methodColor)
+                        val styleSpan = StyleSpan(syntaxScheme.attrValueColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     MarkdownToken.BOLDITALIC1,
                     MarkdownToken.BOLDITALIC2 -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.methodColor,
+                            color = syntaxScheme.attrNameColor,
                             bold = true,
                             italic = true
                         )
@@ -77,7 +77,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.BOLD1,
                     MarkdownToken.BOLD2 -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.methodColor,
+                            color = syntaxScheme.attrNameColor,
                             bold = true
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -86,7 +86,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.ITALIC1,
                     MarkdownToken.ITALIC2 -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.methodColor,
+                            color = syntaxScheme.attrNameColor,
                             italic = true
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -94,7 +94,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     }
                     MarkdownToken.STRIKETHROUGH -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.methodColor,
+                            color = syntaxScheme.attrNameColor,
                             strikethrough = true
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -118,12 +118,15 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.RBRACE,
                     MarkdownToken.LBRACK,
                     MarkdownToken.RBRACK -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(syntaxScheme.tagColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     MarkdownToken.URL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor, underline = true)
+                        val styleSpan = StyleSpan(
+                            color = syntaxScheme.attrValueColor,
+                            underline = true
+                        )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
