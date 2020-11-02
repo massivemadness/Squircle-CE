@@ -21,6 +21,7 @@ import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.c.CLanguage
 import com.brackeys.ui.language.cpp.CppLanguage
 import com.brackeys.ui.language.csharp.CSharpLanguage
+import com.brackeys.ui.language.html.HtmlLanguage
 import com.brackeys.ui.language.java.JavaLanguage
 import com.brackeys.ui.language.javascript.JavaScriptLanguage
 import com.brackeys.ui.language.json.JsonLanguage
@@ -37,13 +38,14 @@ object LanguageDelegate {
 
     fun provideLanguage(fileName: String): Language {
         return when {
-            JavaScriptLanguage.supportFormat(fileName) -> JavaScriptLanguage()
-            JsonLanguage.supportFormat(fileName) -> JsonLanguage()
             ActionScriptLanguage.supportFormat(fileName) -> ActionScriptLanguage()
-            CSharpLanguage.supportFormat(fileName) -> CSharpLanguage()
             CLanguage.supportFormat(fileName) -> CLanguage()
             CppLanguage.supportFormat(fileName) -> CppLanguage()
+            CSharpLanguage.supportFormat(fileName) -> CSharpLanguage()
+            HtmlLanguage.supportFormat(fileName) -> HtmlLanguage()
             JavaLanguage.supportFormat(fileName) -> JavaLanguage()
+            JavaScriptLanguage.supportFormat(fileName) -> JavaScriptLanguage()
+            JsonLanguage.supportFormat(fileName) -> JsonLanguage()
             KotlinLanguage.supportFormat(fileName) -> KotlinLanguage()
             LispLanguage.supportFormat(fileName) -> LispLanguage()
             LuaLanguage.supportFormat(fileName) -> LuaLanguage()
