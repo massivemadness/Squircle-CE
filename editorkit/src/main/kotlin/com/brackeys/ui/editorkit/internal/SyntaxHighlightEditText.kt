@@ -43,9 +43,6 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     var language: Language? = null
 
-    var isSyntaxHighlighting = false
-    var isErrorSpansVisible = false
-
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val findResultSpans = mutableListOf<FindResultSpan>()
     private val delimiters = charArrayOf('{', '[', '(', '}', ']', ')')
@@ -56,6 +53,9 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private var addedTextCount = 0
     private var selectedFindResult = 0
+
+    private var isSyntaxHighlighting = false
+    private var isErrorSpansVisible = false
 
     override fun colorize() {
         colorScheme?.let {

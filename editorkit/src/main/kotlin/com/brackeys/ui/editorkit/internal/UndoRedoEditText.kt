@@ -30,29 +30,28 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : LineNumbersEditText(context, attrs, defStyleAttr) {
 
-    var isDoingUndoRedo = false
-
     var undoStack: UndoStack = UndoStack()
     var redoStack: UndoStack = UndoStack()
-
     var onUndoRedoChangedListener: OnUndoRedoChangedListener? = null
+
+    protected var isDoingUndoRedo = false
 
     private var textLastChange: TextChange? = null
 
     override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
         super.doBeforeTextChanged(text, start, count, after)
         if (!isDoingUndoRedo) {
-            if (count < UndoStack.MAX_SIZE) {
-                textLastChange = TextChange(
+            textLastChange = if (count > UndoStack.MAX_SIZE) {
+                TextChange(
                     newText = "",
                     oldText = text?.subSequence(start, start + count).toString(),
                     start = start
                 )
-                return
+            } else {
+                undoStack.removeAll()
+                redoStack.removeAll()
+                null
             }
-            undoStack.removeAll()
-            redoStack.removeAll()
-            textLastChange = null
         }
     }
 

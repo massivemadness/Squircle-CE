@@ -28,7 +28,7 @@ import com.brackeys.ui.R
 class AboutFragment : PreferenceFragmentCompat() {
 
     companion object {
-        private const val KEY_CHANGELOG = "CHANGELOG"
+        private const val KEY_ABOUT = "ABOUT"
     }
 
     private lateinit var navController: NavController
@@ -41,13 +41,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_about, rootKey)
 
-        val changelog = findPreference<Preference>(KEY_CHANGELOG)
-        changelog?.setOnPreferenceClickListener {
-            val destination = AboutFragmentDirections.toChangeLogFragment()
-            navController.navigate(destination)
-            true
-        }
-
+        val changelog = findPreference<Preference>(KEY_ABOUT)
         changelog?.summary = getString(
             R.string.pref_about_summary,
             BuildConfig.VERSION_NAME,

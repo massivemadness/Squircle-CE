@@ -19,10 +19,8 @@ package com.brackeys.ui.feature.settings.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
-import com.brackeys.ui.data.converter.ReleaseConverter
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.schedulersIoToMain
-import com.brackeys.ui.domain.model.changelog.ReleaseModel
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.feature.settings.adapters.item.PreferenceItem
@@ -36,9 +34,7 @@ class SettingsViewModel @ViewModelInject constructor(
 ) : BaseViewModel() {
 
     val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Полноэкранный режим
-
     val headersEvent: MutableLiveData<List<PreferenceItem>> = MutableLiveData()
-    val changelogEvent: MutableLiveData<List<ReleaseModel>> = MutableLiveData()
 
     var keyboardPreset: Preference<String> = settingsManager.getKeyboardPreset()
 
@@ -70,10 +66,6 @@ class SettingsViewModel @ViewModelInject constructor(
                 R.id.aboutFragment
             )
         )
-    }
-
-    fun fetchChangeLog(changelog: String) {
-        changelogEvent.value = ReleaseConverter.toReleaseModels(changelog)
     }
 
     fun observeSettings() {

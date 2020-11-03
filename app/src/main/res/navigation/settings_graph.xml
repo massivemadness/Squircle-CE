@@ -85,15 +85,7 @@
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.brackeys.ui.feature.settings.fragments.AboutFragment"
-        android:label="@string/label_about">
-        <action
-            android:id="@+id/to_changeLogFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/changeLogFragment"/>
-    </fragment>
+        android:label="@string/label_about"/>
 
     <fragment
         android:id="@+id/fontsFragment"
@@ -145,11 +137,5 @@
         android:name="com.brackeys.ui.feature.settings.dialogs.PresetDialog"
         android:label="@string/label_keyboard_preset"
         tools:layout="@layout/dialog_preset"/>
-
-    <fragment
-        android:id="@+id/changeLogFragment"
-        android:name="com.brackeys.ui.feature.settings.fragments.ChangeLogFragment"
-        android:label="@string/label_changelog"
-        tools:layout="@layout/fragment_changelog"/>
 
 </navigation>

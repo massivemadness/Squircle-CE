@@ -30,8 +30,6 @@
     <string name="label_themes">Темы</string>
     <string name="label_new_theme">Новая тема</string>
     <string name="label_keyboard_preset">Клавиатурный пресет</string>
-    <string name="label_changelog">Список изменений</string>
-    <string name="label_latest_release">Последний релиз</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_line">Линия:</string>

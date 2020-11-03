@@ -31,8 +31,6 @@
     <string name="label_themes">Themes</string>
     <string name="label_new_theme">New Theme</string>
     <string name="label_keyboard_preset">Keyboard preset</string>
-    <string name="label_changelog">ChangeLog</string>
-    <string name="label_latest_release">Latest release</string>
 
     <string name="hint_search">Search…</string>
     <string name="hint_line">Line:</string>

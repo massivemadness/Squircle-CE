@@ -38,13 +38,13 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : ScalableEditText(context, attrs, defStyleAttr), TextChangeListener {
 
-    val lines = LinesCollection()
-
     var colorScheme: ColorScheme? = null
         set(value) {
             field = value
             colorize()
         }
+
+    protected val lines = LinesCollection()
 
     private val processedText = Editable.Factory.getInstance().newEditable("")
     private val selectedLinePaint = Paint()
@@ -73,10 +73,8 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     private var textChangeEnd = 0
     private var textChangedNewText = ""
 
-    private var isReadyToDraw = false
-
     override fun onDraw(canvas: Canvas?) {
-        if (layout != null && isReadyToDraw) {
+        if (layout != null) {
             val currentLineStart = lines.getLineForIndex(selectionStart)
             if (config.highlightCurrentLine) {
                 if (currentLineStart == lines.getLineForIndex(selectionEnd)) {
@@ -202,8 +200,6 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
             gutterTextPaint.isAntiAlias = true
             gutterTextPaint.isDither = false
             gutterTextPaint.textAlign = Paint.Align.RIGHT
-
-            isReadyToDraw = true
         }
     }
 

@@ -23,18 +23,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Typeface
 import androidx.annotation.ColorRes
-import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import java.io.BufferedReader
 
 fun Context.getColour(@ColorRes colorRes: Int): Int {
     return ContextCompat.getColor(this, colorRes)
-}
-
-fun Context.getRawFileText(@RawRes resId: Int): String {
-    val inputStream = resources.openRawResource(resId)
-    return inputStream.bufferedReader().use(BufferedReader::readText)
 }
 
 fun Context.getAssetFileText(assetPath: String): String {

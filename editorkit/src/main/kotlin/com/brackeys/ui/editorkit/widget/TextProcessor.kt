@@ -24,6 +24,7 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 import com.brackeys.ui.editorkit.R
 import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.internal.CodeSuggestsEditText
@@ -56,12 +57,6 @@ class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    override fun setTextContent(textParams: PrecomputedTextCompat) {
-        isNewContent = true
-        super.setTextContent(textParams)
-        isNewContent = false
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (event != null && shortcutListener != null) {
             val shortcut = Shortcut(
@@ -79,6 +74,19 @@ class TextProcessor @JvmOverloads constructor(
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun setTextContent(textParams: PrecomputedTextCompat) {
+        isNewContent = true
+        super.setTextContent(textParams)
+        isNewContent = false
+    }
+
+    @Suppress("unused")
+    fun setTextContent(text: CharSequence) {
+        val textParams = TextViewCompat.getTextMetricsParams(this)
+        val precomputedText = PrecomputedTextCompat.create(text, textParams)
+        setTextContent(precomputedText)
     }
 
     fun insert(delta: CharSequence) {

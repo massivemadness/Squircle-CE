@@ -30,8 +30,6 @@
     <string name="label_themes">主题</string>
     <string name="label_new_theme">新建主题</string>
     <string name="label_keyboard_preset">快捷符号栏</string>
-    <string name="label_changelog">更新日志</string>
-    <string name="label_latest_release">最新版本</string>
 
     <string name="hint_search">搜索…</string>
     <string name="hint_line">行:</string>
