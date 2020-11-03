@@ -29,7 +29,5 @@ data class FontEntity(
     @ColumnInfo(name = "font_path")
     val fontPath: String,
     @ColumnInfo(name = "support_ligatures")
-    val supportLigatures: Boolean,
-    @ColumnInfo(name = "is_external")
-    val isExternal: Boolean
+    val supportLigatures: Boolean
 )

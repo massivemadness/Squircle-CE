@@ -48,6 +48,11 @@ class FontsViewModel @ViewModelInject constructor(
     fun fetchFonts() {
         appDatabase.fontDao().loadAll(searchQuery)
             .map { it.map(FontConverter::toModel) }
+            .map {
+                if (searchQuery.isEmpty()) {
+                    it + internalFonts()
+                } else it
+            }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { fontsEvent.value = it }
             .disposeOnViewModelDestroy()
@@ -89,5 +94,46 @@ class FontsViewModel @ViewModelInject constructor(
         val isFontPathValid = fontPath.trim().isNotBlank() && File(fontPath)
             .run { exists() && name.endsWith(".ttf") }
         validationEvent.value = isFontNameValid && isFontPathValid
+    }
+
+    private fun internalFonts(): List<FontModel> {
+        return listOf(
+            FontModel(
+                fontName = "Droid Sans Mono",
+                fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
+                supportLigatures = false,
+                isExternal = false
+            ),
+            FontModel(
+                fontName = "JetBrains Mono",
+                fontPath = "file:///android_asset/fonts/jetbrains_mono.ttf",
+                supportLigatures = true,
+                isExternal = false
+            ),
+            FontModel(
+                fontName = "Fira Code",
+                fontPath = "file:///android_asset/fonts/fira_code.ttf",
+                supportLigatures = true,
+                isExternal = false
+            ),
+            FontModel(
+                fontName = "Source Code Pro",
+                fontPath = "file:///android_asset/fonts/source_code_pro.ttf",
+                supportLigatures = false,
+                isExternal = false
+            ),
+            FontModel(
+                fontName = "Anonymous Pro",
+                fontPath = "file:///android_asset/fonts/anonymous_pro.ttf",
+                supportLigatures = false,
+                isExternal = false
+            ),
+            FontModel(
+                fontName = "DejaVu Sans Mono",
+                fontPath = "file:///android_asset/fonts/dejavu_sans_mono.ttf",
+                supportLigatures = false,
+                isExternal = false
+            )
+        )
     }
 }

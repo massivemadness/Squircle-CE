@@ -111,9 +111,7 @@ class ThemesViewModel @ViewModelInject constructor(
             .map {
                 if (searchQuery.isEmpty()) {
                     it + InternalTheme.fetchThemes()
-                } else {
-                    it
-                }
+                } else it
             }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy { themesEvent.value = it }

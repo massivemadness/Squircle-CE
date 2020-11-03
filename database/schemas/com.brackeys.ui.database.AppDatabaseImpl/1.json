@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4b8a65c2b25ec28334492d20478f896b",
+    "identityHash": "90141d7c492d10c5171b6462079ff274",
     "entities": [
       {
         "tableName": "tbl_documents",
@@ -74,7 +74,7 @@
       },
       {
         "tableName": "tbl_fonts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`font_name` TEXT NOT NULL, `font_path` TEXT NOT NULL, `support_ligatures` INTEGER NOT NULL, `is_external` INTEGER NOT NULL, PRIMARY KEY(`font_path`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`font_name` TEXT NOT NULL, `font_path` TEXT NOT NULL, `support_ligatures` INTEGER NOT NULL, PRIMARY KEY(`font_path`))",
         "fields": [
           {
             "fieldPath": "fontName",
@@ -91,12 +91,6 @@
           {
             "fieldPath": "supportLigatures",
             "columnName": "support_ligatures",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isExternal",
-            "columnName": "is_external",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -302,7 +296,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4b8a65c2b25ec28334492d20478f896b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '90141d7c492d10c5171b6462079ff274')"
     ]
   }
 }

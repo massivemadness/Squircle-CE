@@ -86,7 +86,7 @@ class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
     fun getFontSize(): Preference<Int> =
         rxSharedPreferences.getInteger(KEY_FONT_SIZE, 14)
     fun getFontType(): Preference<String> =
-        rxSharedPreferences.getString(KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf") // JetBrains Mono
+        rxSharedPreferences.getString(KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf")
 
     fun getSelectedDocumentId(): Preference<String> =
         rxSharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "whatever")
