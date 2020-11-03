@@ -24,12 +24,11 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.R
 import com.brackeys.ui.data.delegate.LanguageDelegate
 import com.brackeys.ui.databinding.ItemThemeBinding
 import com.brackeys.ui.domain.model.theme.ThemeModel
-import com.brackeys.ui.feature.base.adapters.BaseViewHolder
-import com.brackeys.ui.feature.themes.customview.CodeView
 import com.brackeys.ui.utils.extensions.makeRightPaddingRecursively
 
 class ThemeAdapter(
@@ -47,18 +46,24 @@ class ThemeAdapter(
         }
     }
 
+    var codeSnippet: Pair<String, String> = "" to ""
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThemeViewHolder {
         return ThemeViewHolder.create(parent, themeInteractor)
     }
 
     override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), codeSnippet)
     }
 
     class ThemeViewHolder(
         private val binding: ItemThemeBinding,
         private val themeInteractor: ThemeInteractor
-    ) : BaseViewHolder<ThemeModel>(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(parent: ViewGroup, themeInteractor: ThemeInteractor): ThemeViewHolder {
@@ -99,17 +104,18 @@ class ThemeAdapter(
             }
         }
 
-        override fun bind(item: ThemeModel) {
+        fun bind(item: ThemeModel, codeSnippet: Pair<String, String>) {
             themeModel = item
+
             binding.itemTitle.text = item.name
             binding.itemSubtitle.text = item.author
             binding.actionOverflow.isVisible = item.isExternal
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)
             binding.editor.themeModel = themeModel
-            binding.editor.text = CodeView.CODE_PREVIEW
+            binding.editor.text = codeSnippet.first
             binding.editor.doOnPreDraw {
-                binding.editor.language = LanguageDelegate.provideLanguage(".js")
+                binding.editor.language = LanguageDelegate.provideLanguage(codeSnippet.second)
             }
         }
     }

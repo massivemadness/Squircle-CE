@@ -37,6 +37,11 @@ fun Context.getRawFileText(@RawRes resId: Int): String {
     return inputStream.bufferedReader().use(BufferedReader::readText)
 }
 
+fun Context.getAssetFileText(assetPath: String): String {
+    val inputStream = assets.open(assetPath)
+    return inputStream.bufferedReader().use(BufferedReader::readText)
+}
+
 fun Context.hasExternalStorageAccess(): Boolean {
     return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 }

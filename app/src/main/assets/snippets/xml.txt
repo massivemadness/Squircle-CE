@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://cs.uccs.edu/planeSchema"
+    xmlns="http://cs.uccs.edu/planeSchema"
+    elementFormDefault="qualified">
+
+    <xsd:element name="planes">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element
+                    name="make"
+                    type="xsd:string"
+                    minOccurs="1"
+                    maxOccurs="unbounded" />
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

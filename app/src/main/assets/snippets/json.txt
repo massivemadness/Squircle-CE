@@ -1,0 +1,8 @@
+{
+  "object": {
+    "array": ["1", "2", "3", "4"],
+    "description": "text",
+    "number": 100
+  },
+  "field": "text"
+}

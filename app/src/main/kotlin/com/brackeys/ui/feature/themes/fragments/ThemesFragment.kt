@@ -20,13 +20,17 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentThemesBinding
 import com.brackeys.ui.domain.model.theme.ThemeModel
@@ -34,6 +38,7 @@ import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.themes.adapters.ThemeAdapter
 import com.brackeys.ui.feature.themes.utils.GridSpacingItemDecoration
 import com.brackeys.ui.feature.themes.viewmodel.ThemesViewModel
+import com.brackeys.ui.utils.extensions.getAssetFileText
 import com.brackeys.ui.utils.extensions.hasExternalStorageAccess
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,6 +91,23 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
         if (viewModel.searchQuery.isNotEmpty()) {
             searchItem.expandActionView()
             searchView.setQuery(viewModel.searchQuery, false)
+        }
+
+        val spinnerItem = menu.findItem(R.id.spinner)
+        val spinnerView = spinnerItem?.actionView as? AppCompatSpinner
+
+        spinnerView?.adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.language_names,
+            android.R.layout.simple_spinner_dropdown_item
+        )
+        spinnerView?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val path = requireContext().getStringArray(R.array.language_paths)[position]
+                val extension = requireContext().getStringArray(R.array.language_extensions)[position]
+                adapter.codeSnippet = requireContext().getAssetFileText(path) to extension
+            }
         }
 
         searchView
@@ -142,7 +164,10 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
             showToast(text = getString(R.string.message_selected, it))
         }
         viewModel.exportEvent.observe(viewLifecycleOwner) {
-            showToast(text = getString(R.string.message_theme_exported, it), duration = Toast.LENGTH_LONG)
+            showToast(
+                text = getString(R.string.message_theme_exported, it),
+                duration = Toast.LENGTH_LONG
+            )
         }
         viewModel.removeEvent.observe(viewLifecycleOwner) {
             showToast(text = getString(R.string.message_theme_removed, it))

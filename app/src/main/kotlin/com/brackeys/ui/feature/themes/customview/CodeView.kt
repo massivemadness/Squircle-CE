@@ -30,28 +30,6 @@ class CodeView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-    companion object {
-        val CODE_PREVIEW = """
-            function useItem(x, y, z, itemId, blockId, side) {
-                if (itemId == 280) { // Any ID
-                    Level.explode(x, y, z, 16);
-                }
-            }
-            
-            function procCmd(cmd) {
-                var command = cmd.split(" ");
-                if (command[0] == "kit") {
-                    if (command[1] == "start") {
-                        // TODO: Implement this method
-                    }
-                    if (command[1] == "tools") {
-                        // TODO: Implement this method
-                    }
-                }
-            }
-        """.trimIndent()
-    }
-
     var language: Language? = null
         set(value) {
             field = value

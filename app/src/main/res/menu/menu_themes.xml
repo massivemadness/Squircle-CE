@@ -19,6 +19,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/spinner"
+        android:title="@string/hint_search"
+        app:iconTint="?colorOnSurface"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.AppCompatSpinner"/>
+
+    <item
         android:id="@+id/action_search"
         android:title="@string/hint_search"
         android:icon="@drawable/ic_search"
