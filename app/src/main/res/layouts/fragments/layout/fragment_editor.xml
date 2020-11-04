@@ -329,8 +329,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:id="@+id/scroller"
-                app:thumbNormal="@drawable/fastscroll_default"
-                app:thumbDragging="@drawable/fastscroll_pressed"
                 app:thumbTint="?colorPrimary"/>
 
         </FrameLayout>

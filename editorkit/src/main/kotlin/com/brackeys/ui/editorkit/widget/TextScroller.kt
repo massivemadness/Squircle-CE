@@ -24,6 +24,7 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.getDrawableOrThrow
 import com.brackeys.ui.editorkit.R
 import com.brackeys.ui.editorkit.internal.ScrollableEditText
@@ -98,12 +99,23 @@ class TextScroller @JvmOverloads constructor(
     init {
         val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TextScroller, 0, 0)
 
-        thumbNormal = typedArray.getDrawableOrThrow(R.styleable.TextScroller_thumbNormal)
-        thumbDragging = typedArray.getDrawableOrThrow(R.styleable.TextScroller_thumbDragging)
+        val hasThumbNormal = typedArray.hasValue(R.styleable.TextScroller_thumbNormal)
+        val hasThumbDragging = typedArray.hasValue(R.styleable.TextScroller_thumbDragging)
+        val hasThumbTint = typedArray.hasValue(R.styleable.TextScroller_thumbTint)
 
-        val thumbTint = typedArray.getColor(R.styleable.TextScroller_thumbTint, Color.WHITE)
-        thumbNormal.setTint(thumbTint)
-        thumbDragging.setTint(thumbTint)
+        thumbNormal = if (hasThumbNormal) {
+            typedArray.getDrawableOrThrow(R.styleable.TextScroller_thumbNormal)
+        } else ContextCompat.getDrawable(context, R.drawable.fastscroll_default)!!
+
+        thumbDragging = if (hasThumbDragging) {
+            typedArray.getDrawableOrThrow(R.styleable.TextScroller_thumbDragging)
+        } else ContextCompat.getDrawable(context, R.drawable.fastscroll_pressed)!!
+
+        if (hasThumbTint) {
+            val thumbTint = typedArray.getColor(R.styleable.TextScroller_thumbTint, Color.BLUE)
+            thumbNormal.setTint(thumbTint)
+            thumbDragging.setTint(thumbTint)
+        }
 
         thumbHeight = thumbNormal.intrinsicHeight
 
