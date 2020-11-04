@@ -24,7 +24,6 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import androidx.core.text.PrecomputedTextCompat
-import androidx.core.widget.TextViewCompat
 import com.brackeys.ui.editorkit.R
 import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.internal.CodeSuggestsEditText
@@ -49,6 +48,11 @@ class TextProcessor @JvmOverloads constructor(
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
 
     private var isNewContent = false
+
+    init {
+        configure()
+        colorize()
+    }
 
     override fun doAfterTextChanged(text: Editable?) {
         super.doAfterTextChanged(text)
@@ -80,13 +84,6 @@ class TextProcessor @JvmOverloads constructor(
         isNewContent = true
         super.setTextContent(textParams)
         isNewContent = false
-    }
-
-    @Suppress("unused")
-    fun setTextContent(text: CharSequence) {
-        val textParams = TextViewCompat.getTextMetricsParams(this)
-        val precomputedText = PrecomputedTextCompat.create(text, textParams)
-        setTextContent(precomputedText)
     }
 
     fun insert(delta: CharSequence) {

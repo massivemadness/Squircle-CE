@@ -41,7 +41,7 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
     override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
         super.doBeforeTextChanged(text, start, count, after)
         if (!isDoingUndoRedo) {
-            textLastChange = if (count > UndoStack.MAX_SIZE) {
+            textLastChange = if (count < UndoStack.MAX_SIZE) {
                 TextChange(
                     newText = "",
                     oldText = text?.subSequence(start, start + count).toString(),

@@ -58,11 +58,9 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     private var isErrorSpansVisible = false
 
     override fun colorize() {
-        colorScheme?.let {
-            findResultStyleSpan = StyleSpan(color = it.findResultBackgroundColor)
-            openDelimiterSpan = BackgroundColorSpan(it.delimiterBackgroundColor)
-            closedDelimiterSpan = BackgroundColorSpan(it.delimiterBackgroundColor)
-        }
+        findResultStyleSpan = StyleSpan(color = colorScheme.findResultBackgroundColor)
+        openDelimiterSpan = BackgroundColorSpan(colorScheme.delimiterBackgroundColor)
+        closedDelimiterSpan = BackgroundColorSpan(colorScheme.delimiterBackgroundColor)
         super.colorize()
     }
 
@@ -361,12 +359,10 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
-        colorScheme?.let {
-            language?.getStyler()?.enqueue(text.toString(), it.syntaxScheme) { spans ->
-                syntaxHighlightSpans.clear()
-                syntaxHighlightSpans.addAll(spans)
-                updateSyntaxHighlighting()
-            }
+        language?.getStyler()?.enqueue(text.toString(), colorScheme.syntaxScheme) { spans ->
+            syntaxHighlightSpans.clear()
+            syntaxHighlightSpans.addAll(spans)
+            updateSyntaxHighlighting()
         }
     }
 

@@ -28,8 +28,10 @@ import androidx.core.widget.TextViewCompat
 import com.brackeys.ui.editorkit.R
 import com.brackeys.ui.editorkit.listener.TextChangeListener
 import com.brackeys.ui.editorkit.model.ColorScheme
+import com.brackeys.ui.editorkit.theme.EditorTheme
 import com.brackeys.ui.editorkit.utils.LinesCollection
 import com.brackeys.ui.editorkit.utils.dpToPx
+import com.brackeys.ui.editorkit.utils.scaledDensity
 import kotlin.math.abs
 
 abstract class LineNumbersEditText @JvmOverloads constructor(
@@ -38,7 +40,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : ScalableEditText(context, attrs, defStyleAttr), TextChangeListener {
 
-    var colorScheme: ColorScheme? = null
+    var colorScheme: ColorScheme = EditorTheme.DARCULA
         set(value) {
             field = value
             colorize()
@@ -172,35 +174,35 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     }
 
     open fun colorize() {
-        colorScheme?.let {
-            setTextColor(it.textColor)
-            setBackgroundColor(it.backgroundColor)
-            highlightColor = it.selectionColor
+        setTextColor(colorScheme.textColor)
+        setBackgroundColor(colorScheme.backgroundColor)
+        highlightColor = colorScheme.selectionColor
 
-            selectedLinePaint.color = it.selectedLineColor
-            selectedLinePaint.isAntiAlias = false
-            selectedLinePaint.isDither = false
+        selectedLinePaint.color = colorScheme.selectedLineColor
+        selectedLinePaint.isAntiAlias = false
+        selectedLinePaint.isDither = false
 
-            gutterPaint.color = it.gutterColor
-            gutterPaint.isAntiAlias = false
-            gutterPaint.isDither = false
+        gutterPaint.color = colorScheme.gutterColor
+        gutterPaint.isAntiAlias = false
+        gutterPaint.isDither = false
 
-            gutterDividerPaint.color = it.gutterDividerColor
-            gutterDividerPaint.isAntiAlias = false
-            gutterDividerPaint.isDither = false
-            gutterDividerPaint.style = Paint.Style.STROKE
-            gutterDividerPaint.strokeWidth = 2.6f
+        gutterDividerPaint.color = colorScheme.gutterDividerColor
+        gutterDividerPaint.isAntiAlias = false
+        gutterDividerPaint.isDither = false
+        gutterDividerPaint.style = Paint.Style.STROKE
+        gutterDividerPaint.strokeWidth = 2.6f
 
-            gutterCurrentLineNumberPaint.color = it.gutterCurrentLineNumberColor
-            gutterCurrentLineNumberPaint.isAntiAlias = true
-            gutterCurrentLineNumberPaint.isDither = false
-            gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
+        gutterCurrentLineNumberPaint.textSize = context.scaledDensity * config.fontSize
+        gutterCurrentLineNumberPaint.color = colorScheme.gutterCurrentLineNumberColor
+        gutterCurrentLineNumberPaint.isAntiAlias = true
+        gutterCurrentLineNumberPaint.isDither = false
+        gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
-            gutterTextPaint.color = it.gutterTextColor
-            gutterTextPaint.isAntiAlias = true
-            gutterTextPaint.isDither = false
-            gutterTextPaint.textAlign = Paint.Align.RIGHT
-        }
+        gutterCurrentLineNumberPaint.textSize = context.scaledDensity * config.fontSize
+        gutterTextPaint.color = colorScheme.gutterTextColor
+        gutterTextPaint.isAntiAlias = true
+        gutterTextPaint.isDither = false
+        gutterTextPaint.textAlign = Paint.Align.RIGHT
     }
 
     open fun setTextContent(textParams: PrecomputedTextCompat) {
@@ -255,6 +257,13 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     open fun removeLine(lineNumber: Int) {
         lines.remove(lineNumber)
+    }
+
+    @Suppress("unused")
+    fun setTextContent(text: CharSequence) {
+        val textParams = TextViewCompat.getTextMetricsParams(this)
+        val precomputedText = PrecomputedTextCompat.create(text, textParams)
+        setTextContent(precomputedText)
     }
 
     fun getIndexForStartOfLine(lineNumber: Int): Int {

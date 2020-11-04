@@ -32,7 +32,7 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10000
+        versionCode 10001
         versionName "2020.3.0"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
