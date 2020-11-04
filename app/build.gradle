@@ -23,14 +23,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion rootProject.ext.compileSdk
-    buildToolsVersion rootProject.ext.buildTools
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
         applicationId "com.brackeys.ui"
 
-        minSdkVersion rootProject.ext.minSdk
-        targetSdkVersion rootProject.ext.targetSdk
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
 
         versionCode 10000
         versionName "2020.3.0"

@@ -19,13 +19,18 @@ plugins {
     id 'kotlin-android'
 }
 
+ext.libraryGroupId = "com.brackeys.ui"
+ext.libraryArtifactId = "language-plaintext"
+
+apply from: rootProject.file("bintray.gradle")
+
 android {
-    compileSdkVersion rootProject.ext.compileSdk
-    buildToolsVersion rootProject.ext.buildTools
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdk
-        targetSdkVersion rootProject.ext.targetSdk
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
 
         consumerProguardFiles 'consumer-rules.pro'
     }

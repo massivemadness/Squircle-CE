@@ -16,12 +16,15 @@
 
 ext {
 
-    // Configuration
-    buildConfig = [
-            minSdk = 21,
-            targetSdk = 29,
-            compileSdk = 29,
-            buildTools = '29.0.3'
+    versions = [
+            minSdk: 21,
+            targetSdk: 29,
+            compileSdk: 29,
+            buildTools: '29.0.3',
+
+            // Library
+            publishVersionName: '1.0.0',
+            publishVersionCode: 1
     ]
 
     // Core

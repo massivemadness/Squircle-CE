@@ -1,0 +1,55 @@
+if (!project.rootProject.file('local.properties').exists()) {
+    logger.warn("local.properties not found.")
+    return
+}
+
+apply plugin: "com.jfrog.bintray"
+apply plugin: "maven-publish"
+
+def getBintrayUserAndKey() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+    return [
+            properties.getProperty("bintray.user"),
+            properties.getProperty("bintray.apikey")
+    ]
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = libraryGroupId
+                artifactId = libraryArtifactId
+                version = versions.publishVersionName
+            }
+        }
+    }
+}
+
+def (bintrayUser, bintrayKey) = getBintrayUserAndKey()
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+    publications = ['release']
+    publish = true
+    override = false
+    pkg {
+        repo = 'Brackeys-IDE'
+        name = libraryArtifactId
+        desc = 'Brackeys IDE is a fast and free multi-language code editor for Android.'
+        userOrg = 'massivemadness'
+        licenses = ['Apache-2.0']
+        githubRepo = 'massivemadness/Brackeys-IDE'
+        githubReleaseNotesFile = 'README.md'
+        websiteUrl = 'https://github.com/massivemadness/Brackeys-IDE'
+        issueTrackerUrl = 'https://github.com/massivemadness/Brackeys-IDE/issues'
+        vcsUrl = 'https://github.com/massivemadness/Brackeys-IDE.git'
+        version {
+            name = versions.publishVersionName
+            released = new Date()
+        }
+    }
+}
