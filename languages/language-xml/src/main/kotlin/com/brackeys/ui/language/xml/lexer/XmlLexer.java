@@ -16,6 +16,8 @@
 
 package com.brackeys.ui.language.xml.lexer;
 
+import org.jetbrains.annotations.NotNull;
+
 @SuppressWarnings("all")
 
 /**
@@ -846,6 +848,7 @@ public class XmlLexer {
    * @return the next token.
    * @exception java.io.IOException if any I/O-Error occurs.
    */
+  @NotNull
   public XmlToken advance() throws java.io.IOException {
     int zzInput;
     int zzAction;
