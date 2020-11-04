@@ -52,5 +52,5 @@ dependencies {
     implementation library.rhino
 
     // Modules
-    implementation project(':languages:language-base')
+    api project(':languages:language-base')
 }

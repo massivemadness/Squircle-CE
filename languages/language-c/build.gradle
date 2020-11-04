@@ -46,5 +46,5 @@ dependencies {
     implementation library.kotlin
 
     // Modules
-    implementation project(':languages:language-base')
+    api project(':languages:language-base')
 }

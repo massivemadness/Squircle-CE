@@ -6,15 +6,6 @@ if (!project.rootProject.file('local.properties').exists()) {
 apply plugin: "com.jfrog.bintray"
 apply plugin: "maven-publish"
 
-def getBintrayUserAndKey() {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file("local.properties").newDataInputStream())
-    return [
-            properties.getProperty("bintray.user"),
-            properties.getProperty("bintray.apikey")
-    ]
-}
-
 afterEvaluate {
     publishing {
         publications {
@@ -29,10 +20,12 @@ afterEvaluate {
     }
 }
 
-def (bintrayUser, bintrayKey) = getBintrayUserAndKey()
+def properties = new Properties()
+properties.load(new FileInputStream("local.properties"))
+
 bintray {
-    user = bintrayUser
-    key = bintrayKey
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
     publications = ['release']
     publish = true
     override = false

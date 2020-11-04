@@ -56,7 +56,7 @@ dependencies {
     implementation library.appcompat
 
     // Modules
-    implementation project(':languages:language-base')
+    api project(':languages:language-base')
 
     // Tests
     testImplementation testLibrary.junit
