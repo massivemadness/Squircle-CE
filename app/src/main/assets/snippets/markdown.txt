@@ -1,0 +1,15 @@
+# Brackeys IDE
+---
+
+Thanks for using Brackeys IDE!
+
+1. Ordered List Item
+2. Ordered List Item
+3. Ordered List Item
+
+- Unordered List Item
+- Unordered List Item
+- Unordered List Item
+
+**OPEN SOURCE CODE:**
+https://github.com/massivemadness/Brackeys-IDE

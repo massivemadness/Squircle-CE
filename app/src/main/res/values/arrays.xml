@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Licensed to the Light Team Software (Light Team) under one or more
-  ~ contributor license agreements.  See the NOTICE file distributed with
-  ~ this work for additional information regarding copyright ownership.
-  ~ The Light Team licenses this file to You under the Apache License, Version 2.0
-  ~ (the "License"); you may not use this file except in compliance with
-  ~ the License.  You may obtain a copy of the License at
+  ~ Copyright 2020 Brackeys IDE contributors.
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -84,6 +83,63 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <string-array name="language_names">
+        <item>ActionScript</item>
+        <item>C</item>
+        <item>C++</item>
+        <item>C#</item>
+        <item>HTML</item>
+        <item>Java</item>
+        <item>JavaScript</item>
+        <item>Json</item>
+        <item>Kotlin</item>
+        <item>Lisp</item>
+        <item>Lua</item>
+        <item>Markdown</item>
+        <item>Python</item>
+        <item>SQL</item>
+        <item>Visual Basic</item>
+        <item>XML</item>
+    </string-array>
+
+    <string-array name="language_paths">
+        <item>snippets/actionscript.txt</item>
+        <item>snippets/c.txt</item>
+        <item>snippets/cpp.txt</item>
+        <item>snippets/csharp.txt</item>
+        <item>snippets/html.txt</item>
+        <item>snippets/java.txt</item>
+        <item>snippets/javascript.txt</item>
+        <item>snippets/json.txt</item>
+        <item>snippets/kotlin.txt</item>
+        <item>snippets/lisp.txt</item>
+        <item>snippets/lua.txt</item>
+        <item>snippets/markdown.txt</item>
+        <item>snippets/python.txt</item>
+        <item>snippets/sql.txt</item>
+        <item>snippets/visualbasic.txt</item>
+        <item>snippets/xml.txt</item>
+    </string-array>
+
+    <string-array name="language_extensions">
+        <item>.as</item>
+        <item>.c</item>
+        <item>.cpp</item>
+        <item>.cs</item>
+        <item>.html</item>
+        <item>.java</item>
+        <item>.js</item>
+        <item>.json</item>
+        <item>.kt</item>
+        <item>.lisp</item>
+        <item>.lua</item>
+        <item>.md</item>
+        <item>.py</item>
+        <item>.sql</item>
+        <item>.vb</item>
+        <item>.xml</item>
     </string-array>
 
 </resources>

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Licensed to the Light Team Software (Light Team) under one or more
-  ~ contributor license agreements.  See the NOTICE file distributed with
-  ~ this work for additional information regarding copyright ownership.
-  ~ The Light Team licenses this file to You under the Apache License, Version 2.0
-  ~ (the "License"); you may not use this file except in compliance with
-  ~ the License.  You may obtain a copy of the License at
+  ~ Copyright 2020 Brackeys IDE contributors.
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,8 +30,6 @@
     <string name="label_themes">主题</string>
     <string name="label_new_theme">新建主题</string>
     <string name="label_keyboard_preset">快捷符号栏</string>
-    <string name="label_changelog">更新日志</string>
-    <string name="label_latest_release">最新版本</string>
 
     <string name="hint_search">搜索…</string>
     <string name="hint_line">行:</string>
@@ -196,9 +193,15 @@
     <string name="theme_property_keywords_color">定义语法高亮显示的关键词颜色，如：function、if、else</string>
     <string name="theme_property_types_color">定义语法高亮显示的类型颜色，如：const、var、let</string>
     <string name="theme_property_lang_const_color">定义语法高亮显示的语言常量颜色，如：true, false, null</string>
+    <string name="theme_property_preprocessor_color">Defines the preprocessor and annotation color: @Override, #include, …</string>
     <string name="theme_property_methods_color">定义语法高亮显示的方法名颜色，如：function foo() {}</string>
     <string name="theme_property_strings_color">定义语法高亮显示的字符串颜色，如：str = \'Hello\'</string>
     <string name="theme_property_comments_color">定义语法高亮显示的注释颜色，如: 以“//”开头的内容</string>
+    <string name="theme_property_tag_color">Defines the color of tags in markup languages: &lt;, &lt;&gt;, /&gt;</string>
+    <string name="theme_property_tag_name_color">Defines the color of tag names in markup languages: &lt;tag&gt;</string>
+    <string name="theme_property_attr_name_color">Defines the color of attribute names in markup languages: &lt;tag attr=…/&gt;</string>
+    <string name="theme_property_attr_value_color">Defines the color of attribute values in markup languages: &lt;tag attr=\"value\"/&gt;</string>
+    <string name="theme_property_entity_ref_color">Defines the color of entity references in markup languages: &amp;amp; &amp;lt; &amp;gt; …</string>
 
     <string name="encoding_utf8_default">UTF-8 (默认)</string>
 
@@ -214,7 +217,7 @@
     <string name="pref_header_files_title">文件</string>
     <string name="pref_header_files_summary">配置文件的处理方式。</string>
     <string name="pref_header_about_title">关于</string>
-    <string name="pref_header_about_summary">查看 ModPE IDE 的有关信息。</string>
+    <string name="pref_header_about_summary">查看 Brackeys IDE 的有关信息。</string>
 
     <string name="pref_category_look_and_feel">外观</string>
     <string name="pref_category_other">其他</string>
@@ -288,7 +291,7 @@
     <string name="pref_view_mode_title">视图模式</string>
     <string name="pref_sort_mode_title">排序方式</string>
 
-    <string name="pref_about_summary">Copyright 2020 Light Team Software\n保留所有权利\n\n当前版本: %1$s (%2$d)</string>
+    <string name="pref_about_summary">Copyright 2020 Black Squircle\n保留所有权利\n\n当前版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看“隐私政策”</string>
     <string name="pref_contribute_title">参与贡献，促进发展</string>
     <string name="pref_contribute_summary">您可以点击此处到 GitHub 上提 Issue ，或将本应用翻译为您的母语。\n\n谢谢！</string>

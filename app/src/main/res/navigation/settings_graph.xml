@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Licensed to the Light Team Software (Light Team) under one or more
-  ~ contributor license agreements.  See the NOTICE file distributed with
-  ~ this work for additional information regarding copyright ownership.
-  ~ The Light Team licenses this file to You under the Apache License, Version 2.0
-  ~ (the "License"); you may not use this file except in compliance with
-  ~ the License.  You may obtain a copy of the License at
+  ~ Copyright 2020 Brackeys IDE contributors.
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +23,7 @@
 
     <fragment
         android:id="@+id/headersFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.HeadersFragment"
+        android:name="com.brackeys.ui.feature.settings.fragments.HeadersFragment"
         android:label="@string/label_settings"
         tools:layout="@layout/fragment_headers">
         <action
@@ -46,7 +45,7 @@
 
     <fragment
         android:id="@+id/applicationFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.ApplicationFragment"
+        android:name="com.brackeys.ui.feature.settings.fragments.ApplicationFragment"
         android:label="@string/label_application">
         <action
             android:id="@+id/to_themesFragment"
@@ -59,7 +58,7 @@
 
     <fragment
         android:id="@+id/editorFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.EditorFragment"
+        android:name="com.brackeys.ui.feature.settings.fragments.EditorFragment"
         android:label="@string/label_editor">
         <action
             android:id="@+id/to_fontsFragment"
@@ -75,30 +74,22 @@
 
     <fragment
         android:id="@+id/codeStyleFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.CodeStyleFragment"
+        android:name="com.brackeys.ui.feature.settings.fragments.CodeStyleFragment"
         android:label="@string/label_code_style"/>
 
     <fragment
         android:id="@+id/filesFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.FilesFragment"
+        android:name="com.brackeys.ui.feature.settings.fragments.FilesFragment"
         android:label="@string/label_files"/>
 
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.AboutFragment"
-        android:label="@string/label_about">
-        <action
-            android:id="@+id/to_changeLogFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/changeLogFragment"/>
-    </fragment>
+        android:name="com.brackeys.ui.feature.settings.fragments.AboutFragment"
+        android:label="@string/label_about"/>
 
     <fragment
         android:id="@+id/fontsFragment"
-        android:name="com.lightteam.modpeide.ui.fonts.fragments.FontsFragment"
+        android:name="com.brackeys.ui.feature.fonts.fragments.FontsFragment"
         android:label="@string/label_fonts"
         tools:layout="@layout/fragment_fonts">
         <action
@@ -112,13 +103,13 @@
 
     <fragment
         android:id="@+id/externalFontFragment"
-        android:name="com.lightteam.modpeide.ui.fonts.fragments.ExternalFontFragment"
+        android:name="com.brackeys.ui.feature.fonts.fragments.ExternalFontFragment"
         android:label="@string/label_external_font"
         tools:layout="@layout/fragment_external_font"/>
 
     <fragment
         android:id="@+id/themesFragment"
-        android:name="com.lightteam.modpeide.ui.themes.fragments.ThemesFragment"
+        android:name="com.brackeys.ui.feature.themes.fragments.ThemesFragment"
         android:label="@string/label_themes"
         tools:layout="@layout/fragment_themes">
         <action
@@ -132,7 +123,7 @@
 
     <fragment
         android:id="@+id/newThemeFragment"
-        android:name="com.lightteam.modpeide.ui.themes.fragments.NewThemeFragment"
+        android:name="com.brackeys.ui.feature.themes.fragments.NewThemeFragment"
         android:label="@string/label_new_theme"
         tools:layout="@layout/fragment_new_theme">
         <argument
@@ -143,14 +134,8 @@
 
     <dialog
         android:id="@+id/presetDialog"
-        android:name="com.lightteam.modpeide.ui.settings.dialogs.PresetDialog"
+        android:name="com.brackeys.ui.feature.settings.dialogs.PresetDialog"
         android:label="@string/label_keyboard_preset"
         tools:layout="@layout/dialog_preset"/>
-
-    <fragment
-        android:id="@+id/changeLogFragment"
-        android:name="com.lightteam.modpeide.ui.settings.fragments.ChangeLogFragment"
-        android:label="@string/label_changelog"
-        tools:layout="@layout/fragment_changelog"/>
 
 </navigation>

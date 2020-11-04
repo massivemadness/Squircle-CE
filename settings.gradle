@@ -1,12 +1,11 @@
 /*
- * Licensed to the Light Team Software (Light Team) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The Light Team licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2020 Brackeys IDE contributors.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,4 +22,18 @@ include ':filesystems:filesystem-base',
 include ':languages:language-base',
         ':languages:language-plaintext',
         ':languages:language-javascript',
-        ':languages:language-json'
+        ':languages:language-json',
+        ':languages:language-actionscript',
+        ':languages:language-csharp',
+        ':languages:language-html',
+        ':languages:language-cpp',
+        ':languages:language-c',
+        ':languages:language-java',
+        ':languages:language-kotlin',
+        ':languages:language-lua',
+        ':languages:language-lisp',
+        ':languages:language-markdown',
+        ':languages:language-python',
+        ':languages:language-sql',
+        ':languages:language-visualbasic',
+        ':languages:language-xml'

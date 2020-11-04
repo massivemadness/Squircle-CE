@@ -3,13 +3,17 @@
 
 # Built application files
 *.apk
-*.ap_
+*.aab
+
+# Keystore files
+*.keystore
+*.jks
 
 # Files for the ART/Dalvik VM
 *.dex
 
 # Java class files
-#*.class
+*.class
 
 # Generated files
 bin/
@@ -35,8 +39,6 @@ captures/
 # IntelliJ
 *.iml
 /.idea
-.idea/modules.xml
-.idea/caches/
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild

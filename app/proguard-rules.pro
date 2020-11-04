@@ -1,8 +1,7 @@
 # NavComponent safeArgs plugin
--keepnames class com.lightteam.filesystem.base.model.FileModel
--keepnames class com.lightteam.modpeide.ui.explorer.utils.Operation
+-keepnames class com.brackeys.ui.filesystem.base.model.FileModel
 
-# ModPE IDE uses reflection to access some DrawerLayout fields
+# Brackeys IDE uses reflection to access some DrawerLayout fields
 -keepclassmembernames class androidx.drawerlayout.widget.DrawerLayout {
     private androidx.customview.widget.ViewDragHelper mLeftDragger;
 }

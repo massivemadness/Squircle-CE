@@ -1,0 +1,16 @@
+function makeIterator(array) {
+  var index = 0;
+  return {
+    next: function() {
+      return index < array.length
+        ? { value: array[index++], done: false }
+        : { done: true }
+    }
+  };
+}
+
+var it = makeIterator(["simple", "iterator"]);
+
+console.log(it.next()); // done: false
+console.log(it.next()); // done: false
+console.log(it.next()); // done: true

@@ -1,0 +1,13 @@
+SELECT
+    employee.id,
+    employee.first_name,
+    employee.last_name,
+    AVG(DATEDIFF("SECOND", call.start_time, call.end_time)) AS call_duration_avg
+FROM call
+INNER JOIN employee ON call.employee_id = employee.id
+GROUP BY
+    employee.id,
+    employee.first_name,
+    employee.last_name
+ORDER BY
+    employee.id ASC;

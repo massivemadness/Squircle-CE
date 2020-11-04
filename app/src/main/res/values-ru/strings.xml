@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Licensed to the Light Team Software (Light Team) under one or more
-  ~ contributor license agreements.  See the NOTICE file distributed with
-  ~ this work for additional information regarding copyright ownership.
-  ~ The Light Team licenses this file to You under the Apache License, Version 2.0
-  ~ (the "License"); you may not use this file except in compliance with
-  ~ the License.  You may obtain a copy of the License at
+  ~ Copyright 2020 Brackeys IDE contributors.
   ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,8 +30,6 @@
     <string name="label_themes">Темы</string>
     <string name="label_new_theme">Новая тема</string>
     <string name="label_keyboard_preset">Клавиатурный пресет</string>
-    <string name="label_changelog">Список изменений</string>
-    <string name="label_latest_release">Последний релиз</string>
 
     <string name="hint_search">Поиск…</string>
     <string name="hint_line">Линия:</string>
@@ -196,9 +193,15 @@
     <string name="theme_property_keywords_color">Определяет цвет ключевых слов подсветки синтаксиса: function, if, else, и тд.</string>
     <string name="theme_property_types_color">Определяет цвет типов подсветки синтаксиса: const, var, let, и тд.</string>
     <string name="theme_property_lang_const_color">Определяет цвет языковых констант подсветки синтаксиса: true, false, null, и тд.</string>
+    <string name="theme_property_preprocessor_color">Определяет цвет препроцессоров и аннотаций: @Override, #include, …</string>
     <string name="theme_property_methods_color">Определяет цвет методов подсветки синтаксиса</string>
     <string name="theme_property_strings_color">Определяет цвет строк подсветки синтаксиса</string>
     <string name="theme_property_comments_color">Определяет цвет комментариев подсветки синтаксиса: //, /**/</string>
+    <string name="theme_property_tag_color">Определяет цвет тегов в разметке: &lt;, &lt;&gt;, /&gt;</string>
+    <string name="theme_property_tag_name_color">Определяет цвет названия у тегов в разметке: &lt;tag&gt;</string>
+    <string name="theme_property_attr_name_color">Определяет цвет названия у аттрибутов в разметке: &lt;tag attr=…/&gt;</string>
+    <string name="theme_property_attr_value_color">Определяет цвет значения у аттрибутов в разметке: &lt;tag attr=\"value\"/&gt;</string>
+    <string name="theme_property_entity_ref_color">Определяет цвет символов-мнемоников в разметке: &amp;amp; &amp;lt; &amp;gt; …</string>
 
     <string name="encoding_utf8_default">UTF-8 (По умолчанию)</string>
 
@@ -287,7 +290,7 @@
     <string name="pref_view_mode_title">Режим просмотра</string>
     <string name="pref_sort_mode_title">Режим сортировки</string>
 
-    <string name="pref_about_summary">Copyright 2020 Light Team Software\nВсе права защищены\n\nВерсия: %1$s (%2$d)</string>
+    <string name="pref_about_summary">Copyright 2020 Black Squircle\nВсе права защищены\n\nВерсия: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
     <string name="pref_contribute_title">Внести вклад в разработку</string>
     <string name="pref_contribute_summary">Вы можете создать Issue на GitHub или перевести приложение на свой родной язык.\n\nСпасибо!</string>
