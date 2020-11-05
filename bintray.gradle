@@ -6,11 +6,32 @@ if (!project.rootProject.file('local.properties').exists()) {
 apply plugin: "com.jfrog.bintray"
 apply plugin: "maven-publish"
 
+task androidJavadocs(type: Javadoc) {
+    failOnError = false
+    source = android.sourceSets.main.java.srcDirs
+    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+    classpath += files(ext.androidJar)
+    exclude '**/R.html', '**/R.*.html', '**/index.html'
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    from androidJavadocs.destinationDir
+    classifier = 'javadoc'
+}
+
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.release
+
+                artifact androidJavadocsJar
+                artifact androidSourcesJar
 
                 groupId = libraryGroupId
                 artifactId = libraryArtifactId
@@ -27,6 +48,7 @@ bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
     publications = ['release']
+    dryRun = false
     publish = true
     override = false
     pkg {
