@@ -39,6 +39,8 @@
 
 The `editorkit` module provides code editor without any support for programming languages.
 
+[ ![jCenter](https://api.bintray.com/packages/massivemadness/Brackeys-IDE/editorkit/images/download.svg) ](https://bintray.com/massivemadness/Brackeys-IDE/editorkit/_latestVersion)
+
 ## Gradle Dependency
 
 Add this to your module's `build.gradle` file:
@@ -152,7 +154,7 @@ scroller.link(editor)
 
 ## Code Suggestions
 
-When you working with a code editor you want to see the list of code suggestion. *Note that you have to provide a `Language` object before start using it.*
+When you working with a code editor you want to see the list of code suggestion. *(Note that you have to provide a `Language` object before start using it.)*
 
 **First**, you need to create a layout file that will represent the suggestion item inside dropdown menu:
 
@@ -199,7 +201,7 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
 editor.suggestionAdapter = AutoCompleteAdapter(this)
 ```
 
-You can enable/disable them dynamically by changing the `codeCompletion` parameter in editor's [Config](#config).
+You can enable/disable suggestions dynamically by changing the `codeCompletion` parameter in editor's [Config](#config).
 
 ---
 
@@ -219,7 +221,7 @@ if (editor.canRedo()) {
 }
 ```
 
-Also you may have a use-case when you want to update the undo/redo buttons visibility or some other things, this can be accessed by adding the `OnUndoRedoChangedListener` to your code editor:
+Also you may have a use-case when you want to update the undo/redo buttons visibility or other UI, this can be achieved by adding the `OnUndoRedoChangedListener` to your code editor:
 
 ```kotlin
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
@@ -315,6 +317,8 @@ editor.colorScheme = ColorScheme(
 
 The language modules provides support for programming languages. This includes syntax highlighting, code suggestions and source code parser.
 *(Note that source code parser currently works only in `language-javascript` module, but it will be implemented for more languages soon)*
+
+[ ![jCenter](https://api.bintray.com/packages/massivemadness/Brackeys-IDE/language-base/images/download.svg) ](https://bintray.com/massivemadness/Brackeys-IDE/language-base/_latestVersion)
 
 ## Gradle Dependency
 
