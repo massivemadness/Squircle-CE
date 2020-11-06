@@ -36,6 +36,15 @@ afterEvaluate {
                 groupId = libraryGroupId
                 artifactId = libraryArtifactId
                 version = versions.publishVersionName
+
+                pom.withXml {
+                    configurations.api.allDependencies.each { dep ->
+                        if (dep.getGroup() == libraryGroupId && dep.getVersion() == "unspecified") {
+                            dep.setVersion(versions.publishVersionName)
+                            println("Updated $dep")
+                        }
+                    }
+                }
             }
         }
     }
