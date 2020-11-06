@@ -4,7 +4,7 @@
 
 ![Android CI](https://github.com/massivemadness/Brackeys-IDE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-<img src="https://raw.githubusercontent.com/massivemadness/Brackeys-IDE/master/.github/images/carbon.png" width="800" />
+<img src="https://raw.githubusercontent.com/massivemadness/Brackeys-IDE/master/.github/images/carbon.png" width="700" />
 
 ---
 
@@ -29,9 +29,9 @@
 
 1. [Gradle Dependency](#gradle-dependency-1)
 2. [Custom Language](#custom-language)
-   1. [LanguageParser](#language-parser)
-   2. [SuggestionProvider](#suggestion-provider)
-   3. [LanguageStyler](#language-styler)
+   1. [LanguageParser](#languageparser)
+   2. [SuggestionProvider](#suggestionprovider)
+   3. [LanguageStyler](#languagestyler)
 
 ---
 
@@ -51,7 +51,7 @@ dependencies {
 ```
 
 The `editorkit` module **does not** provide support for syntax highlighting, you need to add specific language dependency.
-You can see list of available languages [here](#languages).
+You can see list of available languages [here](#languages-1).
 
 ---
 
@@ -89,7 +89,7 @@ Also you might want to use `setTextContent(PrecomputedTextCompat)` if you're wor
 import com.brackeys.ui.editorkit.utils.UndoStack
 
 editor.undoStack = UndoStack()
-editor.redoStack = RedoStack()
+editor.redoStack = UndoStack()
 ```
 
 Now you can begin using the code editor.
@@ -222,6 +222,8 @@ if (editor.canRedo()) {
 Also you may have a use-case when you want to update the undo/redo buttons visibility or some other things, this can be accessed by adding the `OnUndoRedoChangedListener` to your code editor:
 
 ```kotlin
+import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
+
 editor.onUndoRedoChangedListener = object : OnUndoRedoChangedListener {
     override fun onUndoRedoChanged() {
         val canUndo = editor.canUndo()
