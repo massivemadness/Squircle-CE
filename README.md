@@ -207,21 +207,21 @@ You can enable/disable suggestions dynamically by changing the `codeCompletion` 
 
 ## Undo Redo
 
-The `TextProcessor` supports undo/redo operations by calling following methods:
+The `TextProcessor` supports undo/redo operations, but remember that you should **always** check the ability to undo/redo before calling actual methods:
 
 ```kotlin
-// You should always check the ability to undo before undoing
+// Undo
 if (editor.canUndo()) {
     editor.undo()
 }
 
-// You should always check the ability to redo before redoing
+// Redo
 if (editor.canRedo()) {
     editor.redo()
 }
 ```
 
-Also you may have a use-case when you want to update the undo/redo buttons visibility or other UI, this can be achieved by adding the `OnUndoRedoChangedListener` to your code editor:
+Also you may have a use case when you want to update undo/redo buttons visibility or other UI after the text replacements is done, this can be achieved by adding `OnUndoRedoChangedListener`:
 
 ```kotlin
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
@@ -240,19 +240,75 @@ editor.onUndoRedoChangedListener = object : OnUndoRedoChangedListener {
 
 ## Navigation
 
-TODO: add more info
-
 ### Text Navigation
 
-TODO: add more info
+You can use these helper methods to navigate in text:
+
+```kotlin
+editor.moveCaretToStartOfLine()
+editor.moveCaretToEndOfLine()
+editor.moveCaretToPrevWord()
+editor.moveCaretToNextWord()
+```
+
+...or use «Go to Line» feature to place the caret at the specific line:
+
+```kotlin
+import com.brackeys.ui.editorkit.exception.LineException
+
+try {
+    editor.gotoLine(lineNumber)
+} catch (e: LineException) {
+    Toast.makeText(this, "Line does not exists", Toast.LENGTH_SHORT).show()
+}
+```
 
 ### Find Replace
 
-TODO: add more info
+Before using `find` method you have to provide a search string and search params:
+
+```kotlin
+import com.brackeys.ui.editorkit.model.FindParams
+
+val findParams = FindParams(
+    regex = false, // whether the regex will be used
+    matchCase = true, // case sensitive
+    wordsOnly = true // words only?
+)
+
+editor.find("function", findParams)
+```
+
+After that, the `TextProcessor` will highlight all find results. You can also navigate between find results using `findNext()` and `findPrevious()` methods.
+To clear find spans use `clearFindResultSpans()` method.
+
+If you want to replace selected find result you can use `replaceFindResult(replaceText)` method. To replace all find results use `replaceAllFindResults(replaceText)` method.
 
 ### Shortcuts
 
-TODO: add more info
+If you're using a bluetooth keyboard you probably want to use keyboard shortcuts to write your code faster. To support the keyboard shortcuts you need to add `ShortcutListener`:
+
+```kotlin
+import com.brackeys.ui.editorkit.listener.ShortcutListener
+
+editor.shortcutListener = object : ShortcutListener {
+    override fun onShortcut(shortcut: Shortcut): Boolean {
+        val (ctrl, shift, alt, keyCode) = shortcut
+        return when {
+            ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> editor.moveCaretToStartOfLine()
+            ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> editor.moveCaretToEndOfLine()
+            alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> editor.moveCaretToPrevWord()
+            alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> editor.moveCaretToNextWord()
+            // ...
+            else -> false
+        }
+    }
+}
+```
+
+The `onShortcut` method will be invoked only if at least one of following keys is pressed: CTRL, Shift, Alt.
+You might already notice that you have to return a `Boolean` value as the result of `onShortcut` method.
+Return `true` if the listener has consumed the shortcut event, `false` otherwise.
 
 ---
 
@@ -274,7 +330,7 @@ EditorTheme.VISUAL_STUDIO_2013
 
 ```
 
-You can also create custom color scheme by changing the `ColorScheme` properties:
+You can also create custom theme by changing the `ColorScheme` properties:
 
 ```kotlin
 import com.brackeys.ui.editorkit.model.ColorScheme
