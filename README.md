@@ -105,8 +105,6 @@ Now you can begin using the code editor.
 You can change the default code editor's behavior by passing the `Config` object to it:
 
 ```kotlin
-import com.brackeys.ui.editorkit.model.Config
-
 editor.config = Config(
     fontSize = 14f, // text size, including the line numbers
     fontType = Typeface.MONOSPACE, // typeface, including the line numbers
@@ -173,9 +171,6 @@ When you working with a code editor you want to see the list of code suggestion.
 **Second**, you need to create custom `SuggestionAdapter`:
 
 ```kotlin
-import com.brackeys.ui.editorkit.adapter.SuggestionAdapter
-import com.brackeys.ui.language.base.model.Suggestion
-
 class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layout.item_suggestion) {
 
     override fun createViewHolder(parent: ViewGroup): SuggestionViewHolder {
@@ -224,8 +219,6 @@ if (editor.canRedo()) {
 Also you may have a use case when you want to update undo/redo buttons visibility or other UI after the text replacements is done, this can be achieved by adding `OnUndoRedoChangedListener`:
 
 ```kotlin
-import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
-
 editor.onUndoRedoChangedListener = object : OnUndoRedoChangedListener {
     override fun onUndoRedoChanged() {
         val canUndo = editor.canUndo()
@@ -265,7 +258,7 @@ try {
 
 ### Find Replace
 
-Before using `find` method you have to provide a search string and search params:
+Before using `find` method you have to provide a search string and `FindParams` object:
 
 ```kotlin
 import com.brackeys.ui.editorkit.model.FindParams
@@ -282,15 +275,13 @@ editor.find("function", findParams)
 After that, the `TextProcessor` will highlight all find results. You can also navigate between find results using `findNext()` and `findPrevious()` methods.
 To clear find spans use `clearFindResultSpans()` method.
 
-If you want to replace selected find result you can use `replaceFindResult(replaceText)` method. To replace all find results use `replaceAllFindResults(replaceText)` method.
+If you want to replace selected find result you can use `replaceFindResult(replaceText)` method or `replaceAllFindResults(replaceText)` to replace all.
 
 ### Shortcuts
 
-If you're using a bluetooth keyboard you probably want to use keyboard shortcuts to write your code faster. To support the keyboard shortcuts you need to add `ShortcutListener`:
+If you're using bluetooth keyboard you probably want to use keyboard shortcuts to write your code faster. To support the keyboard shortcuts you need to add `ShortcutListener`:
 
 ```kotlin
-import com.brackeys.ui.editorkit.listener.ShortcutListener
-
 editor.shortcutListener = object : ShortcutListener {
     override fun onShortcut(shortcut: Shortcut): Boolean {
         val (ctrl, shift, alt, keyCode) = shortcut
@@ -306,7 +297,7 @@ editor.shortcutListener = object : ShortcutListener {
 }
 ```
 
-The `onShortcut` method will be invoked only if at least one of following keys is pressed: CTRL, Shift, Alt.
+The `onShortcut` method will be invoked only if at least one of following keys is pressed: CTRL, Shift, Alt.  
 You might already notice that you have to return a `Boolean` value as the result of `onShortcut` method.
 Return `true` if the listener has consumed the shortcut event, `false` otherwise.
 
@@ -314,11 +305,9 @@ Return `true` if the listener has consumed the shortcut event, `false` otherwise
 
 ## Theming
 
-The `editorkit` module provides you some predefined color schemes in `EditorTheme` class:
+The `EditorTheme` class provides some predefined color schemes:
 
 ```kotlin
-import com.brackeys.ui.editorkit.theme.EditorTheme
-
 editor.colorScheme = EditorTheme.DARCULA // default
 
 // or you can use one of these:
@@ -333,9 +322,6 @@ EditorTheme.VISUAL_STUDIO_2013
 You can also create custom theme by changing the `ColorScheme` properties:
 
 ```kotlin
-import com.brackeys.ui.editorkit.model.ColorScheme
-import com.brackeys.ui.language.base.model.SyntaxScheme
-
 editor.colorScheme = ColorScheme(
     textColor = Color.parseColor("#C8C8C8"),
     backgroundColor = Color.parseColor("#232323"),
@@ -432,15 +418,15 @@ class CustomLanguage : Language {
     }
 
     override fun getParser(): LanguageParser {
-        return ...
+        return CustomParser()
     }
 
     override fun getProvider(): SuggestionProvider {
-        return ...
+        return CustomProvider()
     }
 
     override fun getStyler(): LanguageStyler {
-        return ...
+        return CustomStyler()
     }
 }
 ```
@@ -452,14 +438,93 @@ Every language consist of 3 key components:
 
 ### LanguageParser
 
-TODO: add more info
+`LanguageParser` is an interface which detects syntax errors so you can display them in the `TextProcessor` later.
+
+To create a custom parser you need to implement `execute` method that will return a `ParseResult` model as the result.  
+If `ParseResult` contains an exception it means that the source code can't compile and contains syntax errors. You should highlight an error line by calling `editor.setErrorLine(lineNumber)` method.  
+Remember, that you **shouldn't** use this method on the main thread.
+
+```kotlin
+class CustomParser : LanguageParser {
+
+    override fun execute(name: String, source: String): ParseResult {
+        // TODO Implement parser
+        val lineNumber = 0
+        val columnNumber = 0
+        val parseException = ParseException("describe exception here", lineNumber, columnNumber)
+        return ParseResult(parseException)
+    }
+}
+```
 
 ### SuggestionProvider
 
-`SuggestionProvider` is an interface which provides code suggestions to display them in a `TextProcessor`.
+`SuggestionProvider` is an interface which provides code suggestions to display them in the `TextProcessor`.
 
-TODO: add more info
+After calling `setTextContent` the code editor will call `processLine` for each line to find all code suggestions.
+Also this method will be called every time text changes for the specific line, so you can keep your suggestion list up to date.
+
+```kotlin
+class CustomProvider : SuggestionProvider {
+
+    // You can use WordsManager
+    // if you don't want to write the language-specific implementation
+    private val wordsManager = WordsManager()
+
+    override fun getAll(): Set<Suggestion> {
+        return wordsManager.getWords()
+    }
+
+    override fun processLine(lineNumber: Int, text: String) {
+        wordsManager.processLine(lineNumber, text)
+    }
+
+    override fun deleteLine(lineNumber: Int) {
+        wordsManager.deleteLine(lineNumber)
+    }
+
+    override fun clearLines() {
+        wordsManager.clearLines()
+    }
+}
+```
 
 ### LanguageStyler
 
-TODO: add more info
+`LanguageStyler` is an interface which provides syntax highlight spans to display them in the `TextProcessor`.
+
+The `execute` method will be executed on the main thread. That means the UI blocks during the execution and no interaction is possible for this period. The code editor never use this method directly.
+The `enqueue` method it's just asynchronous version of `execute` that will be called every time the text changes.
+
+You can use regex or lexer in the `execute` method to match all the spans in the text.
+**Remember:** the more spans you add, the more time it takes to render on the main thread.
+
+```kotlin
+class CustomStyler : LanguageStyler {
+
+    private var task: StylingTask? = null
+
+    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+        
+        // TODO Implement syntax highlighting
+        
+        return syntaxHighlightSpans
+    }
+
+    // StylingResult it's just a callback (List<SyntaxHighlightSpan>) -> Unit
+    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
+        task?.cancelTask()
+        task = StylingTask(
+            doAsync = { execute(sourceCode, syntaxScheme) },
+            onSuccess = stylingResult
+        )
+        task?.executeTask()
+    }
+
+    override fun cancel() {
+        task?.cancelTask()
+        task = null
+    }
+}
+```
