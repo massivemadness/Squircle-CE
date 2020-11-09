@@ -21,6 +21,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.text.Editable
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import androidx.core.text.PrecomputedTextCompat
@@ -52,6 +53,7 @@ class TextProcessor @JvmOverloads constructor(
     init {
         configure()
         colorize()
+        gravity = Gravity.START or Gravity.TOP
     }
 
     override fun doAfterTextChanged(text: Editable?) {
