@@ -23,6 +23,7 @@ import android.graphics.Typeface
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.view.Gravity
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.brackeys.ui.editorkit.R
@@ -54,6 +55,10 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     private val gutterDividerPaint = Paint()
     private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
+
+    init {
+        gravity = Gravity.START or Gravity.TOP
+    }
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

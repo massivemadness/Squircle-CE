@@ -313,7 +313,6 @@
             <com.brackeys.ui.editorkit.widget.TextProcessor
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="top|start"
                 android:importantForAutofill="no"
                 android:visibility="@{(viewModel.stateLoadingDocuments || viewModel.stateNothingFound) ? View.INVISIBLE : View.VISIBLE}"
                 android:textCursorDrawable="@drawable/caret"
