@@ -23,8 +23,8 @@ ext {
             buildTools: '29.0.3',
 
             // Library
-            publishVersionName: '1.0.0',
-            publishVersionCode: 1
+            publishVersionName: '1.0.1',
+            publishVersionCode: 2
     ]
 
     // Core
