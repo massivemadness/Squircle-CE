@@ -198,7 +198,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         gutterCurrentLineNumberPaint.isDither = false
         gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
-        gutterCurrentLineNumberPaint.textSize = context.scaledDensity * config.fontSize
+        gutterTextPaint.textSize = context.scaledDensity * config.fontSize
         gutterTextPaint.color = colorScheme.gutterTextColor
         gutterTextPaint.isAntiAlias = true
         gutterTextPaint.isDither = false
