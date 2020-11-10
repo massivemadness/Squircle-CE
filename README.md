@@ -282,7 +282,7 @@ If you want to replace selected find result you can use `replaceFindResult(repla
 If you're using bluetooth keyboard you probably want to use keyboard shortcuts to write your code faster. To support the keyboard shortcuts you need to add `ShortcutListener`:
 
 ```kotlin
-editor.shortcutListener = object : ShortcutListener {
+editor.onShortcutListener = object : OnShortcutListener {
     override fun onShortcut(shortcut: Shortcut): Boolean {
         val (ctrl, shift, alt, keyCode) = shortcut
         return when {
@@ -440,9 +440,10 @@ Every language consist of 3 key components:
 
 `LanguageParser` is an interface which detects syntax errors so you can display them in the `TextProcessor` later.
 
-To create a custom parser you need to implement `execute` method that will return a `ParseResult` model as the result.  
-If `ParseResult` contains an exception it means that the source code can't compile and contains syntax errors. You should highlight an error line by calling `editor.setErrorLine(lineNumber)` method.  
-Remember, that you **shouldn't** use this method on the main thread.
+To create a custom parser you need to implement `execute` method that will return a `ParseResult`.  
+If `ParseResult` contains an exception it means that the source code can't compile and contains syntax errors. You should highlight an error line by calling `editor.setErrorLine(lineNumber)` method.
+
+Remember that you **shouldn't** use this method on the main thread.
 
 ```kotlin
 class CustomParser : LanguageParser {
@@ -461,7 +462,7 @@ class CustomParser : LanguageParser {
 
 `SuggestionProvider` is an interface which provides code suggestions to display them in the `TextProcessor`.
 
-After calling `setTextContent` the code editor will call `processLine` for each line to find all code suggestions.
+After calling `setTextContent` the code editor will call `processLine` for each line to find all code suggestions.  
 Also this method will be called every time text changes for the specific line, so you can keep your suggestion list up to date.
 
 ```kotlin
@@ -493,10 +494,10 @@ class CustomProvider : SuggestionProvider {
 
 `LanguageStyler` is an interface which provides syntax highlight spans to display them in the `TextProcessor`.
 
-The `execute` method will be executed on the main thread. That means the UI blocks during the execution and no interaction is possible for this period. The code editor never use this method directly.
-The `enqueue` method it's just asynchronous version of `execute` that will be called every time the text changes.
-
+The `execute` method will be executed on the main thread. That means the UI blocks during the execution and no interaction is possible for this period. The code editor never use this method directly.  
+The `enqueue` method it's just asynchronous version of `execute` that will be called every time the text changes.  
 You can use regex or lexer in the `execute` method to match all the spans in the text.
+
 **Remember:** the more spans you add, the more time it takes to render on the main thread.
 
 ```kotlin

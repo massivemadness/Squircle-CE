@@ -37,8 +37,8 @@ import com.brackeys.ui.databinding.FragmentEditorBinding
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.listener.OnChangeListener
+import com.brackeys.ui.editorkit.listener.OnShortcutListener
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
-import com.brackeys.ui.editorkit.listener.ShortcutListener
 import com.brackeys.ui.editorkit.model.Shortcut
 import com.brackeys.ui.editorkit.widget.TextScroller
 import com.brackeys.ui.feature.base.adapters.TabAdapter
@@ -146,7 +146,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         // region SHORTCUTS
 
-        binding.editor.shortcutListener = object : ShortcutListener {
+        binding.editor.onShortcutListener = object : OnShortcutListener {
             override fun onShortcut(shortcut: Shortcut): Boolean {
                 val (ctrl, shift, alt, keyCode) = shortcut
                 return when {

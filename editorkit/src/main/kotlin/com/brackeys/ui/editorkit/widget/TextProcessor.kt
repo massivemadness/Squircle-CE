@@ -28,7 +28,7 @@ import com.brackeys.ui.editorkit.R
 import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.internal.CodeSuggestsEditText
 import com.brackeys.ui.editorkit.listener.OnChangeListener
-import com.brackeys.ui.editorkit.listener.ShortcutListener
+import com.brackeys.ui.editorkit.listener.OnShortcutListener
 import com.brackeys.ui.editorkit.model.Shortcut
 
 class TextProcessor @JvmOverloads constructor(
@@ -43,7 +43,7 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     var onChangeListener: OnChangeListener? = null
-    var shortcutListener: ShortcutListener? = null
+    var onShortcutListener: OnShortcutListener? = null
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
 
@@ -62,7 +62,7 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (event != null && shortcutListener != null) {
+        if (event != null && onShortcutListener != null) {
             val shortcut = Shortcut(
                 ctrl = event.isCtrlPressed,
                 shift = event.isShiftPressed,
@@ -72,7 +72,7 @@ class TextProcessor @JvmOverloads constructor(
 
             // Shortcuts can be handled only if one of these keys is pressed
             if (shortcut.ctrl || shortcut.shift || shortcut.alt) {
-                if (shortcutListener!!.onShortcut(shortcut)) {
+                if (onShortcutListener!!.onShortcut(shortcut)) {
                     return true
                 }
             }

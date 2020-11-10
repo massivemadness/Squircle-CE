@@ -18,7 +18,7 @@ package com.brackeys.ui.editorkit.listener
 
 import android.text.Editable
 
-interface TextChangeListener {
+internal interface TextChangeListener {
     fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int)
     fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int)
     fun doAfterTextChanged(text: Editable?)
