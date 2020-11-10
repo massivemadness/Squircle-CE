@@ -56,9 +56,6 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     private val gutterCurrentLineNumberPaint = Paint()
     private val gutterTextPaint = Paint()
 
-    init {
-        gravity = Gravity.START or Gravity.TOP
-    }
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -79,6 +76,10 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     private var textChangeStart = 0
     private var textChangeEnd = 0
     private var textChangedNewText = ""
+    
+    init {
+        gravity = Gravity.START or Gravity.TOP
+    }
 
     override fun onDraw(canvas: Canvas?) {
         if (layout != null) {
