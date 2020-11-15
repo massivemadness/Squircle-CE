@@ -21,7 +21,7 @@
 5. [Undo Redo](#undo-redo)
 6. [Navigation](#navigation)
    1. [Text Navigation](#text-navigation)
-   2. [Find Replace](#find-replace)
+   2. [Find and Replace](#find-and-replace)
    3. [Shortcuts](#shortcuts)
 7. [Theming](#theming)
 
@@ -127,7 +127,7 @@ editor.config = Config(
 
 ### Text Scroller
 
-To attach the fast scroller you need to add `TextScroller` in your layout:
+To attach the text scroller you need to add `TextScroller` in your layout:
 
 ```xml
 <com.brackeys.ui.editorkit.widget.TextScroller
@@ -198,6 +198,8 @@ editor.suggestionAdapter = AutoCompleteAdapter(this)
 
 You can enable/disable suggestions dynamically by changing the `codeCompletion` parameter in editor's [Config](#config).
 
+**UPD:** If you having an issues with the popup position (e.g vertical offset), this might be solved by explicitly setting [android:dropDownAnchor](https://developer.android.com/reference/android/widget/AutoCompleteTextView#attr_android:dropDownAnchor) in XML.
+
 ---
 
 ## Undo Redo
@@ -256,9 +258,23 @@ try {
 }
 ```
 
-### Find Replace
+### Find and Replace
 
-Before using `find` method you have to provide a search string and `FindParams` object:
+The `TextProcessor` has built-in support for search and replace operations, including:
+- Search forward or backward
+- Regular Expressions
+- Match Case
+- Words Only
+
+The class itself contains self-explanatory methods for all your searching needs:
+- `find(searchString, findParams)` - Find all possible results in text with provided options.
+- `replaceFindResult(replaceText)` - Finds current match and replaces it with new text.
+- `replaceAllFindResults(replaceText)` - Finds all matches and replaces them with the new text.
+- `findNext()` - Finds the next match and scrolls to it.
+- `findPrevious()` - Finds the previous match and scrolls to it.
+- `clearFindResultSpans()` - Clears all find spans on the screen. Call this method when you're done searching.
+
+Example:
 
 ```kotlin
 import com.brackeys.ui.editorkit.model.FindParams
@@ -266,20 +282,17 @@ import com.brackeys.ui.editorkit.model.FindParams
 val findParams = FindParams(
     regex = false, // whether the regex will be used
     matchCase = true, // case sensitive
-    wordsOnly = true // words only?
+    wordsOnly = true // words only
 )
 
 editor.find("function", findParams)
+
+// To navigate between results use findNext() and findPrevious()
 ```
-
-After that, the `TextProcessor` will highlight all find results. You can also navigate between find results using `findNext()` and `findPrevious()` methods.
-To clear find spans use `clearFindResultSpans()` method.
-
-If you want to replace selected find result you can use `replaceFindResult(replaceText)` method or `replaceAllFindResults(replaceText)` to replace all.
 
 ### Shortcuts
 
-If you're using bluetooth keyboard you probably want to use keyboard shortcuts to write your code faster. To support the keyboard shortcuts you need to add `ShortcutListener`:
+If you're using bluetooth keyboard you probably want to use keyboard shortcuts to write your code faster. To support the keyboard shortcuts you need to add `OnShortcutListener`:
 
 ```kotlin
 editor.onShortcutListener = object : OnShortcutListener {
@@ -305,7 +318,7 @@ Return `true` if the listener has consumed the shortcut event, `false` otherwise
 
 ## Theming
 
-The `EditorTheme` class provides some predefined color schemes:
+The `editorkit` module includes some default themes in the `EditorTheme` class:
 
 ```kotlin
 editor.colorScheme = EditorTheme.DARCULA // default
@@ -319,7 +332,7 @@ EditorTheme.VISUAL_STUDIO_2013
 
 ```
 
-You can also create custom theme by changing the `ColorScheme` properties:
+You can also write your own theme by changing the `ColorScheme` properties. The example below shows how you can programmatically load the color scheme:
 
 ```kotlin
 editor.colorScheme = ColorScheme(
@@ -441,7 +454,7 @@ Every language consist of 3 key components:
 `LanguageParser` is an interface which detects syntax errors so you can display them in the `TextProcessor` later.
 
 To create a custom parser you need to implement `execute` method that will return a `ParseResult`.  
-If `ParseResult` contains an exception it means that the source code can't compile and contains syntax errors. You should highlight an error line by calling `editor.setErrorLine(lineNumber)` method.
+If `ParseResult` contains an exception it means that the source code can't compile and contains syntax errors. You can highlight an error line by calling `editor.setErrorLine(lineNumber)` method.
 
 Remember that you **shouldn't** use this method on the main thread.
 
@@ -462,8 +475,10 @@ class CustomParser : LanguageParser {
 
 `SuggestionProvider` is an interface which provides code suggestions to display them in the `TextProcessor`.
 
-After calling `setTextContent` the code editor will call `processLine` for each line to find all code suggestions.  
-Also this method will be called every time text changes for the specific line, so you can keep your suggestion list up to date.
+The text scanning is done on a per-line basis. When the user edits code on a single line, that line is re-scanned by the current `SuggestionsProvider` implementation, so you can keep your suggestions list up to date.
+This is done by calling the `processLine` method. This method is responsible for parsing a line of text and saving the code suggestions for that line.
+
+After calling `setTextContent` the code editor will call `processLine` for each line to find all possible code suggestions.
 
 ```kotlin
 class CustomProvider : SuggestionProvider {
