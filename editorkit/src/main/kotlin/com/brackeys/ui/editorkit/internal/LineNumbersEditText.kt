@@ -232,9 +232,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     }
 
     open fun clearText() {
-        val textParams = TextViewCompat.getTextMetricsParams(this)
-        val precomputedText = PrecomputedTextCompat.create(text, textParams)
-        setTextContent(precomputedText)
+        setTextContent("")
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
@@ -264,7 +262,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         lines.remove(lineNumber)
     }
 
-    @Suppress("unused")
+    @Suppress("all")
     fun setTextContent(text: CharSequence) {
         val textParams = TextViewCompat.getTextMetricsParams(this)
         val precomputedText = PrecomputedTextCompat.create(text, textParams)

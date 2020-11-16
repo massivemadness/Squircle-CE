@@ -204,7 +204,7 @@ You can enable/disable suggestions dynamically by changing the `codeCompletion` 
 
 ## Undo Redo
 
-The `TextProcessor` supports undo/redo operations, but remember that you should **always** check the ability to undo/redo before calling actual methods:
+The `TextProcessor` supports undo/redo operations, but remember that you **must** check the ability to undo/redo before calling actual methods:
 
 ```kotlin
 // Undo
@@ -274,8 +274,6 @@ The class itself contains self-explanatory methods for all your searching needs:
 - `findPrevious()` - Finds the previous match and scrolls to it.
 - `clearFindResultSpans()` - Clears all find spans on the screen. Call this method when you're done searching.
 
-Example:
-
 ```kotlin
 import com.brackeys.ui.editorkit.model.FindParams
 
@@ -311,7 +309,7 @@ editor.onShortcutListener = object : OnShortcutListener {
 ```
 
 The `onShortcut` method will be invoked only if at least one of following keys is pressed: CTRL, Shift, Alt.  
-You might already notice that you have to return a `Boolean` value as the result of `onShortcut` method.
+You might already noticed that you have to return a `Boolean` value as the result of `onShortcut` method.
 Return `true` if the listener has consumed the shortcut event, `false` otherwise.
 
 ---
@@ -456,7 +454,7 @@ Every language consist of 3 key components:
 To create a custom parser you need to implement `execute` method that will return a `ParseResult`.  
 If `ParseResult` contains an exception it means that the source code can't compile and contains syntax errors. You can highlight an error line by calling `editor.setErrorLine(lineNumber)` method.
 
-Remember that you **shouldn't** use this method on the main thread.
+**Remember** that you **shouldn't** use this method on the main thread.
 
 ```kotlin
 class CustomParser : LanguageParser {
@@ -511,7 +509,7 @@ class CustomProvider : SuggestionProvider {
 
 The `execute` method will be executed on the main thread. That means the UI blocks during the execution and no interaction is possible for this period. The code editor never use this method directly.  
 The `enqueue` method it's just asynchronous version of `execute` that will be called every time the text changes.  
-You can use regex or lexer in the `execute` method to match all the spans in the text.
+You can use regex or lexer in the `execute` method to match all the spans in text.
 
 **Remember:** the more spans you add, the more time it takes to render on the main thread.
 

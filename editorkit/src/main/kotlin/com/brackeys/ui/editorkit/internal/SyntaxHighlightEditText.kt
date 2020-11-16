@@ -124,14 +124,13 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     fun setErrorLine(lineNumber: Int) {
-        if (lineNumber == 0) {
-            return
-        }
-        val lineStart = getIndexForStartOfLine(lineNumber - 1)
-        val lineEnd = getIndexForEndOfLine(lineNumber - 1)
-        if (lineStart < text.length && lineEnd < text.length && lineStart > -1 && lineEnd > -1) {
-            isErrorSpansVisible = true
-            text.setSpan(ErrorSpan(), lineStart, lineEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        if (lineNumber > 0) {
+            val lineStart = getIndexForStartOfLine(lineNumber - 1)
+            val lineEnd = getIndexForEndOfLine(lineNumber - 1)
+            if (lineStart < text.length && lineEnd < text.length && lineStart > -1 && lineEnd > -1) {
+                isErrorSpansVisible = true
+                text.setSpan(ErrorSpan(), lineStart, lineEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
         }
     }
 
