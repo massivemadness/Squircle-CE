@@ -33,7 +33,6 @@ import com.brackeys.ui.editorkit.theme.EditorTheme
 import com.brackeys.ui.editorkit.utils.LinesCollection
 import com.brackeys.ui.editorkit.utils.dpToPx
 import com.brackeys.ui.editorkit.utils.scaledDensity
-import kotlin.math.abs
 
 abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
@@ -285,7 +284,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         if (lineHeight == 0) {
             return 0
         }
-        val line = scrollY / lineHeight
+        val line = layout.getLineForVertical(scrollY)
         if (line < 0) {
             return 0
         }
@@ -298,7 +297,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         if (lineHeight == 0) {
             return 0
         }
-        val line = abs((scrollY + height) / lineHeight) + 1
+        val line = layout.getLineForVertical(scrollY + height)
         if (line < 0) {
             return 0
         }
