@@ -64,8 +64,12 @@
             android:label="@string/label_settings"/>
 
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:name="com.brackeys.ui.feature.base.providers.ContextProvider"
+            android:authorities="${applicationId}.brackeyside.context_provider"
+            android:exported="false" />
+        <provider
+            android:name="com.brackeys.ui.feature.base.providers.FileProvider"
+            android:authorities="${applicationId}.brackeyside.file_provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
