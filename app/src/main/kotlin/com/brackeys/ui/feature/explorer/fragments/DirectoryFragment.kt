@@ -21,6 +21,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
@@ -38,7 +39,6 @@ import com.brackeys.ui.data.utils.replaceList
 import com.brackeys.ui.databinding.FragmentDirectoryBinding
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
 import com.brackeys.ui.feature.base.fragments.BaseFragment
-import com.brackeys.ui.feature.base.providers.getUriForFile
 import com.brackeys.ui.feature.explorer.adapters.FileAdapter
 import com.brackeys.ui.feature.explorer.utils.FileKeyProvider
 import com.brackeys.ui.feature.explorer.utils.Operation
@@ -280,7 +280,12 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 throw FileNotFoundException(file.path)
             }
 
-            val uri = getUriForFile(file)
+            val uri = FileProvider.getUriForFile(
+                requireContext(),
+                "${context?.packageName}.provider",
+                file
+            )
+
             val mime = context?.contentResolver?.getType(uri)
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
