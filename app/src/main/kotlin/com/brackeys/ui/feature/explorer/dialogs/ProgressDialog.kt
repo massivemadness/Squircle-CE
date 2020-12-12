@@ -29,7 +29,7 @@ import com.brackeys.ui.feature.base.dialogs.BaseDialogFragment
 import com.brackeys.ui.feature.explorer.utils.Operation
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel
-import com.google.android.material.progressindicator.ProgressIndicator
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -68,7 +68,7 @@ class ProgressDialog : BaseDialogFragment() {
             val textElapsedTime = findViewById<TextView>(R.id.text_elapsed_time)
             val textDetails = findViewById<TextView>(R.id.text_details)
             val textOfTotal = findViewById<TextView>(R.id.text_of_total)
-            val progressIndicator = findViewById<ProgressIndicator>(R.id.progress)
+            val progressIndicator = findViewById<LinearProgressIndicator>(R.id.progress)
 
             formatElapsedTime(textElapsedTime, 0L) // 00:00
 
