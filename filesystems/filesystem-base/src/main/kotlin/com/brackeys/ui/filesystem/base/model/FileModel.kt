@@ -36,7 +36,7 @@ data class FileModel(
             ".as", ".cs", ".c", ".cpp", ".h", ".hpp", ".lisp", ".lsp",
             ".cl", ".l", ".py", ".vb", ".bas", ".cls", ".sql", ".sqlite",
             ".sqlite2", ".sqlite3", ".htm", ".html", ".xhtml", ".xht",
-            ".xml"
+            ".xml", ".sh", ".ksh", ".bsh", ".csh", ".tcsh", ".zsh", ".bash"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",
