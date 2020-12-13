@@ -39,7 +39,6 @@ import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.listener.OnChangeListener
 import com.brackeys.ui.editorkit.listener.OnShortcutListener
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
-import com.brackeys.ui.editorkit.model.Shortcut
 import com.brackeys.ui.editorkit.widget.TextScroller
 import com.brackeys.ui.feature.base.adapters.TabAdapter
 import com.brackeys.ui.feature.base.fragments.BaseFragment
@@ -112,30 +111,26 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         binding.scroller.link(binding.editor)
 
         binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
-        binding.editor.onUndoRedoChangedListener = object : OnUndoRedoChangedListener {
-            override fun onUndoRedoChanged() {
-                val canUndo = binding.editor.canUndo()
-                val canRedo = binding.editor.canRedo()
+        binding.editor.onUndoRedoChangedListener = OnUndoRedoChangedListener {
+            val canUndo = binding.editor.canUndo()
+            val canRedo = binding.editor.canRedo()
 
-                binding.actionUndo.isClickable = canUndo
-                binding.actionRedo.isClickable = canRedo
+            binding.actionUndo.isClickable = canUndo
+            binding.actionRedo.isClickable = canRedo
 
-                binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
-                binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
-            }
+            binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
+            binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
         }
 
         binding.editor.onUndoRedoChangedListener?.onUndoRedoChanged() // update undo/redo alpha
 
-        binding.editor.onChangeListener = object : OnChangeListener {
-            override fun onChange() {
-                val position = adapter.selectedPosition
-                if (position > -1) {
-                    val isModified = adapter.currentList[position].modified
-                    if (!isModified) {
-                        adapter.currentList[position].modified = true
-                        adapter.notifyItemChanged(position)
-                    }
+        binding.editor.onChangeListener = OnChangeListener {
+            val position = adapter.selectedPosition
+            if (position > -1) {
+                val isModified = adapter.currentList[position].modified
+                if (!isModified) {
+                    adapter.currentList[position].modified = true
+                    adapter.notifyItemChanged(position)
                 }
             }
         }
@@ -146,35 +141,32 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         // region SHORTCUTS
 
-        binding.editor.onShortcutListener = object : OnShortcutListener {
-            override fun onShortcut(shortcut: Shortcut): Boolean {
-                val (ctrl, shift, alt, keyCode) = shortcut
-                return when {
-                    ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
-                    ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
-                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
-                    alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
-                    alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
-                    alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
-                    alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
-                    keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
-                    else -> false
-                }
+        binding.editor.onShortcutListener = OnShortcutListener { (ctrl, shift, alt, keyCode) ->
+            when {
+                ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
+                ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
+                alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
+                alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
+                alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
+                alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
+                keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
+                else -> false
             }
         }
 

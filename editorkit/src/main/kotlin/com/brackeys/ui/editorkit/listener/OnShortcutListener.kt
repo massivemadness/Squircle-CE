@@ -18,6 +18,6 @@ package com.brackeys.ui.editorkit.listener
 
 import com.brackeys.ui.editorkit.model.Shortcut
 
-interface OnShortcutListener {
+fun interface OnShortcutListener {
     fun onShortcut(shortcut: Shortcut): Boolean
 }
