@@ -76,7 +76,7 @@ ext {
     mockito_version = '3.6.28'
 
     // Lint
-    ktlint_version = '0.36.0'
+    ktlint_version = '0.40.0'
 
     library = [
             // Core
@@ -121,6 +121,9 @@ ext {
             dagger_hilt: "com.google.dagger:hilt-android:$dagger_version",
             dagger_hilt_compiler: "com.google.dagger:hilt-compiler:$dagger_version",
 
+            // Lint
+            ktlint: "com.pinterest:ktlint:$ktlint_version",
+
             // Other
             keyboardevent: "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboardevent_version",
             rhino: "org.mozilla:rhino:$rhino_version",
@@ -137,9 +140,5 @@ ext {
             junit_ext: "androidx.test.ext:junit:$junit_ext_version",
             test_runner: "androidx.test:runner:$test_runner_version",
             espresso_core: "androidx.test.espresso:espresso-core:$espresso_core_version"
-    ]
-
-    lint = [
-            ktlint: "com.pinterest:ktlint:$ktlint_version"
     ]
 }

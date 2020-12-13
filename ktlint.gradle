@@ -23,7 +23,7 @@ configurations {
 }
 
 dependencies {
-    ktlint rootProject.ext.lint.ktlint
+    ktlint library.ktlint
 }
 
 task ktlint(type: JavaExec, group: "verification") {

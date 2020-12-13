@@ -61,8 +61,8 @@ import com.jakewharton.rxbinding3.widget.textChangeEvents
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
-import java.util.concurrent.TimeUnit
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
