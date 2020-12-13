@@ -2,7 +2,7 @@ package com.brackeys.ui.editorkit.model
 
 import android.graphics.Typeface
 
-data class Config(
+data class EditorConfig(
 
     // Font
     var fontSize: Float = 14f,

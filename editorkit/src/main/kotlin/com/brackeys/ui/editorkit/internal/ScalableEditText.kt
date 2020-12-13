@@ -44,7 +44,7 @@ abstract class ScalableEditText @JvmOverloads constructor(
             MotionEvent.ACTION_CANCEL,
             MotionEvent.ACTION_UP -> isDoingPinchZoom = false
             MotionEvent.ACTION_MOVE -> {
-                if (config.pinchZoom && event.pointerCount == 2) {
+                if (editorConfig.pinchZoom && event.pointerCount == 2) {
                     val distance = getDistanceBetweenTouches(event)
                     if (!isDoingPinchZoom) {
                         pinchFactor = textSize / context.scaledDensity / distance

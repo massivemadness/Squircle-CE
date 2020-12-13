@@ -257,18 +257,18 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         // region PREFERENCES
 
         viewModel.settingsEvent.observe(viewLifecycleOwner) { queue ->
-            val tempConfig = binding.editor.config
+            val config = binding.editor.editorConfig
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
                     is SettingsEvent.ThemePref -> {
                         binding.editor.colorScheme = event.value.colorScheme
                     }
-                    is SettingsEvent.FontSize -> tempConfig.fontSize = event.value
+                    is SettingsEvent.FontSize -> config.fontSize = event.value
                     is SettingsEvent.FontType -> {
-                        tempConfig.fontType = requireContext().createTypefaceFromPath(event.value)
+                        config.fontType = requireContext().createTypefaceFromPath(event.value)
                     }
-                    is SettingsEvent.WordWrap -> tempConfig.wordWrap = event.value
-                    is SettingsEvent.CodeCompletion -> tempConfig.codeCompletion = event.value
+                    is SettingsEvent.WordWrap -> config.wordWrap = event.value
+                    is SettingsEvent.CodeCompletion -> config.codeCompletion = event.value
                     is SettingsEvent.ErrorHighlight -> {
                         if (event.value) {
                             binding.editor
@@ -290,9 +290,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .disposeOnFragmentDestroyView()
                         }
                     }
-                    is SettingsEvent.PinchZoom -> tempConfig.pinchZoom = event.value
-                    is SettingsEvent.CurrentLine -> tempConfig.highlightCurrentLine = event.value
-                    is SettingsEvent.Delimiters -> tempConfig.highlightDelimiters = event.value
+                    is SettingsEvent.PinchZoom -> config.pinchZoom = event.value
+                    is SettingsEvent.CurrentLine -> config.highlightCurrentLine = event.value
+                    is SettingsEvent.Delimiters -> config.highlightDelimiters = event.value
                     is SettingsEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                             binding.keyboardContainer.isVisible = event.value && isOpen
@@ -301,15 +301,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     is SettingsEvent.KeyboardPreset -> {
                         binding.extendedKeyboard.submitList(event.value)
                     }
-                    is SettingsEvent.SoftKeys -> tempConfig.softKeyboard = event.value
-                    is SettingsEvent.AutoIndent -> tempConfig.autoIndentation = event.value
-                    is SettingsEvent.AutoBrackets -> tempConfig.autoCloseBrackets = event.value
-                    is SettingsEvent.AutoQuotes -> tempConfig.autoCloseQuotes = event.value
-                    is SettingsEvent.UseSpacesNotTabs -> tempConfig.useSpacesInsteadOfTabs = event.value
-                    is SettingsEvent.TabWidth -> tempConfig.tabWidth = event.value
+                    is SettingsEvent.SoftKeys -> config.softKeyboard = event.value
+                    is SettingsEvent.AutoIndent -> config.autoIndentation = event.value
+                    is SettingsEvent.AutoBrackets -> config.autoCloseBrackets = event.value
+                    is SettingsEvent.AutoQuotes -> config.autoCloseQuotes = event.value
+                    is SettingsEvent.UseSpacesNotTabs -> config.useSpacesInsteadOfTabs = event.value
+                    is SettingsEvent.TabWidth -> config.tabWidth = event.value
                 }
             }
-            binding.editor.config = tempConfig
+            binding.editor.editorConfig = config
         }
 
         // endregion PREFERENCES

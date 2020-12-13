@@ -82,7 +82,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         if (layout != null) {
             val currentLineStart = lines.getLineForIndex(selectionStart)
-            if (config.highlightCurrentLine) {
+            if (editorConfig.highlightCurrentLine) {
                 if (currentLineStart == lines.getLineForIndex(selectionEnd)) {
                     val selectedLineStartIndex = getIndexForStartOfLine(currentLineStart)
                     val selectedLineEndIndex = getIndexForEndOfLine(currentLineStart)
@@ -196,13 +196,13 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         gutterDividerPaint.style = Paint.Style.STROKE
         gutterDividerPaint.strokeWidth = 2.6f
 
-        gutterCurrentLineNumberPaint.textSize = context.scaledDensity * config.fontSize
+        gutterCurrentLineNumberPaint.textSize = context.scaledDensity * editorConfig.fontSize
         gutterCurrentLineNumberPaint.color = colorScheme.gutterCurrentLineNumberColor
         gutterCurrentLineNumberPaint.isAntiAlias = true
         gutterCurrentLineNumberPaint.isDither = false
         gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
-        gutterTextPaint.textSize = context.scaledDensity * config.fontSize
+        gutterTextPaint.textSize = context.scaledDensity * editorConfig.fontSize
         gutterTextPaint.color = colorScheme.gutterTextColor
         gutterTextPaint.isAntiAlias = true
         gutterTextPaint.isDither = false

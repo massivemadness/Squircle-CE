@@ -41,7 +41,7 @@ abstract class ScrollableEditText @JvmOverloads constructor(
     private var velocityTracker: VelocityTracker? = null
 
     override fun configure() {
-        imeOptions = if (config.softKeyboard) {
+        imeOptions = if (editorConfig.softKeyboard) {
             EditorInfo.IME_ACTION_UNSPECIFIED
         } else {
             EditorInfo.IME_FLAG_NO_EXTRACT_UI
@@ -51,10 +51,10 @@ abstract class ScrollableEditText @JvmOverloads constructor(
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE or
                 InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
 
-        textSize = config.fontSize
-        typeface = config.fontType
+        textSize = editorConfig.fontSize
+        typeface = editorConfig.fontType
 
-        setHorizontallyScrolling(!config.wordWrap)
+        setHorizontallyScrolling(!editorConfig.wordWrap)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -76,7 +76,7 @@ abstract class ScrollableEditText @JvmOverloads constructor(
             }
             MotionEvent.ACTION_UP -> {
                 velocityTracker?.computeCurrentVelocity(1000, maximumVelocity)
-                val velocityX = if (!config.wordWrap) {
+                val velocityX = if (!editorConfig.wordWrap) {
                     velocityTracker?.xVelocity?.toInt() ?: 0
                 } else 0
                 val velocityY = velocityTracker?.yVelocity?.toInt() ?: 0

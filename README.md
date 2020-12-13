@@ -15,7 +15,7 @@
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
 3. [More Options](#more-options)
-   1. [Config](#config)
+   1. [Configuration](#configuration)
    2. [Text Scroller](#text-scroller)
 4. [Code Suggestions](#code-suggestions)
 5. [Undo Redo](#undo-redo)
@@ -100,12 +100,12 @@ Now you can begin using the code editor.
 
 ## More Options
 
-### Config
+### Configuration
 
-You can change the default code editor's behavior by passing the `Config` object to it:
+You can change the default code editor's behavior by passing the `EditorConfig` object to it:
 
 ```kotlin
-editor.config = Config(
+editor.editorConfig = EditorConfig(
     fontSize = 14f, // text size, including the line numbers
     fontType = Typeface.MONOSPACE, // typeface, including the line numbers
 
@@ -196,7 +196,7 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
 editor.suggestionAdapter = AutoCompleteAdapter(this)
 ```
 
-You can enable/disable suggestions dynamically by changing the `codeCompletion` parameter in editor's [Config](#config).
+You can enable/disable suggestions dynamically by changing the `codeCompletion` parameter in [EditorConfig](#configuration).
 
 **UPD:** If you having an issues with the popup position (e.g vertical offset), this might be solved by explicitly setting [android:dropDownAnchor](https://developer.android.com/reference/android/widget/AutoCompleteTextView#attr_android:dropDownAnchor) in XML.
 
@@ -395,6 +395,7 @@ dependencies {
     implementation 'com.brackeys.ui:language-markdown:1.0.1'
     implementation 'com.brackeys.ui:language-plaintext:1.0.1'
     implementation 'com.brackeys.ui:language-python:1.0.1'
+    implementation 'com.brackeys.ui:language-shell:1.0.1'
     implementation 'com.brackeys.ui:language-sql:1.0.1'
     implementation 'com.brackeys.ui:language-visualbasic:1.0.1'
     implementation 'com.brackeys.ui:language-xml:1.0.1'
