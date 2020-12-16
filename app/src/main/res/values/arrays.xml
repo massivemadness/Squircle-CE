@@ -99,6 +99,7 @@
         <item>Lua</item>
         <item>Markdown</item>
         <item>Python</item>
+        <item>Shell</item>
         <item>SQL</item>
         <item>Visual Basic</item>
         <item>XML</item>
@@ -118,6 +119,7 @@
         <item>snippets/lua.txt</item>
         <item>snippets/markdown.txt</item>
         <item>snippets/python.txt</item>
+        <item>snippets/shell.txt</item>
         <item>snippets/sql.txt</item>
         <item>snippets/visualbasic.txt</item>
         <item>snippets/xml.txt</item>
@@ -137,6 +139,7 @@
         <item>.lua</item>
         <item>.md</item>
         <item>.py</item>
+        <item>.sh</item>
         <item>.sql</item>
         <item>.vb</item>
         <item>.xml</item>
