@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_gravity="center"
-            android:id="@+id/progress"
+            android:id="@+id/progressIndicator"
             tools:progress="6"
             tools:max="18"/>
 
