@@ -80,7 +80,7 @@ fun PopupMenu.makeRightPaddingRecursively() {
     }
 }
 
-fun MenuItem.makeRightPadding() {
+private fun MenuItem.makeRightPadding() {
     if (icon != null) {
         val iconMargin = 8.dpToPx() // 8dp - default margin
         icon = InsetDrawable(icon, iconMargin, 0, iconMargin, 0)
