@@ -108,8 +108,8 @@ dependencies {
     implementation library.rxpreferences
 
     // DI
-    implementation library.hilt
-    kapt library.hilt_compiler
+    implementation library.android_hilt
+    kapt library.android_hilt_compiler
     implementation library.dagger_hilt
     kapt library.dagger_hilt_compiler
 

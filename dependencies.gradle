@@ -27,16 +27,20 @@ ext {
             publishVersionCode: 3
     ]
 
+    // Plugins
+    agp_version = '4.1.1'
+    bintray_version = '1.8.5'
+
     // Core
     kotlin_version = '1.4.21'
     core_version = '1.5.0-alpha05'
-    activity_version = '1.2.0-beta02'
-    fragment_version = '1.3.0-beta02'
+    activity_version = '1.2.0-rc01'
+    fragment_version = '1.3.0-rc01'
     playcore_version = '1.8.1'
 
     // UI
     appcompat_version = '1.3.0-alpha02'
-    materialdesign_version = '1.3.0-alpha04'
+    materialdesign_version = '1.3.0-beta01'
     constraintlayout_version = '2.0.4'
     swiperefreshlayout_version = '1.2.0-alpha01'
     preferencescompat_version = '1.1.1'
@@ -44,9 +48,9 @@ ext {
     recyclerview_selection_version = '1.1.0-rc03'
 
     // AAC
-    lifecycle_version = '2.3.0-beta01'
+    lifecycle_version = '2.3.0-rc01'
     navigation_version = '2.3.2'
-    room_version = '2.3.0-alpha03'
+    room_version = '2.3.0-alpha04'
 
     // Network
     gson_version = '2.8.6'
@@ -77,6 +81,14 @@ ext {
 
     // Lint
     ktlint_version = '0.40.0'
+
+    plugin = [
+            android_gradle_plugin: "com.android.tools.build:gradle:$agp_version",
+            kotlin_gradle_plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version",
+            hilt_gradle_plugin: "com.google.dagger:hilt-android-gradle-plugin:$dagger_version",
+            safeargs_gradle_plugin: "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version",
+            bintray_gradle_plugin: "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version",
+    ]
 
     library = [
             // Core
@@ -116,8 +128,8 @@ ext {
             rxpreferences: "com.f2prateek.rx.preferences2:rx-preferences:$rxpreferences_version",
 
             // DI
-            hilt: "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_version",
-            hilt_compiler: "androidx.hilt:hilt-compiler:$hilt_version",
+            android_hilt: "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_version",
+            android_hilt_compiler: "androidx.hilt:hilt-compiler:$hilt_version",
             dagger_hilt: "com.google.dagger:hilt-android:$dagger_version",
             dagger_hilt_compiler: "com.google.dagger:hilt-compiler:$dagger_version",
 
