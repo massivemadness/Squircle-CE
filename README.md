@@ -139,13 +139,13 @@ To attach the text scroller you need to add `TextScroller` in your layout:
     app:thumbTint="@color/blue"/>
 ```
 
-Now you need to pass a reference to a view inside `link` method:
+Now you need to pass a reference to a view inside `attachTo` method:
 
 ```kotlin
 val editor = findViewById<TextProcessor>(R.id.editor)
 val scroller = findViewById<TextScroller>(R.id.scroller)
 
-scroller.link(editor)
+scroller.attachTo(editor)
 ```
 
 ---

@@ -210,7 +210,7 @@ class TextScroller @JvmOverloads constructor(
         }
     }
 
-    fun link(scrollableEditText: ScrollableEditText) {
+    fun attachTo(scrollableEditText: ScrollableEditText) {
         this.scrollableEditText = scrollableEditText
         this.scrollableEditText?.addOnScrollChangedListener(this)
     }

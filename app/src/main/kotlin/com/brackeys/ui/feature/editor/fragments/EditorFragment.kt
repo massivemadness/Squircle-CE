@@ -108,7 +108,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)
-        binding.scroller.link(binding.editor)
+        binding.scroller.attachTo(binding.editor)
 
         binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
         binding.editor.onUndoRedoChangedListener = OnUndoRedoChangedListener {
