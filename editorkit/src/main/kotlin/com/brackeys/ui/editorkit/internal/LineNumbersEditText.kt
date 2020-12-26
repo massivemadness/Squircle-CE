@@ -104,46 +104,48 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
             }
             updateGutter()
             super.onDraw(canvas)
-            canvas?.drawRect(
-                scrollX.toFloat(),
-                scrollY.toFloat(),
-                (gutterWidth + scrollX).toFloat(),
-                (scrollY + height).toFloat(),
-                gutterPaint
-            )
-            val bottomVisibleLine = getBottomVisibleLine()
-            var topVisibleLine = getTopVisibleLine()
-            if (topVisibleLine >= 2) {
-                topVisibleLine -= 2
-            } else {
-                topVisibleLine = 0
-            }
-            var prevLineNumber = -1
-            val textRight = (gutterWidth - gutterMargin / 2) + scrollX
-            while (topVisibleLine <= bottomVisibleLine) {
-                val number = lines.getLineForIndex(layout.getLineStart(topVisibleLine))
-                if (number != prevLineNumber) {
-                    canvas?.drawText(
-                        (number + 1).toString(),
-                        textRight.toFloat(),
-                        (layout.getLineBaseline(topVisibleLine) + paddingTop).toFloat(),
-                        if (number == currentLineStart) {
-                            gutterCurrentLineNumberPaint
-                        } else {
-                            gutterTextPaint
-                        }
-                    )
+            if (editorConfig.lineNumbers) {
+                canvas?.drawRect(
+                    scrollX.toFloat(),
+                    scrollY.toFloat(),
+                    (gutterWidth + scrollX).toFloat(),
+                    (scrollY + height).toFloat(),
+                    gutterPaint
+                )
+                val bottomVisibleLine = getBottomVisibleLine()
+                var topVisibleLine = getTopVisibleLine()
+                if (topVisibleLine >= 2) {
+                    topVisibleLine -= 2
+                } else {
+                    topVisibleLine = 0
                 }
-                prevLineNumber = number
-                topVisibleLine++
+                var prevLineNumber = -1
+                val textRight = (gutterWidth - gutterMargin / 2) + scrollX
+                while (topVisibleLine <= bottomVisibleLine) {
+                    val number = lines.getLineForIndex(layout.getLineStart(topVisibleLine))
+                    if (number != prevLineNumber) {
+                        canvas?.drawText(
+                            (number + 1).toString(),
+                            textRight.toFloat(),
+                            (layout.getLineBaseline(topVisibleLine) + paddingTop).toFloat(),
+                            if (number == currentLineStart) {
+                                gutterCurrentLineNumberPaint
+                            } else {
+                                gutterTextPaint
+                            }
+                        )
+                    }
+                    prevLineNumber = number
+                    topVisibleLine++
+                }
+                canvas?.drawLine(
+                    (gutterWidth + scrollX).toFloat(),
+                    scrollY.toFloat(),
+                    (gutterWidth + scrollX).toFloat(),
+                    (scrollY + height).toFloat(),
+                    gutterDividerPaint
+                )
             }
-            canvas?.drawLine(
-                (gutterWidth + scrollX).toFloat(),
-                scrollY.toFloat(),
-                (gutterWidth + scrollX).toFloat(),
-                (scrollY + height).toFloat(),
-                gutterDividerPaint
-            )
         }
     }
 
@@ -307,27 +309,29 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     }
 
     private fun updateGutter() {
-        var count = 3
-        var widestNumber = 0
-        var widestWidth = 0f
+        if (editorConfig.lineNumbers) {
+            var count = 3
+            var widestNumber = 0
+            var widestWidth = 0f
 
-        gutterDigitCount = lines.lineCount.toString().length
-        for (i in 0..9) {
-            val width = paint.measureText(i.toString())
-            if (width > widestWidth) {
-                widestNumber = i
-                widestWidth = width
+            gutterDigitCount = lines.lineCount.toString().length
+            for (i in 0..9) {
+                val width = paint.measureText(i.toString())
+                if (width > widestWidth) {
+                    widestNumber = i
+                    widestWidth = width
+                }
             }
+            if (gutterDigitCount >= count) {
+                count = gutterDigitCount
+            }
+            val builder = StringBuilder()
+            for (i in 0 until count) {
+                builder.append(widestNumber.toString())
+            }
+            gutterWidth = paint.measureText(builder.toString()).toInt()
+            gutterWidth += gutterMargin
         }
-        if (gutterDigitCount >= count) {
-            count = gutterDigitCount
-        }
-        val builder = StringBuilder()
-        for (i in 0 until count) {
-            builder.append(widestNumber.toString())
-        }
-        gutterWidth = paint.measureText(builder.toString()).toInt()
-        gutterWidth += gutterMargin
         if (paddingStart != gutterWidth + gutterMargin) {
             setPadding(gutterWidth + gutterMargin, gutterMargin, paddingEnd, paddingBottom)
         }

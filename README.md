@@ -112,6 +112,7 @@ editor.editorConfig = EditorConfig(
     wordWrap = true, // whether the word wrap enabled
     codeCompletion = true, // whether the code suggestions will shown
     pinchZoom = true, // whether the zoom gesture enabled
+    lineNumbers = true, // line numbers visibility (show/hide)
     highlightCurrentLine = true, // whether the current line will be highlighted
     highlightDelimiters = true, // highlight open/closed brackets beside the cursor
 

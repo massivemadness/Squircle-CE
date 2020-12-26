@@ -12,6 +12,7 @@ data class EditorConfig(
     var wordWrap: Boolean = true,
     var codeCompletion: Boolean = true,
     var pinchZoom: Boolean = true,
+    var lineNumbers: Boolean = true,
     var highlightCurrentLine: Boolean = true,
     var highlightDelimiters: Boolean = true,
 
