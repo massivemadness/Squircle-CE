@@ -308,7 +308,7 @@ editor.onShortcutListener = object : OnShortcutListener {
 }
 ```
 
-The `onShortcut` method will be invoked only if at least one of following keys is pressed: CTRL, Shift, Alt.  
+The `onShortcut` method will be invoked only if at least one of following keys is pressed: <kbd>ctrl</kbd>, <kbd>shift</kbd>, <kbd>alt</kbd>.  
 You might already noticed that you have to return a `Boolean` value as the result of `onShortcut` method.
 Return `true` if the listener has consumed the shortcut event, `false` otherwise.
 
