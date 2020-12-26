@@ -128,7 +128,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
                             (number + 1).toString(),
                             textRight.toFloat(),
                             (layout.getLineBaseline(topVisibleLine) + paddingTop).toFloat(),
-                            if (number == currentLineStart) {
+                            if (number == currentLineStart && editorConfig.highlightCurrentLine) {
                                 gutterCurrentLineNumberPaint
                             } else {
                                 gutterTextPaint
