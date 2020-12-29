@@ -1,4 +1,4 @@
-<i>Brackeys IDE</i> (formerly known as ''ModPE IDE'') is a fast and free multi-language code editor for Android. It a.o. supports syntax highlighting for several programming languages including C, C++, C#, Java, Python, Kotlin – but also SQL and markup languages like HTML, XML and Markdown. Different encodings are handled as well as tabs vs spaces, auto-indentation, automatically closing matching brackets/quotes, auto-complete and more.
+<i>Brackeys IDE</i> (formerly known as <i>ModPE IDE</i>) is a fast and free multi-language code editor for Android. It a.o. supports syntax highlighting for several programming languages including C, C++, C#, Java, Python, Kotlin – but also SQL and markup languages like HTML, XML and Markdown. Different encodings are handled as well as tabs vs spaces, auto-indentation, automatically closing matching brackets/quotes, auto-complete and more.
 
 <b>Features:</b>
 
