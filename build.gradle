@@ -15,7 +15,7 @@
  */
 
 buildscript {
-    apply from: 'dependencies.gradle'
+    apply from: rootProject.file("gradle/versions.gradle")
     repositories {
         google()
         jcenter()
@@ -31,7 +31,7 @@ buildscript {
 }
 
 allprojects {
-    apply from: "$rootDir/ktlint.gradle"
+    apply from: rootProject.file("gradle/ktlint.gradle")
     repositories {
         google()
         jcenter()
