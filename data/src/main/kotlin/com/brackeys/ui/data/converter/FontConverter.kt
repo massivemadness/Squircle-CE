@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.data.converter
 
-import com.brackeys.ui.database.entity.font.FontEntity
+import com.brackeys.ui.data.database.entity.font.FontEntity
 import com.brackeys.ui.domain.model.font.FontModel
 
 object FontConverter {

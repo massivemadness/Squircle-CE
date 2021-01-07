@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.database.delegate
+package com.brackeys.ui.data.database.dao.base
 
-import android.content.Context
-import androidx.room.Room
-import com.brackeys.ui.database.AppDatabase
-import com.brackeys.ui.database.AppDatabaseImpl
+import androidx.room.*
 
-object DatabaseDelegate {
+interface BaseDao<in T> {
 
-    fun provideAppDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
-            .build()
-    }
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(obj: T): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vararg obj: T)
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun update(obj: T)
+
+    @Delete
+    fun delete(obj: T)
 }

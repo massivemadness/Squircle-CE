@@ -17,10 +17,10 @@
 package com.brackeys.ui.data.converter
 
 import androidx.core.graphics.toColorInt
+import com.brackeys.ui.data.database.entity.theme.ThemeEntity
 import com.brackeys.ui.data.model.theme.ExternalScheme
 import com.brackeys.ui.data.model.theme.ExternalTheme
 import com.brackeys.ui.data.utils.toHexString
-import com.brackeys.ui.database.entity.theme.ThemeEntity
 import com.brackeys.ui.domain.model.theme.ThemeModel
 import com.brackeys.ui.editorkit.model.ColorScheme
 import com.brackeys.ui.language.base.model.SyntaxScheme

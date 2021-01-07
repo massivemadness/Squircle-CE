@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.database.utils
+package com.brackeys.ui.data.delegate
 
-object Tables {
-    const val DOCUMENTS = "tbl_documents"
-    const val FONTS = "tbl_fonts"
-    const val THEMES = "tbl_themes"
+import android.content.Context
+import androidx.room.Room
+import com.brackeys.ui.data.database.AppDatabase
+import com.brackeys.ui.data.database.AppDatabaseImpl
+
+object DatabaseDelegate {
+
+    fun provideAppDatabase(context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
+            .build()
+    }
 }

@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.database.dao.document
+package com.brackeys.ui.data.database.dao.theme
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.brackeys.ui.database.dao.base.BaseDao
-import com.brackeys.ui.database.entity.document.DocumentEntity
-import com.brackeys.ui.database.utils.Tables
+import com.brackeys.ui.data.database.dao.base.BaseDao
+import com.brackeys.ui.data.database.entity.theme.ThemeEntity
+import com.brackeys.ui.data.database.utils.Tables
 import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
-abstract class DocumentDao : BaseDao<DocumentEntity> {
+abstract class ThemeDao : BaseDao<ThemeEntity> {
 
-    @Query("SELECT * FROM `${Tables.DOCUMENTS}` ORDER BY `position` ASC")
-    abstract fun loadAll(): Single<List<DocumentEntity>>
+    @Query("SELECT * FROM `${Tables.THEMES}` WHERE `name` LIKE '%' || :searchQuery || '%'")
+    abstract fun loadAll(searchQuery: String): Single<List<ThemeEntity>>
 
-    @Query("DELETE FROM `${Tables.DOCUMENTS}`")
+    @Query("SELECT * FROM `${Tables.THEMES}` WHERE `uuid` = :uuid")
+    abstract fun load(uuid: String): Single<ThemeEntity>
+
+    @Query("DELETE FROM `${Tables.THEMES}`")
     abstract fun deleteAll(): Completable
 }

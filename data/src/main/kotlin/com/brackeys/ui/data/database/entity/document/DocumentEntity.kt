@@ -14,20 +14,32 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.database.entity.font
+package com.brackeys.ui.data.database.entity.document
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.brackeys.ui.database.utils.Tables
+import com.brackeys.ui.data.database.utils.Tables
 
-@Entity(tableName = Tables.FONTS)
-data class FontEntity(
-    @ColumnInfo(name = "font_name")
-    val fontName: String,
+@Entity(tableName = Tables.DOCUMENTS)
+data class DocumentEntity(
     @PrimaryKey
-    @ColumnInfo(name = "font_path")
-    val fontPath: String,
-    @ColumnInfo(name = "support_ligatures")
-    val supportLigatures: Boolean
+    @ColumnInfo(name = "uuid")
+    val uuid: String,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "path")
+    val path: String,
+    @ColumnInfo(name = "modified")
+    val modified: Boolean,
+    @ColumnInfo(name = "position")
+    val position: Int,
+    @ColumnInfo(name = "scroll_x")
+    val scrollX: Int,
+    @ColumnInfo(name = "scroll_y")
+    val scrollY: Int,
+    @ColumnInfo(name = "selection_start")
+    val selectionStart: Int,
+    @ColumnInfo(name = "selection_end")
+    val selectionEnd: Int
 )

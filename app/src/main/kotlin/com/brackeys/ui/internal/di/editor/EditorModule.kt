@@ -17,10 +17,10 @@
 package com.brackeys.ui.internal.di.editor
 
 import android.content.Context
+import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.repository.CacheRepository
 import com.brackeys.ui.data.repository.LocalRepository
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.database.AppDatabase
 import com.brackeys.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides

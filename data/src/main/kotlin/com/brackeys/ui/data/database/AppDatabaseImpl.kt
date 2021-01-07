@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.database
+package com.brackeys.ui.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.brackeys.ui.database.dao.document.DocumentDao
-import com.brackeys.ui.database.dao.font.FontDao
-import com.brackeys.ui.database.dao.theme.ThemeDao
-import com.brackeys.ui.database.entity.document.DocumentEntity
-import com.brackeys.ui.database.entity.font.FontEntity
-import com.brackeys.ui.database.entity.theme.ThemeEntity
+import com.brackeys.ui.data.database.dao.document.DocumentDao
+import com.brackeys.ui.data.database.dao.font.FontDao
+import com.brackeys.ui.data.database.dao.theme.ThemeDao
+import com.brackeys.ui.data.database.entity.document.DocumentEntity
+import com.brackeys.ui.data.database.entity.font.FontEntity
+import com.brackeys.ui.data.database.entity.theme.ThemeEntity
 
 @Database(entities = [
     DocumentEntity::class,

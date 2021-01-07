@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.database
+package com.brackeys.ui.data.database
 
-import com.brackeys.ui.database.dao.document.DocumentDao
-import com.brackeys.ui.database.dao.font.FontDao
-import com.brackeys.ui.database.dao.theme.ThemeDao
+import com.brackeys.ui.data.database.dao.document.DocumentDao
+import com.brackeys.ui.data.database.dao.font.FontDao
+import com.brackeys.ui.data.database.dao.theme.ThemeDao
 
 interface AppDatabase {
     fun documentDao(): DocumentDao

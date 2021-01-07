@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.database.dao.font
+package com.brackeys.ui.data.database.dao.document
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.brackeys.ui.database.dao.base.BaseDao
-import com.brackeys.ui.database.entity.font.FontEntity
-import com.brackeys.ui.database.utils.Tables
+import com.brackeys.ui.data.database.dao.base.BaseDao
+import com.brackeys.ui.data.database.entity.document.DocumentEntity
+import com.brackeys.ui.data.database.utils.Tables
 import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
-abstract class FontDao : BaseDao<FontEntity> {
+abstract class DocumentDao : BaseDao<DocumentEntity> {
 
-    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_name` LIKE '%' || :searchQuery || '%'")
-    abstract fun loadAll(searchQuery: String): Single<List<FontEntity>>
+    @Query("SELECT * FROM `${Tables.DOCUMENTS}` ORDER BY `position` ASC")
+    abstract fun loadAll(): Single<List<DocumentEntity>>
 
-    @Query("DELETE FROM `${Tables.FONTS}`")
+    @Query("DELETE FROM `${Tables.DOCUMENTS}`")
     abstract fun deleteAll(): Completable
 }

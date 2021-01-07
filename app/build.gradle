@@ -120,7 +120,6 @@ dependencies {
     // Modules
     implementation project(':domain')
     implementation project(':data')
-    implementation project(':database')
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
     implementation project(':languages:language-base')

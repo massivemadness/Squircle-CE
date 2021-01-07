@@ -22,6 +22,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.ThemeConverter
+import com.brackeys.ui.data.database.AppDatabase
+import com.brackeys.ui.data.database.entity.theme.ThemeEntity
 import com.brackeys.ui.data.model.theme.ExternalTheme
 import com.brackeys.ui.data.model.theme.Meta
 import com.brackeys.ui.data.model.theme.Property
@@ -29,8 +31,6 @@ import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.InternalTheme
 import com.brackeys.ui.data.utils.schedulersIoToMain
 import com.brackeys.ui.data.utils.toHexString
-import com.brackeys.ui.database.AppDatabase
-import com.brackeys.ui.database.entity.theme.ThemeEntity
 import com.brackeys.ui.domain.model.theme.ThemeModel
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel

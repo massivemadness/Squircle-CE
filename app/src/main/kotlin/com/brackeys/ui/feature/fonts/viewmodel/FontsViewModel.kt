@@ -19,9 +19,9 @@ package com.brackeys.ui.feature.fonts.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.data.converter.FontConverter
+import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.schedulersIoToMain
-import com.brackeys.ui.database.AppDatabase
 import com.brackeys.ui.domain.model.font.FontModel
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
