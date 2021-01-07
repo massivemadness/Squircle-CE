@@ -283,12 +283,16 @@ class ExplorerViewModel @ViewModelInject constructor(
             .addTo(cancelableDisposable)
     }
 
-    fun copyFiles(source: List<FileModel>, dest: FileModel) {
-        Observable.fromIterable(source)
+    fun copyFiles(source: List<FileModel>, destPath: String) {
+        filesystem.provideFile(destPath)
+            .flatMapObservable { dest ->
+                Observable.fromIterable(source)
+                    .map { it to dest }
+            }
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMapSingle {
-                filesystem.copyFile(it, dest)
+            .concatMapSingle { (file, dest) ->
+                filesystem.copyFile(file, dest)
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .schedulersIoToMain(schedulersProvider)
@@ -318,12 +322,16 @@ class ExplorerViewModel @ViewModelInject constructor(
             .addTo(cancelableDisposable)
     }
 
-    fun cutFiles(source: List<FileModel>, dest: FileModel) {
-        Observable.fromIterable(source)
+    fun cutFiles(source: List<FileModel>, destPath: String) {
+        filesystem.provideFile(destPath)
+            .flatMapObservable { dest ->
+                Observable.fromIterable(source)
+                    .map { it to dest }
+            }
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMapSingle {
-                filesystem.copyFile(it, dest)
+            .concatMapSingle { (file, dest) ->
+                filesystem.copyFile(file, dest)
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .concatMapSingle {
@@ -379,8 +387,9 @@ class ExplorerViewModel @ViewModelInject constructor(
             .disposeOnViewModelDestroy()
     }
 
-    fun compressFiles(source: List<FileModel>, dest: FileModel, archiveName: String) {
-        filesystem.compress(source, dest, archiveName)
+    fun compressFiles(source: List<FileModel>, destPath: String, archiveName: String) {
+        filesystem.provideFile(destPath)
+            .flatMapObservable { filesystem.compress(source, it, archiveName) }
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMap {
@@ -414,8 +423,9 @@ class ExplorerViewModel @ViewModelInject constructor(
             .disposeOnViewModelDestroy()
     }
 
-    fun extractAll(source: FileModel, dest: FileModel) {
-        filesystem.extractAll(source, dest)
+    fun extractAll(source: FileModel, destPath: String) {
+        filesystem.provideFile(destPath)
+            .flatMap { filesystem.extractAll(source, it) }
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .schedulersIoToMain(schedulersProvider)

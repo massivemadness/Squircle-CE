@@ -53,8 +53,8 @@
         android:name="com.brackeys.ui.feature.explorer.dialogs.ProgressDialog"
         tools:layout="@layout/dialog_progress">
         <argument
-            android:name="parent"
-            app:argType="com.brackeys.ui.filesystem.base.model.FileModel"/>
+            android:name="parentPath"
+            app:argType="string"/>
         <argument
             android:name="archiveName"
             app:argType="string"

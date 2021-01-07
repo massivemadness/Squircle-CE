@@ -55,6 +55,18 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
+    override fun provideFile(path: String): Single<FileModel> {
+        return Single.create { emitter ->
+            val file = File(path)
+            if (file.exists()) {
+                val fileModel = FileConverter.toModel(file)
+                emitter.onSuccess(fileModel)
+            } else {
+                emitter.onError(FileNotFoundException(file.path))
+            }
+        }
+    }
+
     override fun provideDirectory(parent: FileModel?): Single<FileTree> {
         return if (parent != null) {
             Single.create { emitter ->

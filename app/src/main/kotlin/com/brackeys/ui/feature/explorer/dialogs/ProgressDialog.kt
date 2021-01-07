@@ -142,7 +142,7 @@ class ProgressDialog : BaseDialogFragment() {
                 dialogTitle = R.string.dialog_title_copying
                 dialogMessage = R.string.message_copying
                 dialogAction = {
-                    viewModel.copyFiles(tempFiles, navArgs.parent)
+                    viewModel.copyFiles(tempFiles, navArgs.parentPath)
                 }
                 onCloseAction = {
                     viewModel.allowPasteFiles.value = false
@@ -152,7 +152,7 @@ class ProgressDialog : BaseDialogFragment() {
                 dialogTitle = R.string.dialog_title_copying
                 dialogMessage = R.string.message_copying
                 dialogAction = {
-                    viewModel.cutFiles(tempFiles, navArgs.parent)
+                    viewModel.cutFiles(tempFiles, navArgs.parentPath)
                 }
                 onCloseAction = {
                     viewModel.allowPasteFiles.value = false
@@ -164,7 +164,7 @@ class ProgressDialog : BaseDialogFragment() {
                 dialogAction = {
                     viewModel.compressFiles(
                         source = tempFiles,
-                        dest = navArgs.parent,
+                        dest = navArgs.parentPath,
                         archiveName = navArgs.archiveName ?: tempFiles.first().name + ".zip"
                     )
                 }
@@ -173,7 +173,7 @@ class ProgressDialog : BaseDialogFragment() {
                 dialogTitle = R.string.dialog_title_extracting
                 dialogMessage = R.string.message_extracting
                 dialogAction = {
-                    viewModel.extractAll(tempFiles.first(), navArgs.parent)
+                    viewModel.extractAll(tempFiles.first(), navArgs.parentPath)
                 }
                 indeterminate = true
             }
