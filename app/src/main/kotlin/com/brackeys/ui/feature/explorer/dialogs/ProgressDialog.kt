@@ -164,7 +164,7 @@ class ProgressDialog : BaseDialogFragment() {
                 dialogAction = {
                     viewModel.compressFiles(
                         source = tempFiles,
-                        dest = navArgs.parentPath,
+                        destPath = navArgs.parentPath,
                         archiveName = navArgs.archiveName ?: tempFiles.first().name + ".zip"
                     )
                 }
