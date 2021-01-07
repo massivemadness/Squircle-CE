@@ -38,7 +38,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
 
     fun tab(): String {
         return if (editorConfig.useSpacesInsteadOfTabs) {
-            " ".repeat(4)
+            " ".repeat(editorConfig.tabWidth)
         } else "\t"
     }
 
