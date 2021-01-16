@@ -1,19 +1,33 @@
-<i>Brackeys IDE</i> (formerly known as <i>ModPE IDE</i>) is a fast and free multi-language code editor for Android. It a.o. supports syntax highlighting for several programming languages including C, C++, C#, Java, Python, Kotlin – but also SQL and markup languages like HTML, XML and Markdown. Different encodings are handled as well as tabs vs spaces, auto-indentation, automatically closing matching brackets/quotes, auto-complete and more.
+<b>Brackeys IDE</b> currently supports coding in the following programming languages: ActionScript, C, C++, C#, HTML, Java, JavaScript, Json, Kotlin, Lisp, Lua, Markdown, Python, Shell, SQL, Visual Basic and XML.
 
-<b>Features:</b>
+Here is a list of features that will help you work with more productivity:
 
-* Syntax Highlighting
-* Code Completion (Beta)
-* Cross-session Editing
-* Unlimited Undo/Redo
-* Bracket Matching
-* Auto Indentation
-* Select, Delete, and Duplicate Line
-* Search, Replace, Go to Line
-* Word Wrap
-* Line Numbers
-* Pinch Zoom
-* Powerful File Explorer
-* Read Only Mode, Fullscreen Mode
-* Multi Window Support
-* Launcher Shortcuts for Android 7+
+<b>Syntax Highlighting</b>
+Beautiful syntax highlighting provides you a better way to understand your code at a glance
+
+<b>Code Completion</b>
+The code editor provides basic completion based on a file content, it suggests names of functions, fields, and keywords within your file scope
+
+<b>Error Checking</b>
+Whenever you make a change, IDE will correct you by highlighting a part of code that contains syntax errors <i>(Note that this feature currently works only for JavaScript, but it will be available for more languages soon)</i>
+
+<b>Cross-session Editing</b>
+All your changes automatically will be saved in cache, you don't need to save file every time you exit app
+
+<b>Unlimited Undo/Redo</b>
+If you made a mistake or you want to fall back to the source code you edited yesterday, simply use «Undo» button
+
+<b>Highlight Matching Delimiters</b>
+When you work with code in the editor, it can help you quickly understand code structure by highlighting the opening or closing delimiter ((), [], and {}) when you set the caret at its pair
+
+<b>Code Style</b>
+Brackeys IDE provides a better way to write your code, the editor will automatically indent lines, close open brackets, braces and quotes
+
+<b>Select, Delete, and Duplicate Line</b>
+You can easily delete or clone a part of code using handsome options in «Edit» menu
+
+<b>Color Schemes</b>
+Different color schemes defines syntax highlighting for reserved words and other symbols in your source code: operators, keywords, suggestions, string literals, and so on
+
+<b>OPEN SOURCE CODE</b>
+<b>•</b> <u>http://github.com/massivemadness/Brackeys-IDE</u>

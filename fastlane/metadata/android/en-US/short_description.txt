@@ -1,1 +1,1 @@
-a fast and free multi-language code editor
+A fast and free multi-language code editor for Android

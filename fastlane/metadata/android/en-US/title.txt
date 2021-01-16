@@ -1,1 +1,1 @@
-Brackeys IDE - a fast and free multi-language code editor for Android
+Brackeys IDE - Code Editor for Android
