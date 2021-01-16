@@ -1,0 +1,5 @@
+- Added: Support for Shell language
+- Fixed: Top/Bottom visible line computation
+- Fixed: Methods highlighting in Lisp
+- Updated Chinese translation
+- Bugfixes and minor improvements
