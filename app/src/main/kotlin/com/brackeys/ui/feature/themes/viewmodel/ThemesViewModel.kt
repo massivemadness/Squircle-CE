@@ -18,7 +18,6 @@ package com.brackeys.ui.feature.themes.viewmodel
 
 import android.os.Environment
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.ThemeConverter
@@ -40,14 +39,17 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
+import javax.inject.Inject
 import javax.inject.Named
 
-class ThemesViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ThemesViewModel @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,

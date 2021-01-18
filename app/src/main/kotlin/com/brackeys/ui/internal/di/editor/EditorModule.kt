@@ -25,17 +25,17 @@ import com.brackeys.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Named
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(ViewModelComponent::class)
 object EditorModule {
 
     @Provides
-    @ActivityRetainedScoped
+    @ViewModelScoped
     fun provideCacheRepository(
         @ApplicationContext context: Context,
         appDatabase: AppDatabase,
@@ -46,7 +46,7 @@ object EditorModule {
     }
 
     @Provides
-    @ActivityRetainedScoped
+    @ViewModelScoped
     fun provideFileRepository(
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,

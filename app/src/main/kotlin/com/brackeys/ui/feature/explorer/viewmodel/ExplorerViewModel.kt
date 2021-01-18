@@ -18,7 +18,6 @@ package com.brackeys.ui.feature.explorer.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.settings.SettingsManager
@@ -35,15 +34,18 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Named
 
-class ExplorerViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ExplorerViewModel @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     @Named("Local")

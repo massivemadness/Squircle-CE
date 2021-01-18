@@ -16,7 +16,6 @@
 
 package com.brackeys.ui.feature.fonts.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.data.converter.FontConverter
 import com.brackeys.ui.data.database.AppDatabase
@@ -26,11 +25,14 @@ import com.brackeys.ui.domain.model.font.FontModel
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.File
+import javax.inject.Inject
 
-class FontsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class FontsViewModel @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase

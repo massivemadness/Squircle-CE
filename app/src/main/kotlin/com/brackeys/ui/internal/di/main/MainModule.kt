@@ -22,16 +22,16 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(ViewModelComponent::class)
 object MainModule {
 
     @Provides
-    @ActivityRetainedScoped
+    @ViewModelScoped
     fun provideAppUpdateManager(@ApplicationContext context: Context): AppUpdateManager {
         return AppUpdateManagerFactory.create(context)
     }
