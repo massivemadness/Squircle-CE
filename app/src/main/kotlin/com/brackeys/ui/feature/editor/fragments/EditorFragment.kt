@@ -342,7 +342,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         val tabCount = adapter.itemCount - 1
         for (index in tabCount downTo 0) {
             if (index != position) {
-                closeTabImpl(position)
+                closeTabImpl(index)
             }
         }
     }
