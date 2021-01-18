@@ -113,6 +113,7 @@
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
+    <string name="dialog_message_close_tab">Вы уверены что хотите закрыть этот файл? Все несохраненные изменения будут сброшены</string>
 
     <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br&gt;</string>

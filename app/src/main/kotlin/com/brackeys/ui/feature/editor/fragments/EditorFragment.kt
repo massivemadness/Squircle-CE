@@ -323,6 +323,36 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     override fun close(position: Int) {
+        val isModified = adapter.currentList[position].modified
+        if (isModified) {
+            MaterialDialog(requireContext()).show {
+                title(text = adapter.currentList[adapter.selectedPosition].name)
+                message(R.string.dialog_message_close_tab)
+                negativeButton(R.string.action_cancel)
+                positiveButton(R.string.action_close) {
+                    closeTabImpl(position)
+                }
+            }
+        } else {
+            closeTabImpl(position)
+        }
+    }
+
+    override fun closeOthers(position: Int) {
+        val tabCount = adapter.itemCount - 1
+        for (index in tabCount downTo 0) {
+            if (index != position) {
+                closeTabImpl(position)
+            }
+        }
+    }
+
+    override fun closeAll(position: Int) {
+        closeOthers(position)
+        closeTabImpl(adapter.selectedPosition)
+    }
+
+    private fun closeTabImpl(position: Int) {
         val selectedPosition = adapter.selectedPosition
         if (position == selectedPosition) {
             binding.scroller.state = TextScroller.STATE_HIDDEN
@@ -331,20 +361,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         }
         removeDocument(position)
         adapter.close(position)
-    }
-
-    override fun closeOthers(position: Int) {
-        val tabCount = adapter.itemCount - 1
-        for (index in tabCount downTo 0) {
-            if (index != position) {
-                close(index)
-            }
-        }
-    }
-
-    override fun closeAll(position: Int) {
-        closeOthers(position)
-        close(adapter.selectedPosition)
     }
 
     private fun loadDocument(position: Int) {

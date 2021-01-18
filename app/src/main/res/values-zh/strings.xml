@@ -113,6 +113,7 @@
     <string name="dialog_message_exit">你确定要退出吗？所有更改将会保存到缓存中</string>
     <string name="dialog_message_delete">确定要删除该文件吗？</string>
     <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
+    <string name="dialog_message_close_tab">Are you sure you want to close this file? All unsaved changes will be discarded</string>
 
     <string name="properties_name">&lt;b&gt;名称:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b&gt;路径:&lt;/b&gt; %s&lt;br&gt;</string>
