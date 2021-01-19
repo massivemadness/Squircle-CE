@@ -326,7 +326,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         val isModified = adapter.currentList[position].modified
         if (isModified) {
             MaterialDialog(requireContext()).show {
-                title(text = adapter.currentList[adapter.selectedPosition].name)
+                title(text = adapter.currentList[position].name)
                 message(R.string.dialog_message_close_tab)
                 negativeButton(R.string.action_cancel)
                 positiveButton(R.string.action_close) {
