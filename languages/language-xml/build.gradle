@@ -22,7 +22,7 @@ plugins {
 ext.libraryGroupId = "com.brackeys.ui"
 ext.libraryArtifactId = "language-xml"
 
-apply from: rootProject.file("bintray.gradle")
+apply from: rootProject.file("gradle/bintray.gradle")
 
 android {
     compileSdkVersion versions.compileSdk

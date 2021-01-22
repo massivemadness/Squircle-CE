@@ -39,7 +39,6 @@ import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.listener.OnChangeListener
 import com.brackeys.ui.editorkit.listener.OnShortcutListener
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
-import com.brackeys.ui.editorkit.model.Shortcut
 import com.brackeys.ui.editorkit.widget.TextScroller
 import com.brackeys.ui.feature.base.adapters.TabAdapter
 import com.brackeys.ui.feature.base.fragments.BaseFragment
@@ -61,8 +60,8 @@ import com.jakewharton.rxbinding3.widget.textChangeEvents
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
-import java.util.concurrent.TimeUnit
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
@@ -109,33 +108,29 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         binding.extendedKeyboard.setKeyListener(this)
         binding.extendedKeyboard.setHasFixedSize(true)
-        binding.scroller.link(binding.editor)
+        binding.scroller.attachTo(binding.editor)
 
         binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
-        binding.editor.onUndoRedoChangedListener = object : OnUndoRedoChangedListener {
-            override fun onUndoRedoChanged() {
-                val canUndo = binding.editor.canUndo()
-                val canRedo = binding.editor.canRedo()
+        binding.editor.onUndoRedoChangedListener = OnUndoRedoChangedListener {
+            val canUndo = binding.editor.canUndo()
+            val canRedo = binding.editor.canRedo()
 
-                binding.actionUndo.isClickable = canUndo
-                binding.actionRedo.isClickable = canRedo
+            binding.actionUndo.isClickable = canUndo
+            binding.actionRedo.isClickable = canRedo
 
-                binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
-                binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
-            }
+            binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
+            binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
         }
 
         binding.editor.onUndoRedoChangedListener?.onUndoRedoChanged() // update undo/redo alpha
 
-        binding.editor.onChangeListener = object : OnChangeListener {
-            override fun onChange() {
-                val position = adapter.selectedPosition
-                if (position > -1) {
-                    val isModified = adapter.currentList[position].modified
-                    if (!isModified) {
-                        adapter.currentList[position].modified = true
-                        adapter.notifyItemChanged(position)
-                    }
+        binding.editor.onChangeListener = OnChangeListener {
+            val position = adapter.selectedPosition
+            if (position > -1) {
+                val isModified = adapter.currentList[position].modified
+                if (!isModified) {
+                    adapter.currentList[position].modified = true
+                    adapter.notifyItemChanged(position)
                 }
             }
         }
@@ -146,35 +141,32 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
         // region SHORTCUTS
 
-        binding.editor.onShortcutListener = object : OnShortcutListener {
-            override fun onShortcut(shortcut: Shortcut): Boolean {
-                val (ctrl, shift, alt, keyCode) = shortcut
-                return when {
-                    ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
-                    ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
-                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
-                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
-                    alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
-                    alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
-                    alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
-                    alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
-                    keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
-                    else -> false
-                }
+        binding.editor.onShortcutListener = OnShortcutListener { (ctrl, shift, alt, keyCode) ->
+            when {
+                ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
+                ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
+                ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
+                alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
+                alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
+                alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
+                alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
+                keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
+                else -> false
             }
         }
 
@@ -257,18 +249,18 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         // region PREFERENCES
 
         viewModel.settingsEvent.observe(viewLifecycleOwner) { queue ->
-            val tempConfig = binding.editor.config
+            val config = binding.editor.editorConfig
             while (queue != null && queue.isNotEmpty()) {
                 when (val event = queue.poll()) {
                     is SettingsEvent.ThemePref -> {
                         binding.editor.colorScheme = event.value.colorScheme
                     }
-                    is SettingsEvent.FontSize -> tempConfig.fontSize = event.value
+                    is SettingsEvent.FontSize -> config.fontSize = event.value
                     is SettingsEvent.FontType -> {
-                        tempConfig.fontType = requireContext().createTypefaceFromPath(event.value)
+                        config.fontType = requireContext().createTypefaceFromPath(event.value)
                     }
-                    is SettingsEvent.WordWrap -> tempConfig.wordWrap = event.value
-                    is SettingsEvent.CodeCompletion -> tempConfig.codeCompletion = event.value
+                    is SettingsEvent.WordWrap -> config.wordWrap = event.value
+                    is SettingsEvent.CodeCompletion -> config.codeCompletion = event.value
                     is SettingsEvent.ErrorHighlight -> {
                         if (event.value) {
                             binding.editor
@@ -290,9 +282,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                 .disposeOnFragmentDestroyView()
                         }
                     }
-                    is SettingsEvent.PinchZoom -> tempConfig.pinchZoom = event.value
-                    is SettingsEvent.CurrentLine -> tempConfig.highlightCurrentLine = event.value
-                    is SettingsEvent.Delimiters -> tempConfig.highlightDelimiters = event.value
+                    is SettingsEvent.PinchZoom -> config.pinchZoom = event.value
+                    is SettingsEvent.CurrentLine -> config.highlightCurrentLine = event.value
+                    is SettingsEvent.Delimiters -> config.highlightDelimiters = event.value
                     is SettingsEvent.ExtendedKeys -> {
                         KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
                             binding.keyboardContainer.isVisible = event.value && isOpen
@@ -301,15 +293,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     is SettingsEvent.KeyboardPreset -> {
                         binding.extendedKeyboard.submitList(event.value)
                     }
-                    is SettingsEvent.SoftKeys -> tempConfig.softKeyboard = event.value
-                    is SettingsEvent.AutoIndent -> tempConfig.autoIndentation = event.value
-                    is SettingsEvent.AutoBrackets -> tempConfig.autoCloseBrackets = event.value
-                    is SettingsEvent.AutoQuotes -> tempConfig.autoCloseQuotes = event.value
-                    is SettingsEvent.UseSpacesNotTabs -> tempConfig.useSpacesInsteadOfTabs = event.value
-                    is SettingsEvent.TabWidth -> tempConfig.tabWidth = event.value
+                    is SettingsEvent.SoftKeys -> config.softKeyboard = event.value
+                    is SettingsEvent.AutoIndent -> config.autoIndentation = event.value
+                    is SettingsEvent.AutoBrackets -> config.autoCloseBrackets = event.value
+                    is SettingsEvent.AutoQuotes -> config.autoCloseQuotes = event.value
+                    is SettingsEvent.UseSpacesNotTabs -> config.useSpacesInsteadOfTabs = event.value
+                    is SettingsEvent.TabWidth -> config.tabWidth = event.value
                 }
             }
-            binding.editor.config = tempConfig
+            binding.editor.editorConfig = config
         }
 
         // endregion PREFERENCES
@@ -331,6 +323,36 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
     }
 
     override fun close(position: Int) {
+        val isModified = adapter.currentList[position].modified
+        if (isModified) {
+            MaterialDialog(requireContext()).show {
+                title(text = adapter.currentList[position].name)
+                message(R.string.dialog_message_close_tab)
+                negativeButton(R.string.action_cancel)
+                positiveButton(R.string.action_close) {
+                    closeTabImpl(position)
+                }
+            }
+        } else {
+            closeTabImpl(position)
+        }
+    }
+
+    override fun closeOthers(position: Int) {
+        val tabCount = adapter.itemCount - 1
+        for (index in tabCount downTo 0) {
+            if (index != position) {
+                closeTabImpl(index)
+            }
+        }
+    }
+
+    override fun closeAll(position: Int) {
+        closeOthers(position)
+        closeTabImpl(adapter.selectedPosition)
+    }
+
+    private fun closeTabImpl(position: Int) {
         val selectedPosition = adapter.selectedPosition
         if (position == selectedPosition) {
             binding.scroller.state = TextScroller.STATE_HIDDEN
@@ -339,20 +361,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         }
         removeDocument(position)
         adapter.close(position)
-    }
-
-    override fun closeOthers(position: Int) {
-        val tabCount = adapter.itemCount - 1
-        for (index in tabCount downTo 0) {
-            if (index != position) {
-                close(index)
-            }
-        }
-    }
-
-    override fun closeAll(position: Int) {
-        closeOthers(position)
-        close(adapter.selectedPosition)
     }
 
     private fun loadDocument(position: Int) {

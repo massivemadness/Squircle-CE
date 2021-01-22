@@ -405,7 +405,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
 
     private fun executeOperation(archiveName: String? = null) {
         val destination = DirectoryFragmentDirections.toProgressDialog(
-            parent = fileTree.parent,
+            parentPath = fileTree.parent.path,
             archiveName = archiveName
         )
         navController.navigate(destination)

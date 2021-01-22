@@ -1,5 +1,7 @@
 [*.{kt,kts}]
-indent_size=4
-insert_final_newline=false
+indent_size = 4
+insert_final_newline = false
 
-disabled_rules=no-wildcard-imports,experimental:annotation
+# noinspection EditorConfigKeyCorrectness
+disabled_rules = no-wildcard-imports, indent
+# FIXME https://github.com/pinterest/ktlint/issues/764

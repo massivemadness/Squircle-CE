@@ -26,6 +26,8 @@ import io.reactivex.Single
 
 interface Filesystem {
     fun defaultLocation(): Single<FileTree>
+
+    fun provideFile(path: String): Single<FileModel>
     fun provideDirectory(parent: FileModel?): Single<FileTree>
 
     fun createFile(fileModel: FileModel): Single<FileModel>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data', ':database', ':editorkit'
+include ':app', ':domain', ':data', ':editorkit'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'

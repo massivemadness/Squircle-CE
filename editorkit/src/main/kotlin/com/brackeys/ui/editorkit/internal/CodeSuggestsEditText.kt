@@ -42,21 +42,21 @@ abstract class CodeSuggestsEditText @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        if (config.codeCompletion) {
+        if (editorConfig.codeCompletion) {
             onDropDownSizeChange(w, h)
         }
     }
 
     override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
         super.doOnTextChanged(text, start, before, count)
-        if (config.codeCompletion) {
+        if (editorConfig.codeCompletion) {
             onPopupChangePosition()
         }
     }
 
     override fun configure() {
         super.configure()
-        if (config.codeCompletion) {
+        if (editorConfig.codeCompletion) {
             setAdapter(suggestionAdapter)
             setTokenizer(SymbolsTokenizer())
         } else {

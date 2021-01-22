@@ -15,7 +15,7 @@
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
 3. [More Options](#more-options)
-   1. [Config](#config)
+   1. [Configuration](#configuration)
    2. [Text Scroller](#text-scroller)
 4. [Code Suggestions](#code-suggestions)
 5. [Undo Redo](#undo-redo)
@@ -48,7 +48,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 
-    implementation 'com.brackeys.ui:editorkit:1.0.1'
+    implementation 'com.brackeys.ui:editorkit:1.1.0'
 }
 ```
 
@@ -100,18 +100,19 @@ Now you can begin using the code editor.
 
 ## More Options
 
-### Config
+### Configuration
 
-You can change the default code editor's behavior by passing the `Config` object to it:
+You can change the default code editor's behavior by passing the `EditorConfig` object to it:
 
 ```kotlin
-editor.config = Config(
+editor.editorConfig = EditorConfig(
     fontSize = 14f, // text size, including the line numbers
     fontType = Typeface.MONOSPACE, // typeface, including the line numbers
 
     wordWrap = true, // whether the word wrap enabled
     codeCompletion = true, // whether the code suggestions will shown
     pinchZoom = true, // whether the zoom gesture enabled
+    lineNumbers = true, // line numbers visibility
     highlightCurrentLine = true, // whether the current line will be highlighted
     highlightDelimiters = true, // highlight open/closed brackets beside the cursor
 
@@ -139,13 +140,13 @@ To attach the text scroller you need to add `TextScroller` in your layout:
     app:thumbTint="@color/blue"/>
 ```
 
-Now you need to pass a reference to a view inside `link` method:
+Now you need to pass a reference to a view inside `attachTo` method:
 
 ```kotlin
 val editor = findViewById<TextProcessor>(R.id.editor)
 val scroller = findViewById<TextScroller>(R.id.scroller)
 
-scroller.link(editor)
+scroller.attachTo(editor)
 ```
 
 ---
@@ -196,7 +197,7 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
 editor.suggestionAdapter = AutoCompleteAdapter(this)
 ```
 
-You can enable/disable suggestions dynamically by changing the `codeCompletion` parameter in editor's [Config](#config).
+You can enable/disable suggestions dynamically by changing the `codeCompletion` parameter in [EditorConfig](#configuration).
 
 **UPD:** If you having an issues with the popup position (e.g vertical offset), this might be solved by explicitly setting [android:dropDownAnchor](https://developer.android.com/reference/android/widget/AutoCompleteTextView#attr_android:dropDownAnchor) in XML.
 
@@ -308,7 +309,7 @@ editor.onShortcutListener = object : OnShortcutListener {
 }
 ```
 
-The `onShortcut` method will be invoked only if at least one of following keys is pressed: CTRL, Shift, Alt.  
+The `onShortcut` method will be invoked only if at least one of following keys is pressed: <kbd>ctrl</kbd>, <kbd>shift</kbd>, <kbd>alt</kbd>.  
 You might already noticed that you have to return a `Boolean` value as the result of `onShortcut` method.
 Return `true` if the listener has consumed the shortcut event, `false` otherwise.
 
@@ -380,24 +381,25 @@ Select your language and add it's dependency to your module's `build.gradle` fil
 ```gradle
 dependencies {
 
-    implementation 'com.brackeys.ui:language-actionscript:1.0.1'
-    implementation 'com.brackeys.ui:language-base:1.0.1' // for custom language
-    implementation 'com.brackeys.ui:language-c:1.0.1'
-    implementation 'com.brackeys.ui:language-cpp:1.0.1'
-    implementation 'com.brackeys.ui:language-csharp:1.0.1'
-    implementation 'com.brackeys.ui:language-html:1.0.1'
-    implementation 'com.brackeys.ui:language-java:1.0.1'
-    implementation 'com.brackeys.ui:language-javascript:1.0.1'
-    implementation 'com.brackeys.ui:language-json:1.0.1'
-    implementation 'com.brackeys.ui:language-kotlin:1.0.1'
-    implementation 'com.brackeys.ui:language-lisp:1.0.1'
-    implementation 'com.brackeys.ui:language-lua:1.0.1'
-    implementation 'com.brackeys.ui:language-markdown:1.0.1'
-    implementation 'com.brackeys.ui:language-plaintext:1.0.1'
-    implementation 'com.brackeys.ui:language-python:1.0.1'
-    implementation 'com.brackeys.ui:language-sql:1.0.1'
-    implementation 'com.brackeys.ui:language-visualbasic:1.0.1'
-    implementation 'com.brackeys.ui:language-xml:1.0.1'
+    implementation 'com.brackeys.ui:language-actionscript:1.1.0'
+    implementation 'com.brackeys.ui:language-base:1.1.0' // for custom language
+    implementation 'com.brackeys.ui:language-c:1.1.0'
+    implementation 'com.brackeys.ui:language-cpp:1.1.0'
+    implementation 'com.brackeys.ui:language-csharp:1.1.0'
+    implementation 'com.brackeys.ui:language-html:1.1.0'
+    implementation 'com.brackeys.ui:language-java:1.1.0'
+    implementation 'com.brackeys.ui:language-javascript:1.1.0'
+    implementation 'com.brackeys.ui:language-json:1.1.0'
+    implementation 'com.brackeys.ui:language-kotlin:1.1.0'
+    implementation 'com.brackeys.ui:language-lisp:1.1.0'
+    implementation 'com.brackeys.ui:language-lua:1.1.0'
+    implementation 'com.brackeys.ui:language-markdown:1.1.0'
+    implementation 'com.brackeys.ui:language-plaintext:1.1.0'
+    implementation 'com.brackeys.ui:language-python:1.1.0'
+    implementation 'com.brackeys.ui:language-shell:1.1.0'
+    implementation 'com.brackeys.ui:language-sql:1.1.0'
+    implementation 'com.brackeys.ui:language-visualbasic:1.1.0'
+    implementation 'com.brackeys.ui:language-xml:1.1.0'
 }
 ```
 
@@ -410,7 +412,7 @@ dependencies {
 ```gradle
 dependencies {
 
-    implementation 'com.brackeys.ui:language-base:1.0.1'
+    implementation 'com.brackeys.ui:language-base:1.1.0'
 }
 ```
 

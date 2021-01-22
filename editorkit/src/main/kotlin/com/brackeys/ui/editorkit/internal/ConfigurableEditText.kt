@@ -20,7 +20,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import com.brackeys.ui.editorkit.R
-import com.brackeys.ui.editorkit.model.Config
+import com.brackeys.ui.editorkit.model.EditorConfig
 
 abstract class ConfigurableEditText @JvmOverloads constructor(
     context: Context,
@@ -28,7 +28,7 @@ abstract class ConfigurableEditText @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr) {
 
-    var config: Config = Config()
+    var editorConfig: EditorConfig = EditorConfig()
         set(value) {
             field = value
             configure()

@@ -32,8 +32,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10001
-        versionName "2020.3.0"
+        versionCode 10002
+        versionName "2020.3.1"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -69,7 +69,7 @@ android {
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
     buildFeatures {
-        dataBinding true
+        dataBinding true // TODO replace with ViewBinding
         viewBinding true
     }
 }
@@ -108,8 +108,6 @@ dependencies {
     implementation library.rxpreferences
 
     // DI
-    implementation library.hilt
-    kapt library.hilt_compiler
     implementation library.dagger_hilt
     kapt library.dagger_hilt_compiler
 
@@ -120,7 +118,6 @@ dependencies {
     // Modules
     implementation project(':domain')
     implementation project(':data')
-    implementation project(':database')
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
     implementation project(':languages:language-base')

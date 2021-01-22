@@ -26,9 +26,9 @@ import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import net.lingala.zip4j.ZipFile
 import java.io.File
 import java.io.IOException
-import net.lingala.zip4j.ZipFile
 
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
@@ -51,6 +51,18 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 emitter.onSuccess(fileTree)
             } else {
                 emitter.onError(DirectoryExpectedException())
+            }
+        }
+    }
+
+    override fun provideFile(path: String): Single<FileModel> {
+        return Single.create { emitter ->
+            val file = File(path)
+            if (file.exists()) {
+                val fileModel = FileConverter.toModel(file)
+                emitter.onSuccess(fileModel)
+            } else {
+                emitter.onError(FileNotFoundException(file.path))
             }
         }
     }

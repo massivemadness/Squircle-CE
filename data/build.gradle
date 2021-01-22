@@ -17,6 +17,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -26,6 +27,18 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"
+                ]
+            }
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -40,6 +53,7 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 }
 
@@ -49,6 +63,11 @@ dependencies {
     // Core
     implementation library.kotlin
     implementation library.core
+
+    // AAC
+    implementation library.room
+    implementation library.rxroom
+    kapt library.room_compiler
 
     // Network
     implementation library.gson
@@ -60,7 +79,6 @@ dependencies {
 
     // Modules
     implementation project(':domain')
-    implementation project(':database')
     implementation project(':editorkit')
 
     implementation project(':filesystems:filesystem-base')
@@ -89,4 +107,7 @@ dependencies {
     // Tests
     testImplementation testLibrary.junit
     testImplementation testLibrary.mockito
+
+    androidTestImplementation androidTestLibrary.junit_ext
+    androidTestImplementation androidTestLibrary.test_runner
 }

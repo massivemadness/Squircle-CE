@@ -37,8 +37,8 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
     }
 
     fun tab(): String {
-        return if (config.useSpacesInsteadOfTabs) {
-            " ".repeat(4)
+        return if (editorConfig.useSpacesInsteadOfTabs) {
+            " ".repeat(editorConfig.tabWidth)
         } else "\t"
     }
 
@@ -81,7 +81,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
 
     private fun executeIndentation(start: Int): Array<String?> {
         val strArr: Array<String?>
-        if (newText == "\n" && config.autoIndentation) {
+        if (newText == "\n" && editorConfig.autoIndentation) {
             val prevLineIndentation = getIndentationForOffset(start)
             val indentation = StringBuilder(prevLineIndentation)
             var newCursorPosition = indentation.length + start + 1
@@ -96,7 +96,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
             strArr[1] = indentation.toString()
             strArr[3] = newCursorPosition.toString()
             return strArr
-        } else if (newText == "\"" && config.autoCloseQuotes) {
+        } else if (newText == "\"" && editorConfig.autoCloseQuotes) {
             if (start + 1 >= text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "\""
@@ -113,7 +113,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
-        } else if (newText == "'" && config.autoCloseQuotes) {
+        } else if (newText == "'" && editorConfig.autoCloseQuotes) {
             if (start + 1 >= text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "'"
@@ -135,36 +135,36 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
-        } else if (newText == "{" && config.autoCloseBrackets) {
+        } else if (newText == "{" && editorConfig.autoCloseBrackets) {
             strArr = arrayOfNulls(4)
             strArr[1] = "}"
             strArr[3] = (start + 1).toString()
             return strArr
-        } else if (newText == "}" && config.autoCloseBrackets) {
+        } else if (newText == "}" && editorConfig.autoCloseBrackets) {
             if (start + 1 < text.length && text[start + 1] == '}') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
-        } else if (newText == "(" && config.autoCloseBrackets) {
+        } else if (newText == "(" && editorConfig.autoCloseBrackets) {
             strArr = arrayOfNulls(4)
             strArr[1] = ")"
             strArr[3] = (start + 1).toString()
             return strArr
-        } else if (newText == ")" && config.autoCloseBrackets) {
+        } else if (newText == ")" && editorConfig.autoCloseBrackets) {
             if (start + 1 < text.length && text[start + 1] == ')') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
-        } else if (newText == "[" && config.autoCloseBrackets) {
+        } else if (newText == "[" && editorConfig.autoCloseBrackets) {
             strArr = arrayOfNulls(4)
             strArr[1] = "]"
             strArr[3] = (start + 1).toString()
             return strArr
-        } else if (newText == "]" && config.autoCloseBrackets &&
+        } else if (newText == "]" && editorConfig.autoCloseBrackets &&
             start + 1 < text.length && text[start + 1] == ']') {
             strArr = arrayOfNulls(4)
             strArr[2] = ""

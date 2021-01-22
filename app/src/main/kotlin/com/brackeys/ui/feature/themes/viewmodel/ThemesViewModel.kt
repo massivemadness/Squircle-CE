@@ -18,10 +18,11 @@ package com.brackeys.ui.feature.themes.viewmodel
 
 import android.os.Environment
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.ThemeConverter
+import com.brackeys.ui.data.database.AppDatabase
+import com.brackeys.ui.data.database.entity.theme.ThemeEntity
 import com.brackeys.ui.data.model.theme.ExternalTheme
 import com.brackeys.ui.data.model.theme.Meta
 import com.brackeys.ui.data.model.theme.Property
@@ -29,8 +30,6 @@ import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.InternalTheme
 import com.brackeys.ui.data.utils.schedulersIoToMain
 import com.brackeys.ui.data.utils.toHexString
-import com.brackeys.ui.database.AppDatabase
-import com.brackeys.ui.database.entity.theme.ThemeEntity
 import com.brackeys.ui.domain.model.theme.ThemeModel
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
@@ -40,14 +39,17 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
+import javax.inject.Inject
 import javax.inject.Named
 
-class ThemesViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ThemesViewModel @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,

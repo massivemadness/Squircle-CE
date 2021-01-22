@@ -19,11 +19,11 @@ package com.brackeys.ui.feature.editor.viewmodel
 import android.util.Log
 import androidx.core.text.PrecomputedTextCompat
 import androidx.databinding.ObservableBoolean
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.data.converter.ThemeConverter
+import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.repository.CacheRepository
 import com.brackeys.ui.data.repository.LocalRepository
 import com.brackeys.ui.data.settings.SettingsManager
@@ -31,7 +31,6 @@ import com.brackeys.ui.data.utils.InternalTheme
 import com.brackeys.ui.data.utils.containsDocumentModel
 import com.brackeys.ui.data.utils.indexBy
 import com.brackeys.ui.data.utils.schedulersIoToMain
-import com.brackeys.ui.database.AppDatabase
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
@@ -43,11 +42,14 @@ import com.brackeys.ui.utils.event.EventsQueue
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
+import javax.inject.Inject
 
-class EditorViewModel @ViewModelInject constructor(
+@HiltViewModel
+class EditorViewModel @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,

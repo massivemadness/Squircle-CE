@@ -16,7 +16,6 @@
 
 package com.brackeys.ui.feature.settings.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.settings.SettingsManager
@@ -26,9 +25,12 @@ import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.feature.settings.adapters.item.PreferenceItem
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import com.f2prateek.rx.preferences2.Preference
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxkotlin.subscribeBy
+import javax.inject.Inject
 
-class SettingsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager
 ) : BaseViewModel() {

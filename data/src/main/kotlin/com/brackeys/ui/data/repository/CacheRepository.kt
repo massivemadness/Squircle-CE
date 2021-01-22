@@ -17,8 +17,8 @@
 package com.brackeys.ui.data.repository
 
 import com.brackeys.ui.data.converter.DocumentConverter
+import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.delegate.LanguageDelegate
-import com.brackeys.ui.database.AppDatabase
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.domain.repository.DocumentRepository

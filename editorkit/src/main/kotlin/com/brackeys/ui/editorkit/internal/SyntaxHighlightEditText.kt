@@ -244,7 +244,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             if (lineTop > height) {
                 lineTop = height
             }
-            val scrollX = if (!config.wordWrap) {
+            val scrollX = if (!editorConfig.wordWrap) {
                 layout.getPrimaryHorizontal(findResult.start).toInt()
             } else scrollX
 
@@ -331,7 +331,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                 }
             }
 
-            if (!config.useSpacesInsteadOfTabs) {
+            if (!editorConfig.useSpacesInsteadOfTabs) {
                 // FIXME works pretty bad with word wrap
                 val textTabSpans = text.getSpans<TabWidthSpan>(0, text.length)
                 for (span in textTabSpans) {
@@ -345,7 +345,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                     val end = matcher.end() + lineStart
                     if (start >= 0 && end <= text.length) {
                         text.setSpan(
-                            TabWidthSpan(config.tabWidth),
+                            TabWidthSpan(editorConfig.tabWidth),
                             start,
                             end,
                             Spannable.SPAN_INCLUSIVE_INCLUSIVE
@@ -375,7 +375,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                 text.removeSpan(openDelimiterSpan)
                 text.removeSpan(closedDelimiterSpan)
             }
-            if (config.highlightDelimiters) {
+            if (editorConfig.highlightDelimiters) {
                 if (pos > 0 && pos <= text.length) {
                     val c1 = text[pos - 1]
                     for (i in delimiters.indices) {

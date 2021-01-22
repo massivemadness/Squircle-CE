@@ -18,7 +18,6 @@ package com.brackeys.ui.feature.explorer.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.settings.SettingsManager
@@ -35,15 +34,18 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Named
 
-class ExplorerViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ExplorerViewModel @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     @Named("Local")
@@ -283,12 +285,16 @@ class ExplorerViewModel @ViewModelInject constructor(
             .addTo(cancelableDisposable)
     }
 
-    fun copyFiles(source: List<FileModel>, dest: FileModel) {
-        Observable.fromIterable(source)
+    fun copyFiles(source: List<FileModel>, destPath: String) {
+        filesystem.provideFile(destPath)
+            .flatMapObservable { dest ->
+                Observable.fromIterable(source)
+                    .map { it to dest }
+            }
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMapSingle {
-                filesystem.copyFile(it, dest)
+            .concatMapSingle { (file, dest) ->
+                filesystem.copyFile(file, dest)
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .schedulersIoToMain(schedulersProvider)
@@ -318,12 +324,16 @@ class ExplorerViewModel @ViewModelInject constructor(
             .addTo(cancelableDisposable)
     }
 
-    fun cutFiles(source: List<FileModel>, dest: FileModel) {
-        Observable.fromIterable(source)
+    fun cutFiles(source: List<FileModel>, destPath: String) {
+        filesystem.provideFile(destPath)
+            .flatMapObservable { dest ->
+                Observable.fromIterable(source)
+                    .map { it to dest }
+            }
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMapSingle {
-                filesystem.copyFile(it, dest)
+            .concatMapSingle { (file, dest) ->
+                filesystem.copyFile(file, dest)
                     .delay(20, TimeUnit.MILLISECONDS)
             }
             .concatMapSingle {
@@ -379,8 +389,9 @@ class ExplorerViewModel @ViewModelInject constructor(
             .disposeOnViewModelDestroy()
     }
 
-    fun compressFiles(source: List<FileModel>, dest: FileModel, archiveName: String) {
-        filesystem.compress(source, dest, archiveName)
+    fun compressFiles(source: List<FileModel>, destPath: String, archiveName: String) {
+        filesystem.provideFile(destPath)
+            .flatMapObservable { filesystem.compress(source, it, archiveName) }
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .concatMap {
@@ -414,8 +425,9 @@ class ExplorerViewModel @ViewModelInject constructor(
             .disposeOnViewModelDestroy()
     }
 
-    fun extractAll(source: FileModel, dest: FileModel) {
-        filesystem.extractAll(source, dest)
+    fun extractAll(source: FileModel, destPath: String) {
+        filesystem.provideFile(destPath)
+            .flatMap { filesystem.extractAll(source, it) }
             .doOnSubscribe { progressEvent.postValue(0) }
             .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
             .schedulersIoToMain(schedulersProvider)

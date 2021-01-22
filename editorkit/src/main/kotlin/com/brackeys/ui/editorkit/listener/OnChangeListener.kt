@@ -16,6 +16,6 @@
 
 package com.brackeys.ui.editorkit.listener
 
-interface OnChangeListener {
+fun interface OnChangeListener {
     fun onChange()
 }

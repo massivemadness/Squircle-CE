@@ -1,0 +1,33 @@
+<b>Brackeys IDE</b> currently supports coding in the following programming languages: ActionScript, C, C++, C#, HTML, Java, JavaScript, Json, Kotlin, Lisp, Lua, Markdown, Python, Shell, SQL, Visual Basic and XML.
+
+Here is a list of features that will help you work with more productivity:
+
+<b>Syntax Highlighting</b>
+Beautiful syntax highlighting provides you a better way to understand your code at a glance
+
+<b>Code Completion</b>
+The code editor provides basic completion based on a file content, it suggests names of functions, fields, and keywords within your file scope
+
+<b>Error Checking</b>
+Whenever you make a change, IDE will correct you by highlighting a part of code that contains syntax errors <i>(Note that this feature currently works only for JavaScript, but it will be available for more languages soon)</i>
+
+<b>Cross-session Editing</b>
+All your changes automatically will be saved in cache, you don't need to save file every time you exit app
+
+<b>Unlimited Undo/Redo</b>
+If you made a mistake or you want to fall back to the source code you edited yesterday, simply use «Undo» button
+
+<b>Highlight Matching Delimiters</b>
+When you work with code in the editor, it can help you quickly understand code structure by highlighting the opening or closing delimiter ((), [], and {}) when you set the caret at its pair
+
+<b>Code Style</b>
+Brackeys IDE provides a better way to write your code, the editor will automatically indent lines, close open brackets, braces and quotes
+
+<b>Select, Delete, and Duplicate Line</b>
+You can easily delete or clone a part of code using handsome options in «Edit» menu
+
+<b>Color Schemes</b>
+Different color schemes defines syntax highlighting for reserved words and other symbols in your source code: operators, keywords, suggestions, string literals, and so on
+
+<b>OPEN SOURCE CODE</b>
+<b>•</b> <u>http://github.com/massivemadness/Brackeys-IDE</u>

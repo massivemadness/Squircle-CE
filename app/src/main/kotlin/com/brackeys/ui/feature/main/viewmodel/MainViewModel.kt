@@ -17,7 +17,6 @@
 package com.brackeys.ui.feature.main.viewmodel
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.schedulersIoToMain
 import com.brackeys.ui.domain.providers.rx.SchedulersProvider
@@ -31,9 +30,12 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.installStatus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxkotlin.subscribeBy
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     private val appUpdateManager: AppUpdateManager

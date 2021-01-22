@@ -1,0 +1,3 @@
+- Brackeys IDE – rebranding 🎉
+- Added: Support for following programming languages: ActionScript, C, C++, C#, HTML, Java, Kotlin, Lisp, Lua, Markdown, Python, SQL, Visual Basic and XML
+- Bugfixes and minor improvements

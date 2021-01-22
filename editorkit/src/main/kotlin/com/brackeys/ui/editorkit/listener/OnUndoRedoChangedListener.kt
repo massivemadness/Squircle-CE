@@ -16,6 +16,6 @@
 
 package com.brackeys.ui.editorkit.listener
 
-interface OnUndoRedoChangedListener {
+fun interface OnUndoRedoChangedListener {
     fun onUndoRedoChanged()
 }
