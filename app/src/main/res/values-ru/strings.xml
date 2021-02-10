@@ -224,6 +224,7 @@
     <string name="pref_category_other">Другое</string>
     <string name="pref_category_font">Шрифт</string>
     <string name="pref_category_editor">Редактор</string>
+    <string name="pref_category_tabs">Вкладки</string>
     <string name="pref_category_keyboard">Клавиатура</string>
     <string name="pref_category_code_style">Стиль кода</string>
     <string name="pref_category_tab_options">Табуляция</string>
@@ -256,6 +257,8 @@
     <string name="pref_highlight_line_summary">Подсвечивать линию на которой находится курсор.</string>
     <string name="pref_highlight_delimiters_title">Подсвечивать скобки</string>
     <string name="pref_highlight_delimiters_summary">Подсвечивать открытые/закрытые скобки рядом с курсором.</string>
+    <string name="pref_auto_save_files_title">Авто-сохранение файлов</string>
+    <string name="pref_auto_save_files_summary">Автоматически сохранять файлы при переключении вкладок или закрытии приложения.</string>
     <string name="pref_extended_keyboard_title">Расширенная клавиатура</string>
     <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
     <string name="pref_keyboard_preset_title">Клавиатурный пресет</string>

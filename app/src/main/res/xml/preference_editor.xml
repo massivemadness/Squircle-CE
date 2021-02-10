@@ -76,6 +76,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_category_tabs">
+
+        <SwitchPreference
+            android:title="@string/pref_auto_save_files_title"
+            android:summary="@string/pref_auto_save_files_summary"
+            android:defaultValue="false"
+            android:key="AUTO_SAVE_FILES"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_category_keyboard">
 
         <SwitchPreference

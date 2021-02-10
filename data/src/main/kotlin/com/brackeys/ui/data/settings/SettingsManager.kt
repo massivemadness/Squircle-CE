@@ -45,6 +45,9 @@ class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
         const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
 
+        // Tabs
+        const val KEY_AUTO_SAVE_FILES = "AUTO_SAVE_FILES"
+
         // Keyboard
         const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYBOARD"
         const val KEY_KEYBOARD_PRESET = "KEYBOARD_PRESET_1"
@@ -103,6 +106,9 @@ class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
         rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)
     fun getHighlightMatchingDelimiters(): Preference<Boolean> =
         rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
+
+    fun getAutoSaveFiles(): Preference<Boolean> =
+        rxSharedPreferences.getBoolean(KEY_AUTO_SAVE_FILES, false)
 
     fun getExtendedKeyboard(): Preference<Boolean> =
         rxSharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)

@@ -83,6 +83,8 @@ class EditorViewModel @Inject constructor(
 
     val openUnknownFiles: Boolean
         get() = settingsManager.getOpenUnknownFiles().get()
+    val autoSaveFiles: Boolean
+        get() = settingsManager.getAutoSaveFiles().get()
     private var selectedDocumentId: String
         get() = settingsManager.getSelectedDocumentId().get()
         set(value) = settingsManager.getSelectedDocumentId().set(value)

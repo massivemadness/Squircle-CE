@@ -389,6 +389,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     text = text
                 )
                 viewModel.saveFile(documentContent, toCache = true)
+                if (viewModel.autoSaveFiles) {
+                    viewModel.saveFile(documentContent, toCache = false)
+                }
             }
             binding.editor.clearText() // TTL Exception bypass
         }

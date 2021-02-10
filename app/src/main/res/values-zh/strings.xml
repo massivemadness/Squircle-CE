@@ -224,6 +224,7 @@
     <string name="pref_category_other">其他</string>
     <string name="pref_category_font">字体</string>
     <string name="pref_category_editor">编辑器</string>
+    <string name="pref_category_tabs">标签页</string>
     <string name="pref_category_keyboard">键盘</string>
     <string name="pref_category_code_style">代码范</string>
     <string name="pref_category_tab_options">制表符</string>
@@ -256,6 +257,8 @@
     <string name="pref_highlight_line_summary">高亮显示光标当前所在的行。</string>
     <string name="pref_highlight_delimiters_title">高亮成对符</string>
     <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
+    <string name="pref_auto_save_files_title">Auto-save Files</string>
+    <string name="pref_auto_save_files_summary">Automatically save file on switching tab or closing the app.</string>
     <string name="pref_extended_keyboard_title">快捷符号栏</string>
     <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘之上显示符号栏以便快捷输入</string>
     <string name="pref_keyboard_preset_title">预设符号</string>
