@@ -108,8 +108,8 @@ dependencies {
     implementation library.rxpreferences
 
     // DI
-    implementation library.dagger_hilt
-    kapt library.dagger_hilt_compiler
+    implementation library.hilt
+    kapt library.hilt_compiler
 
     // Other
     implementation library.keyboardevent
