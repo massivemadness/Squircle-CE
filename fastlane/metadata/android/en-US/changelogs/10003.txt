@@ -1,0 +1,5 @@
+- Added: Auto-save files in Settings > Editor
+- Added: Confirmation dialog when closing tab
+- Fixed: Wrong tab width when using spaces instead of tabs
+- Fixed: If the current line highlighting is disabled, the line number also won't be highlighted
+- Bugfixes and minor improvements
