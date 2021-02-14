@@ -55,6 +55,9 @@ ext {
     // Network
     gson_version = '2.8.6'
 
+    // Coroutines
+    coroutines_version = '1.3.4'
+
     // Rx
     rxjava2_version = '2.2.20'
     rxandroid_version = '2.1.1'
@@ -119,6 +122,10 @@ ext {
 
             // Network
             gson: "com.google.code.gson:gson:$gson_version",
+
+            // Coroutines
+            coroutines_core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
+            coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
 
             // Rx
             rxjava2: "io.reactivex.rxjava2:rxjava:$rxjava2_version",

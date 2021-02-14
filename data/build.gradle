@@ -72,6 +72,9 @@ dependencies {
     // Network
     implementation library.gson
 
+    // Coroutines
+    implementation library.coroutines_core
+
     // Rx
     implementation library.rxjava2
     implementation library.rxkotlin
