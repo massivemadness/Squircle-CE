@@ -16,11 +16,13 @@
 
 package com.brackeys.ui.feature.fonts.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.brackeys.ui.R
 import com.brackeys.ui.domain.model.font.FontModel
 import com.brackeys.ui.domain.repository.fonts.FontsRepository
-import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -30,8 +32,13 @@ import javax.inject.Inject
 @HiltViewModel
 class FontsViewModel @Inject constructor(
     private val fontsRepository: FontsRepository
-) : BaseViewModel() {
+) : ViewModel() {
 
+    companion object {
+        private const val TAG = "FontsViewModel"
+    }
+
+    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent()
     val fontsEvent: MutableLiveData<List<FontModel>> = MutableLiveData()
     val validationEvent: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -43,34 +50,54 @@ class FontsViewModel @Inject constructor(
 
     fun fetchFonts() {
         viewModelScope.launch {
-            val fonts = fontsRepository.fetchFonts(searchQuery)
-            fontsEvent.value = if (searchQuery.isEmpty()) {
-                fonts + internalFonts()
-            } else {
-                fonts
+            try {
+                val fonts = fontsRepository.fetchFonts(searchQuery)
+                fontsEvent.value = if (searchQuery.isEmpty()) {
+                    fonts + internalFonts()
+                } else {
+                    fonts
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
             }
         }
     }
 
     fun createFont(fontModel: FontModel) {
         viewModelScope.launch {
-            fontsRepository.createFont(fontModel)
-            insertEvent.value = fontModel.fontName
+            try {
+                fontsRepository.createFont(fontModel)
+                insertEvent.value = fontModel.fontName
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
         }
     }
 
     fun removeFont(fontModel: FontModel) {
         viewModelScope.launch {
-            fontsRepository.removeFont(fontModel)
-            removeEvent.value = fontModel.fontName
-            fetchFonts() // update list
+            try {
+                fontsRepository.removeFont(fontModel)
+                removeEvent.value = fontModel.fontName
+                fetchFonts() // update list
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
         }
     }
 
     fun selectFont(fontModel: FontModel) {
         viewModelScope.launch {
-            fontsRepository.selectFont(fontModel)
-            selectEvent.value = fontModel.fontName
+            try {
+                fontsRepository.selectFont(fontModel)
+                selectEvent.value = fontModel.fontName
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
         }
     }
 

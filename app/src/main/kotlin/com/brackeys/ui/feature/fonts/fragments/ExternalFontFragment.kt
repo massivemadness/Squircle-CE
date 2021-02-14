@@ -68,6 +68,9 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
     }
 
     private fun observeViewModel() {
+        viewModel.toastEvent.observe(viewLifecycleOwner) {
+            context?.showToast(it)
+        }
         viewModel.validationEvent.observe(viewLifecycleOwner) {
             binding.actionSave.isEnabled = it
         }

@@ -95,6 +95,9 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
     }
 
     private fun observeViewModel() {
+        viewModel.toastEvent.observe(viewLifecycleOwner) {
+            context?.showToast(it)
+        }
         viewModel.fontsEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.emptyView.isVisible = it.isEmpty()
