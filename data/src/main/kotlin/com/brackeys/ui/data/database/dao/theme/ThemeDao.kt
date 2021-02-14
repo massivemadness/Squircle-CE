@@ -21,18 +21,16 @@ import androidx.room.Query
 import com.brackeys.ui.data.database.dao.base.BaseDao
 import com.brackeys.ui.data.database.entity.theme.ThemeEntity
 import com.brackeys.ui.data.database.utils.Tables
-import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 abstract class ThemeDao : BaseDao<ThemeEntity> {
 
     @Query("SELECT * FROM `${Tables.THEMES}` WHERE `name` LIKE '%' || :searchQuery || '%'")
-    abstract fun loadAll(searchQuery: String): Single<List<ThemeEntity>>
+    abstract suspend fun loadAll(searchQuery: String): List<ThemeEntity>
 
     @Query("SELECT * FROM `${Tables.THEMES}` WHERE `uuid` = :uuid")
-    abstract fun load(uuid: String): Single<ThemeEntity>
+    abstract suspend fun load(uuid: String): ThemeEntity
 
     @Query("DELETE FROM `${Tables.THEMES}`")
-    abstract fun deleteAll(): Completable
+    abstract suspend fun deleteAll()
 }

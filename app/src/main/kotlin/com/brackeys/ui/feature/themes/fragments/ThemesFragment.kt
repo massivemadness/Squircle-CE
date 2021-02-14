@@ -26,7 +26,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,20 +36,17 @@ import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentThemesBinding
 import com.brackeys.ui.domain.model.theme.ThemeModel
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.themes.adapters.ThemeAdapter
 import com.brackeys.ui.feature.themes.utils.GridSpacingItemDecoration
 import com.brackeys.ui.feature.themes.viewmodel.ThemesViewModel
+import com.brackeys.ui.utils.extensions.debounce
 import com.brackeys.ui.utils.extensions.getAssetFileText
 import com.brackeys.ui.utils.extensions.hasExternalStorageAccess
-import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
+import com.brackeys.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.ThemeInteractor {
+class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     private val viewModel: ThemesViewModel by viewModels()
 
@@ -66,12 +65,31 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
         observeViewModel()
 
         navController = findNavController()
+
         val gridLayoutManager = binding.recyclerView.layoutManager as GridLayoutManager
         val gridSpacingDecoration = GridSpacingItemDecoration(8, gridLayoutManager.spanCount)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.addItemDecoration(gridSpacingDecoration)
-        binding.recyclerView.adapter = ThemeAdapter(this)
-            .also { adapter = it }
+        binding.recyclerView.adapter = ThemeAdapter(object : ThemeAdapter.Actions {
+            override fun selectTheme(themeModel: ThemeModel) = viewModel.selectTheme(themeModel)
+            override fun exportTheme(themeModel: ThemeModel) {
+                if (requireContext().hasExternalStorageAccess()) {
+                    viewModel.exportTheme(themeModel)
+                } else {
+                    context?.showToast(R.string.message_access_required)
+                }
+            }
+            override fun editTheme(themeModel: ThemeModel) {
+                val destination = ThemesFragmentDirections.toNewThemeFragment(themeModel.uuid)
+                navController.navigate(destination)
+            }
+            override fun removeTheme(themeModel: ThemeModel) = viewModel.removeTheme(themeModel)
+            override fun showInfo(themeModel: ThemeModel) {
+                context?.showToast(text = themeModel.description)
+            }
+        }).also {
+            adapter = it
+        }
 
         binding.actionAdd.setOnClickListener {
             val destination = ThemesFragmentDirections.toNewThemeFragment(null)
@@ -110,67 +128,31 @@ class ThemesFragment : BaseFragment(R.layout.fragment_themes), ThemeAdapter.Them
             }
         }
 
-        searchView
-            .queryTextChangeEvents()
-            .skipInitialValue()
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .distinctUntilChanged()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy {
-                viewModel.searchQuery = it.queryText.toString()
-                viewModel.fetchThemes()
-            }
-            .disposeOnFragmentDestroyView()
-    }
-
-    override fun selectTheme(themeModel: ThemeModel) {
-        viewModel.selectTheme(themeModel)
-    }
-
-    override fun exportTheme(themeModel: ThemeModel) {
-        if (requireContext().hasExternalStorageAccess()) {
-            viewModel.exportTheme(themeModel)
-        } else {
-            showToast(R.string.message_access_required)
+        searchView.debounce(viewLifecycleOwner.lifecycleScope) {
+            viewModel.searchQuery = it
+            viewModel.fetchThemes()
         }
-    }
-
-    override fun editTheme(themeModel: ThemeModel) {
-        if (themeModel.isExternal) {
-            val destination = ThemesFragmentDirections.toNewThemeFragment(themeModel.uuid)
-            navController.navigate(destination)
-        }
-    }
-
-    override fun removeTheme(themeModel: ThemeModel) {
-        if (themeModel.isExternal) {
-            viewModel.removeTheme(themeModel)
-        }
-    }
-
-    override fun showInfo(themeModel: ThemeModel) {
-        showToast(text = themeModel.description)
     }
 
     private fun observeViewModel() {
         viewModel.toastEvent.observe(viewLifecycleOwner) {
-            showToast(it)
+            context?.showToast(it)
         }
         viewModel.themesEvent.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.emptyView.isVisible = it.isEmpty()
         }
         viewModel.selectEvent.observe(viewLifecycleOwner) {
-            showToast(text = getString(R.string.message_selected, it))
+            context?.showToast(text = getString(R.string.message_selected, it))
         }
         viewModel.exportEvent.observe(viewLifecycleOwner) {
-            showToast(
+            context?.showToast(
                 text = getString(R.string.message_theme_exported, it),
                 duration = Toast.LENGTH_LONG
             )
         }
         viewModel.removeEvent.observe(viewLifecycleOwner) {
-            showToast(text = getString(R.string.message_theme_removed, it))
+            context?.showToast(text = getString(R.string.message_theme_removed, it))
         }
     }
 }

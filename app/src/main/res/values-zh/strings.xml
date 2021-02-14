@@ -165,7 +165,7 @@
     <string name="message_font_removed">字体 «%1$s» 已移除</string>
     <string name="message_new_theme_available">新主题可用: %1$s</string>
     <string name="message_theme_removed">主题 «%1$s» 已移除</string>
-    <string name="message_theme_exported">主题已保存到 %1$s</string>
+    <string name="message_theme_exported">主题已保存到 /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
     <string name="message_deleting">删除中…%1$s</string>
@@ -182,7 +182,7 @@
     <string name="theme_property_background_color">定义编辑器的背景颜色</string>
     <string name="theme_property_gutter_color">定义行号栏的背景颜色</string>
     <string name="theme_property_gutter_divider_color">定义行号栏的分割线颜色</string>
-    <string name="theme_property_gutter_divider_current_line_number_color">定义行号栏的当前所选行号颜色</string>
+    <string name="theme_property_gutter_current_line_number_color">定义行号栏的当前所选行号颜色</string>
     <string name="theme_property_gutter_text_color">定义行号栏的行号颜色</string>
     <string name="theme_property_selected_line_color">定义编辑器的当前所选行背景颜色</string>
     <string name="theme_property_selection_color">定义编辑器的当前所选文本背景颜色</string>

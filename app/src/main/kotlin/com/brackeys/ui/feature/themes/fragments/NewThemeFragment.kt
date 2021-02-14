@@ -25,6 +25,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -33,28 +34,25 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.brackeys.ui.R
-import com.brackeys.ui.data.model.theme.Meta
 import com.brackeys.ui.data.utils.toHexString
 import com.brackeys.ui.databinding.FragmentNewThemeBinding
+import com.brackeys.ui.domain.model.theme.Meta
+import com.brackeys.ui.domain.model.theme.PropertyItem
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.themes.adapters.PropertyAdapter
-import com.brackeys.ui.feature.themes.adapters.item.PropertyItem
 import com.brackeys.ui.feature.themes.viewmodel.ThemesViewModel
+import com.brackeys.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickListener<PropertyItem> {
+class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
     private val viewModel: ThemesViewModel by viewModels()
     private val navArgs: NewThemeFragmentArgs by navArgs()
 
     private val importThemeContract: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri != null) {
-                val inputStream = requireContext().contentResolver.openInputStream(uri)
-                viewModel.importTheme(inputStream)
-            }
+            uri?.let(viewModel::importTheme)
         }
 
     private lateinit var navController: NavController
@@ -77,8 +75,28 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
 
         navController = findNavController()
         binding.recyclerView.setHasFixedSize(false)
-        binding.recyclerView.adapter = PropertyAdapter(this)
-            .also { adapter = it }
+        binding.recyclerView.adapter = PropertyAdapter(object : OnItemClickListener<PropertyItem> {
+            override fun onClick(item: PropertyItem) {
+                MaterialDialog(requireContext()).show {
+                    title(R.string.dialog_title_color_picker)
+                    colorChooser(
+                        colors = ColorPalette.Primary,
+                        subColors = ColorPalette.PrimarySub,
+                        initialSelection = item.propertyValue.toColorInt(),
+                        allowCustomArgb = true,
+                        showAlphaSelector = false
+                    ) { _, color ->
+                        val index = adapter.currentList.indexOf(item)
+                        adapter.currentList[index].propertyValue = color.toHexString()
+                        adapter.notifyItemChanged(index)
+                    }
+                    positiveButton(R.string.action_select)
+                    negativeButton(R.string.action_cancel)
+                }
+            }
+        }).also {
+            adapter = it
+        }
 
         binding.actionSave.setOnClickListener {
             viewModel.createTheme(meta, adapter.currentList)
@@ -102,34 +120,15 @@ class NewThemeFragment : BaseFragment(R.layout.fragment_new_theme), OnItemClickL
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onClick(item: PropertyItem) {
-        MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_color_picker)
-            colorChooser(
-                colors = ColorPalette.Primary,
-                subColors = ColorPalette.PrimarySub,
-                initialSelection = item.propertyValue.toColorInt(),
-                allowCustomArgb = true,
-                showAlphaSelector = false
-            ) { _, color ->
-                val index = adapter.currentList.indexOf(item)
-                adapter.currentList[index].propertyValue = color.toHexString()
-                adapter.notifyItemChanged(index)
-            }
-            positiveButton(R.string.action_select)
-            negativeButton(R.string.action_cancel)
-        }
-    }
-
     private fun observeViewModel() {
         viewModel.toastEvent.observe(viewLifecycleOwner) {
-            showToast(it)
+            context?.showToast(it)
         }
         viewModel.validationEvent.observe(viewLifecycleOwner) {
             binding.actionSave.isEnabled = it
         }
         viewModel.createEvent.observe(viewLifecycleOwner) {
-            showToast(text = getString(R.string.message_new_theme_available, it))
+            context?.showToast(text = getString(R.string.message_new_theme_available, it))
             navController.navigateUp()
         }
         viewModel.metaEvent.observe(viewLifecycleOwner) {

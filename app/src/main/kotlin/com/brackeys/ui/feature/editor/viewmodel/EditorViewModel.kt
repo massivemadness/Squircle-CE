@@ -46,6 +46,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -228,9 +229,9 @@ class EditorViewModel @Inject constructor(
                 InternalTheme.fetchTheme(it)?.let { themeModel ->
                     Single.just(themeModel)
                 } ?: run {
-                    appDatabase.themeDao().load(it)
-                        .map(ThemeConverter::toModel)
-                        .schedulersIoToMain(schedulersProvider)
+                    val themeEntity = runBlocking { appDatabase.themeDao().load(it) }
+                    val themeModel = ThemeConverter.toModel(themeEntity)
+                    Single.just(themeModel)
                 }
             }
             .schedulersIoToMain(schedulersProvider)

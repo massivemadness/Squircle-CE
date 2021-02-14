@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.model.theme
+package com.brackeys.ui.domain.model.theme
 
-data class Meta(
-    val uuid: String,
-    val name: String,
-    val author: String,
-    val description: String
+data class PropertyItem(
+    val propertyKey: Property,
+    var propertyValue: String
 )

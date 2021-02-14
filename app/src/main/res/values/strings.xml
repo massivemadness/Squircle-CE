@@ -174,7 +174,7 @@
     <string name="message_font_removed">Font «%1$s» removed</string>
     <string name="message_new_theme_available">New theme available: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» removed</string>
-    <string name="message_theme_exported">Theme saved to %1$s</string>
+    <string name="message_theme_exported">Theme saved to /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
     <string name="message_deleting">Deleting…%1$s</string>
@@ -193,7 +193,7 @@
     <string name="theme_property_background_color">Defines the background color of the editor</string>
     <string name="theme_property_gutter_color">Defines the background color of gutter</string>
     <string name="theme_property_gutter_divider_color">Defines the divider color of gutter</string>
-    <string name="theme_property_gutter_divider_current_line_number_color">Defines the line number color of selected line in gutter</string>
+    <string name="theme_property_gutter_current_line_number_color">Defines the line number color of selected line in gutter</string>
     <string name="theme_property_gutter_text_color">Defines the line numbers color in gutter</string>
     <string name="theme_property_selected_line_color">Defines color of selected line in the editor</string>
     <string name="theme_property_selection_color">Defines the selection color in the editor</string>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.model.theme
+package com.brackeys.ui.domain.model.theme
 
 enum class Property(val key: String) {
     TEXT_COLOR("text_color"),

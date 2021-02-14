@@ -32,7 +32,7 @@ import com.brackeys.ui.domain.model.theme.ThemeModel
 import com.brackeys.ui.utils.extensions.makeRightPaddingRecursively
 
 class ThemeAdapter(
-    private val themeInteractor: ThemeInteractor
+    private val actions: Actions
 ) : ListAdapter<ThemeModel, ThemeAdapter.ThemeViewHolder>(diffCallback) {
 
     companion object {
@@ -53,7 +53,7 @@ class ThemeAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThemeViewHolder {
-        return ThemeViewHolder.create(parent, themeInteractor)
+        return ThemeViewHolder.create(parent, actions)
     }
 
     override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) {
@@ -62,14 +62,14 @@ class ThemeAdapter(
 
     class ThemeViewHolder(
         private val binding: ItemThemeBinding,
-        private val themeInteractor: ThemeInteractor
+        private val actions: Actions
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, themeInteractor: ThemeInteractor): ThemeViewHolder {
+            fun create(parent: ViewGroup, actions: Actions): ThemeViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemThemeBinding.inflate(inflater, parent, false)
-                return ThemeViewHolder(binding, themeInteractor)
+                return ThemeViewHolder(binding, actions)
             }
         }
 
@@ -78,23 +78,23 @@ class ThemeAdapter(
         init {
             itemView.setOnClickListener {
                 if (!binding.actionSelect.isEnabled) {
-                    themeInteractor.selectTheme(themeModel)
+                    actions.selectTheme(themeModel)
                 }
             }
             binding.actionSelect.setOnClickListener {
-                themeInteractor.selectTheme(themeModel)
+                actions.selectTheme(themeModel)
             }
             binding.actionInfo.setOnClickListener {
-                themeInteractor.showInfo(themeModel)
+                actions.showInfo(themeModel)
             }
             binding.actionOverflow.setOnClickListener {
                 val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.action_export -> themeInteractor.exportTheme(themeModel)
-                        R.id.action_edit -> themeInteractor.editTheme(themeModel)
-                        R.id.action_remove -> themeInteractor.removeTheme(themeModel)
+                        R.id.action_export -> actions.exportTheme(themeModel)
+                        R.id.action_edit -> actions.editTheme(themeModel)
+                        R.id.action_remove -> actions.removeTheme(themeModel)
                     }
                     true
                 }
@@ -120,7 +120,7 @@ class ThemeAdapter(
         }
     }
 
-    interface ThemeInteractor {
+    interface Actions {
         fun selectTheme(themeModel: ThemeModel)
         fun exportTheme(themeModel: ThemeModel)
         fun editTheme(themeModel: ThemeModel)

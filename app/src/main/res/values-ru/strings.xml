@@ -165,7 +165,7 @@
     <string name="message_font_removed">Шрифт «%1$s» удален</string>
     <string name="message_new_theme_available">Добавлена новая тема: %1$s</string>
     <string name="message_theme_removed">Тема «%1$s» удалена</string>
-    <string name="message_theme_exported">Тема сохранена %1$s</string>
+    <string name="message_theme_exported">Тема сохранена в /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
     <string name="message_elapsed_time">Прошло времени: %1$s</string>
     <string name="message_deleting">Удаление…%1$s</string>
@@ -182,7 +182,7 @@
     <string name="theme_property_background_color">Определяет цвет фона редактора</string>
     <string name="theme_property_gutter_color">Определяет цвет фона панели номеров строк</string>
     <string name="theme_property_gutter_divider_color">Определяет цвет разделителя панели номеров строк</string>
-    <string name="theme_property_gutter_divider_current_line_number_color">Определяет цвет текущего номера строки в панели номеров строк</string>
+    <string name="theme_property_gutter_current_line_number_color">Определяет цвет текущего номера строки в панели номеров строк</string>
     <string name="theme_property_gutter_text_color">Определяет цвет номеров в панели номеров строк</string>
     <string name="theme_property_selected_line_color">Определяет цвет текущей строки в редакторе</string>
     <string name="theme_property_selection_color">Определяет цвет выделения текста в редакторе</string>
