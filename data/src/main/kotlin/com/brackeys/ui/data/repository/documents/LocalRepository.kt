@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.repository
+package com.brackeys.ui.data.repository.documents
 
 import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.data.database.AppDatabase
@@ -23,7 +23,7 @@ import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.safeCharset
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
-import com.brackeys.ui.domain.repository.DocumentRepository
+import com.brackeys.ui.domain.repository.documents.DocumentRepository
 import com.brackeys.ui.editorkit.utils.UndoStack
 import com.brackeys.ui.filesystem.base.Filesystem
 import com.brackeys.ui.filesystem.base.model.FileParams

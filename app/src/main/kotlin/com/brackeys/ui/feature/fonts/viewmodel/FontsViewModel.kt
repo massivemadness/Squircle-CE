@@ -17,25 +17,19 @@
 package com.brackeys.ui.feature.fonts.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.brackeys.ui.data.converter.FontConverter
-import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.schedulersIoToMain
+import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.domain.model.font.FontModel
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
+import com.brackeys.ui.domain.repository.fonts.FontsRepository
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Completable
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class FontsViewModel @Inject constructor(
-    private val schedulersProvider: SchedulersProvider,
-    private val settingsManager: SettingsManager,
-    private val appDatabase: AppDatabase
+    private val fontsRepository: FontsRepository
 ) : BaseViewModel() {
 
     val fontsEvent: MutableLiveData<List<FontModel>> = MutableLiveData()
@@ -48,47 +42,36 @@ class FontsViewModel @Inject constructor(
     var searchQuery = ""
 
     fun fetchFonts() {
-        appDatabase.fontDao().loadAll(searchQuery)
-            .map { it.map(FontConverter::toModel) }
-            .map {
-                if (searchQuery.isEmpty()) {
-                    it + internalFonts()
-                } else it
+        viewModelScope.launch {
+            val fonts = fontsRepository.fetchFonts(searchQuery)
+            fontsEvent.value = if (searchQuery.isEmpty()) {
+                fonts + internalFonts()
+            } else {
+                fonts
             }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { fontsEvent.value = it }
-            .disposeOnViewModelDestroy()
+        }
     }
 
-    fun selectFont(fontModel: FontModel) {
-        settingsManager.getFontType().set(fontModel.fontPath)
-        selectEvent.value = fontModel.fontName
+    fun createFont(fontModel: FontModel) {
+        viewModelScope.launch {
+            fontsRepository.createFont(fontModel)
+            insertEvent.value = fontModel.fontName
+        }
     }
 
     fun removeFont(fontModel: FontModel) {
-        Completable
-            .fromAction {
-                appDatabase.fontDao().delete(FontConverter.toEntity(fontModel))
-                if (settingsManager.getFontType().get() == fontModel.fontPath) {
-                    settingsManager.getFontType().delete()
-                }
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy {
-                removeEvent.value = fontModel.fontName
-                fetchFonts() // Update list
-            }
-            .disposeOnViewModelDestroy()
+        viewModelScope.launch {
+            fontsRepository.removeFont(fontModel)
+            removeEvent.value = fontModel.fontName
+            fetchFonts() // update list
+        }
     }
 
-    fun insertFont(fontModel: FontModel) {
-        Completable
-            .fromAction {
-                appDatabase.fontDao().insert(FontConverter.toEntity(fontModel))
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { insertEvent.value = fontModel.fontName }
-            .disposeOnViewModelDestroy()
+    fun selectFont(fontModel: FontModel) {
+        viewModelScope.launch {
+            fontsRepository.selectFont(fontModel)
+            selectEvent.value = fontModel.fontName
+        }
     }
 
     fun validateInput(fontName: String, fontPath: String) {

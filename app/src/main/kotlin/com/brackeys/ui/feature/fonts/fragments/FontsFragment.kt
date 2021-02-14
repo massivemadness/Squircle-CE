@@ -22,24 +22,23 @@ import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentFontsBinding
 import com.brackeys.ui.domain.model.font.FontModel
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.fonts.adapters.FontAdapter
 import com.brackeys.ui.feature.fonts.viewmodel.FontsViewModel
-import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
+import com.brackeys.ui.utils.extensions.debounce
+import com.brackeys.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInteractor {
+class FontsFragment : Fragment(R.layout.fragment_fonts) {
 
     private val viewModel: FontsViewModel by viewModels()
 
@@ -58,11 +57,16 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
         observeViewModel()
 
         navController = findNavController()
+
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(itemDecoration)
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = FontAdapter(this)
-            .also { adapter = it }
+        binding.recyclerView.adapter = FontAdapter(object : FontAdapter.Actions {
+            override fun selectFont(fontModel: FontModel) = viewModel.selectFont(fontModel)
+            override fun removeFont(fontModel: FontModel) = viewModel.removeFont(fontModel)
+        }).also {
+            adapter = it
+        }
 
         binding.actionAdd.setOnClickListener {
             val destination = FontsFragmentDirections.toExternalFontFragment()
@@ -84,26 +88,9 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
             searchView.setQuery(viewModel.searchQuery, false)
         }
 
-        searchView
-            .queryTextChangeEvents()
-            .skipInitialValue()
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .distinctUntilChanged()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy {
-                viewModel.searchQuery = it.queryText.toString()
-                viewModel.fetchFonts()
-            }
-            .disposeOnFragmentDestroyView()
-    }
-
-    override fun selectFont(fontModel: FontModel) {
-        viewModel.selectFont(fontModel)
-    }
-
-    override fun removeFont(fontModel: FontModel) {
-        if (fontModel.isExternal) {
-            viewModel.removeFont(fontModel)
+        searchView.debounce(viewLifecycleOwner.lifecycleScope) {
+            viewModel.searchQuery = it
+            viewModel.fetchFonts()
         }
     }
 
@@ -113,10 +100,10 @@ class FontsFragment : BaseFragment(R.layout.fragment_fonts), FontAdapter.FontInt
             binding.emptyView.isVisible = it.isEmpty()
         }
         viewModel.selectEvent.observe(viewLifecycleOwner) {
-            showToast(text = getString(R.string.message_selected, it))
+            context?.showToast(text = getString(R.string.message_selected, it))
         }
         viewModel.removeEvent.observe(viewLifecycleOwner) {
-            showToast(text = getString(R.string.message_font_removed, it))
+            context?.showToast(text = getString(R.string.message_font_removed, it))
         }
     }
 }

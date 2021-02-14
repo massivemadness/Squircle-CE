@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.domain.repository
+package com.brackeys.ui.domain.repository.documents
 
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel

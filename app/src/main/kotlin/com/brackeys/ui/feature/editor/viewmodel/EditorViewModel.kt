@@ -24,8 +24,8 @@ import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.data.converter.ThemeConverter
 import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.repository.CacheRepository
-import com.brackeys.ui.data.repository.LocalRepository
+import com.brackeys.ui.data.repository.documents.CacheRepository
+import com.brackeys.ui.data.repository.documents.LocalRepository
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.InternalTheme
 import com.brackeys.ui.data.utils.containsDocumentModel

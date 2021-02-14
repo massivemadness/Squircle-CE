@@ -21,13 +21,13 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.databinding.ItemFontBinding
 import com.brackeys.ui.domain.model.font.FontModel
-import com.brackeys.ui.feature.base.adapters.BaseViewHolder
 import com.brackeys.ui.utils.extensions.createTypefaceFromPath
 
 class FontAdapter(
-    private val fontInteractor: FontInteractor
+    private val actions: Actions
 ) : ListAdapter<FontModel, FontAdapter.FontViewHolder>(diffCallback) {
 
     companion object {
@@ -42,7 +42,7 @@ class FontAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontViewHolder {
-        return FontViewHolder.create(parent, fontInteractor)
+        return FontViewHolder.create(parent, actions)
     }
 
     override fun onBindViewHolder(holder: FontViewHolder, position: Int) {
@@ -51,14 +51,14 @@ class FontAdapter(
 
     class FontViewHolder(
         private val binding: ItemFontBinding,
-        private val fontInteractor: FontInteractor
-    ) : BaseViewHolder<FontModel>(binding.root) {
+        private val actions: Actions
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, fontInteractor: FontInteractor): FontViewHolder {
+            fun create(parent: ViewGroup, actions: Actions): FontViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemFontBinding.inflate(inflater, parent, false)
-                return FontViewHolder(binding, fontInteractor)
+                return FontViewHolder(binding, actions)
             }
         }
 
@@ -66,19 +66,19 @@ class FontAdapter(
 
         init {
             binding.actionSelect.setOnClickListener {
-                fontInteractor.selectFont(fontModel)
+                actions.selectFont(fontModel)
             }
             binding.actionRemove.setOnClickListener {
-                fontInteractor.removeFont(fontModel)
+                actions.removeFont(fontModel)
             }
             itemView.setOnClickListener {
                 if (!binding.actionSelect.isEnabled) {
-                    fontInteractor.selectFont(fontModel)
+                    actions.selectFont(fontModel)
                 }
             }
         }
 
-        override fun bind(item: FontModel) {
+        fun bind(item: FontModel) {
             fontModel = item
             binding.itemTitle.text = item.fontName
             binding.itemContent.typeface = itemView.context.createTypefaceFromPath(item.fontPath)
@@ -87,7 +87,7 @@ class FontAdapter(
         }
     }
 
-    interface FontInteractor {
+    interface Actions {
         fun selectFont(fontModel: FontModel)
         fun removeFont(fontModel: FontModel)
     }

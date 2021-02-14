@@ -19,18 +19,19 @@ package com.brackeys.ui.feature.fonts.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentExternalFontBinding
 import com.brackeys.ui.domain.model.font.FontModel
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.fonts.viewmodel.FontsViewModel
+import com.brackeys.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
+class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
 
     private val viewModel: FontsViewModel by viewModels()
 
@@ -62,7 +63,7 @@ class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
                 supportLigatures = binding.supportLigatures.isChecked,
                 isExternal = true
             )
-            viewModel.insertFont(fontModel)
+            viewModel.createFont(fontModel)
         }
     }
 
@@ -71,7 +72,7 @@ class ExternalFontFragment : BaseFragment(R.layout.fragment_external_font) {
             binding.actionSave.isEnabled = it
         }
         viewModel.insertEvent.observe(viewLifecycleOwner) {
-            showToast(text = getString(R.string.message_new_font_available, it))
+            context?.showToast(text = getString(R.string.message_new_font_available, it))
             navController.navigateUp()
         }
     }

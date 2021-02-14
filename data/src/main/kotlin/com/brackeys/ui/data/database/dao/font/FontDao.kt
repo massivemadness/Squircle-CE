@@ -21,15 +21,13 @@ import androidx.room.Query
 import com.brackeys.ui.data.database.dao.base.BaseDao
 import com.brackeys.ui.data.database.entity.font.FontEntity
 import com.brackeys.ui.data.database.utils.Tables
-import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 abstract class FontDao : BaseDao<FontEntity> {
 
     @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_name` LIKE '%' || :searchQuery || '%'")
-    abstract fun loadAll(searchQuery: String): Single<List<FontEntity>>
+    abstract suspend fun loadAll(searchQuery: String): List<FontEntity>
 
     @Query("DELETE FROM `${Tables.FONTS}`")
-    abstract fun deleteAll(): Completable
+    abstract suspend fun deleteAll()
 }

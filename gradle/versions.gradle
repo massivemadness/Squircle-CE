@@ -116,7 +116,7 @@ ext {
             viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
             navigation_ui: "androidx.navigation:navigation-ui-ktx:$navigation_version",
             navigation_fragment: "androidx.navigation:navigation-fragment-ktx:$navigation_version",
-            room: "androidx.room:room-runtime:$room_version",
+            room: "androidx.room:room-ktx:$room_version",
             room_compiler: "androidx.room:room-compiler:$room_version",
             rxroom: "androidx.room:room-rxjava2:$room_version",
 
