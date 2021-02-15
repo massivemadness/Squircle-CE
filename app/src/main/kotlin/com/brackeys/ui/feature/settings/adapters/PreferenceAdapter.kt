@@ -20,8 +20,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.databinding.ItemPreferenceBinding
-import com.brackeys.ui.feature.base.adapters.BaseViewHolder
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
 import com.brackeys.ui.feature.settings.adapters.item.PreferenceItem
 
@@ -51,7 +51,7 @@ class PreferenceAdapter(
     class PreferenceViewHolder(
         private val binding: ItemPreferenceBinding,
         private val onItemClickListener: OnItemClickListener<PreferenceItem>
-    ) : BaseViewHolder<PreferenceItem>(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<PreferenceItem>): PreferenceViewHolder {
@@ -69,7 +69,7 @@ class PreferenceAdapter(
             }
         }
 
-        override fun bind(item: PreferenceItem) {
+        fun bind(item: PreferenceItem) {
             preferenceItem = item
             binding.itemTitle.setText(item.title)
             binding.itemSubtitle.setText(item.subtitle)

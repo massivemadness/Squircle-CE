@@ -19,17 +19,17 @@ package com.brackeys.ui.feature.settings.activities
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ActivitySettingsBinding
-import com.brackeys.ui.feature.base.activities.BaseActivity
 import com.brackeys.ui.feature.settings.viewmodel.SettingsViewModel
 import com.brackeys.ui.utils.extensions.fragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -38,6 +38,7 @@ class SettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setBackgroundDrawableResource(R.color.colorBackground)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         observeViewModel()
@@ -50,6 +51,8 @@ class SettingsActivity : BaseActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        viewModel.observeSettings()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -64,7 +67,5 @@ class SettingsActivity : BaseActivity() {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             }
         }
-
-        viewModel.observeSettings()
     }
 }

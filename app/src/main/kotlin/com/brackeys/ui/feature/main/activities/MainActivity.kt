@@ -21,10 +21,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ActivityMainBinding
-import com.brackeys.ui.feature.base.activities.BaseActivity
 import com.brackeys.ui.feature.base.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.editor.fragments.EditorFragment
 import com.brackeys.ui.feature.explorer.fragments.ExplorerFragment
@@ -32,12 +32,13 @@ import com.brackeys.ui.feature.main.dialogs.ConfirmExitDialog
 import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.utils.extensions.fragment
 import com.brackeys.ui.utils.extensions.multiplyDraggingEdgeSizeBy
+import com.brackeys.ui.utils.extensions.showToast
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.install.model.ActivityResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 10
@@ -51,6 +52,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setBackgroundDrawableResource(R.color.colorBackground)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         observeViewModel()
@@ -63,6 +65,7 @@ class MainActivity : BaseActivity() {
         binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
 
         viewModel.checkForUpdates()
+        viewModel.observeSettings()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -124,7 +127,5 @@ class MainActivity : BaseActivity() {
         viewModel.closeDrawerEvent.observe(this) {
             binding.drawerLayout?.closeDrawer(GravityCompat.START)
         }
-
-        viewModel.observeSettings()
     }
 }
