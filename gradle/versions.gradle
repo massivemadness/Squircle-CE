@@ -62,7 +62,6 @@ ext {
     rxjava2_version = '2.2.20'
     rxandroid_version = '2.1.1'
     rxkotlin_version = '2.4.0'
-    rxbinding_version = '3.1.0'
     rxpreferences_version = '2.0.1'
 
     // DI
@@ -131,7 +130,6 @@ ext {
             rxjava2: "io.reactivex.rxjava2:rxjava:$rxjava2_version",
             rxandroid: "io.reactivex.rxjava2:rxandroid:$rxandroid_version",
             rxkotlin: "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version",
-            rxbinding_appcompat: "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxbinding_version",
             rxpreferences: "com.f2prateek.rx.preferences2:rx-preferences:$rxpreferences_version",
 
             // DI

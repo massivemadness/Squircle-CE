@@ -19,28 +19,26 @@ package com.brackeys.ui.feature.explorer.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.DialogProgressBinding
-import com.brackeys.ui.feature.base.dialogs.BaseDialogFragment
 import com.brackeys.ui.feature.explorer.utils.Operation
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ProgressDialog : BaseDialogFragment() {
+class ProgressDialog : DialogFragment() {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val navArgs: ProgressDialogArgs by navArgs()
@@ -77,13 +75,13 @@ class ProgressDialog : BaseDialogFragment() {
             formatElapsedTime(binding.textElapsedTime, 0L) // 00:00
 
             val then = System.currentTimeMillis()
-            val timer = Observable.interval(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy {
+            lifecycleScope.launchWhenStarted {
+                repeat(1000) {
                     val difference = System.currentTimeMillis() - then
                     formatElapsedTime(binding.textElapsedTime, difference)
+                    delay(1000)
                 }
-                .disposeOnFragmentDestroyView()
+            }
 
             val totalProgress = tempFiles.size
             binding.progressIndicator.max = totalProgress
@@ -113,7 +111,6 @@ class ProgressDialog : BaseDialogFragment() {
 
             setOnDismissListener {
                 viewModel.progressEvent.removeObservers(this@ProgressDialog)
-                timer.dispose()
             }
         }
     }
