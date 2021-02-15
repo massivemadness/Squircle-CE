@@ -45,18 +45,18 @@ class MainViewModel @Inject constructor(
         private const val TAG = "MainViewModel"
     }
 
-    val updateEvent: SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>> = SingleLiveEvent()
-    val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val confirmExitEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val updateEvent = SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>>()
+    val installEvent = SingleLiveEvent<Unit>()
+    val fullscreenEvent = SingleLiveEvent<Boolean>()
+    val confirmExitEvent = SingleLiveEvent<Boolean>()
 
-    val openDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
-    val closeDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val openDrawerEvent = SingleLiveEvent<Unit>()
+    val closeDrawerEvent = SingleLiveEvent<Unit>()
 
     // События для связи проводника и редактора
-    val openEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
-    val openAsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
-    val propertiesEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
+    val openEvent = SingleLiveEvent<FileModel>()
+    val openAsEvent = SingleLiveEvent<FileModel>()
+    val propertiesEvent = SingleLiveEvent<FileModel>()
 
     private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
         if (state.installStatus == InstallStatus.DOWNLOADED) {

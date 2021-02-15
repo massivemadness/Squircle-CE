@@ -38,13 +38,13 @@ class FontsViewModel @Inject constructor(
         private const val TAG = "FontsViewModel"
     }
 
-    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent()
-    val fontsEvent: MutableLiveData<List<FontModel>> = MutableLiveData()
-    val validationEvent: MutableLiveData<Boolean> = MutableLiveData()
+    val toastEvent = SingleLiveEvent<Int>()
+    val fontsEvent = MutableLiveData<List<FontModel>>()
+    val validationEvent = MutableLiveData<Boolean>()
 
-    val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
-    val insertEvent: SingleLiveEvent<String> = SingleLiveEvent()
-    val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val selectEvent = SingleLiveEvent<String>()
+    val insertEvent = SingleLiveEvent<String>()
+    val removeEvent = SingleLiveEvent<String>()
 
     var searchQuery = ""
 

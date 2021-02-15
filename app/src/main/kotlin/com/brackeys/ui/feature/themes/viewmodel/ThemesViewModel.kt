@@ -46,17 +46,17 @@ class ThemesViewModel @Inject constructor(
         private const val TAG = "ThemesViewModel"
     }
 
-    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent()
-    val themesEvent: MutableLiveData<List<ThemeModel>> = MutableLiveData()
+    val toastEvent = SingleLiveEvent<Int>()
+    val themesEvent = MutableLiveData<List<ThemeModel>>()
 
-    val validationEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val metaEvent: MutableLiveData<Meta> = MutableLiveData()
-    val propertiesEvent: MutableLiveData<List<PropertyItem>> = MutableLiveData()
+    val validationEvent = SingleLiveEvent<Boolean>()
+    val metaEvent = MutableLiveData<Meta>()
+    val propertiesEvent = MutableLiveData<List<PropertyItem>>()
 
-    val selectEvent: SingleLiveEvent<String> = SingleLiveEvent()
-    val exportEvent: SingleLiveEvent<String> = SingleLiveEvent()
-    val createEvent: SingleLiveEvent<String> = SingleLiveEvent()
-    val removeEvent: SingleLiveEvent<String> = SingleLiveEvent()
+    val selectEvent = SingleLiveEvent<String>()
+    val exportEvent = SingleLiveEvent<String>()
+    val createEvent = SingleLiveEvent<String>()
+    val removeEvent = SingleLiveEvent<String>()
 
     var searchQuery: String = ""
 

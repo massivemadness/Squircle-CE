@@ -35,8 +35,8 @@ class SettingsViewModel @Inject constructor(
     private val settingsManager: SettingsManager
 ) : BaseViewModel() {
 
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Полноэкранный режим
-    val headersEvent: MutableLiveData<List<PreferenceItem>> = MutableLiveData()
+    val fullscreenEvent = SingleLiveEvent<Boolean>() // Полноэкранный режим
+    val headersEvent = MutableLiveData<List<PreferenceItem>>()
 
     var keyboardPreset: Preference<String> = settingsManager.getKeyboardPreset()
 

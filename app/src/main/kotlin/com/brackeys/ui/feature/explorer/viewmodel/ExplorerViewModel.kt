@@ -58,43 +58,43 @@ class ExplorerViewModel @Inject constructor(
 
     // region UI
 
-    val stateLoadingFiles: ObservableBoolean = ObservableBoolean(true) // Индикатор загрузки файлов
-    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение что нет файлов
+    val stateLoadingFiles = ObservableBoolean(true) // Индикатор загрузки файлов
+    val stateNothingFound = ObservableBoolean(false) // Сообщение что нет файлов
 
     // endregion UI
 
     // region EVENTS
 
-    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
-    val showAppBarEvent: MutableLiveData<Boolean> = MutableLiveData() // Отображение вкладок
-    val allowPasteFiles: MutableLiveData<Boolean> = MutableLiveData() // Отображение кнопки "Вставить"
+    val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
+    val showAppBarEvent = MutableLiveData<Boolean>() // Отображение вкладок
+    val allowPasteFiles = MutableLiveData<Boolean>() // Отображение кнопки "Вставить"
 
-    val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Запрос на обновление списка файлов
-    val selectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Выделить все файлы
-    val deselectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Сбросить выделение со всех файлов
-    val createEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Создать файл
-    val copyEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать выделенные файлы
-    val deleteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Удалить выделенные файлы
-    val cutEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вырезать выделенные файлы
-    val pasteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вставить скопированные файлы
-    val openAsEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Открыть файл как
-    val renameEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Переименовать файл
-    val propertiesEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Свойства файла
-    val copyPathEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать путь к файлу
-    val archiveEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Архивация файлов в .zip
+    val filesUpdateEvent = SingleLiveEvent<Unit>() // Запрос на обновление списка файлов
+    val selectAllEvent = SingleLiveEvent<Unit>() // Выделить все файлы
+    val deselectAllEvent = SingleLiveEvent<Unit>() // Сбросить выделение со всех файлов
+    val createEvent = SingleLiveEvent<Unit>() // Создать файл
+    val copyEvent = SingleLiveEvent<Unit>() // Скопировать выделенные файлы
+    val deleteEvent = SingleLiveEvent<Unit>() // Удалить выделенные файлы
+    val cutEvent = SingleLiveEvent<Unit>() // Вырезать выделенные файлы
+    val pasteEvent = SingleLiveEvent<Unit>() // Вставить скопированные файлы
+    val openAsEvent = SingleLiveEvent<Unit>() // Открыть файл как
+    val renameEvent = SingleLiveEvent<Unit>() // Переименовать файл
+    val propertiesEvent = SingleLiveEvent<Unit>() // Свойства файла
+    val copyPathEvent = SingleLiveEvent<Unit>() // Скопировать путь к файлу
+    val archiveEvent = SingleLiveEvent<Unit>() // Архивация файлов в .zip
 
-    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список вкладок
-    val selectionEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список выделенных файлов
-    val progressEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Прогресс выполнения операции
-    val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() // Список файлов
-    val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() // Отфильтрованый список файлов
-    val clickEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() // Имитация нажатия на файл
-    val propertiesOfEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() // Свойства файла
+    val tabsEvent = MutableLiveData<List<FileModel>>() // Список вкладок
+    val selectionEvent = MutableLiveData<List<FileModel>>() // Список выделенных файлов
+    val progressEvent = SingleLiveEvent<Int>() // Прогресс выполнения операции
+    val filesEvent = SingleLiveEvent<FileTree>() // Список файлов
+    val searchEvent = SingleLiveEvent<List<FileModel>>() // Отфильтрованый список файлов
+    val clickEvent = SingleLiveEvent<FileModel>() // Имитация нажатия на файл
+    val propertiesOfEvent = SingleLiveEvent<PropertiesModel>() // Свойства файла
 
     // endregion EVENTS
 
-    val tabsList: MutableList<FileModel> = mutableListOf()
-    val tempFiles: MutableList<FileModel> = mutableListOf()
+    val tabsList = mutableListOf<FileModel>()
+    val tempFiles = mutableListOf<FileModel>()
     val cancelableDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     var operation: Operation = Operation.COPY
@@ -123,7 +123,7 @@ class ExplorerViewModel @Inject constructor(
             filesUpdateEvent.call()
         }
 
-    private val searchList: MutableList<FileModel> = mutableListOf()
+    private val searchList = mutableListOf<FileModel>()
 
     override fun onCleared() {
         super.onCleared()

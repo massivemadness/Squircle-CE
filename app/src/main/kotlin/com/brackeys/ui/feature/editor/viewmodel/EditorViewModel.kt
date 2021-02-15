@@ -65,20 +65,20 @@ class EditorViewModel @Inject constructor(
 
     // region UI
 
-    val stateLoadingDocuments: ObservableBoolean = ObservableBoolean(false) // Индикатор загрузки документа
-    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение об отсутствии документов
+    val stateLoadingDocuments = ObservableBoolean(false) // Индикатор загрузки документа
+    val stateNothingFound = ObservableBoolean(false) // Сообщение об отсутствии документов
 
     // endregion UI
 
     // region EVENTS
 
-    val loadFilesEvent: MutableLiveData<List<DocumentModel>> = MutableLiveData() // Загрузка недавних файлов
-    val selectTabEvent: MutableLiveData<Int> = MutableLiveData() // Текущая позиция выбранной вкладки
+    val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
+    val selectTabEvent = MutableLiveData<Int>() // Текущая позиция выбранной вкладки
 
-    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
-    val parseEvent: SingleLiveEvent<ParseResult> = SingleLiveEvent() // Проверка ошибок
-    val contentEvent: SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>> = SingleLiveEvent() // Контент загруженного файла
-    val settingsEvent: EventsQueue<SettingsEvent<*>> = EventsQueue() // События с измененными настройками
+    val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
+    val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
+    val contentEvent = SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>>() // Контент загруженного файла
+    val settingsEvent = EventsQueue<SettingsEvent<*>>() // События с измененными настройками
 
     // endregion EVENTS
 
