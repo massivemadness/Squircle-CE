@@ -55,8 +55,8 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
             uri?.let(viewModel::importTheme)
         }
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentNewThemeBinding
+    private lateinit var navController: NavController
     private lateinit var adapter: PropertyAdapter
     private lateinit var meta: Meta
 
@@ -71,9 +71,9 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewThemeBinding.bind(view)
+        navController = findNavController()
         observeViewModel()
 
-        navController = findNavController()
         binding.recyclerView.setHasFixedSize(false)
         binding.recyclerView.adapter = PropertyAdapter(object : OnItemClickListener<PropertyItem> {
             override fun onClick(item: PropertyItem) {

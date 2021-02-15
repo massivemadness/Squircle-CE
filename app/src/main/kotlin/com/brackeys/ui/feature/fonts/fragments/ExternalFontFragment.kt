@@ -35,15 +35,15 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
 
     private val viewModel: FontsViewModel by viewModels()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentExternalFontBinding
+    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentExternalFontBinding.bind(view)
+        navController = findNavController()
         observeViewModel()
 
-        navController = findNavController()
         binding.textInputFontName.doAfterTextChanged {
             viewModel.validateInput(
                 fontName = it.toString(),

@@ -19,19 +19,19 @@ package com.brackeys.ui.feature.explorer.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentPermissionsBinding
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.explorer.contracts.StoragePermission
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.brackeys.ui.utils.extensions.hasExternalStorageAccess
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PermissionsFragment : BaseFragment(R.layout.fragment_permissions) {
+class PermissionsFragment : Fragment(R.layout.fragment_permissions) {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val requestPermission: ActivityResultLauncher<Boolean> =
@@ -43,18 +43,17 @@ class PermissionsFragment : BaseFragment(R.layout.fragment_permissions) {
             }
         }
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentPermissionsBinding
+    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPermissionsBinding.bind(view)
-
         navController = findNavController()
+
         binding.actionAccess.setOnClickListener {
             requestPermissionsUsingDialog()
         }
-
         if (requireContext().hasExternalStorageAccess()) {
             onSuccess()
         }

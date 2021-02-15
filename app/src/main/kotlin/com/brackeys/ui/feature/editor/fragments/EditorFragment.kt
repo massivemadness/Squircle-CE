@@ -23,8 +23,10 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
@@ -41,7 +43,6 @@ import com.brackeys.ui.editorkit.listener.OnShortcutListener
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.brackeys.ui.editorkit.widget.TextScroller
 import com.brackeys.ui.feature.base.adapters.TabAdapter
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.base.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.editor.adapters.AutoCompleteAdapter
 import com.brackeys.ui.feature.editor.adapters.DocumentAdapter
@@ -54,17 +55,16 @@ import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.feature.settings.activities.SettingsActivity
 import com.brackeys.ui.filesystem.base.model.FileType
 import com.brackeys.ui.utils.event.SettingsEvent
+import com.brackeys.ui.utils.extensions.closeKeyboard
 import com.brackeys.ui.utils.extensions.createTypefaceFromPath
+import com.brackeys.ui.utils.extensions.debounce
+import com.brackeys.ui.utils.extensions.showToast
 import com.google.android.material.textfield.TextInputEditText
-import com.jakewharton.rxbinding3.widget.textChangeEvents
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
+class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
     ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, TabAdapter.OnDataRefreshListener,
     DocumentAdapter.TabInteractor, OnBackPressedHandler {
 
@@ -204,7 +204,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     private fun observeViewModel() {
         viewModel.toastEvent.observe(viewLifecycleOwner) {
-            showToast(it)
+            context?.showToast(it)
         }
         viewModel.loadFilesEvent.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
@@ -263,13 +263,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                     is SettingsEvent.CodeCompletion -> config.codeCompletion = event.value
                     is SettingsEvent.ErrorHighlight -> {
                         if (event.value) {
-                            binding.editor
-                                .textChangeEvents()
-                                .skipInitialValue()
-                                .debounce(1500, TimeUnit.MILLISECONDS)
-                                .filter { it.text.isNotEmpty() }
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeBy {
+                            binding.editor.debounce(
+                                coroutineScope = viewLifecycleOwner.lifecycleScope,
+                                waitMs = 1500
+                            ) { text ->
+                                if (text.isNotEmpty()) {
                                     val position = adapter.selectedPosition
                                     if (position > -1) {
                                         viewModel.parse(
@@ -279,7 +277,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                                         )
                                     }
                                 }
-                                .disposeOnFragmentDestroyView()
+                            }
                         }
                     }
                     is SettingsEvent.PinchZoom -> config.pinchZoom = event.value
@@ -311,7 +309,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     override fun onTabUnselected(position: Int) {
         saveDocument(position)
-        closeKeyboard() // Обход бага, когда после переключения вкладок позиция курсора не менялась с предыдущей вкладки
+        activity?.closeKeyboard() // Обход бага, когда после переключения вкладок позиция курсора не менялась с предыдущей вкладки
     }
 
     override fun onTabSelected(position: Int) {
@@ -357,7 +355,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         if (position == selectedPosition) {
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.clearText() // TTL Exception bypass
-            closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
+            activity?.closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
         }
         removeDocument(position)
         adapter.close(position)
@@ -418,7 +416,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
     override fun onOpenButton() {
         onDrawerButton()
-        showToast(R.string.message_select_file)
+        context?.showToast(R.string.message_select_file)
     }
 
     override fun onSaveButton(): Boolean {
@@ -441,7 +439,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             viewModel.saveFile(documentContent, toCache = false) // Save to local storage
             viewModel.saveFile(documentContent, toCache = true) // Save to app cache
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
         return true
     }
@@ -473,14 +471,14 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
 
                         viewModel.saveFile(documentContent)
                     } else {
-                        showToast(R.string.message_invalid_file_path)
+                        context.showToast(R.string.message_invalid_file_path)
                     }
                 }
                 val enterFilePath = findViewById<TextInputEditText>(R.id.input)
                 enterFilePath.setText(document.path)
             }
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
         return true
     }
@@ -491,7 +489,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
             val document = adapter.currentList[position]
             sharedViewModel.propertiesEvent.value = DocumentConverter.toModel(document)
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
         return true
     }
@@ -501,7 +499,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         if (position > -1) {
             close(position)
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
         return true
     }
@@ -510,7 +508,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         if (binding.editor.hasSelection()) {
             binding.editor.cut()
         } else {
-            showToast(R.string.message_nothing_to_cut)
+            context?.showToast(R.string.message_nothing_to_cut)
         }
         return true
     }
@@ -519,7 +517,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         if (binding.editor.hasSelection()) {
             binding.editor.copy()
         } else {
-            showToast(R.string.message_nothing_to_copy)
+            context?.showToast(R.string.message_nothing_to_copy)
         }
         return true
     }
@@ -529,7 +527,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         if (binding.editor.hasPrimaryClip() && position > -1) {
             binding.editor.paste()
         } else {
-            showToast(R.string.message_nothing_to_paste)
+            context?.showToast(R.string.message_nothing_to_paste)
         }
         return true
     }
@@ -559,7 +557,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         if (position > -1) {
             toolbarManager.panel = Panel.FIND
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
         return true
     }
@@ -575,7 +573,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
         if (position > -1) {
             toolbarManager.panel = Panel.FIND_REPLACE
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
         return true
     }
@@ -599,12 +597,12 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                         val lineNumber = inputNumber.toIntOrNull() ?: 0
                         binding.editor.gotoLine(lineNumber)
                     } catch (e: LineException) {
-                        showToast(R.string.message_line_not_exists)
+                        context.showToast(R.string.message_line_not_exists)
                     }
                 }
             }
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
         return true
     }
@@ -645,7 +643,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 positiveButton(R.string.action_ok)
             }
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
     }
 
@@ -666,7 +664,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor), ToolbarManager.On
                 negativeButton(R.string.action_cancel)
             }
         } else {
-            showToast(R.string.message_no_open_files)
+            context?.showToast(R.string.message_no_open_files)
         }
     }
 

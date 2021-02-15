@@ -19,15 +19,15 @@ package com.brackeys.ui.feature.settings.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.EditText
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
-import com.brackeys.ui.feature.base.dialogs.BaseDialogFragment
 import com.brackeys.ui.feature.settings.viewmodel.SettingsViewModel
 
-class PresetDialog : BaseDialogFragment() {
+class PresetDialog : DialogFragment() {
 
     private val viewModel: SettingsViewModel by activityViewModels()
 

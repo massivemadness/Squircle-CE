@@ -18,11 +18,11 @@ package com.brackeys.ui.feature.main.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.fragment.app.DialogFragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.brackeys.ui.R
-import com.brackeys.ui.feature.base.dialogs.BaseDialogFragment
 
-class ConfirmExitDialog : BaseDialogFragment() {
+class ConfirmExitDialog : DialogFragment() {
 
     companion object {
         const val DIALOG_TAG = "ConfirmExitDialog"

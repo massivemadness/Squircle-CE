@@ -23,33 +23,30 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.brackeys.ui.R
 import com.brackeys.ui.data.utils.FileSorter
 import com.brackeys.ui.databinding.FragmentExplorerBinding
 import com.brackeys.ui.feature.base.adapters.TabAdapter
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.base.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.explorer.adapters.DirectoryAdapter
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.utils.extensions.*
-import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
+class ExplorerFragment : Fragment(R.layout.fragment_explorer),
     OnBackPressedHandler, TabAdapter.OnTabSelectedListener {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentExplorerBinding
+    private lateinit var navController: NavController
     private lateinit var adapter: DirectoryAdapter
 
     private var isClosing = false // TODO remove this
@@ -62,10 +59,9 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentExplorerBinding.bind(view)
-        observeViewModel()
-
         navController = childFragmentManager
             .fragment<NavHostFragment>(R.id.nav_host).navController
+        observeViewModel()
 
         setSupportActionBar(binding.toolbar)
         binding.swipeRefresh.setOnRefreshListener {
@@ -129,17 +125,9 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
 
-        searchView
-            .queryTextChangeEvents()
-            .skipInitialValue()
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .filter { it.queryText.length >= 2 || it.queryText.isEmpty() }
-            .distinctUntilChanged()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy {
-                viewModel.searchFile(it.queryText)
-            }
-            .disposeOnFragmentDestroyView()
+        searchView.debounce(viewLifecycleOwner.lifecycleScope) {
+            viewModel.searchFile(it)
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -195,7 +183,7 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
 
     private fun observeViewModel() {
         viewModel.toastEvent.observe(viewLifecycleOwner) {
-            showToast(it)
+            context?.showToast(it)
         }
         viewModel.showAppBarEvent.observe(viewLifecycleOwner) {
             binding.appBar.isVisible = it

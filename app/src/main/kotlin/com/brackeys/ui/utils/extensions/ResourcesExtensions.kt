@@ -17,11 +17,13 @@
 package com.brackeys.ui.utils.extensions
 
 import android.Manifest
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Typeface
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -48,6 +50,13 @@ fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration:
     } else {
         Toast.makeText(this, text, duration).show()
     }
+}
+
+fun Activity.closeKeyboard() {
+    val inputManager = getSystemService<InputMethodManager>()
+    val windowToken = currentFocus?.windowToken
+    val hideType = InputMethodManager.HIDE_NOT_ALWAYS
+    inputManager?.hideSoftInputFromWindow(windowToken, hideType)
 }
 
 private const val ASSET_PATH = "file:///android_asset/"

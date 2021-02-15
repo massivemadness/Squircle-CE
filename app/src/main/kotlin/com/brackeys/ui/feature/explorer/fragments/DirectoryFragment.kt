@@ -23,6 +23,7 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -38,7 +39,6 @@ import com.brackeys.ui.R
 import com.brackeys.ui.data.utils.replaceList
 import com.brackeys.ui.databinding.FragmentDirectoryBinding
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.explorer.adapters.FileAdapter
 import com.brackeys.ui.feature.explorer.utils.FileKeyProvider
 import com.brackeys.ui.feature.explorer.utils.Operation
@@ -50,6 +50,7 @@ import com.brackeys.ui.filesystem.base.model.FileType
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
 import com.brackeys.ui.utils.extensions.clipText
+import com.brackeys.ui.utils.extensions.showToast
 import com.brackeys.ui.utils.extensions.toReadableDate
 import com.brackeys.ui.utils.extensions.toReadableSize
 import com.google.android.material.textfield.TextInputEditText
@@ -58,14 +59,14 @@ import java.io.File
 import java.io.FileNotFoundException
 
 @AndroidEntryPoint
-class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
+class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
 
     private val sharedViewModel: MainViewModel by activityViewModels()
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val navArgs: DirectoryFragmentArgs by navArgs()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
+    private lateinit var navController: NavController
 
     private lateinit var tracker: SelectionTracker<FileModel>
     private lateinit var adapter: FileAdapter
@@ -76,9 +77,8 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        observeViewModel()
-
         navController = findNavController()
+        observeViewModel()
 
         @SuppressLint("RestrictedApi")
         tracker = DefaultSelectionTracker(
@@ -241,7 +241,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                             if (isValid) {
                                 executeOperation(fileName)
                             } else {
-                                showToast(R.string.message_invalid_file_name)
+                                context.showToast(R.string.message_invalid_file_name)
                             }
                         }
                     }
@@ -293,13 +293,13 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             }
             startActivity(intent)
         } catch (e: Exception) {
-            showToast(R.string.message_cannot_be_opened)
+            context?.showToast(R.string.message_cannot_be_opened)
         }
     }
 
     private fun copyPath(fileModel: FileModel) {
         fileModel.path.clipText(context)
-        showToast(R.string.message_done)
+        context?.showToast(R.string.message_done)
     }
 
     // region DIALOGS
@@ -323,7 +323,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                     )
                     viewModel.createFile(child)
                 } else {
-                    showToast(R.string.message_invalid_file_name)
+                    context.showToast(R.string.message_invalid_file_name)
                 }
             }
         }
@@ -345,7 +345,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 if (isValid) {
                     viewModel.renameFile(fileModel, fileName)
                 } else {
-                    showToast(R.string.message_invalid_file_name)
+                    context.showToast(R.string.message_invalid_file_name)
                 }
             }
         }

@@ -42,8 +42,8 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
 
     private val viewModel: FontsViewModel by viewModels()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentFontsBinding
+    private lateinit var navController: NavController
     private lateinit var adapter: FontAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,9 +54,8 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFontsBinding.bind(view)
-        observeViewModel()
-
         navController = findNavController()
+        observeViewModel()
 
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(itemDecoration)

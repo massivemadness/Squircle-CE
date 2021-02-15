@@ -18,6 +18,7 @@ package com.brackeys.ui.feature.settings.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -25,19 +26,18 @@ import androidx.navigation.fragment.findNavController
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentHeadersBinding
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.settings.adapters.PreferenceAdapter
 import com.brackeys.ui.feature.settings.adapters.item.PreferenceItem
 import com.brackeys.ui.feature.settings.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickListener<PreferenceItem> {
+class HeadersFragment : Fragment(R.layout.fragment_headers) {
 
     private val viewModel: SettingsViewModel by activityViewModels()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentHeadersBinding
+    private lateinit var navController: NavController
     private lateinit var adapter: PreferenceAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,22 +48,23 @@ class HeadersFragment : BaseFragment(R.layout.fragment_headers), OnItemClickList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHeadersBinding.bind(view)
+        navController = findNavController()
         observeViewModel()
 
-        navController = findNavController()
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = PreferenceAdapter(this)
-            .also { adapter = it }
-    }
-
-    override fun onClick(item: PreferenceItem) {
-        val navOptions = NavOptions.Builder()
-            .setEnterAnim(R.anim.nav_default_enter_anim)
-            .setExitAnim(R.anim.nav_default_exit_anim)
-            .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
-            .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
-            .build()
-        navController.navigate(item.navigationId, null, navOptions)
+        binding.recyclerView.adapter = PreferenceAdapter(object : OnItemClickListener<PreferenceItem> {
+            override fun onClick(item: PreferenceItem) {
+                val navOptions = NavOptions.Builder()
+                    .setEnterAnim(R.anim.nav_default_enter_anim)
+                    .setExitAnim(R.anim.nav_default_exit_anim)
+                    .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                    .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+                    .build()
+                navController.navigate(item.navigationId, null, navOptions)
+            }
+        }).also {
+            adapter = it
+        }
     }
 
     private fun observeViewModel() {

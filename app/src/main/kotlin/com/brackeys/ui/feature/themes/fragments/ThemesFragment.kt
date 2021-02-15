@@ -50,8 +50,8 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     private val viewModel: ThemesViewModel by viewModels()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentThemesBinding
+    private lateinit var navController: NavController
     private lateinit var adapter: ThemeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +62,8 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentThemesBinding.bind(view)
-        observeViewModel()
-
         navController = findNavController()
+        observeViewModel()
 
         val gridLayoutManager = binding.recyclerView.layoutManager as GridLayoutManager
         val gridSpacingDecoration = GridSpacingItemDecoration(8, gridLayoutManager.spanCount)
