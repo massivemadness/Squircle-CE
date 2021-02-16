@@ -20,9 +20,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -91,9 +91,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)!!
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        binding = FragmentEditorBinding.bind(view)
         observeViewModel()
 
         toolbarManager.bind(binding)
@@ -216,6 +214,15 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                 adapter.select(position)
             }
         }
+        viewModel.stateLoadingDocuments.observe(viewLifecycleOwner) {
+            binding.loadingBar.isVisible = it
+            binding.editor.isInvisible = it
+        }
+        viewModel.stateNothingFound.observe(viewLifecycleOwner) {
+            binding.emptyViewImage.isVisible = it
+            binding.emptyViewText.isVisible = it
+            binding.editor.isInvisible = it
+        }
         viewModel.parseEvent.observe(viewLifecycleOwner) { model ->
             model.exception?.let {
                 binding.editor.setErrorLine(it.lineNumber)
@@ -317,7 +324,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
     }
 
     override fun onDataRefresh() {
-        viewModel.stateNothingFound.set(adapter.currentList.isEmpty())
+        viewModel.stateNothingFound.value = adapter.currentList.isEmpty()
     }
 
     override fun close(position: Int) {
@@ -370,7 +377,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
 
     private fun saveDocument(position: Int) {
         if (position > -1) {
-            viewModel.stateLoadingDocuments.set(true) // show loading indicator
+            viewModel.stateLoadingDocuments.value = true // show loading indicator
             val document = adapter.currentList[position].apply {
                 scrollX = binding.editor.scrollX
                 scrollY = binding.editor.scrollY

@@ -123,9 +123,9 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer),
         inflater.inflate(R.menu.menu_explorer_default, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
+        val searchView = searchItem?.actionView as? SearchView
 
-        searchView.debounce(viewLifecycleOwner.lifecycleScope) {
+        searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
             viewModel.searchFile(it)
         }
     }

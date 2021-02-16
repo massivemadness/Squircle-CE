@@ -103,11 +103,11 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         inflater.inflate(R.menu.menu_themes, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
+        val searchView = searchItem?.actionView as? SearchView
 
         if (viewModel.searchQuery.isNotEmpty()) {
             searchItem.expandActionView()
-            searchView.setQuery(viewModel.searchQuery, false)
+            searchView?.setQuery(viewModel.searchQuery, false)
         }
 
         val spinnerItem = menu.findItem(R.id.spinner)
@@ -127,7 +127,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             }
         }
 
-        searchView.debounce(viewLifecycleOwner.lifecycleScope) {
+        searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
             viewModel.searchQuery = it
             viewModel.fetchThemes()
         }

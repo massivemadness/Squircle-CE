@@ -15,57 +15,46 @@
   ~ limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
-        <import type="com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel"/>
-        <import type="android.view.View"/>
-
-        <variable name="viewModel" type="ExplorerViewModel"/>
-    </data>
-
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:id="@+id/recycler_view"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_file_compact"
+        tools:itemCount="10"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:id="@+id/recycler_view"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_file_compact"
-            tools:itemCount="10"/>
+    <ProgressBar
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:id="@+id/loadingBar"/>
 
-        <ProgressBar
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:visibility="@{viewModel.stateLoadingFiles ? View.VISIBLE : View.GONE}"/>
+    <ImageView
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_file_find"
+        android:id="@+id/empty_view_image"
+        app:tint="?colorOnBackground"/>
 
-        <ImageView
-            android:layout_width="92dp"
-            android:layout_height="92dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_file_find"
-            android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"
-            app:tint="?colorOnBackground"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_gravity="center"
+        android:textColor="?colorOnBackground"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="@string/message_no_result"
+        android:id="@+id/empty_view_text"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:layout_gravity="center"
-            android:textColor="?colorOnBackground"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:text="@string/message_no_result"
-            android:visibility="@{viewModel.stateNothingFound ? View.VISIBLE : View.GONE}"/>
-
-    </FrameLayout>
-
-</layout>
+</FrameLayout>

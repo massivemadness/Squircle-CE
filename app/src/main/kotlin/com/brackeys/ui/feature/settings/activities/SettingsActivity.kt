@@ -33,8 +33,8 @@ class SettingsActivity : AppCompatActivity() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
-    private lateinit var navController: NavController
     private lateinit var binding: ActivitySettingsBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -22,7 +22,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import androidx.core.content.FileProvider
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
@@ -72,11 +72,14 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
     private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)!!
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        binding = FragmentDirectoryBinding.bind(view)
         navController = findNavController()
         observeViewModel()
 
@@ -149,6 +152,13 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
     }
 
     private fun observeViewModel() {
+        viewModel.stateLoadingFiles.observe(viewLifecycleOwner) {
+            binding.loadingBar.isVisible = it
+        }
+        viewModel.stateNothingFound.observe(viewLifecycleOwner) {
+            binding.emptyViewImage.isVisible = it
+            binding.emptyViewText.isVisible = it
+        }
         viewModel.filesUpdateEvent.observe(viewLifecycleOwner) {
             loadDirectory()
         }

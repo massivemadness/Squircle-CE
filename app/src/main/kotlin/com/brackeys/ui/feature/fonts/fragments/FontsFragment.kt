@@ -80,14 +80,14 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         inflater.inflate(R.menu.menu_fonts, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
+        val searchView = searchItem?.actionView as? SearchView
 
         if (viewModel.searchQuery.isNotEmpty()) {
             searchItem.expandActionView()
-            searchView.setQuery(viewModel.searchQuery, false)
+            searchView?.setQuery(viewModel.searchQuery, false)
         }
 
-        searchView.debounce(viewLifecycleOwner.lifecycleScope) {
+        searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
             viewModel.searchQuery = it
             viewModel.fetchFonts()
         }

@@ -17,7 +17,6 @@
 package com.brackeys.ui.feature.explorer.viewmodel
 
 import android.util.Log
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.settings.SettingsManager
@@ -56,18 +55,13 @@ class ExplorerViewModel @Inject constructor(
         private const val TAG = "ExplorerViewModel"
     }
 
-    // region UI
-
-    val stateLoadingFiles = ObservableBoolean(true) // Индикатор загрузки файлов
-    val stateNothingFound = ObservableBoolean(false) // Сообщение что нет файлов
-
-    // endregion UI
-
     // region EVENTS
 
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
     val showAppBarEvent = MutableLiveData<Boolean>() // Отображение вкладок
     val allowPasteFiles = MutableLiveData<Boolean>() // Отображение кнопки "Вставить"
+    val stateLoadingFiles = MutableLiveData(true) // Индикатор загрузки файлов
+    val stateNothingFound = MutableLiveData(false) // Сообщение что нет файлов
 
     val filesUpdateEvent = SingleLiveEvent<Unit>() // Запрос на обновление списка файлов
     val selectAllEvent = SingleLiveEvent<Unit>() // Выделить все файлы
@@ -133,12 +127,12 @@ class ExplorerViewModel @Inject constructor(
     fun provideDirectory(fileModel: FileModel?) {
         filesystem.provideDirectory(fileModel)
             .doOnSubscribe {
-                stateNothingFound.set(false)
-                stateLoadingFiles.set(true)
+                stateNothingFound.postValue(false)
+                stateLoadingFiles.postValue(true)
             }
             .doOnSuccess {
-                stateLoadingFiles.set(false)
-                stateNothingFound.set(it.children.isEmpty())
+                stateLoadingFiles.postValue(false)
+                stateNothingFound.postValue(it.children.isEmpty())
             }
             .map { fileTree ->
                 val newList = mutableListOf<FileModel>()
@@ -199,7 +193,7 @@ class ExplorerViewModel @Inject constructor(
                 }
             }
         }
-        stateNothingFound.set(collection.isEmpty())
+        stateNothingFound.value = collection.isEmpty()
         searchEvent.value = collection
     }
 

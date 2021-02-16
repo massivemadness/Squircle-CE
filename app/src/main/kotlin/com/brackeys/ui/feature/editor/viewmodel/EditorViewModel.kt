@@ -18,7 +18,6 @@ package com.brackeys.ui.feature.editor.viewmodel
 
 import android.util.Log
 import androidx.core.text.PrecomputedTextCompat
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.DocumentConverter
@@ -63,17 +62,12 @@ class EditorViewModel @Inject constructor(
         private const val TAB_LIMIT = 10
     }
 
-    // region UI
-
-    val stateLoadingDocuments = ObservableBoolean(false) // Индикатор загрузки документа
-    val stateNothingFound = ObservableBoolean(false) // Сообщение об отсутствии документов
-
-    // endregion UI
-
     // region EVENTS
 
     val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
     val selectTabEvent = MutableLiveData<Int>() // Текущая позиция выбранной вкладки
+    val stateLoadingDocuments = MutableLiveData(false) // Индикатор загрузки документа
+    val stateNothingFound = MutableLiveData(false) // Сообщение об отсутствии документов
 
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
     val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
@@ -92,9 +86,9 @@ class EditorViewModel @Inject constructor(
 
     fun loadFiles() {
         appDatabase.documentDao().loadAll()
-            .doOnSubscribe { stateLoadingDocuments.set(true) }
+            .doOnSubscribe { stateLoadingDocuments.postValue(true) }
             .map { it.map(DocumentConverter::toModel) }
-            .doOnSuccess { stateLoadingDocuments.set(false) }
+            .doOnSuccess { stateLoadingDocuments.postValue(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = {
@@ -114,9 +108,9 @@ class EditorViewModel @Inject constructor(
         } else localRepository
 
         dataSource.loadFile(documentModel)
-            .doOnSubscribe { stateLoadingDocuments.set(true) }
+            .doOnSubscribe { stateLoadingDocuments.postValue(true) }
             .map { it to PrecomputedTextCompat.create(it.text, params) }
-            .doFinally { stateLoadingDocuments.set(false) }
+            .doFinally { stateLoadingDocuments.postValue(false) }
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = { (documentContent, precomputedText) ->

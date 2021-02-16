@@ -69,7 +69,6 @@ android {
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
     buildFeatures {
-        dataBinding true // TODO replace with ViewBinding
         viewBinding true
     }
 }
