@@ -34,9 +34,6 @@ class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_FONT_SIZE = "FONT_SIZE_2"
         const val KEY_FONT_TYPE = "FONT_TYPE_3"
 
-        // Tabs
-        const val KEY_SELECTED_DOCUMENT_ID = "SELECTED_DOCUMENT_ID"
-
         // Editor
         const val KEY_WORD_WRAP = "WORD_WRAP"
         const val KEY_CODE_COMPLETION = "CODE_COMPLETION"
@@ -46,6 +43,7 @@ class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
 
         // Tabs
+        const val KEY_SELECTED_DOCUMENT_ID = "SELECTED_DOCUMENT_ID"
         const val KEY_AUTO_SAVE_FILES = "AUTO_SAVE_FILES"
 
         // Keyboard
