@@ -65,7 +65,7 @@ class ThemesViewModel @Inject constructor(
             try {
                 val themes = themesRepository.fetchThemes(searchQuery)
                 themesEvent.value = if (searchQuery.isEmpty()) {
-                    themes + InternalTheme.fetchThemes()
+                    themes + InternalTheme.getThemes()
                 } else {
                     themes
                 }

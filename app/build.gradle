@@ -107,7 +107,6 @@ dependencies {
     implementation library.rxjava2
     implementation library.rxandroid
     implementation library.rxkotlin
-    implementation library.rxpreferences
 
     // DI
     implementation library.hilt

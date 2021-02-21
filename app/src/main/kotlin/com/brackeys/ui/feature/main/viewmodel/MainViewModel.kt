@@ -18,8 +18,6 @@ package com.brackeys.ui.feature.main.viewmodel
 
 import android.util.Log
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.schedulersIoToMain
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
@@ -31,12 +29,10 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.installStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     private val appUpdateManager: AppUpdateManager
 ) : BaseViewModel() {
@@ -47,8 +43,6 @@ class MainViewModel @Inject constructor(
 
     val updateEvent = SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>>()
     val installEvent = SingleLiveEvent<Unit>()
-    val fullscreenEvent = SingleLiveEvent<Boolean>()
-    val confirmExitEvent = SingleLiveEvent<Boolean>()
 
     val openDrawerEvent = SingleLiveEvent<Unit>()
     val closeDrawerEvent = SingleLiveEvent<Unit>()
@@ -57,6 +51,11 @@ class MainViewModel @Inject constructor(
     val openEvent = SingleLiveEvent<FileModel>()
     val openAsEvent = SingleLiveEvent<FileModel>()
     val propertiesEvent = SingleLiveEvent<FileModel>()
+
+    val fullScreenMode: Boolean
+        get() = settingsManager.fullScreenMode
+    val confirmExit: Boolean
+        get() = settingsManager.confirmExit
 
     private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
         if (state.installStatus == InstallStatus.DOWNLOADED) {
@@ -87,19 +86,5 @@ class MainViewModel @Inject constructor(
     fun completeUpdate() {
         appUpdateManager.unregisterListener(installStateUpdatedListener)
         appUpdateManager.completeUpdate()
-    }
-
-    fun observeSettings() {
-        settingsManager.getFullscreenMode()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { fullscreenEvent.value = it }
-            .disposeOnViewModelDestroy()
-
-        settingsManager.getConfirmExit()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { confirmExitEvent.value = it }
-            .disposeOnViewModelDestroy()
     }
 }

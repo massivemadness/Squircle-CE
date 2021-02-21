@@ -78,7 +78,6 @@ dependencies {
     // Rx
     implementation library.rxjava2
     implementation library.rxkotlin
-    implementation library.rxpreferences
 
     // Modules
     implementation project(':domain')

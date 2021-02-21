@@ -83,7 +83,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.observeSettings()
         if (savedInstanceState == null) {
             viewModel.loadFiles()
         }
@@ -186,6 +185,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
     override fun onResume() {
         super.onResume()
         loadDocument(adapter.selectedPosition)
+        viewModel.fetchSettings()
     }
 
     override fun handleOnBackPressed(): Boolean {

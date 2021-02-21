@@ -36,21 +36,20 @@ class PresetDialog : DialogFragment() {
             title(R.string.label_keyboard_preset)
             customView(R.layout.dialog_preset)
             negativeButton(R.string.action_reset) {
-                val defaultValue = viewModel.keyboardPreset.defaultValue()
-                viewModel.keyboardPreset.set(defaultValue)
+                viewModel.resetKeyboardPreset()
             }
             positiveButton(R.string.action_save) {
                 val inputEditText = getCustomView().findViewById<EditText>(R.id.input)
                 val keyboardPreset = inputEditText.text.toString().trim()
                 if (keyboardPreset.isNotEmpty()) {
-                    viewModel.keyboardPreset.set(keyboardPreset)
+                    viewModel.keyboardPreset = keyboardPreset
                 }
             }
 
             setOnShowListener {
                 val inputEditText = getCustomView().findViewById<EditText>(R.id.input)
                 if (savedInstanceState == null) {
-                    inputEditText.setText(viewModel.keyboardPreset.get())
+                    inputEditText.setText(viewModel.keyboardPreset)
                 }
             }
         }

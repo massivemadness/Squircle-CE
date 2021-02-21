@@ -16,10 +16,9 @@
 
 package com.brackeys.ui.data.settings
 
-import com.f2prateek.rx.preferences2.Preference
-import com.f2prateek.rx.preferences2.RxSharedPreferences
+import android.content.SharedPreferences
 
-class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
+class SettingsManager(private val sharedPreferences: SharedPreferences) {
 
     companion object {
 
@@ -76,77 +75,111 @@ class SettingsManager(private val rxSharedPreferences: RxSharedPreferences) {
         const val KEY_SORT_MODE = "SORT_MODE"
     }
 
-    fun getColorScheme(): Preference<String> =
-        rxSharedPreferences.getString(KEY_COLOR_SCHEME, "DARCULA")
-    fun getFullscreenMode(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
+    var colorScheme: String
+        get() = sharedPreferences.getString(KEY_COLOR_SCHEME, "DARCULA") ?: "DARCULA"
+        set(value) = sharedPreferences.edit().putString(KEY_COLOR_SCHEME, value).apply()
+    var fullScreenMode: Boolean
+        get() = sharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_FULLSCREEN_MODE, value).apply()
 
-    fun getConfirmExit(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
+    var confirmExit: Boolean
+        get() = sharedPreferences.getBoolean(KEY_CONFIRM_EXIT, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_CONFIRM_EXIT, value).apply()
 
-    fun getFontSize(): Preference<Int> =
-        rxSharedPreferences.getInteger(KEY_FONT_SIZE, 14)
-    fun getFontType(): Preference<String> =
-        rxSharedPreferences.getString(KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf")
+    var fontSize: Int
+        get() = sharedPreferences.getInt(KEY_FONT_SIZE, 14)
+        set(value) = sharedPreferences.edit().putInt(KEY_FONT_SIZE, value).apply()
+    var fontType: String
+        get() = sharedPreferences.getString(KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf") ?: "file:///android_asset/fonts/jetbrains_mono.ttf"
+        set(value) = sharedPreferences.edit().putString(KEY_FONT_TYPE, value).apply()
 
-    fun getSelectedDocumentId(): Preference<String> =
-        rxSharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "whatever")
+    var selectedDocumentId: String
+        get() = sharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "whatever") ?: "whatever"
+        set(value) = sharedPreferences.edit().putString(KEY_SELECTED_DOCUMENT_ID, value).apply()
 
-    fun getWordWrap(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_WORD_WRAP, true)
-    fun getCodeCompletion(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
-    fun getErrorHighlighting(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_ERROR_HIGHLIGHTING, true)
-    fun getPinchZoom(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
-    fun getHighlightCurrentLine(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)
-    fun getHighlightMatchingDelimiters(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
+    var wordWrap: Boolean
+        get() = sharedPreferences.getBoolean(KEY_WORD_WRAP, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_WORD_WRAP, value).apply()
+    var codeCompletion: Boolean
+        get() = sharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_CODE_COMPLETION, value).apply()
+    var errorHighlighting: Boolean
+        get() = sharedPreferences.getBoolean(KEY_ERROR_HIGHLIGHTING, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_ERROR_HIGHLIGHTING, value).apply()
+    var pinchZoom: Boolean
+        get() = sharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_PINCH_ZOOM, value).apply()
+    var highlightCurrentLine: Boolean
+        get() = sharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_HIGHLIGHT_CURRENT_LINE, value).apply()
+    var highlightMatchingDelimiters: Boolean
+        get() = sharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, value).apply()
 
-    fun getAutoSaveFiles(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_AUTO_SAVE_FILES, false)
+    var autoSaveFiles: Boolean
+        get() = sharedPreferences.getBoolean(KEY_AUTO_SAVE_FILES, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_SAVE_FILES, value).apply()
 
-    fun getExtendedKeyboard(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
-    fun getKeyboardPreset(): Preference<String> =
-        rxSharedPreferences.getString(KEY_KEYBOARD_PRESET, "{}();,.=|&![]<>+-/*?:_")
-    fun getSoftKeyboard(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
+    var extendedKeyboard: Boolean
+        get() = sharedPreferences.getBoolean(KEY_USE_EXTENDED_KEYBOARD, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_USE_EXTENDED_KEYBOARD, value).apply()
+    var keyboardPreset: String
+        get() = sharedPreferences.getString(KEY_KEYBOARD_PRESET, "{}();,.=|&![]<>+-/*?:_") ?: "{}();,.=|&![]<>+-/*?:_"
+        set(value) = sharedPreferences.edit().putString(KEY_KEYBOARD_PRESET, value).apply()
+    var softKeyboard: Boolean
+        get() = sharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_USE_SOFT_KEYBOARD, value).apply()
 
-    fun getAutoIndentation(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)
-    fun getAutoCloseBrackets(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_AUTO_CLOSE_BRACKETS, true)
-    fun getAutoCloseQuotes(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_AUTO_CLOSE_QUOTES, true)
+    var autoIndentation: Boolean
+        get() = sharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_INDENTATION, value).apply()
+    var autoCloseBrackets: Boolean
+        get() = sharedPreferences.getBoolean(KEY_AUTO_CLOSE_BRACKETS, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_CLOSE_BRACKETS, value).apply()
+    var autoCloseQuotes: Boolean
+        get() = sharedPreferences.getBoolean(KEY_AUTO_CLOSE_QUOTES, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_CLOSE_QUOTES, value).apply()
 
-    fun getUseSpacesNotTabs(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_USE_SPACES_NOT_TABS, true)
-    fun getTabWidth(): Preference<Int> =
-        rxSharedPreferences.getInteger(KEY_TAB_WIDTH, 4)
+    var useSpacesInsteadOfTabs: Boolean
+        get() = sharedPreferences.getBoolean(KEY_USE_SPACES_NOT_TABS, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_USE_SPACES_NOT_TABS, value).apply()
+    var tabWidth: Int
+        get() = sharedPreferences.getInt(KEY_TAB_WIDTH, 4)
+        set(value) = sharedPreferences.edit().putInt(KEY_TAB_WIDTH, value).apply()
 
-    fun getEncodingAutoDetect(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_ENCODING_AUTO_DETECT, false)
-    fun getEncodingForOpening(): Preference<String> =
-        rxSharedPreferences.getString(KEY_ENCODING_FOR_OPENING, "UTF-8")
-    fun getEncodingForSaving(): Preference<String> =
-        rxSharedPreferences.getString(KEY_ENCODING_FOR_SAVING, "UTF-8")
+    var encodingAutoDetect: Boolean
+        get() = sharedPreferences.getBoolean(KEY_ENCODING_AUTO_DETECT, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_ENCODING_AUTO_DETECT, value).apply()
+    var encodingForOpening: String
+        get() = sharedPreferences.getString(KEY_ENCODING_FOR_OPENING, "UTF-8") ?: "UTF-8"
+        set(value) = sharedPreferences.edit().putString(KEY_ENCODING_FOR_OPENING, value).apply()
+    var encodingForSaving: String
+        get() = sharedPreferences.getString(KEY_ENCODING_FOR_SAVING, "UTF-8") ?: "UTF-8"
+        set(value) = sharedPreferences.edit().putString(KEY_ENCODING_FOR_SAVING, value).apply()
 
-    fun getLinebreakForSaving(): Preference<String> =
-        rxSharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2")
+    var lineBreakForSaving: String
+        get() = sharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2") ?: "2"
+        set(value) = sharedPreferences.edit().putString(KEY_LINEBREAK_FOR_SAVING, value).apply()
 
-    fun getOpenUnknownFiles(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_OPEN_UNKNOWN_FILES, false)
+    var openUnknownFiles: Boolean
+        get() = sharedPreferences.getBoolean(KEY_OPEN_UNKNOWN_FILES, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_OPEN_UNKNOWN_FILES, value).apply()
 
     // TODO: 2020/8/7  For the following lines, the file explorer needs to refresh when its value changes
-    fun getFilterHidden(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
-    fun getFoldersOnTop(): Preference<Boolean> =
-        rxSharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
-    fun getViewMode(): Preference<String> =
-        rxSharedPreferences.getString(KEY_VIEW_MODE, "0")
-    fun getSortMode(): Preference<String> =
-        rxSharedPreferences.getString(KEY_SORT_MODE, "0")
+    var filterHidden: Boolean
+        get() = sharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_SHOW_HIDDEN_FILES, value).apply()
+    var foldersOnTop: Boolean
+        get() = sharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_FOLDERS_ON_TOP, value).apply()
+    var viewMode: String
+        get() = sharedPreferences.getString(KEY_VIEW_MODE, "0") ?: "0"
+        set(value) = sharedPreferences.edit().putString(KEY_VIEW_MODE, value).apply()
+    var sortMode: String
+        get() = sharedPreferences.getString(KEY_SORT_MODE, "0") ?: "0"
+        set(value) = sharedPreferences.edit().putString(KEY_SORT_MODE, value).apply()
+
+    fun remove(key: String) {
+        sharedPreferences.edit().remove(key).apply()
+    }
 }

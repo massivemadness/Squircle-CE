@@ -62,7 +62,6 @@ ext {
     rxjava2_version = '2.2.21'
     rxandroid_version = '2.1.1'
     rxkotlin_version = '2.4.0'
-    rxpreferences_version = '2.0.1'
 
     // DI
     hilt_version = '2.32-alpha'
@@ -130,7 +129,6 @@ ext {
             rxjava2: "io.reactivex.rxjava2:rxjava:$rxjava2_version",
             rxandroid: "io.reactivex.rxjava2:rxandroid:$rxandroid_version",
             rxkotlin: "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version",
-            rxpreferences: "com.f2prateek.rx.preferences2:rx-preferences:$rxpreferences_version",
 
             // DI
             hilt: "com.google.dagger:hilt-android:$hilt_version",

@@ -41,7 +41,6 @@ class SettingsActivity : AppCompatActivity() {
         window.setBackgroundDrawableResource(R.color.colorBackground)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        observeViewModel()
 
         navController = supportFragmentManager
             .fragment<NavHostFragment>(R.id.nav_host).navController
@@ -51,21 +50,18 @@ class SettingsActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
-        viewModel.observeSettings()
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.fullscreenMode) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
-    }
-
-    private fun observeViewModel() {
-        viewModel.fullscreenEvent.observe(this) { enabled ->
-            if (enabled) {
-                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            } else {
-                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            }
-        }
     }
 }

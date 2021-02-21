@@ -94,26 +94,26 @@ class ExplorerViewModel @Inject constructor(
     var operation: Operation = Operation.COPY
 
     var showHidden: Boolean
-        get() = settingsManager.getFilterHidden().get()
+        get() = settingsManager.filterHidden
         set(value) {
-            settingsManager.getFilterHidden().set(value)
+            settingsManager.filterHidden = value
             filesUpdateEvent.call()
         }
 
     var foldersOnTop: Boolean
-        get() = settingsManager.getFoldersOnTop().get()
+        get() = settingsManager.foldersOnTop
         set(value) {
-            settingsManager.getFoldersOnTop().set(value)
+            settingsManager.foldersOnTop = value
             filesUpdateEvent.call()
         }
 
     val viewMode: Int
-        get() = Integer.parseInt(settingsManager.getViewMode().get())
+        get() = Integer.parseInt(settingsManager.viewMode)
 
     var sortMode: Int
-        get() = Integer.parseInt(settingsManager.getSortMode().get())
+        get() = Integer.parseInt(settingsManager.sortMode)
         set(value) {
-            settingsManager.getSortMode().set(value.toString())
+            settingsManager.sortMode = value.toString()
             filesUpdateEvent.call()
         }
 

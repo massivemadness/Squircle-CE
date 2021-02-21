@@ -31,15 +31,15 @@ class FontsRepositoryImpl(
     override suspend fun removeFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
             appDatabase.fontDao().delete(FontConverter.toEntity(fontModel))
-            if (settingsManager.getFontType().get() == fontModel.fontPath) {
-                settingsManager.getFontType().delete()
+            if (settingsManager.fontType == fontModel.fontPath) {
+                settingsManager.remove(SettingsManager.KEY_FONT_TYPE)
             }
         }
     }
 
     override suspend fun selectFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
-            settingsManager.getFontType().set(fontModel.fontPath)
+            settingsManager.fontType = fontModel.fontPath
         }
     }
 }

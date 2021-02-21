@@ -204,15 +204,15 @@ class ThemesRepositoryImpl(
     override suspend fun removeTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
             appDatabase.themeDao().delete(ThemeConverter.toEntity(themeModel))
-            if (settingsManager.getColorScheme().get() == themeModel.uuid) {
-                settingsManager.getColorScheme().delete()
+            if (settingsManager.colorScheme == themeModel.uuid) {
+                settingsManager.remove(SettingsManager.KEY_COLOR_SCHEME)
             }
         }
     }
 
     override suspend fun selectTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
-            settingsManager.getColorScheme().set(themeModel.uuid)
+            settingsManager.colorScheme = themeModel.uuid
         }
     }
 }

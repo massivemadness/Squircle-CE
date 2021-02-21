@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.brackeys.ui.data.settings.SettingsManager
-import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,13 +39,7 @@ object SettingsModule {
 
     @Provides
     @Singleton
-    fun provideRxSharedPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences {
-        return RxSharedPreferences.create(sharedPreferences)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSettingsManager(rxSharedPreferences: RxSharedPreferences): SettingsManager {
-        return SettingsManager(rxSharedPreferences)
+    fun provideSettingsManager(sharedPreferences: SharedPreferences): SettingsManager {
+        return SettingsManager(sharedPreferences)
     }
 }

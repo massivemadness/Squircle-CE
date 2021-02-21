@@ -19,6 +19,7 @@ package com.brackeys.ui.feature.editor.viewmodel
 import android.util.Log
 import androidx.core.text.PrecomputedTextCompat
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.data.converter.ThemeConverter
@@ -45,7 +46,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -77,12 +78,9 @@ class EditorViewModel @Inject constructor(
     // endregion EVENTS
 
     val openUnknownFiles: Boolean
-        get() = settingsManager.getOpenUnknownFiles().get()
+        get() = settingsManager.openUnknownFiles
     val autoSaveFiles: Boolean
-        get() = settingsManager.getAutoSaveFiles().get()
-    private var selectedDocumentId: String
-        get() = settingsManager.getSelectedDocumentId().get()
-        set(value) = settingsManager.getSelectedDocumentId().set(value)
+        get() = settingsManager.autoSaveFiles
 
     fun loadFiles() {
         appDatabase.documentDao().loadAll()
@@ -114,7 +112,7 @@ class EditorViewModel @Inject constructor(
             .schedulersIoToMain(schedulersProvider)
             .subscribeBy(
                 onSuccess = { (documentContent, precomputedText) ->
-                    selectedDocumentId = documentContent.documentModel.uuid
+                    settingsManager.selectedDocumentId = documentContent.documentModel.uuid
                     contentEvent.value = documentContent to precomputedText
                     if (CJKCharsetDetector.inWrongEncoding(documentContent.text)) {
                         toastEvent.value = R.string.message_wrong_encoding
@@ -172,7 +170,7 @@ class EditorViewModel @Inject constructor(
     fun openFile(list: List<DocumentModel>, documentModel: DocumentModel) {
         if (!list.containsDocumentModel(documentModel)) {
             if (list.size < TAB_LIMIT) {
-                selectedDocumentId = documentModel.uuid
+                settingsManager.selectedDocumentId = documentModel.uuid
                 loadFilesEvent.value = list.toMutableList().apply { add(documentModel) }
             } else {
                 toastEvent.value = R.string.message_tab_limit_achieved
@@ -196,7 +194,7 @@ class EditorViewModel @Inject constructor(
 
     fun findRecentTab(list: List<DocumentModel>) {
         selectTabEvent.value = if (list.isNotEmpty()) {
-            list.indexBy(selectedDocumentId) ?: 0
+            list.indexBy(settingsManager.selectedDocumentId) ?: 0
         } else -1
     }
 
@@ -216,119 +214,63 @@ class EditorViewModel @Inject constructor(
 
     // region PREFERENCES
 
-    fun observeSettings() {
-        settingsManager.getColorScheme()
-            .asObservable()
-            .flatMapSingle {
-                InternalTheme.fetchTheme(it)?.let { themeModel ->
-                    Single.just(themeModel)
-                } ?: run {
-                    val themeEntity = runBlocking { appDatabase.themeDao().load(it) }
-                    val themeModel = ThemeConverter.toModel(themeEntity)
-                    Single.just(themeModel)
-                }
+    fun fetchSettings() {
+        viewModelScope.launch {
+            val value = settingsManager.colorScheme
+            val theme = InternalTheme.getTheme(value) ?: run {
+                val themeEntity = appDatabase.themeDao().load(value)
+                ThemeConverter.toModel(themeEntity)
             }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.ThemePref(it)) }
-            .disposeOnViewModelDestroy()
+            settingsEvent.offer(SettingsEvent.ThemePref(theme))
+        }
 
-        settingsManager.getFontSize()
-            .asObservable()
-            .map { it.toFloat() }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.FontSize(it)) }
-            .disposeOnViewModelDestroy()
+        val fontSize = settingsManager.fontSize.toFloat()
+        settingsEvent.offer(SettingsEvent.FontSize(fontSize))
 
-        settingsManager.getFontType()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.FontType(it)) }
-            .disposeOnViewModelDestroy()
+        val fontType = settingsManager.fontType
+        settingsEvent.offer(SettingsEvent.FontType(fontType))
 
-        settingsManager.getWordWrap()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.WordWrap(it)) }
-            .disposeOnViewModelDestroy()
+        val wordWrap = settingsManager.wordWrap
+        settingsEvent.offer(SettingsEvent.WordWrap(wordWrap))
 
-        settingsManager.getCodeCompletion()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.CodeCompletion(it)) }
-            .disposeOnViewModelDestroy()
+        val codeCompletion = settingsManager.codeCompletion
+        settingsEvent.offer(SettingsEvent.CodeCompletion(codeCompletion))
 
-        settingsManager.getErrorHighlighting()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.ErrorHighlight(it)) }
-            .disposeOnViewModelDestroy()
+        val errorHighlighting = settingsManager.errorHighlighting
+        settingsEvent.offer(SettingsEvent.ErrorHighlight(errorHighlighting))
 
-        settingsManager.getPinchZoom()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.PinchZoom(it)) }
-            .disposeOnViewModelDestroy()
+        val pinchZoom = settingsManager.pinchZoom
+        settingsEvent.offer(SettingsEvent.PinchZoom(pinchZoom))
 
-        settingsManager.getHighlightCurrentLine()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.CurrentLine(it)) }
-            .disposeOnViewModelDestroy()
+        val highlightCurrentLine = settingsManager.highlightCurrentLine
+        settingsEvent.offer(SettingsEvent.CurrentLine(highlightCurrentLine))
 
-        settingsManager.getHighlightMatchingDelimiters()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.Delimiters(it)) }
-            .disposeOnViewModelDestroy()
+        val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
+        settingsEvent.offer(SettingsEvent.Delimiters(highlightMatchingDelimiters))
 
-        settingsManager.getExtendedKeyboard()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.ExtendedKeys(it)) }
-            .disposeOnViewModelDestroy()
+        val extendedKeyboard = settingsManager.extendedKeyboard
+        settingsEvent.offer(SettingsEvent.ExtendedKeys(extendedKeyboard))
 
-        settingsManager.getKeyboardPreset()
-            .asObservable()
-            .map { it.toCharArray().map(Char::toString) }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.KeyboardPreset(it)) }
-            .disposeOnViewModelDestroy()
+        val keyboardPreset = settingsManager.keyboardPreset.toCharArray().map(Char::toString)
+        settingsEvent.offer(SettingsEvent.KeyboardPreset(keyboardPreset))
 
-        settingsManager.getSoftKeyboard()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.SoftKeys(it)) }
-            .disposeOnViewModelDestroy()
+        val softKeyboard = settingsManager.softKeyboard
+        settingsEvent.offer(SettingsEvent.SoftKeys(softKeyboard))
 
-        settingsManager.getAutoIndentation()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoIndent(it)) }
-            .disposeOnViewModelDestroy()
+        val autoIndentation = settingsManager.autoIndentation
+        settingsEvent.offer(SettingsEvent.AutoIndent(autoIndentation))
 
-        settingsManager.getAutoCloseBrackets()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoBrackets(it)) }
-            .disposeOnViewModelDestroy()
+        val autoCloseBrackets = settingsManager.autoCloseBrackets
+        settingsEvent.offer(SettingsEvent.AutoBrackets(autoCloseBrackets))
 
-        settingsManager.getAutoCloseQuotes()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoQuotes(it)) }
-            .disposeOnViewModelDestroy()
+        val autoCloseQuotes = settingsManager.autoCloseQuotes
+        settingsEvent.offer(SettingsEvent.AutoQuotes(autoCloseQuotes))
 
-        settingsManager.getUseSpacesNotTabs()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.UseSpacesNotTabs(it)) }
-            .disposeOnViewModelDestroy()
+        val useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs
+        settingsEvent.offer(SettingsEvent.UseSpacesNotTabs(useSpacesInsteadOfTabs))
 
-        settingsManager.getTabWidth()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.TabWidth(it)) }
-            .disposeOnViewModelDestroy()
+        val tabWidth = settingsManager.tabWidth
+        settingsEvent.offer(SettingsEvent.TabWidth(tabWidth))
     }
 
     // endregion PREFERENCES

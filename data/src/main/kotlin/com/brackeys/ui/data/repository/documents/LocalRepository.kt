@@ -30,7 +30,6 @@ import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.base.model.LineBreak
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.nio.charset.Charset
 
 class LocalRepository(
     private val settingsManager: SettingsManager,
@@ -38,19 +37,12 @@ class LocalRepository(
     private val filesystem: Filesystem
 ) : DocumentRepository {
 
-    private val encodingAutoDetect: Boolean
-        get() = settingsManager.getEncodingAutoDetect().get()
-    private val encodingForOpening: Charset
-        get() = safeCharset(settingsManager.getEncodingForOpening().get())
-    private val encodingForSaving: Charset
-        get() = safeCharset(settingsManager.getEncodingForSaving().get())
-
-    private val linebreakForSaving: LineBreak
-        get() = LineBreak.find(settingsManager.getLinebreakForSaving().get())
-
     override fun loadFile(documentModel: DocumentModel): Single<DocumentContent> {
         val fileModel = DocumentConverter.toModel(documentModel)
-        val fileParams = FileParams(chardet = encodingAutoDetect, charset = encodingForOpening)
+        val fileParams = FileParams(
+            chardet = settingsManager.encodingAutoDetect,
+            charset = safeCharset(settingsManager.encodingForOpening)
+        )
         val documentEntity = DocumentConverter.toEntity(documentModel)
 
         return filesystem.loadFile(fileModel, fileParams)
@@ -72,7 +64,10 @@ class LocalRepository(
         val text = documentContent.text
 
         val fileModel = DocumentConverter.toModel(documentModel)
-        val fileParams = FileParams(charset = encodingForSaving, linebreak = linebreakForSaving)
+        val fileParams = FileParams(
+            charset = safeCharset(settingsManager.encodingForSaving),
+            linebreak = LineBreak.find(settingsManager.lineBreakForSaving)
+        )
         val documentEntity = DocumentConverter.toEntity(documentModel)
 
         return filesystem.saveFile(fileModel, text, fileParams)

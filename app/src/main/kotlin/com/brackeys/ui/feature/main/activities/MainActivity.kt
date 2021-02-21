@@ -65,7 +65,15 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
 
         viewModel.checkForUpdates()
-        viewModel.observeSettings()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.fullScreenMode) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -88,7 +96,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             if (!editorOnBackPressedHandler.handleOnBackPressed()) {
-                if (viewModel.confirmExitEvent.value != false) {
+                if (viewModel.confirmExit) {
                     ConfirmExitDialog().show(supportFragmentManager, ConfirmExitDialog.DIALOG_TAG)
                 } else {
                     finish()
@@ -113,13 +121,6 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_restart) { viewModel.completeUpdate() }
                 .show()
-        }
-        viewModel.fullscreenEvent.observe(this) { enabled ->
-            if (enabled) {
-                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            } else {
-                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            }
         }
         viewModel.openDrawerEvent.observe(this) {
             binding.drawerLayout?.openDrawer(GravityCompat.START)

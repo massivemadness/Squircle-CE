@@ -77,7 +77,7 @@ object InternalTheme {
         colorScheme = EditorTheme.VISUAL_STUDIO_2013
     )
 
-    fun fetchTheme(themeId: String): ThemeModel? {
+    fun getTheme(themeId: String): ThemeModel? {
         return when (themeId) {
             DARCULA -> THEME_DARCULA
             MONOKAI -> THEME_MONOKAI
@@ -92,7 +92,7 @@ object InternalTheme {
     /**
      * Default color schemes from :editorkit module.
      */
-    fun fetchThemes(): List<ThemeModel> {
+    fun getThemes(): List<ThemeModel> {
         return listOf(
             THEME_DARCULA,
             THEME_MONOKAI,
