@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentExternalFontBinding
-import com.brackeys.ui.domain.model.font.FontModel
+import com.brackeys.ui.domain.model.fonts.FontModel
 import com.brackeys.ui.feature.fonts.viewmodel.FontsViewModel
 import com.brackeys.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint

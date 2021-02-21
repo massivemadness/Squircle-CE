@@ -1,9 +1,9 @@
 package com.brackeys.ui.domain.repository.themes
 
 import android.net.Uri
-import com.brackeys.ui.domain.model.theme.Meta
-import com.brackeys.ui.domain.model.theme.PropertyItem
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.Meta
+import com.brackeys.ui.domain.model.themes.PropertyItem
+import com.brackeys.ui.domain.model.themes.ThemeModel
 
 interface ThemesRepository {
     suspend fun fetchThemes(searchQuery: String): List<ThemeModel>

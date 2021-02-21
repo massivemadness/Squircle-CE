@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentThemesBinding
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.feature.themes.adapters.ThemeAdapter
 import com.brackeys.ui.feature.themes.utils.GridSpacingItemDecoration
 import com.brackeys.ui.feature.themes.viewmodel.ThemesViewModel

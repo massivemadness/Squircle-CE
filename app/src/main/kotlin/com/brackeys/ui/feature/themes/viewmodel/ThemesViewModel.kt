@@ -25,10 +25,10 @@ import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.ThemeConverter
 import com.brackeys.ui.data.utils.InternalTheme
 import com.brackeys.ui.data.utils.toHexString
-import com.brackeys.ui.domain.model.theme.Meta
-import com.brackeys.ui.domain.model.theme.Property
-import com.brackeys.ui.domain.model.theme.PropertyItem
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.Meta
+import com.brackeys.ui.domain.model.themes.Property
+import com.brackeys.ui.domain.model.themes.PropertyItem
+import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
 import com.brackeys.ui.utils.event.SingleLiveEvent

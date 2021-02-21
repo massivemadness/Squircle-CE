@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.databinding.ItemFontBinding
-import com.brackeys.ui.domain.model.font.FontModel
+import com.brackeys.ui.domain.model.fonts.FontModel
 import com.brackeys.ui.utils.extensions.createTypefaceFromPath
 
 class FontAdapter(

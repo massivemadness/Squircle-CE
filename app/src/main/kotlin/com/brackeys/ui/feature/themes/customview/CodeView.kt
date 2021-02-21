@@ -21,7 +21,7 @@ import android.text.Spannable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.toSpannable
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.language.base.Language
 
 class CodeView @JvmOverloads constructor(

@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.domain.model.theme
+package com.brackeys.ui.domain.model.themes
 
-data class PropertyItem(
-    val propertyKey: Property,
-    var propertyValue: String
+import com.brackeys.ui.editorkit.model.ColorScheme
+
+data class ThemeModel(
+    val uuid: String,
+    val name: String,
+    val author: String,
+    val description: String,
+    val isExternal: Boolean,
+    val colorScheme: ColorScheme
 )

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.domain.model.theme
+package com.brackeys.ui.domain.model.themes
 
 data class Meta(
     val uuid: String,

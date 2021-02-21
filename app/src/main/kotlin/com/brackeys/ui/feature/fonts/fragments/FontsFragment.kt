@@ -30,7 +30,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentFontsBinding
-import com.brackeys.ui.domain.model.font.FontModel
+import com.brackeys.ui.domain.model.fonts.FontModel
 import com.brackeys.ui.feature.fonts.adapters.FontAdapter
 import com.brackeys.ui.feature.fonts.viewmodel.FontsViewModel
 import com.brackeys.ui.utils.extensions.debounce

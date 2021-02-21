@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.model.theme
+package com.brackeys.ui.data.model.themes
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName

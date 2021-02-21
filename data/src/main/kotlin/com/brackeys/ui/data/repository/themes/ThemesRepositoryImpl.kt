@@ -6,12 +6,12 @@ import android.os.Environment
 import com.brackeys.ui.data.converter.ThemeConverter
 import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.database.entity.theme.ThemeEntity
-import com.brackeys.ui.data.model.theme.ExternalTheme
+import com.brackeys.ui.data.model.themes.ExternalTheme
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.domain.model.theme.Meta
-import com.brackeys.ui.domain.model.theme.Property
-import com.brackeys.ui.domain.model.theme.PropertyItem
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.Meta
+import com.brackeys.ui.domain.model.themes.Property
+import com.brackeys.ui.domain.model.themes.PropertyItem
+import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
 import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.Filesystem

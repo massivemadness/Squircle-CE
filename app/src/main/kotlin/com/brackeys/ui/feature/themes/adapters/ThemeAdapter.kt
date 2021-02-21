@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.R
 import com.brackeys.ui.data.delegate.LanguageDelegate
 import com.brackeys.ui.databinding.ItemThemeBinding
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.utils.extensions.makeRightPaddingRecursively
 
 class ThemeAdapter(

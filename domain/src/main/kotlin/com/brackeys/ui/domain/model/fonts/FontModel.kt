@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.domain.model.font
+package com.brackeys.ui.domain.model.fonts
 
 data class FontModel(
     val fontName: String,

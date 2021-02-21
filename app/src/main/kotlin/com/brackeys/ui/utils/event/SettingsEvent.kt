@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.utils.event
 
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.ThemeModel
 
 sealed class SettingsEvent<T>(val value: T) {
     class ThemePref(value: ThemeModel) : SettingsEvent<ThemeModel>(value)

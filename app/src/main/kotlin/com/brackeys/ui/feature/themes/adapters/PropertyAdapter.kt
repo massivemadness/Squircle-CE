@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ItemPropertyBinding
-import com.brackeys.ui.domain.model.theme.Property
-import com.brackeys.ui.domain.model.theme.PropertyItem
+import com.brackeys.ui.domain.model.themes.Property
+import com.brackeys.ui.domain.model.themes.PropertyItem
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
 
 class PropertyAdapter(
