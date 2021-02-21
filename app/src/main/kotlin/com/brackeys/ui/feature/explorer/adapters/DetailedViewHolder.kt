@@ -101,7 +101,7 @@ class DetailedViewHolder(
             FileType.VIDEO -> {
                 binding.itemIcon.setImageResource(R.drawable.ic_file_video)
             }
-            else -> { /* nothing */ }
+            else -> Unit
         }
     }
 }

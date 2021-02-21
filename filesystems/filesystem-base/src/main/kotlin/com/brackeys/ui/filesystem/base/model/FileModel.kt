@@ -24,10 +24,10 @@ import kotlinx.parcelize.Parcelize
 data class FileModel(
     val name: String,
     val path: String,
-    val size: Long,
-    val lastModified: Long,
-    val isFolder: Boolean,
-    val isHidden: Boolean
+    val size: Long = 0L,
+    val lastModified: Long = 0L,
+    val isFolder: Boolean = false,
+    val isHidden: Boolean = false
 ) : Parcelable {
 
     companion object {

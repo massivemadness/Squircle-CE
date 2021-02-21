@@ -36,7 +36,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
-import com.brackeys.ui.data.utils.replaceList
+import com.brackeys.ui.databinding.DialogPropertiesBinding
 import com.brackeys.ui.databinding.FragmentDirectoryBinding
 import com.brackeys.ui.feature.base.adapters.OnItemClickListener
 import com.brackeys.ui.feature.explorer.adapters.FileAdapter
@@ -49,10 +49,7 @@ import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.FileType
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
-import com.brackeys.ui.utils.extensions.clipText
-import com.brackeys.ui.utils.extensions.showToast
-import com.brackeys.ui.utils.extensions.toReadableDate
-import com.brackeys.ui.utils.extensions.toReadableSize
+import com.brackeys.ui.utils.extensions.*
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -152,10 +149,10 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
     }
 
     private fun observeViewModel() {
-        viewModel.stateLoadingFiles.observe(viewLifecycleOwner) {
+        viewModel.loadingBar.observe(viewLifecycleOwner) {
             binding.loadingBar.isVisible = it
         }
-        viewModel.stateNothingFound.observe(viewLifecycleOwner) {
+        viewModel.emptyView.observe(viewLifecycleOwner) {
             binding.emptyViewImage.isVisible = it
             binding.emptyViewText.isVisible = it
         }
@@ -403,13 +400,11 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
             message(text = properties) { html() }
             customView(R.layout.dialog_properties, scrollable = true)
 
-            val readable = findViewById<CheckBox>(R.id.readable)
-            val writable = findViewById<CheckBox>(R.id.writable)
-            val executable = findViewById<CheckBox>(R.id.executable)
+            val binding = DialogPropertiesBinding.bind(getCustomView())
 
-            readable.isChecked = propertiesModel.readable
-            writable.isChecked = propertiesModel.writable
-            executable.isChecked = propertiesModel.executable
+            binding.readable.isChecked = propertiesModel.readable
+            binding.writable.isChecked = propertiesModel.writable
+            binding.executable.isChecked = propertiesModel.executable
         }
     }
 

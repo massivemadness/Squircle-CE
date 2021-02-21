@@ -21,8 +21,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.containsFileModel
-import com.brackeys.ui.data.utils.replaceList
 import com.brackeys.ui.domain.repository.explorer.ExplorerRepository
 import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.feature.explorer.utils.Operation
@@ -31,6 +29,8 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import com.brackeys.ui.utils.extensions.containsFileModel
+import com.brackeys.ui.utils.extensions.replaceList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -56,8 +56,9 @@ class ExplorerViewModel @Inject constructor(
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
     val showAppBarEvent = MutableLiveData<Boolean>() // Отображение вкладок
     val allowPasteFiles = MutableLiveData<Boolean>() // Отображение кнопки "Вставить"
-    val stateLoadingFiles = MutableLiveData(true) // Индикатор загрузки файлов
-    val stateNothingFound = MutableLiveData(false) // Сообщение об отсутствии файлов
+
+    val loadingBar = MutableLiveData(true) // Индикатор загрузки файлов
+    val emptyView = MutableLiveData(false) // Сообщение об отсутствии файлов
 
     val filesUpdateEvent = SingleLiveEvent<Unit>() // Запрос на обновление списка файлов
     val selectAllEvent = SingleLiveEvent<Unit>() // Выделить все файлы
@@ -89,18 +90,20 @@ class ExplorerViewModel @Inject constructor(
     var operation = Operation.COPY
     var currentJob: Job? = null
 
+    var viewMode: Int
+        get() = settingsManager.viewMode.toInt()
+        set(value) {
+            settingsManager.viewMode = value.toString()
+            filesUpdateEvent.call()
+        }
     var showHidden: Boolean
         get() = settingsManager.filterHidden
         set(value) {
             settingsManager.filterHidden = value
             filesUpdateEvent.call()
         }
-
-    val viewMode: Int
-        get() = Integer.parseInt(settingsManager.viewMode)
-
     var sortMode: Int
-        get() = Integer.parseInt(settingsManager.sortMode)
+        get() = settingsManager.sortMode.toInt()
         set(value) {
             settingsManager.sortMode = value.toString()
             filesUpdateEvent.call()
@@ -111,8 +114,8 @@ class ExplorerViewModel @Inject constructor(
     fun provideDirectory(fileModel: FileModel?) {
         viewModelScope.launch {
             try {
-                stateNothingFound.value = false
-                stateLoadingFiles.value = true
+                emptyView.value = false
+                loadingBar.value = true
 
                 val fileTree = explorerRepository.fetchFiles(fileModel)
                 if (!tabsList.containsFileModel(fileTree.parent)) {
@@ -122,8 +125,8 @@ class ExplorerViewModel @Inject constructor(
                 searchList.replaceList(fileTree.children)
                 filesEvent.value = fileTree
 
-                stateLoadingFiles.value = false
-                stateNothingFound.value = fileTree.children.isEmpty()
+                loadingBar.value = false
+                emptyView.value = fileTree.children.isEmpty()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 when (e) {
@@ -150,7 +153,7 @@ class ExplorerViewModel @Inject constructor(
                 }
             }
         }
-        stateNothingFound.value = collection.isEmpty()
+        emptyView.value = collection.isEmpty()
         searchEvent.value = collection
     }
 
@@ -319,14 +322,7 @@ class ExplorerViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             progressEvent.value = 0
             try {
-                val dest = FileModel(
-                    name = archiveName,
-                    path = "$destPath/$archiveName",
-                    size = 0L,
-                    lastModified = 0L,
-                    isFolder = false,
-                    isHidden = false
-                )
+                val dest = FileModel(archiveName, "$destPath/$archiveName")
                 explorerRepository.compressFiles(source, dest)
                     .onEach {
                         progressEvent.value = (progressEvent.value ?: 0) + 1
@@ -361,14 +357,7 @@ class ExplorerViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             progressEvent.value = 0
             try {
-                val dest = FileModel(
-                    name = "whatever",
-                    path = destPath,
-                    size = 0L,
-                    lastModified = 0L,
-                    isFolder = false,
-                    isHidden = false
-                )
+                val dest = FileModel("whatever", destPath)
                 explorerRepository.extractAll(source, dest)
                     .onEach {
                         progressEvent.value = (progressEvent.value ?: 0) + 1

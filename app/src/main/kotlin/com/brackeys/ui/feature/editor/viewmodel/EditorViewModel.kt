@@ -28,8 +28,6 @@ import com.brackeys.ui.data.repository.documents.CacheRepository
 import com.brackeys.ui.data.repository.documents.LocalRepository
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.InternalTheme
-import com.brackeys.ui.data.utils.containsDocumentModel
-import com.brackeys.ui.data.utils.indexBy
 import com.brackeys.ui.data.utils.schedulersIoToMain
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
@@ -41,6 +39,8 @@ import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.utils.event.EventsQueue
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import com.brackeys.ui.utils.extensions.containsDocumentModel
+import com.brackeys.ui.utils.extensions.indexBy
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Completable

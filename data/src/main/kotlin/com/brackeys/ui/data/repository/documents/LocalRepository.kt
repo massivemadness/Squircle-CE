@@ -20,7 +20,6 @@ import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.delegate.LanguageDelegate
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.safeCharset
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.domain.repository.documents.DocumentRepository
@@ -31,6 +30,7 @@ import com.brackeys.ui.filesystem.base.model.LineBreak
 import io.reactivex.Completable
 import io.reactivex.Single
 import kotlinx.coroutines.runBlocking
+import java.nio.charset.UnsupportedCharsetException
 
 class LocalRepository(
     private val settingsManager: SettingsManager,
@@ -75,5 +75,11 @@ class LocalRepository(
             appDatabase.documentDao().update(documentEntity)
             emitter.onComplete()
         }
+    }
+
+    private fun safeCharset(charsetName: String) = try {
+        charset(charsetName)
+    } catch (e: UnsupportedCharsetException) {
+        Charsets.UTF_8
     }
 }

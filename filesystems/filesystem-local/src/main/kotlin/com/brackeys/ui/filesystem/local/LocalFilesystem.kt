@@ -260,17 +260,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return suspendCoroutine { cont ->
             val file = File(fileModel.path)
             if (file.exists()) {
-                try {
-                    val charset = if (fileParams.chardet) {
-                        file.inputStream().use(CJKCharsetDetector::detect)
-                    } else {
-                        fileParams.charset
-                    }
-                    val text = file.readText(charset = charset)
-                    cont.resume(text)
-                } catch (e: OutOfMemoryError) {
-                    cont.resumeWithException(OutOfMemoryError(fileModel.path))
+                val charset = if (fileParams.chardet) {
+                    file.inputStream().use(CJKCharsetDetector::detect)
+                } else {
+                    fileParams.charset
                 }
+                val text = file.readText(charset = charset)
+                cont.resume(text)
             } else {
                 cont.resumeWithException(FileNotFoundException(fileModel.path))
             }
