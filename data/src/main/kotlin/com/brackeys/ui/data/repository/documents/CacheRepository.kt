@@ -29,6 +29,7 @@ import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.local.converter.FileConverter
 import io.reactivex.Completable
 import io.reactivex.Single
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.IOException
 
@@ -42,16 +43,16 @@ class CacheRepository(
         val file = cache("${documentModel.uuid}.cache")
         val fileModel = FileConverter.toModel(file)
 
-        return filesystem.loadFile(fileModel, FileParams())
-            .map { text ->
-                DocumentContent(
-                    documentModel = documentModel,
-                    language = LanguageDelegate.provideLanguage(documentModel.name),
-                    undoStack = loadUndoStack(documentModel),
-                    redoStack = loadRedoStack(documentModel),
-                    text = text
-                )
-            }
+        return Single.create { emitter ->
+            val documentContent = DocumentContent(
+                documentModel = documentModel,
+                language = LanguageDelegate.provideLanguage(documentModel.name),
+                undoStack = loadUndoStack(documentModel),
+                redoStack = loadRedoStack(documentModel),
+                text = runBlocking { filesystem.loadFile(fileModel, FileParams()) }
+            )
+            emitter.onSuccess(documentContent)
+        }
     }
 
     override fun saveFile(documentContent: DocumentContent): Completable {
@@ -64,12 +65,13 @@ class CacheRepository(
         val fileModel = FileConverter.toModel(file)
         val documentEntity = DocumentConverter.toEntity(documentModel)
 
-        return Completable.concatArray(
-                filesystem.saveFile(fileModel, text, FileParams()),
-                saveUndoStack(documentModel, undoStack),
-                saveRedoStack(documentModel, redoStack)
-            )
-            .doOnComplete { appDatabase.documentDao().update(documentEntity) }
+        return Completable.create { emitter ->
+            runBlocking { filesystem.saveFile(fileModel, text, FileParams()) }
+            saveUndoStack(documentModel, undoStack)
+            saveRedoStack(documentModel, redoStack)
+            appDatabase.documentDao().update(documentEntity)
+            emitter.onComplete()
+        }
     }
 
     fun deleteCache(documentModel: DocumentModel): Completable {
@@ -96,30 +98,18 @@ class CacheRepository(
         return cache("${documentModel.uuid}.cache").exists()
     }
 
-    private fun saveUndoStack(documentModel: DocumentModel, undoStack: UndoStack): Completable {
-        return try {
-            createCacheFilesIfNecessary(documentModel)
+    private fun saveUndoStack(documentModel: DocumentModel, undoStack: UndoStack) {
+        createCacheFilesIfNecessary(documentModel)
 
-            val undoFile = cache("${documentModel.uuid}-undo.cache")
-            undoFile.writeText(encodeStack(undoStack))
-
-            Completable.complete()
-        } catch (e: IOException) {
-            Completable.error(e)
-        }
+        val undoFile = cache("${documentModel.uuid}-undo.cache")
+        undoFile.writeText(encodeStack(undoStack))
     }
 
-    private fun saveRedoStack(documentModel: DocumentModel, redoStack: UndoStack): Completable {
-        return try {
-            createCacheFilesIfNecessary(documentModel)
+    private fun saveRedoStack(documentModel: DocumentModel, redoStack: UndoStack) {
+        createCacheFilesIfNecessary(documentModel)
 
-            val redoFile = cache("${documentModel.uuid}-redo.cache")
-            redoFile.writeText(encodeStack(redoStack))
-
-            Completable.complete()
-        } catch (e: IOException) {
-            Completable.error(e)
-        }
+        val redoFile = cache("${documentModel.uuid}-redo.cache")
+        redoFile.writeText(encodeStack(redoStack))
     }
 
     private fun loadUndoStack(documentModel: DocumentModel): UndoStack {

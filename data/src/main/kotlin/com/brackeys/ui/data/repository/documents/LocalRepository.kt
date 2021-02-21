@@ -30,6 +30,7 @@ import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.base.model.LineBreak
 import io.reactivex.Completable
 import io.reactivex.Single
+import kotlinx.coroutines.runBlocking
 
 class LocalRepository(
     private val settingsManager: SettingsManager,
@@ -45,18 +46,17 @@ class LocalRepository(
         )
         val documentEntity = DocumentConverter.toEntity(documentModel)
 
-        return filesystem.loadFile(fileModel, fileParams)
-            .map { text ->
-                appDatabase.documentDao().insert(documentEntity)
-
-                DocumentContent(
-                    documentModel = documentModel,
-                    language = LanguageDelegate.provideLanguage(documentModel.name),
-                    undoStack = UndoStack(),
-                    redoStack = UndoStack(),
-                    text = text
-                )
-            }
+        return Single.create { emitter ->
+            appDatabase.documentDao().insert(documentEntity)
+            val documentContent = DocumentContent(
+                documentModel = documentModel,
+                language = LanguageDelegate.provideLanguage(documentModel.name),
+                undoStack = UndoStack(),
+                redoStack = UndoStack(),
+                text = runBlocking { filesystem.loadFile(fileModel, fileParams) }
+            )
+            emitter.onSuccess(documentContent)
+        }
     }
 
     override fun saveFile(documentContent: DocumentContent): Completable {
@@ -70,7 +70,10 @@ class LocalRepository(
         )
         val documentEntity = DocumentConverter.toEntity(documentModel)
 
-        return filesystem.saveFile(fileModel, text, fileParams)
-            .doOnComplete { appDatabase.documentDao().update(documentEntity) }
+        return Completable.create { emitter ->
+            runBlocking { filesystem.saveFile(fileModel, text, fileParams) }
+            appDatabase.documentDao().update(documentEntity)
+            emitter.onComplete()
+        }
     }
 }

@@ -21,6 +21,7 @@ import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.File
 
+@Suppress("BlockingMethodInNonBlockingContext")
 class ThemesRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
@@ -102,7 +103,6 @@ class ThemesRepositoryImpl(
                 isHidden = false
             )
             filesystem.saveFile(fileModel, fileText, FileParams())
-                .blockingGet()
         }
     }
 

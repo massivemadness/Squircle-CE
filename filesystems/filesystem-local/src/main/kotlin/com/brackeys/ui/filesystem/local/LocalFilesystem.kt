@@ -23,13 +23,17 @@ import com.brackeys.ui.filesystem.base.utils.endsWith
 import com.brackeys.ui.filesystem.local.converter.FileConverter
 import com.brackeys.ui.filesystem.local.utils.size
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.suspendCancellableCoroutine
 import net.lingala.zip4j.ZipFile
 import java.io.File
-import java.io.IOException
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
+@Suppress("BlockingMethodInNonBlockingContext")
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     companion object {
@@ -40,46 +44,46 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         private val SUPPORTED_ARCHIVES = arrayOf(".zip", ".jar")
     }
 
-    override fun defaultLocation(): Single<FileModel> {
-        return Single.create { emitter ->
+    override suspend fun defaultLocation(): FileModel {
+        return suspendCoroutine { cont ->
             val fileModel = FileConverter.toModel(defaultLocation)
             if (defaultLocation.isDirectory) {
-                emitter.onSuccess(fileModel)
+                cont.resume(fileModel)
             } else {
-                emitter.onError(DirectoryExpectedException())
+                cont.resumeWithException(DirectoryExpectedException())
             }
         }
     }
 
-    override fun provideFile(path: String): Single<FileModel> {
-        return Single.create { emitter ->
+    override suspend fun provideFile(path: String): FileModel {
+        return suspendCoroutine { cont ->
             val file = File(path)
             if (file.exists()) {
                 val fileModel = FileConverter.toModel(file)
-                emitter.onSuccess(fileModel)
+                cont.resume(fileModel)
             } else {
-                emitter.onError(FileNotFoundException(file.path))
+                cont.resumeWithException(FileNotFoundException(file.path))
             }
         }
     }
 
-    override fun provideDirectory(parent: FileModel): Single<FileTree> {
-        return Single.create { emitter ->
+    override suspend fun provideDirectory(parent: FileModel): FileTree {
+        return suspendCoroutine { cont ->
             val file = FileConverter.toFile(parent)
             if (file.isDirectory) {
                 val children = file.listFiles()!!
                     .map(FileConverter::toModel)
                     .toList()
                 val fileTree = FileTree(parent, children)
-                emitter.onSuccess(fileTree)
+                cont.resume(fileTree)
             } else {
-                emitter.onError(DirectoryExpectedException())
+                cont.resumeWithException(DirectoryExpectedException())
             }
         }
     }
 
-    override fun createFile(fileModel: FileModel): Single<FileModel> {
-        return Single.create { emitter ->
+    override suspend fun createFile(fileModel: FileModel): FileModel {
+        return suspendCoroutine { cont ->
             val file = FileConverter.toFile(fileModel)
             if (!file.exists()) {
                 if (fileModel.isFolder) {
@@ -92,15 +96,15 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     file.createNewFile()
                 }
                 val fileModel2 = FileConverter.toModel(file)
-                emitter.onSuccess(fileModel2)
+                cont.resume(fileModel2)
             } else {
-                emitter.onError(FileAlreadyExistsException(fileModel.path))
+                cont.resumeWithException(FileAlreadyExistsException(fileModel.path))
             }
         }
     }
 
-    override fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel> {
-        return Single.create { emitter ->
+    override suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel {
+        return suspendCoroutine { cont ->
             val originalFile = FileConverter.toFile(fileModel)
             val parentFile = originalFile.parentFile!!
             val renamedFile = File(parentFile, fileName)
@@ -108,31 +112,31 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 if (!renamedFile.exists()) {
                     originalFile.renameTo(renamedFile)
                     val renamedModel = FileConverter.toModel(renamedFile)
-                    emitter.onSuccess(renamedModel)
+                    cont.resume(renamedModel)
                 } else {
-                    emitter.onError(FileAlreadyExistsException(renamedFile.absolutePath))
+                    cont.resumeWithException(FileAlreadyExistsException(renamedFile.absolutePath))
                 }
             } else {
-                emitter.onError(FileNotFoundException(fileModel.path))
+                cont.resumeWithException(FileNotFoundException(fileModel.path))
             }
         }
     }
 
-    override fun deleteFile(fileModel: FileModel): Single<FileModel> {
-        return Single.create { emitter ->
+    override suspend fun deleteFile(fileModel: FileModel): FileModel {
+        return suspendCoroutine { cont ->
             val file = FileConverter.toFile(fileModel)
             if (file.exists()) {
                 file.deleteRecursively()
                 val parentFile = FileConverter.toModel(file.parentFile!!)
-                emitter.onSuccess(parentFile)
+                cont.resume(parentFile)
             } else {
-                emitter.onError(FileNotFoundException(fileModel.path))
+                cont.resumeWithException(FileNotFoundException(fileModel.path))
             }
         }
     }
 
-    override fun copyFile(source: FileModel, dest: FileModel): Single<FileModel> {
-        return Single.create { emitter ->
+    override suspend fun copyFile(source: FileModel, dest: FileModel): FileModel {
+        return suspendCoroutine { cont ->
             val directory = FileConverter.toFile(dest)
             val sourceFile = FileConverter.toFile(source)
             val destFile = File(directory, sourceFile.name)
@@ -141,18 +145,18 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     sourceFile.copyRecursively(destFile, overwrite = false)
                     // val destFile2 = FileConverter.toModel(destFile)
                     // emitter.onSuccess(destFile2)
-                    emitter.onSuccess(source)
+                    cont.resume(source)
                 } else {
-                    emitter.onError(FileAlreadyExistsException(dest.path))
+                    cont.resumeWithException(FileAlreadyExistsException(dest.path))
                 }
             } else {
-                emitter.onError(FileNotFoundException(source.path))
+                cont.resumeWithException(FileNotFoundException(source.path))
             }
         }
     }
 
-    override fun propertiesOf(fileModel: FileModel): Single<PropertiesModel> {
-        return Single.create { emitter ->
+    override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
+        return suspendCoroutine { cont ->
             val file = File(fileModel.path)
             val fileType = fileModel.getType()
             if (file.exists()) {
@@ -168,16 +172,17 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     file.canWrite(),
                     file.canExecute()
                 )
-                emitter.onSuccess(result)
+                cont.resume(result)
             } else {
-                emitter.onError(FileNotFoundException(fileModel.path))
+                cont.resumeWithException(FileNotFoundException(fileModel.path))
             }
         }
     }
 
     // TODO: Use ProgressMonitor
-    override fun compress(source: List<FileModel>, dest: FileModel): Observable<FileModel> {
-        return Observable.create { emitter ->
+    @ExperimentalCoroutinesApi
+    override suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
+        return callbackFlow {
             val destFile = FileConverter.toFile(dest)
             if (!destFile.exists()) {
                 val archiveFile = ZipFile(destFile)
@@ -189,21 +194,21 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                         } else {
                             archiveFile.addFile(sourceFile)
                         }
-                        emitter.onNext(fileModel)
+                        offer(fileModel)
                     } else {
-                        emitter.onError(FileNotFoundException(fileModel.path))
+                        throw FileNotFoundException(fileModel.path)
                     }
                 }
             } else {
-                emitter.onError(FileAlreadyExistsException(destFile.absolutePath))
+                throw FileAlreadyExistsException(destFile.absolutePath)
             }
-            emitter.onComplete()
+            close()
         }
     }
 
     // TODO: Use Observable with ProgressMonitor
-    override fun extractAll(source: FileModel, dest: FileModel): Single<FileModel> {
-        return Single.create { emitter ->
+    override suspend fun extractAll(source: FileModel, dest: FileModel): FileModel {
+        return suspendCancellableCoroutine { cont ->
             val sourceFile = FileConverter.toFile(source)
             if (sourceFile.exists()) {
                 if (sourceFile.name.endsWith(SUPPORTED_ARCHIVES)) {
@@ -211,65 +216,60 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     when {
                         archiveFile.isValidZipFile -> {
                             archiveFile.extractAll(dest.path)
-                            emitter.onSuccess(source)
+                            cont.resume(source)
                         }
                         archiveFile.isEncrypted -> {
-                            emitter.onError(EncryptedArchiveException(source.path))
+                            cont.resumeWithException(EncryptedArchiveException(source.path))
                         }
                         archiveFile.isSplitArchive -> {
-                            emitter.onError(SplitArchiveException(source.path))
+                            cont.resumeWithException(SplitArchiveException(source.path))
                         }
                         else -> {
-                            emitter.onError(InvalidArchiveException(source.path))
+                            cont.resumeWithException(InvalidArchiveException(source.path))
                         }
                     }
                 } else {
-                    emitter.onError(UnsupportedArchiveException(source.path))
+                    cont.resumeWithException(UnsupportedArchiveException(source.path))
                 }
             } else {
-                emitter.onError(FileNotFoundException(source.path))
+                cont.resumeWithException(FileNotFoundException(source.path))
             }
         }
     }
 
-    override fun loadFile(fileModel: FileModel, fileParams: FileParams): Single<String> {
-        return Single.create { emitter ->
+    override suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
+        return suspendCoroutine { cont ->
             val file = File(fileModel.path)
             if (file.exists()) {
-                val charset = if (fileParams.chardet) {
-                    file.inputStream().use(CJKCharsetDetector::detect)
-                } else {
-                    fileParams.charset
-                }
                 try {
+                    val charset = if (fileParams.chardet) {
+                        file.inputStream().use(CJKCharsetDetector::detect)
+                    } else {
+                        fileParams.charset
+                    }
                     val text = file.readText(charset = charset)
-                    emitter.onSuccess(text)
+                    cont.resume(text)
                 } catch (e: OutOfMemoryError) {
-                    emitter.onError(OutOfMemoryError(fileModel.path))
+                    cont.resumeWithException(OutOfMemoryError(fileModel.path))
                 }
             } else {
-                emitter.onError(FileNotFoundException(fileModel.path))
+                cont.resumeWithException(FileNotFoundException(fileModel.path))
             }
         }
     }
 
-    override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams): Completable {
-        return Completable.create { emitter ->
-            try {
-                val file = File(fileModel.path)
-                if (!file.exists()) {
-                    val parentFile = file.parentFile!!
-                    if (!parentFile.exists()) {
-                        parentFile.mkdirs()
-                    }
-                    file.createNewFile()
+    override suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
+        return suspendCoroutine { cont ->
+            val file = File(fileModel.path)
+            if (!file.exists()) {
+                val parentFile = file.parentFile!!
+                if (!parentFile.exists()) {
+                    parentFile.mkdirs()
                 }
-                file.writeText(fileParams.linebreak(text), fileParams.charset)
-
-                emitter.onComplete()
-            } catch (e: IOException) {
-                emitter.onError(e)
+                file.createNewFile()
             }
+            file.writeText(fileParams.linebreak(text), fileParams.charset)
+            cont.resume(Unit)
         }
     }
 

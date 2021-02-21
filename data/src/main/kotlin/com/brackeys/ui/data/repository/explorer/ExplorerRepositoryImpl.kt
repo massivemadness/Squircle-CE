@@ -8,7 +8,6 @@ import com.brackeys.ui.filesystem.base.Filesystem
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
-import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -25,61 +24,37 @@ class ExplorerRepositoryImpl(
 
     override suspend fun fetchFiles(fileModel: FileModel?): FileTree {
         return withContext(dispatcherProvider.io()) {
-            val defaultLocation = filesystem.defaultLocation().blockingGet()
-            filesystem.provideDirectory(fileModel ?: defaultLocation)
-                .map { fileTree ->
-                    val newList = mutableListOf<FileModel>()
-                    fileTree.children.forEach { file ->
-                        if (file.isHidden) {
-                            if (settingsManager.filterHidden) {
-                                newList.add(file)
-                            }
-                        } else {
-                            newList.add(file)
-                        }
-                    }
-                    fileTree.copy(children = newList)
-                }
-                .map { fileTree ->
-                    val comparator = FileSorter.getComparator(settingsManager.sortMode.toInt())
-                    val children = fileTree.children.sortedWith(comparator)
-                    fileTree.copy(children = children)
-                }
-                .map { fileTree ->
-                    val children = fileTree.children.sortedBy { file ->
-                        !file.isFolder == settingsManager.foldersOnTop
-                    }
-                    fileTree.copy(children = children)
-                }
-                .blockingGet()
+            val fileTree = filesystem.provideDirectory(fileModel ?: filesystem.defaultLocation())
+            fileTree.copy(children = fileTree.children
+                .filter { if (it.isHidden) settingsManager.filterHidden else true }
+                .sortedWith(FileSorter.getComparator(settingsManager.sortMode.toInt()))
+                .sortedBy { !it.isFolder == settingsManager.foldersOnTop }
+            )
         }
     }
 
     override suspend fun createFile(fileModel: FileModel): FileModel {
         return withContext(dispatcherProvider.io()) {
             filesystem.createFile(fileModel)
-                .blockingGet()
         }
     }
 
     override suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel {
         return withContext(dispatcherProvider.io()) {
             filesystem.renameFile(fileModel, fileName)
-                .blockingGet()
         }
     }
 
     override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
         return withContext(dispatcherProvider.io()) {
             filesystem.propertiesOf(fileModel)
-                .blockingGet()
         }
     }
 
     override suspend fun deleteFiles(source: List<FileModel>): Flow<FileModel> {
         return callbackFlow {
             source.forEach {
-                val fileModel = filesystem.deleteFile(it).blockingGet()
+                val fileModel = filesystem.deleteFile(it)
                 offer(fileModel)
                 delay(20)
             }
@@ -89,9 +64,9 @@ class ExplorerRepositoryImpl(
 
     override suspend fun copyFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
         return callbackFlow {
-            val dest = filesystem.provideFile(destPath).blockingGet()
+            val dest = filesystem.provideFile(destPath)
             source.forEach {
-                val fileModel = filesystem.copyFile(it, dest).blockingGet()
+                val fileModel = filesystem.copyFile(it, dest)
                 offer(fileModel)
                 delay(20)
             }
@@ -101,10 +76,10 @@ class ExplorerRepositoryImpl(
 
     override suspend fun cutFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
         return callbackFlow {
-            val dest = filesystem.provideFile(destPath).blockingGet()
+            val dest = filesystem.provideFile(destPath)
             source.forEach { fileModel ->
-                filesystem.copyFile(fileModel, dest).blockingGet()
-                filesystem.deleteFile(fileModel).blockingGet()
+                filesystem.copyFile(fileModel, dest)
+                filesystem.deleteFile(fileModel)
                 offer(fileModel)
                 delay(20)
             }
@@ -113,20 +88,13 @@ class ExplorerRepositoryImpl(
     }
 
     override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
-        return callbackFlow {
-            filesystem.compress(source, dest)
-                .subscribeBy(
-                    onError = { throw it },
-                    onNext = { offer(it) },
-                    onComplete = { close() }
-                )
-        }.flowOn(dispatcherProvider.io())
+        return filesystem.compress(source, dest)
+            .flowOn(dispatcherProvider.io())
     }
 
     override suspend fun extractAll(source: FileModel, dest: FileModel): FileModel {
         return withContext(dispatcherProvider.io()) {
             filesystem.extractAll(source, dest)
-                .blockingGet()
         }
     }
 }
