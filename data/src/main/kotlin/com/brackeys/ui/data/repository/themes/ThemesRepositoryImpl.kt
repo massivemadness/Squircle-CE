@@ -17,7 +17,6 @@ import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.Filesystem
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileParams
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.File
@@ -103,9 +102,7 @@ class ThemesRepositoryImpl(
                 isHidden = false
             )
             filesystem.saveFile(fileModel, fileText, FileParams())
-                .subscribeOn(Schedulers.trampoline())
-                .observeOn(Schedulers.trampoline())
-                .subscribe()
+                .blockingGet()
         }
     }
 

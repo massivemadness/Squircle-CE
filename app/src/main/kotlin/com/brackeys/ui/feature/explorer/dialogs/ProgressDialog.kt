@@ -66,7 +66,7 @@ class ProgressDialog : DialogFragment() {
                 onCloseAction.invoke()
             }
             negativeButton(R.string.action_cancel) {
-                viewModel.cancelableDisposable.dispose()
+                viewModel.currentJob?.cancel()
                 onCloseAction.invoke()
             }
 

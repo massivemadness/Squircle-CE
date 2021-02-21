@@ -25,10 +25,10 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 interface Filesystem {
-    fun defaultLocation(): Single<FileTree>
+    fun defaultLocation(): Single<FileModel>
 
     fun provideFile(path: String): Single<FileModel>
-    fun provideDirectory(parent: FileModel?): Single<FileTree>
+    fun provideDirectory(parent: FileModel): Single<FileTree>
 
     fun createFile(fileModel: FileModel): Single<FileModel>
     fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
@@ -36,7 +36,7 @@ interface Filesystem {
     fun copyFile(source: FileModel, dest: FileModel): Single<FileModel>
     fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
 
-    fun compress(source: List<FileModel>, dest: FileModel, archiveName: String): Observable<FileModel>
+    fun compress(source: List<FileModel>, dest: FileModel): Observable<FileModel>
     fun extractAll(source: FileModel, dest: FileModel): Single<FileModel>
 
     fun loadFile(fileModel: FileModel, fileParams: FileParams): Single<String>

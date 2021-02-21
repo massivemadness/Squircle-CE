@@ -40,15 +40,11 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         private val SUPPORTED_ARCHIVES = arrayOf(".zip", ".jar")
     }
 
-    override fun defaultLocation(): Single<FileTree> {
+    override fun defaultLocation(): Single<FileModel> {
         return Single.create { emitter ->
-            val parent = FileConverter.toModel(defaultLocation)
+            val fileModel = FileConverter.toModel(defaultLocation)
             if (defaultLocation.isDirectory) {
-                val children = defaultLocation.listFiles()!!
-                    .map(FileConverter::toModel)
-                    .toList()
-                val fileTree = FileTree(parent, children)
-                emitter.onSuccess(fileTree)
+                emitter.onSuccess(fileModel)
             } else {
                 emitter.onError(DirectoryExpectedException())
             }
@@ -67,22 +63,18 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun provideDirectory(parent: FileModel?): Single<FileTree> {
-        return if (parent != null) {
-            Single.create { emitter ->
-                val file = FileConverter.toFile(parent)
-                if (file.isDirectory) {
-                    val children = file.listFiles()!!
-                        .map(FileConverter::toModel)
-                        .toList()
-                    val fileTree = FileTree(parent, children)
-                    emitter.onSuccess(fileTree)
-                } else {
-                    emitter.onError(DirectoryExpectedException())
-                }
+    override fun provideDirectory(parent: FileModel): Single<FileTree> {
+        return Single.create { emitter ->
+            val file = FileConverter.toFile(parent)
+            if (file.isDirectory) {
+                val children = file.listFiles()!!
+                    .map(FileConverter::toModel)
+                    .toList()
+                val fileTree = FileTree(parent, children)
+                emitter.onSuccess(fileTree)
+            } else {
+                emitter.onError(DirectoryExpectedException())
             }
-        } else {
-            defaultLocation()
         }
     }
 
@@ -183,15 +175,12 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override fun compress(
-        source: List<FileModel>,
-        dest: FileModel,
-        archiveName: String
-    ): Observable<FileModel> { // TODO: Use ProgressMonitor
+    // TODO: Use ProgressMonitor
+    override fun compress(source: List<FileModel>, dest: FileModel): Observable<FileModel> {
         return Observable.create { emitter ->
-            val directory = FileConverter.toFile(dest)
-            val archiveFile = ZipFile(File(directory, archiveName))
-            if (!archiveFile.file.exists()) {
+            val destFile = FileConverter.toFile(dest)
+            if (!destFile.exists()) {
+                val archiveFile = ZipFile(destFile)
                 for (fileModel in source) {
                     val sourceFile = FileConverter.toFile(fileModel)
                     if (sourceFile.exists()) {
@@ -206,7 +195,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     }
                 }
             } else {
-                emitter.onError(FileAlreadyExistsException(archiveFile.file.absolutePath))
+                emitter.onError(FileAlreadyExistsException(destFile.absolutePath))
             }
             emitter.onComplete()
         }
