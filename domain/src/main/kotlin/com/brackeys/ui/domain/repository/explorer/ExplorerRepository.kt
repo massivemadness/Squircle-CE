@@ -16,5 +16,5 @@ interface ExplorerRepository {
     suspend fun copyFiles(source: List<FileModel>, destPath: String): Flow<FileModel>
     suspend fun cutFiles(source: List<FileModel>, destPath: String): Flow<FileModel>
     suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel>
-    suspend fun extractAll(source: FileModel, dest: FileModel): FileModel
+    suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel>
 }

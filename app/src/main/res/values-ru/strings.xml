@@ -150,6 +150,7 @@
     <string name="message_invalid_archive">Архив поврежден</string>
     <string name="message_split_archive">Архив разделен</string>
     <string name="message_encrypted_archive">Архив зашифрован</string>
+    <string name="message_operation_cancelled">Операция отменена</string>
     <string name="message_done">Готово</string>
     <string name="message_saved">Сохранено</string>
     <string name="message_select_file">Выберите файл</string>

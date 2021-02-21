@@ -92,9 +92,8 @@ class ExplorerRepositoryImpl(
             .flowOn(dispatcherProvider.io())
     }
 
-    override suspend fun extractAll(source: FileModel, dest: FileModel): FileModel {
-        return withContext(dispatcherProvider.io()) {
-            filesystem.extractAll(source, dest)
-        }
+    override suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel> {
+        return filesystem.extractAll(source, dest)
+            .flowOn(dispatcherProvider.io())
     }
 }

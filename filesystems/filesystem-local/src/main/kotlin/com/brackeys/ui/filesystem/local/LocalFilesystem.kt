@@ -23,11 +23,12 @@ import com.brackeys.ui.filesystem.base.utils.endsWith
 import com.brackeys.ui.filesystem.local.converter.FileConverter
 import com.brackeys.ui.filesystem.local.utils.size
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.suspendCancellableCoroutine
 import net.lingala.zip4j.ZipFile
+import net.lingala.zip4j.exception.ZipException
 import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -184,55 +185,73 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     override suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val destFile = FileConverter.toFile(dest)
+            val archiveFile = ZipFile(destFile)
+            invokeOnClose {
+                archiveFile.progressMonitor.isCancelAllTasks = true
+            }
             if (!destFile.exists()) {
-                val archiveFile = ZipFile(destFile)
                 for (fileModel in source) {
                     val sourceFile = FileConverter.toFile(fileModel)
                     if (sourceFile.exists()) {
-                        if (sourceFile.isDirectory) {
-                            archiveFile.addFolder(sourceFile)
-                        } else {
-                            archiveFile.addFile(sourceFile)
+                        try {
+                            if (sourceFile.isDirectory) {
+                                archiveFile.addFolder(sourceFile)
+                            } else {
+                                archiveFile.addFile(sourceFile)
+                            }
+                        } catch (e: ZipException) {
+                            if (e.type == ZipException.Type.TASK_CANCELLED_EXCEPTION) {
+                                throw CancellationException()
+                            } else {
+                                throw e
+                            }
                         }
                         offer(fileModel)
                     } else {
                         throw FileNotFoundException(fileModel.path)
                     }
                 }
+                close()
             } else {
                 throw FileAlreadyExistsException(destFile.absolutePath)
             }
-            close()
         }
     }
 
-    // TODO: Use Observable with ProgressMonitor
-    override suspend fun extractAll(source: FileModel, dest: FileModel): FileModel {
-        return suspendCancellableCoroutine { cont ->
+    // TODO: Use ProgressMonitor
+    @ExperimentalCoroutinesApi
+    override suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel> {
+        return callbackFlow {
             val sourceFile = FileConverter.toFile(source)
+            val archiveFile = ZipFile(sourceFile)
+            invokeOnClose {
+                archiveFile.progressMonitor.isCancelAllTasks = true
+            }
             if (sourceFile.exists()) {
                 if (sourceFile.name.endsWith(SUPPORTED_ARCHIVES)) {
-                    val archiveFile = ZipFile(sourceFile)
                     when {
                         archiveFile.isValidZipFile -> {
-                            archiveFile.extractAll(dest.path)
-                            cont.resume(source)
+                            try {
+                                archiveFile.extractAll(dest.path)
+                            } catch (e: ZipException) {
+                                if (e.type == ZipException.Type.TASK_CANCELLED_EXCEPTION) {
+                                    throw CancellationException()
+                                } else {
+                                    throw e
+                                }
+                            }
+                            offer(source)
+                            close() // FIXME offer() вызывается только 1 раз
                         }
-                        archiveFile.isEncrypted -> {
-                            cont.resumeWithException(EncryptedArchiveException(source.path))
-                        }
-                        archiveFile.isSplitArchive -> {
-                            cont.resumeWithException(SplitArchiveException(source.path))
-                        }
-                        else -> {
-                            cont.resumeWithException(InvalidArchiveException(source.path))
-                        }
+                        archiveFile.isEncrypted -> throw EncryptedArchiveException(source.path)
+                        archiveFile.isSplitArchive -> throw SplitArchiveException(source.path)
+                        else -> throw InvalidArchiveException(source.path)
                     }
                 } else {
-                    cont.resumeWithException(UnsupportedArchiveException(source.path))
+                    throw UnsupportedArchiveException(source.path)
                 }
             } else {
-                cont.resumeWithException(FileNotFoundException(source.path))
+                throw FileNotFoundException(source.path)
             }
         }
     }

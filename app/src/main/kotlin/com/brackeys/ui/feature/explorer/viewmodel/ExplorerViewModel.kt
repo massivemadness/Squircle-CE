@@ -32,6 +32,7 @@ import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
@@ -235,6 +236,9 @@ class ExplorerViewModel @Inject constructor(
                     is FileNotFoundException -> {
                         toastEvent.value = R.string.message_file_not_found
                     }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
+                    }
                     else -> {
                         toastEvent.value = R.string.message_unknown_exception
                     }
@@ -266,6 +270,9 @@ class ExplorerViewModel @Inject constructor(
                     is FileAlreadyExistsException -> {
                         toastEvent.value = R.string.message_file_already_exists
                     }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
+                    }
                     else -> {
                         toastEvent.value = R.string.message_unknown_exception
                     }
@@ -296,6 +303,9 @@ class ExplorerViewModel @Inject constructor(
                     }
                     is FileAlreadyExistsException -> {
                         toastEvent.value = R.string.message_file_already_exists
+                    }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
                     }
                     else -> {
                         toastEvent.value = R.string.message_unknown_exception
@@ -336,6 +346,9 @@ class ExplorerViewModel @Inject constructor(
                     is FileAlreadyExistsException -> {
                         toastEvent.value = R.string.message_file_already_exists
                     }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
+                    }
                     else -> {
                         toastEvent.value = R.string.message_unknown_exception
                     }
@@ -357,9 +370,14 @@ class ExplorerViewModel @Inject constructor(
                     isHidden = false
                 )
                 explorerRepository.extractAll(source, dest)
-                progressEvent.value = (progressEvent.value ?: 0) + 1 // FIXME у диалога всегда будет 1 файл
-                filesUpdateEvent.call()
-                toastEvent.value = R.string.message_done
+                    .onEach {
+                        progressEvent.value = (progressEvent.value ?: 0) + 1
+                    }
+                    .onCompletion {
+                        filesUpdateEvent.call()
+                        toastEvent.value = R.string.message_done
+                    }
+                    .collect()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 progressEvent.value = Int.MAX_VALUE
@@ -381,6 +399,9 @@ class ExplorerViewModel @Inject constructor(
                     }
                     is InvalidArchiveException -> {
                         toastEvent.value = R.string.message_invalid_archive
+                    }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
                     }
                     else -> {
                         toastEvent.value = R.string.message_unknown_exception

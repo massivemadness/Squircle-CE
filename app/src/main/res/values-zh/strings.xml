@@ -150,6 +150,7 @@
     <string name="message_invalid_archive">该压缩包已损坏</string>
     <string name="message_split_archive">暂不支持已分卷的压缩包</string>
     <string name="message_encrypted_archive">暂不支持已加密的压缩包</string>
+    <string name="message_operation_cancelled">Operation cancelled</string>
     <string name="message_done">已完毕</string>
     <string name="message_saved">已保存</string>
     <string name="message_select_file">选择文件</string>

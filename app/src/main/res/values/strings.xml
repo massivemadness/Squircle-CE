@@ -159,6 +159,7 @@
     <string name="message_invalid_archive">Invalid archive</string>
     <string name="message_split_archive">Archive is split</string>
     <string name="message_encrypted_archive">Archive is encrypted</string>
+    <string name="message_operation_cancelled">Operation cancelled</string>
     <string name="message_done">Done</string>
     <string name="message_saved">Saved</string>
     <string name="message_select_file">Select File</string>

@@ -35,7 +35,7 @@ interface Filesystem {
     suspend fun propertiesOf(fileModel: FileModel): PropertiesModel
 
     suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel>
-    suspend fun extractAll(source: FileModel, dest: FileModel): FileModel // TODO Flow
+    suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel>
 
     suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String
     suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams)

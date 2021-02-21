@@ -18,7 +18,7 @@ package com.brackeys.ui.filesystem.local.utils
 
 import java.io.File
 
-fun File.size(): Long {
+internal fun File.size(): Long {
     if (isDirectory) {
         var length = 0L
         for (child in listFiles()!!) {
