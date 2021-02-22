@@ -41,6 +41,7 @@ import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -93,7 +94,9 @@ class EditorViewModel @Inject constructor(
             loadingBar.value = true
             try {
                 val content = documentRepository.loadFile(documentModel)
-                val precomputedText = PrecomputedTextCompat.create(content.text, params)
+                val precomputedText = withContext(Dispatchers.IO) {
+                    PrecomputedTextCompat.create(content.text, params)
+                }
                 settingsManager.selectedDocumentId = documentModel.uuid
                 contentEvent.value = content to precomputedText
                 if (CJKCharsetDetector.inWrongEncoding(content.text)) {
