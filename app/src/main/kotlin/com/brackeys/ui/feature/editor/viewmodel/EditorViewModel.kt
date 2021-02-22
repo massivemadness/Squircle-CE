@@ -117,11 +117,11 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    fun saveFile(documentContent: DocumentContent, toCache: Boolean = false) {
+    fun saveFile(documentContent: DocumentContent, params: DocumentParams) {
         viewModelScope.launch {
             try {
-                documentRepository.saveFile(documentContent, DocumentParams(persistent = !toCache))
-                if (!toCache) {
+                documentRepository.saveFile(documentContent, params)
+                if (params.local) {
                     toastEvent.value = R.string.message_saved
                 }
             } catch (e: Exception) {

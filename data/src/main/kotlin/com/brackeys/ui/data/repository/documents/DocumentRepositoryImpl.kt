@@ -83,38 +83,31 @@ class DocumentRepositoryImpl(
 
     override suspend fun saveFile(content: DocumentContent, params: DocumentParams) {
         withContext(dispatcherProvider.io()) {
-            if (params.persistent) {
+            if (params.local) {
                 val fileModel = DocumentConverter.toModel(content.documentModel)
                 val fileParams = FileParams(
                     charset = charsetFor(settingsManager.encodingForSaving),
                     linebreak = LineBreak.find(settingsManager.lineBreakForSaving)
                 )
-
                 localFilesystem.saveFile(fileModel, content.text, fileParams)
             }
+            if (params.cache) {
+                createCacheFiles(content.documentModel)
 
-            val textCacheFile = cacheFile(content.documentModel, postfix = "text")
-            cacheFilesystem.saveFile(textCacheFile, content.text, FileParams())
+                val textCacheFile = cacheFile(content.documentModel, postfix = "text")
+                cacheFilesystem.saveFile(textCacheFile, content.text, FileParams())
 
-            saveUndoStack(content.documentModel, content.undoStack)
-            saveRedoStack(content.documentModel, content.redoStack)
+                val undoCacheFile = cacheFile(content.documentModel, postfix = "undo")
+                val undoStackText = content.undoStack.encodeStack()
+                cacheFilesystem.saveFile(undoCacheFile, undoStackText, FileParams())
 
-            updateDocument(content.documentModel)
+                val redoCacheFile = cacheFile(content.documentModel, postfix = "redo")
+                val redoStackText = content.redoStack.encodeStack()
+                cacheFilesystem.saveFile(redoCacheFile, redoStackText, FileParams())
+
+                updateDocument(content.documentModel)
+            }
         }
-    }
-
-    private suspend fun saveUndoStack(documentModel: DocumentModel, undoStack: UndoStack) {
-        createCacheFiles(documentModel)
-
-        val undoCacheFile = cacheFile(documentModel, postfix = "undo")
-        cacheFilesystem.saveFile(undoCacheFile, undoStack.encodeStack(), FileParams())
-    }
-
-    private suspend fun saveRedoStack(documentModel: DocumentModel, redoStack: UndoStack) {
-        createCacheFiles(documentModel)
-
-        val redoCacheFile = cacheFile(documentModel, postfix = "redo")
-        cacheFilesystem.saveFile(redoCacheFile, redoStack.encodeStack(), FileParams())
     }
 
     private suspend fun loadUndoStack(documentModel: DocumentModel): UndoStack {

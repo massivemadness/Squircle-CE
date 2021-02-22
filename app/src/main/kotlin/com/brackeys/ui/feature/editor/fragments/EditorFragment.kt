@@ -36,6 +36,7 @@ import com.brackeys.ui.R
 import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.data.utils.toHexString
 import com.brackeys.ui.databinding.FragmentEditorBinding
+import com.brackeys.ui.domain.model.documents.DocumentParams
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.editorkit.exception.LineException
 import com.brackeys.ui.editorkit.listener.OnChangeListener
@@ -389,14 +390,15 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                 val documentContent = DocumentContent(
                     documentModel = document,
                     language = binding.editor.language,
-                    undoStack = binding.editor.undoStack,
-                    redoStack = binding.editor.redoStack,
+                    undoStack = binding.editor.undoStack.clone(),
+                    redoStack = binding.editor.redoStack.clone(),
                     text = text
                 )
-                viewModel.saveFile(documentContent, toCache = true)
-                if (viewModel.autoSaveFiles) {
-                    viewModel.saveFile(documentContent, toCache = false)
-                }
+                val params = DocumentParams(
+                    local = viewModel.autoSaveFiles,
+                    cache = true
+                )
+                viewModel.saveFile(documentContent, params)
             }
             binding.editor.clearText() // TTL Exception bypass
         }
@@ -438,13 +440,16 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
             val documentContent = DocumentContent(
                 documentModel = adapter.currentList[position],
                 language = binding.editor.language,
-                undoStack = binding.editor.undoStack,
-                redoStack = binding.editor.redoStack,
+                undoStack = binding.editor.undoStack.clone(),
+                redoStack = binding.editor.redoStack.clone(),
                 text = binding.editor.text.toString()
             )
 
-            viewModel.saveFile(documentContent, toCache = false) // Save to local storage
-            viewModel.saveFile(documentContent, toCache = true) // Save to app cache
+            val params = DocumentParams(
+                local = true,
+                cache = true
+            )
+            viewModel.saveFile(documentContent, params)
         } else {
             context?.showToast(R.string.message_no_open_files)
         }
@@ -471,12 +476,15 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                         val documentContent = DocumentContent(
                             documentModel = updateDocument,
                             language = binding.editor.language,
-                            undoStack = binding.editor.undoStack,
-                            redoStack = binding.editor.redoStack,
+                            undoStack = binding.editor.undoStack.clone(),
+                            redoStack = binding.editor.redoStack.clone(),
                             text = binding.editor.text.toString()
                         )
-
-                        viewModel.saveFile(documentContent)
+                        val params = DocumentParams(
+                            local = true,
+                            cache = false
+                        )
+                        viewModel.saveFile(documentContent, params)
                     } else {
                         context.showToast(R.string.message_invalid_file_path)
                     }
