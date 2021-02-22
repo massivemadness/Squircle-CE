@@ -1,6 +1,6 @@
-package com.brackeys.ui.internal.providers.coroutine
+package com.brackeys.ui.internal.providers.coroutines
 
-import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import kotlinx.coroutines.Dispatchers
 
 class DispatcherProviderImpl : DispatcherProvider {

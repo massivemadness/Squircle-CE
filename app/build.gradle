@@ -103,11 +103,6 @@ dependencies {
     implementation library.coroutines_core
     implementation library.coroutines_android
 
-    // Rx
-    implementation library.rxjava2
-    implementation library.rxandroid
-    implementation library.rxkotlin
-
     // DI
     implementation library.hilt
     kapt library.hilt_compiler

@@ -214,11 +214,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                 adapter.select(position)
             }
         }
-        viewModel.stateLoadingDocuments.observe(viewLifecycleOwner) {
+        viewModel.loadingBar.observe(viewLifecycleOwner) {
             binding.loadingBar.isVisible = it
             binding.editor.isInvisible = it
         }
-        viewModel.stateNothingFound.observe(viewLifecycleOwner) {
+        viewModel.emptyView.observe(viewLifecycleOwner) {
             binding.emptyViewImage.isVisible = it
             binding.emptyViewText.isVisible = it
             binding.editor.isInvisible = it
@@ -324,7 +324,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
     }
 
     override fun onDataRefresh() {
-        viewModel.stateNothingFound.value = adapter.currentList.isEmpty()
+        viewModel.emptyView.value = adapter.currentList.isEmpty()
     }
 
     override fun close(position: Int) {
@@ -377,7 +377,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
 
     private fun saveDocument(position: Int) {
         if (position > -1) {
-            viewModel.stateLoadingDocuments.value = true // show loading indicator
+            viewModel.loadingBar.value = true // show loading indicator
             val document = adapter.currentList[position].apply {
                 scrollX = binding.editor.scrollX
                 scrollY = binding.editor.scrollY
@@ -405,7 +405,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
     private fun removeDocument(position: Int) {
         if (position > -1) {
             val documentModel = adapter.currentList[position]
-            viewModel.deleteCache(documentModel)
+            viewModel.deleteDocument(documentModel)
         }
     }
 

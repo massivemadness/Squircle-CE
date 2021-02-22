@@ -33,6 +33,7 @@ interface Filesystem {
     suspend fun deleteFile(fileModel: FileModel): FileModel
     suspend fun copyFile(source: FileModel, dest: FileModel): FileModel
     suspend fun propertiesOf(fileModel: FileModel): PropertiesModel
+    suspend fun isExists(fileModel: FileModel): Boolean
 
     suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel>
     suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel>

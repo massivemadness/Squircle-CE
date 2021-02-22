@@ -2,7 +2,7 @@ package com.brackeys.ui.internal.di.explorer
 
 import com.brackeys.ui.data.repository.explorer.ExplorerRepositoryImpl
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import com.brackeys.ui.domain.repository.explorer.ExplorerRepository
 import com.brackeys.ui.filesystem.base.Filesystem
 import dagger.Module

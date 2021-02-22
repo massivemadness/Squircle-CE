@@ -2,7 +2,7 @@ package com.brackeys.ui.data.repository.explorer
 
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.FileSorter
-import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import com.brackeys.ui.domain.repository.explorer.ExplorerRepository
 import com.brackeys.ui.filesystem.base.Filesystem
 import com.brackeys.ui.filesystem.base.model.FileModel
@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
-@ExperimentalCoroutinesApi
 class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
@@ -51,6 +50,7 @@ class ExplorerRepositoryImpl(
         }
     }
 
+    @ExperimentalCoroutinesApi
     override suspend fun deleteFiles(source: List<FileModel>): Flow<FileModel> {
         return callbackFlow {
             source.forEach {
@@ -62,6 +62,7 @@ class ExplorerRepositoryImpl(
         }.flowOn(dispatcherProvider.io())
     }
 
+    @ExperimentalCoroutinesApi
     override suspend fun copyFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
         return callbackFlow {
             val dest = filesystem.provideFile(destPath)
@@ -74,6 +75,7 @@ class ExplorerRepositoryImpl(
         }.flowOn(dispatcherProvider.io())
     }
 
+    @ExperimentalCoroutinesApi
     override suspend fun cutFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
         return callbackFlow {
             val dest = filesystem.provideFile(destPath)

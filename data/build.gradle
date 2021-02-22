@@ -66,7 +66,6 @@ dependencies {
 
     // AAC
     implementation library.room
-    implementation library.rxroom
     kapt library.room_compiler
 
     // Network
@@ -74,10 +73,6 @@ dependencies {
 
     // Coroutines
     implementation library.coroutines_core
-
-    // Rx
-    implementation library.rxjava2
-    implementation library.rxkotlin
 
     // Modules
     implementation project(':domain')

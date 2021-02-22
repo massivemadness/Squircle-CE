@@ -1,4 +1,4 @@
-package com.brackeys.ui.domain.providers.coroutine
+package com.brackeys.ui.domain.providers.coroutines
 
 import kotlinx.coroutines.CoroutineDispatcher
 

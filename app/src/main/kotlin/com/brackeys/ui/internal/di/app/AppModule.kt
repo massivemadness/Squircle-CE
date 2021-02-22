@@ -16,10 +16,8 @@
 
 package com.brackeys.ui.internal.di.app
 
-import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
-import com.brackeys.ui.internal.providers.coroutine.DispatcherProviderImpl
-import com.brackeys.ui.internal.providers.rx.SchedulersProviderImpl
+import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.internal.providers.coroutines.DispatcherProviderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,11 +32,5 @@ object AppModule {
     @Singleton
     fun provideDispatcherProvider(): DispatcherProvider {
         return DispatcherProviderImpl()
-    }
-
-    @Provides
-    @Singleton
-    fun provideSchedulersProvider(): SchedulersProvider {
-        return SchedulersProviderImpl()
     }
 }

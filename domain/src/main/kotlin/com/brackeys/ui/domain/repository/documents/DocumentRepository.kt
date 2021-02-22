@@ -16,12 +16,15 @@
 
 package com.brackeys.ui.domain.repository.documents
 
+import com.brackeys.ui.domain.model.documents.DocumentParams
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
-import io.reactivex.Completable
-import io.reactivex.Single
 
 interface DocumentRepository {
-    fun loadFile(documentModel: DocumentModel): Single<DocumentContent>
-    fun saveFile(documentContent: DocumentContent): Completable
+    suspend fun fetchDocuments(): List<DocumentModel>
+    suspend fun updateDocument(documentModel: DocumentModel)
+    suspend fun deleteDocument(documentModel: DocumentModel)
+
+    suspend fun loadFile(documentModel: DocumentModel): DocumentContent
+    suspend fun saveFile(content: DocumentContent, params: DocumentParams)
 }

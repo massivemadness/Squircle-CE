@@ -18,6 +18,8 @@ package com.brackeys.ui.data.utils
 
 import com.brackeys.ui.editorkit.model.TextChange
 import com.brackeys.ui.editorkit.utils.UndoStack
+import java.nio.charset.Charset
+import java.nio.charset.UnsupportedCharsetException
 
 fun Int.toHexString(fallbackColor: String = "#000000"): String {
     return try {
@@ -25,6 +27,12 @@ fun Int.toHexString(fallbackColor: String = "#000000"): String {
     } catch (e: Exception) {
         fallbackColor
     }
+}
+
+internal fun charsetFor(charsetName: String): Charset = try {
+    charset(charsetName)
+} catch (e: UnsupportedCharsetException) {
+    Charsets.UTF_8
 }
 
 internal fun UndoStack.encodeStack(): String {

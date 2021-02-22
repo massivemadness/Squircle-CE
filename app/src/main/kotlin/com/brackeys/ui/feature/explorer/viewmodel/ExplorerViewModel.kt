@@ -18,11 +18,11 @@ package com.brackeys.ui.feature.explorer.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.domain.repository.explorer.ExplorerRepository
-import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.feature.explorer.utils.Operation
 import com.brackeys.ui.filesystem.base.exception.*
 import com.brackeys.ui.filesystem.base.model.FileModel
@@ -45,7 +45,7 @@ import javax.inject.Inject
 class ExplorerViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val explorerRepository: ExplorerRepository
-) : BaseViewModel() {
+) : ViewModel() {
 
     companion object {
         private const val TAG = "ExplorerViewModel"

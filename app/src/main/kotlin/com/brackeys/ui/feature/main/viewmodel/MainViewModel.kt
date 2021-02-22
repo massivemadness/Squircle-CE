@@ -17,8 +17,8 @@
 package com.brackeys.ui.feature.main.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val appUpdateManager: AppUpdateManager
-) : BaseViewModel() {
+) : ViewModel() {
 
     companion object {
         private const val TAG = "MainViewModel"

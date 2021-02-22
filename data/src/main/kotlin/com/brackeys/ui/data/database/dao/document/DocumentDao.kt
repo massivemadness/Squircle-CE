@@ -21,15 +21,13 @@ import androidx.room.Query
 import com.brackeys.ui.data.database.dao.base.BaseDao
 import com.brackeys.ui.data.database.entity.document.DocumentEntity
 import com.brackeys.ui.data.database.utils.Tables
-import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 abstract class DocumentDao : BaseDao<DocumentEntity> {
 
     @Query("SELECT * FROM `${Tables.DOCUMENTS}` ORDER BY `position` ASC")
-    abstract fun loadAll(): Single<List<DocumentEntity>>
+    abstract suspend fun loadAll(): List<DocumentEntity>
 
     @Query("DELETE FROM `${Tables.DOCUMENTS}`")
-    abstract fun deleteAll(): Completable
+    abstract suspend fun deleteAll()
 }

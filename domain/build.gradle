@@ -41,9 +41,6 @@ dependencies {
     // Coroutines
     implementation library.coroutines_core
 
-    // Rx
-    implementation library.rxjava2
-
     // Modules
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')

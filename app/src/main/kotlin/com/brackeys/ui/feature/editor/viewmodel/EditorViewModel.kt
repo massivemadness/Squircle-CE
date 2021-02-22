@@ -19,20 +19,17 @@ package com.brackeys.ui.feature.editor.viewmodel
 import android.util.Log
 import androidx.core.text.PrecomputedTextCompat
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
-import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.data.converter.ThemeConverter
 import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.repository.documents.CacheRepository
-import com.brackeys.ui.data.repository.documents.LocalRepository
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.InternalTheme
-import com.brackeys.ui.data.utils.schedulersIoToMain
+import com.brackeys.ui.domain.model.documents.DocumentParams
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
-import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
+import com.brackeys.ui.domain.repository.documents.DocumentRepository
 import com.brackeys.ui.filesystem.base.exception.FileNotFoundException
 import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.base.model.ParseResult
@@ -43,20 +40,16 @@ import com.brackeys.ui.utils.extensions.containsDocumentModel
 import com.brackeys.ui.utils.extensions.indexBy
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(
-    private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
-    private val localRepository: LocalRepository,
-    private val cacheRepository: CacheRepository
-) : BaseViewModel() {
+    private val documentRepository: DocumentRepository
+) : ViewModel() {
 
     companion object {
         private const val TAG = "EditorViewModel"
@@ -67,8 +60,9 @@ class EditorViewModel @Inject constructor(
 
     val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
     val selectTabEvent = MutableLiveData<Int>() // Текущая позиция выбранной вкладки
-    val stateLoadingDocuments = MutableLiveData(false) // Индикатор загрузки документа
-    val stateNothingFound = MutableLiveData(false) // Сообщение об отсутствии документов
+
+    val loadingBar = MutableLiveData(false) // Индикатор загрузки документа
+    val emptyView = MutableLiveData(true) // Сообщение об отсутствии документов
 
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
     val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
@@ -83,88 +77,70 @@ class EditorViewModel @Inject constructor(
         get() = settingsManager.autoSaveFiles
 
     fun loadFiles() {
-        appDatabase.documentDao().loadAll()
-            .doOnSubscribe { stateLoadingDocuments.postValue(true) }
-            .map { it.map(DocumentConverter::toModel) }
-            .doOnSuccess { stateLoadingDocuments.postValue(false) }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = {
-                    loadFilesEvent.value = it
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
-                }
-            )
-            .disposeOnViewModelDestroy()
+        viewModelScope.launch {
+            loadingBar.value = true
+            try {
+                loadFilesEvent.value = documentRepository.fetchDocuments()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
+            loadingBar.value = false
+        }
     }
 
     fun loadFile(documentModel: DocumentModel, params: PrecomputedTextCompat.Params) {
-        val dataSource = if (cacheRepository.isCached(documentModel)) {
-            cacheRepository
-        } else localRepository
-
-        dataSource.loadFile(documentModel)
-            .doOnSubscribe { stateLoadingDocuments.postValue(true) }
-            .map { it to PrecomputedTextCompat.create(it.text, params) }
-            .doFinally { stateLoadingDocuments.postValue(false) }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = { (documentContent, precomputedText) ->
-                    settingsManager.selectedDocumentId = documentContent.documentModel.uuid
-                    contentEvent.value = documentContent to precomputedText
-                    if (CJKCharsetDetector.inWrongEncoding(documentContent.text)) {
-                        toastEvent.value = R.string.message_wrong_encoding
+        viewModelScope.launch {
+            loadingBar.value = true
+            try {
+                val content = documentRepository.loadFile(documentModel)
+                val precomputedText = PrecomputedTextCompat.create(content.text, params)
+                settingsManager.selectedDocumentId = documentModel.uuid
+                contentEvent.value = content to precomputedText
+                if (CJKCharsetDetector.inWrongEncoding(content.text)) {
+                    toastEvent.value = R.string.message_wrong_encoding
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
                     }
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        is OutOfMemoryError -> {
-                            toastEvent.value = R.string.message_out_of_memory
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
+                    is OutOfMemoryError -> {
+                        toastEvent.value = R.string.message_out_of_memory
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
                     }
                 }
-            )
-            .disposeOnViewModelDestroy()
+            }
+            loadingBar.value = false
+        }
     }
 
     fun saveFile(documentContent: DocumentContent, toCache: Boolean = false) {
-        val dataSource = if (toCache) {
-            cacheRepository
-        } else localRepository
-
-        dataSource.saveFile(documentContent)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onComplete = {
-                    if (!toCache) { toastEvent.value = R.string.message_saved }
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
+        viewModelScope.launch {
+            try {
+                documentRepository.saveFile(documentContent, DocumentParams(persistent = !toCache))
+                if (!toCache) {
+                    toastEvent.value = R.string.message_saved
                 }
-            )
-            .disposeOnViewModelDestroy()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
+        }
     }
 
-    fun deleteCache(documentModel: DocumentModel) {
-        cacheRepository.deleteCache(documentModel)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
-                }
-            )
-            .disposeOnViewModelDestroy()
+    fun deleteDocument(documentModel: DocumentModel) {
+        viewModelScope.launch {
+            try {
+                documentRepository.deleteDocument(documentModel)
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
+        }
     }
 
     fun openFile(list: List<DocumentModel>, documentModel: DocumentModel) {
@@ -181,15 +157,11 @@ class EditorViewModel @Inject constructor(
     }
 
     fun parse(documentModel: DocumentModel, language: Language?, sourceCode: String) {
-        Single
-            .create<ParseResult> { emitter ->
-                val parser = language?.getParser()
-                val parseResult = parser?.execute(documentModel.name, sourceCode)
-                parseResult?.let(emitter::onSuccess)
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { parseEvent.value = it }
-            .disposeOnViewModelDestroy()
+        viewModelScope.launch(Dispatchers.IO) {
+            val parser = language?.getParser()
+            val parseResult = parser?.execute(documentModel.name, sourceCode)
+            parseResult?.let(parseEvent::postValue)
+        }
     }
 
     fun findRecentTab(list: List<DocumentModel>) {
@@ -198,18 +170,18 @@ class EditorViewModel @Inject constructor(
         } else -1
     }
 
-    fun updateDocuments(list: List<DocumentModel>) {
-        Completable
-            .fromCallable {
-                list.forEachIndexed { index, documentModel ->
-                    documentModel.position = index
-                    val documentEntity = DocumentConverter.toEntity(documentModel)
-                    appDatabase.documentDao().update(documentEntity)
+    fun updateDocuments(documents: List<DocumentModel>) {
+        viewModelScope.launch {
+            try {
+                documents.forEachIndexed { index, documentModel ->
+                    val document = documentModel.copy(position = index)
+                    documentRepository.updateDocument(document)
                 }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
             }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy()
-            .disposeOnViewModelDestroy()
+        }
     }
 
     // region PREFERENCES

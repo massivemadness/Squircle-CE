@@ -16,17 +16,16 @@
 
 package com.brackeys.ui.internal.di.editor
 
-import android.content.Context
 import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.repository.documents.CacheRepository
-import com.brackeys.ui.data.repository.documents.LocalRepository
+import com.brackeys.ui.data.repository.documents.DocumentRepositoryImpl
 import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.domain.repository.documents.DocumentRepository
 import com.brackeys.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Named
 
@@ -36,23 +35,21 @@ object EditorModule {
 
     @Provides
     @ViewModelScoped
-    fun provideCacheRepository(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        @Named("Cache")
-        filesystem: Filesystem
-    ): CacheRepository {
-        return CacheRepository(context.filesDir, appDatabase, filesystem)
-    }
-
-    @Provides
-    @ViewModelScoped
-    fun provideFileRepository(
+    fun provideDocumentRepository(
+        dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
         @Named("Local")
-        filesystem: Filesystem
-    ): LocalRepository {
-        return LocalRepository(settingsManager, appDatabase, filesystem)
+        localFilesystem: Filesystem,
+        @Named("Cache")
+        cacheFilesystem: Filesystem
+    ): DocumentRepository {
+        return DocumentRepositoryImpl(
+            dispatcherProvider,
+            settingsManager,
+            appDatabase,
+            localFilesystem,
+            cacheFilesystem
+        )
     }
 }

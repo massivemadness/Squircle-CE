@@ -180,6 +180,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
+    override suspend fun isExists(fileModel: FileModel): Boolean {
+        return suspendCoroutine { cont ->
+            val file = File(fileModel.path)
+            cont.resume(file.exists())
+        }
+    }
+
     // TODO: Use ProgressMonitor
     @ExperimentalCoroutinesApi
     override suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
