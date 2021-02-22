@@ -26,7 +26,7 @@ import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ItemPropertyBinding
 import com.brackeys.ui.domain.model.themes.Property
 import com.brackeys.ui.domain.model.themes.PropertyItem
-import com.brackeys.ui.feature.base.adapters.OnItemClickListener
+import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 
 class PropertyAdapter(
     private val onItemClickListener: OnItemClickListener<PropertyItem>

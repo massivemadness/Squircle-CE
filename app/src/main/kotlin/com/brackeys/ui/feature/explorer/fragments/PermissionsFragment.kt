@@ -54,7 +54,10 @@ class PermissionsFragment : Fragment(R.layout.fragment_permissions) {
         binding.actionAccess.setOnClickListener {
             requestPermissionsUsingDialog()
         }
-        if (requireContext().hasExternalStorageAccess()) {
+
+        val storagePermissions = requireContext().hasExternalStorageAccess()
+        viewModel.showAppBarEvent.value = storagePermissions
+        if (storagePermissions) {
             onSuccess()
         }
     }

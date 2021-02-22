@@ -38,11 +38,11 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.DialogPropertiesBinding
 import com.brackeys.ui.databinding.FragmentDirectoryBinding
-import com.brackeys.ui.feature.base.adapters.OnItemClickListener
 import com.brackeys.ui.feature.explorer.adapters.FileAdapter
 import com.brackeys.ui.feature.explorer.utils.FileKeyProvider
 import com.brackeys.ui.feature.explorer.utils.Operation
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
+import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileTree

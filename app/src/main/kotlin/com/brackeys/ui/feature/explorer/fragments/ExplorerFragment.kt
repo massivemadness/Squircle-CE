@@ -31,10 +31,10 @@ import androidx.navigation.fragment.NavHostFragment
 import com.brackeys.ui.R
 import com.brackeys.ui.data.utils.FileSorter
 import com.brackeys.ui.databinding.FragmentExplorerBinding
-import com.brackeys.ui.feature.base.adapters.TabAdapter
-import com.brackeys.ui.feature.base.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.explorer.adapters.DirectoryAdapter
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
+import com.brackeys.ui.feature.main.adapters.TabAdapter
+import com.brackeys.ui.feature.main.utils.OnBackPressedHandler
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint

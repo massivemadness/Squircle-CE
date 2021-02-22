@@ -22,7 +22,7 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.brackeys.ui.feature.base.adapters.OnItemClickListener
+import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 import com.brackeys.ui.filesystem.base.model.FileModel
 
 class FileAdapter(

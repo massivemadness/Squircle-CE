@@ -38,7 +38,7 @@ import com.brackeys.ui.data.utils.toHexString
 import com.brackeys.ui.databinding.FragmentNewThemeBinding
 import com.brackeys.ui.domain.model.themes.Meta
 import com.brackeys.ui.domain.model.themes.PropertyItem
-import com.brackeys.ui.feature.base.adapters.OnItemClickListener
+import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 import com.brackeys.ui.feature.themes.adapters.PropertyAdapter
 import com.brackeys.ui.feature.themes.viewmodel.ThemesViewModel
 import com.brackeys.ui.utils.extensions.showToast

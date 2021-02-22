@@ -30,8 +30,8 @@
         android:orientation="vertical"
         android:background="?colorSurface"
         android:elevation="4dp"
-        android:visibility="gone"
-        android:id="@+id/app_bar">
+        android:id="@+id/app_bar"
+        tools:visibility="gone">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"

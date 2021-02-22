@@ -25,10 +25,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ActivityMainBinding
-import com.brackeys.ui.feature.base.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.editor.fragments.EditorFragment
 import com.brackeys.ui.feature.explorer.fragments.ExplorerFragment
 import com.brackeys.ui.feature.main.dialogs.ConfirmExitDialog
+import com.brackeys.ui.feature.main.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.utils.extensions.fragment
 import com.brackeys.ui.utils.extensions.multiplyDraggingEdgeSizeBy

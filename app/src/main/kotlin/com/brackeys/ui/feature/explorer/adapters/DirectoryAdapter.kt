@@ -21,7 +21,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.databinding.ItemTabDirectoryBinding
-import com.brackeys.ui.feature.base.adapters.TabAdapter
+import com.brackeys.ui.feature.main.adapters.TabAdapter
 import com.brackeys.ui.filesystem.base.model.FileModel
 
 class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>() {

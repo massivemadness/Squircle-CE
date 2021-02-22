@@ -37,6 +37,7 @@ import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import com.brackeys.ui.utils.extensions.containsDocumentModel
 import com.brackeys.ui.utils.extensions.indexBy
+import com.brackeys.ui.utils.extensions.launchEvent
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -58,11 +59,11 @@ class EditorViewModel @Inject constructor(
 
     // region EVENTS
 
-    val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
-    val selectTabEvent = MutableLiveData<Int>() // Текущая позиция выбранной вкладки
-
     val loadingBar = MutableLiveData(false) // Индикатор загрузки документа
     val emptyView = MutableLiveData(true) // Сообщение об отсутствии документов
+
+    val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
+    val selectTabEvent = MutableLiveData<Int>() // Текущая позиция выбранной вкладки
 
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
     val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
@@ -77,21 +78,18 @@ class EditorViewModel @Inject constructor(
         get() = settingsManager.autoSaveFiles
 
     fun loadFiles() {
-        viewModelScope.launch {
-            loadingBar.value = true
+        viewModelScope.launchEvent(loadingBar) {
             try {
                 loadFilesEvent.value = documentRepository.fetchDocuments()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 toastEvent.value = R.string.message_unknown_exception
             }
-            loadingBar.value = false
         }
     }
 
     fun loadFile(documentModel: DocumentModel, params: PrecomputedTextCompat.Params) {
-        viewModelScope.launch {
-            loadingBar.value = true
+        viewModelScope.launchEvent(loadingBar) {
             try {
                 val content = documentRepository.loadFile(documentModel)
                 val precomputedText = withContext(Dispatchers.IO) {
@@ -116,7 +114,6 @@ class EditorViewModel @Inject constructor(
                     }
                 }
             }
-            loadingBar.value = false
         }
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.feature.base.adapters
+package com.brackeys.ui.feature.main.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 

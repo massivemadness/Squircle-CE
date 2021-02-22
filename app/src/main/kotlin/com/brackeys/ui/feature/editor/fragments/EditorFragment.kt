@@ -43,8 +43,6 @@ import com.brackeys.ui.editorkit.listener.OnChangeListener
 import com.brackeys.ui.editorkit.listener.OnShortcutListener
 import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.brackeys.ui.editorkit.widget.TextScroller
-import com.brackeys.ui.feature.base.adapters.TabAdapter
-import com.brackeys.ui.feature.base.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.editor.adapters.AutoCompleteAdapter
 import com.brackeys.ui.feature.editor.adapters.DocumentAdapter
 import com.brackeys.ui.feature.editor.customview.ExtendedKeyboard
@@ -52,6 +50,8 @@ import com.brackeys.ui.feature.editor.utils.Panel
 import com.brackeys.ui.feature.editor.utils.TabController
 import com.brackeys.ui.feature.editor.utils.ToolbarManager
 import com.brackeys.ui.feature.editor.viewmodel.EditorViewModel
+import com.brackeys.ui.feature.main.adapters.TabAdapter
+import com.brackeys.ui.feature.main.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.feature.settings.activities.SettingsActivity
 import com.brackeys.ui.filesystem.base.model.FileType
@@ -81,13 +81,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
 
     private lateinit var binding: FragmentEditorBinding
     private lateinit var adapter: DocumentAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            viewModel.loadFiles()
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -169,12 +162,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
         }
 
         // endregion SHORTCUTS
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.loadFilesEvent.value = adapter.currentList
-        viewModel.selectTabEvent.value = adapter.selectedPosition
+        viewModel.loadFiles()
     }
 
     override fun onPause() {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.feature.base.utils
+package com.brackeys.ui.feature.main.utils
 
 interface OnBackPressedHandler {
     /**

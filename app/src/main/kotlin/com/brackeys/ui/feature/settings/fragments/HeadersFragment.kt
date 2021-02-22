@@ -25,7 +25,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.FragmentHeadersBinding
-import com.brackeys.ui.feature.base.adapters.OnItemClickListener
+import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 import com.brackeys.ui.feature.settings.adapters.PreferenceAdapter
 import com.brackeys.ui.feature.settings.adapters.item.PreferenceItem
 import com.brackeys.ui.feature.settings.viewmodel.SettingsViewModel
