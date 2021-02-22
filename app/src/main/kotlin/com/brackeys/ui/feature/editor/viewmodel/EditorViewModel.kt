@@ -22,14 +22,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
-import com.brackeys.ui.data.converter.ThemeConverter
-import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.settings.SettingsManager
 import com.brackeys.ui.data.utils.InternalTheme
 import com.brackeys.ui.domain.model.documents.DocumentParams
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.domain.repository.documents.DocumentRepository
+import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.exception.FileNotFoundException
 import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.base.model.ParseResult
@@ -47,8 +46,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EditorViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
-    private val appDatabase: AppDatabase,
-    private val documentRepository: DocumentRepository
+    private val documentRepository: DocumentRepository,
+    private val themesRepository: ThemesRepository
 ) : ViewModel() {
 
     companion object {
@@ -189,10 +188,7 @@ class EditorViewModel @Inject constructor(
     fun fetchSettings() {
         viewModelScope.launch {
             val value = settingsManager.colorScheme
-            val theme = InternalTheme.getTheme(value) ?: run {
-                val themeEntity = appDatabase.themeDao().load(value)
-                ThemeConverter.toModel(themeEntity)
-            }
+            val theme = InternalTheme.getTheme(value) ?: themesRepository.fetchTheme(value)
             settingsEvent.offer(SettingsEvent.ThemePref(theme))
         }
 

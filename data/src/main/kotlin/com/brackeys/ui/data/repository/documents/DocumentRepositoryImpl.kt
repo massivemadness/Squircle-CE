@@ -37,7 +37,7 @@ class DocumentRepositoryImpl(
     override suspend fun updateDocument(documentModel: DocumentModel) {
         withContext(dispatcherProvider.io()) {
             val documentEntity = DocumentConverter.toEntity(documentModel)
-            appDatabase.documentDao().update(documentEntity)
+            appDatabase.documentDao().insert(documentEntity)
         }
     }
 
@@ -164,7 +164,7 @@ class DocumentRepositoryImpl(
     }
 
     private suspend fun cacheFile(documentModel: DocumentModel, postfix: String) = FileModel(
-        name = "${documentModel.uuid}$postfix",
+        name = "${documentModel.uuid}-$postfix",
         path = cacheFilesystem.defaultLocation().path + "/" +
             "${documentModel.uuid}-$postfix.cache"
     )
