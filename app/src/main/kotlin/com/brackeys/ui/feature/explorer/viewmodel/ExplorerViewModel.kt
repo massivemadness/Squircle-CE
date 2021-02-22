@@ -29,7 +29,7 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
-import com.brackeys.ui.utils.extensions.containsFileModel
+import com.brackeys.ui.utils.extensions.launchEvent
 import com.brackeys.ui.utils.extensions.replaceList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -74,8 +74,9 @@ class ExplorerViewModel @Inject constructor(
     val copyPathEvent = SingleLiveEvent<Unit>() // Скопировать путь к файлу
     val archiveEvent = SingleLiveEvent<Unit>() // Архивация файлов в .zip
 
-    val tabsEvent = MutableLiveData<List<FileModel>>() // Список вкладок
+    val tabEvent = MutableLiveData<FileModel>() // Последняя добавленная вкладка
     val selectionEvent = MutableLiveData<List<FileModel>>() // Список выделенных файлов
+
     val progressEvent = SingleLiveEvent<Int>() // Прогресс выполнения операции
     val filesEvent = SingleLiveEvent<FileTree>() // Список файлов
     val searchEvent = SingleLiveEvent<List<FileModel>>() // Отфильтрованый список файлов
@@ -86,6 +87,9 @@ class ExplorerViewModel @Inject constructor(
 
     val tabsList = mutableListOf<FileModel>()
     val tempFiles = mutableListOf<FileModel>()
+
+    val openUnknownFiles: Boolean
+        get() = settingsManager.openUnknownFiles
 
     var operation = Operation.COPY
     var currentJob: Job? = null
@@ -112,20 +116,15 @@ class ExplorerViewModel @Inject constructor(
     private val searchList = mutableListOf<FileModel>()
 
     fun provideDirectory(fileModel: FileModel?) {
-        viewModelScope.launch {
+        viewModelScope.launchEvent(loadingBar) {
             try {
                 emptyView.value = false
-                loadingBar.value = true
 
                 val fileTree = explorerRepository.fetchFiles(fileModel)
-                if (!tabsList.containsFileModel(fileTree.parent)) {
-                    tabsList.add(fileTree.parent)
-                    tabsEvent.value = tabsList
-                }
-                searchList.replaceList(fileTree.children)
+                tabEvent.value = fileTree.parent
                 filesEvent.value = fileTree
+                searchList.replaceList(fileTree.children)
 
-                loadingBar.value = false
                 emptyView.value = fileTree.children.isEmpty()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)

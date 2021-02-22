@@ -36,6 +36,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
+import com.brackeys.ui.data.converter.DocumentConverter
 import com.brackeys.ui.databinding.DialogPropertiesBinding
 import com.brackeys.ui.databinding.FragmentDirectoryBinding
 import com.brackeys.ui.feature.explorer.adapters.FileAdapter
@@ -101,7 +102,9 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
             selectionTracker = tracker,
             onItemClickListener = this,
             viewMode = viewModel.viewMode
-        ).also { adapter = it }
+        ).also {
+            adapter = it
+        }
 
         loadDirectory()
     }
@@ -123,7 +126,14 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
                     viewModel.allowPasteFiles.value = false
                     executeOperation()
                 } else {
-                    sharedViewModel.openEvent.value = item
+                    val type = item.getType()
+                    val canOpenUnknownFile = type == FileType.DEFAULT && viewModel.openUnknownFiles
+                    if (canOpenUnknownFile || type == FileType.TEXT) {
+                        sharedViewModel.closeDrawerEvent.call()
+                        sharedViewModel.openEvent.value = DocumentConverter.toModel(item)
+                    } else {
+                        openAs(item)
+                    }
                 }
             }
         } else {
@@ -270,7 +280,6 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
             showPropertiesDialog(it)
         }
 
-        sharedViewModel.openAsEvent.observe(viewLifecycleOwner, ::openAs)
         sharedViewModel.propertiesEvent.observe(viewLifecycleOwner) {
             viewModel.propertiesOf(it)
         }
@@ -281,7 +290,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
     }
 
     private fun openAs(fileModel: FileModel) {
-        try { // Открытие файла через подходящую программу
+        try {
             val file = File(fileModel.path)
             if (!file.exists()) {
                 throw FileNotFoundException(file.path)

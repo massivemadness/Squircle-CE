@@ -40,7 +40,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -58,9 +57,6 @@ val Fragment.supportActionBar: ActionBar?
 fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T {
     return findFragmentById(id) as T
 }
-
-val NavHostFragment.backStackEntryCount: Int
-    get() = childFragmentManager.backStackEntryCount
 
 fun NavController.popBackStack(n: Int) {
     for (index in 0 until n) {

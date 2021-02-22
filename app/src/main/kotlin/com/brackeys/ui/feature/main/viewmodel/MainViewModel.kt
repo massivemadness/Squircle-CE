@@ -19,6 +19,7 @@ package com.brackeys.ui.feature.main.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -48,8 +49,7 @@ class MainViewModel @Inject constructor(
     val closeDrawerEvent = SingleLiveEvent<Unit>()
 
     // События для связи проводника и редактора
-    val openEvent = SingleLiveEvent<FileModel>()
-    val openAsEvent = SingleLiveEvent<FileModel>()
+    val openEvent = SingleLiveEvent<DocumentModel>()
     val propertiesEvent = SingleLiveEvent<FileModel>()
 
     val fullScreenMode: Boolean

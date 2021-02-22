@@ -123,9 +123,9 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
     }
 
     interface OnTabSelectedListener {
-        fun onTabReselected(position: Int) { /* optional */ }
-        fun onTabUnselected(position: Int) { /* optional */ }
-        fun onTabSelected(position: Int) { /* optional */ }
+        fun onTabReselected(position: Int) = Unit
+        fun onTabUnselected(position: Int) = Unit
+        fun onTabSelected(position: Int) = Unit
     }
 
     interface OnTabMovedListener {

@@ -35,8 +35,6 @@ import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.utils.event.EventsQueue
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
-import com.brackeys.ui.utils.extensions.containsDocumentModel
-import com.brackeys.ui.utils.extensions.indexBy
 import com.brackeys.ui.utils.extensions.launchEvent
 import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,7 +52,6 @@ class EditorViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "EditorViewModel"
-        private const val TAB_LIMIT = 10
     }
 
     // region EVENTS
@@ -63,17 +60,14 @@ class EditorViewModel @Inject constructor(
     val emptyView = MutableLiveData(true) // Сообщение об отсутствии документов
 
     val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
-    val selectTabEvent = MutableLiveData<Int>() // Текущая позиция выбранной вкладки
+    val settingsEvent = EventsQueue<SettingsEvent<*>>() // События с измененными настройками
 
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
     val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
     val contentEvent = SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>>() // Контент загруженного файла
-    val settingsEvent = EventsQueue<SettingsEvent<*>>() // События с измененными настройками
 
     // endregion EVENTS
 
-    val openUnknownFiles: Boolean
-        get() = settingsManager.openUnknownFiles
     val autoSaveFiles: Boolean
         get() = settingsManager.autoSaveFiles
 
@@ -142,33 +136,6 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    fun openFile(list: List<DocumentModel>, documentModel: DocumentModel) {
-        if (!list.containsDocumentModel(documentModel)) {
-            if (list.size < TAB_LIMIT) {
-                settingsManager.selectedDocumentId = documentModel.uuid
-                loadFilesEvent.value = list.toMutableList().apply { add(documentModel) }
-            } else {
-                toastEvent.value = R.string.message_tab_limit_achieved
-            }
-        } else {
-            selectTabEvent.value = list.indexBy(documentModel)
-        }
-    }
-
-    fun parse(documentModel: DocumentModel, language: Language?, sourceCode: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val parser = language?.getParser()
-            val parseResult = parser?.execute(documentModel.name, sourceCode)
-            parseResult?.let(parseEvent::postValue)
-        }
-    }
-
-    fun findRecentTab(list: List<DocumentModel>) {
-        selectTabEvent.value = if (list.isNotEmpty()) {
-            list.indexBy(settingsManager.selectedDocumentId) ?: 0
-        } else -1
-    }
-
     fun updateDocuments(documents: List<DocumentModel>) {
         viewModelScope.launch {
             try {
@@ -180,6 +147,33 @@ class EditorViewModel @Inject constructor(
                 Log.e(TAG, e.message, e)
                 toastEvent.value = R.string.message_unknown_exception
             }
+        }
+    }
+
+    fun openFile(documents: List<DocumentModel>) {
+        settingsManager.selectedDocumentId = documents.last().uuid
+        loadFilesEvent.value = documents
+    }
+
+    fun parse(documentModel: DocumentModel, language: Language?, sourceCode: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val parser = language?.getParser()
+            val parseResult = parser?.execute(documentModel.name, sourceCode)
+            parseResult?.let(parseEvent::postValue)
+        }
+    }
+
+    fun findRecentTab(list: List<DocumentModel>): Int {
+        return if (list.isNotEmpty()) {
+            var position = 0
+            list.forEachIndexed { index, documentModel ->
+                if (documentModel.uuid == settingsManager.selectedDocumentId) {
+                    position = index
+                }
+            }
+            position
+        } else {
+            -1
         }
     }
 

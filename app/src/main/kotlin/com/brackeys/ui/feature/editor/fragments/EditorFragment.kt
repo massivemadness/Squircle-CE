@@ -54,12 +54,8 @@ import com.brackeys.ui.feature.main.adapters.TabAdapter
 import com.brackeys.ui.feature.main.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.feature.settings.activities.SettingsActivity
-import com.brackeys.ui.filesystem.base.model.FileType
 import com.brackeys.ui.utils.event.SettingsEvent
-import com.brackeys.ui.utils.extensions.closeKeyboard
-import com.brackeys.ui.utils.extensions.createTypefaceFromPath
-import com.brackeys.ui.utils.extensions.debounce
-import com.brackeys.ui.utils.extensions.showToast
+import com.brackeys.ui.utils.extensions.*
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
@@ -72,6 +68,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
     companion object {
         private const val ALPHA_FULL = 255
         private const val ALPHA_SEMI = 90
+        private const val TAB_LIMIT = 10
     }
 
     private val sharedViewModel: MainViewModel by activityViewModels()
@@ -194,12 +191,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
         viewModel.toastEvent.observe(viewLifecycleOwner) {
             context?.showToast(it)
         }
-        viewModel.loadFilesEvent.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list)
-            viewModel.findRecentTab(list)
-        }
-        viewModel.selectTabEvent.observe(viewLifecycleOwner) { position ->
-            sharedViewModel.closeDrawerEvent.call()
+        viewModel.loadFilesEvent.observe(viewLifecycleOwner) { documents ->
+            adapter.submitList(documents)
+            val position = viewModel.findRecentTab(documents)
             if (position > -1) {
                 adapter.select(position)
             }
@@ -232,14 +226,16 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
             )
             binding.editor.requestFocus()
         }
-        sharedViewModel.openEvent.observe(viewLifecycleOwner) { fileModel ->
-            val type = fileModel.getType()
-            val documentModel = DocumentConverter.toModel(fileModel)
-            val canOpenUnknownFile = type == FileType.DEFAULT && viewModel.openUnknownFiles
-            if (canOpenUnknownFile || type == FileType.TEXT) {
-                viewModel.openFile(adapter.currentList, documentModel)
+        sharedViewModel.openEvent.observe(viewLifecycleOwner) { documentModel ->
+            if (!adapter.currentList.contains(documentModel)) {
+                if (adapter.currentList.size < TAB_LIMIT) {
+                    viewModel.openFile(adapter.currentList + documentModel)
+                } else {
+                    context?.showToast(R.string.message_tab_limit_achieved)
+                }
             } else {
-                sharedViewModel.openAsEvent.value = fileModel
+                val position = adapter.currentList.indexOf(documentModel)
+                adapter.select(position)
             }
         }
 

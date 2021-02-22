@@ -40,8 +40,7 @@ import com.brackeys.ui.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ExplorerFragment : Fragment(R.layout.fragment_explorer),
-    OnBackPressedHandler, TabAdapter.OnTabSelectedListener {
+class ExplorerFragment : Fragment(R.layout.fragment_explorer), OnBackPressedHandler {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
 
@@ -49,7 +48,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer),
     private lateinit var navController: NavController
     private lateinit var adapter: DirectoryAdapter
 
-    private var isClosing = false // TODO remove this
+    private var isClosing = false // TODO remove
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,15 +69,21 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer),
         }
 
         binding.directoryRecyclerView.setHasFixedSize(true)
-        binding.directoryRecyclerView.adapter = DirectoryAdapter()
-            .also { adapter = it }
-        adapter.setOnTabSelectedListener(this)
+        binding.directoryRecyclerView.adapter = DirectoryAdapter().also {
+            adapter = it
+        }
+        adapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
+            override fun onTabSelected(position: Int) {
+                if (!isClosing) {
+                    isClosing = true
+                    navigateBreadcrumb(adapter.currentList[position])
+                    isClosing = false
+                }
+            }
+        })
 
         binding.actionHome.setOnClickListener {
-            val backStackCount = childFragmentManager
-                .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
-            navController.popBackStack(backStackCount - 1)
-            removeTabs(backStackCount - 1)
+            navigateBreadcrumb(adapter.currentList.first())
         }
         binding.actionPaste.setOnClickListener {
             viewModel.pasteEvent.call()
@@ -86,37 +91,23 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer),
         binding.actionCreate.setOnClickListener {
             viewModel.createEvent.call()
         }
+
+        adapter.submitList(viewModel.tabsList)
     }
 
     override fun handleOnBackPressed(): Boolean {
-        if (!viewModel.selectionEvent.value.isNullOrEmpty()) {
+        return if (!viewModel.selectionEvent.value.isNullOrEmpty()) {
             stopActionMode()
-            return true
+            true
         } else {
-            val backStackCount = childFragmentManager
-                .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
-            if (backStackCount > 1) {
-                navController.popBackStack()
-                removeTabs(1)
-                return true
+            val target = adapter.currentList.lastIndex - 1
+            if (target > 0) {
+                navigateBreadcrumb(adapter.currentList[target])
+            } else {
+                navigateBreadcrumb(adapter.currentList.first())
             }
         }
-        return false
     }
-
-    override fun onTabReselected(position: Int) {}
-    override fun onTabUnselected(position: Int) {}
-    override fun onTabSelected(position: Int) {
-        if (!isClosing) {
-            isClosing = true
-            val howMany = adapter.itemCount - position - 1
-            navController.popBackStack(howMany)
-            removeTabs(howMany)
-            isClosing = false
-        }
-    }
-
-    // region MENU
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -147,10 +138,10 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer),
 
         val selectionSize = viewModel.selectionEvent.value?.size ?: 0
         if (selectionSize > 1) { // if more than 1 file selected
-            actionOpenAs.isVisible = false
-            actionRename.isVisible = false
-            actionProperties.isVisible = false
-            actionCopyPath.isVisible = false
+            actionOpenAs?.isVisible = false
+            actionRename?.isVisible = false
+            actionProperties?.isVisible = false
+            actionCopyPath?.isVisible = false
         }
 
         when (viewModel.sortMode) {
@@ -179,8 +170,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer),
         return super.onOptionsItemSelected(item)
     }
 
-    // endregion MENU
-
     private fun observeViewModel() {
         viewModel.toastEvent.observe(viewLifecycleOwner) {
             context?.showToast(it)
@@ -192,9 +181,8 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer),
             binding.actionPaste.isVisible = it
             binding.actionCreate.isVisible = !it
         }
-        viewModel.tabsEvent.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            adapter.select(adapter.itemCount - 1)
+        viewModel.tabEvent.observe(viewLifecycleOwner) {
+            navigateBreadcrumb(it)
         }
         viewModel.selectionEvent.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -223,13 +211,25 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer),
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    private fun removeTabs(howMany: Int) {
-        viewModel.tabsList.subList(
-            viewModel.tabsList.size - howMany,
-            viewModel.tabsList.size
-        ).clear()
-        for (i in 0 until howMany) {
-            adapter.close(adapter.itemCount - 1)
+    private fun navigateBreadcrumb(tab: FileModel): Boolean {
+        return if (adapter.currentList.contains(tab)) {
+            val position = adapter.currentList.indexOf(tab)
+            val howMany = adapter.itemCount - 1 - position
+            val shouldPop = howMany > 0
+            if (shouldPop) {
+                navController.popBackStack(howMany)
+                for (i in 0 until howMany) {
+                    adapter.close(adapter.itemCount - 1)
+                }
+            } else {
+                adapter.select(adapter.itemCount - 1)
+            }
+            shouldPop
+        } else {
+            viewModel.tabsList.replaceList(adapter.currentList + tab)
+            adapter.submitList(adapter.currentList + tab)
+            adapter.select(adapter.itemCount - 1)
+            false
         }
     }
 }
