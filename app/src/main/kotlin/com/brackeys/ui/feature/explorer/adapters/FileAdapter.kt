@@ -18,6 +18,7 @@ package com.brackeys.ui.feature.explorer.adapters
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.selection.Selection
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -26,7 +27,7 @@ import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 import com.brackeys.ui.filesystem.base.model.FileModel
 
 class FileAdapter(
-    private val selectionTracker: SelectionTracker<FileModel>,
+    private val selectionTracker: SelectionTracker<String>,
     private val onItemClickListener: OnItemClickListener<FileModel>,
     private val viewMode: Int
 ) : ListAdapter<FileModel, FileAdapter.FileViewHolder>(diffCallback) {
@@ -56,8 +57,28 @@ class FileAdapter(
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
         val fileModel = getItem(position)
-        val isSelected = selectionTracker.isSelected(fileModel)
+        val isSelected = selectionTracker.isSelected(fileModel.path)
         holder.bind(fileModel, isSelected)
+    }
+
+    fun getSelectedFiles(keys: Selection<String>): List<FileModel> {
+        val files = mutableListOf<FileModel>()
+        currentList.forEach { fileModel ->
+            if (keys.contains(fileModel.path)) {
+                files.add(fileModel)
+            }
+        }
+        return files
+    }
+
+    fun indexOf(path: String): Int {
+        var position = 0
+        currentList.forEachIndexed { index, fileModel ->
+            if (path == fileModel.path) {
+                position = index
+            }
+        }
+        return position
     }
 
     abstract class FileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

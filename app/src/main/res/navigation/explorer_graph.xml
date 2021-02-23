@@ -37,9 +37,9 @@
         android:label="@string/label_directory"
         tools:layout="@layout/fragment_directory">
         <argument
-            android:name="fileModel"
-            app:nullable="true"
-            app:argType="com.brackeys.ui.filesystem.base.model.FileModel"/>
+            android:name="path"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/to_directoryFragment"
             app:destination="@id/directoryFragment"/>

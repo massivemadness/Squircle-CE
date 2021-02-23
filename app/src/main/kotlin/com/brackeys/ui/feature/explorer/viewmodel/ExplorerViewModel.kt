@@ -115,12 +115,12 @@ class ExplorerViewModel @Inject constructor(
 
     private val searchList = mutableListOf<FileModel>()
 
-    fun provideDirectory(fileModel: FileModel?) {
+    fun provideDirectory(path: String?) {
         viewModelScope.launchEvent(loadingBar) {
             try {
                 emptyView.value = false
 
-                val fileTree = explorerRepository.fetchFiles(fileModel)
+                val fileTree = explorerRepository.fetchFiles(path?.let(::FileModel))
                 tabEvent.value = fileTree.parent
                 filesEvent.value = fileTree
                 searchList.replaceList(fileTree.children)
@@ -321,7 +321,7 @@ class ExplorerViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             progressEvent.value = 0
             try {
-                val dest = FileModel(archiveName, "$destPath/$archiveName")
+                val dest = FileModel("$destPath/$archiveName")
                 explorerRepository.compressFiles(source, dest)
                     .onEach {
                         progressEvent.value = (progressEvent.value ?: 0) + 1
@@ -356,7 +356,7 @@ class ExplorerViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             progressEvent.value = 0
             try {
-                val dest = FileModel("whatever", destPath)
+                val dest = FileModel(destPath)
                 explorerRepository.extractAll(source, dest)
                     .onEach {
                         progressEvent.value = (progressEvent.value ?: 0) + 1

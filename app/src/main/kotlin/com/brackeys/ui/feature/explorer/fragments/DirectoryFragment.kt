@@ -66,7 +66,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
     private lateinit var binding: FragmentDirectoryBinding
     private lateinit var navController: NavController
 
-    private lateinit var tracker: SelectionTracker<FileModel>
+    private lateinit var tracker: SelectionTracker<String>
     private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
 
@@ -83,15 +83,15 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
 
         @SuppressLint("RestrictedApi")
         tracker = DefaultSelectionTracker(
-            navArgs.fileModel?.path ?: "root",
+            navArgs.path ?: "root",
             FileKeyProvider(binding.recyclerView),
             SelectionPredicates.createSelectAnything(),
-            StorageStrategy.createParcelableStorage(FileModel::class.java)
+            StorageStrategy.createStringStorage()
         ).also {
             it.addObserver(
-                object : SelectionTracker.SelectionObserver<FileModel>() {
+                object : SelectionTracker.SelectionObserver<String>() {
                     override fun onSelectionChanged() {
-                        viewModel.selectionEvent.value = tracker.selection.toList()
+                        viewModel.selectionEvent.value = adapter.getSelectedFiles(tracker.selection)
                     }
                 }
             )
@@ -117,7 +117,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
     override fun onClick(item: FileModel) {
         if (!tracker.hasSelection()) {
             if (item.isFolder) {
-                val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
+                val destination = DirectoryFragmentDirections.toDirectoryFragment(item.path)
                 navController.navigate(destination)
             } else {
                 if (item.getType() == FileType.ARCHIVE) {
@@ -138,10 +138,10 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
             }
         } else {
             val index = adapter.currentList.indexOf(item)
-            if (tracker.isSelected(item)) {
-                tracker.deselect(item)
+            if (tracker.isSelected(item.path)) {
+                tracker.deselect(item.path)
             } else {
-                tracker.select(item)
+                tracker.select(item.path)
             }
             adapter.notifyItemChanged(index)
         }
@@ -149,10 +149,10 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
 
     override fun onLongClick(item: FileModel): Boolean {
         val index = adapter.currentList.indexOf(item)
-        if (tracker.isSelected(item)) {
-            tracker.deselect(item)
+        if (tracker.isSelected(item.path)) {
+            tracker.deselect(item.path)
         } else {
-            tracker.select(item)
+            tracker.select(item.path)
         }
         adapter.notifyItemChanged(index)
         return true
@@ -170,7 +170,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
             loadDirectory()
         }
         viewModel.selectAllEvent.observe(viewLifecycleOwner) {
-            tracker.setItemsSelected(adapter.currentList, true)
+            tracker.setItemsSelected(adapter.currentList.map(FileModel::path), true)
             adapter.notifyDataSetChanged()
         }
         viewModel.deselectAllEvent.observe(viewLifecycleOwner) {
@@ -286,7 +286,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
     }
 
     private fun loadDirectory() {
-        viewModel.provideDirectory(navArgs.fileModel)
+        viewModel.provideDirectory(navArgs.path)
     }
 
     private fun openAs(fileModel: FileModel) {

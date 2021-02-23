@@ -23,7 +23,6 @@ object FileConverter {
 
     fun toModel(file: File): FileModel {
         return FileModel(
-            name = file.name,
             path = file.path,
             size = file.length(),
             lastModified = file.lastModified(),

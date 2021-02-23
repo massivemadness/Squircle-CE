@@ -157,8 +157,6 @@ class DocumentRepositoryImpl(
     }
 
     private suspend fun cacheFile(documentModel: DocumentModel, postfix: String) = FileModel(
-        name = "${documentModel.uuid}-$postfix",
-        path = cacheFilesystem.defaultLocation().path + "/" +
-            "${documentModel.uuid}-$postfix.cache"
+        path = cacheFilesystem.defaultLocation().path + "/" + "${documentModel.uuid}-$postfix.cache"
     )
 }

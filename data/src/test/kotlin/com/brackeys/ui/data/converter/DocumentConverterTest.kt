@@ -27,8 +27,7 @@ class DocumentConverterTest {
     @Test
     fun `convert FileModel to DocumentModel`() {
         val fileModel = FileModel(
-            name = "Test",
-            path = "/mnt/test",
+            path = "/mnt/Test.txt",
             size = 0L,
             lastModified = 1L,
             isFolder = false,
@@ -36,8 +35,8 @@ class DocumentConverterTest {
         )
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = false,
             position = 0,
             scrollX = 0,
@@ -61,8 +60,8 @@ class DocumentConverterTest {
     fun `convert DocumentEntity to DocumentModel`() {
         val documentEntity = DocumentEntity(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -72,8 +71,8 @@ class DocumentConverterTest {
         )
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -97,8 +96,8 @@ class DocumentConverterTest {
     fun `convert DocumentModel to DocumentEntity`() {
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = false,
             position = 10,
             scrollX = 0,
@@ -108,8 +107,8 @@ class DocumentConverterTest {
         )
         val documentEntity = DocumentEntity(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = false,
             position = 10,
             scrollX = 0,

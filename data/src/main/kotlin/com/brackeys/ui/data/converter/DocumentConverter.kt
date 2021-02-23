@@ -25,7 +25,6 @@ object DocumentConverter {
 
     fun toModel(documentModel: DocumentModel): FileModel {
         return FileModel(
-            name = documentModel.name,
             path = documentModel.path,
             size = 0,
             lastModified = 0,

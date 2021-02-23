@@ -17,21 +17,20 @@
 package com.brackeys.ui.feature.explorer.utils
 
 import androidx.recyclerview.selection.ItemKeyProvider
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.brackeys.ui.filesystem.base.model.FileModel
+import com.brackeys.ui.feature.explorer.adapters.FileAdapter
 
 class FileKeyProvider(
     private val recyclerView: RecyclerView
-) : ItemKeyProvider<FileModel>(SCOPE_CACHED) {
+) : ItemKeyProvider<String>(SCOPE_CACHED) {
 
-    override fun getKey(position: Int): FileModel? {
-        val adapter = recyclerView.adapter as ListAdapter<*, *>
-        return adapter.currentList[position] as? FileModel
+    override fun getKey(position: Int): String {
+        val adapter = recyclerView.adapter as FileAdapter
+        return adapter.currentList[position].path
     }
 
-    override fun getPosition(key: FileModel): Int {
-        val adapter = recyclerView.adapter as ListAdapter<*, *>
-        return adapter.currentList.indexOf(key)
+    override fun getPosition(key: String): Int {
+        val adapter = recyclerView.adapter as FileAdapter
+        return adapter.indexOf(key)
     }
 }

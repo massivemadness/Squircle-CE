@@ -16,19 +16,15 @@
 
 package com.brackeys.ui.filesystem.base.model
 
-import android.os.Parcelable
 import com.brackeys.ui.filesystem.base.utils.endsWith
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class FileModel(
-    val name: String,
     val path: String,
     val size: Long = 0L,
     val lastModified: Long = 0L,
     val isFolder: Boolean = false,
     val isHidden: Boolean = false
-) : Parcelable {
+) {
 
     companion object {
         val TEXT = arrayOf(
@@ -67,6 +63,9 @@ data class FileModel(
         )
     }
 
+    val name: String
+        get() = path.substringAfterLast('/')
+
     fun getType(): FileType {
         return when {
             name.endsWith(TEXT) -> FileType.TEXT
@@ -90,8 +89,7 @@ data class FileModel(
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + path.hashCode()
+        var result = path.hashCode()
         result = 31 * result + size.hashCode()
         result = 31 * result + lastModified.hashCode()
         result = 31 * result + isFolder.hashCode()
