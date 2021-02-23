@@ -183,7 +183,6 @@
     <string name="message_compressing">Compressing…%1$s</string>
     <string name="message_extracting">Extracting…%1$s</string>
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
-    <string name="message_wrong_encoding">File was loaded using wrong encoding</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>

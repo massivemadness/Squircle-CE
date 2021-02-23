@@ -22,7 +22,7 @@ import com.brackeys.ui.filesystem.base.model.*
 import com.brackeys.ui.filesystem.base.utils.endsWith
 import com.brackeys.ui.filesystem.local.converter.FileConverter
 import com.brackeys.ui.filesystem.local.utils.size
-import com.github.gzuliyujiang.chardet.CJKCharsetDetector
+import com.ibm.icu.text.CharsetDetector
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -268,11 +268,18 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             val file = File(fileModel.path)
             if (file.exists()) {
                 val charset = if (fileParams.chardet) {
-                    file.inputStream().use(CJKCharsetDetector::detect)
+                    try {
+                        val charsetMatch = CharsetDetector()
+                            .setText(file.readBytes())
+                            .detect()
+                        charset(charsetMatch.name)
+                    } catch (e: Exception) {
+                        Charsets.UTF_8
+                    }
                 } else {
                     fileParams.charset
                 }
-                val text = file.readText(charset = charset)
+                val text = file.readText(charset)
                 cont.resume(text)
             } else {
                 cont.resumeWithException(FileNotFoundException(fileModel.path))

@@ -109,7 +109,6 @@ dependencies {
 
     // Other
     implementation library.keyboardevent
-    implementation library.chardet
 
     // Modules
     implementation project(':domain')

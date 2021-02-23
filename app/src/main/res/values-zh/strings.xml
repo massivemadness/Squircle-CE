@@ -173,7 +173,6 @@
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
-    <string name="message_wrong_encoding">文件加载时使用了错误的编码</string>
 
     <string name="font_support_ligatures">* 支持连体字母</string>
     <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>

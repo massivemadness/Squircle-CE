@@ -173,7 +173,6 @@
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>
     <string name="message_extracting">Извлечение…%1$s</string>
-    <string name="message_wrong_encoding">Файл загружен с неверной кодировкой</string>
 
     <string name="font_support_ligatures">* Поддерживает лигатуры</string>
     <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>

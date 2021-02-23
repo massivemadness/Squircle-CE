@@ -36,7 +36,6 @@ import com.brackeys.ui.utils.event.EventsQueue
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import com.brackeys.ui.utils.extensions.launchEvent
-import com.github.gzuliyujiang.chardet.CJKCharsetDetector
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -91,9 +90,6 @@ class EditorViewModel @Inject constructor(
                 }
                 settingsManager.selectedDocumentId = documentModel.uuid
                 contentEvent.value = content to precomputedText
-                if (CJKCharsetDetector.inWrongEncoding(content.text)) {
-                    toastEvent.value = R.string.message_wrong_encoding
-                }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 when (e) {
