@@ -61,12 +61,6 @@
     <PreferenceCategory android:title="@string/pref_category_file_explorer">
 
         <SwitchPreference
-            android:defaultValue="false"
-            android:key="OPEN_UNKNOWN_FILES"
-            android:summary="@string/pref_allow_open_unknown_files_summary"
-            android:title="@string/pref_allow_open_unknown_files_title" />
-
-        <SwitchPreference
             android:defaultValue="true"
             android:key="SHOW_HIDDEN_FILES"
             android:summary="@string/pref_show_hidden_files_summary"

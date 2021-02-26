@@ -300,8 +300,6 @@
     <string name="pref_encoding_for_saving_summary">Encoding to use when saving files.</string>
     <string name="pref_linebreaks_for_saving_files_title">Linebreaks for saving files</string>
     <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files.</string>
-    <string name="pref_allow_open_unknown_files_title">Open unknown files</string>
-    <string name="pref_allow_open_unknown_files_summary">Allows you to open any files in the editor.</string>
     <string name="pref_show_hidden_files_title">Show hidden files</string>
     <string name="pref_show_hidden_files_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
     <string name="pref_folders_on_top_title">Folders on top</string>

@@ -68,7 +68,6 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         const val KEY_LINEBREAK_FOR_SAVING = "LINEBREAK_FOR_SAVING"
 
         // File Explorer
-        const val KEY_OPEN_UNKNOWN_FILES = "OPEN_UNKNOWN_FILES"
         const val KEY_SHOW_HIDDEN_FILES = "SHOW_HIDDEN_FILES"
         const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
         const val KEY_VIEW_MODE = "VIEW_MODE"
@@ -160,10 +159,6 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
     var lineBreakForSaving: String
         get() = sharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2") ?: "2"
         set(value) = sharedPreferences.edit().putString(KEY_LINEBREAK_FOR_SAVING, value).apply()
-
-    var openUnknownFiles: Boolean
-        get() = sharedPreferences.getBoolean(KEY_OPEN_UNKNOWN_FILES, false)
-        set(value) = sharedPreferences.edit().putBoolean(KEY_OPEN_UNKNOWN_FILES, value).apply()
 
     // TODO: 2020/8/7  For the following lines, the file explorer needs to refresh when its value changes
     var filterHidden: Boolean

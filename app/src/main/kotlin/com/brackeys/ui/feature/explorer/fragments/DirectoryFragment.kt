@@ -127,8 +127,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
                     executeOperation()
                 } else {
                     val type = item.getType()
-                    val canOpenUnknownFile = type == FileType.DEFAULT && viewModel.openUnknownFiles
-                    if (canOpenUnknownFile || type == FileType.TEXT) {
+                    if (type == FileType.DEFAULT || type == FileType.TEXT) {
                         sharedViewModel.closeDrawerEvent.call()
                         sharedViewModel.openEvent.value = DocumentConverter.toModel(item)
                     } else {

@@ -88,9 +88,6 @@ class ExplorerViewModel @Inject constructor(
     val tabsList = mutableListOf<FileModel>()
     val tempFiles = mutableListOf<FileModel>()
 
-    val openUnknownFiles: Boolean
-        get() = settingsManager.openUnknownFiles
-
     var operation = Operation.COPY
     var currentJob: Job? = null
 

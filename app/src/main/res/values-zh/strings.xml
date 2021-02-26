@@ -288,8 +288,6 @@
     <string name="pref_linebreaks_for_saving_files_summary">默认使用该换行符类型保存文本文件</string>
     <string name="pref_show_hidden_files_title">显示隐藏文件</string>
     <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
-    <string name="pref_allow_open_unknown_files_title">打开未知类型</string>
-    <string name="pref_allow_open_unknown_files_summary">允许在编辑器中以文本方式打开未知的文件类型。</string>
     <string name="pref_folders_on_top_title">文件夹置顶</string>
     <string name="pref_folders_on_top_summary">文件夹将优先显示在文件的前面。</string>
     <string name="pref_view_mode_title">视图模式</string>
