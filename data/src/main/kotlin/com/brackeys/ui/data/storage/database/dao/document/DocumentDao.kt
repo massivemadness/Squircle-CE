@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.database.dao.base
+package com.brackeys.ui.data.storage.database.dao.document
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Query
+import com.brackeys.ui.data.storage.database.dao.base.BaseDao
+import com.brackeys.ui.data.storage.database.entity.document.DocumentEntity
+import com.brackeys.ui.data.storage.database.utils.Tables
 
-interface BaseDao<in T> {
+@Dao
+abstract class DocumentDao : BaseDao<DocumentEntity> {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(obj: T): Long
+    @Query("SELECT * FROM `${Tables.DOCUMENTS}` ORDER BY `position` ASC")
+    abstract suspend fun loadAll(): List<DocumentEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg obj: T)
-
-    @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun update(obj: T)
-
-    @Delete
-    fun delete(obj: T)
+    @Query("DELETE FROM `${Tables.DOCUMENTS}`")
+    abstract suspend fun deleteAll()
 }

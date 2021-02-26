@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.database.utils
+package com.brackeys.ui.data.storage.database.utils
 
 object Tables {
     const val DOCUMENTS = "tbl_documents"

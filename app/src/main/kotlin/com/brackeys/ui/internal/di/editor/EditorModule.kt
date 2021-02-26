@@ -16,9 +16,9 @@
 
 package com.brackeys.ui.internal.di.editor
 
-import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.repository.documents.DocumentRepositoryImpl
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import com.brackeys.ui.domain.repository.documents.DocumentRepository
 import com.brackeys.ui.filesystem.base.Filesystem

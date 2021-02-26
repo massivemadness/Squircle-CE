@@ -22,7 +22,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.data.utils.InternalTheme
 import com.brackeys.ui.domain.model.documents.DocumentParams
 import com.brackeys.ui.domain.model.editor.DocumentContent

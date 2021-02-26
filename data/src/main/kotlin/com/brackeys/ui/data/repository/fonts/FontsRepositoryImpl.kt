@@ -1,8 +1,8 @@
 package com.brackeys.ui.data.repository.fonts
 
 import com.brackeys.ui.data.converter.FontConverter
-import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.domain.model.fonts.FontModel
 import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import com.brackeys.ui.domain.repository.fonts.FontsRepository

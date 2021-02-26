@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.settings
+package com.brackeys.ui.data.storage.keyvalue
 
 import android.content.SharedPreferences
 

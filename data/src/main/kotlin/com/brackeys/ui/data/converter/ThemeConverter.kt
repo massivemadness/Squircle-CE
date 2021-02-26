@@ -17,9 +17,9 @@
 package com.brackeys.ui.data.converter
 
 import androidx.core.graphics.toColorInt
-import com.brackeys.ui.data.database.entity.theme.ThemeEntity
 import com.brackeys.ui.data.model.themes.ExternalScheme
 import com.brackeys.ui.data.model.themes.ExternalTheme
+import com.brackeys.ui.data.storage.database.entity.theme.ThemeEntity
 import com.brackeys.ui.data.utils.toHexString
 import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.editorkit.model.ColorScheme

@@ -19,7 +19,7 @@ package com.brackeys.ui.internal.di.app
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

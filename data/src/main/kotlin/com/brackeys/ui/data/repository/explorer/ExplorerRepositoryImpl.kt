@@ -1,6 +1,6 @@
 package com.brackeys.ui.data.repository.explorer
 
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.data.utils.FileSorter
 import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import com.brackeys.ui.domain.repository.explorer.ExplorerRepository

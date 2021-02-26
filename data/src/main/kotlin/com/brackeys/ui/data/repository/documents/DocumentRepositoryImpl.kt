@@ -1,9 +1,9 @@
 package com.brackeys.ui.data.repository.documents
 
 import com.brackeys.ui.data.converter.DocumentConverter
-import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.delegate.LanguageDelegate
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.data.utils.charsetFor
 import com.brackeys.ui.data.utils.decodeStack
 import com.brackeys.ui.data.utils.encodeStack

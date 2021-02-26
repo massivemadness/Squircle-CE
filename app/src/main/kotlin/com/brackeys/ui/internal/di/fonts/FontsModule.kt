@@ -1,8 +1,8 @@
 package com.brackeys.ui.internal.di.fonts
 
-import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.repository.fonts.FontsRepositoryImpl
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import com.brackeys.ui.domain.repository.fonts.FontsRepository
 import dagger.Module

@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.domain.repository.explorer.ExplorerRepository
 import com.brackeys.ui.feature.explorer.utils.Operation
 import com.brackeys.ui.filesystem.base.exception.*

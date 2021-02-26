@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.data.converter
 
-import com.brackeys.ui.data.database.entity.document.DocumentEntity
+import com.brackeys.ui.data.storage.database.entity.document.DocumentEntity
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import java.util.*

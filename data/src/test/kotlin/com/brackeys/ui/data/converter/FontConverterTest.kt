@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.data.converter
 
-import com.brackeys.ui.data.database.entity.font.FontEntity
+import com.brackeys.ui.data.storage.database.entity.font.FontEntity
 import com.brackeys.ui.domain.model.fonts.FontModel
 import org.junit.Assert.assertEquals
 import org.junit.Test

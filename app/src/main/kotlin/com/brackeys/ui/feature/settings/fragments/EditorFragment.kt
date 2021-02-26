@@ -23,7 +23,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.brackeys.ui.R
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 
 class EditorFragment : PreferenceFragmentCompat() {
 

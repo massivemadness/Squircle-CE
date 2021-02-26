@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.database
+package com.brackeys.ui.data.storage.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.brackeys.ui.data.database.dao.document.DocumentDao
-import com.brackeys.ui.data.database.dao.font.FontDao
-import com.brackeys.ui.data.database.dao.theme.ThemeDao
-import com.brackeys.ui.data.database.entity.document.DocumentEntity
-import com.brackeys.ui.data.database.entity.font.FontEntity
-import com.brackeys.ui.data.database.entity.theme.ThemeEntity
+import com.brackeys.ui.data.storage.database.dao.document.DocumentDao
+import com.brackeys.ui.data.storage.database.dao.font.FontDao
+import com.brackeys.ui.data.storage.database.dao.theme.ThemeDao
+import com.brackeys.ui.data.storage.database.entity.document.DocumentEntity
+import com.brackeys.ui.data.storage.database.entity.font.FontEntity
+import com.brackeys.ui.data.storage.database.entity.theme.ThemeEntity
 
 @Database(entities = [
     DocumentEntity::class,
@@ -40,7 +40,7 @@ abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
     abstract override fun fontDao(): FontDao
     abstract override fun themeDao(): ThemeDao
 
-    override fun shutDown() {
+    override fun shutdown() {
         clearAllTables()
     }
 }

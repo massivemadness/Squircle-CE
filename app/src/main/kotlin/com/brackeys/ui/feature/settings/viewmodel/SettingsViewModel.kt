@@ -19,7 +19,7 @@ package com.brackeys.ui.feature.settings.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.brackeys.ui.R
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.feature.settings.adapters.item.PreferenceItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

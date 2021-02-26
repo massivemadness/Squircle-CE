@@ -18,8 +18,8 @@ package com.brackeys.ui.data.delegate
 
 import android.content.Context
 import androidx.room.Room
-import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.database.AppDatabaseImpl
+import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.database.AppDatabaseImpl
 
 object DatabaseDelegate {
 

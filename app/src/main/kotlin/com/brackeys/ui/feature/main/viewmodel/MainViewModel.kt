@@ -18,7 +18,7 @@ package com.brackeys.ui.feature.main.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.utils.event.SingleLiveEvent

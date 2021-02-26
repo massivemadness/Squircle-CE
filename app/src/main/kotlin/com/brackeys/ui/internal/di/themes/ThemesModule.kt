@@ -1,9 +1,9 @@
 package com.brackeys.ui.internal.di.themes
 
 import android.content.Context
-import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.repository.themes.ThemesRepositoryImpl
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.Filesystem

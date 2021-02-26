@@ -4,10 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import com.brackeys.ui.data.converter.ThemeConverter
-import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.database.entity.theme.ThemeEntity
 import com.brackeys.ui.data.model.themes.ExternalTheme
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.database.entity.theme.ThemeEntity
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.domain.model.themes.Meta
 import com.brackeys.ui.domain.model.themes.Property
 import com.brackeys.ui.domain.model.themes.PropertyItem

@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.database.dao.theme
+package com.brackeys.ui.data.storage.database.dao.font
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.brackeys.ui.data.database.dao.base.BaseDao
-import com.brackeys.ui.data.database.entity.theme.ThemeEntity
-import com.brackeys.ui.data.database.utils.Tables
+import com.brackeys.ui.data.storage.database.dao.base.BaseDao
+import com.brackeys.ui.data.storage.database.entity.font.FontEntity
+import com.brackeys.ui.data.storage.database.utils.Tables
 
 @Dao
-abstract class ThemeDao : BaseDao<ThemeEntity> {
+abstract class FontDao : BaseDao<FontEntity> {
 
-    @Query("SELECT * FROM `${Tables.THEMES}` WHERE `name` LIKE '%' || :searchQuery || '%'")
-    abstract suspend fun loadAll(searchQuery: String): List<ThemeEntity>
+    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_name` LIKE '%' || :searchQuery || '%'")
+    abstract suspend fun loadAll(searchQuery: String): List<FontEntity>
 
-    @Query("SELECT * FROM `${Tables.THEMES}` WHERE `uuid` = :uuid")
-    abstract suspend fun load(uuid: String): ThemeEntity
-
-    @Query("DELETE FROM `${Tables.THEMES}`")
+    @Query("DELETE FROM `${Tables.FONTS}`")
     abstract suspend fun deleteAll()
 }
