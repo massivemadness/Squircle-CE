@@ -90,14 +90,21 @@ class EditorViewModel @Inject constructor(
                 }
                 settingsManager.selectedDocumentId = documentModel.uuid
                 contentEvent.value = content to precomputedText
+            } catch (e: Error) {
+                Log.e(TAG, e.message, e)
+                when (e) {
+                    is OutOfMemoryError -> {
+                        toastEvent.value = R.string.message_out_of_memory
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
+                    }
+                }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 when (e) {
                     is FileNotFoundException -> {
                         toastEvent.value = R.string.message_file_not_found
-                    }
-                    is OutOfMemoryError -> {
-                        toastEvent.value = R.string.message_out_of_memory
                     }
                     else -> {
                         toastEvent.value = R.string.message_unknown_exception
