@@ -62,8 +62,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
 class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
-    ExtendedKeyboard.OnKeyListener, TabAdapter.OnTabSelectedListener, TabAdapter.OnDataRefreshListener,
-    DocumentAdapter.TabInteractor, OnBackPressedHandler {
+    ExtendedKeyboard.OnKeyListener, DocumentAdapter.TabInteractor, OnBackPressedHandler {
 
     companion object {
         private const val ALPHA_FULL = 255
@@ -88,8 +87,15 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
 
         binding.tabLayout.setHasFixedSize(true)
         binding.tabLayout.adapter = DocumentAdapter(this).also {
-            it.setOnTabSelectedListener(this)
-            it.setOnDataRefreshListener(this)
+            it.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
+                override fun onTabUnselected(position: Int) = saveDocument(position)
+                override fun onTabSelected(position: Int) = loadDocument(position)
+            })
+            it.setOnDataRefreshListener(object : TabAdapter.OnDataRefreshListener {
+                override fun onDataRefresh() {
+                    viewModel.emptyView.value = adapter.currentList.isEmpty()
+                }
+            })
             adapter = it
         }
         tabController.attachToRecyclerView(binding.tabLayout)
@@ -153,7 +159,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                 alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
                 alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
                 alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
-                keyCode == KeyEvent.KEYCODE_TAB -> binding.actionTab.performClick()
+                keyCode == KeyEvent.KEYCODE_TAB -> { onKey(binding.editor.tab()); true }
                 else -> false
             }
         }
@@ -198,14 +204,20 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                 adapter.select(position)
             }
         }
-        viewModel.loadingBar.observe(viewLifecycleOwner) {
-            binding.loadingBar.isVisible = it
-            binding.editor.isInvisible = it
+        viewModel.loadingBar.observe(viewLifecycleOwner) { isVisible ->
+            binding.loadingBar.isVisible = isVisible
+            if (isVisible) {
+                binding.editor.isInvisible = isVisible
+            } else {
+                if (!binding.emptyViewImage.isVisible) {
+                    binding.editor.isInvisible = isVisible
+                }
+            }
         }
-        viewModel.emptyView.observe(viewLifecycleOwner) {
-            binding.emptyViewImage.isVisible = it
-            binding.emptyViewText.isVisible = it
-            binding.editor.isInvisible = it
+        viewModel.emptyView.observe(viewLifecycleOwner) { isVisible ->
+            binding.emptyViewImage.isVisible = isVisible
+            binding.emptyViewText.isVisible = isVisible
+            binding.editor.isInvisible = isVisible
         }
         viewModel.parseEvent.observe(viewLifecycleOwner) { model ->
             model.exception?.let {
@@ -243,7 +255,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
 
         viewModel.settingsEvent.observe(viewLifecycleOwner) { queue ->
             val config = binding.editor.editorConfig
-            while (queue != null && queue.isNotEmpty()) {
+            while (!queue.isNullOrEmpty()) {
                 when (val event = queue.poll()) {
                     is SettingsEvent.ThemePref -> {
                         binding.editor.colorScheme = event.value.colorScheme
@@ -300,19 +312,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
 
     // region TABS
 
-    override fun onTabUnselected(position: Int) {
-        saveDocument(position)
-        activity?.closeKeyboard() // Обход бага, когда после переключения вкладок позиция курсора не менялась с предыдущей вкладки
-    }
-
-    override fun onTabSelected(position: Int) {
-        loadDocument(position)
-    }
-
-    override fun onDataRefresh() {
-        viewModel.emptyView.value = adapter.currentList.isEmpty()
-    }
-
     override fun close(position: Int) {
         val isModified = adapter.currentList[position].modified
         if (isModified) {
@@ -344,11 +343,12 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
     }
 
     private fun closeTabImpl(position: Int) {
-        val selectedPosition = adapter.selectedPosition
-        if (position == selectedPosition) {
+        if (position == adapter.selectedPosition) {
             binding.scroller.state = TextScroller.STATE_HIDDEN
             binding.editor.clearText() // TTL Exception bypass
-            activity?.closeKeyboard() // Обход бага, когда после удаления вкладки можно было редактировать в ней текст
+            if (adapter.itemCount == 1) {
+                activity?.closeKeyboard()
+            }
         }
         removeDocument(position)
         adapter.close(position)
@@ -405,7 +405,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
     }
 
     override fun onNewButton() {
-        onDrawerButton()
+        onDrawerButton() // TODO 27/02/21 Add Dialog
     }
 
     override fun onOpenButton() {
@@ -452,7 +452,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                 positiveButton(R.string.action_save) {
                     val enterFilePath = findViewById<TextInputEditText>(R.id.input)
                     val filePath = enterFilePath.text?.toString()?.trim()
-
                     if (!filePath.isNullOrBlank()) {
                         val updateDocument = document.copy(
                             uuid = "whatever",

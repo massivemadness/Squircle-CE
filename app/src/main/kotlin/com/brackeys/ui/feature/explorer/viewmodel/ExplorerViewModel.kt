@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -137,14 +136,13 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun searchFile(query: CharSequence) {
-        val collection: MutableList<FileModel> = mutableListOf()
-        val newQuery = query.toString().toLowerCase(Locale.getDefault())
-        if (newQuery.isEmpty()) {
+    fun searchFile(query: String) {
+        val collection = mutableListOf<FileModel>()
+        if (query.isEmpty()) {
             collection.addAll(searchList)
         } else {
             for (row in searchList) {
-                if (row.name.toLowerCase(Locale.getDefault()).contains(newQuery)) {
+                if (row.name.contains(query, ignoreCase = true)) {
                     collection.add(row)
                 }
             }
