@@ -32,8 +32,7 @@
         android:theme="@style/AppTheme"
         android:name="com.brackeys.ui.MainApplication"
         android:fullBackupContent="@xml/backup_descriptor"
-        tools:replace="android:supportsRtl"
-        tools:targetApi="q">
+        tools:replace="android:supportsRtl">
 
         <activity
             android:name="com.brackeys.ui.feature.main.activities.MainActivity"

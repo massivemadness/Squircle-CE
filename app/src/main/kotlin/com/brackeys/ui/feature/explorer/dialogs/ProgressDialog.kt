@@ -48,7 +48,7 @@ class ProgressDialog : DialogFragment() {
     private var dialogTitle: Int = -1
     private var dialogMessage: Int = -1
     private var dialogAction: () -> Unit = {} // Действие, которое запустится при открытии диалога
-    private var onCloseAction: () -> Unit = {} // Действие, которое выполняемое при закрытии диалога
+    private var onCloseAction: () -> Unit = {} // Действие, которое выполнится при закрытии диалога
     private var indeterminate: Boolean = false // Загрузка без отображения реального прогресса
     private var tempFiles: List<FileModel> = emptyList() // Список файлов для отображения информации
 

@@ -16,8 +16,6 @@
 
 package com.brackeys.ui.feature.main.activities
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -32,19 +30,16 @@ import com.brackeys.ui.feature.main.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.utils.extensions.fragment
 import com.brackeys.ui.utils.extensions.multiplyDraggingEdgeSizeBy
-import com.brackeys.ui.utils.extensions.showToast
+import com.brackeys.ui.utils.inappupdate.InAppUpdate
+import com.brackeys.ui.utils.inappupdate.InAppUpdateImpl
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.play.core.install.model.ActivityResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        private const val REQUEST_CODE_UPDATE = 10
-    }
-
     private val viewModel: MainViewModel by viewModels()
+    private val inAppUpdate: InAppUpdate by lazy { InAppUpdateImpl(applicationContext) }
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var editorOnBackPressedHandler: OnBackPressedHandler
@@ -64,7 +59,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
 
-        viewModel.checkForUpdates()
+        inAppUpdate.checkForUpdates(this) {
+            Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.action_restart) { inAppUpdate.completeUpdate() }
+                .show()
+        }
     }
 
     override fun onResume() {
@@ -73,19 +72,6 @@ class MainActivity : AppCompatActivity() {
             window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_UPDATE) {
-            when (resultCode) {
-                Activity.RESULT_OK -> { /* approved */ }
-                Activity.RESULT_CANCELED -> { /* rejected */ }
-                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
-                    showToast(R.string.message_in_app_update_failed)
-                }
-            }
         }
     }
 
@@ -106,22 +92,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.updateEvent.observe(this) {
-            val appUpdateManager = it.first
-            val appUpdateInfo = it.second
-            val appUpdateType = it.third
-            appUpdateManager.startUpdateFlowForResult(
-                appUpdateInfo,
-                appUpdateType,
-                this,
-                REQUEST_CODE_UPDATE
-            )
-        }
-        viewModel.installEvent.observe(this) {
-            Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.action_restart) { viewModel.completeUpdate() }
-                .show()
-        }
         viewModel.openDrawerEvent.observe(this) {
             binding.drawerLayout?.openDrawer(GravityCompat.START)
         }

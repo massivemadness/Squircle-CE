@@ -18,6 +18,9 @@ include ':app', ':domain', ':data', ':editorkit'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'
+// TODO ':filesystems:filesystem-dropbox'
+// TODO ':filesystems:filesystem-googledrive'
+// TODO ':filesystems:filesystem-ftp'
 
 include ':languages:language-base',
         ':languages:language-plaintext',
