@@ -386,6 +386,7 @@ dependencies {
     implementation 'com.brackeys.ui:language-c:1.2.0'
     implementation 'com.brackeys.ui:language-cpp:1.2.0'
     implementation 'com.brackeys.ui:language-csharp:1.2.0'
+    implementation 'com.brackeys.ui:language-groovy:1.2.0'
     implementation 'com.brackeys.ui:language-html:1.2.0'
     implementation 'com.brackeys.ui:language-java:1.2.0'
     implementation 'com.brackeys.ui:language-javascript:1.2.0'

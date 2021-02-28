@@ -83,7 +83,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
 
         @SuppressLint("RestrictedApi")
         tracker = DefaultSelectionTracker(
-            navArgs.path ?: "",
+            navArgs.path ?: "root",
             FileKeyProvider(binding.recyclerView),
             SelectionPredicates.createSelectAnything(),
             StorageStrategy.createStringStorage()

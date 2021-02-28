@@ -21,6 +21,7 @@ import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.c.CLanguage
 import com.brackeys.ui.language.cpp.CppLanguage
 import com.brackeys.ui.language.csharp.CSharpLanguage
+import com.brackeys.ui.language.groovy.GroovyLanguage
 import com.brackeys.ui.language.html.HtmlLanguage
 import com.brackeys.ui.language.java.JavaLanguage
 import com.brackeys.ui.language.javascript.JavaScriptLanguage
@@ -44,6 +45,7 @@ object LanguageFactory {
             CLanguage.supportFormat(fileName) -> CLanguage()
             CppLanguage.supportFormat(fileName) -> CppLanguage()
             CSharpLanguage.supportFormat(fileName) -> CSharpLanguage()
+            GroovyLanguage.supportFormat(fileName) -> GroovyLanguage()
             HtmlLanguage.supportFormat(fileName) -> HtmlLanguage()
             JavaLanguage.supportFormat(fileName) -> JavaLanguage()
             JavaScriptLanguage.supportFormat(fileName) -> JavaScriptLanguage()

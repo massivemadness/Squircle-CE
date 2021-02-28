@@ -1,0 +1,34 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+ext.libraryGroupId = "com.brackeys.ui"
+ext.libraryArtifactId = "language-groovy"
+
+apply from: rootProject.file("gradle/bintray.gradle")
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Core
+    implementation library.kotlin
+
+    // Modules
+    api project(':languages:language-base')
+}
