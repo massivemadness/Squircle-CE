@@ -85,26 +85,19 @@ class EditorViewModel @Inject constructor(
         viewModelScope.launchEvent(loadingBar) {
             try {
                 val content = documentRepository.loadFile(documentModel)
-                val precomputedText = withContext(Dispatchers.IO) {
+                val precomputedText = withContext(Dispatchers.Default) {
                     PrecomputedTextCompat.create(content.text, params)
                 }
                 settingsManager.selectedDocumentId = documentModel.uuid
                 contentEvent.value = content to precomputedText
-            } catch (e: Error) {
-                Log.e(TAG, e.message, e)
-                when (e) {
-                    is OutOfMemoryError -> {
-                        toastEvent.value = R.string.message_out_of_memory
-                    }
-                    else -> {
-                        toastEvent.value = R.string.message_unknown_exception
-                    }
-                }
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 when (e) {
                     is FileNotFoundException -> {
                         toastEvent.value = R.string.message_file_not_found
+                    }
+                    is OutOfMemoryError -> {
+                        toastEvent.value = R.string.message_out_of_memory
                     }
                     else -> {
                         toastEvent.value = R.string.message_unknown_exception

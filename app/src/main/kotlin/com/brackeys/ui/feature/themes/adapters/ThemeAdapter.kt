@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.R
-import com.brackeys.ui.data.delegate.LanguageDelegate
+import com.brackeys.ui.data.factory.LanguageFactory
 import com.brackeys.ui.databinding.ItemThemeBinding
 import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.utils.extensions.makeRightPaddingRecursively
@@ -115,7 +115,7 @@ class ThemeAdapter(
             binding.editor.themeModel = themeModel
             binding.editor.text = codeSnippet.first
             binding.editor.doOnPreDraw {
-                binding.editor.language = LanguageDelegate.provideLanguage(codeSnippet.second)
+                binding.editor.language = LanguageFactory.create(codeSnippet.second)
             }
         }
     }

@@ -32,8 +32,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10003
-        versionName "2021.1.0"
+        versionCode 10004
+        versionName "2021.1.1"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -46,7 +46,6 @@ android {
         debug {
             minifyEnabled false
             debuggable true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {

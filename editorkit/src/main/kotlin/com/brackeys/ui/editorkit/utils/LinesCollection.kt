@@ -92,9 +92,7 @@ class LinesCollection : Iterable<LinesCollection.Line> {
         return lines.iterator()
     }
 
-    data class Line(
-        var start: Int
-    ) : Comparable<Line> {
+    data class Line(var start: Int) : Comparable<Line> {
 
         override fun compareTo(other: Line): Int {
             return start - other.start

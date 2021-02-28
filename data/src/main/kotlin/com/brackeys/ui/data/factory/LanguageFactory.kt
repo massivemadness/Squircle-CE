@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.delegate
+package com.brackeys.ui.data.factory
 
 import com.brackeys.ui.language.actionscript.ActionScriptLanguage
 import com.brackeys.ui.language.base.Language
@@ -36,9 +36,9 @@ import com.brackeys.ui.language.sql.SqlLanguage
 import com.brackeys.ui.language.visualbasic.VisualBasicLanguage
 import com.brackeys.ui.language.xml.XmlLanguage
 
-object LanguageDelegate {
+object LanguageFactory {
 
-    fun provideLanguage(fileName: String): Language {
+    fun create(fileName: String): Language {
         return when {
             ActionScriptLanguage.supportFormat(fileName) -> ActionScriptLanguage()
             CLanguage.supportFormat(fileName) -> CLanguage()

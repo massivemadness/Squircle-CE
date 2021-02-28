@@ -289,7 +289,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                     is SettingsEvent.CurrentLine -> config.highlightCurrentLine = event.value
                     is SettingsEvent.Delimiters -> config.highlightDelimiters = event.value
                     is SettingsEvent.ExtendedKeys -> {
-                        KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
+                        KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner) { isOpen ->
                             binding.keyboardContainer.isVisible = event.value && isOpen
                         }
                     }

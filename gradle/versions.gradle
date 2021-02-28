@@ -62,7 +62,7 @@ ext {
     hilt_version = '2.33-beta'
 
     // Other
-    keyboardevent_version = '2.3.0'
+    keyboardevent_version = '3.0.0-RC3'
     rhino_version = '1.7.13'
     zip4j_version = '2.7.0'
     chardet_version = '68.2'

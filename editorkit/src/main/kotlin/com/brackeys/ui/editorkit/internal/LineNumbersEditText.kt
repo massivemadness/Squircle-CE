@@ -27,7 +27,7 @@ import android.view.Gravity
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.brackeys.ui.editorkit.R
-import com.brackeys.ui.editorkit.listener.TextChangeListener
+import com.brackeys.ui.editorkit.listener.OnTextChangedListener
 import com.brackeys.ui.editorkit.model.ColorScheme
 import com.brackeys.ui.editorkit.theme.EditorTheme
 import com.brackeys.ui.editorkit.utils.LinesCollection
@@ -38,7 +38,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : ScalableEditText(context, attrs, defStyleAttr), TextChangeListener {
+) : ScalableEditText(context, attrs, defStyleAttr), OnTextChangedListener {
 
     var colorScheme: ColorScheme = EditorTheme.DARCULA
         set(value) {

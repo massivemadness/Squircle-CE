@@ -1,7 +1,7 @@
 package com.brackeys.ui.data.repository.documents
 
 import com.brackeys.ui.data.converter.DocumentConverter
-import com.brackeys.ui.data.delegate.LanguageDelegate
+import com.brackeys.ui.data.factory.LanguageFactory
 import com.brackeys.ui.data.storage.database.AppDatabase
 import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.data.utils.charsetFor
@@ -56,7 +56,7 @@ class DocumentRepositoryImpl(
             if (cacheFilesystem.isExists(cacheFile)) {
                 DocumentContent(
                     documentModel = documentModel,
-                    language = LanguageDelegate.provideLanguage(documentModel.name),
+                    language = LanguageFactory.create(documentModel.name),
                     undoStack = loadUndoStack(documentModel),
                     redoStack = loadRedoStack(documentModel),
                     text = cacheFilesystem.loadFile(cacheFile, FileParams())
@@ -72,7 +72,7 @@ class DocumentRepositoryImpl(
 
                 DocumentContent(
                     documentModel = documentModel,
-                    language = LanguageDelegate.provideLanguage(documentModel.name),
+                    language = LanguageFactory.create(documentModel.name),
                     undoStack = UndoStack(),
                     redoStack = UndoStack(),
                     text = localFilesystem.loadFile(fileModel, fileParams)
