@@ -1,0 +1,5 @@
+- Added: Support for Groovy language
+- Fixed: Bug when the running task in file explorer wasn't cancelled by clicking «Cancel» (incl. Delete, Copy, Cut)
+- Completely reworked internal application logic and data flow
+- You can now open unknown files in editor by default
+- Bugfixes and minor improvements
