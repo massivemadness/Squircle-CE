@@ -39,7 +39,7 @@
 
 The `editorkit` module provides code editor without any support for programming languages.
 
-[ ![jCenter](https://api.bintray.com/packages/massivemadness/Brackeys-IDE/editorkit/images/download.svg) ](https://bintray.com/massivemadness/Brackeys-IDE/editorkit/_latestVersion)
+[ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/editorkit?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/editorkit/)
 
 ## Gradle Dependency
 
@@ -372,7 +372,7 @@ editor.colorScheme = ColorScheme(
 The language modules provides support for programming languages. This includes syntax highlighting, code suggestions and source code parser.
 *(Note that source code parser currently works only in `language-javascript` module, but it will be implemented for more languages soon)*
 
-[ ![jCenter](https://api.bintray.com/packages/massivemadness/Brackeys-IDE/language-base/images/download.svg) ](https://bintray.com/massivemadness/Brackeys-IDE/language-base/_latestVersion)
+[ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/language-base?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/language-base/)
 
 ## Gradle Dependency
 
