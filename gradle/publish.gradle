@@ -14,77 +14,128 @@
  * limitations under the License.
  */
 
-if (!project.rootProject.file('local.properties').exists()) {
-    logger.warn("local.properties not found.")
-    return
+if (versions == null || versions.publishVersionName == null) {
+    throw new IllegalStateException("Unable to reference publishVersionName!")
+} else if (libraryGroupId == null || libraryArtifactId == null) {
+    throw new IllegalStateException("Must provide libraryGroupId and libraryArtifactId!")
 }
 
-apply plugin: "com.jfrog.bintray"
-apply plugin: "maven-publish"
-
-task androidJavadocs(type: Javadoc) {
-    failOnError = false
-    source = android.sourceSets.main.java.srcDirs
-}
-
-task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-    archiveClassifier.set('javadoc')
-    from androidJavadocs.destinationDir
-}
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 task androidSourcesJar(type: Jar) {
     archiveClassifier.set('sources')
-    from android.sourceSets.main.java.srcDirs
+    if (project.plugins.findPlugin("com.android.library")) {
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    } else {
+        from sourceSets.main.java.srcDirs
+        from sourceSets.main.kotlin.srcDirs
+    }
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
+artifacts {
+    archives androidSourcesJar
+}
 
-                artifact androidJavadocsJar
-                artifact androidSourcesJar
+// Default values
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
 
-                groupId = libraryGroupId
-                artifactId = libraryArtifactId
-                version = versions.publishVersionName
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    Properties p = new Properties()
+    new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
+    p.each { name, value -> ext[name] = value }
+} else {
+    ext["signing.keyId"] = System.getenv('SIGNING_KEY_ID')
+    ext["signing.password"] = System.getenv('SIGNING_PASSWORD')
+    ext["signing.secretKeyRingFile"] = System.getenv('SIGNING_SECRET_KEY_RING_FILE')
+    ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME')
+    ext["ossrhPassword"] = System.getenv('OSSRH_PASSWORD')
+}
 
-                configurations.api.allDependencies.each { dep ->
-                    if (dep.getGroup() == libraryGroupId && dep.getVersion() == "unspecified") {
-                        dep.setVersion(versions.publishVersionName)
-                        println("Updated $dep")
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId libraryGroupId
+            artifactId libraryArtifactId
+            version versions.publishVersionName
+
+            if (project.plugins.findPlugin("com.android.library")) {
+                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+            } else {
+                artifact("$buildDir/libs/${project.getName()}-${version}.jar")
+            }
+            artifact androidSourcesJar
+
+            pom {
+                packaging 'aar'
+                name = libraryArtifactId
+                description = 'Brackeys IDE is a fast and free multi-language code editor for Android.'
+                url = 'https://github.com/massivemadness/Brackeys-IDE'
+                licenses {
+                    license {
+                        name = 'Apache 2.0 License'
+                        url = 'https://github.com/massivemadness/Brackeys-IDE/blob/master/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'massivemadness'
+                        name = 'Dmitry Rubtsov'
+                        email = 'dm.mironov01@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:github.com/massivemadness/Brackeys-IDE.git'
+                    developerConnection = 'scm:git:ssh://github.com/massivemadness/Brackeys-IDE.git'
+                    url = 'https://github.com/massivemadness/Brackeys-IDE/tree/master'
+                }
+                withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    configurations.implementation.allDependencies.each {
+                        if (it.group != null && it.name != null && it.version != null) {
+                            // Check project module dependencies
+                            def projectDependency = it.version == "unspecified"
+                            if (projectDependency) {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                dependencyNode.appendNode('groupId', libraryGroupId)
+                                dependencyNode.appendNode('artifactId', it.name)
+                                dependencyNode.appendNode('version', versions.publishVersionName)
+                                dependencyNode.appendNode('scope', "compile")
+                            } else {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                dependencyNode.appendNode('groupId', it.group)
+                                dependencyNode.appendNode('artifactId', it.name)
+                                dependencyNode.appendNode('version', it.version)
+                                dependencyNode.appendNode('scope', "runtime")
+                            }
+                        }
                     }
                 }
             }
         }
     }
-}
-
-def properties = new Properties()
-properties.load(new FileInputStream("local.properties"))
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    publications = ['release']
-    dryRun = false
-    publish = true
-    override = false
-    pkg {
-        repo = 'Brackeys-IDE'
-        name = libraryArtifactId
-        desc = 'Brackeys IDE is a fast and free multi-language code editor for Android.'
-        userOrg = 'massivemadness'
-        licenses = ['Apache-2.0']
-        githubRepo = 'massivemadness/Brackeys-IDE'
-        githubReleaseNotesFile = 'README.md'
-        websiteUrl = 'https://github.com/massivemadness/Brackeys-IDE'
-        issueTrackerUrl = 'https://github.com/massivemadness/Brackeys-IDE/issues'
-        vcsUrl = 'https://github.com/massivemadness/Brackeys-IDE.git'
-        version {
-            name = versions.publishVersionName
-            released = new Date()
+    repositories {
+        maven {
+            name = "sonatype"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
+            }
         }
     }
+}
+
+signing {
+    sign publishing.publications
+}
+
+afterEvaluate {
+    publishReleasePublicationToSonatypeRepository.dependsOn assembleRelease
 }

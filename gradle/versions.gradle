@@ -23,13 +23,12 @@ ext {
             buildTools: '29.0.3',
 
             // Library
-            publishVersionName: '1.2.0',
-            publishVersionCode: 4
+            publishVersionName: '1.2.1',
+            publishVersionCode: 5
     ]
 
     // Plugins
     agp_version = '4.1.2'
-    bintray_version = '1.8.5'
 
     // Core
     kotlin_version = '1.4.31'
@@ -81,8 +80,7 @@ ext {
             android_gradle_plugin: "com.android.tools.build:gradle:$agp_version",
             kotlin_gradle_plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version",
             hilt_gradle_plugin: "com.google.dagger:hilt-android-gradle-plugin:$hilt_version",
-            safeargs_gradle_plugin: "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version",
-            bintray_gradle_plugin: "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+            safeargs_gradle_plugin: "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
     ]
 
     library = [

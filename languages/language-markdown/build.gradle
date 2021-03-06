@@ -19,7 +19,7 @@ plugins {
     id 'kotlin-android'
 }
 
-ext.libraryGroupId = "com.brackeys.ui"
+ext.libraryGroupId = "com.blacksquircle.ui"
 ext.libraryArtifactId = "language-markdown"
 
 apply from: rootProject.file("gradle/publish.gradle")

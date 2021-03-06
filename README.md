@@ -47,8 +47,8 @@ Add this to your module's `build.gradle` file:
 
 ```gradle
 dependencies {
-
-    implementation 'com.brackeys.ui:editorkit:1.2.0'
+  ...
+  implementation 'com.blacksquircle.ui:editorkit:1.2.1'
 }
 ```
 
@@ -380,27 +380,27 @@ Select your language and add it's dependency to your module's `build.gradle` fil
 
 ```gradle
 dependencies {
-
-    implementation 'com.brackeys.ui:language-actionscript:1.2.0'
-    implementation 'com.brackeys.ui:language-base:1.2.0' // for custom language
-    implementation 'com.brackeys.ui:language-c:1.2.0'
-    implementation 'com.brackeys.ui:language-cpp:1.2.0'
-    implementation 'com.brackeys.ui:language-csharp:1.2.0'
-    implementation 'com.brackeys.ui:language-groovy:1.2.0'
-    implementation 'com.brackeys.ui:language-html:1.2.0'
-    implementation 'com.brackeys.ui:language-java:1.2.0'
-    implementation 'com.brackeys.ui:language-javascript:1.2.0'
-    implementation 'com.brackeys.ui:language-json:1.2.0'
-    implementation 'com.brackeys.ui:language-kotlin:1.2.0'
-    implementation 'com.brackeys.ui:language-lisp:1.2.0'
-    implementation 'com.brackeys.ui:language-lua:1.2.0'
-    implementation 'com.brackeys.ui:language-markdown:1.2.0'
-    implementation 'com.brackeys.ui:language-plaintext:1.2.0'
-    implementation 'com.brackeys.ui:language-python:1.2.0'
-    implementation 'com.brackeys.ui:language-shell:1.2.0'
-    implementation 'com.brackeys.ui:language-sql:1.2.0'
-    implementation 'com.brackeys.ui:language-visualbasic:1.2.0'
-    implementation 'com.brackeys.ui:language-xml:1.2.0'
+  ...
+  implementation 'com.blacksquircle.ui:language-actionscript:1.2.1'
+  implementation 'com.blacksquircle.ui:language-base:1.2.1' // for custom language
+  implementation 'com.blacksquircle.ui:language-c:1.2.1'
+  implementation 'com.blacksquircle.ui:language-cpp:1.2.1'
+  implementation 'com.blacksquircle.ui:language-csharp:1.2.1'
+  implementation 'com.blacksquircle.ui:language-groovy:1.2.1'
+  implementation 'com.blacksquircle.ui:language-html:1.2.1'
+  implementation 'com.blacksquircle.ui:language-java:1.2.1'
+  implementation 'com.blacksquircle.ui:language-javascript:1.2.1'
+  implementation 'com.blacksquircle.ui:language-json:1.2.1'
+  implementation 'com.blacksquircle.ui:language-kotlin:1.2.1'
+  implementation 'com.blacksquircle.ui:language-lisp:1.2.1'
+  implementation 'com.blacksquircle.ui:language-lua:1.2.1'
+  implementation 'com.blacksquircle.ui:language-markdown:1.2.1'
+  implementation 'com.blacksquircle.ui:language-plaintext:1.2.1'
+  implementation 'com.blacksquircle.ui:language-python:1.2.1'
+  implementation 'com.blacksquircle.ui:language-shell:1.2.1'
+  implementation 'com.blacksquircle.ui:language-sql:1.2.1'
+  implementation 'com.blacksquircle.ui:language-visualbasic:1.2.1'
+  implementation 'com.blacksquircle.ui:language-xml:1.2.1'
 }
 ```
 
@@ -412,8 +412,8 @@ dependencies {
 
 ```gradle
 dependencies {
-
-    implementation 'com.brackeys.ui:language-base:1.2.0'
+  ...
+  implementation 'com.blacksquircle.ui:language-base:1.2.1'
 }
 ```
 
