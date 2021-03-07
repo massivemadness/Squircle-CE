@@ -30,6 +30,7 @@ import com.brackeys.ui.language.kotlin.KotlinLanguage
 import com.brackeys.ui.language.lisp.LispLanguage
 import com.brackeys.ui.language.lua.LuaLanguage
 import com.brackeys.ui.language.markdown.MarkdownLanguage
+import com.brackeys.ui.language.php.PhpLanguage
 import com.brackeys.ui.language.plaintext.PlainTextLanguage
 import com.brackeys.ui.language.python.PythonLanguage
 import com.brackeys.ui.language.shell.ShellLanguage
@@ -54,6 +55,7 @@ object LanguageFactory {
             LispLanguage.supportFormat(fileName) -> LispLanguage()
             LuaLanguage.supportFormat(fileName) -> LuaLanguage()
             MarkdownLanguage.supportFormat(fileName) -> MarkdownLanguage()
+            PhpLanguage.supportFormat(fileName) -> PhpLanguage()
             PythonLanguage.supportFormat(fileName) -> PythonLanguage()
             ShellLanguage.supportFormat(fileName) -> ShellLanguage()
             SqlLanguage.supportFormat(fileName) -> SqlLanguage()
