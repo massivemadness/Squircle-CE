@@ -31,15 +31,17 @@ import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.utils.extensions.fragment
 import com.brackeys.ui.utils.extensions.multiplyDraggingEdgeSizeBy
 import com.brackeys.ui.utils.inappupdate.InAppUpdate
-import com.brackeys.ui.utils.inappupdate.InAppUpdateImpl
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var inAppUpdate: InAppUpdate
+
     private val viewModel: MainViewModel by viewModels()
-    private val inAppUpdate: InAppUpdate by lazy { InAppUpdateImpl(applicationContext) }
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var editorOnBackPressedHandler: OnBackPressedHandler

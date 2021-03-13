@@ -16,11 +16,17 @@
 
 package com.brackeys.ui.internal.di.app
 
+import android.content.Context
+import com.brackeys.ui.BuildConfig
 import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
 import com.brackeys.ui.internal.providers.coroutines.DispatcherProviderImpl
+import com.brackeys.ui.utils.inappupdate.InAppUpdate
+import com.brackeys.ui.utils.inappupdate.InAppUpdateImpl
+import com.brackeys.ui.utils.inappupdate.InAppUpdateStub
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -32,5 +38,15 @@ object AppModule {
     @Singleton
     fun provideDispatcherProvider(): DispatcherProvider {
         return DispatcherProviderImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideInAppUpdate(@ApplicationContext context: Context): InAppUpdate {
+        return if (!BuildConfig.DEBUG) {
+            InAppUpdateImpl(context)
+        } else {
+            InAppUpdateStub()
+        }
     }
 }

@@ -395,6 +395,7 @@ dependencies {
   implementation 'com.blacksquircle.ui:language-lisp:1.2.1'
   implementation 'com.blacksquircle.ui:language-lua:1.2.1'
   implementation 'com.blacksquircle.ui:language-markdown:1.2.1'
+  implementation 'com.blacksquircle.ui:language-php:1.2.1'
   implementation 'com.blacksquircle.ui:language-plaintext:1.2.1'
   implementation 'com.blacksquircle.ui:language-python:1.2.1'
   implementation 'com.blacksquircle.ui:language-shell:1.2.1'
