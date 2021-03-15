@@ -95,6 +95,7 @@ class PropertyAdapter(
                 Property.TYPE_COLOR -> R.string.theme_property_types_color
                 Property.LANG_CONST_COLOR -> R.string.theme_property_lang_const_color
                 Property.PREPROCESSOR_COLOR -> R.string.theme_property_preprocessor_color
+                Property.VARIABLE_COLOR -> R.string.theme_property_variables_color
                 Property.METHOD_COLOR -> R.string.theme_property_methods_color
                 Property.STRING_COLOR -> R.string.theme_property_strings_color
                 Property.COMMENT_COLOR -> R.string.theme_property_comments_color

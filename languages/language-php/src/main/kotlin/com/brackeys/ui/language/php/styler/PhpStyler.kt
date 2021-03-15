@@ -73,7 +73,9 @@ class PhpStyler : LanguageStyler {
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PhpToken.VARIABLE_LITERAL -> {
-                        // TODO highlight variables
+                        val styleSpan = StyleSpan(syntaxScheme.variableColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PhpToken.PLUS,
                     PhpToken.MINUS,

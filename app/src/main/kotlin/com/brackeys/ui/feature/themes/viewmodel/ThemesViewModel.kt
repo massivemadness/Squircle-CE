@@ -233,6 +233,10 @@ class ThemesViewModel @Inject constructor(
                 themeModel.colorScheme.syntaxScheme.preprocessorColor.toHexString()
             ),
             PropertyItem(
+                Property.VARIABLE_COLOR,
+                themeModel.colorScheme.syntaxScheme.variableColor.toHexString()
+            ),
+            PropertyItem(
                 Property.METHOD_COLOR,
                 themeModel.colorScheme.syntaxScheme.methodColor.toHexString()
             ),

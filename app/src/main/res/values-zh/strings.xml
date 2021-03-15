@@ -195,6 +195,7 @@
     <string name="theme_property_types_color">定义语法高亮的类型颜色，如：const、var、let</string>
     <string name="theme_property_lang_const_color">定义语法高亮的语言常量颜色，如：true, false, null</string>
     <string name="theme_property_preprocessor_color">定义语法高亮的宏命令和注解颜色，如： #include, @Override, …</string>
+    <string name="theme_property_variables_color">Defines the variables color of syntax highlighting</string>
     <string name="theme_property_methods_color">定义语法高亮的方法名颜色，如：function foo() {}</string>
     <string name="theme_property_strings_color">定义语法高亮的字符串颜色，如：str = \'Hello\'</string>
     <string name="theme_property_comments_color">定义语法高亮的注释颜色，如: 以“//”开头的内容</string>

@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.data.delegate
+package com.brackeys.ui.data.storage.database.utils
 
-import android.content.Context
-import androidx.room.Room
-import com.brackeys.ui.data.storage.database.AppDatabase
-import com.brackeys.ui.data.storage.database.AppDatabaseImpl
-import com.brackeys.ui.data.storage.database.utils.Migrations
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-object DatabaseDelegate {
+object Migrations {
 
-    fun provideAppDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
-            .addMigrations(Migrations.MIGRATION_1_2)
-            .build()
+    val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE `${Tables.THEMES}` ADD COLUMN `variable_color` TEXT NOT NULL DEFAULT \"#000000\"")
+        }
     }
 }

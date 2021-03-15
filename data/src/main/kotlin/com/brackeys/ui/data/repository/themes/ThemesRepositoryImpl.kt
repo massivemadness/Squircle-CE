@@ -69,6 +69,7 @@ class ThemesRepositoryImpl(
     private var typeColor: String = FALLBACK_COLOR
     private var langConstColor: String = FALLBACK_COLOR
     private var preprocessorColor: String = FALLBACK_COLOR
+    private var variableColor: String = FALLBACK_COLOR
     private var methodColor: String = FALLBACK_COLOR
     private var stringColor: String = FALLBACK_COLOR
     private var commentColor: String = FALLBACK_COLOR
@@ -136,6 +137,7 @@ class ThemesRepositoryImpl(
                     Property.TYPE_COLOR -> typeColor = property.propertyValue
                     Property.LANG_CONST_COLOR -> langConstColor = property.propertyValue
                     Property.PREPROCESSOR_COLOR -> preprocessorColor = property.propertyValue
+                    Property.VARIABLE_COLOR -> variableColor = property.propertyValue
                     Property.METHOD_COLOR -> methodColor = property.propertyValue
                     Property.STRING_COLOR -> stringColor = property.propertyValue
                     Property.COMMENT_COLOR -> commentColor = property.propertyValue
@@ -168,6 +170,7 @@ class ThemesRepositoryImpl(
                 typeColor = typeColor,
                 langConstColor = langConstColor,
                 preprocessorColor = preprocessorColor,
+                variableColor = variableColor,
                 methodColor = methodColor,
                 stringColor = stringColor,
                 commentColor = commentColor,
@@ -196,6 +199,7 @@ class ThemesRepositoryImpl(
             keywordColor = FALLBACK_COLOR
             typeColor = FALLBACK_COLOR
             langConstColor = FALLBACK_COLOR
+            variableColor = FALLBACK_COLOR
             methodColor = FALLBACK_COLOR
             stringColor = FALLBACK_COLOR
             commentColor = FALLBACK_COLOR
