@@ -1628,7 +1628,7 @@ public class KotlinLexer {
             // fall through
           case 187: break;
           case 64:
-            { return KotlinToken.ELLISPIS;
+            { return KotlinToken.ELLIPSIS;
             }
             // fall through
           case 188: break;

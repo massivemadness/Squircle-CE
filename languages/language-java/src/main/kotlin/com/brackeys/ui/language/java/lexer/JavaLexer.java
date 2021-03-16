@@ -1584,7 +1584,7 @@ public class JavaLexer {
             // fall through
           case 171: break;
           case 59:
-            { return JavaToken.ELLISPIS;
+            { return JavaToken.ELLIPSIS;
             }
             // fall through
           case 172: break;

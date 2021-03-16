@@ -116,7 +116,7 @@ enum class JavaToken {
     SEMICOLON,
     COMMA,
     DOT,
-    ELLISPIS,
+    ELLIPSIS,
 
     EQ,
     NOT,
