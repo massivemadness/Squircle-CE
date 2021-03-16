@@ -46,6 +46,7 @@ HEX_EXPONENT = [Pp] [+-]? {DIGIT_OR_UNDERSCORE}*
 CRLF = [\ \t \f]* \R
 DOUBLE_QUOTED_STRING = \"([^\\\"\r\n] | \\[^\r\n] | \\{CRLF})*\"?
 SINGLE_QUOTED_STRING = '([^\\'\r\n] | \\[^\r\n] | \\{CRLF})*'?
+SINGLE_BACKTICK_STRING = `([^\\`\r\n] | \\[^\r\n] | \\{CRLF})*`?
 
 LINE_TERMINATOR = \r|\n|\r\n
 WHITESPACE = {LINE_TERMINATOR} | [ \t\f]
@@ -130,6 +131,7 @@ BLOCK_COMMENT = "/"\*([^*] | \*+[^*/])*(\*+"/")?
   "false" { return JavaScriptToken.FALSE; }
   "null" { return JavaScriptToken.NULL; }
   "NaN" { return JavaScriptToken.NAN; }
+  "undefined" { return JavaScriptToken.UNDEFINED; }
 
   "==" { return JavaScriptToken.EQEQ; }
   "!=" { return JavaScriptToken.NOTEQ; }
@@ -170,6 +172,7 @@ BLOCK_COMMENT = "/"\*([^*] | \*+[^*/])*(\*+"/")?
   ";" { return JavaScriptToken.SEMICOLON; }
   "," { return JavaScriptToken.COMMA; }
   "." { return JavaScriptToken.DOT; }
+  "..." { return JavaScriptToken.ELLIPSIS; }
 
   "=" { return JavaScriptToken.EQ; }
   "!" { return JavaScriptToken.NOT; }
@@ -191,6 +194,7 @@ BLOCK_COMMENT = "/"\*([^*] | \*+[^*/])*(\*+"/")?
 
   {DOUBLE_QUOTED_STRING} { return JavaScriptToken.DOUBLE_QUOTED_STRING; }
   {SINGLE_QUOTED_STRING} { return JavaScriptToken.SINGLE_QUOTED_STRING; }
+  {SINGLE_BACKTICK_STRING} { return JavaScriptToken.SINGLE_BACKTICK_STRING; }
 
   {IDENTIFIER} { return JavaScriptToken.IDENTIFIER; }
   {WHITESPACE} { return JavaScriptToken.WHITESPACE; }
