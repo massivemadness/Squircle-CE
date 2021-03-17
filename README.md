@@ -400,6 +400,7 @@ dependencies {
   implementation 'com.blacksquircle.ui:language-python:1.2.1'
   implementation 'com.blacksquircle.ui:language-shell:1.2.1'
   implementation 'com.blacksquircle.ui:language-sql:1.2.1'
+  implementation 'com.blacksquircle.ui:language-typescript:1.2.1'
   implementation 'com.blacksquircle.ui:language-visualbasic:1.2.1'
   implementation 'com.blacksquircle.ui:language-xml:1.2.1'
 }

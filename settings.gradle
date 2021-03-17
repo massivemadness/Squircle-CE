@@ -41,5 +41,6 @@ include ':languages:language-base',
         ':languages:language-python',
         ':languages:language-shell',
         ':languages:language-sql',
+        ':languages:language-typescript',
         ':languages:language-visualbasic',
         ':languages:language-xml'
