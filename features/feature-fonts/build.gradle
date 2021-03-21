@@ -76,6 +76,8 @@ dependencies {
     implementation project(':data')
     implementation project(':editorkit')
 
+    implementation project(':common:uikit')
+
     // Tests
     testImplementation testLibrary.junit
 

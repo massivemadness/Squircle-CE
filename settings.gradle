@@ -16,6 +16,8 @@
 
 include ':app', ':domain', ':data', ':editorkit'
 
+include ':common:uikit'
+
 include ':features:feature-fonts'
 // TODO ':features:feature-settings'
 // TODO ':features:feature-themes'
