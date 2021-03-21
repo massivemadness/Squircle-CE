@@ -30,7 +30,7 @@
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
-        android:name="com.brackeys.ui.MainApplication"
+        android:name="com.brackeys.ui.BrackeysApp"
         android:fullBackupContent="@xml/backup_descriptor"
         tools:replace="android:supportsRtl">
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.editorkit
+package com.brackeys.ui.feature.fonts
 
 import org.junit.Assert.*
 import org.junit.Test

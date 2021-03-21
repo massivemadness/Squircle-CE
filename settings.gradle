@@ -16,6 +16,12 @@
 
 include ':app', ':domain', ':data', ':editorkit'
 
+include ':features:feature-fonts'
+// TODO ':features:feature-settings'
+// TODO ':features:feature-themes'
+// TODO ':features:feature-editor'
+// TODO ':features:feature-explorer'
+
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'
 // TODO ':filesystems:filesystem-dropbox'

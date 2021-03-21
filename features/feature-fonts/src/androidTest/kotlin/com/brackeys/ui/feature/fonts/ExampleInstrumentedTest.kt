@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.editorkit
+package com.brackeys.ui.feature.fonts
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
 
-class ExampleUnitTest {
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
 
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun useAppContext() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals("com.brackeys.ui.feature.fonts", appContext.packageName)
     }
 }

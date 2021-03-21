@@ -17,6 +17,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -27,10 +29,24 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
         consumerProguardFiles 'consumer-rules.pro'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -39,12 +55,30 @@ dependencies {
 
     // Core
     implementation library.kotlin
+    implementation library.core
+    implementation library.activity
+    implementation library.fragment
+
+    // UI
+    implementation library.appcompat
+    implementation library.materialdesign
 
     // Coroutines
     implementation library.coroutines_core
+    implementation library.coroutines_android
+
+    // DI
+    implementation library.hilt
+    kapt library.hilt_compiler
 
     // Modules
+    implementation project(':domain')
+    implementation project(':data')
     implementation project(':editorkit')
-    implementation project(':filesystems:filesystem-base')
-    implementation project(':languages:language-base')
+
+    // Tests
+    testImplementation testLibrary.junit
+
+    androidTestImplementation androidTestLibrary.junit_ext
+    androidTestImplementation androidTestLibrary.test_runner
 }
