@@ -353,6 +353,7 @@ editor.colorScheme = ColorScheme(
         typeColor = Color.parseColor("#669BD1"),
         langConstColor = Color.parseColor("#669BD1"),
         preprocessorColor = Color.parseColor("#C49594"),
+        variableColor = Color.parseColor("#9DDDFF"),
         methodColor = Color.parseColor("#71C6B1"),
         stringColor = Color.parseColor("#CE9F89"),
         commentColor = Color.parseColor("#6BA455"),

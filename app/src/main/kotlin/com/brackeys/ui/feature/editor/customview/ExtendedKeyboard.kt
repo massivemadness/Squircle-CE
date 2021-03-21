@@ -93,7 +93,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
         }
     }
 
-    interface OnKeyListener {
+    fun interface OnKeyListener {
         fun onKey(char: String)
     }
 }

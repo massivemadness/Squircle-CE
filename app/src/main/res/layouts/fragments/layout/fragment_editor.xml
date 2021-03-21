@@ -273,6 +273,33 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <com.brackeys.ui.editorkit.widget.TextProcessor
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAutofill="no"
+            android:textCursorDrawable="@drawable/caret"
+            android:dropDownAnchor="@id/tab_layout"
+            android:completionThreshold="2"
+            android:popupBackground="@drawable/autocomplete_bg"
+            android:background="@null"
+            android:scrollbars="none"
+            android:id="@+id/editor"/>
+
+        <com.brackeys.ui.editorkit.widget.TextScroller
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:id="@+id/scroller"
+            app:thumbTint="?colorPrimary"/>
+
+        <ProgressBar
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:id="@+id/loadingBar"
+            tools:visibility="gone"/>
+
         <ImageView
             android:layout_width="92dp"
             android:layout_height="92dp"
@@ -292,33 +319,6 @@
             android:textStyle="bold"
             android:text="@string/message_no_open_files"
             android:id="@+id/empty_view_text"/>
-
-        <ProgressBar
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:id="@+id/loadingBar"
-            tools:visibility="gone"/>
-
-        <com.brackeys.ui.editorkit.widget.TextProcessor
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:importantForAutofill="no"
-            android:textCursorDrawable="@drawable/caret"
-            android:dropDownAnchor="@id/tab_layout"
-            android:completionThreshold="2"
-            android:popupBackground="@drawable/autocomplete_bg"
-            android:background="@null"
-            android:scrollbars="none"
-            android:id="@+id/editor"/>
-
-        <com.brackeys.ui.editorkit.widget.TextScroller
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:id="@+id/scroller"
-            app:thumbTint="?colorPrimary"/>
 
     </FrameLayout>
 
