@@ -20,6 +20,7 @@ import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.base.parser.LanguageParser
 import com.brackeys.ui.language.base.provider.SuggestionProvider
 import com.brackeys.ui.language.base.styler.LanguageStyler
+import com.brackeys.ui.language.base.utils.endsWith
 import com.brackeys.ui.language.python.parser.PythonParser
 import com.brackeys.ui.language.python.provider.PythonProvider
 import com.brackeys.ui.language.python.styler.PythonStyler
