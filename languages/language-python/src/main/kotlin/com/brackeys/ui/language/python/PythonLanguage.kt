@@ -29,7 +29,7 @@ class PythonLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".py", ".pyw")
+        private val FILE_EXTENSIONS = arrayOf(".py", ".pyw", ".pyi")
 
         fun supportFormat(fileName: String): Boolean {
             return fileName.endsWith(FILE_EXTENSIONS)
