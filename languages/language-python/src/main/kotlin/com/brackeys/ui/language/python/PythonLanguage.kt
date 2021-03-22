@@ -31,7 +31,7 @@ class PythonLanguage : Language {
         private val FILE_EXTENSIONS = arrayOf(".py", ".pyw")
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS, ignoreCase = true)
+            return fileName.endsWith(FILE_EXTENSIONS)
         }
     }
 
