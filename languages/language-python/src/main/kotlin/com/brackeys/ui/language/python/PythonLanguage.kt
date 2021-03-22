@@ -28,10 +28,10 @@ class PythonLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".py"
+        private val FILE_EXTENSIONS = arrayOf(".py", ".pyw")
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(FILE_EXTENSIONS, , ignoreCase = true)
         }
     }
 
