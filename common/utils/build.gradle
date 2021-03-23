@@ -16,6 +16,7 @@
 
 plugins {
     id 'com.android.library'
+    id 'kotlin-android'
 }
 
 android {
@@ -25,14 +26,28 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // UI
-    implementation library.appcompat
-    implementation library.materialdesign
-    implementation library.materialdialogs_core
+    // Core
+    implementation library.kotlin
+    implementation library.core
+
+    // AAC
+    implementation library.livedata
 }

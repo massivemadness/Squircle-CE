@@ -117,6 +117,7 @@ dependencies {
     implementation project(':editorkit')
 
     implementation project(':common:uikit')
+    implementation project(':common:utils')
 
     implementation project(':features:feature-fonts')
 

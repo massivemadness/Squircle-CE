@@ -24,9 +24,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.annotation.ColorRes
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import java.io.BufferedReader
@@ -42,14 +40,6 @@ fun Context.getAssetFileText(assetPath: String): String {
 
 fun Context.hasExternalStorageAccess(): Boolean {
     return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-}
-
-fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
-    if (textRes != -1) {
-        Toast.makeText(this, textRes, duration).show()
-    } else {
-        Toast.makeText(this, text, duration).show()
-    }
 }
 
 fun Activity.closeKeyboard() {

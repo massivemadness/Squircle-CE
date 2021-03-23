@@ -14,25 +14,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'com.android.library'
-}
+package com.brackeys.ui.utils.extensions
 
-android {
-    compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
+import android.content.Context
+import android.widget.Toast
+import androidx.annotation.StringRes
 
-    defaultConfig {
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
+fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
+    if (textRes != -1) {
+        Toast.makeText(this, textRes, duration).show()
+    } else {
+        Toast.makeText(this, text, duration).show()
     }
-}
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    // UI
-    implementation library.appcompat
-    implementation library.materialdesign
-    implementation library.materialdialogs_core
 }
