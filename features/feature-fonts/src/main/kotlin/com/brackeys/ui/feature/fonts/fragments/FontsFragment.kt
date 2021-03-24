@@ -28,10 +28,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.brackeys.ui.R
-import com.brackeys.ui.databinding.FragmentFontsBinding
 import com.brackeys.ui.domain.model.fonts.FontModel
+import com.brackeys.ui.feature.fonts.R
 import com.brackeys.ui.feature.fonts.adapters.FontAdapter
+import com.brackeys.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.brackeys.ui.feature.fonts.viewmodel.FontsViewModel
 import com.brackeys.ui.utils.extensions.debounce
 import com.brackeys.ui.utils.extensions.showToast
@@ -68,8 +68,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         }
 
         binding.actionAdd.setOnClickListener {
-            val destination = FontsFragmentDirections.toExternalFontFragment()
-            navController.navigate(destination)
+            navController.navigate(R.id.externalFontFragment)
         }
 
         viewModel.fetchFonts()

@@ -26,8 +26,6 @@
     <string name="label_code_style">Code Style</string>
     <string name="label_files">Files</string>
     <string name="label_about">About</string>
-    <string name="label_fonts">Fonts</string>
-    <string name="label_external_font">External Font</string>
     <string name="label_themes">Themes</string>
     <string name="label_new_theme">New Theme</string>
     <string name="label_keyboard_preset">Keyboard preset</string>
@@ -41,12 +39,9 @@
     <string name="hint_file_path" translatable="false">/storage/emulated/0/Download/...</string>
     <string name="hint_file_name" translatable="false">file.txt</string>
     <string name="hint_archive_name" translatable="false">archive.zip</string>
-    <string name="hint_enter_font_name">Enter font name</string>
-    <string name="hint_enter_font_path">Enter font path</string>
     <string name="hint_enter_theme_name">Enter theme name</string>
     <string name="hint_enter_theme_author">Enter theme author</string>
     <string name="hint_enter_theme_desc">Short description</string>
-    <string name="hint_font_name" translatable="false">Droid Sans Mono</string>
     <string name="hint_theme_name" translatable="false">Darcula</string>
     <string name="hint_theme_author" translatable="false">Brackeys IDE</string>
     <string name="hint_theme_desc">Default color scheme</string>
@@ -171,8 +166,6 @@
     <string name="message_in_app_update_ready">App is ready to update</string>
     <string name="message_in_app_update_failed">Update installation failed</string>
     <string name="message_selected">Selected «%1$s»</string>
-    <string name="message_new_font_available">New font available: %1$s</string>
-    <string name="message_font_removed">Font «%1$s» removed</string>
     <string name="message_new_theme_available">New theme available: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» removed</string>
     <string name="message_theme_exported">Theme saved to /Download/%1$s.json</string>
@@ -184,9 +177,6 @@
     <string name="message_extracting">Extracting…%1$s</string>
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
 
-    <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
-    <string name="font_support_ligatures">* Support ligatures</string>
-    <string name="font_disclaimer">If you want to use this font, do not delete .ttf file at the specified path</string>
     <string name="preset_disclaimer">You can repeat characters multiple times</string>
 
     <string name="theme_property_text_color">Defines the text color of the editor</string>

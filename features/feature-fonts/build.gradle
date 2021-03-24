@@ -63,6 +63,12 @@ dependencies {
     implementation library.appcompat
     implementation library.materialdesign
 
+    // AAC
+    implementation library.livedata
+    implementation library.viewmodel
+    implementation library.navigation_ui
+    implementation library.navigation_fragment
+
     // Coroutines
     implementation library.coroutines_core
     implementation library.coroutines_android
@@ -74,7 +80,6 @@ dependencies {
     // Modules
     implementation project(':domain')
     implementation project(':data')
-    implementation project(':editorkit')
 
     implementation project(':common:uikit')
     implementation project(':common:utils')

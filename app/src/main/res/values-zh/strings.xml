@@ -25,8 +25,6 @@
     <string name="label_code_style">代码范</string>
     <string name="label_files">文件</string>
     <string name="label_about">关于</string>
-    <string name="label_fonts">字体</string>
-    <string name="label_external_font">外部字体</string>
     <string name="label_themes">主题</string>
     <string name="label_new_theme">新建主题</string>
     <string name="label_keyboard_preset">快捷符号栏</string>
@@ -36,8 +34,6 @@
     <string name="hint_enter_file_name">输入文件名称</string>
     <string name="hint_enter_file_path">输入文件路径</string>
     <string name="hint_enter_archive_name">输入压缩包名称</string>
-    <string name="hint_enter_font_name">输入字体名称</string>
-    <string name="hint_enter_font_path">输入字体路径</string>
     <string name="hint_enter_theme_name">输入主题名称</string>
     <string name="hint_enter_theme_author">输入主题作者</string>
     <string name="hint_enter_theme_desc">主题简要描述</string>
@@ -162,8 +158,6 @@
     <string name="message_in_app_update_ready">应用已准备好新版本</string>
     <string name="message_in_app_update_failed">新版本安装失败</string>
     <string name="message_selected">已选择 «%1$s»</string>
-    <string name="message_new_font_available">新字体可用: %1$s</string>
-    <string name="message_font_removed">字体 «%1$s» 已移除</string>
     <string name="message_new_theme_available">新主题可用: %1$s</string>
     <string name="message_theme_removed">主题 «%1$s» 已移除</string>
     <string name="message_theme_exported">主题已保存到 /Download/%1$s.json</string>
@@ -174,8 +168,6 @@
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
 
-    <string name="font_support_ligatures">* 支持连体字母</string>
-    <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>
     <string name="preset_disclaimer">注：同一个字符可以重复多次</string>
 
     <string name="theme_property_text_color">定义编辑器的文本颜色</string>

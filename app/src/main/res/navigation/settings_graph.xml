@@ -61,12 +61,12 @@
         android:name="com.brackeys.ui.feature.settings.fragments.EditorFragment"
         android:label="@string/label_editor">
         <action
-            android:id="@+id/to_fontsFragment"
+            android:id="@+id/to_fontsGraph"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/fontsFragment"/>
+            app:destination="@id/fontsGraph"/>
         <action
             android:id="@+id/to_presetDialog"
             app:destination="@id/presetDialog"/>
@@ -87,25 +87,9 @@
         android:name="com.brackeys.ui.feature.settings.fragments.AboutFragment"
         android:label="@string/label_about"/>
 
-    <fragment
-        android:id="@+id/fontsFragment"
-        android:name="com.brackeys.ui.feature.fonts.fragments.FontsFragment"
-        android:label="@string/label_fonts"
-        tools:layout="@layout/fragment_fonts">
-        <action
-            android:id="@+id/to_externalFontFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/externalFontFragment"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/externalFontFragment"
-        android:name="com.brackeys.ui.feature.fonts.fragments.ExternalFontFragment"
-        android:label="@string/label_external_font"
-        tools:layout="@layout/fragment_external_font"/>
+    <include
+        android:id="@+id/fontsGraph"
+        app:graph="@navigation/fonts_graph"/>
 
     <fragment
         android:id="@+id/themesFragment"

@@ -17,6 +17,7 @@
 package com.brackeys.ui.utils.extensions
 
 import android.content.Context
+import android.graphics.Typeface
 import android.widget.Toast
 import androidx.annotation.StringRes
 
@@ -25,5 +26,20 @@ fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration:
         Toast.makeText(this, textRes, duration).show()
     } else {
         Toast.makeText(this, text, duration).show()
+    }
+}
+
+private const val ASSET_PATH = "file:///android_asset/"
+
+fun Context.createTypefaceFromPath(path: String): Typeface {
+    return if (path.startsWith(ASSET_PATH)) {
+        val newPath = path.substring(22)
+        Typeface.createFromAsset(assets, newPath)
+    } else {
+        try {
+            Typeface.createFromFile(path)
+        } catch (e: Exception) {
+            Typeface.MONOSPACE
+        }
     }
 }

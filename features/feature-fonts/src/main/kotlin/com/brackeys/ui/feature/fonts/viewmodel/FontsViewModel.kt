@@ -20,9 +20,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.brackeys.ui.R
 import com.brackeys.ui.domain.model.fonts.FontModel
 import com.brackeys.ui.domain.repository.fonts.FontsRepository
+import com.brackeys.ui.feature.fonts.R
 import com.brackeys.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

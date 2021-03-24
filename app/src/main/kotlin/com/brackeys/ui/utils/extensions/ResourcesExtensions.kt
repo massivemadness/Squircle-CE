@@ -22,7 +22,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Typeface
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
@@ -47,21 +46,6 @@ fun Activity.closeKeyboard() {
     val windowToken = currentFocus?.windowToken
     val hideType = InputMethodManager.HIDE_NOT_ALWAYS
     inputManager?.hideSoftInputFromWindow(windowToken, hideType)
-}
-
-private const val ASSET_PATH = "file:///android_asset/"
-
-fun Context.createTypefaceFromPath(path: String): Typeface {
-    return if (path.startsWith(ASSET_PATH)) {
-        val newPath = path.substring(22)
-        Typeface.createFromAsset(assets, newPath)
-    } else {
-        try {
-            Typeface.createFromFile(path)
-        } catch (e: Exception) {
-            Typeface.MONOSPACE
-        }
-    }
 }
 
 fun String.clipText(context: Context?) = clip(context, ClipData.newPlainText("Text", this))

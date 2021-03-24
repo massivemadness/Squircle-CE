@@ -22,7 +22,6 @@ import android.graphics.drawable.InsetDrawable
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
@@ -31,19 +30,13 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.iterator
-import androidx.core.widget.doAfterTextChanged
 import androidx.customview.widget.ViewDragHelper
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 fun Fragment.setSupportActionBar(toolbar: Toolbar) {
     val parentActivity = activity as AppCompatActivity
@@ -119,40 +112,4 @@ fun DrawerLayout.multiplyDraggingEdgeSizeBy(n: Int) {
 
     val edge = edgeSize.getInt(viewDragHelper)
     edgeSize.setInt(viewDragHelper, edge * n)
-}
-
-fun EditText.debounce(
-    coroutineScope: CoroutineScope,
-    waitMs: Long = 250L,
-    destinationFunction: (String) -> Unit
-) {
-    var debounceJob: Job? = null
-    doAfterTextChanged {
-        debounceJob?.cancel()
-        debounceJob = coroutineScope.launch {
-            delay(waitMs)
-            destinationFunction(text.toString())
-        }
-    }
-}
-
-fun SearchView.debounce(
-    coroutineScope: CoroutineScope,
-    waitMs: Long = 250L,
-    destinationFunction: (String) -> Unit
-) {
-    var debounceJob: Job? = null
-    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            return onQueryTextChange(query)
-        }
-        override fun onQueryTextChange(newText: String?): Boolean {
-            debounceJob?.cancel()
-            debounceJob = coroutineScope.launch {
-                delay(waitMs)
-                destinationFunction(newText ?: "")
-            }
-            return true
-        }
-    })
 }

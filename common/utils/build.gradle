@@ -48,6 +48,9 @@ dependencies {
     implementation library.kotlin
     implementation library.core
 
+    // UI
+    implementation library.appcompat
+
     // AAC
     implementation library.livedata
 }

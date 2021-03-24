@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.internal.di.fonts
+package com.brackeys.ui.feature.fonts.internal
 
 import com.brackeys.ui.data.repository.fonts.FontsRepositoryImpl
 import com.brackeys.ui.data.storage.database.AppDatabase
