@@ -16,10 +16,13 @@
 
 package com.brackeys.ui.utils.extensions
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 
 fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
     if (textRes != -1) {
@@ -27,6 +30,11 @@ fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration:
     } else {
         Toast.makeText(this, text, duration).show()
     }
+}
+
+fun Context.hasExternalStorageAccess(): Boolean {
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+        PackageManager.PERMISSION_GRANTED
 }
 
 private const val ASSET_PATH = "file:///android_asset/"

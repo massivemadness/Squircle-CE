@@ -44,8 +44,7 @@ class ApplicationFragment : PreferenceFragmentCompat() {
 
         findPreference<Preference>(SettingsManager.KEY_COLOR_SCHEME)
             ?.setOnPreferenceClickListener {
-                val destination = ApplicationFragmentDirections.toThemesFragment()
-                navController.navigate(destination)
+                navController.navigate(R.id.themes_graph)
                 true
             }
         findPreference<Preference>(SettingsManager.KEY_FULLSCREEN_MODE)

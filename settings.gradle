@@ -19,9 +19,9 @@ include ':app', ':domain', ':data', ':editorkit'
 include ':common:uikit',
         ':common:utils'
 
-include ':features:feature-fonts'
+include ':features:feature-fonts',
+        ':features:feature-themes'
 // TODO ':features:feature-settings'
-// TODO ':features:feature-themes'
 // TODO ':features:feature-editor'
 // TODO ':features:feature-explorer'
 

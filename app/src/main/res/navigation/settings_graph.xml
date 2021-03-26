@@ -48,12 +48,12 @@
         android:name="com.brackeys.ui.feature.settings.fragments.ApplicationFragment"
         android:label="@string/label_application">
         <action
-            android:id="@+id/to_themesFragment"
+            android:id="@+id/to_themesGraph"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/themesFragment"/>
+            app:destination="@id/themes_graph"/>
     </fragment>
 
     <fragment
@@ -66,7 +66,7 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/fontsGraph"/>
+            app:destination="@id/fonts_graph"/>
         <action
             android:id="@+id/to_presetDialog"
             app:destination="@id/presetDialog"/>
@@ -88,33 +88,12 @@
         android:label="@string/label_about"/>
 
     <include
-        android:id="@+id/fontsGraph"
+        android:id="@+id/fonts_graph"
         app:graph="@navigation/fonts_graph"/>
 
-    <fragment
-        android:id="@+id/themesFragment"
-        android:name="com.brackeys.ui.feature.themes.fragments.ThemesFragment"
-        android:label="@string/label_themes"
-        tools:layout="@layout/fragment_themes">
-        <action
-            android:id="@+id/to_newThemeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/newThemeFragment"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/newThemeFragment"
-        android:name="com.brackeys.ui.feature.themes.fragments.NewThemeFragment"
-        android:label="@string/label_new_theme"
-        tools:layout="@layout/fragment_new_theme">
-        <argument
-            android:name="uuid"
-            app:nullable="true"
-            app:argType="string"/>
-    </fragment>
+    <include
+        android:id="@+id/themes_graph"
+        app:graph="@navigation/themes_graph"/>
 
     <dialog
         android:id="@+id/presetDialog"

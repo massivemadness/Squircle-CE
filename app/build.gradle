@@ -120,6 +120,7 @@ dependencies {
     implementation project(':common:utils')
 
     implementation project(':features:feature-fonts')
+    implementation project(':features:feature-themes')
 
     implementation project(':filesystems:filesystem-base')
     implementation project(':languages:language-base')

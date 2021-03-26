@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.databinding.ItemPreferenceBinding
-import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 import com.brackeys.ui.feature.settings.adapters.item.PreferenceItem
+import com.brackeys.ui.utils.adapters.OnItemClickListener
 
 class PreferenceAdapter(
     private val onItemClickListener: OnItemClickListener<PreferenceItem>

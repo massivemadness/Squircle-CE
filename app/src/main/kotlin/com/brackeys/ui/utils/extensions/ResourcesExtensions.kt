@@ -16,29 +16,17 @@
 
 package com.brackeys.ui.utils.extensions
 
-import android.Manifest
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.pm.PackageManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import java.io.BufferedReader
 
 fun Context.getColour(@ColorRes colorRes: Int): Int {
     return ContextCompat.getColor(this, colorRes)
-}
-
-fun Context.getAssetFileText(assetPath: String): String {
-    val inputStream = assets.open(assetPath)
-    return inputStream.bufferedReader().use(BufferedReader::readText)
-}
-
-fun Context.hasExternalStorageAccess(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 }
 
 fun Activity.closeKeyboard() {

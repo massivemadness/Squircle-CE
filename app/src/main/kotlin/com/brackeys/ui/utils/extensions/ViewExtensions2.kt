@@ -16,11 +16,8 @@
 
 package com.brackeys.ui.utils.extensions
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.graphics.drawable.InsetDrawable
 import android.util.TypedValue
-import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
@@ -28,10 +25,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.iterator
 import androidx.customview.widget.ViewDragHelper
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -54,32 +48,6 @@ fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T {
 fun NavController.popBackStack(n: Int) {
     for (index in 0 until n) {
         popBackStack()
-    }
-}
-
-/**
- * https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
- */
-@SuppressLint("RestrictedApi")
-fun PopupMenu.makeRightPaddingRecursively() {
-    if (menu is MenuBuilder) {
-        val menuBuilder = menu as MenuBuilder
-        menuBuilder.setOptionalIconsVisible(true)
-        for (item in menuBuilder.visibleItems) {
-            item.makeRightPadding()
-            if (item.hasSubMenu()) {
-                for (subItem in item.subMenu.iterator()) {
-                    subItem.makeRightPadding()
-                }
-            }
-        }
-    }
-}
-
-private fun MenuItem.makeRightPadding() {
-    if (icon != null) {
-        val iconMargin = 8.dpToPx() // 8dp - default margin
-        icon = InsetDrawable(icon, iconMargin, 0, iconMargin, 0)
     }
 }
 

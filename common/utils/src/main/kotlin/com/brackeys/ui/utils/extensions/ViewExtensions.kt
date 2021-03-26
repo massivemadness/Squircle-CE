@@ -16,8 +16,14 @@
 
 package com.brackeys.ui.utils.extensions
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.InsetDrawable
+import android.view.MenuItem
 import android.widget.EditText
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.iterator
 import androidx.core.widget.doAfterTextChanged
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -58,4 +64,30 @@ fun SearchView.debounce(
             return true
         }
     })
+}
+
+/**
+ * https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
+ */
+@SuppressLint("RestrictedApi")
+fun PopupMenu.makeRightPaddingRecursively() {
+    if (menu is MenuBuilder) {
+        val menuBuilder = menu as MenuBuilder
+        menuBuilder.setOptionalIconsVisible(true)
+        for (item in menuBuilder.visibleItems) {
+            item.makeRightPadding()
+            if (item.hasSubMenu()) {
+                for (subItem in item.subMenu.iterator()) {
+                    subItem.makeRightPadding()
+                }
+            }
+        }
+    }
+}
+
+private fun MenuItem.makeRightPadding() {
+    if (icon != null) {
+        val iconMargin = 8.dpToPx() // 8dp - default margin
+        icon = InsetDrawable(icon, iconMargin, 0, iconMargin, 0)
+    }
 }

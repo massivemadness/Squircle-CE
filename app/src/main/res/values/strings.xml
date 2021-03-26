@@ -26,8 +26,6 @@
     <string name="label_code_style">Code Style</string>
     <string name="label_files">Files</string>
     <string name="label_about">About</string>
-    <string name="label_themes">Themes</string>
-    <string name="label_new_theme">New Theme</string>
     <string name="label_keyboard_preset">Keyboard preset</string>
 
     <string name="hint_search">Search…</string>
@@ -39,12 +37,6 @@
     <string name="hint_file_path" translatable="false">/storage/emulated/0/Download/...</string>
     <string name="hint_file_name" translatable="false">file.txt</string>
     <string name="hint_archive_name" translatable="false">archive.zip</string>
-    <string name="hint_enter_theme_name">Enter theme name</string>
-    <string name="hint_enter_theme_author">Enter theme author</string>
-    <string name="hint_enter_theme_desc">Short description</string>
-    <string name="hint_theme_name" translatable="false">Darcula</string>
-    <string name="hint_theme_author" translatable="false">Brackeys IDE</string>
-    <string name="hint_theme_desc">Default color scheme</string>
     <string name="hint_enter_preset_chars">Enter characters (without separation)</string>
     <string name="hint_preset_chars" translatable="false">{}();,.=|&amp;![]&lt;&gt;+-/*?:_</string>
 
@@ -67,11 +59,6 @@
     <string name="action_run_in_background">Run in background</string>
     <string name="action_show_hidden_files">Show hidden files</string>
     <string name="action_create_zip">Create .zip</string>
-    <string name="action_select">Select</string>
-    <string name="action_import">Import</string>
-    <string name="action_export">Export</string>
-    <string name="action_edit">Edit</string>
-    <string name="action_remove">Remove</string>
     <string name="action_new">New</string>
     <string name="action_open">Open</string>
     <string name="action_open_as">Open As</string>
@@ -104,7 +91,6 @@
     <string name="dialog_title_multi_delete">Multi-delete</string>
     <string name="dialog_title_exit">Exit</string>
     <string name="dialog_title_properties">Properties</string>
-    <string name="dialog_title_color_picker">Color Picker</string>
     <string name="dialog_title_result">Result</string>
     <string name="dialog_title_save_as">Save As…</string>
     <string name="dialog_title_goto_line">Go to Line…</string>
@@ -138,7 +124,6 @@
     <string name="sort_by_date">Sort by Date</string>
 
     <string name="message_access_denied">Access Denied</string>
-    <string name="message_access_required">Application requires storage access to work with files</string>
     <string name="message_no_result">No result</string>
     <string name="message_no_open_files">No open files</string>
     <string name="message_tab_limit_achieved">Tab limit achieved</string>
@@ -165,11 +150,6 @@
     <string name="message_no_errors_detected">No syntax errors detected</string>
     <string name="message_in_app_update_ready">App is ready to update</string>
     <string name="message_in_app_update_failed">Update installation failed</string>
-    <string name="message_selected">Selected «%1$s»</string>
-    <string name="message_new_theme_available">New theme available: %1$s</string>
-    <string name="message_theme_removed">Theme «%1$s» removed</string>
-    <string name="message_theme_exported">Theme saved to /Download/%1$s.json</string>
-    <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
     <string name="message_deleting">Deleting…%1$s</string>
     <string name="message_copying">Copying…%1$s</string>
@@ -178,33 +158,6 @@
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
 
     <string name="preset_disclaimer">You can repeat characters multiple times</string>
-
-    <string name="theme_property_text_color">Defines the text color of the editor</string>
-    <string name="theme_property_background_color">Defines the background color of the editor</string>
-    <string name="theme_property_gutter_color">Defines the background color of gutter</string>
-    <string name="theme_property_gutter_divider_color">Defines the divider color of gutter</string>
-    <string name="theme_property_gutter_current_line_number_color">Defines the line number color of selected line in gutter</string>
-    <string name="theme_property_gutter_text_color">Defines the line numbers color in gutter</string>
-    <string name="theme_property_selected_line_color">Defines color of selected line in the editor</string>
-    <string name="theme_property_selection_color">Defines the selection color in the editor</string>
-    <string name="theme_property_suggestion_query_color">Defines the suggestion text color in dropdown menu</string>
-    <string name="theme_property_find_result_background_color">Defines the background color of found results</string>
-    <string name="theme_property_delimiter_background_color">Defines the background color of matching delimiters</string>
-    <string name="theme_property_numbers_color">Defines the numbers color of syntax highlighting: 123, 0.5, 0xFF, etc.</string>
-    <string name="theme_property_operators_color">Defines the operators color of syntax highlighting: +-*/=, [, ], {, }, (, )</string>
-    <string name="theme_property_keywords_color">Defines the keywords color of syntax highlighting: function, if, else, etc.</string>
-    <string name="theme_property_types_color">Defines the types color of syntax highlighting: const, var, let, etc.</string>
-    <string name="theme_property_lang_const_color">Defines the language constants color of syntax highlighting: true, false, null, etc.</string>
-    <string name="theme_property_preprocessor_color">Defines the preprocessor and annotation color: @Override, #include, …</string>
-    <string name="theme_property_variables_color">Defines the variables color of syntax highlighting</string>
-    <string name="theme_property_methods_color">Defines the methods color of syntax highlighting</string>
-    <string name="theme_property_strings_color">Defines the string literals color of syntax highlighting</string>
-    <string name="theme_property_comments_color">Defines the comments color of syntax highlighting: //, /**/</string>
-    <string name="theme_property_tag_color">Defines the color of tags in markup languages: &lt;, &lt;&gt;, /&gt;</string>
-    <string name="theme_property_tag_name_color">Defines the color of tag names in markup languages: &lt;tag&gt;</string>
-    <string name="theme_property_attr_name_color">Defines the color of attribute names in markup languages: &lt;tag attr=…/&gt;</string>
-    <string name="theme_property_attr_value_color">Defines the color of attribute values in markup languages: &lt;tag attr=\"value\"/&gt;</string>
-    <string name="theme_property_entity_ref_color">Defines the color of entity references in markup languages: &amp;amp; &amp;lt; &amp;gt; …</string>
 
     <string name="encoding_utf8_default">UTF-8 (Default)</string>
 
