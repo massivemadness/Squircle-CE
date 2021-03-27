@@ -40,6 +40,7 @@
     <string name="action_yes">Да</string>
     <string name="action_no">Нет</string>
     <string name="action_ok">OK</string>
+    <string name="action_cancel">Отмена</string>
     <string name="action_create">Создать</string>
     <string name="action_close">Закрыть</string>
     <string name="action_close_others">Закрыть другие</string>

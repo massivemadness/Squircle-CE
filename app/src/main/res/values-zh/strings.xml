@@ -40,6 +40,7 @@
     <string name="action_yes">是</string>
     <string name="action_no">否</string>
     <string name="action_ok">确认</string>
+    <string name="action_cancel">取消</string>
     <string name="action_create">创建</string>
     <string name="action_close">关闭</string>
     <string name="action_close_others">关闭其他</string>
