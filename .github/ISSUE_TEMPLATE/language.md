@@ -2,7 +2,7 @@
 name: Language request
 about: Suggest a language support for the code editor
 title: 'Support for [...] language'
-labels: new language
+labels: language
 assignees: ''
 
 ---

@@ -66,6 +66,8 @@ data class ThemeEntity(
     val langConstColor: String,
     @ColumnInfo(name = "preprocessor_color")
     val preprocessorColor: String,
+    @ColumnInfo(name = "variable_color")
+    val variableColor: String,
     @ColumnInfo(name = "method_color")
     val methodColor: String,
     @ColumnInfo(name = "string_color")

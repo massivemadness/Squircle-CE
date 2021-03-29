@@ -116,7 +116,7 @@ class KotlinStyler private constructor() : LanguageStyler {
                     KotlinToken.XOR,
                     KotlinToken.MOD,
                     KotlinToken.ELVIS,
-                    KotlinToken.ELLISPIS,
+                    KotlinToken.ELLIPSIS,
                     KotlinToken.DOUBLE_COLON,
                     KotlinToken.ARROW -> {
                         val styleSpan = StyleSpan(syntaxScheme.operatorColor)

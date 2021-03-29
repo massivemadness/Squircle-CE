@@ -183,7 +183,7 @@ BLOCK_COMMENT = "/*" ~"*/"
   "%" { return KotlinToken.MOD; }
 
   "?:" { return KotlinToken.ELVIS; }
-  "..." { return KotlinToken.ELLISPIS; }
+  "..." { return KotlinToken.ELLIPSIS; }
   "::" { return KotlinToken.DOUBLE_COLON; }
   "->" { return KotlinToken.ARROW; }
 

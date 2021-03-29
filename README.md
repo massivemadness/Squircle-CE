@@ -353,6 +353,7 @@ editor.colorScheme = ColorScheme(
         typeColor = Color.parseColor("#669BD1"),
         langConstColor = Color.parseColor("#669BD1"),
         preprocessorColor = Color.parseColor("#C49594"),
+        variableColor = Color.parseColor("#9DDDFF"),
         methodColor = Color.parseColor("#71C6B1"),
         stringColor = Color.parseColor("#CE9F89"),
         commentColor = Color.parseColor("#6BA455"),
@@ -395,10 +396,12 @@ dependencies {
   implementation 'com.blacksquircle.ui:language-lisp:1.2.1'
   implementation 'com.blacksquircle.ui:language-lua:1.2.1'
   implementation 'com.blacksquircle.ui:language-markdown:1.2.1'
+  implementation 'com.blacksquircle.ui:language-php:1.2.1'
   implementation 'com.blacksquircle.ui:language-plaintext:1.2.1'
   implementation 'com.blacksquircle.ui:language-python:1.2.1'
   implementation 'com.blacksquircle.ui:language-shell:1.2.1'
   implementation 'com.blacksquircle.ui:language-sql:1.2.1'
+  implementation 'com.blacksquircle.ui:language-typescript:1.2.1'
   implementation 'com.blacksquircle.ui:language-visualbasic:1.2.1'
   implementation 'com.blacksquircle.ui:language-xml:1.2.1'
 }

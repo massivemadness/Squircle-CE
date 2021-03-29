@@ -32,8 +32,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10004
-        versionName "2021.1.1"
+        versionCode 10005
+        versionName "2021.1.2"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -80,6 +80,8 @@ dependencies {
     implementation library.core
     implementation library.activity
     implementation library.fragment
+
+    // Google Play
     implementation library.playcore
 
     // UI
@@ -93,10 +95,10 @@ dependencies {
     implementation library.recyclerview_selection
 
     // AAC
-    implementation library.navigation_ui
-    implementation library.navigation_fragment
     implementation library.livedata
     implementation library.viewmodel
+    implementation library.navigation_ui
+    implementation library.navigation_fragment
 
     // Coroutines
     implementation library.coroutines_core
@@ -113,6 +115,12 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
     implementation project(':editorkit')
+
+    implementation project(':common:uikit')
+    implementation project(':common:utils')
+
+    implementation project(':features:feature-fonts')
+    implementation project(':features:feature-themes')
 
     implementation project(':filesystems:filesystem-base')
     implementation project(':languages:language-base')

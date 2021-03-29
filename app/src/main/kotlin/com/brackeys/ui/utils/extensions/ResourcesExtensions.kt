@@ -16,40 +16,17 @@
 
 package com.brackeys.ui.utils.extensions
 
-import android.Manifest
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.pm.PackageManager
-import android.graphics.Typeface
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.annotation.ColorRes
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import java.io.BufferedReader
 
 fun Context.getColour(@ColorRes colorRes: Int): Int {
     return ContextCompat.getColor(this, colorRes)
-}
-
-fun Context.getAssetFileText(assetPath: String): String {
-    val inputStream = assets.open(assetPath)
-    return inputStream.bufferedReader().use(BufferedReader::readText)
-}
-
-fun Context.hasExternalStorageAccess(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-}
-
-fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
-    if (textRes != -1) {
-        Toast.makeText(this, textRes, duration).show()
-    } else {
-        Toast.makeText(this, text, duration).show()
-    }
 }
 
 fun Activity.closeKeyboard() {
@@ -57,21 +34,6 @@ fun Activity.closeKeyboard() {
     val windowToken = currentFocus?.windowToken
     val hideType = InputMethodManager.HIDE_NOT_ALWAYS
     inputManager?.hideSoftInputFromWindow(windowToken, hideType)
-}
-
-private const val ASSET_PATH = "file:///android_asset/"
-
-fun Context.createTypefaceFromPath(path: String): Typeface {
-    return if (path.startsWith(ASSET_PATH)) {
-        val newPath = path.substring(22)
-        Typeface.createFromAsset(assets, newPath)
-    } else {
-        try {
-            Typeface.createFromFile(path)
-        } catch (e: Exception) {
-            Typeface.MONOSPACE
-        }
-    }
 }
 
 fun String.clipText(context: Context?) = clip(context, ClipData.newPlainText("Text", this))

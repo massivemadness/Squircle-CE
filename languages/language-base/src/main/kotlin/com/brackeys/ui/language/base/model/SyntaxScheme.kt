@@ -32,6 +32,8 @@ data class SyntaxScheme(
     @ColorInt
     val preprocessorColor: Int,
     @ColorInt
+    val variableColor: Int,
+    @ColorInt
     val methodColor: Int,
     @ColorInt
     val stringColor: Int,

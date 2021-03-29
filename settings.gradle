@@ -16,6 +16,15 @@
 
 include ':app', ':domain', ':data', ':editorkit'
 
+include ':common:uikit',
+        ':common:utils'
+
+include ':features:feature-fonts',
+        ':features:feature-themes'
+// TODO ':features:feature-settings'
+// TODO ':features:feature-editor'
+// TODO ':features:feature-explorer'
+
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'
 // TODO ':filesystems:filesystem-dropbox'
@@ -30,15 +39,17 @@ include ':languages:language-base',
         ':languages:language-csharp',
         ':languages:language-groovy',
         ':languages:language-html',
-        ':languages:language-cpp',
         ':languages:language-c',
+        ':languages:language-cpp',
         ':languages:language-java',
         ':languages:language-kotlin',
         ':languages:language-lua',
         ':languages:language-lisp',
         ':languages:language-markdown',
+        ':languages:language-php',
         ':languages:language-python',
         ':languages:language-shell',
         ':languages:language-sql',
+        ':languages:language-typescript',
         ':languages:language-visualbasic',
         ':languages:language-xml'

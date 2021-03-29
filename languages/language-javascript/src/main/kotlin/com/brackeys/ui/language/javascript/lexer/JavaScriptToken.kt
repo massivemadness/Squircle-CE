@@ -90,6 +90,7 @@ enum class JavaScriptToken {
     FALSE,
     NULL,
     NAN,
+    UNDEFINED,
 
     EQEQ,
     NOTEQ,
@@ -130,6 +131,7 @@ enum class JavaScriptToken {
     SEMICOLON,
     COMMA,
     DOT,
+    ELLIPSIS,
 
     EQ,
     NOT,
@@ -148,6 +150,7 @@ enum class JavaScriptToken {
 
     DOUBLE_QUOTED_STRING,
     SINGLE_QUOTED_STRING,
+    SINGLE_BACKTICK_STRING,
 
     LINE_COMMENT,
     BLOCK_COMMENT,

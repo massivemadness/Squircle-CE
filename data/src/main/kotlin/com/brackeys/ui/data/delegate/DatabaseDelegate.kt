@@ -20,11 +20,13 @@ import android.content.Context
 import androidx.room.Room
 import com.brackeys.ui.data.storage.database.AppDatabase
 import com.brackeys.ui.data.storage.database.AppDatabaseImpl
+import com.brackeys.ui.data.storage.database.utils.Migrations
 
 object DatabaseDelegate {
 
     fun provideAppDatabase(context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
+            .addMigrations(Migrations.MIGRATION_1_2)
             .build()
     }
 }

@@ -25,10 +25,6 @@
     <string name="label_code_style">Стиль кода</string>
     <string name="label_files">Файлы</string>
     <string name="label_about">О программе</string>
-    <string name="label_fonts">Шрифты</string>
-    <string name="label_external_font">Внешний шрифт</string>
-    <string name="label_themes">Темы</string>
-    <string name="label_new_theme">Новая тема</string>
     <string name="label_keyboard_preset">Клавиатурный пресет</string>
 
     <string name="hint_search">Поиск…</string>
@@ -36,12 +32,6 @@
     <string name="hint_enter_file_name">Введите имя файла</string>
     <string name="hint_enter_file_path">Введите путь к файлу</string>
     <string name="hint_enter_archive_name">Введите название архива</string>
-    <string name="hint_enter_font_name">Название шрифта</string>
-    <string name="hint_enter_font_path">Путь к шрифту</string>
-    <string name="hint_enter_theme_name">Название темы</string>
-    <string name="hint_enter_theme_author">Автор темы</string>
-    <string name="hint_enter_theme_desc">Краткое описание</string>
-    <string name="hint_theme_desc">Новая цветовая схема</string>
     <string name="hint_enter_preset_chars">Символы (без разделителей)</string>
 
     <string name="action_reset">Сброс</string>
@@ -63,11 +53,6 @@
     <string name="action_run_in_background">Выполнять в фоне</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
     <string name="action_create_zip">Создать .zip</string>
-    <string name="action_select">Выбрать</string>
-    <string name="action_import">Импорт</string>
-    <string name="action_export">Экспорт</string>
-    <string name="action_edit">Изменить</string>
-    <string name="action_remove">Удалить</string>
     <string name="action_new">Новый файл</string>
     <string name="action_open">Открыть</string>
     <string name="action_open_as">Открыть как</string>
@@ -100,7 +85,6 @@
     <string name="dialog_title_multi_delete">Множественное удаление</string>
     <string name="dialog_title_exit">Выход</string>
     <string name="dialog_title_properties">Свойства</string>
-    <string name="dialog_title_color_picker">Выберите цвет</string>
     <string name="dialog_title_result">Результат</string>
     <string name="dialog_title_save_as">Сохранить как…</string>
     <string name="dialog_title_goto_line">Перейти к строке…</string>
@@ -134,7 +118,6 @@
     <string name="sort_by_date">Сорт. по дате</string>
 
     <string name="message_access_denied">Доступ запрещён</string>
-    <string name="message_access_required">Приложение требует разрешения для работы с файлами</string>
     <string name="message_no_result">Нет результатов</string>
     <string name="message_no_open_files">Нет файлов</string>
     <string name="message_tab_limit_achieved">Вы достигли лимита вкладок</string>
@@ -161,48 +144,13 @@
     <string name="message_no_errors_detected">Синтакcических ошибок не найдено</string>
     <string name="message_in_app_update_ready">Обновление загружено</string>
     <string name="message_in_app_update_failed">Произошла ошибка при установке пакета</string>
-    <string name="message_selected">Выбран «%1$s»</string>
-    <string name="message_new_font_available">Добавлен новый шрифт: %1$s</string>
-    <string name="message_font_removed">Шрифт «%1$s» удален</string>
-    <string name="message_new_theme_available">Добавлена новая тема: %1$s</string>
-    <string name="message_theme_removed">Тема «%1$s» удалена</string>
-    <string name="message_theme_exported">Тема сохранена в /Download/%1$s.json</string>
-    <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
     <string name="message_elapsed_time">Прошло времени: %1$s</string>
     <string name="message_deleting">Удаление…%1$s</string>
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>
     <string name="message_extracting">Извлечение…%1$s</string>
 
-    <string name="font_support_ligatures">* Поддерживает лигатуры</string>
-    <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
     <string name="preset_disclaimer">Символы могут повторяться несколько раз</string>
-
-    <string name="theme_property_text_color">Определяет цвет текста в редакторе</string>
-    <string name="theme_property_background_color">Определяет цвет фона редактора</string>
-    <string name="theme_property_gutter_color">Определяет цвет фона панели номеров строк</string>
-    <string name="theme_property_gutter_divider_color">Определяет цвет разделителя панели номеров строк</string>
-    <string name="theme_property_gutter_current_line_number_color">Определяет цвет текущего номера строки в панели номеров строк</string>
-    <string name="theme_property_gutter_text_color">Определяет цвет номеров в панели номеров строк</string>
-    <string name="theme_property_selected_line_color">Определяет цвет текущей строки в редакторе</string>
-    <string name="theme_property_selection_color">Определяет цвет выделения текста в редакторе</string>
-    <string name="theme_property_suggestion_query_color">Определяет цвет поискового запроса в выпадающем меню</string>
-    <string name="theme_property_find_result_background_color">Определяет цвет найденных результатов в поиске</string>
-    <string name="theme_property_delimiter_background_color">Определяет цвет фона совпадающих скобок</string>
-    <string name="theme_property_numbers_color">Определяет цвет чисел подсветки синтаксиса: 123, 0.5, 0xFF, и тд.</string>
-    <string name="theme_property_operators_color">Определяет цвет операторов подсветки синтаксиса: +-*/=, [, ], {, }, (, )</string>
-    <string name="theme_property_keywords_color">Определяет цвет ключевых слов подсветки синтаксиса: function, if, else, и тд.</string>
-    <string name="theme_property_types_color">Определяет цвет типов подсветки синтаксиса: const, var, let, и тд.</string>
-    <string name="theme_property_lang_const_color">Определяет цвет языковых констант подсветки синтаксиса: true, false, null, и тд.</string>
-    <string name="theme_property_preprocessor_color">Определяет цвет препроцессоров и аннотаций: @Override, #include, …</string>
-    <string name="theme_property_methods_color">Определяет цвет методов подсветки синтаксиса</string>
-    <string name="theme_property_strings_color">Определяет цвет строк подсветки синтаксиса</string>
-    <string name="theme_property_comments_color">Определяет цвет комментариев подсветки синтаксиса: //, /**/</string>
-    <string name="theme_property_tag_color">Определяет цвет тегов в разметке: &lt;, &lt;&gt;, /&gt;</string>
-    <string name="theme_property_tag_name_color">Определяет цвет названия у тегов в разметке: &lt;tag&gt;</string>
-    <string name="theme_property_attr_name_color">Определяет цвет названия у аттрибутов в разметке: &lt;tag attr=…/&gt;</string>
-    <string name="theme_property_attr_value_color">Определяет цвет значения у аттрибутов в разметке: &lt;tag attr=\"value\"/&gt;</string>
-    <string name="theme_property_entity_ref_color">Определяет цвет символов-мнемоников в разметке: &amp;amp; &amp;lt; &amp;gt; …</string>
 
     <string name="encoding_utf8_default">UTF-8 (По умолчанию)</string>
 

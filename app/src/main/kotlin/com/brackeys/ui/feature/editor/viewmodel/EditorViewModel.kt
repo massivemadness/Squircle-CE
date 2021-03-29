@@ -121,10 +121,10 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    fun deleteDocument(documentModel: DocumentModel) {
+    fun updateDocument(documentModel: DocumentModel) {
         viewModelScope.launch {
             try {
-                documentRepository.deleteDocument(documentModel)
+                documentRepository.updateDocument(documentModel)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 toastEvent.value = R.string.message_unknown_exception
@@ -132,13 +132,10 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    fun updateDocuments(documents: List<DocumentModel>) {
+    fun deleteDocument(documentModel: DocumentModel) {
         viewModelScope.launch {
             try {
-                documents.forEachIndexed { index, documentModel ->
-                    val document = documentModel.copy(position = index)
-                    documentRepository.updateDocument(document)
-                }
+                documentRepository.deleteDocument(documentModel)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 toastEvent.value = R.string.message_unknown_exception

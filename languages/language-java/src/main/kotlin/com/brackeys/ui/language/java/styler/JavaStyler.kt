@@ -116,7 +116,7 @@ class JavaStyler private constructor() : LanguageStyler {
                     JavaToken.OR,
                     JavaToken.XOR,
                     JavaToken.MOD,
-                    JavaToken.ELLISPIS,
+                    JavaToken.ELLIPSIS,
                     JavaToken.DOUBLE_COLON,
                     JavaToken.ARROW -> {
                         val styleSpan = StyleSpan(syntaxScheme.operatorColor)

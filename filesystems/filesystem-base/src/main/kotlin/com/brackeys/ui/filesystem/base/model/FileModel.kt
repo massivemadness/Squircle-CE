@@ -30,10 +30,11 @@ data class FileModel(
         val TEXT = arrayOf(
             ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua",
             ".as", ".cs", ".c", ".cpp", ".h", ".hpp", ".lisp", ".lsp",
-            ".cl", ".l", ".py", ".vb", ".bas", ".cls", ".sql", ".sqlite",
+            ".cl", ".l", ".py", ".pyw", ".pyi", ".vb", ".bas", ".cls", ".sql", ".sqlite",
             ".sqlite2", ".sqlite3", ".htm", ".html", ".xhtml", ".xht",
             ".xml", ".sh", ".ksh", ".bsh", ".csh", ".tcsh", ".zsh", ".bash",
-            ".groovy", ".gvy", ".gy", ".gsh"
+            ".groovy", ".gvy", ".gy", ".gsh", ".php", ".php3", ".php4",
+            ".php5", ".phps", ".phtml", ".ts"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",

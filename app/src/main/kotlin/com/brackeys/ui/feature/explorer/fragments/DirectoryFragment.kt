@@ -43,13 +43,13 @@ import com.brackeys.ui.feature.explorer.adapters.FileAdapter
 import com.brackeys.ui.feature.explorer.utils.FileKeyProvider
 import com.brackeys.ui.feature.explorer.utils.Operation
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
-import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.FileType
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
+import com.brackeys.ui.utils.adapters.OnItemClickListener
 import com.brackeys.ui.utils.extensions.*
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint

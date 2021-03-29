@@ -45,7 +45,6 @@ import com.brackeys.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.brackeys.ui.editorkit.widget.TextScroller
 import com.brackeys.ui.feature.editor.adapters.AutoCompleteAdapter
 import com.brackeys.ui.feature.editor.adapters.DocumentAdapter
-import com.brackeys.ui.feature.editor.customview.ExtendedKeyboard
 import com.brackeys.ui.feature.editor.utils.Panel
 import com.brackeys.ui.feature.editor.utils.TabController
 import com.brackeys.ui.feature.editor.utils.ToolbarManager
@@ -61,8 +60,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
-class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPanelClickListener,
-    ExtendedKeyboard.OnKeyListener, DocumentAdapter.TabInteractor, OnBackPressedHandler {
+class EditorFragment : Fragment(R.layout.fragment_editor), OnBackPressedHandler,
+    ToolbarManager.OnPanelClickListener, DocumentAdapter.TabInteractor {
 
     companion object {
         private const val ALPHA_FULL = 255
@@ -86,21 +85,21 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
         toolbarManager.bind(binding)
 
         binding.tabLayout.setHasFixedSize(true)
-        binding.tabLayout.adapter = DocumentAdapter(this).also {
-            it.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
+        binding.tabLayout.adapter = DocumentAdapter(this).also { adapter ->
+            adapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
                 override fun onTabUnselected(position: Int) = saveDocument(position)
                 override fun onTabSelected(position: Int) = loadDocument(position)
             })
-            it.setOnDataRefreshListener(object : TabAdapter.OnDataRefreshListener {
+            adapter.setOnDataRefreshListener(object : TabAdapter.OnDataRefreshListener {
                 override fun onDataRefresh() {
                     viewModel.emptyView.value = adapter.currentList.isEmpty()
                 }
             })
-            adapter = it
+            this.adapter = adapter
         }
         tabController.attachToRecyclerView(binding.tabLayout)
 
-        binding.extendedKeyboard.setKeyListener(this)
+        binding.extendedKeyboard.setKeyListener { char -> binding.editor.insert(char) }
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.attachTo(binding.editor)
 
@@ -116,7 +115,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
             binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
         }
 
-        binding.editor.onUndoRedoChangedListener?.onUndoRedoChanged() // update undo/redo alpha
+        binding.editor.clearText()
 
         binding.editor.onChangeListener = OnChangeListener {
             val position = adapter.selectedPosition
@@ -130,7 +129,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
         }
 
         binding.actionTab.setOnClickListener {
-            onKey(binding.editor.tab())
+            binding.editor.insert(binding.editor.tab())
         }
 
         // region SHORTCUTS
@@ -159,7 +158,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                 alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
                 alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
                 alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
-                keyCode == KeyEvent.KEYCODE_TAB -> { onKey(binding.editor.tab()); true }
+                keyCode == KeyEvent.KEYCODE_TAB -> { binding.editor.insert(binding.editor.tab()); true }
                 else -> false
             }
         }
@@ -172,7 +171,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
     override fun onPause() {
         super.onPause()
         saveDocument(adapter.selectedPosition)
-        viewModel.updateDocuments(adapter.currentList)
     }
 
     override fun onResume() {
@@ -187,10 +185,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
             return true
         }
         return false
-    }
-
-    override fun onKey(char: String) {
-        binding.editor.insert(char)
     }
 
     private fun observeViewModel() {
@@ -386,6 +380,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor), ToolbarManager.OnPane
                 viewModel.saveFile(documentContent, params)
             }
             binding.editor.clearText() // TTL Exception bypass
+
+            adapter.currentList.forEachIndexed { index, model ->
+                viewModel.updateDocument(model.copy(position = index))
+            }
         }
     }
 

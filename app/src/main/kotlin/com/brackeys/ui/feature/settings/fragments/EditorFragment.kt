@@ -43,7 +43,7 @@ class EditorFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preference_editor, rootKey)
 
         findPreference<Preference>(KEY_FONT_TYPE)?.setOnPreferenceClickListener {
-            val destination = EditorFragmentDirections.toFontsFragment()
+            val destination = EditorFragmentDirections.toFontsGraph()
             navController.navigate(destination)
             true
         }

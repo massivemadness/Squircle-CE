@@ -140,7 +140,7 @@ enum class KotlinToken {
     MOD,
 
     ELVIS,
-    ELLISPIS,
+    ELLIPSIS,
     DOUBLE_COLON,
     ARROW,
 

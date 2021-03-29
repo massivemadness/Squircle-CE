@@ -20,9 +20,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ItemFileCompactBinding
-import com.brackeys.ui.feature.main.adapters.OnItemClickListener
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileType
+import com.brackeys.ui.utils.adapters.OnItemClickListener
 import com.brackeys.ui.utils.extensions.setSelectableBackground
 import com.brackeys.ui.utils.extensions.setTint
 
