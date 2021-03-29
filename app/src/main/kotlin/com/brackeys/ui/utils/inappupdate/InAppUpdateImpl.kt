@@ -31,6 +31,7 @@ import com.google.android.play.core.ktx.*
 class InAppUpdateImpl(context: Context) : InAppUpdate {
 
     companion object {
+
         private const val TAG = "InAppUpdateImpl"
 
         private const val PRIORITY_HIGH = 5
