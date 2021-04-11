@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,17 @@
 
 package com.brackeys.ui.internal.di.app
 
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
-import com.brackeys.ui.internal.providers.rx.SchedulersProviderImpl
+import android.content.Context
+import com.brackeys.ui.BuildConfig
+import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.internal.providers.coroutines.DispatcherProviderImpl
+import com.brackeys.ui.utils.inappupdate.InAppUpdate
+import com.brackeys.ui.utils.inappupdate.InAppUpdateImpl
+import com.brackeys.ui.utils.inappupdate.InAppUpdateStub
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -30,7 +36,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSchedulersProvider(): SchedulersProvider {
-        return SchedulersProviderImpl()
+    fun provideDispatcherProvider(): DispatcherProvider {
+        return DispatcherProviderImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideInAppUpdate(@ApplicationContext context: Context): InAppUpdate {
+        return if (!BuildConfig.DEBUG) {
+            InAppUpdateImpl(context)
+        } else {
+            InAppUpdateStub()
+        }
     }
 }

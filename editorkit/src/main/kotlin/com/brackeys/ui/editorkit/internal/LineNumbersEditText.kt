@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import android.view.Gravity
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.brackeys.ui.editorkit.R
-import com.brackeys.ui.editorkit.listener.TextChangeListener
+import com.brackeys.ui.editorkit.listener.OnTextChangedListener
 import com.brackeys.ui.editorkit.model.ColorScheme
 import com.brackeys.ui.editorkit.theme.EditorTheme
 import com.brackeys.ui.editorkit.utils.LinesCollection
@@ -38,7 +38,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : ScalableEditText(context, attrs, defStyleAttr), TextChangeListener {
+) : ScalableEditText(context, attrs, defStyleAttr), OnTextChangedListener {
 
     var colorScheme: ColorScheme = EditorTheme.DARCULA
         set(value) {

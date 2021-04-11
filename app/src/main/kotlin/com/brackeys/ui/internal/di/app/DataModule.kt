@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ package com.brackeys.ui.internal.di.app
 
 import android.content.Context
 import android.os.Environment
-import com.brackeys.ui.data.database.AppDatabase
 import com.brackeys.ui.data.delegate.DatabaseDelegate
 import com.brackeys.ui.data.delegate.FilesystemDelegate
+import com.brackeys.ui.data.storage.database.AppDatabase
 import com.brackeys.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides

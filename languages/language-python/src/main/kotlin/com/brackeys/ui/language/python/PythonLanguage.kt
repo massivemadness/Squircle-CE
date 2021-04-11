@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.base.parser.LanguageParser
 import com.brackeys.ui.language.base.provider.SuggestionProvider
 import com.brackeys.ui.language.base.styler.LanguageStyler
+import com.brackeys.ui.language.base.utils.endsWith
 import com.brackeys.ui.language.python.parser.PythonParser
 import com.brackeys.ui.language.python.provider.PythonProvider
 import com.brackeys.ui.language.python.styler.PythonStyler
@@ -28,10 +29,10 @@ class PythonLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".py"
+        private val FILE_EXTENSIONS = arrayOf(".py", ".pyw", ".pyi")
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(FILE_EXTENSIONS)
         }
     }
 

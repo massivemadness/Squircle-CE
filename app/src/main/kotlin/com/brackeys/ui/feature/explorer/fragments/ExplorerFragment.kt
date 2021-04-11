@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,36 +23,32 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.brackeys.ui.R
 import com.brackeys.ui.data.utils.FileSorter
 import com.brackeys.ui.databinding.FragmentExplorerBinding
-import com.brackeys.ui.feature.base.adapters.TabAdapter
-import com.brackeys.ui.feature.base.fragments.BaseFragment
-import com.brackeys.ui.feature.base.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.explorer.adapters.DirectoryAdapter
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
+import com.brackeys.ui.feature.main.adapters.TabAdapter
+import com.brackeys.ui.feature.main.utils.OnBackPressedHandler
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.utils.extensions.*
-import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
-    OnBackPressedHandler, TabAdapter.OnTabSelectedListener {
+class ExplorerFragment : Fragment(R.layout.fragment_explorer), OnBackPressedHandler {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentExplorerBinding
+    private lateinit var navController: NavController
     private lateinit var adapter: DirectoryAdapter
 
-    private var isClosing = false // TODO remove this
+    private var isClosing = false // TODO remove
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +58,9 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentExplorerBinding.bind(view)
-        observeViewModel()
-
         navController = childFragmentManager
             .fragment<NavHostFragment>(R.id.nav_host).navController
+        observeViewModel()
 
         setSupportActionBar(binding.toolbar)
         binding.swipeRefresh.setOnRefreshListener {
@@ -74,15 +69,21 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
         }
 
         binding.directoryRecyclerView.setHasFixedSize(true)
-        binding.directoryRecyclerView.adapter = DirectoryAdapter()
-            .also { adapter = it }
-        adapter.setOnTabSelectedListener(this)
+        binding.directoryRecyclerView.adapter = DirectoryAdapter().also {
+            adapter = it
+        }
+        adapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
+            override fun onTabSelected(position: Int) {
+                if (!isClosing) {
+                    isClosing = true
+                    navigateBreadcrumb(adapter.currentList[position])
+                    isClosing = false
+                }
+            }
+        })
 
         binding.actionHome.setOnClickListener {
-            val backStackCount = childFragmentManager
-                .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
-            navController.popBackStack(backStackCount - 1)
-            removeTabs(backStackCount - 1)
+            navigateBreadcrumb(adapter.currentList.first())
         }
         binding.actionPaste.setOnClickListener {
             viewModel.pasteEvent.call()
@@ -90,56 +91,34 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
         binding.actionCreate.setOnClickListener {
             viewModel.createEvent.call()
         }
+
+        adapter.submitList(viewModel.tabsList)
     }
 
     override fun handleOnBackPressed(): Boolean {
-        if (!viewModel.selectionEvent.value.isNullOrEmpty()) {
+        return if (!viewModel.selectionEvent.value.isNullOrEmpty()) {
             stopActionMode()
-            return true
+            true
         } else {
-            val backStackCount = childFragmentManager
-                .fragment<NavHostFragment>(R.id.nav_host).backStackEntryCount
-            if (backStackCount > 1) {
-                navController.popBackStack()
-                removeTabs(1)
-                return true
+            val target = adapter.currentList.lastIndex - 1
+            if (target > 0) {
+                navigateBreadcrumb(adapter.currentList[target])
+            } else {
+                navigateBreadcrumb(adapter.currentList.first())
             }
         }
-        return false
     }
-
-    override fun onTabReselected(position: Int) {}
-    override fun onTabUnselected(position: Int) {}
-    override fun onTabSelected(position: Int) {
-        if (!isClosing) {
-            isClosing = true
-            val howMany = adapter.itemCount - position - 1
-            navController.popBackStack(howMany)
-            removeTabs(howMany)
-            isClosing = false
-        }
-    }
-
-    // region MENU
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_explorer_default, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
+        val searchView = searchItem?.actionView as? SearchView
 
-        searchView
-            .queryTextChangeEvents()
-            .skipInitialValue()
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .filter { it.queryText.length >= 2 || it.queryText.isEmpty() }
-            .distinctUntilChanged()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy {
-                viewModel.searchFile(it.queryText)
-            }
-            .disposeOnFragmentDestroyView()
+        searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
+            viewModel.searchFile(it)
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -159,10 +138,10 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
 
         val selectionSize = viewModel.selectionEvent.value?.size ?: 0
         if (selectionSize > 1) { // if more than 1 file selected
-            actionOpenAs.isVisible = false
-            actionRename.isVisible = false
-            actionProperties.isVisible = false
-            actionCopyPath.isVisible = false
+            actionOpenAs?.isVisible = false
+            actionRename?.isVisible = false
+            actionProperties?.isVisible = false
+            actionCopyPath?.isVisible = false
         }
 
         when (viewModel.sortMode) {
@@ -191,11 +170,9 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
         return super.onOptionsItemSelected(item)
     }
 
-    // endregion MENU
-
     private fun observeViewModel() {
         viewModel.toastEvent.observe(viewLifecycleOwner) {
-            showToast(it)
+            context?.showToast(it)
         }
         viewModel.showAppBarEvent.observe(viewLifecycleOwner) {
             binding.appBar.isVisible = it
@@ -204,9 +181,8 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
             binding.actionPaste.isVisible = it
             binding.actionCreate.isVisible = !it
         }
-        viewModel.tabsEvent.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            adapter.select(adapter.itemCount - 1)
+        viewModel.tabEvent.observe(viewLifecycleOwner) {
+            navigateBreadcrumb(it)
         }
         viewModel.selectionEvent.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -235,13 +211,25 @@ class ExplorerFragment : BaseFragment(R.layout.fragment_explorer),
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    private fun removeTabs(howMany: Int) {
-        viewModel.tabsList.subList(
-            viewModel.tabsList.size - howMany,
-            viewModel.tabsList.size
-        ).clear()
-        for (i in 0 until howMany) {
-            adapter.close(adapter.itemCount - 1)
+    private fun navigateBreadcrumb(tab: FileModel): Boolean {
+        return if (adapter.currentList.contains(tab)) {
+            val position = adapter.currentList.indexOf(tab)
+            val howMany = adapter.itemCount - 1 - position
+            val shouldPop = howMany > 0
+            if (shouldPop) {
+                navController.popBackStack(howMany)
+                for (i in 0 until howMany) {
+                    adapter.close(adapter.itemCount - 1)
+                }
+            } else {
+                adapter.select(adapter.itemCount - 1)
+            }
+            shouldPop
+        } else {
+            viewModel.tabsList.replaceList(adapter.currentList + tab)
+            adapter.submitList(adapter.currentList + tab)
+            adapter.select(adapter.itemCount - 1)
+            false
         }
     }
 }

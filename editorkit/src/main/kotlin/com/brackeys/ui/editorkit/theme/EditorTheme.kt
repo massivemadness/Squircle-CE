@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ object EditorTheme {
             typeColor = Color.parseColor("#EC7600"),
             langConstColor = Color.parseColor("#EC7600"),
             preprocessorColor = Color.parseColor("#C9C54E"),
+            variableColor = Color.parseColor("#9378A7"),
             methodColor = Color.parseColor("#FEC76C"),
             stringColor = Color.parseColor("#6E875A"),
             commentColor = Color.parseColor("#66747B"),
@@ -71,6 +72,7 @@ object EditorTheme {
             typeColor = Color.parseColor("#7FD0E4"),
             langConstColor = Color.parseColor("#EB347E"),
             preprocessorColor = Color.parseColor("#EB347E"),
+            variableColor = Color.parseColor("#7FD0E4"),
             methodColor = Color.parseColor("#B6E951"),
             stringColor = Color.parseColor("#EBE48C"),
             commentColor = Color.parseColor("#89826D"),
@@ -101,6 +103,7 @@ object EditorTheme {
             typeColor = Color.parseColor("#9EC56F"),
             langConstColor = Color.parseColor("#9EC56F"),
             preprocessorColor = Color.parseColor("#9B84B9"),
+            variableColor = Color.parseColor("#6E8BAE"),
             methodColor = Color.parseColor("#E7E2BC"),
             stringColor = Color.parseColor("#DE7C2E"),
             commentColor = Color.parseColor("#808C92"),
@@ -131,6 +134,7 @@ object EditorTheme {
             typeColor = Color.parseColor("#DA89A2"),
             langConstColor = Color.parseColor("#DA89A2"),
             preprocessorColor = Color.parseColor("#9B84B9"),
+            variableColor = Color.parseColor("#6EA4C7"),
             methodColor = Color.parseColor("#8FB4C5"),
             stringColor = Color.parseColor("#75D367"),
             commentColor = Color.parseColor("#808C92"),
@@ -161,6 +165,7 @@ object EditorTheme {
             typeColor = Color.parseColor("#AD95B8"),
             langConstColor = Color.parseColor("#AD95B8"),
             preprocessorColor = Color.parseColor("#CFD1CF"),
+            variableColor = Color.parseColor("#EAC780"),
             methodColor = Color.parseColor("#87A1BB"),
             stringColor = Color.parseColor("#B7BC73"),
             commentColor = Color.parseColor("#969896"),
@@ -191,6 +196,7 @@ object EditorTheme {
             typeColor = Color.parseColor("#669BD1"),
             langConstColor = Color.parseColor("#669BD1"),
             preprocessorColor = Color.parseColor("#C49594"),
+            variableColor = Color.parseColor("#9DDDFF"),
             methodColor = Color.parseColor("#71C6B1"),
             stringColor = Color.parseColor("#CE9F89"),
             commentColor = Color.parseColor("#6BA455"),

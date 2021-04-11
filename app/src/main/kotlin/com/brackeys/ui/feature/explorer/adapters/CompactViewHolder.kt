@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ItemFileCompactBinding
-import com.brackeys.ui.feature.base.adapters.OnItemClickListener
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileType
+import com.brackeys.ui.utils.adapters.OnItemClickListener
 import com.brackeys.ui.utils.extensions.setSelectableBackground
 import com.brackeys.ui.utils.extensions.setTint
 
@@ -92,7 +92,7 @@ class CompactViewHolder(
             FileType.VIDEO -> {
                 binding.itemIcon.setImageResource(R.drawable.ic_file_video)
             }
-            else -> { /* nothing */ }
+            else -> Unit
         }
     }
 }

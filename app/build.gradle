@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10002
-        versionName "2020.3.1"
+        versionCode 10005
+        versionName "2021.1.2"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -46,7 +46,6 @@ android {
         debug {
             minifyEnabled false
             debuggable true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -69,7 +68,6 @@ android {
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
     buildFeatures {
-        dataBinding true // TODO replace with ViewBinding
         viewBinding true
     }
 }
@@ -82,6 +80,8 @@ dependencies {
     implementation library.core
     implementation library.activity
     implementation library.fragment
+
+    // Google Play
     implementation library.playcore
 
     // UI
@@ -95,30 +95,33 @@ dependencies {
     implementation library.recyclerview_selection
 
     // AAC
-    implementation library.navigation_ui
-    implementation library.navigation_fragment
     implementation library.livedata
     implementation library.viewmodel
+    implementation library.navigation_ui
+    implementation library.navigation_fragment
 
-    // Rx
-    implementation library.rxjava2
-    implementation library.rxandroid
-    implementation library.rxkotlin
-    implementation library.rxbinding_appcompat
-    implementation library.rxpreferences
+    // Coroutines
+    implementation library.coroutines_core
+    implementation library.coroutines_android
 
     // DI
-    implementation library.dagger_hilt
-    kapt library.dagger_hilt_compiler
+    implementation library.hilt
+    kapt library.hilt_compiler
 
     // Other
     implementation library.keyboardevent
-    implementation library.chardet
 
     // Modules
     implementation project(':domain')
     implementation project(':data')
     implementation project(':editorkit')
+
+    implementation project(':common:uikit')
+    implementation project(':common:utils')
+
+    implementation project(':features:feature-fonts')
+    implementation project(':features:feature-themes')
+
     implementation project(':filesystems:filesystem-base')
     implementation project(':languages:language-base')
 

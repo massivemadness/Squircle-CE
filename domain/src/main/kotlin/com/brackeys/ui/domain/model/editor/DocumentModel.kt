@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,4 +26,26 @@ data class DocumentModel(
     var scrollY: Int,
     var selectionStart: Int,
     var selectionEnd: Int
-)
+) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as DocumentModel
+        if (path != other.path) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = uuid.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + path.hashCode()
+        result = 31 * result + modified.hashCode()
+        result = 31 * result + position
+        result = 31 * result + scrollX
+        result = 31 * result + scrollY
+        result = 31 * result + selectionStart
+        result = 31 * result + selectionEnd
+        return result
+    }
+}

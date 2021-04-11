@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ data class SyntaxScheme(
     val langConstColor: Int,
     @ColorInt
     val preprocessorColor: Int,
+    @ColorInt
+    val variableColor: Int,
     @ColorInt
     val methodColor: Int,
     @ColorInt

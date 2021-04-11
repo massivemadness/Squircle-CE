@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ object FileConverter {
 
     fun toModel(file: File): FileModel {
         return FileModel(
-            name = file.name,
             path = file.path,
             size = file.length(),
             lastModified = file.lastModified(),

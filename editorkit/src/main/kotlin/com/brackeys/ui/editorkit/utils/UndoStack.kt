@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.brackeys.ui.editorkit.utils
 
 import com.brackeys.ui.editorkit.model.TextChange
 
-class UndoStack {
+class UndoStack() {
 
     companion object {
         const val MAX_SIZE = Integer.MAX_VALUE
@@ -27,8 +27,12 @@ class UndoStack {
     val size: Int
         get() = stack.size
 
-    private val stack = mutableListOf<TextChange>()
+    private var stack = mutableListOf<TextChange>()
     private var currentSize = 0
+
+    private constructor(stack: List<TextChange>) : this() {
+        this.stack = stack.toMutableList()
+    }
 
     operator fun get(index: Int): TextChange {
         return stack[index]
@@ -151,6 +155,10 @@ class UndoStack {
 
     fun canUndo(): Boolean {
         return size > 0
+    }
+
+    fun clone(): UndoStack {
+        return UndoStack(stack)
     }
 
     private fun removeLast(): Boolean {

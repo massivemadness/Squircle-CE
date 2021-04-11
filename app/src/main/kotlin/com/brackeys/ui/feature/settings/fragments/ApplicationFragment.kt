@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,18 +18,19 @@ package com.brackeys.ui.feature.settings.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.brackeys.ui.R
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
+import com.brackeys.ui.feature.settings.viewmodel.SettingsViewModel
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 
-    companion object {
-        private const val KEY_COLOR_SCHEME = SettingsManager.KEY_COLOR_SCHEME
-    }
+    private val viewModel: SettingsViewModel by activityViewModels()
 
     private lateinit var navController: NavController
 
@@ -41,10 +42,19 @@ class ApplicationFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_application, rootKey)
 
-        findPreference<Preference>(KEY_COLOR_SCHEME)?.setOnPreferenceClickListener {
-            val destination = ApplicationFragmentDirections.toThemesFragment()
-            navController.navigate(destination)
-            true
-        }
+        findPreference<Preference>(SettingsManager.KEY_COLOR_SCHEME)
+            ?.setOnPreferenceClickListener {
+                navController.navigate(R.id.themes_graph)
+                true
+            }
+        findPreference<Preference>(SettingsManager.KEY_FULLSCREEN_MODE)
+            ?.setOnPreferenceClickListener {
+                if (viewModel.fullscreenMode) {
+                    activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                } else {
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                }
+                true
+            }
     }
 }

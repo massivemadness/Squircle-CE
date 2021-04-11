@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.brackeys.ui.filesystem.local.utils
 
 import java.io.File
 
-fun File.size(): Long {
+internal fun File.size(): Long {
     if (isDirectory) {
         var length = 0L
         for (child in listFiles()!!) {

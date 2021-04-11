@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 package com.brackeys.ui.data.converter
 
 import androidx.core.graphics.toColorInt
-import com.brackeys.ui.data.database.entity.theme.ThemeEntity
-import com.brackeys.ui.data.model.theme.ExternalScheme
-import com.brackeys.ui.data.model.theme.ExternalTheme
+import com.brackeys.ui.data.model.themes.ExternalScheme
+import com.brackeys.ui.data.model.themes.ExternalTheme
+import com.brackeys.ui.data.storage.database.entity.theme.ThemeEntity
 import com.brackeys.ui.data.utils.toHexString
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.editorkit.model.ColorScheme
 import com.brackeys.ui.language.base.model.SyntaxScheme
 import java.util.*
@@ -54,6 +54,7 @@ object ThemeConverter {
                     typeColor = themeEntity.typeColor.toColorInt(),
                     langConstColor = themeEntity.langConstColor.toColorInt(),
                     preprocessorColor = themeEntity.preprocessorColor.toColorInt(),
+                    variableColor = themeEntity.variableColor.toColorInt(),
                     methodColor = themeEntity.methodColor.toColorInt(),
                     stringColor = themeEntity.stringColor.toColorInt(),
                     commentColor = themeEntity.commentColor.toColorInt(),
@@ -90,6 +91,7 @@ object ThemeConverter {
             typeColor = themeModel.colorScheme.syntaxScheme.typeColor.toHexString(),
             langConstColor = themeModel.colorScheme.syntaxScheme.langConstColor.toHexString(),
             preprocessorColor = themeModel.colorScheme.syntaxScheme.preprocessorColor.toHexString(),
+            variableColor = themeModel.colorScheme.syntaxScheme.variableColor.toHexString(),
             methodColor = themeModel.colorScheme.syntaxScheme.methodColor.toHexString(),
             stringColor = themeModel.colorScheme.syntaxScheme.stringColor.toHexString(),
             commentColor = themeModel.colorScheme.syntaxScheme.commentColor.toHexString(),
@@ -125,6 +127,7 @@ object ThemeConverter {
                 typeColor = themeModel.colorScheme.syntaxScheme.typeColor.toHexString(),
                 langConstColor = themeModel.colorScheme.syntaxScheme.langConstColor.toHexString(),
                 preprocessorColor = themeModel.colorScheme.syntaxScheme.preprocessorColor.toHexString(),
+                variableColor = themeModel.colorScheme.syntaxScheme.variableColor.toHexString(),
                 methodColor = themeModel.colorScheme.syntaxScheme.methodColor.toHexString(),
                 stringColor = themeModel.colorScheme.syntaxScheme.stringColor.toHexString(),
                 commentColor = themeModel.colorScheme.syntaxScheme.commentColor.toHexString(),
@@ -163,6 +166,7 @@ object ThemeConverter {
                     typeColor = (externalTheme?.externalScheme?.typeColor ?: "#000000").toColorInt(),
                     langConstColor = (externalTheme?.externalScheme?.langConstColor ?: "#000000").toColorInt(),
                     preprocessorColor = (externalTheme?.externalScheme?.preprocessorColor ?: "#000000").toColorInt(),
+                    variableColor = (externalTheme?.externalScheme?.variableColor ?: "#000000").toColorInt(),
                     methodColor = (externalTheme?.externalScheme?.methodColor ?: "#000000").toColorInt(),
                     stringColor = (externalTheme?.externalScheme?.stringColor ?: "#000000").toColorInt(),
                     commentColor = (externalTheme?.externalScheme?.commentColor ?: "#000000").toColorInt(),

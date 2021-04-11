@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,28 +17,26 @@
 package com.brackeys.ui.feature.settings.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.brackeys.ui.R
-import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.schedulersIoToMain
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
-import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.feature.settings.adapters.item.PreferenceItem
-import com.brackeys.ui.utils.event.SingleLiveEvent
-import com.f2prateek.rx.preferences2.Preference
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager
-) : BaseViewModel() {
+) : ViewModel() {
 
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent() // Полноэкранный режим
-    val headersEvent: MutableLiveData<List<PreferenceItem>> = MutableLiveData()
+    val headersEvent = MutableLiveData<List<PreferenceItem>>()
 
-    var keyboardPreset: Preference<String> = settingsManager.getKeyboardPreset()
+    var fullscreenMode: Boolean
+        get() = settingsManager.fullScreenMode
+        set(value) { settingsManager.fullScreenMode = value }
+    var keyboardPreset: String
+        get() = settingsManager.keyboardPreset
+        set(value) { settingsManager.keyboardPreset = value }
 
     fun fetchHeaders() {
         headersEvent.value = listOf(
@@ -70,11 +68,7 @@ class SettingsViewModel @Inject constructor(
         )
     }
 
-    fun observeSettings() {
-        settingsManager.getFullscreenMode()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { fullscreenEvent.value = it }
-            .disposeOnViewModelDestroy()
+    fun resetKeyboardPreset() {
+        settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2020 Brackeys IDE contributors.
+  ~ Copyright 2021 Brackeys IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -25,10 +25,6 @@
     <string name="label_code_style">代码范</string>
     <string name="label_files">文件</string>
     <string name="label_about">关于</string>
-    <string name="label_fonts">字体</string>
-    <string name="label_external_font">外部字体</string>
-    <string name="label_themes">主题</string>
-    <string name="label_new_theme">新建主题</string>
     <string name="label_keyboard_preset">快捷符号栏</string>
 
     <string name="hint_search">搜索…</string>
@@ -36,12 +32,6 @@
     <string name="hint_enter_file_name">输入文件名称</string>
     <string name="hint_enter_file_path">输入文件路径</string>
     <string name="hint_enter_archive_name">输入压缩包名称</string>
-    <string name="hint_enter_font_name">输入字体名称</string>
-    <string name="hint_enter_font_path">输入字体路径</string>
-    <string name="hint_enter_theme_name">输入主题名称</string>
-    <string name="hint_enter_theme_author">输入主题作者</string>
-    <string name="hint_enter_theme_desc">主题简要描述</string>
-    <string name="hint_theme_desc">如：默认配色方案</string>
     <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
 
     <string name="action_reset">重置</string>
@@ -63,11 +53,6 @@
     <string name="action_run_in_background">在后台运行</string>
     <string name="action_show_hidden_files">显示隐藏文件</string>
     <string name="action_create_zip">创建 .zip</string>
-    <string name="action_select">选择</string>
-    <string name="action_import">导入</string>
-    <string name="action_export">导出</string>
-    <string name="action_edit">编辑</string>
-    <string name="action_remove">移除</string>
     <string name="action_new">新建</string>
     <string name="action_open">打开</string>
     <string name="action_open_as">另开为</string>
@@ -100,7 +85,6 @@
     <string name="dialog_title_multi_delete">删除所选文件</string>
     <string name="dialog_title_exit">退出应用</string>
     <string name="dialog_title_properties">属性</string>
-    <string name="dialog_title_color_picker">颜色选择器</string>
     <string name="dialog_title_result">结果</string>
     <string name="dialog_title_save_as">文件另存为</string>
     <string name="dialog_title_goto_line">跳转到行</string>
@@ -134,7 +118,6 @@
     <string name="sort_by_date">按日期排序</string>
 
     <string name="message_access_denied">没有访问权限</string>
-    <string name="message_access_required">本应用必须访问文件才能正常工作</string>
     <string name="message_no_result">没有结果</string>
     <string name="message_no_open_files">还没有打开任何文件</string>
     <string name="message_tab_limit_achieved">标签页已达上限</string>
@@ -150,6 +133,7 @@
     <string name="message_invalid_archive">该压缩包已损坏</string>
     <string name="message_split_archive">暂不支持已分卷的压缩包</string>
     <string name="message_encrypted_archive">暂不支持已加密的压缩包</string>
+    <string name="message_operation_cancelled">Operation cancelled</string>
     <string name="message_done">已完毕</string>
     <string name="message_saved">已保存</string>
     <string name="message_select_file">选择文件</string>
@@ -160,49 +144,13 @@
     <string name="message_no_errors_detected">未检测到语法错误</string>
     <string name="message_in_app_update_ready">应用已准备好新版本</string>
     <string name="message_in_app_update_failed">新版本安装失败</string>
-    <string name="message_selected">已选择 «%1$s»</string>
-    <string name="message_new_font_available">新字体可用: %1$s</string>
-    <string name="message_font_removed">字体 «%1$s» 已移除</string>
-    <string name="message_new_theme_available">新主题可用: %1$s</string>
-    <string name="message_theme_removed">主题 «%1$s» 已移除</string>
-    <string name="message_theme_exported">主题已保存到 %1$s</string>
-    <string name="message_theme_syntax_exception">读取主题文件时出错</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
     <string name="message_deleting">删除中…%1$s</string>
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
-    <string name="message_wrong_encoding">文件加载时使用了错误的编码</string>
 
-    <string name="font_support_ligatures">* 支持连体字母</string>
-    <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>
     <string name="preset_disclaimer">注：同一个字符可以重复多次</string>
-
-    <string name="theme_property_text_color">定义编辑器的文本颜色</string>
-    <string name="theme_property_background_color">定义编辑器的背景颜色</string>
-    <string name="theme_property_gutter_color">定义行号栏的背景颜色</string>
-    <string name="theme_property_gutter_divider_color">定义行号栏的分割线颜色</string>
-    <string name="theme_property_gutter_divider_current_line_number_color">定义行号栏的当前所选行号颜色</string>
-    <string name="theme_property_gutter_text_color">定义行号栏的行号颜色</string>
-    <string name="theme_property_selected_line_color">定义编辑器的当前所选行背景颜色</string>
-    <string name="theme_property_selection_color">定义编辑器的当前所选文本背景颜色</string>
-    <string name="theme_property_suggestion_query_color">定义代码提示下拉菜单中的文字颜色</string>
-    <string name="theme_property_find_result_background_color">定义查找结果的背景颜色</string>
-    <string name="theme_property_delimiter_background_color">定义成对的分隔符的背景颜色</string>
-    <string name="theme_property_numbers_color">定义语法高亮的数字颜色，如：123、0.5、0xFF</string>
-    <string name="theme_property_operators_color">定义语法高亮的操作符颜色，如：+-*/=、[]、 {}、()</string>
-    <string name="theme_property_keywords_color">定义语法高亮的关键词颜色，如：function、if、else</string>
-    <string name="theme_property_types_color">定义语法高亮的类型颜色，如：const、var、let</string>
-    <string name="theme_property_lang_const_color">定义语法高亮的语言常量颜色，如：true, false, null</string>
-    <string name="theme_property_preprocessor_color">定义语法高亮的宏命令和注解颜色，如： #include, @Override, …</string>
-    <string name="theme_property_methods_color">定义语法高亮的方法名颜色，如：function foo() {}</string>
-    <string name="theme_property_strings_color">定义语法高亮的字符串颜色，如：str = \'Hello\'</string>
-    <string name="theme_property_comments_color">定义语法高亮的注释颜色，如: 以“//”开头的内容</string>
-    <string name="theme_property_tag_color">定义标记语言的标签符号颜色： &lt;, &lt;&gt;, /&gt;</string>
-    <string name="theme_property_tag_name_color">定义标记语言的标签名称颜色： &lt;tag&gt;</string>
-    <string name="theme_property_attr_name_color">定义标记语言的属性名称颜色： &lt;tag attr=…/&gt;</string>
-    <string name="theme_property_attr_value_color">定义标记语言的属性值颜色： &lt;tag attr=\"value\"/&gt;</string>
-    <string name="theme_property_entity_ref_color">定义标记语言的实体符号颜色： &amp;amp; &amp;lt; &amp;gt; …</string>
 
     <string name="encoding_utf8_default">UTF-8 (默认)</string>
 
@@ -224,6 +172,7 @@
     <string name="pref_category_other">其他</string>
     <string name="pref_category_font">字体</string>
     <string name="pref_category_editor">编辑器</string>
+    <string name="pref_category_tabs">标签页</string>
     <string name="pref_category_keyboard">键盘</string>
     <string name="pref_category_code_style">代码范</string>
     <string name="pref_category_tab_options">制表符</string>
@@ -256,6 +205,8 @@
     <string name="pref_highlight_line_summary">高亮显示光标当前所在的行。</string>
     <string name="pref_highlight_delimiters_title">高亮成对符</string>
     <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
+    <string name="pref_auto_save_files_title">Auto-save Files</string>
+    <string name="pref_auto_save_files_summary">Automatically save file on switching tab or closing the app.</string>
     <string name="pref_extended_keyboard_title">快捷符号栏</string>
     <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘之上显示符号栏以便快捷输入</string>
     <string name="pref_keyboard_preset_title">预设符号</string>
@@ -285,14 +236,12 @@
     <string name="pref_linebreaks_for_saving_files_summary">默认使用该换行符类型保存文本文件</string>
     <string name="pref_show_hidden_files_title">显示隐藏文件</string>
     <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
-    <string name="pref_allow_open_unknown_files_title">打开未知类型</string>
-    <string name="pref_allow_open_unknown_files_summary">允许在编辑器中以文本方式打开未知的文件类型。</string>
     <string name="pref_folders_on_top_title">文件夹置顶</string>
     <string name="pref_folders_on_top_summary">文件夹将优先显示在文件的前面。</string>
     <string name="pref_view_mode_title">视图模式</string>
     <string name="pref_sort_mode_title">排序方式</string>
 
-    <string name="pref_about_summary">Copyright 2020 Black Squircle\n保留所有权利\n\n当前版本: %1$s (%2$d)</string>
+    <string name="pref_about_summary">Brackeys IDE is an open source project published under the Apache 2.0 license\n\n当前版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看“隐私政策”</string>
     <string name="pref_contribute_title">参与贡献，促进发展</string>
     <string name="pref_contribute_summary">您可以点击此处到 GitHub 上提 Issue ，或将本应用翻译为您的母语。\n\n谢谢！</string>

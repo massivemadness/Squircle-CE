@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,61 +23,57 @@ ext {
             buildTools: '29.0.3',
 
             // Library
-            publishVersionName: '1.1.0',
-            publishVersionCode: 3
+            publishVersionName: '1.3.0',
+            publishVersionCode: 6
     ]
 
     // Plugins
-    agp_version = '4.1.1'
-    bintray_version = '1.8.5'
+    agp_version = '4.1.3'
 
     // Core
-    kotlin_version = '1.4.21'
-    core_version = '1.5.0-beta01'
-    activity_version = '1.2.0-rc01'
-    fragment_version = '1.3.0-rc01'
+    kotlin_version = '1.4.31'
+    core_version = '1.5.0-beta02'
+    activity_version = '1.3.0-alpha02'
+    fragment_version = '1.3.0'
+
+    // Google Play
     playcore_version = '1.8.1'
 
     // UI
     appcompat_version = '1.3.0-beta01'
-    materialdesign_version = '1.3.0-beta01'
+    materialdesign_version = '1.3.0'
     constraintlayout_version = '2.0.4'
     swiperefreshlayout_version = '1.2.0-alpha01'
     preferencescompat_version = '1.1.1'
     materialdialogs_version = '3.3.0'
-    recyclerview_selection_version = '1.1.0-rc03'
+    recyclerview_selection_version = '1.1.0'
 
     // AAC
-    lifecycle_version = '2.3.0-rc01'
-    navigation_version = '2.3.2'
-    room_version = '2.3.0-alpha04'
+    lifecycle_version = '2.3.0'
+    navigation_version = '2.3.3'
+    room_version = '2.3.0-beta02'
 
     // Network
     gson_version = '2.8.6'
 
-    // Rx
-    rxjava2_version = '2.2.20'
-    rxandroid_version = '2.1.1'
-    rxkotlin_version = '2.4.0'
-    rxbinding_version = '3.1.0'
-    rxpreferences_version = '2.0.1'
+    // Coroutines
+    coroutines_version = '1.4.2'
 
     // DI
-    hilt_version = '1.0.0-alpha02'
-    dagger_version = '2.31-alpha'
+    hilt_version = '2.33-beta'
 
     // Other
-    keyboardevent_version = '2.3.0'
+    keyboardevent_version = '3.0.0-RC3'
     rhino_version = '1.7.13'
-    zip4j_version = '2.6.4'
-    chardet_version = '1.0.1'
+    zip4j_version = '2.7.0'
+    chardet_version = '68.2'
 
     // Tests
-    junit_version = '4.13.1'
+    junit_version = '4.13.2'
     junit_ext_version = '1.1.2'
     test_runner_version = '1.3.0'
     espresso_core_version = '3.3.0'
-    mockito_version = '3.7.7'
+    mockito_version = '3.8.0'
 
     // Lint
     ktlint_version = '0.40.0'
@@ -85,18 +81,19 @@ ext {
     plugin = [
             android_gradle_plugin: "com.android.tools.build:gradle:$agp_version",
             kotlin_gradle_plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version",
-            hilt_gradle_plugin: "com.google.dagger:hilt-android-gradle-plugin:$dagger_version",
-            safeargs_gradle_plugin: "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version",
-            bintray_gradle_plugin: "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version",
+            hilt_gradle_plugin: "com.google.dagger:hilt-android-gradle-plugin:$hilt_version",
+            safeargs_gradle_plugin: "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
     ]
 
     library = [
 
             // Core
-            kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
+            kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             core: "androidx.core:core-ktx:$core_version",
             activity: "androidx.activity:activity-ktx:$activity_version",
             fragment: "androidx.fragment:fragment-ktx:$fragment_version",
+
+            // Google Play
             playcore: "com.google.android.play:core-ktx:$playcore_version",
 
             // UI
@@ -114,23 +111,19 @@ ext {
             viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
             navigation_ui: "androidx.navigation:navigation-ui-ktx:$navigation_version",
             navigation_fragment: "androidx.navigation:navigation-fragment-ktx:$navigation_version",
-            room: "androidx.room:room-runtime:$room_version",
+            room: "androidx.room:room-ktx:$room_version",
             room_compiler: "androidx.room:room-compiler:$room_version",
-            rxroom: "androidx.room:room-rxjava2:$room_version",
 
             // Network
             gson: "com.google.code.gson:gson:$gson_version",
 
-            // Rx
-            rxjava2: "io.reactivex.rxjava2:rxjava:$rxjava2_version",
-            rxandroid: "io.reactivex.rxjava2:rxandroid:$rxandroid_version",
-            rxkotlin: "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version",
-            rxbinding_appcompat: "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxbinding_version",
-            rxpreferences: "com.f2prateek.rx.preferences2:rx-preferences:$rxpreferences_version",
+            // Coroutines
+            coroutines_core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
+            coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
 
             // DI
-            dagger_hilt: "com.google.dagger:hilt-android:$dagger_version",
-            dagger_hilt_compiler: "com.google.dagger:hilt-compiler:$dagger_version",
+            hilt: "com.google.dagger:hilt-android:$hilt_version",
+            hilt_compiler: "com.google.dagger:hilt-compiler:$hilt_version",
 
             // Lint
             ktlint: "com.pinterest:ktlint:$ktlint_version",
@@ -139,7 +132,7 @@ ext {
             keyboardevent: "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboardevent_version",
             rhino: "org.mozilla:rhino:$rhino_version",
             zip4j: "net.lingala.zip4j:zip4j:$zip4j_version",
-            chardet: "com.github.gzu-liyujiang:CJKCharsetDetector:$chardet_version"
+            chardet: "com.ibm.icu:icu4j:$chardet_version"
     ]
 
     testLibrary = [

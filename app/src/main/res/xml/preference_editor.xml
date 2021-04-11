@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2020 Brackeys IDE contributors.
+  ~ Copyright 2021 Brackeys IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -73,6 +73,16 @@
             android:summary="@string/pref_highlight_delimiters_summary"
             android:defaultValue="true"
             android:key="HIGHLIGHT_MATCHING_DELIMITERS"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_tabs">
+
+        <SwitchPreference
+            android:title="@string/pref_auto_save_files_title"
+            android:summary="@string/pref_auto_save_files_summary"
+            android:defaultValue="false"
+            android:key="AUTO_SAVE_FILES"/>
 
     </PreferenceCategory>
 

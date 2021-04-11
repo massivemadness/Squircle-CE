@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2020 Brackeys IDE contributors.
+  ~ Copyright 2021 Brackeys IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -30,10 +30,9 @@
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
-        android:name="com.brackeys.ui.MainApplication"
+        android:name="com.brackeys.ui.BrackeysApp"
         android:fullBackupContent="@xml/backup_descriptor"
-        tools:replace="android:supportsRtl"
-        tools:targetApi="q">
+        tools:replace="android:supportsRtl">
 
         <activity
             android:name="com.brackeys.ui.feature.main.activities.MainActivity"

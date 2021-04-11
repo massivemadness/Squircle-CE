@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,28 +19,28 @@ package com.brackeys.ui.feature.settings.activities
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ActivitySettingsBinding
-import com.brackeys.ui.feature.base.activities.BaseActivity
 import com.brackeys.ui.feature.settings.viewmodel.SettingsViewModel
 import com.brackeys.ui.utils.extensions.fragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
-    private lateinit var navController: NavController
     private lateinit var binding: ActivitySettingsBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setBackgroundDrawableResource(R.color.colorBackground)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        observeViewModel()
 
         navController = supportFragmentManager
             .fragment<NavHostFragment>(R.id.nav_host).navController
@@ -52,19 +52,16 @@ class SettingsActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.fullscreenMode) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
     }
 
-    private fun observeViewModel() {
-        viewModel.fullscreenEvent.observe(this) { enabled ->
-            if (enabled) {
-                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            } else {
-                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            }
-        }
-
-        viewModel.observeSettings()
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

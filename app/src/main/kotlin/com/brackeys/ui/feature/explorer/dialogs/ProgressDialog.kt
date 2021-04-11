@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,28 +19,26 @@ package com.brackeys.ui.feature.explorer.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.DialogProgressBinding
-import com.brackeys.ui.feature.base.dialogs.BaseDialogFragment
 import com.brackeys.ui.feature.explorer.utils.Operation
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class ProgressDialog : BaseDialogFragment() {
+class ProgressDialog : DialogFragment() {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val navArgs: ProgressDialogArgs by navArgs()
@@ -50,7 +48,7 @@ class ProgressDialog : BaseDialogFragment() {
     private var dialogTitle: Int = -1
     private var dialogMessage: Int = -1
     private var dialogAction: () -> Unit = {} // Действие, которое запустится при открытии диалога
-    private var onCloseAction: () -> Unit = {} // Действие, которое выполняемое при закрытии диалога
+    private var onCloseAction: () -> Unit = {} // Действие, которое выполнится при закрытии диалога
     private var indeterminate: Boolean = false // Загрузка без отображения реального прогресса
     private var tempFiles: List<FileModel> = emptyList() // Список файлов для отображения информации
 
@@ -68,7 +66,7 @@ class ProgressDialog : BaseDialogFragment() {
                 onCloseAction.invoke()
             }
             negativeButton(R.string.action_cancel) {
-                viewModel.cancelableDisposable.dispose()
+                viewModel.currentJob?.cancel()
                 onCloseAction.invoke()
             }
 
@@ -77,13 +75,13 @@ class ProgressDialog : BaseDialogFragment() {
             formatElapsedTime(binding.textElapsedTime, 0L) // 00:00
 
             val then = System.currentTimeMillis()
-            val timer = Observable.interval(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy {
+            lifecycleScope.launchWhenStarted {
+                repeat(1000) {
                     val difference = System.currentTimeMillis() - then
                     formatElapsedTime(binding.textElapsedTime, difference)
+                    delay(1000)
                 }
-                .disposeOnFragmentDestroyView()
+            }
 
             val totalProgress = tempFiles.size
             binding.progressIndicator.max = totalProgress
@@ -113,7 +111,6 @@ class ProgressDialog : BaseDialogFragment() {
 
             setOnDismissListener {
                 viewModel.progressEvent.removeObservers(this@ProgressDialog)
-                timer.dispose()
             }
         }
     }

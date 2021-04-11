@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,6 +90,7 @@ enum class JavaScriptToken {
     FALSE,
     NULL,
     NAN,
+    UNDEFINED,
 
     EQEQ,
     NOTEQ,
@@ -130,6 +131,7 @@ enum class JavaScriptToken {
     SEMICOLON,
     COMMA,
     DOT,
+    ELLIPSIS,
 
     EQ,
     NOT,
@@ -148,6 +150,7 @@ enum class JavaScriptToken {
 
     DOUBLE_QUOTED_STRING,
     SINGLE_QUOTED_STRING,
+    SINGLE_BACKTICK_STRING,
 
     LINE_COMMENT,
     BLOCK_COMMENT,

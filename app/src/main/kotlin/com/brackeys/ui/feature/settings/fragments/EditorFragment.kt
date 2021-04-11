@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.brackeys.ui.R
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 
 class EditorFragment : PreferenceFragmentCompat() {
 
@@ -43,7 +43,7 @@ class EditorFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preference_editor, rootKey)
 
         findPreference<Preference>(KEY_FONT_TYPE)?.setOnPreferenceClickListener {
-            val destination = EditorFragmentDirections.toFontsFragment()
+            val destination = EditorFragmentDirections.toFontsGraph()
             navController.navigate(destination)
             true
         }

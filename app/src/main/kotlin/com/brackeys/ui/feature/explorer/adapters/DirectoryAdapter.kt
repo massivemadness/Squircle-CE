@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.databinding.ItemTabDirectoryBinding
-import com.brackeys.ui.feature.base.adapters.TabAdapter
+import com.brackeys.ui.feature.main.adapters.TabAdapter
 import com.brackeys.ui.filesystem.base.model.FileModel
 
 class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>() {

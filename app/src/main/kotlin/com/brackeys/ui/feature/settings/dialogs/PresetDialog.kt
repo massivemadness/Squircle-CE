@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,15 @@ package com.brackeys.ui.feature.settings.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.EditText
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
-import com.brackeys.ui.feature.base.dialogs.BaseDialogFragment
 import com.brackeys.ui.feature.settings.viewmodel.SettingsViewModel
 
-class PresetDialog : BaseDialogFragment() {
+class PresetDialog : DialogFragment() {
 
     private val viewModel: SettingsViewModel by activityViewModels()
 
@@ -36,21 +36,20 @@ class PresetDialog : BaseDialogFragment() {
             title(R.string.label_keyboard_preset)
             customView(R.layout.dialog_preset)
             negativeButton(R.string.action_reset) {
-                val defaultValue = viewModel.keyboardPreset.defaultValue()
-                viewModel.keyboardPreset.set(defaultValue)
+                viewModel.resetKeyboardPreset()
             }
             positiveButton(R.string.action_save) {
                 val inputEditText = getCustomView().findViewById<EditText>(R.id.input)
                 val keyboardPreset = inputEditText.text.toString().trim()
                 if (keyboardPreset.isNotEmpty()) {
-                    viewModel.keyboardPreset.set(keyboardPreset)
+                    viewModel.keyboardPreset = keyboardPreset
                 }
             }
 
             setOnShowListener {
                 val inputEditText = getCustomView().findViewById<EditText>(R.id.input)
                 if (savedInstanceState == null) {
-                    inputEditText.setText(viewModel.keyboardPreset.get())
+                    inputEditText.setText(viewModel.keyboardPreset)
                 }
             }
         }

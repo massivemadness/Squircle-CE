@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.data.converter
 
-import com.brackeys.ui.data.database.entity.document.DocumentEntity
+import com.brackeys.ui.data.storage.database.entity.document.DocumentEntity
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import java.util.*
@@ -25,7 +25,6 @@ object DocumentConverter {
 
     fun toModel(documentModel: DocumentModel): FileModel {
         return FileModel(
-            name = documentModel.name,
             path = documentModel.path,
             size = 0,
             lastModified = 0,

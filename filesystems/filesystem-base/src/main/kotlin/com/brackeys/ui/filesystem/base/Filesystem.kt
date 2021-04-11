@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,25 +20,24 @@ import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileParams
 import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface Filesystem {
-    fun defaultLocation(): Single<FileTree>
+    suspend fun defaultLocation(): FileModel
 
-    fun provideFile(path: String): Single<FileModel>
-    fun provideDirectory(parent: FileModel?): Single<FileTree>
+    suspend fun provideFile(path: String): FileModel
+    suspend fun provideDirectory(parent: FileModel): FileTree
 
-    fun createFile(fileModel: FileModel): Single<FileModel>
-    fun renameFile(fileModel: FileModel, fileName: String): Single<FileModel>
-    fun deleteFile(fileModel: FileModel): Single<FileModel>
-    fun copyFile(source: FileModel, dest: FileModel): Single<FileModel>
-    fun propertiesOf(fileModel: FileModel): Single<PropertiesModel>
+    suspend fun createFile(fileModel: FileModel): FileModel
+    suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel
+    suspend fun deleteFile(fileModel: FileModel): FileModel
+    suspend fun copyFile(source: FileModel, dest: FileModel): FileModel
+    suspend fun propertiesOf(fileModel: FileModel): PropertiesModel
+    suspend fun isExists(fileModel: FileModel): Boolean
 
-    fun compress(source: List<FileModel>, dest: FileModel, archiveName: String): Observable<FileModel>
-    fun extractAll(source: FileModel, dest: FileModel): Single<FileModel>
+    suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel>
+    suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel>
 
-    fun loadFile(fileModel: FileModel, fileParams: FileParams): Single<String>
-    fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams): Completable
+    suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String
+    suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams)
 }

@@ -1,4 +1,4 @@
-<b>Brackeys IDE</b> currently supports coding in the following programming languages: ActionScript, C, C++, C#, HTML, Java, JavaScript, Json, Kotlin, Lisp, Lua, Markdown, Python, Shell, SQL, Visual Basic and XML.
+<b>Brackeys IDE</b> currently supports coding in the following programming languages: ActionScript, C, C++, C#, Groovy, HTML, Java, JavaScript, Json, Kotlin, Lisp, Lua, Markdown, PHP, Python, Shell, SQL, TypeScript, Visual Basic and XML.
 
 Here is a list of features that will help you work with more productivity:
 

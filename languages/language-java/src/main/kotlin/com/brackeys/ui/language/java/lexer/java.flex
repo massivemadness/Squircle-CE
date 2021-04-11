@@ -158,7 +158,7 @@ BLOCK_COMMENT = "/"\*([^*] | \*+[^*/])*(\*+"/")?
   ";" { return JavaToken.SEMICOLON; }
   "," { return JavaToken.COMMA; }
   "." { return JavaToken.DOT; }
-  "..." { return JavaToken.ELLISPIS; }
+  "..." { return JavaToken.ELLIPSIS; }
 
   "=" { return JavaToken.EQ; }
   "!" { return JavaToken.NOT; }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.data.utils
 
-import com.brackeys.ui.domain.model.theme.ThemeModel
+import com.brackeys.ui.domain.model.themes.ThemeModel
 import com.brackeys.ui.editorkit.theme.EditorTheme
 
 object InternalTheme {
@@ -77,7 +77,7 @@ object InternalTheme {
         colorScheme = EditorTheme.VISUAL_STUDIO_2013
     )
 
-    fun fetchTheme(themeId: String): ThemeModel? {
+    fun getTheme(themeId: String): ThemeModel? {
         return when (themeId) {
             DARCULA -> THEME_DARCULA
             MONOKAI -> THEME_MONOKAI
@@ -92,7 +92,7 @@ object InternalTheme {
     /**
      * Default color schemes from :editorkit module.
      */
-    fun fetchThemes(): List<ThemeModel> {
+    fun getThemes(): List<ThemeModel> {
         return listOf(
             THEME_DARCULA,
             THEME_MONOKAI,

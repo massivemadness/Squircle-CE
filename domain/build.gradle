@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
+
+        consumerProguardFiles 'consumer-rules.pro'
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -38,10 +40,11 @@ dependencies {
     // Core
     implementation library.kotlin
 
-    // Rx
-    implementation library.rxjava2
+    // Coroutines
+    implementation library.coroutines_core
 
     // Modules
     implementation project(':editorkit')
+    implementation project(':filesystems:filesystem-base')
     implementation project(':languages:language-base')
 }

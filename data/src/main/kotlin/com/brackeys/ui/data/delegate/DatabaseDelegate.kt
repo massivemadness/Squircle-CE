@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,15 @@ package com.brackeys.ui.data.delegate
 
 import android.content.Context
 import androidx.room.Room
-import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.database.AppDatabaseImpl
+import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.database.AppDatabaseImpl
+import com.brackeys.ui.data.storage.database.utils.Migrations
 
 object DatabaseDelegate {
 
     fun provideAppDatabase(context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
+            .addMigrations(Migrations.MIGRATION_1_2)
             .build()
     }
 }

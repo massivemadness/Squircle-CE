@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,90 +16,28 @@
 
 package com.brackeys.ui.feature.main.viewmodel
 
-import android.util.Log
-import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.schedulersIoToMain
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
-import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
+import androidx.lifecycle.ViewModel
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
+import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.InstallStatus
-import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.ktx.installStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val schedulersProvider: SchedulersProvider,
-    private val settingsManager: SettingsManager,
-    private val appUpdateManager: AppUpdateManager
-) : BaseViewModel() {
+    private val settingsManager: SettingsManager
+) : ViewModel() {
 
-    companion object {
-        private const val TAG = "MainViewModel"
-    }
-
-    val updateEvent: SingleLiveEvent<Triple<AppUpdateManager, AppUpdateInfo, Int>> = SingleLiveEvent()
-    val installEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
-    val fullscreenEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    val confirmExitEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-
-    val openDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
-    val closeDrawerEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val openDrawerEvent = SingleLiveEvent<Unit>()
+    val closeDrawerEvent = SingleLiveEvent<Unit>()
 
     // События для связи проводника и редактора
-    val openEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
-    val openAsEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
-    val propertiesEvent: SingleLiveEvent<FileModel> = SingleLiveEvent()
+    val openEvent = SingleLiveEvent<DocumentModel>()
+    val propertiesEvent = SingleLiveEvent<FileModel>()
 
-    private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
-        if (state.installStatus == InstallStatus.DOWNLOADED) {
-            installEvent.call()
-        }
-    }
-
-    fun checkForUpdates() {
-        // TODO: 2020/8/5  Google Play is not available in Chinese mainland
-        appUpdateManager.registerListener(installStateUpdatedListener)
-        appUpdateManager.appUpdateInfo
-            .addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                        updateEvent.value = Triple(appUpdateManager, appUpdateInfo, AppUpdateType.FLEXIBLE)
-                    } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                        updateEvent.value = Triple(appUpdateManager, appUpdateInfo, AppUpdateType.IMMEDIATE)
-                    }
-                } else {
-                    appUpdateManager.unregisterListener(installStateUpdatedListener)
-                }
-            }
-            .addOnFailureListener {
-                Log.e(TAG, it.message, it)
-            }
-    }
-
-    fun completeUpdate() {
-        appUpdateManager.unregisterListener(installStateUpdatedListener)
-        appUpdateManager.completeUpdate()
-    }
-
-    fun observeSettings() {
-        settingsManager.getFullscreenMode()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { fullscreenEvent.value = it }
-            .disposeOnViewModelDestroy()
-
-        settingsManager.getConfirmExit()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { confirmExitEvent.value = it }
-            .disposeOnViewModelDestroy()
-    }
+    val fullScreenMode: Boolean
+        get() = settingsManager.fullScreenMode
+    val confirmExit: Boolean
+        get() = settingsManager.confirmExit
 }

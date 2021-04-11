@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ItemTabDocumentBinding
 import com.brackeys.ui.domain.model.editor.DocumentModel
-import com.brackeys.ui.feature.base.adapters.TabAdapter
+import com.brackeys.ui.feature.main.adapters.TabAdapter
 import com.brackeys.ui.utils.extensions.makeRightPaddingRecursively
 
 class DocumentAdapter(

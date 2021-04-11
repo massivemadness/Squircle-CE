@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1628,7 +1628,7 @@ public class KotlinLexer {
             // fall through
           case 187: break;
           case 64:
-            { return KotlinToken.ELLISPIS;
+            { return KotlinToken.ELLIPSIS;
             }
             // fall through
           case 188: break;

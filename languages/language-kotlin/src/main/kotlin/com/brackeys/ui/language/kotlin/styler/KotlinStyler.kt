@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,7 +116,7 @@ class KotlinStyler private constructor() : LanguageStyler {
                     KotlinToken.XOR,
                     KotlinToken.MOD,
                     KotlinToken.ELVIS,
-                    KotlinToken.ELLISPIS,
+                    KotlinToken.ELLIPSIS,
                     KotlinToken.DOUBLE_COLON,
                     KotlinToken.ARROW -> {
                         val styleSpan = StyleSpan(syntaxScheme.operatorColor)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ plugins {
     id 'kotlin-android'
 }
 
-ext.libraryGroupId = "com.brackeys.ui"
+ext.libraryGroupId = "com.blacksquircle.ui"
 ext.libraryArtifactId = "language-base"
 
-apply from: rootProject.file("gradle/bintray.gradle")
+apply from: rootProject.file("gradle/publish.gradle")
 
 android {
     compileSdkVersion versions.compileSdk

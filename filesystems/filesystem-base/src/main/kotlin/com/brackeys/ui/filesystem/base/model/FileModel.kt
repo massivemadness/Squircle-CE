@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,25 @@
 
 package com.brackeys.ui.filesystem.base.model
 
-import android.os.Parcelable
 import com.brackeys.ui.filesystem.base.utils.endsWith
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class FileModel(
-    val name: String,
     val path: String,
-    val size: Long,
-    val lastModified: Long,
-    val isFolder: Boolean,
-    val isHidden: Boolean
-) : Parcelable {
+    val size: Long = 0L,
+    val lastModified: Long = 0L,
+    val isFolder: Boolean = false,
+    val isHidden: Boolean = false
+) {
 
     companion object {
         val TEXT = arrayOf(
             ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua",
             ".as", ".cs", ".c", ".cpp", ".h", ".hpp", ".lisp", ".lsp",
-            ".cl", ".l", ".py", ".vb", ".bas", ".cls", ".sql", ".sqlite",
+            ".cl", ".l", ".py", ".pyw", ".pyi", ".vb", ".bas", ".cls", ".sql", ".sqlite",
             ".sqlite2", ".sqlite3", ".htm", ".html", ".xhtml", ".xht",
-            ".xml", ".sh", ".ksh", ".bsh", ".csh", ".tcsh", ".zsh", ".bash"
+            ".xml", ".sh", ".ksh", ".bsh", ".csh", ".tcsh", ".zsh", ".bash",
+            ".groovy", ".gvy", ".gy", ".gsh", ".php", ".php3", ".php4",
+            ".php5", ".phps", ".phtml", ".ts"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",
@@ -67,6 +65,9 @@ data class FileModel(
         )
     }
 
+    val name: String
+        get() = path.substringAfterLast('/')
+
     fun getType(): FileType {
         return when {
             name.endsWith(TEXT) -> FileType.TEXT
@@ -79,5 +80,22 @@ data class FileModel(
             name.endsWith(APPLICATION) -> FileType.APPLICATION
             else -> FileType.DEFAULT
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as FileModel
+        if (path != other.path) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = path.hashCode()
+        result = 31 * result + size.hashCode()
+        result = 31 * result + lastModified.hashCode()
+        result = 31 * result + isFolder.hashCode()
+        result = 31 * result + isHidden.hashCode()
+        return result
     }
 }

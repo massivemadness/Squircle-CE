@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,6 +116,7 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.OR,
                     JavaScriptToken.XOR,
                     JavaScriptToken.MOD,
+                    JavaScriptToken.ELLIPSIS,
                     JavaScriptToken.ARROW -> {
                         val styleSpan = StyleSpan(syntaxScheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -199,13 +200,15 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.TRUE,
                     JavaScriptToken.FALSE,
                     JavaScriptToken.NULL,
-                    JavaScriptToken.NAN -> {
+                    JavaScriptToken.NAN,
+                    JavaScriptToken.UNDEFINED -> {
                         val styleSpan = StyleSpan(syntaxScheme.langConstColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     JavaScriptToken.DOUBLE_QUOTED_STRING,
-                    JavaScriptToken.SINGLE_QUOTED_STRING -> {
+                    JavaScriptToken.SINGLE_QUOTED_STRING,
+                    JavaScriptToken.SINGLE_BACKTICK_STRING -> {
                         val styleSpan = StyleSpan(syntaxScheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)

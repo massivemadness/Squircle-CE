@@ -39,7 +39,7 @@
 
 The `editorkit` module provides code editor without any support for programming languages.
 
-[ ![jCenter](https://api.bintray.com/packages/massivemadness/Brackeys-IDE/editorkit/images/download.svg) ](https://bintray.com/massivemadness/Brackeys-IDE/editorkit/_latestVersion)
+[ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/editorkit?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/editorkit/)
 
 ## Gradle Dependency
 
@@ -47,8 +47,8 @@ Add this to your module's `build.gradle` file:
 
 ```gradle
 dependencies {
-
-    implementation 'com.brackeys.ui:editorkit:1.1.0'
+  ...
+  implementation 'com.blacksquircle.ui:editorkit:1.3.0'
 }
 ```
 
@@ -353,6 +353,7 @@ editor.colorScheme = ColorScheme(
         typeColor = Color.parseColor("#669BD1"),
         langConstColor = Color.parseColor("#669BD1"),
         preprocessorColor = Color.parseColor("#C49594"),
+        variableColor = Color.parseColor("#9DDDFF"),
         methodColor = Color.parseColor("#71C6B1"),
         stringColor = Color.parseColor("#CE9F89"),
         commentColor = Color.parseColor("#6BA455"),
@@ -372,7 +373,7 @@ editor.colorScheme = ColorScheme(
 The language modules provides support for programming languages. This includes syntax highlighting, code suggestions and source code parser.
 *(Note that source code parser currently works only in `language-javascript` module, but it will be implemented for more languages soon)*
 
-[ ![jCenter](https://api.bintray.com/packages/massivemadness/Brackeys-IDE/language-base/images/download.svg) ](https://bintray.com/massivemadness/Brackeys-IDE/language-base/_latestVersion)
+[ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/language-base?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/language-base/)
 
 ## Gradle Dependency
 
@@ -380,26 +381,29 @@ Select your language and add it's dependency to your module's `build.gradle` fil
 
 ```gradle
 dependencies {
-
-    implementation 'com.brackeys.ui:language-actionscript:1.1.0'
-    implementation 'com.brackeys.ui:language-base:1.1.0' // for custom language
-    implementation 'com.brackeys.ui:language-c:1.1.0'
-    implementation 'com.brackeys.ui:language-cpp:1.1.0'
-    implementation 'com.brackeys.ui:language-csharp:1.1.0'
-    implementation 'com.brackeys.ui:language-html:1.1.0'
-    implementation 'com.brackeys.ui:language-java:1.1.0'
-    implementation 'com.brackeys.ui:language-javascript:1.1.0'
-    implementation 'com.brackeys.ui:language-json:1.1.0'
-    implementation 'com.brackeys.ui:language-kotlin:1.1.0'
-    implementation 'com.brackeys.ui:language-lisp:1.1.0'
-    implementation 'com.brackeys.ui:language-lua:1.1.0'
-    implementation 'com.brackeys.ui:language-markdown:1.1.0'
-    implementation 'com.brackeys.ui:language-plaintext:1.1.0'
-    implementation 'com.brackeys.ui:language-python:1.1.0'
-    implementation 'com.brackeys.ui:language-shell:1.1.0'
-    implementation 'com.brackeys.ui:language-sql:1.1.0'
-    implementation 'com.brackeys.ui:language-visualbasic:1.1.0'
-    implementation 'com.brackeys.ui:language-xml:1.1.0'
+  ...
+  implementation 'com.blacksquircle.ui:language-actionscript:1.3.0'
+  implementation 'com.blacksquircle.ui:language-base:1.3.0' // for custom language
+  implementation 'com.blacksquircle.ui:language-c:1.3.0'
+  implementation 'com.blacksquircle.ui:language-cpp:1.3.0'
+  implementation 'com.blacksquircle.ui:language-csharp:1.3.0'
+  implementation 'com.blacksquircle.ui:language-groovy:1.3.0'
+  implementation 'com.blacksquircle.ui:language-html:1.3.0'
+  implementation 'com.blacksquircle.ui:language-java:1.3.0'
+  implementation 'com.blacksquircle.ui:language-javascript:1.3.0'
+  implementation 'com.blacksquircle.ui:language-json:1.3.0'
+  implementation 'com.blacksquircle.ui:language-kotlin:1.3.0'
+  implementation 'com.blacksquircle.ui:language-lisp:1.3.0'
+  implementation 'com.blacksquircle.ui:language-lua:1.3.0'
+  implementation 'com.blacksquircle.ui:language-markdown:1.3.0'
+  implementation 'com.blacksquircle.ui:language-php:1.3.0'
+  implementation 'com.blacksquircle.ui:language-plaintext:1.3.0'
+  implementation 'com.blacksquircle.ui:language-python:1.3.0'
+  implementation 'com.blacksquircle.ui:language-shell:1.3.0'
+  implementation 'com.blacksquircle.ui:language-sql:1.3.0'
+  implementation 'com.blacksquircle.ui:language-typescript:1.3.0'
+  implementation 'com.blacksquircle.ui:language-visualbasic:1.3.0'
+  implementation 'com.blacksquircle.ui:language-xml:1.3.0'
 }
 ```
 
@@ -411,8 +415,8 @@ dependencies {
 
 ```gradle
 dependencies {
-
-    implementation 'com.brackeys.ui:language-base:1.1.0'
+  ...
+  implementation 'com.blacksquircle.ui:language-base:1.3.0'
 }
 ```
 

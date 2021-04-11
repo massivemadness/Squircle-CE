@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2020 Brackeys IDE contributors.
+  ~ Copyright 2021 Brackeys IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -37,9 +37,9 @@
         android:label="@string/label_directory"
         tools:layout="@layout/fragment_directory">
         <argument
-            android:name="fileModel"
-            app:nullable="true"
-            app:argType="com.brackeys.ui.filesystem.base.model.FileModel"/>
+            android:name="path"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/to_directoryFragment"
             app:destination="@id/directoryFragment"/>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Brackeys IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_fonts">Fonts</string>
+    <string name="label_external_font">External Font</string>
+
+    <string name="hint_enter_font_name">Enter font name</string>
+    <string name="hint_enter_font_path">Enter font path</string>
+    <string name="hint_search">Search…</string>
+
+    <string name="hint_font_name" translatable="false">Droid Sans Mono</string>
+    <string name="hint_file_path" translatable="false">/storage/emulated/0/Download/...</string>
+
+    <string name="action_select">Select</string>
+    <string name="action_save">Save</string>
+
+    <string name="message_selected">Selected «%1$s»</string>
+    <string name="message_new_font_available">New font available: %1$s</string>
+    <string name="message_font_removed">Font «%1$s» removed</string>
+    <string name="message_no_result">No result</string>
+    <string name="message_unknown_exception">An error occurred</string>
+
+    <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
+    <string name="font_support_ligatures">* Support ligatures</string>
+    <string name="font_disclaimer">If you want to use this font, do not delete .ttf file at the specified path</string>
+
+</resources>

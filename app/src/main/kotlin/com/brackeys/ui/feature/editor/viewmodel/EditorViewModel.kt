@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,320 +18,214 @@ package com.brackeys.ui.feature.editor.viewmodel
 
 import android.util.Log
 import androidx.core.text.PrecomputedTextCompat
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
-import com.brackeys.ui.data.converter.DocumentConverter
-import com.brackeys.ui.data.converter.ThemeConverter
-import com.brackeys.ui.data.database.AppDatabase
-import com.brackeys.ui.data.repository.CacheRepository
-import com.brackeys.ui.data.repository.LocalRepository
-import com.brackeys.ui.data.settings.SettingsManager
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.data.utils.InternalTheme
-import com.brackeys.ui.data.utils.containsDocumentModel
-import com.brackeys.ui.data.utils.indexBy
-import com.brackeys.ui.data.utils.schedulersIoToMain
+import com.brackeys.ui.domain.model.documents.DocumentParams
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
-import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
+import com.brackeys.ui.domain.repository.documents.DocumentRepository
+import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.exception.FileNotFoundException
 import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.utils.event.EventsQueue
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.event.SingleLiveEvent
-import com.github.gzuliyujiang.chardet.CJKCharsetDetector
+import com.brackeys.ui.utils.extensions.launchEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(
-    private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
-    private val appDatabase: AppDatabase,
-    private val localRepository: LocalRepository,
-    private val cacheRepository: CacheRepository
-) : BaseViewModel() {
+    private val documentRepository: DocumentRepository,
+    private val themesRepository: ThemesRepository
+) : ViewModel() {
 
     companion object {
         private const val TAG = "EditorViewModel"
-        private const val TAB_LIMIT = 10
     }
-
-    // region UI
-
-    val stateLoadingDocuments: ObservableBoolean = ObservableBoolean(false) // Индикатор загрузки документа
-    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение об отсутствии документов
-
-    // endregion UI
 
     // region EVENTS
 
-    val loadFilesEvent: MutableLiveData<List<DocumentModel>> = MutableLiveData() // Загрузка недавних файлов
-    val selectTabEvent: MutableLiveData<Int> = MutableLiveData() // Текущая позиция выбранной вкладки
+    val loadingBar = MutableLiveData(false) // Индикатор загрузки документа
+    val emptyView = MutableLiveData(true) // Сообщение об отсутствии документов
 
-    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
-    val parseEvent: SingleLiveEvent<ParseResult> = SingleLiveEvent() // Проверка ошибок
-    val contentEvent: SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>> = SingleLiveEvent() // Контент загруженного файла
-    val settingsEvent: EventsQueue<SettingsEvent<*>> = EventsQueue() // События с измененными настройками
+    val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
+    val settingsEvent = EventsQueue<SettingsEvent<*>>() // События с измененными настройками
+
+    val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
+    val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
+    val contentEvent = SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>>() // Контент загруженного файла
 
     // endregion EVENTS
 
-    val openUnknownFiles: Boolean
-        get() = settingsManager.getOpenUnknownFiles().get()
-    private var selectedDocumentId: String
-        get() = settingsManager.getSelectedDocumentId().get()
-        set(value) = settingsManager.getSelectedDocumentId().set(value)
+    val autoSaveFiles: Boolean
+        get() = settingsManager.autoSaveFiles
 
     fun loadFiles() {
-        appDatabase.documentDao().loadAll()
-            .doOnSubscribe { stateLoadingDocuments.set(true) }
-            .map { it.map(DocumentConverter::toModel) }
-            .doOnSuccess { stateLoadingDocuments.set(false) }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = {
-                    loadFilesEvent.value = it
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun loadFile(documentModel: DocumentModel, params: PrecomputedTextCompat.Params) {
-        val dataSource = if (cacheRepository.isCached(documentModel)) {
-            cacheRepository
-        } else localRepository
-
-        dataSource.loadFile(documentModel)
-            .doOnSubscribe { stateLoadingDocuments.set(true) }
-            .map { it to PrecomputedTextCompat.create(it.text, params) }
-            .doFinally { stateLoadingDocuments.set(false) }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = { (documentContent, precomputedText) ->
-                    selectedDocumentId = documentContent.documentModel.uuid
-                    contentEvent.value = documentContent to precomputedText
-                    if (CJKCharsetDetector.inWrongEncoding(documentContent.text)) {
-                        toastEvent.value = R.string.message_wrong_encoding
-                    }
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        is OutOfMemoryError -> {
-                            toastEvent.value = R.string.message_out_of_memory
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
-                    }
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun saveFile(documentContent: DocumentContent, toCache: Boolean = false) {
-        val dataSource = if (toCache) {
-            cacheRepository
-        } else localRepository
-
-        dataSource.saveFile(documentContent)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onComplete = {
-                    if (!toCache) { toastEvent.value = R.string.message_saved }
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun deleteCache(documentModel: DocumentModel) {
-        cacheRepository.deleteCache(documentModel)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    toastEvent.value = R.string.message_unknown_exception
-                }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun openFile(list: List<DocumentModel>, documentModel: DocumentModel) {
-        if (!list.containsDocumentModel(documentModel)) {
-            if (list.size < TAB_LIMIT) {
-                selectedDocumentId = documentModel.uuid
-                loadFilesEvent.value = list.toMutableList().apply { add(documentModel) }
-            } else {
-                toastEvent.value = R.string.message_tab_limit_achieved
+        viewModelScope.launchEvent(loadingBar) {
+            try {
+                loadFilesEvent.value = documentRepository.fetchDocuments()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
             }
-        } else {
-            selectTabEvent.value = list.indexBy(documentModel)
         }
     }
 
-    fun parse(documentModel: DocumentModel, language: Language?, sourceCode: String) {
-        Single
-            .create<ParseResult> { emitter ->
-                val parser = language?.getParser()
-                val parseResult = parser?.execute(documentModel.name, sourceCode)
-                parseResult?.let(emitter::onSuccess)
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { parseEvent.value = it }
-            .disposeOnViewModelDestroy()
-    }
-
-    fun findRecentTab(list: List<DocumentModel>) {
-        selectTabEvent.value = if (list.isNotEmpty()) {
-            list.indexBy(selectedDocumentId) ?: 0
-        } else -1
-    }
-
-    fun updateDocuments(list: List<DocumentModel>) {
-        Completable
-            .fromCallable {
-                list.forEachIndexed { index, documentModel ->
-                    documentModel.position = index
-                    val documentEntity = DocumentConverter.toEntity(documentModel)
-                    appDatabase.documentDao().update(documentEntity)
+    fun loadFile(documentModel: DocumentModel, params: PrecomputedTextCompat.Params) {
+        viewModelScope.launchEvent(loadingBar) {
+            try {
+                val content = documentRepository.loadFile(documentModel)
+                val precomputedText = withContext(Dispatchers.Default) {
+                    PrecomputedTextCompat.create(content.text, params)
+                }
+                settingsManager.selectedDocumentId = documentModel.uuid
+                contentEvent.value = content to precomputedText
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
+                    }
+                    is OutOfMemoryError -> {
+                        toastEvent.value = R.string.message_out_of_memory
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
+                    }
                 }
             }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy()
-            .disposeOnViewModelDestroy()
+        }
+    }
+
+    fun saveFile(documentContent: DocumentContent, params: DocumentParams) {
+        viewModelScope.launch {
+            try {
+                documentRepository.saveFile(documentContent, params)
+                if (params.local) {
+                    toastEvent.value = R.string.message_saved
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
+        }
+    }
+
+    fun updateDocument(documentModel: DocumentModel) {
+        viewModelScope.launch {
+            try {
+                documentRepository.updateDocument(documentModel)
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
+        }
+    }
+
+    fun deleteDocument(documentModel: DocumentModel) {
+        viewModelScope.launch {
+            try {
+                documentRepository.deleteDocument(documentModel)
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
+        }
+    }
+
+    fun openFile(documents: List<DocumentModel>) {
+        settingsManager.selectedDocumentId = documents.last().uuid
+        loadFilesEvent.value = documents
+    }
+
+    fun parse(documentModel: DocumentModel, language: Language?, sourceCode: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val parser = language?.getParser()
+            val parseResult = parser?.execute(documentModel.name, sourceCode)
+            parseResult?.let(parseEvent::postValue)
+        }
+    }
+
+    fun findRecentTab(list: List<DocumentModel>): Int {
+        return if (list.isNotEmpty()) {
+            var position = 0
+            list.forEachIndexed { index, documentModel ->
+                if (documentModel.uuid == settingsManager.selectedDocumentId) {
+                    position = index
+                }
+            }
+            position
+        } else {
+            -1
+        }
     }
 
     // region PREFERENCES
 
-    fun observeSettings() {
-        settingsManager.getColorScheme()
-            .asObservable()
-            .flatMapSingle {
-                InternalTheme.fetchTheme(it)?.let { themeModel ->
-                    Single.just(themeModel)
-                } ?: run {
-                    appDatabase.themeDao().load(it)
-                        .map(ThemeConverter::toModel)
-                        .schedulersIoToMain(schedulersProvider)
-                }
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.ThemePref(it)) }
-            .disposeOnViewModelDestroy()
+    fun fetchSettings() {
+        viewModelScope.launch {
+            val value = settingsManager.colorScheme
+            val theme = InternalTheme.getTheme(value) ?: themesRepository.fetchTheme(value)
+            settingsEvent.offer(SettingsEvent.ThemePref(theme))
+        }
 
-        settingsManager.getFontSize()
-            .asObservable()
-            .map { it.toFloat() }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.FontSize(it)) }
-            .disposeOnViewModelDestroy()
+        val fontSize = settingsManager.fontSize.toFloat()
+        settingsEvent.offer(SettingsEvent.FontSize(fontSize))
 
-        settingsManager.getFontType()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.FontType(it)) }
-            .disposeOnViewModelDestroy()
+        val fontType = settingsManager.fontType
+        settingsEvent.offer(SettingsEvent.FontType(fontType))
 
-        settingsManager.getWordWrap()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.WordWrap(it)) }
-            .disposeOnViewModelDestroy()
+        val wordWrap = settingsManager.wordWrap
+        settingsEvent.offer(SettingsEvent.WordWrap(wordWrap))
 
-        settingsManager.getCodeCompletion()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.CodeCompletion(it)) }
-            .disposeOnViewModelDestroy()
+        val codeCompletion = settingsManager.codeCompletion
+        settingsEvent.offer(SettingsEvent.CodeCompletion(codeCompletion))
 
-        settingsManager.getErrorHighlighting()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.ErrorHighlight(it)) }
-            .disposeOnViewModelDestroy()
+        val errorHighlighting = settingsManager.errorHighlighting
+        settingsEvent.offer(SettingsEvent.ErrorHighlight(errorHighlighting))
 
-        settingsManager.getPinchZoom()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.PinchZoom(it)) }
-            .disposeOnViewModelDestroy()
+        val pinchZoom = settingsManager.pinchZoom
+        settingsEvent.offer(SettingsEvent.PinchZoom(pinchZoom))
 
-        settingsManager.getHighlightCurrentLine()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.CurrentLine(it)) }
-            .disposeOnViewModelDestroy()
+        val highlightCurrentLine = settingsManager.highlightCurrentLine
+        settingsEvent.offer(SettingsEvent.CurrentLine(highlightCurrentLine))
 
-        settingsManager.getHighlightMatchingDelimiters()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.Delimiters(it)) }
-            .disposeOnViewModelDestroy()
+        val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
+        settingsEvent.offer(SettingsEvent.Delimiters(highlightMatchingDelimiters))
 
-        settingsManager.getExtendedKeyboard()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.ExtendedKeys(it)) }
-            .disposeOnViewModelDestroy()
+        val extendedKeyboard = settingsManager.extendedKeyboard
+        settingsEvent.offer(SettingsEvent.ExtendedKeys(extendedKeyboard))
 
-        settingsManager.getKeyboardPreset()
-            .asObservable()
-            .map { it.toCharArray().map(Char::toString) }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.KeyboardPreset(it)) }
-            .disposeOnViewModelDestroy()
+        val keyboardPreset = settingsManager.keyboardPreset.toCharArray().map(Char::toString)
+        settingsEvent.offer(SettingsEvent.KeyboardPreset(keyboardPreset))
 
-        settingsManager.getSoftKeyboard()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.SoftKeys(it)) }
-            .disposeOnViewModelDestroy()
+        val softKeyboard = settingsManager.softKeyboard
+        settingsEvent.offer(SettingsEvent.SoftKeys(softKeyboard))
 
-        settingsManager.getAutoIndentation()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoIndent(it)) }
-            .disposeOnViewModelDestroy()
+        val autoIndentation = settingsManager.autoIndentation
+        settingsEvent.offer(SettingsEvent.AutoIndent(autoIndentation))
 
-        settingsManager.getAutoCloseBrackets()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoBrackets(it)) }
-            .disposeOnViewModelDestroy()
+        val autoCloseBrackets = settingsManager.autoCloseBrackets
+        settingsEvent.offer(SettingsEvent.AutoBrackets(autoCloseBrackets))
 
-        settingsManager.getAutoCloseQuotes()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.AutoQuotes(it)) }
-            .disposeOnViewModelDestroy()
+        val autoCloseQuotes = settingsManager.autoCloseQuotes
+        settingsEvent.offer(SettingsEvent.AutoQuotes(autoCloseQuotes))
 
-        settingsManager.getUseSpacesNotTabs()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.UseSpacesNotTabs(it)) }
-            .disposeOnViewModelDestroy()
+        val useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs
+        settingsEvent.offer(SettingsEvent.UseSpacesNotTabs(useSpacesInsteadOfTabs))
 
-        settingsManager.getTabWidth()
-            .asObservable()
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy { settingsEvent.offer(SettingsEvent.TabWidth(it)) }
-            .disposeOnViewModelDestroy()
+        val tabWidth = settingsManager.tabWidth
+        settingsEvent.offer(SettingsEvent.TabWidth(tabWidth))
     }
 
     // endregion PREFERENCES

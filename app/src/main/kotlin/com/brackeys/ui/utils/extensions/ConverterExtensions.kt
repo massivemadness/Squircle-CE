@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,11 @@
 
 package com.brackeys.ui.utils.extensions
 
-import android.content.res.Resources
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
-
-fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
-fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 fun Long.toReadableDate(pattern: String): String {
     val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())

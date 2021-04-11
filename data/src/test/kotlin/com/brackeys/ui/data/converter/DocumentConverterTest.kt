@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package com.brackeys.ui.data.converter
 
-import com.brackeys.ui.data.database.entity.document.DocumentEntity
+import com.brackeys.ui.data.storage.database.entity.document.DocumentEntity
 import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.filesystem.base.model.FileModel
 import org.junit.Assert.assertEquals
@@ -27,8 +27,7 @@ class DocumentConverterTest {
     @Test
     fun `convert FileModel to DocumentModel`() {
         val fileModel = FileModel(
-            name = "Test",
-            path = "/mnt/test",
+            path = "/mnt/Test.txt",
             size = 0L,
             lastModified = 1L,
             isFolder = false,
@@ -36,8 +35,8 @@ class DocumentConverterTest {
         )
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = false,
             position = 0,
             scrollX = 0,
@@ -61,8 +60,8 @@ class DocumentConverterTest {
     fun `convert DocumentEntity to DocumentModel`() {
         val documentEntity = DocumentEntity(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -72,8 +71,8 @@ class DocumentConverterTest {
         )
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -97,8 +96,8 @@ class DocumentConverterTest {
     fun `convert DocumentModel to DocumentEntity`() {
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = false,
             position = 10,
             scrollX = 0,
@@ -108,8 +107,8 @@ class DocumentConverterTest {
         )
         val documentEntity = DocumentEntity(
             uuid = "0",
-            name = "Test",
-            path = "/mnt/test",
+            name = "Test.txt",
+            path = "/mnt/Test.txt",
             modified = false,
             position = 10,
             scrollX = 0,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,7 @@ package com.brackeys.ui.internal.di.app
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import com.brackeys.ui.data.settings.SettingsManager
-import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,13 +39,7 @@ object SettingsModule {
 
     @Provides
     @Singleton
-    fun provideRxSharedPreferences(sharedPreferences: SharedPreferences): RxSharedPreferences {
-        return RxSharedPreferences.create(sharedPreferences)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSettingsManager(rxSharedPreferences: RxSharedPreferences): SettingsManager {
-        return SettingsManager(rxSharedPreferences)
+    fun provideSettingsManager(sharedPreferences: SharedPreferences): SettingsManager {
+        return SettingsManager(sharedPreferences)
     }
 }

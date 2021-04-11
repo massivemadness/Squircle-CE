@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import androidx.core.content.FileProvider
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -35,10 +36,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.brackeys.ui.R
-import com.brackeys.ui.data.utils.replaceList
+import com.brackeys.ui.data.converter.DocumentConverter
+import com.brackeys.ui.databinding.DialogPropertiesBinding
 import com.brackeys.ui.databinding.FragmentDirectoryBinding
-import com.brackeys.ui.feature.base.adapters.OnItemClickListener
-import com.brackeys.ui.feature.base.fragments.BaseFragment
 import com.brackeys.ui.feature.explorer.adapters.FileAdapter
 import com.brackeys.ui.feature.explorer.utils.FileKeyProvider
 import com.brackeys.ui.feature.explorer.utils.Operation
@@ -49,48 +49,49 @@ import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.FileType
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.filesystem.base.utils.isValidFileName
-import com.brackeys.ui.utils.extensions.clipText
-import com.brackeys.ui.utils.extensions.toReadableDate
-import com.brackeys.ui.utils.extensions.toReadableSize
+import com.brackeys.ui.utils.adapters.OnItemClickListener
+import com.brackeys.ui.utils.extensions.*
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileNotFoundException
 
 @AndroidEntryPoint
-class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
+class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
 
     private val sharedViewModel: MainViewModel by activityViewModels()
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val navArgs: DirectoryFragmentArgs by navArgs()
 
-    private lateinit var navController: NavController
     private lateinit var binding: FragmentDirectoryBinding
+    private lateinit var navController: NavController
 
-    private lateinit var tracker: SelectionTracker<FileModel>
+    private lateinit var tracker: SelectionTracker<String>
     private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)!!
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-        observeViewModel()
-
+        binding = FragmentDirectoryBinding.bind(view)
         navController = findNavController()
+        observeViewModel()
 
         @SuppressLint("RestrictedApi")
         tracker = DefaultSelectionTracker(
-            navArgs.fileModel?.path ?: "root",
+            navArgs.path ?: "root",
             FileKeyProvider(binding.recyclerView),
             SelectionPredicates.createSelectAnything(),
-            StorageStrategy.createParcelableStorage(FileModel::class.java)
+            StorageStrategy.createStringStorage()
         ).also {
             it.addObserver(
-                object : SelectionTracker.SelectionObserver<FileModel>() {
+                object : SelectionTracker.SelectionObserver<String>() {
                     override fun onSelectionChanged() {
-                        viewModel.selectionEvent.value = tracker.selection.toList()
+                        viewModel.selectionEvent.value = adapter.getSelectedFiles(tracker.selection)
                     }
                 }
             )
@@ -101,7 +102,9 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             selectionTracker = tracker,
             onItemClickListener = this,
             viewMode = viewModel.viewMode
-        ).also { adapter = it }
+        ).also {
+            adapter = it
+        }
 
         loadDirectory()
     }
@@ -114,7 +117,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
     override fun onClick(item: FileModel) {
         if (!tracker.hasSelection()) {
             if (item.isFolder) {
-                val destination = DirectoryFragmentDirections.toDirectoryFragment(item)
+                val destination = DirectoryFragmentDirections.toDirectoryFragment(item.path)
                 navController.navigate(destination)
             } else {
                 if (item.getType() == FileType.ARCHIVE) {
@@ -123,15 +126,21 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                     viewModel.allowPasteFiles.value = false
                     executeOperation()
                 } else {
-                    sharedViewModel.openEvent.value = item
+                    val type = item.getType()
+                    if (type == FileType.DEFAULT || type == FileType.TEXT) {
+                        sharedViewModel.closeDrawerEvent.call()
+                        sharedViewModel.openEvent.value = DocumentConverter.toModel(item)
+                    } else {
+                        openAs(item)
+                    }
                 }
             }
         } else {
             val index = adapter.currentList.indexOf(item)
-            if (tracker.isSelected(item)) {
-                tracker.deselect(item)
+            if (tracker.isSelected(item.path)) {
+                tracker.deselect(item.path)
             } else {
-                tracker.select(item)
+                tracker.select(item.path)
             }
             adapter.notifyItemChanged(index)
         }
@@ -139,21 +148,28 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
 
     override fun onLongClick(item: FileModel): Boolean {
         val index = adapter.currentList.indexOf(item)
-        if (tracker.isSelected(item)) {
-            tracker.deselect(item)
+        if (tracker.isSelected(item.path)) {
+            tracker.deselect(item.path)
         } else {
-            tracker.select(item)
+            tracker.select(item.path)
         }
         adapter.notifyItemChanged(index)
         return true
     }
 
     private fun observeViewModel() {
+        viewModel.loadingBar.observe(viewLifecycleOwner) {
+            binding.loadingBar.isVisible = it
+        }
+        viewModel.emptyView.observe(viewLifecycleOwner) {
+            binding.emptyViewImage.isVisible = it
+            binding.emptyViewText.isVisible = it
+        }
         viewModel.filesUpdateEvent.observe(viewLifecycleOwner) {
             loadDirectory()
         }
         viewModel.selectAllEvent.observe(viewLifecycleOwner) {
-            tracker.setItemsSelected(adapter.currentList, true)
+            tracker.setItemsSelected(adapter.currentList.map(FileModel::path), true)
             adapter.notifyDataSetChanged()
         }
         viewModel.deselectAllEvent.observe(viewLifecycleOwner) {
@@ -241,7 +257,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                             if (isValid) {
                                 executeOperation(fileName)
                             } else {
-                                showToast(R.string.message_invalid_file_name)
+                                context.showToast(R.string.message_invalid_file_name)
                             }
                         }
                     }
@@ -263,18 +279,17 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             showPropertiesDialog(it)
         }
 
-        sharedViewModel.openAsEvent.observe(viewLifecycleOwner, ::openAs)
         sharedViewModel.propertiesEvent.observe(viewLifecycleOwner) {
             viewModel.propertiesOf(it)
         }
     }
 
     private fun loadDirectory() {
-        viewModel.provideDirectory(navArgs.fileModel)
+        viewModel.provideDirectory(navArgs.path)
     }
 
     private fun openAs(fileModel: FileModel) {
-        try { // Открытие файла через подходящую программу
+        try {
             val file = File(fileModel.path)
             if (!file.exists()) {
                 throw FileNotFoundException(file.path)
@@ -293,13 +308,13 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             }
             startActivity(intent)
         } catch (e: Exception) {
-            showToast(R.string.message_cannot_be_opened)
+            context?.showToast(R.string.message_cannot_be_opened)
         }
     }
 
     private fun copyPath(fileModel: FileModel) {
         fileModel.path.clipText(context)
-        showToast(R.string.message_done)
+        context?.showToast(R.string.message_done)
     }
 
     // region DIALOGS
@@ -323,7 +338,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                     )
                     viewModel.createFile(child)
                 } else {
-                    showToast(R.string.message_invalid_file_name)
+                    context.showToast(R.string.message_invalid_file_name)
                 }
             }
         }
@@ -345,7 +360,7 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
                 if (isValid) {
                     viewModel.renameFile(fileModel, fileName)
                 } else {
-                    showToast(R.string.message_invalid_file_name)
+                    context.showToast(R.string.message_invalid_file_name)
                 }
             }
         }
@@ -393,13 +408,11 @@ class DirectoryFragment : BaseFragment(R.layout.fragment_directory), OnItemClick
             message(text = properties) { html() }
             customView(R.layout.dialog_properties, scrollable = true)
 
-            val readable = findViewById<CheckBox>(R.id.readable)
-            val writable = findViewById<CheckBox>(R.id.writable)
-            val executable = findViewById<CheckBox>(R.id.executable)
+            val binding = DialogPropertiesBinding.bind(getCustomView())
 
-            readable.isChecked = propertiesModel.readable
-            writable.isChecked = propertiesModel.writable
-            executable.isChecked = propertiesModel.executable
+            binding.readable.isChecked = propertiesModel.readable
+            binding.writable.isChecked = propertiesModel.writable
+            binding.executable.isChecked = propertiesModel.executable
         }
     }
 

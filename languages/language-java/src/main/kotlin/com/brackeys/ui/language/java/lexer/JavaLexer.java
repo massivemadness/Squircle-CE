@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1584,7 +1584,7 @@ public class JavaLexer {
             // fall through
           case 171: break;
           case 59:
-            { return JavaToken.ELLISPIS;
+            { return JavaToken.ELLIPSIS;
             }
             // fall through
           case 172: break;

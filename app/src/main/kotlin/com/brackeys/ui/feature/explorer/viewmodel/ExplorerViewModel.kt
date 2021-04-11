@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,453 +17,380 @@
 package com.brackeys.ui.feature.explorer.viewmodel
 
 import android.util.Log
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.brackeys.ui.R
-import com.brackeys.ui.data.settings.SettingsManager
-import com.brackeys.ui.data.utils.FileSorter
-import com.brackeys.ui.data.utils.containsFileModel
-import com.brackeys.ui.data.utils.replaceList
-import com.brackeys.ui.data.utils.schedulersIoToMain
-import com.brackeys.ui.domain.providers.rx.SchedulersProvider
-import com.brackeys.ui.feature.base.viewmodel.BaseViewModel
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
+import com.brackeys.ui.domain.repository.explorer.ExplorerRepository
 import com.brackeys.ui.feature.explorer.utils.Operation
-import com.brackeys.ui.filesystem.base.Filesystem
 import com.brackeys.ui.filesystem.base.exception.*
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileTree
 import com.brackeys.ui.filesystem.base.model.PropertiesModel
 import com.brackeys.ui.utils.event.SingleLiveEvent
+import com.brackeys.ui.utils.extensions.launchEvent
+import com.brackeys.ui.utils.extensions.replaceList
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
-import java.util.*
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Named
 
 @HiltViewModel
 class ExplorerViewModel @Inject constructor(
-    private val schedulersProvider: SchedulersProvider,
     private val settingsManager: SettingsManager,
-    @Named("Local")
-    private val filesystem: Filesystem
-) : BaseViewModel() {
+    private val explorerRepository: ExplorerRepository
+) : ViewModel() {
 
     companion object {
         private const val TAG = "ExplorerViewModel"
     }
 
-    // region UI
-
-    val stateLoadingFiles: ObservableBoolean = ObservableBoolean(true) // Индикатор загрузки файлов
-    val stateNothingFound: ObservableBoolean = ObservableBoolean(false) // Сообщение что нет файлов
-
-    // endregion UI
-
     // region EVENTS
 
-    val toastEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Отображение сообщений
-    val showAppBarEvent: MutableLiveData<Boolean> = MutableLiveData() // Отображение вкладок
-    val allowPasteFiles: MutableLiveData<Boolean> = MutableLiveData() // Отображение кнопки "Вставить"
+    val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
+    val showAppBarEvent = MutableLiveData<Boolean>() // Отображение вкладок
+    val allowPasteFiles = MutableLiveData<Boolean>() // Отображение кнопки "Вставить"
 
-    val filesUpdateEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Запрос на обновление списка файлов
-    val selectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Выделить все файлы
-    val deselectAllEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Сбросить выделение со всех файлов
-    val createEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Создать файл
-    val copyEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать выделенные файлы
-    val deleteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Удалить выделенные файлы
-    val cutEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вырезать выделенные файлы
-    val pasteEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Вставить скопированные файлы
-    val openAsEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Открыть файл как
-    val renameEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Переименовать файл
-    val propertiesEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Свойства файла
-    val copyPathEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Скопировать путь к файлу
-    val archiveEvent: SingleLiveEvent<Unit> = SingleLiveEvent() // Архивация файлов в .zip
+    val loadingBar = MutableLiveData(true) // Индикатор загрузки файлов
+    val emptyView = MutableLiveData(false) // Сообщение об отсутствии файлов
 
-    val tabsEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список вкладок
-    val selectionEvent: MutableLiveData<List<FileModel>> = MutableLiveData() // Список выделенных файлов
-    val progressEvent: SingleLiveEvent<Int> = SingleLiveEvent() // Прогресс выполнения операции
-    val filesEvent: SingleLiveEvent<FileTree> = SingleLiveEvent() // Список файлов
-    val searchEvent: SingleLiveEvent<List<FileModel>> = SingleLiveEvent() // Отфильтрованый список файлов
-    val clickEvent: SingleLiveEvent<FileModel> = SingleLiveEvent() // Имитация нажатия на файл
-    val propertiesOfEvent: SingleLiveEvent<PropertiesModel> = SingleLiveEvent() // Свойства файла
+    val filesUpdateEvent = SingleLiveEvent<Unit>() // Запрос на обновление списка файлов
+    val selectAllEvent = SingleLiveEvent<Unit>() // Выделить все файлы
+    val deselectAllEvent = SingleLiveEvent<Unit>() // Сбросить выделение со всех файлов
+    val createEvent = SingleLiveEvent<Unit>() // Создать файл
+    val copyEvent = SingleLiveEvent<Unit>() // Скопировать выделенные файлы
+    val deleteEvent = SingleLiveEvent<Unit>() // Удалить выделенные файлы
+    val cutEvent = SingleLiveEvent<Unit>() // Вырезать выделенные файлы
+    val pasteEvent = SingleLiveEvent<Unit>() // Вставить скопированные файлы
+    val openAsEvent = SingleLiveEvent<Unit>() // Открыть файл как
+    val renameEvent = SingleLiveEvent<Unit>() // Переименовать файл
+    val propertiesEvent = SingleLiveEvent<Unit>() // Свойства файла
+    val copyPathEvent = SingleLiveEvent<Unit>() // Скопировать путь к файлу
+    val archiveEvent = SingleLiveEvent<Unit>() // Архивация файлов в .zip
+
+    val tabEvent = MutableLiveData<FileModel>() // Последняя добавленная вкладка
+    val selectionEvent = MutableLiveData<List<FileModel>>() // Список выделенных файлов
+
+    val progressEvent = SingleLiveEvent<Int>() // Прогресс выполнения операции
+    val filesEvent = SingleLiveEvent<FileTree>() // Список файлов
+    val searchEvent = SingleLiveEvent<List<FileModel>>() // Отфильтрованый список файлов
+    val clickEvent = SingleLiveEvent<FileModel>() // Имитация нажатия на файл
+    val propertiesOfEvent = SingleLiveEvent<PropertiesModel>() // Свойства файла
 
     // endregion EVENTS
 
-    val tabsList: MutableList<FileModel> = mutableListOf()
-    val tempFiles: MutableList<FileModel> = mutableListOf()
-    val cancelableDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+    val tabsList = mutableListOf<FileModel>()
+    val tempFiles = mutableListOf<FileModel>()
 
-    var operation: Operation = Operation.COPY
+    var operation = Operation.COPY
+    var currentJob: Job? = null
 
+    var viewMode: Int
+        get() = settingsManager.viewMode.toInt()
+        set(value) {
+            settingsManager.viewMode = value.toString()
+            filesUpdateEvent.call()
+        }
     var showHidden: Boolean
-        get() = settingsManager.getFilterHidden().get()
+        get() = settingsManager.filterHidden
         set(value) {
-            settingsManager.getFilterHidden().set(value)
+            settingsManager.filterHidden = value
             filesUpdateEvent.call()
         }
-
-    var foldersOnTop: Boolean
-        get() = settingsManager.getFoldersOnTop().get()
-        set(value) {
-            settingsManager.getFoldersOnTop().set(value)
-            filesUpdateEvent.call()
-        }
-
-    val viewMode: Int
-        get() = Integer.parseInt(settingsManager.getViewMode().get())
-
     var sortMode: Int
-        get() = Integer.parseInt(settingsManager.getSortMode().get())
+        get() = settingsManager.sortMode.toInt()
         set(value) {
-            settingsManager.getSortMode().set(value.toString())
+            settingsManager.sortMode = value.toString()
             filesUpdateEvent.call()
         }
 
-    private val searchList: MutableList<FileModel> = mutableListOf()
+    private val searchList = mutableListOf<FileModel>()
 
-    override fun onCleared() {
-        super.onCleared()
-        cancelableDisposable.dispose()
-    }
+    fun provideDirectory(path: String?) {
+        viewModelScope.launchEvent(loadingBar) {
+            try {
+                emptyView.value = false
 
-    fun provideDirectory(fileModel: FileModel?) {
-        filesystem.provideDirectory(fileModel)
-            .doOnSubscribe {
-                stateNothingFound.set(false)
-                stateLoadingFiles.set(true)
-            }
-            .doOnSuccess {
-                stateLoadingFiles.set(false)
-                stateNothingFound.set(it.children.isEmpty())
-            }
-            .map { fileTree ->
-                val newList = mutableListOf<FileModel>()
-                fileTree.children.forEach { file ->
-                    if (file.isHidden) {
-                        if (showHidden) {
-                            newList.add(file)
-                        }
-                    } else {
-                        newList.add(file)
+                val fileTree = explorerRepository.fetchFiles(path?.let(::FileModel))
+                tabEvent.value = fileTree.parent
+                filesEvent.value = fileTree
+                searchList.replaceList(fileTree.children)
+
+                emptyView.value = fileTree.children.isEmpty()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                when (e) {
+                    is DirectoryExpectedException -> {
+                        toastEvent.value = R.string.message_directory_expected
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
                     }
                 }
-                fileTree.copy(children = newList)
             }
-            .map { fileTree ->
-                val comparator = FileSorter.getComparator(sortMode)
-                val children = fileTree.children.sortedWith(comparator)
-                fileTree.copy(children = children)
-            }
-            .map { fileTree ->
-                val children = fileTree.children.sortedBy { file -> !file.isFolder == foldersOnTop }
-                fileTree.copy(children = children)
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = { fileTree ->
-                    if (!tabsList.containsFileModel(fileTree.parent)) {
-                        tabsList.add(fileTree.parent)
-                        tabsEvent.value = tabsList
-                    }
-                    searchList.replaceList(fileTree.children)
-                    filesEvent.value = fileTree
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is DirectoryExpectedException -> {
-                            toastEvent.value = R.string.message_directory_expected
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
-                    }
-                }
-            )
-            .disposeOnViewModelDestroy()
+        }
     }
 
-    fun searchFile(query: CharSequence) {
-        val collection: MutableList<FileModel> = mutableListOf()
-        val newQuery = query.toString().toLowerCase(Locale.getDefault())
-        if (newQuery.isEmpty()) {
+    fun searchFile(query: String) {
+        val collection = mutableListOf<FileModel>()
+        if (query.isEmpty()) {
             collection.addAll(searchList)
         } else {
             for (row in searchList) {
-                if (row.name.toLowerCase(Locale.getDefault()).contains(newQuery)) {
+                if (row.name.contains(query, ignoreCase = true)) {
                     collection.add(row)
                 }
             }
         }
-        stateNothingFound.set(collection.isEmpty())
+        emptyView.value = collection.isEmpty()
         searchEvent.value = collection
     }
 
     fun createFile(fileModel: FileModel) {
-        filesystem.createFile(fileModel)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = {
-                    filesUpdateEvent.call()
-                    clickEvent.value = it
-                    toastEvent.value = R.string.message_done
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileAlreadyExistsException -> {
-                            toastEvent.value = R.string.message_file_already_exists
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
+        viewModelScope.launch {
+            try {
+                val file = explorerRepository.createFile(fileModel)
+                filesUpdateEvent.call()
+                clickEvent.value = file
+                toastEvent.value = R.string.message_done
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                when (e) {
+                    is FileAlreadyExistsException -> {
+                        toastEvent.value = R.string.message_file_already_exists
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
                     }
                 }
-            )
-            .disposeOnViewModelDestroy()
+            }
+        }
     }
 
     fun renameFile(fileModel: FileModel, newName: String) {
-        filesystem.renameFile(fileModel, newName)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = {
-                    filesUpdateEvent.call()
-                    toastEvent.value = R.string.message_done
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        is FileAlreadyExistsException -> {
-                            toastEvent.value = R.string.message_file_already_exists
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
+        viewModelScope.launch {
+            try {
+                explorerRepository.renameFile(fileModel, newName)
+                filesUpdateEvent.call()
+                toastEvent.value = R.string.message_done
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
+                    }
+                    is FileAlreadyExistsException -> {
+                        toastEvent.value = R.string.message_file_already_exists
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
                     }
                 }
-            )
-            .disposeOnViewModelDestroy()
-    }
-
-    fun deleteFiles(fileModels: List<FileModel>) {
-        Observable.fromIterable(fileModels)
-            .doOnSubscribe { progressEvent.postValue(0) }
-            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMapSingle {
-                filesystem.deleteFile(it)
-                    .delay(20, TimeUnit.MILLISECONDS)
             }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onNext = {
-                    progressEvent.value = (progressEvent.value ?: 0) + 1
-                },
-                onComplete = {
-                    filesUpdateEvent.call()
-                    toastEvent.value = R.string.message_done
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
-                    }
-                }
-            )
-            .addTo(cancelableDisposable)
-    }
-
-    fun copyFiles(source: List<FileModel>, destPath: String) {
-        filesystem.provideFile(destPath)
-            .flatMapObservable { dest ->
-                Observable.fromIterable(source)
-                    .map { it to dest }
-            }
-            .doOnSubscribe { progressEvent.postValue(0) }
-            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMapSingle { (file, dest) ->
-                filesystem.copyFile(file, dest)
-                    .delay(20, TimeUnit.MILLISECONDS)
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onNext = {
-                    progressEvent.value = (progressEvent.value ?: 0) + 1
-                },
-                onComplete = {
-                    filesUpdateEvent.call()
-                    toastEvent.value = R.string.message_done
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        is FileAlreadyExistsException -> {
-                            toastEvent.value = R.string.message_file_already_exists
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
-                    }
-                }
-            )
-            .addTo(cancelableDisposable)
-    }
-
-    fun cutFiles(source: List<FileModel>, destPath: String) {
-        filesystem.provideFile(destPath)
-            .flatMapObservable { dest ->
-                Observable.fromIterable(source)
-                    .map { it to dest }
-            }
-            .doOnSubscribe { progressEvent.postValue(0) }
-            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMapSingle { (file, dest) ->
-                filesystem.copyFile(file, dest)
-                    .delay(20, TimeUnit.MILLISECONDS)
-            }
-            .concatMapSingle {
-                filesystem.deleteFile(it)
-                    .delay(20, TimeUnit.MILLISECONDS)
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onNext = {
-                    progressEvent.value = (progressEvent.value ?: 0) + 1
-                },
-                onComplete = {
-                    filesUpdateEvent.call()
-                    toastEvent.value = R.string.message_done
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        is FileAlreadyExistsException -> {
-                            toastEvent.value = R.string.message_file_already_exists
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
-                    }
-                }
-            )
-            .addTo(cancelableDisposable)
+        }
     }
 
     fun propertiesOf(fileModel: FileModel) {
-        filesystem.propertiesOf(fileModel)
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = {
-                    propertiesOfEvent.value = it
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
+        viewModelScope.launch {
+            try {
+                propertiesOfEvent.value = explorerRepository.propertiesOf(fileModel)
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
                     }
                 }
-            )
-            .disposeOnViewModelDestroy()
+            }
+        }
+    }
+
+    fun deleteFiles(fileModels: List<FileModel>) {
+        currentJob = viewModelScope.launch {
+            progressEvent.value = 0
+            try {
+                explorerRepository.deleteFiles(fileModels)
+                    .onEach {
+                        progressEvent.value = (progressEvent.value ?: 0) + 1
+                    }
+                    .onCompletion {
+                        filesUpdateEvent.call()
+                        toastEvent.value = R.string.message_done
+                    }
+                    .collect()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                progressEvent.value = Int.MAX_VALUE
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
+                    }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
+                    }
+                }
+            }
+        }
+    }
+
+    fun copyFiles(source: List<FileModel>, destPath: String) {
+        currentJob = viewModelScope.launch {
+            progressEvent.value = 0
+            try {
+                explorerRepository.copyFiles(source, destPath)
+                    .onEach {
+                        progressEvent.value = (progressEvent.value ?: 0) + 1
+                    }
+                    .onCompletion {
+                        filesUpdateEvent.call()
+                        toastEvent.value = R.string.message_done
+                    }
+                    .collect()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                progressEvent.value = Int.MAX_VALUE
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
+                    }
+                    is FileAlreadyExistsException -> {
+                        toastEvent.value = R.string.message_file_already_exists
+                    }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
+                    }
+                }
+            }
+        }
+    }
+
+    fun cutFiles(source: List<FileModel>, destPath: String) {
+        currentJob = viewModelScope.launch {
+            progressEvent.value = 0
+            try {
+                explorerRepository.cutFiles(source, destPath)
+                    .onEach {
+                        progressEvent.value = (progressEvent.value ?: 0) + 1
+                    }
+                    .onCompletion {
+                        filesUpdateEvent.call()
+                        toastEvent.value = R.string.message_done
+                    }
+                    .collect()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                progressEvent.value = Int.MAX_VALUE
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
+                    }
+                    is FileAlreadyExistsException -> {
+                        toastEvent.value = R.string.message_file_already_exists
+                    }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
+                    }
+                }
+            }
+        }
     }
 
     fun compressFiles(source: List<FileModel>, destPath: String, archiveName: String) {
-        filesystem.provideFile(destPath)
-            .flatMapObservable { filesystem.compress(source, it, archiveName) }
-            .doOnSubscribe { progressEvent.postValue(0) }
-            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .concatMap {
-                Observable.just(it)
-                    .delay(20, TimeUnit.MILLISECONDS)
-            }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onNext = {
-                    progressEvent.value = (progressEvent.value ?: 0) + 1
-                },
-                onComplete = {
-                    filesUpdateEvent.call()
-                    toastEvent.value = R.string.message_done
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        is FileAlreadyExistsException -> {
-                            toastEvent.value = R.string.message_file_already_exists
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
+        currentJob = viewModelScope.launch {
+            progressEvent.value = 0
+            try {
+                val dest = FileModel("$destPath/$archiveName")
+                explorerRepository.compressFiles(source, dest)
+                    .onEach {
+                        progressEvent.value = (progressEvent.value ?: 0) + 1
+                    }
+                    .onCompletion {
+                        filesUpdateEvent.call()
+                        toastEvent.value = R.string.message_done
+                    }
+                    .collect()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                progressEvent.value = Int.MAX_VALUE
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
+                    }
+                    is FileAlreadyExistsException -> {
+                        toastEvent.value = R.string.message_file_already_exists
+                    }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
                     }
                 }
-            )
-            .disposeOnViewModelDestroy()
+            }
+        }
     }
 
     fun extractAll(source: FileModel, destPath: String) {
-        filesystem.provideFile(destPath)
-            .flatMap { filesystem.extractAll(source, it) }
-            .doOnSubscribe { progressEvent.postValue(0) }
-            .doOnError { progressEvent.postValue(Int.MAX_VALUE) }
-            .schedulersIoToMain(schedulersProvider)
-            .subscribeBy(
-                onSuccess = {
-                    progressEvent.value = (progressEvent.value ?: 0) + 1 // FIXME у диалога всегда будет 1 файл
-                    filesUpdateEvent.call()
-                    toastEvent.value = R.string.message_done
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                    when (it) {
-                        is FileNotFoundException -> {
-                            toastEvent.value = R.string.message_file_not_found
-                        }
-                        is FileAlreadyExistsException -> {
-                            toastEvent.value = R.string.message_file_already_exists
-                        }
-                        is UnsupportedArchiveException -> {
-                            toastEvent.value = R.string.message_unsupported_archive
-                        }
-                        is EncryptedArchiveException -> {
-                            toastEvent.value = R.string.message_encrypted_archive
-                        }
-                        is SplitArchiveException -> {
-                            toastEvent.value = R.string.message_split_archive
-                        }
-                        is InvalidArchiveException -> {
-                            toastEvent.value = R.string.message_invalid_archive
-                        }
-                        else -> {
-                            toastEvent.value = R.string.message_unknown_exception
-                        }
+        currentJob = viewModelScope.launch {
+            progressEvent.value = 0
+            try {
+                val dest = FileModel(destPath)
+                explorerRepository.extractAll(source, dest)
+                    .onEach {
+                        progressEvent.value = (progressEvent.value ?: 0) + 1
+                    }
+                    .onCompletion {
+                        filesUpdateEvent.call()
+                        toastEvent.value = R.string.message_done
+                    }
+                    .collect()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                progressEvent.value = Int.MAX_VALUE
+                when (e) {
+                    is FileNotFoundException -> {
+                        toastEvent.value = R.string.message_file_not_found
+                    }
+                    is FileAlreadyExistsException -> {
+                        toastEvent.value = R.string.message_file_already_exists
+                    }
+                    is UnsupportedArchiveException -> {
+                        toastEvent.value = R.string.message_unsupported_archive
+                    }
+                    is EncryptedArchiveException -> {
+                        toastEvent.value = R.string.message_encrypted_archive
+                    }
+                    is SplitArchiveException -> {
+                        toastEvent.value = R.string.message_split_archive
+                    }
+                    is InvalidArchiveException -> {
+                        toastEvent.value = R.string.message_invalid_archive
+                    }
+                    is CancellationException -> {
+                        toastEvent.value = R.string.message_operation_cancelled
+                    }
+                    else -> {
+                        toastEvent.value = R.string.message_unknown_exception
                     }
                 }
-            )
-            .disposeOnViewModelDestroy()
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,11 @@ package com.brackeys.ui.feature.main.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.fragment.app.DialogFragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.brackeys.ui.R
-import com.brackeys.ui.feature.base.dialogs.BaseDialogFragment
 
-class ConfirmExitDialog : BaseDialogFragment() {
+class ConfirmExitDialog : DialogFragment() {
 
     companion object {
         const val DIALOG_TAG = "ConfirmExitDialog"

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brackeys IDE contributors.
+ * Copyright 2021 Brackeys IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.brackeys.ui.databinding.ItemKeyboardKeyBinding
-import com.brackeys.ui.feature.base.adapters.BaseViewHolder
 
 class ExtendedKeyboard @JvmOverloads constructor(
     context: Context,
@@ -69,7 +68,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
         private class KeyViewHolder(
             private val binding: ItemKeyboardKeyBinding,
             private val keyListener: OnKeyListener
-        ) : BaseViewHolder<String>(binding.root) {
+        ) : RecyclerView.ViewHolder(binding.root) {
 
             companion object {
                 fun create(parent: ViewGroup, keyListener: OnKeyListener): KeyViewHolder {
@@ -87,14 +86,14 @@ class ExtendedKeyboard @JvmOverloads constructor(
                 }
             }
 
-            override fun bind(item: String) {
+            fun bind(item: String) {
                 char = item
                 binding.itemTitle.text = char
             }
         }
     }
 
-    interface OnKeyListener {
+    fun interface OnKeyListener {
         fun onKey(char: String)
     }
 }
