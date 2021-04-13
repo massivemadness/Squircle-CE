@@ -6,6 +6,13 @@
 
 <img src="https://raw.githubusercontent.com/massivemadness/Brackeys-IDE/master/.github/images/carbon.png" width="700" />
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.brackeys.ui/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=com.brackeys.ui)
+
 ---
 
 # Table of Contents
