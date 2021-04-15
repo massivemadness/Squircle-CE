@@ -94,10 +94,10 @@
     <string name="dialog_title_extracting">正在解压中</string>
     <string name="dialog_title_archive_name">压缩包名称</string>
 
-    <string name="dialog_message_exit">你确定要退出吗？所有更改将会保存到缓存中</string>
+    <string name="dialog_message_exit">确定要退出吗？所有更改将会保存到缓存中</string>
     <string name="dialog_message_delete">确定要删除该文件吗？</string>
     <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
-    <string name="dialog_message_close_tab">Are you sure you want to close this file? All unsaved changes will be discarded</string>
+    <string name="dialog_message_close_tab">确定要关闭该文件吗？所有未保存的更改将会丢失</string>
 
     <string name="properties_name">&lt;b&gt;名称:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b&gt;路径:&lt;/b&gt; %s&lt;br&gt;</string>
@@ -133,7 +133,7 @@
     <string name="message_invalid_archive">该压缩包已损坏</string>
     <string name="message_split_archive">暂不支持已分卷的压缩包</string>
     <string name="message_encrypted_archive">暂不支持已加密的压缩包</string>
-    <string name="message_operation_cancelled">Operation cancelled</string>
+    <string name="message_operation_cancelled">操作已取消</string>
     <string name="message_done">已完毕</string>
     <string name="message_saved">已保存</string>
     <string name="message_select_file">选择文件</string>
@@ -205,8 +205,8 @@
     <string name="pref_highlight_line_summary">高亮显示光标当前所在的行。</string>
     <string name="pref_highlight_delimiters_title">高亮成对符</string>
     <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
-    <string name="pref_auto_save_files_title">Auto-save Files</string>
-    <string name="pref_auto_save_files_summary">Automatically save file on switching tab or closing the app.</string>
+    <string name="pref_auto_save_files_title">自动保存</string>
+    <string name="pref_auto_save_files_summary">切换选项卡或关闭应用时将会自动保存文件。</string>
     <string name="pref_extended_keyboard_title">快捷符号栏</string>
     <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘之上显示符号栏以便快捷输入</string>
     <string name="pref_keyboard_preset_title">预设符号</string>
@@ -241,9 +241,9 @@
     <string name="pref_view_mode_title">视图模式</string>
     <string name="pref_sort_mode_title">排序方式</string>
 
-    <string name="pref_about_summary">Brackeys IDE is an open source project published under the Apache 2.0 license\n\n当前版本: %1$s (%2$d)</string>
+    <string name="pref_about_summary">Brackeys IDE 是依据 Apache 2.0 许可协议发布的开源项目\n\n当前版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看“隐私政策”</string>
     <string name="pref_contribute_title">参与贡献，促进发展</string>
-    <string name="pref_contribute_summary">您可以点击此处到 GitHub 上提 Issue ，或将本应用翻译为您的母语。\n\n谢谢！</string>
+    <string name="pref_contribute_summary">您可以点击此处到 GitHub 上提 Issue ，或将本应用翻译为本土语言。\n\n感谢您的信任和支持！</string>
 
 </resources>
