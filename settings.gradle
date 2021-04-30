@@ -16,11 +16,10 @@
 
 include ':app', ':domain', ':data', ':editorkit'
 
-include ':common:uikit',
-        ':common:utils'
-
 include ':features:feature-fonts',
-        ':features:feature-themes'
+        ':features:feature-themes',
+        ':features:feature-ui',
+        ':features:feature-utils'
 // TODO ':features:feature-settings'
 // TODO ':features:feature-editor'
 // TODO ':features:feature-explorer'

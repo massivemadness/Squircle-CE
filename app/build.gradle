@@ -116,8 +116,8 @@ dependencies {
     implementation project(':data')
     implementation project(':editorkit')
 
-    implementation project(':common:uikit')
-    implementation project(':common:utils')
+    implementation project(':features:feature-ui')
+    implementation project(':features:feature-utils')
 
     implementation project(':features:feature-fonts')
     implementation project(':features:feature-themes')

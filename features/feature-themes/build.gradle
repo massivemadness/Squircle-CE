@@ -83,8 +83,8 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
 
-    implementation project(':common:uikit')
-    implementation project(':common:utils')
+    implementation project(':features:feature-ui')
+    implementation project(':features:feature-utils')
 
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
