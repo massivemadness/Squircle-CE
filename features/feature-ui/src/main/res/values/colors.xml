@@ -41,8 +41,8 @@
     <color name="colorSelection">#32FFFFFF</color>
 
     <!-- Legacy Google Play dialog -->
-    <color name="colorGreen">#008860</color>
+    <!--<color name="colorGreen">#008860</color>
     <color name="colorRed">#CD0000</color>
-    <color name="colorGray">#D7D7D7</color>
+    <color name="colorGray">#D7D7D7</color>-->
 
  </resources>

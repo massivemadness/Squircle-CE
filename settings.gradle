@@ -17,10 +17,10 @@
 include ':app', ':domain', ':data', ':editorkit'
 
 include ':features:feature-fonts',
+        ':features:feature-settings',
         ':features:feature-themes',
         ':features:feature-ui',
         ':features:feature-utils'
-// TODO ':features:feature-settings'
 // TODO ':features:feature-editor'
 // TODO ':features:feature-explorer'
 

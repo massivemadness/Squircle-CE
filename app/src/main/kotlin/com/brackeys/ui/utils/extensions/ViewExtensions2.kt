@@ -21,7 +21,6 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
-import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +28,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.customview.widget.ViewDragHelper
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 
 fun Fragment.setSupportActionBar(toolbar: Toolbar) {
@@ -39,11 +37,6 @@ fun Fragment.setSupportActionBar(toolbar: Toolbar) {
 
 val Fragment.supportActionBar: ActionBar?
     get() = (activity as? AppCompatActivity)?.supportActionBar
-
-@Suppress("UNCHECKED_CAST")
-fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T {
-    return findFragmentById(id) as T
-}
 
 fun NavController.popBackStack(n: Int) {
     for (index in 0 until n) {
