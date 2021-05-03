@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.internal.providers.coroutines
+package com.brackeys.ui.application.viewmodel
 
-import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.ViewModel
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DispatcherProviderImpl : DispatcherProvider {
-    override fun io() = Dispatchers.IO
-    override fun computation() = Dispatchers.Default
-    override fun mainThread() = Dispatchers.Main
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val settingsManager: SettingsManager
+) : ViewModel() {
+
+    val fullScreenMode: Boolean
+        get() = settingsManager.fullScreenMode
+    val confirmExit: Boolean
+        get() = settingsManager.confirmExit
 }

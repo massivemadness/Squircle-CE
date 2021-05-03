@@ -20,7 +20,7 @@ import android.content.Context
 import com.brackeys.ui.data.repository.themes.ThemesRepositoryImpl
 import com.brackeys.ui.data.storage.database.AppDatabase
 import com.brackeys.ui.data.storage.keyvalue.SettingsManager
-import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
 import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.Filesystem
 import dagger.Module

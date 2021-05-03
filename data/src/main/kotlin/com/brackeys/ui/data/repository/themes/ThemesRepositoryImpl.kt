@@ -28,7 +28,7 @@ import com.brackeys.ui.domain.model.themes.Meta
 import com.brackeys.ui.domain.model.themes.Property
 import com.brackeys.ui.domain.model.themes.PropertyItem
 import com.brackeys.ui.domain.model.themes.ThemeModel
-import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
 import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.Filesystem
 import com.brackeys.ui.filesystem.base.model.FileModel

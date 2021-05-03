@@ -18,8 +18,8 @@ package com.brackeys.ui.internal.di
 
 import android.content.Context
 import com.brackeys.ui.BuildConfig
-import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
-import com.brackeys.ui.internal.providers.coroutines.DispatcherProviderImpl
+import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
+import com.brackeys.ui.internal.providers.coroutine.DispatcherProviderImpl
 import com.brackeys.ui.utils.inappupdate.InAppUpdate
 import com.brackeys.ui.utils.inappupdate.InAppUpdateImpl
 import com.brackeys.ui.utils.inappupdate.InAppUpdateStub

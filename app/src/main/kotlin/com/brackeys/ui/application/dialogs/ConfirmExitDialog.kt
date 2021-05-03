@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.feature.main.dialogs
+package com.brackeys.ui.application.dialogs
 
 import android.app.Dialog
 import android.os.Bundle

@@ -35,7 +35,7 @@
         tools:replace="android:supportsRtl">
 
         <activity
-            android:name="com.brackeys.ui.feature.main.activities.MainActivity"
+            android:name="com.brackeys.ui.application.activities.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTask">
@@ -58,7 +58,7 @@
 
         <activity
             android:name="com.brackeys.ui.feature.settings.activities.SettingsActivity"
-            android:parentActivityName="com.brackeys.ui.feature.main.activities.MainActivity"
+            android:parentActivityName="com.brackeys.ui.application.activities.MainActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/label_settings">
             <intent-filter>

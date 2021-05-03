@@ -21,7 +21,6 @@
     <string name="action_no">否</string>
 
     <string name="dialog_title_exit">退出应用</string>
-
     <string name="dialog_message_exit">确定要退出吗？所有更改将会保存到缓存中</string>
 
     <string name="message_in_app_update_ready">应用已准备好新版本</string>

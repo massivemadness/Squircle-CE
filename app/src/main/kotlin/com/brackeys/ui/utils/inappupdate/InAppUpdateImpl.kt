@@ -35,7 +35,9 @@ class InAppUpdateImpl(context: Context) : InAppUpdate {
         private const val TAG = "InAppUpdateImpl"
 
         private const val PRIORITY_HIGH = 5
+        private const val PRIORITY_M_HIGH = 4
         private const val PRIORITY_MEDIUM = 3
+        private const val PRIORITY_M_LOW = 2
         private const val PRIORITY_LOW = 1
 
         private const val UPDATE_REQUEST_CODE = 500
@@ -60,7 +62,7 @@ class InAppUpdateImpl(context: Context) : InAppUpdate {
                         PRIORITY_HIGH -> {
                             startUpdate(activity, info, AppUpdateType.IMMEDIATE)
                         }
-                        PRIORITY_HIGH - 1 -> {
+                        PRIORITY_M_HIGH -> {
                             if (clientStalenessDays >= 5 && info.isImmediateUpdateAllowed) {
                                 startUpdate(activity, info, AppUpdateType.IMMEDIATE)
                             } else if (info.isFlexibleUpdateAllowed) {
@@ -74,7 +76,7 @@ class InAppUpdateImpl(context: Context) : InAppUpdate {
                                 startUpdate(activity, info, AppUpdateType.FLEXIBLE)
                             }
                         }
-                        PRIORITY_LOW + 1 -> {
+                        PRIORITY_M_LOW -> {
                             if (clientStalenessDays >= 90 && info.isImmediateUpdateAllowed) {
                                 startUpdate(activity, info, AppUpdateType.IMMEDIATE)
                             } else if (info.isFlexibleUpdateAllowed) {

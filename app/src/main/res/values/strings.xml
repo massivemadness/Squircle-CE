@@ -22,7 +22,6 @@
     <string name="action_no">No</string>
 
     <string name="dialog_title_exit">Exit</string>
-
     <string name="dialog_message_exit">Are you sure you want to exit? All changes will be saved into a cache</string>
 
     <string name="message_in_app_update_ready">App is ready to update</string>

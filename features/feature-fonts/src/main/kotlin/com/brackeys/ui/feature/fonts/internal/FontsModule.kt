@@ -19,7 +19,7 @@ package com.brackeys.ui.feature.fonts.internal
 import com.brackeys.ui.data.repository.fonts.FontsRepositoryImpl
 import com.brackeys.ui.data.storage.database.AppDatabase
 import com.brackeys.ui.data.storage.keyvalue.SettingsManager
-import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
 import com.brackeys.ui.domain.repository.fonts.FontsRepository
 import dagger.Module
 import dagger.Provides

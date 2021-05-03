@@ -26,7 +26,7 @@ import com.brackeys.ui.data.utils.encodeStack
 import com.brackeys.ui.domain.model.documents.DocumentParams
 import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
-import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
 import com.brackeys.ui.domain.repository.documents.DocumentRepository
 import com.brackeys.ui.editorkit.utils.UndoStack
 import com.brackeys.ui.filesystem.base.Filesystem

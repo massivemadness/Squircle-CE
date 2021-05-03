@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.feature.main.activities
+package com.brackeys.ui.application.activities
 
 import android.os.Bundle
 import android.view.WindowManager
@@ -22,13 +22,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.brackeys.ui.R
+import com.brackeys.ui.application.dialogs.ConfirmExitDialog
+import com.brackeys.ui.application.viewmodel.MainViewModel
 import com.brackeys.ui.databinding.ActivityMainBinding
 import com.brackeys.ui.feature.editor.fragments.EditorFragment
 import com.brackeys.ui.feature.editor.viewmodel.EditorViewModel
 import com.brackeys.ui.feature.explorer.fragments.ExplorerFragment
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
-import com.brackeys.ui.feature.main.dialogs.ConfirmExitDialog
-import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.utils.extensions.fragment
 import com.brackeys.ui.utils.extensions.multiplyDraggingEdgeSizeBy
 import com.brackeys.ui.utils.inappupdate.InAppUpdate

@@ -21,7 +21,6 @@
     <string name="action_no">Нет</string>
 
     <string name="dialog_title_exit">Выход</string>
-
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
 
     <string name="message_in_app_update_ready">Обновление загружено</string>

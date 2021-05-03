@@ -18,7 +18,7 @@ package com.brackeys.ui.data.repository.explorer
 
 import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.data.utils.FileSorter
-import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
 import com.brackeys.ui.domain.repository.explorer.ExplorerRepository
 import com.brackeys.ui.filesystem.base.Filesystem
 import com.brackeys.ui.filesystem.base.model.FileModel

@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.brackeys.ui.domain.providers.coroutines
+package com.brackeys.ui.internal.providers.coroutine
 
-import kotlinx.coroutines.CoroutineDispatcher
+import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
+import kotlinx.coroutines.Dispatchers
 
-interface DispatcherProvider {
-    fun io(): CoroutineDispatcher
-    fun computation(): CoroutineDispatcher
-    fun mainThread(): CoroutineDispatcher
+class DispatcherProviderImpl : DispatcherProvider {
+    override fun io() = Dispatchers.IO
+    override fun computation() = Dispatchers.Default
+    override fun mainThread() = Dispatchers.Main
 }

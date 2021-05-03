@@ -6,7 +6,6 @@
     <string name="action_no">Nein</string>
 
     <string name="dialog_title_exit">Verlassen</string>
-
     <string name="dialog_message_exit">Sind Sie sicher, dass Sie die App verlassen wollen? Alle Änderungen werden im Cache gespeichert</string>
 
     <string name="message_in_app_update_ready">App kann aktualisiert werden</string>

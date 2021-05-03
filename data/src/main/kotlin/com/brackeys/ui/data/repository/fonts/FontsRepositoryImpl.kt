@@ -20,7 +20,7 @@ import com.brackeys.ui.data.converter.FontConverter
 import com.brackeys.ui.data.storage.database.AppDatabase
 import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.domain.model.fonts.FontModel
-import com.brackeys.ui.domain.providers.coroutines.DispatcherProvider
+import com.brackeys.ui.domain.providers.coroutine.DispatcherProvider
 import com.brackeys.ui.domain.repository.fonts.FontsRepository
 import kotlinx.coroutines.withContext
 
