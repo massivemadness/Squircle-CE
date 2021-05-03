@@ -41,6 +41,7 @@
     <string name="action_copy">Копировать</string>
     <string name="action_paste">Вставить</string>
     <string name="action_select_all">Выделить всё</string>
+    <string name="action_continue">Продолжить</string>
 
     <string name="dialog_title_create">Создать…</string>
     <string name="dialog_title_rename">Переименовать…</string>
@@ -51,9 +52,11 @@
     <string name="dialog_title_compressing">Сжатие…</string>
     <string name="dialog_title_extracting">Извлечение…</string>
     <string name="dialog_title_archive_name">Название архива</string>
+    <string name="dialog_title_storage_access">Доступ к хранилищу</string>
 
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
+    <string name="dialog_message_storage_access">Как файловый менеджер, Brackeys IDE требует доступ к файлам для корректной работы\n\nПожалуйста, предоставьте разрешение на этом устройстве после нажатия «Продолжить»</string>
 
     <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br&gt;</string>

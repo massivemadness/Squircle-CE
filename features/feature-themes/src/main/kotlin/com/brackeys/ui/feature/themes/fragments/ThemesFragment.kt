@@ -41,8 +41,8 @@ import com.brackeys.ui.feature.themes.databinding.FragmentThemesBinding
 import com.brackeys.ui.feature.themes.utils.GridSpacingItemDecoration
 import com.brackeys.ui.feature.themes.utils.readAssetFileText
 import com.brackeys.ui.feature.themes.viewmodel.ThemesViewModel
+import com.brackeys.ui.utils.extensions.checkStorageAccess
 import com.brackeys.ui.utils.extensions.debounce
-import com.brackeys.ui.utils.extensions.hasExternalStorageAccess
 import com.brackeys.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -73,11 +73,10 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         binding.recyclerView.adapter = ThemeAdapter(object : ThemeAdapter.Actions {
             override fun selectTheme(themeModel: ThemeModel) = viewModel.selectTheme(themeModel)
             override fun exportTheme(themeModel: ThemeModel) {
-                if (requireContext().hasExternalStorageAccess()) {
-                    viewModel.exportTheme(themeModel)
-                } else {
-                    context?.showToast(R.string.message_access_required)
-                }
+                activity?.checkStorageAccess(
+                    onSuccess = { viewModel.exportTheme(themeModel) },
+                    onFailure = { context?.showToast(R.string.message_access_required) }
+                )
             }
             override fun editTheme(themeModel: ThemeModel) {
                 val bundle = bundleOf(NewThemeFragment.NAV_THEME_UUID to themeModel.uuid)

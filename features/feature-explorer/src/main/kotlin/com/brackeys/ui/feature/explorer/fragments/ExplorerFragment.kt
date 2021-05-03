@@ -97,16 +97,20 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     override fun handleOnBackPressed(): Boolean {
-        return if (!viewModel.selectionEvent.value.isNullOrEmpty()) {
-            stopActionMode()
-            true
-        } else {
-            val target = adapter.currentList.lastIndex - 1
-            if (target > 0) {
-                navigateBreadcrumb(adapter.currentList[target])
-            } else {
-                navigateBreadcrumb(adapter.currentList.first())
+        return when {
+            !viewModel.selectionEvent.value.isNullOrEmpty() -> {
+                stopActionMode()
+                return true
             }
+            adapter.currentList.isNotEmpty() -> {
+                val target = adapter.currentList.lastIndex - 1
+                if (target > 0) {
+                    navigateBreadcrumb(adapter.currentList[target])
+                } else {
+                    navigateBreadcrumb(adapter.currentList.first())
+                }
+            }
+            else -> false
         }
     }
 

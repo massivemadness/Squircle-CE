@@ -19,13 +19,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/explorer_graph"
-    app:startDestination="@id/permissionsFragment">
+    app:startDestination="@id/permissionFragment">
 
     <fragment
-        android:id="@+id/permissionsFragment"
-        android:name="com.brackeys.ui.feature.explorer.fragments.PermissionsFragment"
+        android:id="@+id/permissionFragment"
+        android:name="com.brackeys.ui.feature.explorer.fragments.PermissionFragment"
         android:label="@string/label_permissions"
-        tools:layout="@layout/fragment_permissions">
+        tools:layout="@layout/fragment_permission">
         <action
             android:id="@+id/to_directoryFragment"
             app:destination="@id/directoryFragment"/>

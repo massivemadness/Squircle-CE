@@ -16,9 +16,7 @@
 
 package com.brackeys.ui.utils.extensions
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.widget.Toast
 import androidx.annotation.AttrRes
@@ -41,11 +39,6 @@ fun Context.getColour(@ColorRes colorRes: Int): Int {
 
 fun Context.getColorAttr(@AttrRes attrRes: Int): Int {
     return MaterialColors.getColor(this, attrRes, "The attribute is not set in the current theme")
-}
-
-fun Context.hasExternalStorageAccess(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-        PackageManager.PERMISSION_GRANTED
 }
 
 private const val ASSET_PATH = "file:///android_asset/"

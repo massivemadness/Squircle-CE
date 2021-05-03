@@ -16,65 +16,74 @@
 
 package com.brackeys.ui.feature.explorer.fragments
 
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.afollestad.materialdialogs.MaterialDialog
 import com.brackeys.ui.feature.explorer.R
-import com.brackeys.ui.feature.explorer.contracts.StoragePermission
-import com.brackeys.ui.feature.explorer.databinding.FragmentPermissionsBinding
+import com.brackeys.ui.feature.explorer.databinding.FragmentPermissionBinding
 import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
-import com.brackeys.ui.utils.extensions.hasExternalStorageAccess
+import com.brackeys.ui.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PermissionsFragment : Fragment(R.layout.fragment_permissions) {
+class PermissionFragment : Fragment(R.layout.fragment_permission) {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
-    private val requestPermission: ActivityResultLauncher<Boolean> =
-        registerForActivityResult(StoragePermission()) {
-            if (requireContext().hasExternalStorageAccess()) {
-                onSuccess()
-            } else {
-                onFailure()
-            }
+    private val requestResult = registerForActivityResult(RequestPermission()) { result ->
+        when {
+            result -> onSuccess()
+            else -> onFailure()
         }
+    }
 
-    private lateinit var binding: FragmentPermissionsBinding
+    private lateinit var binding: FragmentPermissionBinding
     private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentPermissionsBinding.bind(view)
+        binding = FragmentPermissionBinding.bind(view)
         navController = findNavController()
 
         binding.actionAccess.setOnClickListener {
-            requestPermissionsUsingDialog()
+            activity?.checkStorageAccess(
+                onSuccess = ::onSuccess,
+                onFailure = {
+                    activity?.requestStorageAccess(
+                        showRequestDialog = { requestResult.launch(WRITE_EXTERNAL_STORAGE) },
+                        showExplanation = { showExplanationDialog(it) }
+                    )
+                }
+            )
         }
 
-        val storagePermissions = requireContext().hasExternalStorageAccess()
-        viewModel.showAppBarEvent.value = storagePermissions
-        if (storagePermissions) {
-            onSuccess()
-        }
+        activity?.checkStorageAccess(::onSuccess, ::onFailure)
     }
 
     private fun onSuccess() {
         viewModel.showAppBarEvent.value = true
-        val destination = PermissionsFragmentDirections.toDirectoryFragment(null)
+        val destination = PermissionFragmentDirections.toDirectoryFragment(null)
         navController.navigate(destination)
     }
 
     private fun onFailure() {
         viewModel.showAppBarEvent.value = false
-        binding.actionAccess.setOnClickListener {
-            requestPermissionsUsingActivity()
-        }
     }
 
-    private fun requestPermissionsUsingDialog() = requestPermission.launch(false)
-    private fun requestPermissionsUsingActivity() = requestPermission.launch(true)
+    private fun showExplanationDialog(intent: Intent) {
+        MaterialDialog(requireContext()).show {
+            title(R.string.dialog_title_storage_access)
+            message(R.string.dialog_message_storage_access)
+            negativeButton(R.string.action_cancel)
+            positiveButton(R.string.action_continue) {
+                startActivity(intent)
+            }
+        }
+    }
 }

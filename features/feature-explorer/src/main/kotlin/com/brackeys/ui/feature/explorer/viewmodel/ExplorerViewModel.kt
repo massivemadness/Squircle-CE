@@ -54,9 +54,9 @@ class ExplorerViewModel @Inject constructor(
     // region EVENTS
 
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
-    val showAppBarEvent = MutableLiveData<Boolean>() // Отображение вкладок
-    val allowPasteFiles = MutableLiveData<Boolean>() // Отображение кнопки "Вставить"
 
+    val showAppBarEvent = MutableLiveData(false) // Отображение вкладок
+    val allowPasteFiles = MutableLiveData(false) // Отображение кнопки "Вставить"
     val loadingBar = MutableLiveData(true) // Индикатор загрузки файлов
     val emptyView = MutableLiveData(false) // Сообщение об отсутствии файлов
 
