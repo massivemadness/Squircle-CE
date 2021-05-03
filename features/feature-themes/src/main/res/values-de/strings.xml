@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="label_themes">Themes</string>
     <string name="label_new_theme">Neues Theme</string>
+
     <string name="hint_enter_theme_name">Geben Sie einen Theme-Namen ein</string>
     <string name="hint_enter_theme_author">Geben Sie einen Theme-Autor ein</string>
     <string name="hint_enter_theme_desc">Kurze Beschreibung</string>
     <string name="hint_theme_desc">Standard-Farbschema</string>
     <string name="hint_search">Suchen…</string>
+
     <string name="action_select">Auswählen</string>
     <string name="action_save">Speichern</string>
     <string name="action_import">Importieren</string>
@@ -14,7 +17,9 @@
     <string name="action_edit">Bearbeiten</string>
     <string name="action_remove">Entfernen</string>
     <string name="action_cancel">Abbrechen</string>
+
     <string name="dialog_title_color_picker">Farbauswahl</string>
+
     <string name="message_access_required">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
     <string name="message_selected">«%1$s» ausgewählt</string>
     <string name="message_new_theme_available">Neues Thema verfügbar: %1$s</string>
@@ -23,6 +28,7 @@
     <string name="message_theme_syntax_exception">Beim Lesen der Theme-Datei ist ein Fehler aufgetreten</string>
     <string name="message_no_result">Kein Ergebnis</string>
     <string name="message_unknown_exception">Ein Fehler ist aufgetreten</string>
+
     <string name="theme_property_text_color">Definiert die Textfarbe des Editors</string>
     <string name="theme_property_background_color">Definiert die Hintergrundfarbe des Editors</string>
     <string name="theme_property_gutter_color">Definiert die Hintergrundfarbe der Seitenleiste</string>
@@ -49,4 +55,5 @@
     <string name="theme_property_attr_name_color">Definiert die Farbe der Attributnamen in Auszeichnungssprachen: &lt;tag attr=…/&gt;</string>
     <string name="theme_property_attr_value_color">Definiert die Farbe der Attributwerte in Auszeichnungssprachen: &lt;tag attr=\"value\"/&gt;</string>
     <string name="theme_property_entity_ref_color">Definiert die Farbe der Entitätsreferenz in Auszeichnungssprachen: &amp;amp; &amp;lt; &amp;gt; …</string>
+
 </resources>

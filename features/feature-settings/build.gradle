@@ -84,8 +84,8 @@ dependencies {
     implementation project(':data')
 
     implementation project(':features:feature-fonts')
-    implementation project(':features:feature-ui')
     implementation project(':features:feature-themes')
+    implementation project(':features:feature-ui')
     implementation project(':features:feature-utils')
 
     // Tests

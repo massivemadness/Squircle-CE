@@ -25,7 +25,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
@@ -49,18 +48,18 @@ import com.brackeys.ui.feature.editor.utils.Panel
 import com.brackeys.ui.feature.editor.utils.TabController
 import com.brackeys.ui.feature.editor.utils.ToolbarManager
 import com.brackeys.ui.feature.editor.viewmodel.EditorViewModel
-import com.brackeys.ui.feature.main.adapters.TabAdapter
-import com.brackeys.ui.feature.main.utils.OnBackPressedHandler
-import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.feature.settings.activities.SettingsActivity
+import com.brackeys.ui.utils.adapters.TabAdapter
 import com.brackeys.ui.utils.event.SettingsEvent
 import com.brackeys.ui.utils.extensions.*
+import com.brackeys.ui.utils.interfaces.BackPressedHandler
+import com.brackeys.ui.utils.interfaces.DrawerHandler
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
-class EditorFragment : Fragment(R.layout.fragment_editor), OnBackPressedHandler,
+class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     ToolbarManager.OnPanelClickListener, DocumentAdapter.TabInteractor {
 
     companion object {
@@ -69,8 +68,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor), OnBackPressedHandler,
         private const val TAB_LIMIT = 10
     }
 
-    private val sharedViewModel: MainViewModel by activityViewModels()
-    private val viewModel: EditorViewModel by viewModels()
+    private val viewModel: EditorViewModel by activityViewModels()
+    private val drawerHandler: DrawerHandler by lazy { activity as DrawerHandler }
     private val toolbarManager: ToolbarManager by lazy { ToolbarManager(this) }
     private val tabController: TabController by lazy { TabController() }
 
@@ -232,7 +231,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), OnBackPressedHandler,
             )
             binding.editor.requestFocus()
         }
-        sharedViewModel.openEvent.observe(viewLifecycleOwner) { documentModel ->
+        viewModel.openFileEvent.observe(viewLifecycleOwner) { documentModel ->
             if (!adapter.currentList.contains(documentModel)) {
                 if (adapter.currentList.size < TAB_LIMIT) {
                     viewModel.openFile(adapter.currentList + documentModel)
@@ -399,7 +398,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), OnBackPressedHandler,
     // region TOOLBAR
 
     override fun onDrawerButton() {
-        sharedViewModel.openDrawerEvent.call()
+        drawerHandler.openDrawer()
     }
 
     override fun onNewButton() {
@@ -484,7 +483,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), OnBackPressedHandler,
         val position = adapter.selectedPosition
         if (position > -1) {
             val document = adapter.currentList[position]
-            sharedViewModel.propertiesEvent.value = DocumentConverter.toModel(document)
+            viewModel.openPropertiesEvent.value = DocumentConverter.toModel(document)
         } else {
             context?.showToast(R.string.message_no_open_files)
         }

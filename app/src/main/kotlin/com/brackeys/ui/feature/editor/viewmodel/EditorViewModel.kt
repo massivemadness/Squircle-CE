@@ -30,6 +30,7 @@ import com.brackeys.ui.domain.model.editor.DocumentModel
 import com.brackeys.ui.domain.repository.documents.DocumentRepository
 import com.brackeys.ui.domain.repository.themes.ThemesRepository
 import com.brackeys.ui.filesystem.base.exception.FileNotFoundException
+import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.language.base.Language
 import com.brackeys.ui.language.base.model.ParseResult
 import com.brackeys.ui.utils.event.EventsQueue
@@ -64,6 +65,9 @@ class EditorViewModel @Inject constructor(
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
     val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
     val contentEvent = SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>>() // Контент загруженного файла
+
+    val openFileEvent = SingleLiveEvent<DocumentModel>() // Открытие файла из проводника в редакторе
+    val openPropertiesEvent = SingleLiveEvent<FileModel>() // Просмотр свойств выбранного файла
 
     // endregion EVENTS
 

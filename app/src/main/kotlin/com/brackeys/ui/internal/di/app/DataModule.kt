@@ -17,10 +17,12 @@
 package com.brackeys.ui.internal.di.app
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Environment
 import com.brackeys.ui.data.delegate.DatabaseDelegate
 import com.brackeys.ui.data.delegate.FilesystemDelegate
 import com.brackeys.ui.data.storage.database.AppDatabase
+import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import com.brackeys.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides
@@ -33,6 +35,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
+
+    @Provides
+    @Singleton
+    fun provideSettingsManager(sharedPreferences: SharedPreferences): SettingsManager {
+        return SettingsManager(sharedPreferences)
+    }
 
     @Provides
     @Singleton

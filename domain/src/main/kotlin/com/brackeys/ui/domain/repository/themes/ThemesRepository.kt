@@ -22,6 +22,7 @@ import com.brackeys.ui.domain.model.themes.PropertyItem
 import com.brackeys.ui.domain.model.themes.ThemeModel
 
 interface ThemesRepository {
+
     suspend fun fetchThemes(searchQuery: String): List<ThemeModel>
     suspend fun fetchTheme(uuid: String): ThemeModel
 

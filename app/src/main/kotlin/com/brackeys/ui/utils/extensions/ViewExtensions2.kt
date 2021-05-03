@@ -16,49 +16,8 @@
 
 package com.brackeys.ui.utils.extensions
 
-import android.content.res.ColorStateList
-import android.util.TypedValue
-import android.view.View
-import android.widget.ImageView
-import androidx.annotation.ColorRes
-import androidx.annotation.MenuRes
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.customview.widget.ViewDragHelper
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-
-fun Fragment.setSupportActionBar(toolbar: Toolbar) {
-    val parentActivity = activity as AppCompatActivity
-    parentActivity.setSupportActionBar(toolbar)
-}
-
-val Fragment.supportActionBar: ActionBar?
-    get() = (activity as? AppCompatActivity)?.supportActionBar
-
-fun NavController.popBackStack(n: Int) {
-    for (index in 0 until n) {
-        popBackStack()
-    }
-}
-
-fun ImageView.setTint(@ColorRes colorRes: Int) {
-    imageTintList = ColorStateList.valueOf(
-        context.getColour(colorRes)
-    )
-}
-
-fun View.setSelectableBackground() = with(TypedValue()) {
-    context.theme.resolveAttribute(android.R.attr.selectableItemBackground, this, true)
-    setBackgroundResource(resourceId)
-}
-
-fun Toolbar.replaceMenu(@MenuRes menuRes: Int) {
-    menu.clear()
-    inflateMenu(menuRes)
-}
 
 /**
  * https://stackoverflow.com/a/17802569/4405457

@@ -18,9 +18,6 @@ package com.brackeys.ui.feature.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.brackeys.ui.data.storage.keyvalue.SettingsManager
-import com.brackeys.ui.domain.model.editor.DocumentModel
-import com.brackeys.ui.filesystem.base.model.FileModel
-import com.brackeys.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -28,13 +25,6 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val settingsManager: SettingsManager
 ) : ViewModel() {
-
-    val openDrawerEvent = SingleLiveEvent<Unit>()
-    val closeDrawerEvent = SingleLiveEvent<Unit>()
-
-    // События для связи проводника и редактора
-    val openEvent = SingleLiveEvent<DocumentModel>()
-    val propertiesEvent = SingleLiveEvent<FileModel>()
 
     val fullScreenMode: Boolean
         get() = settingsManager.fullScreenMode

@@ -17,27 +17,12 @@
 package com.brackeys.ui.utils.extensions
 
 import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-
-fun Context.getColour(@ColorRes colorRes: Int): Int {
-    return ContextCompat.getColor(this, colorRes)
-}
 
 fun Activity.closeKeyboard() {
     val inputManager = getSystemService<InputMethodManager>()
     val windowToken = currentFocus?.windowToken
     val hideType = InputMethodManager.HIDE_NOT_ALWAYS
     inputManager?.hideSoftInputFromWindow(windowToken, hideType)
-}
-
-fun String.clipText(context: Context?) = clip(context, ClipData.newPlainText("Text", this))
-
-private fun clip(context: Context?, data: ClipData) {
-    context?.getSystemService<ClipboardManager>()?.setPrimaryClip(data)
 }

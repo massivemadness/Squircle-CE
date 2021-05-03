@@ -21,6 +21,7 @@ import com.brackeys.ui.domain.model.editor.DocumentContent
 import com.brackeys.ui.domain.model.editor.DocumentModel
 
 interface DocumentRepository {
+
     suspend fun fetchDocuments(): List<DocumentModel>
     suspend fun updateDocument(documentModel: DocumentModel)
     suspend fun deleteDocument(documentModel: DocumentModel)

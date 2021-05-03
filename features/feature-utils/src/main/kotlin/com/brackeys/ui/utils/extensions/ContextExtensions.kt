@@ -21,8 +21,11 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.widget.Toast
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import com.google.android.material.color.MaterialColors
 
 fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
     if (textRes != -1) {
@@ -30,6 +33,14 @@ fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration:
     } else {
         Toast.makeText(this, text, duration).show()
     }
+}
+
+fun Context.getColour(@ColorRes colorRes: Int): Int {
+    return ContextCompat.getColor(this, colorRes)
+}
+
+fun Context.getColorAttr(@AttrRes attrRes: Int): Int {
+    return MaterialColors.getColor(this, attrRes, "The attribute is not set in the current theme")
 }
 
 fun Context.hasExternalStorageAccess(): Boolean {

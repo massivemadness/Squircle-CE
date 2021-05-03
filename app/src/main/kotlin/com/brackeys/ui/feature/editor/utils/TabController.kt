@@ -18,7 +18,7 @@ package com.brackeys.ui.feature.editor.utils
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.brackeys.ui.feature.main.adapters.TabAdapter
+import com.brackeys.ui.utils.adapters.TabAdapter
 
 class TabController : ItemTouchHelper(itemTouchCallback) {
 

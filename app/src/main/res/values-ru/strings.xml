@@ -16,37 +16,20 @@
   -->
 <resources>
 
-    <string name="label_permissions">Разрешения</string>
-    <string name="label_directory">Директория</string>
-    <string name="label_local_storage">На устройстве</string>
-
-    <string name="hint_search">Поиск…</string>
     <string name="hint_line">Линия:</string>
-    <string name="hint_enter_file_name">Введите имя файла</string>
     <string name="hint_enter_file_path">Введите путь к файлу</string>
-    <string name="hint_enter_archive_name">Введите название архива</string>
 
     <string name="action_restart">Обновить</string>
-    <string name="action_grant_access">Предоставить</string>
     <string name="action_yes">Да</string>
     <string name="action_no">Нет</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Отмена</string>
-    <string name="action_create">Создать</string>
     <string name="action_close">Закрыть</string>
     <string name="action_close_others">Закрыть другие</string>
     <string name="action_close_all">Закрыть все</string>
-    <string name="action_copy_path">Скопировать путь</string>
-    <string name="action_folder">Папка</string>
-    <string name="action_rename">Переименовать</string>
-    <string name="action_delete">Удалить</string>
     <string name="action_insert">Вставить</string>
-    <string name="action_run_in_background">Выполнять в фоне</string>
-    <string name="action_show_hidden_files">Скрытые файлы</string>
-    <string name="action_create_zip">Создать .zip</string>
     <string name="action_new">Новый файл</string>
     <string name="action_open">Открыть</string>
-    <string name="action_open_as">Открыть как</string>
     <string name="action_save">Сохранить</string>
     <string name="action_save_as">Сохранить как</string>
     <string name="action_properties">Свойства</string>
@@ -71,61 +54,20 @@
     <string name="action_settings">Настройки</string>
     <string name="action_tools">Инструменты</string>
 
-    <string name="dialog_title_create">Создать…</string>
-    <string name="dialog_title_rename">Переименовать…</string>
-    <string name="dialog_title_multi_delete">Множественное удаление</string>
     <string name="dialog_title_exit">Выход</string>
-    <string name="dialog_title_properties">Свойства</string>
     <string name="dialog_title_result">Результат</string>
     <string name="dialog_title_save_as">Сохранить как…</string>
     <string name="dialog_title_goto_line">Перейти к строке…</string>
-    <string name="dialog_title_deleting">Удаление…</string>
-    <string name="dialog_title_copying">Копирование…</string>
-    <string name="dialog_title_compressing">Сжатие…</string>
-    <string name="dialog_title_extracting">Извлечение…</string>
-    <string name="dialog_title_archive_name">Название архива</string>
 
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
-    <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
-    <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
     <string name="dialog_message_close_tab">Вы уверены что хотите закрыть этот файл? Все несохраненные изменения будут сброшены</string>
 
-    <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_modified">&lt;b>Изменён:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_size">&lt;b>Размер:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_line_count">&lt;b>Линий:&lt;/b> %d&lt;br&gt;</string>
-    <string name="properties_word_count">&lt;b>Слов:&lt;/b> %d&lt;br&gt;</string>
-    <string name="properties_char_count">&lt;b>Символов:&lt;/b> %d</string>
-    <string name="properties_readable">R</string>
-    <string name="properties_writable">W</string>
-    <string name="properties_executable">X</string>
-
-    <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
-    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
-
-    <string name="sort_by_name">Сорт. по имени</string>
-    <string name="sort_by_size">Сорт. по размеру</string>
-    <string name="sort_by_date">Сорт. по дате</string>
-
-    <string name="message_access_denied">Доступ запрещён</string>
-    <string name="message_no_result">Нет результатов</string>
     <string name="message_no_open_files">Нет файлов</string>
     <string name="message_tab_limit_achieved">Вы достигли лимита вкладок</string>
-    <string name="message_cannot_be_opened">Файл невозможно открыть</string>
-    <string name="message_invalid_file_name">Некорректное имя файла</string>
     <string name="message_invalid_file_path">Некорректный путь к файлу</string>
     <string name="message_unknown_exception">Неизвестная ошибка</string>
-    <string name="message_directory_expected">Невозможно получить список файлов из файла</string>
-    <string name="message_file_already_exists">Такой файл уже существует</string>
     <string name="message_file_not_found">Файл не найден</string>
     <string name="message_out_of_memory">Недостаточно памяти</string>
-    <string name="message_unsupported_archive">Неподдерживаемый архив</string>
-    <string name="message_invalid_archive">Архив поврежден</string>
-    <string name="message_split_archive">Архив разделен</string>
-    <string name="message_encrypted_archive">Архив зашифрован</string>
-    <string name="message_operation_cancelled">Операция отменена</string>
-    <string name="message_done">Готово</string>
     <string name="message_saved">Сохранено</string>
     <string name="message_select_file">Выберите файл</string>
     <string name="message_nothing_to_cut">Невозможно вырезать</string>
@@ -135,10 +77,5 @@
     <string name="message_no_errors_detected">Синтакcических ошибок не найдено</string>
     <string name="message_in_app_update_ready">Обновление загружено</string>
     <string name="message_in_app_update_failed">Произошла ошибка при установке пакета</string>
-    <string name="message_elapsed_time">Прошло времени: %1$s</string>
-    <string name="message_deleting">Удаление…%1$s</string>
-    <string name="message_copying">Копирование…%1$s</string>
-    <string name="message_compressing">Сжатие…%1$s</string>
-    <string name="message_extracting">Извлечение…%1$s</string>
 
 </resources>

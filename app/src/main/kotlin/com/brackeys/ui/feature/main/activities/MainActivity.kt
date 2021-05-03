@@ -24,28 +24,33 @@ import androidx.core.view.GravityCompat
 import com.brackeys.ui.R
 import com.brackeys.ui.databinding.ActivityMainBinding
 import com.brackeys.ui.feature.editor.fragments.EditorFragment
+import com.brackeys.ui.feature.editor.viewmodel.EditorViewModel
 import com.brackeys.ui.feature.explorer.fragments.ExplorerFragment
+import com.brackeys.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.brackeys.ui.feature.main.dialogs.ConfirmExitDialog
-import com.brackeys.ui.feature.main.utils.OnBackPressedHandler
 import com.brackeys.ui.feature.main.viewmodel.MainViewModel
 import com.brackeys.ui.utils.extensions.fragment
 import com.brackeys.ui.utils.extensions.multiplyDraggingEdgeSizeBy
 import com.brackeys.ui.utils.inappupdate.InAppUpdate
+import com.brackeys.ui.utils.interfaces.BackPressedHandler
+import com.brackeys.ui.utils.interfaces.DrawerHandler
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DrawerHandler {
 
     @Inject
     lateinit var inAppUpdate: InAppUpdate
 
-    private val viewModel: MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
+    private val explorerViewModel: ExplorerViewModel by viewModels()
+    private val editorViewModel: EditorViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var editorOnBackPressedHandler: OnBackPressedHandler
-    private lateinit var explorerOnBackPressedHandler: OnBackPressedHandler
+    private lateinit var editorBackPressedHandler: BackPressedHandler
+    private lateinit var explorerBackPressedHandler: BackPressedHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +59,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         observeViewModel()
 
-        editorOnBackPressedHandler = supportFragmentManager
+        editorBackPressedHandler = supportFragmentManager
             .fragment<EditorFragment>(R.id.fragment_editor)
-        explorerOnBackPressedHandler = supportFragmentManager
+        explorerBackPressedHandler = supportFragmentManager
             .fragment<ExplorerFragment>(R.id.fragment_explorer)
 
         binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
@@ -70,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.fullScreenMode) {
+        if (mainViewModel.fullScreenMode) {
             window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -79,12 +84,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
-            if (!explorerOnBackPressedHandler.handleOnBackPressed()) {
-                viewModel.closeDrawerEvent.call()
+            if (!explorerBackPressedHandler.handleOnBackPressed()) {
+                closeDrawer()
             }
         } else {
-            if (!editorOnBackPressedHandler.handleOnBackPressed()) {
-                if (viewModel.confirmExit) {
+            if (!editorBackPressedHandler.handleOnBackPressed()) {
+                if (mainViewModel.confirmExit) {
                     ConfirmExitDialog().show(supportFragmentManager, ConfirmExitDialog.DIALOG_TAG)
                 } else {
                     finish()
@@ -93,12 +98,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun openDrawer() {
+        binding.drawerLayout?.openDrawer(GravityCompat.START)
+    }
+
+    override fun closeDrawer() {
+        binding.drawerLayout?.closeDrawer(GravityCompat.START)
+    }
+
     private fun observeViewModel() {
-        viewModel.openDrawerEvent.observe(this) {
-            binding.drawerLayout?.openDrawer(GravityCompat.START)
+        explorerViewModel.openFileEvent.observe(this) {
+            editorViewModel.openFileEvent.value = it
         }
-        viewModel.closeDrawerEvent.observe(this) {
-            binding.drawerLayout?.closeDrawer(GravityCompat.START)
+        editorViewModel.openPropertiesEvent.observe(this) {
+            explorerViewModel.openPropertiesEvent.value = it
         }
     }
 }

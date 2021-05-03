@@ -50,6 +50,7 @@ dependencies {
 
     // UI
     implementation library.appcompat
+    implementation library.materialdesign
 
     // AAC
     implementation library.livedata

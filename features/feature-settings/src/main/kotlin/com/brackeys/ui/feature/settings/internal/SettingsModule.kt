@@ -19,7 +19,6 @@ package com.brackeys.ui.feature.settings.internal
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import com.brackeys.ui.data.storage.keyvalue.SettingsManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,11 +34,5 @@ object SettingsModule {
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSettingsManager(sharedPreferences: SharedPreferences): SettingsManager {
-        return SettingsManager(sharedPreferences)
     }
 }

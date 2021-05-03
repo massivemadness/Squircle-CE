@@ -36,9 +36,6 @@
     <!-- Extra -->
     <color name="colorIcon">#7F7F7F</color>
     <color name="colorCaret">#BBBBBB</color>
-    <color name="colorFile">#7F7F7F</color>
-    <color name="colorFolder">#FFBB33</color>
-    <color name="colorSelection">#32FFFFFF</color>
 
     <!-- Legacy Google Play dialog -->
     <!--<color name="colorGreen">#008860</color>

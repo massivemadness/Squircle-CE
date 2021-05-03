@@ -19,7 +19,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -88,10 +87,8 @@ dependencies {
     implementation library.appcompat
     implementation library.materialdesign
     implementation library.constraintlayout
-    implementation library.swiperefreshlayout
     implementation library.materialdialogs_core
     implementation library.materialdialogs_color
-    implementation library.recyclerview_selection
 
     // AAC
     implementation library.livedata
@@ -115,6 +112,7 @@ dependencies {
     implementation project(':data')
     implementation project(':editorkit')
 
+    implementation project(':features:feature-explorer')
     implementation project(':features:feature-fonts')
     implementation project(':features:feature-settings')
     implementation project(':features:feature-themes')
