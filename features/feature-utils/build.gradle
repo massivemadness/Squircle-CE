@@ -54,4 +54,5 @@ dependencies {
 
     // AAC
     implementation library.livedata
+    implementation library.navigation_fragment
 }

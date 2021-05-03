@@ -22,12 +22,12 @@ import android.view.ViewGroup
 import com.brackeys.ui.feature.explorer.R
 import com.brackeys.ui.feature.explorer.databinding.ItemFileDetailedBinding
 import com.brackeys.ui.feature.explorer.utils.setSelectableBackground
-import com.brackeys.ui.feature.explorer.utils.setTint
 import com.brackeys.ui.feature.explorer.utils.toReadableDate
 import com.brackeys.ui.feature.explorer.utils.toReadableSize
 import com.brackeys.ui.filesystem.base.model.FileModel
 import com.brackeys.ui.filesystem.base.model.FileType
 import com.brackeys.ui.utils.adapters.OnItemClickListener
+import com.brackeys.ui.utils.extensions.setTint
 
 class DetailedViewHolder(
     private val binding: ItemFileDetailedBinding,

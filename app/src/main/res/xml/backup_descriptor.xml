@@ -16,5 +16,5 @@
   -->
 
 <full-backup-content>
-    <include domain="sharedpref" path="."/>
+    <include domain="sharedpref" path="." />
 </full-backup-content>

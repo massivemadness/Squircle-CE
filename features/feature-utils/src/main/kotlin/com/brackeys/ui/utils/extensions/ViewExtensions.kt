@@ -17,9 +17,12 @@
 package com.brackeys.ui.utils.extensions
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.drawable.InsetDrawable
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.ImageView
+import androidx.annotation.ColorRes
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
@@ -64,6 +67,12 @@ fun SearchView.debounce(
             return true
         }
     })
+}
+
+fun ImageView.setTint(@ColorRes colorRes: Int) {
+    imageTintList = ColorStateList.valueOf(
+        context.getColour(colorRes)
+    )
 }
 
 /**

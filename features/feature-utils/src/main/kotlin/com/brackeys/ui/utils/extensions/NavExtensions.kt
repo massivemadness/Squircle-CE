@@ -19,6 +19,13 @@ package com.brackeys.ui.utils.extensions
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+
+fun NavController.popBackStack(n: Int) {
+    for (index in 0 until n) {
+        popBackStack()
+    }
+}
 
 @Suppress("UNCHECKED_CAST")
 fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T {

@@ -19,8 +19,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.brackeys.ui">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -40,19 +40,19 @@
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <!--<intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.EDIT" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="file"/>
-                <data android:scheme="content"/>
-                <data android:mimeType="text/*"/>
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="text/*" />
             </intent-filter>-->
         </activity>
 
@@ -60,7 +60,11 @@
             android:name="com.brackeys.ui.feature.settings.activities.SettingsActivity"
             android:parentActivityName="com.brackeys.ui.feature.main.activities.MainActivity"
             android:configChanges="keyboard|keyboardHidden"
-            android:label="@string/label_settings"/>
+            android:label="@string/label_settings">
+            <intent-filter>
+                <action android:name="com.brackeys.ui.action.OPEN_SETTINGS" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -69,7 +73,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
     </application>

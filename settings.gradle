@@ -16,13 +16,13 @@
 
 include ':app', ':domain', ':data', ':editorkit'
 
-include ':features:feature-explorer',
+include ':features:feature-editor',
+        ':features:feature-explorer',
         ':features:feature-fonts',
         ':features:feature-settings',
         ':features:feature-themes',
         ':features:feature-ui',
         ':features:feature-utils'
-// TODO ':features:feature-editor'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'

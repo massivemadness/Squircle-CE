@@ -19,49 +19,21 @@ package com.brackeys.ui.feature.explorer.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.res.ColorStateList
 import android.util.TypedValue
 import android.view.View
-import android.widget.ImageView
-import androidx.annotation.ColorRes
 import androidx.annotation.MenuRes
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.getSystemService
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import com.brackeys.ui.feature.explorer.R
-import com.brackeys.ui.utils.extensions.getColour
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
 
-fun Fragment.setSupportActionBar(toolbar: Toolbar) {
-    val parentActivity = activity as? AppCompatActivity
-    parentActivity?.setSupportActionBar(toolbar)
-}
-
-val Fragment.supportActionBar: ActionBar?
-    get() = (activity as? AppCompatActivity)?.supportActionBar
-
-fun NavController.popBackStack(n: Int) {
-    for (index in 0 until n) {
-        popBackStack()
-    }
-}
-
 fun Toolbar.replaceMenu(@MenuRes menuRes: Int) {
     menu.clear()
     inflateMenu(menuRes)
-}
-
-fun ImageView.setTint(@ColorRes colorRes: Int) {
-    imageTintList = ColorStateList.valueOf(
-        context.getColour(colorRes)
-    )
 }
 
 fun View.setSelectableBackground() = with(TypedValue()) {

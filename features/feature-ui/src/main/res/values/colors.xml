@@ -32,12 +32,8 @@
     <color name="colorOnBackground">#7F7F7F</color>
 
     <color name="colorStatusBar">#3C3F41</color>
-
-    <!-- Extra -->
     <color name="colorIcon">#7F7F7F</color>
-    <color name="colorCaret">#BBBBBB</color>
 
-    <!-- Legacy Google Play dialog -->
     <!--<color name="colorGreen">#008860</color>
     <color name="colorRed">#CD0000</color>
     <color name="colorGray">#D7D7D7</color>-->

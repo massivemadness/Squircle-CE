@@ -16,5 +16,5 @@
   -->
 
 <paths>
-    <external-path name="external_files" path="."/>
+    <external-path name="external_files" path="." />
 </paths>

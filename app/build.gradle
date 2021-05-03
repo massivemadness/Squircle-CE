@@ -55,14 +55,7 @@ android {
         jvmTarget = '1.8'
     }
     sourceSets {
-        main {
-            java.srcDirs += 'src/main/kotlin'
-            res.srcDirs = [
-                    file("src/main/res/layouts/").listFiles(),
-                    'src/main/res/layouts',
-                    'src/main/res'
-            ]
-        }
+        main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
@@ -86,15 +79,11 @@ dependencies {
     // UI
     implementation library.appcompat
     implementation library.materialdesign
-    implementation library.constraintlayout
     implementation library.materialdialogs_core
-    implementation library.materialdialogs_color
 
     // AAC
     implementation library.livedata
     implementation library.viewmodel
-    implementation library.navigation_ui
-    implementation library.navigation_fragment
 
     // Coroutines
     implementation library.coroutines_core
@@ -104,14 +93,11 @@ dependencies {
     implementation library.hilt
     kapt library.hilt_compiler
 
-    // Other
-    implementation library.keyboardevent
-
     // Modules
     implementation project(':domain')
     implementation project(':data')
-    implementation project(':editorkit')
 
+    implementation project(':features:feature-editor')
     implementation project(':features:feature-explorer')
     implementation project(':features:feature-fonts')
     implementation project(':features:feature-settings')
@@ -120,7 +106,6 @@ dependencies {
     implementation project(':features:feature-utils')
 
     implementation project(':filesystems:filesystem-base')
-    implementation project(':languages:language-base')
 
     // Tests
     testImplementation testLibrary.junit
