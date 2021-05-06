@@ -2,6 +2,8 @@
 
 **Brackeys IDE** is a fast and free multi-language code editor for Android.
 
+**UPD 06/05/21:** Application has been removed from Google Play due to copyright issues and will be available under the different name soon 🤷‍♂️☹️
+
 ![Android CI](https://github.com/massivemadness/Brackeys-IDE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 <img src="https://raw.githubusercontent.com/massivemadness/Brackeys-IDE/master/.github/images/carbon.png" width="700" />
