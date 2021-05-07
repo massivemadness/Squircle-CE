@@ -1,10 +1,10 @@
-# Brackeys IDE
+# Squircle IDE
 
-**Brackeys IDE** is a fast and free multi-language code editor for Android.
+**Squircle IDE** is a fast and free multi-language code editor for Android.
 
-![Android CI](https://github.com/massivemadness/Brackeys-IDE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Android CI](https://github.com/massivemadness/Squircle-IDE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-<img src="https://raw.githubusercontent.com/massivemadness/Brackeys-IDE/master/.github/images/carbon.png" width="700" />
+<img src="https://raw.githubusercontent.com/massivemadness/Squircle-IDE/master/.github/images/carbon.png" width="700" />
 
 ---
 
@@ -62,7 +62,7 @@ You can see list of available languages [here](#languages-1).
 **First,** you need to add `TextProcessor` in your layout:
 
 ```xml
-<com.brackeys.ui.editorkit.widget.TextProcessor
+<com.blacksquircle.ui.editorkit.widget.TextProcessor
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top|start"
@@ -88,7 +88,7 @@ Also you might want to use `setTextContent(PrecomputedTextCompat)` if you're wor
 **Finally**, after you set the text you need to clear undo/redo history because you don't want to keep the change history of other files.
 
 ```kotlin
-import com.brackeys.ui.editorkit.utils.UndoStack
+import com.blacksquircle.ui.editorkit.utils.UndoStack
 
 editor.undoStack = UndoStack()
 editor.redoStack = UndoStack()
@@ -131,13 +131,13 @@ editor.editorConfig = EditorConfig(
 To attach the text scroller you need to add `TextScroller` in your layout:
 
 ```xml
-<com.brackeys.ui.editorkit.widget.TextScroller
+<com.blacksquircle.ui.editorkit.widget.TextScroller
     android:layout_width="30dp"
     android:layout_height="match_parent"
     android:id="@+id/scroller"
     app:thumbNormal="@drawable/fastscroll_normal"
     app:thumbDragging="@drawable/fastscroll_pressed"
-    app:thumbTint="@color/blue"/>
+    app:thumbTint="@color/blue" />
 ```
 
 Now you need to pass a reference to a view inside `attachTo` method:
@@ -250,7 +250,7 @@ editor.moveCaretToNextWord()
 ...or use «Go to Line» feature to place the caret at the specific line:
 
 ```kotlin
-import com.brackeys.ui.editorkit.exception.LineException
+import com.blacksquircle.ui.editorkit.exception.LineException
 
 try {
     editor.gotoLine(lineNumber)
@@ -276,7 +276,7 @@ The class itself contains self-explanatory methods for all your searching needs:
 - `clearFindResultSpans()` - Clears all find spans on the screen. Call this method when you're done searching.
 
 ```kotlin
-import com.brackeys.ui.editorkit.model.FindParams
+import com.blacksquircle.ui.editorkit.model.FindParams
 
 val findParams = FindParams(
     regex = false, // whether the regex will be used
@@ -423,10 +423,10 @@ dependencies {
 **Second,** implement the `Language` interface:
 
 ```kotlin
-import com.brackeys.ui.language.base.Language
-import com.brackeys.ui.language.base.parser.LanguageParser
-import com.brackeys.ui.language.base.provider.SuggestionProvider
-import com.brackeys.ui.language.base.styler.LanguageStyler
+import com.blacksquircle.ui.language.base.Language
+import com.blacksquircle.ui.language.base.parser.LanguageParser
+import com.blacksquircle.ui.language.base.provider.SuggestionProvider
+import com.blacksquircle.ui.language.base.styler.LanguageStyler
 
 class CustomLanguage : Language {
 

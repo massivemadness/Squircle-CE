@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:id="@+id/fragment_explorer"
-        android:name="com.brackeys.ui.feature.explorer.fragments.ExplorerFragment"
+        android:name="com.blacksquircle.ui.feature.explorer.fragments.ExplorerFragment"
         tools:layout="@layout/fragment_explorer"
         tools:ignore="FragmentTagUsage"/>
 
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragment_editor"
-        android:name="com.brackeys.ui.feature.editor.fragments.EditorFragment"
+        android:name="com.blacksquircle.ui.feature.editor.fragments.EditorFragment"
         tools:layout="@layout/fragment_editor"
         tools:ignore="FragmentTagUsage"/>
 

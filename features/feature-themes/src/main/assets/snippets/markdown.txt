@@ -1,7 +1,7 @@
-# Brackeys IDE
+# Squircle IDE
 ---
 
-Thanks for using Brackeys IDE!
+Thanks for using Squircle IDE!
 
 1. Ordered List Item
 2. Ordered List Item
@@ -12,4 +12,4 @@ Thanks for using Brackeys IDE!
 - Unordered List Item
 
 **OPEN SOURCE CODE:**
-https://github.com/massivemadness/Brackeys-IDE
+https://github.com/massivemadness/Squircle-IDE

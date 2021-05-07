@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@
 
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
-    <string name="dialog_message_storage_access">Как файловый менеджер, Brackeys IDE требует доступ к файлам для корректной работы\n\nПожалуйста, предоставьте разрешение на этом устройстве после нажатия «Продолжить»</string>
+    <string name="dialog_message_storage_access">Как файловый менеджер, Squircle IDE требует доступ к файлам для корректной работы\n\nПожалуйста, предоставьте разрешение на этом устройстве после нажатия «Продолжить»</string>
 
     <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br&gt;</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@
             android:src="@drawable/ic_overflow"
             app:tint="@color/colorIcon"/>
 
-        <com.brackeys.ui.feature.themes.customview.CodeView
+        <com.blacksquircle.ui.feature.themes.customview.CodeView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_title"
@@ -97,7 +97,7 @@
                 android:id="@+id/item_subtitle"
                 android:textSize="14sp"
                 android:singleLine="true"
-                tools:text="Brackeys IDE"/>
+                tools:text="Squircle IDE"/>
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.AppTheme.OutlinedButton"

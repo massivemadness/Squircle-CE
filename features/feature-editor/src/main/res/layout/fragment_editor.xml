@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -273,7 +273,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.brackeys.ui.editorkit.widget.TextProcessor
+        <com.blacksquircle.ui.editorkit.widget.TextProcessor
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:importantForAutofill="no"
@@ -285,7 +285,7 @@
             android:scrollbars="none"
             android:id="@+id/editor"/>
 
-        <com.brackeys.ui.editorkit.widget.TextScroller
+        <com.blacksquircle.ui.editorkit.widget.TextScroller
             android:layout_width="30dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
@@ -342,7 +342,7 @@
             android:src="@drawable/ic_keyboard_tab"
             app:tint="?colorOnSurface"/>
 
-        <com.brackeys.ui.feature.editor.customview.ExtendedKeyboard
+        <com.blacksquircle.ui.feature.editor.customview.ExtendedKeyboard
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

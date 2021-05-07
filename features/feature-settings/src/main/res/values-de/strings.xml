@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@
     <string name="pref_header_files_title">Dateien</string>
     <string name="pref_header_files_summary">Konfigurieren, wie mit Dateien umgegangen wird.</string>
     <string name="pref_header_about_title">Über</string>
-    <string name="pref_header_about_summary">Informationen über Brackeys IDE anzeigen.</string>
+    <string name="pref_header_about_summary">Informationen über Squircle IDE anzeigen.</string>
 
     <string name="pref_category_look_and_feel">Aussehen</string>
     <string name="pref_category_other">Andere</string>
@@ -69,7 +69,7 @@
     <string name="pref_fullscreen_title">Vollbild</string>
     <string name="pref_fullscreen_summary">Die Anwendung im Vollbildmodus starten</string>
     <string name="pref_confirm_exit_title">Verlassen der App bestätigen</string>
-    <string name="pref_confirm_exit_summary">Wenn Sie Zurück drücken, fragt Brackeys IDE, ob es geschlossen werden soll.</string>
+    <string name="pref_confirm_exit_summary">Wenn Sie Zurück drücken, fragt Squircle IDE, ob es geschlossen werden soll.</string>
     <string name="pref_font_size_title">Editor-Schriftgröße</string>
     <string name="pref_font_size_summary">Die Standard-Schriftgröße für den Editor festlegen.</string>
     <string name="pref_font_type_title">Editor-Schriftart</string>
@@ -118,7 +118,7 @@
     <string name="pref_folders_on_top_summary">Ordner werden ganz oben angezeigt.</string>
     <string name="pref_view_mode_title">Anzeigemodus</string>
     <string name="pref_sort_mode_title">Sortiermodus</string>
-    <string name="pref_about_summary">Brackeys IDE ist ein Open-Source-Projekt, das unter der Apache 2.0-Lizenz veröffentlicht wurde  Version: %1$s (%2$d)</string>
+    <string name="pref_about_summary">Squircle IDE ist ein Open-Source-Projekt, das unter der Apache 2.0-Lizenz veröffentlicht wurde  Version: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Datenschutzerklärung</string>
     <string name="pref_contribute_title">Zur Entwicklung beitragen</string>
     <string name="pref_contribute_summary">Sie können einen Issue auf GitHub erstellen oder die App in Ihre native Sprache übersetzten.</string>

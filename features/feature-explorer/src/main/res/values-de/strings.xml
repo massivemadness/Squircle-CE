@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@
 
     <string name="dialog_message_delete">Sind Sie sicher, dass Sie die Datei löschen wollen?</string>
     <string name="dialog_message_multi_delete">Sind Sie sicher, dass Sie die ausgewählten Dateien löschen wollen?</string>
-    <string name="dialog_message_storage_access">As a file manager, Brackeys IDE requires access to all files in order to function correctly\n\nPlease grant permission on this device after clicking «Continue»</string>
+    <string name="dialog_message_storage_access">As a file manager, Squircle IDE requires access to all files in order to function correctly\n\nPlease grant permission on this device after clicking «Continue»</string>
 
     <string name="properties_name">&lt;b>Name:&lt;/b> %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b>Pfad:&lt;/b> %s&lt;br&gt;</string>
