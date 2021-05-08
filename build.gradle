@@ -18,7 +18,6 @@ buildscript {
     apply from: rootProject.file("gradle/versions.gradle")
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -33,7 +32,6 @@ allprojects {
     apply from: rootProject.file("gradle/ktlint.gradle")
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 }
