@@ -202,7 +202,8 @@ class ExplorerViewModel @Inject constructor(
     fun propertiesOf(fileModel: FileModel) {
         viewModelScope.launch {
             try {
-                propertiesOfEvent.value = explorerRepository.propertiesOf(fileModel)
+                val properties = explorerRepository.propertiesOf(fileModel)
+                propertiesOfEvent.value = properties
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 when (e) {

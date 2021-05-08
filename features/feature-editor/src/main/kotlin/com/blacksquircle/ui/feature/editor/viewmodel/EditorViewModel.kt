@@ -77,7 +77,8 @@ class EditorViewModel @Inject constructor(
     fun loadFiles() {
         viewModelScope.launchEvent(loadingBar) {
             try {
-                loadFilesEvent.value = documentRepository.fetchDocuments()
+                val documents = documentRepository.fetchDocuments()
+                loadFilesEvent.value = documents
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 toastEvent.value = R.string.message_unknown_exception
