@@ -16,7 +16,7 @@
 
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="AppThemeCompat">
         <item name="android:forceDarkAllowed">false</item>
     </style>
 
