@@ -44,14 +44,15 @@ import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.utils.extensions.checkStorageAccess
 import com.blacksquircle.ui.utils.extensions.debounce
 import com.blacksquircle.ui.utils.extensions.showToast
+import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     private val viewModel: ThemesViewModel by viewModels()
+    private val binding: FragmentThemesBinding by viewBinding()
 
-    private lateinit var binding: FragmentThemesBinding
     private lateinit var navController: NavController
     private lateinit var adapter: ThemeAdapter
 
@@ -62,7 +63,6 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentThemesBinding.bind(view)
         navController = findNavController()
         observeViewModel()
 

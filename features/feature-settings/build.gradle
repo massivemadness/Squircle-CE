@@ -83,6 +83,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
 
+    // Features
     implementation project(':features:feature-fonts')
     implementation project(':features:feature-themes')
     implementation project(':features:feature-ui')

@@ -29,14 +29,15 @@ import com.blacksquircle.ui.feature.settings.adapters.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeadersBinding
 import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
 import com.blacksquircle.ui.utils.adapters.OnItemClickListener
+import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HeadersFragment : Fragment(R.layout.fragment_headers) {
 
     private val viewModel: SettingsViewModel by activityViewModels()
+    private val binding: FragmentHeadersBinding by viewBinding()
 
-    private lateinit var binding: FragmentHeadersBinding
     private lateinit var navController: NavController
     private lateinit var adapter: PreferenceAdapter
 
@@ -47,7 +48,6 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentHeadersBinding.bind(view)
         navController = findNavController()
         observeViewModel()
 

@@ -50,6 +50,7 @@ import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.utils.adapters.OnItemClickListener
 import com.blacksquircle.ui.utils.extensions.*
 import com.blacksquircle.ui.utils.interfaces.DrawerHandler
+import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -59,12 +60,11 @@ import java.io.FileNotFoundException
 class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
+    private val binding: FragmentDirectoryBinding by viewBinding()
     private val navArgs: DirectoryFragmentArgs by navArgs()
     private val drawerHandler: DrawerHandler by lazy { activity as DrawerHandler }
 
-    private lateinit var binding: FragmentDirectoryBinding
     private lateinit var navController: NavController
-
     private lateinit var tracker: SelectionTracker<String>
     private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
@@ -76,7 +76,6 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentDirectoryBinding.bind(view)
         navController = findNavController()
         observeViewModel()
 

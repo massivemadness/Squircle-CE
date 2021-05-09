@@ -86,10 +86,11 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
 
+    implementation project(':filesystems:filesystem-base')
+
+    // Features
     implementation project(':features:feature-ui')
     implementation project(':features:feature-utils')
-
-    implementation project(':filesystems:filesystem-base')
 
     // Tests
     testImplementation testLibrary.junit

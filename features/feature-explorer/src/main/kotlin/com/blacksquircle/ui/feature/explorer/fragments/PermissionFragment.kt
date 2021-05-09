@@ -30,27 +30,30 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentPermissionBinding
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.utils.extensions.*
+import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PermissionFragment : Fragment(R.layout.fragment_permission) {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
+    private val binding: FragmentPermissionBinding by viewBinding()
+    private val navController: NavController by lazy { findNavController() }
     private val requestResult = registerForActivityResult(RequestPermission()) { result ->
-        when {
-            result -> onSuccess()
-            else -> onFailure()
+        if (result) {
+            onSuccess()
+        } else {
+            onFailure()
         }
     }
 
-    private lateinit var binding: FragmentPermissionBinding
-    private lateinit var navController: NavController
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.checkStorageAccess(::onSuccess, ::onFailure)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentPermissionBinding.bind(view)
-        navController = findNavController()
-
         binding.actionAccess.setOnClickListener {
             activity?.checkStorageAccess(
                 onSuccess = ::onSuccess,
@@ -62,8 +65,6 @@ class PermissionFragment : Fragment(R.layout.fragment_permission) {
                 }
             )
         }
-
-        activity?.checkStorageAccess(::onSuccess, ::onFailure)
     }
 
     private fun onSuccess() {

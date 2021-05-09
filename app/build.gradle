@@ -97,6 +97,9 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
 
+    implementation project(':filesystems:filesystem-base')
+
+    // Features
     implementation project(':features:feature-editor')
     implementation project(':features:feature-explorer')
     implementation project(':features:feature-fonts')
@@ -104,8 +107,6 @@ dependencies {
     implementation project(':features:feature-themes')
     implementation project(':features:feature-ui')
     implementation project(':features:feature-utils')
-
-    implementation project(':filesystems:filesystem-base')
 
     // Tests
     testImplementation testLibrary.junit

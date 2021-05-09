@@ -53,6 +53,7 @@ import com.blacksquircle.ui.utils.adapters.TabAdapter
 import com.blacksquircle.ui.utils.extensions.*
 import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
 import com.blacksquircle.ui.utils.interfaces.DrawerHandler
+import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
@@ -69,16 +70,16 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     }
 
     private val viewModel: EditorViewModel by activityViewModels()
+    private val binding: FragmentEditorBinding by viewBinding()
+
     private val drawerHandler: DrawerHandler by lazy { activity as DrawerHandler }
     private val toolbarManager: ToolbarManager by lazy { ToolbarManager(this) }
     private val tabController: TabController by lazy { TabController() }
 
-    private lateinit var binding: FragmentEditorBinding
     private lateinit var adapter: DocumentAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentEditorBinding.bind(view)
         observeViewModel()
 
         toolbarManager.bind(binding)

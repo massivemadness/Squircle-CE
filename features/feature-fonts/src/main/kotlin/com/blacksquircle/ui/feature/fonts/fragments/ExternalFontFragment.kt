@@ -28,19 +28,19 @@ import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentExternalFontBinding
 import com.blacksquircle.ui.feature.fonts.viewmodel.FontsViewModel
 import com.blacksquircle.ui.utils.extensions.showToast
+import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
 
     private val viewModel: FontsViewModel by viewModels()
+    private val binding: FragmentExternalFontBinding by viewBinding()
 
-    private lateinit var binding: FragmentExternalFontBinding
     private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentExternalFontBinding.bind(view)
         navController = findNavController()
         observeViewModel()
 

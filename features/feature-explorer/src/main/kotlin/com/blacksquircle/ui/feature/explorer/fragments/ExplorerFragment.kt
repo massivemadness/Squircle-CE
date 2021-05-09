@@ -38,14 +38,15 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.utils.adapters.TabAdapter
 import com.blacksquircle.ui.utils.extensions.*
 import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
+import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandler {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
+    private val binding: FragmentExplorerBinding by viewBinding()
 
-    private lateinit var binding: FragmentExplorerBinding
     private lateinit var navController: NavController
     private lateinit var adapter: DirectoryAdapter
 
@@ -58,10 +59,10 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentExplorerBinding.bind(view)
+        observeViewModel()
+
         navController = childFragmentManager
             .fragment<NavHostFragment>(R.id.nav_host).navController
-        observeViewModel()
 
         setSupportActionBar(binding.toolbar)
         binding.swipeRefresh.setOnRefreshListener {

@@ -41,6 +41,7 @@ import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
 import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.utils.adapters.OnItemClickListener
 import com.blacksquircle.ui.utils.extensions.showToast
+import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,13 +52,13 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     }
 
     private val viewModel: ThemesViewModel by viewModels()
+    private val binding: FragmentNewThemeBinding by viewBinding()
 
     private val importThemeContract: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             uri?.let(viewModel::importTheme)
         }
 
-    private lateinit var binding: FragmentNewThemeBinding
     private lateinit var navController: NavController
     private lateinit var adapter: PropertyAdapter
     private lateinit var meta: Meta
@@ -72,7 +73,6 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentNewThemeBinding.bind(view)
         navController = findNavController()
         observeViewModel()
 
