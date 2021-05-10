@@ -24,13 +24,13 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestPermissi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentPermissionBinding
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.utils.delegate.navController
+import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.*
-import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +38,8 @@ class PermissionFragment : Fragment(R.layout.fragment_permission) {
 
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val binding: FragmentPermissionBinding by viewBinding()
-    private val navController: NavController by lazy { findNavController() }
+    private val navController: NavController by navController()
+
     private val requestResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {
             onSuccess()
@@ -60,7 +61,7 @@ class PermissionFragment : Fragment(R.layout.fragment_permission) {
                 onFailure = {
                     activity?.requestStorageAccess(
                         showRequestDialog = { requestResult.launch(WRITE_EXTERNAL_STORAGE) },
-                        showExplanation = { showExplanationDialog(it) }
+                        showExplanationDialog = { showExplanationDialog(it) }
                     )
                 }
             )

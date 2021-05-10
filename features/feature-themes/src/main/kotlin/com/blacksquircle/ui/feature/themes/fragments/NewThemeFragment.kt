@@ -28,7 +28,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
@@ -40,8 +39,9 @@ import com.blacksquircle.ui.feature.themes.adapters.PropertyAdapter
 import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
 import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.utils.adapters.OnItemClickListener
+import com.blacksquircle.ui.utils.delegate.navController
+import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.showToast
-import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,13 +53,13 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
     private val viewModel: ThemesViewModel by viewModels()
     private val binding: FragmentNewThemeBinding by viewBinding()
+    private val navController: NavController by navController()
 
     private val importThemeContract: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             uri?.let(viewModel::importTheme)
         }
 
-    private lateinit var navController: NavController
     private lateinit var adapter: PropertyAdapter
     private lateinit var meta: Meta
 
@@ -73,7 +73,6 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
         observeViewModel()
 
         binding.recyclerView.setHasFixedSize(false)

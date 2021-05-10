@@ -36,9 +36,9 @@ import com.blacksquircle.ui.feature.explorer.utils.*
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.utils.adapters.TabAdapter
+import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.*
 import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
-import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

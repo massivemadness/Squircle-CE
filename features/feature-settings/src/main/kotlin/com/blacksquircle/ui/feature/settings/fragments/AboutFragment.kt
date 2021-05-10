@@ -17,9 +17,6 @@
 package com.blacksquircle.ui.feature.settings.fragments
 
 import android.os.Bundle
-import android.view.View
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.feature.settings.R
@@ -28,17 +25,6 @@ import com.blacksquircle.ui.feature.settings.utils.getAppName
 import com.blacksquircle.ui.feature.settings.utils.getAppVersion
 
 class AboutFragment : PreferenceFragmentCompat() {
-
-    companion object {
-        private const val KEY_ABOUT = "ABOUT"
-    }
-
-    private lateinit var navController: NavController
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_about, rootKey)
@@ -50,5 +36,9 @@ class AboutFragment : PreferenceFragmentCompat() {
             requireContext().getAppVersion(),
             requireContext().getAppCode()
         )
+    }
+
+    companion object {
+        private const val KEY_ABOUT = "ABOUT"
     }
 }

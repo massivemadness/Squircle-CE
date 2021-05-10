@@ -22,14 +22,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.adapters.PreferenceAdapter
 import com.blacksquircle.ui.feature.settings.adapters.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeadersBinding
 import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
 import com.blacksquircle.ui.utils.adapters.OnItemClickListener
-import com.blacksquircle.ui.utils.viewbinding.viewBinding
+import com.blacksquircle.ui.utils.delegate.navController
+import com.blacksquircle.ui.utils.delegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,8 +37,8 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
 
     private val viewModel: SettingsViewModel by activityViewModels()
     private val binding: FragmentHeadersBinding by viewBinding()
+    private val navController: NavController by navController()
 
-    private lateinit var navController: NavController
     private lateinit var adapter: PreferenceAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +48,6 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
         observeViewModel()
 
         binding.recyclerView.setHasFixedSize(true)

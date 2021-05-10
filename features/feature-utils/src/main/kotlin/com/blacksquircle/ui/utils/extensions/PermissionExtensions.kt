@@ -49,19 +49,19 @@ inline fun Activity.checkStorageAccess(
 
 inline fun Activity.requestStorageAccess(
     showRequestDialog: (Intent) -> Unit,
-    showExplanation: (Intent) -> Unit
+    showExplanationDialog: (Intent) -> Unit
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
             data = Uri.parse("package:$packageName")
         }
-        showExplanation(intent)
+        showExplanationDialog(intent)
     } else {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
             data = Uri.parse("package:$packageName")
         }
         if (shouldShowRequestDialog(WRITE_EXTERNAL_STORAGE)) {
-            showExplanation(intent)
+            showExplanationDialog(intent)
         } else {
             showRequestDialog(intent)
         }

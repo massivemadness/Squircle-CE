@@ -17,27 +17,20 @@
 package com.blacksquircle.ui.feature.settings.fragments
 
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.utils.delegate.navController
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 
     private val viewModel: SettingsViewModel by activityViewModels()
-
-    private lateinit var navController: NavController
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
-    }
+    private val navController: NavController by navController()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_application, rootKey)

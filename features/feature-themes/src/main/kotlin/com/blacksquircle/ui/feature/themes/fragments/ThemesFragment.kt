@@ -31,7 +31,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
@@ -41,10 +40,11 @@ import com.blacksquircle.ui.feature.themes.databinding.FragmentThemesBinding
 import com.blacksquircle.ui.feature.themes.utils.GridSpacingItemDecoration
 import com.blacksquircle.ui.feature.themes.utils.readAssetFileText
 import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
+import com.blacksquircle.ui.utils.delegate.navController
+import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.checkStorageAccess
 import com.blacksquircle.ui.utils.extensions.debounce
 import com.blacksquircle.ui.utils.extensions.showToast
-import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,8 +52,8 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     private val viewModel: ThemesViewModel by viewModels()
     private val binding: FragmentThemesBinding by viewBinding()
+    private val navController: NavController by navController()
 
-    private lateinit var navController: NavController
     private lateinit var adapter: ThemeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +63,6 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
         observeViewModel()
 
         val gridLayoutManager = binding.recyclerView.layoutManager as GridLayoutManager

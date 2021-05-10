@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.viewbinding
+package com.blacksquircle.ui.utils.delegate
 
 import android.os.Handler
 import android.os.Looper
@@ -52,13 +52,15 @@ class ViewBindingDelegate<T : ViewBinding> @PublishedApi internal constructor(
         }
     }
 
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T = binding ?: obtainBinding()
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T =
+        binding ?: obtainBinding()
 
     private fun obtainBinding(): T {
         val view = checkNotNull(fragment.view) {
             "ViewBinding is only valid between onCreateView and onDestroyView."
         }
-        return viewBindingClass.bind(view).also { binding = it }
+        return viewBindingClass.bind(view)
+            .also { binding = it }
     }
 }
 

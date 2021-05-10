@@ -26,16 +26,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.adapters.FontAdapter
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.blacksquircle.ui.feature.fonts.viewmodel.FontsViewModel
+import com.blacksquircle.ui.utils.delegate.navController
+import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.debounce
 import com.blacksquircle.ui.utils.extensions.showToast
-import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,8 +43,8 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
 
     private val viewModel: FontsViewModel by viewModels()
     private val binding: FragmentFontsBinding by viewBinding()
+    private val navController: NavController by navController()
 
-    private lateinit var navController: NavController
     private lateinit var adapter: FontAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,6 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
         observeViewModel()
 
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)

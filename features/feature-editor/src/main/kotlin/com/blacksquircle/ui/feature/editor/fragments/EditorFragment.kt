@@ -50,10 +50,10 @@ import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
 import com.blacksquircle.ui.utils.adapters.TabAdapter
+import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.*
 import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
 import com.blacksquircle.ui.utils.interfaces.DrawerHandler
-import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent

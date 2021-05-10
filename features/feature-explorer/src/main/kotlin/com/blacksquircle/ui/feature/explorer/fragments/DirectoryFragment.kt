@@ -26,7 +26,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.selection.DefaultSelectionTracker
 import androidx.recyclerview.selection.SelectionPredicates
@@ -48,9 +47,10 @@ import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.utils.adapters.OnItemClickListener
+import com.blacksquircle.ui.utils.delegate.navController
+import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.*
 import com.blacksquircle.ui.utils.interfaces.DrawerHandler
-import com.blacksquircle.ui.utils.viewbinding.viewBinding
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -61,10 +61,10 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
 
     private val viewModel: ExplorerViewModel by activityViewModels()
     private val binding: FragmentDirectoryBinding by viewBinding()
+    private val navController: NavController by navController()
     private val navArgs: DirectoryFragmentArgs by navArgs()
     private val drawerHandler: DrawerHandler by lazy { activity as DrawerHandler }
 
-    private lateinit var navController: NavController
     private lateinit var tracker: SelectionTracker<String>
     private lateinit var adapter: FileAdapter
     private lateinit var fileTree: FileTree
@@ -76,7 +76,6 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
         observeViewModel()
 
         @SuppressLint("RestrictedApi")
