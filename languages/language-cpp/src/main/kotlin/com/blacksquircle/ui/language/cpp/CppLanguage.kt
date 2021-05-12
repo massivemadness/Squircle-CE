@@ -29,7 +29,7 @@ class CppLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".c", ".cpp", ".h", ".hpp")
+        private val FILE_EXTENSIONS = arrayOf(".c", ".cpp", ".h", ".hpp", ".ino")
 
         fun supportFormat(fileName: String): Boolean {
             return fileName.endsWith(FILE_EXTENSIONS)
