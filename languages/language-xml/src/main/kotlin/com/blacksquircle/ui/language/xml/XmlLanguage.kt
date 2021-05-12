@@ -29,7 +29,8 @@ class XmlLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".xhtml", ".xht", ".xml", ".html", ".htm")
+        private val FILE_EXTENSIONS = arrayOf(".xhtml", ".xht", ".xml", ".xaml",
+            ".xdf", ".xmpp", ".html", ".htm")
 
         fun supportFormat(fileName: String): Boolean {
             return fileName.endsWith(FILE_EXTENSIONS)
