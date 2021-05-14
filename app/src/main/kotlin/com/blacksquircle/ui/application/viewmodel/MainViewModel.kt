@@ -16,18 +16,56 @@
 
 package com.blacksquircle.ui.application.viewmodel
 
+import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.R
+import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.domain.repository.documents.DocumentRepository
+import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val settingsManager: SettingsManager
+    private val settingsManager: SettingsManager,
+    private val documentRepository: DocumentRepository
 ) : ViewModel() {
+
+    companion object {
+        private const val TAG = "MainViewModel"
+    }
+
+    val toastEvent = SingleLiveEvent<Int>()
 
     val fullScreenMode: Boolean
         get() = settingsManager.fullScreenMode
     val confirmExit: Boolean
         get() = settingsManager.confirmExit
+
+    fun handleIntent(intent: Intent, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                val path = intent.data?.path.toString()
+                Log.d(TAG, "Handle external file path = $path")
+
+                val index = path.indexOf("/storage/emulated/0/")
+                if (index > -1) {
+                    val fileModel = FileModel(path.substring(index, path.length))
+                    val documentModel = DocumentConverter.toModel(fileModel)
+                    documentRepository.updateDocument(documentModel)
+                    onSuccess()
+                } else {
+                    toastEvent.value = R.string.message_file_not_found
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                toastEvent.value = R.string.message_unknown_exception
+            }
+        }
+    }
 }

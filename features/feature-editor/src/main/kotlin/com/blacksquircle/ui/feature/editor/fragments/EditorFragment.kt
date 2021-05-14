@@ -62,13 +62,6 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     ToolbarManager.OnPanelClickListener, DocumentAdapter.TabInteractor {
 
-    companion object {
-        private const val ALPHA_FULL = 255
-        private const val ALPHA_SEMI = 90
-        private const val TAB_LIMIT = 10
-        private const val ACTION_OPEN_SETTINGS = "com.blacksquircle.ui.action.OPEN_SETTINGS"
-    }
-
     private val viewModel: EditorViewModel by activityViewModels()
     private val binding: FragmentEditorBinding by viewBinding()
 
@@ -686,4 +679,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     }
 
     // endregion TOOLBAR
+
+    companion object {
+        private const val ALPHA_FULL = 255
+        private const val ALPHA_SEMI = 90
+        private const val TAB_LIMIT = 10
+        private const val ACTION_OPEN_SETTINGS = "com.blacksquircle.ui.action.OPEN_SETTINGS"
+    }
 }

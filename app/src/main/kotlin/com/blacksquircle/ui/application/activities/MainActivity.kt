@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.application.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -31,6 +32,7 @@ import com.blacksquircle.ui.feature.explorer.fragments.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.utils.extensions.fragment
 import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
+import com.blacksquircle.ui.utils.extensions.showToast
 import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
 import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
 import com.blacksquircle.ui.utils.interfaces.DrawerHandler
@@ -71,6 +73,13 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
                 .setAction(R.string.action_restart) { inAppUpdate.completeUpdate() }
                 .show()
         }
+
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
     }
 
     override fun onResume() {
@@ -107,11 +116,22 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
     }
 
     private fun observeViewModel() {
+        mainViewModel.toastEvent.observe(this) {
+            showToast(it)
+        }
         explorerViewModel.openFileEvent.observe(this) {
             editorViewModel.openFileEvent.value = it
         }
         editorViewModel.openPropertiesEvent.observe(this) {
             explorerViewModel.openPropertiesEvent.value = it
+        }
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        if (intent?.action == Intent.ACTION_VIEW) {
+            mainViewModel.handleIntent(intent) {
+                editorViewModel.loadFiles()
+            }
         }
     }
 }
