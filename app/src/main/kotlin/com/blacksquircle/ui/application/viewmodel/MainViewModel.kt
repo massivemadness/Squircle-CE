@@ -50,8 +50,15 @@ class MainViewModel @Inject constructor(
     fun handleIntent(intent: Intent, onSuccess: () -> Unit) {
         viewModelScope.launch {
             try {
-                val path = intent.data?.path.toString()
+                var path = intent.data?.path.toString()
                 Log.d(TAG, "Handle external file path = $path")
+
+                if (path.startsWith("/external_files/")) {
+                    path = path.replaceFirst(
+                        oldValue = "/external_files/",
+                        newValue = "/storage/emulated/0/"
+                    )
+                }
 
                 val index = path.indexOf("/storage/emulated/0/")
                 if (index > -1) {
