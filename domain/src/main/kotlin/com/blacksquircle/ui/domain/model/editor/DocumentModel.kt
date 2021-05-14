@@ -18,7 +18,6 @@ package com.blacksquircle.ui.domain.model.editor
 
 data class DocumentModel(
     val uuid: String,
-    val name: String,
     val path: String,
     var modified: Boolean,
     var position: Int,
@@ -27,6 +26,9 @@ data class DocumentModel(
     var selectionStart: Int,
     var selectionEnd: Int
 ) {
+
+    val name: String
+        get() = path.substringAfterLast('/')
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -38,7 +40,6 @@ data class DocumentModel(
 
     override fun hashCode(): Int {
         var result = uuid.hashCode()
-        result = 31 * result + name.hashCode()
         result = 31 * result + path.hashCode()
         result = 31 * result + modified.hashCode()
         result = 31 * result + position

@@ -36,7 +36,6 @@ object DocumentConverter {
     fun toModel(fileModel: FileModel): DocumentModel {
         return DocumentModel(
             uuid = UUID.randomUUID().toString(),
-            name = fileModel.name,
             path = fileModel.path,
             modified = false,
             position = 0,
@@ -50,7 +49,6 @@ object DocumentConverter {
     fun toModel(documentEntity: DocumentEntity): DocumentModel {
         return DocumentModel(
             uuid = documentEntity.uuid,
-            name = documentEntity.name,
             path = documentEntity.path,
             modified = documentEntity.modified,
             position = documentEntity.position,
