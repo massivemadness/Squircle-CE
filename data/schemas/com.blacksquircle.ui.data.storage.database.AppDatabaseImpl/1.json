@@ -2,21 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ee25213fb88f7680faa454fef04ab903",
+    "identityHash": "4138a1fa02135e023b09ad622f7dd28b",
     "entities": [
       {
         "tableName": "tbl_documents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `path` TEXT NOT NULL, `modified` INTEGER NOT NULL, `position` INTEGER NOT NULL, `scroll_x` INTEGER NOT NULL, `scroll_y` INTEGER NOT NULL, `selection_start` INTEGER NOT NULL, `selection_end` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `path` TEXT NOT NULL, `modified` INTEGER NOT NULL, `position` INTEGER NOT NULL, `scroll_x` INTEGER NOT NULL, `scroll_y` INTEGER NOT NULL, `selection_start` INTEGER NOT NULL, `selection_end` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
             "columnName": "uuid",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -302,7 +296,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ee25213fb88f7680faa454fef04ab903')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4138a1fa02135e023b09ad622f7dd28b')"
     ]
   }
 }

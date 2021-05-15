@@ -26,8 +26,6 @@ data class DocumentEntity(
     @PrimaryKey
     @ColumnInfo(name = "uuid")
     val uuid: String,
-    @ColumnInfo(name = "name")
-    val name: String,
     @ColumnInfo(name = "path")
     val path: String,
     @ColumnInfo(name = "modified")

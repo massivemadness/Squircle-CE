@@ -35,7 +35,6 @@ class DocumentConverterTest {
         )
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test.txt",
             path = "/mnt/Test.txt",
             modified = false,
             position = 0,
@@ -60,7 +59,6 @@ class DocumentConverterTest {
     fun `convert DocumentEntity to DocumentModel`() {
         val documentEntity = DocumentEntity(
             uuid = "0",
-            name = "Test.txt",
             path = "/mnt/Test.txt",
             modified = true,
             position = 10,
@@ -71,7 +69,6 @@ class DocumentConverterTest {
         )
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test.txt",
             path = "/mnt/Test.txt",
             modified = true,
             position = 10,
@@ -96,7 +93,6 @@ class DocumentConverterTest {
     fun `convert DocumentModel to DocumentEntity`() {
         val documentModel = DocumentModel(
             uuid = "0",
-            name = "Test.txt",
             path = "/mnt/Test.txt",
             modified = false,
             position = 10,
@@ -107,7 +103,6 @@ class DocumentConverterTest {
         )
         val documentEntity = DocumentEntity(
             uuid = "0",
-            name = "Test.txt",
             path = "/mnt/Test.txt",
             modified = false,
             position = 10,
@@ -118,7 +113,6 @@ class DocumentConverterTest {
         )
         val convert = DocumentConverter.toEntity(documentModel)
 
-        assertEquals(documentEntity.name, convert.name)
         assertEquals(documentEntity.path, convert.path)
         assertEquals(documentEntity.modified, convert.modified)
         assertEquals(documentEntity.position, convert.position)

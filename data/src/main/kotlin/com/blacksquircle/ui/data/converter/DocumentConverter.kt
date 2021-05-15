@@ -62,7 +62,6 @@ object DocumentConverter {
     fun toEntity(documentModel: DocumentModel): DocumentEntity {
         return DocumentEntity(
             uuid = documentModel.uuid,
-            name = documentModel.name,
             path = documentModel.path,
             modified = documentModel.modified,
             position = documentModel.position,
