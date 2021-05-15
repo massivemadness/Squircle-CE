@@ -18,7 +18,6 @@ package com.blacksquircle.ui.application.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -31,6 +30,7 @@ import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.explorer.fragments.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.utils.extensions.fragment
+import com.blacksquircle.ui.utils.extensions.fullscreenMode
 import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
 import com.blacksquircle.ui.utils.extensions.showToast
 import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
@@ -84,11 +84,7 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
 
     override fun onResume() {
         super.onResume()
-        if (mainViewModel.fullScreenMode) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        }
+        window.fullscreenMode(mainViewModel.fullScreenMode)
     }
 
     override fun onBackPressed() {

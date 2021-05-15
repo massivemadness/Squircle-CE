@@ -34,7 +34,6 @@ import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -92,7 +91,7 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.exportTheme(themeModel)
-                exportEvent.value = themeModel.name.toLowerCase(Locale.getDefault())
+                exportEvent.value = themeModel.name.lowercase()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 toastEvent.value = R.string.message_unknown_exception

@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.settings.fragments
 
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.preference.Preference
@@ -26,6 +25,7 @@ import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
 import com.blacksquircle.ui.utils.delegate.navController
+import com.blacksquircle.ui.utils.extensions.fullscreenMode
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 
@@ -42,11 +42,7 @@ class ApplicationFragment : PreferenceFragmentCompat() {
             }
         findPreference<Preference>(SettingsManager.KEY_FULLSCREEN_MODE)
             ?.setOnPreferenceClickListener {
-                if (viewModel.fullscreenMode) {
-                    activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                } else {
-                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                }
+                activity?.window?.fullscreenMode(viewModel.fullscreenMode)
                 true
             }
     }

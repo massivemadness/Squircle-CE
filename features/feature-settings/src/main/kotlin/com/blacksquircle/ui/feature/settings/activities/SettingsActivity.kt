@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.settings.activities
 
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -26,6 +25,7 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.ActivitySettingsBinding
 import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
 import com.blacksquircle.ui.utils.extensions.fragment
+import com.blacksquircle.ui.utils.extensions.fullscreenMode
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,11 +54,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.fullscreenMode) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        }
+        window.fullscreenMode(viewModel.fullscreenMode)
     }
 
     override fun onSupportNavigateUp(): Boolean {

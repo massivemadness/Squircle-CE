@@ -43,7 +43,7 @@ class ExplorerRepositoryImpl(
             fileTree.copy(children = fileTree.children
                 .filter { if (it.isHidden) settingsManager.filterHidden else true }
                 .sortedWith(FileSorter.getComparator(settingsManager.sortMode.toInt()))
-                .sortedBy { !it.isFolder == settingsManager.foldersOnTop }
+                .sortedBy { it.isFolder != settingsManager.foldersOnTop }
             )
         }
     }
@@ -71,7 +71,7 @@ class ExplorerRepositoryImpl(
         return callbackFlow {
             source.forEach {
                 val fileModel = filesystem.deleteFile(it)
-                offer(fileModel)
+                trySend(fileModel)
                 delay(20)
             }
             close()
@@ -84,7 +84,7 @@ class ExplorerRepositoryImpl(
             val dest = filesystem.provideFile(destPath)
             source.forEach {
                 val fileModel = filesystem.copyFile(it, dest)
-                offer(fileModel)
+                trySend(fileModel)
                 delay(20)
             }
             close()
@@ -98,7 +98,7 @@ class ExplorerRepositoryImpl(
             source.forEach { fileModel ->
                 filesystem.copyFile(fileModel, dest)
                 filesystem.deleteFile(fileModel)
-                offer(fileModel)
+                trySend(fileModel)
                 delay(20)
             }
             close()

@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -85,7 +86,7 @@ class TextScroller @JvmOverloads constructor(
     private val thumbNormal: Drawable
     private val thumbDragging: Drawable
 
-    private val hideHandler = Handler()
+    private val hideHandler = Handler(Looper.getMainLooper())
     private val hideCallback = Runnable { state = STATE_EXITING }
 
     private val thumbPaint = Paint()
