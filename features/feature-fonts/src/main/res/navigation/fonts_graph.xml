@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/fontsFragment"
-        android:name="com.brackeys.ui.feature.fonts.fragments.FontsFragment"
+        android:name="com.blacksquircle.ui.feature.fonts.fragments.FontsFragment"
         android:label="@string/label_fonts"
         tools:layout="@layout/fragment_fonts">
         <action
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/externalFontFragment"
-        android:name="com.brackeys.ui.feature.fonts.fragments.ExternalFontFragment"
+        android:name="com.blacksquircle.ui.feature.fonts.fragments.ExternalFontFragment"
         android:label="@string/label_external_font"
         tools:layout="@layout/fragment_external_font"/>
 

@@ -1,0 +1,99 @@
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- region TEXT -->
+
+    <style name="Widget.AppTheme.SnackBarTextView" parent="Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+    <!-- endregion TEXT -->
+
+    <!-- region INPUT -->
+
+    <style name="Widget.AppTheme.TextInputLayout" parent="Widget.Design.TextInputLayout"/>
+
+    <!-- endregion INPUT -->
+
+    <!-- region BUTTON -->
+
+    <style name="Widget.AppTheme.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="rippleColor">?colorControlHighlight</item>
+        <item name="cornerRadius">2dp</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
+    <style name="Widget.AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="rippleColor">?colorControlHighlight</item>
+        <item name="cornerRadius">3dp</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
+    <style name="Widget.AppTheme.DialogButton" parent="Widget.AppTheme.TextButton">
+        <item name="android:minWidth" tools:ignore="PrivateResource">@dimen/mtrl_btn_dialog_btn_min_width</item>
+    </style>
+
+    <!-- endregion BUTTON -->
+
+    <!-- region MENU -->
+
+    <style name="Widget.AppTheme.PopupMenu" parent="Theme.MaterialComponents.Light">
+        <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu.Overflow</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+    </style>
+
+    <!-- endregion MENU -->
+
+    <!-- region DIALOG -->
+    
+    <style name="MD_Dark" parent="Theme.AppCompat.Dialog.Alert" tools:ignore="PrivateResource">
+        <item name="android:windowMinWidthMajor">@dimen/abc_dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/abc_dialog_min_width_minor</item>
+
+        <item name="android:actionModeBackground">@color/primary_material_dark</item>
+        <item name="android:actionModeCloseDrawable">@drawable/md_nav_back</item>
+
+        <item name="android:windowAnimationStyle">@style/MD_WindowAnimation</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.32</item> <!-- new line -->
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="md_divider_color">@color/md_divider_dark_theme</item>
+        <item name="md_item_selector">@drawable/md_item_selector_dark</item>
+        <item name="md_button_selector">@drawable/md_btn_selector_dark</item>
+    </style>
+
+    <style name="Dialog.AppTheme.Alert" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.AppTheme.DialogButton</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.AppTheme.DialogButton</item>
+        <item name="dialogCornerRadius">4dp</item>
+        <item name="android:backgroundDimAmount">0.32</item>
+    </style>
+
+    <!-- endregion DIALOG -->
+
+    <!-- region SNACKBAR -->
+
+    <style name="Widget.AppTheme.Snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
+        <item name="backgroundTint">?colorSecondaryVariant</item>
+        <item name="actionTextColorAlpha">1.0</item>
+    </style>
+
+    <!-- endregion SNACKBAR -->
+
+</resources>

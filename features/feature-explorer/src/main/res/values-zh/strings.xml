@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_permissions">权限</string>
+    <string name="label_directory">目录</string>
+    <string name="label_local_storage">本地存储</string>
+
+    <string name="hint_search">搜索…</string>
+    <string name="hint_enter_file_name">输入文件名称</string>
+    <string name="hint_enter_archive_name">输入压缩包名称</string>
+
+    <string name="action_grant_access">授予访问权限</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_create">创建</string>
+    <string name="action_copy_path">复制路径</string>
+    <string name="action_folder">文件夹</string>
+    <string name="action_rename">重命名</string>
+    <string name="action_delete">删除</string>
+    <string name="action_run_in_background">在后台运行</string>
+    <string name="action_show_hidden_files">显示隐藏文件</string>
+    <string name="action_create_zip">创建 .zip</string>
+    <string name="action_open_as">另开为</string>
+    <string name="action_properties">属性</string>
+    <string name="action_cut">剪切</string>
+    <string name="action_copy">复制</string>
+    <string name="action_paste">粘贴</string>
+    <string name="action_select_all">全选</string>
+    <string name="action_continue">Continue</string>
+
+    <string name="dialog_title_create">创建文件</string>
+    <string name="dialog_title_rename">重命名文件</string>
+    <string name="dialog_title_multi_delete">删除所选文件</string>
+    <string name="dialog_title_properties">属性</string>
+    <string name="dialog_title_deleting">文件删除中</string>
+    <string name="dialog_title_copying">文件复制中</string>
+    <string name="dialog_title_compressing">正在压缩中</string>
+    <string name="dialog_title_extracting">正在解压中</string>
+    <string name="dialog_title_archive_name">压缩包名称</string>
+    <string name="dialog_title_storage_access">Storage Access</string>
+
+    <string name="dialog_message_delete">确定要删除该文件吗？</string>
+    <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
+    <string name="dialog_message_storage_access">As a file manager, Squircle IDE requires access to all files in order to function correctly\n\nPlease grant permission on this device after clicking «Continue»</string>
+
+    <string name="properties_name">&lt;b&gt;名称:&lt;/b&gt; %s&lt;br&gt;</string>
+    <string name="properties_path">&lt;b&gt;路径:&lt;/b&gt; %s&lt;br&gt;</string>
+    <string name="properties_modified">&lt;b&gt;日期:&lt;/b&gt; %s&lt;br&gt;</string>
+    <string name="properties_size">&lt;b&gt;大小:&lt;/b&gt; %s&lt;br&gt;</string>
+    <string name="properties_line_count">&lt;b&gt;行数:&lt;/b&gt; %d&lt;br&gt;</string>
+    <string name="properties_word_count">&lt;b&gt;词数:&lt;/b&gt; %d&lt;br&gt;</string>
+    <string name="properties_char_count">&lt;b&gt;字数:&lt;/b&gt; %d</string>
+    <string name="properties_readable">可读</string>
+    <string name="properties_writable">可写</string>
+    <string name="properties_executable">可执行</string>
+
+    <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
+    <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
+
+    <string name="sort_by_name">按名称排序</string>
+    <string name="sort_by_size">按大小排序</string>
+    <string name="sort_by_date">按日期排序</string>
+
+    <string name="message_access_denied">没有访问权限</string>
+    <string name="message_access_required">为了能正常编写代码，必须授予存储权限</string>
+    <string name="message_no_result">没有结果</string>
+    <string name="message_cannot_be_opened">文件无法打开</string>
+    <string name="message_invalid_file_name">无效的文件名称</string>
+    <string name="message_unknown_exception">发生错误</string>
+    <string name="message_directory_expected">无法获取文件列表</string>
+    <string name="message_file_already_exists">文件已存在</string>
+    <string name="message_unsupported_archive">暂不支持该压缩包格式</string>
+    <string name="message_invalid_archive">该压缩包已损坏</string>
+    <string name="message_split_archive">暂不支持已分卷的压缩包</string>
+    <string name="message_encrypted_archive">暂不支持已加密的压缩包</string>
+    <string name="message_operation_cancelled">操作已取消</string>
+    <string name="message_done">已完毕</string>
+    <string name="message_file_not_found">文件不存在</string>
+    <string name="message_elapsed_time">运行时间: %1$s</string>
+    <string name="message_deleting">删除中…%1$s</string>
+    <string name="message_copying">复制中…%1$s</string>
+    <string name="message_compressing">压缩中…%1$s</string>
+    <string name="message_extracting">解压中…%1$s</string>
+
+</resources>

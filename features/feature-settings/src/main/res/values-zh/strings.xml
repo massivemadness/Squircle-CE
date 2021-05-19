@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_settings">设置</string>
+    <string name="label_application">应用</string>
+    <string name="label_editor">编辑器</string>
+    <string name="label_code_style">代码范</string>
+    <string name="label_files">文件</string>
+    <string name="label_about">关于</string>
+    <string name="label_keyboard_preset">快捷符号栏</string>
+
+    <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
+
+    <string name="action_reset">重置</string>
+
+    <string name="preset_disclaimer">注：同一个字符可以重复多次</string>
+    <string name="encoding_utf8_default">UTF-8 (默认)</string>
+
+    <string name="sort_by_name">按名称排序</string>
+    <string name="sort_by_size">按大小排序</string>
+    <string name="sort_by_date">按日期排序</string>
+
+    <string name="view_mode_compact_list">紧凑列表</string>
+    <string name="view_mode_detailed_list">详细列表</string>
+
+    <string name="pref_header_application_title">应用</string>
+    <string name="pref_header_application_summary">配置应用全局性的设置。</string>
+    <string name="pref_header_editor_title">编辑器</string>
+    <string name="pref_header_editor_summary">配置编辑器字体、标签页等。</string>
+    <string name="pref_header_codeStyle_title">代码范</string>
+    <string name="pref_header_codeStyle_summary">配置代码缩进、符号配对等。</string>
+    <string name="pref_header_files_title">文件</string>
+    <string name="pref_header_files_summary">配置文件的处理方式。</string>
+    <string name="pref_header_about_title">关于</string>
+    <string name="pref_header_about_summary">查看 Squircle IDE 的有关信息。</string>
+
+    <string name="pref_category_look_and_feel">外观</string>
+    <string name="pref_category_other">其他</string>
+    <string name="pref_category_font">字体</string>
+    <string name="pref_category_editor">编辑器</string>
+    <string name="pref_category_tabs">标签页</string>
+    <string name="pref_category_keyboard">键盘</string>
+    <string name="pref_category_code_style">代码范</string>
+    <string name="pref_category_tab_options">制表符</string>
+    <string name="pref_category_encoding">文本编码</string>
+    <string name="pref_category_linebreaks">换行符</string>
+    <string name="pref_category_file_explorer">文件管理器</string>
+    <string name="pref_category_about">关于</string>
+    <string name="pref_category_contribute">贡献</string>
+
+    <string name="pref_color_scheme_title">配色方案</string>
+    <string name="pref_color_scheme_summary">配置语法高亮显示颜色方案。</string>
+    <string name="pref_fullscreen_title">全屏模式</string>
+    <string name="pref_fullscreen_summary">以全屏模式启动本应用。</string>
+    <string name="pref_confirm_exit_title">退出确认</string>
+    <string name="pref_confirm_exit_summary">启用后按下返回键将弹出退出确认对话框，否则直接退出。</string>
+
+    <string name="pref_font_size_title">字体大小</string>
+    <string name="pref_font_size_summary">指定编辑器的默认字体大小。</string>
+    <string name="pref_font_type_title">字体类型</string>
+    <string name="pref_font_type_summary">指定编辑器的默认字体类型。</string>
+    <string name="pref_word_wrap_title">自动换行</string>
+    <string name="pref_word_wrap_summary">是否根据屏幕宽度自动换行。</string>
+    <string name="pref_code_completion_title">代码补全</string>
+    <string name="pref_code_completion_summary">在输入时将自动在下拉菜单中显示代码补全建议。</string>
+    <string name="pref_error_highlighting_title">错误高亮</string>
+    <string name="pref_error_highlighting_summary">启用实时错误高亮显示（需要重启本应用才能生效）。</string>
+    <string name="pref_pinch_zoom_title">手势缩放</string>
+    <string name="pref_pinch_zoom_summary">在编辑器中启用缩放手势。</string>
+    <string name="pref_highlight_line_title">高亮当前行</string>
+    <string name="pref_highlight_line_summary">高亮显示光标当前所在的行。</string>
+    <string name="pref_highlight_delimiters_title">高亮成对符</string>
+    <string name="pref_highlight_delimiters_summary">在光标处插入符号时，高亮显示成对的符号，如括号、引号。</string>
+    <string name="pref_auto_save_files_title">自动保存</string>
+    <string name="pref_auto_save_files_summary">切换选项卡或关闭应用时将会自动保存文件。</string>
+    <string name="pref_extended_keyboard_title">快捷符号栏</string>
+    <string name="pref_extended_keyboard_summary">弹出软键盘时，在键盘之上显示符号栏以便快捷输入</string>
+    <string name="pref_keyboard_preset_title">预设符号</string>
+    <string name="pref_keyboard_preset_summary">为快捷符号栏选择预设符号。</string>
+    <string name="pref_soft_keyboard_title">软键盘</string>
+    <string name="pref_soft_keyboard_summary">始终使用软键盘。</string>
+
+    <string name="pref_auto_indent_title">自动缩进</string>
+    <string name="pref_auto_indent_summary">根据上面的行自动缩进新行。</string>
+    <string name="pref_close_brackets_title">括号闭合</string>
+    <string name="pref_close_brackets_summary">输入时自动闭合小括号、方括号或大括号。</string>
+    <string name="pref_close_quotes_title">引号闭合</string>
+    <string name="pref_close_quotes_summary">输入时自动闭合单引号或双引号。</string>
+    <string name="pref_use_spaces_not_tabs_title">空格代替制表符</string>
+    <string name="pref_use_spaces_not_tabs_summary">自动缩进时插入空格代替制表符</string>
+    <string name="pref_tab_width_title">制表符个数</string>
+    <string name="pref_tab_width_summary">指定编辑器中展示的制表符个数</string>
+
+    <string name="pref_encoding_auto_detect_title">自动检测编码</string>
+    <string name="pref_encoding_auto_detect_summary">自动检测编码对多字节语言是很有用的。</string>
+    <string name="pref_encoding_for_opening_title">以该编码打开</string>
+    <string name="pref_encoding_for_opening_summary">默认使用该编码类型打开文本文件。</string>
+    <string name="pref_encoding_for_saving_title">以该编码保存</string>
+    <string name="pref_encoding_for_saving_summary">默认使用该编码类型保存文本文件。</string>
+    <string name="pref_linebreaks_for_saving_files_title">以该换行符保存</string>
+
+    <string name="pref_linebreaks_for_saving_files_summary">默认使用该换行符类型保存文本文件</string>
+    <string name="pref_show_hidden_files_title">显示隐藏文件</string>
+    <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
+    <string name="pref_folders_on_top_title">文件夹置顶</string>
+    <string name="pref_folders_on_top_summary">文件夹将优先显示在文件的前面。</string>
+    <string name="pref_view_mode_title">视图模式</string>
+    <string name="pref_sort_mode_title">排序方式</string>
+
+    <string name="pref_about_summary">Squircle IDE 是依据 Apache 2.0 许可协议发布的开源项目\n\n当前版本: %1$s (%2$d)</string>
+    <string name="pref_privacy_policy_title">查看“隐私政策”</string>
+    <string name="pref_contribute_title">参与贡献，促进发展</string>
+    <string name="pref_contribute_summary">您可以点击此处到 GitHub 上提 Issue ，或将本应用翻译为本土语言。\n\n感谢您的信任和支持！</string>
+
+</resources>

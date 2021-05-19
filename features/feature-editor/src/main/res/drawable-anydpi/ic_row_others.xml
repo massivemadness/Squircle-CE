@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:fillColor="#000"
+      android:pathData="M9.41,13l2.59,2.59l2.59,-2.59l1.41,1.41l-2.59,2.59l2.59,2.59l-1.41,1.41l-2.59,-2.59l-2.59,2.59l-1.41,-1.41l2.59,-2.59l-2.59,-2.59l1.41,-1.41m12.59,-4a2,2 0,0 1,-2 2l-16,0a2,2 0,0 1,-2 -2l0,-3a2,2 0,0 1,2 -2l16,0a2,2 0,0 1,2 2l0,3m-18,0l4,0l0,-3l-4,0l0,3m6,0l4,0l0,-3l-4,0l0,3m6,0l4,0l0,-3l-4,0l0,3Z"/>
+  <path
+      android:pathData="M10.0313,6.0313h3.9375v2.9375h-3.9375Z"
+      android:strokeWidth="0.1"
+      android:fillColor="#000"
+      android:strokeColor="#000"/>
+</vector>

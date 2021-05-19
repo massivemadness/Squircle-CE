@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -17,10 +17,11 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.brackeys.ui">
+    package="com.blacksquircle.ui">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -30,48 +31,62 @@
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
-        android:name="com.brackeys.ui.BrackeysApp"
+        android:name="com.blacksquircle.ui.SquircleApp"
         android:fullBackupContent="@xml/backup_descriptor"
         tools:replace="android:supportsRtl">
 
         <activity
-            android:name="com.brackeys.ui.feature.main.activities.MainActivity"
+            android:name="com.blacksquircle.ui.application.activities.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!--<intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <action android:name="android.intent.action.EDIT"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="file"/>
-                <data android:scheme="content"/>
-                <data android:mimeType="text/*"/>
-            </intent-filter>-->
+                <data android:scheme="content" />
+                <data android:scheme="file" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
         </activity>
 
         <activity
-            android:name="com.brackeys.ui.feature.settings.activities.SettingsActivity"
-            android:parentActivityName="com.brackeys.ui.feature.main.activities.MainActivity"
+            android:name="com.blacksquircle.ui.feature.settings.activities.SettingsActivity"
+            android:parentActivityName="com.blacksquircle.ui.application.activities.MainActivity"
             android:configChanges="keyboard|keyboardHidden"
-            android:label="@string/label_settings"/>
+            android:label="@string/label_settings">
+            <intent-filter>
+                <action android:name="com.blacksquircle.ui.action.OPEN_SETTINGS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            android:exported="false">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
     </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
 
 </manifest>

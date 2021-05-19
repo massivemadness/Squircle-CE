@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/explorer_graph"
+    app:startDestination="@id/permissionFragment">
+
+    <fragment
+        android:id="@+id/permissionFragment"
+        android:name="com.blacksquircle.ui.feature.explorer.fragments.PermissionFragment"
+        android:label="@string/label_permissions"
+        tools:layout="@layout/fragment_permission">
+        <action
+            android:id="@+id/to_directoryFragment"
+            app:destination="@id/directoryFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/directoryFragment"
+        android:name="com.blacksquircle.ui.feature.explorer.fragments.DirectoryFragment"
+        android:label="@string/label_directory"
+        tools:layout="@layout/fragment_directory">
+        <argument
+            android:name="path"
+            app:argType="string"
+            app:nullable="true"/>
+        <action
+            android:id="@+id/to_directoryFragment"
+            app:destination="@id/directoryFragment"/>
+        <action
+            android:id="@+id/to_progressDialog"
+            app:destination="@id/progressDialog"/>
+    </fragment>
+
+    <dialog
+        android:id="@+id/progressDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.dialogs.ProgressDialog"
+        tools:layout="@layout/dialog_progress">
+        <argument
+            android:name="parentPath"
+            app:argType="string"/>
+        <argument
+            android:name="archiveName"
+            app:argType="string"
+            app:nullable="true"/>
+    </dialog>
+
+</navigation>

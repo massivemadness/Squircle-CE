@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/pref_category_code_style">
+
+        <SwitchPreference
+            android:title="@string/pref_auto_indent_title"
+            android:summary="@string/pref_auto_indent_summary"
+            android:defaultValue="true"
+            android:key="AUTO_INDENTATION"/>
+
+        <SwitchPreference
+            android:title="@string/pref_close_brackets_title"
+            android:summary="@string/pref_close_brackets_summary"
+            android:defaultValue="true"
+            android:key="AUTO_CLOSE_BRACKETS"/>
+
+        <SwitchPreference
+            android:title="@string/pref_close_quotes_title"
+            android:summary="@string/pref_close_quotes_summary"
+            android:defaultValue="true"
+            android:key="AUTO_CLOSE_QUOTES"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_tab_options">
+
+        <SwitchPreference
+            android:title="@string/pref_use_spaces_not_tabs_title"
+            android:summary="@string/pref_use_spaces_not_tabs_summary"
+            android:defaultValue="true"
+            android:key="USE_SPACES_NOT_TABS"/>
+
+        <SeekBarPreference
+            android:title="@string/pref_tab_width_title"
+            android:summary="@string/pref_tab_width_summary"
+            android:defaultValue="4"
+            android:key="TAB_WIDTH"
+            android:max="8"
+            app:min="2"
+            app:seekBarIncrement="2"
+            app:showSeekBarValue="true"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

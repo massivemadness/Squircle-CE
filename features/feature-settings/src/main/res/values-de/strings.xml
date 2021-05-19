@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_settings">Einstellungen</string>
+    <string name="label_application">Anwendung</string>
+    <string name="label_editor">Editor</string>
+    <string name="label_code_style">Codestil</string>
+    <string name="label_files">Dateien</string>
+    <string name="label_about">Über</string>
+    <string name="label_keyboard_preset">Tastatur-Zeichen</string>
+
+    <string name="hint_enter_preset_chars">Geben Sie die Zeichen ein (ohne Trennung)</string>
+
+    <string name="action_reset">Zurücksetzen</string>
+
+    <string name="preset_disclaimer">Sie können Zeichen mehrfach wiederholen</string>
+    <string name="encoding_utf8_default">UTF-8 (Standard)</string>
+
+    <string name="sort_by_name">Nach Name sortieren</string>
+    <string name="sort_by_size">Nach Größe sortieren</string>
+    <string name="sort_by_date">Nach Datum sortieren</string>
+
+    <string name="view_mode_compact_list">Kompakte Liste</string>
+    <string name="view_mode_detailed_list">Detaillierte Liste</string>
+
+    <string name="pref_header_application_title">Anwendung</string>
+    <string name="pref_header_application_summary">Globale Anwendungseinstellungen</string>
+    <string name="pref_header_editor_title">Editor</string>
+    <string name="pref_header_editor_summary">Den Editor konfigurieren</string>
+    <string name="pref_header_codeStyle_title">Codestil</string>
+    <string name="pref_header_codeStyle_summary">Den Codestil konfigurieren</string>
+    <string name="pref_header_files_title">Dateien</string>
+    <string name="pref_header_files_summary">Konfigurieren, wie mit Dateien umgegangen wird.</string>
+    <string name="pref_header_about_title">Über</string>
+    <string name="pref_header_about_summary">Informationen über Squircle IDE anzeigen.</string>
+
+    <string name="pref_category_look_and_feel">Aussehen</string>
+    <string name="pref_category_other">Andere</string>
+    <string name="pref_category_font">Schriftart</string>
+    <string name="pref_category_editor">Editor</string>
+    <string name="pref_category_tabs">Tabs</string>
+    <string name="pref_category_keyboard">Tastatur</string>
+    <string name="pref_category_code_style">Codestil</string>
+    <string name="pref_category_tab_options">Taboptionen</string>
+    <string name="pref_category_encoding">Kodierung</string>
+    <string name="pref_category_linebreaks">Zeilenabschlüsse</string>
+    <string name="pref_category_file_explorer">Dateiexplorer</string>
+    <string name="pref_category_about">Über</string>
+    <string name="pref_category_contribute">Beitragen</string>
+
+    <string name="pref_color_scheme_title">Farbschema</string>
+    <string name="pref_color_scheme_summary">Das Farbschema für Syntax Highlighting festlegen.</string>
+    <string name="pref_fullscreen_title">Vollbild</string>
+    <string name="pref_fullscreen_summary">Die Anwendung im Vollbildmodus starten</string>
+    <string name="pref_confirm_exit_title">Verlassen der App bestätigen</string>
+    <string name="pref_confirm_exit_summary">Wenn Sie Zurück drücken, fragt Squircle IDE, ob es geschlossen werden soll.</string>
+    <string name="pref_font_size_title">Editor-Schriftgröße</string>
+    <string name="pref_font_size_summary">Die Standard-Schriftgröße für den Editor festlegen.</string>
+    <string name="pref_font_type_title">Editor-Schriftart</string>
+    <string name="pref_font_type_summary">Die Standard-Schriftart für den Editor festlegen.</string>
+    <string name="pref_word_wrap_title">Wortanpassung</string>
+    <string name="pref_word_wrap_summary">Aktivieren, damit sich Wörter der Bildschirmbreite anpassen.</string>
+    <string name="pref_code_completion_title">Code Completion</string>
+    <string name="pref_code_completion_summary">Autovervollständigungsvorschläge anzeigen.</string>
+    <string name="pref_error_highlighting_title">Fehlermarkierung</string>
+    <string name="pref_error_highlighting_summary">Echtzeit-Fehlermarkierung aktivieren. Neustart erforderlich.</string>
+    <string name="pref_pinch_zoom_title">Pinch-to-Zoom-Gesten</string>
+    <string name="pref_pinch_zoom_summary">Zoom-Gesten im Editor aktivieren.</string>
+    <string name="pref_highlight_line_title">Aktuelle Zeile hervorheben</string>
+    <string name="pref_highlight_line_summary">Hebt die Zeile hervor, in der der Cursor gerade ist.</string>
+    <string name="pref_highlight_delimiters_title">Passende Klammer hervorheben</string>
+    <string name="pref_highlight_delimiters_summary">Hebt die öffnende oder schließende Klammer hervor, wenn der Cursor an der anderen Klammer ist.</string>
+    <string name="pref_auto_save_files_title">Dateien automatisch speichern</string>
+    <string name="pref_auto_save_files_summary">Dateien automatisch speichern, wenn die App gewechsekt oder geschlossen wird.</string>
+    <string name="pref_extended_keyboard_title">Erweiterte Tastatur</string>
+    <string name="pref_extended_keyboard_summary">Zusätzliche Tasten über der Tastatur anzeigen.</string>
+    <string name="pref_keyboard_preset_title">Tastatur-Zeichen</string>
+    <string name="pref_keyboard_preset_summary">Zeichen für erweiterte Tastatur auswählen.</string>
+    <string name="pref_soft_keyboard_title">Soft-Tastatur</string>
+    <string name="pref_soft_keyboard_summary">Immer die Soft-Tastatur verwenden.</string>
+    <string name="pref_auto_indent_title">Auto-Einrückung</string>
+    <string name="pref_auto_indent_summary">Neue Zeilen automatisch einrücken, um zu den vorheringen zu passen.</string>
+    <string name="pref_close_brackets_title">Klammern automatisch schließen</string>
+    <string name="pref_close_brackets_summary">Klammern beim Tippen automatisch schließen.</string>
+    <string name="pref_close_quotes_title">Anführungszeichen automatisch schließen</string>
+    <string name="pref_close_quotes_summary">Automatisch Hochkommata/Anführungszeichen schließen.</string>
+    <string name="pref_use_spaces_not_tabs_title">Leerzeichen statt Tabs benutzen</string>
+    <string name="pref_use_spaces_not_tabs_summary">Leerzeichen anstelle von Tabulatoren einsetzen, wenn Auto-Einrückung verwendet wird.</string>
+    <string name="pref_tab_width_title">Tabulatorbreite</string>
+    <string name="pref_tab_width_summary">Die angezeigte Breite von Tabulatoren festlegen.</string>
+    <string name="pref_encoding_auto_detect_title">Kodierung automatisch erkennen</string>
+    <string name="pref_encoding_auto_detect_summary">Nützlich für Multi-Byte-Sprachen.</string>
+    <string name="pref_encoding_for_opening_title">Kodierung für das Öffnen von Dateien</string>
+    <string name="pref_encoding_for_opening_summary">Kodierung, die genutzt wird, um Dateien zu öffnen.</string>
+    <string name="pref_encoding_for_saving_title">Kodierung für das Speichern von Dateien</string>
+    <string name="pref_encoding_for_saving_summary">Kodierung, die genutzt wird, um Dateien zu speichern.</string>
+    <string name="pref_linebreaks_for_saving_files_title">Zeilenumbrüche für das Speichern von Dateien</string>
+    <string name="pref_linebreaks_for_saving_files_summary">Zeilenumbruchtyp, der für das Speichern von Dateien genutzt wird.</string>
+    <string name="pref_show_hidden_files_title">Versteckte Dateien anzeigen</string>
+    <string name="pref_show_hidden_files_summary">Versteckte Dateien und Ordner (beginnen mit einem Punkt) werden angezeigt.</string>
+    <string name="pref_folders_on_top_title">Ordner ganz oben</string>
+    <string name="pref_folders_on_top_summary">Ordner werden ganz oben angezeigt.</string>
+    <string name="pref_view_mode_title">Anzeigemodus</string>
+    <string name="pref_sort_mode_title">Sortiermodus</string>
+    <string name="pref_about_summary">Squircle IDE ist ein Open-Source-Projekt, das unter der Apache 2.0-Lizenz veröffentlicht wurde  Version: %1$s (%2$d)</string>
+    <string name="pref_privacy_policy_title">Datenschutzerklärung</string>
+    <string name="pref_contribute_title">Zur Entwicklung beitragen</string>
+    <string name="pref_contribute_summary">Sie können einen Issue auf GitHub erstellen oder die App in Ihre native Sprache übersetzten.</string>
+
+</resources>

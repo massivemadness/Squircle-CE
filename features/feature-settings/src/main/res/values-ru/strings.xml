@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_settings">Настройки</string>
+    <string name="label_application">Приложение</string>
+    <string name="label_editor">Редактор</string>
+    <string name="label_code_style">Стиль кода</string>
+    <string name="label_files">Файлы</string>
+    <string name="label_about">О программе</string>
+    <string name="label_keyboard_preset">Клавиатурный пресет</string>
+
+    <string name="hint_enter_preset_chars">Символы (без разделителей)</string>
+
+    <string name="action_reset">Сброс</string>
+
+    <string name="preset_disclaimer">Символы могут повторяться несколько раз</string>
+    <string name="encoding_utf8_default">UTF-8 (По умолчанию)</string>
+
+    <string name="sort_by_name">Сорт. по имени</string>
+    <string name="sort_by_size">Сорт. по размеру</string>
+    <string name="sort_by_date">Сорт. по дате</string>
+
+    <string name="view_mode_compact_list">Компактный список</string>
+    <string name="view_mode_detailed_list">Подробный список</string>
+
+    <string name="pref_header_application_title">Приложение</string>
+    <string name="pref_header_application_summary">Настройте основной функционал.</string>
+    <string name="pref_header_editor_title">Редактор</string>
+    <string name="pref_header_editor_summary">Настройте поведение редактора.</string>
+    <string name="pref_header_codeStyle_title">Стиль кода</string>
+    <string name="pref_header_codeStyle_summary">Настройте стиль кода.</string>
+    <string name="pref_header_files_title">Файлы</string>
+    <string name="pref_header_files_summary">Настройте способ обработки файлов.</string>
+    <string name="pref_header_about_title">О программе</string>
+    <string name="pref_header_about_summary">Просмотр информации о программе.</string>
+
+    <string name="pref_category_look_and_feel">Внешний вид</string>
+    <string name="pref_category_other">Другое</string>
+    <string name="pref_category_font">Шрифт</string>
+    <string name="pref_category_editor">Редактор</string>
+    <string name="pref_category_tabs">Вкладки</string>
+    <string name="pref_category_keyboard">Клавиатура</string>
+    <string name="pref_category_code_style">Стиль кода</string>
+    <string name="pref_category_tab_options">Табуляция</string>
+    <string name="pref_category_encoding">Кодировка</string>
+    <string name="pref_category_linebreaks">Разделители строк</string>
+    <string name="pref_category_file_explorer">Проводник</string>
+    <string name="pref_category_about">О программе</string>
+    <string name="pref_category_contribute">Внести вклад</string>
+
+    <string name="pref_color_scheme_title">Цветовая схема</string>
+    <string name="pref_color_scheme_summary">Настройте цветовую схему подсветки синтаксиса.</string>
+    <string name="pref_fullscreen_title">Полноэкранный режим</string>
+    <string name="pref_fullscreen_summary">Открывать приложение в полноэкранном режиме.</string>
+    <string name="pref_confirm_exit_title">Подтверждать выход</string>
+    <string name="pref_confirm_exit_summary">При выходе из приложения потребуется подтверждение.</string>
+
+    <string name="pref_font_size_title">Размер шрифта</string>
+    <string name="pref_font_size_summary">Укажите размер шрифта по умолчанию.</string>
+    <string name="pref_font_type_title">Тип шрифта</string>
+    <string name="pref_font_type_summary">Укажите тип шрифта по умолчанию.</string>
+    <string name="pref_word_wrap_title">Перенос слов</string>
+    <string name="pref_word_wrap_summary">Включите перенос слов для отображения текста по ширине экрана.</string>
+    <string name="pref_code_completion_title">Автодополнение кода</string>
+    <string name="pref_code_completion_summary">Показывать варианты автодополнения.</string>
+    <string name="pref_error_highlighting_title">Подсветка ошибок</string>
+    <string name="pref_error_highlighting_summary">Включить подсветку ошибок в реальном времени. Требуется перезапуск.</string>
+    <string name="pref_pinch_zoom_title">Увеличение жестом</string>
+    <string name="pref_pinch_zoom_summary">Включить жест увеличения текста в редакторе.</string>
+    <string name="pref_highlight_line_title">Подсвечивать текущую линию</string>
+    <string name="pref_highlight_line_summary">Подсвечивать линию на которой находится курсор.</string>
+    <string name="pref_highlight_delimiters_title">Подсвечивать скобки</string>
+    <string name="pref_highlight_delimiters_summary">Подсвечивать открытые/закрытые скобки рядом с курсором.</string>
+    <string name="pref_auto_save_files_title">Авто-сохранение файлов</string>
+    <string name="pref_auto_save_files_summary">Автоматически сохранять файлы при переключении вкладок или закрытии приложения.</string>
+    <string name="pref_extended_keyboard_title">Расширенная клавиатура</string>
+    <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
+    <string name="pref_keyboard_preset_title">Клавиатурный пресет</string>
+    <string name="pref_keyboard_preset_summary">Настройте раскладку расширенной клавиатуры.</string>
+    <string name="pref_soft_keyboard_title">Soft-клавиатура</string>
+    <string name="pref_soft_keyboard_summary">Использовать soft-клавиатуру в горизонтальном режиме.</string>
+
+    <string name="pref_auto_indent_title">Авто-отступы</string>
+    <string name="pref_auto_indent_summary">Автоматически выравнивать новые строки, для соответствия строке выше.</string>
+    <string name="pref_close_brackets_title">Авто-закрытие скобок</string>
+    <string name="pref_close_brackets_summary">Автоматически закрывать открытые скобки во время ввода.</string>
+    <string name="pref_close_quotes_title">Авто-закрытие кавычек</string>
+    <string name="pref_close_quotes_summary">Автоматически закрывать открытые кавычки во время ввода.</string>
+    <string name="pref_use_spaces_not_tabs_title">Пробелы вместо табов</string>
+    <string name="pref_use_spaces_not_tabs_summary">Вставлять пробелы вместо табов при использовании авто-отступов.</string>
+    <string name="pref_tab_width_title">Ширина табов</string>
+    <string name="pref_tab_width_summary">Указанная ширина будет использоваться для каждого таба в редакторе.</string>
+
+    <string name="pref_encoding_auto_detect_title">Автоопределение кодировки</string>
+    <string name="pref_encoding_auto_detect_summary">Подбирать правильную кодировку автоматически при открытии файла.</string>
+    <string name="pref_encoding_for_opening_title">Кодировка для открытия</string>
+    <string name="pref_encoding_for_opening_summary">Выбранная кодировка будет использоваться для открытия файлов.</string>
+    <string name="pref_encoding_for_saving_title">Кодировка для сохранения</string>
+    <string name="pref_encoding_for_saving_summary">Выбранная кодировка будет использоваться для сохранения файлов.</string>
+    <string name="pref_linebreaks_for_saving_files_title">Разделители для сохранения</string>
+    <string name="pref_linebreaks_for_saving_files_summary">Выбранные разделители будут использоваться для сохранения файлов.</string>
+    <string name="pref_show_hidden_files_title">Показывать скрытые файлы</string>
+    <string name="pref_show_hidden_files_summary">Скрытые файлы и папки (начинающиеся с точки) будут отображаться.</string>
+    <string name="pref_folders_on_top_title">Папки сверху</string>
+    <string name="pref_folders_on_top_summary">Папки будут отображаться сверху.</string>
+    <string name="pref_view_mode_title">Режим просмотра</string>
+    <string name="pref_sort_mode_title">Режим сортировки</string>
+
+    <string name="pref_about_summary">Squircle IDE это проект с открытым исходным кодом, опубликованный под лицензией Apache 2.0\n\nВерсия: %1$s (%2$d)</string>
+    <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
+    <string name="pref_contribute_title">Внести вклад в разработку</string>
+    <string name="pref_contribute_summary">Вы можете создать Issue на GitHub или перевести приложение на свой родной язык.\n\nСпасибо!</string>
+
+</resources>

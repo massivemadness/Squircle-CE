@@ -1,0 +1,28 @@
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="24dp"
+    android:width="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:fillColor="#000"
+      android:pathData="M21,6V8H3V6H21M3,18H10V16H3V18M3,13H15V11H3V13Z"/>
+  <path
+      android:fillColor="#000"
+      android:pathData="M14.4755,17.601C15.4641,17.5608 16.4488,17.1915 17.2304,16.4579C18.602,15.1708 18.9224,13.1892 18.1696,11.5713L17.2576,11.9945C17.8309,13.2261 17.5855,14.7378 16.5384,15.7205C15.9632,16.2603 15.2389,16.5406 14.5078,16.5833L14.5735,14.5135L11.9189,17.0048L14.4102,19.6594L14.4755,17.601z"/>
+</vector>

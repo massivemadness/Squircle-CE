@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Brackeys IDE contributors.
+ * Copyright 2021 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,12 +75,12 @@ publishing {
             pom {
                 packaging 'aar'
                 name = libraryArtifactId
-                description = 'Brackeys IDE is a fast and free multi-language code editor for Android.'
-                url = 'https://github.com/massivemadness/Brackeys-IDE'
+                description = 'Squircle IDE is a fast and free multi-language code editor for Android.'
+                url = 'https://github.com/massivemadness/Squircle-IDE'
                 licenses {
                     license {
                         name = 'Apache 2.0 License'
-                        url = 'https://github.com/massivemadness/Brackeys-IDE/blob/master/LICENSE'
+                        url = 'https://github.com/massivemadness/Squircle-IDE/blob/master/LICENSE'
                     }
                 }
                 developers {
@@ -91,9 +91,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:github.com/massivemadness/Brackeys-IDE.git'
-                    developerConnection = 'scm:git:ssh://github.com/massivemadness/Brackeys-IDE.git'
-                    url = 'https://github.com/massivemadness/Brackeys-IDE/tree/master'
+                    connection = 'scm:git:github.com/massivemadness/Squircle-IDE.git'
+                    developerConnection = 'scm:git:ssh://github.com/massivemadness/Squircle-IDE.git'
+                    url = 'https://github.com/massivemadness/Squircle-IDE/tree/master'
                 }
                 withXml {
                     def dependenciesNode = asNode().appendNode('dependencies')

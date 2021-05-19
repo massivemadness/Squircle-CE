@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- region TOOLBAR -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?colorSurface"
+        android:elevation="4dp">
+
+        <!-- region DEFAULT PANEL -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/default_panel">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_alignParentStart="true"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_drawer"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_drawer"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_file"
+                android:padding="10.5dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_save"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_save"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_edit"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_folder"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_file"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_find"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_edit"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_edit"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_tools"
+                android:padding="10.5dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_file_find"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_find"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_undo"
+                android:padding="10.5dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_tools"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_tools"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_redo"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_undo"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_undo"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_overflow"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_redo"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_redo"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_overflow"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_overflow"
+                app:tint="?colorOnSurface"/>
+
+        </RelativeLayout>
+
+        <!-- endregion DEFAULT PANEL -->
+
+        <!-- region FIND PANEL -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/find_panel"
+            android:visibility="gone">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/action_down"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:inputType="text"
+                android:importantForAutofill="no"
+                android:typeface="monospace"
+                android:background="@null"
+                android:hint="@string/action_find"
+                android:singleLine="true"
+                android:id="@+id/input_find"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_up"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_arrow_down"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_down"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_find_overflow"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_arrow_up"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_up"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_overflow"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_find_overflow"
+                app:tint="?colorOnSurface"/>
+
+        </RelativeLayout>
+
+        <!-- endregion FIND PANEL -->
+
+        <!-- region REPLACE PANEL -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/replace_panel"
+            android:visibility="gone"
+            android:background="?colorSecondaryVariant">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/action_replace"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:inputType="text"
+                android:importantForAutofill="no"
+                android:typeface="monospace"
+                android:background="@null"
+                android:hint="@string/action_replace"
+                android:singleLine="true"
+                android:id="@+id/input_replace"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_toStartOf="@id/action_replace_all"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_replace"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_replace"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:padding="10.5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_file_find_replace"
+                android:background="@drawable/ripple_20dp"
+                android:id="@+id/action_replace_all"
+                app:tint="?colorOnSurface"/>
+
+        </RelativeLayout>
+
+        <!-- endregion REPLACE PANEL -->
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:background="?colorSecondaryVariant"
+        android:elevation="3.5dp"
+        android:id="@+id/tab_layout"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_tab_document"
+        tools:itemCount="1"/>
+
+    <!-- endregion TOOLBAR -->
+
+    <!-- region DOCUMENT -->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.blacksquircle.ui.editorkit.widget.TextProcessor
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAutofill="no"
+            android:textCursorDrawable="@drawable/caret"
+            android:dropDownAnchor="@id/tab_layout"
+            android:completionThreshold="2"
+            android:popupBackground="@drawable/autocomplete_bg"
+            android:background="@null"
+            android:scrollbars="none"
+            android:id="@+id/editor"/>
+
+        <com.blacksquircle.ui.editorkit.widget.TextScroller
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:id="@+id/scroller"
+            app:thumbTint="?colorPrimary"/>
+
+        <ProgressBar
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:id="@+id/loadingBar"
+            tools:visibility="gone"/>
+
+        <ImageView
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_file_find"
+            android:id="@+id/empty_view_image"
+            app:tint="?colorOnBackground"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="56dp"
+            android:textColor="?colorOnBackground"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="@string/message_no_open_files"
+            android:id="@+id/empty_view_text"/>
+
+    </FrameLayout>
+
+    <!-- region EXTENDED KEYBOARD -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:elevation="2dp"
+        android:visibility="gone"
+        android:id="@+id/keyboard_container"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/action_tab"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            android:background="?colorSurface"
+            android:src="@drawable/ic_keyboard_tab"
+            app:tint="?colorOnSurface"/>
+
+        <com.blacksquircle.ui.feature.editor.customview.ExtendedKeyboard
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="?colorSecondaryVariant"
+            android:id="@+id/extended_keyboard"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_keyboard_key"
+            tools:itemCount="24"/>
+
+    </LinearLayout>
+
+    <!-- endregion EXTENDED KEYBOARD-->
+
+    <!-- endregion DOCUMENT -->
+
+</LinearLayout>

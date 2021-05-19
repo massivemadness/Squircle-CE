@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Brackeys IDE contributors.
+ * Copyright 2021 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -27,13 +26,13 @@ android {
     buildToolsVersion versions.buildTools
 
     defaultConfig {
-        applicationId "com.brackeys.ui"
+        applicationId "com.blacksquircle.ui"
 
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10005
-        versionName "2021.1.2"
+        versionCode 10006
+        versionName "2021.1.3"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -56,14 +55,7 @@ android {
         jvmTarget = '1.8'
     }
     sourceSets {
-        main {
-            java.srcDirs += 'src/main/kotlin'
-            res.srcDirs = [
-                    file("src/main/res/layouts/").listFiles(),
-                    'src/main/res/layouts',
-                    'src/main/res'
-            ]
-        }
+        main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
@@ -87,18 +79,11 @@ dependencies {
     // UI
     implementation library.appcompat
     implementation library.materialdesign
-    implementation library.constraintlayout
-    implementation library.swiperefreshlayout
-    implementation library.preferencescompat
     implementation library.materialdialogs_core
-    implementation library.materialdialogs_color
-    implementation library.recyclerview_selection
 
     // AAC
     implementation library.livedata
     implementation library.viewmodel
-    implementation library.navigation_ui
-    implementation library.navigation_fragment
 
     // Coroutines
     implementation library.coroutines_core
@@ -108,22 +93,20 @@ dependencies {
     implementation library.hilt
     kapt library.hilt_compiler
 
-    // Other
-    implementation library.keyboardevent
-
     // Modules
     implementation project(':domain')
     implementation project(':data')
-    implementation project(':editorkit')
-
-    implementation project(':common:uikit')
-    implementation project(':common:utils')
-
-    implementation project(':features:feature-fonts')
-    implementation project(':features:feature-themes')
 
     implementation project(':filesystems:filesystem-base')
-    implementation project(':languages:language-base')
+
+    // Features
+    implementation project(':features:feature-editor')
+    implementation project(':features:feature-explorer')
+    implementation project(':features:feature-fonts')
+    implementation project(':features:feature-settings')
+    implementation project(':features:feature-themes')
+    implementation project(':features:feature-ui')
+    implementation project(':features:feature-utils')
 
     // Tests
     testImplementation testLibrary.junit

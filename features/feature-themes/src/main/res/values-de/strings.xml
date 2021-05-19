@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_themes">Themes</string>
+    <string name="label_new_theme">Neues Theme</string>
+
+    <string name="hint_enter_theme_name">Geben Sie einen Theme-Namen ein</string>
+    <string name="hint_enter_theme_author">Geben Sie einen Theme-Autor ein</string>
+    <string name="hint_enter_theme_desc">Kurze Beschreibung</string>
+    <string name="hint_theme_desc">Standard-Farbschema</string>
+    <string name="hint_search">Suchen…</string>
+
+    <string name="action_select">Auswählen</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_import">Importieren</string>
+    <string name="action_export">Exportieren</string>
+    <string name="action_edit">Bearbeiten</string>
+    <string name="action_remove">Entfernen</string>
+    <string name="action_cancel">Abbrechen</string>
+
+    <string name="dialog_title_color_picker">Farbauswahl</string>
+
+    <string name="message_access_required">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
+    <string name="message_selected">«%1$s» ausgewählt</string>
+    <string name="message_new_theme_available">Neues Thema verfügbar: %1$s</string>
+    <string name="message_theme_removed">Theme «%1$s» entfernt</string>
+    <string name="message_theme_exported">Theme in /Download/%1$s.json gespeichert</string>
+    <string name="message_theme_syntax_exception">Beim Lesen der Theme-Datei ist ein Fehler aufgetreten</string>
+    <string name="message_no_result">Kein Ergebnis</string>
+    <string name="message_unknown_exception">Ein Fehler ist aufgetreten</string>
+
+    <string name="theme_property_text_color">Definiert die Textfarbe des Editors</string>
+    <string name="theme_property_background_color">Definiert die Hintergrundfarbe des Editors</string>
+    <string name="theme_property_gutter_color">Definiert die Hintergrundfarbe der Seitenleiste</string>
+    <string name="theme_property_gutter_divider_color">Definiert die Trennfarbe der Seitenleiste</string>
+    <string name="theme_property_gutter_current_line_number_color">Definiert die Farbe der Zeilennummer der ausgewählten Zeile des Editors</string>
+    <string name="theme_property_gutter_text_color">Definiert die Farbe der Zeilennummer der Seitenleiste</string>
+    <string name="theme_property_selected_line_color">Definiert die Farbe der ausgewählten Zeile im Editor</string>
+    <string name="theme_property_selection_color">Definiert die Auswahlfarbe im Editor</string>
+    <string name="theme_property_suggestion_query_color">Definiert die Textfarbe der Empfehlungen im Dropdown-Menü</string>
+    <string name="theme_property_find_result_background_color">Definiert die Farbe der gefundenen Ergebnisse</string>
+    <string name="theme_property_delimiter_background_color">Definiert die Hintergrundfarbe der passenden Klammer</string>
+    <string name="theme_property_numbers_color">Definiert die Farbnummer für Syntax-Highlighting: 123, 0.5, 0xFF, etc.</string>
+    <string name="theme_property_operators_color">Definiert die Farbe der Operatoren für Syntax-Highlighting: +-*/=, [, ], {, }, (, )</string>
+    <string name="theme_property_keywords_color">Definiert die Farbe der Schlüsselwörter für Syntax-Highlighting: function, if, else, etc.</string>
+    <string name="theme_property_types_color">Definiert die Farbe der Variablentypen für Syntax-Highlighting: const, var, let, etc.</string>
+    <string name="theme_property_lang_const_color">Definiert die Farbe der Sprachkonstanten für Syntax-Highlighting: true, false, null, etc.</string>
+    <string name="theme_property_preprocessor_color">Definiert die Farbe der Anmerkungen und des Präprozessors: @Override, #include, …</string>
+    <string name="theme_property_variables_color">Definiert die Variablenfarbe für Syntax-Highlighting</string>
+    <string name="theme_property_methods_color">Definiert die Methodenfarbe für Syntax-Highlighting</string>
+    <string name="theme_property_strings_color">Definiert die Farbe für Strings für Syntax-Highlighting</string>
+    <string name="theme_property_comments_color">Definiert die Kommentarfarbe für Syntax-Highlighting: //, /**/</string>
+    <string name="theme_property_tag_color">Definiert die Farbe der Tags in Auszeichnungssprachen: &lt;, &lt;&gt;, /&gt;</string>
+    <string name="theme_property_tag_name_color">Definiert die Farbe der Tagnamen in Auszeichnungssprachen: &lt;tag&gt;</string>
+    <string name="theme_property_attr_name_color">Definiert die Farbe der Attributnamen in Auszeichnungssprachen: &lt;tag attr=…/&gt;</string>
+    <string name="theme_property_attr_value_color">Definiert die Farbe der Attributwerte in Auszeichnungssprachen: &lt;tag attr=\"value\"/&gt;</string>
+    <string name="theme_property_entity_ref_color">Definiert die Farbe der Entitätsreferenz in Auszeichnungssprachen: &amp;amp; &amp;lt; &amp;gt; …</string>
+
+</resources>

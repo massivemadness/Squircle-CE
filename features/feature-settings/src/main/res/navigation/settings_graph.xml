@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_graph"
+    app:startDestination="@id/headersFragment">
+
+    <fragment
+        android:id="@+id/headersFragment"
+        android:name="com.blacksquircle.ui.feature.settings.fragments.HeadersFragment"
+        android:label="@string/label_settings"
+        tools:layout="@layout/fragment_headers">
+        <action
+            android:id="@+id/to_applicationFragment"
+            app:destination="@id/applicationFragment"/>
+        <action
+            android:id="@+id/to_editorFragment"
+            app:destination="@id/editorFragment"/>
+        <action
+            android:id="@+id/to_codeStyleFragment"
+            app:destination="@id/codeStyleFragment"/>
+        <action
+            android:id="@+id/to_filesFragment"
+            app:destination="@id/filesFragment"/>
+        <action
+            android:id="@+id/to_aboutFragment"
+            app:destination="@id/aboutFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/applicationFragment"
+        android:name="com.blacksquircle.ui.feature.settings.fragments.ApplicationFragment"
+        android:label="@string/label_application">
+        <action
+            android:id="@+id/to_themesGraph"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:destination="@id/themes_graph"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/editorFragment"
+        android:name="com.blacksquircle.ui.feature.settings.fragments.EditorFragment"
+        android:label="@string/label_editor">
+        <action
+            android:id="@+id/to_fontsGraph"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:destination="@id/fonts_graph"/>
+        <action
+            android:id="@+id/to_presetDialog"
+            app:destination="@id/presetDialog"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/codeStyleFragment"
+        android:name="com.blacksquircle.ui.feature.settings.fragments.CodeStyleFragment"
+        android:label="@string/label_code_style"/>
+
+    <fragment
+        android:id="@+id/filesFragment"
+        android:name="com.blacksquircle.ui.feature.settings.fragments.FilesFragment"
+        android:label="@string/label_files"/>
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.blacksquircle.ui.feature.settings.fragments.AboutFragment"
+        android:label="@string/label_about"/>
+
+    <include
+        android:id="@+id/fonts_graph"
+        app:graph="@navigation/fonts_graph"/>
+
+    <include
+        android:id="@+id/themes_graph"
+        app:graph="@navigation/themes_graph"/>
+
+    <dialog
+        android:id="@+id/presetDialog"
+        android:name="com.blacksquircle.ui.feature.settings.dialogs.PresetDialog"
+        android:label="@string/label_keyboard_preset"
+        tools:layout="@layout/dialog_preset"/>
+
+</navigation>

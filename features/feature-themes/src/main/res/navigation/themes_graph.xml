@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/themesFragment"
-        android:name="com.brackeys.ui.feature.themes.fragments.ThemesFragment"
+        android:name="com.blacksquircle.ui.feature.themes.fragments.ThemesFragment"
         android:label="@string/label_themes"
         tools:layout="@layout/fragment_themes">
         <action
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/newThemeFragment"
-        android:name="com.brackeys.ui.feature.themes.fragments.NewThemeFragment"
+        android:name="com.blacksquircle.ui.feature.themes.fragments.NewThemeFragment"
         android:label="@string/label_new_theme"
         tools:layout="@layout/fragment_new_theme">
         <argument

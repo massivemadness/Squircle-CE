@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Brackeys IDE contributors.
+  ~ Copyright 2021 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,4 +15,4 @@
   ~ limitations under the License.
   -->
 
-<manifest package="com.brackeys.ui.language.lisp"/>
+<manifest package="com.blacksquircle.ui.language.lisp"/>

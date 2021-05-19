@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- region TOOLBAR -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?colorSurface"
+        android:elevation="4dp"
+        android:id="@+id/app_bar"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:padding="0dp"
+            android:id="@+id/toolbar"
+            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+            app:title="@string/label_local_storage"
+            tools:menu="@menu/menu_explorer_default"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_alignParentStart="true"
+                android:padding="6dp"
+                android:id="@+id/action_home"
+                android:src="@drawable/ic_home"
+                android:background="@drawable/ripple_16dp"
+                app:tint="?colorOnSurface"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/action_paste"
+                android:layout_toEndOf="@id/action_home"
+                android:orientation="horizontal"
+                android:background="@null"
+                android:id="@+id/directory_recycler_view"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_tab_directory"
+                tools:itemCount="1"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@id/action_create"
+                android:layout_alignParentEnd="true"
+                android:padding="6dp"
+                android:id="@+id/action_paste"
+                android:src="@drawable/ic_paste"
+                android:background="@drawable/ripple_16dp"
+                android:visibility="gone"
+                android:contentDescription="@string/action_paste"
+                app:tint="?colorOnSurface"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_alignParentEnd="true"
+                android:padding="6dp"
+                android:id="@+id/action_create"
+                android:src="@drawable/ic_plus"
+                android:background="@drawable/ripple_16dp"
+                app:tint="?colorOnSurface"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- endregion TOOLBAR -->
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipe_refresh"
+        android:background="?android:colorBackground">
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/nav_host"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:navGraph="@navigation/explorer_graph"
+            app:defaultNavHost="true"
+            tools:ignore="FragmentTagUsage"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

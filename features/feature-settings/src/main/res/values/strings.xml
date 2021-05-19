@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_settings">Settings</string>
+    <string name="label_application">Application</string>
+    <string name="label_editor">Editor</string>
+    <string name="label_code_style">Code Style</string>
+    <string name="label_files">Files</string>
+    <string name="label_about">About</string>
+    <string name="label_keyboard_preset">Keyboard preset</string>
+
+    <string name="hint_enter_preset_chars">Enter characters (without separation)</string>
+    <string name="hint_preset_chars" translatable="false">{}();,.=|&amp;![]&lt;&gt;+-/*?:_</string>
+
+    <string name="action_reset">Reset</string>
+
+    <string name="preset_disclaimer">You can repeat characters multiple times</string>
+    <string name="encoding_utf8_default">UTF-8 (Default)</string>
+
+    <string name="sort_by_name">Sort by Name</string>
+    <string name="sort_by_size">Sort by Size</string>
+    <string name="sort_by_date">Sort by Date</string>
+
+    <string name="view_mode_compact_list">Compact List</string>
+    <string name="view_mode_detailed_list">Detailed List</string>
+
+    <string name="linebreak_cr" translatable="false">CR (Mac/Unix)</string>
+    <string name="linebreak_lf" translatable="false">LF (Android/Linux)</string>
+    <string name="linebreak_crlf" translatable="false">CRLF (Windows)</string>
+
+    <string name="pref_header_application_title">Application</string>
+    <string name="pref_header_application_summary">Configure global application settings.</string>
+    <string name="pref_header_editor_title">Editor</string>
+    <string name="pref_header_editor_summary">Configure the editor.</string>
+    <string name="pref_header_codeStyle_title">Code Style</string>
+    <string name="pref_header_codeStyle_summary">Configure the code style.</string>
+    <string name="pref_header_files_title">Files</string>
+    <string name="pref_header_files_summary">Configure how files are handled.</string>
+    <string name="pref_header_about_title">About</string>
+    <string name="pref_header_about_summary">View information about Squircle IDE.</string>
+
+    <string name="pref_category_look_and_feel">Look And Feel</string>
+    <string name="pref_category_other">Other</string>
+    <string name="pref_category_font">Font</string>
+    <string name="pref_category_editor">Editor</string>
+    <string name="pref_category_tabs">Tabs</string>
+    <string name="pref_category_keyboard">Keyboard</string>
+    <string name="pref_category_code_style">Code Style</string>
+    <string name="pref_category_tab_options">Tab Options</string>
+    <string name="pref_category_encoding">Encoding</string>
+    <string name="pref_category_linebreaks">Linebreaks</string>
+    <string name="pref_category_file_explorer">File Explorer</string>
+    <string name="pref_category_about">About</string>
+    <string name="pref_category_contribute">Contribute</string>
+
+    <string name="pref_color_scheme_title">Color Scheme</string>
+    <string name="pref_color_scheme_summary">Configure the syntax highlighting color scheme.</string>
+    <string name="pref_fullscreen_title">Full screen</string>
+    <string name="pref_fullscreen_summary">Launch the application in full screen mode.</string>
+    <string name="pref_confirm_exit_title">Confirm exit from the app</string>
+    <string name="pref_confirm_exit_summary">If you press back, Squircle IDE ask for confirmation to exit.</string>
+
+    <string name="pref_font_size_title">Editor font size</string>
+    <string name="pref_font_size_summary">Specify the default font size of editor.</string>
+    <string name="pref_font_type_title">Editor font type</string>
+    <string name="pref_font_type_summary">Specify the default font type of editor.</string>
+    <string name="pref_word_wrap_title">Word Wrap</string>
+    <string name="pref_word_wrap_summary">Enable word wrap to fit screen width.</string>
+    <string name="pref_code_completion_title">Code Completion</string>
+    <string name="pref_code_completion_summary">Show autocomplete suggestions.</string>
+    <string name="pref_error_highlighting_title">Error Highlighting</string>
+    <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>
+    <string name="pref_pinch_zoom_title">Pinch Zoom</string>
+    <string name="pref_pinch_zoom_summary">Enable zoom gesture in the editor.</string>
+    <string name="pref_highlight_line_title">Highlight Current Line</string>
+    <string name="pref_highlight_line_summary">Highlight the line where the caret currently resides.</string>
+    <string name="pref_highlight_delimiters_title">Highlight Matching Delimiters</string>
+    <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the caret at its pair.</string>
+    <string name="pref_auto_save_files_title">Auto-save Files</string>
+    <string name="pref_auto_save_files_summary">Automatically save file on switching tab or closing the app.</string>
+    <string name="pref_extended_keyboard_title">Extended Keyboard</string>
+    <string name="pref_extended_keyboard_summary">Show additional keys above the keyboard.</string>
+    <string name="pref_keyboard_preset_title">Keyboard Preset</string>
+    <string name="pref_keyboard_preset_summary">Choose preset for extended keyboard.</string>
+    <string name="pref_soft_keyboard_title">Soft Keyboard</string>
+    <string name="pref_soft_keyboard_summary">Always use soft keyboard.</string>
+
+    <string name="pref_auto_indent_title">Auto Indentation</string>
+    <string name="pref_auto_indent_summary">Automatically indent new lines to match the line above.</string>
+    <string name="pref_close_brackets_title">Auto-close Brackets</string>
+    <string name="pref_close_brackets_summary">Automatically close open parenthesis/bracket/brace when typing.</string>
+    <string name="pref_close_quotes_title">Auto-close Quotes</string>
+    <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
+    <string name="pref_use_spaces_not_tabs_title">Use spaces instead of tabs</string>
+    <string name="pref_use_spaces_not_tabs_summary">Insert spaces instead of tabs when using auto-indentation.</string>
+    <string name="pref_tab_width_title">Tab Width</string>
+    <string name="pref_tab_width_summary">Specify the displayed width of tabs in the editor.</string>
+
+    <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
+    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is useful for multi-byte language.</string>
+    <string name="pref_encoding_for_opening_title">Encoding for opening files</string>
+    <string name="pref_encoding_for_opening_summary">Encoding to use when opening files.</string>
+    <string name="pref_encoding_for_saving_title">Encoding for saving files</string>
+    <string name="pref_encoding_for_saving_summary">Encoding to use when saving files.</string>
+    <string name="pref_linebreaks_for_saving_files_title">Linebreaks for saving files</string>
+    <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files.</string>
+    <string name="pref_show_hidden_files_title">Show hidden files</string>
+    <string name="pref_show_hidden_files_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
+    <string name="pref_folders_on_top_title">Folders on top</string>
+    <string name="pref_folders_on_top_summary">Folders will be displayed on top.</string>
+    <string name="pref_view_mode_title">View Mode</string>
+    <string name="pref_sort_mode_title">Sort Mode</string>
+
+    <string name="pref_about_summary">Squircle IDE is an open source project published under the Apache 2.0 license\n\nVersion: %1$s (%2$d)</string>
+    <string name="pref_privacy_policy_title">Privacy Policy</string>
+    <string name="pref_contribute_title">Contribute to development</string>
+    <string name="pref_contribute_summary">You can create an issue on GitHub or translate this app to your native language.\n\nThank you!</string>
+
+</resources>

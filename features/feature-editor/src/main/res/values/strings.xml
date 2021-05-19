@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="hint_line">Line:</string>
+    <string name="hint_line_number" translatable="false">0</string>
+    <string name="hint_enter_file_path">Enter file path</string>
+    <string name="hint_file_path" translatable="false">/storage/emulated/0/Download/...</string>
+
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_close">Close</string>
+    <string name="action_close_others">Close Others</string>
+    <string name="action_close_all">Close All</string>
+    <string name="action_insert">Insert</string>
+    <string name="action_new">New</string>
+    <string name="action_open">Open</string>
+    <string name="action_save">Save</string>
+    <string name="action_save_as">Save As</string>
+    <string name="action_properties">Properties</string>
+    <string name="action_cut">Cut</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_paste">Paste</string>
+    <string name="action_select_all">Select All</string>
+    <string name="action_select_line">Select Line</string>
+    <string name="action_delete_line">Delete Line</string>
+    <string name="action_duplicate_line">Duplicate Line</string>
+    <string name="action_regex">Regex</string>
+    <string name="action_match_case">Match Case</string>
+    <string name="action_words_only">Words Only</string>
+    <string name="action_find">Find</string>
+    <string name="action_close_find">Close Find</string>
+    <string name="action_replace">Replace</string>
+    <string name="action_close_replace">Close Replace</string>
+    <string name="action_goto_line">Go to Line</string>
+    <string name="action_go_to">Go to</string>
+    <string name="action_error_checking">Error Checking</string>
+    <string name="action_insert_color">Insert Color</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_tools">Tools</string>
+
+    <string name="dialog_title_result">Result</string>
+    <string name="dialog_title_save_as">Save As…</string>
+    <string name="dialog_title_goto_line">Go to Line…</string>
+    <string name="dialog_title_color_picker">Color Picker</string>
+
+    <string name="dialog_message_close_tab">Are you sure you want to close this file? All unsaved changes will be discarded</string>
+
+    <string name="message_no_open_files">No open files</string>
+    <string name="message_tab_limit_achieved">Tab limit achieved</string>
+    <string name="message_invalid_file_path">Invalid file path</string>
+    <string name="message_unknown_exception">An error occurred</string>
+    <string name="message_file_not_found">File not found</string>
+    <string name="message_out_of_memory">Out of memory</string>
+    <string name="message_saved">Saved</string>
+    <string name="message_select_file">Select File</string>
+    <string name="message_nothing_to_cut">Nothing to cut</string>
+    <string name="message_nothing_to_copy">Nothing to copy</string>
+    <string name="message_nothing_to_paste">Nothing to paste</string>
+    <string name="message_line_not_exists">Line does not exists</string>
+    <string name="message_no_errors_detected">No syntax errors detected</string>
+
+</resources>

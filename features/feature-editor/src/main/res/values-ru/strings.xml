@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="hint_line">Линия:</string>
+    <string name="hint_enter_file_path">Введите путь к файлу</string>
+
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_close_others">Закрыть другие</string>
+    <string name="action_close_all">Закрыть все</string>
+    <string name="action_insert">Вставить</string>
+    <string name="action_new">Новый файл</string>
+    <string name="action_open">Открыть</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_save_as">Сохранить как</string>
+    <string name="action_properties">Свойства</string>
+    <string name="action_cut">Вырезать</string>
+    <string name="action_copy">Копировать</string>
+    <string name="action_paste">Вставить</string>
+    <string name="action_select_all">Выделить всё</string>
+    <string name="action_select_line">Выделить линию</string>
+    <string name="action_delete_line">Удалить линию</string>
+    <string name="action_duplicate_line">Повторить линию</string>
+    <string name="action_regex">Регулярки</string>
+    <string name="action_match_case">Учит. регистр</string>
+    <string name="action_words_only">Только слова</string>
+    <string name="action_find">Найти</string>
+    <string name="action_close_find">Закрыть поиск</string>
+    <string name="action_replace">Заменить</string>
+    <string name="action_close_replace">Закрыть замену</string>
+    <string name="action_goto_line">Перейти к строке</string>
+    <string name="action_go_to">Перейти</string>
+    <string name="action_error_checking">Проверка ошибок</string>
+    <string name="action_insert_color">Вставить цвет</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_tools">Инструменты</string>
+
+    <string name="dialog_title_result">Результат</string>
+    <string name="dialog_title_save_as">Сохранить как…</string>
+    <string name="dialog_title_goto_line">Перейти к строке…</string>
+    <string name="dialog_title_color_picker">Выберите цвет</string>
+
+    <string name="dialog_message_close_tab">Вы уверены что хотите закрыть этот файл? Все несохраненные изменения будут сброшены</string>
+
+    <string name="message_no_open_files">Нет файлов</string>
+    <string name="message_tab_limit_achieved">Вы достигли лимита вкладок</string>
+    <string name="message_invalid_file_path">Некорректный путь к файлу</string>
+    <string name="message_unknown_exception">Неизвестная ошибка</string>
+    <string name="message_file_not_found">Файл не найден</string>
+    <string name="message_out_of_memory">Недостаточно памяти</string>
+    <string name="message_saved">Сохранено</string>
+    <string name="message_select_file">Выберите файл</string>
+    <string name="message_nothing_to_cut">Невозможно вырезать</string>
+    <string name="message_nothing_to_copy">Невозможно копировать</string>
+    <string name="message_nothing_to_paste">Невозможно вставить</string>
+    <string name="message_line_not_exists">Такой линии не существует</string>
+    <string name="message_no_errors_detected">Синтакcических ошибок не найдено</string>
+
+</resources>

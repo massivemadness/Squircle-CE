@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="view_mode_entries">
+        <item>@string/view_mode_compact_list</item>
+        <item>@string/view_mode_detailed_list</item>
+    </string-array>
+
+    <string-array name="view_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="sort_mode_entries">
+        <item>@string/sort_by_name</item>
+        <item>@string/sort_by_size</item>
+        <item>@string/sort_by_date</item>
+    </string-array>
+
+    <string-array name="sort_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="encoding_entries">
+        <item>@string/encoding_utf8_default</item>
+        <item>UTF-16</item>
+        <item>UTF-16BE</item>
+        <item>UTF-16LE</item>
+        <item>US-ASCII</item>
+        <item tools:ignore="TypographyDashes">ISO-8859-1</item>
+        <item>UTF-32</item>
+        <item>UTF-32LE</item>
+        <item>UTF-32BE</item>
+        <item>GBK/GB2312</item>
+        <item>GB18030</item>
+        <item>Big5</item>
+        <item>Shift_JIS</item>
+        <item>EUC-KR</item>
+    </string-array>
+
+    <string-array name="encoding_values">
+        <item>UTF-8</item>
+        <item>UTF-16BE</item>
+        <item>UTF-16LE</item>
+        <item>UTF-16</item>
+        <item>US-ASCII</item>
+        <item tools:ignore="TypographyDashes">ISO-8859-1</item>
+        <item>UTF-32</item>
+        <item>UTF-32LE</item>
+        <item>UTF-32BE</item>
+        <item>GBK</item>
+        <item>GB18030</item>
+        <item>Big5</item>
+        <item>Shift_JIS</item>
+        <item>EUC-KR</item>
+    </string-array>
+
+    <string-array name="linebreak_entries">
+        <item>@string/linebreak_cr</item>
+        <item>@string/linebreak_lf</item>
+        <item>@string/linebreak_crlf</item>
+    </string-array>
+
+    <string-array name="linebreak_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+</resources>

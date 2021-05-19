@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/pref_category_font">
+
+        <SeekBarPreference
+            android:title="@string/pref_font_size_title"
+            android:summary="@string/pref_font_size_summary"
+            android:key="FONT_SIZE_2"
+            android:defaultValue="14"
+            android:max="20"
+            app:min="10"
+            app:showSeekBarValue="true"/>
+
+        <Preference
+            android:title="@string/pref_font_type_title"
+            android:summary="@string/pref_font_type_summary"
+            android:key="FONT_TYPE_3"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_editor">
+
+        <SwitchPreference
+            android:title="@string/pref_word_wrap_title"
+            android:summary="@string/pref_word_wrap_summary"
+            android:defaultValue="true"
+            android:key="WORD_WRAP"/>
+
+        <SwitchPreference
+            android:title="@string/pref_code_completion_title"
+            android:summary="@string/pref_code_completion_summary"
+            android:defaultValue="true"
+            android:key="CODE_COMPLETION"/>
+
+        <SwitchPreference
+            android:title="@string/pref_error_highlighting_title"
+            android:summary="@string/pref_error_highlighting_summary"
+            android:defaultValue="true"
+            android:key="ERROR_HIGHLIGHTING"/>
+
+        <SwitchPreference
+            android:title="@string/pref_pinch_zoom_title"
+            android:summary="@string/pref_pinch_zoom_summary"
+            android:defaultValue="true"
+            android:key="PINCH_ZOOM"/>
+
+        <SwitchPreference
+            android:title="@string/pref_highlight_line_title"
+            android:summary="@string/pref_highlight_line_summary"
+            android:defaultValue="true"
+            android:key="HIGHLIGHT_CURRENT_LINE"/>
+
+        <SwitchPreference
+            android:title="@string/pref_highlight_delimiters_title"
+            android:summary="@string/pref_highlight_delimiters_summary"
+            android:defaultValue="true"
+            android:key="HIGHLIGHT_MATCHING_DELIMITERS"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_tabs">
+
+        <SwitchPreference
+            android:title="@string/pref_auto_save_files_title"
+            android:summary="@string/pref_auto_save_files_summary"
+            android:defaultValue="false"
+            android:key="AUTO_SAVE_FILES"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_keyboard">
+
+        <SwitchPreference
+            android:title="@string/pref_extended_keyboard_title"
+            android:summary="@string/pref_extended_keyboard_summary"
+            android:defaultValue="true"
+            android:key="USE_EXTENDED_KEYBOARD"/>
+
+        <Preference
+            android:title="@string/pref_keyboard_preset_title"
+            android:summary="@string/pref_keyboard_preset_summary"
+            android:key="KEYBOARD_PRESET_1"/>
+
+        <SwitchPreference
+            android:title="@string/pref_soft_keyboard_title"
+            android:summary="@string/pref_soft_keyboard_summary"
+            android:defaultValue="false"
+            android:key="USE_SOFT_KEYBOARD"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
