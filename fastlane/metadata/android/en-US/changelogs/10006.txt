@@ -1,0 +1,7 @@
+- Squircle IDE – rebranding (copyright issue)
+- Added: Support for Android 11
+- Added: Ability to open a file using external file explorer
+- Added: Support highlighting for Arduino
+- Added: German translation
+- Improved Chinese translation
+- Bugfixes and minor improvements
