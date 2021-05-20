@@ -41,7 +41,7 @@
     <string name="action_copy">复制</string>
     <string name="action_paste">粘贴</string>
     <string name="action_select_all">全选</string>
-    <string name="action_continue">Continue</string>
+    <string name="action_continue">继续</string>
 
     <string name="dialog_title_create">创建文件</string>
     <string name="dialog_title_rename">重命名文件</string>
@@ -52,11 +52,11 @@
     <string name="dialog_title_compressing">正在压缩中</string>
     <string name="dialog_title_extracting">正在解压中</string>
     <string name="dialog_title_archive_name">压缩包名称</string>
-    <string name="dialog_title_storage_access">Storage Access</string>
+    <string name="dialog_title_storage_access">外部存储权限</string>
 
     <string name="dialog_message_delete">确定要删除该文件吗？</string>
     <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
-    <string name="dialog_message_storage_access">As a file manager, Squircle IDE requires access to all files in order to function correctly\n\nPlease grant permission on this device after clicking «Continue»</string>
+    <string name="dialog_message_storage_access">作为文件管理器，Squircle IDE 需要访问所有文件才能正常运行。\n\n请点击“继续”后在授予所有文件的管理权限。</string>
 
     <string name="properties_name">&lt;b&gt;名称:&lt;/b&gt; %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b&gt;路径:&lt;/b&gt; %s&lt;br&gt;</string>
@@ -76,7 +76,7 @@
     <string name="sort_by_size">按大小排序</string>
     <string name="sort_by_date">按日期排序</string>
 
-    <string name="message_access_denied">没有访问权限</string>
+    <string name="message_access_denied">没有存储空间访问权限</string>
     <string name="message_access_required">为了能正常编写代码，必须授予存储权限</string>
     <string name="message_no_result">没有结果</string>
     <string name="message_cannot_be_opened">文件无法打开</string>
