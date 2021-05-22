@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.application.viewmodel
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -52,6 +53,10 @@ class MainViewModel @Inject constructor(
             try {
                 var path = intent.data?.path.toString()
                 Log.d(TAG, "Handle external file path = $path")
+                if (path.contains('%')) { // probably encoded
+                    path = Uri.decode(path)
+                    Log.d(TAG, "Decoded path = $path")
+                }
 
                 if (path.startsWith("/external_files/")) {
                     path = path.replaceFirst(
