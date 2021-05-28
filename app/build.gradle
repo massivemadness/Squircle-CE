@@ -36,6 +36,11 @@ android {
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
+    flavorDimensions "store"
+    productFlavors {
+        googlePlay { dimension "store" }
+        fdroid { dimension "store" }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -56,6 +61,8 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        fdroid.java.srcDirs += 'src/fdroid/kotlin'
+        googlePlay.java.srcDirs += 'src/googlePlay/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
@@ -74,7 +81,7 @@ dependencies {
     implementation library.fragment
 
     // Google Play
-    implementation library.playcore
+    googlePlayImplementation library.playcore
 
     // UI
     implementation library.appcompat

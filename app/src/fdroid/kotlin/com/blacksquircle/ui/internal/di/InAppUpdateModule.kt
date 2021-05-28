@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.internal.di
 
-import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
-import com.blacksquircle.ui.internal.providers.coroutine.DispatcherProviderImpl
+import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
+import com.blacksquircle.ui.utils.inappupdate.InAppUpdateStub
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,11 +26,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object InAppUpdateModule {
 
     @Provides
     @Singleton
-    fun provideDispatcherProvider(): DispatcherProvider {
-        return DispatcherProviderImpl()
+    fun provideInAppUpdate(): InAppUpdate {
+        return InAppUpdateStub()
     }
 }
