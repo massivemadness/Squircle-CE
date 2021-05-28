@@ -16,21 +16,23 @@
 
 package com.blacksquircle.ui.internal.di
 
-import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
-import com.blacksquircle.ui.internal.providers.coroutine.DispatcherProviderImpl
+import android.content.Context
+import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
+import com.blacksquircle.ui.utils.inappupdate.InAppUpdateImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object InAppUpdateModule {
 
     @Provides
     @Singleton
-    fun provideDispatcherProvider(): DispatcherProvider {
-        return DispatcherProviderImpl()
+    fun provideInAppUpdate(@ApplicationContext context: Context): InAppUpdate {
+        return InAppUpdateImpl(context)
     }
 }

@@ -46,6 +46,7 @@ class InAppUpdateImpl(context: Context) : InAppUpdate {
     private val appUpdateManager by lazy { AppUpdateManagerFactory.create(context) }
 
     override fun checkForUpdates(activity: Activity, onComplete: () -> Unit) {
+        Log.d(TAG, "checkForUpdates")
         appUpdateManager.registerListener(object : InstallStateUpdatedListener {
             override fun onStateUpdate(state: InstallState) {
                 if (state.installStatus == InstallStatus.DOWNLOADED) {
@@ -95,6 +96,7 @@ class InAppUpdateImpl(context: Context) : InAppUpdate {
     }
 
     override fun completeUpdate() {
+        Log.d(TAG, "completeUpdate")
         appUpdateManager.completeUpdate()
     }
 
