@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.interfaces
+package com.blacksquircle.ui.core.extensions
 
-interface BackPressedHandler {
-    /**
-     * Вернёт true если событие было обработано дочерним фрагментом.
-     */
-    fun handleOnBackPressed(): Boolean
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.getSystemService
+
+fun Activity.closeKeyboard() {
+    val inputManager = getSystemService<InputMethodManager>()
+    val windowToken = currentFocus?.windowToken
+    val hideType = InputMethodManager.HIDE_NOT_ALWAYS
+    inputManager?.hideSoftInputFromWindow(windowToken, hideType)
 }

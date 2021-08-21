@@ -20,6 +20,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.event.SingleLiveEvent
+import com.blacksquircle.ui.core.extensions.launchEvent
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.domain.model.editor.DocumentModel
 import com.blacksquircle.ui.domain.repository.explorer.ExplorerRepository
@@ -30,8 +32,6 @@ import com.blacksquircle.ui.filesystem.base.exception.*
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
-import com.blacksquircle.ui.utils.event.SingleLiveEvent
-import com.blacksquircle.ui.utils.extensions.launchEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job

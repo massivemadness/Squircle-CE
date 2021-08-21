@@ -28,6 +28,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.blacksquircle.ui.core.adapters.TabAdapter
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.interfaces.BackPressedHandler
 import com.blacksquircle.ui.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.adapters.DirectoryAdapter
@@ -35,10 +39,7 @@ import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.utils.*
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.utils.adapters.TabAdapter
-import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.*
-import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -23,8 +23,8 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
 
 class FileAdapter(
     private val selectionTracker: SelectionTracker<String>,

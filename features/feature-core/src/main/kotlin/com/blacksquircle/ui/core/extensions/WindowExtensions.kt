@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.interfaces
+package com.blacksquircle.ui.core.extensions
 
-interface DrawerHandler {
-    fun openDrawer()
-    fun closeDrawer()
+import android.view.Window
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+
+fun Window.fullscreenMode(whether: Boolean) {
+    val controller = WindowInsetsControllerCompat(this, decorView)
+    val statusBarType = WindowInsetsCompat.Type.statusBars()
+    if (whether) {
+        controller.hide(statusBarType)
+    } else {
+        controller.show(statusBarType)
+    }
 }

@@ -82,8 +82,8 @@ dependencies {
     implementation project(':data')
 
     // Features
+    implementation project(':features:feature-core')
     implementation project(':features:feature-ui')
-    implementation project(':features:feature-utils')
 
     // Tests
     testImplementation testLibrary.junit

@@ -20,9 +20,9 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.utils.delegate.navController
 
 class EditorFragment : PreferenceFragmentCompat() {
 

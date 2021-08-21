@@ -21,11 +21,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.extensions.fullscreenMode
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 

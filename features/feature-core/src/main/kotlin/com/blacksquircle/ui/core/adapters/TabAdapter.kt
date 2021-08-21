@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.adapters
+package com.blacksquircle.ui.core.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 

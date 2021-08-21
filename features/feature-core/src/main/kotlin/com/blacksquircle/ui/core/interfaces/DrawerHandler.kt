@@ -14,20 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.extensions
+package com.blacksquircle.ui.core.interfaces
 
-import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.NavController
-
-fun NavController.popBackStack(n: Int) {
-    for (index in 0 until n) {
-        popBackStack()
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T {
-    return findFragmentById(id) as T
+interface DrawerHandler {
+    fun openDrawer()
+    fun closeDrawer()
 }

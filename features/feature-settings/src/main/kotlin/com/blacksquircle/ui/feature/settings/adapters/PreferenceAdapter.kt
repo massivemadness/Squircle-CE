@@ -21,9 +21,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
 import com.blacksquircle.ui.feature.settings.adapters.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.databinding.ItemPreferenceBinding
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
 
 class PreferenceAdapter(
     private val onItemClickListener: OnItemClickListener<PreferenceItem>

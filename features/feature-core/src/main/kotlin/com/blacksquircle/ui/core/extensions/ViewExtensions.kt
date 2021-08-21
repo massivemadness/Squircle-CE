@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.extensions
+package com.blacksquircle.ui.core.extensions
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList

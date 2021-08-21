@@ -21,13 +21,13 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentExternalFontBinding
 import com.blacksquircle.ui.feature.fonts.viewmodel.FontsViewModel
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

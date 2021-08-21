@@ -33,6 +33,11 @@ import androidx.recyclerview.selection.StorageStrategy
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.interfaces.DrawerHandler
 import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.adapters.FileAdapter
@@ -45,11 +50,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.*
-import com.blacksquircle.ui.utils.interfaces.DrawerHandler
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File

@@ -21,11 +21,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.blacksquircle.ui.core.extensions.fragment
+import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.ActivitySettingsBinding
 import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
-import com.blacksquircle.ui.utils.extensions.fragment
-import com.blacksquircle.ui.utils.extensions.fullscreenMode
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

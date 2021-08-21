@@ -14,17 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.extensions
+package com.blacksquircle.ui.core.adapters
 
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-
-fun Fragment.setSupportActionBar(toolbar: Toolbar) {
-    val parentActivity = activity as? AppCompatActivity
-    parentActivity?.setSupportActionBar(toolbar)
+interface OnItemClickListener<in T> {
+    fun onClick(item: T) { /* optional */ }
+    fun onLongClick(item: T): Boolean { /* optional */ return true }
 }
-
-val Fragment.supportActionBar: ActionBar?
-    get() = (activity as? AppCompatActivity)?.supportActionBar

@@ -21,14 +21,14 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.adapters.PreferenceAdapter
 import com.blacksquircle.ui.feature.settings.adapters.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeadersBinding
 import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

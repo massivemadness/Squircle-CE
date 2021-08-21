@@ -31,6 +31,14 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.blacksquircle.ui.core.adapters.TabAdapter
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.closeKeyboard
+import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
+import com.blacksquircle.ui.core.extensions.debounce
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.interfaces.BackPressedHandler
+import com.blacksquircle.ui.core.interfaces.DrawerHandler
 import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.documents.DocumentParams
@@ -49,11 +57,7 @@ import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
-import com.blacksquircle.ui.utils.adapters.TabAdapter
-import com.blacksquircle.ui.utils.delegate.viewBinding
 import com.blacksquircle.ui.utils.extensions.*
-import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
-import com.blacksquircle.ui.utils.interfaces.DrawerHandler
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent

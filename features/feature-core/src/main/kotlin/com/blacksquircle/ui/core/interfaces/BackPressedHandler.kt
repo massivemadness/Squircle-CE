@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.extensions
+package com.blacksquircle.ui.core.interfaces
 
-import android.view.Window
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-
-fun Window.fullscreenMode(whether: Boolean) {
-    val controller = WindowInsetsControllerCompat(this, decorView)
-    val statusBarType = WindowInsetsCompat.Type.statusBars()
-    if (whether) {
-        controller.hide(statusBarType)
-    } else {
-        controller.show(statusBarType)
-    }
+interface BackPressedHandler {
+    /**
+     * Вернёт true если событие было обработано дочерним фрагментом.
+     */
+    fun handleOnBackPressed(): Boolean
 }

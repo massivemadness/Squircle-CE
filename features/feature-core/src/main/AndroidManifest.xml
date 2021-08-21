@@ -15,4 +15,4 @@
   ~ limitations under the License.
   -->
 
-<manifest package="com.blacksquircle.ui.utils"/>
+<manifest package="com.blacksquircle.ui.core" />

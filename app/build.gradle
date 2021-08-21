@@ -107,13 +107,13 @@ dependencies {
     implementation project(':filesystems:filesystem-base')
 
     // Features
+    implementation project(':features:feature-core')
     implementation project(':features:feature-editor')
     implementation project(':features:feature-explorer')
     implementation project(':features:feature-fonts')
     implementation project(':features:feature-settings')
     implementation project(':features:feature-themes')
     implementation project(':features:feature-ui')
-    implementation project(':features:feature-utils')
 
     // Tests
     testImplementation testLibrary.junit

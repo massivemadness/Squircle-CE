@@ -22,9 +22,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.databinding.ItemFontBinding
-import com.blacksquircle.ui.utils.extensions.createTypefaceFromPath
 
 class FontAdapter(
     private val actions: Actions

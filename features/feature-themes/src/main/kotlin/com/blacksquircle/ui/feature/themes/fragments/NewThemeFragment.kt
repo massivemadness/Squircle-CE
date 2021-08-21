@@ -30,6 +30,10 @@ import androidx.fragment.app.viewModels
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.themes.Meta
 import com.blacksquircle.ui.domain.model.themes.PropertyItem
@@ -37,10 +41,6 @@ import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.adapters.PropertyAdapter
 import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
 import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

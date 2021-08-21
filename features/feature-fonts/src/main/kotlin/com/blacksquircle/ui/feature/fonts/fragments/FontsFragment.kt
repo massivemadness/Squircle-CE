@@ -26,15 +26,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.debounce
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.adapters.FontAdapter
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.blacksquircle.ui.feature.fonts.viewmodel.FontsViewModel
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.debounce
-import com.blacksquircle.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
