@@ -39,7 +39,6 @@ import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.utils.*
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

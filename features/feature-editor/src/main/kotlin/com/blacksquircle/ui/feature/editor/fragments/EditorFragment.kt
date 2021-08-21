@@ -57,7 +57,6 @@ import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
-import com.blacksquircle.ui.utils.extensions.*
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent

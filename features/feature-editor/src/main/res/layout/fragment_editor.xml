@@ -322,6 +322,8 @@
 
     </FrameLayout>
 
+    <!-- endregion DOCUMENT -->
+
     <!-- region EXTENDED KEYBOARD -->
 
     <LinearLayout
@@ -355,7 +357,5 @@
     </LinearLayout>
 
     <!-- endregion EXTENDED KEYBOARD-->
-
-    <!-- endregion DOCUMENT -->
 
 </LinearLayout>

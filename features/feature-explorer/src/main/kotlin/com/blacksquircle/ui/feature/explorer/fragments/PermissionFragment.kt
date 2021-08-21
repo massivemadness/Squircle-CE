@@ -31,7 +31,6 @@ import com.blacksquircle.ui.core.extensions.requestStorageAccess
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentPermissionBinding
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

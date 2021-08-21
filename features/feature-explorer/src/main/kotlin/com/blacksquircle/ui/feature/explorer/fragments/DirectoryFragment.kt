@@ -50,7 +50,6 @@ import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
-import com.blacksquircle.ui.utils.extensions.*
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
