@@ -46,9 +46,9 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
     @Inject
     lateinit var inAppUpdate: InAppUpdate
 
-    private val mainViewModel: MainViewModel by viewModels()
-    private val explorerViewModel: ExplorerViewModel by viewModels()
-    private val editorViewModel: EditorViewModel by viewModels()
+    private val mainViewModel by viewModels<MainViewModel>()
+    private val explorerViewModel by viewModels<ExplorerViewModel>()
+    private val editorViewModel by viewModels<EditorViewModel>()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var editorBackPressedHandler: BackPressedHandler

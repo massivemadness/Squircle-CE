@@ -23,18 +23,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.viewbinding.ViewBinding
-import java.lang.reflect.Method
 import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
-inline fun <reified T : ViewBinding> Fragment.viewBinding(): ViewBindingDelegate<T> {
-    return ViewBindingDelegate(this, T::class)
+inline fun <reified T : ViewBinding> Fragment.viewBinding(
+    noinline bindMethod: (View) -> T
+): ViewBindingDelegate<T> {
+    return ViewBindingDelegate(this, bindMethod)
 }
 
 class ViewBindingDelegate<T : ViewBinding> @PublishedApi internal constructor(
     private val fragment: Fragment,
-    private val viewBindingClass: KClass<T>
+    private val bindMethod: (View) -> T,
 ) : ReadOnlyProperty<Any?, T> {
 
     private val handler = Handler(Looper.getMainLooper())
@@ -59,20 +59,7 @@ class ViewBindingDelegate<T : ViewBinding> @PublishedApi internal constructor(
         val view = checkNotNull(fragment.view) {
             "ViewBinding is only valid between onCreateView and onDestroyView."
         }
-        return viewBindingClass.bind(view)
+        return bindMethod.invoke(view)
             .also { binding = it }
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-fun <T : ViewBinding> KClass<T>.bind(rootView: View): T {
-    return java.getBindMethod().invoke(null, rootView) as T
-}
-
-private val bindMethodsCache = mutableMapOf<Class<out ViewBinding>, Method>()
-
-private fun Class<out ViewBinding>.getBindMethod(): Method {
-    return bindMethodsCache.getOrPut(this) {
-        getDeclaredMethod("bind", View::class.java)
     }
 }

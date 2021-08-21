@@ -23,7 +23,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentPermissionBinding
@@ -36,9 +35,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PermissionFragment : Fragment(R.layout.fragment_permission) {
 
-    private val viewModel: ExplorerViewModel by activityViewModels()
-    private val binding: FragmentPermissionBinding by viewBinding()
-    private val navController: NavController by navController()
+    private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val binding by viewBinding(FragmentPermissionBinding::bind)
+    private val navController by navController()
 
     private val requestResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {

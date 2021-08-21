@@ -62,12 +62,12 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     ToolbarManager.OnPanelClickListener, DocumentAdapter.TabInteractor {
 
-    private val viewModel: EditorViewModel by activityViewModels()
-    private val binding: FragmentEditorBinding by viewBinding()
+    private val viewModel by activityViewModels<EditorViewModel>()
+    private val binding by viewBinding(FragmentEditorBinding::bind)
 
-    private val drawerHandler: DrawerHandler by lazy { activity as DrawerHandler }
-    private val toolbarManager: ToolbarManager by lazy { ToolbarManager(this) }
-    private val tabController: TabController by lazy { TabController() }
+    private val drawerHandler by lazy { activity as DrawerHandler }
+    private val toolbarManager by lazy { ToolbarManager(this) }
+    private val tabController by lazy { TabController() }
 
     private lateinit var adapter: DocumentAdapter
 

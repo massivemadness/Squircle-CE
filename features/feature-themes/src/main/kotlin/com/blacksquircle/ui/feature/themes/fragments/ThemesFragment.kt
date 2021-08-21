@@ -30,7 +30,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
@@ -50,9 +49,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
-    private val viewModel: ThemesViewModel by viewModels()
-    private val binding: FragmentThemesBinding by viewBinding()
-    private val navController: NavController by navController()
+    private val viewModel by viewModels<ThemesViewModel>()
+    private val binding by viewBinding(FragmentThemesBinding::bind)
+    private val navController by navController()
 
     private lateinit var adapter: ThemeAdapter
 
@@ -66,9 +65,10 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         observeViewModel()
 
         val gridLayoutManager = binding.recyclerView.layoutManager as GridLayoutManager
-        val gridSpacingDecoration = GridSpacingItemDecoration(8, gridLayoutManager.spanCount)
+        GridSpacingItemDecoration(8, gridLayoutManager.spanCount).let {
+            binding.recyclerView.addItemDecoration(it)
+        }
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.addItemDecoration(gridSpacingDecoration)
         binding.recyclerView.adapter = ThemeAdapter(object : ThemeAdapter.Actions {
             override fun selectTheme(themeModel: ThemeModel) = viewModel.selectTheme(themeModel)
             override fun exportTheme(themeModel: ThemeModel) {

@@ -31,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
-    private val viewModel: SettingsViewModel by viewModels()
+    private val viewModel by viewModels<SettingsViewModel>()
 
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var navController: NavController

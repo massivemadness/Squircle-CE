@@ -21,7 +21,6 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentExternalFontBinding
@@ -34,9 +33,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
 
-    private val viewModel: FontsViewModel by viewModels()
-    private val binding: FragmentExternalFontBinding by viewBinding()
-    private val navController: NavController by navController()
+    private val viewModel by viewModels<FontsViewModel>()
+    private val binding by viewBinding(FragmentExternalFontBinding::bind)
+    private val navController by navController()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

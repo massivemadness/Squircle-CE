@@ -25,7 +25,6 @@ import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.selection.DefaultSelectionTracker
 import androidx.recyclerview.selection.SelectionPredicates
@@ -59,11 +58,11 @@ import java.io.FileNotFoundException
 @AndroidEntryPoint
 class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
 
-    private val viewModel: ExplorerViewModel by activityViewModels()
-    private val binding: FragmentDirectoryBinding by viewBinding()
-    private val navController: NavController by navController()
-    private val navArgs: DirectoryFragmentArgs by navArgs()
-    private val drawerHandler: DrawerHandler by lazy { activity as DrawerHandler }
+    private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val binding by viewBinding(FragmentDirectoryBinding::bind)
+    private val navController by navController()
+    private val navArgs by navArgs<DirectoryFragmentArgs>()
+    private val drawerHandler by lazy { activity as DrawerHandler }
 
     private lateinit var tracker: SelectionTracker<String>
     private lateinit var adapter: FileAdapter

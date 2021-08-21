@@ -44,8 +44,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandler {
 
-    private val viewModel: ExplorerViewModel by activityViewModels()
-    private val binding: FragmentExplorerBinding by viewBinding()
+    private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val binding by viewBinding(FragmentExplorerBinding::bind)
 
     private lateinit var navController: NavController
     private lateinit var adapter: DirectoryAdapter
