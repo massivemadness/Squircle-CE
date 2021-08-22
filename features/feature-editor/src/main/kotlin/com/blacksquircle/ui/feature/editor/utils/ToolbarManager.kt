@@ -33,19 +33,19 @@ class ToolbarManager(
     private val listener: OnPanelClickListener
 ) : PopupMenu.OnMenuItemClickListener {
 
-    var orientation: Int = Configuration.ORIENTATION_UNDEFINED
+    var panel: Panel = Panel.DEFAULT
+        set(value) {
+            field = value
+            updatePanel()
+        }
+
+    private var orientation: Int = Configuration.ORIENTATION_UNDEFINED
         set(value) {
             field = when (value) {
                 Configuration.ORIENTATION_PORTRAIT -> portrait()
                 Configuration.ORIENTATION_LANDSCAPE -> landscape()
                 else -> Configuration.ORIENTATION_UNDEFINED
             }
-        }
-
-    var panel: Panel = Panel.DEFAULT
-        set(value) {
-            field = value
-            updatePanel()
         }
 
     private var isRegex = false
@@ -113,7 +113,8 @@ class ToolbarManager(
 
     fun bind(binding: FragmentEditorBinding) {
         this.binding = binding
-        orientation = binding.root.resources?.configuration?.orientation ?: Configuration.ORIENTATION_PORTRAIT
+        orientation = binding.root.resources?.configuration
+            ?.orientation ?: Configuration.ORIENTATION_PORTRAIT
         updatePanel()
 
         binding.actionDrawer.setOnClickListener { listener.onDrawerButton() }
