@@ -27,6 +27,7 @@
 
     <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
 
+    <string name="action_save">保存</string>
     <string name="action_reset">重置</string>
 
     <string name="preset_disclaimer">注：同一个字符可以重复多次</string>

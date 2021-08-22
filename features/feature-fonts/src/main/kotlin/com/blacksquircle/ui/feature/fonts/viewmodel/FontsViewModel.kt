@@ -20,7 +20,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.event.SingleLiveEvent
+import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.domain.repository.fonts.FontsRepository
 import com.blacksquircle.ui.feature.fonts.R

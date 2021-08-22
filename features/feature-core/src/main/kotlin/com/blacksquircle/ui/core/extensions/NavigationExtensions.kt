@@ -17,14 +17,26 @@
 package com.blacksquircle.ui.core.extensions
 
 import androidx.annotation.IdRes
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
+import com.blacksquircle.ui.core.navigation.Screen
 
 fun NavController.popBackStack(n: Int) {
     for (index in 0 until n) {
         popBackStack()
     }
+}
+
+fun NavController.navigate(
+    screen: Screen,
+    extras: Navigator.Extras? = null,
+    navOptions: NavOptions? = null
+) {
+    navigate(screen.route.toUri(), navOptions, extras)
 }
 
 @Suppress("UNCHECKED_CAST")

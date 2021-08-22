@@ -26,6 +26,7 @@
         android:name="com.blacksquircle.ui.feature.fonts.fragments.FontsFragment"
         android:label="@string/label_fonts"
         tools:layout="@layout/fragment_fonts">
+        <deepLink app:uri="blacksquircle://fonts" />
         <action
             android:id="@+id/to_externalFontFragment"
             app:enterAnim="@anim/nav_default_enter_anim"

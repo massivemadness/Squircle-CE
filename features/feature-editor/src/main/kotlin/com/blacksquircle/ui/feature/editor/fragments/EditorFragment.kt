@@ -37,8 +37,8 @@ import com.blacksquircle.ui.core.extensions.closeKeyboard
 import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
 import com.blacksquircle.ui.core.extensions.debounce
 import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.interfaces.BackPressedHandler
-import com.blacksquircle.ui.core.interfaces.DrawerHandler
+import com.blacksquircle.ui.core.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.documents.DocumentParams

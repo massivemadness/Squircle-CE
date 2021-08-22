@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.event
+package com.blacksquircle.ui.core.lifecycle
 
 import android.util.Log
 import androidx.annotation.MainThread

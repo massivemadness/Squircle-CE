@@ -29,7 +29,7 @@ import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
 
 class PresetDialog : DialogFragment() {
 
-    private val viewModel: SettingsViewModel by activityViewModels()
+    private val viewModel by activityViewModels<SettingsViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {

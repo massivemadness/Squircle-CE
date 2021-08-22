@@ -31,7 +31,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.blacksquircle.ui.core.adapters.TabAdapter
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.*
-import com.blacksquircle.ui.core.interfaces.BackPressedHandler
+import com.blacksquircle.ui.core.navigation.BackPressedHandler
 import com.blacksquircle.ui.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.adapters.DirectoryAdapter

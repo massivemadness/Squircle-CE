@@ -85,8 +85,6 @@ dependencies {
 
     // Features
     implementation project(':features:feature-core')
-    implementation project(':features:feature-fonts')
-    implementation project(':features:feature-themes')
     implementation project(':features:feature-ui')
 
     // Tests

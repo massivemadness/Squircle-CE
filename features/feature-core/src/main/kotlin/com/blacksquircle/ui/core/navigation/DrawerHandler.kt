@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.interfaces
+package com.blacksquircle.ui.core.navigation
 
-interface BackPressedHandler {
-    /**
-     * Вернёт true если событие было обработано дочерним фрагментом.
-     */
-    fun handleOnBackPressed(): Boolean
+interface DrawerHandler {
+    fun openDrawer()
+    fun closeDrawer()
 }

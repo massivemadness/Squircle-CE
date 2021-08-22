@@ -27,8 +27,8 @@ import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.extensions.fragment
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.interfaces.BackPressedHandler
-import com.blacksquircle.ui.core.interfaces.DrawerHandler
+import com.blacksquircle.ui.core.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.feature.editor.fragments.EditorFragment
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel

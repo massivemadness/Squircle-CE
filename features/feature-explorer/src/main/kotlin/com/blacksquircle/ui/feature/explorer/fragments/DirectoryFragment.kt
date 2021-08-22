@@ -37,7 +37,7 @@ import com.blacksquircle.ui.core.adapters.OnItemClickListener
 import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.interfaces.DrawerHandler
+import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.adapters.FileAdapter

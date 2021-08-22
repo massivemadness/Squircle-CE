@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.interfaces
+package com.blacksquircle.ui.core.navigation
 
-interface DrawerHandler {
-    fun openDrawer()
-    fun closeDrawer()
+sealed class Screen(val route: String) {
+    object Settings : Screen("blacksquircle://settings")
+    object Fonts : Screen("blacksquircle://fonts")
+    object Themes : Screen("blacksquircle://themes")
 }
