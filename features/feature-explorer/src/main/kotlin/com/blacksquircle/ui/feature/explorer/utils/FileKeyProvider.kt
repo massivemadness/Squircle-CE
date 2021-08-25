@@ -31,6 +31,6 @@ class FileKeyProvider(
 
     override fun getPosition(key: String): Int {
         val adapter = recyclerView.adapter as FileAdapter
-        return adapter.indexOf(key)
+        return adapter.currentList.indexOfFirst { it.path == key }
     }
 }
