@@ -28,7 +28,7 @@ data class FileModel(
 
     companion object {
         val TEXT = arrayOf(
-            ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua",
+            ".txt", ".js", ".json", ".java", ".kt", ".md", ".lua", ".rb",
             ".as", ".cs", ".c", ".cpp", ".h", ".hpp", ".lisp", ".lsp",
             ".cl", ".l", ".py", ".pyw", ".pyi", ".vb", ".bas", ".cls", ".sql",
             ".sqlite", ".sqlite2", ".sqlite3", ".htm", ".html", ".xhtml", ".xht",

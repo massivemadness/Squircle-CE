@@ -33,6 +33,7 @@ import com.blacksquircle.ui.language.markdown.MarkdownLanguage
 import com.blacksquircle.ui.language.php.PhpLanguage
 import com.blacksquircle.ui.language.plaintext.PlainTextLanguage
 import com.blacksquircle.ui.language.python.PythonLanguage
+import com.blacksquircle.ui.language.ruby.RubyLanguage
 import com.blacksquircle.ui.language.shell.ShellLanguage
 import com.blacksquircle.ui.language.sql.SqlLanguage
 import com.blacksquircle.ui.language.typescript.TypeScriptLanguage
@@ -58,6 +59,7 @@ object LanguageFactory {
             MarkdownLanguage.supportFormat(fileName) -> MarkdownLanguage()
             PhpLanguage.supportFormat(fileName) -> PhpLanguage()
             PythonLanguage.supportFormat(fileName) -> PythonLanguage()
+            RubyLanguage.supportFormat(fileName) -> RubyLanguage()
             ShellLanguage.supportFormat(fileName) -> ShellLanguage()
             SqlLanguage.supportFormat(fileName) -> SqlLanguage()
             TypeScriptLanguage.supportFormat(fileName) -> TypeScriptLanguage()
