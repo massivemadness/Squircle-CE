@@ -1,4 +1,4 @@
-packages com.blacksquircle.ui.language.ruby.lexer;
+package com.blacksquircle.ui.language.ruby.lexer;
 
 @SuppressWarnings("all")
 %%
@@ -51,13 +51,13 @@ SINGLE_QUOTED_STRING = '([^\\'\r\n] | \\[^\r\n] | \\{CRLF})*'?
 LINE_TERMINATOR = \r|\n|\r\n
 WHITESPACE = {LINE_TERMINATOR} | [ \t\f]
 
-EMBEDDED_LITERAL = \#\{[^}]*\}
+INSTANCE_VARIABLE = "@" \w*?
 
-METHOD = \.[a-zA-Z]([^\s]*)
+EMBEDDED_LITERAL = \#\{[^}]*\}
 
 LINE_COMMENT = "#".*
 
-BLOCK_COMMENT = "=begin"\s[\s\w^=begin]*\=end?
+BLOCK_COMMENT = "=begin"\s([^=begin])*"=end"?
 
 %% 
 
@@ -67,7 +67,7 @@ BLOCK_COMMENT = "=begin"\s[\s\w^=begin]*\=end?
   {INTEGER_LITERAL} { return RubyToken.INTEGER_LITERAL; }
   {FLOAT_LITERAL} { return RubyToken.FLOAT_LITERAL; }
   {DOUBLE_LITERAL} { return RubyToken.DOUBLE_LITERAL; }
-
+  {INSTANCE_VARIABLE} { return RubyToken.INSTANCE_VARIABLE; }
   "alias" { return RubyToken.ALIAS; }
   "super" { return RubyToken.SUPER; }
   "self" { return RubyToken.SELF; }
@@ -102,6 +102,7 @@ BLOCK_COMMENT = "=begin"\s[\s\w^=begin]*\=end?
   "elsif" { return RubyToken.ELSIF; }
   "end" { return RubyToken.END; }
   "until" { return RubyToken.UNTIL; }
+
   "abort" |
   "catch" |
   "chomp" |
@@ -138,8 +139,7 @@ BLOCK_COMMENT = "=begin"\s[\s\w^=begin]*\=end?
   "srand" |
   "system" |
   "sub" |
-  "throw" |
-  {METHOD} { return RubyToken.METHOD; }
+  "throw" { return RubyToken.METHOD; }
   "nil" { return RubyToken.NIL; }
   "true" { return RubyToken.TRUE; }
   "false" { return RubyToken.FALSE; }
@@ -182,8 +182,7 @@ BLOCK_COMMENT = "=begin"\s[\s\w^=begin]*\=end?
   ">=" { return RubyToken.GTEQ; }
   "==" { return RubyToken.EQEQ; }
   "!=" { return RubyToken.NOTEQ; }                        
-  "<>" { return RubyToken.LTGT; }                        
-  "@" { return RubyToken.AT; }                         
+  "<>" { return RubyToken.LTGT; }                                                
   "," { return RubyToken.COMMA; }
   ":" { return RubyToken.COLON; }
   "." { return RubyToken.DOT; }

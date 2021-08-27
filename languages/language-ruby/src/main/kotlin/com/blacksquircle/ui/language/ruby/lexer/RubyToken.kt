@@ -23,6 +23,7 @@ enum class RubyToken
     FLOAT_LITERAL,
     DOUBLE_LITERAL,
     
+    INSTANCE_VARIABLE,
     _ENCODING,
     _LINE,
     _FILE,
@@ -90,7 +91,6 @@ enum class RubyToken
     LT,
     GT,
     EQ,
-    AT,
 
     OROR,
     ANDAND,

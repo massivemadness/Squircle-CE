@@ -79,7 +79,6 @@ class RubyStyler private constructor() : LanguageStyler {
                     RubyToken.LT,
                     RubyToken.GT,
                     RubyToken.EQ,
-                    RubyToken.AT,
                     RubyToken.LTLT,
                     RubyToken.GTGT,
                     RubyToken.XOR,
@@ -142,8 +141,12 @@ class RubyStyler private constructor() : LanguageStyler {
                     RubyToken.UNTIL,                       
                     RubyToken.RETURN -> {
                         val styleSpan = StyleSpan(syntaxScheme.keywordColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                    }
+                   RubyToken.INSTANCE_VARIABLE -> {
+                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     RubyToken.METHOD,
