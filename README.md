@@ -399,6 +399,7 @@ dependencies {
   implementation 'com.blacksquircle.ui:language-php:2.0.0'
   implementation 'com.blacksquircle.ui:language-plaintext:2.0.0'
   implementation 'com.blacksquircle.ui:language-python:2.0.0'
+  implementation 'com.blacksquircle.ui:language-ruby:2.0.0'
   implementation 'com.blacksquircle.ui:language-shell:2.0.0'
   implementation 'com.blacksquircle.ui:language-sql:2.0.0'
   implementation 'com.blacksquircle.ui:language-typescript:2.0.0'
