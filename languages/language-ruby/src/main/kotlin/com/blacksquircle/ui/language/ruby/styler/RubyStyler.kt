@@ -27,15 +27,12 @@ import com.blacksquircle.ui.language.ruby.lexer.RubyLexer
 import com.blacksquircle.ui.language.ruby.lexer.RubyToken
 import java.io.IOException
 import java.io.StringReader
-import java.util.regex.Pattern
 
 class RubyStyler private constructor() : LanguageStyler {
 
     companion object {
 
         private const val TAG = "RubyStyler"
-
-        private val METHOD = Pattern.compile("(?<=(function)) (\\w+)")
 
         private var rubyStyler: RubyStyler? = null
 
@@ -45,7 +42,7 @@ class RubyStyler private constructor() : LanguageStyler {
             }
         }
     }
-    
+
     private var task: StylingTask? = null
 
     override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
@@ -83,6 +80,8 @@ class RubyStyler private constructor() : LanguageStyler {
                     RubyToken.GTGT,
                     RubyToken.XOR,
                     RubyToken.TILDE,
+                    RubyToken.OR,
+                    RubyToken.AND,
                     RubyToken.LTEQ,
                     RubyToken.GTEQ,
                     RubyToken.EQEQ,
@@ -112,6 +111,10 @@ class RubyStyler private constructor() : LanguageStyler {
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
+                    RubyToken.ALIAS,
+                    RubyToken.SUPER,
+                    RubyToken.SELF,
+                    RubyToken.UNDEF,
                     RubyToken.CLASS,
                     RubyToken.DEF,
                     RubyToken.END,
@@ -138,7 +141,7 @@ class RubyStyler private constructor() : LanguageStyler {
                     RubyToken.THEN,
                     RubyToken.ELSE,
                     RubyToken.ELSIF,
-                    RubyToken.UNTIL,                       
+                    RubyToken.UNTIL,
                     RubyToken.RETURN -> {
                         val styleSpan = StyleSpan(syntaxScheme.keywordColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -162,10 +165,9 @@ class RubyStyler private constructor() : LanguageStyler {
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
-                    // Preprocessor
-                    RubyToken._ENCODING, 
+                    RubyToken._ENCODING,
                     RubyToken._FILE,
-                    RubyToken._LINE, 
+                    RubyToken._LINE,
                     RubyToken.DEFINED -> {
                         val styleSpan = StyleSpan(syntaxScheme.preprocessorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)

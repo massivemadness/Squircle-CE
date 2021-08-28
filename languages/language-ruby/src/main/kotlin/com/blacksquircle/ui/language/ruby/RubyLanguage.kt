@@ -20,7 +20,6 @@ import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.parser.LanguageParser
 import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.endsWith
 import com.blacksquircle.ui.language.ruby.parser.RubyParser
 import com.blacksquircle.ui.language.ruby.provider.RubyProvider
 import com.blacksquircle.ui.language.ruby.styler.RubyStyler
@@ -52,4 +51,3 @@ class RubyLanguage : Language {
         return RubyStyler.getInstance()
     }
 }
-

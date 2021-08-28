@@ -14,35 +14,28 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.language.ruby.lexer;
+package com.blacksquircle.ui.language.ruby.lexer
 
-enum class RubyToken
-{
+enum class RubyToken {
     LONG_LITERAL,
     INTEGER_LITERAL,
     FLOAT_LITERAL,
     DOUBLE_LITERAL,
-    
+
     INSTANCE_VARIABLE,
     _ENCODING,
     _LINE,
     _FILE,
 
     ALIAS,
-
     DEFINED,
-
-   
     SUPER,
     SELF,
     UNDEF,
-
-  
     CLASS,
     DEF,
     MODULE,
     RETURN,
-   
     BEGIN,
     BREAK,
     DO,
@@ -70,7 +63,7 @@ enum class RubyToken
     AND_KEYWORD,
     OR_KEYWORD,
     NOT_KEYWORD,
-   
+
     NIL,
     TRUE,
     FALSE,

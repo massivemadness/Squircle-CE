@@ -22,7 +22,6 @@ package com.blacksquircle.ui.language.ruby.lexer;
   }
 %}
 
-
 IDENTIFIER = [:jletter:] [:jletterdigit:]*
 
 DIGIT = [0-9]
@@ -56,7 +55,6 @@ INSTANCE_VARIABLE = "@" \w*?
 EMBEDDED_LITERAL = \#\{[^}]*\}
 
 LINE_COMMENT = "#".*
-
 BLOCK_COMMENT = "=begin"\s([^=begin])*"=end"?
 
 %% 
@@ -68,6 +66,7 @@ BLOCK_COMMENT = "=begin"\s([^=begin])*"=end"?
   {FLOAT_LITERAL} { return RubyToken.FLOAT_LITERAL; }
   {DOUBLE_LITERAL} { return RubyToken.DOUBLE_LITERAL; }
   {INSTANCE_VARIABLE} { return RubyToken.INSTANCE_VARIABLE; }
+
   "alias" { return RubyToken.ALIAS; }
   "super" { return RubyToken.SUPER; }
   "self" { return RubyToken.SELF; }
@@ -201,6 +200,7 @@ BLOCK_COMMENT = "=begin"\s([^=begin])*"=end"?
   ">>="  { return RubyToken.GTGTEQ; }                        
   "<<="  { return RubyToken.LTLTEQ; }                        
   "**="  { return RubyToken.POWEQ; }
+
   {DOUBLE_QUOTED_STRING} { return RubyToken.DOUBLE_QUOTED_STRING; }
   {SINGLE_QUOTED_STRING} { return RubyToken.SINGLE_QUOTED_STRING; }
   {EMBEDDED_LITERAL} { return RubyToken.EMBEDDED_LITERAL; }
