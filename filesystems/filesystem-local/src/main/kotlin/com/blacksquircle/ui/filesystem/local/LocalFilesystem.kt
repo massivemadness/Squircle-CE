@@ -34,6 +34,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("BlockingMethodInNonBlockingContext")
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
@@ -145,7 +146,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 if (!destFile.exists()) {
                     sourceFile.copyRecursively(destFile, overwrite = false)
                     // val destFile2 = FileConverter.toModel(destFile)
-                    // emitter.onSuccess(destFile2)
+                    // cont.resume(destFile2)
                     cont.resume(source)
                 } else {
                     cont.resumeWithException(FileAlreadyExistsException(dest.path))
@@ -188,7 +189,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     }
 
     // TODO: Use ProgressMonitor
-    @ExperimentalCoroutinesApi
     override suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val destFile = FileConverter.toFile(dest)
@@ -213,7 +213,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                                 throw e
                             }
                         }
-                        offer(fileModel)
+                        send(fileModel)
                     } else {
                         throw FileNotFoundException(fileModel.path)
                     }
@@ -226,7 +226,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     }
 
     // TODO: Use ProgressMonitor
-    @ExperimentalCoroutinesApi
     override suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val sourceFile = FileConverter.toFile(source)
@@ -247,8 +246,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                                     throw e
                                 }
                             }
-                            offer(source)
-                            close() // FIXME offer() вызывается только 1 раз
+                            send(source)
+                            close() // FIXME send() вызывается только 1 раз
                         }
                         archiveFile.isEncrypted -> throw EncryptedArchiveException(source.path)
                         archiveFile.isSplitArchive -> throw SplitArchiveException(source.path)

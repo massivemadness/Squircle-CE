@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
@@ -66,39 +67,36 @@ class ExplorerRepositoryImpl(
         }
     }
 
-    @ExperimentalCoroutinesApi
     override suspend fun deleteFiles(source: List<FileModel>): Flow<FileModel> {
         return callbackFlow {
             source.forEach {
                 val fileModel = filesystem.deleteFile(it)
-                trySend(fileModel)
+                send(fileModel)
                 delay(20)
             }
             close()
         }.flowOn(dispatcherProvider.io())
     }
 
-    @ExperimentalCoroutinesApi
     override suspend fun copyFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
         return callbackFlow {
             val dest = filesystem.provideFile(destPath)
             source.forEach {
                 val fileModel = filesystem.copyFile(it, dest)
-                trySend(fileModel)
+                send(fileModel)
                 delay(20)
             }
             close()
         }.flowOn(dispatcherProvider.io())
     }
 
-    @ExperimentalCoroutinesApi
     override suspend fun cutFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
         return callbackFlow {
             val dest = filesystem.provideFile(destPath)
             source.forEach { fileModel ->
                 filesystem.copyFile(fileModel, dest)
                 filesystem.deleteFile(fileModel)
-                trySend(fileModel)
+                send(fileModel)
                 delay(20)
             }
             close()
