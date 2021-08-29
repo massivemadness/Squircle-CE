@@ -20,6 +20,7 @@ import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.parser.LanguageParser
 import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
+import com.blacksquircle.ui.language.base.utils.endsWith
 import com.blacksquircle.ui.language.kotlin.parser.KotlinParser
 import com.blacksquircle.ui.language.kotlin.provider.KotlinProvider
 import com.blacksquircle.ui.language.kotlin.styler.KotlinStyler
@@ -28,10 +29,10 @@ class KotlinLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".kt"
+        private val FILE_EXTENSIONS = arrayOf(".kt", ".kts")
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(FILE_EXTENSIONS)
         }
     }
 
