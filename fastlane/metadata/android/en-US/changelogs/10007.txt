@@ -1,0 +1,3 @@
+- Added: Support for Ruby language
+- Updated Chinese translation
+- Bugfixes and minor improvements
