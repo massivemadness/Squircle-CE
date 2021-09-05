@@ -23,6 +23,7 @@ import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 import kotlinx.coroutines.flow.Flow
 
 interface Filesystem {
+
     suspend fun defaultLocation(): FileModel
 
     suspend fun provideFile(path: String): FileModel

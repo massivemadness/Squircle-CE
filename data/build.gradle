@@ -109,7 +109,6 @@ dependencies {
 
     // Tests
     testImplementation testLibrary.junit
-    testImplementation testLibrary.mockito
 
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner

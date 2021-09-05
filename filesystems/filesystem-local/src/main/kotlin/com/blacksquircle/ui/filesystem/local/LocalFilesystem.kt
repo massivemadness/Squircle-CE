@@ -21,7 +21,10 @@ import com.blacksquircle.ui.filesystem.base.exception.*
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.endsWith
 import com.blacksquircle.ui.filesystem.local.converter.FileConverter
+import com.blacksquircle.ui.filesystem.local.utils.charCount
+import com.blacksquircle.ui.filesystem.local.utils.lineCount
 import com.blacksquircle.ui.filesystem.local.utils.size
+import com.blacksquircle.ui.filesystem.local.utils.wordCount
 import com.ibm.icu.text.CharsetDetector
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -163,16 +166,15 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             val fileType = fileModel.getType()
             if (file.exists()) {
                 val result = PropertiesModel(
-                    file.name,
-                    file.absolutePath,
-                    file.lastModified(),
-                    file.size(),
-                    getLineCount(file, fileType),
-                    getWordCount(file, fileType),
-                    getCharCount(file, fileType),
-                    file.canRead(),
-                    file.canWrite(),
-                    file.canExecute()
+                    path = file.absolutePath,
+                    lastModified = file.lastModified(),
+                    size = file.size(),
+                    lines = file.lineCount(fileType),
+                    words = file.wordCount(fileType),
+                    chars = file.charCount(fileType),
+                    readable = file.canRead(),
+                    writable = file.canWrite(),
+                    executable = file.canExecute()
                 )
                 cont.resume(result)
             } else {
@@ -300,37 +302,4 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             cont.resume(Unit)
         }
     }
-
-    // region PROPERTIES
-
-    private fun getLineCount(file: File, fileType: FileType): Int? {
-        if (file.isFile && fileType == FileType.TEXT) {
-            var lines = 0
-            file.forEachLine {
-                lines++
-            }
-            return lines
-        }
-        return null
-    }
-
-    private fun getWordCount(file: File, fileType: FileType): Int? {
-        if (file.isFile && fileType == FileType.TEXT) {
-            var words = 0
-            file.forEachLine {
-                words += it.split(' ').size
-            }
-            return words
-        }
-        return null
-    }
-
-    private fun getCharCount(file: File, fileType: FileType): Int? {
-        if (file.isFile && fileType == FileType.TEXT) {
-            return file.length().toInt()
-        }
-        return null
-    }
-
-    // endregion PROPERTIES
 }
