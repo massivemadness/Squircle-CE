@@ -16,10 +16,12 @@
 
 package com.blacksquircle.ui.feature.explorer.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.preference.PreferenceManager
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.domain.model.editor.DocumentModel
 import com.blacksquircle.ui.domain.repository.explorer.ExplorerRepository
@@ -33,6 +35,7 @@ import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 import com.blacksquircle.ui.utils.event.SingleLiveEvent
 import com.blacksquircle.ui.utils.extensions.launchEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -44,11 +47,14 @@ import javax.inject.Inject
 @HiltViewModel
 class ExplorerViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
-    private val explorerRepository: ExplorerRepository
+    private val explorerRepository: ExplorerRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     companion object {
         private const val TAG = "ExplorerViewModel"
+
+        const val KEY_LOCAL_SAVEDDIR = "LOCAL_SAVEDDIR"
     }
 
     // region EVENTS
@@ -126,6 +132,9 @@ class ExplorerViewModel @Inject constructor(
                 searchList.replaceList(fileTree.children)
 
                 emptyView.value = fileTree.children.isEmpty()
+
+                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+                sharedPreferences.edit().putString(KEY_LOCAL_SAVEDDIR, path).apply()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 when (e) {

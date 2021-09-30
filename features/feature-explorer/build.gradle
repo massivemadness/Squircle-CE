@@ -67,6 +67,7 @@ dependencies {
     implementation library.constraintlayout
     implementation library.swiperefreshlayout
     implementation library.recyclerview_selection
+    implementation library.preferencescompat
 
     // AAC
     implementation library.livedata
