@@ -26,6 +26,7 @@ import com.blacksquircle.ui.language.html.HtmlLanguage
 import com.blacksquircle.ui.language.java.JavaLanguage
 import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.language.json.JsonLanguage
+import com.blacksquircle.ui.language.julia.JuliaLanguage
 import com.blacksquircle.ui.language.kotlin.KotlinLanguage
 import com.blacksquircle.ui.language.lisp.LispLanguage
 import com.blacksquircle.ui.language.lua.LuaLanguage
@@ -52,6 +53,7 @@ object LanguageFactory {
             JavaLanguage.supportFormat(fileName) -> JavaLanguage()
             JavaScriptLanguage.supportFormat(fileName) -> JavaScriptLanguage()
             JsonLanguage.supportFormat(fileName) -> JsonLanguage()
+            JuliaLanguage.supportFormat(fileName) -> JuliaLanguage()
             KotlinLanguage.supportFormat(fileName) -> KotlinLanguage()
             LispLanguage.supportFormat(fileName) -> LispLanguage()
             LuaLanguage.supportFormat(fileName) -> LuaLanguage()
