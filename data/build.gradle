@@ -106,6 +106,7 @@ dependencies {
     implementation project(':languages:language-typescript')
     implementation project(':languages:language-visualbasic')
     implementation project(':languages:language-xml')
+    implementation project(':languages:language-julia')
 
     // Tests
     testImplementation testLibrary.junit

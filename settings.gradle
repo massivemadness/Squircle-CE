@@ -61,4 +61,5 @@ include ':languages:language-base',
         ':languages:language-sql',
         ':languages:language-typescript',
         ':languages:language-visualbasic',
-        ':languages:language-xml'
+        ':languages:language-xml',
+        ':languages:language-julia'
