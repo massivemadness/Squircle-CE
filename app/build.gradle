@@ -120,5 +120,4 @@ dependencies {
 
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner
-    androidTestImplementation androidTestLibrary.espresso_core
 }
