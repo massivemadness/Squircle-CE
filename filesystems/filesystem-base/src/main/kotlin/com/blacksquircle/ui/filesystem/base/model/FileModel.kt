@@ -34,7 +34,8 @@ data class FileModel(
             ".sqlite", ".sqlite2", ".sqlite3", ".htm", ".html", ".xhtml", ".xht",
             ".xaml", ".xdf", ".xmpp", ".xml", ".sh", ".ksh", ".bsh", ".csh",
             ".tcsh", ".zsh", ".bash", ".groovy", ".gvy", ".gy", ".gsh", ".php",
-            ".php3", ".php4", ".php5", ".phps", ".phtml", ".ts", ".ino", ".log"
+            ".php3", ".php4", ".php5", ".phps", ".phtml", ".ts", ".ino", ".log",
+            ".mjs", ".cjs"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",
