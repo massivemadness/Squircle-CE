@@ -16,8 +16,15 @@
 
 package com.blacksquircle.ui.plugin.shortcuts
 
+import com.blacksquircle.ui.plugin.base.PluginContainer
 import com.blacksquircle.ui.plugin.base.PluginSupplier
 
 fun PluginSupplier.shortcuts(block: ShortcutsPlugin.() -> Unit = {}) {
     plugin(ShortcutsPlugin(), block)
 }
+
+var PluginContainer.onShortcutListener: OnShortcutListener?
+    get() = findPlugin<ShortcutsPlugin>(ShortcutsPlugin.PLUGIN_ID)?.onShortcutListener
+    set(value) {
+        findPlugin<ShortcutsPlugin>(ShortcutsPlugin.PLUGIN_ID)?.onShortcutListener = value
+    }
