@@ -24,6 +24,9 @@ include ':features:feature-core',
         ':features:feature-themes',
         ':features:feature-ui'
 
+include ':plugins:plugin-base',
+        ':plugins:plugin-pinchzoom'
+
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'
 // TODO ':filesystems:filesystem-dropbox'

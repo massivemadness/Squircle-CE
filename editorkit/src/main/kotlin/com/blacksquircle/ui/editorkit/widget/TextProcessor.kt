@@ -21,6 +21,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.text.Editable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import androidx.core.text.PrecomputedTextCompat
@@ -30,14 +31,17 @@ import com.blacksquircle.ui.editorkit.internal.CodeSuggestsEditText
 import com.blacksquircle.ui.editorkit.listener.OnChangeListener
 import com.blacksquircle.ui.editorkit.listener.OnShortcutListener
 import com.blacksquircle.ui.editorkit.model.Shortcut
+import com.blacksquircle.ui.plugin.base.EditorPlugin
+import com.blacksquircle.ui.plugin.base.PluginContainer
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : CodeSuggestsEditText(context, attrs, defStyleAttr) {
+) : CodeSuggestsEditText(context, attrs, defStyleAttr), PluginContainer {
 
     companion object {
+        private const val TAG = "TextProcessor"
         private const val LABEL_CUT = "CUT"
         private const val LABEL_COPY = "COPY"
     }
@@ -46,6 +50,7 @@ class TextProcessor @JvmOverloads constructor(
     var onShortcutListener: OnShortcutListener? = null
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
+    private val plugins = mutableListOf<EditorPlugin>()
 
     private var isNewContent = false
 
@@ -84,6 +89,31 @@ class TextProcessor @JvmOverloads constructor(
         isNewContent = true
         super.setTextContent(textParams)
         isNewContent = false
+    }
+
+    override fun <T : EditorPlugin> installPlugin(plugin: T) {
+        if (!hasPlugin(plugin)) {
+            plugins.add(plugin)
+        } else {
+            Log.e(TAG, "Plugin $plugin is already attached.")
+        }
+    }
+
+    override fun <T : EditorPlugin> uninstallPlugin(plugin: T) {
+        if (hasPlugin(plugin)) {
+            plugins.remove(plugin)
+        } else {
+            Log.e(TAG, "Plugin $plugin is not attached.")
+        }
+    }
+
+    override fun <T : EditorPlugin> hasPlugin(plugin: T): Boolean {
+        return plugins.contains(plugin)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : EditorPlugin> findPlugin(pluginId: String): T? {
+        return plugins.find { it.pluginId == pluginId } as? T
     }
 
     fun insert(delta: CharSequence) {
