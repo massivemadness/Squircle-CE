@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.utils
+package com.blacksquircle.ui.plugin.shortcuts
 
-import androidx.annotation.MainThread
-import androidx.lifecycle.MutableLiveData
-import java.util.*
-
-class EventsQueue<T> : MutableLiveData<Queue<T>>() {
-
-    @MainThread
-    fun offer(event: T) {
-        val queue = value ?: LinkedList()
-        queue.add(event)
-        value = queue
-    }
+fun interface OnShortcutListener {
+    fun onShortcut(shortcut: Shortcut): Boolean
 }

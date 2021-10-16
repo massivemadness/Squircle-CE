@@ -25,7 +25,8 @@ include ':features:feature-core',
         ':features:feature-ui'
 
 include ':plugins:plugin-base',
-        ':plugins:plugin-pinchzoom'
+        ':plugins:plugin-pinchzoom',
+        ':plugins:plugin-shortcuts'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'

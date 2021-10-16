@@ -31,7 +31,6 @@ import com.blacksquircle.ui.domain.model.editor.DocumentModel
 import com.blacksquircle.ui.domain.repository.documents.DocumentRepository
 import com.blacksquircle.ui.domain.repository.themes.ThemesRepository
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.utils.EventsQueue
 import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -60,7 +59,7 @@ class EditorViewModel @Inject constructor(
     val emptyView = MutableLiveData(true) // Сообщение об отсутствии документов
 
     val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
-    val settingsEvent = EventsQueue<SettingsEvent<*>>() // События с измененными настройками
+    val settingsEvent = MutableLiveData<List<SettingsEvent<*>>>() // Настройки
 
     val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
     val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
@@ -179,58 +178,66 @@ class EditorViewModel @Inject constructor(
 
     fun fetchSettings() {
         viewModelScope.launch {
-            val value = settingsManager.colorScheme
-            val theme = InternalTheme.getTheme(value) ?: themesRepository.fetchTheme(value)
-            settingsEvent.offer(SettingsEvent.ThemePref(theme))
+            try {
+                val settings = mutableListOf<SettingsEvent<*>>()
+
+                val value = settingsManager.colorScheme
+                val theme = InternalTheme.getTheme(value) ?: themesRepository.fetchTheme(value)
+                settings.add(SettingsEvent.ThemePref(theme))
+
+                val fontSize = settingsManager.fontSize.toFloat()
+                settings.add(SettingsEvent.FontSize(fontSize))
+
+                val fontType = settingsManager.fontType
+                settings.add(SettingsEvent.FontType(fontType))
+
+                val wordWrap = settingsManager.wordWrap
+                settings.add(SettingsEvent.WordWrap(wordWrap))
+
+                val codeCompletion = settingsManager.codeCompletion
+                settings.add(SettingsEvent.CodeCompletion(codeCompletion))
+
+                val errorHighlighting = settingsManager.errorHighlighting
+                settings.add(SettingsEvent.ErrorHighlight(errorHighlighting))
+
+                val pinchZoom = settingsManager.pinchZoom
+                settings.add(SettingsEvent.PinchZoom(pinchZoom))
+
+                val highlightCurrentLine = settingsManager.highlightCurrentLine
+                settings.add(SettingsEvent.CurrentLine(highlightCurrentLine))
+
+                val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
+                settings.add(SettingsEvent.Delimiters(highlightMatchingDelimiters))
+
+                val extendedKeyboard = settingsManager.extendedKeyboard
+                settings.add(SettingsEvent.ExtendedKeys(extendedKeyboard))
+
+                val keyboardPreset = settingsManager.keyboardPreset.toCharArray().map(Char::toString)
+                settings.add(SettingsEvent.KeyboardPreset(keyboardPreset))
+
+                val softKeyboard = settingsManager.softKeyboard
+                settings.add(SettingsEvent.SoftKeys(softKeyboard))
+
+                val autoIndentation = settingsManager.autoIndentation
+                settings.add(SettingsEvent.AutoIndent(autoIndentation))
+
+                val autoCloseBrackets = settingsManager.autoCloseBrackets
+                settings.add(SettingsEvent.AutoBrackets(autoCloseBrackets))
+
+                val autoCloseQuotes = settingsManager.autoCloseQuotes
+                settings.add(SettingsEvent.AutoQuotes(autoCloseQuotes))
+
+                val useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs
+                settings.add(SettingsEvent.UseSpacesNotTabs(useSpacesInsteadOfTabs))
+
+                val tabWidth = settingsManager.tabWidth
+                settings.add(SettingsEvent.TabWidth(tabWidth))
+
+                settingsEvent.value = settings
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+            }
         }
-
-        val fontSize = settingsManager.fontSize.toFloat()
-        settingsEvent.offer(SettingsEvent.FontSize(fontSize))
-
-        val fontType = settingsManager.fontType
-        settingsEvent.offer(SettingsEvent.FontType(fontType))
-
-        val wordWrap = settingsManager.wordWrap
-        settingsEvent.offer(SettingsEvent.WordWrap(wordWrap))
-
-        val codeCompletion = settingsManager.codeCompletion
-        settingsEvent.offer(SettingsEvent.CodeCompletion(codeCompletion))
-
-        val errorHighlighting = settingsManager.errorHighlighting
-        settingsEvent.offer(SettingsEvent.ErrorHighlight(errorHighlighting))
-
-        val pinchZoom = settingsManager.pinchZoom
-        settingsEvent.offer(SettingsEvent.PinchZoom(pinchZoom))
-
-        val highlightCurrentLine = settingsManager.highlightCurrentLine
-        settingsEvent.offer(SettingsEvent.CurrentLine(highlightCurrentLine))
-
-        val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
-        settingsEvent.offer(SettingsEvent.Delimiters(highlightMatchingDelimiters))
-
-        val extendedKeyboard = settingsManager.extendedKeyboard
-        settingsEvent.offer(SettingsEvent.ExtendedKeys(extendedKeyboard))
-
-        val keyboardPreset = settingsManager.keyboardPreset.toCharArray().map(Char::toString)
-        settingsEvent.offer(SettingsEvent.KeyboardPreset(keyboardPreset))
-
-        val softKeyboard = settingsManager.softKeyboard
-        settingsEvent.offer(SettingsEvent.SoftKeys(softKeyboard))
-
-        val autoIndentation = settingsManager.autoIndentation
-        settingsEvent.offer(SettingsEvent.AutoIndent(autoIndentation))
-
-        val autoCloseBrackets = settingsManager.autoCloseBrackets
-        settingsEvent.offer(SettingsEvent.AutoBrackets(autoCloseBrackets))
-
-        val autoCloseQuotes = settingsManager.autoCloseQuotes
-        settingsEvent.offer(SettingsEvent.AutoQuotes(autoCloseQuotes))
-
-        val useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs
-        settingsEvent.offer(SettingsEvent.UseSpacesNotTabs(useSpacesInsteadOfTabs))
-
-        val tabWidth = settingsManager.tabWidth
-        settingsEvent.offer(SettingsEvent.TabWidth(tabWidth))
     }
 
     // endregion PREFERENCES

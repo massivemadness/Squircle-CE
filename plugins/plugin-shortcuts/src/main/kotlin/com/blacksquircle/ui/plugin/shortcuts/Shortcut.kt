@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.model
+package com.blacksquircle.ui.plugin.shortcuts
 
 data class Shortcut(
     val ctrl: Boolean,

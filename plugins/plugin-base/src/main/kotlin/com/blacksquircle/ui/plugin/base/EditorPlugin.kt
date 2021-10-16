@@ -43,8 +43,8 @@ abstract class EditorPlugin(val pluginId: String) {
     open fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) = Unit
     open fun onSelectionChanged(selStart: Int, selEnd: Int) = Unit
     open fun onTouchEvent(event: MotionEvent): Boolean = false
-    open fun onKeyUp(keyCode: Int, event: KeyEvent?) = Unit
-    open fun onKeyDown(keyCode: Int, event: KeyEvent?) = Unit
+    open fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean = false
+    open fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean = false
 
     open fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) = Unit
     open fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) = Unit

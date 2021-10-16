@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.listener
+package com.blacksquircle.ui.plugin.shortcuts
 
-import com.blacksquircle.ui.editorkit.model.Shortcut
+import com.blacksquircle.ui.plugin.base.PluginSupplier
 
-fun interface OnShortcutListener {
-    fun onShortcut(shortcut: Shortcut): Boolean
+fun PluginSupplier.shortcuts(block: ShortcutsPlugin.() -> Unit = {}) {
+    plugin(ShortcutsPlugin(), block)
 }

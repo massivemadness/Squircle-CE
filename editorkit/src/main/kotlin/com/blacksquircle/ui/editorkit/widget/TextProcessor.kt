@@ -31,8 +31,6 @@ import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.internal.CodeSuggestsEditText
 import com.blacksquircle.ui.editorkit.listener.OnChangeListener
-import com.blacksquircle.ui.editorkit.listener.OnShortcutListener
-import com.blacksquircle.ui.editorkit.model.Shortcut
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 import com.blacksquircle.ui.plugin.base.PluginContainer
 import com.blacksquircle.ui.plugin.base.PluginSupplier
@@ -52,7 +50,6 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     var onChangeListener: OnChangeListener? = null
-    var onShortcutListener: OnShortcutListener? = null
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
     private val plugins = mutableListOf<EditorPlugin>()
@@ -71,20 +68,19 @@ class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (event != null && onShortcutListener != null) {
-            val shortcut = Shortcut(
-                ctrl = event.isCtrlPressed,
-                shift = event.isShiftPressed,
-                alt = event.isAltPressed,
-                keyCode = keyCode
-            )
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        for (plugin in plugins) {
+            if (plugin.onKeyUp(keyCode, event)) {
+                return true
+            }
+        }
+        return super.onKeyUp(keyCode, event)
+    }
 
-            // Shortcuts can be handled only if one of these keys is pressed
-            if (shortcut.ctrl || shortcut.shift || shortcut.alt) {
-                if (onShortcutListener!!.onShortcut(shortcut)) {
-                    return true
-                }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        for (plugin in plugins) {
+            if (plugin.onKeyDown(keyCode, event)) {
+                return true
             }
         }
         return super.onKeyDown(keyCode, event)
@@ -107,16 +103,14 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     override fun plugins(supplier: PluginSupplier) {
-        val supplies = supplier.supply()
-        for (plugin in plugins) {
-            if (plugin !in supplies) {
-                uninstallPlugin(plugin.pluginId)
-            }
+        val allPlugins = plugins union supplier.supply()
+        val crossPlugins = allPlugins intersect supplier.supply()
+        val disjointPlugins = allPlugins subtract crossPlugins
+        for (plugin in disjointPlugins) {
+            uninstallPlugin(plugin.pluginId)
         }
-        for (plugin in supplies) {
-            if (plugin !in plugins) {
-                installPlugin(plugin)
-            }
+        for (plugin in supplier.supply()) {
+            installPlugin(plugin)
         }
     }
 
