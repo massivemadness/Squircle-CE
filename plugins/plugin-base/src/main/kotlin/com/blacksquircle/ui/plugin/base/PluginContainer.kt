@@ -18,9 +18,11 @@ package com.blacksquircle.ui.plugin.base
 
 interface PluginContainer {
 
-    fun <T : EditorPlugin> installPlugin(plugin: T)
-    fun <T : EditorPlugin> uninstallPlugin(plugin: T)
+    fun plugins(supplier: PluginSupplier)
 
-    fun <T : EditorPlugin> hasPlugin(plugin: T): Boolean
+    fun <T : EditorPlugin> installPlugin(plugin: T)
+    fun uninstallPlugin(pluginId: String)
+
     fun <T : EditorPlugin> findPlugin(pluginId: String): T?
+    fun hasPlugin(pluginId: String): Boolean
 }

@@ -24,6 +24,9 @@ import kotlin.math.sqrt
 
 class PinchZoomPlugin : EditorPlugin(PINCHZOOM_ID) {
 
+    var minTextSize = 10f
+    var maxTextSize = 20f
+
     private var isDoingPinchZoom = false
     private var pinchFactor = 1f
 
@@ -42,7 +45,7 @@ class PinchZoomPlugin : EditorPlugin(PINCHZOOM_ID) {
                     if (!isDoingPinchZoom) {
                         val scaledDensity = requireContext()
                             .resources.displayMetrics.scaledDensity
-                        val textSize = editText?.textSize ?: MIN_SIZE
+                        val textSize = editText?.textSize ?: minTextSize
 
                         pinchFactor = textSize / scaledDensity / distance
                         isDoingPinchZoom = true
@@ -62,17 +65,13 @@ class PinchZoomPlugin : EditorPlugin(PINCHZOOM_ID) {
 
     private fun updateTextSize(size: Float) {
         editText?.textSize = when {
-            size < MIN_SIZE -> MIN_SIZE
-            size > MAX_SIZE -> MAX_SIZE
+            size < minTextSize -> minTextSize
+            size > maxTextSize -> maxTextSize
             else -> size
         }
     }
 
     companion object {
-
         private const val TAG = "PinchZoomPlugin"
-
-        private const val MIN_SIZE = 10f
-        private const val MAX_SIZE = 20f
     }
 }

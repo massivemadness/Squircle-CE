@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.plugin.pinchzoom
+package com.blacksquircle.ui.plugin.base
 
-import com.blacksquircle.ui.plugin.base.PluginSupplier
+class PluginSupplier private constructor() {
 
-internal const val PINCHZOOM_ID = "com.blacksquircle.ui.plugin.pinchzoom"
+    private val plugins = mutableListOf<EditorPlugin>()
 
-fun PluginSupplier.pinchZoom(block: PinchZoomPlugin.() -> Unit = {}) {
-    plugin(PinchZoomPlugin(), block)
+    fun <T : EditorPlugin> plugin(plugin: T, block: T.() -> Unit = {}) {
+        plugins.add(plugin.apply(block))
+    }
+
+    fun supply(): List<EditorPlugin> {
+        return plugins
+    }
+
+    companion object {
+
+        fun create(block: PluginSupplier.() -> Unit): PluginSupplier {
+            return PluginSupplier().apply(block)
+        }
+    }
 }

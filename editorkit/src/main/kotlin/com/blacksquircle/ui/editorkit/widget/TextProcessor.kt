@@ -33,6 +33,7 @@ import com.blacksquircle.ui.editorkit.listener.OnShortcutListener
 import com.blacksquircle.ui.editorkit.model.Shortcut
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 import com.blacksquircle.ui.plugin.base.PluginContainer
+import com.blacksquircle.ui.plugin.base.PluginSupplier
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
@@ -41,7 +42,9 @@ class TextProcessor @JvmOverloads constructor(
 ) : CodeSuggestsEditText(context, attrs, defStyleAttr), PluginContainer {
 
     companion object {
+
         private const val TAG = "TextProcessor"
+
         private const val LABEL_CUT = "CUT"
         private const val LABEL_COPY = "COPY"
     }
@@ -91,29 +94,47 @@ class TextProcessor @JvmOverloads constructor(
         isNewContent = false
     }
 
+    override fun plugins(supplier: PluginSupplier) {
+        val supplies = supplier.supply()
+        for (plugin in plugins) {
+            if (plugin !in supplies) {
+                uninstallPlugin(plugin.pluginId)
+            }
+        }
+        for (plugin in supplies) {
+            if (plugin !in plugins) {
+                installPlugin(plugin)
+            }
+        }
+    }
+
     override fun <T : EditorPlugin> installPlugin(plugin: T) {
-        if (!hasPlugin(plugin)) {
+        if (!hasPlugin(plugin.pluginId)) {
             plugins.add(plugin)
+            plugin.onAttached(this)
         } else {
             Log.e(TAG, "Plugin $plugin is already attached.")
         }
     }
 
-    override fun <T : EditorPlugin> uninstallPlugin(plugin: T) {
-        if (hasPlugin(plugin)) {
-            plugins.remove(plugin)
+    override fun uninstallPlugin(pluginId: String) {
+        if (hasPlugin(pluginId)) {
+            findPlugin<EditorPlugin>(pluginId)?.let { plugin ->
+                plugins.remove(plugin)
+                plugin.onDetached(this)
+            }
         } else {
-            Log.e(TAG, "Plugin $plugin is not attached.")
+            Log.e(TAG, "Plugin is not attached.")
         }
-    }
-
-    override fun <T : EditorPlugin> hasPlugin(plugin: T): Boolean {
-        return plugins.contains(plugin)
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : EditorPlugin> findPlugin(pluginId: String): T? {
         return plugins.find { it.pluginId == pluginId } as? T
+    }
+
+    override fun hasPlugin(pluginId: String): Boolean {
+        return plugins.any { it.pluginId == pluginId }
     }
 
     fun insert(delta: CharSequence) {
