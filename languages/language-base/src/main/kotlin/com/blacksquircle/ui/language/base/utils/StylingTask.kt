@@ -16,50 +16,40 @@
 
 package com.blacksquircle.ui.language.base.utils
 
-import android.os.AsyncTask
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import java.util.concurrent.Executors
 
 class StylingTask(
     private val doAsync: () -> List<SyntaxHighlightSpan>,
     private val onSuccess: StylingResult
-) : AsyncTask<Void, Void, Void>() {
+) {
+
+    private val mainThreadHandler = Handler(Looper.getMainLooper())
+    private val singleThreadExecutor = Executors.newSingleThreadExecutor()
+
+    fun execute() {
+        try {
+            singleThreadExecutor.execute {
+                val syntaxHighlightSpans = doAsync()
+                mainThreadHandler.post {
+                    if (!singleThreadExecutor.isShutdown) {
+                        onSuccess(syntaxHighlightSpans)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, e.message, e)
+        }
+    }
+
+    fun cancel() {
+        singleThreadExecutor.shutdown()
+    }
 
     companion object {
         private const val TAG = "StylingTask"
-    }
-
-    private var syntaxHighlightSpans = listOf<SyntaxHighlightSpan>()
-
-    private var cancelled = false
-    private var isError = false
-
-    override fun doInBackground(vararg params: Void?): Void? {
-        try {
-            syntaxHighlightSpans = doAsync()
-        } catch (e: Exception) {
-            Log.e(TAG, e.message, e)
-            isError = true
-        }
-        return null
-    }
-
-    override fun onPostExecute(voidR: Void?) {
-        if (!isError && !isCancelled && !cancelled) {
-            onSuccess(syntaxHighlightSpans)
-        }
-    }
-
-    fun executeTask() {
-        try {
-            executeOnExecutor(THREAD_POOL_EXECUTOR, null)
-        } catch (e: Exception) {
-            Log.e(TAG, e.message, e)
-        }
-    }
-
-    fun cancelTask(): Boolean {
-        cancelled = true
-        return cancel(true)
     }
 }

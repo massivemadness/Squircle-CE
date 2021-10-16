@@ -210,16 +210,16 @@ class PythonStyler private constructor() : LanguageStyler {
     }
 
     override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
+        task?.cancel()
         task = StylingTask(
             doAsync = { execute(sourceCode, syntaxScheme) },
             onSuccess = stylingResult
         )
-        task?.executeTask()
+        task?.execute()
     }
 
     override fun cancel() {
-        task?.cancelTask()
+        task?.cancel()
         task = null
     }
 }
