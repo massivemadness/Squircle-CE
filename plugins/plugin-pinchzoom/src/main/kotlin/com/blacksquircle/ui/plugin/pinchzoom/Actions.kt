@@ -16,7 +16,22 @@
 
 package com.blacksquircle.ui.plugin.pinchzoom
 
+import com.blacksquircle.ui.plugin.base.PluginContainer
 import com.blacksquircle.ui.plugin.base.PluginSupplier
+
+var PluginContainer.minTextSize: Float
+    get() = findPlugin<PinchZoomPlugin>(PinchZoomPlugin.PLUGIN_ID)
+        ?.minTextSize ?: PinchZoomPlugin.DEFAULT_MIN_TEXT_SIZE
+    set(value) {
+        findPlugin<PinchZoomPlugin>(PinchZoomPlugin.PLUGIN_ID)?.minTextSize = value
+    }
+
+var PluginContainer.maxTextSize: Float
+    get() = findPlugin<PinchZoomPlugin>(PinchZoomPlugin.PLUGIN_ID)
+        ?.maxTextSize ?: PinchZoomPlugin.DEFAULT_MAX_TEXT_SIZE
+    set(value) {
+        findPlugin<PinchZoomPlugin>(PinchZoomPlugin.PLUGIN_ID)?.maxTextSize = value
+    }
 
 fun PluginSupplier.pinchZoom(block: PinchZoomPlugin.() -> Unit = {}) {
     plugin(PinchZoomPlugin(), block)

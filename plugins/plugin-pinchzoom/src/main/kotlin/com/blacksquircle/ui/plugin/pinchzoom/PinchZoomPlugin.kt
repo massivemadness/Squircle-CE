@@ -24,8 +24,8 @@ import kotlin.math.sqrt
 
 class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
 
-    var minTextSize = 10f
-    var maxTextSize = 20f
+    var minTextSize = DEFAULT_MIN_TEXT_SIZE
+    var maxTextSize = DEFAULT_MAX_TEXT_SIZE
 
     private var isDoingPinchZoom = false
     private var pinchFactor = 1f
@@ -73,6 +73,10 @@ class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     companion object {
+
         const val PLUGIN_ID = "pinchzoom-0361"
+
+        const val DEFAULT_MIN_TEXT_SIZE = 10f
+        const val DEFAULT_MAX_TEXT_SIZE = 20f
     }
 }
