@@ -22,7 +22,7 @@ import android.widget.EditText
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 import kotlin.math.sqrt
 
-class PinchZoomPlugin : EditorPlugin(PINCHZOOM_ID) {
+class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
 
     var minTextSize = 10f
     var maxTextSize = 20f
@@ -32,10 +32,10 @@ class PinchZoomPlugin : EditorPlugin(PINCHZOOM_ID) {
 
     override fun onAttached(editText: EditText) {
         super.onAttached(editText)
-        Log.d(TAG, "PinchZoom plugin loaded successfully!")
+        Log.d(PLUGIN_ID, "PinchZoom plugin loaded successfully!")
     }
 
-    override fun onTouchEvent(event: MotionEvent) {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_CANCEL,
             MotionEvent.ACTION_UP -> isDoingPinchZoom = false
@@ -49,12 +49,12 @@ class PinchZoomPlugin : EditorPlugin(PINCHZOOM_ID) {
 
                         pinchFactor = textSize / scaledDensity / distance
                         isDoingPinchZoom = true
-                    } else {
-                        updateTextSize(pinchFactor * distance)
                     }
+                    return updateTextSize(pinchFactor * distance)
                 }
             }
         }
+        return false
     }
 
     private fun getDistanceBetweenTouches(event: MotionEvent): Float {
@@ -63,15 +63,16 @@ class PinchZoomPlugin : EditorPlugin(PINCHZOOM_ID) {
         return sqrt(x * x + y * y)
     }
 
-    private fun updateTextSize(size: Float) {
+    private fun updateTextSize(size: Float): Boolean {
         editText?.textSize = when {
             size < minTextSize -> minTextSize
             size > maxTextSize -> maxTextSize
             else -> size
         }
+        return true
     }
 
     companion object {
-        private const val TAG = "PinchZoomPlugin"
+        const val PLUGIN_ID = "pinchzoom-0361"
     }
 }

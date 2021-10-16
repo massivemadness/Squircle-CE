@@ -42,7 +42,7 @@ abstract class EditorPlugin(val pluginId: String) {
     open fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) = Unit
     open fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) = Unit
     open fun onSelectionChanged(selStart: Int, selEnd: Int) = Unit
-    open fun onTouchEvent(event: MotionEvent) = Unit
+    open fun onTouchEvent(event: MotionEvent): Boolean = false
     open fun onKeyUp(keyCode: Int, event: KeyEvent?) = Unit
     open fun onKeyDown(keyCode: Int, event: KeyEvent?) = Unit
 

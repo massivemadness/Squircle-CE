@@ -18,8 +18,6 @@ package com.blacksquircle.ui.plugin.pinchzoom
 
 import com.blacksquircle.ui.plugin.base.PluginSupplier
 
-internal const val PINCHZOOM_ID = "com.blacksquircle.ui.plugin.pinchzoom"
-
 fun PluginSupplier.pinchZoom(block: PinchZoomPlugin.() -> Unit = {}) {
     plugin(PinchZoomPlugin(), block)
 }

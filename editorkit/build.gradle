@@ -69,6 +69,9 @@ dependencies {
     api project(':languages:language-base')
     api project(':plugins:plugin-base')
 
+    // Built-in Plugins
+    api project(':plugins:plugin-pinchzoom')
+
     // Tests
     testImplementation testLibrary.junit
 }

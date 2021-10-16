@@ -38,7 +38,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : ScalableEditText(context, attrs, defStyleAttr), OnTextChangedListener {
+) : ScrollableEditText(context, attrs, defStyleAttr), OnTextChangedListener {
 
     var colorScheme: ColorScheme = EditorTheme.DARCULA
         set(value) {

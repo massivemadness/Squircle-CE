@@ -57,6 +57,7 @@ import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
+import com.blacksquircle.ui.plugin.pinchzoom.PinchZoomPlugin
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
@@ -275,7 +276,13 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             }
                         }
                     }
-                    is SettingsEvent.PinchZoom -> config.pinchZoom = event.value
+                    is SettingsEvent.PinchZoom -> {
+                        if (event.value) {
+                            binding.editor.installPlugin(PinchZoomPlugin())
+                        } else {
+                            binding.editor.uninstallPlugin(PinchZoomPlugin.PLUGIN_ID)
+                        }
+                    }
                     is SettingsEvent.CurrentLine -> config.highlightCurrentLine = event.value
                     is SettingsEvent.Delimiters -> config.highlightDelimiters = event.value
                     is SettingsEvent.ExtendedKeys -> {

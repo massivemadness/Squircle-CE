@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.editorkit.widget
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -23,6 +24,7 @@ import android.text.Editable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.KeyEvent
+import android.view.MotionEvent
 import androidx.core.content.getSystemService
 import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
@@ -88,6 +90,16 @@ class TextProcessor @JvmOverloads constructor(
         return super.onKeyDown(keyCode, event)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        for (plugin in plugins) {
+            if (plugin.onTouchEvent(event)) {
+                return true
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
     override fun setTextContent(textParams: PrecomputedTextCompat) {
         isNewContent = true
         super.setTextContent(textParams)
@@ -124,7 +136,7 @@ class TextProcessor @JvmOverloads constructor(
                 plugin.onDetached(this)
             }
         } else {
-            Log.e(TAG, "Plugin is not attached.")
+            Log.e(TAG, "Plugin $pluginId is not attached.")
         }
     }
 
