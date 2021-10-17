@@ -45,7 +45,6 @@ import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.documents.DocumentParams
 import com.blacksquircle.ui.domain.model.editor.DocumentContent
 import com.blacksquircle.ui.editorkit.exception.LineException
-import com.blacksquircle.ui.editorkit.listener.OnChangeListener
 import com.blacksquircle.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.blacksquircle.ui.editorkit.widget.TextScroller
 import com.blacksquircle.ui.feature.editor.R
@@ -59,6 +58,8 @@ import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
 import com.blacksquircle.ui.plugin.autocomplete.codeCompletion
 import com.blacksquircle.ui.plugin.base.PluginSupplier
+import com.blacksquircle.ui.plugin.dirtytext.OnChangeListener
+import com.blacksquircle.ui.plugin.dirtytext.changeDetector
 import com.blacksquircle.ui.plugin.pinchzoom.pinchZoom
 import com.blacksquircle.ui.plugin.shortcuts.OnShortcutListener
 import com.blacksquircle.ui.plugin.shortcuts.shortcuts
@@ -116,17 +117,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         }
 
         binding.editor.clearText()
-
-        binding.editor.onChangeListener = OnChangeListener {
-            val position = adapter.selectedPosition
-            if (position > -1) {
-                val isModified = adapter.currentList[position].modified
-                if (!isModified) {
-                    adapter.currentList[position].modified = true
-                    adapter.notifyItemChanged(position)
-                }
-            }
-        }
 
         binding.actionTab.setOnClickListener {
             binding.editor.insert(binding.editor.tab())
@@ -269,6 +259,18 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         is SettingsEvent.AutoQuotes -> config.autoCloseQuotes = event.value
                         is SettingsEvent.UseSpacesNotTabs -> config.useSpacesInsteadOfTabs = event.value
                         is SettingsEvent.TabWidth -> config.tabWidth = event.value
+                    }
+                }
+                changeDetector {
+                    onChangeListener = OnChangeListener {
+                        val position = adapter.selectedPosition
+                        if (position > -1) {
+                            val isModified = adapter.currentList[position].modified
+                            if (!isModified) {
+                                adapter.currentList[position].modified = true
+                                adapter.notifyItemChanged(position)
+                            }
+                        }
                     }
                 }
                 shortcuts {

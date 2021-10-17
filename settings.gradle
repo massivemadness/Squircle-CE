@@ -29,7 +29,8 @@ include ':editorkit'
 include ':plugins:plugin-base',
         ':plugins:plugin-pinchzoom',
         ':plugins:plugin-shortcuts',
-        ':plugins:plugin-autocomplete'
+        ':plugins:plugin-autocomplete',
+        ':plugins:plugin-dirtytext'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'

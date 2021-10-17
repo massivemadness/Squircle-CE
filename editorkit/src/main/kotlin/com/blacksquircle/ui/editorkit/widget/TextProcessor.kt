@@ -32,7 +32,6 @@ import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.internal.AutoIndentEditText
-import com.blacksquircle.ui.editorkit.listener.OnChangeListener
 import com.blacksquircle.ui.plugin.base.*
 
 class TextProcessor @JvmOverloads constructor(
@@ -49,12 +48,8 @@ class TextProcessor @JvmOverloads constructor(
         private const val LABEL_COPY = "COPY"
     }
 
-    var onChangeListener: OnChangeListener? = null
-
     private val clipboardManager = context.getSystemService<ClipboardManager>()!!
     private val plugins = mutableListOf<EditorPlugin>()
-
-    private var isNewContent = false
 
     init {
         configure()
@@ -98,9 +93,11 @@ class TextProcessor @JvmOverloads constructor(
 
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
         super.onSelectionChanged(selStart, selEnd)
-        /*for (plugin in plugins) {
-            plugin.onSelectionChanged(selStart, selEnd)
-        }*/
+        post {
+            for (plugin in plugins) {
+                plugin.onSelectionChanged(selStart, selEnd)
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -157,9 +154,6 @@ class TextProcessor @JvmOverloads constructor(
         for (plugin in plugins) {
             plugin.doAfterTextChanged(text)
         }
-        if (!isNewContent) {
-            onChangeListener?.onChange()
-        }
     }
 
     override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
@@ -177,12 +171,10 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     override fun setTextContent(textParams: PrecomputedTextCompat) {
+        super.setTextContent(textParams)
         for (plugin in plugins) {
             plugin.setTextContent(textParams)
         }
-        isNewContent = true
-        super.setTextContent(textParams)
-        isNewContent = false
     }
 
     override fun setTextSize(size: Float) {

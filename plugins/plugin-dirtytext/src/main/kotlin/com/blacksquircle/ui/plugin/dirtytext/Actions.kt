@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.listener
+package com.blacksquircle.ui.plugin.dirtytext
 
-fun interface OnChangeListener {
-    fun onChange()
+import com.blacksquircle.ui.plugin.base.PluginContainer
+import com.blacksquircle.ui.plugin.base.PluginSupplier
+
+var PluginContainer.onChangeListener: OnChangeListener?
+    get() = findPlugin<DirtyTextPlugin>(DirtyTextPlugin.PLUGIN_ID)?.onChangeListener
+    set(value) {
+        findPlugin<DirtyTextPlugin>(DirtyTextPlugin.PLUGIN_ID)?.onChangeListener = value
+    }
+
+fun PluginSupplier.changeDetector(block: DirtyTextPlugin.() -> Unit = {}) {
+    plugin(DirtyTextPlugin(), block)
 }
