@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.utils
+package com.blacksquircle.ui.plugin.autocomplete
 
 import android.widget.MultiAutoCompleteTextView
 

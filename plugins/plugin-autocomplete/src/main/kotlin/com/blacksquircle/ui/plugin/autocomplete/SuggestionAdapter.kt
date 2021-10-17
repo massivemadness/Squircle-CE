@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.adapter
+package com.blacksquircle.ui.plugin.autocomplete
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
-import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.language.base.model.Suggestion
 import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 
@@ -30,49 +29,44 @@ abstract class SuggestionAdapter(
     resourceId: Int
 ) : ArrayAdapter<Suggestion>(context, resourceId) {
 
-    var colorScheme: ColorScheme? = null
-
+    private var queryText: String? = null
     private var suggestionProvider: SuggestionProvider? = null
-
-    private var queryText = ""
 
     abstract fun createViewHolder(parent: ViewGroup): SuggestionViewHolder
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val viewHolder = createViewHolder(parent)
-        viewHolder.bind(getItem(position), queryText)
+        viewHolder.bind(getItem(position), queryText ?: "")
         return viewHolder.itemView
     }
 
-    override fun getFilter(): Filter {
-        return object : Filter() {
+    override fun getFilter() = object : Filter() {
 
-            private val suggestions: MutableList<Suggestion> = mutableListOf()
+        private val suggestions = mutableListOf<Suggestion>()
 
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val filterResults = FilterResults()
-                suggestions.clear()
-                suggestionProvider?.let {
-                    val query = constraint.toString()
-                    for (suggestion in it.getAll()) {
-                        val word = suggestion.text
-                        if (word.startsWith(query, ignoreCase = true) &&
-                            !word.equals(query, ignoreCase = true)) {
-                            queryText = query
-                            suggestions.add(suggestion)
-                        }
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filterResults = FilterResults()
+            suggestions.clear()
+            suggestionProvider?.let { provider ->
+                val query = constraint.toString()
+                for (suggestion in provider.getAll()) {
+                    val word = suggestion.text
+                    if (word.startsWith(query, ignoreCase = true) &&
+                        !word.equals(query, ignoreCase = true)) {
+                        queryText = query
+                        suggestions.add(suggestion)
                     }
                 }
-                filterResults.values = suggestions
-                filterResults.count = suggestions.size
-                return filterResults
             }
+            filterResults.values = suggestions
+            filterResults.count = suggestions.size
+            return filterResults
+        }
 
-            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-                clear()
-                addAll(suggestions)
-                notifyDataSetChanged()
-            }
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+            clear()
+            addAll(suggestions)
+            notifyDataSetChanged()
         }
     }
 

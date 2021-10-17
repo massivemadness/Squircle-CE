@@ -18,6 +18,7 @@ package com.blacksquircle.ui.plugin.base
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Typeface
 import android.text.Editable
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -49,9 +50,17 @@ abstract class EditorPlugin(val pluginId: String) {
     open fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) = Unit
     open fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) = Unit
     open fun doAfterTextChanged(text: Editable?) = Unit
+    open fun doOnTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) = Unit
 
-    open fun doOnTextReceived(text: CharSequence) = Unit
-    open fun doOnTextCleared() = Unit
+    open fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) = Unit
+    open fun removeLine(lineNumber: Int) = Unit
+
+    open fun setTextContent(text: CharSequence) = Unit
+    open fun setTextSize(size: Float) = Unit
+    open fun setTypeface(tf: Typeface?) = Unit
+    open fun setEmptyText() = Unit
+
+    open fun showDropDown() = Unit
 
     protected fun requireContext(): Context {
         if (editText?.context == null) {

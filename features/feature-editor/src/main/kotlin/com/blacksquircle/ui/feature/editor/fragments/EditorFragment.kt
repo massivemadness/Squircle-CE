@@ -57,6 +57,8 @@ import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
+import com.blacksquircle.ui.plugin.autocomplete.codeCompletion
+import com.blacksquircle.ui.plugin.autocomplete.suggestionProvider
 import com.blacksquircle.ui.plugin.base.PluginSupplier
 import com.blacksquircle.ui.plugin.pinchzoom.pinchZoom
 import com.blacksquircle.ui.plugin.shortcuts.OnShortcutListener
@@ -103,7 +105,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.attachTo(binding.editor)
 
-        binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
         binding.editor.onUndoRedoChangedListener = OnUndoRedoChangedListener {
             val canUndo = binding.editor.canUndo()
             val canRedo = binding.editor.canRedo()
@@ -187,6 +188,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         }
         viewModel.contentEvent.observe(viewLifecycleOwner) { (content, textParams) ->
             binding.scroller.state = TextScroller.STATE_HIDDEN
+            binding.editor.suggestionProvider = content.language?.getProvider()
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
@@ -227,7 +229,12 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             config.fontType = requireContext().createTypefaceFromPath(event.value)
                         }
                         is SettingsEvent.WordWrap -> config.wordWrap = event.value
-                        is SettingsEvent.CodeCompletion -> config.codeCompletion = event.value
+                        is SettingsEvent.CodeCompletion -> if (event.value) codeCompletion {
+                            suggestionAdapter = AutoCompleteAdapter(
+                                requireContext(),
+                                binding.editor.colorScheme
+                            )
+                        }
                         is SettingsEvent.ErrorHighlight -> {
                             if (event.value) {
                                 binding.editor.debounce(

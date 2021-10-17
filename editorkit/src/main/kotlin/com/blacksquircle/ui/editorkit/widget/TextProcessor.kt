@@ -29,7 +29,7 @@ import androidx.core.content.getSystemService
 import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.exception.LineException
-import com.blacksquircle.ui.editorkit.internal.CodeSuggestsEditText
+import com.blacksquircle.ui.editorkit.internal.AutoIndentEditText
 import com.blacksquircle.ui.editorkit.listener.OnChangeListener
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 import com.blacksquircle.ui.plugin.base.PluginContainer
@@ -39,7 +39,7 @@ class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : CodeSuggestsEditText(context, attrs, defStyleAttr), PluginContainer {
+) : AutoIndentEditText(context, attrs, defStyleAttr), PluginContainer {
 
     companion object {
 

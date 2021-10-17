@@ -20,7 +20,7 @@ plugins {
 }
 
 ext.libraryGroupId = "com.blacksquircle.ui"
-ext.libraryArtifactId = "plugin-base"
+ext.libraryArtifactId = "plugin-autocomplete"
 
 apply from: rootProject.file("gradle/publish.gradle")
 
@@ -55,5 +55,5 @@ dependencies {
     implementation library.core
 
     // Modules
-    api project(':languages:language-base')
+    implementation project(':plugins:plugin-base')
 }

@@ -70,6 +70,7 @@ dependencies {
     api project(':plugins:plugin-base')
 
     // Built-in Plugins
+    api project(':plugins:plugin-autocomplete')
     api project(':plugins:plugin-pinchzoom')
     api project(':plugins:plugin-shortcuts')
 
