@@ -75,9 +75,9 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun removeLine(lineNumber: Int) {
         super.removeLine(lineNumber)
-        suggestionProvider?.deleteLine(
+        /*suggestionProvider?.deleteLine(
             lineNumber = lines.getIndexForLine(lineNumber)
-        )
+        )*/
     }
 
     override fun setTextContent(text: CharSequence) {
@@ -87,7 +87,7 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun doOnTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) {
         super.doOnTextReplaced(newStart, newEnd, newText)
-        val startLine = lines.getLineForIndex(newStart)
+        /*val startLine = lines.getLineForIndex(newStart)
         val endLine = lines.getLineForIndex(newText.length + newStart)
         for (currentLine in startLine..endLine) {
             val lineStart = getIndexForStartOfLine(currentLine)
@@ -98,7 +98,7 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
                     text = codeEditor.text.substring(lineStart, lineEnd)
                 )
             }
-        }
+        }*/
     }
 
     fun updateAdapter(suggestionAdapter: SuggestionAdapter?) {
