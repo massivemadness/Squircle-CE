@@ -58,7 +58,6 @@ import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
 import com.blacksquircle.ui.plugin.autocomplete.codeCompletion
-import com.blacksquircle.ui.plugin.autocomplete.suggestionProvider
 import com.blacksquircle.ui.plugin.base.PluginSupplier
 import com.blacksquircle.ui.plugin.pinchzoom.pinchZoom
 import com.blacksquircle.ui.plugin.shortcuts.OnShortcutListener
@@ -188,7 +187,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         }
         viewModel.contentEvent.observe(viewLifecycleOwner) { (content, textParams) ->
             binding.scroller.state = TextScroller.STATE_HIDDEN
-            binding.editor.suggestionProvider = content.language?.getProvider()
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack

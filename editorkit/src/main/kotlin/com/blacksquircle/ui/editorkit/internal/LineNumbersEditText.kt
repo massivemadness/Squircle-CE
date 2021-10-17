@@ -28,11 +28,11 @@ import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.listener.OnTextChangedListener
-import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.editorkit.theme.EditorTheme
-import com.blacksquircle.ui.editorkit.utils.LinesCollection
 import com.blacksquircle.ui.editorkit.utils.dpToPx
 import com.blacksquircle.ui.editorkit.utils.scaledDensity
+import com.blacksquircle.ui.plugin.base.ColorScheme
+import com.blacksquircle.ui.plugin.base.LinesCollection
 
 abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
@@ -46,7 +46,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
             colorize()
         }
 
-    protected val lines = LinesCollection()
+    val lines = LinesCollection()
 
     private val processedText = Editable.Factory.getInstance().newEditable("")
     private val selectedLinePaint = Paint()
@@ -84,8 +84,8 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
             val currentLineStart = lines.getLineForIndex(selectionStart)
             if (editorConfig.highlightCurrentLine) {
                 if (currentLineStart == lines.getLineForIndex(selectionEnd)) {
-                    val selectedLineStartIndex = getIndexForStartOfLine(currentLineStart)
-                    val selectedLineEndIndex = getIndexForEndOfLine(currentLineStart)
+                    val selectedLineStartIndex = lines.getIndexForStartOfLine(currentLineStart)
+                    val selectedLineEndIndex = lines.getIndexForEndOfLine(currentLineStart)
                     val topVisualLine = layout.getLineForOffset(selectedLineStartIndex)
                     val bottomVisualLine = layout.getLineForOffset(selectedLineEndIndex)
 
@@ -268,18 +268,6 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         val textParams = TextViewCompat.getTextMetricsParams(this)
         val precomputedText = PrecomputedTextCompat.create(text, textParams)
         setTextContent(precomputedText)
-    }
-
-    fun getIndexForStartOfLine(lineNumber: Int): Int {
-        return lines.getIndexForLine(lineNumber)
-    }
-
-    fun getIndexForEndOfLine(lineNumber: Int): Int {
-        return if (lineNumber == lineCount - 1) {
-            processedText.length
-        } else {
-            lines.getIndexForLine(lineNumber + 1) - 1
-        }
     }
 
     fun getTopVisibleLine(): Int {

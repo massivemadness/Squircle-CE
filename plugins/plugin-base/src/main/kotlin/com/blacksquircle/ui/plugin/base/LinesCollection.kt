@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.utils
+package com.blacksquircle.ui.plugin.base
 
 class LinesCollection : Iterable<LinesCollection.Line> {
 
@@ -63,6 +63,14 @@ class LinesCollection : Iterable<LinesCollection.Line> {
         } else {
             lines[line].start
         }
+    }
+
+    fun getIndexForStartOfLine(lineNumber: Int): Int {
+        return getIndexForLine(lineNumber)
+    }
+
+    fun getIndexForEndOfLine(lineNumber: Int): Int {
+        return getIndexForLine(lineNumber + 1) - 1
     }
 
     fun getLineForIndex(index: Int): Int {

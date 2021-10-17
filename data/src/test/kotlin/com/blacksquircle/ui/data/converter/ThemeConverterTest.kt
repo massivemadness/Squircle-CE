@@ -21,7 +21,6 @@ import com.blacksquircle.ui.data.model.themes.ExternalScheme
 import com.blacksquircle.ui.data.model.themes.ExternalTheme
 import com.blacksquircle.ui.data.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
-import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.language.base.model.SyntaxScheme
 import org.junit.Assert.assertEquals
 import org.junit.Test

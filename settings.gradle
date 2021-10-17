@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data', ':editorkit'
+include ':app', ':domain', ':data'
 
 include ':features:feature-core',
         ':features:feature-editor',
@@ -23,6 +23,8 @@ include ':features:feature-core',
         ':features:feature-settings',
         ':features:feature-themes',
         ':features:feature-ui'
+
+include ':editorkit'
 
 include ':plugins:plugin-base',
         ':plugins:plugin-pinchzoom',

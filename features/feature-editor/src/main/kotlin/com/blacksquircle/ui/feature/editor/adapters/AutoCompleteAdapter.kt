@@ -23,11 +23,11 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemSuggestionBinding
 import com.blacksquircle.ui.language.base.model.Suggestion
 import com.blacksquircle.ui.plugin.autocomplete.SuggestionAdapter
+import com.blacksquircle.ui.plugin.base.ColorScheme
 
 class AutoCompleteAdapter(
     context: Context,

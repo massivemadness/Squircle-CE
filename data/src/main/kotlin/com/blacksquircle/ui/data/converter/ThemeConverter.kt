@@ -22,8 +22,8 @@ import com.blacksquircle.ui.data.model.themes.ExternalTheme
 import com.blacksquircle.ui.data.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
-import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.plugin.base.ColorScheme
 import java.util.*
 
 object ThemeConverter {

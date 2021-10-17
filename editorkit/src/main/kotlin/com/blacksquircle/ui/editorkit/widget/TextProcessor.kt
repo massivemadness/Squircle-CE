@@ -20,6 +20,8 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Typeface
 import android.text.Editable
 import android.util.AttributeSet
 import android.util.Log
@@ -31,15 +33,13 @@ import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.internal.AutoIndentEditText
 import com.blacksquircle.ui.editorkit.listener.OnChangeListener
-import com.blacksquircle.ui.plugin.base.EditorPlugin
-import com.blacksquircle.ui.plugin.base.PluginContainer
-import com.blacksquircle.ui.plugin.base.PluginSupplier
+import com.blacksquircle.ui.plugin.base.*
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : AutoIndentEditText(context, attrs, defStyleAttr), PluginContainer {
+) : AutoIndentEditText(context, attrs, defStyleAttr), PluginContainer, EditorAccessor {
 
     companion object {
 
@@ -61,11 +61,56 @@ class TextProcessor @JvmOverloads constructor(
         colorize()
     }
 
-    override fun doAfterTextChanged(text: Editable?) {
-        super.doAfterTextChanged(text)
-        if (!isNewContent) {
-            onChangeListener?.onChange()
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        for (plugin in plugins) {
+            plugin.onMeasure(widthMeasureSpec, heightMeasureSpec)
         }
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        for (plugin in plugins) {
+            plugin.onLayout(changed, left, top, right, bottom)
+        }
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        for (plugin in plugins) {
+            plugin.onDraw(canvas)
+        }
+    }
+
+    override fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) {
+        super.onScrollChanged(horiz, vert, oldHoriz, oldVert)
+        for (plugin in plugins) {
+            plugin.onScrollChanged(horiz, vert, oldHoriz, oldVert)
+        }
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        for (plugin in plugins) {
+            plugin.onSizeChanged(w, h, oldw, oldh)
+        }
+    }
+
+    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+        super.onSelectionChanged(selStart, selEnd)
+        /*for (plugin in plugins) {
+            plugin.onSelectionChanged(selStart, selEnd)
+        }*/
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        for (plugin in plugins) {
+            if (plugin.onTouchEvent(event)) {
+                return true
+            }
+        }
+        return super.onTouchEvent(event)
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
@@ -86,20 +131,90 @@ class TextProcessor @JvmOverloads constructor(
         return super.onKeyDown(keyCode, event)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent): Boolean {
+    override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
+        super.doBeforeTextChanged(text, start, count, after)
         for (plugin in plugins) {
-            if (plugin.onTouchEvent(event)) {
-                return true
-            }
+            plugin.doBeforeTextChanged(text, start, count, after)
         }
-        return super.onTouchEvent(event)
+    }
+
+    override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+        super.doOnTextChanged(text, start, before, count)
+        for (plugin in plugins) {
+            plugin.doOnTextChanged(text, start, before, count)
+        }
+    }
+
+    override fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
+        super.replaceText(newStart, newEnd, newText)
+        for (plugin in plugins) {
+            plugin.doOnTextReplaced(newStart, newEnd, newText)
+        }
+    }
+
+    override fun doAfterTextChanged(text: Editable?) {
+        super.doAfterTextChanged(text)
+        for (plugin in plugins) {
+            plugin.doAfterTextChanged(text)
+        }
+        if (!isNewContent) {
+            onChangeListener?.onChange()
+        }
+    }
+
+    override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
+        super.addLine(lineNumber, lineStart, lineLength)
+        for (plugin in plugins) {
+            plugin.addLine(lineNumber, lineStart, lineLength)
+        }
+    }
+
+    override fun removeLine(lineNumber: Int) {
+        super.removeLine(lineNumber)
+        for (plugin in plugins) {
+            plugin.removeLine(lineNumber)
+        }
     }
 
     override fun setTextContent(textParams: PrecomputedTextCompat) {
+        for (plugin in plugins) {
+            plugin.setTextContent(textParams)
+        }
         isNewContent = true
         super.setTextContent(textParams)
         isNewContent = false
+    }
+
+    override fun setTextSize(size: Float) {
+        super.setTextSize(size)
+        post {
+            for (plugin in plugins) {
+                plugin.setTextSize(size)
+            }
+        }
+    }
+
+    override fun setTypeface(tf: Typeface?) {
+        super.setTypeface(tf)
+        post {
+            for (plugin in plugins) {
+                plugin.setTypeface(tf)
+            }
+        }
+    }
+
+    override fun clearText() {
+        super.clearText()
+        for (plugin in plugins) {
+            plugin.setEmptyText()
+        }
+    }
+
+    override fun showDropDown() {
+        super.showDropDown()
+        for (plugin in plugins) {
+            plugin.showDropDown()
+        }
     }
 
     override fun plugins(supplier: PluginSupplier) {
@@ -166,36 +281,36 @@ class TextProcessor @JvmOverloads constructor(
 
     fun selectLine() {
         val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = getIndexForStartOfLine(currentLine)
-        val lineEnd = getIndexForEndOfLine(currentLine)
+        val lineStart = lines.getIndexForStartOfLine(currentLine)
+        val lineEnd = lines.getIndexForEndOfLine(currentLine)
         setSelection(lineStart, lineEnd)
     }
 
     fun deleteLine() {
         val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = getIndexForStartOfLine(currentLine)
-        val lineEnd = getIndexForEndOfLine(currentLine)
+        val lineStart = lines.getIndexForStartOfLine(currentLine)
+        val lineEnd = lines.getIndexForEndOfLine(currentLine)
         text.delete(lineStart, lineEnd)
     }
 
     fun duplicateLine() {
         val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = getIndexForStartOfLine(currentLine)
-        val lineEnd = getIndexForEndOfLine(currentLine)
+        val lineStart = lines.getIndexForStartOfLine(currentLine)
+        val lineEnd = lines.getIndexForEndOfLine(currentLine)
         val lineText = text.subSequence(lineStart, lineEnd)
         text.insert(lineEnd, "\n" + lineText)
     }
 
     fun moveCaretToStartOfLine(): Boolean {
         val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = getIndexForStartOfLine(currentLine)
+        val lineStart = lines.getIndexForStartOfLine(currentLine)
         setSelection(lineStart)
         return true
     }
 
     fun moveCaretToEndOfLine(): Boolean {
         val currentLine = lines.getLineForIndex(selectionEnd)
-        val lineEnd = getIndexForEndOfLine(currentLine)
+        val lineEnd = lines.getIndexForEndOfLine(currentLine)
         setSelection(lineEnd)
         return true
     }

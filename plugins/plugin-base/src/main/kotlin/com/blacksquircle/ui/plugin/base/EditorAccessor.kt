@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.domain.model.themes
+package com.blacksquircle.ui.plugin.base
 
-import com.blacksquircle.ui.plugin.base.ColorScheme
+import com.blacksquircle.ui.language.base.Language
 
-data class ThemeModel(
-    val uuid: String,
-    val name: String,
-    val author: String,
-    val description: String,
-    val isExternal: Boolean,
+interface EditorAccessor {
+    val language: Language?
     val colorScheme: ColorScheme
-)
+    val lines: LinesCollection
+}

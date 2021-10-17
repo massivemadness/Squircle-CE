@@ -20,31 +20,34 @@ import android.graphics.Rect
 import android.util.Log
 import android.widget.EditText
 import android.widget.MultiAutoCompleteTextView
-import com.blacksquircle.ui.language.base.provider.SuggestionProvider
+import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.plugin.base.EditorPlugin
+import com.blacksquircle.ui.plugin.base.LinesCollection
 
 class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
 
-    var suggestionProvider: SuggestionProvider? = null
-        set(value) = updateProvider(value)
     var suggestionAdapter: SuggestionAdapter? = null
-        set(value) = updateAdapter(value)
+        set(value) {
+            field = value
+            updateAdapter()
+        }
 
     private val codeEditor: MultiAutoCompleteTextView
         get() = editText as MultiAutoCompleteTextView // it's always safe
+    private val lines: LinesCollection
+        get() = accessor?.lines!!
+    private val language: Language?
+        get() = accessor?.language
 
     override fun onAttached(editText: EditText) {
         super.onAttached(editText)
-
         codeEditor.setTokenizer(SymbolsTokenizer())
-        updateAdapter(suggestionAdapter)
-
         Log.d(PLUGIN_ID, "AutoComplete plugin loaded successfully!")
     }
 
     override fun onDetached(editText: EditText) {
-        super.onDetached(editText)
         codeEditor.setTokenizer(null)
+        super.onDetached(editText)
     }
 
     override fun showDropDown() {
@@ -67,7 +70,7 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
         super.addLine(lineNumber, lineStart, lineLength)
-        suggestionProvider?.processLine(
+        language?.getProvider()?.processLine(
             lineNumber = lineNumber,
             text = codeEditor.text.substring(lineStart, lineStart + lineLength)
         )
@@ -75,46 +78,41 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun removeLine(lineNumber: Int) {
         super.removeLine(lineNumber)
-        /*suggestionProvider?.deleteLine(
+        language?.getProvider()?.deleteLine(
             lineNumber = lines.getIndexForLine(lineNumber)
-        )*/
+        )
     }
 
     override fun setTextContent(text: CharSequence) {
         super.setTextContent(text)
-        suggestionProvider?.clearLines()
+        language?.getProvider()?.clearLines()
+        updateAdapter()
     }
 
     override fun doOnTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) {
         super.doOnTextReplaced(newStart, newEnd, newText)
-        /*val startLine = lines.getLineForIndex(newStart)
+        val startLine = lines.getLineForIndex(newStart)
         val endLine = lines.getLineForIndex(newText.length + newStart)
         for (currentLine in startLine..endLine) {
-            val lineStart = getIndexForStartOfLine(currentLine)
-            val lineEnd = getIndexForEndOfLine(currentLine)
+            val lineStart = lines.getIndexForStartOfLine(currentLine)
+            val lineEnd = lines.getIndexForEndOfLine(currentLine)
             if (lineStart <= lineEnd && lineEnd <= codeEditor.text.length) {
-                suggestionProvider?.processLine(
+                language?.getProvider()?.processLine(
                     lineNumber = currentLine,
                     text = codeEditor.text.substring(lineStart, lineEnd)
                 )
             }
-        }*/
-    }
-
-    fun updateAdapter(suggestionAdapter: SuggestionAdapter?) {
-        this.suggestionAdapter = suggestionAdapter?.also { adapter ->
-            if (editText != null) {
-                codeEditor.setAdapter(adapter)
-                suggestionProvider?.let { provider ->
-                    adapter.setSuggestionProvider(provider)
-                }
-            }
         }
     }
 
-    fun updateProvider(suggestionProvider: SuggestionProvider?) {
-        this.suggestionProvider = suggestionProvider?.also { provider ->
-            suggestionAdapter?.setSuggestionProvider(provider)
+    private fun updateAdapter() {
+        suggestionAdapter?.let { adapter ->
+            language?.getProvider()?.let { provider ->
+                adapter.setSuggestionProvider(provider)
+            }
+            if (editText != null) {
+                codeEditor.setAdapter(adapter)
+            }
         }
     }
 
@@ -125,21 +123,20 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     private fun onPopupChangePosition() {
-        codeEditor.layout?.let { layout ->
-            val line = layout.getLineForOffset(codeEditor.selectionStart)
-            val x = layout.getPrimaryHorizontal(codeEditor.selectionStart)
-            val y = layout.getLineBaseline(line)
+        val layout = codeEditor.layout ?: return
+        val line = layout.getLineForOffset(codeEditor.selectionStart)
+        val x = layout.getPrimaryHorizontal(codeEditor.selectionStart)
+        val y = layout.getLineBaseline(line)
 
-            val offsetHorizontal = x + codeEditor.paddingStart
-            codeEditor.dropDownHorizontalOffset = offsetHorizontal.toInt()
+        val offsetHorizontal = x + codeEditor.paddingStart
+        codeEditor.dropDownHorizontalOffset = offsetHorizontal.toInt()
 
-            val offsetVertical = y - codeEditor.scrollY
-            val temp = offsetVertical + codeEditor.dropDownHeight
-            codeEditor.dropDownVerticalOffset = if (temp > getVisibleHeight()) {
-                offsetVertical - codeEditor.dropDownHeight
-            } else {
-                offsetVertical
-            }
+        val offsetVertical = y - codeEditor.scrollY
+        val temp = offsetVertical + codeEditor.dropDownHeight
+        codeEditor.dropDownVerticalOffset = if (temp > getVisibleHeight()) {
+            offsetVertical - codeEditor.dropDownHeight
+        } else {
+            offsetVertical
         }
     }
 

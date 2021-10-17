@@ -16,20 +16,13 @@
 
 package com.blacksquircle.ui.plugin.autocomplete
 
-import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 import com.blacksquircle.ui.plugin.base.PluginContainer
 import com.blacksquircle.ui.plugin.base.PluginSupplier
-
-var PluginContainer.suggestionProvider: SuggestionProvider?
-    get() = findPlugin<AutoCompletePlugin>(AutoCompletePlugin.PLUGIN_ID)?.suggestionProvider
-    set(value) {
-        findPlugin<AutoCompletePlugin>(AutoCompletePlugin.PLUGIN_ID)?.updateProvider(value)
-    }
 
 var PluginContainer.suggestionAdapter: SuggestionAdapter?
     get() = findPlugin<AutoCompletePlugin>(AutoCompletePlugin.PLUGIN_ID)?.suggestionAdapter
     set(value) {
-        findPlugin<AutoCompletePlugin>(AutoCompletePlugin.PLUGIN_ID)?.updateAdapter(value)
+        findPlugin<AutoCompletePlugin>(AutoCompletePlugin.PLUGIN_ID)?.suggestionAdapter = value
     }
 
 fun PluginSupplier.codeCompletion(block: AutoCompletePlugin.() -> Unit = {}) {
