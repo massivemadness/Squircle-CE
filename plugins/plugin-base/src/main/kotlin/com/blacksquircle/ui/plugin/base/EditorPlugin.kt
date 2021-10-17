@@ -43,7 +43,8 @@ abstract class EditorPlugin(val pluginId: String) {
 
     open fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = Unit
     open fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) = Unit
-    open fun onDraw(canvas: Canvas?) = Unit
+    open fun onDrawBefore(canvas: Canvas?) = Unit
+    open fun onDrawAfter(canvas: Canvas?) = Unit
 
     open fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) = Unit
     open fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) = Unit

@@ -32,6 +32,8 @@ import com.blacksquircle.ui.editorkit.span.TabWidthSpan
 import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.plugin.base.bottomVisibleLine
+import com.blacksquircle.ui.plugin.base.topVisibleLine
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
@@ -106,7 +108,6 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     override fun doAfterTextChanged(text: Editable?) {
-        super.doAfterTextChanged(text)
         if (!isSyntaxHighlighting) {
             shiftSpans(selectionStart, addedTextCount)
         }
@@ -233,8 +234,6 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     private fun scrollToFindResult() {
         if (selectedFindResult < findResultSpans.size) {
             val findResult = findResultSpans[selectedFindResult]
-            val topVisibleLine = getTopVisibleLine()
-            val bottomVisibleLine = getBottomVisibleLine()
             if (findResult.start >= layout.getLineStart(topVisibleLine) &&
                 findResult.end <= layout.getLineEnd(bottomVisibleLine)) {
                 return
@@ -286,8 +285,6 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private fun updateSyntaxHighlighting() {
         if (layout != null) {
-            val topVisibleLine = getTopVisibleLine()
-            val bottomVisibleLine = getBottomVisibleLine()
             val lineStart = layout.getLineStart(topVisibleLine)
             val lineEnd = layout.getLineEnd(bottomVisibleLine)
 

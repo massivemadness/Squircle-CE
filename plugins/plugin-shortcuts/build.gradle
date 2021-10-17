@@ -52,7 +52,6 @@ dependencies {
 
     // Core
     implementation library.kotlin
-    implementation library.core
 
     // Modules
     implementation project(':plugins:plugin-base')

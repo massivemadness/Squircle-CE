@@ -60,6 +60,7 @@ import com.blacksquircle.ui.plugin.autocomplete.codeCompletion
 import com.blacksquircle.ui.plugin.base.PluginSupplier
 import com.blacksquircle.ui.plugin.dirtytext.OnChangeListener
 import com.blacksquircle.ui.plugin.dirtytext.changeDetector
+import com.blacksquircle.ui.plugin.linenumbers.lineNumbers
 import com.blacksquircle.ui.plugin.pinchzoom.pinchZoom
 import com.blacksquircle.ui.plugin.shortcuts.OnShortcutListener
 import com.blacksquircle.ui.plugin.shortcuts.shortcuts
@@ -261,6 +262,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         is SettingsEvent.TabWidth -> config.tabWidth = event.value
                     }
                 }
+                lineNumbers()
                 changeDetector {
                     onChangeListener = OnChangeListener {
                         val position = adapter.selectedPosition

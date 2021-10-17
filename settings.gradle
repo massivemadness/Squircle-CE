@@ -30,7 +30,8 @@ include ':plugins:plugin-base',
         ':plugins:plugin-pinchzoom',
         ':plugins:plugin-shortcuts',
         ':plugins:plugin-autocomplete',
-        ':plugins:plugin-dirtytext'
+        ':plugins:plugin-dirtytext',
+        ':plugins:plugin-linenumbers'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'

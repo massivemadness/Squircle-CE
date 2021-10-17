@@ -74,6 +74,7 @@ dependencies {
     api project(':plugins:plugin-pinchzoom')
     api project(':plugins:plugin-shortcuts')
     api project(':plugins:plugin-dirtytext')
+    api project(':plugins:plugin-linenumbers')
 
     // Tests
     testImplementation testLibrary.junit

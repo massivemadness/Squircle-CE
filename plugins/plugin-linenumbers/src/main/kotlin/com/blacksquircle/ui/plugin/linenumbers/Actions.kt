@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.plugin.pinchzoom
+package com.blacksquircle.ui.plugin.linenumbers
 
 import com.blacksquircle.ui.plugin.base.PluginSupplier
 
-fun PluginSupplier.pinchZoom(block: PinchZoomPlugin.() -> Unit = {}) {
-    plugin(PinchZoomPlugin(), block)
+fun PluginSupplier.lineNumbers(block: LineNumbersPlugin.() -> Unit = {}) {
+    plugin(LineNumbersPlugin(), block)
 }

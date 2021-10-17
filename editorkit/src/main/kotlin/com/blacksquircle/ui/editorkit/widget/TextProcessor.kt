@@ -71,9 +71,12 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
+        for (plugin in plugins) {
+            plugin.onDrawBefore(canvas)
+        }
         super.onDraw(canvas)
         for (plugin in plugins) {
-            plugin.onDraw(canvas)
+            plugin.onDrawAfter(canvas)
         }
     }
 
