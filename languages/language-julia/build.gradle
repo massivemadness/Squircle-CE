@@ -36,34 +36,17 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-
-        //Tell Gradle where to put the compiled shared library
-        //main.jniLibs.srcDir 'libs'
-        //disable automatic ndk-build call
-        //main.jni.srcDirs = []
-    }
-    lintOptions {
-        lintConfig file('lint.xml')
     }
     task ndkBuild(type: Exec) {
         //commandLine "$androidNdkHome/ndk-build",'-C',file('jni').absolutePath
     }
 }
 
-/*ndk{
-    moduleName "jnilib"
-    ldLibs "julia"
-    abiFilters "armeabi","armeabi-v7a"
-}*/
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Core
     implementation library.kotlin
-
-    // Other
-    implementation library.rhino
 
     // Modules
     api project(':languages:language-base')
