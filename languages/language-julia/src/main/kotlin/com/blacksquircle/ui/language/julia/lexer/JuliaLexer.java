@@ -5470,6 +5470,7 @@ public class JuliaLexer {
    * @return the next token.
    * @exception java.io.IOException if any I/O-Error occurs.
    */
+  @NotNull
   public JuliaToken advance() throws java.io.IOException {
     int zzInput;
     int zzAction;

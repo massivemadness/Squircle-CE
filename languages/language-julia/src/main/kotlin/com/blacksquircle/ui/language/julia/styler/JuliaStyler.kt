@@ -78,11 +78,15 @@ class JuliaStyler private constructor() : LanguageStyler {
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
-                    /*JuliaToken.SEMICOLON,
-                    JuliaToken.COMMA,
-                    JuliaToken.DOT -> {
+                    JuliaToken.SYMB_LANG,
+                    JuliaToken.BASE_MODULE_FUNCS,
+                    JuliaToken.BASE_MACROS,
+                    JuliaToken.BASE_MODULES,
+                    JuliaToken.BASE_FUNCS,
+                    JuliaToken.SYMB_OP_ASCII,
+                    JuliaToken.SYMB_ID -> {
                         continue // skip
-                    }*/
+                    }
                     JuliaToken.KEYWORD_OTHER,
                     JuliaToken.KEYWORD_CONTROL -> {
                         val styleSpan = StyleSpan(syntaxScheme.keywordColor)
@@ -131,16 +135,16 @@ class JuliaStyler private constructor() : LanguageStyler {
     }
 
     override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
+        task?.cancel()
         task = StylingTask(
             doAsync = { execute(sourceCode, syntaxScheme) },
             onSuccess = stylingResult
         )
-        task?.executeTask()
+        task?.execute()
     }
 
     override fun cancel() {
-        task?.cancelTask()
+        task?.cancel()
         task = null
     }
 }

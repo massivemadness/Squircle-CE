@@ -29,14 +29,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.io.File
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
-    const val KEY_LOCAL_SAVEDDIR = "LOCAL_SAVEDDIR"
 
     @Provides
     @Singleton
@@ -53,12 +51,8 @@ object DataModule {
     @Provides
     @Singleton
     @Named("Local")
-    fun provideLocalFilesystem(sharedPreferences: SharedPreferences): Filesystem {
-        var localSaveddir: String = sharedPreferences.getString(KEY_LOCAL_SAVEDDIR, "") ?: ""
-        if (localSaveddir.equals(""))
-            return FilesystemDelegate.provideFilesystem(Environment.getExternalStorageDirectory())
-        else
-            return FilesystemDelegate.provideFilesystem(File(localSaveddir))
+    fun provideLocalFilesystem(): Filesystem {
+        return FilesystemDelegate.provideFilesystem(Environment.getExternalStorageDirectory())
     }
 
     @Provides

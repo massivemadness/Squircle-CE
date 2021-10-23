@@ -27,9 +27,6 @@ import com.blacksquircle.ui.language.julia.styler.JuliaStyler
 class JuliaLanguage : Language {
 
     companion object {
-        init {
-            // System.loadLibrary( "julia" );
-        }
 
         private const val FILE_EXTENSION = ".jl"
 
