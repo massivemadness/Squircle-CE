@@ -17,6 +17,8 @@
 package com.blacksquircle.ui.plugin.dirtytext
 
 import android.text.Editable
+import android.util.Log
+import android.widget.EditText
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 
 class DirtyTextPlugin : EditorPlugin(PLUGIN_ID) {
@@ -24,6 +26,11 @@ class DirtyTextPlugin : EditorPlugin(PLUGIN_ID) {
     var onChangeListener: OnChangeListener? = null
 
     private var isDirty = false
+
+    override fun onAttached(editText: EditText) {
+        super.onAttached(editText)
+        Log.d(PLUGIN_ID, "DirtyText plugin loaded successfully!")
+    }
 
     override fun doAfterTextChanged(text: Editable?) {
         super.doAfterTextChanged(text)

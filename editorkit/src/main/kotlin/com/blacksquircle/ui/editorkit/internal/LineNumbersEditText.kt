@@ -18,6 +18,7 @@ package com.blacksquircle.ui.editorkit.internal
 
 import android.content.Context
 import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
@@ -43,7 +44,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     val lines = LinesCollection()
 
-    private val processedText = Editable.Factory.getInstance().newEditable("")
+    private val textContent = SpannableStringBuilder("")
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -75,15 +76,19 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         replaceText(textChangeStart, textChangeEnd, textChangedNewText)
     }
 
-    open fun colorize() = Unit
+    open fun colorize() {
+        setTextColor(colorScheme.textColor)
+        setBackgroundColor(colorScheme.backgroundColor)
+        highlightColor = colorScheme.selectionColor
+    }
 
     open fun setTextContent(textParams: PrecomputedTextCompat) {
         abortFling()
         removeTextChangedListener(textWatcher)
 
         setText(textParams)
-        processedText.clear()
-        replaceText(0, processedText.length, textParams.toString())
+        textContent.clear()
+        replaceText(0, textContent.length, textParams.toString())
 
         lines.clear()
         var lineNumber = 0
@@ -104,11 +109,11 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
         val start = if (newStart < 0) 0 else newStart
-        val end = if (newEnd >= processedText.length) processedText.length else newEnd
+        val end = if (newEnd >= textContent.length) textContent.length else newEnd
         val newCharCount = newText.length - (end - start)
         val startLine = lines.getLineForIndex(start)
         for (i in start until end) {
-            if (processedText[i] == '\n') {
+            if (textContent[i] == '\n') {
                 removeLine(startLine + 1)
             }
         }
@@ -118,7 +123,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
                 lines.add(lines.getLineForIndex(start + i) + 1, start + i + 1)
             }
         }
-        processedText.replace(start, end, newText)
+        textContent.replace(start, end, newText)
     }
 
     open fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {

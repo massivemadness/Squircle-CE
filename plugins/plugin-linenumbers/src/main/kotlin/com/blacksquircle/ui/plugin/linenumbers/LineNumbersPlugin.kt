@@ -21,6 +21,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.Editable
+import android.util.Log
 import android.widget.EditText
 import com.blacksquircle.ui.plugin.base.*
 
@@ -48,10 +49,6 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun onAttached(editText: EditText) {
         super.onAttached(editText)
-        editText.setTextColor(colorScheme.textColor)
-        editText.setBackgroundColor(colorScheme.backgroundColor)
-        editText.highlightColor = colorScheme.selectionColor
-
         selectedLinePaint.color = colorScheme.selectedLineColor
         selectedLinePaint.isAntiAlias = false
         selectedLinePaint.isDither = false
@@ -79,6 +76,8 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
         gutterTextPaint.isAntiAlias = true
         gutterTextPaint.isDither = false
         gutterTextPaint.textAlign = Paint.Align.RIGHT
+
+        Log.d(PLUGIN_ID, "LineNumbers plugin loaded successfully!")
     }
 
     override fun onDrawBefore(canvas: Canvas?) {

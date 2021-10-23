@@ -244,7 +244,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             }
                         }
                         is SettingsEvent.PinchZoom -> if (event.value) pinchZoom()
-                        is SettingsEvent.CurrentLine -> config.highlightCurrentLine = event.value
+                        is SettingsEvent.CurrentLine -> {
+                            lineNumbers {
+                                highlightCurrentLine = event.value
+                            }
+                        }
                         is SettingsEvent.Delimiters -> config.highlightDelimiters = event.value
                         is SettingsEvent.ExtendedKeys -> {
                             KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner) { isOpen ->
@@ -262,7 +266,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         is SettingsEvent.TabWidth -> config.tabWidth = event.value
                     }
                 }
-                lineNumbers()
                 changeDetector {
                     onChangeListener = OnChangeListener {
                         val position = adapter.selectedPosition
