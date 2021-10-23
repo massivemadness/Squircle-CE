@@ -60,6 +60,7 @@ abstract class EditorPlugin(val pluginId: String) {
 
     open fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) = Unit
     open fun removeLine(lineNumber: Int) = Unit
+    open fun clearLines() = Unit
 
     open fun setTextContent(text: CharSequence) = Unit
     open fun setTextSize(size: Float) = Unit

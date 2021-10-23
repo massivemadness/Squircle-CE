@@ -83,9 +83,13 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
         )
     }
 
+    override fun clearLines() {
+        super.clearLines()
+        language?.getProvider()?.clearLines()
+    }
+
     override fun setTextContent(text: CharSequence) {
         super.setTextContent(text)
-        language?.getProvider()?.clearLines() // FIXME clears all lines
         updateAdapter() // probably language has been changed
     }
 

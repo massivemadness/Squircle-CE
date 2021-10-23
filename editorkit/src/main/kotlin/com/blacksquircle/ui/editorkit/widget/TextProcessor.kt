@@ -174,6 +174,9 @@ class TextProcessor @JvmOverloads constructor(
     }
 
     override fun setTextContent(textParams: PrecomputedTextCompat) {
+        for (plugin in plugins) {
+            plugin.clearLines()
+        }
         super.setTextContent(textParams)
         for (plugin in plugins) {
             plugin.setTextContent(textParams)
