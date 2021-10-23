@@ -20,27 +20,16 @@ import androidx.annotation.ColorInt
 import com.blacksquircle.ui.language.base.model.SyntaxScheme
 
 data class ColorScheme(
-    @ColorInt
-    val textColor: Int,
-    @ColorInt
-    val backgroundColor: Int,
-    @ColorInt
-    val gutterColor: Int,
-    @ColorInt
-    val gutterDividerColor: Int,
-    @ColorInt
-    val gutterCurrentLineNumberColor: Int,
-    @ColorInt
-    val gutterTextColor: Int,
-    @ColorInt
-    val selectedLineColor: Int,
-    @ColorInt
-    val selectionColor: Int,
-    @ColorInt
-    val suggestionQueryColor: Int,
-    @ColorInt
-    val findResultBackgroundColor: Int,
-    @ColorInt
-    val delimiterBackgroundColor: Int,
+    @ColorInt val textColor: Int,
+    @ColorInt val backgroundColor: Int,
+    @ColorInt val gutterColor: Int,
+    @ColorInt val gutterDividerColor: Int,
+    @ColorInt val gutterCurrentLineNumberColor: Int,
+    @ColorInt val gutterTextColor: Int,
+    @ColorInt val selectedLineColor: Int,
+    @ColorInt val selectionColor: Int,
+    @ColorInt val suggestionQueryColor: Int,
+    @ColorInt val findResultBackgroundColor: Int,
+    @ColorInt val delimiterBackgroundColor: Int,
     val syntaxScheme: SyntaxScheme
 )

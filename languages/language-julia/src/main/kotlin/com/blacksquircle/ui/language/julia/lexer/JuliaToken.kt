@@ -25,16 +25,12 @@ enum class JuliaToken {
     KEYWORD_CONTROL,
 
     CONSTANTS,
+    OPERATOR,
 
-    SYMB_OP,
-    SYMB_LANG,
-    BASE_MODULE_FUNCS,
+    /*BASE_MODULE_FUNCS,
     BASE_MACROS,
     BASE_MODULES,
-    BASE_FUNCS,
-    SYMB_OP_ASCII,
-    SYMB_ID,
-    LONG_OP,
+    BASE_FUNCS,*/
     BASE_TYPES,
 
     DOUBLE_QUOTED_STRING,

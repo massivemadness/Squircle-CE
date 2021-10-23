@@ -392,6 +392,7 @@ dependencies {
   implementation 'com.blacksquircle.ui:language-java:2.0.0'
   implementation 'com.blacksquircle.ui:language-javascript:2.0.0'
   implementation 'com.blacksquircle.ui:language-json:2.0.0'
+  implementation 'com.blacksquircle.ui:language-julia:2.0.0'
   implementation 'com.blacksquircle.ui:language-kotlin:2.0.0'
   implementation 'com.blacksquircle.ui:language-lisp:2.0.0'
   implementation 'com.blacksquircle.ui:language-lua:2.0.0'
@@ -535,16 +536,16 @@ class CustomStyler : LanguageStyler {
 
     // StylingResult it's just a callback (List<SyntaxHighlightSpan>) -> Unit
     override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
+        task?.cancel()
         task = StylingTask(
             doAsync = { execute(sourceCode, syntaxScheme) },
             onSuccess = stylingResult
         )
-        task?.executeTask()
+        task?.execute()
     }
 
     override fun cancel() {
-        task?.cancelTask()
+        task?.cancel()
         task = null
     }
 }

@@ -72,29 +72,25 @@ class JuliaStyler private constructor() : LanguageStyler {
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
-                    JuliaToken.SYMB_OP,
-                    JuliaToken.LONG_OP -> {
+                    JuliaToken.OPERATOR -> {
                         val styleSpan = StyleSpan(syntaxScheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
-                    JuliaToken.SYMB_LANG,
-                    JuliaToken.BASE_MODULE_FUNCS,
+                    /*JuliaToken.BASE_MODULE_FUNCS,
                     JuliaToken.BASE_MACROS,
                     JuliaToken.BASE_MODULES,
-                    JuliaToken.BASE_FUNCS,
-                    JuliaToken.SYMB_OP_ASCII,
-                    JuliaToken.SYMB_ID -> {
+                    JuliaToken.BASE_FUNCS -> {
                         continue // skip
+                    }*/
+                    JuliaToken.BASE_TYPES -> {
+                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     JuliaToken.KEYWORD_OTHER,
                     JuliaToken.KEYWORD_CONTROL -> {
                         val styleSpan = StyleSpan(syntaxScheme.keywordColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
-                    }
-                    JuliaToken.BASE_TYPES -> {
-                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
