@@ -39,8 +39,10 @@ Android.
 # EditorKit
 
 The `editorkit` module provides code editor without any support for
-programming languages. ***If you are upgrading from any older version,
-please have a look at the [migration guide](MIGRATION-GUIDE.md).***
+programming languages.  
+***If you are upgrading from any older version, please have a look at
+the [migration guide](MIGRATION-GUIDE.md).*** Please note that this
+library only supports Kotlin.
 
 [ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/editorkit?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/editorkit/)
 
@@ -57,8 +59,7 @@ dependencies {
 
 The `editorkit` module **does not** provide support for syntax
 highlighting, you need to add specific language dependency. You can see
-list of available languages [here](#languages-1). Please note that this
-library only supports Kotlin.
+list of available languages [here](#languages-1).
 
 ---
 

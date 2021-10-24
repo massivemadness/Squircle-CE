@@ -3,22 +3,22 @@
 This migration guide will help you adapt your existing code to match the
 latest version of [EditorKit](README.md#editorkit) library.
 
-1. [from v2.0.0 to v2.1.0](#v200--v210)
-2. [from v1.3.0 to v2.0.0](#v130--v200)
-3. [from v1.2.1 to v1.3.0](#v121--v130)
-4. [from v1.2.0 to v1.2.1](#v120--v121)
-5. [from v1.1.0 to v1.2.0](#v110--v120)
-6. [from v1.0.1 to v1.1.0](#v101--v110)
-7. [from v1.0.0 to v1.0.1](#v100--v101)
+1. [v2.0.0 -> v2.1.0](#v200---v210)
+2. [v1.3.0 -> v2.0.0](#v130---v200)
+3. [v1.2.1 -> v1.3.0](#v121---v130)
+4. [v1.2.0 -> v1.2.1](#v120---v121)
+5. [v1.1.0 -> v1.2.0](#v110---v120)
+6. [v1.0.1 -> v1.1.0](#v101---v110)
+7. [v1.0.0 -> v1.0.1](#v100---v101)
 
 ---
 
-## v2.0.0 => v2.1.0
+## v2.0.0 -> v2.1.0
 
 Migration steps:
-1. Setup of the code editor was completely rewritten:
-   1. The `EditorConfig` is deleted, you have to apply the settings
-      using `PluginSupplier` as shown below:
+1. Setup of the code editor was completely rewritten from scratch:
+   1. The `EditorConfig` class was removed, you have to apply the
+      settings using `PluginSupplier` as shown below:
       ```kotlin
       // Before
       editor.editorConfig = EditorConfig(
@@ -47,10 +47,10 @@ Migration steps:
            highlightDelimiters()
            // ...
       }
-      editor.plugins(pluginSupplier) 
+      editor.plugins(pluginSupplier)
       ```
-      You can enable/disable these settings in runtime by surrounding
-      any method with `if (enabled) { ... }` operator:
+      You can enable/disable these settings by surrounding necessary
+      methods with `if (enabled) { ... }` operator:
       ```kotlin
       val pluginSupplier = PluginSupplier.create {
           if (preferences.isLineNumbersEnabled) {
@@ -59,24 +59,24 @@ Migration steps:
           if (preferences.isPinchZoomEnabled) {
               pinchZoom()
           }
-          ...
+          // ...
       }
+      editor.plugins(pluginSupplier)
       ```
-      You might notice that there's no alternative to `fontSize`,
-      `fontType` and some other properties in `PluginSupplier`, to set
-      these parameters use following methods:
+      Since v2.1.0 there's no alternative to `fontSize`, `fontType` and
+      some other properties in `PluginSupplier`, to configure these
+      parameters use following methods:
       ```kotlin
-      editor.setTextSize(14f)
-      editor.setTypeface(Typeface.MONOSPACE)
-      editor.setHorizontallyScrolling(false) // previous wordWrap = true
-      editor.setSoftKeyboard(false)
-      editor.setUseSpacesInsteadOfTabs(true)
-      editor.setTabWidth(4)
+      editor.setTextSize(14f) // previous `fontSize`
+      editor.setTypeface(Typeface.MONOSPACE) // previous `fontType`
+      editor.setHorizontallyScrolling(false) // previous `wordWrap`
+      editor.setSoftKeyboard(false) // previous `softKeyboard`
+      editor.setUseSpacesInsteadOfTabs(true) // previous `useSpacesInsteadOfTabs`
+      editor.setTabWidth(4) // previous `tabWidth`
       ```
-2. If you using custom color schemes:
-   1. The `SyntaxScheme` class is deleted, all it's properties were
-      moved in `ColorScheme` itself.
-3. If you using custom languages:
+2. If you're using custom themes, the `SyntaxScheme` class was removed
+   and all it's properties were moved in `ColorScheme` itself.
+3. If you're using custom languages:
    1. Remove `enqueue()` and `cancel()` methods in `LanguageStyler`. The
       `execute()` method now invoked on the background thread, so now
       you don't need to write the asynchronous work by yourself.
@@ -97,7 +97,7 @@ Migration steps:
 
 ---
 
-## v1.3.0 => v2.0.0
+## v1.3.0 -> v2.0.0
 
 Migration steps:
 1. Change the package name from `com.brackeys.ui` to
@@ -106,16 +106,16 @@ Migration steps:
 
 ---
 
-## v1.2.1 => v1.3.0
+## v1.2.1 -> v1.3.0
 
 Migration steps:
-1. If you using custom themes, add new `variableColor` property to the
+1. If you're using custom themes, add new `variableColor` property to the
    `SyntaxScheme` object
 2. Everything else remains the same
 
 ---
 
-## v1.2.0 => v1.2.1
+## v1.2.0 -> v1.2.1
 
 Migration steps:
 1. Change the groupId from `com.brackeys.ui` to `com.blacksquircle.ui`
@@ -132,15 +132,12 @@ Migration steps:
 
 ---
 
-## v1.1.0 => v1.2.0
+## v1.1.0 -> v1.2.0
 
 Migration steps:
-1. If you using `TextScroller`, rename it's `link()` method to
+1. If you're using `TextScroller`, rename it's `link()` method to
    `attachTo()` as shown below:
    ```kotlin
-   val scroller = findViewById<TextScroller>(R.id.scroller)
-   val editor = findViewById<TextProcessor>(R.id.editor)
-   
    // Before
    scroller.link(editor)
    
@@ -151,7 +148,7 @@ Migration steps:
 
 ---
 
-## v1.0.1 => v1.1.0
+## v1.0.1 -> v1.1.0
 
 Migration steps:
 1. Rename `Config` to `EditorConfig` as shown below:
@@ -166,7 +163,7 @@ Migration steps:
 
 ---
 
-## v1.0.0 => v1.0.1
+## v1.0.0 -> v1.0.1
 
 Migration steps:
 1. Rename `ShortcutListener` to `OnShortcutListener` as shown below:
