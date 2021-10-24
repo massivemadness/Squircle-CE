@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.language.php.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
@@ -44,16 +44,16 @@ class PhpStyler : LanguageStyler {
         }
     }
 
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = PhpLexer(sourceReader)
 
         // FIXME flex doesn't support positive lookbehind
-        val matcher = METHOD.matcher(sourceCode)
-        matcher.region(0, sourceCode.length)
+        val matcher = METHOD.matcher(source)
+        matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.methodColor)
+            val styleSpan = StyleSpan(scheme.methodColor)
             val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
             syntaxHighlightSpans.add(syntaxHighlightSpan)
         }
@@ -64,12 +64,12 @@ class PhpStyler : LanguageStyler {
                     PhpToken.INTEGER_LITERAL,
                     PhpToken.FLOAT_LITERAL,
                     PhpToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val styleSpan = StyleSpan(scheme.numberColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PhpToken.VARIABLE_LITERAL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.variableColor)
+                        val styleSpan = StyleSpan(scheme.variableColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -114,7 +114,7 @@ class PhpStyler : LanguageStyler {
                     PhpToken.RBRACE,
                     PhpToken.LBRACK,
                     PhpToken.RBRACK -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(scheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -184,7 +184,7 @@ class PhpStyler : LanguageStyler {
                     PhpToken.VOLATILE,
                     PhpToken.WHILE,
                     PhpToken.WITH -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val styleSpan = StyleSpan(scheme.keywordColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -196,7 +196,7 @@ class PhpStyler : LanguageStyler {
                     PhpToken.INT,
                     PhpToken.LONG,
                     PhpToken.SHORT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val styleSpan = StyleSpan(scheme.typeColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -205,7 +205,7 @@ class PhpStyler : LanguageStyler {
                     PhpToken.NULL,
                     PhpToken.NAN,
                     PhpToken.INFINITY -> {
-                        val styleSpan = StyleSpan(syntaxScheme.langConstColor)
+                        val styleSpan = StyleSpan(scheme.langConstColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -222,19 +222,19 @@ class PhpStyler : LanguageStyler {
                     PhpToken.UNESCAPE,
                     PhpToken.ISNAN,
                     PhpToken.ISFINITE -> {
-                        val styleSpan = StyleSpan(syntaxScheme.methodColor)
+                        val styleSpan = StyleSpan(scheme.methodColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PhpToken.DOUBLE_QUOTED_STRING,
                     PhpToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val styleSpan = StyleSpan(scheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PhpToken.LINE_COMMENT,
                     PhpToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }

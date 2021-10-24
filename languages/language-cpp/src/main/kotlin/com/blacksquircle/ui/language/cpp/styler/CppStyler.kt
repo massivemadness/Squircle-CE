@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.language.cpp.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
@@ -41,9 +41,9 @@ class CppStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = CppLexer(sourceReader)
 
         while (true) {
@@ -53,7 +53,7 @@ class CppStyler private constructor() : LanguageStyler {
                     CppToken.INTEGER_LITERAL,
                     CppToken.FLOAT_LITERAL,
                     CppToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val styleSpan = StyleSpan(scheme.numberColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -99,7 +99,7 @@ class CppStyler private constructor() : LanguageStyler {
                     CppToken.RBRACE,
                     CppToken.LBRACK,
                     CppToken.RBRACK -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(scheme.operatorColor)
                         val syntaxHighlightSpan =
                             SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -157,13 +157,13 @@ class CppStyler private constructor() : LanguageStyler {
                     CppToken.VOLATILE,
                     CppToken.WHILE,
                     CppToken.RETURN -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val styleSpan = StyleSpan(scheme.keywordColor)
                         val syntaxHighlightSpan =
                             SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     CppToken.FUNCTION -> {
-                        val styleSpan = StyleSpan(syntaxScheme.methodColor)
+                        val styleSpan = StyleSpan(scheme.methodColor)
                         val syntaxHighlightSpan =
                             SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -182,7 +182,7 @@ class CppStyler private constructor() : LanguageStyler {
                     CppToken.UNSIGNED,
                     CppToken.VOID,
                     CppToken.WCHAR_T -> {
-                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val styleSpan = StyleSpan(scheme.typeColor)
                         val syntaxHighlightSpan =
                             SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -190,7 +190,7 @@ class CppStyler private constructor() : LanguageStyler {
                     CppToken.TRUE,
                     CppToken.FALSE,
                     CppToken.NULL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.langConstColor)
+                        val styleSpan = StyleSpan(scheme.langConstColor)
                         val syntaxHighlightSpan =
                             SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -201,21 +201,21 @@ class CppStyler private constructor() : LanguageStyler {
                     CppToken.__LINE__,
                     CppToken.__STDC__,
                     CppToken.PREPROCESSOR -> {
-                        val styleSpan = StyleSpan(syntaxScheme.preprocessorColor)
+                        val styleSpan = StyleSpan(scheme.preprocessorColor)
                         val syntaxHighlightSpan =
                             SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     CppToken.DOUBLE_QUOTED_STRING,
                     CppToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val styleSpan = StyleSpan(scheme.stringColor)
                         val syntaxHighlightSpan =
                             SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     CppToken.LINE_COMMENT,
                     CppToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan =
                             SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)

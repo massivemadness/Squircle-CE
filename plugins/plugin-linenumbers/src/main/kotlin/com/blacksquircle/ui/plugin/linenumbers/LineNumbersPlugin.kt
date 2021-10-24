@@ -23,6 +23,7 @@ import android.graphics.Typeface
 import android.text.Editable
 import android.util.Log
 import android.widget.EditText
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.*
 
 class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {

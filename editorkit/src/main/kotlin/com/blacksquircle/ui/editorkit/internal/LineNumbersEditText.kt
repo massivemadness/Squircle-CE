@@ -27,7 +27,7 @@ import androidx.core.widget.TextViewCompat
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.listener.OnTextChangedListener
 import com.blacksquircle.ui.editorkit.theme.EditorTheme
-import com.blacksquircle.ui.plugin.base.ColorScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.LinesCollection
 
 abstract class LineNumbersEditText @JvmOverloads constructor(

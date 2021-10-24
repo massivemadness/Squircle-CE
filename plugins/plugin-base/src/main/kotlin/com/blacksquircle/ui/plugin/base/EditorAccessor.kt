@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.plugin.base
 
 import com.blacksquircle.ui.language.base.Language
+import com.blacksquircle.ui.language.base.model.ColorScheme
 
 interface EditorAccessor {
     val language: Language?

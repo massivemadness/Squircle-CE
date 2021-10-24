@@ -16,9 +16,9 @@
 
 package com.blacksquircle.ui.language.base.styler
 
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 
 interface LanguageStyler {
-    fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan>
+    fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan>
 }

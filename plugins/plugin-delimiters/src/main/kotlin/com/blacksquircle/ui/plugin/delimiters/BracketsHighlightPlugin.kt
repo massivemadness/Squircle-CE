@@ -20,7 +20,7 @@ import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.widget.EditText
-import com.blacksquircle.ui.plugin.base.ColorScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 
 class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {

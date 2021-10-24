@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.domain.model.themes
 
-import com.blacksquircle.ui.plugin.base.ColorScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 
 data class ThemeModel(
     val uuid: String,
