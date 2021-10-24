@@ -39,9 +39,8 @@ Android.
 # EditorKit
 
 The `editorkit` module provides code editor without any support for
-programming languages. ***Note: If you are upgrading from any older
-version, please have a look at the
-[migration guide](MIGRATION-GUIDE.md)***
+programming languages. ***If you are upgrading from any older version,
+please have a look at the [migration guide](MIGRATION-GUIDE.md).***
 
 [ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/editorkit?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/editorkit/)
 
