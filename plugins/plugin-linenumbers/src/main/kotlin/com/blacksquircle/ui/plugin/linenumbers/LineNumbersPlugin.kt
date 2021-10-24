@@ -80,8 +80,8 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
         Log.d(PLUGIN_ID, "LineNumbers plugin loaded successfully!")
     }
 
-    override fun onDrawBefore(canvas: Canvas?) {
-        super.onDrawBefore(canvas)
+    override fun beforeDraw(canvas: Canvas?) {
+        super.beforeDraw(canvas)
         if (highlightCurrentLine) {
             val currentLineStart = lines.getLineForIndex(editor.selectionStart)
             if (currentLineStart == lines.getLineForIndex(editor.selectionEnd)) {
@@ -108,8 +108,8 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
         updateGutter()
     }
 
-    override fun onDrawAfter(canvas: Canvas?) {
-        super.onDrawAfter(canvas)
+    override fun afterDraw(canvas: Canvas?) {
+        super.afterDraw(canvas)
         if (lineNumbers) {
             val currentLineStart = lines.getLineForIndex(editor.selectionStart)
             canvas?.drawRect(
@@ -155,8 +155,8 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
         }
     }
 
-    override fun doAfterTextChanged(text: Editable?) {
-        super.doAfterTextChanged(text)
+    override fun afterTextChanged(text: Editable?) {
+        super.afterTextChanged(text)
         updateGutter()
     }
 

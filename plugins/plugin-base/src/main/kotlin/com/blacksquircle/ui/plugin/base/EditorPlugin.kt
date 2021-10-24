@@ -43,8 +43,8 @@ abstract class EditorPlugin(val pluginId: String) {
 
     open fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = Unit
     open fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) = Unit
-    open fun onDrawBefore(canvas: Canvas?) = Unit
-    open fun onDrawAfter(canvas: Canvas?) = Unit
+    open fun beforeDraw(canvas: Canvas?) = Unit
+    open fun afterDraw(canvas: Canvas?) = Unit
 
     open fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) = Unit
     open fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) = Unit
@@ -53,10 +53,10 @@ abstract class EditorPlugin(val pluginId: String) {
     open fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean = false
     open fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean = false
 
-    open fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) = Unit
-    open fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) = Unit
-    open fun doOnTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) = Unit
-    open fun doAfterTextChanged(text: Editable?) = Unit
+    open fun beforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) = Unit
+    open fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) = Unit
+    open fun onTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) = Unit
+    open fun afterTextChanged(text: Editable?) = Unit
 
     open fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) = Unit
     open fun removeLine(lineNumber: Int) = Unit

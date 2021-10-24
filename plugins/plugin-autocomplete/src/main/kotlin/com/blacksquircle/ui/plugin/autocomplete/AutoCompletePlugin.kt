@@ -63,8 +63,8 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
         onDropDownSizeChange(w, h)
     }
 
-    override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-        super.doOnTextChanged(text, start, before, count)
+    override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+        super.onTextChanged(text, start, before, count)
         onPopupChangePosition()
     }
 
@@ -93,8 +93,8 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
         updateAdapter() // probably language has been changed
     }
 
-    override fun doOnTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) {
-        super.doOnTextReplaced(newStart, newEnd, newText)
+    override fun onTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) {
+        super.onTextReplaced(newStart, newEnd, newText)
         val startLine = lines.getLineForIndex(newStart)
         val endLine = lines.getLineForIndex(newText.length + newStart)
         for (currentLine in startLine..endLine) {

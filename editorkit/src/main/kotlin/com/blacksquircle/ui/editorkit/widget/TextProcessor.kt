@@ -72,11 +72,11 @@ class TextProcessor @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         for (plugin in plugins) {
-            plugin.onDrawBefore(canvas)
+            plugin.beforeDraw(canvas)
         }
         super.onDraw(canvas)
         for (plugin in plugins) {
-            plugin.onDrawAfter(canvas)
+            plugin.afterDraw(canvas)
         }
     }
 
@@ -134,28 +134,28 @@ class TextProcessor @JvmOverloads constructor(
     override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
         super.doBeforeTextChanged(text, start, count, after)
         for (plugin in plugins) {
-            plugin.doBeforeTextChanged(text, start, count, after)
+            plugin.beforeTextChanged(text, start, count, after)
         }
     }
 
     override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
         super.doOnTextChanged(text, start, before, count)
         for (plugin in plugins) {
-            plugin.doOnTextChanged(text, start, before, count)
+            plugin.onTextChanged(text, start, before, count)
         }
     }
 
     override fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
         super.replaceText(newStart, newEnd, newText)
         for (plugin in plugins) {
-            plugin.doOnTextReplaced(newStart, newEnd, newText)
+            plugin.onTextReplaced(newStart, newEnd, newText)
         }
     }
 
     override fun doAfterTextChanged(text: Editable?) {
         super.doAfterTextChanged(text)
         for (plugin in plugins) {
-            plugin.doAfterTextChanged(text)
+            plugin.afterTextChanged(text)
         }
     }
 
