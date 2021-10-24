@@ -1,7 +1,15 @@
 # Migration Guide
 
 This migration guide will help you adapt your existing code to match the
-latest version of [EditorKit](README.md) library.
+latest version of [EditorKit](README.md#editorkit) library.
+
+1. [from v2.0.0 to v2.1.0](#v200--v210)
+2. [from v1.3.0 to v2.0.0](#v130--v200)
+3. [from v1.2.1 to v1.3.0](#v121--v130)
+4. [from v1.2.0 to v1.2.1](#v120--v121)
+5. [from v1.1.0 to v1.2.0](#v110--v120)
+6. [from v1.0.1 to v1.1.0](#v101--v110)
+7. [from v1.0.0 to v1.0.1](#v100--v101)
 
 ---
 
@@ -20,8 +28,6 @@ Migration steps:
           codeCompletion = true,
           pinchZoom = true,
           lineNumbers = true,
-          highlightCurrentLine = true,
-          highlightDelimiters = true,
           ...
       )
       
@@ -30,11 +36,11 @@ Migration steps:
            codeCompletion {
                suggestionAdapter = ...
            }
-           pinchZoom { // or pinchZoom()
+           pinchZoom { // or simply pinchZoom()
                minTextSize = 10f
                maxTextSize = 20f
            }
-           lineNumbers { // or lineNumbers()
+           lineNumbers { // or simply lineNumbers()
                lineNumbers = true
                highlightCurrentLine = true
            }
@@ -42,6 +48,19 @@ Migration steps:
            // ...
       }
       editor.plugins(pluginSupplier) 
+      ```
+      You can enable/disable these settings in runtime by surrounding
+      any method with `if (enabled) { ... }` operator:
+      ```kotlin
+      val pluginSupplier = PluginSupplier.create {
+          if (preferences.isLineNumbersEnabled) {
+              lineNumbers()
+          }
+          if (preferences.isPinchZoomEnabled) {
+              pinchZoom()
+          }
+          ...
+      }
       ```
       You might notice that there's no alternative to `fontSize`,
       `fontType` and some other properties in `PluginSupplier`, to set

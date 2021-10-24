@@ -24,9 +24,6 @@ data class EditorConfig(
     var fontSize: Float = 14f,
     var fontType: Typeface = Typeface.MONOSPACE,
 
-    // Editor
-    var wordWrap: Boolean = true,
-
     // Keyboard
     var softKeyboard: Boolean = false,
 

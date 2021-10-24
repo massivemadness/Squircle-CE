@@ -34,5 +34,16 @@ abstract class ConfigurableEditText @JvmOverloads constructor(
             configure()
         }
 
+    private var horizontallyScrollable = false
+
     abstract fun configure()
+
+    override fun setHorizontallyScrolling(whether: Boolean) {
+        super.setHorizontallyScrolling(whether)
+        horizontallyScrollable = whether
+    }
+
+    fun isHorizontallyScrollableCompat(): Boolean {
+        return horizontallyScrollable
+    }
 }

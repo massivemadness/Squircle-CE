@@ -230,7 +230,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             if (lineTop > height) {
                 lineTop = height
             }
-            val scrollX = if (!editorConfig.wordWrap) {
+            val scrollX = if (isHorizontallyScrollableCompat()) {
                 layout.getPrimaryHorizontal(findResult.start).toInt()
             } else scrollX
 

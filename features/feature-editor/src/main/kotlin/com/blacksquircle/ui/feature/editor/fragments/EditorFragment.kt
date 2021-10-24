@@ -211,14 +211,13 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
             val pluginSupplier = PluginSupplier.create {
                 settings.forEach { event ->
                     when (event) {
-                        is SettingsEvent.ThemePref -> {
+                        is SettingsEvent.ThemePref ->
                             binding.editor.colorScheme = event.value.colorScheme
-                        }
                         is SettingsEvent.FontSize -> config.fontSize = event.value
-                        is SettingsEvent.FontType -> {
-                            config.fontType = requireContext().createTypefaceFromPath(event.value)
-                        }
-                        is SettingsEvent.WordWrap -> config.wordWrap = event.value
+                        is SettingsEvent.FontType -> config.fontType = requireContext()
+                            .createTypefaceFromPath(event.value)
+                        is SettingsEvent.WordWrap ->
+                            binding.editor.setHorizontallyScrolling(!event.value)
                         is SettingsEvent.CodeCompletion -> if (event.value) codeCompletion {
                             suggestionAdapter = AutoCompleteAdapter(
                                 requireContext(),

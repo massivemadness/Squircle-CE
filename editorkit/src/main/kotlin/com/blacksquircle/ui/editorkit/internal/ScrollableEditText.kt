@@ -53,8 +53,6 @@ abstract class ScrollableEditText @JvmOverloads constructor(
 
         textSize = editorConfig.fontSize
         typeface = editorConfig.fontType
-
-        setHorizontallyScrolling(!editorConfig.wordWrap)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -76,7 +74,7 @@ abstract class ScrollableEditText @JvmOverloads constructor(
             }
             MotionEvent.ACTION_UP -> {
                 velocityTracker?.computeCurrentVelocity(1000, maximumVelocity)
-                val velocityX = if (!editorConfig.wordWrap) {
+                val velocityX = if (isHorizontallyScrollableCompat()) {
                     velocityTracker?.xVelocity?.toInt() ?: 0
                 } else 0
                 val velocityY = velocityTracker?.yVelocity?.toInt() ?: 0
