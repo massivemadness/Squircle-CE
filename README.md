@@ -490,7 +490,8 @@ Every language consist of 3 key components:
    functions, fields, and keywords within your file scope. The code
    editor use this component to display the list of code suggestions.
 3. **LanguageStyler** is responsible for syntax highlighting. The code
-   editor use this component to display all spans on the screen.
+   editor use this component to display syntax highlight spans on the
+   screen.
 
 ### LanguageParser
 
@@ -564,8 +565,8 @@ class CustomProvider : SuggestionProvider {
 to display them in the `TextProcessor`.
 
 The `execute` method will be executed on the background thread every
-time the text changes. You can use regex or lexer in the `execute`
-method to match all the spans in text.
+time the text changes. You can use regex or lexer to find the keywords
+in text.
 
 **Remember:** the more spans you add, the more time it takes to render
 on the main thread.

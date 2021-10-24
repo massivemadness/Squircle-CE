@@ -16,13 +16,7 @@
 
 package com.blacksquircle.ui.editorkit.model
 
-import android.graphics.Typeface
-
 data class EditorConfig(
-
-    // Font
-    var fontSize: Float = 14f,
-    var fontType: Typeface = Typeface.MONOSPACE,
 
     // Keyboard
     var softKeyboard: Boolean = false,

@@ -23,22 +23,28 @@ import android.text.Editable
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.widget.EditText
+import com.blacksquircle.ui.language.base.Language
+import com.blacksquircle.ui.language.base.model.ColorScheme
 
 abstract class EditorPlugin(val pluginId: String) {
 
+    protected val isAttached: Boolean
+        get() = (editText as? EditorAccessor) != null
+    protected val language: Language?
+        get() = (editText as EditorAccessor).language
+    protected val colorScheme: ColorScheme
+        get() = (editText as EditorAccessor).colorScheme
+    protected val lines: LinesCollection
+        get() = (editText as EditorAccessor).lines
+
     protected var editText: EditText? = null
-    protected var accessor: EditorAccessor? = null
 
     open fun onAttached(editText: EditText) {
         this.editText = editText
-        if (editText is EditorAccessor) {
-            this.accessor = editText
-        }
     }
 
     open fun onDetached(editText: EditText) {
         this.editText = null
-        this.accessor = null
     }
 
     open fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = Unit

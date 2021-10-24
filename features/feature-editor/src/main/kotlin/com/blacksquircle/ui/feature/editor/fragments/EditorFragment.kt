@@ -213,8 +213,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                     when (event) {
                         is SettingsEvent.ThemePref ->
                             binding.editor.colorScheme = event.value.colorScheme
-                        is SettingsEvent.FontSize -> config.fontSize = event.value
-                        is SettingsEvent.FontType -> config.fontType = requireContext()
+                        is SettingsEvent.FontSize -> binding.editor.textSize = event.value
+                        is SettingsEvent.FontType -> binding.editor.typeface = requireContext()
                             .createTypefaceFromPath(event.value)
                         is SettingsEvent.WordWrap ->
                             binding.editor.setHorizontallyScrolling(!event.value)
@@ -244,10 +244,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             }
                         }
                         is SettingsEvent.PinchZoom -> if (event.value) pinchZoom()
-                        is SettingsEvent.CurrentLine -> {
-                            lineNumbers {
-                                highlightCurrentLine = event.value
-                            }
+                        is SettingsEvent.CurrentLine -> lineNumbers {
+                            highlightCurrentLine = event.value
                         }
                         is SettingsEvent.Delimiters -> if (event.value) highlightDelimiters()
                         is SettingsEvent.ExtendedKeys -> {
@@ -255,9 +253,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                                 binding.keyboardContainer.isVisible = event.value && isOpen
                             }
                         }
-                        is SettingsEvent.KeyboardPreset -> {
+                        is SettingsEvent.KeyboardPreset ->
                             binding.extendedKeyboard.submitList(event.value)
-                        }
                         is SettingsEvent.SoftKeys -> config.softKeyboard = event.value
                         is SettingsEvent.AutoIndent -> config.autoIndentation = event.value
                         is SettingsEvent.AutoBrackets -> config.autoCloseBrackets = event.value

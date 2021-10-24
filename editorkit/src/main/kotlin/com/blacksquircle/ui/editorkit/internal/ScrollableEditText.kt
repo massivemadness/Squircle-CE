@@ -50,9 +50,6 @@ abstract class ScrollableEditText @JvmOverloads constructor(
         inputType = InputType.TYPE_CLASS_TEXT or
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE or
                 InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-
-        textSize = editorConfig.fontSize
-        typeface = editorConfig.fontType
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

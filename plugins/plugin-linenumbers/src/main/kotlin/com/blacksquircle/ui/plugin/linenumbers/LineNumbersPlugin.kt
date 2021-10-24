@@ -23,7 +23,6 @@ import android.graphics.Typeface
 import android.text.Editable
 import android.util.Log
 import android.widget.EditText
-import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.*
 
 class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
@@ -31,10 +30,6 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
     var lineNumbers = true
     var highlightCurrentLine = true
 
-    private val colorScheme: ColorScheme
-        get() = accessor?.colorScheme!!
-    private val lines: LinesCollection
-        get() = accessor?.lines!!
     private val editor: EditText
         get() = editText!!
 
