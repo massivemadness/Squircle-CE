@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.language.base.utils
+package com.blacksquircle.ui.editorkit.utils
 
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 

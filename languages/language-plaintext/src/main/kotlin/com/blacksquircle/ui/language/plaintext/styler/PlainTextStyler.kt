@@ -19,7 +19,6 @@ package com.blacksquircle.ui.language.plaintext.styler
 import com.blacksquircle.ui.language.base.model.SyntaxScheme
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
 
 class PlainTextStyler private constructor() : LanguageStyler {
 
@@ -38,12 +37,4 @@ class PlainTextStyler private constructor() : LanguageStyler {
         sourceCode: String,
         syntaxScheme: SyntaxScheme
     ): List<SyntaxHighlightSpan> = emptyList()
-
-    override fun enqueue(
-        sourceCode: String,
-        syntaxScheme: SyntaxScheme,
-        stylingResult: StylingResult
-    ) = stylingResult(execute(sourceCode, syntaxScheme))
-
-    override fun cancel() = Unit
 }

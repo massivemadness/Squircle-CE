@@ -21,8 +21,6 @@ import com.blacksquircle.ui.language.base.model.SyntaxScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import com.blacksquircle.ui.language.json.lexer.JsonLexer
 import com.blacksquircle.ui.language.json.lexer.JsonToken
 import java.io.IOException
@@ -42,8 +40,6 @@ class JsonStyler private constructor() : LanguageStyler {
             }
         }
     }
-
-    private var task: StylingTask? = null
 
     override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
@@ -102,19 +98,5 @@ class JsonStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancel()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.execute()
-    }
-
-    override fun cancel() {
-        task?.cancel()
-        task = null
     }
 }

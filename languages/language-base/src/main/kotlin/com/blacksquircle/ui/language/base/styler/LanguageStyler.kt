@@ -18,10 +18,7 @@ package com.blacksquircle.ui.language.base.styler
 
 import com.blacksquircle.ui.language.base.model.SyntaxScheme
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
-import com.blacksquircle.ui.language.base.utils.StylingResult
 
 interface LanguageStyler {
     fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan>
-    fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult)
-    fun cancel()
 }

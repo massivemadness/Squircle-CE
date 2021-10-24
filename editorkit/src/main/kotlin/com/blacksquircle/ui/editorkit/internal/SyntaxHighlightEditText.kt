@@ -27,6 +27,7 @@ import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.span.ErrorSpan
 import com.blacksquircle.ui.editorkit.span.FindResultSpan
 import com.blacksquircle.ui.editorkit.span.TabWidthSpan
+import com.blacksquircle.ui.editorkit.utils.StylingTask
 import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
@@ -47,6 +48,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     private val findResultSpans = mutableListOf<FindResultSpan>()
 
     private var findResultStyleSpan: StyleSpan? = null
+    private var task: StylingTask? = null
 
     private var addedTextCount = 0
     private var selectedFindResult = 0
@@ -340,14 +342,22 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
-        language?.getStyler()?.enqueue(text.toString(), colorScheme.syntaxScheme) { spans ->
-            syntaxHighlightSpans.clear()
-            syntaxHighlightSpans.addAll(spans)
-            updateSyntaxHighlighting()
-        }
+        task = StylingTask(
+            doAsync = {
+                language?.getStyler()
+                    ?.execute(text.toString(), colorScheme.syntaxScheme) ?: emptyList()
+            },
+            onSuccess = { spans ->
+                syntaxHighlightSpans.clear()
+                syntaxHighlightSpans.addAll(spans)
+                updateSyntaxHighlighting()
+            }
+        )
+        task?.execute()
     }
 
     private fun cancelSyntaxHighlighting() {
-        language?.getStyler()?.cancel()
+        task?.cancel()
+        task = null
     }
 }
