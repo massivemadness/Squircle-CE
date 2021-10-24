@@ -14,26 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.model
+package com.blacksquircle.ui.plugin.delimiters
 
-import android.graphics.Typeface
+import com.blacksquircle.ui.plugin.base.PluginSupplier
 
-data class EditorConfig(
-
-    // Font
-    var fontSize: Float = 14f,
-    var fontType: Typeface = Typeface.MONOSPACE,
-
-    // Editor
-    var wordWrap: Boolean = true,
-
-    // Keyboard
-    var softKeyboard: Boolean = false,
-
-    // Code Style
-    var autoIndentation: Boolean = true,
-    var autoCloseBrackets: Boolean = true,
-    var autoCloseQuotes: Boolean = true,
-    var useSpacesInsteadOfTabs: Boolean = true,
-    var tabWidth: Int = 4
-)
+fun PluginSupplier.highlightDelimiters(block: BracketsHighlightPlugin.() -> Unit = {}) {
+    plugin(BracketsHighlightPlugin(), block)
+}

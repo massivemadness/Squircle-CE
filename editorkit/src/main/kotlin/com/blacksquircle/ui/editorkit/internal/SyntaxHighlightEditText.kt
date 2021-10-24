@@ -19,8 +19,6 @@ package com.blacksquircle.ui.editorkit.internal
 import android.content.Context
 import android.text.Editable
 import android.text.Spannable
-import android.text.Spanned
-import android.text.style.BackgroundColorSpan
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.getSpans
@@ -47,11 +45,8 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val findResultSpans = mutableListOf<FindResultSpan>()
-    private val delimiters = charArrayOf('{', '[', '(', '}', ']', ')')
 
     private var findResultStyleSpan: StyleSpan? = null
-    private var openDelimiterSpan: BackgroundColorSpan? = null
-    private var closedDelimiterSpan: BackgroundColorSpan? = null
 
     private var addedTextCount = 0
     private var selectedFindResult = 0
@@ -61,8 +56,6 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     override fun colorize() {
         findResultStyleSpan = StyleSpan(color = colorScheme.findResultBackgroundColor)
-        openDelimiterSpan = BackgroundColorSpan(colorScheme.delimiterBackgroundColor)
-        closedDelimiterSpan = BackgroundColorSpan(colorScheme.delimiterBackgroundColor)
         super.colorize()
     }
 
@@ -71,14 +64,6 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
         findResultSpans.clear()
         super.setTextContent(textParams)
         syntaxHighlight()
-    }
-
-    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
-        super.onSelectionChanged(selStart, selEnd)
-        if (selStart == selEnd) {
-            checkMatchingBracket(selStart)
-        }
-        // invalidate()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -364,65 +349,5 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private fun cancelSyntaxHighlighting() {
         language?.getStyler()?.cancel()
-    }
-
-    private fun checkMatchingBracket(pos: Int) {
-        if (layout != null) {
-            if (openDelimiterSpan != null && closedDelimiterSpan != null) {
-                text.removeSpan(openDelimiterSpan)
-                text.removeSpan(closedDelimiterSpan)
-            }
-            if (editorConfig.highlightDelimiters) {
-                if (pos > 0 && pos <= text.length) {
-                    val c1 = text[pos - 1]
-                    for (i in delimiters.indices) {
-                        if (delimiters[i] == c1) {
-                            val open = i <= 2
-                            val c2 = delimiters[(i + 3) % 6]
-                            var k = pos
-                            if (open) {
-                                var nob = 1
-                                while (k < text.length) {
-                                    if (text[k] == c2) {
-                                        nob--
-                                    }
-                                    if (text[k] == c1) {
-                                        nob++
-                                    }
-                                    if (nob == 0) {
-                                        showBracket(pos - 1, k)
-                                        break
-                                    }
-                                    k++
-                                }
-                            } else {
-                                var ncb = 1
-                                k -= 2
-                                while (k >= 0) {
-                                    if (text[k] == c2) {
-                                        ncb--
-                                    }
-                                    if (text[k] == c1) {
-                                        ncb++
-                                    }
-                                    if (ncb == 0) {
-                                        showBracket(k, pos - 1)
-                                        break
-                                    }
-                                    k--
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun showBracket(i: Int, j: Int) {
-        if (openDelimiterSpan != null && closedDelimiterSpan != null) {
-            text.setSpan(openDelimiterSpan, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            text.setSpan(closedDelimiterSpan, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
     }
 }

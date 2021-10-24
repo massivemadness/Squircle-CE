@@ -58,6 +58,7 @@ import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
 import com.blacksquircle.ui.plugin.autocomplete.codeCompletion
 import com.blacksquircle.ui.plugin.base.PluginSupplier
+import com.blacksquircle.ui.plugin.delimiters.highlightDelimiters
 import com.blacksquircle.ui.plugin.dirtytext.OnChangeListener
 import com.blacksquircle.ui.plugin.dirtytext.changeDetector
 import com.blacksquircle.ui.plugin.linenumbers.lineNumbers
@@ -249,7 +250,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                                 highlightCurrentLine = event.value
                             }
                         }
-                        is SettingsEvent.Delimiters -> config.highlightDelimiters = event.value
+                        is SettingsEvent.Delimiters -> if (event.value) highlightDelimiters()
                         is SettingsEvent.ExtendedKeys -> {
                             KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner) { isOpen ->
                                 binding.keyboardContainer.isVisible = event.value && isOpen
