@@ -1,6 +1,7 @@
 # Squircle IDE
 
-**Squircle IDE** is a fast and free multi-language code editor for Android.
+**Squircle IDE** is a fast and free multi-language code editor for
+Android.
 
 ![Android CI](https://github.com/massivemadness/Squircle-IDE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -37,7 +38,10 @@
 
 # EditorKit
 
-The `editorkit` module provides code editor without any support for programming languages.
+The `editorkit` module provides code editor without any support for
+programming languages. ***Note: If you are upgrading from any older
+version, please have a look at the
+[migration guide](MIGRATION-GUIDE.md)***
 
 [ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/editorkit?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/editorkit/)
 
@@ -52,8 +56,10 @@ dependencies {
 }
 ```
 
-The `editorkit` module **does not** provide support for syntax highlighting, you need to add specific language dependency.
-You can see list of available languages [here](#languages-1).
+The `editorkit` module **does not** provide support for syntax
+highlighting, you need to add specific language dependency. You can see
+list of available languages [here](#languages-1). Please note that this
+library only supports Kotlin.
 
 ---
 
@@ -69,7 +75,8 @@ You can see list of available languages [here](#languages-1).
     android:id="@+id/editor" />
 ```
 
-**Second,** you need to provide a `Language` object to support syntax highlighting by using following code:
+**Second,** you need to provide a `Language` object to support syntax
+highlighting by using following code:
 
 ```kotlin
 val editor = findViewById<TextProcessor>(R.id.editor)
@@ -77,15 +84,18 @@ val editor = findViewById<TextProcessor>(R.id.editor)
 editor.language = JavaScriptLanguage() // or any other language you want
 ```
 
-**Third**, you need to call `setTextContent` to set the text. **Avoid using the default `setText` method.**
+**Third**, you need to call `setTextContent` to set the text. **Avoid
+using the default `setText` method.**
 
 ```kotlin
 editor.setTextContent("your code here")
 ```
 
-Also you might want to use `setTextContent(PrecomputedTextCompat)` if you're working with large text files.
+Also you might want to use `setTextContent(PrecomputedTextCompat)` if
+you're working with large text files.
 
-**Finally**, after you set the text you need to clear undo/redo history because you don't want to keep the change history of other files.
+**Finally**, after you set the text you need to clear undo/redo history
+because you don't want to keep the change history of other files.
 
 ```kotlin
 import com.blacksquircle.ui.editorkit.utils.UndoStack
@@ -102,7 +112,8 @@ Now you can begin using the code editor.
 
 ### Configuration
 
-You can change the default code editor's behavior by passing the `EditorConfig` object to it:
+You can change the default code editor's behavior by passing the
+`EditorConfig` object to it:
 
 ```kotlin
 editor.editorConfig = EditorConfig(
@@ -128,7 +139,8 @@ editor.editorConfig = EditorConfig(
 
 ### Text Scroller
 
-To attach the text scroller you need to add `TextScroller` in your layout:
+To attach the text scroller you need to add `TextScroller` in your
+layout:
 
 ```xml
 <com.blacksquircle.ui.editorkit.widget.TextScroller
@@ -153,9 +165,12 @@ scroller.attachTo(editor)
 
 ## Code Suggestions
 
-When you working with a code editor you want to see the list of code suggestion. *(Note that you have to provide a `Language` object before start using it.)*
+When you working with a code editor you want to see the list of code
+suggestion. *(Note that you have to provide a `Language` object before
+start using it.)*
 
-**First**, you need to create a layout file that will represent the suggestion item inside dropdown menu:
+**First**, you need to create a layout file that will represent the
+suggestion item inside dropdown menu:
 
 ```xml
 <!-- item_suggestion.xml -->
@@ -197,15 +212,20 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
 editor.suggestionAdapter = AutoCompleteAdapter(this)
 ```
 
-You can enable/disable suggestions dynamically by changing the `codeCompletion` parameter in [EditorConfig](#configuration).
+You can enable/disable suggestions dynamically by changing the
+`codeCompletion` parameter in [EditorConfig](#configuration).
 
-**UPD:** If you having an issues with the popup position (e.g vertical offset), this might be solved by explicitly setting [android:dropDownAnchor](https://developer.android.com/reference/android/widget/AutoCompleteTextView#attr_android:dropDownAnchor) in XML.
+**UPD:** If you having an issues with the popup position (e.g vertical
+offset), this might be solved by explicitly setting
+[android:dropDownAnchor](https://developer.android.com/reference/android/widget/AutoCompleteTextView#attr_android:dropDownAnchor)
+in XML.
 
 ---
 
 ## Undo Redo
 
-The `TextProcessor` supports undo/redo operations, but remember that you **must** check the ability to undo/redo before calling actual methods:
+The `TextProcessor` supports undo/redo operations, but remember that you
+**must** check the ability to undo/redo before calling actual methods:
 
 ```kotlin
 // Undo
@@ -219,7 +239,9 @@ if (editor.canRedo()) {
 }
 ```
 
-Also you may have a use case when you want to update undo/redo buttons visibility or other UI after the text replacements is done, this can be achieved by adding `OnUndoRedoChangedListener`:
+Also you may have a use case when you want to update undo/redo buttons
+visibility or other UI after the text replacements is done, this can be
+achieved by adding `OnUndoRedoChangedListener`:
 
 ```kotlin
 editor.onUndoRedoChangedListener = object : OnUndoRedoChangedListener {
@@ -261,13 +283,15 @@ try {
 
 ### Find and Replace
 
-The `TextProcessor` has built-in support for search and replace operations, including:
+The `TextProcessor` has built-in support for search and replace
+operations, including:
 - Search forward or backward
 - Regular Expressions
 - Match Case
 - Words Only
 
-The class itself contains self-explanatory methods for all your searching needs:
+The class itself contains self-explanatory methods for all your
+searching needs:
 - `find(searchString, findParams)` - Find all possible results in text with provided options.
 - `replaceFindResult(replaceText)` - Finds current match and replaces it with new text.
 - `replaceAllFindResults(replaceText)` - Finds all matches and replaces them with the new text.
@@ -291,7 +315,9 @@ editor.find("function", findParams)
 
 ### Shortcuts
 
-If you're using bluetooth keyboard you probably want to use keyboard shortcuts to write your code faster. To support the keyboard shortcuts you need to add `OnShortcutListener`:
+If you're using bluetooth keyboard you probably want to use keyboard
+shortcuts to write your code faster. To support the keyboard shortcuts
+you need to add `OnShortcutListener`:
 
 ```kotlin
 editor.onShortcutListener = object : OnShortcutListener {
@@ -309,15 +335,19 @@ editor.onShortcutListener = object : OnShortcutListener {
 }
 ```
 
-The `onShortcut` method will be invoked only if at least one of following keys is pressed: <kbd>ctrl</kbd>, <kbd>shift</kbd>, <kbd>alt</kbd>.  
-You might already noticed that you have to return a `Boolean` value as the result of `onShortcut` method.
-Return `true` if the listener has consumed the shortcut event, `false` otherwise.
+The `onShortcut` method will be invoked only if at least one of
+following keys is pressed: <kbd>ctrl</kbd>, <kbd>shift</kbd>,
+<kbd>alt</kbd>.  
+You might already noticed that you have to return a `Boolean` value as
+the result of `onShortcut` method. Return `true` if the listener has
+consumed the shortcut event, `false` otherwise.
 
 ---
 
 ## Theming
 
-The `editorkit` module includes some default themes in the `EditorTheme` class:
+The `editorkit` module includes some default themes in the `EditorTheme`
+class:
 
 ```kotlin
 editor.colorScheme = EditorTheme.DARCULA // default
@@ -331,7 +361,9 @@ EditorTheme.VISUAL_STUDIO_2013
 
 ```
 
-You can also write your own theme by changing the `ColorScheme` properties. The example below shows how you can programmatically load the color scheme:
+You can also write your own theme by changing the `ColorScheme`
+properties. The example below shows how you can programmatically load
+the color scheme:
 
 ```kotlin
 editor.colorScheme = ColorScheme(
@@ -368,14 +400,18 @@ editor.colorScheme = ColorScheme(
 
 # Languages
 
-The language modules provides support for programming languages. This includes syntax highlighting, code suggestions and source code parser.
-*(Note that source code parser currently works only in `language-javascript` module, but it will be implemented for more languages soon)*
+The language modules provides support for programming languages. This
+includes syntax highlighting, code suggestions and source code parser.
+*(Note that source code parser currently works only in
+`language-javascript` module, but it will be implemented for more
+languages soon)*
 
 [ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/language-base?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/language-base/)
 
 ## Gradle Dependency
 
-Select your language and add it's dependency to your module's `build.gradle` file:
+Select your language and add it's dependency to your module's
+`build.gradle` file:
 
 ```gradle
 dependencies {
@@ -449,16 +485,24 @@ class CustomLanguage : Language {
 ```
 
 Every language consist of 3 key components:
-1. **LanguageParser** is responsible for analyzing the source code. The code editor does not use this component directly.
-2. **SuggestionProvider** is responsible for collecting the names of functions, fields, and keywords within your file scope. The code editor use this component to display the list of code suggestions.
-3. **LanguageStyler** is responsible for syntax highlighting. The code editor use this component to display all spans on the screen.
+1. **LanguageParser** is responsible for analyzing the source code. The
+   code editor does not use this component directly.
+2. **SuggestionProvider** is responsible for collecting the names of
+   functions, fields, and keywords within your file scope. The code
+   editor use this component to display the list of code suggestions.
+3. **LanguageStyler** is responsible for syntax highlighting. The code
+   editor use this component to display all spans on the screen.
 
 ### LanguageParser
 
-`LanguageParser` is an interface which detects syntax errors so you can display them in the `TextProcessor` later.
+`LanguageParser` is an interface which detects syntax errors so you can
+display them in the `TextProcessor` later.
 
-To create a custom parser you need to implement `execute` method that will return a `ParseResult`.  
-If `ParseResult` contains an exception it means that the source code can't compile and contains syntax errors. You can highlight an error line by calling `editor.setErrorLine(lineNumber)` method.
+To create a custom parser you need to implement `execute` method that
+will return a `ParseResult`.  
+If `ParseResult` contains an exception it means that the source code
+can't compile and contains syntax errors. You can highlight an error
+line by calling `editor.setErrorLine(lineNumber)` method.
 
 **Remember** that you **shouldn't** use this method on the main thread.
 
@@ -477,12 +521,18 @@ class CustomParser : LanguageParser {
 
 ### SuggestionProvider
 
-`SuggestionProvider` is an interface which provides code suggestions to display them in the `TextProcessor`.
+`SuggestionProvider` is an interface which provides code suggestions to
+display them in the `TextProcessor`.
 
-The text scanning is done on a per-line basis. When the user edits code on a single line, that line is re-scanned by the current `SuggestionsProvider` implementation, so you can keep your suggestions list up to date.
-This is done by calling the `processLine` method. This method is responsible for parsing a line of text and saving the code suggestions for that line.
+The text scanning is done on a per-line basis. When the user edits code
+on a single line, that line is re-scanned by the current
+`SuggestionsProvider` implementation, so you can keep your suggestions
+list up to date. This is done by calling the `processLine` method. This
+method is responsible for parsing a line of text and saving the code
+suggestions for that line.
 
-After calling `setTextContent` the code editor will call `processLine` for each line to find all possible code suggestions.
+After calling `setTextContent` the code editor will call `processLine`
+for each line to find all possible code suggestions.
 
 ```kotlin
 class CustomProvider : SuggestionProvider {
@@ -511,12 +561,15 @@ class CustomProvider : SuggestionProvider {
 
 ### LanguageStyler
 
-`LanguageStyler` is an interface which provides syntax highlight spans to display them in the `TextProcessor`.
+`LanguageStyler` is an interface which provides syntax highlight spans
+to display them in the `TextProcessor`.
 
-The `execute` method will be executed on the background thread every time the text changes.
-You can use regex or lexer in the `execute` method to match all the spans in text.
+The `execute` method will be executed on the background thread every
+time the text changes. You can use regex or lexer in the `execute`
+method to match all the spans in text.
 
-**Remember:** the more spans you add, the more time it takes to render on the main thread.
+**Remember:** the more spans you add, the more time it takes to render
+on the main thread.
 
 ```kotlin
 class CustomStyler : LanguageStyler {
