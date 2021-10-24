@@ -346,23 +346,21 @@ editor.colorScheme = ColorScheme(
     suggestionQueryColor = Color.parseColor("#4F98F7"),
     findResultBackgroundColor = Color.parseColor("#1C3D6B"),
     delimiterBackgroundColor = Color.parseColor("#616161"),
-    syntaxScheme = SyntaxScheme(
-        numberColor = Color.parseColor("#BACDAB"),
-        operatorColor = Color.parseColor("#DCDCDC"),
-        keywordColor = Color.parseColor("#669BD1"),
-        typeColor = Color.parseColor("#669BD1"),
-        langConstColor = Color.parseColor("#669BD1"),
-        preprocessorColor = Color.parseColor("#C49594"),
-        variableColor = Color.parseColor("#9DDDFF"),
-        methodColor = Color.parseColor("#71C6B1"),
-        stringColor = Color.parseColor("#CE9F89"),
-        commentColor = Color.parseColor("#6BA455"),
-        tagColor = Color.parseColor("#DCDCDC"),
-        tagNameColor = Color.parseColor("#669BD1"),
-        attrNameColor = Color.parseColor("#C8C8C8"),
-        attrValueColor = Color.parseColor("#CE9F89"),
-        entityRefColor = Color.parseColor("#BACDAB")
-    )
+    numberColor = Color.parseColor("#BACDAB"),
+    operatorColor = Color.parseColor("#DCDCDC"),
+    keywordColor = Color.parseColor("#669BD1"),
+    typeColor = Color.parseColor("#669BD1"),
+    langConstColor = Color.parseColor("#669BD1"),
+    preprocessorColor = Color.parseColor("#C49594"),
+    variableColor = Color.parseColor("#9DDDFF"),
+    methodColor = Color.parseColor("#71C6B1"),
+    stringColor = Color.parseColor("#CE9F89"),
+    commentColor = Color.parseColor("#6BA455"),
+    tagColor = Color.parseColor("#DCDCDC"),
+    tagNameColor = Color.parseColor("#669BD1"),
+    attrNameColor = Color.parseColor("#C8C8C8"),
+    attrValueColor = Color.parseColor("#CE9F89"),
+    entityRefColor = Color.parseColor("#BACDAB")
 )
 ```
 
@@ -515,8 +513,7 @@ class CustomProvider : SuggestionProvider {
 
 `LanguageStyler` is an interface which provides syntax highlight spans to display them in the `TextProcessor`.
 
-The `execute` method will be executed on the main thread. That means the UI blocks during the execution and no interaction is possible for this period. The code editor never use this method directly.  
-The `enqueue` method it's just asynchronous version of `execute` that will be called every time the text changes.  
+The `execute` method will be executed on the background thread every time the text changes.
 You can use regex or lexer in the `execute` method to match all the spans in text.
 
 **Remember:** the more spans you add, the more time it takes to render on the main thread.
@@ -524,29 +521,12 @@ You can use regex or lexer in the `execute` method to match all the spans in tex
 ```kotlin
 class CustomStyler : LanguageStyler {
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
         
         // TODO Implement syntax highlighting
         
         return syntaxHighlightSpans
-    }
-
-    // StylingResult it's just a callback (List<SyntaxHighlightSpan>) -> Unit
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancel()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.execute()
-    }
-
-    override fun cancel() {
-        task?.cancel()
-        task = null
     }
 }
 ```

@@ -151,18 +151,16 @@ class ThemeConverterTest {
                 suggestionQueryColor = "#FF9000".toColorInt(),
                 findResultBackgroundColor = "#FEFEFE".toColorInt(),
                 delimiterBackgroundColor = "#FEFEFE".toColorInt(),
-                syntaxScheme = SyntaxScheme(
-                    numberColor = "#FF3000".toColorInt(),
-                    operatorColor = "#FF3000".toColorInt(),
-                    keywordColor = "#FF3000".toColorInt(),
-                    typeColor = "#FF3000".toColorInt(),
-                    langConstColor = "#FF3000".toColorInt(),
-                    preprocessorColor = "FF3000".toColorInt(),
-                    variableColor = "#FF3000".toColorInt(),
-                    methodColor = "#FF3000".toColorInt(),
-                    stringColor = "#FF3000".toColorInt(),
-                    commentColor = "#FF3000".toColorInt()
-                )
+                numberColor = "#FF3000".toColorInt(),
+                operatorColor = "#FF3000".toColorInt(),
+                keywordColor = "#FF3000".toColorInt(),
+                typeColor = "#FF3000".toColorInt(),
+                langConstColor = "#FF3000".toColorInt(),
+                preprocessorColor = "FF3000".toColorInt(),
+                variableColor = "#FF3000".toColorInt(),
+                methodColor = "#FF3000".toColorInt(),
+                stringColor = "#FF3000".toColorInt(),
+                commentColor = "#FF3000".toColorInt()
             )
         )
         val themeEntity = ThemeEntity(

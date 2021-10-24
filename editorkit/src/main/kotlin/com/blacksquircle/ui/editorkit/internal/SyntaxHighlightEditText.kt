@@ -344,8 +344,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
         cancelSyntaxHighlighting()
         task = StylingTask(
             doAsync = {
-                language?.getStyler()
-                    ?.execute(text.toString(), colorScheme.syntaxScheme) ?: emptyList()
+                language?.getStyler()?.execute(text.toString(), colorScheme) ?: emptyList()
             },
             onSuccess = { spans ->
                 syntaxHighlightSpans.clear()

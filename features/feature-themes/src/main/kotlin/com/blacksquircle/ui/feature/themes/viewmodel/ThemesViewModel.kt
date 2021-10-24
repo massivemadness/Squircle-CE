@@ -209,63 +209,63 @@ class ThemesViewModel @Inject constructor(
             ),
             PropertyItem(
                 Property.NUMBER_COLOR,
-                themeModel.colorScheme.syntaxScheme.numberColor.toHexString()
+                themeModel.colorScheme.numberColor.toHexString()
             ),
             PropertyItem(
                 Property.OPERATOR_COLOR,
-                themeModel.colorScheme.syntaxScheme.operatorColor.toHexString()
+                themeModel.colorScheme.operatorColor.toHexString()
             ),
             PropertyItem(
                 Property.KEYWORD_COLOR,
-                themeModel.colorScheme.syntaxScheme.keywordColor.toHexString()
+                themeModel.colorScheme.keywordColor.toHexString()
             ),
             PropertyItem(
                 Property.TYPE_COLOR,
-                themeModel.colorScheme.syntaxScheme.typeColor.toHexString()
+                themeModel.colorScheme.typeColor.toHexString()
             ),
             PropertyItem(
                 Property.LANG_CONST_COLOR,
-                themeModel.colorScheme.syntaxScheme.langConstColor.toHexString()
+                themeModel.colorScheme.langConstColor.toHexString()
             ),
             PropertyItem(
                 Property.PREPROCESSOR_COLOR,
-                themeModel.colorScheme.syntaxScheme.preprocessorColor.toHexString()
+                themeModel.colorScheme.preprocessorColor.toHexString()
             ),
             PropertyItem(
                 Property.VARIABLE_COLOR,
-                themeModel.colorScheme.syntaxScheme.variableColor.toHexString()
+                themeModel.colorScheme.variableColor.toHexString()
             ),
             PropertyItem(
                 Property.METHOD_COLOR,
-                themeModel.colorScheme.syntaxScheme.methodColor.toHexString()
+                themeModel.colorScheme.methodColor.toHexString()
             ),
             PropertyItem(
                 Property.STRING_COLOR,
-                themeModel.colorScheme.syntaxScheme.stringColor.toHexString()
+                themeModel.colorScheme.stringColor.toHexString()
             ),
             PropertyItem(
                 Property.COMMENT_COLOR,
-                themeModel.colorScheme.syntaxScheme.commentColor.toHexString()
+                themeModel.colorScheme.commentColor.toHexString()
             ),
             PropertyItem(
                 Property.TAG_COLOR,
-                themeModel.colorScheme.syntaxScheme.tagColor.toHexString()
+                themeModel.colorScheme.tagColor.toHexString()
             ),
             PropertyItem(
                 Property.TAG_NAME_COLOR,
-                themeModel.colorScheme.syntaxScheme.tagNameColor.toHexString()
+                themeModel.colorScheme.tagNameColor.toHexString()
             ),
             PropertyItem(
                 Property.ATTR_NAME_COLOR,
-                themeModel.colorScheme.syntaxScheme.attrNameColor.toHexString()
+                themeModel.colorScheme.attrNameColor.toHexString()
             ),
             PropertyItem(
                 Property.ATTR_VALUE_COLOR,
-                themeModel.colorScheme.syntaxScheme.attrValueColor.toHexString()
+                themeModel.colorScheme.attrValueColor.toHexString()
             ),
             PropertyItem(
                 Property.ENTITY_REF_COLOR,
-                themeModel.colorScheme.syntaxScheme.entityRefColor.toHexString()
+                themeModel.colorScheme.entityRefColor.toHexString()
             )
         )
     }
