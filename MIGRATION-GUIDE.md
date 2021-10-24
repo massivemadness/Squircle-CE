@@ -81,7 +81,7 @@ Migration steps:
       `execute()` method now invoked on the background thread, so now
       you don't need to write the asynchronous work by yourself.
    2. The `execute()` method now takes `ColorScheme` as the parameter
-      since the `SyntaxScheme` class is deleted.
+      since the `SyntaxScheme` class was removed.
       ```kotlin
       class CustomStyler : LanguageStyler {
 
@@ -122,10 +122,10 @@ Migration steps:
    as shown below:
    ```groovy
    // Before
-   implementation "com.brackeys.ui:editorkit:1.2.0"
+   implementation 'com.brackeys.ui:editorkit:1.2.0'
    
    // After
-   implementation "com.blacksquircle.ui:editorkit:1.2.1"
+   implementation 'com.blacksquircle.ui:editorkit:1.2.1'
    ```
 2. The package name `com.brackeys.ui` remains the same, but it will be
    changed in the future

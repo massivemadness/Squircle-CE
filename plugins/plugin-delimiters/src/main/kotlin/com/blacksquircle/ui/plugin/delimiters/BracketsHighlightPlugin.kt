@@ -27,7 +27,7 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
     private val editor: EditText
         get() = editText!!
 
-    private val delimiters = charArrayOf('{', '[', '(', '}', ']', ')')
+    private val delimiters = charArrayOf('{', '[', '(', '<', '}', ']', ')', '>')
 
     private var openDelimiterSpan: BackgroundColorSpan? = null
     private var closedDelimiterSpan: BackgroundColorSpan? = null
@@ -57,8 +57,9 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
             val c1 = editor.text[pos - 1]
             for (i in delimiters.indices) {
                 if (delimiters[i] == c1) {
-                    val open = i <= 2
-                    val c2 = delimiters[(i + 3) % 6]
+                    val half = delimiters.size / 2
+                    val open = i <= half - 1
+                    val c2 = delimiters[(i + half) % delimiters.size]
                     var k = pos
                     if (open) {
                         var nob = 1
