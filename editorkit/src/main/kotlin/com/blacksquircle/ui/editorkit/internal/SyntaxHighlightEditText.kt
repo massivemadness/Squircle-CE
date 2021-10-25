@@ -278,14 +278,18 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             isSyntaxHighlighting = true
             val textSyntaxSpans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
             for (span in textSyntaxSpans) {
-                text.removeSpan(span)
+                val isInText = span.start >= 0 && span.end <= text.length
+                val isVisible = span.start in lineStart..lineEnd ||
+                    span.start <= lineEnd && span.end >= lineStart
+                if (isInText && !isVisible) {
+                    text.removeSpan(span)
+                }
             }
             for (span in syntaxHighlightSpans) {
                 val isInText = span.start >= 0 && span.end <= text.length
-                val isValid = span.start <= span.end
                 val isVisible = span.start in lineStart..lineEnd ||
                         span.start <= lineEnd && span.end >= lineStart
-                if (isInText && isValid && isVisible) {
+                if (isInText && isVisible) {
                     text.setSpan(
                         span,
                         if (span.start < lineStart) lineStart else span.start,
@@ -337,6 +341,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                     }
                 }
             }
+            postInvalidate()
         }
     }
 
