@@ -69,13 +69,13 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        updateSyntaxHighlighting()
+        updateSyntaxHighlighting(inputMode = false)
         super.onSizeChanged(w, h, oldw, oldh)
     }
 
     override fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) {
         super.onScrollChanged(horiz, vert, oldHoriz, oldVert)
-        updateSyntaxHighlighting()
+        updateSyntaxHighlighting(inputMode = false)
     }
 
     override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
@@ -270,7 +270,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
         }
     }
 
-    private fun updateSyntaxHighlighting() {
+    private fun updateSyntaxHighlighting(inputMode: Boolean) {
         if (layout != null) {
             val lineStart = layout.getLineStart(topVisibleLine)
             val lineEnd = layout.getLineEnd(bottomVisibleLine)
@@ -278,10 +278,9 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             isSyntaxHighlighting = true
             val textSyntaxSpans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
             for (span in textSyntaxSpans) {
-                val isInText = span.start >= 0 && span.end <= text.length
                 val isVisible = span.start in lineStart..lineEnd ||
                     span.start <= lineEnd && span.end >= lineStart
-                if (isInText && !isVisible) {
+                if (inputMode || !isVisible) {
                     text.removeSpan(span)
                 }
             }
@@ -354,7 +353,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             onSuccess = { spans ->
                 syntaxHighlightSpans.clear()
                 syntaxHighlightSpans.addAll(spans)
-                updateSyntaxHighlighting()
+                updateSyntaxHighlighting(inputMode = true)
             }
         )
         task?.execute()
