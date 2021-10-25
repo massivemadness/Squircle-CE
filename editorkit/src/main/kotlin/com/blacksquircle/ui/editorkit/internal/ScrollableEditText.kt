@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.editorkit.internal
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.text.InputType
 import android.util.AttributeSet
@@ -24,7 +23,7 @@ import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.ViewConfiguration
 import android.view.inputmethod.EditorInfo
-import android.widget.Scroller
+import android.widget.OverScroller
 import com.blacksquircle.ui.editorkit.R
 import kotlin.math.abs
 
@@ -34,9 +33,10 @@ abstract class ScrollableEditText @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : ConfigurableEditText(context, attrs, defStyleAttr) {
 
-    private val textScroller = Scroller(context)
+    private val textScroller = OverScroller(context)
     private val scrollListeners = mutableListOf<OnScrollChangedListener>()
-    private val maximumVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity * 100f
+    private val maximumVelocity = ViewConfiguration.get(context)
+        .scaledMaximumFlingVelocity.toFloat()
 
     private var velocityTracker: VelocityTracker? = null
 
@@ -59,27 +59,18 @@ abstract class ScrollableEditText @JvmOverloads constructor(
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        initVelocityTrackerIfNotExists()
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                abortFling()
-                velocityTracker?.clear()
-                if (velocityTracker == null) {
-                    velocityTracker = VelocityTracker.obtain()
-                }
-            }
+            MotionEvent.ACTION_DOWN -> abortFling()
             MotionEvent.ACTION_UP -> {
                 velocityTracker?.computeCurrentVelocity(1000, maximumVelocity)
-                val velocityX = if (isHorizontallyScrollableCompat()) {
-                    velocityTracker?.xVelocity?.toInt() ?: 0
-                } else 0
+                val velocityX = if (isHorizontallyScrollableCompat())
+                    velocityTracker?.xVelocity?.toInt() ?: 0 else 0
                 val velocityY = velocityTracker?.yVelocity?.toInt() ?: 0
                 if (abs(velocityY) < 0 || abs(velocityX) < 0) {
-                    velocityTracker?.recycle()
-                    velocityTracker = null
-                }
-                if (layout != null) {
+                    recycleVelocityTracker()
+                } else if (velocityX != 0 || velocityY != 0) {
                     textScroller.fling(
                         scrollX, scrollY,
                         -velocityX, -velocityY,
@@ -103,11 +94,9 @@ abstract class ScrollableEditText @JvmOverloads constructor(
     }
 
     override fun computeScroll() {
-        if (!isInEditMode) {
-            if (textScroller.computeScrollOffset()) {
-                scrollTo(textScroller.currX, textScroller.currY)
-                invalidate()
-            }
+        if (textScroller.computeScrollOffset()) {
+            scrollTo(textScroller.currX, textScroller.currY)
+            postInvalidate()
         }
     }
 
@@ -119,6 +108,18 @@ abstract class ScrollableEditText @JvmOverloads constructor(
         if (!textScroller.isFinished) {
             textScroller.abortAnimation()
         }
+        velocityTracker?.clear()
+    }
+
+    private fun initVelocityTrackerIfNotExists() {
+        if (velocityTracker == null) {
+            velocityTracker = VelocityTracker.obtain()
+        }
+    }
+
+    private fun recycleVelocityTracker() {
+        velocityTracker?.recycle()
+        velocityTracker = null
     }
 
     interface OnScrollChangedListener {
