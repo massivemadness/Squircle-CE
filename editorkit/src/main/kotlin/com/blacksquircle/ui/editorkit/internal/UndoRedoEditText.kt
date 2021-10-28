@@ -80,11 +80,11 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
         onUndoRedoChangedListener?.onUndoRedoChanged()
     }
 
-    override fun clearText() {
+    open fun clearText() {
         undoStack.removeAll()
         redoStack.removeAll()
         onUndoRedoChangedListener?.onUndoRedoChanged()
-        super.clearText()
+        setTextContent("")
     }
 
     fun canUndo(): Boolean = undoStack.canUndo()

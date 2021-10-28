@@ -17,8 +17,6 @@
 package com.blacksquircle.ui.editorkit.widget
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Typeface
@@ -27,12 +25,13 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
-import androidx.core.content.getSystemService
 import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.internal.AutoIndentEditText
-import com.blacksquircle.ui.plugin.base.*
+import com.blacksquircle.ui.plugin.base.EditorAccessor
+import com.blacksquircle.ui.plugin.base.EditorPlugin
+import com.blacksquircle.ui.plugin.base.PluginContainer
+import com.blacksquircle.ui.plugin.base.PluginSupplier
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
@@ -41,18 +40,12 @@ class TextProcessor @JvmOverloads constructor(
 ) : AutoIndentEditText(context, attrs, defStyleAttr), PluginContainer, EditorAccessor {
 
     companion object {
-
         private const val TAG = "TextProcessor"
-
-        private const val LABEL_CUT = "CUT"
-        private const val LABEL_COPY = "COPY"
     }
 
-    private val clipboardManager = context.getSystemService<ClipboardManager>()!!
     private val plugins = mutableListOf<EditorPlugin>()
 
     init {
-        configure()
         colorize()
     }
 
@@ -254,129 +247,5 @@ class TextProcessor @JvmOverloads constructor(
 
     override fun hasPlugin(pluginId: String): Boolean {
         return plugins.any { it.pluginId == pluginId }
-    }
-
-    fun insert(delta: CharSequence) {
-        text.replace(selectionStart, selectionEnd, delta)
-    }
-
-    fun cut() {
-        val clipData = ClipData.newPlainText(LABEL_CUT, selectedText())
-        clipboardManager.setPrimaryClip(clipData)
-        text.replace(selectionStart, selectionEnd, "")
-    }
-
-    fun copy() {
-        val clipData = ClipData.newPlainText(LABEL_COPY, selectedText())
-        clipboardManager.setPrimaryClip(clipData)
-    }
-
-    fun paste() {
-        val clipData = clipboardManager.primaryClip?.getItemAt(0)
-        val clipText = clipData?.coerceToText(context)
-        text.replace(selectionStart, selectionEnd, clipText)
-    }
-
-    fun selectLine() {
-        val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = lines.getIndexForStartOfLine(currentLine)
-        val lineEnd = lines.getIndexForEndOfLine(currentLine)
-        setSelection(lineStart, lineEnd)
-    }
-
-    fun deleteLine() {
-        val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = lines.getIndexForStartOfLine(currentLine)
-        val lineEnd = lines.getIndexForEndOfLine(currentLine)
-        text.delete(lineStart, lineEnd)
-    }
-
-    fun duplicateLine() {
-        val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = lines.getIndexForStartOfLine(currentLine)
-        val lineEnd = lines.getIndexForEndOfLine(currentLine)
-        val lineText = text.subSequence(lineStart, lineEnd)
-        text.insert(lineEnd, "\n" + lineText)
-    }
-
-    fun moveCaretToStartOfLine(): Boolean {
-        val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = lines.getIndexForStartOfLine(currentLine)
-        setSelection(lineStart)
-        return true
-    }
-
-    fun moveCaretToEndOfLine(): Boolean {
-        val currentLine = lines.getLineForIndex(selectionEnd)
-        val lineEnd = lines.getIndexForEndOfLine(currentLine)
-        setSelection(lineEnd)
-        return true
-    }
-
-    fun moveCaretToPrevWord(): Boolean {
-        if (selectionStart > 0) {
-            val currentChar = text[selectionStart - 1]
-            val isLetterDigitOrUnderscore = currentChar.isLetterOrDigit() || currentChar == '_'
-            if (isLetterDigitOrUnderscore) {
-                for (i in selectionStart downTo 0) {
-                    val char = text[i - 1]
-                    if (!char.isLetterOrDigit() && char != '_') {
-                        setSelection(i)
-                        break
-                    }
-                }
-            } else {
-                for (i in selectionStart downTo 0) {
-                    val char = text[i - 1]
-                    if (char.isLetterOrDigit() || char == '_') {
-                        setSelection(i)
-                        break
-                    }
-                }
-            }
-        }
-        return true
-    }
-
-    fun moveCaretToNextWord(): Boolean {
-        if (selectionStart < text.length) {
-            val currentChar = text[selectionStart]
-            val isLetterDigitOrUnderscore = currentChar.isLetterOrDigit() || currentChar == '_'
-            if (isLetterDigitOrUnderscore) {
-                for (i in selectionStart until text.length) {
-                    val char = text[i]
-                    if (!char.isLetterOrDigit() && char != '_') {
-                        setSelection(i)
-                        break
-                    }
-                }
-            } else {
-                for (i in selectionStart until text.length) {
-                    val char = text[i]
-                    if (char.isLetterOrDigit() || char == '_') {
-                        setSelection(i)
-                        break
-                    }
-                }
-            }
-        }
-        return true
-    }
-
-    @Throws(LineException::class)
-    fun gotoLine(lineNumber: Int) {
-        val line = lineNumber - 1
-        if (line < 0 || line >= lines.lineCount - 1) {
-            throw LineException(lineNumber)
-        }
-        setSelection(lines.getIndexForLine(line))
-    }
-
-    fun hasPrimaryClip(): Boolean {
-        return clipboardManager.hasPrimaryClip()
-    }
-
-    private fun selectedText(): CharSequence {
-        return text.subSequence(selectionStart, selectionEnd)
     }
 }

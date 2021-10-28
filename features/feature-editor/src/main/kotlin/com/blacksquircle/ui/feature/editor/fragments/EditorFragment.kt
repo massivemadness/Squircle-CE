@@ -44,6 +44,7 @@ import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.documents.DocumentParams
 import com.blacksquircle.ui.domain.model.editor.DocumentContent
+import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.blacksquircle.ui.editorkit.widget.TextScroller
@@ -255,7 +256,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         }
                         is SettingsEvent.KeyboardPreset ->
                             binding.extendedKeyboard.submitList(event.value)
-                        is SettingsEvent.SoftKeys -> config.softKeyboard = event.value
+                        is SettingsEvent.SoftKeys -> binding.editor.softKeyboard = event.value
                         is SettingsEvent.AutoIndent -> config.autoIndentation = event.value
                         is SettingsEvent.AutoBrackets -> config.autoCloseBrackets = event.value
                         is SettingsEvent.AutoQuotes -> config.autoCloseQuotes = event.value

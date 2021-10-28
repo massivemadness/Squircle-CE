@@ -28,7 +28,6 @@ import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.listener.OnTextChangedListener
-import com.blacksquircle.ui.editorkit.model.EditorConfig
 import com.blacksquircle.ui.editorkit.theme.EditorTheme
 import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.LinesCollection
@@ -45,16 +44,19 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
             colorize()
         }
 
-    val lines = LinesCollection()
-
-    var editorConfig: EditorConfig = EditorConfig()
+    var softKeyboard: Boolean = false
         set(value) {
             field = value
-            configure()
+            imeOptions = if (value) {
+                EditorInfo.IME_ACTION_UNSPECIFIED
+            } else {
+                EditorInfo.IME_FLAG_NO_EXTRACT_UI
+            }
         }
 
-    private val textContent = SpannableStringBuilder("")
+    val lines = LinesCollection()
 
+    private val textContent = SpannableStringBuilder("")
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             doBeforeTextChanged(s, start, count, after)
@@ -88,14 +90,6 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         replaceText(textChangeStart, textChangeEnd, textChangedNewText)
     }
 
-    open fun configure() {
-        imeOptions = if (editorConfig.softKeyboard) {
-            EditorInfo.IME_ACTION_UNSPECIFIED
-        } else {
-            EditorInfo.IME_FLAG_NO_EXTRACT_UI
-        }
-    }
-
     open fun colorize() {
         setTextColor(colorScheme.textColor)
         setBackgroundColor(colorScheme.backgroundColor)
@@ -121,10 +115,6 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         lines.add(lineNumber, lineStart)
 
         addTextChangedListener(textWatcher)
-    }
-
-    open fun clearText() {
-        setTextContent("")
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
@@ -154,7 +144,6 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         lines.remove(lineNumber)
     }
 
-    @Suppress("all")
     fun setTextContent(text: CharSequence) {
         val textParams = TextViewCompat.getTextMetricsParams(this)
         val precomputedText = PrecomputedTextCompat.create(text, textParams)

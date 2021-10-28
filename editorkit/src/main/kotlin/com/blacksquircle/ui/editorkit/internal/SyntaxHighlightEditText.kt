@@ -23,6 +23,7 @@ import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.getSpans
 import com.blacksquircle.ui.editorkit.R
+import com.blacksquircle.ui.editorkit.model.EditorConfig
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.span.ErrorSpan
 import com.blacksquircle.ui.editorkit.span.FindResultSpan
@@ -43,6 +44,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 ) : UndoRedoEditText(context, attrs, defStyleAttr) {
 
     var language: Language? = null
+    var editorConfig = EditorConfig()
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val findResultSpans = mutableListOf<FindResultSpan>()

@@ -47,6 +47,13 @@ abstract class ScrollableEditText @JvmOverloads constructor(
         }
     }
 
+    override fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) {
+        super.onScrollChanged(horiz, vert, oldHoriz, oldVert)
+        for (listener in scrollListeners) {
+            listener.onScrollChanged(horiz, vert, oldHoriz, oldVert)
+        }
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         initVelocityTrackerIfNotExists()
         when (event.action) {
@@ -72,13 +79,6 @@ abstract class ScrollableEditText @JvmOverloads constructor(
             }
         }
         return super.onTouchEvent(event)
-    }
-
-    override fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) {
-        super.onScrollChanged(horiz, vert, oldHoriz, oldVert)
-        for (listener in scrollListeners) {
-            listener.onScrollChanged(horiz, vert, oldHoriz, oldVert)
-        }
     }
 
     override fun computeScroll() {

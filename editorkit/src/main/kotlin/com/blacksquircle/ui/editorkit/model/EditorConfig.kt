@@ -18,9 +18,6 @@ package com.blacksquircle.ui.editorkit.model
 
 data class EditorConfig(
 
-    // Keyboard
-    var softKeyboard: Boolean = false,
-
     // Code Style
     var autoIndentation: Boolean = true,
     var autoCloseBrackets: Boolean = true,

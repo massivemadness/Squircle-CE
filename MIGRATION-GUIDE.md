@@ -70,7 +70,8 @@ Migration steps:
       editor.setTextSize(14f) // previous `fontSize`
       editor.setTypeface(Typeface.MONOSPACE) // previous `fontType`
       editor.setHorizontallyScrolling(false) // previous `wordWrap`
-      editor.setSoftKeyboard(false) // previous `softKeyboard`
+      
+      editor.softKeyboard = false // previous `softKeyboard`
       editor.setUseSpacesInsteadOfTabs(true) // previous `useSpacesInsteadOfTabs`
       editor.setTabWidth(4) // previous `tabWidth`
       ```
