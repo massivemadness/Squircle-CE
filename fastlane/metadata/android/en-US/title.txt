@@ -1,1 +1,1 @@
-Squircle IDE - Code Editor and File Manager
+Squircle IDE - Code Editor

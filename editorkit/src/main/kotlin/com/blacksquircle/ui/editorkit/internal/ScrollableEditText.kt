@@ -17,13 +17,12 @@
 package com.blacksquircle.ui.editorkit.internal
 
 import android.content.Context
-import android.text.InputType
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.ViewConfiguration
-import android.view.inputmethod.EditorInfo
 import android.widget.OverScroller
+import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import com.blacksquircle.ui.editorkit.R
 import kotlin.math.abs
 
@@ -31,7 +30,7 @@ abstract class ScrollableEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : ConfigurableEditText(context, attrs, defStyleAttr) {
+) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr) {
 
     private val textScroller = OverScroller(context)
     private val scrollListeners = mutableListOf<OnScrollChangedListener>()
@@ -39,18 +38,7 @@ abstract class ScrollableEditText @JvmOverloads constructor(
         .scaledMaximumFlingVelocity.toFloat()
 
     private var velocityTracker: VelocityTracker? = null
-
-    override fun configure() {
-        imeOptions = if (editorConfig.softKeyboard) {
-            EditorInfo.IME_ACTION_UNSPECIFIED
-        } else {
-            EditorInfo.IME_FLAG_NO_EXTRACT_UI
-        }
-
-        inputType = InputType.TYPE_CLASS_TEXT or
-                InputType.TYPE_TEXT_FLAG_MULTI_LINE or
-                InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-    }
+    private var horizontallyScrollable = false
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -98,6 +86,15 @@ abstract class ScrollableEditText @JvmOverloads constructor(
             scrollTo(textScroller.currX, textScroller.currY)
             postInvalidate()
         }
+    }
+
+    override fun setHorizontallyScrolling(whether: Boolean) {
+        super.setHorizontallyScrolling(whether)
+        horizontallyScrollable = whether
+    }
+
+    fun isHorizontallyScrollableCompat(): Boolean {
+        return horizontallyScrollable
     }
 
     fun addOnScrollChangedListener(listener: OnScrollChangedListener) {

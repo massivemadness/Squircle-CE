@@ -18,14 +18,17 @@ package com.blacksquircle.ui.editorkit.internal
 
 import android.content.Context
 import android.text.Editable
+import android.text.InputType
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.inputmethod.EditorInfo
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.listener.OnTextChangedListener
+import com.blacksquircle.ui.editorkit.model.EditorConfig
 import com.blacksquircle.ui.editorkit.theme.EditorTheme
 import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.LinesCollection
@@ -43,6 +46,12 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         }
 
     val lines = LinesCollection()
+
+    var editorConfig: EditorConfig = EditorConfig()
+        set(value) {
+            field = value
+            configure()
+        }
 
     private val textContent = SpannableStringBuilder("")
 
@@ -64,6 +73,9 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     init {
         gravity = Gravity.START or Gravity.TOP
+        inputType = InputType.TYPE_CLASS_TEXT or
+            InputType.TYPE_TEXT_FLAG_MULTI_LINE or
+            InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
     }
 
     override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
@@ -74,6 +86,14 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
         textChangedNewText = text?.subSequence(start, start + count).toString()
         replaceText(textChangeStart, textChangeEnd, textChangedNewText)
+    }
+
+    open fun configure() {
+        imeOptions = if (editorConfig.softKeyboard) {
+            EditorInfo.IME_ACTION_UNSPECIFIED
+        } else {
+            EditorInfo.IME_FLAG_NO_EXTRACT_UI
+        }
     }
 
     open fun colorize() {
