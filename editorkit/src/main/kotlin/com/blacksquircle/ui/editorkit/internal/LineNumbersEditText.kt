@@ -41,7 +41,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     var colorScheme: ColorScheme = EditorTheme.DARCULA
         set(value) {
             field = value
-            colorize()
+            onColorSchemeChanged()
         }
 
     var softKeyboard: Boolean = false
@@ -90,7 +90,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         replaceText(textChangeStart, textChangeEnd, textChangedNewText)
     }
 
-    open fun colorize() {
+    open fun onColorSchemeChanged() {
         setTextColor(colorScheme.textColor)
         setBackgroundColor(colorScheme.backgroundColor)
         highlightColor = colorScheme.selectionColor

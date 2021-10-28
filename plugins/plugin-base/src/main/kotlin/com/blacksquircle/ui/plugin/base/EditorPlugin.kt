@@ -41,6 +41,8 @@ abstract class EditorPlugin(val pluginId: String) {
 
     open fun onAttached(editText: EditText) {
         this.editText = editText
+        onColorSchemeChanged(colorScheme)
+        onLanguageChanged(language)
     }
 
     open fun onDetached(editText: EditText) {
@@ -51,6 +53,9 @@ abstract class EditorPlugin(val pluginId: String) {
     open fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) = Unit
     open fun beforeDraw(canvas: Canvas?) = Unit
     open fun afterDraw(canvas: Canvas?) = Unit
+
+    open fun onColorSchemeChanged(colorScheme: ColorScheme) = Unit
+    open fun onLanguageChanged(language: Language?) = Unit
 
     open fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) = Unit
     open fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) = Unit

@@ -23,6 +23,7 @@ import android.graphics.Typeface
 import android.text.Editable
 import android.util.Log
 import android.widget.EditText
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.*
 
 class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
@@ -45,6 +46,11 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun onAttached(editText: EditText) {
         super.onAttached(editText)
+        Log.d(PLUGIN_ID, "LineNumbers plugin loaded successfully!")
+    }
+
+    override fun onColorSchemeChanged(colorScheme: ColorScheme) {
+        super.onColorSchemeChanged(colorScheme)
         selectedLinePaint.color = colorScheme.selectedLineColor
         selectedLinePaint.isAntiAlias = false
         selectedLinePaint.isDither = false
@@ -60,20 +66,18 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
         gutterDividerPaint.strokeWidth = 2.6f
 
         gutterCurrentLineNumberPaint.textSize = requireContext()
-            .resources.displayMetrics.scaledDensity * editText.textSize
+            .resources.displayMetrics.scaledDensity * editor.textSize
         gutterCurrentLineNumberPaint.color = colorScheme.gutterCurrentLineNumberColor
         gutterCurrentLineNumberPaint.isAntiAlias = true
         gutterCurrentLineNumberPaint.isDither = false
         gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
         gutterTextPaint.textSize = requireContext()
-            .resources.displayMetrics.scaledDensity * editText.textSize
+            .resources.displayMetrics.scaledDensity * editor.textSize
         gutterTextPaint.color = colorScheme.gutterTextColor
         gutterTextPaint.isAntiAlias = true
         gutterTextPaint.isDither = false
         gutterTextPaint.textAlign = Paint.Align.RIGHT
-
-        Log.d(PLUGIN_ID, "LineNumbers plugin loaded successfully!")
     }
 
     override fun beforeDraw(canvas: Canvas?) {

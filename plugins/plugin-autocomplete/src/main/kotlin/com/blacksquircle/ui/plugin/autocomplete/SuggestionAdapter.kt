@@ -45,7 +45,6 @@ abstract class SuggestionAdapter(
         private val suggestions = mutableListOf<Suggestion>()
 
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val filterResults = FilterResults()
             suggestions.clear()
             suggestionProvider?.let { provider ->
                 val query = constraint.toString()
@@ -58,9 +57,10 @@ abstract class SuggestionAdapter(
                     }
                 }
             }
-            filterResults.values = suggestions
-            filterResults.count = suggestions.size
-            return filterResults
+            return FilterResults().apply {
+                values = suggestions
+                count = suggestions.size
+            }
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults) {

@@ -44,6 +44,10 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 ) : UndoRedoEditText(context, attrs, defStyleAttr) {
 
     var language: Language? = null
+        set(value) {
+            field = value
+            onLanguageChanged()
+        }
     var editorConfig = EditorConfig()
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
@@ -58,9 +62,9 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     private var isSyntaxHighlighting = false
     private var isErrorSpansVisible = false
 
-    override fun colorize() {
+    override fun onColorSchemeChanged() {
         findResultStyleSpan = StyleSpan(color = colorScheme.findResultBackgroundColor)
-        super.colorize()
+        super.onColorSchemeChanged()
     }
 
     override fun setTextContent(textParams: PrecomputedTextCompat) {
@@ -103,6 +107,8 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
         addedTextCount = 0
         syntaxHighlight()
     }
+
+    open fun onLanguageChanged() = Unit
 
     fun clearFindResultSpans() {
         selectedFindResult = 0

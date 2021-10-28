@@ -45,10 +45,6 @@ class TextProcessor @JvmOverloads constructor(
 
     private val plugins = mutableListOf<EditorPlugin>()
 
-    init {
-        colorize()
-    }
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         for (plugin in plugins) {
@@ -70,6 +66,20 @@ class TextProcessor @JvmOverloads constructor(
         super.onDraw(canvas)
         for (plugin in plugins) {
             plugin.afterDraw(canvas)
+        }
+    }
+
+    override fun onColorSchemeChanged() {
+        super.onColorSchemeChanged()
+        for (plugin in plugins) {
+            plugin.onColorSchemeChanged(colorScheme)
+        }
+    }
+
+    override fun onLanguageChanged() {
+        super.onLanguageChanged()
+        for (plugin in plugins) {
+            plugin.onLanguageChanged(language)
         }
     }
 

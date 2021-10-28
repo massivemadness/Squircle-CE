@@ -16,10 +16,12 @@
 
 package com.blacksquircle.ui.plugin.delimiters
 
+import android.graphics.Color
 import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.widget.EditText
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 
 class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
@@ -29,15 +31,18 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
 
     private val delimiters = charArrayOf('{', '[', '(', '<', '}', ']', ')', '>')
 
-    private var openDelimiterSpan: BackgroundColorSpan? = null
-    private var closedDelimiterSpan: BackgroundColorSpan? = null
+    private var openDelimiterSpan = BackgroundColorSpan(Color.GRAY)
+    private var closedDelimiterSpan = BackgroundColorSpan(Color.GRAY)
 
     override fun onAttached(editText: EditText) {
         super.onAttached(editText)
+        Log.d(PLUGIN_ID, "BracketsHighlight plugin loaded successfully!")
+    }
+
+    override fun onColorSchemeChanged(colorScheme: ColorScheme) {
+        super.onColorSchemeChanged(colorScheme)
         openDelimiterSpan = BackgroundColorSpan(colorScheme.delimiterBackgroundColor)
         closedDelimiterSpan = BackgroundColorSpan(colorScheme.delimiterBackgroundColor)
-
-        Log.d(PLUGIN_ID, "BracketsHighlight plugin loaded successfully!")
     }
 
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
@@ -49,10 +54,8 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
 
     private fun checkMatchingBracket(pos: Int) {
         if (editor.layout == null) return
-        if (openDelimiterSpan != null && closedDelimiterSpan != null) {
-            editor.text.removeSpan(openDelimiterSpan)
-            editor.text.removeSpan(closedDelimiterSpan)
-        }
+        editor.text.removeSpan(openDelimiterSpan)
+        editor.text.removeSpan(closedDelimiterSpan)
         if (pos > 0 && pos <= editor.text.length) {
             val c1 = editor.text[pos - 1]
             for (i in delimiters.indices) {
@@ -99,10 +102,8 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     private fun showBracket(i: Int, j: Int) {
-        if (openDelimiterSpan != null && closedDelimiterSpan != null) {
-            editor.text.setSpan(openDelimiterSpan, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            editor.text.setSpan(closedDelimiterSpan, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
+        editor.text.setSpan(openDelimiterSpan, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        editor.text.setSpan(closedDelimiterSpan, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
 
     companion object {

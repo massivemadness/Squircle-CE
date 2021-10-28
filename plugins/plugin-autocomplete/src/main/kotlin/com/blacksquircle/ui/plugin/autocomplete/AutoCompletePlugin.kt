@@ -20,6 +20,7 @@ import android.graphics.Rect
 import android.util.Log
 import android.widget.EditText
 import android.widget.MultiAutoCompleteTextView
+import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 
 class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
@@ -42,6 +43,7 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun onDetached(editText: EditText) {
         editor.setTokenizer(null)
+        editor.setAdapter(null)
         super.onDetached(editText)
     }
 
@@ -75,11 +77,6 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
         language?.getProvider()?.clearLines()
     }
 
-    override fun setTextContent(text: CharSequence) {
-        super.setTextContent(text)
-        updateAdapter() // probably language has been changed
-    }
-
     override fun onTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) {
         super.onTextReplaced(newStart, newEnd, newText)
         val startLine = lines.getLineForIndex(newStart)
@@ -93,6 +90,13 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
                     text = editor.text.substring(lineStart, lineEnd)
                 )
             }
+        }
+    }
+
+    override fun onLanguageChanged(language: Language?) {
+        super.onLanguageChanged(language)
+        language?.getProvider()?.let { provider ->
+            suggestionAdapter?.setSuggestionProvider(provider)
         }
     }
 
