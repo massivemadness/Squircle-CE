@@ -97,7 +97,6 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     }
 
     open fun setTextContent(textParams: PrecomputedTextCompat) {
-        abortFling()
         removeTextChangedListener(textWatcher)
 
         setText(textParams)

@@ -26,24 +26,28 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : SyntaxHighlightEditText(context, attrs, defStyleAttr) {
 
+    var autoIndentation: Boolean = true
+    var autoCloseBrackets: Boolean = true
+    var autoCloseQuotes: Boolean = true
+
     private var newText = ""
     private var isAutoIndenting = false
 
     override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+        super.doOnTextChanged(text, start, before, count)
         newText = text?.subSequence(start, start + count).toString()
         completeIndentation(start, count)
-        super.doOnTextChanged(text, start, before, count)
         newText = ""
     }
 
     fun tab(): String {
-        return if (editorConfig.useSpacesInsteadOfTabs) {
-            " ".repeat(editorConfig.tabWidth)
+        return if (useSpacesInsteadOfTabs) {
+            " ".repeat(tabWidth)
         } else "\t"
     }
 
     private fun completeIndentation(start: Int, count: Int) {
-        if (!isDoingUndoRedo && !isAutoIndenting) {
+        if (!isAutoIndenting) {
             val result = executeIndentation(start)
             val replacementValue = if (result[0] != null || result[1] != null) {
                 val preText = result[0] ?: ""
@@ -73,7 +77,6 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
                     undoStack.push(change)
                 }
                 setSelection(newCursorPosition)
-                onUndoRedoChangedListener?.onUndoRedoChanged()
                 isAutoIndenting = false
             }
         }
@@ -81,7 +84,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
 
     private fun executeIndentation(start: Int): Array<String?> {
         val strArr: Array<String?>
-        if (newText == "\n" && editorConfig.autoIndentation) {
+        if (newText == "\n" && autoIndentation) {
             val prevLineIndentation = getIndentationForOffset(start)
             val indentation = StringBuilder(prevLineIndentation)
             var newCursorPosition = indentation.length + start + 1
@@ -96,7 +99,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
             strArr[1] = indentation.toString()
             strArr[3] = newCursorPosition.toString()
             return strArr
-        } else if (newText == "\"" && editorConfig.autoCloseQuotes) {
+        } else if (newText == "\"" && autoCloseQuotes) {
             if (start + 1 >= text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "\""
@@ -113,7 +116,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
-        } else if (newText == "'" && editorConfig.autoCloseQuotes) {
+        } else if (newText == "'" && autoCloseQuotes) {
             if (start + 1 >= text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "'"
@@ -135,36 +138,36 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
-        } else if (newText == "{" && editorConfig.autoCloseBrackets) {
+        } else if (newText == "{" && autoCloseBrackets) {
             strArr = arrayOfNulls(4)
             strArr[1] = "}"
             strArr[3] = (start + 1).toString()
             return strArr
-        } else if (newText == "}" && editorConfig.autoCloseBrackets) {
+        } else if (newText == "}" && autoCloseBrackets) {
             if (start + 1 < text.length && text[start + 1] == '}') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
-        } else if (newText == "(" && editorConfig.autoCloseBrackets) {
+        } else if (newText == "(" && autoCloseBrackets) {
             strArr = arrayOfNulls(4)
             strArr[1] = ")"
             strArr[3] = (start + 1).toString()
             return strArr
-        } else if (newText == ")" && editorConfig.autoCloseBrackets) {
+        } else if (newText == ")" && autoCloseBrackets) {
             if (start + 1 < text.length && text[start + 1] == ')') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
-        } else if (newText == "[" && editorConfig.autoCloseBrackets) {
+        } else if (newText == "[" && autoCloseBrackets) {
             strArr = arrayOfNulls(4)
             strArr[1] = "]"
             strArr[3] = (start + 1).toString()
             return strArr
-        } else if (newText == "]" && editorConfig.autoCloseBrackets &&
+        } else if (newText == "]" && autoCloseBrackets &&
             start + 1 < text.length && text[start + 1] == ']') {
             strArr = arrayOfNulls(4)
             strArr[2] = ""

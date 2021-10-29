@@ -72,8 +72,8 @@ Migration steps:
       editor.setHorizontallyScrolling(false) // previous `wordWrap`
       
       editor.softKeyboard = false // previous `softKeyboard`
-      editor.setUseSpacesInsteadOfTabs(true) // previous `useSpacesInsteadOfTabs`
-      editor.setTabWidth(4) // previous `tabWidth`
+      editor.useSpacesInsteadOfTabs = true // previous `useSpacesInsteadOfTabs`
+      editor.tabWidth = 4 // previous `tabWidth`
       ```
 2. If you're using custom themes, the `SyntaxScheme` class was removed
    and all it's properties were moved in `ColorScheme` itself.

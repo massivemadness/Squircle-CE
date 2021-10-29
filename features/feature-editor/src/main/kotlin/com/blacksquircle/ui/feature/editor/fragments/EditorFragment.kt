@@ -208,7 +208,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         // region PREFERENCES
 
         viewModel.settingsEvent.observe(viewLifecycleOwner) { settings ->
-            val config = binding.editor.editorConfig
             val pluginSupplier = PluginSupplier.create {
                 settings.forEach { event ->
                     when (event) {
@@ -257,11 +256,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         is SettingsEvent.KeyboardPreset ->
                             binding.extendedKeyboard.submitList(event.value)
                         is SettingsEvent.SoftKeys -> binding.editor.softKeyboard = event.value
-                        is SettingsEvent.AutoIndent -> config.autoIndentation = event.value
-                        is SettingsEvent.AutoBrackets -> config.autoCloseBrackets = event.value
-                        is SettingsEvent.AutoQuotes -> config.autoCloseQuotes = event.value
-                        is SettingsEvent.UseSpacesNotTabs -> config.useSpacesInsteadOfTabs = event.value
-                        is SettingsEvent.TabWidth -> config.tabWidth = event.value
+                        is SettingsEvent.AutoIndent -> binding.editor.autoIndentation = event.value
+                        is SettingsEvent.AutoBrackets -> binding.editor.autoCloseBrackets = event.value
+                        is SettingsEvent.AutoQuotes -> binding.editor.autoCloseQuotes = event.value
+                        is SettingsEvent.UseSpacesNotTabs -> binding.editor.useSpacesInsteadOfTabs = event.value
+                        is SettingsEvent.TabWidth -> binding.editor.tabWidth = event.value
                     }
                 }
                 changeDetector {
@@ -307,7 +306,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                     }
                 }
             }
-            binding.editor.editorConfig = config
             binding.editor.plugins(pluginSupplier)
         }
 

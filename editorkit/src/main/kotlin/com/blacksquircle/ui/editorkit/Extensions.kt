@@ -25,20 +25,23 @@ import com.blacksquircle.ui.editorkit.widget.TextProcessor
 private const val LABEL_CUT = "CUT"
 private const val LABEL_COPY = "COPY"
 
+val TextProcessor.selectedText: CharSequence
+    get() = text.subSequence(selectionStart, selectionEnd)
+
 fun TextProcessor.insert(delta: CharSequence) {
     text.replace(selectionStart, selectionEnd, delta)
 }
 
 fun TextProcessor.cut() {
     val clipboardManager = context.getSystemService<ClipboardManager>()
-    val clipData = ClipData.newPlainText(LABEL_CUT, selectedText())
+    val clipData = ClipData.newPlainText(LABEL_CUT, selectedText)
     clipboardManager?.setPrimaryClip(clipData)
     text.replace(selectionStart, selectionEnd, "")
 }
 
 fun TextProcessor.copy() {
     val clipboardManager = context.getSystemService<ClipboardManager>()
-    val clipData = ClipData.newPlainText(LABEL_COPY, selectedText())
+    val clipData = ClipData.newPlainText(LABEL_COPY, selectedText)
     clipboardManager?.setPrimaryClip(clipData)
 }
 
@@ -146,8 +149,4 @@ fun TextProcessor.gotoLine(lineNumber: Int) {
 fun TextProcessor.hasPrimaryClip(): Boolean {
     val clipboardManager = context.getSystemService<ClipboardManager>()
     return clipboardManager?.hasPrimaryClip() ?: false
-}
-
-private fun TextProcessor.selectedText(): CharSequence {
-    return text.subSequence(selectionStart, selectionEnd)
 }

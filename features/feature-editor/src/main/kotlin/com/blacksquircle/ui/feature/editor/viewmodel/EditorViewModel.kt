@@ -182,7 +182,7 @@ class EditorViewModel @Inject constructor(
                 val settings = mutableListOf<SettingsEvent<*>>()
 
                 val value = settingsManager.colorScheme
-                val theme = InternalTheme.getTheme(value) ?: themesRepository.fetchTheme(value)
+                val theme = InternalTheme.find(value) ?: themesRepository.fetchTheme(value)
                 settings.add(SettingsEvent.ThemePref(theme))
 
                 val fontSize = settingsManager.fontSize.toFloat()

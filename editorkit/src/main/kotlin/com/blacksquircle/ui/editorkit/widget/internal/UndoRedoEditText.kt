@@ -34,8 +34,7 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
     var redoStack: UndoStack = UndoStack()
     var onUndoRedoChangedListener: OnUndoRedoChangedListener? = null
 
-    protected var isDoingUndoRedo = false
-
+    private var isDoingUndoRedo = false
     private var textLastChange: TextChange? = null
 
     override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {

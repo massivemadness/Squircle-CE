@@ -19,87 +19,76 @@ package com.blacksquircle.ui.data.utils
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
 import com.blacksquircle.ui.editorkit.utils.EditorTheme
 
-object InternalTheme {
-
-    private const val DARCULA = "DARCULA"
-    private const val MONOKAI = "MONOKAI"
-    private const val OBSIDIAN = "OBSIDIAN"
-    private const val LADIES_NIGHT = "LADIES_NIGHT"
-    private const val TOMORROW_NIGHT = "TOMORROW_NIGHT"
-    private const val VISUAL_STUDIO_2013 = "VISUAL_STUDIO_2013"
-
-    private val THEME_DARCULA = ThemeModel(
-        uuid = DARCULA,
-        name = "Darcula",
-        author = "Squircle IDE",
-        description = "Default color scheme",
-        isExternal = false,
-        colorScheme = EditorTheme.DARCULA
-    )
-    private val THEME_MONOKAI = ThemeModel(
-        uuid = MONOKAI,
-        name = "Monokai",
-        author = "Squircle IDE",
-        description = "Default color scheme",
-        isExternal = false,
-        colorScheme = EditorTheme.MONOKAI
-    )
-    private val THEME_OBSIDIAN = ThemeModel(
-        uuid = OBSIDIAN,
-        name = "Obsidian",
-        author = "Squircle IDE",
-        description = "Default color scheme",
-        isExternal = false,
-        colorScheme = EditorTheme.OBSIDIAN
-    )
-    private val THEME_LADIES_NIGHT = ThemeModel(
-        uuid = LADIES_NIGHT,
-        name = "Ladies Night",
-        author = "Squircle IDE",
-        description = "Default color scheme",
-        isExternal = false,
-        colorScheme = EditorTheme.LADIES_NIGHT
-    )
-    private val THEME_TOMORROW_NIGHT = ThemeModel(
-        uuid = TOMORROW_NIGHT,
-        name = "Tomorrow Night",
-        author = "Squircle IDE",
-        description = "Default color scheme",
-        isExternal = false,
-        colorScheme = EditorTheme.TOMORROW_NIGHT
-    )
-    private val THEME_VISUAL_STUDIO_2013 = ThemeModel(
-        uuid = VISUAL_STUDIO_2013,
-        name = "Visual Studio 2013",
-        author = "Squircle IDE",
-        description = "Default color scheme",
-        isExternal = false,
-        colorScheme = EditorTheme.VISUAL_STUDIO_2013
-    )
-
-    fun getTheme(themeId: String): ThemeModel? {
-        return when (themeId) {
-            DARCULA -> THEME_DARCULA
-            MONOKAI -> THEME_MONOKAI
-            OBSIDIAN -> THEME_OBSIDIAN
-            LADIES_NIGHT -> THEME_LADIES_NIGHT
-            TOMORROW_NIGHT -> THEME_TOMORROW_NIGHT
-            VISUAL_STUDIO_2013 -> THEME_VISUAL_STUDIO_2013
-            else -> null
-        }
-    }
-
-    /**
-     * Default color schemes from :editorkit module.
-     */
-    fun getThemes(): List<ThemeModel> {
-        return listOf(
-            THEME_DARCULA,
-            THEME_MONOKAI,
-            THEME_OBSIDIAN,
-            THEME_LADIES_NIGHT,
-            THEME_TOMORROW_NIGHT,
-            THEME_VISUAL_STUDIO_2013
+enum class InternalTheme(val theme: ThemeModel) {
+    THEME_DARCULA(
+        theme = ThemeModel(
+            uuid = "DARCULA",
+            name = "Darcula",
+            author = "Squircle IDE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.DARCULA
         )
+    ),
+    THEME_MONOKAI(
+        theme = ThemeModel(
+            uuid = "MONOKAI",
+            name = "Monokai",
+            author = "Squircle IDE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.MONOKAI
+        )
+    ),
+    THEME_OBSIDIAN(
+        theme = ThemeModel(
+            uuid = "OBSIDIAN",
+            name = "Obsidian",
+            author = "Squircle IDE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.OBSIDIAN
+        )
+    ),
+    THEME_LADIES_NIGHT(
+        theme = ThemeModel(
+            uuid = "LADIES_NIGHT",
+            name = "Ladies Night",
+            author = "Squircle IDE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.LADIES_NIGHT
+        )
+    ),
+    THEME_TOMORROW_NIGHT(
+        theme = ThemeModel(
+            uuid = "TOMORROW_NIGHT",
+            name = "Tomorrow Night",
+            author = "Squircle IDE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.TOMORROW_NIGHT
+        )
+    ),
+    THEME_VISUAL_STUDIO_2013(
+        theme = ThemeModel(
+            uuid = "VISUAL_STUDIO_2013",
+            name = "Visual Studio 2013",
+            author = "Squircle IDE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.VISUAL_STUDIO_2013
+        )
+    );
+
+    companion object {
+
+        fun find(id: String): ThemeModel? {
+            return values().find { it.theme.uuid == id }?.theme
+        }
+
+        fun themes(): List<ThemeModel> {
+            return values().map { it.theme }
+        }
     }
 }

@@ -23,7 +23,6 @@ import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.getSpans
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.model.EditorConfig
 import com.blacksquircle.ui.editorkit.model.ErrorSpan
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResultSpan
@@ -48,7 +47,9 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             field = value
             onLanguageChanged()
         }
-    var editorConfig = EditorConfig()
+
+    var useSpacesInsteadOfTabs = true
+    var tabWidth = 4
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
     private val findResultSpans = mutableListOf<FindResultSpan>()
@@ -326,7 +327,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                 }
             }
 
-            if (!editorConfig.useSpacesInsteadOfTabs) {
+            if (!useSpacesInsteadOfTabs) {
                 // FIXME works pretty bad with word wrap
                 val textTabSpans = text.getSpans<TabWidthSpan>(0, text.length)
                 for (span in textTabSpans) {
@@ -340,7 +341,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                     val end = matcher.end() + lineStart
                     if (start >= 0 && end <= text.length) {
                         text.setSpan(
-                            TabWidthSpan(editorConfig.tabWidth),
+                            TabWidthSpan(tabWidth),
                             start,
                             end,
                             Spannable.SPAN_INCLUSIVE_INCLUSIVE
