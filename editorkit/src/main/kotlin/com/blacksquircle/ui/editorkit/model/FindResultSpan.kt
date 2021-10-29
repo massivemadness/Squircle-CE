@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.utils
+package com.blacksquircle.ui.editorkit.model
 
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import android.text.style.BackgroundColorSpan
+import com.blacksquircle.ui.language.base.span.StyleSpan
 
-typealias StylingResult = (List<SyntaxHighlightSpan>) -> Unit
+data class FindResultSpan(
+    private val span: StyleSpan,
+    var start: Int,
+    var end: Int
+) : BackgroundColorSpan(span.color)

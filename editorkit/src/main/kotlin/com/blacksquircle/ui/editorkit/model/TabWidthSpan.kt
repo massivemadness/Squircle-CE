@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.span
+package com.blacksquircle.ui.editorkit.model
 
 import android.graphics.Canvas
 import android.graphics.Paint

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.internal
+package com.blacksquircle.ui.editorkit.widget.internal
 
 import android.content.Context
 import android.util.AttributeSet

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.theme
+package com.blacksquircle.ui.editorkit.utils
 
 import android.graphics.Color
 import com.blacksquircle.ui.language.base.model.ColorScheme

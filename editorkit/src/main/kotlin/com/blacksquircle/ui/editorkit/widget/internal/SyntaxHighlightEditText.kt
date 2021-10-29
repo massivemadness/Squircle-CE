@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.internal
+package com.blacksquircle.ui.editorkit.widget.internal
 
 import android.content.Context
 import android.text.Editable
@@ -24,10 +24,10 @@ import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.getSpans
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.model.EditorConfig
+import com.blacksquircle.ui.editorkit.model.ErrorSpan
 import com.blacksquircle.ui.editorkit.model.FindParams
-import com.blacksquircle.ui.editorkit.span.ErrorSpan
-import com.blacksquircle.ui.editorkit.span.FindResultSpan
-import com.blacksquircle.ui.editorkit.span.TabWidthSpan
+import com.blacksquircle.ui.editorkit.model.FindResultSpan
+import com.blacksquircle.ui.editorkit.model.TabWidthSpan
 import com.blacksquircle.ui.editorkit.utils.StylingTask
 import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.span.StyleSpan

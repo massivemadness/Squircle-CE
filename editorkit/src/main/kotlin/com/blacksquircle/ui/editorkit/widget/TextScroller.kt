@@ -28,7 +28,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.getDrawableOrThrow
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.internal.ScrollableEditText
+import com.blacksquircle.ui.editorkit.widget.internal.ScrollableEditText
 
 class TextScroller @JvmOverloads constructor(
     context: Context,

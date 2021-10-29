@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.data.utils
 
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
-import com.blacksquircle.ui.editorkit.theme.EditorTheme
+import com.blacksquircle.ui.editorkit.utils.EditorTheme
 
 object InternalTheme {
 

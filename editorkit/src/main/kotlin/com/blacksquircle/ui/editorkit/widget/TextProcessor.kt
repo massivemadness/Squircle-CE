@@ -27,7 +27,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.internal.AutoIndentEditText
+import com.blacksquircle.ui.editorkit.widget.internal.AutoIndentEditText
 import com.blacksquircle.ui.plugin.base.EditorAccessor
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 import com.blacksquircle.ui.plugin.base.PluginContainer

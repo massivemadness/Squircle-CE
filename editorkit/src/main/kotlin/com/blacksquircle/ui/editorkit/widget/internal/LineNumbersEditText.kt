@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.internal
+package com.blacksquircle.ui.editorkit.widget.internal
 
 import android.content.Context
 import android.text.Editable
@@ -28,7 +28,7 @@ import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.listener.OnTextChangedListener
-import com.blacksquircle.ui.editorkit.theme.EditorTheme
+import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.LinesCollection
 
