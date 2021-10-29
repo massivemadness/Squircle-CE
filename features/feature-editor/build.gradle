@@ -69,6 +69,7 @@ dependencies {
     // AAC
     implementation library.livedata
     implementation library.viewmodel
+    implementation library.lifecycle
 
     // Coroutines
     implementation library.coroutines_core
