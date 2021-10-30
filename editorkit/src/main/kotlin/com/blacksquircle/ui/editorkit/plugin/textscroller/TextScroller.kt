@@ -117,13 +117,12 @@ class TextScroller @JvmOverloads constructor(
         thumbHeight = thumbNormal.intrinsicHeight
         thumbPaint.isAntiAlias = true
         thumbPaint.isDither = false
-        thumbPaint.alpha = 225
+        thumbPaint.alpha = ALPHA_MAX
 
         typedArray.recycle()
     }
 
     override fun onDraw(canvas: Canvas) {
-        if (state == State.HIDDEN) return
         super.onDraw(canvas)
         when (state) {
             State.HIDDEN -> return
@@ -202,41 +201,40 @@ class TextScroller @JvmOverloads constructor(
     }
 
     private fun scrollView() {
-        if (scrollableEditText != null) {
-            val scrollToAsFraction = thumbTop / (height - thumbHeight)
-            val lineHeight = scrollableEditText!!.lineHeight
-            val textAreaHeight = scrollableEditText!!.height
-            scrollableEditText?.scrollTo(
-                scrollableEditText!!.scrollX,
-                ((textScrollMax * scrollToAsFraction) - (scrollToAsFraction * (textAreaHeight - lineHeight))).toInt()
-            )
-        }
+        if (scrollableEditText == null) return
+
+        val scrollToAsFraction = thumbTop / (height - thumbHeight)
+        val lineHeight = scrollableEditText!!.lineHeight
+        val textAreaHeight = scrollableEditText!!.height
+        scrollableEditText?.scrollTo(
+            scrollableEditText!!.scrollX,
+            ((textScrollMax * scrollToAsFraction) - (scrollToAsFraction * (textAreaHeight - lineHeight))).toInt()
+        )
     }
 
     private fun getMeasurements() {
-        if (scrollableEditText?.layout != null) {
-            textScrollMax = scrollableEditText!!.layout.height.toFloat()
-            textScrollY = scrollableEditText!!.scrollY.toFloat()
-            thumbTop = getThumbTop()
-        }
+        if (scrollableEditText == null) return
+
+        textScrollMax = scrollableEditText?.layout?.height?.toFloat() ?: 0f
+        textScrollY = scrollableEditText?.scrollY?.toFloat() ?: 0f
+        thumbTop = getThumbTop()
     }
 
     private fun getThumbTop(): Float {
-        if (scrollableEditText != null) {
-            val lineHeight = scrollableEditText!!.lineHeight
-            val textAreaHeight = scrollableEditText!!.height
-            val calculatedThumbTop =
-                (height - thumbHeight) * (textScrollY / (textScrollMax - textAreaHeight + lineHeight))
+        if (scrollableEditText == null) return 0f
 
-            val absoluteThumbTop = if (!calculatedThumbTop.isNaN()) {
-                calculatedThumbTop
-            } else 0f
+        val lineHeight = scrollableEditText?.lineHeight ?: 0
+        val textAreaHeight = scrollableEditText?.height ?: 0
+        val calculatedThumbTop = (height - thumbHeight) *
+            (textScrollY / (textScrollMax - textAreaHeight + lineHeight))
 
-            return if (absoluteThumbTop > height - thumbHeight) {
-                (height - thumbHeight).toFloat()
-            } else absoluteThumbTop
-        }
-        return 0f
+        val absoluteThumbTop = if (!calculatedThumbTop.isNaN()) {
+            calculatedThumbTop
+        } else 0f
+
+        return if (absoluteThumbTop > height - thumbHeight) {
+            (height - thumbHeight).toFloat()
+        } else absoluteThumbTop
     }
 
     private fun isPointInThumb(x: Float, y: Float): Boolean {
@@ -244,7 +242,7 @@ class TextScroller @JvmOverloads constructor(
     }
 
     private fun isShowScrollerJustified(): Boolean {
-        return textScrollMax / scrollableEditText!!.height >= 1.5
+        return textScrollMax / (scrollableEditText?.height ?: 0) >= 1.5
     }
 
     enum class State {

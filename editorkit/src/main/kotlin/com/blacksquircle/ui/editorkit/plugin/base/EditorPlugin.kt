@@ -30,7 +30,8 @@ import com.blacksquircle.ui.language.base.model.ColorScheme
 abstract class EditorPlugin(val pluginId: String) {
 
     private var _editText: TextProcessor? = null
-    protected val editText: TextProcessor = _editText!!
+    protected val editText: TextProcessor
+        get() = _editText!!
 
     protected val isAttached: Boolean
         get() = _editText != null

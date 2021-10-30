@@ -22,11 +22,13 @@ import com.blacksquircle.ui.editorkit.widget.TextProcessor
 
 class TextScrollerPlugin : EditorPlugin(PLUGIN_ID) {
 
+    var scroller: TextScroller? = null
+
     override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
+        scroller?.attachTo(editText)
         Log.d(PLUGIN_ID, "TextScroller plugin loaded successfully!")
     }
-
     companion object {
         const val PLUGIN_ID = "text-scroller-1821"
     }

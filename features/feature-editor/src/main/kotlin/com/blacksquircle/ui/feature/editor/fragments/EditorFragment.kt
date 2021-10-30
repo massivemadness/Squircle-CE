@@ -57,6 +57,7 @@ import com.blacksquircle.ui.editorkit.plugin.pinchzoom.pinchZoom
 import com.blacksquircle.ui.editorkit.plugin.shortcuts.OnShortcutListener
 import com.blacksquircle.ui.editorkit.plugin.shortcuts.shortcuts
 import com.blacksquircle.ui.editorkit.plugin.textscroller.TextScroller
+import com.blacksquircle.ui.editorkit.plugin.textscroller.textScroller
 import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.adapters.AutoCompleteAdapter
@@ -107,7 +108,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
 
         binding.extendedKeyboard.setKeyListener { char -> binding.editor.insert(char) }
         binding.extendedKeyboard.setHasFixedSize(true)
-        binding.scroller.attachTo(binding.editor)
 
         binding.editor.onUndoRedoChangedListener = UndoRedoEditText.OnUndoRedoChangedListener {
             val canUndo = binding.editor.canUndo()
@@ -265,6 +265,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         is SettingsEvent.UseSpacesNotTabs -> binding.editor.useSpacesInsteadOfTabs = event.value
                         is SettingsEvent.TabWidth -> binding.editor.tabWidth = event.value
                     }
+                }
+                textScroller {
+                    scroller = binding.scroller
                 }
                 changeDetector {
                     onChangeListener = OnChangeListener {
