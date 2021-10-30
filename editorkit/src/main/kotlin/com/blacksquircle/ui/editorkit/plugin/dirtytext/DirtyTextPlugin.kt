@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.plugin.dirtytext
+package com.blacksquircle.ui.editorkit.plugin.dirtytext
 
 import android.text.Editable
 import android.util.Log
-import android.widget.EditText
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 
-class DirtyTextPlugin : com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin(PLUGIN_ID) {
+class DirtyTextPlugin : EditorPlugin(PLUGIN_ID) {
 
     var onChangeListener: OnChangeListener? = null
 
     private var isDirty = false
 
-    override fun onAttached(editText: EditText) {
+    override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
         Log.d(PLUGIN_ID, "DirtyText plugin loaded successfully!")
     }

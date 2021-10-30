@@ -16,8 +16,6 @@
 
 package com.blacksquircle.ui.editorkit.plugin.shortcuts
 
-import com.blacksquircle.ui.plugin.shortcuts.Shortcut
-
 fun interface OnShortcutListener {
     fun onShortcut(shortcut: Shortcut): Boolean
 }

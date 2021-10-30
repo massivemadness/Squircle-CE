@@ -18,7 +18,6 @@ package com.blacksquircle.ui.editorkit.plugin.shortcuts
 
 import com.blacksquircle.ui.editorkit.plugin.base.PluginContainer
 import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
-import com.blacksquircle.ui.plugin.shortcuts.ShortcutsPlugin
 
 var PluginContainer.onShortcutListener: OnShortcutListener?
     get() = findPlugin<ShortcutsPlugin>(ShortcutsPlugin.PLUGIN_ID)?.onShortcutListener

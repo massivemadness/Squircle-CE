@@ -22,19 +22,16 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.Editable
 import android.util.Log
-import android.widget.EditText
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
 import com.blacksquircle.ui.editorkit.utils.bottomVisibleLine
 import com.blacksquircle.ui.editorkit.utils.topVisibleLine
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 import com.blacksquircle.ui.language.base.model.ColorScheme
 
 class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
 
     var lineNumbers = true
     var highlightCurrentLine = true
-
-    private val editor: EditText
-        get() = editText!!
 
     private val selectedLinePaint = Paint()
     private val gutterPaint = Paint()
@@ -46,7 +43,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
     private var gutterWidth = 0
     private var gutterDigitCount = 0
 
-    override fun onAttached(editText: EditText) {
+    override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
         Log.d(PLUGIN_ID, "LineNumbers plugin loaded successfully!")
     }
@@ -68,14 +65,14 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
         gutterDividerPaint.strokeWidth = 2.6f
 
         gutterCurrentLineNumberPaint.textSize = requireContext()
-            .resources.displayMetrics.scaledDensity * editor.textSize
+            .resources.displayMetrics.scaledDensity * editText.textSize
         gutterCurrentLineNumberPaint.color = colorScheme.gutterCurrentLineNumberColor
         gutterCurrentLineNumberPaint.isAntiAlias = true
         gutterCurrentLineNumberPaint.isDither = false
         gutterCurrentLineNumberPaint.textAlign = Paint.Align.RIGHT
 
         gutterTextPaint.textSize = requireContext()
-            .resources.displayMetrics.scaledDensity * editor.textSize
+            .resources.displayMetrics.scaledDensity * editText.textSize
         gutterTextPaint.color = colorScheme.gutterTextColor
         gutterTextPaint.isAntiAlias = true
         gutterTextPaint.isDither = false
@@ -85,18 +82,18 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
     override fun beforeDraw(canvas: Canvas?) {
         super.beforeDraw(canvas)
         if (highlightCurrentLine) {
-            val currentLineStart = lines.getLineForIndex(editor.selectionStart)
-            if (currentLineStart == lines.getLineForIndex(editor.selectionEnd)) {
-                if (editor.layout == null) return
+            val currentLineStart = lines.getLineForIndex(editText.selectionStart)
+            if (currentLineStart == lines.getLineForIndex(editText.selectionEnd)) {
+                if (editText.layout == null) return
 
                 val selectedLineStartIndex = lines.getIndexForStartOfLine(currentLineStart)
                 val selectedLineEndIndex = lines.getIndexForEndOfLine(currentLineStart)
-                val topVisualLine = editor.layout.getLineForOffset(selectedLineStartIndex)
-                val bottomVisualLine = editor.layout.getLineForOffset(selectedLineEndIndex)
+                val topVisualLine = editText.layout.getLineForOffset(selectedLineStartIndex)
+                val bottomVisualLine = editText.layout.getLineForOffset(selectedLineEndIndex)
 
-                val lineTop = editor.layout.getLineTop(topVisualLine) + editor.paddingTop
-                val lineBottom = editor.layout.getLineBottom(bottomVisualLine) + editor.paddingTop
-                val width = editor.layout.width + editor.paddingLeft + editor.paddingRight
+                val lineTop = editText.layout.getLineTop(topVisualLine) + editText.paddingTop
+                val lineBottom = editText.layout.getLineBottom(bottomVisualLine) + editText.paddingTop
+                val width = editText.layout.width + editText.paddingLeft + editText.paddingRight
 
                 canvas?.drawRect(
                     gutterWidth.toFloat(),
@@ -113,30 +110,30 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
     override fun afterDraw(canvas: Canvas?) {
         super.afterDraw(canvas)
         if (lineNumbers) {
-            val currentLineStart = lines.getLineForIndex(editor.selectionStart)
+            val currentLineStart = lines.getLineForIndex(editText.selectionStart)
             canvas?.drawRect(
-                editor.scrollX.toFloat(),
-                editor.scrollY.toFloat(),
-                (gutterWidth + editor.scrollX).toFloat(),
-                (editor.scrollY + editor.height).toFloat(),
+                editText.scrollX.toFloat(),
+                editText.scrollY.toFloat(),
+                (gutterWidth + editText.scrollX).toFloat(),
+                (editText.scrollY + editText.height).toFloat(),
                 gutterPaint
             )
-            var topVisibleLine = editor.topVisibleLine
+            var topVisibleLine = editText.topVisibleLine
             if (topVisibleLine >= 2) {
                 topVisibleLine -= 2
             } else {
                 topVisibleLine = 0
             }
             var prevLineNumber = -1
-            val textRight = (gutterWidth - gutterMargin / 2) + editor.scrollX
-            while (topVisibleLine <= editor.bottomVisibleLine) {
-                if (editor.layout == null) return
-                val number = lines.getLineForIndex(editor.layout.getLineStart(topVisibleLine))
+            val textRight = (gutterWidth - gutterMargin / 2) + editText.scrollX
+            while (topVisibleLine <= editText.bottomVisibleLine) {
+                if (editText.layout == null) return
+                val number = lines.getLineForIndex(editText.layout.getLineStart(topVisibleLine))
                 if (number != prevLineNumber) {
                     canvas?.drawText(
                         (number + 1).toString(),
                         textRight.toFloat(),
-                        editor.layout.getLineBaseline(topVisibleLine) + editor.paddingTop.toFloat(),
+                        editText.layout.getLineBaseline(topVisibleLine) + editText.paddingTop.toFloat(),
                         if (number == currentLineStart && highlightCurrentLine) {
                             gutterCurrentLineNumberPaint
                         } else {
@@ -148,10 +145,10 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
                 topVisibleLine++
             }
             canvas?.drawLine(
-                (gutterWidth + editor.scrollX).toFloat(),
-                editor.scrollY.toFloat(),
-                (gutterWidth + editor.scrollX).toFloat(),
-                (editor.scrollY + editor.height).toFloat(),
+                (gutterWidth + editText.scrollX).toFloat(),
+                editText.scrollY.toFloat(),
+                (gutterWidth + editText.scrollX).toFloat(),
+                (editText.scrollY + editText.height).toFloat(),
                 gutterDividerPaint
             )
         }
@@ -164,8 +161,8 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun setTextSize(size: Float) {
         super.setTextSize(size)
-        gutterCurrentLineNumberPaint.textSize = editor.textSize
-        gutterTextPaint.textSize = editor.textSize
+        gutterCurrentLineNumberPaint.textSize = editText.textSize
+        gutterTextPaint.textSize = editText.textSize
     }
 
     override fun setTypeface(tf: Typeface?) {
@@ -182,7 +179,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
 
             gutterDigitCount = lines.lineCount.toString().length
             for (i in 0..9) {
-                val width = editor.paint.measureText(i.toString())
+                val width = editText.paint.measureText(i.toString())
                 if (width > widestWidth) {
                     widestNumber = i
                     widestWidth = width
@@ -195,15 +192,15 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
             for (i in 0 until count) {
                 builder.append(widestNumber.toString())
             }
-            gutterWidth = editor.paint.measureText(builder.toString()).toInt()
+            gutterWidth = editText.paint.measureText(builder.toString()).toInt()
             gutterWidth += gutterMargin
         }
-        if (editor.paddingStart != gutterWidth + gutterMargin) {
-            editor.setPadding(
+        if (editText.paddingStart != gutterWidth + gutterMargin) {
+            editText.setPadding(
                 gutterWidth + gutterMargin,
                 gutterMargin,
-                editor.paddingEnd,
-                editor.paddingBottom
+                editText.paddingEnd,
+                editText.paddingBottom
             )
         }
     }

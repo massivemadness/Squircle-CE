@@ -18,8 +18,8 @@ package com.blacksquircle.ui.editorkit.plugin.pinchzoom
 
 import android.util.Log
 import android.view.MotionEvent
-import android.widget.EditText
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 import kotlin.math.sqrt
 
 class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
@@ -30,7 +30,7 @@ class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
     private var isDoingPinchZoom = false
     private var pinchFactor = 1f
 
-    override fun onAttached(editText: EditText) {
+    override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
         Log.d(PLUGIN_ID, "PinchZoom plugin loaded successfully!")
     }
@@ -45,7 +45,7 @@ class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
                     if (!isDoingPinchZoom) {
                         val scaledDensity = requireContext()
                             .resources.displayMetrics.scaledDensity
-                        val textSize = editText?.textSize ?: minTextSize
+                        val textSize = editText.textSize
 
                         pinchFactor = textSize / scaledDensity / distance
                         isDoingPinchZoom = true
@@ -64,7 +64,7 @@ class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     private fun updateTextSize(size: Float): Boolean {
-        editText?.textSize = when {
+        editText.textSize = when {
             size < minTextSize -> minTextSize
             size > maxTextSize -> maxTextSize
             else -> size

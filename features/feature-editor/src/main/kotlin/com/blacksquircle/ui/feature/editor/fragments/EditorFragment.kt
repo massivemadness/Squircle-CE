@@ -50,6 +50,7 @@ import com.blacksquircle.ui.editorkit.plugin.autocomplete.codeCompletion
 import com.blacksquircle.ui.editorkit.plugin.autoindent.autoIndentation
 import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
 import com.blacksquircle.ui.editorkit.plugin.delimiters.highlightDelimiters
+import com.blacksquircle.ui.editorkit.plugin.dirtytext.OnChangeListener
 import com.blacksquircle.ui.editorkit.plugin.dirtytext.changeDetector
 import com.blacksquircle.ui.editorkit.plugin.linenumbers.lineNumbers
 import com.blacksquircle.ui.editorkit.plugin.pinchzoom.pinchZoom
@@ -66,7 +67,6 @@ import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
-import com.blacksquircle.ui.plugin.dirtytext.OnChangeListener
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent

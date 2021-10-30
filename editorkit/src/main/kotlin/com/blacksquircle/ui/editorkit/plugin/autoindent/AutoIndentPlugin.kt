@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.editorkit.plugin.autoindent
 
 import android.util.Log
-import android.widget.EditText
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 
 class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
 
@@ -26,13 +26,10 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
     var autoCloseBrackets = true
     var autoCloseQuotes = true
 
-    private val editor: EditText
-        get() = editText!!
-
     private var newText = ""
     private var isAutoIndenting = false
 
-    override fun onAttached(editText: EditText) {
+    override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
         Log.d(PLUGIN_ID, "AutoIndent plugin loaded successfully!")
     }
@@ -65,16 +62,16 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
             } else {
                 start + replacementValue.length
             }
-            editor.post {
+            editText.post {
                 isAutoIndenting = true
-                editor.text.replace(start, start + count, replacementValue)
+                editText.text.replace(start, start + count, replacementValue)
                 undoStack.pop()
                 val change = undoStack.pop()
                 if (replacementValue != "") {
                     change.newText = replacementValue
                     undoStack.push(change)
                 }
-                editor.setSelection(newCursorPosition)
+                editText.setSelection(newCursorPosition)
                 isAutoIndenting = false
             }
         }
@@ -86,11 +83,11 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
             val prevLineIndentation = getIndentationForOffset(start)
             val indentation = StringBuilder(prevLineIndentation)
             var newCursorPosition = indentation.length + start + 1
-            if (start > 0 && editor.text[start - 1] == '{') {
-                indentation.append("    "/*editor.tab()*/)
+            if (start > 0 && editText.text[start - 1] == '{') {
+                indentation.append(editText.tab())
                 newCursorPosition = indentation.length + start + 1
             }
-            if (start + 1 < editor.text.length && editor.text[start + 1] == '}') {
+            if (start + 1 < editText.text.length && editText.text[start + 1] == '}') {
                 indentation.append("\n").append(prevLineIndentation)
             }
             strArr = arrayOfNulls(4)
@@ -98,39 +95,39 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
             strArr[3] = newCursorPosition.toString()
             return strArr
         } else if (newText == "\"" && autoCloseQuotes) {
-            if (start + 1 >= editor.text.length) {
+            if (start + 1 >= editText.text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "\""
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (editor.text[start + 1] == '\"' && editor.text[start - 1] != '\\') {
+            } else if (editText.text[start + 1] == '\"' && editText.text[start - 1] != '\\') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (!(editor.text[start + 1] == '\"' && editor.text[start - 1] == '\\')) {
+            } else if (!(editText.text[start + 1] == '\"' && editText.text[start - 1] == '\\')) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "\""
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
         } else if (newText == "'" && autoCloseQuotes) {
-            if (start + 1 >= editor.text.length) {
+            if (start + 1 >= editText.text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "'"
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (start + 1 >= editor.text.length) {
+            } else if (start + 1 >= editText.text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "'"
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (editor.text[start + 1] == '\'' && start > 0 && editor.text[start - 1] != '\\') {
+            } else if (editText.text[start + 1] == '\'' && start > 0 && editText.text[start - 1] != '\\') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (!(editor.text[start + 1] == '\'' && start > 0 && editor.text[start - 1] == '\\')) {
+            } else if (!(editText.text[start + 1] == '\'' && start > 0 && editText.text[start - 1] == '\\')) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "'"
                 strArr[3] = (start + 1).toString()
@@ -142,7 +139,7 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
             strArr[3] = (start + 1).toString()
             return strArr
         } else if (newText == "}" && autoCloseBrackets) {
-            if (start + 1 < editor.text.length && editor.text[start + 1] == '}') {
+            if (start + 1 < editText.text.length && editText.text[start + 1] == '}') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
@@ -154,7 +151,7 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
             strArr[3] = (start + 1).toString()
             return strArr
         } else if (newText == ")" && autoCloseBrackets) {
-            if (start + 1 < editor.text.length && editor.text[start + 1] == ')') {
+            if (start + 1 < editText.text.length && editText.text[start + 1] == ')') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
@@ -166,7 +163,7 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
             strArr[3] = (start + 1).toString()
             return strArr
         } else if (newText == "]" && autoCloseBrackets &&
-            start + 1 < editor.text.length && editor.text[start + 1] == ']') {
+            start + 1 < editText.text.length && editText.text[start + 1] == ']') {
             strArr = arrayOfNulls(4)
             strArr[2] = ""
             strArr[3] = (start + 1).toString()
@@ -183,14 +180,14 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
         val realLine = lines.getLine(line)
         val start = realLine.start
         var i = start
-        while (i < editor.text.length) {
-            val char = editor.text[i]
+        while (i < editText.text.length) {
+            val char = editText.text[i]
             if (!char.isWhitespace() || char == '\n') {
                 break
             }
             i++
         }
-        return editor.text.subSequence(start, i).toString()
+        return editText.text.subSequence(start, i).toString()
     }
 
     companion object {

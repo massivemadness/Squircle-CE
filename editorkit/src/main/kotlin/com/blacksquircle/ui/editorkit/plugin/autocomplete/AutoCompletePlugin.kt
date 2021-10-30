@@ -18,9 +18,8 @@ package com.blacksquircle.ui.editorkit.plugin.autocomplete
 
 import android.graphics.Rect
 import android.util.Log
-import android.widget.EditText
-import android.widget.MultiAutoCompleteTextView
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 import com.blacksquircle.ui.language.base.Language
 
 class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
@@ -31,19 +30,16 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
             updateAdapter()
         }
 
-    private val editor: MultiAutoCompleteTextView
-        get() = editText as MultiAutoCompleteTextView // it's always safe
-
-    override fun onAttached(editText: EditText) {
+    override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
-        editor.setTokenizer(SymbolsTokenizer())
-        editor.setAdapter(suggestionAdapter)
+        editText.setTokenizer(SymbolsTokenizer())
+        editText.setAdapter(suggestionAdapter)
         Log.d(PLUGIN_ID, "AutoComplete plugin loaded successfully!")
     }
 
-    override fun onDetached(editText: EditText) {
-        editor.setTokenizer(null)
-        editor.setAdapter(null)
+    override fun onDetached(editText: TextProcessor) {
+        editText.setTokenizer(null)
+        editText.setAdapter(null)
         super.onDetached(editText)
     }
 
@@ -61,7 +57,7 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
         super.addLine(lineNumber, lineStart, lineLength)
         language?.getProvider()?.processLine(
             lineNumber = lineNumber,
-            text = editor.text.substring(lineStart, lineStart + lineLength)
+            text = editText.text.substring(lineStart, lineStart + lineLength)
         )
     }
 
@@ -84,10 +80,10 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
         for (currentLine in startLine..endLine) {
             val lineStart = lines.getIndexForStartOfLine(currentLine)
             val lineEnd = lines.getIndexForEndOfLine(currentLine)
-            if (lineStart <= lineEnd && lineEnd <= editor.text.length) {
+            if (lineStart <= lineEnd && lineEnd <= editText.text.length) {
                 language?.getProvider()?.processLine(
                     lineNumber = currentLine,
-                    text = editor.text.substring(lineStart, lineEnd)
+                    text = editText.text.substring(lineStart, lineEnd)
                 )
             }
         }
@@ -101,8 +97,8 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     override fun showDropDown() {
-        if (!editor.isPopupShowing) {
-            if (editor.hasFocus()) {
+        if (!editText.isPopupShowing) {
+            if (editText.hasFocus()) {
                 super.showDropDown()
             }
         }
@@ -114,30 +110,30 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
                 language?.getProvider()?.let { provider ->
                     adapter.setSuggestionProvider(provider)
                 }
-                editor.setAdapter(adapter)
+                editText.setAdapter(adapter)
             }
         }
     }
 
     private fun onDropDownSizeChange(width: Int, height: Int) {
-        editor.dropDownWidth = width * 1 / 2
-        editor.dropDownHeight = height * 1 / 2
+        editText.dropDownWidth = width * 1 / 2
+        editText.dropDownHeight = height * 1 / 2
         onPopupChangePosition()
     }
 
     private fun onPopupChangePosition() {
-        val layout = editor.layout ?: return
-        val line = layout.getLineForOffset(editor.selectionStart)
-        val x = layout.getPrimaryHorizontal(editor.selectionStart)
+        val layout = editText.layout ?: return
+        val line = layout.getLineForOffset(editText.selectionStart)
+        val x = layout.getPrimaryHorizontal(editText.selectionStart)
         val y = layout.getLineBaseline(line)
 
-        val offsetHorizontal = x + editor.paddingStart
-        editor.dropDownHorizontalOffset = offsetHorizontal.toInt()
+        val offsetHorizontal = x + editText.paddingStart
+        editText.dropDownHorizontalOffset = offsetHorizontal.toInt()
 
-        val offsetVertical = y - editor.scrollY
-        val temp = offsetVertical + editor.dropDownHeight
-        editor.dropDownVerticalOffset = if (temp > getVisibleHeight()) {
-            offsetVertical - editor.dropDownHeight
+        val offsetVertical = y - editText.scrollY
+        val temp = offsetVertical + editText.dropDownHeight
+        editText.dropDownVerticalOffset = if (temp > getVisibleHeight()) {
+            offsetVertical - editText.dropDownHeight
         } else {
             offsetVertical
         }
@@ -145,7 +141,7 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
 
     private fun getVisibleHeight(): Int {
         val rect = Rect()
-        editor.getWindowVisibleDisplayFrame(rect)
+        editText.getWindowVisibleDisplayFrame(rect)
         return rect.bottom - rect.top
     }
 

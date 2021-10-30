@@ -20,21 +20,18 @@ import android.graphics.Color
 import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.util.Log
-import android.widget.EditText
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 import com.blacksquircle.ui.language.base.model.ColorScheme
 
 class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
-
-    private val editor: EditText
-        get() = editText!!
 
     private val delimiters = charArrayOf('{', '[', '(', '<', '}', ']', ')', '>')
 
     private var openDelimiterSpan = BackgroundColorSpan(Color.GRAY)
     private var closedDelimiterSpan = BackgroundColorSpan(Color.GRAY)
 
-    override fun onAttached(editText: EditText) {
+    override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
         Log.d(PLUGIN_ID, "BracketsHighlight plugin loaded successfully!")
     }
@@ -53,11 +50,11 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     private fun checkMatchingBracket(pos: Int) {
-        if (editor.layout == null) return
-        editor.text.removeSpan(openDelimiterSpan)
-        editor.text.removeSpan(closedDelimiterSpan)
-        if (pos > 0 && pos <= editor.text.length) {
-            val c1 = editor.text[pos - 1]
+        if (editText.layout == null) return
+        editText.text.removeSpan(openDelimiterSpan)
+        editText.text.removeSpan(closedDelimiterSpan)
+        if (pos > 0 && pos <= editText.text.length) {
+            val c1 = editText.text[pos - 1]
             for (i in delimiters.indices) {
                 if (delimiters[i] == c1) {
                     val half = delimiters.size / 2
@@ -66,11 +63,11 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
                     var k = pos
                     if (open) {
                         var nob = 1
-                        while (k < editor.text.length) {
-                            if (editor.text[k] == c2) {
+                        while (k < editText.text.length) {
+                            if (editText.text[k] == c2) {
                                 nob--
                             }
-                            if (editor.text[k] == c1) {
+                            if (editText.text[k] == c1) {
                                 nob++
                             }
                             if (nob == 0) {
@@ -83,10 +80,10 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
                         var ncb = 1
                         k -= 2
                         while (k >= 0) {
-                            if (editor.text[k] == c2) {
+                            if (editText.text[k] == c2) {
                                 ncb--
                             }
-                            if (editor.text[k] == c1) {
+                            if (editText.text[k] == c1) {
                                 ncb++
                             }
                             if (ncb == 0) {
@@ -102,8 +99,8 @@ class BracketsHighlightPlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     private fun showBracket(i: Int, j: Int) {
-        editor.text.setSpan(openDelimiterSpan, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        editor.text.setSpan(closedDelimiterSpan, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        editText.text.setSpan(openDelimiterSpan, i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        editText.text.setSpan(closedDelimiterSpan, j, j + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
 
     companion object {

@@ -17,12 +17,12 @@
 package com.blacksquircle.ui.editorkit.plugin.textscroller
 
 import android.util.Log
-import android.widget.EditText
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 
 class TextScrollerPlugin : EditorPlugin(PLUGIN_ID) {
 
-    override fun onAttached(editText: EditText) {
+    override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
         Log.d(PLUGIN_ID, "TextScroller plugin loaded successfully!")
     }

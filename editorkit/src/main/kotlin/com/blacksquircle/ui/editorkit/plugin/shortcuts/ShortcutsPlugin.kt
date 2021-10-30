@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.plugin.shortcuts
+package com.blacksquircle.ui.editorkit.plugin.shortcuts
 
 import android.util.Log
 import android.view.KeyEvent
-import android.widget.EditText
-import com.blacksquircle.ui.editorkit.plugin.shortcuts.OnShortcutListener
+import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 
-class ShortcutsPlugin : com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin(PLUGIN_ID) {
+class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
 
     var onShortcutListener: OnShortcutListener? = null
 
-    override fun onAttached(editText: EditText) {
+    override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
         Log.d(PLUGIN_ID, "Shortcuts plugin loaded successfully!")
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.plugin.dirtytext
+package com.blacksquircle.ui.editorkit.plugin.dirtytext
 
 fun interface OnChangeListener {
     fun onContentChanged()

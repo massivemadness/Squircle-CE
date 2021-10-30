@@ -18,8 +18,6 @@ package com.blacksquircle.ui.editorkit.plugin.dirtytext
 
 import com.blacksquircle.ui.editorkit.plugin.base.PluginContainer
 import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
-import com.blacksquircle.ui.plugin.dirtytext.DirtyTextPlugin
-import com.blacksquircle.ui.plugin.dirtytext.OnChangeListener
 
 var PluginContainer.onChangeListener: OnChangeListener?
     get() = findPlugin<DirtyTextPlugin>(DirtyTextPlugin.PLUGIN_ID)?.onChangeListener

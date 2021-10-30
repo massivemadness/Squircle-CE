@@ -16,44 +16,44 @@
 
 package com.blacksquircle.ui.editorkit.plugin.base
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Typeface
 import android.text.Editable
 import android.view.KeyEvent
 import android.view.MotionEvent
-import android.widget.EditText
 import com.blacksquircle.ui.editorkit.model.LinesCollection
 import com.blacksquircle.ui.editorkit.model.UndoStack
+import com.blacksquircle.ui.editorkit.widget.TextProcessor
 import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.model.ColorScheme
 
 abstract class EditorPlugin(val pluginId: String) {
 
+    private var _editText: TextProcessor? = null
+    protected val editText: TextProcessor = _editText!!
+
     protected val isAttached: Boolean
-        get() = (editText as? EditorAccessor) != null
+        get() = _editText != null
 
     protected val language: Language?
-        get() = (editText as EditorAccessor).language
+        get() = editText.language
     protected val colorScheme: ColorScheme
-        get() = (editText as EditorAccessor).colorScheme
+        get() = editText.colorScheme
     protected val lines: LinesCollection
-        get() = (editText as EditorAccessor).lines
+        get() = editText.lines
     protected val undoStack: UndoStack
-        get() = (editText as EditorAccessor).undoStack
+        get() = editText.undoStack
     protected val redoStack: UndoStack
-        get() = (editText as EditorAccessor).redoStack
+        get() = editText.redoStack
 
-    protected var editText: EditText? = null
-
-    open fun onAttached(editText: EditText) {
-        this.editText = editText
+    open fun onAttached(editText: TextProcessor) {
+        this._editText = editText
         onColorSchemeChanged(colorScheme)
         onLanguageChanged(language)
     }
 
-    open fun onDetached(editText: EditText) {
-        this.editText = null
+    open fun onDetached(editText: TextProcessor) {
+        this._editText = null
     }
 
     open fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = Unit
@@ -87,10 +87,6 @@ abstract class EditorPlugin(val pluginId: String) {
 
     open fun showDropDown() = Unit
 
-    protected fun requireContext(): Context {
-        if (editText?.context == null) {
-            throw IllegalStateException("EditorPlugin $this not attached to a context.")
-        }
-        return editText!!.context
-    }
+    protected fun requireContext() = _editText?.context
+        ?: throw IllegalStateException("EditorPlugin $this not attached to a context.")
 }
