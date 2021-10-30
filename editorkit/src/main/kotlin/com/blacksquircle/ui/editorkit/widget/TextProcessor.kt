@@ -27,11 +27,11 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
+import com.blacksquircle.ui.editorkit.plugin.base.EditorAccessor
+import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.plugin.base.PluginContainer
+import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
 import com.blacksquircle.ui.editorkit.widget.internal.SyntaxHighlightEditText
-import com.blacksquircle.ui.plugin.base.EditorAccessor
-import com.blacksquircle.ui.plugin.base.EditorPlugin
-import com.blacksquircle.ui.plugin.base.PluginContainer
-import com.blacksquircle.ui.plugin.base.PluginSupplier
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,

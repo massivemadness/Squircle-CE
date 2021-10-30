@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.domain.model.editor
+package com.blacksquircle.ui.editorkit.plugin.base
 
+import com.blacksquircle.ui.editorkit.model.LinesCollection
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.language.base.Language
+import com.blacksquircle.ui.language.base.model.ColorScheme
 
-data class DocumentContent(
-    val documentModel: DocumentModel,
-    val language: Language?,
-    val undoStack: UndoStack,
-    val redoStack: UndoStack,
-    val text: String
-)
+interface EditorAccessor {
+    val language: Language?
+    val colorScheme: ColorScheme
+    val lines: LinesCollection
+    val undoStack: UndoStack
+    val redoStack: UndoStack
+}

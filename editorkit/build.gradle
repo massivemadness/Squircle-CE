@@ -67,16 +67,6 @@ dependencies {
 
     // Modules
     api project(':languages:language-base')
-    api project(':plugins:plugin-base')
-
-    // Built-in Plugins
-    api project(':plugins:plugin-autocomplete')
-    api project(':plugins:plugin-pinchzoom')
-    api project(':plugins:plugin-shortcuts')
-    api project(':plugins:plugin-dirtytext')
-    api project(':plugins:plugin-linenumbers')
-    api project(':plugins:plugin-delimiters')
-    api project(':plugins:plugin-autoindent')
 
     // Tests
     testImplementation testLibrary.junit

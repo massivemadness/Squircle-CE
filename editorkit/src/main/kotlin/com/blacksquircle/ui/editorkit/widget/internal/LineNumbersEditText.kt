@@ -27,7 +27,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.plugin.base.LinesCollection
+import com.blacksquircle.ui.editorkit.model.LinesCollection
 
 abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,

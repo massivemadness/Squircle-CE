@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.domain.model.editor
+package com.blacksquircle.ui.editorkit.plugin.textscroller
 
-import com.blacksquircle.ui.editorkit.model.UndoStack
-import com.blacksquircle.ui.language.base.Language
+import android.util.Log
+import android.widget.EditText
+import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
 
-data class DocumentContent(
-    val documentModel: DocumentModel,
-    val language: Language?,
-    val undoStack: UndoStack,
-    val redoStack: UndoStack,
-    val text: String
-)
+class TextScrollerPlugin : EditorPlugin(PLUGIN_ID) {
+
+    override fun onAttached(editText: EditText) {
+        super.onAttached(editText)
+        Log.d(PLUGIN_ID, "TextScroller plugin loaded successfully!")
+    }
+
+    companion object {
+        const val PLUGIN_ID = "text-scroller-1821"
+    }
+}

@@ -285,7 +285,7 @@
             android:scrollbars="none"
             android:id="@+id/editor"/>
 
-        <com.blacksquircle.ui.editorkit.widget.TextScroller
+        <com.blacksquircle.ui.editorkit.plugin.textscroller.TextScroller
             android:layout_width="30dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"

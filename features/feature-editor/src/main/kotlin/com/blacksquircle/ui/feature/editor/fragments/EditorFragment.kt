@@ -46,7 +46,16 @@ import com.blacksquircle.ui.domain.model.documents.DocumentParams
 import com.blacksquircle.ui.domain.model.editor.DocumentContent
 import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.exception.LineException
-import com.blacksquircle.ui.editorkit.widget.TextScroller
+import com.blacksquircle.ui.editorkit.plugin.autocomplete.codeCompletion
+import com.blacksquircle.ui.editorkit.plugin.autoindent.autoIndentation
+import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
+import com.blacksquircle.ui.editorkit.plugin.delimiters.highlightDelimiters
+import com.blacksquircle.ui.editorkit.plugin.dirtytext.changeDetector
+import com.blacksquircle.ui.editorkit.plugin.linenumbers.lineNumbers
+import com.blacksquircle.ui.editorkit.plugin.pinchzoom.pinchZoom
+import com.blacksquircle.ui.editorkit.plugin.shortcuts.OnShortcutListener
+import com.blacksquircle.ui.editorkit.plugin.shortcuts.shortcuts
+import com.blacksquircle.ui.editorkit.plugin.textscroller.TextScroller
 import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.adapters.AutoCompleteAdapter
@@ -57,16 +66,7 @@ import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
-import com.blacksquircle.ui.plugin.autocomplete.codeCompletion
-import com.blacksquircle.ui.plugin.autoindent.autoIndentation
-import com.blacksquircle.ui.plugin.base.PluginSupplier
-import com.blacksquircle.ui.plugin.delimiters.highlightDelimiters
 import com.blacksquircle.ui.plugin.dirtytext.OnChangeListener
-import com.blacksquircle.ui.plugin.dirtytext.changeDetector
-import com.blacksquircle.ui.plugin.linenumbers.lineNumbers
-import com.blacksquircle.ui.plugin.pinchzoom.pinchZoom
-import com.blacksquircle.ui.plugin.shortcuts.OnShortcutListener
-import com.blacksquircle.ui.plugin.shortcuts.shortcuts
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
@@ -180,7 +180,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
             }
         }
         viewModel.contentEvent.observe(viewLifecycleOwner) { (content, textParams) ->
-            binding.scroller.state = TextScroller.STATE_HIDDEN
+            binding.scroller.state = TextScroller.State.HIDDEN
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
@@ -349,7 +349,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
 
     private fun closeTabImpl(position: Int) {
         if (position == adapter.selectedPosition) {
-            binding.scroller.state = TextScroller.STATE_HIDDEN
+            binding.scroller.state = TextScroller.State.HIDDEN
             binding.editor.clearText() // TTL Exception bypass
             if (adapter.itemCount == 1) {
                 activity?.closeKeyboard()

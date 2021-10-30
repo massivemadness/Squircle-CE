@@ -26,15 +26,6 @@ include ':features:feature-core',
 
 include ':editorkit'
 
-include ':plugins:plugin-base',
-        ':plugins:plugin-pinchzoom',
-        ':plugins:plugin-shortcuts',
-        ':plugins:plugin-autocomplete',
-        ':plugins:plugin-dirtytext',
-        ':plugins:plugin-linenumbers',
-        ':plugins:plugin-delimiters',
-        ':plugins:plugin-autoindent'
-
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'
 // TODO ':filesystems:filesystem-dropbox'

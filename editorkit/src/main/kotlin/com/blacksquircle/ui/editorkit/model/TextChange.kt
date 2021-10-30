@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.domain.model.editor
+package com.blacksquircle.ui.editorkit.model
 
-import com.blacksquircle.ui.editorkit.model.UndoStack
-import com.blacksquircle.ui.language.base.Language
-
-data class DocumentContent(
-    val documentModel: DocumentModel,
-    val language: Language?,
-    val undoStack: UndoStack,
-    val redoStack: UndoStack,
-    val text: String
+data class TextChange(
+    var newText: String,
+    var oldText: String,
+    var start: Int
 )

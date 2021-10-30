@@ -29,12 +29,12 @@ import com.blacksquircle.ui.editorkit.model.FindResultSpan
 import com.blacksquircle.ui.editorkit.model.TabWidthSpan
 import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.editorkit.utils.StylingTask
+import com.blacksquircle.ui.editorkit.utils.bottomVisibleLine
+import com.blacksquircle.ui.editorkit.utils.topVisibleLine
 import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
-import com.blacksquircle.ui.plugin.base.bottomVisibleLine
-import com.blacksquircle.ui.plugin.base.topVisibleLine
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 

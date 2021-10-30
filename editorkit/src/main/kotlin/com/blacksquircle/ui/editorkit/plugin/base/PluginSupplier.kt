@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.domain.model.editor
+package com.blacksquircle.ui.editorkit.plugin.base
 
-import com.blacksquircle.ui.editorkit.model.UndoStack
-import com.blacksquircle.ui.language.base.Language
+class PluginSupplier private constructor() {
 
-data class DocumentContent(
-    val documentModel: DocumentModel,
-    val language: Language?,
-    val undoStack: UndoStack,
-    val redoStack: UndoStack,
-    val text: String
-)
+    private val plugins = mutableListOf<EditorPlugin>()
+
+    fun <T : EditorPlugin> plugin(plugin: T, block: T.() -> Unit = {}) {
+        plugins.add(plugin.apply(block))
+    }
+
+    fun supply(): List<EditorPlugin> {
+        return plugins
+    }
+
+    companion object {
+
+        fun create(block: PluginSupplier.() -> Unit): PluginSupplier {
+            return PluginSupplier().apply(block)
+        }
+    }
+}
