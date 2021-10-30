@@ -20,9 +20,8 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.listener.OnUndoRedoChangedListener
-import com.blacksquircle.ui.editorkit.model.TextChange
-import com.blacksquircle.ui.editorkit.utils.UndoStack
+import com.blacksquircle.ui.plugin.base.TextChange
+import com.blacksquircle.ui.plugin.base.UndoStack
 
 abstract class UndoRedoEditText @JvmOverloads constructor(
     context: Context,
@@ -129,5 +128,9 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
             undoStack.removeAll()
         }
         onUndoRedoChangedListener?.onUndoRedoChanged()
+    }
+
+    fun interface OnUndoRedoChangedListener {
+        fun onUndoRedoChanged()
     }
 }

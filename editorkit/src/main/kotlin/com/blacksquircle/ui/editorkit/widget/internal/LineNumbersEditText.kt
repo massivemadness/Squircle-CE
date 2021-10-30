@@ -27,22 +27,13 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.listener.OnTextChangedListener
-import com.blacksquircle.ui.editorkit.utils.EditorTheme
-import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.plugin.base.LinesCollection
 
 abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : ScrollableEditText(context, attrs, defStyleAttr), OnTextChangedListener {
-
-    var colorScheme: ColorScheme = EditorTheme.DARCULA
-        set(value) {
-            field = value
-            onColorSchemeChanged()
-        }
+) : ScrollableEditText(context, attrs, defStyleAttr) {
 
     var softKeyboard: Boolean = false
         set(value) {
@@ -80,21 +71,17 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
             InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
     }
 
-    override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
+    open fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
         textChangeStart = start
         textChangeEnd = start + count
     }
 
-    override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+    open fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
         textChangedNewText = text?.subSequence(start, start + count).toString()
         replaceText(textChangeStart, textChangeEnd, textChangedNewText)
     }
 
-    open fun onColorSchemeChanged() {
-        setTextColor(colorScheme.textColor)
-        setBackgroundColor(colorScheme.backgroundColor)
-        highlightColor = colorScheme.selectionColor
-    }
+    open fun doAfterTextChanged(text: Editable?) = Unit
 
     open fun setTextContent(textParams: PrecomputedTextCompat) {
         removeTextChangedListener(textWatcher)

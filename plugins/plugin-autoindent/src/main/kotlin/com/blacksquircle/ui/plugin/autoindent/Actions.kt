@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.listener
+package com.blacksquircle.ui.plugin.autoindent
 
-import android.text.Editable
+import com.blacksquircle.ui.plugin.base.PluginSupplier
 
-internal interface OnTextChangedListener {
-    fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int)
-    fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int)
-    fun doAfterTextChanged(text: Editable?)
+fun PluginSupplier.autoIndentation(block: AutoIndentPlugin.() -> Unit = {}) {
+    plugin(AutoIndentPlugin(), block)
 }

@@ -30,12 +30,17 @@ abstract class EditorPlugin(val pluginId: String) {
 
     protected val isAttached: Boolean
         get() = (editText as? EditorAccessor) != null
+
     protected val language: Language?
         get() = (editText as EditorAccessor).language
     protected val colorScheme: ColorScheme
         get() = (editText as EditorAccessor).colorScheme
     protected val lines: LinesCollection
         get() = (editText as EditorAccessor).lines
+    protected val undoStack: UndoStack
+        get() = (editText as EditorAccessor).undoStack
+    protected val redoStack: UndoStack
+        get() = (editText as EditorAccessor).redoStack
 
     protected var editText: EditText? = null
 

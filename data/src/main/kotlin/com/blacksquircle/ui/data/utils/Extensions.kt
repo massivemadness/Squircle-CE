@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.data.utils
 
-import com.blacksquircle.ui.editorkit.model.TextChange
-import com.blacksquircle.ui.editorkit.utils.UndoStack
+import com.blacksquircle.ui.plugin.base.TextChange
+import com.blacksquircle.ui.plugin.base.UndoStack
 import java.nio.charset.Charset
 import java.nio.charset.UnsupportedCharsetException
 

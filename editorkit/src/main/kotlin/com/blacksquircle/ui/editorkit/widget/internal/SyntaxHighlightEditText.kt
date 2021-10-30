@@ -27,8 +27,10 @@ import com.blacksquircle.ui.editorkit.model.ErrorSpan
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResultSpan
 import com.blacksquircle.ui.editorkit.model.TabWidthSpan
+import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.editorkit.utils.StylingTask
 import com.blacksquircle.ui.language.base.Language
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.plugin.base.bottomVisibleLine
@@ -48,6 +50,12 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             onLanguageChanged()
         }
 
+    var colorScheme: ColorScheme = EditorTheme.DARCULA
+        set(value) {
+            field = value
+            onColorSchemeChanged()
+        }
+
     var useSpacesInsteadOfTabs = true
     var tabWidth = 4
 
@@ -62,11 +70,6 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private var isSyntaxHighlighting = false
     private var isErrorSpansVisible = false
-
-    override fun onColorSchemeChanged() {
-        findResultStyleSpan = StyleSpan(color = colorScheme.findResultBackgroundColor)
-        super.onColorSchemeChanged()
-    }
 
     override fun setTextContent(textParams: PrecomputedTextCompat) {
         syntaxHighlightSpans.clear()
@@ -110,6 +113,19 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     open fun onLanguageChanged() = Unit
+
+    open fun onColorSchemeChanged() {
+        findResultStyleSpan = StyleSpan(color = colorScheme.findResultBackgroundColor)
+        setTextColor(colorScheme.textColor)
+        setBackgroundColor(colorScheme.backgroundColor)
+        highlightColor = colorScheme.selectionColor
+    }
+
+    fun tab(): String {
+        return if (useSpacesInsteadOfTabs) {
+            " ".repeat(tabWidth)
+        } else "\t"
+    }
 
     fun clearFindResultSpans() {
         selectedFindResult = 0

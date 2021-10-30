@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.utils
-
-import com.blacksquircle.ui.editorkit.model.TextChange
+package com.blacksquircle.ui.plugin.base
 
 class UndoStack() {
 

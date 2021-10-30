@@ -14,36 +14,34 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.widget.internal
+package com.blacksquircle.ui.plugin.autoindent
 
-import android.content.Context
-import android.util.AttributeSet
-import com.blacksquircle.ui.editorkit.R
+import android.util.Log
+import android.widget.EditText
+import com.blacksquircle.ui.plugin.base.EditorPlugin
 
-abstract class AutoIndentEditText @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : SyntaxHighlightEditText(context, attrs, defStyleAttr) {
+class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
 
-    var autoIndentation: Boolean = true
-    var autoCloseBrackets: Boolean = true
-    var autoCloseQuotes: Boolean = true
+    var autoIndentLines = true
+    var autoCloseBrackets = true
+    var autoCloseQuotes = true
+
+    private val editor: EditText
+        get() = editText!!
 
     private var newText = ""
     private var isAutoIndenting = false
 
-    override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-        super.doOnTextChanged(text, start, before, count)
+    override fun onAttached(editText: EditText) {
+        super.onAttached(editText)
+        Log.d(PLUGIN_ID, "AutoIndent plugin loaded successfully!")
+    }
+
+    override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+        super.onTextChanged(text, start, before, count)
         newText = text?.subSequence(start, start + count).toString()
         completeIndentation(start, count)
         newText = ""
-    }
-
-    fun tab(): String {
-        return if (useSpacesInsteadOfTabs) {
-            " ".repeat(tabWidth)
-        } else "\t"
     }
 
     private fun completeIndentation(start: Int, count: Int) {
@@ -67,16 +65,16 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
             } else {
                 start + replacementValue.length
             }
-            post {
+            editor.post {
                 isAutoIndenting = true
-                text.replace(start, start + count, replacementValue)
+                editor.text.replace(start, start + count, replacementValue)
                 undoStack.pop()
                 val change = undoStack.pop()
                 if (replacementValue != "") {
                     change.newText = replacementValue
                     undoStack.push(change)
                 }
-                setSelection(newCursorPosition)
+                editor.setSelection(newCursorPosition)
                 isAutoIndenting = false
             }
         }
@@ -84,15 +82,15 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
 
     private fun executeIndentation(start: Int): Array<String?> {
         val strArr: Array<String?>
-        if (newText == "\n" && autoIndentation) {
+        if (newText == "\n" && autoIndentLines) {
             val prevLineIndentation = getIndentationForOffset(start)
             val indentation = StringBuilder(prevLineIndentation)
             var newCursorPosition = indentation.length + start + 1
-            if (start > 0 && text[start - 1] == '{') {
-                indentation.append(tab())
+            if (start > 0 && editor.text[start - 1] == '{') {
+                indentation.append("    "/*editor.tab()*/)
                 newCursorPosition = indentation.length + start + 1
             }
-            if (start + 1 < text.length && text[start + 1] == '}') {
+            if (start + 1 < editor.text.length && editor.text[start + 1] == '}') {
                 indentation.append("\n").append(prevLineIndentation)
             }
             strArr = arrayOfNulls(4)
@@ -100,39 +98,39 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
             strArr[3] = newCursorPosition.toString()
             return strArr
         } else if (newText == "\"" && autoCloseQuotes) {
-            if (start + 1 >= text.length) {
+            if (start + 1 >= editor.text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "\""
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (text[start + 1] == '\"' && text[start - 1] != '\\') {
+            } else if (editor.text[start + 1] == '\"' && editor.text[start - 1] != '\\') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (!(text[start + 1] == '\"' && text[start - 1] == '\\')) {
+            } else if (!(editor.text[start + 1] == '\"' && editor.text[start - 1] == '\\')) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "\""
                 strArr[3] = (start + 1).toString()
                 return strArr
             }
         } else if (newText == "'" && autoCloseQuotes) {
-            if (start + 1 >= text.length) {
+            if (start + 1 >= editor.text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "'"
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (start + 1 >= text.length) {
+            } else if (start + 1 >= editor.text.length) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "'"
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (text[start + 1] == '\'' && start > 0 && text[start - 1] != '\\') {
+            } else if (editor.text[start + 1] == '\'' && start > 0 && editor.text[start - 1] != '\\') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
                 return strArr
-            } else if (!(text[start + 1] == '\'' && start > 0 && text[start - 1] == '\\')) {
+            } else if (!(editor.text[start + 1] == '\'' && start > 0 && editor.text[start - 1] == '\\')) {
                 strArr = arrayOfNulls(4)
                 strArr[1] = "'"
                 strArr[3] = (start + 1).toString()
@@ -144,7 +142,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
             strArr[3] = (start + 1).toString()
             return strArr
         } else if (newText == "}" && autoCloseBrackets) {
-            if (start + 1 < text.length && text[start + 1] == '}') {
+            if (start + 1 < editor.text.length && editor.text[start + 1] == '}') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
@@ -156,7 +154,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
             strArr[3] = (start + 1).toString()
             return strArr
         } else if (newText == ")" && autoCloseBrackets) {
-            if (start + 1 < text.length && text[start + 1] == ')') {
+            if (start + 1 < editor.text.length && editor.text[start + 1] == ')') {
                 strArr = arrayOfNulls(4)
                 strArr[2] = ""
                 strArr[3] = (start + 1).toString()
@@ -168,7 +166,7 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
             strArr[3] = (start + 1).toString()
             return strArr
         } else if (newText == "]" && autoCloseBrackets &&
-            start + 1 < text.length && text[start + 1] == ']') {
+            start + 1 < editor.text.length && editor.text[start + 1] == ']') {
             strArr = arrayOfNulls(4)
             strArr[2] = ""
             strArr[3] = (start + 1).toString()
@@ -185,13 +183,17 @@ abstract class AutoIndentEditText @JvmOverloads constructor(
         val realLine = lines.getLine(line)
         val start = realLine.start
         var i = start
-        while (i < text.length) {
-            val char = text[i]
+        while (i < editor.text.length) {
+            val char = editor.text[i]
             if (!char.isWhitespace() || char == '\n') {
                 break
             }
             i++
         }
-        return text.subSequence(start, i).toString()
+        return editor.text.subSequence(start, i).toString()
+    }
+
+    companion object {
+        const val PLUGIN_ID = "autoindent-7401"
     }
 }

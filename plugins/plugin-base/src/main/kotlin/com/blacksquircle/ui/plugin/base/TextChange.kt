@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.listener
+package com.blacksquircle.ui.plugin.base
 
-fun interface OnUndoRedoChangedListener {
-    fun onUndoRedoChanged()
-}
+data class TextChange(
+    var newText: String,
+    var oldText: String,
+    var start: Int
+)

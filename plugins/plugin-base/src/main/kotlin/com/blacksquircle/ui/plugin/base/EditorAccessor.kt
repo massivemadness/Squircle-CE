@@ -23,4 +23,6 @@ interface EditorAccessor {
     val language: Language?
     val colorScheme: ColorScheme
     val lines: LinesCollection
+    val undoStack: UndoStack
+    val redoStack: UndoStack
 }

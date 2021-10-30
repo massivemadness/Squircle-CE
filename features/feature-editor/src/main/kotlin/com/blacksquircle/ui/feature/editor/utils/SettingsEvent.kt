@@ -31,9 +31,8 @@ sealed class SettingsEvent<T>(val value: T) {
     class ExtendedKeys(value: Boolean) : SettingsEvent<Boolean>(value)
     class KeyboardPreset(value: List<String>) : SettingsEvent<List<String>>(value)
     class SoftKeys(value: Boolean) : SettingsEvent<Boolean>(value)
-    class AutoIndent(value: Boolean) : SettingsEvent<Boolean>(value)
-    class AutoBrackets(value: Boolean) : SettingsEvent<Boolean>(value)
-    class AutoQuotes(value: Boolean) : SettingsEvent<Boolean>(value)
+    class AutoIndentation(value: Triple<Boolean, Boolean, Boolean>) :
+        SettingsEvent<Triple<Boolean, Boolean, Boolean>>(value)
     class UseSpacesNotTabs(value: Boolean) : SettingsEvent<Boolean>(value)
     class TabWidth(value: Int) : SettingsEvent<Int>(value)
 }

@@ -46,8 +46,8 @@ import com.blacksquircle.ui.domain.model.documents.DocumentParams
 import com.blacksquircle.ui.domain.model.editor.DocumentContent
 import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.exception.LineException
-import com.blacksquircle.ui.editorkit.listener.OnUndoRedoChangedListener
 import com.blacksquircle.ui.editorkit.widget.TextScroller
+import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.adapters.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.adapters.DocumentAdapter
@@ -58,6 +58,7 @@ import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
 import com.blacksquircle.ui.plugin.autocomplete.codeCompletion
+import com.blacksquircle.ui.plugin.autoindent.autoIndentation
 import com.blacksquircle.ui.plugin.base.PluginSupplier
 import com.blacksquircle.ui.plugin.delimiters.highlightDelimiters
 import com.blacksquircle.ui.plugin.dirtytext.OnChangeListener
@@ -108,7 +109,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         binding.extendedKeyboard.setHasFixedSize(true)
         binding.scroller.attachTo(binding.editor)
 
-        binding.editor.onUndoRedoChangedListener = OnUndoRedoChangedListener {
+        binding.editor.onUndoRedoChangedListener = UndoRedoEditText.OnUndoRedoChangedListener {
             val canUndo = binding.editor.canUndo()
             val canRedo = binding.editor.canRedo()
 
@@ -256,9 +257,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         is SettingsEvent.KeyboardPreset ->
                             binding.extendedKeyboard.submitList(event.value)
                         is SettingsEvent.SoftKeys -> binding.editor.softKeyboard = event.value
-                        is SettingsEvent.AutoIndent -> binding.editor.autoIndentation = event.value
-                        is SettingsEvent.AutoBrackets -> binding.editor.autoCloseBrackets = event.value
-                        is SettingsEvent.AutoQuotes -> binding.editor.autoCloseQuotes = event.value
+                        is SettingsEvent.AutoIndentation -> autoIndentation {
+                            autoIndentLines = event.value.first
+                            autoCloseBrackets = event.value.second
+                            autoCloseQuotes = event.value.third
+                        }
                         is SettingsEvent.UseSpacesNotTabs -> binding.editor.useSpacesInsteadOfTabs = event.value
                         is SettingsEvent.TabWidth -> binding.editor.tabWidth = event.value
                     }

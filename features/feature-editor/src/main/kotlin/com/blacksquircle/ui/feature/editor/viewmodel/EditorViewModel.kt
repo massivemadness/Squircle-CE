@@ -218,14 +218,12 @@ class EditorViewModel @Inject constructor(
                 val softKeyboard = settingsManager.softKeyboard
                 settings.add(SettingsEvent.SoftKeys(softKeyboard))
 
-                val autoIndentation = settingsManager.autoIndentation
-                settings.add(SettingsEvent.AutoIndent(autoIndentation))
-
-                val autoCloseBrackets = settingsManager.autoCloseBrackets
-                settings.add(SettingsEvent.AutoBrackets(autoCloseBrackets))
-
-                val autoCloseQuotes = settingsManager.autoCloseQuotes
-                settings.add(SettingsEvent.AutoQuotes(autoCloseQuotes))
+                val autoIndentation = Triple(
+                    settingsManager.autoIndentation,
+                    settingsManager.autoCloseBrackets,
+                    settingsManager.autoCloseQuotes
+                )
+                settings.add(SettingsEvent.AutoIndentation(autoIndentation))
 
                 val useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs
                 settings.add(SettingsEvent.UseSpacesNotTabs(useSpacesInsteadOfTabs))

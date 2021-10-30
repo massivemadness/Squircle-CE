@@ -27,7 +27,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.widget.internal.AutoIndentEditText
+import com.blacksquircle.ui.editorkit.widget.internal.SyntaxHighlightEditText
 import com.blacksquircle.ui.plugin.base.EditorAccessor
 import com.blacksquircle.ui.plugin.base.EditorPlugin
 import com.blacksquircle.ui.plugin.base.PluginContainer
@@ -37,7 +37,7 @@ class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : AutoIndentEditText(context, attrs, defStyleAttr), PluginContainer, EditorAccessor {
+) : SyntaxHighlightEditText(context, attrs, defStyleAttr), PluginContainer, EditorAccessor {
 
     companion object {
         private const val TAG = "TextProcessor"

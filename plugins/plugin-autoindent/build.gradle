@@ -20,7 +20,7 @@ plugins {
 }
 
 ext.libraryGroupId = "com.blacksquircle.ui"
-ext.libraryArtifactId = "editorkit"
+ext.libraryArtifactId = "plugin-autoindent"
 
 apply from: rootProject.file("gradle/publish.gradle")
 
@@ -42,16 +42,8 @@ android {
 
         archivesBaseName = libraryArtifactId
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = '11'
-    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
     }
 }
 
@@ -60,24 +52,7 @@ dependencies {
 
     // Core
     implementation library.kotlin
-    implementation library.core
-
-    // UI
-    implementation library.appcompat
 
     // Modules
-    api project(':languages:language-base')
-    api project(':plugins:plugin-base')
-
-    // Built-in Plugins
-    api project(':plugins:plugin-autocomplete')
-    api project(':plugins:plugin-pinchzoom')
-    api project(':plugins:plugin-shortcuts')
-    api project(':plugins:plugin-dirtytext')
-    api project(':plugins:plugin-linenumbers')
-    api project(':plugins:plugin-delimiters')
-    api project(':plugins:plugin-autoindent')
-
-    // Tests
-    testImplementation testLibrary.junit
+    implementation project(':plugins:plugin-base')
 }

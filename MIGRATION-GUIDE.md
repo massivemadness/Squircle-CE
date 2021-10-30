@@ -45,6 +45,7 @@ Migration steps:
                highlightCurrentLine = true
            }
            highlightDelimiters()
+           autoIndentation()
            // ...
       }
       editor.plugins(pluginSupplier)
