@@ -29,8 +29,8 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
 ) : LineNumbersEditText(context, attrs, defStyleAttr) {
 
-    var undoStack: UndoStack = UndoStack()
-    var redoStack: UndoStack = UndoStack()
+    var undoStack = UndoStack()
+    var redoStack = UndoStack()
     var onUndoRedoChangedListener: OnUndoRedoChangedListener? = null
 
     private var isDoingUndoRedo = false
