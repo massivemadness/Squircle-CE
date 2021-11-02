@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.plugin.textscroller
+package com.blacksquircle.ui.editorkit.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -198,6 +198,11 @@ class TextScroller @JvmOverloads constructor(
     fun attachTo(scrollableEditText: ScrollableEditText) {
         this.scrollableEditText = scrollableEditText
         this.scrollableEditText?.addOnScrollChangedListener(this)
+    }
+
+    fun detach() {
+        this.scrollableEditText?.removeOnScrollChangedListener(this)
+        this.scrollableEditText = null
     }
 
     private fun scrollView() {

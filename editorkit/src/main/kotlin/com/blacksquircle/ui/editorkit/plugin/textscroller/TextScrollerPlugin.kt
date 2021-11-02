@@ -19,6 +19,7 @@ package com.blacksquircle.ui.editorkit.plugin.textscroller
 import android.util.Log
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
 import com.blacksquircle.ui.editorkit.widget.TextProcessor
+import com.blacksquircle.ui.editorkit.widget.TextScroller
 
 class TextScrollerPlugin : EditorPlugin(PLUGIN_ID) {
 
@@ -29,6 +30,13 @@ class TextScrollerPlugin : EditorPlugin(PLUGIN_ID) {
         scroller?.attachTo(editText)
         Log.d(PLUGIN_ID, "TextScroller plugin loaded successfully!")
     }
+
+    override fun onDetached(editText: TextProcessor) {
+        super.onDetached(editText)
+        scroller?.detach()
+        scroller = null
+    }
+
     companion object {
         const val PLUGIN_ID = "text-scroller-1821"
     }

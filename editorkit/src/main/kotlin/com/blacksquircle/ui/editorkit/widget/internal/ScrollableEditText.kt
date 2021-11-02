@@ -101,6 +101,10 @@ abstract class ScrollableEditText @JvmOverloads constructor(
         scrollListeners.add(listener)
     }
 
+    fun removeOnScrollChangedListener(listener: OnScrollChangedListener) {
+        scrollListeners.remove(listener)
+    }
+
     fun abortFling() {
         if (!textScroller.isFinished) {
             textScroller.abortAnimation()

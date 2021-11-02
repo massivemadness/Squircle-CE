@@ -56,8 +56,8 @@ import com.blacksquircle.ui.editorkit.plugin.linenumbers.lineNumbers
 import com.blacksquircle.ui.editorkit.plugin.pinchzoom.pinchZoom
 import com.blacksquircle.ui.editorkit.plugin.shortcuts.OnShortcutListener
 import com.blacksquircle.ui.editorkit.plugin.shortcuts.shortcuts
-import com.blacksquircle.ui.editorkit.plugin.textscroller.TextScroller
 import com.blacksquircle.ui.editorkit.plugin.textscroller.textScroller
+import com.blacksquircle.ui.editorkit.widget.TextScroller
 import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.adapters.AutoCompleteAdapter
