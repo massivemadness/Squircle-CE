@@ -84,8 +84,8 @@ val editor = findViewById<TextProcessor>(R.id.editor)
 editor.language = JavaScriptLanguage() // or any other language you want
 ```
 
-**Third**, you need to call `setTextContent` to set the text. **Avoid
-using the default `setText` method.**
+**Third**, you need to call `setTextContent` to set the text. **Don't
+use the default `setText` method.**
 
 ```kotlin
 editor.setTextContent("your code here")
@@ -95,10 +95,10 @@ Also you might want to use `setTextContent(PrecomputedTextCompat)` if
 you're working with large text files.
 
 **Finally**, after you set the text you need to clear undo/redo history
-because you don't want to keep the change history of other files.
+because you don't want to keep the change history of previous file.
 
 ```kotlin
-import com.blacksquircle.ui.editorkit.utils.UndoStack
+import com.blacksquircle.ui.editorkit.model.UndoStack
 
 editor.undoStack = UndoStack()
 editor.redoStack = UndoStack()
@@ -152,8 +152,8 @@ editor.plugins(pluginSupplier)
 ```
 
 **Remember:** everytime you call `editor.plugins(pluginSupplier)` it
-compares current plugin list with the one you provided, and then
-detaches plugins that doesn't exists in the new PluginSupplier.
+compares current plugin list with the new one, and then detaches plugins
+that doesn't exists in the `PluginSupplier`.
 
 ### Text Scroller
 
@@ -233,7 +233,8 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
 }
 ```
 
-...and pass it to your code editor via Plugin DSL:
+**Third**, enable the code completion plugin and set
+`SuggestionAdapter`:
 
 ```kotlin
 val pluginSupplier = PluginSupplier.create {
@@ -346,19 +347,24 @@ editor.find("function", findParams)
 
 If you're using bluetooth keyboard you probably want to use keyboard
 shortcuts to write your code faster. To support the keyboard shortcuts
-you need to add `OnShortcutListener`:
+you need to enable the shortcuts plugin and set `OnShortcutListener`:
 
 ```kotlin
-editor.onShortcutListener = object : OnShortcutListener {
-    override fun onShortcut(shortcut: Shortcut): Boolean {
-        val (ctrl, shift, alt, keyCode) = shortcut
-        return when {
-            ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> editor.moveCaretToStartOfLine()
-            ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> editor.moveCaretToEndOfLine()
-            alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> editor.moveCaretToPrevWord()
-            alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> editor.moveCaretToNextWord()
-            // ...
-            else -> false
+val pluginSupplier = PluginSupplier.create {
+    ...
+    shortcuts {
+        onShortcutListener = object : OnShortcutListener {
+            override fun onShortcut(shortcut: Shortcut): Boolean {
+                val (ctrl, shift, alt, keyCode) = shortcut
+                return when {
+                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> editor.moveCaretToStartOfLine()
+                    ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> editor.moveCaretToEndOfLine()
+                    alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> editor.moveCaretToPrevWord()
+                    alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> editor.moveCaretToNextWord()
+                    // ...
+                    else -> false
+                }
+            }
         }
     }
 }
