@@ -112,30 +112,48 @@ Now you can begin using the code editor.
 
 ### Configuration
 
-You can change the default code editor's behavior by passing the
-`EditorConfig` object to it:
+You can change the default code editor behavior by using Plugin DSL as
+shown below:
 
 ```kotlin
-editor.editorConfig = EditorConfig(
-    fontSize = 14f, // text size, including the line numbers
-    fontType = Typeface.MONOSPACE, // typeface, including the line numbers
-
-    wordWrap = true, // whether the word wrap enabled
-    codeCompletion = true, // whether the code suggestions will shown
-    pinchZoom = true, // whether the zoom gesture enabled
-    lineNumbers = true, // line numbers visibility
-    highlightCurrentLine = true, // whether the current line will be highlighted
-    highlightDelimiters = true, // highlight open/closed brackets beside the cursor
-
-    softKeyboard = false, // whether the fullscreen editing keyboard will shown
-
-    autoIndentation = true, // whether the auto indentation enabled
-    autoCloseBrackets = true, // automatically close open parenthesis/bracket/brace
-    autoCloseQuotes = true, // automatically close single/double quote when typing
-    useSpacesInsteadOfTabs = true, // insert spaces instead of tabs when using auto-indentation
-    tabWidth = 4 // the tab width, works together with `useSpacesInsteadOfTabs`
-)
+val pluginSupplier = PluginSupplier.create {
+    pinchZoom { // whether the zoom gesture enabled
+        minTextSize = 10f
+        maxTextSize = 20f 
+    }
+    lineNumbers {
+        lineNumbers = true // line numbers visibility
+        highlightCurrentLine = true // whether the current line will be highlighted
+    }
+    highlightDelimiters() // highlight open/closed brackets beside the cursor
+    autoIndentation {
+        autoIndentLines = true // whether the auto indentation enabled
+        autoCloseBrackets = true // automatically close open parenthesis/bracket/brace
+        autoCloseQuotes = true // automatically close single/double quote when typing
+    }
+}
+editor.plugins(pluginSupplier)
 ```
+
+You can enable/disable plugins in runtime by surrounding necessary
+methods with `if (enabled) { ... }` operator:
+
+```kotlin
+val pluginSupplier = PluginSupplier.create {
+    if (preferences.isLineNumbersEnabled) {
+        lineNumbers()
+    }
+    if (preferences.isPinchZoomEnabled) {
+        pinchZoom()
+    }
+    // ...
+}
+editor.plugins(pluginSupplier)
+```
+
+**Remember:** everytime you call `editor.plugins(pluginSupplier)` it
+compares current plugin list with the one you provided, and then
+detaches plugins that doesn't exists in the new PluginSupplier.
 
 ### Text Scroller
 
@@ -159,6 +177,15 @@ val editor = findViewById<TextProcessor>(R.id.editor)
 val scroller = findViewById<TextScroller>(R.id.scroller)
 
 scroller.attachTo(editor)
+
+// or using Plugin DSL:
+
+val pluginSupplier = PluginSupplier.create {
+    ...
+    textScroller {
+        scroller = findViewById<TextScroller>(R.id.scroller)
+    }
+}
 ```
 
 ---
@@ -206,14 +233,16 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
 }
 ```
 
-...and pass it to your code editor:
+...and pass it to your code editor via Plugin DSL:
 
 ```kotlin
-editor.suggestionAdapter = AutoCompleteAdapter(this)
+val pluginSupplier = PluginSupplier.create {
+    ...
+    codeCompletion {
+        suggestionAdapter = AutoCompleteAdapter(this)
+    }
+}
 ```
-
-You can enable/disable suggestions dynamically by changing the
-`codeCompletion` parameter in [EditorConfig](#configuration).
 
 **UPD:** If you having an issues with the popup position (e.g vertical
 offset), this might be solved by explicitly setting

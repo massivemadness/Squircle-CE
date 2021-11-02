@@ -18,7 +18,7 @@ latest version of [EditorKit](README.md#editorkit) library.
 Migration steps:
 1. Setup of the code editor was completely rewritten from scratch:
    1. The `EditorConfig` class was removed, you have to apply the
-      settings using `PluginSupplier` as shown below:
+      settings by using `PluginSupplier` as shown below:
       ```kotlin
       // Before
       editor.editorConfig = EditorConfig(
@@ -50,7 +50,7 @@ Migration steps:
       }
       editor.plugins(pluginSupplier)
       ```
-      You can enable/disable these settings by surrounding necessary
+      You can enable/disable plugins in runtime by surrounding necessary
       methods with `if (enabled) { ... }` operator:
       ```kotlin
       val pluginSupplier = PluginSupplier.create {
