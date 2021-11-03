@@ -1,1 +1,1 @@
-Squircle IDE - Code Editor for Android
+Squircle IDE - Code Editor

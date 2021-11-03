@@ -31,8 +31,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10006
-        versionName "2021.1.3"
+        versionCode 10007
+        versionName "2021.1.4"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -53,11 +53,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -91,6 +91,7 @@ dependencies {
     // AAC
     implementation library.livedata
     implementation library.viewmodel
+    implementation library.lifecycle
 
     // Coroutines
     implementation library.coroutines_core
@@ -107,18 +108,17 @@ dependencies {
     implementation project(':filesystems:filesystem-base')
 
     // Features
+    implementation project(':features:feature-core')
     implementation project(':features:feature-editor')
     implementation project(':features:feature-explorer')
     implementation project(':features:feature-fonts')
     implementation project(':features:feature-settings')
     implementation project(':features:feature-themes')
     implementation project(':features:feature-ui')
-    implementation project(':features:feature-utils')
 
     // Tests
     testImplementation testLibrary.junit
 
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner
-    androidTestImplementation androidTestLibrary.espresso_core
 }

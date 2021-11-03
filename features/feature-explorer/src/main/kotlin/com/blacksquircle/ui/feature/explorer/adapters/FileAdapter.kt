@@ -23,8 +23,8 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
 
 class FileAdapter(
     private val selectionTracker: SelectionTracker<String>,
@@ -62,23 +62,7 @@ class FileAdapter(
     }
 
     fun getSelectedFiles(keys: Selection<String>): List<FileModel> {
-        val files = mutableListOf<FileModel>()
-        currentList.forEach { fileModel ->
-            if (keys.contains(fileModel.path)) {
-                files.add(fileModel)
-            }
-        }
-        return files
-    }
-
-    fun indexOf(path: String): Int {
-        var position = 0
-        currentList.forEachIndexed { index, fileModel ->
-            if (path == fileModel.path) {
-                position = index
-            }
-        }
-        return position
+        return currentList.filter { keys.contains(it.path) }
     }
 
     abstract class FileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

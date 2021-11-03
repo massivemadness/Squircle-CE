@@ -17,25 +17,25 @@
 package com.blacksquircle.ui.feature.editor.adapters
 
 import android.content.Context
-import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.blacksquircle.ui.editorkit.adapter.SuggestionAdapter
+import com.blacksquircle.ui.editorkit.plugin.autocomplete.SuggestionAdapter
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemSuggestionBinding
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.model.Suggestion
 
-class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layout.item_suggestion) {
+class AutoCompleteAdapter(
+    context: Context,
+    private val colorScheme: ColorScheme,
+) : SuggestionAdapter(context, R.layout.item_suggestion) {
 
     override fun createViewHolder(parent: ViewGroup): SuggestionViewHolder {
-        return AutoCompleteViewHolder.create(
-            parent,
-            colorScheme?.suggestionQueryColor ?: Color.WHITE
-        )
+        return AutoCompleteViewHolder.create(parent, colorScheme.suggestionQueryColor)
     }
 
     class AutoCompleteViewHolder(
@@ -44,6 +44,7 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
     ) : SuggestionViewHolder(binding.root) {
 
         companion object {
+
             fun create(parent: ViewGroup, queryColor: Int): SuggestionViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemSuggestionBinding.inflate(inflater, parent, false)
@@ -63,7 +64,6 @@ class AutoCompleteAdapter(context: Context) : SuggestionAdapter(context, R.layou
                 }
 
                 binding.itemType.isVisible = suggestion.type != Suggestion.Type.NONE
-
                 binding.itemType.text = suggestion.type.value
                 binding.itemSuggestion.text = spannable
                 binding.itemReturnType?.text = suggestion.returnType

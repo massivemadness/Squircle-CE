@@ -24,18 +24,18 @@ import androidx.core.view.GravityCompat
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.dialogs.ConfirmExitDialog
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
+import com.blacksquircle.ui.core.extensions.fragment
+import com.blacksquircle.ui.core.extensions.fullscreenMode
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.feature.editor.fragments.EditorFragment
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.explorer.fragments.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.utils.extensions.fragment
-import com.blacksquircle.ui.utils.extensions.fullscreenMode
 import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
-import com.blacksquircle.ui.utils.extensions.showToast
 import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
-import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
-import com.blacksquircle.ui.utils.interfaces.DrawerHandler
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -46,9 +46,9 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
     @Inject
     lateinit var inAppUpdate: InAppUpdate
 
-    private val mainViewModel: MainViewModel by viewModels()
-    private val explorerViewModel: ExplorerViewModel by viewModels()
-    private val editorViewModel: EditorViewModel by viewModels()
+    private val mainViewModel by viewModels<MainViewModel>()
+    private val explorerViewModel by viewModels<ExplorerViewModel>()
+    private val editorViewModel by viewModels<EditorViewModel>()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var editorBackPressedHandler: BackPressedHandler

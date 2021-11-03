@@ -27,10 +27,13 @@ import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.themes.Meta
 import com.blacksquircle.ui.domain.model.themes.PropertyItem
@@ -38,10 +41,6 @@ import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.adapters.PropertyAdapter
 import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
 import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,9 +50,9 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         const val NAV_THEME_UUID = "nav_uuid"
     }
 
-    private val viewModel: ThemesViewModel by viewModels()
-    private val binding: FragmentNewThemeBinding by viewBinding()
-    private val navController: NavController by navController()
+    private val viewModel by viewModels<ThemesViewModel>()
+    private val binding by viewBinding(FragmentNewThemeBinding::bind)
+    private val navController by navController()
 
     private val importThemeContract: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->

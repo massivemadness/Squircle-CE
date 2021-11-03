@@ -16,11 +16,32 @@
 
 package com.blacksquircle.ui.editorkit.utils
 
-import android.content.Context
-import android.content.res.Resources
+import android.widget.TextView
 
-internal val Context.scaledDensity
-    get() = resources.displayMetrics.scaledDensity
+val TextView.topVisibleLine: Int
+    get() {
+        if (layout == null || lineHeight == 0) {
+            return 0
+        }
+        val line = layout.getLineForVertical(scrollY)
+        if (line < 0) {
+            return 0
+        }
+        return if (line >= lineCount) {
+            lineCount - 1
+        } else line
+    }
 
-internal fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
-internal fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
+val TextView.bottomVisibleLine: Int
+    get() {
+        if (layout == null || lineHeight == 0) {
+            return 0
+        }
+        val line = layout.getLineForVertical(scrollY + height)
+        if (line < 0) {
+            return 0
+        }
+        return if (line >= lineCount) {
+            lineCount - 1
+        } else line
+    }

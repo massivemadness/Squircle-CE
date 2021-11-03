@@ -19,6 +19,8 @@ package com.blacksquircle.ui.feature.explorer.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.extensions.setTint
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.ItemFileDetailedBinding
 import com.blacksquircle.ui.feature.explorer.utils.setSelectableBackground
@@ -26,8 +28,6 @@ import com.blacksquircle.ui.feature.explorer.utils.toReadableDate
 import com.blacksquircle.ui.feature.explorer.utils.toReadableSize
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
-import com.blacksquircle.ui.utils.extensions.setTint
 
 class DetailedViewHolder(
     private val binding: ItemFileDetailedBinding,

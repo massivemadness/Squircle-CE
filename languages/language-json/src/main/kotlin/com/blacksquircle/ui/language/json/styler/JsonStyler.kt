@@ -17,12 +17,10 @@
 package com.blacksquircle.ui.language.json.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import com.blacksquircle.ui.language.json.lexer.JsonLexer
 import com.blacksquircle.ui.language.json.lexer.JsonToken
 import java.io.IOException
@@ -43,18 +41,16 @@ class JsonStyler private constructor() : LanguageStyler {
         }
     }
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = JsonLexer(sourceReader)
 
         while (true) {
             try {
                 when (lexer.advance()) {
                     JsonToken.NUMBER -> {
-                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val styleSpan = StyleSpan(scheme.numberColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -64,26 +60,26 @@ class JsonStyler private constructor() : LanguageStyler {
                     JsonToken.RBRACK,
                     JsonToken.COMMA,
                     JsonToken.COLON -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(scheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     JsonToken.TRUE,
                     JsonToken.FALSE,
                     JsonToken.NULL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.langConstColor)
+                        val styleSpan = StyleSpan(scheme.langConstColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     JsonToken.DOUBLE_QUOTED_STRING,
                     JsonToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val styleSpan = StyleSpan(scheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     JsonToken.BLOCK_COMMENT,
                     JsonToken.LINE_COMMENT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -102,19 +98,5 @@ class JsonStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.executeTask()
-    }
-
-    override fun cancel() {
-        task?.cancelTask()
-        task = null
     }
 }

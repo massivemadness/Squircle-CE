@@ -21,7 +21,10 @@ import com.blacksquircle.ui.filesystem.base.exception.*
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.endsWith
 import com.blacksquircle.ui.filesystem.local.converter.FileConverter
+import com.blacksquircle.ui.filesystem.local.utils.charCount
+import com.blacksquircle.ui.filesystem.local.utils.lineCount
 import com.blacksquircle.ui.filesystem.local.utils.size
+import com.blacksquircle.ui.filesystem.local.utils.wordCount
 import com.ibm.icu.text.CharsetDetector
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,6 +37,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Suppress("BlockingMethodInNonBlockingContext")
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
@@ -145,7 +149,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 if (!destFile.exists()) {
                     sourceFile.copyRecursively(destFile, overwrite = false)
                     // val destFile2 = FileConverter.toModel(destFile)
-                    // emitter.onSuccess(destFile2)
+                    // cont.resume(destFile2)
                     cont.resume(source)
                 } else {
                     cont.resumeWithException(FileAlreadyExistsException(dest.path))
@@ -162,16 +166,15 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             val fileType = fileModel.getType()
             if (file.exists()) {
                 val result = PropertiesModel(
-                    file.name,
-                    file.absolutePath,
-                    file.lastModified(),
-                    file.size(),
-                    getLineCount(file, fileType),
-                    getWordCount(file, fileType),
-                    getCharCount(file, fileType),
-                    file.canRead(),
-                    file.canWrite(),
-                    file.canExecute()
+                    path = file.absolutePath,
+                    lastModified = file.lastModified(),
+                    size = file.size(),
+                    lines = file.lineCount(fileType),
+                    words = file.wordCount(fileType),
+                    chars = file.charCount(fileType),
+                    readable = file.canRead(),
+                    writable = file.canWrite(),
+                    executable = file.canExecute()
                 )
                 cont.resume(result)
             } else {
@@ -188,7 +191,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     }
 
     // TODO: Use ProgressMonitor
-    @ExperimentalCoroutinesApi
     override suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val destFile = FileConverter.toFile(dest)
@@ -213,7 +215,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                                 throw e
                             }
                         }
-                        offer(fileModel)
+                        send(fileModel)
                     } else {
                         throw FileNotFoundException(fileModel.path)
                     }
@@ -226,7 +228,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     }
 
     // TODO: Use ProgressMonitor
-    @ExperimentalCoroutinesApi
     override suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val sourceFile = FileConverter.toFile(source)
@@ -247,8 +248,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                                     throw e
                                 }
                             }
-                            offer(source)
-                            close() // FIXME offer() вызывается только 1 раз
+                            send(source)
+                            close() // FIXME send() вызывается только 1 раз
                         }
                         archiveFile.isEncrypted -> throw EncryptedArchiveException(source.path)
                         archiveFile.isSplitArchive -> throw SplitArchiveException(source.path)
@@ -301,37 +302,4 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             cont.resume(Unit)
         }
     }
-
-    // region PROPERTIES
-
-    private fun getLineCount(file: File, fileType: FileType): Int? {
-        if (file.isFile && fileType == FileType.TEXT) {
-            var lines = 0
-            file.forEachLine {
-                lines++
-            }
-            return lines
-        }
-        return null
-    }
-
-    private fun getWordCount(file: File, fileType: FileType): Int? {
-        if (file.isFile && fileType == FileType.TEXT) {
-            var words = 0
-            file.forEachLine {
-                words += it.split(' ').size
-            }
-            return words
-        }
-        return null
-    }
-
-    private fun getCharCount(file: File, fileType: FileType): Int? {
-        if (file.isFile && fileType == FileType.TEXT) {
-            return file.length().toInt()
-        }
-        return null
-    }
-
-    // endregion PROPERTIES
 }

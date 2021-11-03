@@ -40,8 +40,8 @@ import java.util.*
 @AndroidEntryPoint
 class ProgressDialog : DialogFragment() {
 
-    private val viewModel: ExplorerViewModel by activityViewModels()
-    private val navArgs: ProgressDialogArgs by navArgs()
+    private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val navArgs by navArgs<ProgressDialogArgs>()
 
     private lateinit var binding: DialogProgressBinding
 

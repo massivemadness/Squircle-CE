@@ -23,22 +23,22 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import com.afollestad.materialdialogs.MaterialDialog
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.checkStorageAccess
+import com.blacksquircle.ui.core.extensions.requestStorageAccess
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentPermissionBinding
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PermissionFragment : Fragment(R.layout.fragment_permission) {
 
-    private val viewModel: ExplorerViewModel by activityViewModels()
-    private val binding: FragmentPermissionBinding by viewBinding()
-    private val navController: NavController by navController()
+    private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val binding by viewBinding(FragmentPermissionBinding::bind)
+    private val navController by navController()
 
     private val requestResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {

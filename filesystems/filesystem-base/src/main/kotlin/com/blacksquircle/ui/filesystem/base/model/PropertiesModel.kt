@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.filesystem.base.model
 
 data class PropertiesModel(
-    val name: String,
     val path: String,
     val lastModified: Long,
     val size: Long,
@@ -27,4 +26,8 @@ data class PropertiesModel(
     val readable: Boolean,
     val writable: Boolean,
     val executable: Boolean
-)
+) {
+
+    val name: String
+        get() = path.substringAfterLast('/')
+}

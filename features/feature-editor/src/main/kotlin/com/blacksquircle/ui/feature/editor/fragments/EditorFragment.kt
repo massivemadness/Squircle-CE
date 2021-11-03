@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
@@ -31,15 +32,34 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.blacksquircle.ui.core.adapters.TabAdapter
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.closeKeyboard
+import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
+import com.blacksquircle.ui.core.extensions.debounce
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.documents.DocumentParams
 import com.blacksquircle.ui.domain.model.editor.DocumentContent
+import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.exception.LineException
-import com.blacksquircle.ui.editorkit.listener.OnChangeListener
-import com.blacksquircle.ui.editorkit.listener.OnShortcutListener
-import com.blacksquircle.ui.editorkit.listener.OnUndoRedoChangedListener
+import com.blacksquircle.ui.editorkit.model.FindParams
+import com.blacksquircle.ui.editorkit.plugin.autocomplete.codeCompletion
+import com.blacksquircle.ui.editorkit.plugin.autoindent.autoIndentation
+import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
+import com.blacksquircle.ui.editorkit.plugin.delimiters.highlightDelimiters
+import com.blacksquircle.ui.editorkit.plugin.dirtytext.OnChangeListener
+import com.blacksquircle.ui.editorkit.plugin.dirtytext.changeDetector
+import com.blacksquircle.ui.editorkit.plugin.linenumbers.lineNumbers
+import com.blacksquircle.ui.editorkit.plugin.pinchzoom.pinchZoom
+import com.blacksquircle.ui.editorkit.plugin.shortcuts.OnShortcutListener
+import com.blacksquircle.ui.editorkit.plugin.shortcuts.shortcuts
+import com.blacksquircle.ui.editorkit.plugin.textscroller.textScroller
 import com.blacksquircle.ui.editorkit.widget.TextScroller
+import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.adapters.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.adapters.DocumentAdapter
@@ -49,11 +69,6 @@ import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.utils.TabController
 import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
-import com.blacksquircle.ui.utils.adapters.TabAdapter
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.*
-import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
-import com.blacksquircle.ui.utils.interfaces.DrawerHandler
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
@@ -62,12 +77,12 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     ToolbarManager.OnPanelClickListener, DocumentAdapter.TabInteractor {
 
-    private val viewModel: EditorViewModel by activityViewModels()
-    private val binding: FragmentEditorBinding by viewBinding()
+    private val viewModel by activityViewModels<EditorViewModel>()
+    private val binding by viewBinding(FragmentEditorBinding::bind)
 
-    private val drawerHandler: DrawerHandler by lazy { activity as DrawerHandler }
-    private val toolbarManager: ToolbarManager by lazy { ToolbarManager(this) }
-    private val tabController: TabController by lazy { TabController() }
+    private val drawerHandler by lazy { activity as DrawerHandler }
+    private val toolbarManager by lazy { ToolbarManager(this) }
+    private val tabController by lazy { TabController() }
 
     private lateinit var adapter: DocumentAdapter
 
@@ -94,10 +109,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
 
         binding.extendedKeyboard.setKeyListener { char -> binding.editor.insert(char) }
         binding.extendedKeyboard.setHasFixedSize(true)
-        binding.scroller.attachTo(binding.editor)
 
-        binding.editor.suggestionAdapter = AutoCompleteAdapter(requireContext())
-        binding.editor.onUndoRedoChangedListener = OnUndoRedoChangedListener {
+        binding.editor.onUndoRedoChangedListener = UndoRedoEditText.OnUndoRedoChangedListener {
             val canUndo = binding.editor.canUndo()
             val canRedo = binding.editor.canRedo()
 
@@ -110,53 +123,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
 
         binding.editor.clearText()
 
-        binding.editor.onChangeListener = OnChangeListener {
-            val position = adapter.selectedPosition
-            if (position > -1) {
-                val isModified = adapter.currentList[position].modified
-                if (!isModified) {
-                    adapter.currentList[position].modified = true
-                    adapter.notifyItemChanged(position)
-                }
-            }
-        }
-
         binding.actionTab.setOnClickListener {
             binding.editor.insert(binding.editor.tab())
         }
-
-        // region SHORTCUTS
-
-        binding.editor.onShortcutListener = OnShortcutListener { (ctrl, shift, alt, keyCode) ->
-            when {
-                ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
-                ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
-                ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
-                ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
-                alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
-                alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
-                alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
-                alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
-                keyCode == KeyEvent.KEYCODE_TAB -> { binding.editor.insert(binding.editor.tab()); true }
-                else -> false
-            }
-        }
-
-        // endregion SHORTCUTS
 
         viewModel.loadFiles()
     }
@@ -212,7 +181,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
             }
         }
         viewModel.contentEvent.observe(viewLifecycleOwner) { (content, textParams) ->
-            binding.scroller.state = TextScroller.STATE_HIDDEN
+            binding.scroller.state = TextScroller.State.HIDDEN
             binding.editor.language = content.language
             binding.editor.undoStack = content.undoStack
             binding.editor.redoStack = content.redoStack
@@ -240,58 +209,111 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
 
         // region PREFERENCES
 
-        viewModel.settingsEvent.observe(viewLifecycleOwner) { queue ->
-            val config = binding.editor.editorConfig
-            while (!queue.isNullOrEmpty()) {
-                when (val event = queue.poll()) {
-                    is SettingsEvent.ThemePref -> {
-                        binding.editor.colorScheme = event.value.colorScheme
-                    }
-                    is SettingsEvent.FontSize -> config.fontSize = event.value
-                    is SettingsEvent.FontType -> {
-                        config.fontType = requireContext().createTypefaceFromPath(event.value)
-                    }
-                    is SettingsEvent.WordWrap -> config.wordWrap = event.value
-                    is SettingsEvent.CodeCompletion -> config.codeCompletion = event.value
-                    is SettingsEvent.ErrorHighlight -> {
-                        if (event.value) {
-                            binding.editor.debounce(
-                                coroutineScope = viewLifecycleOwner.lifecycleScope,
-                                waitMs = 1500
-                            ) { text ->
-                                if (text.isNotEmpty()) {
-                                    val position = adapter.selectedPosition
-                                    if (position > -1) {
-                                        viewModel.parse(
-                                            adapter.currentList[position],
-                                            binding.editor.language,
-                                            binding.editor.text.toString()
-                                        )
+        viewModel.settingsEvent.observe(viewLifecycleOwner) { settings ->
+            val pluginSupplier = PluginSupplier.create {
+                settings.forEach { event ->
+                    when (event) {
+                        is SettingsEvent.ThemePref ->
+                            binding.editor.colorScheme = event.value.colorScheme
+                        is SettingsEvent.FontSize -> binding.editor.textSize = event.value
+                        is SettingsEvent.FontType -> binding.editor.typeface = requireContext()
+                            .createTypefaceFromPath(event.value)
+                        is SettingsEvent.WordWrap ->
+                            binding.editor.setHorizontallyScrolling(!event.value)
+                        is SettingsEvent.CodeCompletion -> if (event.value) codeCompletion {
+                            suggestionAdapter = AutoCompleteAdapter(
+                                requireContext(),
+                                binding.editor.colorScheme
+                            )
+                        }
+                        is SettingsEvent.ErrorHighlight -> {
+                            if (event.value) {
+                                binding.editor.debounce(
+                                    coroutineScope = viewLifecycleOwner.lifecycleScope,
+                                    waitMs = 1500
+                                ) { text ->
+                                    if (text.isNotEmpty()) {
+                                        val position = adapter.selectedPosition
+                                        if (position > -1) {
+                                            viewModel.parse(
+                                                adapter.currentList[position],
+                                                binding.editor.language,
+                                                binding.editor.text.toString()
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
+                        is SettingsEvent.PinchZoom -> if (event.value) pinchZoom()
+                        is SettingsEvent.CurrentLine -> lineNumbers {
+                            highlightCurrentLine = event.value
+                        }
+                        is SettingsEvent.Delimiters -> if (event.value) highlightDelimiters()
+                        is SettingsEvent.ExtendedKeys -> {
+                            KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner) { isOpen ->
+                                binding.keyboardContainer.isVisible = event.value && isOpen
+                            }
+                        }
+                        is SettingsEvent.KeyboardPreset ->
+                            binding.extendedKeyboard.submitList(event.value)
+                        is SettingsEvent.SoftKeys -> binding.editor.softKeyboard = event.value
+                        is SettingsEvent.AutoIndentation -> autoIndentation {
+                            autoIndentLines = event.value.first
+                            autoCloseBrackets = event.value.second
+                            autoCloseQuotes = event.value.third
+                        }
+                        is SettingsEvent.UseSpacesNotTabs -> binding.editor.useSpacesInsteadOfTabs = event.value
+                        is SettingsEvent.TabWidth -> binding.editor.tabWidth = event.value
                     }
-                    is SettingsEvent.PinchZoom -> config.pinchZoom = event.value
-                    is SettingsEvent.CurrentLine -> config.highlightCurrentLine = event.value
-                    is SettingsEvent.Delimiters -> config.highlightDelimiters = event.value
-                    is SettingsEvent.ExtendedKeys -> {
-                        KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner) { isOpen ->
-                            binding.keyboardContainer.isVisible = event.value && isOpen
+                }
+                textScroller {
+                    scroller = binding.scroller
+                }
+                changeDetector {
+                    onChangeListener = OnChangeListener {
+                        val position = adapter.selectedPosition
+                        if (position > -1) {
+                            val isModified = adapter.currentList[position].modified
+                            if (!isModified) {
+                                adapter.currentList[position].modified = true
+                                adapter.notifyItemChanged(position)
+                            }
                         }
                     }
-                    is SettingsEvent.KeyboardPreset -> {
-                        binding.extendedKeyboard.submitList(event.value)
+                }
+                shortcuts {
+                    onShortcutListener = OnShortcutListener { (ctrl, shift, alt, keyCode) ->
+                        when {
+                            ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                            ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
+                            ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
+                            ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
+                            alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
+                            alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
+                            alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
+                            alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
+                            keyCode == KeyEvent.KEYCODE_TAB -> { binding.editor.insert(binding.editor.tab()); true }
+                            else -> false
+                        }
                     }
-                    is SettingsEvent.SoftKeys -> config.softKeyboard = event.value
-                    is SettingsEvent.AutoIndent -> config.autoIndentation = event.value
-                    is SettingsEvent.AutoBrackets -> config.autoCloseBrackets = event.value
-                    is SettingsEvent.AutoQuotes -> config.autoCloseQuotes = event.value
-                    is SettingsEvent.UseSpacesNotTabs -> config.useSpacesInsteadOfTabs = event.value
-                    is SettingsEvent.TabWidth -> config.tabWidth = event.value
                 }
             }
-            binding.editor.editorConfig = config
+            binding.editor.plugins(pluginSupplier)
         }
 
         // endregion PREFERENCES
@@ -331,7 +353,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
 
     private fun closeTabImpl(position: Int) {
         if (position == adapter.selectedPosition) {
-            binding.scroller.state = TextScroller.STATE_HIDDEN
+            binding.scroller.state = TextScroller.State.HIDDEN
             binding.editor.clearText() // TTL Exception bypass
             if (adapter.itemCount == 1) {
                 activity?.closeKeyboard()
@@ -613,9 +635,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         binding.editor.findPrevious()
     }
 
-    override fun onFindInputChanged(findText: String) {
+    override fun onFindParamsChanged(params: FindParams) {
         binding.editor.clearFindResultSpans()
-        binding.editor.find(findText, toolbarManager.findParams())
+        binding.editor.find(params)
     }
 
     override fun onErrorCheckingButton() {
@@ -637,6 +659,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun onInsertColorButton() {
         val position = adapter.selectedPosition
         if (position > -1) {

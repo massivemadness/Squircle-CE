@@ -27,6 +27,7 @@
 
     <string name="hint_enter_preset_chars">Символы (без разделителей)</string>
 
+    <string name="action_save">Сохранить</string>
     <string name="action_reset">Сброс</string>
 
     <string name="preset_disclaimer">Символы могут повторяться несколько раз</string>

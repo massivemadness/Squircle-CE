@@ -1,4 +1,4 @@
-<b>Squircle IDE</b> currently supports coding in the following programming languages: ActionScript, C, C++, C#, Groovy, HTML, Java, JavaScript, Json, Kotlin, Lisp, Lua, Markdown, PHP, Python, Shell, SQL, TypeScript, Visual Basic and XML.
+<b>Squircle IDE</b> currently supports coding in the following programming languages: ActionScript, C, C++, C#, Groovy, HTML, Java, JavaScript, Json, Julia, Kotlin, Lisp, Lua, Markdown, PHP, Python, Ruby, Shell, SQL, TypeScript, Visual Basic and XML.
 
 Here is a list of features that will help you work with more productivity:
 
@@ -10,6 +10,9 @@ The code editor provides basic completion based on a file content, it suggests n
 
 <b>Error Checking</b>
 Whenever you make a change, IDE will correct you by highlighting a part of code that contains syntax errors <i>(Note that this feature currently works only for JavaScript, but it will be available for more languages soon)</i>
+
+<b>Powerful File Manager</b>
+A built-in file manager allows you not only create and delete files, but also cut, copy and paste files or even create zip archives
 
 <b>Cross-session Editing</b>
 All your changes automatically will be saved in cache, you don't need to save file every time you exit app

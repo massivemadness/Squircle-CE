@@ -17,15 +17,16 @@
 package com.blacksquircle.ui.application.viewmodel
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.R
+import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.domain.repository.documents.DocumentRepository
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,6 +53,10 @@ class MainViewModel @Inject constructor(
             try {
                 var path = intent.data?.path.toString()
                 Log.d(TAG, "Handle external file path = $path")
+                if (path.contains('%')) { // probably encoded
+                    path = Uri.decode(path)
+                    Log.d(TAG, "Decoded path = $path")
+                }
 
                 if (path.startsWith("/external_files/")) {
                     path = path.replaceFirst(

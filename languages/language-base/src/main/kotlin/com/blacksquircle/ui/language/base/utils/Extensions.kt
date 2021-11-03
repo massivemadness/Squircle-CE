@@ -16,9 +16,9 @@
 
 package com.blacksquircle.ui.language.base.utils
 
-fun String.endsWith(suffixes: Array<String>): Boolean {
+fun String.endsWith(suffixes: Array<String>, ignoreCase: Boolean = true): Boolean {
     for (suffix in suffixes) {
-        if (endsWith(suffix, ignoreCase = true)) {
+        if (endsWith(suffix, ignoreCase)) {
             return true
         }
     }

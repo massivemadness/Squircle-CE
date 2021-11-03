@@ -43,11 +43,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     testOptions {
         unitTests.returnDefaultValues true
@@ -100,15 +100,16 @@ dependencies {
     implementation project(':languages:language-markdown')
     implementation project(':languages:language-php')
     implementation project(':languages:language-python')
+    implementation project(':languages:language-ruby')
     implementation project(':languages:language-shell')
     implementation project(':languages:language-sql')
     implementation project(':languages:language-typescript')
     implementation project(':languages:language-visualbasic')
     implementation project(':languages:language-xml')
+    implementation project(':languages:language-julia')
 
     // Tests
     testImplementation testLibrary.junit
-    testImplementation testLibrary.mockito
 
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner

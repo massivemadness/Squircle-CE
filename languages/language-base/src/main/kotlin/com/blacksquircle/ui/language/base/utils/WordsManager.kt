@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.language.base.utils
 
 import com.blacksquircle.ui.language.base.model.Suggestion
+import java.util.*
 import java.util.regex.Pattern
 
 class WordsManager {
@@ -26,7 +27,7 @@ class WordsManager {
     }
 
     private val wordsPattern = Pattern.compile(WORDS_REGEX)
-    private val lineMap = hashMapOf<Int, MutableList<Suggestion>>()
+    private val lineMap = hashMapOf<Int, LinkedList<Suggestion>>()
 
     fun getWords(): Set<Suggestion> {
         val wordsSet = hashSetOf<Suggestion>()
@@ -50,7 +51,8 @@ class WordsManager {
             if (lineMap.containsKey(lineNumber)) {
                 lineMap[lineNumber]?.add(word)
             } else {
-                lineMap[lineNumber] = mutableListOf(word)
+                lineMap[lineNumber] = LinkedList<Suggestion>()
+                    .also { it.add(word) }
             }
         }
     }

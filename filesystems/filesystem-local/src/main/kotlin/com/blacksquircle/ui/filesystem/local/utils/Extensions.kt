@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.filesystem.local.utils
 
+import com.blacksquircle.ui.filesystem.base.model.FileType
 import java.io.File
 
 internal fun File.size(): Long {
@@ -27,4 +28,33 @@ internal fun File.size(): Long {
         return length
     }
     return length()
+}
+
+internal fun File.lineCount(fileType: FileType): Int? {
+    if (isFile && fileType == FileType.TEXT) {
+        var lines = 0
+        forEachLine {
+            lines++
+        }
+        return lines
+    }
+    return null
+}
+
+internal fun File.wordCount(fileType: FileType): Int? {
+    if (isFile && fileType == FileType.TEXT) {
+        var words = 0
+        forEachLine {
+            words += it.split(' ').size
+        }
+        return words
+    }
+    return null
+}
+
+internal fun File.charCount(fileType: FileType): Int? {
+    if (isFile && fileType == FileType.TEXT) {
+        return length().toInt()
+    }
+    return null
 }

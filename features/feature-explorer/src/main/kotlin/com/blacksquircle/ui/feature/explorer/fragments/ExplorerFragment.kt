@@ -28,6 +28,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.blacksquircle.ui.core.adapters.TabAdapter
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.navigation.BackPressedHandler
 import com.blacksquircle.ui.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.adapters.DirectoryAdapter
@@ -35,17 +39,13 @@ import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.utils.*
 import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.utils.adapters.TabAdapter
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.*
-import com.blacksquircle.ui.utils.interfaces.BackPressedHandler
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandler {
 
-    private val viewModel: ExplorerViewModel by activityViewModels()
-    private val binding: FragmentExplorerBinding by viewBinding()
+    private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val binding by viewBinding(FragmentExplorerBinding::bind)
 
     private lateinit var navController: NavController
     private lateinit var adapter: DirectoryAdapter

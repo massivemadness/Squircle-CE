@@ -26,6 +26,7 @@
         android:name="com.blacksquircle.ui.feature.themes.fragments.ThemesFragment"
         android:label="@string/label_themes"
         tools:layout="@layout/fragment_themes">
+        <deepLink app:uri="blacksquircle://themes" />
         <action
             android:id="@+id/to_newThemeFragment"
             app:enterAnim="@anim/nav_default_enter_anim"

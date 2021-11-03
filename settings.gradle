@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-include ':app', ':domain', ':data', ':editorkit'
+include ':app', ':domain', ':data'
 
-include ':features:feature-editor',
+include ':features:feature-core',
+        ':features:feature-editor',
         ':features:feature-explorer',
         ':features:feature-fonts',
         ':features:feature-settings',
         ':features:feature-themes',
-        ':features:feature-ui',
-        ':features:feature-utils'
+        ':features:feature-ui'
+
+include ':editorkit'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local'
@@ -47,8 +49,10 @@ include ':languages:language-base',
         ':languages:language-markdown',
         ':languages:language-php',
         ':languages:language-python',
+        ':languages:language-ruby',
         ':languages:language-shell',
         ':languages:language-sql',
         ':languages:language-typescript',
         ':languages:language-visualbasic',
-        ':languages:language-xml'
+        ':languages:language-xml',
+        ':languages:language-julia'

@@ -17,12 +17,10 @@
 package com.blacksquircle.ui.language.xml.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import com.blacksquircle.ui.language.xml.lexer.XmlLexer
 import com.blacksquircle.ui.language.xml.lexer.XmlToken
 import java.io.IOException
@@ -43,11 +41,9 @@ class XmlStyler private constructor() : LanguageStyler {
         }
     }
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = XmlLexer(sourceReader)
 
         while (true) {
@@ -55,17 +51,17 @@ class XmlStyler private constructor() : LanguageStyler {
                 when (lexer.advance()) {
                     XmlToken.XML_CHAR_ENTITY_REF,
                     XmlToken.XML_ENTITY_REF_TOKEN -> {
-                        val styleSpan = StyleSpan(syntaxScheme.entityRefColor)
+                        val styleSpan = StyleSpan(scheme.entityRefColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     XmlToken.XML_TAG_NAME -> {
-                        val styleSpan = StyleSpan(syntaxScheme.tagNameColor)
+                        val styleSpan = StyleSpan(scheme.tagNameColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     XmlToken.XML_ATTR_NAME -> {
-                        val styleSpan = StyleSpan(syntaxScheme.attrNameColor)
+                        val styleSpan = StyleSpan(scheme.attrNameColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -82,14 +78,14 @@ class XmlStyler private constructor() : LanguageStyler {
                     XmlToken.XML_CDATA_END,
                     XmlToken.XML_START_TAG_START,
                     XmlToken.XML_END_TAG_START -> {
-                        val styleSpan = StyleSpan(syntaxScheme.tagColor)
+                        val styleSpan = StyleSpan(scheme.tagColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     XmlToken.XML_ATTRIBUTE_VALUE_TOKEN,
                     XmlToken.XML_ATTRIBUTE_VALUE_START_DELIMITER,
                     XmlToken.XML_ATTRIBUTE_VALUE_END_DELIMITER -> {
-                        val styleSpan = StyleSpan(syntaxScheme.attrValueColor)
+                        val styleSpan = StyleSpan(scheme.attrValueColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -100,7 +96,7 @@ class XmlStyler private constructor() : LanguageStyler {
                     XmlToken.XML_CONDITIONAL_COMMENT_END,
                     XmlToken.XML_CONDITIONAL_COMMENT_END_START,
                     XmlToken.XML_COMMENT_CHARACTERS -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -120,19 +116,5 @@ class XmlStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.executeTask()
-    }
-
-    override fun cancel() {
-        task?.cancelTask()
-        task = null
     }
 }

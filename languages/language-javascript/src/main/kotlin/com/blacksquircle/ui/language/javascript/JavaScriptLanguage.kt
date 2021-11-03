@@ -20,6 +20,7 @@ import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.parser.LanguageParser
 import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
+import com.blacksquircle.ui.language.base.utils.endsWith
 import com.blacksquircle.ui.language.javascript.parser.JavaScriptParser
 import com.blacksquircle.ui.language.javascript.provider.JavaScriptProvider
 import com.blacksquircle.ui.language.javascript.styler.JavaScriptStyler
@@ -28,10 +29,10 @@ class JavaScriptLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".js"
+        private val FILE_EXTENSIONS = arrayOf(".js", ".mjs", ".cjs")
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(FILE_EXTENSIONS)
         }
     }
 

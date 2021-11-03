@@ -21,8 +21,7 @@ import com.blacksquircle.ui.data.model.themes.ExternalScheme
 import com.blacksquircle.ui.data.model.themes.ExternalTheme
 import com.blacksquircle.ui.data.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
-import com.blacksquircle.ui.editorkit.model.ColorScheme
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -80,23 +79,21 @@ class ThemeConverterTest {
                 suggestionQueryColor = "#FF9000".toColorInt(),
                 findResultBackgroundColor = "#FEFEFE".toColorInt(),
                 delimiterBackgroundColor = "#FEFEFE".toColorInt(),
-                syntaxScheme = SyntaxScheme(
-                    numberColor = "#FF3000".toColorInt(),
-                    operatorColor = "#FF3000".toColorInt(),
-                    keywordColor = "#FF3000".toColorInt(),
-                    typeColor = "#FF3000".toColorInt(),
-                    langConstColor = "#FF3000".toColorInt(),
-                    preprocessorColor = "FF3000".toColorInt(),
-                    variableColor = "FF3000".toColorInt(),
-                    methodColor = "#FF3000".toColorInt(),
-                    stringColor = "#FF3000".toColorInt(),
-                    commentColor = "#FF3000".toColorInt(),
-                    tagColor = "#FF3000".toColorInt(),
-                    tagNameColor = "#FF3000".toColorInt(),
-                    attrNameColor = "#FF3000".toColorInt(),
-                    attrValueColor = "#FF3000".toColorInt(),
-                    entityRefColor = "#FF3000".toColorInt()
-                )
+                numberColor = "#FF3000".toColorInt(),
+                operatorColor = "#FF3000".toColorInt(),
+                keywordColor = "#FF3000".toColorInt(),
+                typeColor = "#FF3000".toColorInt(),
+                langConstColor = "#FF3000".toColorInt(),
+                preprocessorColor = "FF3000".toColorInt(),
+                variableColor = "FF3000".toColorInt(),
+                methodColor = "#FF3000".toColorInt(),
+                stringColor = "#FF3000".toColorInt(),
+                commentColor = "#FF3000".toColorInt(),
+                tagColor = "#FF3000".toColorInt(),
+                tagNameColor = "#FF3000".toColorInt(),
+                attrNameColor = "#FF3000".toColorInt(),
+                attrValueColor = "#FF3000".toColorInt(),
+                entityRefColor = "#FF3000".toColorInt()
             )
         )
         val convert = ThemeConverter.toModel(themeEntity)
@@ -117,21 +114,21 @@ class ThemeConverterTest {
         assertEquals(themeModel.colorScheme.suggestionQueryColor, convert.colorScheme.suggestionQueryColor)
         assertEquals(themeModel.colorScheme.findResultBackgroundColor, convert.colorScheme.findResultBackgroundColor)
         assertEquals(themeModel.colorScheme.delimiterBackgroundColor, convert.colorScheme.delimiterBackgroundColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.numberColor, convert.colorScheme.syntaxScheme.numberColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.operatorColor, convert.colorScheme.syntaxScheme.operatorColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.keywordColor, convert.colorScheme.syntaxScheme.keywordColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.typeColor, convert.colorScheme.syntaxScheme.typeColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.langConstColor, convert.colorScheme.syntaxScheme.langConstColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.preprocessorColor, convert.colorScheme.syntaxScheme.preprocessorColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.variableColor, convert.colorScheme.syntaxScheme.variableColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.methodColor, convert.colorScheme.syntaxScheme.methodColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.stringColor, convert.colorScheme.syntaxScheme.stringColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.commentColor, convert.colorScheme.syntaxScheme.commentColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.tagColor, convert.colorScheme.syntaxScheme.tagColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.tagNameColor, convert.colorScheme.syntaxScheme.tagNameColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.attrNameColor, convert.colorScheme.syntaxScheme.attrNameColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.attrValueColor, convert.colorScheme.syntaxScheme.attrValueColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.entityRefColor, convert.colorScheme.syntaxScheme.entityRefColor)
+        assertEquals(themeModel.colorScheme.numberColor, convert.colorScheme.numberColor)
+        assertEquals(themeModel.colorScheme.operatorColor, convert.colorScheme.operatorColor)
+        assertEquals(themeModel.colorScheme.keywordColor, convert.colorScheme.keywordColor)
+        assertEquals(themeModel.colorScheme.typeColor, convert.colorScheme.typeColor)
+        assertEquals(themeModel.colorScheme.langConstColor, convert.colorScheme.langConstColor)
+        assertEquals(themeModel.colorScheme.preprocessorColor, convert.colorScheme.preprocessorColor)
+        assertEquals(themeModel.colorScheme.variableColor, convert.colorScheme.variableColor)
+        assertEquals(themeModel.colorScheme.methodColor, convert.colorScheme.methodColor)
+        assertEquals(themeModel.colorScheme.stringColor, convert.colorScheme.stringColor)
+        assertEquals(themeModel.colorScheme.commentColor, convert.colorScheme.commentColor)
+        assertEquals(themeModel.colorScheme.tagColor, convert.colorScheme.tagColor)
+        assertEquals(themeModel.colorScheme.tagNameColor, convert.colorScheme.tagNameColor)
+        assertEquals(themeModel.colorScheme.attrNameColor, convert.colorScheme.attrNameColor)
+        assertEquals(themeModel.colorScheme.attrValueColor, convert.colorScheme.attrValueColor)
+        assertEquals(themeModel.colorScheme.entityRefColor, convert.colorScheme.entityRefColor)
     }
 
     /*@Test
@@ -154,18 +151,16 @@ class ThemeConverterTest {
                 suggestionQueryColor = "#FF9000".toColorInt(),
                 findResultBackgroundColor = "#FEFEFE".toColorInt(),
                 delimiterBackgroundColor = "#FEFEFE".toColorInt(),
-                syntaxScheme = SyntaxScheme(
-                    numberColor = "#FF3000".toColorInt(),
-                    operatorColor = "#FF3000".toColorInt(),
-                    keywordColor = "#FF3000".toColorInt(),
-                    typeColor = "#FF3000".toColorInt(),
-                    langConstColor = "#FF3000".toColorInt(),
-                    preprocessorColor = "FF3000".toColorInt(),
-                    variableColor = "#FF3000".toColorInt(),
-                    methodColor = "#FF3000".toColorInt(),
-                    stringColor = "#FF3000".toColorInt(),
-                    commentColor = "#FF3000".toColorInt()
-                )
+                numberColor = "#FF3000".toColorInt(),
+                operatorColor = "#FF3000".toColorInt(),
+                keywordColor = "#FF3000".toColorInt(),
+                typeColor = "#FF3000".toColorInt(),
+                langConstColor = "#FF3000".toColorInt(),
+                preprocessorColor = "FF3000".toColorInt(),
+                variableColor = "#FF3000".toColorInt(),
+                methodColor = "#FF3000".toColorInt(),
+                stringColor = "#FF3000".toColorInt(),
+                commentColor = "#FF3000".toColorInt()
             )
         )
         val themeEntity = ThemeEntity(
@@ -279,23 +274,21 @@ class ThemeConverterTest {
                 suggestionQueryColor = "#FF9000".toColorInt(),
                 findResultBackgroundColor = "#FEFEFE".toColorInt(),
                 delimiterBackgroundColor = "#FEFEFE".toColorInt(),
-                syntaxScheme = SyntaxScheme(
-                    numberColor = "#FF3000".toColorInt(),
-                    operatorColor = "#FF3000".toColorInt(),
-                    keywordColor = "#FF3000".toColorInt(),
-                    typeColor = "#FF3000".toColorInt(),
-                    langConstColor = "#FF3000".toColorInt(),
-                    preprocessorColor = "FF3000".toColorInt(),
-                    variableColor = "#FF3000".toColorInt(),
-                    methodColor = "#FF3000".toColorInt(),
-                    stringColor = "#FF3000".toColorInt(),
-                    commentColor = "#FF3000".toColorInt(),
-                    tagColor = "#FF3000".toColorInt(),
-                    tagNameColor = "#FF3000".toColorInt(),
-                    attrNameColor = "#FF3000".toColorInt(),
-                    attrValueColor = "#FF3000".toColorInt(),
-                    entityRefColor = "#FF3000".toColorInt()
-                )
+                numberColor = "#FF3000".toColorInt(),
+                operatorColor = "#FF3000".toColorInt(),
+                keywordColor = "#FF3000".toColorInt(),
+                typeColor = "#FF3000".toColorInt(),
+                langConstColor = "#FF3000".toColorInt(),
+                preprocessorColor = "FF3000".toColorInt(),
+                variableColor = "#FF3000".toColorInt(),
+                methodColor = "#FF3000".toColorInt(),
+                stringColor = "#FF3000".toColorInt(),
+                commentColor = "#FF3000".toColorInt(),
+                tagColor = "#FF3000".toColorInt(),
+                tagNameColor = "#FF3000".toColorInt(),
+                attrNameColor = "#FF3000".toColorInt(),
+                attrValueColor = "#FF3000".toColorInt(),
+                entityRefColor = "#FF3000".toColorInt()
             )
         )
         val convert = ThemeConverter.toModel(externalTheme)
@@ -316,20 +309,20 @@ class ThemeConverterTest {
         assertEquals(themeModel.colorScheme.suggestionQueryColor, convert.colorScheme.suggestionQueryColor)
         assertEquals(themeModel.colorScheme.findResultBackgroundColor, convert.colorScheme.findResultBackgroundColor)
         assertEquals(themeModel.colorScheme.delimiterBackgroundColor, convert.colorScheme.delimiterBackgroundColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.numberColor, convert.colorScheme.syntaxScheme.numberColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.operatorColor, convert.colorScheme.syntaxScheme.operatorColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.keywordColor, convert.colorScheme.syntaxScheme.keywordColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.typeColor, convert.colorScheme.syntaxScheme.typeColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.langConstColor, convert.colorScheme.syntaxScheme.langConstColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.preprocessorColor, convert.colorScheme.syntaxScheme.preprocessorColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.variableColor, convert.colorScheme.syntaxScheme.variableColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.methodColor, convert.colorScheme.syntaxScheme.methodColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.stringColor, convert.colorScheme.syntaxScheme.stringColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.commentColor, convert.colorScheme.syntaxScheme.commentColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.tagColor, convert.colorScheme.syntaxScheme.tagColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.tagNameColor, convert.colorScheme.syntaxScheme.tagNameColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.attrNameColor, convert.colorScheme.syntaxScheme.attrNameColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.attrValueColor, convert.colorScheme.syntaxScheme.attrValueColor)
-        assertEquals(themeModel.colorScheme.syntaxScheme.entityRefColor, convert.colorScheme.syntaxScheme.entityRefColor)
+        assertEquals(themeModel.colorScheme.numberColor, convert.colorScheme.numberColor)
+        assertEquals(themeModel.colorScheme.operatorColor, convert.colorScheme.operatorColor)
+        assertEquals(themeModel.colorScheme.keywordColor, convert.colorScheme.keywordColor)
+        assertEquals(themeModel.colorScheme.typeColor, convert.colorScheme.typeColor)
+        assertEquals(themeModel.colorScheme.langConstColor, convert.colorScheme.langConstColor)
+        assertEquals(themeModel.colorScheme.preprocessorColor, convert.colorScheme.preprocessorColor)
+        assertEquals(themeModel.colorScheme.variableColor, convert.colorScheme.variableColor)
+        assertEquals(themeModel.colorScheme.methodColor, convert.colorScheme.methodColor)
+        assertEquals(themeModel.colorScheme.stringColor, convert.colorScheme.stringColor)
+        assertEquals(themeModel.colorScheme.commentColor, convert.colorScheme.commentColor)
+        assertEquals(themeModel.colorScheme.tagColor, convert.colorScheme.tagColor)
+        assertEquals(themeModel.colorScheme.tagNameColor, convert.colorScheme.tagNameColor)
+        assertEquals(themeModel.colorScheme.attrNameColor, convert.colorScheme.attrNameColor)
+        assertEquals(themeModel.colorScheme.attrValueColor, convert.colorScheme.attrValueColor)
+        assertEquals(themeModel.colorScheme.entityRefColor, convert.colorScheme.entityRefColor)
     }
 }

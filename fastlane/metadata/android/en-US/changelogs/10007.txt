@@ -1,0 +1,7 @@
+- Added: Support for Ruby language
+- Added: Support for Julia language
+- Added: Support for file extensions: .kts, .cjs and .mjs
+- Added: Highlighting for open/closed `<` and `>` delimiters
+- Improved scrolling experience
+- Updated Chinese translation
+- Bugfixes and minor improvements

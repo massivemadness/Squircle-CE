@@ -17,22 +17,30 @@
 package com.blacksquircle.ui.feature.settings.fragments
 
 import android.os.Bundle
-import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.extensions.navigate
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.utils.delegate.navController
 
 class EditorFragment : PreferenceFragmentCompat() {
 
-    private val navController: NavController by navController()
+    private val navController by navController()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_editor, rootKey)
 
         findPreference<Preference>(KEY_FONT_TYPE)?.setOnPreferenceClickListener {
-            navController.navigate(R.id.fonts_graph)
+            navController.navigate(Screen.Fonts, navOptions = NavOptions.Builder()
+                .setEnterAnim(R.anim.nav_default_enter_anim)
+                .setExitAnim(R.anim.nav_default_exit_anim)
+                .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+                .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+                .build()
+            )
             true
         }
         findPreference<Preference>(KEY_KEYBOARD_PRESET)?.setOnPreferenceClickListener {

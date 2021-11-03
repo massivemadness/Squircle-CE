@@ -22,11 +22,11 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.blacksquircle.ui.core.adapters.TabAdapter
+import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.domain.model.editor.DocumentModel
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemTabDocumentBinding
-import com.blacksquircle.ui.utils.adapters.TabAdapter
-import com.blacksquircle.ui.utils.extensions.makeRightPaddingRecursively
 
 class DocumentAdapter(
     private val tabInteractor: TabInteractor

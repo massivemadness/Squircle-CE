@@ -17,12 +17,10 @@
 package com.blacksquircle.ui.language.csharp.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import com.blacksquircle.ui.language.csharp.lexer.CSharpLexer
 import com.blacksquircle.ui.language.csharp.lexer.CSharpToken
 import java.io.IOException
@@ -47,18 +45,16 @@ class CSharpStyler private constructor() : LanguageStyler {
         }
     }
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = CSharpLexer(sourceReader)
 
         // FIXME flex doesn't support positive lookbehind
-        val matcher = METHOD.matcher(sourceCode)
-        matcher.region(0, sourceCode.length)
+        val matcher = METHOD.matcher(source)
+        matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.methodColor)
+            val styleSpan = StyleSpan(scheme.methodColor)
             val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
             syntaxHighlightSpans.add(syntaxHighlightSpan)
         }
@@ -70,7 +66,7 @@ class CSharpStyler private constructor() : LanguageStyler {
                     CSharpToken.INTEGER_LITERAL,
                     CSharpToken.FLOAT_LITERAL,
                     CSharpToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val styleSpan = StyleSpan(scheme.numberColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -115,7 +111,7 @@ class CSharpStyler private constructor() : LanguageStyler {
                     CSharpToken.RBRACK,
                     CSharpToken.QUEST,
                     CSharpToken.COLON -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(scheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -187,7 +183,7 @@ class CSharpStyler private constructor() : LanguageStyler {
                     CSharpToken.VOID,
                     CSharpToken.VOLATILE,
                     CSharpToken.WHILE -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val styleSpan = StyleSpan(scheme.keywordColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -205,31 +201,31 @@ class CSharpStyler private constructor() : LanguageStyler {
                     CSharpToken.UINT,
                     CSharpToken.USHORT,
                     CSharpToken.ULONG -> {
-                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val styleSpan = StyleSpan(scheme.typeColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     CSharpToken.TRUE,
                     CSharpToken.FALSE,
                     CSharpToken.NULL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.langConstColor)
+                        val styleSpan = StyleSpan(scheme.langConstColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     CSharpToken.PREPROCESSOR -> {
-                        val styleSpan = StyleSpan(syntaxScheme.preprocessorColor)
+                        val styleSpan = StyleSpan(scheme.preprocessorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     CSharpToken.DOUBLE_QUOTED_STRING,
                     CSharpToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val styleSpan = StyleSpan(scheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     CSharpToken.LINE_COMMENT,
                     CSharpToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -248,19 +244,5 @@ class CSharpStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.executeTask()
-    }
-
-    override fun cancel() {
-        task?.cancelTask()
-        task = null
     }
 }

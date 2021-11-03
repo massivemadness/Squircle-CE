@@ -16,197 +16,245 @@
 
 package com.blacksquircle.ui.editorkit.widget
 
-import android.content.ClipData
-import android.content.ClipboardManager
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Typeface
 import android.text.Editable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.KeyEvent
-import androidx.core.content.getSystemService
+import android.view.MotionEvent
 import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.exception.LineException
-import com.blacksquircle.ui.editorkit.internal.CodeSuggestsEditText
-import com.blacksquircle.ui.editorkit.listener.OnChangeListener
-import com.blacksquircle.ui.editorkit.listener.OnShortcutListener
-import com.blacksquircle.ui.editorkit.model.Shortcut
+import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.plugin.base.PluginContainer
+import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
+import com.blacksquircle.ui.editorkit.widget.internal.SyntaxHighlightEditText
 
 class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
-) : CodeSuggestsEditText(context, attrs, defStyleAttr) {
+) : SyntaxHighlightEditText(context, attrs, defStyleAttr), PluginContainer {
 
     companion object {
-        private const val LABEL_CUT = "CUT"
-        private const val LABEL_COPY = "COPY"
+        private const val TAG = "TextProcessor"
     }
 
-    var onChangeListener: OnChangeListener? = null
-    var onShortcutListener: OnShortcutListener? = null
+    private val plugins = mutableListOf<EditorPlugin>()
 
-    private val clipboardManager = context.getSystemService<ClipboardManager>()!!
-
-    private var isNewContent = false
-
-    init {
-        configure()
-        colorize()
-    }
-
-    override fun doAfterTextChanged(text: Editable?) {
-        super.doAfterTextChanged(text)
-        if (!isNewContent) {
-            onChangeListener?.onChange()
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        for (plugin in plugins) {
+            plugin.onMeasure(widthMeasureSpec, heightMeasureSpec)
         }
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (event != null && onShortcutListener != null) {
-            val shortcut = Shortcut(
-                ctrl = event.isCtrlPressed,
-                shift = event.isShiftPressed,
-                alt = event.isAltPressed,
-                keyCode = keyCode
-            )
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        for (plugin in plugins) {
+            plugin.onLayout(changed, left, top, right, bottom)
+        }
+    }
 
-            // Shortcuts can be handled only if one of these keys is pressed
-            if (shortcut.ctrl || shortcut.shift || shortcut.alt) {
-                if (onShortcutListener!!.onShortcut(shortcut)) {
-                    return true
-                }
+    override fun onDraw(canvas: Canvas?) {
+        for (plugin in plugins) {
+            plugin.beforeDraw(canvas)
+        }
+        super.onDraw(canvas)
+        for (plugin in plugins) {
+            plugin.afterDraw(canvas)
+        }
+    }
+
+    override fun onColorSchemeChanged() {
+        super.onColorSchemeChanged()
+        for (plugin in plugins) {
+            plugin.onColorSchemeChanged(colorScheme)
+        }
+    }
+
+    override fun onLanguageChanged() {
+        super.onLanguageChanged()
+        for (plugin in plugins) {
+            plugin.onLanguageChanged(language)
+        }
+    }
+
+    override fun onScrollChanged(horiz: Int, vert: Int, oldHoriz: Int, oldVert: Int) {
+        super.onScrollChanged(horiz, vert, oldHoriz, oldVert)
+        for (plugin in plugins) {
+            plugin.onScrollChanged(horiz, vert, oldHoriz, oldVert)
+        }
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        for (plugin in plugins) {
+            plugin.onSizeChanged(w, h, oldw, oldh)
+        }
+    }
+
+    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+        super.onSelectionChanged(selStart, selEnd)
+        post {
+            for (plugin in plugins) {
+                plugin.onSelectionChanged(selStart, selEnd)
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        for (plugin in plugins) {
+            if (plugin.onTouchEvent(event)) {
+                return true
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        for (plugin in plugins) {
+            if (plugin.onKeyUp(keyCode, event)) {
+                return true
+            }
+        }
+        return super.onKeyUp(keyCode, event)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        for (plugin in plugins) {
+            if (plugin.onKeyDown(keyCode, event)) {
+                return true
             }
         }
         return super.onKeyDown(keyCode, event)
     }
 
+    override fun doBeforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) {
+        super.doBeforeTextChanged(text, start, count, after)
+        for (plugin in plugins) {
+            plugin.beforeTextChanged(text, start, count, after)
+        }
+    }
+
+    override fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+        super.doOnTextChanged(text, start, before, count)
+        for (plugin in plugins) {
+            plugin.onTextChanged(text, start, before, count)
+        }
+    }
+
+    override fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
+        super.replaceText(newStart, newEnd, newText)
+        for (plugin in plugins) {
+            plugin.onTextReplaced(newStart, newEnd, newText)
+        }
+    }
+
+    override fun doAfterTextChanged(text: Editable?) {
+        super.doAfterTextChanged(text)
+        for (plugin in plugins) {
+            plugin.afterTextChanged(text)
+        }
+    }
+
+    override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
+        super.addLine(lineNumber, lineStart, lineLength)
+        for (plugin in plugins) {
+            plugin.addLine(lineNumber, lineStart, lineLength)
+        }
+    }
+
+    override fun removeLine(lineNumber: Int) {
+        super.removeLine(lineNumber)
+        for (plugin in plugins) {
+            plugin.removeLine(lineNumber)
+        }
+    }
+
     override fun setTextContent(textParams: PrecomputedTextCompat) {
-        isNewContent = true
+        for (plugin in plugins) {
+            plugin.clearLines()
+        }
         super.setTextContent(textParams)
-        isNewContent = false
+        for (plugin in plugins) {
+            plugin.setTextContent(textParams)
+        }
     }
 
-    fun insert(delta: CharSequence) {
-        text.replace(selectionStart, selectionEnd, delta)
-    }
-
-    fun cut() {
-        val clipData = ClipData.newPlainText(LABEL_CUT, selectedText())
-        clipboardManager.setPrimaryClip(clipData)
-        text.replace(selectionStart, selectionEnd, "")
-    }
-
-    fun copy() {
-        val clipData = ClipData.newPlainText(LABEL_COPY, selectedText())
-        clipboardManager.setPrimaryClip(clipData)
-    }
-
-    fun paste() {
-        val clipData = clipboardManager.primaryClip?.getItemAt(0)
-        val clipText = clipData?.coerceToText(context)
-        text.replace(selectionStart, selectionEnd, clipText)
-    }
-
-    fun selectLine() {
-        val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = getIndexForStartOfLine(currentLine)
-        val lineEnd = getIndexForEndOfLine(currentLine)
-        setSelection(lineStart, lineEnd)
-    }
-
-    fun deleteLine() {
-        val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = getIndexForStartOfLine(currentLine)
-        val lineEnd = getIndexForEndOfLine(currentLine)
-        text.delete(lineStart, lineEnd)
-    }
-
-    fun duplicateLine() {
-        val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = getIndexForStartOfLine(currentLine)
-        val lineEnd = getIndexForEndOfLine(currentLine)
-        val lineText = text.subSequence(lineStart, lineEnd)
-        text.insert(lineEnd, "\n" + lineText)
-    }
-
-    fun moveCaretToStartOfLine(): Boolean {
-        val currentLine = lines.getLineForIndex(selectionStart)
-        val lineStart = getIndexForStartOfLine(currentLine)
-        setSelection(lineStart)
-        return true
-    }
-
-    fun moveCaretToEndOfLine(): Boolean {
-        val currentLine = lines.getLineForIndex(selectionEnd)
-        val lineEnd = getIndexForEndOfLine(currentLine)
-        setSelection(lineEnd)
-        return true
-    }
-
-    fun moveCaretToPrevWord(): Boolean {
-        if (selectionStart > 0) {
-            val currentChar = text[selectionStart - 1]
-            val isLetterDigitOrUnderscore = currentChar.isLetterOrDigit() || currentChar == '_'
-            if (isLetterDigitOrUnderscore) {
-                for (i in selectionStart downTo 0) {
-                    val char = text[i - 1]
-                    if (!char.isLetterOrDigit() && char != '_') {
-                        setSelection(i)
-                        break
-                    }
-                }
-            } else {
-                for (i in selectionStart downTo 0) {
-                    val char = text[i - 1]
-                    if (char.isLetterOrDigit() || char == '_') {
-                        setSelection(i)
-                        break
-                    }
-                }
+    override fun setTextSize(size: Float) {
+        super.setTextSize(size)
+        post {
+            for (plugin in plugins) {
+                plugin.setTextSize(size)
             }
         }
-        return true
     }
 
-    fun moveCaretToNextWord(): Boolean {
-        if (selectionStart < text.length) {
-            val currentChar = text[selectionStart]
-            val isLetterDigitOrUnderscore = currentChar.isLetterOrDigit() || currentChar == '_'
-            if (isLetterDigitOrUnderscore) {
-                for (i in selectionStart until text.length) {
-                    val char = text[i]
-                    if (!char.isLetterOrDigit() && char != '_') {
-                        setSelection(i)
-                        break
-                    }
-                }
-            } else {
-                for (i in selectionStart until text.length) {
-                    val char = text[i]
-                    if (char.isLetterOrDigit() || char == '_') {
-                        setSelection(i)
-                        break
-                    }
-                }
+    override fun setTypeface(tf: Typeface?) {
+        super.setTypeface(tf)
+        post {
+            for (plugin in plugins) {
+                plugin.setTypeface(tf)
             }
         }
-        return true
     }
 
-    @Throws(LineException::class)
-    fun gotoLine(lineNumber: Int) {
-        val line = lineNumber - 1
-        if (line < 0 || line >= lines.lineCount - 1) {
-            throw LineException(lineNumber)
+    override fun clearText() {
+        super.clearText()
+        for (plugin in plugins) {
+            plugin.setEmptyText()
         }
-        setSelection(lines.getIndexForLine(line))
     }
 
-    fun hasPrimaryClip(): Boolean {
-        return clipboardManager.hasPrimaryClip()
+    override fun showDropDown() {
+        super.showDropDown()
+        for (plugin in plugins) {
+            plugin.showDropDown()
+        }
     }
 
-    private fun selectedText(): CharSequence {
-        return text.subSequence(selectionStart, selectionEnd)
+    override fun plugins(supplier: PluginSupplier) {
+        val allPlugins = plugins union supplier.supply()
+        val crossPlugins = allPlugins intersect supplier.supply()
+        val disjointPlugins = allPlugins subtract crossPlugins
+        for (plugin in disjointPlugins) {
+            uninstallPlugin(plugin.pluginId)
+        }
+        for (plugin in supplier.supply()) {
+            installPlugin(plugin)
+        }
+    }
+
+    override fun <T : EditorPlugin> installPlugin(plugin: T) {
+        if (!hasPlugin(plugin.pluginId)) {
+            plugins.add(plugin)
+            plugin.onAttached(this)
+        } else {
+            Log.e(TAG, "Plugin $plugin is already attached.")
+        }
+    }
+
+    override fun uninstallPlugin(pluginId: String) {
+        if (hasPlugin(pluginId)) {
+            findPlugin<EditorPlugin>(pluginId)?.let { plugin ->
+                plugins.remove(plugin)
+                plugin.onDetached(this)
+            }
+        } else {
+            Log.e(TAG, "Plugin $pluginId is not attached.")
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : EditorPlugin> findPlugin(pluginId: String): T? {
+        return plugins.find { it.pluginId == pluginId } as? T
+    }
+
+    override fun hasPlugin(pluginId: String): Boolean {
+        return plugins.any { it.pluginId == pluginId }
     }
 }

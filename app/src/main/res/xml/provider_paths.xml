@@ -16,5 +16,6 @@
   -->
 
 <paths>
+    <!--suppress AndroidElementNotAllowed -->
     <root-path name="root" path="." />
 </paths>

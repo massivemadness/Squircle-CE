@@ -17,12 +17,10 @@
 package com.blacksquircle.ui.language.sql.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import com.blacksquircle.ui.language.sql.lexer.SqlLexer
 import com.blacksquircle.ui.language.sql.lexer.SqlToken
 import java.io.IOException
@@ -43,11 +41,9 @@ class SqlStyler private constructor() : LanguageStyler {
         }
     }
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = SqlLexer(sourceReader)
 
         while (true) {
@@ -56,7 +52,7 @@ class SqlStyler private constructor() : LanguageStyler {
                     SqlToken.INTEGER_LITERAL,
                     SqlToken.FLOAT_LITERAL,
                     SqlToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val styleSpan = StyleSpan(scheme.numberColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -78,7 +74,7 @@ class SqlStyler private constructor() : LanguageStyler {
                     SqlToken.SEMICOLON,
                     SqlToken.COMMA,
                     SqlToken.DOT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(scheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -224,19 +220,19 @@ class SqlStyler private constructor() : LanguageStyler {
                     SqlToken.TRANSLATE,
                     SqlToken.TRIM,
                     SqlToken.UPPER -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val styleSpan = StyleSpan(scheme.keywordColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     SqlToken.DOUBLE_QUOTED_STRING,
                     SqlToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val styleSpan = StyleSpan(scheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     SqlToken.LINE_COMMENT,
                     SqlToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -255,19 +251,5 @@ class SqlStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.executeTask()
-    }
-
-    override fun cancel() {
-        task?.cancelTask()
-        task = null
     }
 }

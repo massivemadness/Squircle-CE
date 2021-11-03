@@ -25,11 +25,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.data.factory.LanguageFactory
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.ItemThemeBinding
-import com.blacksquircle.ui.utils.extensions.makeRightPaddingRecursively
 
 class ThemeAdapter(
     private val actions: Actions

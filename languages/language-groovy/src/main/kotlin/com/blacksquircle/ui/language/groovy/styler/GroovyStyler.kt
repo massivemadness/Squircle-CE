@@ -17,12 +17,10 @@
 package com.blacksquircle.ui.language.groovy.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import com.blacksquircle.ui.language.groovy.lexer.GroovyLexer
 import com.blacksquircle.ui.language.groovy.lexer.GroovyToken
 import java.io.IOException
@@ -47,18 +45,16 @@ class GroovyStyler : LanguageStyler {
         }
     }
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = GroovyLexer(sourceReader)
 
         // FIXME flex doesn't support positive lookbehind
-        val matcher = METHOD.matcher(sourceCode)
-        matcher.region(0, sourceCode.length)
+        val matcher = METHOD.matcher(source)
+        matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.methodColor)
+            val styleSpan = StyleSpan(scheme.methodColor)
             val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
             syntaxHighlightSpans.add(syntaxHighlightSpan)
         }
@@ -70,7 +66,7 @@ class GroovyStyler : LanguageStyler {
                     GroovyToken.INTEGER_LITERAL,
                     GroovyToken.FLOAT_LITERAL,
                     GroovyToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val styleSpan = StyleSpan(scheme.numberColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -130,7 +126,7 @@ class GroovyStyler : LanguageStyler {
                     GroovyToken.REGEX_MATCH,
                     GroovyToken.DOUBLE_COLON,
                     GroovyToken.ARROW -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(scheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -186,7 +182,7 @@ class GroovyStyler : LanguageStyler {
                     GroovyToken.FINAL,
                     GroovyToken.NOT_IN,
                     GroovyToken.NOT_INSTANCEOF -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val styleSpan = StyleSpan(scheme.keywordColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -198,26 +194,26 @@ class GroovyStyler : LanguageStyler {
                     GroovyToken.INT,
                     GroovyToken.LONG,
                     GroovyToken.SHORT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val styleSpan = StyleSpan(scheme.typeColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     GroovyToken.TRUE,
                     GroovyToken.FALSE,
                     GroovyToken.NULL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.langConstColor)
+                        val styleSpan = StyleSpan(scheme.langConstColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     GroovyToken.ANNOTATION -> {
-                        val styleSpan = StyleSpan(syntaxScheme.preprocessorColor)
+                        val styleSpan = StyleSpan(scheme.preprocessorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     GroovyToken.SINGLE_QUOTED_STRING,
                     GroovyToken.DOUBLE_QUOTED_STRING,
                     GroovyToken.TRIPLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val styleSpan = StyleSpan(scheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -225,7 +221,7 @@ class GroovyStyler : LanguageStyler {
                     GroovyToken.LINE_COMMENT,
                     GroovyToken.BLOCK_COMMENT,
                     GroovyToken.DOC_COMMENT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -244,19 +240,5 @@ class GroovyStyler : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.executeTask()
-    }
-
-    override fun cancel() {
-        task?.cancelTask()
-        task = null
     }
 }

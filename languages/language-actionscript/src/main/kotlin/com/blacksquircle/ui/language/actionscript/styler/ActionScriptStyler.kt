@@ -19,12 +19,10 @@ package com.blacksquircle.ui.language.actionscript.styler
 import android.util.Log
 import com.blacksquircle.ui.language.actionscript.lexer.ActionScriptLexer
 import com.blacksquircle.ui.language.actionscript.lexer.ActionScriptToken
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import java.io.IOException
 import java.io.StringReader
 import java.util.regex.Pattern
@@ -46,18 +44,16 @@ class ActionScriptStyler private constructor() : LanguageStyler {
         }
     }
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = ActionScriptLexer(sourceReader)
 
         // FIXME flex doesn't support positive lookbehind
-        val matcher = METHOD.matcher(sourceCode)
-        matcher.region(0, sourceCode.length)
+        val matcher = METHOD.matcher(source)
+        matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(syntaxScheme.methodColor)
+            val styleSpan = StyleSpan(scheme.methodColor)
             val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
             syntaxHighlightSpans.add(syntaxHighlightSpan)
         }
@@ -69,7 +65,7 @@ class ActionScriptStyler private constructor() : LanguageStyler {
                     ActionScriptToken.INTEGER_LITERAL,
                     ActionScriptToken.FLOAT_LITERAL,
                     ActionScriptToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val styleSpan = StyleSpan(scheme.numberColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -120,7 +116,7 @@ class ActionScriptStyler private constructor() : LanguageStyler {
                     ActionScriptToken.RBRACK,
                     ActionScriptToken.QUEST,
                     ActionScriptToken.COLON -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(scheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -178,7 +174,7 @@ class ActionScriptStyler private constructor() : LanguageStyler {
                     ActionScriptToken.AS,
                     ActionScriptToken.NEW,
                     ActionScriptToken.VAR -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val styleSpan = StyleSpan(scheme.keywordColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -191,7 +187,7 @@ class ActionScriptStyler private constructor() : LanguageStyler {
                     ActionScriptToken.VECTOR,
                     ActionScriptToken.INT,
                     ActionScriptToken.UINT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val styleSpan = StyleSpan(scheme.typeColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -200,24 +196,24 @@ class ActionScriptStyler private constructor() : LanguageStyler {
                     ActionScriptToken.NULL,
                     ActionScriptToken.UNDEFINED,
                     ActionScriptToken.NAN -> {
-                        val styleSpan = StyleSpan(syntaxScheme.langConstColor)
+                        val styleSpan = StyleSpan(scheme.langConstColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     ActionScriptToken.PREPROCESSOR -> {
-                        val styleSpan = StyleSpan(syntaxScheme.preprocessorColor)
+                        val styleSpan = StyleSpan(scheme.preprocessorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     ActionScriptToken.DOUBLE_QUOTED_STRING,
                     ActionScriptToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val styleSpan = StyleSpan(scheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     ActionScriptToken.LINE_COMMENT,
                     ActionScriptToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -236,19 +232,5 @@ class ActionScriptStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.executeTask()
-    }
-
-    override fun cancel() {
-        task?.cancelTask()
-        task = null
     }
 }

@@ -25,7 +25,6 @@ import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.selection.DefaultSelectionTracker
 import androidx.recyclerview.selection.SelectionPredicates
@@ -34,6 +33,11 @@ import androidx.recyclerview.selection.StorageStrategy
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.blacksquircle.ui.core.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.adapters.FileAdapter
@@ -46,11 +50,6 @@ import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
-import com.blacksquircle.ui.utils.adapters.OnItemClickListener
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.*
-import com.blacksquircle.ui.utils.interfaces.DrawerHandler
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -59,11 +58,11 @@ import java.io.FileNotFoundException
 @AndroidEntryPoint
 class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickListener<FileModel> {
 
-    private val viewModel: ExplorerViewModel by activityViewModels()
-    private val binding: FragmentDirectoryBinding by viewBinding()
-    private val navController: NavController by navController()
-    private val navArgs: DirectoryFragmentArgs by navArgs()
-    private val drawerHandler: DrawerHandler by lazy { activity as DrawerHandler }
+    private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val binding by viewBinding(FragmentDirectoryBinding::bind)
+    private val navController by navController()
+    private val navArgs by navArgs<DirectoryFragmentArgs>()
+    private val drawerHandler by lazy { activity as DrawerHandler }
 
     private lateinit var tracker: SelectionTracker<String>
     private lateinit var adapter: FileAdapter

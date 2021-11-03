@@ -26,6 +26,7 @@ import com.blacksquircle.ui.language.html.HtmlLanguage
 import com.blacksquircle.ui.language.java.JavaLanguage
 import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.language.json.JsonLanguage
+import com.blacksquircle.ui.language.julia.JuliaLanguage
 import com.blacksquircle.ui.language.kotlin.KotlinLanguage
 import com.blacksquircle.ui.language.lisp.LispLanguage
 import com.blacksquircle.ui.language.lua.LuaLanguage
@@ -33,6 +34,7 @@ import com.blacksquircle.ui.language.markdown.MarkdownLanguage
 import com.blacksquircle.ui.language.php.PhpLanguage
 import com.blacksquircle.ui.language.plaintext.PlainTextLanguage
 import com.blacksquircle.ui.language.python.PythonLanguage
+import com.blacksquircle.ui.language.ruby.RubyLanguage
 import com.blacksquircle.ui.language.shell.ShellLanguage
 import com.blacksquircle.ui.language.sql.SqlLanguage
 import com.blacksquircle.ui.language.typescript.TypeScriptLanguage
@@ -52,12 +54,14 @@ object LanguageFactory {
             JavaLanguage.supportFormat(fileName) -> JavaLanguage()
             JavaScriptLanguage.supportFormat(fileName) -> JavaScriptLanguage()
             JsonLanguage.supportFormat(fileName) -> JsonLanguage()
+            JuliaLanguage.supportFormat(fileName) -> JuliaLanguage()
             KotlinLanguage.supportFormat(fileName) -> KotlinLanguage()
             LispLanguage.supportFormat(fileName) -> LispLanguage()
             LuaLanguage.supportFormat(fileName) -> LuaLanguage()
             MarkdownLanguage.supportFormat(fileName) -> MarkdownLanguage()
             PhpLanguage.supportFormat(fileName) -> PhpLanguage()
             PythonLanguage.supportFormat(fileName) -> PythonLanguage()
+            RubyLanguage.supportFormat(fileName) -> RubyLanguage()
             ShellLanguage.supportFormat(fileName) -> ShellLanguage()
             SqlLanguage.supportFormat(fileName) -> SqlLanguage()
             TypeScriptLanguage.supportFormat(fileName) -> TypeScriptLanguage()

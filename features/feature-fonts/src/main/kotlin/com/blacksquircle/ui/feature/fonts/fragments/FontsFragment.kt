@@ -25,25 +25,24 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.blacksquircle.ui.core.delegate.navController
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.debounce
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.adapters.FontAdapter
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.blacksquircle.ui.feature.fonts.viewmodel.FontsViewModel
-import com.blacksquircle.ui.utils.delegate.navController
-import com.blacksquircle.ui.utils.delegate.viewBinding
-import com.blacksquircle.ui.utils.extensions.debounce
-import com.blacksquircle.ui.utils.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FontsFragment : Fragment(R.layout.fragment_fonts) {
 
-    private val viewModel: FontsViewModel by viewModels()
-    private val binding: FragmentFontsBinding by viewBinding()
-    private val navController: NavController by navController()
+    private val viewModel by viewModels<FontsViewModel>()
+    private val binding by viewBinding(FragmentFontsBinding::bind)
+    private val navController by navController()
 
     private lateinit var adapter: FontAdapter
 
@@ -56,8 +55,9 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-        binding.recyclerView.addItemDecoration(itemDecoration)
+        DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
+            binding.recyclerView.addItemDecoration(it)
+        }
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = FontAdapter(object : FontAdapter.Actions {
             override fun selectFont(fontModel: FontModel) = viewModel.selectFont(fontModel)

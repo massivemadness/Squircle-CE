@@ -28,7 +28,7 @@ import com.blacksquircle.ui.domain.model.editor.DocumentContent
 import com.blacksquircle.ui.domain.model.editor.DocumentModel
 import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
 import com.blacksquircle.ui.domain.repository.documents.DocumentRepository
-import com.blacksquircle.ui.editorkit.utils.UndoStack
+import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams

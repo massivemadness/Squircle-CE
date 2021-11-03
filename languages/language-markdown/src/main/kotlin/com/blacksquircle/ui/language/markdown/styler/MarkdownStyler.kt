@@ -17,12 +17,10 @@
 package com.blacksquircle.ui.language.markdown.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import com.blacksquircle.ui.language.markdown.lexer.MarkdownLexer
 import com.blacksquircle.ui.language.markdown.lexer.MarkdownToken
 import java.io.IOException
@@ -43,31 +41,29 @@ class MarkdownStyler private constructor() : LanguageStyler {
         }
     }
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = MarkdownLexer(sourceReader)
 
         while (true) {
             try {
                 when (lexer.advance()) {
                     MarkdownToken.HEADER -> {
-                        val styleSpan = StyleSpan(syntaxScheme.tagNameColor)
+                        val styleSpan = StyleSpan(scheme.tagNameColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     MarkdownToken.UNORDERED_LIST_ITEM,
                     MarkdownToken.ORDERED_LIST_ITEM -> {
-                        val styleSpan = StyleSpan(syntaxScheme.attrValueColor)
+                        val styleSpan = StyleSpan(scheme.attrValueColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     MarkdownToken.BOLDITALIC1,
                     MarkdownToken.BOLDITALIC2 -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.attrNameColor,
+                            color = scheme.attrNameColor,
                             bold = true,
                             italic = true
                         )
@@ -77,7 +73,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.BOLD1,
                     MarkdownToken.BOLD2 -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.attrNameColor,
+                            color = scheme.attrNameColor,
                             bold = true
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -86,7 +82,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.ITALIC1,
                     MarkdownToken.ITALIC2 -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.attrNameColor,
+                            color = scheme.attrNameColor,
                             italic = true
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -94,7 +90,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     }
                     MarkdownToken.STRIKETHROUGH -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.attrNameColor,
+                            color = scheme.attrNameColor,
                             strikethrough = true
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -102,7 +98,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     }
                     MarkdownToken.CODE,
                     MarkdownToken.CODE_BLOCK -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -118,13 +114,13 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.RBRACE,
                     MarkdownToken.LBRACK,
                     MarkdownToken.RBRACK -> {
-                        val styleSpan = StyleSpan(syntaxScheme.tagColor)
+                        val styleSpan = StyleSpan(scheme.tagColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     MarkdownToken.URL -> {
                         val styleSpan = StyleSpan(
-                            color = syntaxScheme.attrValueColor,
+                            color = scheme.attrValueColor,
                             underline = true
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
@@ -145,19 +141,5 @@ class MarkdownStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.executeTask()
-    }
-
-    override fun cancel() {
-        task?.cancelTask()
-        task = null
     }
 }

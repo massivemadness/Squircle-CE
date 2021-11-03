@@ -26,9 +26,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.getColorOrThrow
 import androidx.core.content.res.getDrawableOrThrow
 import com.blacksquircle.ui.editorkit.R
-import com.blacksquircle.ui.editorkit.internal.ScrollableEditText
+import com.blacksquircle.ui.editorkit.widget.internal.ScrollableEditText
 
 class TextScroller @JvmOverloads constructor(
     context: Context,
@@ -36,38 +37,29 @@ class TextScroller @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), ScrollableEditText.OnScrollChangedListener {
 
-    companion object {
-        const val STATE_HIDDEN = 0
-        const val STATE_VISIBLE = 1
-        const val STATE_DRAGGING = 2
-        const val STATE_EXITING = 3
-
-        private const val TIME_EXITING = 2000L
-    }
-
-    var state = STATE_HIDDEN
-        set(state) {
-            when (state) {
-                STATE_HIDDEN -> {
+    var state: State = State.HIDDEN
+        set(value) {
+            when (value) {
+                State.HIDDEN -> {
                     hideHandler.removeCallbacks(hideCallback)
-                    field = STATE_HIDDEN
+                    field = value
                     invalidate()
                 }
-                STATE_VISIBLE -> {
+                State.VISIBLE -> {
                     if (isShowScrollerJustified()) {
                         hideHandler.removeCallbacks(hideCallback)
-                        field = STATE_VISIBLE
+                        field = value
                         invalidate()
                     }
                 }
-                STATE_DRAGGING -> {
+                State.DRAGGING -> {
                     hideHandler.removeCallbacks(hideCallback)
-                    field = STATE_DRAGGING
+                    field = value
                     invalidate()
                 }
-                STATE_EXITING -> {
+                State.EXITING -> {
                     hideHandler.removeCallbacks(hideCallback)
-                    field = STATE_EXITING
+                    field = value
                     invalidate()
                 }
             }
@@ -76,10 +68,16 @@ class TextScroller @JvmOverloads constructor(
     private var scrollableEditText: ScrollableEditText? = null
 
     private val normalBitmap by lazy {
-        Bitmap.createBitmap(width, thumbHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(width, thumbHeight, Bitmap.Config.ARGB_8888)
+        thumbNormal.bounds = Rect(0, 0, width, thumbHeight)
+        thumbNormal.draw(Canvas(bitmap))
+        bitmap
     }
     private val draggingBitmap by lazy {
-        Bitmap.createBitmap(width, thumbHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(width, thumbHeight, Bitmap.Config.ARGB_8888)
+        thumbDragging.bounds = Rect(0, 0, width, thumbHeight)
+        thumbDragging.draw(Canvas(bitmap))
+        bitmap
     }
 
     private val thumbHeight: Int
@@ -87,15 +85,13 @@ class TextScroller @JvmOverloads constructor(
     private val thumbDragging: Drawable
 
     private val hideHandler = Handler(Looper.getMainLooper())
-    private val hideCallback = Runnable { state = STATE_EXITING }
+    private val hideCallback = Runnable { state = State.EXITING }
 
     private val thumbPaint = Paint()
     private var thumbTop = 0f
 
     private var textScrollMax = 0f
     private var textScrollY = 0f
-
-    private var isInitialized = false
 
     init {
         val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TextScroller, 0, 0)
@@ -113,59 +109,47 @@ class TextScroller @JvmOverloads constructor(
         } else ContextCompat.getDrawable(context, R.drawable.fastscroll_pressed)!!
 
         if (hasThumbTint) {
-            val thumbTint = typedArray.getColor(R.styleable.TextScroller_thumbTint, Color.BLUE)
+            val thumbTint = typedArray.getColorOrThrow(R.styleable.TextScroller_thumbTint)
             thumbNormal.setTint(thumbTint)
             thumbDragging.setTint(thumbTint)
         }
 
         thumbHeight = thumbNormal.intrinsicHeight
-
         thumbPaint.isAntiAlias = true
         thumbPaint.isDither = false
-        thumbPaint.alpha = 225
+        thumbPaint.alpha = ALPHA_MAX
 
         typedArray.recycle()
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-        if (!isInitialized) {
-            thumbNormal.bounds = Rect(0, 0, width, thumbHeight)
-            thumbNormal.draw(Canvas(normalBitmap))
-
-            thumbDragging.bounds = Rect(0, 0, width, thumbHeight)
-            thumbDragging.draw(Canvas(draggingBitmap))
-
-            isInitialized = true
-        }
-    }
-
     override fun onDraw(canvas: Canvas) {
-        if (state != STATE_HIDDEN) {
-            super.onDraw(canvas)
-            if (state == STATE_VISIBLE || state == STATE_DRAGGING) {
-                thumbPaint.alpha = 225
-                if (state == STATE_VISIBLE) {
+        super.onDraw(canvas)
+        when (state) {
+            State.HIDDEN -> return
+            State.VISIBLE -> {
+                thumbPaint.alpha = ALPHA_MAX
+                canvas.drawBitmap(normalBitmap, 0f, thumbTop, thumbPaint)
+            }
+            State.DRAGGING -> {
+                thumbPaint.alpha = ALPHA_MAX
+                canvas.drawBitmap(draggingBitmap, 0f, thumbTop, thumbPaint)
+            }
+            State.EXITING -> {
+                if (thumbPaint.alpha > ALPHA_STEP) {
+                    thumbPaint.alpha = thumbPaint.alpha - ALPHA_STEP
                     canvas.drawBitmap(normalBitmap, 0f, thumbTop, thumbPaint)
+                    handler.postDelayed(hideCallback, EXITING_DELAY)
                 } else {
-                    canvas.drawBitmap(draggingBitmap, 0f, thumbTop, thumbPaint)
+                    thumbPaint.alpha = ALPHA_MIN
+                    state = State.HIDDEN
                 }
-            } else if (state == STATE_EXITING) {
-                if (thumbPaint.alpha > 25) {
-                    thumbPaint.alpha = thumbPaint.alpha - 25
-                    canvas.drawBitmap(normalBitmap, 0f, thumbTop, thumbPaint)
-                    handler.postDelayed(hideCallback, 17)
-                    return
-                }
-                thumbPaint.alpha = 0
-                state = STATE_HIDDEN
             }
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (scrollableEditText == null || state == STATE_HIDDEN) {
+        if (scrollableEditText == null || state == State.HIDDEN) {
             return false
         }
         getMeasurements()
@@ -173,18 +157,18 @@ class TextScroller @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
                 if (isPointInThumb(event.x, event.y)) {
                     scrollableEditText?.abortFling()
-                    state = STATE_DRAGGING
+                    state = State.DRAGGING
                     isPressed = true
                     return true
                 }
             }
             MotionEvent.ACTION_UP -> {
-                state = STATE_VISIBLE
+                state = State.VISIBLE
                 isPressed = false
                 hideHandler.postDelayed(hideCallback, TIME_EXITING)
             }
             MotionEvent.ACTION_MOVE -> {
-                if (state == STATE_DRAGGING) {
+                if (state == State.DRAGGING) {
                     isPressed = true
                     scrollableEditText?.abortFling()
                     var newThumbTop = event.y.toInt() - thumbHeight / 2
@@ -204,9 +188,9 @@ class TextScroller @JvmOverloads constructor(
     }
 
     override fun onScrollChanged(x: Int, y: Int, oldX: Int, oldY: Int) {
-        if (state != STATE_DRAGGING) {
+        if (state != State.DRAGGING) {
             getMeasurements()
-            state = STATE_VISIBLE
+            state = State.VISIBLE
             hideHandler.postDelayed(hideCallback, TIME_EXITING)
         }
     }
@@ -216,42 +200,46 @@ class TextScroller @JvmOverloads constructor(
         this.scrollableEditText?.addOnScrollChangedListener(this)
     }
 
+    fun detach() {
+        this.scrollableEditText?.removeOnScrollChangedListener(this)
+        this.scrollableEditText = null
+    }
+
     private fun scrollView() {
-        if (scrollableEditText != null) {
-            val scrollToAsFraction = thumbTop / (height - thumbHeight)
-            val lineHeight = scrollableEditText!!.lineHeight
-            val textAreaHeight = scrollableEditText!!.height
-            scrollableEditText?.scrollTo(
-                scrollableEditText!!.scrollX,
-                ((textScrollMax * scrollToAsFraction) - (scrollToAsFraction * (textAreaHeight - lineHeight))).toInt()
-            )
-        }
+        if (scrollableEditText == null) return
+
+        val scrollToAsFraction = thumbTop / (height - thumbHeight)
+        val lineHeight = scrollableEditText!!.lineHeight
+        val textAreaHeight = scrollableEditText!!.height
+        scrollableEditText?.scrollTo(
+            scrollableEditText!!.scrollX,
+            ((textScrollMax * scrollToAsFraction) - (scrollToAsFraction * (textAreaHeight - lineHeight))).toInt()
+        )
     }
 
     private fun getMeasurements() {
-        if (scrollableEditText?.layout != null) {
-            textScrollMax = scrollableEditText!!.layout.height.toFloat()
-            textScrollY = scrollableEditText!!.scrollY.toFloat()
-            thumbTop = getThumbTop()
-        }
+        if (scrollableEditText == null) return
+
+        textScrollMax = scrollableEditText?.layout?.height?.toFloat() ?: 0f
+        textScrollY = scrollableEditText?.scrollY?.toFloat() ?: 0f
+        thumbTop = getThumbTop()
     }
 
     private fun getThumbTop(): Float {
-        if (scrollableEditText != null) {
-            val lineHeight = scrollableEditText!!.lineHeight
-            val textAreaHeight = scrollableEditText!!.height
-            val calculatedThumbTop =
-                (height - thumbHeight) * (textScrollY / (textScrollMax - textAreaHeight + lineHeight))
+        if (scrollableEditText == null) return 0f
 
-            val absoluteThumbTop = if (!calculatedThumbTop.isNaN()) {
-                calculatedThumbTop
-            } else 0f
+        val lineHeight = scrollableEditText?.lineHeight ?: 0
+        val textAreaHeight = scrollableEditText?.height ?: 0
+        val calculatedThumbTop = (height - thumbHeight) *
+            (textScrollY / (textScrollMax - textAreaHeight + lineHeight))
 
-            return if (absoluteThumbTop > height - thumbHeight) {
-                (height - thumbHeight).toFloat()
-            } else absoluteThumbTop
-        }
-        return 0f
+        val absoluteThumbTop = if (!calculatedThumbTop.isNaN()) {
+            calculatedThumbTop
+        } else 0f
+
+        return if (absoluteThumbTop > height - thumbHeight) {
+            (height - thumbHeight).toFloat()
+        } else absoluteThumbTop
     }
 
     private fun isPointInThumb(x: Float, y: Float): Boolean {
@@ -259,6 +247,23 @@ class TextScroller @JvmOverloads constructor(
     }
 
     private fun isShowScrollerJustified(): Boolean {
-        return textScrollMax / scrollableEditText!!.height >= 1.5
+        return textScrollMax / (scrollableEditText?.height ?: 0) >= 1.5
+    }
+
+    enum class State {
+        HIDDEN,
+        VISIBLE,
+        DRAGGING,
+        EXITING
+    }
+
+    companion object {
+
+        private const val ALPHA_MAX = 225
+        private const val ALPHA_STEP = 25
+        private const val ALPHA_MIN = 0
+
+        private const val EXITING_DELAY = 17L
+        private const val TIME_EXITING = 2000L
     }
 }

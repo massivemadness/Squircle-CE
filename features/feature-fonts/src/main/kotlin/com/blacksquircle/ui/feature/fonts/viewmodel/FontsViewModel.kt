@@ -20,10 +20,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.domain.repository.fonts.FontsRepository
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.utils.event.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File

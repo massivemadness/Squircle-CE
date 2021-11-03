@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.domain.model.editor
 
-import com.blacksquircle.ui.editorkit.utils.UndoStack
+import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.language.base.Language
 
 data class DocumentContent(

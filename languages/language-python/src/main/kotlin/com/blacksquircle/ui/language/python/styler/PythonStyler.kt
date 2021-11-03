@@ -17,12 +17,10 @@
 package com.blacksquircle.ui.language.python.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.SyntaxScheme
+import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
 import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
-import com.blacksquircle.ui.language.base.utils.StylingResult
-import com.blacksquircle.ui.language.base.utils.StylingTask
 import com.blacksquircle.ui.language.python.lexer.PythonLexer
 import com.blacksquircle.ui.language.python.lexer.PythonToken
 import java.io.IOException
@@ -43,11 +41,9 @@ class PythonStyler private constructor() : LanguageStyler {
         }
     }
 
-    private var task: StylingTask? = null
-
-    override fun execute(sourceCode: String, syntaxScheme: SyntaxScheme): List<SyntaxHighlightSpan> {
+    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
         val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-        val sourceReader = StringReader(sourceCode)
+        val sourceReader = StringReader(source)
         val lexer = PythonLexer(sourceReader)
 
         while (true) {
@@ -57,7 +53,7 @@ class PythonStyler private constructor() : LanguageStyler {
                     PythonToken.INTEGER_LITERAL,
                     PythonToken.FLOAT_LITERAL,
                     PythonToken.IMAGINARY_LITERAL -> {
-                        val styleSpan = StyleSpan(syntaxScheme.numberColor)
+                        val styleSpan = StyleSpan(scheme.numberColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -106,7 +102,7 @@ class PythonStyler private constructor() : LanguageStyler {
                     PythonToken.RBRACE,
                     PythonToken.LBRACK,
                     PythonToken.RBRACK -> {
-                        val styleSpan = StyleSpan(syntaxScheme.operatorColor)
+                        val styleSpan = StyleSpan(scheme.operatorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -145,7 +141,7 @@ class PythonStyler private constructor() : LanguageStyler {
                     PythonToken.TRY,
                     PythonToken.WHILE,
                     PythonToken.YIELD -> {
-                        val styleSpan = StyleSpan(syntaxScheme.keywordColor)
+                        val styleSpan = StyleSpan(scheme.keywordColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -158,24 +154,24 @@ class PythonStyler private constructor() : LanguageStyler {
                     PythonToken.SIGNED,
                     PythonToken.UNSIGNED,
                     PythonToken.VOID -> {
-                        val styleSpan = StyleSpan(syntaxScheme.typeColor)
+                        val styleSpan = StyleSpan(scheme.typeColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PythonToken.METHOD -> {
-                        val styleSpan = StyleSpan(syntaxScheme.methodColor)
+                        val styleSpan = StyleSpan(scheme.methodColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PythonToken.TRUE,
                     PythonToken.FALSE,
                     PythonToken.NONE -> {
-                        val styleSpan = StyleSpan(syntaxScheme.langConstColor)
+                        val styleSpan = StyleSpan(scheme.langConstColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PythonToken.DECORATOR -> {
-                        val styleSpan = StyleSpan(syntaxScheme.preprocessorColor)
+                        val styleSpan = StyleSpan(scheme.preprocessorColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -183,12 +179,12 @@ class PythonStyler private constructor() : LanguageStyler {
                     PythonToken.SINGLE_QUOTED_STRING,
                     PythonToken.LONG_DOUBLE_QUOTED_STRING,
                     PythonToken.LONG_SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(syntaxScheme.stringColor)
+                        val styleSpan = StyleSpan(scheme.stringColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
                     PythonToken.LINE_COMMENT -> {
-                        val styleSpan = StyleSpan(syntaxScheme.commentColor)
+                        val styleSpan = StyleSpan(scheme.commentColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
@@ -207,19 +203,5 @@ class PythonStyler private constructor() : LanguageStyler {
             }
         }
         return syntaxHighlightSpans
-    }
-
-    override fun enqueue(sourceCode: String, syntaxScheme: SyntaxScheme, stylingResult: StylingResult) {
-        task?.cancelTask()
-        task = StylingTask(
-            doAsync = { execute(sourceCode, syntaxScheme) },
-            onSuccess = stylingResult
-        )
-        task?.executeTask()
-    }
-
-    override fun cancel() {
-        task?.cancelTask()
-        task = null
     }
 }

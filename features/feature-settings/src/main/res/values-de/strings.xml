@@ -27,6 +27,7 @@
 
     <string name="hint_enter_preset_chars">Geben Sie die Zeichen ein (ohne Trennung)</string>
 
+    <string name="action_save">Speichern</string>
     <string name="action_reset">Zurücksetzen</string>
 
     <string name="preset_disclaimer">Sie können Zeichen mehrfach wiederholen</string>

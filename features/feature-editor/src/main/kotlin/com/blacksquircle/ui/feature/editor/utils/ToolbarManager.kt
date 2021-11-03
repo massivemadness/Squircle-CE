@@ -24,16 +24,22 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
-import com.blacksquircle.ui.utils.extensions.makeRightPaddingRecursively
 
 class ToolbarManager(
     private val listener: OnPanelClickListener
 ) : PopupMenu.OnMenuItemClickListener {
 
-    var orientation: Int = Configuration.ORIENTATION_UNDEFINED
+    var panel: Panel = Panel.DEFAULT
+        set(value) {
+            field = value
+            updatePanel()
+        }
+
+    private var orientation: Int = Configuration.ORIENTATION_UNDEFINED
         set(value) {
             field = when (value) {
                 Configuration.ORIENTATION_PORTRAIT -> portrait()
@@ -42,15 +48,12 @@ class ToolbarManager(
             }
         }
 
-    var panel: Panel = Panel.DEFAULT
-        set(value) {
-            field = value
-            updatePanel()
-        }
-
-    private var isRegex = false
-    private var isMatchCase = true
-    private var isWordsOnly = false
+    private var params = FindParams(
+        query = "",
+        regex = false,
+        matchCase = false,
+        wordsOnly = false
+    )
 
     private lateinit var binding: FragmentEditorBinding
 
@@ -89,16 +92,16 @@ class ToolbarManager(
             }
             R.id.action_goto_line -> listener.onGoToLineButton()
             R.id.action_regex -> {
-                isRegex = !isRegex
-                listener.onFindInputChanged(binding.inputFind.text.toString())
+                params = params.copy(regex = !params.regex)
+                listener.onFindParamsChanged(params)
             }
             R.id.action_match_case -> {
-                isMatchCase = !isMatchCase
-                listener.onFindInputChanged(binding.inputFind.text.toString())
+                params = params.copy(matchCase = !params.matchCase)
+                listener.onFindParamsChanged(params)
             }
             R.id.action_words_only -> {
-                isWordsOnly = !isWordsOnly
-                listener.onFindInputChanged(binding.inputFind.text.toString())
+                params = params.copy(wordsOnly = !params.wordsOnly)
+                listener.onFindParamsChanged(params)
             }
 
             // Tools Menu
@@ -113,7 +116,8 @@ class ToolbarManager(
 
     fun bind(binding: FragmentEditorBinding) {
         this.binding = binding
-        orientation = binding.root.resources?.configuration?.orientation ?: Configuration.ORIENTATION_PORTRAIT
+        orientation = binding.root.resources?.configuration
+            ?.orientation ?: Configuration.ORIENTATION_PORTRAIT
         updatePanel()
 
         binding.actionDrawer.setOnClickListener { listener.onDrawerButton() }
@@ -137,16 +141,9 @@ class ToolbarManager(
         binding.actionDown.setOnClickListener { listener.onNextResultButton() }
         binding.actionUp.setOnClickListener { listener.onPreviousResultButton() }
         binding.inputFind.doAfterTextChanged {
-            listener.onFindInputChanged(it.toString())
+            params = params.copy(query = it.toString())
+            listener.onFindParamsChanged(params)
         }
-    }
-
-    fun findParams(): FindParams {
-        return FindParams(
-            regex = isRegex,
-            matchCase = isMatchCase,
-            wordsOnly = isWordsOnly
-        )
     }
 
     private fun portrait(): Int {
@@ -187,9 +184,9 @@ class ToolbarManager(
             switchReplace?.setTitle(R.string.action_close_replace)
         }
 
-        regex?.isChecked = isRegex
-        matchCase?.isChecked = isMatchCase
-        wordsOnly?.isChecked = isWordsOnly
+        regex?.isChecked = params.regex
+        matchCase?.isChecked = params.matchCase
+        wordsOnly?.isChecked = params.wordsOnly
     }
 
     private fun updatePanel() {
@@ -242,7 +239,7 @@ class ToolbarManager(
         fun onReplaceAllButton(replaceText: String)
         fun onNextResultButton()
         fun onPreviousResultButton()
-        fun onFindInputChanged(findText: String)
+        fun onFindParamsChanged(params: FindParams)
 
         fun onErrorCheckingButton()
         fun onInsertColorButton()

@@ -34,11 +34,11 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -66,6 +66,7 @@ dependencies {
     // AAC
     implementation library.livedata
     implementation library.viewmodel
+    implementation library.lifecycle
     implementation library.navigation_ui
     implementation library.navigation_fragment
 
@@ -82,8 +83,8 @@ dependencies {
     implementation project(':data')
 
     // Features
+    implementation project(':features:feature-core')
     implementation project(':features:feature-ui')
-    implementation project(':features:feature-utils')
 
     // Tests
     testImplementation testLibrary.junit

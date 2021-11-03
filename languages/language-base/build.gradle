@@ -28,6 +28,9 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
+    group libraryGroupId
+    version versions.publishVersionName
+
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
@@ -36,6 +39,8 @@ android {
         versionName versions.publishVersionName
 
         consumerProguardFiles 'consumer-rules.pro'
+
+        archivesBaseName = libraryArtifactId
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
