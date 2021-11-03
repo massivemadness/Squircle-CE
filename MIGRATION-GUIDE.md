@@ -16,69 +16,89 @@ latest version of [EditorKit](README.md#editorkit) library.
 ## v2.0.0 -> v2.1.0
 
 Migration steps:
-1. Setup of the code editor was completely rewritten from scratch:
-   1. The `EditorConfig` class was removed, you have to apply the
-      settings by using `PluginSupplier` as shown below:
-      ```kotlin
-      // Before
-      editor.editorConfig = EditorConfig(
-          fontSize = 14f,
-          fontType = Typeface.MONOSPACE,
-          wordWrap = true,
-          codeCompletion = true,
-          pinchZoom = true,
-          lineNumbers = true,
-          ...
-      )
-      
-      // After
-      val pluginSupplier = PluginSupplier.create {
-           codeCompletion {
-               suggestionAdapter = ...
-           }
-           pinchZoom { // or simply pinchZoom()
-               minTextSize = 10f
-               maxTextSize = 20f
-           }
-           lineNumbers { // or simply lineNumbers()
-               lineNumbers = true
-               highlightCurrentLine = true
-           }
-           highlightDelimiters()
-           autoIndentation()
-           // ...
-      }
-      editor.plugins(pluginSupplier)
-      ```
-      You can enable/disable plugins in runtime by surrounding necessary
-      methods with `if (enabled) { ... }` operator:
-      ```kotlin
-      val pluginSupplier = PluginSupplier.create {
-          if (preferences.isLineNumbersEnabled) {
-              lineNumbers()
-          }
-          if (preferences.isPinchZoomEnabled) {
-              pinchZoom()
-          }
-          // ...
-      }
-      editor.plugins(pluginSupplier)
-      ```
-      Since v2.1.0 there's no alternative to `fontSize`, `fontType` and
-      some other properties in `PluginSupplier`, to configure these
-      parameters use following methods:
-      ```kotlin
-      editor.setTextSize(14f) // previous `fontSize`
-      editor.setTypeface(Typeface.MONOSPACE) // previous `fontType`
-      editor.setHorizontallyScrolling(false) // previous `wordWrap`
-      
-      editor.softKeyboard = false // previous `softKeyboard`
-      editor.useSpacesInsteadOfTabs = true // previous `useSpacesInsteadOfTabs`
-      editor.tabWidth = 4 // previous `tabWidth`
-      ```
-2. If you're using custom themes, the `SyntaxScheme` class was removed
+1. Setup of the code editor was completely rewritten from scratch, the
+   `EditorConfig` class was removed, you have to apply the settings by
+   using `PluginSupplier` as shown below:
+   ```kotlin
+   // Before
+   editor.editorConfig = EditorConfig(
+       fontSize = 14f,
+       fontType = Typeface.MONOSPACE,
+       wordWrap = true,
+       codeCompletion = true,
+       pinchZoom = true,
+       lineNumbers = true,
+       ...
+   )
+   
+   // After
+   val pluginSupplier = PluginSupplier.create {
+        codeCompletion {
+            suggestionAdapter = ...
+        }
+        pinchZoom { // or simply pinchZoom()
+            minTextSize = 10f
+            maxTextSize = 20f 
+        }
+        lineNumbers { // or simply lineNumbers()
+            lineNumbers = true
+            highlightCurrentLine = true
+        }
+        highlightDelimiters()
+        autoIndentation()
+        // ...
+   }
+   editor.plugins(pluginSupplier)
+   ```
+   You can enable/disable plugins in runtime by surrounding necessary
+   methods with `if (enabled) { ... }` operator:
+   ```kotlin
+   val pluginSupplier = PluginSupplier.create {
+       if (preferences.isLineNumbersEnabled) {
+           lineNumbers() 
+       }
+       if (preferences.isPinchZoomEnabled) { 
+           pinchZoom() 
+       }
+       // ...
+   }
+   editor.plugins(pluginSupplier)
+   ```
+   Since v2.1.0 there's no alternative to `fontSize`, `fontType` and
+   some other properties in `PluginSupplier`, to configure these
+   parameters use following methods:
+   ```kotlin
+   editor.setTextSize(14f) // previous `fontSize`
+   editor.setTypeface(Typeface.MONOSPACE) // previous `fontType`
+   editor.setHorizontallyScrolling(false) // previous `wordWrap`
+   
+   editor.softKeyboard = false // previous `softKeyboard`
+   editor.useSpacesInsteadOfTabs = true // previous `useSpacesInsteadOfTabs`
+   editor.tabWidth = 4 // previous `tabWidth`
+   ```
+2. `FindParams` model now has `query` property, which previously was
+   passed to a `TextProcessor.find()` method as the first argument:
+   ```kotlin
+   // Before
+   val params = FindParams(
+       regex = false,
+       matchCase = true,
+       wordsOnly = true
+   )
+   editor.find("function", params)
+   
+   // After
+   val params = FindParams(
+       query = "function"
+       regex = false,
+       matchCase = true,
+       wordsOnly = true
+   )
+   editor.find(params)
+   ```
+3. If you're using custom themes, the `SyntaxScheme` class was removed
    and all it's properties were moved in `ColorScheme` itself.
-3. If you're using custom languages:
+4. If you're using custom languages:
    1. Remove `enqueue()` and `cancel()` methods in `LanguageStyler`. The
       `execute()` method now invoked on the background thread, so now
       you don't need to write the asynchronous work by yourself.

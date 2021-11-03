@@ -147,31 +147,31 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
         }
     }
 
-    fun find(findText: String, findParams: FindParams) {
-        if (findText.isNotEmpty()) {
+    fun find(params: FindParams) {
+        if (params.query.isNotEmpty()) {
             try {
-                val pattern = if (findParams.regex) {
-                    if (findParams.matchCase) {
-                        Pattern.compile(findText)
+                val pattern = if (params.regex) {
+                    if (params.matchCase) {
+                        Pattern.compile(params.query)
                     } else {
-                        Pattern.compile(findText, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+                        Pattern.compile(params.query, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
                     }
                 } else {
-                    if (findParams.wordsOnly) {
-                        if (findParams.matchCase) {
-                            Pattern.compile("\\s$findText\\s")
+                    if (params.wordsOnly) {
+                        if (params.matchCase) {
+                            Pattern.compile("\\s${params.query}\\s")
                         } else {
                             Pattern.compile(
-                                "\\s" + Pattern.quote(findText) + "\\s",
+                                "\\s" + Pattern.quote(params.query) + "\\s",
                                 Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
                             )
                         }
                     } else {
-                        if (findParams.matchCase) {
-                            Pattern.compile(Pattern.quote(findText))
+                        if (params.matchCase) {
+                            Pattern.compile(Pattern.quote(params.query))
                         } else {
                             Pattern.compile(
-                                Pattern.quote(findText),
+                                Pattern.quote(params.query),
                                 Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
                             )
                         }

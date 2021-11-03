@@ -95,7 +95,7 @@ Also you might want to use `setTextContent(PrecomputedTextCompat)` if
 you're working with large text files.
 
 **Finally**, after you set the text you need to clear undo/redo history
-because you don't want to keep the change history of previous file.
+because you don't want to keep the change history of previous file:
 
 ```kotlin
 import com.blacksquircle.ui.editorkit.model.UndoStack
@@ -157,8 +157,7 @@ that doesn't exists in the `PluginSupplier`.
 
 ### Text Scroller
 
-To attach the text scroller you need to add `TextScroller` in your
-layout:
+To attach the text scroller you need to add `TextScroller` in layout:
 
 ```xml
 <com.blacksquircle.ui.editorkit.widget.TextScroller
@@ -322,7 +321,7 @@ operations, including:
 
 The class itself contains self-explanatory methods for all your
 searching needs:
-- `find(searchString, findParams)` - Find all possible results in text with provided options.
+- `find(params)` - Find all possible results in text with provided options.
 - `replaceFindResult(replaceText)` - Finds current match and replaces it with new text.
 - `replaceAllFindResults(replaceText)` - Finds all matches and replaces them with the new text.
 - `findNext()` - Finds the next match and scrolls to it.
@@ -332,13 +331,14 @@ searching needs:
 ```kotlin
 import com.blacksquircle.ui.editorkit.model.FindParams
 
-val findParams = FindParams(
-    regex = false, // whether the regex will be used
+val params = FindParams(
+    query = "function", // text to find
+    regex = false, // regular expressions
     matchCase = true, // case sensitive
     wordsOnly = true // words only
 )
 
-editor.find("function", findParams)
+editor.find(params)
 
 // To navigate between results use findNext() and findPrevious()
 ```

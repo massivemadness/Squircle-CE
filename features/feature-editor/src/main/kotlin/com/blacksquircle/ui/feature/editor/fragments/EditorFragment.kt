@@ -46,6 +46,7 @@ import com.blacksquircle.ui.domain.model.documents.DocumentParams
 import com.blacksquircle.ui.domain.model.editor.DocumentContent
 import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.exception.LineException
+import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.plugin.autocomplete.codeCompletion
 import com.blacksquircle.ui.editorkit.plugin.autoindent.autoIndentation
 import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
@@ -634,9 +635,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         binding.editor.findPrevious()
     }
 
-    override fun onFindInputChanged(findText: String) {
+    override fun onFindParamsChanged(params: FindParams) {
         binding.editor.clearFindResultSpans()
-        binding.editor.find(findText, toolbarManager.findParams())
+        binding.editor.find(params)
     }
 
     override fun onErrorCheckingButton() {
