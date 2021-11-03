@@ -23,8 +23,8 @@ ext {
             buildTools: '31.0.0',
 
             // Library
-            publishVersionName: '2.0.0',
-            publishVersionCode: 7
+            publishVersionName: '2.1.0',
+            publishVersionCode: 8
     ]
 
     // Plugins
@@ -54,7 +54,7 @@ ext {
     room_version = '2.3.0'
 
     // Network
-    gson_version = '2.8.8'
+    gson_version = '2.8.9'
 
     // Coroutines
     coroutines_version = '1.5.2'

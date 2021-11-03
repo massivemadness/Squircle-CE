@@ -31,8 +31,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10006
-        versionName "2021.1.3"
+        versionCode 10007
+        versionName "2021.1.4"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }

@@ -89,7 +89,7 @@ Migration steps:
    
    // After
    val params = FindParams(
-       query = "function"
+       query = "function",
        regex = false,
        matchCase = true,
        wordsOnly = true
