@@ -59,9 +59,6 @@ dependencies {
     // Core
     implementation library.kotlin
 
-    // Other
-    implementation library.rhino
-
     // Modules
     api project(':languages:language-base')
 }
