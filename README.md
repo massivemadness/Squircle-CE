@@ -25,6 +25,7 @@ Android.
    2. [Find and Replace](#find-and-replace)
    3. [Shortcuts](#shortcuts)
 7. [Theming](#theming)
+8. [Custom Plugin](#custom-plugin)
 
 ## Languages
 
@@ -429,6 +430,87 @@ editor.colorScheme = ColorScheme(
     attrValueColor = Color.parseColor("#CE9F89"),
     entityRefColor = Color.parseColor("#BACDAB")
 )
+```
+
+## Custom Plugin
+
+Since v2.1.0 the [EditorKit](#editorkit) library supports writing custom
+plugins to extend it's default functionality. If you're using the latest
+version, you might be familiar with `PluginSupplier` and know how to use
+it's DSL. See [More Options](#more-options) for info.
+
+**First,** you need to create a class which extends the `EditorPlugin`
+and provide it's id in the constructor:
+
+```kotlin
+class CustomPlugin : EditorPlugin("custom-plugin-id") {
+
+    var publicProperty = true
+
+    override fun onAttached(editText: TextProcessor) {
+        super.onAttached(editText)
+        // TODO enable your feature here
+    }
+    
+    override fun onDetached(editText: TextProcessor) {
+        super.onDetached(editText)
+        // TODO disable your feature here
+    }
+}
+```
+
+**Second,** you can override lifecycle methods, for example `afterDraw`,
+which invoked immediately after `onDraw(Canvas)` in code editor:
+
+```kotlin
+class CustomPlugin : EditorPlugin("custom-plugin-id") {
+    
+    var publicProperty = true
+    
+    private val dividerPaint = Paint().apply {
+        color = Color.GRAY
+    }
+
+    override fun afterDraw(canvas: Canvas?) {
+        super.afterDraw(canvas)
+        if (publicProperty) {
+            var i = editText.topVisibleLine
+            while (i <= editText.bottomVisibleLine) {
+                val startX = editText.paddingStart + editText.scrollX
+                val startY = editText.paddingTop + editText.layout.getLineBottom(i)
+                val stopX = editText.paddingLeft + editText.layout.width + editText.paddingRight
+                val stopY = editText.paddingTop + editText.layout.getLineBottom(i)
+                canvas?.drawLine( // draw divider for each visible line
+                    startX.toFloat(), startY.toFloat(),
+                    stopX.toFloat(), stopY.toFloat(),
+                    dividerPaint
+                )
+                i++
+            }
+        }
+    }
+}
+```
+
+**Third,** create an extension function to improve code readability when
+adding your plugin to a `PluginSupplier`:
+
+```kotlin
+fun PluginSupplier.verticalDividers(block: CustomPlugin.() -> Unit = {}) {
+    plugin(CustomPlugin(), block)
+}
+```
+
+**Finally,** you can attach your plugin using DSL:
+
+```kotlin
+val pluginSupplier = PluginSupplier.create {
+    verticalDividers {
+        publicProperty = true // whether should draw the dividers
+    }
+    ...
+}
+editor.plugins(pluginSupplier)
 ```
 
 ---
