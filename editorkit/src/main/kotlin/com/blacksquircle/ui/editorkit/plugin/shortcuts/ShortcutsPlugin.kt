@@ -30,18 +30,23 @@ class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
         Log.d(PLUGIN_ID, "Shortcuts plugin loaded successfully!")
     }
 
+    override fun onDetached(editText: TextProcessor) {
+        super.onDetached(editText)
+        onShortcutListener = null
+    }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (event != null && onShortcutListener != null) {
+        onShortcutListener?.let { onShortcutListener ->
             val shortcut = Shortcut(
-                ctrl = event.isCtrlPressed,
-                shift = event.isShiftPressed,
-                alt = event.isAltPressed,
+                ctrl = event?.isCtrlPressed ?: CTRL_DEFAULT,
+                shift = event?.isShiftPressed ?: SHIFT_DEFAULT,
+                alt = event?.isAltPressed ?: ALT_DEFAULT,
                 keyCode = keyCode
             )
 
-            // Shortcuts can be handled only if one of these keys is pressed
+            // Shortcuts can be handled only if one of following keys is pressed
             if (shortcut.ctrl || shortcut.shift || shortcut.alt) {
-                if (onShortcutListener!!.onShortcut(shortcut)) {
+                if (onShortcutListener.onShortcut(shortcut)) {
                     return true
                 }
             }
@@ -50,6 +55,11 @@ class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     companion object {
+
         const val PLUGIN_ID = "shortcuts-1095"
+
+        private const val CTRL_DEFAULT = false
+        private const val SHIFT_DEFAULT = false
+        private const val ALT_DEFAULT = false
     }
 }

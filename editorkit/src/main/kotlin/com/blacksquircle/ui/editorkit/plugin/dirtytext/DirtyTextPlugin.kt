@@ -32,6 +32,11 @@ class DirtyTextPlugin : EditorPlugin(PLUGIN_ID) {
         Log.d(PLUGIN_ID, "DirtyText plugin loaded successfully!")
     }
 
+    override fun onDetached(editText: TextProcessor) {
+        super.onDetached(editText)
+        onChangeListener = null
+    }
+
     override fun afterTextChanged(text: Editable?) {
         super.afterTextChanged(text)
         if (!isDirty) {
