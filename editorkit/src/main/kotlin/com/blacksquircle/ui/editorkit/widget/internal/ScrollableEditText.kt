@@ -83,7 +83,16 @@ abstract class ScrollableEditText @JvmOverloads constructor(
 
     override fun computeScroll() {
         if (textScroller.computeScrollOffset()) {
-            scrollTo(textScroller.currX, textScroller.currY)
+            val currX = textScroller.currX
+            val currY = textScroller.currY
+            if (currY < 0) {
+                val isValidPosition = scrollY - abs(currY) > 0
+                if (isValidPosition) {
+                    scrollTo(currX, currY)
+                }
+            } else {
+                scrollTo(currX, currY)
+            }
             postInvalidate()
         }
     }
