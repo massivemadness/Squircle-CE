@@ -15,4 +15,9 @@
   ~ limitations under the License.
   -->
 
-<manifest package="com.blacksquircle.ui.feature.settings"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.blacksquircle.ui.feature.settings">
+
+    <application android:theme="@style/AppTheme" />
+
+</manifest>
