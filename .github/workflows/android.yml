@@ -11,15 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build Debug APK
-      run: bash ./gradlew :app:assembleDebug
+    - name: set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew :app:assembleDebug
     - name: Upload Debug APK (Google Play)
       uses: actions/upload-artifact@v2
       with:
-        name: App-googleplay-debug
+        name: Google Play App (Debug)
         path: ./app/build/outputs/apk/googlePlay/debug/app-googlePlay-debug.apk
     - name: Upload Debug APK (F-Droid)
       uses: actions/upload-artifact@v2
       with:
-        name: App-fdroid-debug   
+        name: F-Droid App (Debug)
         path: ./app/build/outputs/apk/fdroid/debug/app-fdroid-debug.apk
