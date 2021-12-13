@@ -22,22 +22,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar"
-        android:background="?colorSurface"
-        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
-        android:elevation="4dp"
-        tools:title="Settings"/>
+        app:navigationIconTint="?colorOnSurface"
+        tools:title="Settings" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nav_host"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:navGraph="@navigation/settings_graph"
-        app:defaultNavHost="true"
-        tools:ignore="FragmentTagUsage"/>
+        app:defaultNavHost="true" />
 
 </LinearLayout>

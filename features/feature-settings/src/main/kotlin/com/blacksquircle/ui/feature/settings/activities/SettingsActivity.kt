@@ -21,7 +21,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.blacksquircle.ui.core.extensions.fragment
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.ActivitySettingsBinding
@@ -42,8 +42,8 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navController = supportFragmentManager
-            .fragment<NavHostFragment>(R.id.nav_host).navController
+        navController = binding.navHost.getFragment<NavHostFragment>()
+            .findNavController()
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.title = destination.label
         }

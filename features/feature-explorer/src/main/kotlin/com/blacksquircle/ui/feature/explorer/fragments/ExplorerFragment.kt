@@ -28,6 +28,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.adapters.TabAdapter
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.*
@@ -61,8 +62,8 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        navController = childFragmentManager
-            .fragment<NavHostFragment>(R.id.nav_host).navController
+        navController = binding.navHost.getFragment<NavHostFragment>()
+            .findNavController()
 
         setSupportActionBar(binding.toolbar)
         binding.swipeRefresh.setOnRefreshListener {
