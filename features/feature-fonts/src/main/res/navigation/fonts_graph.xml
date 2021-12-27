@@ -33,13 +33,15 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/externalFontFragment"/>
+            app:destination="@id/externalFontFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/externalFontFragment"
         android:name="com.blacksquircle.ui.feature.fonts.fragments.ExternalFontFragment"
         android:label="@string/label_external_font"
-        tools:layout="@layout/fragment_external_font"/>
+        tools:layout="@layout/fragment_external_font">
+        <deepLink app:uri="blacksquircle://fonts/create" />
+    </fragment>
 
 </navigation>

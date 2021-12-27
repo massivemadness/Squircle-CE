@@ -17,49 +17,58 @@
 package com.blacksquircle.ui.feature.fonts.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
+import com.blacksquircle.ui.core.viewstate.ViewState
 import com.blacksquircle.ui.domain.model.fonts.FontModel
+import com.blacksquircle.ui.domain.providers.resources.StringProvider
 import com.blacksquircle.ui.domain.repository.fonts.FontsRepository
 import com.blacksquircle.ui.feature.fonts.R
+import com.blacksquircle.ui.feature.fonts.viewstate.ExternalFontViewState
+import com.blacksquircle.ui.feature.fonts.viewstate.FontsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class FontsViewModel @Inject constructor(
+    private val stringProvider: StringProvider,
     private val fontsRepository: FontsRepository
 ) : ViewModel() {
 
-    companion object {
-        private const val TAG = "FontsViewModel"
+    private val _toastEvent = MutableSharedFlow<String>()
+    val toastEvent: SharedFlow<String> = _toastEvent
+
+    private val _popBackStackEvent = MutableSharedFlow<Unit>()
+    val popBackStackEvent: SharedFlow<Unit> = _popBackStackEvent
+
+    private val _fontsState = MutableStateFlow<ViewState>(ViewState.Loading)
+    val fontsState: StateFlow<ViewState> = _fontsState
+
+    private val _externalFontState = MutableStateFlow<ViewState>(ExternalFontViewState.Invalid)
+    val externalFontState: StateFlow<ViewState> = _externalFontState
+
+    init {
+        fetchFonts("")
     }
 
-    val toastEvent = SingleLiveEvent<Int>()
-    val fontsEvent = MutableLiveData<List<FontModel>>()
-    val validationEvent = MutableLiveData<Boolean>()
-
-    val selectEvent = SingleLiveEvent<String>()
-    val insertEvent = SingleLiveEvent<String>()
-    val removeEvent = SingleLiveEvent<String>()
-
-    var searchQuery = ""
-
-    fun fetchFonts() {
+    fun fetchFonts(query: String) {
         viewModelScope.launch {
             try {
-                val fonts = fontsRepository.fetchFonts(searchQuery)
-                fontsEvent.value = if (searchQuery.isEmpty()) {
-                    fonts + internalFonts()
+                val fonts = fontsRepository.fetchFonts(query)
+                if (fonts.isNotEmpty()) {
+                    _fontsState.value = FontsViewState.Data(query, fonts)
                 } else {
-                    fonts
+                    _fontsState.value = FontsViewState.Empty(query)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
@@ -68,10 +77,15 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.createFont(fontModel)
-                insertEvent.value = fontModel.fontName
+                _popBackStackEvent.emit(Unit)
+                _toastEvent.emit(stringProvider.getString(
+                    R.string.message_new_font_available,
+                    fontModel.fontName
+                ))
+                fetchFonts("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
@@ -80,11 +94,14 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.removeFont(fontModel)
-                removeEvent.value = fontModel.fontName
-                fetchFonts() // update list
+                _toastEvent.emit(stringProvider.getString(
+                    R.string.message_font_removed,
+                    fontModel.fontName
+                ))
+                fetchFonts("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
@@ -93,10 +110,13 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.selectFont(fontModel)
-                selectEvent.value = fontModel.fontName
+                _toastEvent.emit(stringProvider.getString(
+                    R.string.message_selected,
+                    fontModel.fontName
+                ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
@@ -104,48 +124,17 @@ class FontsViewModel @Inject constructor(
     fun validateInput(fontName: String, fontPath: String) {
         val isFontNameValid = fontName.trim().isNotBlank()
         val isFontPathValid = fontPath.trim().isNotBlank() && File(fontPath)
-            .run { exists() && name.endsWith(".ttf") }
-        validationEvent.value = isFontNameValid && isFontPathValid
+            .run { exists() && name.endsWith(TTF, ignoreCase = true) }
+
+        if (isFontNameValid && isFontPathValid) {
+            _externalFontState.value = ExternalFontViewState.Valid
+        } else {
+            _externalFontState.value = ExternalFontViewState.Invalid
+        }
     }
 
-    private fun internalFonts(): List<FontModel> {
-        return listOf(
-            FontModel(
-                fontName = "Droid Sans Mono",
-                fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
-                supportLigatures = false,
-                isExternal = false
-            ),
-            FontModel(
-                fontName = "JetBrains Mono",
-                fontPath = "file:///android_asset/fonts/jetbrains_mono.ttf",
-                supportLigatures = true,
-                isExternal = false
-            ),
-            FontModel(
-                fontName = "Fira Code",
-                fontPath = "file:///android_asset/fonts/fira_code.ttf",
-                supportLigatures = true,
-                isExternal = false
-            ),
-            FontModel(
-                fontName = "Source Code Pro",
-                fontPath = "file:///android_asset/fonts/source_code_pro.ttf",
-                supportLigatures = false,
-                isExternal = false
-            ),
-            FontModel(
-                fontName = "Anonymous Pro",
-                fontPath = "file:///android_asset/fonts/anonymous_pro.ttf",
-                supportLigatures = false,
-                isExternal = false
-            ),
-            FontModel(
-                fontName = "DejaVu Sans Mono",
-                fontPath = "file:///android_asset/fonts/dejavu_sans_mono.ttf",
-                supportLigatures = false,
-                isExternal = false
-            )
-        )
+    companion object {
+        private const val TAG = "FontsViewModel"
+        private const val TTF = ".ttf"
     }
 }

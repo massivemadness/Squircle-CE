@@ -20,7 +20,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.showToast
@@ -28,12 +30,15 @@ import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentExternalFontBinding
 import com.blacksquircle.ui.feature.fonts.viewmodel.FontsViewModel
+import com.blacksquircle.ui.feature.fonts.viewstate.ExternalFontViewState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
 
-    private val viewModel by viewModels<FontsViewModel>()
+    private val viewModel by activityViewModels<FontsViewModel>()
     private val binding by viewBinding(FragmentExternalFontBinding::bind)
     private val navController by navController()
 
@@ -44,13 +49,13 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
         binding.textInputFontName.doAfterTextChanged {
             viewModel.validateInput(
                 fontName = it.toString(),
-                fontPath = binding.textInputFontPath.text.toString()
+                fontPath = binding.textInputFontPath.text.toString(),
             )
         }
         binding.textInputFontPath.doAfterTextChanged {
             viewModel.validateInput(
                 fontName = binding.textInputFontName.text.toString(),
-                fontPath = it.toString()
+                fontPath = it.toString(),
             )
         }
         binding.actionSave.setOnClickListener {
@@ -65,15 +70,21 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner) {
-            context?.showToast(it)
-        }
-        viewModel.validationEvent.observe(viewLifecycleOwner) {
-            binding.actionSave.isEnabled = it
-        }
-        viewModel.insertEvent.observe(viewLifecycleOwner) {
-            context?.showToast(text = getString(R.string.message_new_font_available, it))
-            navController.navigateUp()
-        }
+        viewModel.toastEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { context?.showToast(text = it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.popBackStackEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { navController.popBackStack() }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.externalFontState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    ExternalFontViewState.Valid -> binding.actionSave.isEnabled = true
+                    ExternalFontViewState.Invalid -> binding.actionSave.isEnabled = false
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

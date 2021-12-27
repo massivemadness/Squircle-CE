@@ -71,11 +71,6 @@ class FontAdapter(
             binding.actionRemove.setOnClickListener {
                 actions.removeFont(fontModel)
             }
-            itemView.setOnClickListener {
-                if (!binding.actionSelect.isEnabled) {
-                    actions.selectFont(fontModel)
-                }
-            }
         }
 
         fun bind(item: FontModel) {

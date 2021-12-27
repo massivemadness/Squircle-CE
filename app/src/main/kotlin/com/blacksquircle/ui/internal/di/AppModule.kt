@@ -16,11 +16,15 @@
 
 package com.blacksquircle.ui.internal.di
 
+import android.content.Context
 import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
+import com.blacksquircle.ui.domain.providers.resources.StringProvider
 import com.blacksquircle.ui.internal.providers.coroutine.DispatcherProviderImpl
+import com.blacksquircle.ui.internal.providers.resources.StringProviderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -32,5 +36,11 @@ object AppModule {
     @Singleton
     fun provideDispatcherProvider(): DispatcherProvider {
         return DispatcherProviderImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideStringProvider(@ApplicationContext context: Context): StringProvider {
+        return StringProviderImpl(context)
     }
 }

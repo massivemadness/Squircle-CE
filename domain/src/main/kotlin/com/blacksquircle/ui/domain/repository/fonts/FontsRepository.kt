@@ -20,7 +20,7 @@ import com.blacksquircle.ui.domain.model.fonts.FontModel
 
 interface FontsRepository {
 
-    suspend fun fetchFonts(searchQuery: String): List<FontModel>
+    suspend fun fetchFonts(query: String): List<FontModel>
 
     suspend fun createFont(fontModel: FontModel)
     suspend fun removeFont(fontModel: FontModel)

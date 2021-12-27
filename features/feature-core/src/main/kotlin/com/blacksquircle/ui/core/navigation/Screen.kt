@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.core.navigation
 
-sealed class Screen(val route: String) {
+abstract class Screen(val route: String) {
     object Settings : Screen("blacksquircle://settings")
     object Fonts : Screen("blacksquircle://fonts")
     object Themes : Screen("blacksquircle://themes")

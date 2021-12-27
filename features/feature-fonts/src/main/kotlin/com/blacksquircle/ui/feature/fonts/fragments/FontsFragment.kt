@@ -21,26 +21,34 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.debounce
+import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.viewstate.ViewState
 import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.adapters.FontAdapter
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
+import com.blacksquircle.ui.feature.fonts.navigation.FontsScreen
 import com.blacksquircle.ui.feature.fonts.viewmodel.FontsViewModel
+import com.blacksquircle.ui.feature.fonts.viewstate.FontsViewState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class FontsFragment : Fragment(R.layout.fragment_fonts) {
 
-    private val viewModel by viewModels<FontsViewModel>()
+    private val viewModel by activityViewModels<FontsViewModel>()
     private val binding by viewBinding(FragmentFontsBinding::bind)
     private val navController by navController()
 
@@ -67,10 +75,8 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         }
 
         binding.actionAdd.setOnClickListener {
-            navController.navigate(R.id.externalFontFragment)
+            navController.navigate(FontsScreen.ExternalFont)
         }
-
-        viewModel.fetchFonts()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -80,30 +86,45 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as? SearchView
 
-        if (viewModel.searchQuery.isNotEmpty()) {
-            searchItem.expandActionView()
-            searchView?.setQuery(viewModel.searchQuery, false)
+        val state = viewModel.fontsState.value
+        if (state is FontsViewState) {
+            if (state.query.isNotEmpty()) {
+                searchItem?.expandActionView()
+                searchView?.setQuery(state.query, false)
+            }
         }
 
         searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-            viewModel.searchQuery = it
-            viewModel.fetchFonts()
+            viewModel.fetchFonts(it)
         }
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner) {
-            context?.showToast(it)
-        }
-        viewModel.fontsEvent.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            binding.emptyView.isVisible = it.isEmpty()
-        }
-        viewModel.selectEvent.observe(viewLifecycleOwner) {
-            context?.showToast(text = getString(R.string.message_selected, it))
-        }
-        viewModel.removeEvent.observe(viewLifecycleOwner) {
-            context?.showToast(text = getString(R.string.message_font_removed, it))
-        }
+        viewModel.toastEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { context?.showToast(text = it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.fontsState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    ViewState.Loading -> {
+                        binding.loadingBar.isVisible = true
+                        binding.emptyView.isVisible = false
+                        binding.recyclerView.isInvisible = true
+                    }
+                    is FontsViewState.Empty -> {
+                        binding.loadingBar.isVisible = false
+                        binding.emptyView.isVisible = true
+                        binding.recyclerView.isInvisible = true
+                    }
+                    is FontsViewState.Data -> {
+                        binding.loadingBar.isVisible = false
+                        binding.emptyView.isVisible = false
+                        binding.recyclerView.isInvisible = false
+                        adapter.submitList(state.fonts)
+                    }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }
