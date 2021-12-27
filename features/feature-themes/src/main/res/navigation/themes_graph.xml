@@ -33,7 +33,7 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:destination="@id/newThemeFragment"/>
+            app:destination="@id/newThemeFragment" />
     </fragment>
 
     <fragment
@@ -41,10 +41,13 @@
         android:name="com.blacksquircle.ui.feature.themes.fragments.NewThemeFragment"
         android:label="@string/label_new_theme"
         tools:layout="@layout/fragment_new_theme">
+        <deepLink app:uri="blacksquircle://themes/create" />
+        <deepLink app:uri="blacksquircle://themes/update?uuid={uuid}" />
         <argument
             android:name="uuid"
+            android:defaultValue="@null"
             app:nullable="true"
-            app:argType="string"/>
+            app:argType="string" />
     </fragment>
 
 </navigation>

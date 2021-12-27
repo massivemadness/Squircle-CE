@@ -26,7 +26,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
@@ -46,13 +47,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
-    companion object {
-        const val NAV_THEME_UUID = "nav_uuid"
-    }
-
-    private val viewModel by viewModels<ThemesViewModel>()
+    private val viewModel by activityViewModels<ThemesViewModel>()
     private val binding by viewBinding(FragmentNewThemeBinding::bind)
     private val navController by navController()
+    private val navArgs by navArgs<NewThemeFragmentArgs>()
 
     private val importThemeContract: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -66,7 +64,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         if (savedInstanceState == null) {
-            viewModel.fetchProperties(arguments?.getString(NAV_THEME_UUID))
+            viewModel.fetchProperties(navArgs.uuid)
         }
     }
 

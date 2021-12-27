@@ -75,7 +75,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         }
 
         binding.actionAdd.setOnClickListener {
-            navController.navigate(FontsScreen.ExternalFont)
+            navController.navigate(FontsScreen.Create)
         }
     }
 

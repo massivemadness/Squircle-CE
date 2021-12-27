@@ -29,6 +29,7 @@ import com.blacksquircle.ui.domain.model.themes.Meta
 import com.blacksquircle.ui.domain.model.themes.Property
 import com.blacksquircle.ui.domain.model.themes.PropertyItem
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
+import com.blacksquircle.ui.domain.providers.resources.StringProvider
 import com.blacksquircle.ui.domain.repository.themes.ThemesRepository
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
@@ -38,12 +39,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ThemesViewModel @Inject constructor(
+    private val stringProvider: StringProvider,
     private val themesRepository: ThemesRepository
 ) : ViewModel() {
-
-    companion object {
-        private const val TAG = "ThemesViewModel"
-    }
 
     val toastEvent = SingleLiveEvent<Int>()
     val themesEvent = MutableLiveData<List<ThemeModel>>()
@@ -268,5 +266,9 @@ class ThemesViewModel @Inject constructor(
                 themeModel.colorScheme.entityRefColor.toHexString()
             )
         )
+    }
+
+    companion object {
+        private const val TAG = "ThemesViewModel"
     }
 }

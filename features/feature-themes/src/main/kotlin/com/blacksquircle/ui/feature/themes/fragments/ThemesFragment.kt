@@ -25,10 +25,9 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
@@ -36,11 +35,13 @@ import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.checkStorageAccess
 import com.blacksquircle.ui.core.extensions.debounce
+import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.adapters.ThemeAdapter
 import com.blacksquircle.ui.feature.themes.databinding.FragmentThemesBinding
+import com.blacksquircle.ui.feature.themes.navigation.ThemesScreen
 import com.blacksquircle.ui.feature.themes.utils.GridSpacingItemDecoration
 import com.blacksquircle.ui.feature.themes.utils.readAssetFileText
 import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
@@ -49,7 +50,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
-    private val viewModel by viewModels<ThemesViewModel>()
+    private val viewModel by activityViewModels<ThemesViewModel>()
     private val binding by viewBinding(FragmentThemesBinding::bind)
     private val navController by navController()
 
@@ -78,8 +79,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                 )
             }
             override fun editTheme(themeModel: ThemeModel) {
-                val bundle = bundleOf(NewThemeFragment.NAV_THEME_UUID to themeModel.uuid)
-                navController.navigate(R.id.newThemeFragment, bundle)
+                navController.navigate(ThemesScreen.Update(themeModel.uuid))
             }
             override fun removeTheme(themeModel: ThemeModel) = viewModel.removeTheme(themeModel)
             override fun showInfo(themeModel: ThemeModel) {
@@ -90,8 +90,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         }
 
         binding.actionAdd.setOnClickListener {
-            val bundle = bundleOf(NewThemeFragment.NAV_THEME_UUID to null)
-            navController.navigate(R.id.newThemeFragment, bundle)
+            navController.navigate(ThemesScreen.Create)
         }
 
         viewModel.fetchThemes()
