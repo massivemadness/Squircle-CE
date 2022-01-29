@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,13 @@ import android.view.MenuInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
@@ -37,6 +38,7 @@ import com.blacksquircle.ui.core.extensions.checkStorageAccess
 import com.blacksquircle.ui.core.extensions.debounce
 import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.viewstate.ViewState
 import com.blacksquircle.ui.domain.model.themes.ThemeModel
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.adapters.ThemeAdapter
@@ -45,7 +47,10 @@ import com.blacksquircle.ui.feature.themes.navigation.ThemesScreen
 import com.blacksquircle.ui.feature.themes.utils.GridSpacingItemDecoration
 import com.blacksquircle.ui.feature.themes.utils.readAssetFileText
 import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
+import com.blacksquircle.ui.feature.themes.viewstate.ThemesViewState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class ThemesFragment : Fragment(R.layout.fragment_themes) {
@@ -92,8 +97,6 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         binding.actionAdd.setOnClickListener {
             navController.navigate(ThemesScreen.Create)
         }
-
-        viewModel.fetchThemes()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -103,9 +106,16 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as? SearchView
 
-        if (viewModel.searchQuery.isNotEmpty()) {
-            searchItem.expandActionView()
-            searchView?.setQuery(viewModel.searchQuery, false)
+        val state = viewModel.themesState.value
+        if (state is ThemesViewState) {
+            if (state.query.isNotEmpty()) {
+                searchItem?.expandActionView()
+                searchView?.setQuery(state.query, false)
+            }
+        }
+
+        searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
+            viewModel.fetchThemes(it)
         }
 
         val spinnerItem = menu.findItem(R.id.spinner)
@@ -124,32 +134,34 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                 adapter.codeSnippet = requireContext().readAssetFileText(path) to extension
             }
         }
-
-        searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-            viewModel.searchQuery = it
-            viewModel.fetchThemes()
-        }
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner) {
-            context?.showToast(it)
-        }
-        viewModel.themesEvent.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            binding.emptyView.isVisible = it.isEmpty()
-        }
-        viewModel.selectEvent.observe(viewLifecycleOwner) {
-            context?.showToast(text = getString(R.string.message_selected, it))
-        }
-        viewModel.exportEvent.observe(viewLifecycleOwner) {
-            context?.showToast(
-                text = getString(R.string.message_theme_exported, it),
-                duration = Toast.LENGTH_LONG
-            )
-        }
-        viewModel.removeEvent.observe(viewLifecycleOwner) {
-            context?.showToast(text = getString(R.string.message_theme_removed, it))
-        }
+        viewModel.toastEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { context?.showToast(text = it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.themesState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    ViewState.Loading -> {
+                        binding.loadingBar.isVisible = true
+                        binding.emptyView.isVisible = false
+                        binding.recyclerView.isInvisible = true
+                    }
+                    is ThemesViewState.Empty -> {
+                        binding.loadingBar.isVisible = false
+                        binding.emptyView.isVisible = true
+                        binding.recyclerView.isInvisible = true
+                    }
+                    is ThemesViewState.Data -> {
+                        binding.loadingBar.isVisible = false
+                        binding.emptyView.isVisible = false
+                        binding.recyclerView.isInvisible = false
+                        adapter.submitList(state.themes)
+                    }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,11 +76,6 @@ class ThemeAdapter(
         private lateinit var themeModel: ThemeModel
 
         init {
-            itemView.setOnClickListener {
-                if (!binding.actionSelect.isEnabled) {
-                    actions.selectTheme(themeModel)
-                }
-            }
             binding.actionSelect.setOnClickListener {
                 actions.selectTheme(themeModel)
             }

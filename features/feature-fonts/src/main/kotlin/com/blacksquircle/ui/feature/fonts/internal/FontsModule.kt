@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,10 @@ object FontsModule {
         settingsManager: SettingsManager,
         appDatabase: AppDatabase
     ): FontsRepository {
-        return FontsRepositoryImpl(dispatcherProvider, settingsManager, appDatabase)
+        return FontsRepositoryImpl(
+            dispatcherProvider = dispatcherProvider,
+            settingsManager = settingsManager,
+            appDatabase = appDatabase
+        )
     }
 }

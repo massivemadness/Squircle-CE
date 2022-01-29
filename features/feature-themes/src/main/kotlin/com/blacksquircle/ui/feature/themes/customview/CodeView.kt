@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,12 @@ class CodeView @JvmOverloads constructor(
                 if (layout != null) {
                     val currentText = text.toSpannable()
                     for (span in spans) {
-                        currentText.setSpan(span, span.start, span.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        currentText.setSpan(
+                            span,
+                            span.start,
+                            span.end,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
                     }
                     text = currentText
                 }

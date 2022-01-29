@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.domain.model.themes
 
 data class Meta(
-    val uuid: String,
-    val name: String,
-    val author: String,
-    val description: String
+    val uuid: String = "",
+    val name: String = "",
+    val author: String = "",
+    val description: String = ""
 )

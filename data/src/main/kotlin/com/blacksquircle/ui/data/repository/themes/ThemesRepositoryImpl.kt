@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import com.blacksquircle.ui.data.model.themes.ExternalTheme
 import com.blacksquircle.ui.data.storage.database.AppDatabase
 import com.blacksquircle.ui.data.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.data.utils.InternalTheme
 import com.blacksquircle.ui.domain.model.themes.Meta
 import com.blacksquircle.ui.domain.model.themes.Property
 import com.blacksquircle.ui.domain.model.themes.PropertyItem
@@ -81,11 +82,17 @@ class ThemesRepositoryImpl(
 
     // endregion PROPERTIES
 
-    override suspend fun fetchThemes(searchQuery: String): List<ThemeModel> {
+    override suspend fun fetchThemes(query: String): List<ThemeModel> {
         return withContext(dispatcherProvider.io()) {
-            appDatabase.themeDao()
-                .loadAll(searchQuery)
+            val themes = appDatabase.themeDao()
+                .loadAll(query)
                 .map(ThemeConverter::toModel)
+
+            if (query.isEmpty()) {
+                themes + InternalTheme.themes()
+            } else {
+                themes
+            }
         }
     }
 

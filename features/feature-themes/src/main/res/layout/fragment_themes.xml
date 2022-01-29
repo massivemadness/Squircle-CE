@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021 Squircle IDE contributors.
+  ~ Copyright 2022 Squircle IDE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -29,7 +29,13 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="@integer/themes_row_count"
         tools:itemCount="2"
-        tools:listitem="@layout/item_theme"/>
+        tools:listitem="@layout/item_theme" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/loading_bar" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -44,7 +50,7 @@
             android:layout_height="92dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_file_find"
-            app:tint="?colorOnBackground"/>
+            app:tint="?colorOnBackground" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,7 +60,7 @@
             android:textColor="?colorOnBackground"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:text="@string/message_no_result"/>
+            android:text="@string/message_no_result" />
 
     </LinearLayout>
 
@@ -66,6 +72,6 @@
         android:src="@drawable/ic_plus"
         app:layout_anchor="@id/recycler_view"
         app:layout_anchorGravity="bottom|end"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

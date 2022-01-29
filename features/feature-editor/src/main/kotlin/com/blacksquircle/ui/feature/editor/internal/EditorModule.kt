@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,17 +39,15 @@ object EditorModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
-        @Named("Local")
-        localFilesystem: Filesystem,
-        @Named("Cache")
-        cacheFilesystem: Filesystem
+        @Named("Local") localFilesystem: Filesystem,
+        @Named("Cache") cacheFilesystem: Filesystem
     ): DocumentRepository {
         return DocumentRepositoryImpl(
-            dispatcherProvider,
-            settingsManager,
-            appDatabase,
-            localFilesystem,
-            cacheFilesystem
+            dispatcherProvider = dispatcherProvider,
+            settingsManager = settingsManager,
+            appDatabase = appDatabase,
+            localFilesystem = localFilesystem,
+            cacheFilesystem = cacheFilesystem
         )
     }
 }

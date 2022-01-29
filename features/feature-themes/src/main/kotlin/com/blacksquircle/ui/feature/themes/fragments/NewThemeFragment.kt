@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -27,6 +28,8 @@ import androidx.core.graphics.toColorInt
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
@@ -42,7 +45,12 @@ import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.adapters.PropertyAdapter
 import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
 import com.blacksquircle.ui.feature.themes.viewmodel.ThemesViewModel
+import com.blacksquircle.ui.feature.themes.viewstate.NewThemeViewState
+import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import java.util.*
 
 @AndroidEntryPoint
 class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
@@ -58,7 +66,6 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         }
 
     private lateinit var adapter: PropertyAdapter
-    private lateinit var meta: Meta
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +79,19 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
+        binding.textInputThemeName.doAfterTextChanged {
+            viewModel.onThemeNameChanged(it.toString())
+        }
+        binding.textInputThemeAuthor.doAfterTextChanged {
+            viewModel.onThemeAuthorChanged(it.toString())
+        }
+        binding.textInputThemeDescription.doAfterTextChanged {
+            viewModel.onThemeDescriptionChanged(it.toString())
+        }
+
         binding.recyclerView.setHasFixedSize(false)
         binding.recyclerView.adapter = PropertyAdapter(object : OnItemClickListener<PropertyItem> {
+            @SuppressLint("CheckResult")
             override fun onClick(item: PropertyItem) {
                 MaterialDialog(requireContext()).show {
                     title(R.string.dialog_title_color_picker)
@@ -84,9 +102,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                         allowCustomArgb = true,
                         showAlphaSelector = false
                     ) { _, color ->
-                        val index = adapter.currentList.indexOf(item)
-                        adapter.currentList[index].propertyValue = color.toHexString()
-                        adapter.notifyItemChanged(index)
+                        viewModel.onThemePropertyChanged(item.propertyKey, color.toHexString())
                     }
                     positiveButton(R.string.action_select)
                     negativeButton(R.string.action_cancel)
@@ -97,13 +113,14 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         }
 
         binding.actionSave.setOnClickListener {
+            val meta = Meta(
+                uuid = navArgs.uuid ?: UUID.randomUUID().toString(),
+                name = binding.textInputThemeName.text.toString(),
+                author = binding.textInputThemeAuthor.text.toString(),
+                description = binding.textInputThemeDescription.text.toString()
+            )
             viewModel.createTheme(meta, adapter.currentList)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.metaEvent.value = meta
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -119,38 +136,43 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner) {
-            context?.showToast(it)
-        }
-        viewModel.validationEvent.observe(viewLifecycleOwner) {
-            binding.actionSave.isEnabled = it
-        }
-        viewModel.createEvent.observe(viewLifecycleOwner) {
-            context?.showToast(text = getString(R.string.message_new_theme_available, it))
-            navController.navigateUp()
-        }
-        viewModel.metaEvent.observe(viewLifecycleOwner) {
-            meta = it
+        viewModel.toastEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { context?.showToast(text = it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-            binding.textInputThemeName.doAfterTextChanged { updateMeta() }
-            binding.textInputThemeAuthor.doAfterTextChanged { updateMeta() }
-            binding.textInputThemeDescription.doAfterTextChanged { updateMeta() }
+        viewModel.popBackStackEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { navController.popBackStack() }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-            binding.textInputThemeName.setText(it.name)
-            binding.textInputThemeAuthor.setText(it.author)
-            binding.textInputThemeDescription.setText(it.description)
-        }
-        viewModel.propertiesEvent.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-    }
+        viewModel.newThemeState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is NewThemeViewState.MetaData -> {
+                        val name = binding.textInputThemeName.text.toString()
+                        val author = binding.textInputThemeAuthor.text.toString()
+                        val description = binding.textInputThemeDescription.text.toString()
 
-    private fun updateMeta() {
-        meta = meta.copy(
-            name = binding.textInputThemeName.text.toString(),
-            author = binding.textInputThemeAuthor.text.toString(),
-            description = binding.textInputThemeDescription.text.toString()
-        )
-        viewModel.validateInput(meta.name, meta.author, meta.description)
+                        if (name != state.meta.name) {
+                            binding.textInputThemeName.setText(state.meta.name)
+                        }
+                        if (author != state.meta.author) {
+                            binding.textInputThemeAuthor.setText(state.meta.author)
+                        }
+                        if (description != state.meta.description) {
+                            binding.textInputThemeDescription.setText(state.meta.description)
+                        }
+
+                        val isNameValid = state.meta.name.trim().isValidFileName()
+                        val isAuthorValid = state.meta.author.trim().isNotBlank()
+                        val isDescriptionValid = state.meta.description.trim().isNotBlank()
+
+                        binding.actionSave.isEnabled =
+                            isNameValid && isAuthorValid && isDescriptionValid
+
+                        adapter.submitList(state.properties)
+                    }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

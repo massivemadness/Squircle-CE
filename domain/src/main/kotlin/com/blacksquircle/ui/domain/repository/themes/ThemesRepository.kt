@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.blacksquircle.ui.domain.model.themes.ThemeModel
 
 interface ThemesRepository {
 
-    suspend fun fetchThemes(searchQuery: String): List<ThemeModel>
+    suspend fun fetchThemes(query: String): List<ThemeModel>
     suspend fun fetchTheme(uuid: String): ThemeModel
 
     suspend fun importTheme(uri: Uri): ThemeModel

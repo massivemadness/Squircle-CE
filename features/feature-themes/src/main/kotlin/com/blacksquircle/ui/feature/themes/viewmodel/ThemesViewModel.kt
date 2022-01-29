@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,10 @@ package com.blacksquircle.ui.feature.themes.viewmodel
 
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
+import com.blacksquircle.ui.core.viewstate.ViewState
 import com.blacksquircle.ui.data.converter.ThemeConverter
-import com.blacksquircle.ui.data.utils.InternalTheme
 import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.themes.Meta
 import com.blacksquircle.ui.domain.model.themes.Property
@@ -32,8 +30,13 @@ import com.blacksquircle.ui.domain.model.themes.ThemeModel
 import com.blacksquircle.ui.domain.providers.resources.StringProvider
 import com.blacksquircle.ui.domain.repository.themes.ThemesRepository
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
+import com.blacksquircle.ui.feature.themes.viewstate.NewThemeViewState
+import com.blacksquircle.ui.feature.themes.viewstate.ThemesViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,32 +46,35 @@ class ThemesViewModel @Inject constructor(
     private val themesRepository: ThemesRepository
 ) : ViewModel() {
 
-    val toastEvent = SingleLiveEvent<Int>()
-    val themesEvent = MutableLiveData<List<ThemeModel>>()
+    private val _toastEvent = MutableSharedFlow<String>()
+    val toastEvent: SharedFlow<String> = _toastEvent
 
-    val validationEvent = SingleLiveEvent<Boolean>()
-    val metaEvent = MutableLiveData<Meta>()
-    val propertiesEvent = MutableLiveData<List<PropertyItem>>()
+    private val _popBackStackEvent = MutableSharedFlow<Unit>()
+    val popBackStackEvent: SharedFlow<Unit> = _popBackStackEvent
 
-    val selectEvent = SingleLiveEvent<String>()
-    val exportEvent = SingleLiveEvent<String>()
-    val createEvent = SingleLiveEvent<String>()
-    val removeEvent = SingleLiveEvent<String>()
+    private val _themesState = MutableStateFlow<ViewState>(ViewState.Loading)
+    val themesState: StateFlow<ViewState> = _themesState
 
-    var searchQuery: String = ""
+    private val _newThemeState = MutableStateFlow<ViewState>(
+        NewThemeViewState.MetaData(Meta(), emptyList()))
+    val newThemeState: StateFlow<ViewState> = _newThemeState
 
-    fun fetchThemes() {
+    init {
+        fetchThemes("")
+    }
+
+    fun fetchThemes(query: String) {
         viewModelScope.launch {
             try {
-                val themes = themesRepository.fetchThemes(searchQuery)
-                themesEvent.value = if (searchQuery.isEmpty()) {
-                    themes + InternalTheme.themes()
+                val themes = themesRepository.fetchThemes(query)
+                if (themes.isNotEmpty()) {
+                    _themesState.value = ThemesViewState.Data(query, themes)
                 } else {
-                    themes
+                    _themesState.value = ThemesViewState.Empty(query)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
@@ -80,7 +86,7 @@ class ThemesViewModel @Inject constructor(
                 loadProperties(themeModel)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_theme_syntax_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_theme_syntax_exception))
             }
         }
     }
@@ -89,10 +95,13 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.exportTheme(themeModel)
-                exportEvent.value = themeModel.name.lowercase()
+                _toastEvent.emit(stringProvider.getString(
+                    R.string.message_theme_exported,
+                    themeModel.name.lowercase()
+                ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
@@ -101,11 +110,14 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.removeTheme(themeModel)
-                removeEvent.value = themeModel.name
-                fetchThemes() // update list
+                _toastEvent.emit(stringProvider.getString(
+                    R.string.message_theme_removed,
+                    themeModel.name
+                ))
+                fetchThemes("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
@@ -114,10 +126,13 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.selectTheme(themeModel)
-                selectEvent.value = themeModel.name
+                _toastEvent.emit(stringProvider.getString(
+                    R.string.message_selected,
+                    themeModel.name
+                ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
@@ -138,132 +153,180 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.createTheme(meta, properties)
-                createEvent.value = meta.name
+                _toastEvent.emit(stringProvider.getString(
+                    R.string.message_new_theme_available,
+                    meta.name
+                ))
+                _popBackStackEvent.emit(Unit)
+                fetchThemes("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
             }
         }
     }
 
-    fun validateInput(name: String, author: String, description: String) {
-        val isNameValid = name.trim().isValidFileName()
-        val isAuthorValid = author.trim().isNotBlank()
-        val isDescriptionValid = description.trim().isNotBlank()
-        validationEvent.value = isNameValid && isAuthorValid && isDescriptionValid
+    fun onThemeNameChanged(value: String) {
+        val state = newThemeState.value as? NewThemeViewState.MetaData
+        if (state != null) {
+            _newThemeState.value = state.copy(
+                meta = state.meta.copy(
+                    name = value
+                )
+            )
+        }
+    }
+
+    fun onThemeAuthorChanged(value: String) {
+        val state = newThemeState.value as? NewThemeViewState.MetaData
+        if (state != null) {
+            _newThemeState.value = state.copy(
+                meta = state.meta.copy(
+                    author = value
+                )
+            )
+        }
+    }
+
+    fun onThemeDescriptionChanged(value: String) {
+        val state = newThemeState.value as? NewThemeViewState.MetaData
+        if (state != null) {
+            _newThemeState.value = state.copy(
+                meta = state.meta.copy(
+                    description = value
+                )
+            )
+        }
+    }
+
+    fun onThemePropertyChanged(key: Property, value: String) {
+        val state = newThemeState.value as? NewThemeViewState.MetaData
+        if (state != null) {
+            _newThemeState.value = state.copy(
+                properties = state.properties.map { propertyItem ->
+                    if (propertyItem.propertyKey == key) {
+                        propertyItem.copy(propertyValue = value)
+                    } else {
+                        propertyItem
+                    }
+                }
+            )
+        }
     }
 
     private fun loadProperties(themeModel: ThemeModel) {
-        metaEvent.value = Meta(
-            uuid = themeModel.uuid,
-            name = themeModel.name,
-            author = themeModel.author,
-            description = themeModel.description
-        )
-        propertiesEvent.value = listOf(
-            PropertyItem(
-                Property.TEXT_COLOR,
-                themeModel.colorScheme.textColor.toHexString()
+        _newThemeState.value = NewThemeViewState.MetaData(
+            meta = Meta(
+                uuid = themeModel.uuid,
+                name = themeModel.name,
+                author = themeModel.author,
+                description = themeModel.description
             ),
-            PropertyItem(
-                Property.BACKGROUND_COLOR,
-                themeModel.colorScheme.backgroundColor.toHexString()
-            ),
-            PropertyItem(
-                Property.GUTTER_COLOR,
-                themeModel.colorScheme.gutterColor.toHexString(),
-            ),
-            PropertyItem(
-                Property.GUTTER_DIVIDER_COLOR,
-                themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString()
-            ),
-            PropertyItem(
-                Property.GUTTER_CURRENT_LINE_NUMBER_COLOR,
-                themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString()
-            ),
-            PropertyItem(
-                Property.GUTTER_TEXT_COLOR,
-                themeModel.colorScheme.gutterTextColor.toHexString()
-            ),
-            PropertyItem(
-                Property.SELECTED_LINE_COLOR,
-                themeModel.colorScheme.selectedLineColor.toHexString()
-            ),
-            PropertyItem(
-                Property.SELECTION_COLOR,
-                themeModel.colorScheme.selectionColor.toHexString()
-            ),
-            PropertyItem(
-                Property.SUGGESTION_QUERY_COLOR,
-                themeModel.colorScheme.suggestionQueryColor.toHexString()
-            ),
-            PropertyItem(
-                Property.FIND_RESULT_BACKGROUND_COLOR,
-                themeModel.colorScheme.findResultBackgroundColor.toHexString()
-            ),
-            PropertyItem(
-                Property.DELIMITER_BACKGROUND_COLOR,
-                themeModel.colorScheme.delimiterBackgroundColor.toHexString()
-            ),
-            PropertyItem(
-                Property.NUMBER_COLOR,
-                themeModel.colorScheme.numberColor.toHexString()
-            ),
-            PropertyItem(
-                Property.OPERATOR_COLOR,
-                themeModel.colorScheme.operatorColor.toHexString()
-            ),
-            PropertyItem(
-                Property.KEYWORD_COLOR,
-                themeModel.colorScheme.keywordColor.toHexString()
-            ),
-            PropertyItem(
-                Property.TYPE_COLOR,
-                themeModel.colorScheme.typeColor.toHexString()
-            ),
-            PropertyItem(
-                Property.LANG_CONST_COLOR,
-                themeModel.colorScheme.langConstColor.toHexString()
-            ),
-            PropertyItem(
-                Property.PREPROCESSOR_COLOR,
-                themeModel.colorScheme.preprocessorColor.toHexString()
-            ),
-            PropertyItem(
-                Property.VARIABLE_COLOR,
-                themeModel.colorScheme.variableColor.toHexString()
-            ),
-            PropertyItem(
-                Property.METHOD_COLOR,
-                themeModel.colorScheme.methodColor.toHexString()
-            ),
-            PropertyItem(
-                Property.STRING_COLOR,
-                themeModel.colorScheme.stringColor.toHexString()
-            ),
-            PropertyItem(
-                Property.COMMENT_COLOR,
-                themeModel.colorScheme.commentColor.toHexString()
-            ),
-            PropertyItem(
-                Property.TAG_COLOR,
-                themeModel.colorScheme.tagColor.toHexString()
-            ),
-            PropertyItem(
-                Property.TAG_NAME_COLOR,
-                themeModel.colorScheme.tagNameColor.toHexString()
-            ),
-            PropertyItem(
-                Property.ATTR_NAME_COLOR,
-                themeModel.colorScheme.attrNameColor.toHexString()
-            ),
-            PropertyItem(
-                Property.ATTR_VALUE_COLOR,
-                themeModel.colorScheme.attrValueColor.toHexString()
-            ),
-            PropertyItem(
-                Property.ENTITY_REF_COLOR,
-                themeModel.colorScheme.entityRefColor.toHexString()
+            properties = listOf(
+                PropertyItem(
+                    Property.TEXT_COLOR,
+                    themeModel.colorScheme.textColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.BACKGROUND_COLOR,
+                    themeModel.colorScheme.backgroundColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.GUTTER_COLOR,
+                    themeModel.colorScheme.gutterColor.toHexString(),
+                ),
+                PropertyItem(
+                    Property.GUTTER_DIVIDER_COLOR,
+                    themeModel.colorScheme.gutterDividerColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.GUTTER_CURRENT_LINE_NUMBER_COLOR,
+                    themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.GUTTER_TEXT_COLOR,
+                    themeModel.colorScheme.gutterTextColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.SELECTED_LINE_COLOR,
+                    themeModel.colorScheme.selectedLineColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.SELECTION_COLOR,
+                    themeModel.colorScheme.selectionColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.SUGGESTION_QUERY_COLOR,
+                    themeModel.colorScheme.suggestionQueryColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.FIND_RESULT_BACKGROUND_COLOR,
+                    themeModel.colorScheme.findResultBackgroundColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.DELIMITER_BACKGROUND_COLOR,
+                    themeModel.colorScheme.delimiterBackgroundColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.NUMBER_COLOR,
+                    themeModel.colorScheme.numberColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.OPERATOR_COLOR,
+                    themeModel.colorScheme.operatorColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.KEYWORD_COLOR,
+                    themeModel.colorScheme.keywordColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.TYPE_COLOR,
+                    themeModel.colorScheme.typeColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.LANG_CONST_COLOR,
+                    themeModel.colorScheme.langConstColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.PREPROCESSOR_COLOR,
+                    themeModel.colorScheme.preprocessorColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.VARIABLE_COLOR,
+                    themeModel.colorScheme.variableColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.METHOD_COLOR,
+                    themeModel.colorScheme.methodColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.STRING_COLOR,
+                    themeModel.colorScheme.stringColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.COMMENT_COLOR,
+                    themeModel.colorScheme.commentColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.TAG_COLOR,
+                    themeModel.colorScheme.tagColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.TAG_NAME_COLOR,
+                    themeModel.colorScheme.tagNameColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.ATTR_NAME_COLOR,
+                    themeModel.colorScheme.attrNameColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.ATTR_VALUE_COLOR,
+                    themeModel.colorScheme.attrValueColor.toHexString()
+                ),
+                PropertyItem(
+                    Property.ENTITY_REF_COLOR,
+                    themeModel.colorScheme.entityRefColor.toHexString()
+                )
             )
         )
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,9 +37,12 @@ object ExplorerModule {
     fun provideExplorerRepository(
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
-        @Named("Local")
-        filesystem: Filesystem
+        @Named("Local") filesystem: Filesystem
     ): ExplorerRepository {
-        return ExplorerRepositoryImpl(dispatcherProvider, settingsManager, filesystem)
+        return ExplorerRepositoryImpl(
+            dispatcherProvider = dispatcherProvider,
+            settingsManager = settingsManager,
+            filesystem = filesystem
+        )
     }
 }

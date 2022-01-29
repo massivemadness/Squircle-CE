@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Squircle IDE contributors.
+ * Copyright 2022 Squircle IDE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,18 +46,9 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        binding.textInputFontName.doAfterTextChanged {
-            viewModel.validateInput(
-                fontName = it.toString(),
-                fontPath = binding.textInputFontPath.text.toString(),
-            )
-        }
-        binding.textInputFontPath.doAfterTextChanged {
-            viewModel.validateInput(
-                fontName = binding.textInputFontName.text.toString(),
-                fontPath = it.toString(),
-            )
-        }
+        binding.textInputFontName.doAfterTextChanged { validateInput() }
+        binding.textInputFontPath.doAfterTextChanged { validateInput() }
+
         binding.actionSave.setOnClickListener {
             val fontModel = FontModel(
                 fontName = binding.textInputFontName.text.toString().trim(),
@@ -86,5 +77,12 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun validateInput() {
+        viewModel.validateInput(
+            fontName = binding.textInputFontName.text.toString(),
+            fontPath = binding.textInputFontPath.text.toString(),
+        )
     }
 }
