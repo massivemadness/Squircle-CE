@@ -30,9 +30,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
-import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.checkStorageAccess
 import com.blacksquircle.ui.core.extensions.debounce
@@ -57,7 +57,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     private val viewModel by activityViewModels<ThemesViewModel>()
     private val binding by viewBinding(FragmentThemesBinding::bind)
-    private val navController by navController()
+    private val navController by lazy { findNavController() }
 
     private lateinit var adapter: ThemeAdapter
 

@@ -23,7 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.blacksquircle.ui.core.delegate.navController
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.domain.model.fonts.FontModel
@@ -40,7 +40,7 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
 
     private val viewModel by activityViewModels<FontsViewModel>()
     private val binding by viewBinding(FragmentExternalFontBinding::bind)
-    private val navController by navController()
+    private val navController by lazy { findNavController() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -30,12 +30,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.blacksquircle.ui.core.adapters.OnItemClickListener
-import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.data.utils.toHexString
@@ -57,7 +57,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
     private val viewModel by activityViewModels<ThemesViewModel>()
     private val binding by viewBinding(FragmentNewThemeBinding::bind)
-    private val navController by navController()
+    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<NewThemeFragmentArgs>()
 
     private val importThemeContract: ActivityResultLauncher<Array<String>> =

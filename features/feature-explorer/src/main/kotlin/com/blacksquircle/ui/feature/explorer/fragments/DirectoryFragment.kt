@@ -25,6 +25,7 @@ import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.selection.DefaultSelectionTracker
 import androidx.recyclerview.selection.SelectionPredicates
@@ -34,7 +35,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.core.adapters.OnItemClickListener
-import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.navigation.DrawerHandler
@@ -60,7 +60,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val binding by viewBinding(FragmentDirectoryBinding::bind)
-    private val navController by navController()
+    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<DirectoryFragmentArgs>()
     private val drawerHandler by lazy { activity as DrawerHandler }
 

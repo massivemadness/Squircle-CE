@@ -27,8 +27,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.debounce
 import com.blacksquircle.ui.core.extensions.navigate
@@ -50,7 +50,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
 
     private val viewModel by activityViewModels<FontsViewModel>()
     private val binding by viewBinding(FragmentFontsBinding::bind)
-    private val navController by navController()
+    private val navController by lazy { findNavController() }
 
     private lateinit var adapter: FontAdapter
 

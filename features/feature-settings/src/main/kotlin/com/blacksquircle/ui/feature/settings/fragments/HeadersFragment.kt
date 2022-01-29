@@ -21,8 +21,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.adapters.OnItemClickListener
-import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.adapters.PreferenceAdapter
@@ -36,7 +36,7 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
 
     private val viewModel by activityViewModels<SettingsViewModel>()
     private val binding by viewBinding(FragmentHeadersBinding::bind)
-    private val navController by navController()
+    private val navController by lazy { findNavController() }
 
     private lateinit var adapter: PreferenceAdapter
 

@@ -23,8 +23,8 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
-import com.blacksquircle.ui.core.delegate.navController
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.checkStorageAccess
 import com.blacksquircle.ui.core.extensions.requestStorageAccess
@@ -38,7 +38,7 @@ class PermissionFragment : Fragment(R.layout.fragment_permission) {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val binding by viewBinding(FragmentPermissionBinding::bind)
-    private val navController by navController()
+    private val navController by lazy { findNavController() }
 
     private val requestResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {
@@ -61,7 +61,7 @@ class PermissionFragment : Fragment(R.layout.fragment_permission) {
                 onFailure = {
                     activity?.requestStorageAccess(
                         showRequestDialog = { requestResult.launch(WRITE_EXTERNAL_STORAGE) },
-                        showExplanationDialog = { showExplanationDialog(it) }
+                        showExplanationDialog = ::showExplanationDialog
                     )
                 }
             )
