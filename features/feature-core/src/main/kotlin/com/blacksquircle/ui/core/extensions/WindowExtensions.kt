@@ -17,15 +17,15 @@
 package com.blacksquircle.ui.core.extensions
 
 import android.view.Window
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 
 fun Window.fullscreenMode(whether: Boolean) {
-    val controller = WindowInsetsControllerCompat(this, decorView)
+    val controller = ViewCompat.getWindowInsetsController(decorView)
     val statusBarType = WindowInsetsCompat.Type.statusBars()
     if (whether) {
-        controller.hide(statusBarType)
+        controller?.hide(statusBarType)
     } else {
-        controller.show(statusBarType)
+        controller?.show(statusBarType)
     }
 }
