@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_permissions">Autorisations</string>
+    <string name="label_directory">Répertoire</string>
+    <string name="label_local_storage">Stockage Local</string>
+
+    <string name="hint_search">Recherche…</string>
+    <string name="hint_enter_file_name">Entrer le nom du fichier</string>
+    <string name="hint_enter_archive_name">Entrer le nom de l\'archive</string>
+    <string name="hint_file_name" translatable="false">file.txt</string>
+    <string name="hint_archive_name" translatable="false">archive.zip</string>
+
+    <string name="action_grant_access">Accorder l\'Accès</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_create">Créer</string>
+    <string name="action_copy_path">Copier le chemin d\'accès</string>
+    <string name="action_folder">Dossier</string>
+    <string name="action_rename">Renommer</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_run_in_background">Exécuter en arrière-plan</string>
+    <string name="action_show_hidden_files">Afficher les fichiers cachés</string>
+    <string name="action_create_zip">Créer un .zip</string>
+    <string name="action_open_as">Ouvrir en tant que</string>
+    <string name="action_properties">Propriétés</string>
+    <string name="action_cut">Couper</string>
+    <string name="action_copy">Copier</string>
+    <string name="action_paste">Coller</string>
+    <string name="action_select_all">Tout Sélectionner</string>
+    <string name="action_continue">Continuer</string>
+
+    <string name="dialog_title_create">Création…</string>
+    <string name="dialog_title_rename">Renommer…</string>
+    <string name="dialog_title_multi_delete">Suppression multiple</string>
+    <string name="dialog_title_properties">Propriétés</string>
+    <string name="dialog_title_deleting">Suppression…</string>
+    <string name="dialog_title_copying">Copie…</string>
+    <string name="dialog_title_compressing">Compression…</string>
+    <string name="dialog_title_extracting">Extraction…</string>
+    <string name="dialog_title_archive_name">Nom de l\'archive</string>
+    <string name="dialog_title_storage_access">Accès au Stockage</string>
+
+    <string name="dialog_message_delete">Êtes-vous sûr de vouloir supprimer ce fichier?</string>
+    <string name="dialog_message_multi_delete">Êtes-vous sûr de vouloir supprimer les fichiers sélectionnés?</string>
+    <string name="dialog_message_storage_access">Pour fonctionner correctement en tant que gestionnaire de fichiers, Squircle IDE nécessite l\'accès à tous les fichiers\n\nVeuillez accorder l\'autorisation sur cet appareil après avoir cliqué sur « Continuer »</string>
+
+    <string name="properties_name">&lt;b>Nom:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_path">&lt;b>Chemin:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_modified">&lt;b>Modifié le:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_size">&lt;b>Taille:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_line_count">&lt;b>Nombre de Lignes:&lt;/b> %d&lt;br&gt;</string>
+    <string name="properties_word_count">&lt;b>Nombre de Mots:&lt;/b> %d&lt;br&gt;</string>
+    <string name="properties_char_count">&lt;b>Nombre de Caractères:&lt;/b> %d</string>
+    <string name="properties_readable">R</string>
+    <string name="properties_writable">W</string>
+    <string name="properties_executable">X</string>
+
+    <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
+    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
+
+    <string name="sort_by_name">Trier par Nom</string>
+    <string name="sort_by_size">Trier par Taille</string>
+    <string name="sort_by_date">Trier par Date</string>
+
+    <string name="message_access_denied">Accès Refusé</string>
+    <string name="message_access_required">L\'application requiert l\'accès au stockage pour travailler avec les fichiers</string>
+    <string name="message_no_result">Aucun Résultat</string>
+    <string name="message_cannot_be_opened">Le fichier ne peut pas être ouvert</string>
+    <string name="message_invalid_file_name">Nom de fichier non valide</string>
+    <string name="message_unknown_exception">Une erreur s\'est produite</string>
+    <string name="message_directory_expected">Impossible d\'obtenir la liste des fichiers à partir du fichier</string>
+    <string name="message_file_already_exists">Le fichier existe déjà</string>
+    <string name="message_unsupported_archive">Archive non prise en charge</string>
+    <string name="message_invalid_archive">L\'archive est invalide</string>
+    <string name="message_split_archive">L\'archive est divisée</string>
+    <string name="message_encrypted_archive">L\'archive est chiffrée</string>
+    <string name="message_operation_cancelled">Opération annulée</string>
+    <string name="message_done">Fait</string>
+    <string name="message_file_not_found">Fichier introuvable</string>
+    <string name="message_elapsed_time">Temps écoulé: %1$s</string>
+    <string name="message_deleting">Suppression de…%1$s</string>
+    <string name="message_copying">Copie de…%1$s</string>
+    <string name="message_compressing">Compression de…%1$s</string>
+    <string name="message_extracting">Extraction de…%1$s</string>
+    <string name="message_of_total" translatable="false">%1$d / %2$d</string>
+
+</resources>
