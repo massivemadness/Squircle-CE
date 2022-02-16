@@ -313,9 +313,10 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             }
             for (span in syntaxHighlightSpans) {
                 val isInText = span.start >= 0 && span.end <= text.length
+                val isValid = span.start <= span.end
                 val isVisible = span.start in lineStart..lineEnd ||
                     span.start <= lineEnd && span.end >= lineStart
-                if (isInText && isVisible) {
+                if (isInText && isValid && isVisible) {
                     text.setSpan(
                         span,
                         if (span.start < lineStart) lineStart else span.start,
