@@ -71,6 +71,7 @@
     <string name="pref_fullscreen_summary">Die Anwendung im Vollbildmodus starten</string>
     <string name="pref_confirm_exit_title">Verlassen der App bestätigen</string>
     <string name="pref_confirm_exit_summary">Wenn Sie Zurück drücken, fragt Squircle IDE, ob es geschlossen werden soll.</string>
+
     <string name="pref_font_size_title">Editor-Schriftgröße</string>
     <string name="pref_font_size_summary">Die Standard-Schriftgröße für den Editor festlegen.</string>
     <string name="pref_font_type_title">Editor-Schriftart</string>
@@ -95,6 +96,7 @@
     <string name="pref_keyboard_preset_summary">Zeichen für erweiterte Tastatur auswählen.</string>
     <string name="pref_soft_keyboard_title">Soft-Tastatur</string>
     <string name="pref_soft_keyboard_summary">Immer die Soft-Tastatur verwenden.</string>
+
     <string name="pref_auto_indent_title">Auto-Einrückung</string>
     <string name="pref_auto_indent_summary">Neue Zeilen automatisch einrücken, um zu den vorheringen zu passen.</string>
     <string name="pref_close_brackets_title">Klammern automatisch schließen</string>
@@ -105,6 +107,7 @@
     <string name="pref_use_spaces_not_tabs_summary">Leerzeichen anstelle von Tabulatoren einsetzen, wenn Auto-Einrückung verwendet wird.</string>
     <string name="pref_tab_width_title">Tabulatorbreite</string>
     <string name="pref_tab_width_summary">Die angezeigte Breite von Tabulatoren festlegen.</string>
+
     <string name="pref_encoding_auto_detect_title">Kodierung automatisch erkennen</string>
     <string name="pref_encoding_auto_detect_summary">Nützlich für Multi-Byte-Sprachen.</string>
     <string name="pref_encoding_for_opening_title">Kodierung für das Öffnen von Dateien</string>
@@ -119,6 +122,7 @@
     <string name="pref_folders_on_top_summary">Ordner werden ganz oben angezeigt.</string>
     <string name="pref_view_mode_title">Anzeigemodus</string>
     <string name="pref_sort_mode_title">Sortiermodus</string>
+
     <string name="pref_about_summary">Squircle IDE ist ein Open-Source-Projekt, das unter der Apache 2.0-Lizenz veröffentlicht wurde  Version: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Datenschutzerklärung</string>
     <string name="pref_contribute_title">Zur Entwicklung beitragen</string>

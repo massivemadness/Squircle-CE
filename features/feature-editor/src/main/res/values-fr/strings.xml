@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="hint_line">Ligne:</string>
+    <string name="hint_enter_file_path">Entrer le chemin d\'accès du fichier</string>
+
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_close_others">Fermer les autres</string>
+    <string name="action_close_all">Tout Fermer</string>
+    <string name="action_insert">Insérer</string>
+    <string name="action_new">Nouveau</string>
+    <string name="action_open">Ouvrir</string>
+    <string name="action_save">Sauvegarder</string>
+    <string name="action_save_as">Enregistrer sous</string>
+    <string name="action_properties">Propriétés</string>
+    <string name="action_cut">Couper</string>
+    <string name="action_copy">Copier</string>
+    <string name="action_paste">Coller</string>
+    <string name="action_select_all">Tout Sélectionner</string>
+    <string name="action_select_line">Sélectionner une ligne</string>
+    <string name="action_delete_line">Supprimer une ligne</string>
+    <string name="action_duplicate_line">Dupliquer la ligne</string>
+    <string name="action_regex">Regex</string>
+    <string name="action_match_case">Cas de correspondance</string>
+    <string name="action_words_only">Mots Uniquements</string>
+    <string name="action_find">Trouver</string>
+    <string name="action_close_find">Fermer Trouver</string>
+    <string name="action_replace">Remplacer</string>
+    <string name="action_close_replace">Fermer Remplacer</string>
+    <string name="action_goto_line">Aller à la Ligne</string>
+    <string name="action_go_to">Aller à</string>
+    <string name="action_error_checking">Vérification des Erreurs</string>
+    <string name="action_insert_color">Insérer une Couleur</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="action_tools">Outils</string>
+
+    <string name="dialog_title_result">Résultat</string>
+    <string name="dialog_title_save_as">Enregistrer Sous…</string>
+    <string name="dialog_title_goto_line">Aller à la ligne…</string>
+    <string name="dialog_title_color_picker">Sélecteur de Couleurs</string>
+
+    <string name="dialog_message_close_tab">Voulez-vous vraiment fermer ce fichier? Toutes les modifications non enregistrées seront supprimées</string>
+
+    <string name="message_no_open_files">Aucun fichier ouvert</string>
+    <string name="message_tab_limit_achieved">Limite du nombre d\'onglets atteinte</string>
+    <string name="message_invalid_file_path">Chemin d\'accès au fichier invalide</string>
+    <string name="message_unknown_exception">Une erreur est survenue</string>
+    <string name="message_file_not_found">Fichier introuvable</string>
+    <string name="message_out_of_memory">Mémoire insuffisante</string>
+    <string name="message_saved">Sauvegardé</string>
+    <string name="message_select_file">Sélectionner le Fichier</string>
+    <string name="message_nothing_to_cut">Rien à couper</string>
+    <string name="message_nothing_to_copy">Rien à copier</string>
+    <string name="message_nothing_to_paste">Rien à coller</string>
+    <string name="message_line_not_exists">La ligne n\'existe pas</string>
+    <string name="message_no_errors_detected">Aucune erreur syntaxique détectée</string>
+
+</resources>
