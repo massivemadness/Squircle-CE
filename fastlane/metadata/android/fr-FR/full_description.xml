@@ -1,0 +1,36 @@
+<b>Squircle IDE</b> prend actuellement en charge le codage dans les langages de programmation suivants: ActionScript, C, C++, C#, Groovy, HTML, Java, JavaScript, Json, Julia, Kotlin, Lisp, Lua, Markdown, PHP, Python, Ruby, Shell, SQL, TypeScript, Visual Basique et XML.
+
+Voici une liste des fonctionnalités qui vous aideront à travailler avec plus de productivité:
+
+<b>Coloration Syntaxique</b>
+Une belle coloration syntaxique vous offre une meilleure manière d'appréhender votre code en un coup d'œil
+
+<b>Complétion de Code</b>
+L'éditeur de code fournit une complétion simple basée sur le contenu du fichier, il suggère les noms des fonctions, des champs et des mots-clés dans l'étendue de votre fichier
+
+<b>Vérification des Erreurs</b>
+Chaque fois que vous apportez une modification, IDE vous corrige en mettant en surbrillance la partie du code contenant des erreurs de syntaxe <i>(Notez que cette fonctionnalité ne fonctionne actuellement que pour JavaScript, mais elle sera bientôt disponible pour d'autres langues)</i>
+
+<b>Puissant Gestionnaire de Fichiers</b>
+Un gestionnaire de fichiers intégré vous permet non seulement de créer et de supprimer des fichiers, mais également de couper, copier et coller des fichiers ou même de créer des archives zip
+
+<b>Édition Inter-sessions</b>
+Toutes vos modifications seront automatiquement enregistrées dans le cache, vous n'avez pas besoin d'enregistrer le fichier chaque fois que vous quittez l'application
+
+<b>Annulation/Rétablissement Illimité</b>
+Si vous avez fait une erreur ou si vous souhaitez revenir au code source que vous avez modifié hier, utilisez simplement le bouton "Annulation"
+
+<b>Mise en Surbrillance des délimiteurs correspondants</b>
+Lorsque vous travaillez avec du code dans l'éditeur, celui-ci peut vous aider à comprendre rapidement la structure du code en mettant en évidence le délimiteur d'ouverture ou de fermeture ((), [] et {}) lorsque vous placez le signe d'insertion sur sa paire
+
+<b>Style de Code</b>
+Squircle IDE offre une meilleure façon d'écrire votre code, l'éditeur indente automatiquement les lignes, ferme les crochets ouverts, les accolades et les guillemets.
+
+<b>Sélectionnez, Supprimez et Dupliquez une ligne</b>
+Vous pouvez facilement supprimer ou cloner une partie du code en utilisant les options pratiques du menu «Éditer».
+
+<b>Schémas de Couleurs</b>
+Différents schémas de couleurs définissent la coloration syntaxique des mots réservés et d'autres symboles dans votre code source : opérateurs, mots-clés, suggestions, chaînes littérales, etc.
+
+<b>CODE SOURCE OUVERT</b>
+<b>•</b> <u>http://github.com/massivemadness/Squircle-IDE</u>
