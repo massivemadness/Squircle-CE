@@ -24,9 +24,6 @@
     <string name="hint_enter_font_path">Entrez le chemin d\'accès de la police</string>
     <string name="hint_search">Recherche…</string>
 
-    <string name="hint_font_name" translatable="false">Droid Sans Mono</string>
-    <string name="hint_file_path" translatable="false">/storage/emulated/0/Download/...</string>
-
     <string name="action_select">sélectionner</string>
     <string name="action_save">Sauvegarder</string>
 
@@ -36,7 +33,6 @@
     <string name="message_no_result">Aucun résultat</string>
     <string name="message_unknown_exception">Une erreur s\'est produite</string>
 
-    <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support des ligatures</string>
     <string name="font_disclaimer">Si vous souhaitez utiliser cette police, ne supprimez pas le fichier .ttf au chemin spécifié</string>
 

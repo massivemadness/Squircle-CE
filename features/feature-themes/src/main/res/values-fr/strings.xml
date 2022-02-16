@@ -23,8 +23,6 @@
     <string name="hint_enter_theme_name">Entrer le nom du thème</string>
     <string name="hint_enter_theme_author">Entrer l\'auteur du thème</string>
     <string name="hint_enter_theme_desc">Brève description</string>
-    <string name="hint_theme_name" translatable="false">Darcula</string>
-    <string name="hint_theme_author" translatable="false">Squircle IDE</string>
     <string name="hint_theme_desc">Schéma colorimétrique par défaut</string>
     <string name="hint_search">Recherche…</string>
 

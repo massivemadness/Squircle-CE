@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2021 Squircle IDE contributors.
   ~
@@ -13,9 +14,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
 
-    <string name="app_name" translatable="false">Squircle IDE</string>
+<resources>
 
     <string name="action_restart">Redémarrer</string>
     <string name="action_yes">Oui</string>
