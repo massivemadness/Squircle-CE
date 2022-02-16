@@ -17,115 +17,120 @@
 
 <resources>
 
-    <string name="label_settings">Settings</string>
+    <string name="label_settings">Paramètres</string>
     <string name="label_application">Application</string>
-    <string name="label_editor">Editor</string>
-    <string name="label_code_style">Code Style</string>
-    <string name="label_files">Files</string>
-    <string name="label_about">About</string>
-    <string name="label_keyboard_preset">Keyboard preset</string>
+    <string name="label_editor">Éditeur</string>
+    <string name="label_code_style">Style de Code</string>
+    <string name="label_files">Fichiers</string>
+    <string name="label_about">À Propos</string>
+    <string name="label_keyboard_preset">Préréglage du clavier</string>
 
-    <string name="hint_enter_preset_chars">Enter characters (without separation)</string>
+    <string name="hint_enter_preset_chars">Saisir les caractères (sans séparation)</string>
+    <string name="hint_preset_chars" translatable="false">{}();,.=|&amp;![]&lt;&gt;+-/*?:_</string>
 
-    <string name="action_save">Save</string>
-    <string name="action_reset">Reset</string>
+    <string name="action_save">Sauvegarde</string>
+    <string name="action_reset">Réinitialisation</string>
 
-    <string name="preset_disclaimer">You can repeat characters multiple times</string>
-    <string name="encoding_utf8_default">UTF-8 (Default)</string>
+    <string name="preset_disclaimer">Vous pouvez répéter les caractères</string>
+    <string name="encoding_utf8_default">UTF-8 (Défaut)</string>
 
-    <string name="sort_by_name">Sort by Name</string>
-    <string name="sort_by_size">Sort by Size</string>
-    <string name="sort_by_date">Sort by Date</string>
+    <string name="sort_by_name">Trier par Nom</string>
+    <string name="sort_by_size">Trier par Taille</string>
+    <string name="sort_by_date">Trier par Date</string>
 
-    <string name="view_mode_compact_list">Compact List</string>
-    <string name="view_mode_detailed_list">Detailed List</string>
+    <string name="view_mode_compact_list">Liste Compacte</string>
+    <string name="view_mode_detailed_list">Liste détaillée</string>
+
+    <string name="linebreak_cr" translatable="false">CR (Mac/Unix)</string>
+    <string name="linebreak_lf" translatable="false">LF (Android/Linux)</string>
+    <string name="linebreak_crlf" translatable="false">CRLF (Windows)</string>
 
     <string name="pref_header_application_title">Application</string>
-    <string name="pref_header_application_summary">Configure global application settings.</string>
-    <string name="pref_header_editor_title">Editor</string>
-    <string name="pref_header_editor_summary">Configure the editor.</string>
-    <string name="pref_header_codeStyle_title">Code Style</string>
-    <string name="pref_header_codeStyle_summary">Configure the code style.</string>
-    <string name="pref_header_files_title">Files</string>
-    <string name="pref_header_files_summary">Configure how files are handled.</string>
-    <string name="pref_header_about_title">About</string>
-    <string name="pref_header_about_summary">View information about Squircle IDE.</string>
+    <string name="pref_header_application_summary">Configurer les paramètres globaux de l\'application.</string>
+    <string name="pref_header_editor_title">Éditeur</string>
+    <string name="pref_header_editor_summary">Configurer l\'éditeur.</string>
+    <string name="pref_header_codeStyle_title">Style de Code</string>
+    <string name="pref_header_codeStyle_summary">Configurer le style de code</string>
+    <string name="pref_header_files_title">Fichiers</string>
+    <string name="pref_header_files_summary">Configurer la façon dont les fichiers sont traités.</string>
+    <string name="pref_header_about_title">À Propos</string>
+    <string name="pref_header_about_summary">Voir les informations sur Squircle IDE.</string>
 
-    <string name="pref_category_look_and_feel">Look And Feel</string>
-    <string name="pref_category_other">Other</string>
-    <string name="pref_category_font">Font</string>
-    <string name="pref_category_editor">Editor</string>
-    <string name="pref_category_tabs">Tabs</string>
-    <string name="pref_category_keyboard">Keyboard</string>
-    <string name="pref_category_code_style">Code Style</string>
-    <string name="pref_category_tab_options">Tab Options</string>
-    <string name="pref_category_encoding">Encoding</string>
-    <string name="pref_category_linebreaks">Linebreaks</string>
-    <string name="pref_category_file_explorer">File Explorer</string>
-    <string name="pref_category_about">About</string>
-    <string name="pref_category_contribute">Contribute</string>
+    <string name="pref_category_look_and_feel">Apparence et Convivialité</string>
+    <string name="pref_category_other">Autre</string>
+    <string name="pref_category_font">Police</string>
+    <string name="pref_category_editor">Éditeur</string>
+    <string name="pref_category_tabs">Onglets</string>
+    <string name="pref_category_keyboard">Clavier</string>
+    <string name="pref_category_code_style">Style du Code</string>
+    <string name="pref_category_tab_options">Options d\'onglet</string>
+    <string name="pref_category_encoding">Encodage</string>
+    <string name="pref_category_linebreaks">Sauts de ligne</string>
+    <string name="pref_category_file_explorer">Explorateur de Fichier</string>
+    <string name="pref_category_about">À Propos</string>
+    <string name="pref_category_contribute">Contribuer</string>
 
-    <string name="pref_color_scheme_title">Color Scheme</string>
-    <string name="pref_color_scheme_summary">Configure the syntax highlighting color scheme.</string>
-    <string name="pref_fullscreen_title">Full screen</string>
-    <string name="pref_fullscreen_summary">Launch the application in full screen mode.</string>
-    <string name="pref_confirm_exit_title">Confirm exit from the app</string>
-    <string name="pref_confirm_exit_summary">If you press back, Squircle IDE ask for confirmation to exit.</string>
+    <string name="pref_color_scheme_title">Schéma de couleur</string>
+    <string name="pref_color_scheme_summary">Configurer le schéma de la coloration syntaxique.</string>
+    <string name="pref_fullscreen_title">Plein écran</string>
+    <string name="pref_fullscreen_summary">Lancer l\'application en mode plein écran.</string>
+    <string name="pref_confirm_exit_title">Confirmer la sortie de l\'application</string>
+    <string name="pref_confirm_exit_summary">Si vous appuyez sur retour, Squircle IDE demandera une confirmation pour quitter.</string>
 
-    <string name="pref_font_size_title">Editor font size</string>
-    <string name="pref_font_size_summary">Specify the default font size of editor.</string>
-    <string name="pref_font_type_title">Editor font type</string>
-    <string name="pref_font_type_summary">Specify the default font type of editor.</string>
-    <string name="pref_word_wrap_title">Word Wrap</string>
-    <string name="pref_word_wrap_summary">Enable word wrap to fit screen width.</string>
-    <string name="pref_code_completion_title">Code Completion</string>
-    <string name="pref_code_completion_summary">Show autocomplete suggestions.</string>
-    <string name="pref_error_highlighting_title">Error Highlighting</string>
-    <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>
-    <string name="pref_pinch_zoom_title">Pinch Zoom</string>
-    <string name="pref_pinch_zoom_summary">Enable zoom gesture in the editor.</string>
-    <string name="pref_highlight_line_title">Highlight Current Line</string>
-    <string name="pref_highlight_line_summary">Highlight the line where the caret currently resides.</string>
-    <string name="pref_highlight_delimiters_title">Highlight Matching Delimiters</string>
-    <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the caret at its pair.</string>
-    <string name="pref_auto_save_files_title">Auto-save Files</string>
-    <string name="pref_auto_save_files_summary">Automatically save file on switching tab or closing the app.</string>
-    <string name="pref_extended_keyboard_title">Extended Keyboard</string>
-    <string name="pref_extended_keyboard_summary">Show additional keys above the keyboard.</string>
-    <string name="pref_keyboard_preset_title">Keyboard Preset</string>
-    <string name="pref_keyboard_preset_summary">Choose preset for extended keyboard.</string>
+    <string name="pref_font_size_title">Taille de la police de l\'éditeur</string>
+    <string name="pref_font_size_summary">Spécifiez la taille de police par défaut de l\'éditeur.</string>
+    <string name="pref_font_type_title">Type de police de l\'éditeur</string>
+    <string name="pref_font_type_summary">Spécifiez le type de police par défaut de l\'éditeur.</string>
+    <string name="pref_word_wrap_title">Retour à la Ligne</string>
+    <string name="pref_word_wrap_summary">Activer le renvoi à la ligne pour s\'adapter à la largeur de l\'écran.</string>
+    <string name="pref_code_completion_title">Complétion de code</string>
+    <string name="pref_code_completion_summary">Afficher les suggestions de saisie semi-automatique.</string>
+    <string name="pref_error_highlighting_title">Mise en surbrillance des erreurs</string>
+    <string name="pref_error_highlighting_summary">Activer la mise en surbrillance des erreurs en temps réel. Un redémarrage est requis.</string>
+    <string name="pref_pinch_zoom_title">Zoom par pincement</string>
+    <string name="pref_pinch_zoom_summary">Activer les gestes de zoom dans l\'éditeur.</string>
+    <string name="pref_highlight_line_title">Mettre en évidence la ligne en cours</string>
+    <string name="pref_highlight_line_summary">Mettre en évidence la ligne où se trouve actuellement le signe d\'insertion.</string>
+    <string name="pref_highlight_delimiters_title">Mettre en évidence les délimiteurs correspondants</string>
+    <string name="pref_highlight_delimiters_summary">Mettre en évidence le délimiteur d\'ouverture ou de fermeture lorsque vous placez le signe d\'insertion sur sa paire.</string>
+    <string name="pref_auto_save_files_title">Sauvegarde automatique des fichiers</string>
+    <string name="pref_auto_save_files_summary">Sauvegarder automatiquement le fichier lors de changement d\'onglet ou de la fermeture de l\'application.</string>
+    <string name="pref_extended_keyboard_title">Clavier Étendu</string>
+    <string name="pref_extended_keyboard_summary">Afficher des touches supplémentaires au-dessus du clavier.</string>
+    <string name="pref_keyboard_preset_title">Préréglage de Clavier</string>
+    <string name="pref_keyboard_preset_summary">Choisissez un préréglage pour le clavier étendu.</string>
     <string name="pref_soft_keyboard_title">Soft Keyboard</string>
     <string name="pref_soft_keyboard_summary">Always use soft keyboard.</string>
 
-    <string name="pref_auto_indent_title">Auto Indentation</string>
-    <string name="pref_auto_indent_summary">Automatically indent new lines to match the line above.</string>
-    <string name="pref_close_brackets_title">Auto-close Brackets</string>
-    <string name="pref_close_brackets_summary">Automatically close open parenthesis/bracket/brace when typing.</string>
-    <string name="pref_close_quotes_title">Auto-close Quotes</string>
-    <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
-    <string name="pref_use_spaces_not_tabs_title">Use spaces instead of tabs</string>
-    <string name="pref_use_spaces_not_tabs_summary">Insert spaces instead of tabs when using auto-indentation.</string>
-    <string name="pref_tab_width_title">Tab Width</string>
-    <string name="pref_tab_width_summary">Specify the displayed width of tabs in the editor.</string>
+    <string name="pref_auto_indent_title">Indentation Automatique</string>
+    <string name="pref_auto_indent_summary">Indenter automatiquement les nouvelles lignes pour qu\'elles correspondent à la ligne précédente.</string>
+    <string name="pref_close_brackets_title">Parenthèses à fermeture automatique</string>
+    <string name="pref_close_brackets_summary">Fermer automatiquement les parenthèses/crochets/accolades ouverts lors de la saisie.</string>
+    <string name="pref_close_quotes_title">Guillemets à fermeture automatique</string>
+    <string name="pref_close_quotes_summary">Fermer automatiquement les guillemets simples/doubles lors de la saisie.</string>
+    <string name="pref_use_spaces_not_tabs_title">Utiliser des espaces au lieu de tabulations</string>
+    <string name="pref_use_spaces_not_tabs_summary">Insertion d\'espaces au lieu de tabulations lors de l\'utilisation de l\'indentation automatique.</string>
+    <string name="pref_tab_width_title">Largeur d\'onglet</string>
+    <string name="pref_tab_width_summary">Spécifier la largeur des onglets affichés dans l\'éditeur.</string>
 
-    <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
-    <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is useful for multi-byte language.</string>
-    <string name="pref_encoding_for_opening_title">Encoding for opening files</string>
-    <string name="pref_encoding_for_opening_summary">Encoding to use when opening files.</string>
-    <string name="pref_encoding_for_saving_title">Encoding for saving files</string>
-    <string name="pref_encoding_for_saving_summary">Encoding to use when saving files.</string>
-    <string name="pref_linebreaks_for_saving_files_title">Linebreaks for saving files</string>
-    <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files.</string>
-    <string name="pref_show_hidden_files_title">Show hidden files</string>
-    <string name="pref_show_hidden_files_summary">Hidden files and folders (starting with a dot) will be displayed.</string>
-    <string name="pref_folders_on_top_title">Folders on top</string>
-    <string name="pref_folders_on_top_summary">Folders will be displayed on top.</string>
-    <string name="pref_view_mode_title">View Mode</string>
-    <string name="pref_sort_mode_title">Sort Mode</string>
+    <string name="pref_encoding_auto_detect_title">Détection automatique de l\'encodage</string>
+    <string name="pref_encoding_auto_detect_summary">La détection automatique de l\'encodage est utile pour les langages multi-octets.</string>
+    <string name="pref_encoding_for_opening_title">Encodage pour l\'ouverture des fichiers</string>
+    <string name="pref_encoding_for_opening_summary">Encodage à utiliser lors de l\'ouverture des fichiers.</string>
+    <string name="pref_encoding_for_saving_title">Encodage pour la sauvegarde des fichiers</string>
+    <string name="pref_encoding_for_saving_summary">Encodage à utiliser lors de l\'enregistrement de fichiers.</string>
+    <string name="pref_linebreaks_for_saving_files_title">Sauts de ligne pour enregistrer des fichiers</string>
+    <string name="pref_linebreaks_for_saving_files_summary">Type de saut de ligne à utiliser lors de l\'enregistrement des fichiers.</string>
+    <string name="pref_show_hidden_files_title">Afficher les fichiers cachés</string>
+    <string name="pref_show_hidden_files_summary">Les fichiers et dossiers cachés (commençant par un point) seront affichés.</string>
+    <string name="pref_folders_on_top_title">Dossiers au dessus</string>
+    <string name="pref_folders_on_top_summary">Les dossiers seront affichés en haut.</string>
+    <string name="pref_view_mode_title">Mode d\'Affichage</string>
+    <string name="pref_sort_mode_title">Mode de Tri</string>
 
-    <string name="pref_about_summary">Squircle IDE is an open source project published under the Apache 2.0 license\n\nVersion: %1$s (%2$d)</string>
-    <string name="pref_privacy_policy_title">Privacy Policy</string>
-    <string name="pref_contribute_title">Contribute to development</string>
-    <string name="pref_contribute_summary">You can create an issue on GitHub or translate this app to your native language.\n\nThank you!</string>
+    <string name="pref_about_summary">Squircle IDE est un projet open source publié sous licence Apache 2.0\n\nVersion: %1$s (%2$d)</string>
+    <string name="pref_privacy_policy_title">Politique de Confidentialité</string>
+    <string name="pref_contribute_title">Contribuer au développement</string>
+    <string name="pref_contribute_summary">Vous pouvez créer un ticket sur GitHub ou traduire cette application dans votre langue maternelle.\n\nJe vous remercie!</string>
 
 </resources>
