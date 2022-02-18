@@ -34,9 +34,9 @@
     <string name="preset_disclaimer">Você pode repetir os caracteres</string>
     <string name="encoding_utf8_default">UTF-8 (Padrão)</string>
 
-    <string name="sort_by_name">Ordenar por Nome</string>
-    <string name="sort_by_size">Ordenar por Tamanho</string>
-    <string name="sort_by_date">Ordenar por Data</string>
+    <string name="sort_by_name">Ordenar por nome</string>
+    <string name="sort_by_size">Ordenar por tamanho</string>
+    <string name="sort_by_date">Ordenar por data</string>
 
     <string name="view_mode_compact_list">Lista compacta</string>
     <string name="view_mode_detailed_list">Lista detalhada</string>
