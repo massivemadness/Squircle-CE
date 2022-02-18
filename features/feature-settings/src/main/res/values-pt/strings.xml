@@ -26,7 +26,6 @@
     <string name="label_keyboard_preset">Predefinição de teclado</string>
 
     <string name="hint_enter_preset_chars">Insira os caracteres(sem separação)</string>
-    <string name="hint_preset_chars" translatable="false">{}();,.=|&amp;![]&lt;&gt;+-/*?:_</string>
 
     <string name="action_save">Salvar</string>
     <string name="action_reset">Resetar</string>
@@ -40,10 +39,6 @@
 
     <string name="view_mode_compact_list">Lista compacta</string>
     <string name="view_mode_detailed_list">Lista detalhada</string>
-
-    <string name="linebreak_cr" translatable="false">CR (Mac/Unix)</string>
-    <string name="linebreak_lf" translatable="false">LF (Android/Linux)</string>
-    <string name="linebreak_crlf" translatable="false">CRLF (Windows)</string>
 
     <string name="pref_header_application_title">Aplicativo</string>
     <string name="pref_header_application_summary">Configuração global do aplicativo.</string>

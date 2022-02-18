@@ -18,10 +18,7 @@
 <resources>
 
     <string name="hint_line">Linha:</string>
-    <string name="hint_line_number" translatable="false">0</string>
     <string name="hint_enter_file_path">Insira o caminho do arquivo</string>
-    <string name="hint_file_path" translatable="false">/storage/emulated/0/Download/...</string>
-
 
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancelar</string>

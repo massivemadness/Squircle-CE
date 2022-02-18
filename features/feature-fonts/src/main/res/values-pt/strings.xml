@@ -24,9 +24,6 @@
     <string name="hint_enter_font_path">Insira o caminho da fonte</string>
     <string name="hint_search">Pesquisar…</string>
 
-    <string name="hint_font_name" translatable="false">Droid Sans Mono</string>
-    <string name="hint_file_path" translatable="false">/storage/emulated/0/Download/...</string>
-
     <string name="action_select">Selecionar</string>
     <string name="action_save">Salvar</string>
 
@@ -36,7 +33,6 @@
     <string name="message_no_result">Nenhum resultado</string>
     <string name="message_unknown_exception">Um erro ocorreu</string>
 
-    <string name="font_panagram">A rápida raposa marrom pula sobre um cachorro preguiçoso\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Suporta ligadura</string>
     <string name="font_disclaimer">Se você quer usar esta fonte, não delete o arquivo .ttf no caminho inserido</string>
 

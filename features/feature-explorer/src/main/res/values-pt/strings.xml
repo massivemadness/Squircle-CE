@@ -24,8 +24,6 @@
     <string name="hint_search">Pesquisar…</string>
     <string name="hint_enter_file_name">Insira o nome do arquivo</string>
     <string name="hint_enter_archive_name">Insira o nome do documento</string>
-    <string name="hint_file_name" translatable="false">file.txt</string>
-    <string name="hint_archive_name" translatable="false">archive.zip</string>
 
     <string name="action_grant_access">Permitir acesso</string>
     <string name="action_cancel">Cancelar</string>
@@ -98,6 +96,5 @@
     <string name="message_copying">Copiando…%1$s</string>
     <string name="message_compressing">Compactando…%1$s</string>
     <string name="message_extracting">Extraindo…%1$s</string>
-    <string name="message_of_total" translatable="false">%1$d / %2$d</string>
 
 </resources>
