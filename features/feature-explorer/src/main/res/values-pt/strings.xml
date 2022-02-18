@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Squircle IDE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_permissions">Permissões</string>
+    <string name="label_directory">Diretório</string>
+    <string name="label_local_storage">Armazenamento local</string>
+
+    <string name="hint_search">Pesquisar…</string>
+    <string name="hint_enter_file_name">Insira o nome do arquivo</string>
+    <string name="hint_enter_archive_name">Insira o nome do documento</string>
+
+    <string name="action_grant_access">Permitir acesso</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_create">Criar</string>
+    <string name="action_copy_path">Copiar caminho</string>
+    <string name="action_folder">Pasta</string>
+    <string name="action_rename">Renomear</string>
+    <string name="action_delete">Deletar</string>
+    <string name="action_run_in_background">Rodar no fundo</string>
+    <string name="action_show_hidden_files">Exibir arquivos escondidos</string>
+    <string name="action_create_zip">Criar .zip</string>
+    <string name="action_open_as">Abrir como</string>
+    <string name="action_properties">Propriedades</string>
+    <string name="action_cut">Cortar</string>
+    <string name="action_copy">Copiar</string>
+    <string name="action_paste">Colar</string>
+    <string name="action_select_all">Selecionar tudo</string>
+    <string name="action_continue">Continuar</string>
+
+    <string name="dialog_title_create">Criar…</string>
+    <string name="dialog_title_rename">Renomear…</string>
+    <string name="dialog_title_multi_delete">Multi-delete</string>
+    <string name="dialog_title_properties">Propriedades</string>
+    <string name="dialog_title_deleting">Deletando…</string>
+    <string name="dialog_title_copying">Copiando…</string>
+    <string name="dialog_title_compressing">Compactando…</string>
+    <string name="dialog_title_extracting">Extraindo…</string>
+    <string name="dialog_title_archive_name">Nome do documento</string>
+    <string name="dialog_title_storage_access">Acesso ao armazenamento</string>
+
+    <string name="dialog_message_delete">Você tem certeza de que quer deletar este arquivo?</string>
+    <string name="dialog_message_multi_delete">Você tem certeza de que quer deletar os arquivos selecionados?</string>
+    <string name="dialog_message_storage_access">Como um gerenciador de arquivos, o Squircle IDE precisa de acesso a todos os arquivos para funcionar corretamente\n\nPor favor permita o acesso neste dispositivo depois de clicar em «Continue»</string>
+
+    <string name="properties_name">&lt;b>Nome:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_path">&lt;b>Caminho:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_modified">&lt;b>Modificação:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_size">&lt;b>Tamanho:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_line_count">&lt;b>Linhas:&lt;/b> %d&lt;br&gt;</string>
+    <string name="properties_word_count">&lt;b>Palavras:&lt;/b> %d&lt;br&gt;</string>
+    <string name="properties_char_count">&lt;b>Caracteres:&lt;/b> %d</string>
+    <string name="properties_readable">R</string>
+    <string name="properties_writable">W</string>
+    <string name="properties_executable">X</string>
+
+    <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
+    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
+
+    <string name="sort_by_name">Ordenar por nome</string>
+    <string name="sort_by_size">Ordenar por tamanho</string>
+    <string name="sort_by_date">Ordenar por data</string>
+
+    <string name="message_access_denied">Acesso negado</string>
+    <string name="message_access_required">O Squircle precisa de acesso ao armazenamento para trabalhar com arquivos</string>
+    <string name="message_no_result">Nenhum resultado</string>
+    <string name="message_cannot_be_opened">O arquivo não pode ser aberto</string>
+    <string name="message_invalid_file_name">Nome inválido</string>
+    <string name="message_unknown_exception">Um erro ocorreu</string>
+    <string name="message_directory_expected">Não foi possível obter a lista de arquivos do arquivo</string>
+    <string name="message_file_already_exists">O arquivo já existe</string>
+    <string name="message_unsupported_archive">Arquivo não suportado</string>
+    <string name="message_invalid_archive">Arquivo inválido</string>
+    <string name="message_split_archive">O arquivo está dividido</string>
+    <string name="message_encrypted_archive">O arquivo está encriptado</string>
+    <string name="message_operation_cancelled">Operação cancelada</string>
+    <string name="message_done">Pronto</string>
+    <string name="message_file_not_found">Arquivo não encontrado</string>
+    <string name="message_elapsed_time">Tempo decorrido: %1$s</string>
+    <string name="message_deleting">Deletando…%1$s</string>
+    <string name="message_copying">Copiando…%1$s</string>
+    <string name="message_compressing">Compactando…%1$s</string>
+    <string name="message_extracting">Extraindo…%1$s</string>
+
+</resources>
