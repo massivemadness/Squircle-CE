@@ -107,7 +107,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         }
         tabController.attachToRecyclerView(binding.tabLayout)
 
-        binding.extendedKeyboard.setKeyListener { char -> binding.editor.insert(char) }
+        binding.extendedKeyboard.setKeyListener {
+            char -> binding.editor.insert(if (char == "\t") binding.editor.tab() else char)
+        }
         binding.extendedKeyboard.setHasFixedSize(true)
 
         binding.editor.onUndoRedoChangedListener = UndoRedoEditText.OnUndoRedoChangedListener {
