@@ -60,7 +60,7 @@ ext {
     coroutines_version = '1.6.0'
 
     // DI
-    hilt_version = '2.40.5'
+    hilt_version = '2.41'
 
     // Other
     keyboardevent_version = '3.0.0-RC3'
