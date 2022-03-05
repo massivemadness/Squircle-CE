@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.adapters
+package com.blacksquircle.ui.feature.explorer.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +23,9 @@ import com.blacksquircle.ui.core.adapters.OnItemClickListener
 import com.blacksquircle.ui.core.extensions.setTint
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.ItemFileDetailedBinding
-import com.blacksquircle.ui.feature.explorer.utils.setSelectableBackground
-import com.blacksquircle.ui.feature.explorer.utils.toReadableDate
-import com.blacksquircle.ui.feature.explorer.utils.toReadableSize
+import com.blacksquircle.ui.feature.explorer.ui.utils.setSelectableBackground
+import com.blacksquircle.ui.feature.explorer.ui.utils.toReadableDate
+import com.blacksquircle.ui.feature.explorer.ui.utils.toReadableSize
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.viewmodel
+package com.blacksquircle.ui.feature.explorer.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -23,11 +23,10 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.launchEvent
 import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.domain.model.editor.DocumentModel
-import com.blacksquircle.ui.domain.repository.explorer.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.utils.Operation
-import com.blacksquircle.ui.feature.explorer.utils.replaceList
+import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.ui.utils.Operation
+import com.blacksquircle.ui.feature.explorer.ui.utils.replaceList
 import com.blacksquircle.ui.filesystem.base.exception.*
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
@@ -83,7 +82,7 @@ class ExplorerViewModel @Inject constructor(
     val clickEvent = SingleLiveEvent<FileModel>() // Имитация нажатия на файл
     val propertiesOfEvent = SingleLiveEvent<PropertiesModel>() // Свойства файла
 
-    val openFileEvent = SingleLiveEvent<DocumentModel>() // Открытие файла из проводника в редакторе
+    val openFileEvent = SingleLiveEvent<FileModel>() // Открытие файла из проводника в редакторе
     val openPropertiesEvent = SingleLiveEvent<FileModel>() // Просмотр свойств выбранного файла
 
     // endregion EVENTS

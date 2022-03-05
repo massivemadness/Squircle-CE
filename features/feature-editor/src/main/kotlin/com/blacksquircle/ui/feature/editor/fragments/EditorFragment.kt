@@ -34,14 +34,10 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.core.adapters.TabAdapter
 import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.closeKeyboard
-import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
-import com.blacksquircle.ui.core.extensions.debounce
-import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.extensions.*
 import com.blacksquircle.ui.core.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.data.converter.DocumentConverter
-import com.blacksquircle.ui.data.utils.toHexString
 import com.blacksquircle.ui.domain.model.documents.DocumentParams
 import com.blacksquircle.ui.domain.model.editor.DocumentContent
 import com.blacksquircle.ui.editorkit.*

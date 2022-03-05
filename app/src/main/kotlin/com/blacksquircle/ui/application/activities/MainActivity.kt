@@ -29,11 +29,12 @@ import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.navigation.DrawerHandler
+import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.feature.editor.fragments.EditorFragment
 import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.explorer.fragments.ExplorerFragment
-import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
 import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
@@ -116,7 +117,7 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
             showToast(it)
         }
         explorerViewModel.openFileEvent.observe(this) {
-            editorViewModel.openFileEvent.value = it
+            editorViewModel.openFileEvent.value = DocumentConverter.toModel(it)
         }
         editorViewModel.openPropertiesEvent.observe(this) {
             explorerViewModel.openPropertiesEvent.value = it

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.fragments
+package com.blacksquircle.ui.feature.explorer.ui.fragments
 
 import android.os.Bundle
 import android.view.Menu
@@ -33,12 +33,12 @@ import com.blacksquircle.ui.core.adapters.TabAdapter
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.*
 import com.blacksquircle.ui.core.navigation.BackPressedHandler
-import com.blacksquircle.ui.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.adapters.DirectoryAdapter
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
-import com.blacksquircle.ui.feature.explorer.utils.*
-import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.adapters.DirectoryAdapter
+import com.blacksquircle.ui.feature.explorer.ui.utils.*
+import com.blacksquircle.ui.feature.explorer.ui.utils.FileSorter
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.AndroidEntryPoint
 

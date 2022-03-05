@@ -21,14 +21,6 @@ import com.blacksquircle.ui.editorkit.model.UndoStack
 import java.nio.charset.Charset
 import java.nio.charset.UnsupportedCharsetException
 
-fun Int.toHexString(fallbackColor: String = "#000000"): String {
-    return try {
-        "#" + Integer.toHexString(this)
-    } catch (e: Exception) {
-        fallbackColor
-    }
-}
-
 internal fun charsetFor(charsetName: String): Charset = try {
     charset(charsetName)
 } catch (e: UnsupportedCharsetException) {

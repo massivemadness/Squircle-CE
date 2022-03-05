@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.data.utils
+package com.blacksquircle.ui.feature.explorer.ui.utils
 
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlin.Comparator

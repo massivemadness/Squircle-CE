@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.fragments
+package com.blacksquircle.ui.feature.explorer.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -38,13 +38,12 @@ import com.blacksquircle.ui.core.adapters.OnItemClickListener
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.navigation.DrawerHandler
-import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.adapters.FileAdapter
 import com.blacksquircle.ui.feature.explorer.databinding.DialogPropertiesBinding
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentDirectoryBinding
-import com.blacksquircle.ui.feature.explorer.utils.*
-import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.adapters.FileAdapter
+import com.blacksquircle.ui.feature.explorer.ui.utils.*
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.FileType
@@ -125,7 +124,7 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
                     val type = item.getType()
                     if (type == FileType.DEFAULT || type == FileType.TEXT) {
                         drawerHandler.closeDrawer()
-                        viewModel.openFileEvent.value = DocumentConverter.toModel(item)
+                        viewModel.openFileEvent.value = item
                     } else {
                         openAs(item)
                     }

@@ -16,10 +16,10 @@
 
 package com.blacksquircle.ui.feature.explorer.internal
 
-import com.blacksquircle.ui.data.repository.explorer.ExplorerRepositoryImpl
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
-import com.blacksquircle.ui.domain.repository.explorer.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
+import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides

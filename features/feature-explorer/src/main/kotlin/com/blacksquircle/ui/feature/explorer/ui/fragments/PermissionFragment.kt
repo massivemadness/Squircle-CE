@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.fragments
+package com.blacksquircle.ui.feature.explorer.ui.fragments
 
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent
@@ -30,7 +30,7 @@ import com.blacksquircle.ui.core.extensions.checkStorageAccess
 import com.blacksquircle.ui.core.extensions.requestStorageAccess
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentPermissionBinding
-import com.blacksquircle.ui.feature.explorer.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

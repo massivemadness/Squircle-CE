@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:id="@+id/fragment_explorer"
-            android:name="com.blacksquircle.ui.feature.explorer.fragments.ExplorerFragment"
+            android:name="com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment"
             tools:layout="@layout/fragment_explorer"
             tools:ignore="FragmentTagUsage"/>
 

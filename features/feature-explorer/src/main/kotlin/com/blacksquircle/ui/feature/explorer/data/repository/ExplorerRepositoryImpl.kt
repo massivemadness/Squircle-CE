@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.data.repository.explorer
+package com.blacksquircle.ui.feature.explorer.data.repository
 
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.data.utils.FileSorter
 import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
-import com.blacksquircle.ui.domain.repository.explorer.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.ui.utils.FileSorter
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,

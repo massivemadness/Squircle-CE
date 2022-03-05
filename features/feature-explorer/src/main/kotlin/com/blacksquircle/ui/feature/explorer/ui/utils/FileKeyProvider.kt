@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.utils
+package com.blacksquircle.ui.feature.explorer.ui.utils
 
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.feature.explorer.adapters.FileAdapter
+import com.blacksquircle.ui.feature.explorer.ui.adapters.FileAdapter
 
 class FileKeyProvider(
     private val recyclerView: RecyclerView
