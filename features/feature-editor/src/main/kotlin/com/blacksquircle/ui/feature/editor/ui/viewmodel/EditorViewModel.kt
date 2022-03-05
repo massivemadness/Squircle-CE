@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.viewmodel
+package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
 import android.util.Log
 import androidx.core.text.PrecomputedTextCompat
@@ -24,12 +24,12 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.launchEvent
 import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.domain.model.documents.DocumentParams
-import com.blacksquircle.ui.domain.model.editor.DocumentContent
-import com.blacksquircle.ui.domain.model.editor.DocumentModel
-import com.blacksquircle.ui.domain.repository.documents.DocumentRepository
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
+import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.editor.ui.utils.SettingsEvent
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.utils.InternalTheme
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException

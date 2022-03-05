@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor
+package com.blacksquircle.ui.feature.editor.ui.utils
 
-import org.junit.Assert.*
-import org.junit.Test
-
-class ExampleUnitTest {
-
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+enum class Panel {
+    DEFAULT,
+    FIND,
+    FIND_REPLACE
 }

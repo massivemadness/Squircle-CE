@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.domain.repository.documents
+package com.blacksquircle.ui.feature.editor.domain.model
 
-import com.blacksquircle.ui.domain.model.documents.DocumentParams
-import com.blacksquircle.ui.domain.model.editor.DocumentContent
-import com.blacksquircle.ui.domain.model.editor.DocumentModel
-
-interface DocumentRepository {
-
-    suspend fun fetchDocuments(): List<DocumentModel>
-    suspend fun updateDocument(documentModel: DocumentModel)
-    suspend fun deleteDocument(documentModel: DocumentModel)
-
-    suspend fun loadFile(documentModel: DocumentModel): DocumentContent
-    suspend fun saveFile(content: DocumentContent, params: DocumentParams)
-}
+data class DocumentParams(
+    val local: Boolean = false,
+    val cache: Boolean = true
+)

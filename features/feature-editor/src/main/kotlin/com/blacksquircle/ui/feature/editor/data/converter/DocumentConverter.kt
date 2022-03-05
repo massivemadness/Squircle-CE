@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.data.converter
+package com.blacksquircle.ui.feature.editor.data.converter
 
 import com.blacksquircle.ui.data.storage.database.entity.document.DocumentEntity
-import com.blacksquircle.ui.domain.model.editor.DocumentModel
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import java.util.*
 

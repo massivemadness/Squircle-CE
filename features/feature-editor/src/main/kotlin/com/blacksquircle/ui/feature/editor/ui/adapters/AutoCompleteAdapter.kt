@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.adapters
+package com.blacksquircle.ui.feature.editor.ui.adapters
 
 import android.content.Context
 import android.text.Spannable

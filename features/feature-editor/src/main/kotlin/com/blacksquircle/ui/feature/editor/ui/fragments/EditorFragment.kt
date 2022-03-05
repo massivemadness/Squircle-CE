@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.fragments
+package com.blacksquircle.ui.feature.editor.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -37,9 +37,6 @@ import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.*
 import com.blacksquircle.ui.core.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.navigation.DrawerHandler
-import com.blacksquircle.ui.data.converter.DocumentConverter
-import com.blacksquircle.ui.domain.model.documents.DocumentParams
-import com.blacksquircle.ui.domain.model.editor.DocumentContent
 import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.model.FindParams
@@ -57,14 +54,17 @@ import com.blacksquircle.ui.editorkit.plugin.textscroller.textScroller
 import com.blacksquircle.ui.editorkit.widget.TextScroller
 import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.adapters.AutoCompleteAdapter
-import com.blacksquircle.ui.feature.editor.adapters.DocumentAdapter
+import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
-import com.blacksquircle.ui.feature.editor.utils.Panel
-import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
-import com.blacksquircle.ui.feature.editor.utils.TabController
-import com.blacksquircle.ui.feature.editor.utils.ToolbarManager
-import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
+import com.blacksquircle.ui.feature.editor.ui.adapters.AutoCompleteAdapter
+import com.blacksquircle.ui.feature.editor.ui.adapters.DocumentAdapter
+import com.blacksquircle.ui.feature.editor.ui.utils.Panel
+import com.blacksquircle.ui.feature.editor.ui.utils.SettingsEvent
+import com.blacksquircle.ui.feature.editor.ui.utils.TabController
+import com.blacksquircle.ui.feature.editor.ui.utils.ToolbarManager
+import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent

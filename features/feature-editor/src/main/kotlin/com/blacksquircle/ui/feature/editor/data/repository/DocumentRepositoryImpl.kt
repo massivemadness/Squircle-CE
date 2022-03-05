@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.data.repository.documents
+package com.blacksquircle.ui.feature.editor.data.repository
 
-import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.data.factory.LanguageFactory
 import com.blacksquircle.ui.data.storage.database.AppDatabase
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.data.utils.charsetFor
-import com.blacksquircle.ui.data.utils.decodeStack
-import com.blacksquircle.ui.data.utils.encodeStack
-import com.blacksquircle.ui.domain.model.documents.DocumentParams
-import com.blacksquircle.ui.domain.model.editor.DocumentContent
-import com.blacksquircle.ui.domain.model.editor.DocumentModel
 import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
-import com.blacksquircle.ui.domain.repository.documents.DocumentRepository
 import com.blacksquircle.ui.editorkit.model.UndoStack
+import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
+import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
+import com.blacksquircle.ui.feature.editor.data.utils.decodeStack
+import com.blacksquircle.ui.feature.editor.data.utils.encodeStack
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
+import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams

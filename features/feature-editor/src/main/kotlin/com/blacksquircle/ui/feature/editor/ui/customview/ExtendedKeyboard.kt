@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.customview
+package com.blacksquircle.ui.feature.editor.ui.customview
 
 import android.content.Context
 import android.util.AttributeSet

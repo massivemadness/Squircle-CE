@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.utils
+package com.blacksquircle.ui.feature.editor.ui.utils
 
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 

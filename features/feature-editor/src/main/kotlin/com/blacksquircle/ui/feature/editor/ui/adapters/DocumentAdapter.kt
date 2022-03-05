@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.adapters
+package com.blacksquircle.ui.feature.editor.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -24,9 +24,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.adapters.TabAdapter
 import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
-import com.blacksquircle.ui.domain.model.editor.DocumentModel
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemTabDocumentBinding
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 
 class DocumentAdapter(
     private val tabInteractor: TabInteractor

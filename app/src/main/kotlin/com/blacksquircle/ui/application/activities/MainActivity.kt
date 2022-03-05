@@ -29,10 +29,10 @@ import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.navigation.DrawerHandler
-import com.blacksquircle.ui.data.converter.DocumentConverter
 import com.blacksquircle.ui.databinding.ActivityMainBinding
-import com.blacksquircle.ui.feature.editor.fragments.EditorFragment
-import com.blacksquircle.ui.feature.editor.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
+import com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment
+import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy

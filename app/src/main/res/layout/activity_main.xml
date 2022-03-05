@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/fragment_editor"
-            android:name="com.blacksquircle.ui.feature.editor.fragments.EditorFragment"
+            android:name="com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment"
             tools:layout="@layout/fragment_editor"
             tools:ignore="FragmentTagUsage"/>
 

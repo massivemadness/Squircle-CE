@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.domain.model.editor
+package com.blacksquircle.ui.feature.editor.domain.model
 
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.language.base.Language
