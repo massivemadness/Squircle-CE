@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.viewstate
+package com.blacksquircle.ui.feature.fonts.domain.repository
 
-import com.blacksquircle.ui.core.viewstate.ViewState
-import com.blacksquircle.ui.domain.model.fonts.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
-sealed class FontsViewState : ViewState() {
+interface FontsRepository {
 
-    abstract val query: String
+    suspend fun fetchFonts(query: String): List<FontModel>
 
-    data class Empty(
-        override val query: String,
-    ) : FontsViewState()
-
-    data class Data(
-        override val query: String,
-        val fonts: List<FontModel>,
-    ) : FontsViewState()
+    suspend fun createFont(fontModel: FontModel)
+    suspend fun removeFont(fontModel: FontModel)
+    suspend fun selectFont(fontModel: FontModel)
 }

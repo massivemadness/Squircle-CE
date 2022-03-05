@@ -28,7 +28,7 @@ ext {
     ]
 
     // Plugins
-    agp_version = '7.1.1'
+    agp_version = '7.1.2'
 
     // Core
     kotlin_version = '1.6.10'

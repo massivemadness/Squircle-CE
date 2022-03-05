@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.navigation
+package com.blacksquircle.ui.feature.fonts.ui.viewstate
 
-import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.core.viewstate.ViewState
 
-sealed class FontsScreen(route: String) : Screen(route) {
-    object Fonts : FontsScreen("blacksquircle://fonts")
-    object Create : FontsScreen("blacksquircle://fonts/create")
+sealed class ExternalFontViewState : ViewState() {
+    object Valid : ExternalFontViewState()
+    object Invalid : ExternalFontViewState()
 }

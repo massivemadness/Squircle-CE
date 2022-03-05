@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.data.repository.fonts
+package com.blacksquircle.ui.feature.fonts.data.repository
 
-import com.blacksquircle.ui.data.converter.FontConverter
 import com.blacksquircle.ui.data.storage.database.AppDatabase
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
-import com.blacksquircle.ui.domain.repository.fonts.FontsRepository
+import com.blacksquircle.ui.feature.fonts.data.converter.FontConverter
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import kotlinx.coroutines.withContext
 
 class FontsRepositoryImpl(
@@ -32,8 +32,7 @@ class FontsRepositoryImpl(
 
     override suspend fun fetchFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
-            val fonts = appDatabase.fontDao()
-                .loadAll(query)
+            val fonts = appDatabase.fontDao().loadAll(query)
                 .map(FontConverter::toModel)
 
             if (query.isEmpty()) {

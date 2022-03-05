@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.viewmodel
+package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.viewstate.ViewState
-import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.domain.providers.resources.StringProvider
-import com.blacksquircle.ui.domain.repository.fonts.FontsRepository
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.viewstate.ExternalFontViewState
-import com.blacksquircle.ui.feature.fonts.viewstate.FontsViewState
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
+import com.blacksquircle.ui.feature.fonts.ui.viewstate.ExternalFontViewState
+import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

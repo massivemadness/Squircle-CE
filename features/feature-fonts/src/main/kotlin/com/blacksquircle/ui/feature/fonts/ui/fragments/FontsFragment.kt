@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.fragments
+package com.blacksquircle.ui.feature.fonts.ui.fragments
 
 import android.os.Bundle
 import android.view.Menu
@@ -34,13 +34,13 @@ import com.blacksquircle.ui.core.extensions.debounce
 import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.viewstate.ViewState
-import com.blacksquircle.ui.domain.model.fonts.FontModel
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.adapters.FontAdapter
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
-import com.blacksquircle.ui.feature.fonts.navigation.FontsScreen
-import com.blacksquircle.ui.feature.fonts.viewmodel.FontsViewModel
-import com.blacksquircle.ui.feature.fonts.viewstate.FontsViewState
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.ui.adapters.FontAdapter
+import com.blacksquircle.ui.feature.fonts.ui.navigation.FontsScreen
+import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
+import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

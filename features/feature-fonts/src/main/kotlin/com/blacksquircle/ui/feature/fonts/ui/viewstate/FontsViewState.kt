@@ -14,11 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.viewstate
+package com.blacksquircle.ui.feature.fonts.ui.viewstate
 
 import com.blacksquircle.ui.core.viewstate.ViewState
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
-sealed class ExternalFontViewState : ViewState() {
-    object Valid : ExternalFontViewState()
-    object Invalid : ExternalFontViewState()
+sealed class FontsViewState : ViewState() {
+
+    abstract val query: String
+
+    data class Empty(
+        override val query: String,
+    ) : FontsViewState()
+
+    data class Data(
+        override val query: String,
+        val fonts: List<FontModel>,
+    ) : FontsViewState()
 }

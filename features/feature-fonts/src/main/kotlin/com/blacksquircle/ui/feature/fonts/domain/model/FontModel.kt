@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.domain.model.fonts
+package com.blacksquircle.ui.feature.fonts.domain.model
 
 data class FontModel(
     val fontName: String,

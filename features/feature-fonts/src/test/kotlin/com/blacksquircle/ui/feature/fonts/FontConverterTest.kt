@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.data.converter
+package com.blacksquircle.ui.feature.fonts
 
 import com.blacksquircle.ui.data.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.domain.model.fonts.FontModel
+import com.blacksquircle.ui.feature.fonts.data.converter.FontConverter
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

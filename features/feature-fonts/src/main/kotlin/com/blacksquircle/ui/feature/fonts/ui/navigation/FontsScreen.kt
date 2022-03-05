@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts
+package com.blacksquircle.ui.feature.fonts.ui.navigation
 
-import org.junit.Assert.*
-import org.junit.Test
+import com.blacksquircle.ui.core.navigation.Screen
 
-class ExampleUnitTest {
-
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+sealed class FontsScreen(route: String) : Screen(route) {
+    object Fonts : FontsScreen("blacksquircle://fonts")
+    object Create : FontsScreen("blacksquircle://fonts/create")
 }
