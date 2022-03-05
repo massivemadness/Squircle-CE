@@ -59,7 +59,7 @@
         </activity>
 
         <activity
-            android:name="com.blacksquircle.ui.feature.settings.activities.SettingsActivity"
+            android:name="com.blacksquircle.ui.feature.settings.ui.activities.SettingsActivity"
             android:parentActivityName="com.blacksquircle.ui.application.activities.MainActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/label_settings"

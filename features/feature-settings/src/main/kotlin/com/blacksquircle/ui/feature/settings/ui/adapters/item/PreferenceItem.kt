@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.fragments
+package com.blacksquircle.ui.feature.settings.ui.adapters.item
 
-import android.os.Bundle
-import androidx.preference.PreferenceFragmentCompat
-import com.blacksquircle.ui.feature.settings.R
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 
-class FilesFragment : PreferenceFragmentCompat() {
-
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_files, rootKey)
-    }
-}
+data class PreferenceItem(
+    @StringRes
+    val title: Int,
+    @StringRes
+    val subtitle: Int,
+    @IdRes
+    val navigationId: Int
+)

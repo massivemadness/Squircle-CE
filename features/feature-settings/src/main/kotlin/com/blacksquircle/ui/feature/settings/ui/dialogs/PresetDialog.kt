@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.dialogs
+package com.blacksquircle.ui.feature.settings.ui.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
@@ -25,7 +25,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 
 class PresetDialog : DialogFragment() {
 

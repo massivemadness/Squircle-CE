@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.utils
+package com.blacksquircle.ui.feature.settings.ui.fragments
 
-import android.content.Context
+import android.os.Bundle
+import androidx.preference.PreferenceFragmentCompat
+import com.blacksquircle.ui.feature.settings.R
 
-fun Context.getAppName(): String {
-    return applicationInfo.loadLabel(packageManager).toString()
-}
+class CodeStyleFragment : PreferenceFragmentCompat() {
 
-fun Context.getAppVersion(): String {
-    return packageManager.getPackageInfo(packageName, 0).versionName
-}
-
-fun Context.getAppCode(): Int {
-    return packageManager.getPackageInfo(packageName, 0).versionCode
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preference_code_style, rootKey)
+    }
 }

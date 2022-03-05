@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.activities
+package com.blacksquircle.ui.feature.settings.ui.activities
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -25,7 +25,7 @@ import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.ActivitySettingsBinding
-import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

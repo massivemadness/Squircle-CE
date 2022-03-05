@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.viewmodel
+package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.adapters.item.PreferenceItem
+import com.blacksquircle.ui.feature.settings.ui.adapters.item.PreferenceItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

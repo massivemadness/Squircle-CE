@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.fragments
+package com.blacksquircle.ui.feature.settings.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
@@ -27,7 +27,7 @@ import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 

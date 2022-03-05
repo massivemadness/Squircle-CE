@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.fragments
+package com.blacksquircle.ui.feature.settings.ui.fragments
 
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.utils.getAppCode
-import com.blacksquircle.ui.feature.settings.utils.getAppName
-import com.blacksquircle.ui.feature.settings.utils.getAppVersion
+import com.blacksquircle.ui.feature.settings.ui.utils.applicationName
+import com.blacksquircle.ui.feature.settings.ui.utils.versionCode
+import com.blacksquircle.ui.feature.settings.ui.utils.versionName
 
 class AboutFragment : PreferenceFragmentCompat() {
 
@@ -30,11 +30,11 @@ class AboutFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preference_about, rootKey)
 
         val changelog = findPreference<Preference>(KEY_ABOUT)
-        changelog?.title = requireContext().getAppName()
+        changelog?.title = requireContext().applicationName
         changelog?.summary = getString(
             R.string.pref_about_summary,
-            requireContext().getAppVersion(),
-            requireContext().getAppCode()
+            requireContext().versionName,
+            requireContext().versionCode
         )
     }
 

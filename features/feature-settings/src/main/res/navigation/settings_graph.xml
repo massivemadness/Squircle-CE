@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/headersFragment"
-        android:name="com.blacksquircle.ui.feature.settings.fragments.HeadersFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragments.HeadersFragment"
         android:label="@string/label_settings"
         tools:layout="@layout/fragment_headers">
         <deepLink app:uri="blacksquircle://settings" />
@@ -46,12 +46,12 @@
 
     <fragment
         android:id="@+id/applicationFragment"
-        android:name="com.blacksquircle.ui.feature.settings.fragments.ApplicationFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragments.ApplicationFragment"
         android:label="@string/label_application"/>
 
     <fragment
         android:id="@+id/editorFragment"
-        android:name="com.blacksquircle.ui.feature.settings.fragments.EditorFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragments.EditorFragment"
         android:label="@string/label_editor">
         <action
             android:id="@+id/to_presetDialog"
@@ -60,17 +60,17 @@
 
     <fragment
         android:id="@+id/codeStyleFragment"
-        android:name="com.blacksquircle.ui.feature.settings.fragments.CodeStyleFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragments.CodeStyleFragment"
         android:label="@string/label_code_style"/>
 
     <fragment
         android:id="@+id/filesFragment"
-        android:name="com.blacksquircle.ui.feature.settings.fragments.FilesFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragments.FilesFragment"
         android:label="@string/label_files"/>
 
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.blacksquircle.ui.feature.settings.fragments.AboutFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragments.AboutFragment"
         android:label="@string/label_about"/>
 
     <!-- FIXME declare in top-level graph -->
@@ -85,7 +85,7 @@
 
     <dialog
         android:id="@+id/presetDialog"
-        android:name="com.blacksquircle.ui.feature.settings.dialogs.PresetDialog"
+        android:name="com.blacksquircle.ui.feature.settings.ui.dialogs.PresetDialog"
         android:label="@string/label_keyboard_preset"
         tools:layout="@layout/dialog_preset"/>
 

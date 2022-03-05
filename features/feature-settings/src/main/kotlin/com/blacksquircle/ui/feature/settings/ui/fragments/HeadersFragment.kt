@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.fragments
+package com.blacksquircle.ui.feature.settings.ui.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -25,10 +25,10 @@ import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.adapters.OnItemClickListener
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.adapters.PreferenceAdapter
-import com.blacksquircle.ui.feature.settings.adapters.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeadersBinding
-import com.blacksquircle.ui.feature.settings.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.settings.ui.adapters.PreferenceAdapter
+import com.blacksquircle.ui.feature.settings.ui.adapters.item.PreferenceItem
+import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
