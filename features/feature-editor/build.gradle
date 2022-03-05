@@ -90,6 +90,7 @@ dependencies {
     implementation project(':filesystems:filesystem-base')
 
     // Features
+    implementation project(':features:feature-themes') // TODO remove
     implementation project(':features:feature-core')
     implementation project(':features:feature-ui')
 

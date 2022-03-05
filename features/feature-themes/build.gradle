@@ -73,6 +73,9 @@ dependencies {
     implementation library.navigation_ui
     implementation library.navigation_fragment
 
+    // Network
+    implementation library.gson
+
     // Coroutines
     implementation library.coroutines_core
     implementation library.coroutines_android

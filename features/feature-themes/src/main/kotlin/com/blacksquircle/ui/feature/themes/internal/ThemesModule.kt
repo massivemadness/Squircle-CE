@@ -17,11 +17,11 @@
 package com.blacksquircle.ui.feature.themes.internal
 
 import android.content.Context
-import com.blacksquircle.ui.data.repository.themes.ThemesRepositoryImpl
 import com.blacksquircle.ui.data.storage.database.AppDatabase
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
-import com.blacksquircle.ui.domain.repository.themes.ThemesRepository
+import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl
+import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides

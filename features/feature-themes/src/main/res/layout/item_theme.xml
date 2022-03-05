@@ -56,7 +56,7 @@
             android:src="@drawable/ic_overflow"
             app:tint="@color/colorIcon"/>
 
-        <com.blacksquircle.ui.feature.themes.customview.CodeView
+        <com.blacksquircle.ui.feature.themes.ui.customview.CodeView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_title"

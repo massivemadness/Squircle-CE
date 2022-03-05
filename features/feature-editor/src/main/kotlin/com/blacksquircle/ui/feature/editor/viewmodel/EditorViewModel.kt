@@ -24,14 +24,14 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.launchEvent
 import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.data.utils.InternalTheme
 import com.blacksquircle.ui.domain.model.documents.DocumentParams
 import com.blacksquircle.ui.domain.model.editor.DocumentContent
 import com.blacksquircle.ui.domain.model.editor.DocumentModel
 import com.blacksquircle.ui.domain.repository.documents.DocumentRepository
-import com.blacksquircle.ui.domain.repository.themes.ThemesRepository
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.utils.SettingsEvent
+import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
+import com.blacksquircle.ui.feature.themes.ui.utils.InternalTheme
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.language.base.Language

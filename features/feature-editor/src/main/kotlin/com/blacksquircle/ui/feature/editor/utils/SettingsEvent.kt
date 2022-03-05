@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.utils
 
-import com.blacksquircle.ui.domain.model.themes.ThemeModel
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 sealed class SettingsEvent<T>(val value: T) {
     class ThemePref(value: ThemeModel) : SettingsEvent<ThemeModel>(value)
