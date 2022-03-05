@@ -32,11 +32,11 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.blacksquircle.ui.core.adapters.TabAdapter
-import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.*
-import com.blacksquircle.ui.core.navigation.BackPressedHandler
-import com.blacksquircle.ui.core.navigation.DrawerHandler
+import com.blacksquircle.ui.core.ui.adapters.TabAdapter
+import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.*
+import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.model.FindParams

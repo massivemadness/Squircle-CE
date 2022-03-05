@@ -22,8 +22,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.adapters.OnItemClickListener
-import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeadersBinding
 import com.blacksquircle.ui.feature.settings.ui.adapters.PreferenceAdapter

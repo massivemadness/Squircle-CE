@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.viewstate
 
-import com.blacksquircle.ui.core.viewstate.ViewState
+import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 sealed class ThemesViewState : ViewState() {

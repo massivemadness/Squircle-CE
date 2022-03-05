@@ -24,11 +24,11 @@ import androidx.core.view.GravityCompat
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.dialogs.ConfirmExitDialog
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
-import com.blacksquircle.ui.core.extensions.fragment
-import com.blacksquircle.ui.core.extensions.fullscreenMode
-import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.navigation.BackPressedHandler
-import com.blacksquircle.ui.core.navigation.DrawerHandler
+import com.blacksquircle.ui.core.ui.extensions.fragment
+import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
+import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment

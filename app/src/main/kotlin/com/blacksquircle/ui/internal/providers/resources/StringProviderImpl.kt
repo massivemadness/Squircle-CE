@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.internal.providers.resources
 
 import android.content.Context
-import com.blacksquircle.ui.domain.providers.resources.StringProvider
+import com.blacksquircle.ui.core.domain.resources.StringProvider
 
 class StringProviderImpl(private val context: Context) : StringProvider {
 

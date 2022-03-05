@@ -25,9 +25,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
-import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.checkStorageAccess
-import com.blacksquircle.ui.core.extensions.requestStorageAccess
+import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
+import com.blacksquircle.ui.core.ui.extensions.requestStorageAccess
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentPermissionBinding
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel

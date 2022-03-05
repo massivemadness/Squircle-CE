@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.navigation
 
-import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.core.ui.navigation.Screen
 
 sealed class ThemesScreen(route: String) : Screen(route) {
     object Themes : ThemesScreen("blacksquircle://themes")

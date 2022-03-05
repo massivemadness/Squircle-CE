@@ -16,9 +16,9 @@
 
 package com.blacksquircle.ui.feature.fonts.data.repository
 
-import com.blacksquircle.ui.data.storage.database.AppDatabase
-import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.data.storage.database.AppDatabase
+import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.fonts.data.converter.FontConverter
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository

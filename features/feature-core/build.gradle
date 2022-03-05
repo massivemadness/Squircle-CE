@@ -17,6 +17,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -27,7 +29,19 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
         consumerProguardFiles "consumer-rules.pro"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"
+                ]
+            }
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -38,6 +52,7 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
     buildFeatures {
         viewBinding true
@@ -58,4 +73,39 @@ dependencies {
     // AAC
     implementation library.livedata
     implementation library.navigation_fragment
+    implementation library.room
+    kapt library.room_compiler
+
+    // DI
+    implementation library.hilt
+    kapt library.hilt_compiler
+
+    // Modules
+    implementation project(':filesystems:filesystem-base')
+    implementation project(':filesystems:filesystem-local')
+
+    implementation project(':languages:language-base')
+    implementation project(':languages:language-plaintext')
+    implementation project(':languages:language-javascript')
+    implementation project(':languages:language-json')
+    implementation project(':languages:language-actionscript')
+    implementation project(':languages:language-csharp')
+    implementation project(':languages:language-groovy')
+    implementation project(':languages:language-html')
+    implementation project(':languages:language-cpp')
+    implementation project(':languages:language-c')
+    implementation project(':languages:language-java')
+    implementation project(':languages:language-kotlin')
+    implementation project(':languages:language-lua')
+    implementation project(':languages:language-lisp')
+    implementation project(':languages:language-markdown')
+    implementation project(':languages:language-php')
+    implementation project(':languages:language-python')
+    implementation project(':languages:language-ruby')
+    implementation project(':languages:language-shell')
+    implementation project(':languages:language-sql')
+    implementation project(':languages:language-typescript')
+    implementation project(':languages:language-visualbasic')
+    implementation project(':languages:language-xml')
+    implementation project(':languages:language-julia')
 }

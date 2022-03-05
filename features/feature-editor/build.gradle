@@ -83,9 +83,6 @@ dependencies {
     implementation library.keyboardevent
 
     // Modules
-    implementation project(':domain')
-    implementation project(':data')
-
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
 

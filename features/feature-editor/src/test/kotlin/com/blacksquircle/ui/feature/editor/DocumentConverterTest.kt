@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor
 
-import com.blacksquircle.ui.data.storage.database.entity.document.DocumentEntity
+import com.blacksquircle.ui.core.data.storage.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel

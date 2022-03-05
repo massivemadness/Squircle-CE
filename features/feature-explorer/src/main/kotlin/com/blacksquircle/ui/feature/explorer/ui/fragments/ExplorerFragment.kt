@@ -29,10 +29,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.adapters.TabAdapter
-import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.*
-import com.blacksquircle.ui.core.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.ui.adapters.TabAdapter
+import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.*
+import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.ui.adapters.DirectoryAdapter

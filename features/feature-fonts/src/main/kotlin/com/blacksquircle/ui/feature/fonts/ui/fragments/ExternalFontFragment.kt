@@ -24,8 +24,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentExternalFontBinding
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel

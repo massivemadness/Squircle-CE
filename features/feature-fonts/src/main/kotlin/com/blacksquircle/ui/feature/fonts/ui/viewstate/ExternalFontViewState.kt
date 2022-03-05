@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.viewstate
 
-import com.blacksquircle.ui.core.viewstate.ViewState
+import com.blacksquircle.ui.core.ui.viewstate.ViewState
 
 sealed class ExternalFontViewState : ViewState() {
     object Valid : ExternalFontViewState()

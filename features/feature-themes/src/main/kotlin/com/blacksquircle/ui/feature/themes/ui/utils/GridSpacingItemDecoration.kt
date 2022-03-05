@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.themes.ui.utils
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.extensions.dpToPx
+import com.blacksquircle.ui.core.ui.extensions.dpToPx
 
 class GridSpacingItemDecoration(
     marginDp: Int,

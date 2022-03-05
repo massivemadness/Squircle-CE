@@ -78,10 +78,6 @@ dependencies {
     implementation library.hilt
     kapt library.hilt_compiler
 
-    // Modules
-    implementation project(':domain')
-    implementation project(':data')
-
     // Features
     implementation project(':features:feature-core')
     implementation project(':features:feature-ui')

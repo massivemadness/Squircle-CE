@@ -20,9 +20,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.extensions.launchEvent
-import com.blacksquircle.ui.core.lifecycle.SingleLiveEvent
-import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.ui.extensions.launchEvent
+import com.blacksquircle.ui.core.ui.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.utils.Operation

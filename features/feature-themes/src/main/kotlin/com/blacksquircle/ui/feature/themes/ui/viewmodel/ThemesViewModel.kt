@@ -20,9 +20,9 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.extensions.toHexString
-import com.blacksquircle.ui.core.viewstate.ViewState
-import com.blacksquircle.ui.domain.providers.resources.StringProvider
+import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.ui.extensions.toHexString
+import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
 import com.blacksquircle.ui.feature.themes.domain.model.Meta

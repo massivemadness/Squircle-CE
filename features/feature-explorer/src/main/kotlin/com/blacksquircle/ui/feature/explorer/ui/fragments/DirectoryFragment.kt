@@ -34,10 +34,10 @@ import androidx.recyclerview.selection.StorageStrategy
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.blacksquircle.ui.core.adapters.OnItemClickListener
-import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.navigation.DrawerHandler
+import com.blacksquircle.ui.core.ui.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogPropertiesBinding
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentDirectoryBinding

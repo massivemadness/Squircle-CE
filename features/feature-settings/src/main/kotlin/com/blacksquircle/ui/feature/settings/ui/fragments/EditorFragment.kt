@@ -21,9 +21,9 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.blacksquircle.ui.core.extensions.navigate
-import com.blacksquircle.ui.core.navigation.Screen
-import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.ui.extensions.navigate
+import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.settings.R
 
 class EditorFragment : PreferenceFragmentCompat() {

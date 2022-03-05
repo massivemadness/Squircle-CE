@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.internal.di
 
 import android.content.Context
-import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
-import com.blacksquircle.ui.domain.providers.resources.StringProvider
+import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.internal.providers.coroutine.DispatcherProviderImpl
 import com.blacksquircle.ui.internal.providers.resources.StringProviderImpl
 import dagger.Module

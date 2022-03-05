@@ -21,7 +21,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.adapters.OnItemClickListener
+import com.blacksquircle.ui.core.ui.adapters.OnItemClickListener
 import com.blacksquircle.ui.feature.settings.databinding.ItemPreferenceBinding
 import com.blacksquircle.ui.feature.settings.ui.adapters.item.PreferenceItem
 

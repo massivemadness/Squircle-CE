@@ -102,9 +102,6 @@ dependencies {
     kapt library.hilt_compiler
 
     // Modules
-    implementation project(':domain')
-    implementation project(':data')
-
     implementation project(':filesystems:filesystem-base')
 
     // Features

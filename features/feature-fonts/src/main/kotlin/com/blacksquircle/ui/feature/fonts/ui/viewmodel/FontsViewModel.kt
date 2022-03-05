@@ -19,8 +19,8 @@ package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.viewstate.ViewState
-import com.blacksquircle.ui.domain.providers.resources.StringProvider
+import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository

@@ -16,10 +16,10 @@
 
 package com.blacksquircle.ui.feature.editor.data.repository
 
-import com.blacksquircle.ui.data.factory.LanguageFactory
-import com.blacksquircle.ui.data.storage.database.AppDatabase
-import com.blacksquircle.ui.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.domain.providers.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.data.factory.LanguageFactory
+import com.blacksquircle.ui.core.data.storage.database.AppDatabase
+import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
