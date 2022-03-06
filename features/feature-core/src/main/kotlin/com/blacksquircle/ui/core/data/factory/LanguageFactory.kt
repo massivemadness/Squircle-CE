@@ -40,6 +40,7 @@ import com.blacksquircle.ui.language.sql.SqlLanguage
 import com.blacksquircle.ui.language.typescript.TypeScriptLanguage
 import com.blacksquircle.ui.language.visualbasic.VisualBasicLanguage
 import com.blacksquircle.ui.language.xml.XmlLanguage
+import com.blacksquircle.ui.language.yaml.YamlLanguage
 
 object LanguageFactory {
 
@@ -67,6 +68,7 @@ object LanguageFactory {
             TypeScriptLanguage.supportFormat(fileName) -> TypeScriptLanguage()
             VisualBasicLanguage.supportFormat(fileName) -> VisualBasicLanguage()
             XmlLanguage.supportFormat(fileName) -> XmlLanguage()
+            YamlLanguage.supportFormat(fileName) -> YamlLanguage()
             else -> PlainTextLanguage()
         }
     }
