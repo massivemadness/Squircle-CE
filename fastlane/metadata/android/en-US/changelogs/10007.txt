@@ -3,5 +3,5 @@
 - Added: Support for file extensions: .kts, .cjs and .mjs
 - Added: Highlighting for open/closed `<` and `>` delimiters
 - Improved scrolling experience
-- Updated Chinese translation
+- Improved Chinese translation
 - Bugfixes and minor improvements

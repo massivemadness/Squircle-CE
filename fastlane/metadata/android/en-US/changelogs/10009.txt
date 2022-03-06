@@ -1,0 +1,5 @@
+- Added: Support for YAML language
+- Added: French translation
+- Added: Portuguese translation
+- Internal architecture improvements
+- Bugfixes and minor improvements

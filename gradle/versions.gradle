@@ -51,7 +51,7 @@ ext {
     // AAC
     lifecycle_version = '2.4.1'
     navigation_version = '2.4.1'
-    room_version = '2.4.1'
+    room_version = '2.4.2'
 
     // Network
     gson_version = '2.9.0'
