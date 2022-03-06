@@ -41,8 +41,8 @@
     <string name="view_mode_compact_list">Compact List</string>
     <string name="view_mode_detailed_list">Detailed List</string>
 
-    <string name="linebreak_cr" translatable="false">CR (Mac/Unix)</string>
-    <string name="linebreak_lf" translatable="false">LF (Android/Linux)</string>
+    <string name="linebreak_cr" translatable="false">CR (Mac OS ≤ 9)</string>
+    <string name="linebreak_lf" translatable="false">LF (Android/Linux/Unix)</string>
     <string name="linebreak_crlf" translatable="false">CRLF (Windows)</string>
 
     <string name="pref_header_application_title">Application</string>
