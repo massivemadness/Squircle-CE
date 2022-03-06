@@ -3,14 +3,14 @@ name: Bug report
 about: Create a report to help us improve
 title: ''
 labels: bug
-assignees: ''
+assignees: 'massivemadness'
 
 ---
 
 *Please consider making a Pull Request if you are capable of doing so.*
 
 **App Version:**
-2020.x.x Standard Edition
+2022.x.x
 
 **Affected Device(s):**
 Google Pixel 3 XL with Android 9.0
