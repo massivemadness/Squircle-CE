@@ -39,6 +39,7 @@ import com.blacksquircle.ui.core.ui.adapters.OnItemClickListener
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.core.ui.extensions.toHexString
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
@@ -136,14 +137,6 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { context?.showToast(text = it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewModel.popBackStackEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { navController.popBackStack() }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
         viewModel.newThemeState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
@@ -171,6 +164,16 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
                         adapter.submitList(state.properties)
                     }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    ViewEvent.PopBackStack -> navController.popBackStack()
+                    else -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

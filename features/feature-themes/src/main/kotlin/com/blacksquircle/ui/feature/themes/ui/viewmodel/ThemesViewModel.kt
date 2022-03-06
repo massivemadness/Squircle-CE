@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.extensions.toHexString
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
@@ -45,17 +46,14 @@ class ThemesViewModel @Inject constructor(
     private val themesRepository: ThemesRepository
 ) : ViewModel() {
 
-    private val _toastEvent = MutableSharedFlow<String>()
-    val toastEvent: SharedFlow<String> = _toastEvent
-
-    private val _popBackStackEvent = MutableSharedFlow<Unit>()
-    val popBackStackEvent: SharedFlow<Unit> = _popBackStackEvent
-
     private val _themesState = MutableStateFlow<ThemesViewState>(ThemesViewState.Loading)
     val themesState: StateFlow<ThemesViewState> = _themesState
 
     private val _newThemeState = MutableStateFlow<NewThemeViewState>(NewThemeViewState.MetaData(Meta(), emptyList()))
     val newThemeState: StateFlow<NewThemeViewState> = _newThemeState
+
+    private val _viewEvent = MutableSharedFlow<ViewEvent>()
+    val viewEvent: SharedFlow<ViewEvent> = _viewEvent
 
     init {
         fetchThemes("")
@@ -72,7 +70,9 @@ class ThemesViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }
@@ -84,7 +84,9 @@ class ThemesViewModel @Inject constructor(
                 loadProperties(themeModel)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_theme_syntax_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_theme_syntax_exception)
+                ))
             }
         }
     }
@@ -93,13 +95,17 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.exportTheme(themeModel)
-                _toastEvent.emit(stringProvider.getString(
-                    R.string.message_theme_exported,
-                    themeModel.name.lowercase()
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(
+                        R.string.message_theme_exported,
+                        themeModel.name.lowercase()
+                    )
                 ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }
@@ -108,14 +114,18 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.removeTheme(themeModel)
-                _toastEvent.emit(stringProvider.getString(
-                    R.string.message_theme_removed,
-                    themeModel.name
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(
+                        R.string.message_theme_removed,
+                        themeModel.name
+                    )
                 ))
                 fetchThemes("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }
@@ -124,13 +134,17 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.selectTheme(themeModel)
-                _toastEvent.emit(stringProvider.getString(
-                    R.string.message_selected,
-                    themeModel.name
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(
+                        R.string.message_selected,
+                        themeModel.name
+                    )
                 ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }
@@ -151,15 +165,19 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.createTheme(meta, properties)
-                _toastEvent.emit(stringProvider.getString(
-                    R.string.message_new_theme_available,
-                    meta.name
+                _viewEvent.emit(ViewEvent.PopBackStack)
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(
+                        R.string.message_new_theme_available,
+                        meta.name
+                    )
                 ))
-                _popBackStackEvent.emit(Unit)
                 fetchThemes("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }

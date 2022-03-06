@@ -20,6 +20,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
@@ -40,17 +41,14 @@ class FontsViewModel @Inject constructor(
     private val fontsRepository: FontsRepository
 ) : ViewModel() {
 
-    private val _toastEvent = MutableSharedFlow<String>()
-    val toastEvent: SharedFlow<String> = _toastEvent
-
-    private val _popBackStackEvent = MutableSharedFlow<Unit>()
-    val popBackStackEvent: SharedFlow<Unit> = _popBackStackEvent
-
     private val _fontsState = MutableStateFlow<FontsViewState>(FontsViewState.Loading)
     val fontsState: StateFlow<FontsViewState> = _fontsState
 
     private val _externalFontState = MutableStateFlow<ExternalFontViewState>(ExternalFontViewState.Invalid)
     val externalFontState: StateFlow<ExternalFontViewState> = _externalFontState
+
+    private val _viewEvent = MutableSharedFlow<ViewEvent>()
+    val viewEvent: SharedFlow<ViewEvent> = _viewEvent
 
     init {
         fetchFonts("")
@@ -67,7 +65,9 @@ class FontsViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }
@@ -76,15 +76,19 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.createFont(fontModel)
-                _popBackStackEvent.emit(Unit)
-                _toastEvent.emit(stringProvider.getString(
-                    R.string.message_new_font_available,
-                    fontModel.fontName
+                _viewEvent.emit(ViewEvent.PopBackStack)
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(
+                        R.string.message_new_font_available,
+                        fontModel.fontName
+                    )
                 ))
                 fetchFonts("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }
@@ -93,14 +97,18 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.removeFont(fontModel)
-                _toastEvent.emit(stringProvider.getString(
-                    R.string.message_font_removed,
-                    fontModel.fontName
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(
+                        R.string.message_font_removed,
+                        fontModel.fontName
+                    )
                 ))
                 fetchFonts("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }
@@ -109,13 +117,17 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.selectFont(fontModel)
-                _toastEvent.emit(stringProvider.getString(
-                    R.string.message_selected,
-                    fontModel.fontName
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(
+                        R.string.message_selected,
+                        fontModel.fontName
+                    )
                 ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _toastEvent.emit(stringProvider.getString(R.string.message_unknown_exception))
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }

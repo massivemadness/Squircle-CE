@@ -33,6 +33,7 @@ import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.debounce
 import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
@@ -97,10 +98,6 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { context?.showToast(text = it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
         viewModel.fontsState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
@@ -120,6 +117,15 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
                         binding.emptyView.isVisible = false
                         binding.recyclerView.isInvisible = true
                     }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    else -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

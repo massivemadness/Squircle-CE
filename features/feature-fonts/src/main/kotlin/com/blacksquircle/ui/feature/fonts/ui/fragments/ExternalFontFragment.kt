@@ -26,6 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentExternalFontBinding
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
@@ -61,19 +62,21 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { context?.showToast(text = it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewModel.popBackStackEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { navController.popBackStack() }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
         viewModel.externalFontState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
                     ExternalFontViewState.Valid -> binding.actionSave.isEnabled = true
                     ExternalFontViewState.Invalid -> binding.actionSave.isEnabled = false
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    ViewEvent.PopBackStack -> navController.popBackStack()
+                    else -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
