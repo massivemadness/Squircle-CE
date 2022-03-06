@@ -20,6 +20,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.ui.adapters.OnItemClickListener
@@ -30,6 +32,8 @@ import com.blacksquircle.ui.feature.settings.ui.adapters.PreferenceAdapter
 import com.blacksquircle.ui.feature.settings.ui.adapters.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class HeadersFragment : Fragment(R.layout.fragment_headers) {
@@ -39,11 +43,6 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
     private val navController by lazy { findNavController() }
 
     private lateinit var adapter: PreferenceAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.fetchHeaders()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,8 +65,8 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
     }
 
     private fun observeViewModel() {
-        viewModel.headersEvent.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
+        viewModel.headersState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { adapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

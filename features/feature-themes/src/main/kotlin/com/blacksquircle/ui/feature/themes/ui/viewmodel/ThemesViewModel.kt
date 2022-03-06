@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.extensions.toHexString
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
@@ -52,12 +51,11 @@ class ThemesViewModel @Inject constructor(
     private val _popBackStackEvent = MutableSharedFlow<Unit>()
     val popBackStackEvent: SharedFlow<Unit> = _popBackStackEvent
 
-    private val _themesState = MutableStateFlow<ViewState>(ViewState.Loading)
-    val themesState: StateFlow<ViewState> = _themesState
+    private val _themesState = MutableStateFlow<ThemesViewState>(ThemesViewState.Loading)
+    val themesState: StateFlow<ThemesViewState> = _themesState
 
-    private val _newThemeState = MutableStateFlow<ViewState>(
-        NewThemeViewState.MetaData(Meta(), emptyList()))
-    val newThemeState: StateFlow<ViewState> = _newThemeState
+    private val _newThemeState = MutableStateFlow<NewThemeViewState>(NewThemeViewState.MetaData(Meta(), emptyList()))
+    val newThemeState: StateFlow<NewThemeViewState> = _newThemeState
 
     init {
         fetchThemes("")

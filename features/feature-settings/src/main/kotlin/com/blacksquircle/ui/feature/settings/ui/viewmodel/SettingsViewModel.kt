@@ -16,12 +16,13 @@
 
 package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.adapters.item.PreferenceItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,17 +30,8 @@ class SettingsViewModel @Inject constructor(
     private val settingsManager: SettingsManager
 ) : ViewModel() {
 
-    val headersEvent = MutableLiveData<List<PreferenceItem>>()
-
-    var fullscreenMode: Boolean
-        get() = settingsManager.fullScreenMode
-        set(value) { settingsManager.fullScreenMode = value }
-    var keyboardPreset: String
-        get() = settingsManager.keyboardPreset
-        set(value) { settingsManager.keyboardPreset = value }
-
-    fun fetchHeaders() {
-        headersEvent.value = listOf(
+    private val _headersState = MutableStateFlow(
+        listOf(
             PreferenceItem(
                 R.string.pref_header_application_title,
                 R.string.pref_header_application_summary,
@@ -66,7 +58,15 @@ class SettingsViewModel @Inject constructor(
                 R.id.aboutFragment
             )
         )
-    }
+    )
+    val headersState: StateFlow<List<PreferenceItem>> = _headersState
+
+    var fullscreenMode: Boolean
+        get() = settingsManager.fullScreenMode
+        set(value) { settingsManager.fullScreenMode = value }
+    var keyboardPreset: String
+        get() = settingsManager.keyboardPreset
+        set(value) { settingsManager.keyboardPreset = value }
 
     fun resetKeyboardPreset() {
         settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)

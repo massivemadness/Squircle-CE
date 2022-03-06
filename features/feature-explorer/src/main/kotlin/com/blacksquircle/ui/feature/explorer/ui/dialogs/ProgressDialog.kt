@@ -28,8 +28,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.databinding.DialogProgressBinding
-import com.blacksquircle.ui.feature.explorer.ui.utils.Operation
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -41,15 +41,13 @@ class SettingsActivity : AppCompatActivity() {
         window.setBackgroundDrawableResource(R.color.colorBackground)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         navController = binding.navHost.getFragment<NavHostFragment>()
             .findNavController()
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.title = destination.label
         }
-
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onResume() {

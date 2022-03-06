@@ -20,9 +20,9 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.utils.applicationName
-import com.blacksquircle.ui.feature.settings.ui.utils.versionCode
-import com.blacksquircle.ui.feature.settings.ui.utils.versionName
+import com.blacksquircle.ui.feature.settings.data.utils.applicationName
+import com.blacksquircle.ui.feature.settings.data.utils.versionCode
+import com.blacksquircle.ui.feature.settings.data.utils.versionName
 
 class AboutFragment : PreferenceFragmentCompat() {
 

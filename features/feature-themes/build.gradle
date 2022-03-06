@@ -67,7 +67,6 @@ dependencies {
     implementation library.materialdialogs_color
 
     // AAC
-    implementation library.livedata
     implementation library.viewmodel
     implementation library.lifecycle
     implementation library.navigation_ui

@@ -23,6 +23,10 @@ sealed class ThemesViewState : ViewState() {
 
     abstract val query: String
 
+    object Loading : ThemesViewState() {
+        override val query: String = ""
+    }
+
     data class Empty(
         override val query: String,
     ) : ThemesViewState()

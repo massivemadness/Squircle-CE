@@ -34,10 +34,10 @@ import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.utils.*
+import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.ui.adapters.DirectoryAdapter
-import com.blacksquircle.ui.feature.explorer.ui.utils.*
-import com.blacksquircle.ui.feature.explorer.ui.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.AndroidEntryPoint

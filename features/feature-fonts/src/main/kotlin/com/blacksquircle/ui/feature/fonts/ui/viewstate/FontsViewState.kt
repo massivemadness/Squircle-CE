@@ -23,6 +23,10 @@ sealed class FontsViewState : ViewState() {
 
     abstract val query: String
 
+    object Loading : FontsViewState() {
+        override val query: String = ""
+    }
+
     data class Empty(
         override val query: String,
     ) : FontsViewState()

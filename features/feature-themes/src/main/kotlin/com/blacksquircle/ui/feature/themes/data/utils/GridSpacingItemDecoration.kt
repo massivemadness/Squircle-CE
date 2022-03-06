@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.utils
+package com.blacksquircle.ui.feature.themes.data.utils
 
 import android.graphics.Rect
 import android.view.View

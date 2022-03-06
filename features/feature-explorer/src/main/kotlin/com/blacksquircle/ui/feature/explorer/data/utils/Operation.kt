@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.utils
+package com.blacksquircle.ui.feature.explorer.data.utils
 
 enum class Operation {
     DELETE,

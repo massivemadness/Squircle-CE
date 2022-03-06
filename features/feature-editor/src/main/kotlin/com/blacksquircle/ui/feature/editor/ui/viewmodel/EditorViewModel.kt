@@ -25,13 +25,13 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.ui.extensions.launchEvent
 import com.blacksquircle.ui.core.ui.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.utils.SettingsEvent
+import com.blacksquircle.ui.feature.themes.data.utils.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.utils.InternalTheme
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.language.base.Language

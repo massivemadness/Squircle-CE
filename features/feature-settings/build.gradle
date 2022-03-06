@@ -66,7 +66,6 @@ dependencies {
     implementation library.preferencescompat
 
     // AAC
-    implementation library.livedata
     implementation library.viewmodel
     implementation library.lifecycle
     implementation library.navigation_ui
@@ -82,8 +81,6 @@ dependencies {
 
     // Features
     implementation project(':features:feature-core')
-    implementation project(':features:feature-fonts')
-    implementation project(':features:feature-themes')
     implementation project(':features:feature-ui')
 
     // Tests

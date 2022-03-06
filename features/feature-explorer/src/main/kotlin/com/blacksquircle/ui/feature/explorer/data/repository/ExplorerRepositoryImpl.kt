@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.explorer.data.repository
 
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.utils.FileSorter
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree

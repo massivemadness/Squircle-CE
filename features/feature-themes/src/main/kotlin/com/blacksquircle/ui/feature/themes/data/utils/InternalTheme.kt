@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.utils
+package com.blacksquircle.ui.feature.themes.data.utils
 
 import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
@@ -85,10 +85,6 @@ enum class InternalTheme(val theme: ThemeModel) {
 
         fun find(id: String): ThemeModel? {
             return values().find { it.theme.uuid == id }?.theme
-        }
-
-        fun themes(): List<ThemeModel> {
-            return values().map { it.theme }
         }
     }
 }

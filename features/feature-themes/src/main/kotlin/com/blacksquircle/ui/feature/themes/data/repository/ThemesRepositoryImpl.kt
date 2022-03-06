@@ -25,12 +25,12 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
+import com.blacksquircle.ui.feature.themes.data.utils.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.utils.InternalTheme
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
@@ -38,7 +38,6 @@ import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.File
 
-@Suppress("BlockingMethodInNonBlockingContext")
 class ThemesRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
@@ -88,7 +87,8 @@ class ThemesRepositoryImpl(
                 .map(ThemeConverter::toModel)
 
             if (query.isEmpty()) {
-                themes + InternalTheme.themes()
+                themes + InternalTheme.values()
+                    .map(InternalTheme::theme)
             } else {
                 themes
             }
@@ -102,6 +102,7 @@ class ThemesRepositoryImpl(
         }
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun importTheme(uri: Uri): ThemeModel {
         return withContext(dispatcherProvider.io()) {
             val inputStream = context.contentResolver.openInputStream(uri)

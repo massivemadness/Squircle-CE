@@ -16,6 +16,4 @@
 
 package com.blacksquircle.ui.core.ui.viewstate
 
-abstract class ViewState {
-    object Loading : ViewState()
-}
+abstract class ViewState

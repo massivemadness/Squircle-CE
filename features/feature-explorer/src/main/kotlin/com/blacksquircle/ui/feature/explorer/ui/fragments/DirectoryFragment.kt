@@ -39,10 +39,10 @@ import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.utils.*
 import com.blacksquircle.ui.feature.explorer.databinding.DialogPropertiesBinding
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentDirectoryBinding
 import com.blacksquircle.ui.feature.explorer.ui.adapters.FileAdapter
-import com.blacksquircle.ui.feature.explorer.ui.utils.*
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree

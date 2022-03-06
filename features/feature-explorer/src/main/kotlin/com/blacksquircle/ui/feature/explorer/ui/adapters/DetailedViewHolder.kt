@@ -22,10 +22,10 @@ import android.view.ViewGroup
 import com.blacksquircle.ui.core.ui.adapters.OnItemClickListener
 import com.blacksquircle.ui.core.ui.extensions.setTint
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.utils.setSelectableBackground
+import com.blacksquircle.ui.feature.explorer.data.utils.toReadableDate
+import com.blacksquircle.ui.feature.explorer.data.utils.toReadableSize
 import com.blacksquircle.ui.feature.explorer.databinding.ItemFileDetailedBinding
-import com.blacksquircle.ui.feature.explorer.ui.utils.setSelectableBackground
-import com.blacksquircle.ui.feature.explorer.ui.utils.toReadableDate
-import com.blacksquircle.ui.feature.explorer.ui.utils.toReadableSize
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 

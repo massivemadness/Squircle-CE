@@ -20,7 +20,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
@@ -47,11 +46,11 @@ class FontsViewModel @Inject constructor(
     private val _popBackStackEvent = MutableSharedFlow<Unit>()
     val popBackStackEvent: SharedFlow<Unit> = _popBackStackEvent
 
-    private val _fontsState = MutableStateFlow<ViewState>(ViewState.Loading)
-    val fontsState: StateFlow<ViewState> = _fontsState
+    private val _fontsState = MutableStateFlow<FontsViewState>(FontsViewState.Loading)
+    val fontsState: StateFlow<FontsViewState> = _fontsState
 
-    private val _externalFontState = MutableStateFlow<ViewState>(ExternalFontViewState.Invalid)
-    val externalFontState: StateFlow<ViewState> = _externalFontState
+    private val _externalFontState = MutableStateFlow<ExternalFontViewState>(ExternalFontViewState.Invalid)
+    val externalFontState: StateFlow<ExternalFontViewState> = _externalFontState
 
     init {
         fetchFonts("")

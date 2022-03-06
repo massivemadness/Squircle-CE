@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.utils
+package com.blacksquircle.ui.feature.editor.data.utils
 
 enum class Panel {
     DEFAULT,

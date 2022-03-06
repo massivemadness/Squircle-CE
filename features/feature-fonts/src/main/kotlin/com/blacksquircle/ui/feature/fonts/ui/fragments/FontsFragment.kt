@@ -33,7 +33,6 @@ import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.debounce
 import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.extensions.showToast
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
@@ -87,11 +86,9 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         val searchView = searchItem?.actionView as? SearchView
 
         val state = viewModel.fontsState.value
-        if (state is FontsViewState) {
-            if (state.query.isNotEmpty()) {
-                searchItem?.expandActionView()
-                searchView?.setQuery(state.query, false)
-            }
+        if (state.query.isNotEmpty()) {
+            searchItem?.expandActionView()
+            searchView?.setQuery(state.query, false)
         }
 
         searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
@@ -107,11 +104,6 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         viewModel.fontsState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    ViewState.Loading -> {
-                        binding.loadingBar.isVisible = true
-                        binding.emptyView.isVisible = false
-                        binding.recyclerView.isInvisible = true
-                    }
                     is FontsViewState.Empty -> {
                         binding.loadingBar.isVisible = false
                         binding.emptyView.isVisible = true
@@ -122,6 +114,11 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
                         binding.emptyView.isVisible = false
                         binding.recyclerView.isInvisible = false
                         adapter.submitList(state.fonts)
+                    }
+                    FontsViewState.Loading -> {
+                        binding.loadingBar.isVisible = true
+                        binding.emptyView.isVisible = false
+                        binding.recyclerView.isInvisible = true
                     }
                 }
             }

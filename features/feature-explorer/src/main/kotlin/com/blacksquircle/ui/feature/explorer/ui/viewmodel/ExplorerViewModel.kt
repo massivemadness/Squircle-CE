@@ -24,9 +24,9 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.ui.extensions.launchEvent
 import com.blacksquircle.ui.core.ui.lifecycle.SingleLiveEvent
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.utils.Operation
+import com.blacksquircle.ui.feature.explorer.data.utils.replaceList
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.utils.Operation
-import com.blacksquircle.ui.feature.explorer.ui.utils.replaceList
 import com.blacksquircle.ui.filesystem.base.exception.*
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree

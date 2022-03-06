@@ -38,14 +38,13 @@ import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
 import com.blacksquircle.ui.core.ui.extensions.debounce
 import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.extensions.showToast
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.data.utils.GridSpacingItemDecoration
+import com.blacksquircle.ui.feature.themes.data.utils.readAssetFileText
 import com.blacksquircle.ui.feature.themes.databinding.FragmentThemesBinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.ui.adapters.ThemeAdapter
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
-import com.blacksquircle.ui.feature.themes.ui.utils.GridSpacingItemDecoration
-import com.blacksquircle.ui.feature.themes.ui.utils.readAssetFileText
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.feature.themes.ui.viewstate.ThemesViewState
 import dagger.hilt.android.AndroidEntryPoint
@@ -107,11 +106,9 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         val searchView = searchItem?.actionView as? SearchView
 
         val state = viewModel.themesState.value
-        if (state is ThemesViewState) {
-            if (state.query.isNotEmpty()) {
-                searchItem?.expandActionView()
-                searchView?.setQuery(state.query, false)
-            }
+        if (state.query.isNotEmpty()) {
+            searchItem?.expandActionView()
+            searchView?.setQuery(state.query, false)
         }
 
         searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
@@ -144,11 +141,6 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         viewModel.themesState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    ViewState.Loading -> {
-                        binding.loadingBar.isVisible = true
-                        binding.emptyView.isVisible = false
-                        binding.recyclerView.isInvisible = true
-                    }
                     is ThemesViewState.Empty -> {
                         binding.loadingBar.isVisible = false
                         binding.emptyView.isVisible = true
@@ -159,6 +151,11 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                         binding.emptyView.isVisible = false
                         binding.recyclerView.isInvisible = false
                         adapter.submitList(state.themes)
+                    }
+                    ThemesViewState.Loading -> {
+                        binding.loadingBar.isVisible = true
+                        binding.emptyView.isVisible = false
+                        binding.recyclerView.isInvisible = true
                     }
                 }
             }
