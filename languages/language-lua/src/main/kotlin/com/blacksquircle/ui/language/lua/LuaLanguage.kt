@@ -35,9 +35,7 @@ class LuaLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "lua"
-    }
+    override val languageName = "lua"
 
     override fun getParser(): LanguageParser {
         return LuaParser.getInstance()

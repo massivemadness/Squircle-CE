@@ -36,9 +36,7 @@ class GroovyLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "groovy"
-    }
+    override val languageName = "groovy"
 
     override fun getParser(): LanguageParser {
         return GroovyParser.getInstance()

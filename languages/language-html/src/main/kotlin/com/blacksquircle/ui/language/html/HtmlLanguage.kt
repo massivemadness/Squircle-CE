@@ -36,9 +36,7 @@ class HtmlLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "html"
-    }
+    override val languageName = "html"
 
     override fun getParser(): LanguageParser {
         return HtmlParser.getInstance()

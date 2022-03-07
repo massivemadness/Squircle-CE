@@ -26,9 +26,7 @@ import com.blacksquircle.ui.language.plaintext.styler.PlainTextStyler
 
 class PlainTextLanguage : Language {
 
-    override fun getName(): String {
-        return "plaintext"
-    }
+    override val languageName = "plaintext"
 
     override fun getParser(): LanguageParser {
         return PlainTextParser.getInstance()

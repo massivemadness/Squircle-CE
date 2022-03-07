@@ -35,9 +35,7 @@ class TypeScriptLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "typescript"
-    }
+    override val languageName = "typescript"
 
     override fun getParser(): LanguageParser {
         return TypeScriptParser.getInstance()

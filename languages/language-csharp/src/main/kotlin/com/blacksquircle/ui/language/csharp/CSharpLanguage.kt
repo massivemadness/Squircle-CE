@@ -35,9 +35,7 @@ class CSharpLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "csharp"
-    }
+    override val languageName = "csharp"
 
     override fun getParser(): LanguageParser {
         return CSharpParser.getInstance()

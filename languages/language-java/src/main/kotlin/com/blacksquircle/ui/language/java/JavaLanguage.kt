@@ -35,9 +35,7 @@ class JavaLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "java"
-    }
+    override val languageName = "java"
 
     override fun getParser(): LanguageParser {
         return JavaParser.getInstance()

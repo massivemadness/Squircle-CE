@@ -35,9 +35,7 @@ class MarkdownLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "markdown"
-    }
+    override val languageName = "markdown"
 
     override fun getParser(): LanguageParser {
         return MarkdownParser.getInstance()

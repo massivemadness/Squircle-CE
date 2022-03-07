@@ -36,9 +36,7 @@ class CppLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "cplusplus"
-    }
+    override val languageName = "cplusplus"
 
     override fun getParser(): LanguageParser {
         return CppParser.getInstance()

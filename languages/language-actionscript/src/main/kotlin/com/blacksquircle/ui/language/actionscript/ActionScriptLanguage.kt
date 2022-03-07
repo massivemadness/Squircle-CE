@@ -35,9 +35,7 @@ class ActionScriptLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "actionscript"
-    }
+    override val languageName = "actionscript"
 
     override fun getParser(): LanguageParser {
         return ActionScriptParser.getInstance()

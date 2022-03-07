@@ -36,9 +36,7 @@ class KotlinLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "kotlin"
-    }
+    override val languageName = "kotlin"
 
     override fun getParser(): LanguageParser {
         return KotlinParser.getInstance()

@@ -36,9 +36,7 @@ class VisualBasicLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "visualbasic"
-    }
+    override val languageName = "visualbasic"
 
     override fun getParser(): LanguageParser {
         return VisualBasicParser.getInstance()

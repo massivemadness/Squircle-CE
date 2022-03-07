@@ -36,9 +36,7 @@ class PhpLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "php"
-    }
+    override val languageName = "php"
 
     override fun getParser(): LanguageParser {
         return PhpParser.getInstance()

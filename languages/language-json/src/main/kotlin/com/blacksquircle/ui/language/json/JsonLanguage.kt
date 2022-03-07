@@ -35,9 +35,7 @@ class JsonLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "json"
-    }
+    override val languageName = "json"
 
     override fun getParser(): LanguageParser {
         return JsonParser.getInstance()

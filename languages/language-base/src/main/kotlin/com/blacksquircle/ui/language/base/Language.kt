@@ -21,7 +21,9 @@ import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 
 interface Language {
-    fun getName(): String
+
+    val languageName: String
+
     fun getParser(): LanguageParser
     fun getProvider(): SuggestionProvider
     fun getStyler(): LanguageStyler

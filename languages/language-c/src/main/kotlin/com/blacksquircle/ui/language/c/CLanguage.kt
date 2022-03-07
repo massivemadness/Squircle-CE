@@ -36,9 +36,7 @@ class CLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "c"
-    }
+    override val languageName = "c"
 
     override fun getParser(): LanguageParser {
         return CParser.getInstance()

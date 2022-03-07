@@ -36,9 +36,7 @@ class SqlLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "sql"
-    }
+    override val languageName = "sql"
 
     override fun getParser(): LanguageParser {
         return SqlParser.getInstance()

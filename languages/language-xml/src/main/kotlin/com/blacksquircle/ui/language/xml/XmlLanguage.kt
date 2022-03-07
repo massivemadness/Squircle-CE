@@ -37,9 +37,7 @@ class XmlLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "xml"
-    }
+    override val languageName = "xml"
 
     override fun getParser(): LanguageParser {
         return XmlParser.getInstance()

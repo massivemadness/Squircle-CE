@@ -36,9 +36,7 @@ class LispLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "lisp"
-    }
+    override val languageName = "lisp"
 
     override fun getParser(): LanguageParser {
         return LispParser.getInstance()

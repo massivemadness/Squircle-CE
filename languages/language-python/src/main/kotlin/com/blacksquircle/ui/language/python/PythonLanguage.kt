@@ -36,9 +36,7 @@ class PythonLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "python"
-    }
+    override val languageName = "python"
 
     override fun getParser(): LanguageParser {
         return PythonParser.getInstance()

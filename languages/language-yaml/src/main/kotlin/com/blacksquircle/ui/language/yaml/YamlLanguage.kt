@@ -36,9 +36,7 @@ class YamlLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "yaml"
-    }
+    override val languageName = "yaml"
 
     override fun getParser(): LanguageParser {
         return YamlParser.getInstance()

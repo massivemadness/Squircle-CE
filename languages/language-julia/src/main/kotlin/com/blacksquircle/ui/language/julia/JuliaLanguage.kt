@@ -35,9 +35,7 @@ class JuliaLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "julia"
-    }
+    override val languageName = "julia"
 
     override fun getParser(): LanguageParser {
         /*try {

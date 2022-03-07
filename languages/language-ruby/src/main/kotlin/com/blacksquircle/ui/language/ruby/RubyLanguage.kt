@@ -35,9 +35,7 @@ class RubyLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "ruby"
-    }
+    override val languageName = "ruby"
 
     override fun getParser(): LanguageParser {
         return RubyParser.getInstance()

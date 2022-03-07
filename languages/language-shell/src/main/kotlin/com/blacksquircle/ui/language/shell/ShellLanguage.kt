@@ -38,9 +38,7 @@ class ShellLanguage : Language {
         }
     }
 
-    override fun getName(): String {
-        return "shell"
-    }
+    override val languageName = "shell"
 
     override fun getParser(): LanguageParser {
         return ShellParser.getInstance()
