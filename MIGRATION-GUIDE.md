@@ -3,13 +3,30 @@
 This migration guide will help you adapt your existing code to match the
 latest version of [EditorKit](README.md#editorkit) library.
 
-1. [v2.0.0 -> v2.1.0](#v200---v210)
-2. [v1.3.0 -> v2.0.0](#v130---v200)
-3. [v1.2.1 -> v1.3.0](#v121---v130)
-4. [v1.2.0 -> v1.2.1](#v120---v121)
-5. [v1.1.0 -> v1.2.0](#v110---v120)
-6. [v1.0.1 -> v1.1.0](#v101---v110)
-7. [v1.0.0 -> v1.0.1](#v100---v101)
+1. [v2.1.2 -> v2.2.0](#v212---v220)
+2. [v2.0.0 -> v2.1.0](#v200---v210)
+3. [v1.3.0 -> v2.0.0](#v130---v200)
+4. [v1.2.1 -> v1.3.0](#v121---v130)
+5. [v1.2.0 -> v1.2.1](#v120---v121)
+6. [v1.1.0 -> v1.2.0](#v110---v120)
+7. [v1.0.1 -> v1.1.0](#v101---v110)
+8. [v1.0.0 -> v1.0.1](#v100---v101)
+
+---
+
+## v2.1.2 -> v2.2.0
+
+Migration steps:
+1. If you're using custom languages, replace 'getName' method with `languageName` property.
+   ```kotlin
+   // Before
+   override fun getName() {
+       return "custom language"
+   }
+   
+   // After
+   override val languageName = "custom language"
+   ```
 
 ---
 
@@ -133,7 +150,6 @@ Migration steps:
 Migration steps:
 1. If you're using custom themes, add new `variableColor` property to the
    `SyntaxScheme` object
-2. Everything else remains the same
 
 ---
 
@@ -166,7 +182,6 @@ Migration steps:
    // After
    scroller.attachTo(editor)
    ```
-2. Everything else remains the same
 
 ---
 
@@ -181,7 +196,6 @@ Migration steps:
    // After
    editor.editorConfig = EditorConfig(...)
    ```
-2. Everything else remains the same
 
 ---
 
@@ -196,4 +210,3 @@ Migration steps:
    // After
    editor.onShortcutListener = object : OnShortcutListener { ... }
    ```
-2. Everything else remains the same

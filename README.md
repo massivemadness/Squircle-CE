@@ -521,7 +521,7 @@ The language modules provides support for programming languages. This
 includes syntax highlighting, code suggestions and source code parser.
 *(Note that source code parser currently works only in
 `language-javascript` module, but it will be implemented for more
-languages soon)*
+languages in the future)*
 
 [ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/language-base?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/language-base/)
 
@@ -583,9 +583,7 @@ import com.blacksquircle.ui.language.base.styler.LanguageStyler
 
 class CustomLanguage : Language {
 
-    override fun getName(): String {
-        return "custom language"
-    }
+    override val languageName = "custom language"
 
     override fun getParser(): LanguageParser {
         return CustomParser()

@@ -1,4 +1,4 @@
-<b>Squircle IDE</b> prend actuellement en charge le codage dans les langages de programmation suivants: ActionScript, C, C++, C#, Groovy, HTML, Java, JavaScript, Json, Julia, Kotlin, Lisp, Lua, Markdown, PHP, Python, Ruby, Shell, SQL, TypeScript, Visual Basique et XML.
+<b>Squircle IDE</b> prend actuellement en charge le codage dans les langages de programmation suivants: ActionScript, C, C++, C#, Groovy, HTML, Java, JavaScript, Json, Julia, Kotlin, Lisp, Lua, Markdown, PHP, Python, Ruby, Shell, SQL, TypeScript, Visual Basique, XML et YAML.
 
 Voici une liste des fonctionnalités qui vous aideront à travailler avec plus de productivité:
 
