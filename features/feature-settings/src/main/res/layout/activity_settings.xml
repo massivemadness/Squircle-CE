@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nav_host"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:name="com.fragula2.FragulaNavHostFragment"
         app:navGraph="@navigation/settings_graph"
         app:defaultNavHost="true" />
 

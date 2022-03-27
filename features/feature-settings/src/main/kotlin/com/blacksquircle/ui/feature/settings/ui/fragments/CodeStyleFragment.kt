@@ -17,10 +17,17 @@
 package com.blacksquircle.ui.feature.settings.ui.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.preference.PreferenceFragmentCompat
+import com.blacksquircle.ui.core.ui.extensions.getColorAttr
 import com.blacksquircle.ui.feature.settings.R
 
 class CodeStyleFragment : PreferenceFragmentCompat() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.setBackgroundColor(requireContext().getColorAttr(android.R.attr.colorBackground))
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_code_style, rootKey)

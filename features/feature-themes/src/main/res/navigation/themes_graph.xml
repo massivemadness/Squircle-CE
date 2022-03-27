@@ -21,7 +21,7 @@
     android:id="@+id/themes_graph"
     app:startDestination="@id/themesFragment">
 
-    <fragment
+    <swipeable
         android:id="@+id/themesFragment"
         android:name="com.blacksquircle.ui.feature.themes.ui.fragments.ThemesFragment"
         android:label="@string/label_themes"
@@ -34,9 +34,9 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/newThemeFragment" />
-    </fragment>
+    </swipeable>
 
-    <fragment
+    <swipeable
         android:id="@+id/newThemeFragment"
         android:name="com.blacksquircle.ui.feature.themes.ui.fragments.NewThemeFragment"
         android:label="@string/label_new_theme"
@@ -48,6 +48,6 @@
             android:defaultValue="@null"
             app:nullable="true"
             app:argType="string" />
-    </fragment>
+    </swipeable>
 
 </navigation>

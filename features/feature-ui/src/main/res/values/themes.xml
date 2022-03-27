@@ -41,6 +41,8 @@
 
         <item name="md_ripple_color">?colorControlHighlight</item>
         <item name="md_corner_radius">4dp</item>
+        <item name="fgl_dim_color">@android:color/transparent</item>
+        <item name="fgl_dim_amount">0.0</item>
 
         <item name="android:statusBarColor">@color/colorStatusBar</item>
         <item name="android:navigationBarColor">?colorSecondaryVariant</item>

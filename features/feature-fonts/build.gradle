@@ -62,6 +62,7 @@ dependencies {
     // UI
     implementation library.appcompat
     implementation library.materialdesign
+    implementation library.fragula
 
     // AAC
     implementation library.viewmodel

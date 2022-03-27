@@ -21,7 +21,7 @@
     android:id="@+id/fonts_graph"
     app:startDestination="@id/fontsFragment">
 
-    <fragment
+    <swipeable
         android:id="@+id/fontsFragment"
         android:name="com.blacksquircle.ui.feature.fonts.ui.fragments.FontsFragment"
         android:label="@string/label_fonts"
@@ -34,14 +34,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/externalFontFragment" />
-    </fragment>
+    </swipeable>
 
-    <fragment
+    <swipeable
         android:id="@+id/externalFontFragment"
         android:name="com.blacksquircle.ui.feature.fonts.ui.fragments.ExternalFontFragment"
         android:label="@string/label_external_font"
         tools:layout="@layout/fragment_external_font">
         <deepLink app:uri="blacksquircle://fonts/create" />
-    </fragment>
+    </swipeable>
 
 </navigation>

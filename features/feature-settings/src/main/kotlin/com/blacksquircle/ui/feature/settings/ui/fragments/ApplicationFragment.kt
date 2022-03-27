@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.settings.ui.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -24,6 +25,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
+import com.blacksquircle.ui.core.ui.extensions.getColorAttr
 import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.settings.R
@@ -33,6 +35,11 @@ class ApplicationFragment : PreferenceFragmentCompat() {
 
     private val viewModel by activityViewModels<SettingsViewModel>()
     private val navController by lazy { findNavController() }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.setBackgroundColor(requireContext().getColorAttr(android.R.attr.colorBackground))
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_application, rootKey)
