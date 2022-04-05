@@ -32,7 +32,7 @@ import com.blacksquircle.ui.editorkit.plugin.base.PluginContainer
 import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
 import com.blacksquircle.ui.editorkit.widget.internal.SyntaxHighlightEditText
 
-class TextProcessor @JvmOverloads constructor(
+open class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.autoCompleteTextViewStyle

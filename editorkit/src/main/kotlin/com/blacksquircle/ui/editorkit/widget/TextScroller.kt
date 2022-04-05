@@ -31,7 +31,7 @@ import androidx.core.content.res.getDrawableOrThrow
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.widget.internal.ScrollableEditText
 
-class TextScroller @JvmOverloads constructor(
+open class TextScroller @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
