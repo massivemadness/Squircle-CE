@@ -3,7 +3,7 @@
 **Squircle IDE** is a fast and free multi-language code editor for
 Android.
 
-![Android CI](https://github.com/massivemadness/Squircle-IDE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Android CI](https://github.com/massivemadness/Squircle-IDE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Squircle%20IDE-orange.svg?style=flat)](https://android-arsenal.com/details/1/8401)
 
 <img src="https://raw.githubusercontent.com/massivemadness/Squircle-IDE/master/.github/images/carbon.png" width="700" />
 
@@ -45,7 +45,7 @@ programming languages.
 the [migration guide](MIGRATION-GUIDE.md).***  
 Please note that this library only supports Kotlin.
 
-[ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/editorkit?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/editorkit/)
+[![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/editorkit?label=Download)](https://repo1.maven.org/maven2/com/blacksquircle/ui/editorkit/)
 
 ## Gradle Dependency
 
@@ -523,7 +523,7 @@ includes syntax highlighting, code suggestions and source code parser.
 `language-javascript` module, but it will be implemented for more
 languages in the future)*
 
-[ ![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/language-base?label=Download) ](https://repo1.maven.org/maven2/com/blacksquircle/ui/language-base/)
+[![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/language-base?label=Download)](https://repo1.maven.org/maven2/com/blacksquircle/ui/language-base/)
 
 ## Gradle Dependency
 
