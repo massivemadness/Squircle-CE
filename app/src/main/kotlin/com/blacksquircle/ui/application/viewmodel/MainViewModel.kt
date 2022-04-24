@@ -72,6 +72,7 @@ class MainViewModel @Inject constructor(
                     documentRepository.updateDocument(documentModel)
                     onSuccess()
                 } else {
+                    Log.d(TAG, "Invalid path = $path")
                     toastEvent.value = R.string.message_file_not_found
                 }
             } catch (e: Exception) {

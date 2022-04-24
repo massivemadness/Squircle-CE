@@ -28,10 +28,10 @@ ext {
     ]
 
     // Plugins
-    agp_version = '7.1.2'
+    agp_version = '7.1.3'
 
     // Core
-    kotlin_version = '1.6.10'
+    kotlin_version = '1.6.21'
     core_version = '1.7.0'
     activity_version = '1.4.0'
     fragment_version = '1.4.1'
@@ -47,18 +47,18 @@ ext {
     preferencescompat_version = '1.2.0'
     materialdialogs_version = '3.3.0'
     recyclerview_selection_version = '1.1.0'
-    fragula_version = '2.1'
+    fragula_version = '2.2'
 
     // AAC
     lifecycle_version = '2.4.1'
-    navigation_version = '2.4.1'
+    navigation_version = '2.4.2'
     room_version = '2.4.2'
 
     // Network
     gson_version = '2.9.0'
 
     // Coroutines
-    coroutines_version = '1.6.0'
+    coroutines_version = '1.6.1'
 
     // DI
     hilt_version = '2.41'
@@ -66,8 +66,8 @@ ext {
     // Other
     keyboardevent_version = '3.0.0-RC3'
     rhino_version = '1.7.14'
-    zip4j_version = '2.9.1'
-    chardet_version = '70.1'
+    zip4j_version = '2.10.0'
+    chardet_version = '71.1'
 
     // Tests
     junit_version = '4.13.2'
