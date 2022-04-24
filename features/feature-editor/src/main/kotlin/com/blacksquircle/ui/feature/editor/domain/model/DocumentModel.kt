@@ -39,14 +39,6 @@ data class DocumentModel(
     }
 
     override fun hashCode(): Int {
-        var result = uuid.hashCode()
-        result = 31 * result + path.hashCode()
-        result = 31 * result + modified.hashCode()
-        result = 31 * result + position
-        result = 31 * result + scrollX
-        result = 31 * result + scrollY
-        result = 31 * result + selectionStart
-        result = 31 * result + selectionEnd
-        return result
+        return path.hashCode()
     }
 }

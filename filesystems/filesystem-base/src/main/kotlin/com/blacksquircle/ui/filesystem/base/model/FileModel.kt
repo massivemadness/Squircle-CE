@@ -92,11 +92,6 @@ data class FileModel(
     }
 
     override fun hashCode(): Int {
-        var result = path.hashCode()
-        result = 31 * result + size.hashCode()
-        result = 31 * result + lastModified.hashCode()
-        result = 31 * result + isFolder.hashCode()
-        result = 31 * result + isHidden.hashCode()
-        return result
+        return path.hashCode()
     }
 }
