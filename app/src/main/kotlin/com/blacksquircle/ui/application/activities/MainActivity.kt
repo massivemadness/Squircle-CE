@@ -18,6 +18,7 @@ package com.blacksquircle.ui.application.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -36,9 +37,11 @@ import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
+import com.blacksquircle.ui.utils.extensions.resolveFilePath
 import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -126,9 +129,32 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
 
     private fun handleIntent(intent: Intent?) {
         if (intent?.action == Intent.ACTION_VIEW) {
-            mainViewModel.handleIntent(intent) {
-                editorViewModel.loadFiles()
+            val contentUri = intent.data ?: return
+            Log.d(TAG, "Handle external content uri = $contentUri")
+
+            val filePath = resolveFilePath(contentUri)
+            Log.d(TAG, "Does it looks like a valid file path? ($filePath)")
+
+            val isValidFile = try {
+                File(filePath).exists()
+            } catch (e: Exception) {
+                false
+            }
+            Log.d(TAG, "isValidFile = $isValidFile")
+
+            if (isValidFile) {
+                val file = File(filePath)
+                mainViewModel.handleDocument(file) {
+                    editorViewModel.loadFiles()
+                }
+            } else {
+                Log.d(TAG, "Invalid path")
+                showToast(R.string.message_file_not_found)
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }
