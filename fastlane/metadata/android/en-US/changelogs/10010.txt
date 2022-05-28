@@ -1,0 +1,5 @@
+- Added: Support for TOML language
+- Added: Swipe navigation in Settings
+- Added: Bug when opening a file from external file explorer
+- Internal architecture improvements
+- Bugfixes and minor improvements
