@@ -162,7 +162,6 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    else -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

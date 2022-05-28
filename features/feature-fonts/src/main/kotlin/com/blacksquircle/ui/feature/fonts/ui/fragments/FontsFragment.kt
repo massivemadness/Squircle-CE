@@ -125,7 +125,6 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    else -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

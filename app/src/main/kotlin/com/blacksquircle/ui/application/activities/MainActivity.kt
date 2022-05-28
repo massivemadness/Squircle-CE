@@ -22,6 +22,8 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.dialogs.ConfirmExitDialog
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
@@ -30,6 +32,7 @@ import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
 import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment
@@ -41,6 +44,8 @@ import com.blacksquircle.ui.utils.extensions.resolveFilePath
 import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.io.File
 import javax.inject.Inject
 
@@ -116,9 +121,14 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
     }
 
     private fun observeViewModel() {
-        mainViewModel.toastEvent.observe(this) {
-            showToast(it)
-        }
+        mainViewModel.viewEvent.flowWithLifecycle(lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> showToast(text = event.message)
+                }
+            }
+            .launchIn(lifecycleScope)
+
         explorerViewModel.openFileEvent.observe(this) {
             editorViewModel.openFileEvent.value = DocumentConverter.toModel(it)
         }

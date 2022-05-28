@@ -21,22 +21,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.ui.lifecycle.SingleLiveEvent
+import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository
 ) : ViewModel() {
 
-    val toastEvent = SingleLiveEvent<Int>()
+    private val _viewEvent = MutableSharedFlow<ViewEvent>()
+    val viewEvent: SharedFlow<ViewEvent> = _viewEvent
 
     val fullScreenMode: Boolean
         get() = settingsManager.fullScreenMode
@@ -52,7 +57,9 @@ class MainViewModel @Inject constructor(
                 onSuccess()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                _viewEvent.emit(ViewEvent.Toast(
+                    stringProvider.getString(R.string.message_unknown_exception)
+                ))
             }
         }
     }

@@ -58,7 +58,7 @@ ext {
     gson_version = '2.9.0'
 
     // Coroutines
-    coroutines_version = '1.6.1'
+    coroutines_version = '1.6.2'
 
     // DI
     hilt_version = '2.42'

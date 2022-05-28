@@ -173,7 +173,6 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     ViewEvent.PopBackStack -> navController.popBackStack()
-                    else -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

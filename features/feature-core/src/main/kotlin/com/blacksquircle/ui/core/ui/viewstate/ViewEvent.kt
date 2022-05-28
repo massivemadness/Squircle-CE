@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.core.ui.viewstate
 
-sealed class ViewEvent {
+abstract class ViewEvent {
 
     data class Toast(val message: String) : ViewEvent()
 
