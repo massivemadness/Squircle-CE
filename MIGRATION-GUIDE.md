@@ -3,7 +3,7 @@
 This migration guide will help you adapt your existing code to match the
 latest version of [EditorKit](README.md#editorkit) library.
 
-1. [v2.1.2 -> v2.2.0](#v212---v220)
+1. [v2.1.2 -> v2.1.3](#v212---v213)
 2. [v2.0.0 -> v2.1.0](#v200---v210)
 3. [v1.3.0 -> v2.0.0](#v130---v200)
 4. [v1.2.1 -> v1.3.0](#v121---v130)
@@ -14,7 +14,7 @@ latest version of [EditorKit](README.md#editorkit) library.
 
 ---
 
-## v2.1.2 -> v2.2.0
+## v2.1.2 -> v2.1.3
 
 Migration steps:
 1. If you're using custom languages, replace 'getName' method with `languageName` property.
