@@ -89,7 +89,7 @@
     <string name="pref_highlight_delimiters_title">Passende Klammer hervorheben</string>
     <string name="pref_highlight_delimiters_summary">Hebt die öffnende oder schließende Klammer hervor, wenn der Cursor an der anderen Klammer ist.</string>
     <string name="pref_auto_save_files_title">Dateien automatisch speichern</string>
-    <string name="pref_auto_save_files_summary">Dateien automatisch speichern, wenn die App gewechsekt oder geschlossen wird.</string>
+    <string name="pref_auto_save_files_summary">Dateien automatisch speichern, wenn die App gewechselt oder geschlossen wird.</string>
     <string name="pref_extended_keyboard_title">Erweiterte Tastatur</string>
     <string name="pref_extended_keyboard_summary">Zusätzliche Tasten über der Tastatur anzeigen.</string>
     <string name="pref_keyboard_preset_title">Tastatur-Zeichen</string>
@@ -126,6 +126,6 @@
     <string name="pref_about_summary">Squircle IDE ist ein Open-Source-Projekt, das unter der Apache 2.0-Lizenz veröffentlicht wurde  Version: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Datenschutzerklärung</string>
     <string name="pref_contribute_title">Zur Entwicklung beitragen</string>
-    <string name="pref_contribute_summary">Sie können einen Issue auf GitHub erstellen oder die App in Ihre native Sprache übersetzten.</string>
+    <string name="pref_contribute_summary">Sie können einen Issue auf GitHub erstellen oder die App in Ihre native Sprache übersetzen.</string>
 
 </resources>
