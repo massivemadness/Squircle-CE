@@ -29,7 +29,7 @@ class GroovyLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".groovy", ".gvy", ".gy", ".gsh")
+        private val FILE_EXTENSIONS = arrayOf(".groovy", ".gvy", ".gy", ".gsh", ".gradle")
 
         fun supportFormat(fileName: String): Boolean {
             return fileName.endsWith(FILE_EXTENSIONS)
