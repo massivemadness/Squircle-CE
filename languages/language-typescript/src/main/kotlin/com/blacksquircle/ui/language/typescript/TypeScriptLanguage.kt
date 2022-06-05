@@ -20,6 +20,7 @@ import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.parser.LanguageParser
 import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
+import com.blacksquircle.ui.language.base.utils.endsWith
 import com.blacksquircle.ui.language.typescript.parser.TypeScriptParser
 import com.blacksquircle.ui.language.typescript.provider.TypeScriptProvider
 import com.blacksquircle.ui.language.typescript.styler.TypeScriptStyler
@@ -28,10 +29,10 @@ class TypeScriptLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".ts"
+        private val FILE_EXTENSIONS = arrayOf(".ts", ".mts", ".cts")
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION)
+            return fileName.endsWith(FILE_EXTENSIONS)
         }
     }
 

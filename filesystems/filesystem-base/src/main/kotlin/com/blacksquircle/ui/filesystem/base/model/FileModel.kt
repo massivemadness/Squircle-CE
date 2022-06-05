@@ -35,7 +35,8 @@ data class FileModel(
             ".xaml", ".xdf", ".xmpp", ".xml", ".sh", ".ksh", ".bsh", ".csh",
             ".tcsh", ".zsh", ".bash", ".groovy", ".gvy", ".gy", ".gsh", ".php",
             ".php3", ".php4", ".php5", ".phps", ".phtml", ".ts", ".ino", ".log",
-            ".mjs", ".cjs", ".jl", ".yaml", ".yml", ".toml", ".gradle"
+            ".mjs", ".cjs", ".jl", ".yaml", ".yml", ".toml", ".gradle", ".mts",
+            ".cts"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",
