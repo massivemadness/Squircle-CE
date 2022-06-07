@@ -38,6 +38,7 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         const val KEY_CODE_COMPLETION = "CODE_COMPLETION"
         const val KEY_ERROR_HIGHLIGHTING = "ERROR_HIGHLIGHTING"
         const val KEY_PINCH_ZOOM = "PINCH_ZOOM"
+        const val KEY_LINE_NUMBERS = "SHOW_LINE_NUMBERS"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
         const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
 
@@ -108,6 +109,9 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
     var pinchZoom: Boolean
         get() = sharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_PINCH_ZOOM, value).apply()
+    var lineNumbers: Boolean
+        get() = sharedPreferences.getBoolean(KEY_LINE_NUMBERS, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_LINE_NUMBERS, value).apply()
     var highlightCurrentLine: Boolean
         get() = sharedPreferences.getBoolean(KEY_HIGHLIGHT_CURRENT_LINE, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_HIGHLIGHT_CURRENT_LINE, value).apply()

@@ -22,15 +22,18 @@ sealed class SettingsEvent<T>(val value: T) {
     class ThemePref(value: ThemeModel) : SettingsEvent<ThemeModel>(value)
     class FontSize(value: Float) : SettingsEvent<Float>(value)
     class FontType(value: String) : SettingsEvent<String>(value)
+
     class WordWrap(value: Boolean) : SettingsEvent<Boolean>(value)
     class CodeCompletion(value: Boolean) : SettingsEvent<Boolean>(value)
     class ErrorHighlight(value: Boolean) : SettingsEvent<Boolean>(value)
     class PinchZoom(value: Boolean) : SettingsEvent<Boolean>(value)
-    class CurrentLine(value: Boolean) : SettingsEvent<Boolean>(value)
+    class LineNumbers(value: Pair<Boolean, Boolean>) :
+        SettingsEvent<Pair<Boolean, Boolean>>(value)
     class Delimiters(value: Boolean) : SettingsEvent<Boolean>(value)
     class ExtendedKeys(value: Boolean) : SettingsEvent<Boolean>(value)
     class KeyboardPreset(value: List<String>) : SettingsEvent<List<String>>(value)
     class SoftKeys(value: Boolean) : SettingsEvent<Boolean>(value)
+
     class AutoIndentation(value: Triple<Boolean, Boolean, Boolean>) :
         SettingsEvent<Triple<Boolean, Boolean, Boolean>>(value)
     class UseSpacesNotTabs(value: Boolean) : SettingsEvent<Boolean>(value)

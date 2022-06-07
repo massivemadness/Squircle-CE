@@ -89,6 +89,8 @@
     <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>
     <string name="pref_pinch_zoom_title">Pinch Zoom</string>
     <string name="pref_pinch_zoom_summary">Enable zoom gesture in the editor.</string>
+    <string name="pref_line_numbers_title">Line Numbers</string>
+    <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
     <string name="pref_highlight_line_title">Highlight Current Line</string>
     <string name="pref_highlight_line_summary">Highlight the line where the caret currently resides.</string>
     <string name="pref_highlight_delimiters_title">Highlight Matching Delimiters</string>

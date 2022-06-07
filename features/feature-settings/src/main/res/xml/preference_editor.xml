@@ -63,6 +63,12 @@
             android:key="PINCH_ZOOM"/>
 
         <SwitchPreference
+            android:title="@string/pref_line_numbers_title"
+            android:summary="@string/pref_line_numbers_summary"
+            android:defaultValue="true"
+            android:key="SHOW_LINE_NUMBERS"/>
+
+        <SwitchPreference
             android:title="@string/pref_highlight_line_title"
             android:summary="@string/pref_highlight_line_summary"
             android:defaultValue="true"

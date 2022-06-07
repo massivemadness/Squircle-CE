@@ -84,6 +84,8 @@
     <string name="pref_error_highlighting_summary">Realça erros em tempo real. É preciso reiniciar o aplicativo.</string>
     <string name="pref_pinch_zoom_title">Zoom</string>
     <string name="pref_pinch_zoom_summary">Zoom de pinça no editor.</string>
+    <string name="pref_line_numbers_title">Line Numbers</string>
+    <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
     <string name="pref_highlight_line_title">Realçar a linha atual</string>
     <string name="pref_highlight_line_summary">Realça a linha onde você está.</string>
     <string name="pref_highlight_delimiters_title">Realçar colchetes</string>

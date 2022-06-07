@@ -89,6 +89,8 @@
     <string name="pref_error_highlighting_summary">Activer la mise en surbrillance des erreurs en temps réel. Un redémarrage est requis.</string>
     <string name="pref_pinch_zoom_title">Zoom par pincement</string>
     <string name="pref_pinch_zoom_summary">Activer les gestes de zoom dans l\'éditeur.</string>
+    <string name="pref_line_numbers_title">Line Numbers</string>
+    <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
     <string name="pref_highlight_line_title">Mettre en évidence la ligne en cours</string>
     <string name="pref_highlight_line_summary">Mettre en évidence la ligne où se trouve actuellement le signe d\'insertion.</string>
     <string name="pref_highlight_delimiters_title">Mettre en évidence les délimiteurs correspondants</string>

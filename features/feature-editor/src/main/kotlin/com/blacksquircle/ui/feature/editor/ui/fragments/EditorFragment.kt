@@ -242,8 +242,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             }
                         }
                         is SettingsEvent.PinchZoom -> if (event.value) pinchZoom()
-                        is SettingsEvent.CurrentLine -> lineNumbers {
-                            highlightCurrentLine = event.value
+                        is SettingsEvent.LineNumbers -> lineNumbers {
+                            lineNumbers = event.value.first
+                            highlightCurrentLine = event.value.second
                         }
                         is SettingsEvent.Delimiters -> if (event.value) highlightDelimiters()
                         is SettingsEvent.ExtendedKeys -> {

@@ -84,6 +84,8 @@
     <string name="pref_error_highlighting_summary">启用实时错误高亮显示（需要重启本应用才能生效）。</string>
     <string name="pref_pinch_zoom_title">手势缩放</string>
     <string name="pref_pinch_zoom_summary">在编辑器中启用缩放手势。</string>
+    <string name="pref_line_numbers_title">Line Numbers</string>
+    <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
     <string name="pref_highlight_line_title">高亮当前行</string>
     <string name="pref_highlight_line_summary">高亮显示光标当前所在的行。</string>
     <string name="pref_highlight_delimiters_title">高亮成对符</string>

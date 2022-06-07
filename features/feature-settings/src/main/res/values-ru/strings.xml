@@ -84,6 +84,8 @@
     <string name="pref_error_highlighting_summary">Включить подсветку ошибок в реальном времени. Требуется перезапуск.</string>
     <string name="pref_pinch_zoom_title">Увеличение жестом</string>
     <string name="pref_pinch_zoom_summary">Включить жест увеличения текста в редакторе.</string>
+    <string name="pref_line_numbers_title">Номера строк</string>
+    <string name="pref_line_numbers_summary">Показывать номера строк слева от редактора.</string>
     <string name="pref_highlight_line_title">Подсвечивать текущую линию</string>
     <string name="pref_highlight_line_summary">Подсвечивать линию на которой находится курсор.</string>
     <string name="pref_highlight_delimiters_title">Подсвечивать скобки</string>

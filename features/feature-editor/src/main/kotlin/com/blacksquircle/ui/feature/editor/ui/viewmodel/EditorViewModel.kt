@@ -203,8 +203,11 @@ class EditorViewModel @Inject constructor(
                 val pinchZoom = settingsManager.pinchZoom
                 settings.add(SettingsEvent.PinchZoom(pinchZoom))
 
-                val highlightCurrentLine = settingsManager.highlightCurrentLine
-                settings.add(SettingsEvent.CurrentLine(highlightCurrentLine))
+                val lineNumbers = Pair(
+                    settingsManager.lineNumbers,
+                    settingsManager.highlightCurrentLine
+                )
+                settings.add(SettingsEvent.LineNumbers(lineNumbers))
 
                 val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
                 settings.add(SettingsEvent.Delimiters(highlightMatchingDelimiters))

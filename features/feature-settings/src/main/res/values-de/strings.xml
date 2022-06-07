@@ -84,6 +84,8 @@
     <string name="pref_error_highlighting_summary">Echtzeit-Fehlermarkierung aktivieren. Neustart erforderlich.</string>
     <string name="pref_pinch_zoom_title">Pinch-to-Zoom-Gesten</string>
     <string name="pref_pinch_zoom_summary">Zoom-Gesten im Editor aktivieren.</string>
+    <string name="pref_line_numbers_title">Line Numbers</string>
+    <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
     <string name="pref_highlight_line_title">Aktuelle Zeile hervorheben</string>
     <string name="pref_highlight_line_summary">Hebt die Zeile hervor, in der der Cursor gerade ist.</string>
     <string name="pref_highlight_delimiters_title">Passende Klammer hervorheben</string>
