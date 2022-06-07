@@ -26,7 +26,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.core.text.PrecomputedTextCompat
-import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
 import com.blacksquircle.ui.editorkit.plugin.base.PluginContainer
 import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
@@ -35,7 +34,7 @@ import com.blacksquircle.ui.editorkit.widget.internal.SyntaxHighlightEditText
 open class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
+    defStyleAttr: Int = android.R.attr.autoCompleteTextViewStyle
 ) : SyntaxHighlightEditText(context, attrs, defStyleAttr), PluginContainer {
 
     companion object {

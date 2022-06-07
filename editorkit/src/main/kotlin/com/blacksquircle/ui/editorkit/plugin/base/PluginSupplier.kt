@@ -18,13 +18,13 @@ package com.blacksquircle.ui.editorkit.plugin.base
 
 class PluginSupplier private constructor() {
 
-    private val plugins = mutableListOf<EditorPlugin>()
+    private val plugins = mutableSetOf<EditorPlugin>()
 
     fun <T : EditorPlugin> plugin(plugin: T, block: T.() -> Unit = {}) {
         plugins.add(plugin.apply(block))
     }
 
-    fun supply(): List<EditorPlugin> {
+    fun supply(): Set<EditorPlugin> {
         return plugins
     }
 
