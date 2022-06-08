@@ -36,7 +36,7 @@ data class FileModel(
             ".tcsh", ".zsh", ".bash", ".groovy", ".gvy", ".gy", ".gsh", ".php",
             ".php3", ".php4", ".php5", ".phps", ".phtml", ".ts", ".ino", ".log",
             ".mjs", ".cjs", ".jl", ".yaml", ".yml", ".toml", ".gradle", ".mts",
-            ".cts"
+            ".cts", ".smali"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",

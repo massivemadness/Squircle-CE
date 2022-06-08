@@ -36,6 +36,7 @@ import com.blacksquircle.ui.language.plaintext.PlainTextLanguage
 import com.blacksquircle.ui.language.python.PythonLanguage
 import com.blacksquircle.ui.language.ruby.RubyLanguage
 import com.blacksquircle.ui.language.shell.ShellLanguage
+import com.blacksquircle.ui.language.smali.SmaliLanguage
 import com.blacksquircle.ui.language.sql.SqlLanguage
 import com.blacksquircle.ui.language.toml.TomlLanguage
 import com.blacksquircle.ui.language.typescript.TypeScriptLanguage
@@ -65,6 +66,7 @@ object LanguageFactory {
             PythonLanguage.supportFormat(fileName) -> PythonLanguage()
             RubyLanguage.supportFormat(fileName) -> RubyLanguage()
             ShellLanguage.supportFormat(fileName) -> ShellLanguage()
+            SmaliLanguage.supportFormat(fileName) -> SmaliLanguage()
             SqlLanguage.supportFormat(fileName) -> SqlLanguage()
             TomlLanguage.supportFormat(fileName) -> TomlLanguage()
             TypeScriptLanguage.supportFormat(fileName) -> TypeScriptLanguage()

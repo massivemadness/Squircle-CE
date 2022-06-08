@@ -104,6 +104,7 @@ dependencies {
     implementation project(':languages:language-python')
     implementation project(':languages:language-ruby')
     implementation project(':languages:language-shell')
+    implementation project(':languages:language-smali')
     implementation project(':languages:language-sql')
     implementation project(':languages:language-toml')
     implementation project(':languages:language-typescript')

@@ -553,6 +553,7 @@ dependencies {
   implementation 'com.blacksquircle.ui:language-python:2.1.3'
   implementation 'com.blacksquircle.ui:language-ruby:2.1.3'
   implementation 'com.blacksquircle.ui:language-shell:2.1.3'
+  implementation 'com.blacksquircle.ui:language-smali:2.1.3'
   implementation 'com.blacksquircle.ui:language-sql:2.1.3'
   implementation 'com.blacksquircle.ui:language-toml:2.1.3'
   implementation 'com.blacksquircle.ui:language-typescript:2.1.3'
