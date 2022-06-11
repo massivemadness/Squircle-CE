@@ -308,6 +308,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             else -> false
                         }
                     }
+                    shortcutKeyFilter = listOf(KeyEvent.KEYCODE_TAB)
                 }
             }
             binding.editor.plugins(pluginSupplier)

@@ -24,6 +24,7 @@ import com.blacksquircle.ui.editorkit.widget.TextProcessor
 class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
 
     var onShortcutListener: OnShortcutListener? = null
+    var shortcutKeyFilter = emptyList<Int>()
 
     override fun onAttached(editText: TextProcessor) {
         super.onAttached(editText)
@@ -45,7 +46,7 @@ class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
             )
 
             // Shortcuts can be handled only if one of following keys is pressed
-            if (shortcut.ctrl || shortcut.shift || shortcut.alt) {
+            if (shortcut.ctrl || shortcut.shift || shortcut.alt || keyCode in shortcutKeyFilter) {
                 if (onShortcutListener.onShortcut(shortcut)) {
                     return true
                 }

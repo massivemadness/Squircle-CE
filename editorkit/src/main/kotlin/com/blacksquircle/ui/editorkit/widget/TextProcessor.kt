@@ -41,7 +41,7 @@ open class TextProcessor @JvmOverloads constructor(
         private const val TAG = "TextProcessor"
     }
 
-    private val plugins = mutableListOf<EditorPlugin>()
+    private val plugins = hashSetOf<EditorPlugin>()
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
