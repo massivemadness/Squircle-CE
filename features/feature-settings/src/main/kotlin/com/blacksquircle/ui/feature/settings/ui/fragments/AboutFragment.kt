@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.settings.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.extensions.getColorAttr
@@ -27,6 +28,9 @@ import com.blacksquircle.ui.feature.settings.data.utils.versionCode
 import com.blacksquircle.ui.feature.settings.data.utils.versionName
 
 class AboutFragment : PreferenceFragmentCompat() {
+
+    private val navController by lazy { findNavController() }
+    private var counter = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,6 +47,14 @@ class AboutFragment : PreferenceFragmentCompat() {
             requireContext().versionName,
             requireContext().versionCode
         )
+        changelog?.setOnPreferenceClickListener {
+            if (counter < 10) {
+                counter++
+            } else {
+                navController.navigate(R.id.changeLogFragment)
+            }
+            true
+        }
     }
 
     companion object {

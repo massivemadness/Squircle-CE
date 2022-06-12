@@ -19,7 +19,9 @@ package com.blacksquircle.ui.feature.settings.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.data.converter.ReleaseConverter
 import com.blacksquircle.ui.feature.settings.ui.adapters.item.PreferenceItem
+import com.blacksquircle.ui.feature.settings.ui.adapters.item.ReleaseModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -61,6 +63,9 @@ class SettingsViewModel @Inject constructor(
     )
     val headersState: StateFlow<List<PreferenceItem>> = _headersState
 
+    private val _changelogState = MutableStateFlow<List<ReleaseModel>>(emptyList())
+    val changelogState: StateFlow<List<ReleaseModel>> = _changelogState
+
     var fullscreenMode: Boolean
         get() = settingsManager.fullScreenMode
         set(value) { settingsManager.fullScreenMode = value }
@@ -70,5 +75,9 @@ class SettingsViewModel @Inject constructor(
 
     fun resetKeyboardPreset() {
         settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)
+    }
+
+    fun fetchChangeLog(changelog: String) {
+        _changelogState.value = ReleaseConverter.toReleaseModels(changelog)
     }
 }

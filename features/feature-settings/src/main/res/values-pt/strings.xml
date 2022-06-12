@@ -24,6 +24,8 @@
     <string name="label_files">Arquivos</string>
     <string name="label_about">Sobre</string>
     <string name="label_keyboard_preset">Predefinição de teclado</string>
+    <string name="label_changelog">ChangeLog</string>
+    <string name="label_latest_release">Latest release</string>
 
     <string name="hint_enter_preset_chars">Insira os caracteres(sem separação)</string>
 

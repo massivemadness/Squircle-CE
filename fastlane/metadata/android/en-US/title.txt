@@ -1,1 +1,1 @@
-Squircle IDE - Code Editor
+Squircle - Code Editor

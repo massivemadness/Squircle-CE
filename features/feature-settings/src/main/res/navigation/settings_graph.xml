@@ -71,7 +71,11 @@
     <swipeable
         android:id="@+id/aboutFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragments.AboutFragment"
-        android:label="@string/label_about" />
+        android:label="@string/label_about" >
+        <action
+            android:id="@+id/action_aboutFragment_to_changeLogFragment"
+            app:destination="@id/changeLogFragment" />
+    </swipeable>
 
     <!-- FIXME declare in top-level graph -->
     <include
@@ -87,6 +91,12 @@
         android:id="@+id/presetDialog"
         android:name="com.blacksquircle.ui.feature.settings.ui.dialogs.PresetDialog"
         android:label="@string/label_keyboard_preset"
-        tools:layout="@layout/dialog_preset"/>
+        tools:layout="@layout/dialog_preset" />
+
+    <swipeable
+        android:id="@+id/changeLogFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragments.ChangeLogFragment"
+        android:label="@string/label_changelog"
+        tools:layout="@layout/fragment_changelog" />
 
 </navigation>

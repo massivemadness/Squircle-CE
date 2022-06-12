@@ -24,6 +24,8 @@
     <string name="label_files">Dateien</string>
     <string name="label_about">Über</string>
     <string name="label_keyboard_preset">Tastatur-Zeichen</string>
+    <string name="label_changelog">ChangeLog</string>
+    <string name="label_latest_release">Latest release</string>
 
     <string name="hint_enter_preset_chars">Geben Sie die Zeichen ein (ohne Trennung)</string>
 

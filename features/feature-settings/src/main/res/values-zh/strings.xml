@@ -24,6 +24,8 @@
     <string name="label_files">文件</string>
     <string name="label_about">关于</string>
     <string name="label_keyboard_preset">快捷符号栏</string>
+    <string name="label_changelog">更新日志</string>
+    <string name="label_latest_release">最新版本</string>
 
     <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
 

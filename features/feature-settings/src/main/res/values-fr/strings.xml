@@ -24,6 +24,8 @@
     <string name="label_files">Fichiers</string>
     <string name="label_about">À Propos</string>
     <string name="label_keyboard_preset">Préréglage du clavier</string>
+    <string name="label_changelog">ChangeLog</string>
+    <string name="label_latest_release">Latest release</string>
 
     <string name="hint_enter_preset_chars">Saisir les caractères (sans séparation)</string>
     <string name="hint_preset_chars" translatable="false">{}();,.=|&amp;![]&lt;&gt;+-/*?:_</string>

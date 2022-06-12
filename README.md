@@ -435,9 +435,9 @@ editor.colorScheme = ColorScheme(
 ## Custom Plugin
 
 Since v2.1.0 the [EditorKit](#editorkit) library supports writing custom
-plugins to extend it's default functionality. If you're using the latest
-version, you might be familiar with `PluginSupplier` and know how to use
-it's DSL. See [More Options](#more-options) for info.
+plugins to extend it's functionality. If you're using the latest version, 
+you might be familiar with `PluginSupplier` and know how to use it's DSL. 
+See [More Options](#more-options) for info.
 
 **First,** you need to create a class which extends the `EditorPlugin`
 and provide it's id in the constructor:
@@ -496,7 +496,7 @@ class CustomPlugin : EditorPlugin("custom-plugin-id") {
 adding your plugin to a `PluginSupplier`:
 
 ```kotlin
-fun PluginSupplier.verticalDividers(block: CustomPlugin.() -> Unit = {}) {
+fun PluginSupplier.lineDividers(block: CustomPlugin.() -> Unit = {}) {
     plugin(CustomPlugin(), block)
 }
 ```
@@ -505,7 +505,7 @@ fun PluginSupplier.verticalDividers(block: CustomPlugin.() -> Unit = {}) {
 
 ```kotlin
 val pluginSupplier = PluginSupplier.create {
-    verticalDividers {
+    lineDividers {
         publicProperty = true // whether should draw the dividers
     }
     ...

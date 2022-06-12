@@ -24,6 +24,8 @@
     <string name="label_files">Файлы</string>
     <string name="label_about">О программе</string>
     <string name="label_keyboard_preset">Клавиатурный пресет</string>
+    <string name="label_changelog">Список изменений</string>
+    <string name="label_latest_release">Последний релиз</string>
 
     <string name="hint_enter_preset_chars">Символы (без разделителей)</string>
 
