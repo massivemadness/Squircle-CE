@@ -1,0 +1,6 @@
+- Added: Support for Smali language
+- Added: Line Numbers visibility in Settings > Editor
+- Added: Support for file extensions: .gradle, .cts and .mts
+- Fixed: Tab key on hardware keyboard
+- Fixed: Translation typos
+- Bugfixes and minor improvements

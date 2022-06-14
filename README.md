@@ -54,7 +54,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.blacksquircle.ui:editorkit:2.1.3'
+  implementation 'com.blacksquircle.ui:editorkit:2.2.0'
 }
 ```
 
@@ -533,33 +533,33 @@ Select your language and add it's dependency to your module's
 ```gradle
 dependencies {
   ...
-  implementation 'com.blacksquircle.ui:language-actionscript:2.1.3'
-  implementation 'com.blacksquircle.ui:language-base:2.1.3' // for custom language
-  implementation 'com.blacksquircle.ui:language-c:2.1.3'
-  implementation 'com.blacksquircle.ui:language-cpp:2.1.3'
-  implementation 'com.blacksquircle.ui:language-csharp:2.1.3'
-  implementation 'com.blacksquircle.ui:language-groovy:2.1.3'
-  implementation 'com.blacksquircle.ui:language-html:2.1.3'
-  implementation 'com.blacksquircle.ui:language-java:2.1.3'
-  implementation 'com.blacksquircle.ui:language-javascript:2.1.3'
-  implementation 'com.blacksquircle.ui:language-json:2.1.3'
-  implementation 'com.blacksquircle.ui:language-julia:2.1.3'
-  implementation 'com.blacksquircle.ui:language-kotlin:2.1.3'
-  implementation 'com.blacksquircle.ui:language-lisp:2.1.3'
-  implementation 'com.blacksquircle.ui:language-lua:2.1.3'
-  implementation 'com.blacksquircle.ui:language-markdown:2.1.3'
-  implementation 'com.blacksquircle.ui:language-php:2.1.3'
-  implementation 'com.blacksquircle.ui:language-plaintext:2.1.3'
-  implementation 'com.blacksquircle.ui:language-python:2.1.3'
-  implementation 'com.blacksquircle.ui:language-ruby:2.1.3'
-  implementation 'com.blacksquircle.ui:language-shell:2.1.3'
-  implementation 'com.blacksquircle.ui:language-smali:2.1.3'
-  implementation 'com.blacksquircle.ui:language-sql:2.1.3'
-  implementation 'com.blacksquircle.ui:language-toml:2.1.3'
-  implementation 'com.blacksquircle.ui:language-typescript:2.1.3'
-  implementation 'com.blacksquircle.ui:language-visualbasic:2.1.3'
-  implementation 'com.blacksquircle.ui:language-xml:2.1.3'
-  implementation 'com.blacksquircle.ui:language-yaml:2.1.3'
+  implementation 'com.blacksquircle.ui:language-actionscript:2.2.0'
+  implementation 'com.blacksquircle.ui:language-base:2.2.0' // for custom language
+  implementation 'com.blacksquircle.ui:language-c:2.2.0'
+  implementation 'com.blacksquircle.ui:language-cpp:2.2.0'
+  implementation 'com.blacksquircle.ui:language-csharp:2.2.0'
+  implementation 'com.blacksquircle.ui:language-groovy:2.2.0'
+  implementation 'com.blacksquircle.ui:language-html:2.2.0'
+  implementation 'com.blacksquircle.ui:language-java:2.2.0'
+  implementation 'com.blacksquircle.ui:language-javascript:2.2.0'
+  implementation 'com.blacksquircle.ui:language-json:2.2.0'
+  implementation 'com.blacksquircle.ui:language-julia:2.2.0'
+  implementation 'com.blacksquircle.ui:language-kotlin:2.2.0'
+  implementation 'com.blacksquircle.ui:language-lisp:2.2.0'
+  implementation 'com.blacksquircle.ui:language-lua:2.2.0'
+  implementation 'com.blacksquircle.ui:language-markdown:2.2.0'
+  implementation 'com.blacksquircle.ui:language-php:2.2.0'
+  implementation 'com.blacksquircle.ui:language-plaintext:2.2.0'
+  implementation 'com.blacksquircle.ui:language-python:2.2.0'
+  implementation 'com.blacksquircle.ui:language-ruby:2.2.0'
+  implementation 'com.blacksquircle.ui:language-shell:2.2.0'
+  implementation 'com.blacksquircle.ui:language-smali:2.2.0'
+  implementation 'com.blacksquircle.ui:language-sql:2.2.0'
+  implementation 'com.blacksquircle.ui:language-toml:2.2.0'
+  implementation 'com.blacksquircle.ui:language-typescript:2.2.0'
+  implementation 'com.blacksquircle.ui:language-visualbasic:2.2.0'
+  implementation 'com.blacksquircle.ui:language-xml:2.2.0'
+  implementation 'com.blacksquircle.ui:language-yaml:2.2.0'
 }
 ```
 
@@ -572,7 +572,7 @@ dependencies {
 ```gradle
 dependencies {
   ...
-  implementation 'com.blacksquircle.ui:language-base:2.1.3'
+  implementation 'com.blacksquircle.ui:language-base:2.2.0'
 }
 ```
 
