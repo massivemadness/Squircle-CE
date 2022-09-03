@@ -29,7 +29,6 @@ import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -124,7 +123,10 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
             viewModel.createTheme(meta, adapter.currentList)
         }
 
-        requireActivity().addMenuProvider(object : MenuProvider {
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
+        binding.toolbar.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_new_theme, menu)
             }
@@ -137,7 +139,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                     else -> false
                 }
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }, viewLifecycleOwner)
     }
 
     private fun observeViewModel() {

@@ -22,6 +22,7 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.converter.ReleaseConverter
 import com.blacksquircle.ui.feature.settings.ui.adapters.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.ui.adapters.item.ReleaseModel
+import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,27 +38,27 @@ class SettingsViewModel @Inject constructor(
             PreferenceItem(
                 R.string.pref_header_application_title,
                 R.string.pref_header_application_summary,
-                R.id.applicationFragment
+                SettingsScreen.Application
             ),
             PreferenceItem(
                 R.string.pref_header_editor_title,
                 R.string.pref_header_editor_summary,
-                R.id.editorFragment
+                SettingsScreen.Editor
             ),
             PreferenceItem(
                 R.string.pref_header_codeStyle_title,
                 R.string.pref_header_codeStyle_summary,
-                R.id.codeStyleFragment
+                SettingsScreen.CodeStyle
             ),
             PreferenceItem(
                 R.string.pref_header_files_title,
                 R.string.pref_header_files_summary,
-                R.id.filesFragment
+                SettingsScreen.Files
             ),
             PreferenceItem(
                 R.string.pref_header_about_title,
                 R.string.pref_header_about_summary,
-                R.id.aboutFragment
+                SettingsScreen.About
             )
         )
     )

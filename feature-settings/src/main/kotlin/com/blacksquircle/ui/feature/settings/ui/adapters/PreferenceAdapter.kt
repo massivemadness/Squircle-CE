@@ -32,7 +32,7 @@ class PreferenceAdapter(
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<PreferenceItem>() {
             override fun areItemsTheSame(oldItem: PreferenceItem, newItem: PreferenceItem): Boolean {
-                return oldItem.navigationId == newItem.navigationId
+                return oldItem.screen == newItem.screen
             }
             override fun areContentsTheSame(oldItem: PreferenceItem, newItem: PreferenceItem): Boolean {
                 return oldItem == newItem

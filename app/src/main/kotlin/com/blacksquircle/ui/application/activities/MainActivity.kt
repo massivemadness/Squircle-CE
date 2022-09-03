@@ -18,64 +18,32 @@ package com.blacksquircle.ui.application.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import com.blacksquircle.ui.R
-import com.blacksquircle.ui.application.dialogs.ConfirmExitDialog
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
-import com.blacksquircle.ui.core.ui.extensions.fragment
 import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
-import com.blacksquircle.ui.core.ui.extensions.showToast
-import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
-import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.databinding.ActivityMainBinding
-import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
-import com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
-import com.blacksquircle.ui.utils.extensions.resolveFilePath
 import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), DrawerHandler {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var inAppUpdate: InAppUpdate
 
     private val mainViewModel by viewModels<MainViewModel>()
-    private val explorerViewModel by viewModels<ExplorerViewModel>()
-    private val editorViewModel by viewModels<EditorViewModel>()
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var editorBackPressedHandler: BackPressedHandler
-    private lateinit var explorerBackPressedHandler: BackPressedHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setBackgroundDrawableResource(R.color.colorBackground)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        observeViewModel()
-
-        editorBackPressedHandler = supportFragmentManager
-            .fragment<EditorFragment>(R.id.fragment_editor)
-        explorerBackPressedHandler = supportFragmentManager
-            .fragment<ExplorerFragment>(R.id.fragment_explorer)
-
-        binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
 
         inAppUpdate.checkForUpdates(this) {
             Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
@@ -83,12 +51,7 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
                 .show()
         }
 
-        handleIntent(intent)
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        handleIntent(intent)
+        mainViewModel.handleIntent(intent)
     }
 
     override fun onResume() {
@@ -96,75 +59,8 @@ class MainActivity : AppCompatActivity(), DrawerHandler {
         window.fullscreenMode(mainViewModel.fullScreenMode)
     }
 
-    override fun onBackPressed() {
-        if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
-            if (!explorerBackPressedHandler.handleOnBackPressed()) {
-                closeDrawer()
-            }
-        } else {
-            if (!editorBackPressedHandler.handleOnBackPressed()) {
-                if (mainViewModel.confirmExit) {
-                    ConfirmExitDialog().show(supportFragmentManager, ConfirmExitDialog.DIALOG_TAG)
-                } else {
-                    finish()
-                }
-            }
-        }
-    }
-
-    override fun openDrawer() {
-        binding.drawerLayout?.openDrawer(GravityCompat.START)
-    }
-
-    override fun closeDrawer() {
-        binding.drawerLayout?.closeDrawer(GravityCompat.START)
-    }
-
-    private fun observeViewModel() {
-        mainViewModel.viewEvent.flowWithLifecycle(lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ViewEvent.Toast -> showToast(text = event.message)
-                }
-            }
-            .launchIn(lifecycleScope)
-
-        explorerViewModel.openFileEvent.observe(this) {
-            editorViewModel.openFileEvent.value = DocumentConverter.toModel(it)
-        }
-        editorViewModel.openPropertiesEvent.observe(this) {
-            explorerViewModel.openPropertiesEvent.value = it
-        }
-    }
-
-    private fun handleIntent(intent: Intent?) {
-        if (intent?.action == Intent.ACTION_VIEW) {
-            val contentUri = intent.data ?: return
-            Log.d(TAG, "Handle external content uri = $contentUri")
-
-            val filePath = resolveFilePath(contentUri)
-            Log.d(TAG, "Does it looks like a valid file path? ($filePath)")
-
-            val isValidFile = try {
-                File(filePath).exists()
-            } catch (e: Exception) {
-                false
-            }
-            Log.d(TAG, "isValidFile = $isValidFile")
-
-            if (isValidFile) {
-                val file = File(filePath)
-                mainViewModel.handleDocument(file) {
-                    editorViewModel.loadFiles()
-                }
-            } else {
-                Log.d(TAG, "Invalid path")
-                showToast(R.string.message_file_not_found)
-            }
-        }
-    }
-
-    companion object {
-        private const val TAG = "MainActivity"
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        mainViewModel.handleIntent(intent ?: return)
     }
 }

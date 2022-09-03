@@ -21,7 +21,7 @@
     android:id="@+id/settings_graph"
     app:startDestination="@id/headersFragment">
 
-    <swipeable
+    <fragment
         android:id="@+id/headersFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragments.HeadersFragment"
         android:label="@string/label_settings"
@@ -42,61 +42,63 @@
         <action
             android:id="@+id/to_aboutFragment"
             app:destination="@id/aboutFragment" />
-    </swipeable>
+    </fragment>
 
-    <swipeable
+    <fragment
         android:id="@+id/applicationFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragments.ApplicationFragment"
-        android:label="@string/label_application" />
+        android:label="@string/label_application">
+        <deepLink app:uri="blacksquircle://settings/application" />
+    </fragment>
 
-    <swipeable
+    <fragment
         android:id="@+id/editorFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragments.EditorFragment"
         android:label="@string/label_editor">
+        <deepLink app:uri="blacksquircle://settings/editor" />
         <action
             android:id="@+id/to_presetDialog"
             app:destination="@id/presetDialog" />
-    </swipeable>
+    </fragment>
 
-    <swipeable
+    <fragment
         android:id="@+id/codeStyleFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragments.CodeStyleFragment"
-        android:label="@string/label_code_style" />
+        android:label="@string/label_code_style">
+        <deepLink app:uri="blacksquircle://settings/codestyle" />
+    </fragment>
 
-    <swipeable
+    <fragment
         android:id="@+id/filesFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragments.FilesFragment"
-        android:label="@string/label_files" />
+        android:label="@string/label_files">
+        <deepLink app:uri="blacksquircle://settings/files" />
+    </fragment>
 
-    <swipeable
+    <fragment
         android:id="@+id/aboutFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragments.AboutFragment"
-        android:label="@string/label_about" >
+        android:label="@string/label_about">
+        <deepLink app:uri="blacksquircle://settings/about" />
         <action
             android:id="@+id/action_aboutFragment_to_changeLogFragment"
             app:destination="@id/changeLogFragment" />
-    </swipeable>
-
-    <!-- FIXME declare in top-level graph -->
-    <include
-        android:id="@+id/fonts_graph"
-        app:graph="@navigation/fonts_graph"/>
-
-    <!-- FIXME declare in top-level graph -->
-    <include
-        android:id="@+id/themes_graph"
-        app:graph="@navigation/themes_graph"/>
+    </fragment>
 
     <dialog
         android:id="@+id/presetDialog"
         android:name="com.blacksquircle.ui.feature.settings.ui.dialogs.PresetDialog"
         android:label="@string/label_keyboard_preset"
-        tools:layout="@layout/dialog_preset" />
+        tools:layout="@layout/dialog_preset">
+        <deepLink app:uri="blacksquircle://settings/editor/preset" />
+    </dialog>
 
-    <swipeable
+    <fragment
         android:id="@+id/changeLogFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragments.ChangeLogFragment"
         android:label="@string/label_changelog"
-        tools:layout="@layout/fragment_changelog" />
+        tools:layout="@layout/fragment_changelog">
+        <deepLink app:uri="blacksquircle://settings/about/changelog" />
+    </fragment>
 
 </navigation>

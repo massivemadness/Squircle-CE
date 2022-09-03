@@ -16,27 +16,31 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:id="@+id/drawer_layout">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        style="@style/Widget.MaterialComponents.Toolbar.Surface"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
-        app:title="@string/label_settings"
-        app:navigationIcon="@drawable/ic_back"
-        app:navigationIconTint="?colorOnSurface" />
+    <fragment
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_explorer"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment"
+        tools:layout="@layout/fragment_explorer"
+        tools:ignore="FragmentTagUsage"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="?colorSecondaryVariant"/>
+
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_preference"
-        tools:itemCount="5" />
+        android:id="@+id/fragment_editor"
+        android:name="com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment"
+        tools:layout="@layout/fragment_editor"
+        tools:ignore="FragmentTagUsage"/>
 
 </LinearLayout>

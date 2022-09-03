@@ -21,7 +21,7 @@
     android:id="@+id/themes_graph"
     app:startDestination="@id/themesFragment">
 
-    <swipeable
+    <fragment
         android:id="@+id/themesFragment"
         android:name="com.blacksquircle.ui.feature.themes.ui.fragments.ThemesFragment"
         android:label="@string/label_themes"
@@ -29,14 +29,10 @@
         <deepLink app:uri="blacksquircle://themes" />
         <action
             android:id="@+id/to_newThemeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/newThemeFragment" />
-    </swipeable>
+    </fragment>
 
-    <swipeable
+    <fragment
         android:id="@+id/newThemeFragment"
         android:name="com.blacksquircle.ui.feature.themes.ui.fragments.NewThemeFragment"
         android:label="@string/label_new_theme"
@@ -48,6 +44,6 @@
             android:defaultValue="@null"
             app:nullable="true"
             app:argType="string" />
-    </swipeable>
+    </fragment>
 
 </navigation>

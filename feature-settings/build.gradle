@@ -63,7 +63,6 @@ dependencies {
     implementation library.materialdesign
     implementation library.materialdialogs_core
     implementation library.preferencescompat
-    implementation library.fragula
 
     // AAC
     implementation library.viewmodel

@@ -30,17 +30,13 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
-import com.blacksquircle.ui.core.ui.extensions.debounce
-import com.blacksquircle.ui.core.ui.extensions.navigate
-import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.data.utils.GridSpacingItemDecoration
@@ -96,7 +92,10 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             navController.navigate(ThemesScreen.Create)
         }
 
-        requireActivity().addMenuProvider(object : MenuProvider {
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
+        binding.toolbar.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_themes, menu)
 
@@ -134,7 +133,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return false
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }, viewLifecycleOwner)
     }
 
     private fun observeViewModel() {

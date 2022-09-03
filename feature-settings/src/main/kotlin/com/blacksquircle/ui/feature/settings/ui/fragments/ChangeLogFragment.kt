@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.feature.settings.R
@@ -22,12 +23,17 @@ class ChangeLogFragment : Fragment(R.layout.fragment_changelog) {
 
     private val viewModel by activityViewModels<SettingsViewModel>()
     private val binding by viewBinding(FragmentChangelogBinding::bind)
+    private val navController by lazy { findNavController() }
 
     private lateinit var adapter: ReleaseAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+
+        binding.toolbar.setNavigationOnClickListener {
+             navController.popBackStack()
+        }
 
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(itemDecoration)

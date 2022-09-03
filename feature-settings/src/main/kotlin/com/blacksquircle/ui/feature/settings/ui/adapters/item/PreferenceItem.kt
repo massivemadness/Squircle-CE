@@ -16,11 +16,11 @@
 
 package com.blacksquircle.ui.feature.settings.ui.adapters.item
 
-import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 
 data class PreferenceItem(
     @StringRes val title: Int,
     @StringRes val subtitle: Int,
-    @IdRes val navigationId: Int
+    val screen: SettingsScreen,
 )

@@ -15,77 +15,93 @@
   ~ limitations under the License.
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:id="@+id/toolbar"
+        app:title="@string/label_external_font"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="?colorOnSurface" />
 
-        <TextView
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:textSize="12sp"
-            android:text="@string/hint_enter_font_name"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/hint_font_name"
-            android:id="@+id/text_input_font_name"
-            tools:text="Droid Sans Mono"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:textSize="12sp"
+                android:text="@string/hint_enter_font_name"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:textSize="12sp"
-            android:text="@string/hint_enter_font_path"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_font_name"
+                android:id="@+id/text_input_font_name"
+                tools:text="Droid Sans Mono"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/hint_file_path"
-            android:id="@+id/text_input_font_path"
-            tools:text="/storage/emulated/0/droid_sans_mono.ttf"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:textSize="12sp"
+                android:text="@string/hint_enter_font_path"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:textSize="12sp"
-            android:text="@string/font_disclaimer"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/hint_file_path"
+                android:id="@+id/text_input_font_path"
+                tools:text="/storage/emulated/0/droid_sans_mono.ttf"/>
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/font_support_ligatures"
-            android:id="@+id/support_ligatures"
-            tools:checked="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:textSize="12sp"
+                android:text="@string/font_disclaimer"/>
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppTheme.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:text="@string/action_save"
-            android:enabled="false"
-            android:id="@+id/action_save"/>
+            <androidx.appcompat.widget.SwitchCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/font_support_ligatures"
+                android:id="@+id/support_ligatures"
+                tools:checked="true"/>
 
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.AppTheme.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:text="@string/action_save"
+                android:enabled="false"
+                android:id="@+id/action_save"/>
 
-</ScrollView>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -91,6 +91,8 @@ dependencies {
     implementation library.livedata
     implementation library.viewmodel
     implementation library.lifecycle
+    implementation library.navigation_ui
+    implementation library.navigation_fragment
 
     // Coroutines
     implementation library.coroutines_core

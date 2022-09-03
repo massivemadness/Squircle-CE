@@ -22,10 +22,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.ui.adapters.OnItemClickListener
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeadersBinding
 import com.blacksquircle.ui.feature.settings.ui.adapters.PreferenceAdapter
@@ -48,16 +48,14 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
+
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = PreferenceAdapter(object : OnItemClickListener<PreferenceItem> {
             override fun onClick(item: PreferenceItem) {
-                val navOptions = NavOptions.Builder()
-                    .setEnterAnim(R.anim.nav_default_enter_anim)
-                    .setExitAnim(R.anim.nav_default_exit_anim)
-                    .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
-                    .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
-                    .build()
-                navController.navigate(item.navigationId, null, navOptions)
+                navController.navigate(item.screen)
             }
         }).also {
             adapter = it

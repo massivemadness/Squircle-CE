@@ -59,6 +59,9 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
             )
             viewModel.createFont(fontModel)
         }
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
     }
 
     private fun observeViewModel() {

@@ -17,19 +17,42 @@
 package com.blacksquircle.ui.feature.settings.ui.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceFragmentCompat
-import com.blacksquircle.ui.core.ui.extensions.getColorAttr
+import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
 
 class CodeStyleFragment : PreferenceFragmentCompat() {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.setBackgroundColor(requireContext().getColorAttr(android.R.attr.colorBackground))
-    }
+    private val binding by viewBinding(FragmentPreferenceBinding::bind)
+    private val navController by lazy { findNavController() }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_code_style, rootKey)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.fragment_preference, container, false).also {
+            (it as? ViewGroup)?.addView(
+                super.onCreateView(inflater, container, savedInstanceState)
+            )
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.toolbar.title = getString(R.string.label_code_style)
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
     }
 }

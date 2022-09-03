@@ -17,42 +17,34 @@
 package com.blacksquircle.ui.feature.settings.ui.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
-import com.blacksquircle.ui.core.ui.extensions.getColorAttr
 import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 
     private val viewModel by activityViewModels<SettingsViewModel>()
+    private val binding by viewBinding(FragmentPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.setBackgroundColor(requireContext().getColorAttr(android.R.attr.colorBackground))
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_application, rootKey)
 
         findPreference<Preference>(SettingsManager.KEY_COLOR_SCHEME)
             ?.setOnPreferenceClickListener {
-                navController.navigate(Screen.Themes, navOptions = NavOptions.Builder()
-                    .setEnterAnim(R.anim.nav_default_enter_anim)
-                    .setExitAnim(R.anim.nav_default_exit_anim)
-                    .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
-                    .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
-                    .build()
-                )
+                navController.navigate(Screen.Themes)
                 true
             }
         findPreference<Preference>(SettingsManager.KEY_FULLSCREEN_MODE)
@@ -60,5 +52,26 @@ class ApplicationFragment : PreferenceFragmentCompat() {
                 activity?.window?.fullscreenMode(viewModel.fullscreenMode)
                 true
             }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.fragment_preference, container, false).also {
+            (it as? ViewGroup)?.addView(
+                super.onCreateView(inflater, container, savedInstanceState)
+            )
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.toolbar.title = getString(R.string.label_application)
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
     }
 }

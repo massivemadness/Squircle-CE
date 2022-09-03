@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
+import com.blacksquircle.ui.core.R
 import com.blacksquircle.ui.core.ui.navigation.Screen
 
 fun NavController.popBackStack(n: Int) {
@@ -34,7 +35,12 @@ fun NavController.popBackStack(n: Int) {
 fun NavController.navigate(
     screen: Screen,
     extras: Navigator.Extras? = null,
-    navOptions: NavOptions? = null
+    navOptions: NavOptions? = NavOptions.Builder()
+        .setEnterAnim(R.anim.nav_default_enter_anim)
+        .setExitAnim(R.anim.nav_default_exit_anim)
+        .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+        .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+        .build()
 ) {
     navigate(screen.route.toUri(), navOptions, extras)
 }

@@ -58,19 +58,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.blacksquircle.ui.feature.settings.ui.activities.SettingsActivity"
-            android:parentActivityName="com.blacksquircle.ui.application.activities.MainActivity"
-            android:configChanges="keyboard|keyboardHidden"
-            android:label="@string/label_settings"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.blacksquircle.ui.action.OPEN_SETTINGS" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

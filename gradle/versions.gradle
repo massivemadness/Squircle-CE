@@ -47,7 +47,6 @@ ext {
     preferencescompat_version = '1.2.0'
     materialdialogs_version = '3.3.0'
     recyclerview_selection_version = '1.1.0'
-    fragula_version = '2.4'
 
     // AAC
     lifecycle_version = '2.5.1'
@@ -104,7 +103,6 @@ ext {
             materialdialogs_core: "com.afollestad.material-dialogs:core:$materialdialogs_version",
             materialdialogs_color: "com.afollestad.material-dialogs:color:$materialdialogs_version",
             recyclerview_selection: "androidx.recyclerview:recyclerview-selection:$recyclerview_selection_version",
-            fragula: "com.fragula2:fragula-core:$fragula_version",
 
             // AAC
             livedata: "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version",

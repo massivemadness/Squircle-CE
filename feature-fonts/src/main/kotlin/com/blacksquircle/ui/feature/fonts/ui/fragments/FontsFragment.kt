@@ -27,7 +27,6 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -76,7 +75,10 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
             navController.navigate(FontsScreen.Create)
         }
 
-        requireActivity().addMenuProvider(object : MenuProvider {
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
+        binding.toolbar.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_fonts, menu)
 
@@ -96,7 +98,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return false
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }, viewLifecycleOwner)
     }
 
     private fun observeViewModel() {

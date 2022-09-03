@@ -61,7 +61,9 @@ class DirectoryFragment : Fragment(R.layout.fragment_directory), OnItemClickList
     private val binding by viewBinding(FragmentDirectoryBinding::bind)
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<DirectoryFragmentArgs>()
-    private val drawerHandler by lazy { activity as DrawerHandler }
+    private val drawerHandler by lazy {
+        parentFragment?.parentFragment?.parentFragment as DrawerHandler // FIXME wtf
+    }
 
     private lateinit var tracker: SelectionTracker<String>
     private lateinit var adapter: FileAdapter

@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.application.viewmodel
 
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -43,10 +44,19 @@ class MainViewModel @Inject constructor(
     private val _viewEvent = MutableSharedFlow<ViewEvent>()
     val viewEvent: SharedFlow<ViewEvent> = _viewEvent
 
+    private val _intentEvent = MutableSharedFlow<Intent>()
+    val intentEvent: SharedFlow<Intent> = _intentEvent
+
     val fullScreenMode: Boolean
         get() = settingsManager.fullScreenMode
     val confirmExit: Boolean
         get() = settingsManager.confirmExit
+
+    fun handleIntent(intent: Intent) {
+        viewModelScope.launch {
+            _intentEvent.emit(intent)
+        }
+    }
 
     fun handleDocument(file: File, onSuccess: () -> Unit) {
         viewModelScope.launch {

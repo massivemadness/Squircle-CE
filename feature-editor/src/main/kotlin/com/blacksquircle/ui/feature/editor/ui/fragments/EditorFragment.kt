@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.editor.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -27,6 +26,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
@@ -37,6 +37,7 @@ import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
+import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.model.FindParams
@@ -76,9 +77,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     private val viewModel by activityViewModels<EditorViewModel>()
     private val binding by viewBinding(FragmentEditorBinding::bind)
 
-    private val drawerHandler by lazy { activity as DrawerHandler }
+    private val drawerHandler by lazy { parentFragment as DrawerHandler }
     private val toolbarManager by lazy { ToolbarManager(this) }
     private val tabController by lazy { TabController() }
+    private val navController by lazy { findNavController() }
 
     private lateinit var adapter: DocumentAdapter
 
@@ -694,8 +696,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     }
 
     override fun onSettingsButton(): Boolean {
-        val intent = Intent(ACTION_OPEN_SETTINGS)
-        startActivity(intent)
+        navController.navigate(Screen.Settings)
         return true
     }
 
@@ -705,6 +706,5 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         private const val ALPHA_FULL = 255
         private const val ALPHA_SEMI = 90
         private const val TAB_LIMIT = 10
-        private const val ACTION_OPEN_SETTINGS = "com.blacksquircle.ui.action.OPEN_SETTINGS"
     }
 }

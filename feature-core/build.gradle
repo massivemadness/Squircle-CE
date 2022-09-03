@@ -71,6 +71,7 @@ dependencies {
 
     // AAC
     implementation library.livedata
+    implementation library.navigation_ui
     implementation library.navigation_fragment
     implementation library.room
     kapt library.room_compiler

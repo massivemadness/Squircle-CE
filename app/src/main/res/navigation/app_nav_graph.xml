@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav_graph"
+    app:startDestination="@id/twoPaneFragment">
+
+    <fragment
+        android:id="@+id/twoPaneFragment"
+        android:name="com.blacksquircle.ui.application.fragment.TwoPaneFragment"
+        tools:layout="@layout/fragment_two_pane" />
+
+    <include
+        android:id="@+id/settings_graph"
+        app:graph="@navigation/settings_graph" />
+
+    <include
+        android:id="@+id/fonts_graph"
+        app:graph="@navigation/fonts_graph"/>
+
+    <include
+        android:id="@+id/themes_graph"
+        app:graph="@navigation/themes_graph"/>
+
+</navigation>

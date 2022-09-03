@@ -15,35 +15,12 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.fragment.app.FragmentContainerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".application.activities.MainActivity">
-
-    <!-- Use nested layout because of Android Gradle Plugin 4.0 restrictions -->
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/drawer_layout">
-
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/fragment_editor"
-            android:name="com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment"
-            tools:layout="@layout/fragment_editor"
-            tools:ignore="FragmentTagUsage"/>
-
-        <fragment
-            android:layout_width="280dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:id="@+id/fragment_explorer"
-            android:name="com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment"
-            tools:layout="@layout/fragment_explorer"
-            tools:ignore="FragmentTagUsage"/>
-
-    </androidx.drawerlayout.widget.DrawerLayout>
-
-</FrameLayout>
+    android:id="@+id/nav_host"
+    android:name="androidx.navigation.fragment.NavHostFragment"
+    app:navGraph="@navigation/app_nav_graph"
+    app:defaultNavHost="true" />
