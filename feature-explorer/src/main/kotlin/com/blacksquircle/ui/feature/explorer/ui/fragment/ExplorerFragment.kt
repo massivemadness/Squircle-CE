@@ -16,222 +16,191 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.fragment
 
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuProvider
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.selection.DefaultSelectionTracker
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.StorageStrategy
+import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.*
-import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.ui.adapter.DirectoryAdapter
+import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
+import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.viewstate.DirectoryViewState
+import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandler {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val binding by viewBinding(FragmentExplorerBinding::bind)
+    private val navController by lazy { findNavController() }
+    private val requestResult = registerForActivityResult(RequestPermission()) { result ->
+        if (result) handleSuccess() else handleFailure()
+    }
 
-    private lateinit var navController: NavController
-    private lateinit var adapter: DirectoryAdapter
+    private lateinit var directoryAdapter: DirectoryAdapter
+    private lateinit var fileAdapter: FileAdapter
 
-    private var isClosing = false // TODO remove
-
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        navController = binding.navHost.getFragment<NavHostFragment>()
-            .findNavController()
-
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.filesUpdateEvent.call()
-            binding.swipeRefresh.isRefreshing = false
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.adapter = DirectoryAdapter().also {
+            directoryAdapter = it
         }
-
-        binding.directoryRecyclerView.setHasFixedSize(true)
-        binding.directoryRecyclerView.adapter = DirectoryAdapter().also {
-            adapter = it
-        }
-        adapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
+        directoryAdapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
             override fun onTabSelected(position: Int) {
-                if (!isClosing) {
-                    isClosing = true
-                    navigateBreadcrumb(adapter.currentList[position])
-                    isClosing = false
-                }
+                viewModel.fetchFiles(directoryAdapter.getItem(position))
             }
         })
 
-        binding.actionHome.setOnClickListener {
-            navigateBreadcrumb(adapter.currentList.first())
-        }
-        binding.actionPaste.setOnClickListener {
-            viewModel.pasteEvent.call()
-        }
-        binding.actionCreate.setOnClickListener {
-            viewModel.createEvent.call()
+        binding.filesRecyclerView.setHasFixedSize(true)
+        binding.filesRecyclerView.adapter = FileAdapter(
+            onItemClickListener = object : OnItemClickListener<FileModel> {
+                override fun onClick(item: FileModel) {
+                    viewModel.fetchFiles(item)
+                }
+                override fun onLongClick(item: FileModel): Boolean {
+                    return true
+                }
+            },
+            selectionTracker = DefaultSelectionTracker(
+                "static",
+                FileKeyProvider(binding.recyclerView),
+                SelectionPredicates.createSelectAnything(),
+                StorageStrategy.createStringStorage()
+            ),
+            viewMode = FileAdapter.VIEW_MODE_COMPACT
+        ).also {
+            fileAdapter = it
         }
 
-        adapter.submitList(viewModel.tabsList)
+        binding.swipeRefresh.setOnRefreshListener {
+            val index = directoryAdapter.itemCount - 1
+            val lastItem = directoryAdapter.getItem(index)
+            viewModel.refresh(lastItem)
+        }
+        binding.actionAccess.setOnClickListener {
+            context?.checkStorageAccess(
+                onSuccess = ::handleSuccess,
+                onFailure = ::handleFailure
+            )
+        }
 
         setSupportActionBar(binding.toolbar)
-        requireActivity().addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_explorer_default, menu)
-
-                val searchItem = menu.findItem(R.id.action_search)
-                val searchView = searchItem?.actionView as? SearchView
-
-                searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-                    viewModel.searchFile(it)
-                }
-            }
-
-            override fun onPrepareMenu(menu: Menu) {
-                val actionShowHidden = menu.findItem(R.id.action_show_hidden)
-                val actionOpenAs = menu.findItem(R.id.action_open_as)
-                val actionRename = menu.findItem(R.id.action_rename)
-                val actionProperties = menu.findItem(R.id.action_properties)
-                val actionCopyPath = menu.findItem(R.id.action_copy_path)
-
-                val sortByName = menu.findItem(R.id.sort_by_name)
-                val sortBySize = menu.findItem(R.id.sort_by_size)
-                val sortByDate = menu.findItem(R.id.sort_by_date)
-
-                actionShowHidden?.isChecked = viewModel.showHidden
-
-                val selectionSize = viewModel.selectionEvent.value?.size ?: 0
-                if (selectionSize > 1) { // if more than 1 file selected
-                    actionOpenAs?.isVisible = false
-                    actionRename?.isVisible = false
-                    actionProperties?.isVisible = false
-                    actionCopyPath?.isVisible = false
-                }
-
-                when (viewModel.sortMode) {
-                    FileSorter.SORT_BY_NAME -> sortByName?.isChecked = true
-                    FileSorter.SORT_BY_SIZE -> sortBySize?.isChecked = true
-                    FileSorter.SORT_BY_DATE -> sortByDate?.isChecked = true
-                }
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.action_copy -> viewModel.copyEvent.call()
-                    R.id.action_cut -> viewModel.cutEvent.call()
-                    R.id.action_delete -> viewModel.deleteEvent.call()
-                    R.id.action_select_all -> viewModel.selectAllEvent.call()
-                    R.id.action_open_as -> viewModel.openAsEvent.call()
-                    R.id.action_rename -> viewModel.renameEvent.call()
-                    R.id.action_properties -> viewModel.propertiesEvent.call()
-                    R.id.action_copy_path -> viewModel.copyPathEvent.call()
-                    R.id.action_create_zip -> viewModel.archiveEvent.call()
-                    R.id.action_show_hidden -> viewModel.showHidden = !menuItem.isChecked
-                    R.id.sort_by_name -> viewModel.sortMode = FileSorter.SORT_BY_NAME
-                    R.id.sort_by_size -> viewModel.sortMode = FileSorter.SORT_BY_SIZE
-                    R.id.sort_by_date -> viewModel.sortMode = FileSorter.SORT_BY_DATE
-                }
-                return false
-            }
-        }, viewLifecycleOwner)
     }
 
     override fun handleOnBackPressed(): Boolean {
-        return when {
-            !viewModel.selectionEvent.value.isNullOrEmpty() -> {
-                stopActionMode()
-                return true
-            }
-            adapter.currentList.isNotEmpty() -> {
-                val target = adapter.currentList.lastIndex - 1
-                if (target > 0) {
-                    navigateBreadcrumb(adapter.currentList[target])
-                } else {
-                    navigateBreadcrumb(adapter.currentList.first())
-                }
-            }
-            else -> false
-        }
+        return false
     }
 
     private fun observeViewModel() {
-        viewModel.toastEvent.observe(viewLifecycleOwner) {
-            context?.showToast(it)
-        }
-        viewModel.showAppBarEvent.observe(viewLifecycleOwner) {
-            binding.appBar.isVisible = it
-        }
-        viewModel.allowPasteFiles.observe(viewLifecycleOwner) {
-            binding.actionPaste.isVisible = it
-            binding.actionCreate.isVisible = !it
-        }
-        viewModel.tabEvent.observe(viewLifecycleOwner) {
-            navigateBreadcrumb(it)
-        }
-        viewModel.selectionEvent.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                viewModel.allowPasteFiles.value = false
-                viewModel.tempFiles.clear()
-                startActionMode(it)
-            } else {
-                stopActionMode()
-            }
-        }
-    }
-
-    private fun startActionMode(list: List<FileModel>) {
-        binding.toolbar.title = list.size.toString()
-        binding.toolbar.replaceMenu(R.menu.menu_explorer_actions)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.setNavigationOnClickListener {
-            stopActionMode()
-        }
-    }
-
-    private fun stopActionMode() {
-        viewModel.deselectAllEvent.call()
-        binding.toolbar.setTitle(R.string.label_local_storage)
-        binding.toolbar.replaceMenu(R.menu.menu_explorer_default)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
-    private fun navigateBreadcrumb(tab: FileModel): Boolean {
-        return if (adapter.currentList.contains(tab)) {
-            val position = adapter.currentList.indexOf(tab)
-            val howMany = adapter.itemCount - 1 - position
-            val shouldPop = howMany > 0
-            if (shouldPop) {
-                navController.popBackStack(howMany)
-                for (i in 0 until howMany) {
-                    adapter.close(adapter.itemCount - 1)
+        viewModel.explorerViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is ExplorerViewState.Stub -> Unit
+                    is ExplorerViewState.Breadcrumbs -> {
+                        binding.toolbar.isVisible = true
+                        binding.recyclerView.isVisible = true
+                        binding.actionHome.isVisible = true
+                        binding.actionCreate.isVisible = true
+                        binding.actionPaste.isVisible = false
+                        directoryAdapter.submitList(state.breadcrumbs)
+                        directoryAdapter.select(state.breadcrumbs.size - 1)
+                    }
                 }
-            } else {
-                adapter.select(adapter.itemCount - 1)
             }
-            shouldPop
-        } else {
-            viewModel.tabsList.replaceList(adapter.currentList + tab)
-            adapter.submitList(adapter.currentList + tab)
-            adapter.select(adapter.itemCount - 1)
-            false
-        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.directoryViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { state ->
+                when (state) {
+                    is DirectoryViewState.Restricted -> {
+                        binding.restrictedView.isVisible = true
+                        binding.emptyView.isVisible = false
+                        binding.loadingBar.isVisible = false
+                        binding.swipeRefresh.isVisible = false
+                    }
+                    is DirectoryViewState.Empty -> {
+                        binding.restrictedView.isVisible = false
+                        binding.emptyView.isVisible = true
+                        binding.loadingBar.isVisible = false
+                        binding.swipeRefresh.isVisible = false
+                    }
+                    is DirectoryViewState.Loading -> {
+                        binding.restrictedView.isVisible = false
+                        binding.emptyView.isVisible = false
+                        binding.loadingBar.isVisible = true
+                        binding.swipeRefresh.isVisible = false
+                    }
+                    is DirectoryViewState.Files -> {
+                        binding.restrictedView.isVisible = false
+                        binding.emptyView.isVisible = false
+                        binding.loadingBar.isVisible = false
+                        binding.swipeRefresh.isVisible = true
+                        fileAdapter.submitList(state.data)
+                    }
+                    is DirectoryViewState.Stub -> Unit
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.refreshState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { binding.swipeRefresh.isRefreshing = it }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    is ViewEvent.PopBackStack -> {
+                        // TODO move to prev breadcrumb (event.data as Int) <- count
+                    }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun handleSuccess() {
+        val index = directoryAdapter.itemCount - 1
+        val lastItem = directoryAdapter.getItem(index)
+        viewModel.fetchFiles(lastItem)
+    }
+
+    private fun handleFailure() {
+        activity?.requestStorageAccess(
+            showRequestDialog = { requestResult.launch(WRITE_EXTERNAL_STORAGE) },
+            showExplanationDialog = { intent ->
+                val screen = ExplorerScreen.RestrictedDialog(
+                    action = intent.action.toString(),
+                    data = intent.data.toString()
+                )
+                navController.navigate(screen)
+            }
+        )
     }
 }

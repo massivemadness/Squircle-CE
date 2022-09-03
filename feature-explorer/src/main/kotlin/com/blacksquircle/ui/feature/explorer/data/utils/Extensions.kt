@@ -42,8 +42,9 @@ fun View.setSelectableBackground() = with(TypedValue()) {
 }
 
 fun <T> MutableList<T>.replaceList(collection: Collection<T>) {
+    val temp = collection.toList()
     clear()
-    addAll(collection)
+    addAll(temp)
 }
 
 fun Long.toReadableDate(pattern: String): String {

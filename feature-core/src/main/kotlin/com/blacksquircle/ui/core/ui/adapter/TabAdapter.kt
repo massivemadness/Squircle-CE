@@ -47,6 +47,8 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     override fun getItemCount(): Int = currentList.size
 
+    fun getItem(position: Int): T? = currentList.getOrNull(position)
+
     fun submitList(list: List<T>) {
         _currentList = list.toMutableList()
         notifyDataSetChanged()

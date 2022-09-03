@@ -72,7 +72,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         binding.recyclerView.adapter = ThemeAdapter(object : ThemeAdapter.Actions {
             override fun selectTheme(themeModel: ThemeModel) = viewModel.selectTheme(themeModel)
             override fun exportTheme(themeModel: ThemeModel) {
-                activity?.checkStorageAccess(
+                context?.checkStorageAccess(
                     onSuccess = { viewModel.exportTheme(themeModel) },
                     onFailure = { context?.showToast(R.string.message_access_required) }
                 )

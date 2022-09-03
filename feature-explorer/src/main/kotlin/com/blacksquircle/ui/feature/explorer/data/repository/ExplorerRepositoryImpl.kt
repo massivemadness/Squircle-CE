@@ -16,11 +16,14 @@
 
 package com.blacksquircle.ui.feature.explorer.data.repository
 
+import android.content.Context
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.RestrictedException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
@@ -33,81 +36,133 @@ import kotlinx.coroutines.withContext
 class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
-    private val filesystem: Filesystem
+    private val filesystem: Filesystem,
+    private val context: Context,
 ) : ExplorerRepository {
 
     override suspend fun fetchFiles(fileModel: FileModel?): FileTree {
         return withContext(dispatcherProvider.io()) {
-            val fileTree = filesystem.provideDirectory(fileModel ?: filesystem.defaultLocation())
-            fileTree.copy(children = fileTree.children
-                .filter { if (it.isHidden) settingsManager.filterHidden else true }
-                .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
-                .sortedBy { it.isFolder != settingsManager.foldersOnTop }
+            context.checkStorageAccess(
+                onSuccess = {
+                    val fileTree = filesystem.provideDirectory(fileModel ?: filesystem.defaultLocation())
+                    fileTree.copy(children = fileTree.children
+                        .filter { if (it.isHidden) settingsManager.filterHidden else true }
+                        .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
+                        .sortedBy { it.isFolder != settingsManager.foldersOnTop }
+                    )
+                },
+                onFailure = {
+                    throw RestrictedException()
+                }
             )
         }
     }
 
     override suspend fun createFile(fileModel: FileModel): FileModel {
         return withContext(dispatcherProvider.io()) {
-            filesystem.createFile(fileModel)
+            context.checkStorageAccess(
+                onSuccess = { filesystem.createFile(fileModel) },
+                onFailure = { throw RestrictedException() }
+            )
         }
     }
 
     override suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel {
         return withContext(dispatcherProvider.io()) {
-            filesystem.renameFile(fileModel, fileName)
+            context.checkStorageAccess(
+                onSuccess = { filesystem.renameFile(fileModel, fileName) },
+                onFailure = { throw RestrictedException() }
+            )
         }
     }
 
     override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
         return withContext(dispatcherProvider.io()) {
-            filesystem.propertiesOf(fileModel)
+            context.checkStorageAccess(
+                onSuccess = { filesystem.propertiesOf(fileModel) },
+                onFailure = { throw RestrictedException() }
+            )
         }
     }
 
     override suspend fun deleteFiles(source: List<FileModel>): Flow<FileModel> {
-        return callbackFlow {
-            source.forEach {
-                val fileModel = filesystem.deleteFile(it)
-                send(fileModel)
-                delay(20)
+        return context.checkStorageAccess(
+            onSuccess = {
+                callbackFlow {
+                    source.forEach {
+                        val fileModel = filesystem.deleteFile(it)
+                        send(fileModel)
+                        delay(20)
+                    }
+                    close()
+                }.flowOn(dispatcherProvider.io())
+            },
+            onFailure = {
+                throw RestrictedException()
             }
-            close()
-        }.flowOn(dispatcherProvider.io())
+        )
     }
 
     override suspend fun copyFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
-        return callbackFlow {
-            val dest = filesystem.provideFile(destPath)
-            source.forEach {
-                val fileModel = filesystem.copyFile(it, dest)
-                send(fileModel)
-                delay(20)
+        return context.checkStorageAccess(
+            onSuccess = {
+                callbackFlow {
+                    val dest = filesystem.provideFile(destPath)
+                    source.forEach {
+                        val fileModel = filesystem.copyFile(it, dest)
+                        send(fileModel)
+                        delay(20)
+                    }
+                    close()
+                }.flowOn(dispatcherProvider.io())
+            },
+            onFailure = {
+                throw RestrictedException()
             }
-            close()
-        }.flowOn(dispatcherProvider.io())
+        )
     }
 
     override suspend fun cutFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
-        return callbackFlow {
-            val dest = filesystem.provideFile(destPath)
-            source.forEach { fileModel ->
-                filesystem.copyFile(fileModel, dest)
-                filesystem.deleteFile(fileModel)
-                send(fileModel)
-                delay(20)
+        return context.checkStorageAccess(
+            onSuccess = {
+                callbackFlow {
+                    val dest = filesystem.provideFile(destPath)
+                    source.forEach { fileModel ->
+                        filesystem.copyFile(fileModel, dest)
+                        filesystem.deleteFile(fileModel)
+                        send(fileModel)
+                        delay(20)
+                    }
+                    close()
+                }.flowOn(dispatcherProvider.io())
+            },
+            onFailure = {
+                throw RestrictedException()
             }
-            close()
-        }.flowOn(dispatcherProvider.io())
+        )
     }
 
     override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
-        return filesystem.compress(source, dest)
-            .flowOn(dispatcherProvider.io())
+        return context.checkStorageAccess(
+            onSuccess = {
+                filesystem.compress(source, dest)
+                    .flowOn(dispatcherProvider.io())
+            },
+            onFailure = {
+                throw RestrictedException()
+            }
+        )
     }
 
     override suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel> {
-        return filesystem.extractAll(source, dest)
-            .flowOn(dispatcherProvider.io())
+        return context.checkStorageAccess(
+            onSuccess = {
+                filesystem.extractAll(source, dest)
+                    .flowOn(dispatcherProvider.io())
+            },
+            onFailure = {
+                throw RestrictedException()
+            }
+        )
     }
 }

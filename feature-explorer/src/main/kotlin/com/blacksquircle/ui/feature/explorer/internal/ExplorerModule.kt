@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.internal
 
+import android.content.Context
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
@@ -25,6 +26,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Named
 
@@ -35,6 +37,7 @@ object ExplorerModule {
     @Provides
     @ViewModelScoped
     fun provideExplorerRepository(
+        @ApplicationContext context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         @Named("Local") filesystem: Filesystem
@@ -42,7 +45,8 @@ object ExplorerModule {
         return ExplorerRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
-            filesystem = filesystem
+            filesystem = filesystem,
+            context = context
         )
     }
 }

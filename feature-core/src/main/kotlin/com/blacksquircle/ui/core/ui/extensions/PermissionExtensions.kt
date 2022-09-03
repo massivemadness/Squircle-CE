@@ -28,11 +28,11 @@ import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-inline fun Activity.checkStorageAccess(
-    onSuccess: () -> Unit,
-    onFailure: () -> Unit
-) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+inline fun <T> Context.checkStorageAccess(
+    onSuccess: () -> T,
+    onFailure: () -> T
+): T {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         if (Environment.isExternalStorageManager()) {
             onSuccess()
         } else {

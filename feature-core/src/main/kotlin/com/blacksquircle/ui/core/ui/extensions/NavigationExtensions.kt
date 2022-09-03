@@ -33,7 +33,7 @@ fun NavController.popBackStack(n: Int) {
 }
 
 fun NavController.navigate(
-    screen: Screen,
+    screen: Screen<String>,
     extras: Navigator.Extras? = null,
     navOptions: NavOptions? = NavOptions.Builder()
         .setEnterAnim(R.anim.nav_default_enter_anim)

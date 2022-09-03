@@ -22,6 +22,10 @@
     </dialog>
 
     <include
+        android:id="@+id/explorer_graph"
+        app:graph="@navigation/explorer_graph" />
+
+    <include
         android:id="@+id/settings_graph"
         app:graph="@navigation/settings_graph" />
 

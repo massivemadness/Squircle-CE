@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.ui.navigation
+package com.blacksquircle.ui.filesystem.base.exception
 
-abstract class Screen<T>(val route: T) {
-    object Settings : Screen<String>("blacksquircle://settings")
-    object Fonts : Screen<String>("blacksquircle://fonts")
-    object Themes : Screen<String>("blacksquircle://themes")
-}
+class RestrictedException : RuntimeException("You have no access to work with this file")

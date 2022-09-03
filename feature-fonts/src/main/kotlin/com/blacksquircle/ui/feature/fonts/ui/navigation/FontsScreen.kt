@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.fonts.ui.navigation
 
 import com.blacksquircle.ui.core.ui.navigation.Screen
 
-sealed class FontsScreen(route: String) : Screen(route) {
+sealed class FontsScreen(route: String) : Screen<String>(route) {
     object Fonts : FontsScreen("blacksquircle://fonts")
     object Create : FontsScreen("blacksquircle://fonts/create")
 }

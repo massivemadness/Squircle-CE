@@ -19,6 +19,5 @@ package com.blacksquircle.ui.core.ui.viewstate
 abstract class ViewEvent {
 
     data class Toast(val message: String) : ViewEvent()
-
-    class PopBackStack(val data: Any? = null) : ViewEvent()
+    data class PopBackStack(val data: Any? = null) : ViewEvent()
 }

@@ -2,7 +2,7 @@ package com.blacksquircle.ui.feature.settings.ui.navigation
 
 import com.blacksquircle.ui.core.ui.navigation.Screen
 
-sealed class SettingsScreen(route: String) : Screen(route) {
+sealed class SettingsScreen(route: String) : Screen<String>(route) {
 
     object Application : SettingsScreen("blacksquircle://settings/application")
     object Editor : SettingsScreen("blacksquircle://settings/editor")
