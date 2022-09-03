@@ -19,6 +19,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -51,7 +52,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Core
     implementation library.kotlin
@@ -63,7 +63,7 @@ dependencies {
     implementation library.appcompat
     implementation library.materialdesign
     implementation library.materialdialogs_core
-    implementation library.preferencescompat
+    implementation library.materialdialogs_color
     implementation library.fragula
 
     // AAC
@@ -71,6 +71,9 @@ dependencies {
     implementation library.lifecycle
     implementation library.navigation_ui
     implementation library.navigation_fragment
+
+    // Network
+    implementation library.gson
 
     // Coroutines
     implementation library.coroutines_core
@@ -80,13 +83,17 @@ dependencies {
     implementation library.hilt
     kapt library.hilt_compiler
 
+    // Modules
+    implementation project(':editorkit')
+    implementation project(':filesystems:filesystem-base')
+    implementation project(':languages:language-base')
+
     // Features
-    implementation project(':features:feature-core')
-    implementation project(':features:feature-ui')
+    implementation project(':feature-core')
+    implementation project(':feature-ui')
 
     // Tests
     testImplementation testLibrary.junit
-
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner
 }

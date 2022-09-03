@@ -52,7 +52,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Core
     implementation library.kotlin
@@ -64,17 +63,16 @@ dependencies {
     implementation library.appcompat
     implementation library.materialdesign
     implementation library.materialdialogs_core
-    implementation library.materialdialogs_color
-    implementation library.fragula
+    implementation library.constraintlayout
+    implementation library.swiperefreshlayout
+    implementation library.recyclerview_selection
 
     // AAC
+    implementation library.livedata
     implementation library.viewmodel
     implementation library.lifecycle
     implementation library.navigation_ui
     implementation library.navigation_fragment
-
-    // Network
-    implementation library.gson
 
     // Coroutines
     implementation library.coroutines_core
@@ -85,17 +83,14 @@ dependencies {
     kapt library.hilt_compiler
 
     // Modules
-    implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
-    implementation project(':languages:language-base')
 
     // Features
-    implementation project(':features:feature-core')
-    implementation project(':features:feature-ui')
+    implementation project(':feature-core')
+    implementation project(':feature-ui')
 
     // Tests
     testImplementation testLibrary.junit
-
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner
 }

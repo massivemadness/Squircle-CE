@@ -51,7 +51,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Core
     implementation library.kotlin
@@ -62,6 +61,8 @@ dependencies {
     // UI
     implementation library.appcompat
     implementation library.materialdesign
+    implementation library.materialdialogs_core
+    implementation library.preferencescompat
     implementation library.fragula
 
     // AAC
@@ -79,12 +80,11 @@ dependencies {
     kapt library.hilt_compiler
 
     // Features
-    implementation project(':features:feature-core')
-    implementation project(':features:feature-ui')
+    implementation project(':feature-core')
+    implementation project(':feature-ui')
 
     // Tests
     testImplementation testLibrary.junit
-
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner
 }

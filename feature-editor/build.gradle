@@ -51,7 +51,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Core
     implementation library.kotlin
@@ -87,13 +86,12 @@ dependencies {
     implementation project(':filesystems:filesystem-base')
 
     // Features
-    implementation project(':features:feature-themes') // TODO remove
-    implementation project(':features:feature-core')
-    implementation project(':features:feature-ui')
+    implementation project(':feature-themes') // TODO remove
+    implementation project(':feature-core')
+    implementation project(':feature-ui')
 
     // Tests
     testImplementation testLibrary.junit
-
     androidTestImplementation androidTestLibrary.junit_ext
     androidTestImplementation androidTestLibrary.test_runner
 }
