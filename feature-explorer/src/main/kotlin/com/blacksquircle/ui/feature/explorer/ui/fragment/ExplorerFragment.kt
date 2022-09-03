@@ -22,6 +22,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -53,11 +54,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
     private var isClosing = false // TODO remove
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
@@ -65,7 +61,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         navController = binding.navHost.getFragment<NavHostFragment>()
             .findNavController()
 
-        setSupportActionBar(binding.toolbar)
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.filesUpdateEvent.call()
             binding.swipeRefresh.isRefreshing = false
@@ -96,6 +91,67 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         }
 
         adapter.submitList(viewModel.tabsList)
+
+        setSupportActionBar(binding.toolbar)
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_explorer_default, menu)
+
+                val searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem?.actionView as? SearchView
+
+                searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
+                    viewModel.searchFile(it)
+                }
+            }
+
+            override fun onPrepareMenu(menu: Menu) {
+                val actionShowHidden = menu.findItem(R.id.action_show_hidden)
+                val actionOpenAs = menu.findItem(R.id.action_open_as)
+                val actionRename = menu.findItem(R.id.action_rename)
+                val actionProperties = menu.findItem(R.id.action_properties)
+                val actionCopyPath = menu.findItem(R.id.action_copy_path)
+
+                val sortByName = menu.findItem(R.id.sort_by_name)
+                val sortBySize = menu.findItem(R.id.sort_by_size)
+                val sortByDate = menu.findItem(R.id.sort_by_date)
+
+                actionShowHidden?.isChecked = viewModel.showHidden
+
+                val selectionSize = viewModel.selectionEvent.value?.size ?: 0
+                if (selectionSize > 1) { // if more than 1 file selected
+                    actionOpenAs?.isVisible = false
+                    actionRename?.isVisible = false
+                    actionProperties?.isVisible = false
+                    actionCopyPath?.isVisible = false
+                }
+
+                when (viewModel.sortMode) {
+                    FileSorter.SORT_BY_NAME -> sortByName?.isChecked = true
+                    FileSorter.SORT_BY_SIZE -> sortBySize?.isChecked = true
+                    FileSorter.SORT_BY_DATE -> sortByDate?.isChecked = true
+                }
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.action_copy -> viewModel.copyEvent.call()
+                    R.id.action_cut -> viewModel.cutEvent.call()
+                    R.id.action_delete -> viewModel.deleteEvent.call()
+                    R.id.action_select_all -> viewModel.selectAllEvent.call()
+                    R.id.action_open_as -> viewModel.openAsEvent.call()
+                    R.id.action_rename -> viewModel.renameEvent.call()
+                    R.id.action_properties -> viewModel.propertiesEvent.call()
+                    R.id.action_copy_path -> viewModel.copyPathEvent.call()
+                    R.id.action_create_zip -> viewModel.archiveEvent.call()
+                    R.id.action_show_hidden -> viewModel.showHidden = !menuItem.isChecked
+                    R.id.sort_by_name -> viewModel.sortMode = FileSorter.SORT_BY_NAME
+                    R.id.sort_by_size -> viewModel.sortMode = FileSorter.SORT_BY_SIZE
+                    R.id.sort_by_date -> viewModel.sortMode = FileSorter.SORT_BY_DATE
+                }
+                return false
+            }
+        }, viewLifecycleOwner)
     }
 
     override fun handleOnBackPressed(): Boolean {
@@ -114,67 +170,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             }
             else -> false
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_explorer_default, menu)
-
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as? SearchView
-
-        searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-            viewModel.searchFile(it)
-        }
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-
-        val actionShowHidden = menu.findItem(R.id.action_show_hidden)
-        val actionOpenAs = menu.findItem(R.id.action_open_as)
-        val actionRename = menu.findItem(R.id.action_rename)
-        val actionProperties = menu.findItem(R.id.action_properties)
-        val actionCopyPath = menu.findItem(R.id.action_copy_path)
-
-        val sortByName = menu.findItem(R.id.sort_by_name)
-        val sortBySize = menu.findItem(R.id.sort_by_size)
-        val sortByDate = menu.findItem(R.id.sort_by_date)
-
-        actionShowHidden?.isChecked = viewModel.showHidden
-
-        val selectionSize = viewModel.selectionEvent.value?.size ?: 0
-        if (selectionSize > 1) { // if more than 1 file selected
-            actionOpenAs?.isVisible = false
-            actionRename?.isVisible = false
-            actionProperties?.isVisible = false
-            actionCopyPath?.isVisible = false
-        }
-
-        when (viewModel.sortMode) {
-            FileSorter.SORT_BY_NAME -> sortByName?.isChecked = true
-            FileSorter.SORT_BY_SIZE -> sortBySize?.isChecked = true
-            FileSorter.SORT_BY_DATE -> sortByDate?.isChecked = true
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_copy -> viewModel.copyEvent.call()
-            R.id.action_cut -> viewModel.cutEvent.call()
-            R.id.action_delete -> viewModel.deleteEvent.call()
-            R.id.action_select_all -> viewModel.selectAllEvent.call()
-            R.id.action_open_as -> viewModel.openAsEvent.call()
-            R.id.action_rename -> viewModel.renameEvent.call()
-            R.id.action_properties -> viewModel.propertiesEvent.call()
-            R.id.action_copy_path -> viewModel.copyPathEvent.call()
-            R.id.action_create_zip -> viewModel.archiveEvent.call()
-            R.id.action_show_hidden -> viewModel.showHidden = !item.isChecked
-            R.id.sort_by_name -> viewModel.sortMode = FileSorter.SORT_BY_NAME
-            R.id.sort_by_size -> viewModel.sortMode = FileSorter.SORT_BY_SIZE
-            R.id.sort_by_date -> viewModel.sortMode = FileSorter.SORT_BY_DATE
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun observeViewModel() {

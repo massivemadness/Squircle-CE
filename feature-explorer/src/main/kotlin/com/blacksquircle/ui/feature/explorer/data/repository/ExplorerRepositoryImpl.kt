@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.explorer.data.repository
 
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
-import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
+import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -41,7 +41,7 @@ class ExplorerRepositoryImpl(
             val fileTree = filesystem.provideDirectory(fileModel ?: filesystem.defaultLocation())
             fileTree.copy(children = fileTree.children
                 .filter { if (it.isHidden) settingsManager.filterHidden else true }
-                .sortedWith(FileSorter.getComparator(settingsManager.sortMode.toInt()))
+                .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
                 .sortedBy { it.isFolder != settingsManager.foldersOnTop }
             )
         }

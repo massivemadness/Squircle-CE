@@ -25,27 +25,27 @@ object FileSorter {
     const val SORT_BY_SIZE = 1
     const val SORT_BY_DATE = 2
 
-    private val fileNameComparator: Comparator<in FileModel>
+    val COMPARATOR_NAME: Comparator<in FileModel>
         get() = Comparator { first, second ->
             first.name.compareTo(second.name, ignoreCase = true)
         }
 
-    private val fileSizeComparator: Comparator<in FileModel>
+    val COMPARATOR_SIZE: Comparator<in FileModel>
         get() = Comparator { first, second ->
             first.size.compareTo(second.size)
         }
 
-    private val fileDateComparator: Comparator<in FileModel>
+    val COMPARATOR_DATE: Comparator<in FileModel>
         get() = Comparator { first, second ->
             first.lastModified.compareTo(second.lastModified)
         }
+}
 
-    fun getComparator(sortMode: Int): Comparator<in FileModel> {
-        return when (sortMode) {
-            SORT_BY_NAME -> fileNameComparator
-            SORT_BY_SIZE -> fileSizeComparator
-            SORT_BY_DATE -> fileDateComparator
-            else -> throw IllegalArgumentException("Unknown sort type")
-        }
+fun fileComparator(sortMode: Int): Comparator<in FileModel> {
+    return when (sortMode) {
+        FileSorter.SORT_BY_NAME -> FileSorter.COMPARATOR_NAME
+        FileSorter.SORT_BY_SIZE -> FileSorter.COMPARATOR_SIZE
+        FileSorter.SORT_BY_DATE -> FileSorter.COMPARATOR_DATE
+        else -> throw IllegalArgumentException("Unknown sort type")
     }
 }
