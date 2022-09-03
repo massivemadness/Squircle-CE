@@ -20,5 +20,5 @@ abstract class ViewEvent {
 
     data class Toast(val message: String) : ViewEvent()
 
-    object PopBackStack : ViewEvent()
+    class PopBackStack(val data: Any? = null) : ViewEvent()
 }

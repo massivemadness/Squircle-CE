@@ -19,12 +19,15 @@ package com.blacksquircle.ui.feature.fonts.ui.fragments
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -54,11 +57,6 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
 
     private lateinit var adapter: FontAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
@@ -77,24 +75,28 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         binding.actionAdd.setOnClickListener {
             navController.navigate(FontsScreen.Create)
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_fonts, menu)
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_fonts, menu)
 
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as? SearchView
+                val searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem?.actionView as? SearchView
 
-        val state = viewModel.fontsState.value
-        if (state.query.isNotEmpty()) {
-            searchItem?.expandActionView()
-            searchView?.setQuery(state.query, false)
-        }
+                val state = viewModel.fontsState.value
+                if (state.query.isNotEmpty()) {
+                    searchItem?.expandActionView()
+                    searchView?.setQuery(state.query, false)
+                }
 
-        searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-            viewModel.fetchFonts(it)
-        }
+                searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
+                    viewModel.fetchFonts(it)
+                }
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun observeViewModel() {

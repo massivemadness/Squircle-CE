@@ -165,7 +165,7 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.createTheme(meta, properties)
-                _viewEvent.emit(ViewEvent.PopBackStack)
+                _viewEvent.emit(ViewEvent.PopBackStack())
                 _viewEvent.emit(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_new_theme_available,

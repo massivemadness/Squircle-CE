@@ -76,7 +76,7 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.createFont(fontModel)
-                _viewEvent.emit(ViewEvent.PopBackStack)
+                _viewEvent.emit(ViewEvent.PopBackStack())
                 _viewEvent.emit(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_new_font_available,

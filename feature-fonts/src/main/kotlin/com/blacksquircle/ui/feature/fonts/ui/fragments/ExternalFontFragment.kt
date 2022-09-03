@@ -75,7 +75,7 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    ViewEvent.PopBackStack -> navController.popBackStack()
+                    is ViewEvent.PopBackStack -> navController.popBackStack()
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

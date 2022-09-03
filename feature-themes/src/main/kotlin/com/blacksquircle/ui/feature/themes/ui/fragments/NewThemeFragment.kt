@@ -25,9 +25,11 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.toColorInt
+import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -70,7 +72,6 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         if (savedInstanceState == null) {
             viewModel.fetchProperties(navArgs.uuid)
         }
@@ -122,18 +123,21 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
             )
             viewModel.createTheme(meta, adapter.currentList)
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_new_theme, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_import -> importThemeContract.launch(arrayOf("application/json"))
-        }
-        return super.onOptionsItemSelected(item)
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_new_theme, menu)
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_import -> {
+                        importThemeContract.launch(arrayOf("application/json"))
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun observeViewModel() {
@@ -172,7 +176,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    ViewEvent.PopBackStack -> navController.popBackStack()
+                    is ViewEvent.PopBackStack -> navController.popBackStack()
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
