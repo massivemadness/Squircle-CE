@@ -36,7 +36,7 @@
         tools:replace="android:supportsRtl">
 
         <activity
-            android:name="com.blacksquircle.ui.application.activities.MainActivity"
+            android:name="com.blacksquircle.ui.application.activity.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTask"

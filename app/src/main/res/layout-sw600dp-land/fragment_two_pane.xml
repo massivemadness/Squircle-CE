@@ -26,7 +26,7 @@
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:id="@+id/fragment_explorer"
-        android:name="com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment"
         tools:layout="@layout/fragment_explorer"
         tools:ignore="FragmentTagUsage"/>
 
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragment_editor"
-        android:name="com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment"
+        android:name="com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment"
         tools:layout="@layout/fragment_editor"
         tools:ignore="FragmentTagUsage"/>
 

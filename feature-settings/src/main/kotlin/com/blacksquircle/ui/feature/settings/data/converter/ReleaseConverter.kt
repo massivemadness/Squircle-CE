@@ -1,6 +1,6 @@
 package com.blacksquircle.ui.feature.settings.data.converter
 
-import com.blacksquircle.ui.feature.settings.ui.adapters.item.ReleaseModel
+import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
 import java.util.regex.Pattern
 
 object ReleaseConverter {

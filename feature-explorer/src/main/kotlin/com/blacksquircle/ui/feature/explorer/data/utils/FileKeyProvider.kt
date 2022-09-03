@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.explorer.data.utils
 
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.feature.explorer.ui.adapters.FileAdapter
+import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
 
 class FileKeyProvider(
     private val recyclerView: RecyclerView

@@ -20,8 +20,8 @@ import androidx.lifecycle.ViewModel
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.converter.ReleaseConverter
-import com.blacksquircle.ui.feature.settings.ui.adapters.item.PreferenceItem
-import com.blacksquircle.ui.feature.settings.ui.adapters.item.ReleaseModel
+import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
+import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

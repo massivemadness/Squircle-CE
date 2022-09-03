@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/themesFragment"
-        android:name="com.blacksquircle.ui.feature.themes.ui.fragments.ThemesFragment"
+        android:name="com.blacksquircle.ui.feature.themes.ui.fragment.ThemesFragment"
         android:label="@string/label_themes"
         tools:layout="@layout/fragment_themes">
         <deepLink app:uri="blacksquircle://themes" />
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/newThemeFragment"
-        android:name="com.blacksquircle.ui.feature.themes.ui.fragments.NewThemeFragment"
+        android:name="com.blacksquircle.ui.feature.themes.ui.fragment.NewThemeFragment"
         android:label="@string/label_new_theme"
         tools:layout="@layout/fragment_new_theme">
         <deepLink app:uri="blacksquircle://themes/create" />

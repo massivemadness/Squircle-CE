@@ -11,20 +11,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.R
-import com.blacksquircle.ui.application.dialogs.ConfirmExitDialog
+import com.blacksquircle.ui.application.navigation.AppScreen
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.fragment
+import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.databinding.FragmentTwoPaneBinding
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
-import com.blacksquircle.ui.feature.editor.ui.fragments.EditorFragment
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.explorer.ui.fragments.ExplorerFragment
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
 import com.blacksquircle.ui.utils.extensions.resolveFilePath
@@ -39,6 +41,7 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val explorerViewModel by activityViewModels<ExplorerViewModel>()
     private val editorViewModel by activityViewModels<EditorViewModel>()
+    private val navController by lazy { findNavController() }
     private val binding by viewBinding(FragmentTwoPaneBinding::bind)
     private val drawerLayout: DrawerLayout?
         get() = binding.drawerLayout as? DrawerLayout
@@ -68,10 +71,7 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                     } else {
                         if (!editorBackPressedHandler.handleOnBackPressed()) {
                             if (mainViewModel.confirmExit) {
-                                ConfirmExitDialog().show(
-                                    childFragmentManager,
-                                    ConfirmExitDialog.DIALOG_TAG
-                                )
+                                navController.navigate(AppScreen.ConfirmExit)
                             } else {
                                 activity?.finish()
                             }

@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/fontsFragment"
-        android:name="com.blacksquircle.ui.feature.fonts.ui.fragments.FontsFragment"
+        android:name="com.blacksquircle.ui.feature.fonts.ui.fragment.FontsFragment"
         android:label="@string/label_fonts"
         tools:layout="@layout/fragment_fonts">
         <deepLink app:uri="blacksquircle://fonts" />
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/externalFontFragment"
-        android:name="com.blacksquircle.ui.feature.fonts.ui.fragments.ExternalFontFragment"
+        android:name="com.blacksquircle.ui.feature.fonts.ui.fragment.ExternalFontFragment"
         android:label="@string/label_external_font"
         tools:layout="@layout/fragment_external_font">
         <deepLink app:uri="blacksquircle://fonts/create" />

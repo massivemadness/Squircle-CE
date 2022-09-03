@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/permissionFragment"
-        android:name="com.blacksquircle.ui.feature.explorer.ui.fragments.PermissionFragment"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.fragment.PermissionFragment"
         android:label="@string/label_permissions"
         tools:layout="@layout/fragment_permission">
         <action
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/directoryFragment"
-        android:name="com.blacksquircle.ui.feature.explorer.ui.fragments.DirectoryFragment"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.fragment.DirectoryFragment"
         android:label="@string/label_directory"
         tools:layout="@layout/fragment_directory">
         <argument
@@ -50,7 +50,7 @@
 
     <dialog
         android:id="@+id/progressDialog"
-        android:name="com.blacksquircle.ui.feature.explorer.ui.dialogs.ProgressDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.ProgressDialog"
         tools:layout="@layout/dialog_progress">
         <argument
             android:name="parentPath"
