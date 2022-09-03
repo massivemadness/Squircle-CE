@@ -28,7 +28,7 @@ import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -57,7 +57,7 @@ import java.util.*
 @AndroidEntryPoint
 class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
-    private val viewModel by activityViewModels<ThemesViewModel>()
+    private val viewModel by hiltNavGraphViewModels<ThemesViewModel>(R.id.themes_graph)
     private val binding by viewBinding(FragmentNewThemeBinding::bind)
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<NewThemeFragmentArgs>()

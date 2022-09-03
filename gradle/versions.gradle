@@ -61,6 +61,7 @@ ext {
 
     // DI
     hilt_version = '2.43.2'
+    hilt_android_version = '1.0.0'
 
     // Other
     keyboardevent_version = '3.0.0-RC3'
@@ -123,6 +124,8 @@ ext {
             // DI
             hilt: "com.google.dagger:hilt-android:$hilt_version",
             hilt_compiler: "com.google.dagger:hilt-compiler:$hilt_version",
+            hilt_navigation: "androidx.hilt:hilt-navigation-fragment:$hilt_android_version",
+            // hilt_android_compiler: "androidx.hilt:hilt-compiler:$hilt_android_version",
 
             // Lint
             ktlint: "com.pinterest:ktlint:$ktlint_version",

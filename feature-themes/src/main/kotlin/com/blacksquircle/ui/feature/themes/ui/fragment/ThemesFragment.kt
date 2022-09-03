@@ -29,7 +29,7 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -54,7 +54,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
-    private val viewModel by activityViewModels<ThemesViewModel>()
+    private val viewModel by hiltNavGraphViewModels<ThemesViewModel>(R.id.themes_graph)
     private val binding by viewBinding(FragmentThemesBinding::bind)
     private val navController by lazy { findNavController() }
 

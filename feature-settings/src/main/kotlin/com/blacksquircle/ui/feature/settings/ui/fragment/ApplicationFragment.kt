@@ -20,7 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -35,7 +35,7 @@ import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 
-    private val viewModel by activityViewModels<SettingsViewModel>()
+    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
     private val binding by viewBinding(FragmentPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 

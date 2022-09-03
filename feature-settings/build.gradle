@@ -76,6 +76,7 @@ dependencies {
 
     // DI
     implementation library.hilt
+    implementation library.hilt_navigation
     kapt library.hilt_compiler
 
     // Features

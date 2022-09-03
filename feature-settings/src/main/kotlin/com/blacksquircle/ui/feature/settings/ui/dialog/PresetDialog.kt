@@ -20,7 +20,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -29,7 +29,7 @@ import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 
 class PresetDialog : DialogFragment() {
 
-    private val viewModel by activityViewModels<SettingsViewModel>()
+    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
