@@ -18,9 +18,9 @@ ext {
 
     versions = [
             minSdk: 21,
-            targetSdk: 31,
-            compileSdk: 31,
-            buildTools: '31.0.0',
+            targetSdk: 32,
+            compileSdk: 32,
+            buildTools: '32.0.0',
 
             // Library
             publishVersionName: '2.2.0',
@@ -33,40 +33,40 @@ ext {
     // Core
     kotlin_version = '1.6.21'
     core_version = '1.8.0'
-    activity_version = '1.4.0'
-    fragment_version = '1.4.1'
+    activity_version = '1.5.1'
+    fragment_version = '1.5.2'
 
     // Google Play
     playcore_version = '1.8.1'
 
     // UI
-    appcompat_version = '1.4.2'
+    appcompat_version = '1.5.0'
     materialdesign_version = '1.6.1'
     constraintlayout_version = '2.1.4'
     swiperefreshlayout_version = '1.2.0-alpha01'
     preferencescompat_version = '1.2.0'
     materialdialogs_version = '3.3.0'
     recyclerview_selection_version = '1.1.0'
-    fragula_version = '2.3'
+    fragula_version = '2.4'
 
     // AAC
-    lifecycle_version = '2.4.1'
-    navigation_version = '2.4.2'
-    room_version = '2.4.2'
+    lifecycle_version = '2.5.1'
+    navigation_version = '2.5.1'
+    room_version = '2.4.3'
 
     // Network
-    gson_version = '2.9.0'
+    gson_version = '2.9.1'
 
     // Coroutines
-    coroutines_version = '1.6.2'
+    coroutines_version = '1.6.4'
 
     // DI
-    hilt_version = '2.42'
+    hilt_version = '2.43.2'
 
     // Other
     keyboardevent_version = '3.0.0-RC3'
     rhino_version = '1.7.14'
-    zip4j_version = '2.10.0'
+    zip4j_version = '2.11.1'
     chardet_version = '71.1'
 
     // Tests

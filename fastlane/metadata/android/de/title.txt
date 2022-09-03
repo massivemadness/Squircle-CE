@@ -1,1 +1,1 @@
-Squircle IDE - ein schneller und freier Code-Editor für Android
+Squircle - Code Editor
