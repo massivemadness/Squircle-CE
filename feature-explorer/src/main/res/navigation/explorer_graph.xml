@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/explorer_graph"
     app:startDestination="@id/restrictedDialog">
 
@@ -15,6 +16,38 @@
         <argument
             android:name="data"
             app:argType="string" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/createDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.CreateDialog"
+        android:label="CreateDialog"
+        tools:layout="@layout/dialog_create">
+        <deepLink app:uri="blacksquircle://explorer/create" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/renameDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.RenameDialog"
+        android:label="RenameDialog"
+        tools:layout="@layout/dialog_rename">
+        <deepLink app:uri="blacksquircle://explorer/rename?fileName={fileName}" />
+        <argument
+            android:name="fileName"
+            app:argType="string" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/deleteDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.DeleteDialog"
+        android:label="DeleteDialog">
+        <deepLink app:uri="blacksquircle://explorer/delete?fileName={fileName}&amp;fileCount={fileCount}" />
+        <argument
+            android:name="fileName"
+            app:argType="string" />
+        <argument
+            android:name="fileCount"
+            app:argType="integer" />
     </dialog>
 
 </navigation>

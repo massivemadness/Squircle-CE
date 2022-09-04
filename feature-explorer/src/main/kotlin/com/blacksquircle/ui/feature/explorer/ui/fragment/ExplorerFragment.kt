@@ -161,13 +161,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_explorer_default, menu)
-
-                val searchItem = menu.findItem(R.id.action_search)
-                val searchView = searchItem?.actionView as? SearchView
-
-                searchView?.debounce(viewLifecycleOwner.lifecycleScope) { query ->
-                    viewModel.obtainEvent(ExplorerEvent.SearchFiles(query))
-                }
             }
 
             override fun onPrepareMenu(menu: Menu) {
@@ -208,7 +201,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                     R.id.action_rename -> viewModel.obtainEvent(ExplorerEvent.Rename)
                     R.id.action_properties -> viewModel.obtainEvent(ExplorerEvent.Properties)
                     R.id.action_copy_path -> viewModel.obtainEvent(ExplorerEvent.CopyPath)
-                    R.id.action_create_zip -> viewModel.obtainEvent(ExplorerEvent.Zip)
+                    R.id.action_create_zip -> viewModel.obtainEvent(ExplorerEvent.Compress)
                     R.id.action_show_hidden -> viewModel.obtainEvent(
                         if (!menuItem.isChecked) {
                             ExplorerEvent.HideHidden
@@ -216,6 +209,12 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                             ExplorerEvent.ShowHidden
                         }
                     )
+                    R.id.action_search -> {
+                        val searchView = menuItem.actionView as? SearchView
+                        searchView?.debounce(viewLifecycleOwner.lifecycleScope) { query ->
+                            viewModel.obtainEvent(ExplorerEvent.SearchFiles(query))
+                        }
+                    }
                     R.id.sort_by_name -> viewModel.obtainEvent(ExplorerEvent.SortByName)
                     R.id.sort_by_size -> viewModel.obtainEvent(ExplorerEvent.SortBySize)
                     R.id.sort_by_date -> viewModel.obtainEvent(ExplorerEvent.SortByDate)
@@ -244,8 +243,20 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.toolbar.isVisible = true
                         binding.recyclerView.isVisible = true
                         binding.actionHome.isVisible = true
-                        binding.actionCreate.isVisible = state.buffer.isEmpty()
-                        binding.actionPaste.isVisible = state.buffer.isNotEmpty()
+                        binding.actionBuffer.setImageResource(
+                            when (state.bufferType) {
+                                BufferType.COPY -> R.drawable.ic_paste
+                                BufferType.CUT -> R.drawable.ic_paste
+                                else -> R.drawable.ic_plus
+                            }
+                        )
+                        binding.actionBuffer.setOnClickListener {
+                            when (state.bufferType) {
+                                BufferType.COPY -> viewModel.obtainEvent(ExplorerEvent.Paste)
+                                BufferType.CUT -> viewModel.obtainEvent(ExplorerEvent.Paste)
+                                else -> viewModel.obtainEvent(ExplorerEvent.Create)
+                            }
+                        }
                         tabAdapter.submitList(state.breadcrumbs)
                         tabAdapter.select(state.breadcrumbs.size - 1)
                         if (state.selection.isNotEmpty()) {
@@ -300,6 +311,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    is ViewEvent.Navigation -> navController.navigate(event.screen)
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -314,13 +326,11 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     private fun stopActionMode() {
-        if (tracker.hasSelection()) {
-            supportActionBar?.setDisplayHomeAsUpEnabled(false)
-            binding.toolbar.title = getString(R.string.label_local_storage)
-            binding.toolbar.replaceMenu(R.menu.menu_explorer_default)
-            tracker.clearSelection()
-            fileAdapter.notifyDataSetChanged()
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        binding.toolbar.title = getString(R.string.label_local_storage)
+        binding.toolbar.replaceMenu(R.menu.menu_explorer_default)
+        tracker.clearSelection()
+        fileAdapter.notifyDataSetChanged()
     }
 
     private fun toggleSelection(fileModel: FileModel) {

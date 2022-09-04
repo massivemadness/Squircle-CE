@@ -16,10 +16,11 @@
 
 package com.blacksquircle.ui.feature.explorer.data.utils
 
-enum class Operation {
+enum class BufferType {
+    NONE,
     DELETE,
     COPY,
     CUT,
     COMPRESS,
-    EXTRACT
+    RENAME,
 }
