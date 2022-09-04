@@ -68,6 +68,11 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove" />
+
     </application>
 
     <queries>

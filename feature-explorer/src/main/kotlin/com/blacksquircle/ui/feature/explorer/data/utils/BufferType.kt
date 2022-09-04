@@ -17,10 +17,12 @@
 package com.blacksquircle.ui.feature.explorer.data.utils
 
 enum class BufferType {
-    NONE,
+    CREATE,
+    RENAME,
     DELETE,
     COPY,
     CUT,
     COMPRESS,
-    RENAME,
+    EXTRACT,
+    NONE,
 }

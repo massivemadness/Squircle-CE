@@ -195,7 +195,6 @@ class ExplorerViewModel @Inject constructor(
         _openFileEvent.send(event.fileModel)
     }
 
-    // TODO move to WorkManager
     private suspend fun createFile(event: ExplorerEvent.CreateFile) {
         val isValid = event.fileName.isValidFileName()
         if (!isValid) {
@@ -209,8 +208,10 @@ class ExplorerViewModel @Inject constructor(
             path = parent.path + "/${event.fileName}",
             isFolder = event.isFolder
         )
-        // TODO create file
-        _viewEvent.send(ViewEvent.Toast("create ${child.path}"))
+        explorerRepository.createFile(child)
+        _viewEvent.send(ViewEvent.Navigation(
+            ExplorerScreen.ProgressDialog(1)
+        ))
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
             bufferType = BufferType.NONE.also { type ->

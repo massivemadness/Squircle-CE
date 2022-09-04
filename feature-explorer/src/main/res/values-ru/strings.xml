@@ -47,6 +47,8 @@
     <string name="dialog_title_rename">Переименовать…</string>
     <string name="dialog_title_multi_delete">Множественное удаление</string>
     <string name="dialog_title_properties">Свойства</string>
+    <string name="dialog_title_creating">Создание…</string>
+    <string name="dialog_title_renaming">Переименование…</string>
     <string name="dialog_title_deleting">Удаление…</string>
     <string name="dialog_title_copying">Копирование…</string>
     <string name="dialog_title_compressing">Сжатие…</string>
@@ -71,6 +73,7 @@
 
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
     <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
+    <string name="progress_time_format">mm:ss</string>
 
     <string name="sort_by_name">Сорт. по имени</string>
     <string name="sort_by_size">Сорт. по размеру</string>
@@ -92,6 +95,8 @@
     <string name="message_done">Готово</string>
     <string name="message_file_not_found">Файл не найден</string>
     <string name="message_elapsed_time">Прошло времени: %1$s</string>
+    <string name="message_creating">Создание…%1$s</string>
+    <string name="message_renaming">Переименование…%1$s</string>
     <string name="message_deleting">Удаление…%1$s</string>
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>

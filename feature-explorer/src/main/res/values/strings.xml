@@ -49,6 +49,8 @@
     <string name="dialog_title_rename">Rename…</string>
     <string name="dialog_title_multi_delete">Multi-delete</string>
     <string name="dialog_title_properties">Properties</string>
+    <string name="dialog_title_creating">Creating…</string>
+    <string name="dialog_title_renaming">Renaming…</string>
     <string name="dialog_title_deleting">Deleting…</string>
     <string name="dialog_title_copying">Copying…</string>
     <string name="dialog_title_compressing">Compressing…</string>
@@ -73,6 +75,7 @@
 
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
     <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
+    <string name="progress_time_format">mm:ss</string>
 
     <string name="sort_by_name">Sort by Name</string>
     <string name="sort_by_size">Sort by Size</string>
@@ -94,6 +97,8 @@
     <string name="message_done">Done</string>
     <string name="message_file_not_found">File not found</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
+    <string name="message_creating">Creating…%1$s</string>
+    <string name="message_renaming">Renaming…%1$s</string>
     <string name="message_deleting">Deleting…%1$s</string>
     <string name="message_copying">Copying…%1$s</string>
     <string name="message_compressing">Compressing…%1$s</string>

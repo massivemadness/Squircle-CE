@@ -25,7 +25,7 @@ interface ExplorerRepository {
 
     suspend fun listFiles(parent: FileModel?): FileTree
 
-    suspend fun createFile(fileModel: FileModel): FileModel
+    suspend fun createFile(fileModel: FileModel)
     suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel
     suspend fun propertiesOf(fileModel: FileModel): PropertiesModel
 

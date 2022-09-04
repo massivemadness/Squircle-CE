@@ -13,6 +13,9 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     class RenameDialog(fileName: String) : ExplorerScreen(
         route = "blacksquircle://explorer/rename?fileName=$fileName"
     )
+    class ProgressDialog(totalCount: Int) : ExplorerScreen(
+        route = "blacksquircle://explorer/progress?totalCount=$totalCount"
+    )
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
 }

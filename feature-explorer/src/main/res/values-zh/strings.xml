@@ -47,6 +47,8 @@
     <string name="dialog_title_rename">重命名文件</string>
     <string name="dialog_title_multi_delete">删除所选文件</string>
     <string name="dialog_title_properties">属性</string>
+    <string name="dialog_title_creating">Creating…</string>
+    <string name="dialog_title_renaming">Renaming…</string>
     <string name="dialog_title_deleting">文件删除中</string>
     <string name="dialog_title_copying">文件复制中</string>
     <string name="dialog_title_compressing">正在压缩中</string>
@@ -71,6 +73,7 @@
 
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
     <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
+    <string name="progress_time_format">mm:ss</string>
 
     <string name="sort_by_name">按名称排序</string>
     <string name="sort_by_size">按大小排序</string>
@@ -92,6 +95,8 @@
     <string name="message_done">已完毕</string>
     <string name="message_file_not_found">文件不存在</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
+    <string name="message_creating">Creating…%1$s</string>
+    <string name="message_renaming">Renaming…%1$s</string>
     <string name="message_deleting">删除中…%1$s</string>
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>

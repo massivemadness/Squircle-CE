@@ -22,6 +22,7 @@ import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.ui.worker.CreateFileWorker
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.RestrictedException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -58,10 +59,10 @@ class ExplorerRepositoryImpl(
         }
     }
 
-    override suspend fun createFile(fileModel: FileModel): FileModel {
+    override suspend fun createFile(fileModel: FileModel) {
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
-                onSuccess = { filesystem.createFile(fileModel) },
+                onSuccess = { CreateFileWorker.scheduleJob(context, fileModel) },
                 onFailure = { throw RestrictedException() }
             )
         }
