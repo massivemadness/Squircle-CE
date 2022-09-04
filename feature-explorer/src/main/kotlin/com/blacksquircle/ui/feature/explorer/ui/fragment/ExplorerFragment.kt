@@ -19,8 +19,13 @@ package com.blacksquircle.ui.feature.explorer.ui.fragment
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -29,6 +34,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.DefaultSelectionTracker
 import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
@@ -42,10 +48,12 @@ import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.ui.adapter.DirectoryAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerEvent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.DirectoryViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.base.model.FileType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -56,11 +64,12 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val binding by viewBinding(FragmentExplorerBinding::bind)
     private val navController by lazy { findNavController() }
-    private val requestResult = registerForActivityResult(RequestPermission()) { result ->
-        if (result) handleSuccess() else handleFailure()
+    private val requestAccess = registerForActivityResult(RequestPermission()) { result ->
+        if (result) permissionGranted() else permissionRejected()
     }
 
-    private lateinit var directoryAdapter: DirectoryAdapter
+    private lateinit var tracker: SelectionTracker<String>
+    private lateinit var tabAdapter: DirectoryAdapter
     private lateinit var fileAdapter: FileAdapter
 
     @SuppressLint("RestrictedApi")
@@ -70,11 +79,12 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = DirectoryAdapter().also {
-            directoryAdapter = it
+            tabAdapter = it
         }
-        directoryAdapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
+        tabAdapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
             override fun onTabSelected(position: Int) {
-                viewModel.fetchFiles(directoryAdapter.getItem(position))
+                val selected = tabAdapter.getItem(position)
+                viewModel.obtainEvent(ExplorerEvent.ListFiles(selected))
             }
         })
 
@@ -82,40 +92,147 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.filesRecyclerView.adapter = FileAdapter(
             onItemClickListener = object : OnItemClickListener<FileModel> {
                 override fun onClick(item: FileModel) {
-                    viewModel.fetchFiles(item)
+                    if (!tracker.hasSelection()) {
+                        if (item.isFolder) {
+                            viewModel.obtainEvent(ExplorerEvent.ListFiles(item))
+                        } else when (item.getType()) {
+                            FileType.ARCHIVE -> Unit // extract
+                            FileType.DEFAULT,
+                            FileType.TEXT -> viewModel.obtainEvent(ExplorerEvent.OpenFile(item))
+                            else -> viewModel.obtainEvent(ExplorerEvent.OpenFileAs(item))
+                        }
+                    } else {
+                        toggleSelection(item)
+                    }
                 }
+
                 override fun onLongClick(item: FileModel): Boolean {
+                    toggleSelection(item)
                     return true
                 }
             },
             selectionTracker = DefaultSelectionTracker(
-                "static",
+                "DefaultSelectionTracker",
                 FileKeyProvider(binding.recyclerView),
                 SelectionPredicates.createSelectAnything(),
                 StorageStrategy.createStringStorage()
-            ),
+            ).also {
+                tracker = it
+            },
             viewMode = FileAdapter.VIEW_MODE_COMPACT
         ).also {
             fileAdapter = it
         }
 
+        tracker.addObserver(
+            object : SelectionTracker.SelectionObserver<String>() {
+                override fun onSelectionCleared() {
+                    val selection = fileAdapter.selection(tracker.selection)
+                    viewModel.obtainEvent(ExplorerEvent.SelectFiles(selection))
+                }
+
+                override fun onSelectionChanged() {
+                    val selection = fileAdapter.selection(tracker.selection)
+                    viewModel.obtainEvent(ExplorerEvent.SelectFiles(selection))
+                }
+            }
+        )
+
         binding.swipeRefresh.setOnRefreshListener {
-            val index = directoryAdapter.itemCount - 1
-            val lastItem = directoryAdapter.getItem(index)
-            viewModel.refresh(lastItem)
+            val index = tabAdapter.itemCount - 1
+            val selected = tabAdapter.getItem(index)
+            viewModel.obtainEvent(ExplorerEvent.Refresh(selected))
         }
         binding.actionAccess.setOnClickListener {
             context?.checkStorageAccess(
-                onSuccess = ::handleSuccess,
-                onFailure = ::handleFailure
+                onSuccess = ::permissionGranted,
+                onFailure = ::permissionRejected
             )
+        }
+        binding.actionHome.setOnClickListener {
+            val selected = tabAdapter.getItem(0)
+            viewModel.obtainEvent(ExplorerEvent.ListFiles(selected))
         }
 
         setSupportActionBar(binding.toolbar)
+        binding.toolbar.setNavigationOnClickListener {
+            stopActionMode()
+        }
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_explorer_default, menu)
+
+                val searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem?.actionView as? SearchView
+
+                searchView?.debounce(viewLifecycleOwner.lifecycleScope) { query ->
+                    viewModel.obtainEvent(ExplorerEvent.SearchFiles(query))
+                }
+            }
+
+            override fun onPrepareMenu(menu: Menu) {
+                val actionShowHidden = menu.findItem(R.id.action_show_hidden)
+                val actionOpenAs = menu.findItem(R.id.action_open_as)
+                val actionRename = menu.findItem(R.id.action_rename)
+                val actionProperties = menu.findItem(R.id.action_properties)
+                val actionCopyPath = menu.findItem(R.id.action_copy_path)
+
+                val sortByName = menu.findItem(R.id.sort_by_name)
+                val sortBySize = menu.findItem(R.id.sort_by_size)
+                val sortByDate = menu.findItem(R.id.sort_by_date)
+
+                // actionShowHidden?.isChecked = viewModel.showHidden
+
+                val selectionSize = tracker.selection.size()
+                if (selectionSize > 1) { // if more than 1 file selected
+                    actionOpenAs?.isVisible = false
+                    actionRename?.isVisible = false
+                    actionProperties?.isVisible = false
+                    actionCopyPath?.isVisible = false
+                }
+
+                /*when (viewModel.sortMode) {
+                    FileSorter.SORT_BY_NAME -> sortByName?.isChecked = true
+                    FileSorter.SORT_BY_SIZE -> sortBySize?.isChecked = true
+                    FileSorter.SORT_BY_DATE -> sortByDate?.isChecked = true
+                }*/
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.action_copy -> viewModel.obtainEvent(ExplorerEvent.Copy)
+                    R.id.action_cut -> viewModel.obtainEvent(ExplorerEvent.Cut)
+                    R.id.action_delete -> viewModel.obtainEvent(ExplorerEvent.Delete)
+                    R.id.action_select_all -> viewModel.obtainEvent(ExplorerEvent.SelectAll)
+                    R.id.action_open_as -> viewModel.obtainEvent(ExplorerEvent.OpenFileAs())
+                    R.id.action_rename -> viewModel.obtainEvent(ExplorerEvent.Rename)
+                    R.id.action_properties -> viewModel.obtainEvent(ExplorerEvent.Properties)
+                    R.id.action_copy_path -> viewModel.obtainEvent(ExplorerEvent.CopyPath)
+                    R.id.action_create_zip -> viewModel.obtainEvent(ExplorerEvent.Zip)
+                    R.id.action_show_hidden -> viewModel.obtainEvent(
+                        if (!menuItem.isChecked) {
+                            ExplorerEvent.HideHidden
+                        } else {
+                            ExplorerEvent.ShowHidden
+                        }
+                    )
+                    R.id.sort_by_name -> viewModel.obtainEvent(ExplorerEvent.SortByName)
+                    R.id.sort_by_size -> viewModel.obtainEvent(ExplorerEvent.SortBySize)
+                    R.id.sort_by_date -> viewModel.obtainEvent(ExplorerEvent.SortByDate)
+                }
+                return false
+            }
+        }, viewLifecycleOwner)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.obtainEvent(ExplorerEvent.SearchFiles(""))
+        tracker.clearSelection()
     }
 
     override fun handleOnBackPressed(): Boolean {
-        return false
+        return viewModel.handleOnBackPressed()
     }
 
     private fun observeViewModel() {
@@ -123,14 +240,19 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .onEach { state ->
                 when (state) {
                     is ExplorerViewState.Stub -> Unit
-                    is ExplorerViewState.Breadcrumbs -> {
+                    is ExplorerViewState.Data -> {
                         binding.toolbar.isVisible = true
                         binding.recyclerView.isVisible = true
                         binding.actionHome.isVisible = true
-                        binding.actionCreate.isVisible = true
-                        binding.actionPaste.isVisible = false
-                        directoryAdapter.submitList(state.breadcrumbs)
-                        directoryAdapter.select(state.breadcrumbs.size - 1)
+                        binding.actionCreate.isVisible = state.buffer.isEmpty()
+                        binding.actionPaste.isVisible = state.buffer.isNotEmpty()
+                        tabAdapter.submitList(state.breadcrumbs)
+                        tabAdapter.select(state.breadcrumbs.size - 1)
+                        if (state.selection.isNotEmpty()) {
+                            startActionMode(state.selection.size)
+                        } else {
+                            stopActionMode()
+                        }
                     }
                 }
             }
@@ -150,6 +272,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.emptyView.isVisible = true
                         binding.loadingBar.isVisible = false
                         binding.swipeRefresh.isVisible = false
+                        fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Loading -> {
                         binding.restrictedView.isVisible = false
@@ -177,23 +300,48 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    is ViewEvent.PopBackStack -> {
-                        // TODO move to prev breadcrumb (event.data as Int) <- count
-                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun handleSuccess() {
-        val index = directoryAdapter.itemCount - 1
-        val lastItem = directoryAdapter.getItem(index)
-        viewModel.fetchFiles(lastItem)
+    private fun startActionMode(size: Int) {
+        if (tracker.hasSelection()) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            binding.toolbar.title = size.toString()
+            binding.toolbar.replaceMenu(R.menu.menu_explorer_actions)
+        }
     }
 
-    private fun handleFailure() {
+    private fun stopActionMode() {
+        if (tracker.hasSelection()) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            binding.toolbar.title = getString(R.string.label_local_storage)
+            binding.toolbar.replaceMenu(R.menu.menu_explorer_default)
+            tracker.clearSelection()
+            fileAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun toggleSelection(fileModel: FileModel) {
+        val index = fileAdapter.currentList.indexOf(fileModel)
+        if (tracker.isSelected(fileModel.path)) {
+            tracker.deselect(fileModel.path)
+        } else {
+            tracker.select(fileModel.path)
+        }
+        fileAdapter.notifyItemChanged(index)
+    }
+
+    private fun permissionGranted() {
+        val index = tabAdapter.itemCount - 1
+        val selected = tabAdapter.getItem(index)
+        viewModel.obtainEvent(ExplorerEvent.ListFiles(selected))
+    }
+
+    private fun permissionRejected() {
         activity?.requestStorageAccess(
-            showRequestDialog = { requestResult.launch(WRITE_EXTERNAL_STORAGE) },
+            showRequestDialog = { requestAccess.launch(WRITE_EXTERNAL_STORAGE) },
             showExplanationDialog = { intent ->
                 val screen = ExplorerScreen.RestrictedDialog(
                     action = intent.action.toString(),

@@ -23,8 +23,10 @@ import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.databinding.FragmentTwoPaneBinding
+import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.explorer.data.utils.openFileAs
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
@@ -102,10 +104,21 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
             .onEach(::handleIntent)
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        /*explorerViewModel.openFileEvent.observe(viewLifecycleOwner) {
-            editorViewModel.openFileEvent.value = DocumentConverter.toModel(it)
-        }
-        editorViewModel.openPropertiesEvent.observe(viewLifecycleOwner) {
+        explorerViewModel.openFileEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                editorViewModel.openFileEvent.value = DocumentConverter.toModel(it)
+                closeDrawer()
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        explorerViewModel.openFileAsEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                context?.openFileAs(it)
+                closeDrawer()
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        /*editorViewModel.openPropertiesEvent.observe(viewLifecycleOwner) {
             explorerViewModel.openPropertiesEvent.value = it
         }*/
     }

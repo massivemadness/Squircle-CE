@@ -33,10 +33,8 @@ import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.viewstate.NewThemeViewState
 import com.blacksquircle.ui.feature.themes.ui.viewstate.ThemesViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,8 +50,8 @@ class ThemesViewModel @Inject constructor(
     private val _newThemeState = MutableStateFlow<NewThemeViewState>(NewThemeViewState.MetaData(Meta(), emptyList()))
     val newThemeState: StateFlow<NewThemeViewState> = _newThemeState
 
-    private val _viewEvent = MutableSharedFlow<ViewEvent>()
-    val viewEvent: SharedFlow<ViewEvent> = _viewEvent
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     init {
         fetchThemes("")
@@ -70,7 +68,7 @@ class ThemesViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }
@@ -84,7 +82,7 @@ class ThemesViewModel @Inject constructor(
                 loadProperties(themeModel)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_theme_syntax_exception)
                 ))
             }
@@ -95,7 +93,7 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.exportTheme(themeModel)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_theme_exported,
                         themeModel.name.lowercase()
@@ -103,7 +101,7 @@ class ThemesViewModel @Inject constructor(
                 ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }
@@ -114,7 +112,7 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.removeTheme(themeModel)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_theme_removed,
                         themeModel.name
@@ -123,7 +121,7 @@ class ThemesViewModel @Inject constructor(
                 fetchThemes("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }
@@ -134,7 +132,7 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.selectTheme(themeModel)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_selected,
                         themeModel.name
@@ -142,7 +140,7 @@ class ThemesViewModel @Inject constructor(
                 ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }
@@ -165,8 +163,8 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.createTheme(meta, properties)
-                _viewEvent.emit(ViewEvent.PopBackStack())
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.PopBackStack())
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_new_theme_available,
                         meta.name
@@ -175,7 +173,7 @@ class ThemesViewModel @Inject constructor(
                 fetchThemes("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }

@@ -31,6 +31,7 @@ import com.blacksquircle.ui.filesystem.base.exception.DirectoryExpectedException
 import com.blacksquircle.ui.filesystem.base.exception.RestrictedException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -55,70 +56,146 @@ class ExplorerViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private val _openFileEvent = Channel<FileModel>(Channel.BUFFERED)
+    val openFileEvent: Flow<FileModel> = _openFileEvent.receiveAsFlow()
+
+    private val _openFileAsEvent = Channel<FileModel>(Channel.BUFFERED)
+    val openFileAsEvent: Flow<FileModel> = _openFileAsEvent.receiveAsFlow()
+
     private val breadcrumbs = mutableListOf<FileModel>()
     private val selection = mutableListOf<FileModel>()
+    private val buffer = mutableListOf<FileModel>()
+    private var query = ""
 
     init {
-        fetchFiles(null)
+        obtainEvent(ExplorerEvent.ListFiles())
     }
 
-    fun fetchFiles(fileModel: FileModel?) = viewModelScope.launch {
-        try {
-            if (!refreshState.value) { // SwipeRefresh
-                _directoryViewState.value = DirectoryViewState.Loading
-            }
-            val (parent, children) = explorerRepository.fetchFiles(fileModel)
-            if (breadcrumbs.contains(parent)) {
-                breadcrumbs.replaceList(
-                    collection = breadcrumbs.subList(
-                        fromIndex = 0,
-                        toIndex = breadcrumbs.indexOf(parent) + 1
-                    )
+    fun obtainEvent(event: ExplorerEvent) {
+        when (event) {
+            is ExplorerEvent.ListFiles -> listFiles(event.parent)
+            is ExplorerEvent.SearchFiles -> listFiles(breadcrumbs.lastOrNull())
+                .also { query = event.query }
+            is ExplorerEvent.SelectFiles -> {
+                _explorerViewState.value = ExplorerViewState.Data(
+                    breadcrumbs = breadcrumbs,
+                    selection = selection.replaceList(event.selection),
+                    buffer = buffer,
                 )
-            } else {
-                breadcrumbs += parent
             }
-            _explorerViewState.value = ExplorerViewState.Breadcrumbs(
-                breadcrumbs = breadcrumbs.toList(),
-                selection = selection.toList(),
-            )
-            if (children.isNotEmpty()) {
-                _directoryViewState.value = DirectoryViewState.Files(children)
-            } else {
-                _directoryViewState.value = DirectoryViewState.Empty
-            }
-        } catch (e: Throwable) {
-            Log.e(TAG, e.message, e)
-            when (e) {
-                is RestrictedException -> {
-                    _explorerViewState.value = ExplorerViewState.Breadcrumbs(
-                        breadcrumbs = breadcrumbs.toList(),
-                        selection = selection.toList(),
-                    )
-                    _directoryViewState.value = DirectoryViewState.Restricted
+
+            is ExplorerEvent.Refresh -> {
+                _refreshState.value = true
+                listFiles(event.parent).invokeOnCompletion {
+                    _refreshState.value = false
                 }
-                is DirectoryExpectedException -> {
-                    _viewEvent.send(
-                        ViewEvent.Toast(
-                            stringProvider.getString(R.string.message_directory_expected)
+            }
+            is ExplorerEvent.OpenFile -> viewModelScope.launch {
+                _openFileEvent.send(event.fileModel)
+            }
+            is ExplorerEvent.OpenFileAs -> viewModelScope.launch {
+                _openFileAsEvent.send(event.fileModel ?: selection.first())
+            }
+
+            is ExplorerEvent.Cut -> Unit
+            is ExplorerEvent.Copy -> Unit
+            is ExplorerEvent.Paste -> Unit
+            is ExplorerEvent.Delete -> Unit
+            is ExplorerEvent.SelectAll -> Unit
+            is ExplorerEvent.Rename -> Unit
+            is ExplorerEvent.Properties -> Unit
+            is ExplorerEvent.CopyPath -> Unit
+            is ExplorerEvent.Zip -> Unit
+
+            is ExplorerEvent.ShowHidden -> Unit
+            is ExplorerEvent.HideHidden -> Unit
+            is ExplorerEvent.SortByDate -> Unit
+            is ExplorerEvent.SortByName -> Unit
+            is ExplorerEvent.SortBySize -> Unit
+        }
+    }
+
+    fun handleOnBackPressed(): Boolean {
+        return when {
+            selection.isNotEmpty() -> {
+                _explorerViewState.value = ExplorerViewState.Data(
+                    breadcrumbs = breadcrumbs,
+                    selection = selection.replaceList(emptyList()),
+                    buffer = buffer,
+                )
+                true
+            }
+            breadcrumbs.size > 1 -> {
+                _explorerViewState.value = ExplorerViewState.Data(
+                    breadcrumbs = breadcrumbs - breadcrumbs.last(),
+                    selection = selection,
+                    buffer = buffer,
+                )
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun listFiles(fileModel: FileModel?): Job {
+        return viewModelScope.launch {
+            try {
+                if (!refreshState.value && query.isEmpty()) { // SwipeRefresh
+                    _directoryViewState.value = DirectoryViewState.Loading
+                }
+                val (parent, children) = explorerRepository.listFiles(fileModel)
+                if (breadcrumbs.contains(parent)) {
+                    breadcrumbs.replaceList(
+                        collection = breadcrumbs.subList(
+                            fromIndex = 0,
+                            toIndex = breadcrumbs.indexOf(parent) + 1
                         )
                     )
+                } else {
+                    breadcrumbs += parent
                 }
-                else -> {
-                    _viewEvent.send(
-                        ViewEvent.Toast(
-                            stringProvider.getString(R.string.message_unknown_exception)
-                        )
-                    )
+                _explorerViewState.value = ExplorerViewState.Data(
+                    breadcrumbs = breadcrumbs,
+                    selection = selection,
+                    buffer = buffer,
+                )
+                val filtered = children.filter { it.name.contains(query, ignoreCase = true) }
+                if (filtered.isNotEmpty()) {
+                    _directoryViewState.value = DirectoryViewState.Files(filtered)
+                } else {
+                    _directoryViewState.value = DirectoryViewState.Empty
                 }
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
             }
         }
     }
 
-    fun refresh(fileModel: FileModel?) {
-        _refreshState.value = true
-        fetchFiles(fileModel).invokeOnCompletion {
-            _refreshState.value = false
+    private suspend fun handleError(e: Throwable) {
+        when (e) {
+            is RestrictedException -> {
+                _explorerViewState.value = ExplorerViewState.Data(
+                    breadcrumbs = breadcrumbs,
+                    selection = selection,
+                    buffer = buffer,
+                )
+                _directoryViewState.value = DirectoryViewState.Restricted
+            }
+            is DirectoryExpectedException -> {
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_directory_expected)
+                    )
+                )
+            }
+            else -> {
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_unknown_exception)
+                    )
+                )
+            }
         }
     }
 

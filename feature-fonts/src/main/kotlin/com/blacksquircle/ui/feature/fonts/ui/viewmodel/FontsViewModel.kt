@@ -27,10 +27,8 @@ import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.fonts.ui.viewstate.ExternalFontViewState
 import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -47,8 +45,8 @@ class FontsViewModel @Inject constructor(
     private val _externalFontState = MutableStateFlow<ExternalFontViewState>(ExternalFontViewState.Invalid)
     val externalFontState: StateFlow<ExternalFontViewState> = _externalFontState
 
-    private val _viewEvent = MutableSharedFlow<ViewEvent>()
-    val viewEvent: SharedFlow<ViewEvent> = _viewEvent
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     init {
         fetchFonts("")
@@ -65,7 +63,7 @@ class FontsViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }
@@ -76,8 +74,8 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.createFont(fontModel)
-                _viewEvent.emit(ViewEvent.PopBackStack())
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.PopBackStack())
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_new_font_available,
                         fontModel.fontName
@@ -86,7 +84,7 @@ class FontsViewModel @Inject constructor(
                 fetchFonts("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }
@@ -97,7 +95,7 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.removeFont(fontModel)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_font_removed,
                         fontModel.fontName
@@ -106,7 +104,7 @@ class FontsViewModel @Inject constructor(
                 fetchFonts("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }
@@ -117,7 +115,7 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.selectFont(fontModel)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(
                         R.string.message_selected,
                         fontModel.fontName
@@ -125,7 +123,7 @@ class FontsViewModel @Inject constructor(
                 ))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_unknown_exception)
                 ))
             }

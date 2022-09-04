@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExplorerRepository {
 
-    suspend fun fetchFiles(fileModel: FileModel?): FileTree
+    suspend fun listFiles(parent: FileModel?): FileTree
 
     suspend fun createFile(fileModel: FileModel): FileModel
     suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel

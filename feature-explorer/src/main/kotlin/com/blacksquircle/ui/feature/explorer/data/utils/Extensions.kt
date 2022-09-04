@@ -19,12 +19,18 @@ package com.blacksquircle.ui.feature.explorer.data.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.FileProvider
 import androidx.core.content.getSystemService
+import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.filesystem.base.model.FileModel
+import java.io.File
+import java.io.FileNotFoundException
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,10 +47,35 @@ fun View.setSelectableBackground() = with(TypedValue()) {
     setBackgroundResource(resourceId)
 }
 
-fun <T> MutableList<T>.replaceList(collection: Collection<T>) {
+fun <T> MutableList<T>.replaceList(collection: Collection<T>): List<T> {
     val temp = collection.toList()
     clear()
     addAll(temp)
+    return this
+}
+
+fun Context.openFileAs(fileModel: FileModel) {
+    try {
+        val file = File(fileModel.path)
+        if (!file.exists()) {
+            throw FileNotFoundException(file.path)
+        }
+
+        val uri = FileProvider.getUriForFile(
+            this,
+            "$packageName.provider",
+            file
+        )
+
+        val mime = contentResolver?.getType(uri)
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            setDataAndType(uri, mime)
+        }
+        startActivity(intent)
+    } catch (e: Exception) {
+        showToast(R.string.message_cannot_be_opened)
+    }
 }
 
 fun Long.toReadableDate(pattern: String): String {

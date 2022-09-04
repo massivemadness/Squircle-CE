@@ -40,11 +40,11 @@ class ExplorerRepositoryImpl(
     private val context: Context,
 ) : ExplorerRepository {
 
-    override suspend fun fetchFiles(fileModel: FileModel?): FileTree {
+    override suspend fun listFiles(parent: FileModel?): FileTree {
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
                 onSuccess = {
-                    val fileTree = filesystem.provideDirectory(fileModel ?: filesystem.defaultLocation())
+                    val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
                     fileTree.copy(children = fileTree.children
                         .filter { if (it.isHidden) settingsManager.filterHidden else true }
                         .sortedWith(fileComparator(settingsManager.sortMode.toInt()))

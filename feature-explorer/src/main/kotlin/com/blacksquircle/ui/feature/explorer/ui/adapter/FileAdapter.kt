@@ -61,7 +61,7 @@ class FileAdapter(
         holder.bind(fileModel, isSelected)
     }
 
-    fun getSelectedFiles(keys: Selection<String>): List<FileModel> {
+    fun selection(keys: Selection<String>): List<FileModel> {
         return currentList.filter { keys.contains(it.path) }
     }
 

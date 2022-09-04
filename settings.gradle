@@ -25,7 +25,8 @@ include ':feature-core',
         ':feature-ui'
 
 include ':filesystems:filesystem-base',
-        ':filesystems:filesystem-local'
+        ':filesystems:filesystem-local',
+        ':filesystems:filesystem-mock'
 // TODO ':filesystems:filesystem-dropbox'
 // TODO ':filesystems:filesystem-googledrive'
 // TODO ':filesystems:filesystem-ftp'

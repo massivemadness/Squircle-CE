@@ -21,6 +21,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.blacksquircle.ui.core.R
@@ -33,7 +34,7 @@ fun NavController.popBackStack(n: Int) {
 }
 
 fun NavController.navigate(
-    screen: Screen<String>,
+    screen: Screen<*>,
     extras: Navigator.Extras? = null,
     navOptions: NavOptions? = NavOptions.Builder()
         .setEnterAnim(R.anim.nav_default_enter_anim)
@@ -42,7 +43,12 @@ fun NavController.navigate(
         .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
         .build()
 ) {
-    navigate(screen.route.toUri(), navOptions, extras)
+    when (val route = screen.route) {
+        is String -> navigate(route.toUri(), navOptions, extras)
+        is Int -> navigate(route, null, navOptions, extras)
+        is NavDirections -> navigate(route.actionId, route.arguments, navOptions, extras)
+        else -> throw IllegalArgumentException("Unsupported route type")
+    }
 }
 
 @Suppress("UNCHECKED_CAST")

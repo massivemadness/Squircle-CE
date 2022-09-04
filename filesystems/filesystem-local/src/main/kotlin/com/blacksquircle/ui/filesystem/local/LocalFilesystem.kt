@@ -76,7 +76,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return suspendCoroutine { cont ->
             val file = FileConverter.toFile(parent)
             if (file.isDirectory) {
-                val children = file.listFiles()!!
+                val children = file.listFiles().orEmpty()
                     .map(FileConverter::toModel)
                     .toList()
                 val fileTree = FileTree(parent, children)
