@@ -23,7 +23,7 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.data.utils.BufferType
+import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.data.utils.replaceList
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
@@ -34,10 +34,9 @@ import com.blacksquircle.ui.filesystem.base.exception.RestrictedException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -68,23 +67,22 @@ class ExplorerViewModel @Inject constructor(
     private val breadcrumbs = mutableListOf<FileModel>()
     private val selection = mutableListOf<FileModel>()
     private val buffer = mutableListOf<FileModel>()
-    private var bufferType = BufferType.NONE
+    private var operation = Operation.NONE
     private var query = ""
 
     init {
-        listFiles(null)
+        obtainEvent(ExplorerEvent.ListFiles())
     }
 
     fun obtainEvent(event: ExplorerEvent) = viewModelScope.launch {
         when (event) {
-            is ExplorerEvent.ListFiles -> listFiles(event.parent)
+            is ExplorerEvent.ListFiles -> listFiles(event)
             is ExplorerEvent.SearchFiles -> searchFiles(event)
             is ExplorerEvent.SelectFiles -> selectList(event)
+            is ExplorerEvent.SelectTab -> selectTab(event)
 
-            is ExplorerEvent.Refresh -> refreshList(event)
             is ExplorerEvent.OpenFileAs -> openFileAs(event)
             is ExplorerEvent.OpenFile -> openFile(event)
-
             is ExplorerEvent.CreateFile -> createFile(event)
             is ExplorerEvent.DeleteFile -> deleteFile(event)
             is ExplorerEvent.RenameFile -> renameFile(event)
@@ -100,6 +98,7 @@ class ExplorerViewModel @Inject constructor(
             is ExplorerEvent.Properties -> properties()
             is ExplorerEvent.CopyPath -> copyPath()
             is ExplorerEvent.Compress -> compressFile()
+            is ExplorerEvent.Refresh -> refreshList()
 
             is ExplorerEvent.ShowHidden -> Unit
             is ExplorerEvent.HideHidden -> Unit
@@ -115,7 +114,7 @@ class ExplorerViewModel @Inject constructor(
                 _explorerViewState.value = ExplorerViewState.Data(
                     breadcrumbs = breadcrumbs,
                     selection = selection.replaceList(emptyList()),
-                    bufferType = bufferType,
+                    operation = operation,
                 )
                 true
             }
@@ -123,7 +122,7 @@ class ExplorerViewModel @Inject constructor(
                 _explorerViewState.value = ExplorerViewState.Data(
                     breadcrumbs = breadcrumbs - breadcrumbs.last(),
                     selection = selection,
-                    bufferType = bufferType,
+                    operation = operation,
                 )
                 true
             }
@@ -131,27 +130,20 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun listFiles(fileModel: FileModel?): Job {
+    private fun listFiles(event: ExplorerEvent.ListFiles): Job {
         return viewModelScope.launch {
             try {
                 if (!refreshState.value && query.isEmpty()) { // SwipeRefresh
                     _directoryViewState.value = DirectoryViewState.Loading
                 }
-                val (parent, children) = explorerRepository.listFiles(fileModel)
-                if (breadcrumbs.contains(parent)) {
-                    breadcrumbs.replaceList(
-                        collection = breadcrumbs.subList(
-                            fromIndex = 0,
-                            toIndex = breadcrumbs.indexOf(parent) + 1
-                        )
-                    )
-                } else {
+                val (parent, children) = explorerRepository.listFiles(event.parent)
+                if (!breadcrumbs.contains(parent)) {
                     breadcrumbs += parent
                 }
                 _explorerViewState.value = ExplorerViewState.Data(
                     breadcrumbs = breadcrumbs,
                     selection = selection,
-                    bufferType = bufferType,
+                    operation = operation,
                 )
                 val filtered = children.filter { it.name.contains(query, ignoreCase = true) }
                 if (filtered.isNotEmpty()) {
@@ -162,29 +154,39 @@ class ExplorerViewModel @Inject constructor(
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 handleError(e)
+            } finally {
+                _refreshState.value = false
             }
         }
     }
 
     private fun searchFiles(event: ExplorerEvent.SearchFiles) {
-        listFiles(breadcrumbs.lastOrNull()).also {
-            query = event.query
-        }
+        query = event.query
+        obtainEvent(ExplorerEvent.ListFiles(breadcrumbs.lastOrNull()))
+    }
+
+    private fun refreshList() {
+        _refreshState.value = true
+        obtainEvent(ExplorerEvent.ListFiles(breadcrumbs.lastOrNull()))
     }
 
     private fun selectList(event: ExplorerEvent.SelectFiles) {
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
             selection = selection.replaceList(event.selection),
-            bufferType = bufferType,
+            operation = operation,
         )
     }
 
-    private fun refreshList(event: ExplorerEvent.Refresh) {
-        _refreshState.value = true
-        listFiles(event.parent).invokeOnCompletion {
-            _refreshState.value = false
-        }
+    private fun selectTab(event: ExplorerEvent.SelectTab) {
+        _explorerViewState.value = ExplorerViewState.Data(
+            breadcrumbs = breadcrumbs.replaceList(
+                collection = breadcrumbs.subList(0, event.position + 1)
+            ),
+            selection = selection.replaceList(emptyList()),
+            operation = operation,
+        )
+        obtainEvent(ExplorerEvent.ListFiles(breadcrumbs.lastOrNull()))
     }
 
     private suspend fun openFileAs(event: ExplorerEvent.OpenFileAs) {
@@ -210,29 +212,28 @@ class ExplorerViewModel @Inject constructor(
         )
         explorerRepository.createFile(child)
         _viewEvent.send(ViewEvent.Navigation(
-            ExplorerScreen.ProgressDialog(1)
+            ExplorerScreen.ProgressDialog(1, Operation.CREATE)
         ))
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.NONE.also { type ->
+            operation = Operation.NONE.also { type ->
                 buffer.replaceList(emptyList())
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
     }
 
-    // TODO move to WorkManager
     private suspend fun deleteFile(event: ExplorerEvent.DeleteFile) {
-        // TODO delete files in buffer
-        buffer.forEach {
-            _viewEvent.send(ViewEvent.Toast("delete ${it.path}"))
-        }
+        explorerRepository.deleteFiles(buffer)
+        _viewEvent.send(ViewEvent.Navigation(
+            ExplorerScreen.ProgressDialog(buffer.size, Operation.DELETE)
+        ))
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.NONE.also { type ->
+            operation = Operation.NONE.also { type ->
                 buffer.replaceList(emptyList())
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
@@ -253,9 +254,9 @@ class ExplorerViewModel @Inject constructor(
         }
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.NONE.also { type ->
+            operation = Operation.NONE.also { type ->
                 buffer.replaceList(emptyList())
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
@@ -269,9 +270,9 @@ class ExplorerViewModel @Inject constructor(
         }
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.NONE.also { type ->
+            operation = Operation.NONE.also { type ->
                 buffer.replaceList(emptyList())
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
@@ -280,9 +281,9 @@ class ExplorerViewModel @Inject constructor(
     private fun cutFile() {
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.CUT.also { type ->
+            operation = Operation.CUT.also { type ->
                 buffer.replaceList(selection)
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
@@ -291,9 +292,9 @@ class ExplorerViewModel @Inject constructor(
     private fun copyFile() {
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.COPY.also { type ->
+            operation = Operation.COPY.also { type ->
                 buffer.replaceList(selection)
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
@@ -301,31 +302,31 @@ class ExplorerViewModel @Inject constructor(
 
     // TODO move to WorkManager
     private suspend fun pasteFile() {
-        when (bufferType) {
-            BufferType.COPY -> {
+        when (operation) {
+            Operation.COPY -> {
                 // TODO copy buffer to current folder
                 buffer.forEach {
                     _viewEvent.send(ViewEvent.Toast("copy ${it.name} to ${breadcrumbs.last().path}"))
                 }
                 _explorerViewState.value = ExplorerViewState.Data(
                     breadcrumbs = breadcrumbs,
-                    bufferType = BufferType.NONE.also { type ->
+                    operation = Operation.NONE.also { type ->
                         buffer.replaceList(emptyList())
-                        bufferType = type
+                        operation = type
                     },
                     selection = selection.replaceList(emptyList()),
                 )
             }
-            BufferType.CUT -> {
+            Operation.CUT -> {
                 // TODO copy to current folder then delete
                 buffer.forEach {
                     _viewEvent.send(ViewEvent.Toast("copy and delete ${it.name} to ${breadcrumbs.last().path}"))
                 }
                 _explorerViewState.value = ExplorerViewState.Data(
                     breadcrumbs = breadcrumbs,
-                    bufferType = BufferType.NONE.also { type ->
+                    operation = Operation.NONE.also { type ->
                         buffer.replaceList(emptyList())
-                        bufferType = type
+                        operation = type
                     },
                     selection = selection.replaceList(emptyList()),
                 )
@@ -341,9 +342,9 @@ class ExplorerViewModel @Inject constructor(
     private suspend fun deleteFile() {
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.DELETE.also { type ->
+            operation = Operation.DELETE.also { type ->
                 buffer.replaceList(selection)
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
@@ -354,9 +355,9 @@ class ExplorerViewModel @Inject constructor(
     private suspend fun renameFile() {
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.RENAME.also { type ->
+            operation = Operation.RENAME.also { type ->
                 buffer.replaceList(selection)
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
@@ -376,9 +377,9 @@ class ExplorerViewModel @Inject constructor(
     private fun compressFile() {
         _explorerViewState.value = ExplorerViewState.Data(
             breadcrumbs = breadcrumbs,
-            bufferType = BufferType.COMPRESS.also { type ->
+            operation = Operation.COMPRESS.also { type ->
                 buffer.replaceList(selection)
-                bufferType = type
+                operation = type
             },
             selection = selection.replaceList(emptyList()),
         )
@@ -390,7 +391,7 @@ class ExplorerViewModel @Inject constructor(
                 _explorerViewState.value = ExplorerViewState.Data(
                     breadcrumbs = breadcrumbs,
                     selection = selection,
-                    bufferType = bufferType,
+                    operation = operation,
                 )
                 _directoryViewState.value = DirectoryViewState.Restricted
             }

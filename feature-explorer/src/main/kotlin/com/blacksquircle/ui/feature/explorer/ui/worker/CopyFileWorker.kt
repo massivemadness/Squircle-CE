@@ -6,11 +6,13 @@ import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.Observer
 import androidx.work.*
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.feature.explorer.data.utils.toData
 import com.blacksquircle.ui.feature.explorer.data.utils.toFileModel
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -45,9 +47,9 @@ class CopyFileWorker @AssistedInject constructor(
         private const val NOTIFICATION_ID = 148
         private const val ERROR_ID = 149
 
-        fun scheduleJob(context: Context) {
+        fun scheduleJob(context: Context, fileList: List<FileModel>) {
             val workRequest = OneTimeWorkRequestBuilder<CopyFileWorker>()
-                // .setInputData(fileModel.toData())
+                .setInputData(fileList.toData())
                 .build()
 
             WorkManager.getInstance(context)
@@ -63,7 +65,7 @@ class CopyFileWorker @AssistedInject constructor(
                     if (workInfo != null) {
                         trySend(workInfo.progress.toFileModel())
                     } else {
-                        close()
+                        close(ClosedSendChannelException("Channel was closed"))
                     }
                 }
                 workInfoLiveData.observeForever(observer)

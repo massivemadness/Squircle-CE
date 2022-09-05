@@ -7,7 +7,7 @@ sealed class ExplorerEvent {
     data class ListFiles(val parent: FileModel? = null) : ExplorerEvent()
     data class SearchFiles(val query: String) : ExplorerEvent()
     data class SelectFiles(val selection: List<FileModel>) : ExplorerEvent()
-    data class Refresh(val parent: FileModel? = null) : ExplorerEvent()
+    data class SelectTab(val position: Int) : ExplorerEvent()
 
     data class OpenFileAs(val fileModel: FileModel? = null) : ExplorerEvent()
     data class OpenFile(val fileModel: FileModel) : ExplorerEvent()
@@ -26,6 +26,7 @@ sealed class ExplorerEvent {
     object Properties : ExplorerEvent()
     object CopyPath : ExplorerEvent()
     object Compress : ExplorerEvent()
+    object Refresh : ExplorerEvent()
 
     object ShowHidden : ExplorerEvent()
     object HideHidden : ExplorerEvent()

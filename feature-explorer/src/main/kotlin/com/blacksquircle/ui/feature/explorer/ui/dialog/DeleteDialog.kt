@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.explorer.R
@@ -15,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DeleteDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<DeleteDialogArgs>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -37,6 +39,7 @@ class DeleteDialog : DialogFragment() {
             message(dialogMessage)
             negativeButton(R.string.action_cancel)
             positiveButton(R.string.action_delete) {
+                navController.popBackStack()
                 viewModel.obtainEvent(ExplorerEvent.DeleteFile)
             }
         }

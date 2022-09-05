@@ -2,7 +2,10 @@ package com.blacksquircle.ui.feature.explorer.data.utils
 
 import androidx.work.Data
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
+private const val KEY_LIST = "list"
 private const val KEY_PATH = "path"
 private const val KEY_SIZE = "size"
 private const val KEY_LAST_MODIFIED = "lastModified"
@@ -26,5 +29,18 @@ internal fun Data.toFileModel(): FileModel {
         lastModified = getLong(KEY_LAST_MODIFIED, 0L),
         isFolder = getBoolean(KEY_IS_FOLDER, false),
         isHidden = getBoolean(KEY_IS_HIDDEN, false),
+    )
+}
+
+internal fun List<FileModel>.toData(): Data {
+    return Data.Builder()
+        .putString(KEY_LIST, Gson().toJson(this))
+        .build()
+}
+
+internal fun Data.toFileList(): List<FileModel> {
+    return Gson().fromJson(
+        getString(KEY_LIST),
+        object : TypeToken<List<FileModel>>() {}.type
     )
 }

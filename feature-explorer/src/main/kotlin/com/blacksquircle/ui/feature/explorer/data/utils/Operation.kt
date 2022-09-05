@@ -16,13 +16,20 @@
 
 package com.blacksquircle.ui.feature.explorer.data.utils
 
-enum class BufferType {
-    CREATE,
-    RENAME,
-    DELETE,
-    COPY,
-    CUT,
-    COMPRESS,
-    EXTRACT,
-    NONE,
+enum class Operation(val value: String) {
+    CREATE("Create"),
+    RENAME("Rename"),
+    DELETE("Delete"),
+    CUT("Cut"),
+    COPY("Copy"),
+    COMPRESS("Compress"),
+    EXTRACT("Extract"),
+    NONE("None");
+
+    companion object {
+
+        fun find(value: String): Operation {
+            return values().find { it.value == value } ?: NONE
+        }
+    }
 }

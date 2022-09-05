@@ -55,10 +55,13 @@
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.ProgressDialog"
         android:label="ProgressDialog"
         tools:layout="@layout/dialog_progress">
-        <deepLink app:uri="blacksquircle://explorer/progress?totalCount={totalCount}" />
+        <deepLink app:uri="blacksquircle://explorer/progress?totalCount={totalCount}&amp;operation={operation}" />
         <argument
             android:name="totalCount"
             app:argType="integer" />
+        <argument
+            android:name="operation"
+            app:argType="string" />
     </dialog>
 
 </navigation>

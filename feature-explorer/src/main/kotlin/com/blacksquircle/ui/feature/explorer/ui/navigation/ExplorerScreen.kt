@@ -1,6 +1,7 @@
 package com.blacksquircle.ui.feature.explorer.ui.navigation
 
 import com.blacksquircle.ui.core.ui.navigation.Screen
+import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 
 sealed class ExplorerScreen(route: String) : Screen<String>(route) {
 
@@ -13,8 +14,8 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     class RenameDialog(fileName: String) : ExplorerScreen(
         route = "blacksquircle://explorer/rename?fileName=$fileName"
     )
-    class ProgressDialog(totalCount: Int) : ExplorerScreen(
-        route = "blacksquircle://explorer/progress?totalCount=$totalCount"
+    class ProgressDialog(totalCount: Int, operation: Operation) : ExplorerScreen(
+        route = "blacksquircle://explorer/progress?totalCount=$totalCount&operation=${operation.value}"
     )
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")

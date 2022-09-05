@@ -74,6 +74,9 @@ dependencies {
     implementation library.navigation_fragment
     implementation library.workmanager
 
+    // Network
+    implementation library.gson
+
     // Coroutines
     implementation library.coroutines_core
     implementation library.coroutines_android

@@ -22,16 +22,12 @@ import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.worker.CreateFileWorker
+import com.blacksquircle.ui.feature.explorer.ui.worker.*
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.RestrictedException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 class ExplorerRepositoryImpl(
@@ -59,24 +55,6 @@ class ExplorerRepositoryImpl(
         }
     }
 
-    override suspend fun createFile(fileModel: FileModel) {
-        return withContext(dispatcherProvider.io()) {
-            context.checkStorageAccess(
-                onSuccess = { CreateFileWorker.scheduleJob(context, fileModel) },
-                onFailure = { throw RestrictedException() }
-            )
-        }
-    }
-
-    override suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel {
-        return withContext(dispatcherProvider.io()) {
-            context.checkStorageAccess(
-                onSuccess = { filesystem.renameFile(fileModel, fileName) },
-                onFailure = { throw RestrictedException() }
-            )
-        }
-    }
-
     override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
@@ -86,84 +64,56 @@ class ExplorerRepositoryImpl(
         }
     }
 
-    override suspend fun deleteFiles(source: List<FileModel>): Flow<FileModel> {
+    override suspend fun createFile(fileModel: FileModel) {
+        return withContext(dispatcherProvider.io()) {
+            context.checkStorageAccess(
+                onSuccess = { CreateFileWorker.scheduleJob(context, listOf(fileModel)) },
+                onFailure = { throw RestrictedException() }
+            )
+        }
+    }
+
+    override suspend fun renameFile(source: FileModel, dest: FileModel) {
+        return withContext(dispatcherProvider.io()) {
+            context.checkStorageAccess(
+                onSuccess = { RenameFileWorker.scheduleJob(context, listOf(source, dest)) },
+                onFailure = { throw RestrictedException() }
+            )
+        }
+    }
+
+    override suspend fun deleteFiles(source: List<FileModel>) {
         return context.checkStorageAccess(
-            onSuccess = {
-                callbackFlow {
-                    source.forEach {
-                        val fileModel = filesystem.deleteFile(it)
-                        send(fileModel)
-                        delay(20)
-                    }
-                    close()
-                }.flowOn(dispatcherProvider.io())
-            },
-            onFailure = {
-                throw RestrictedException()
-            }
+            onSuccess = { DeleteFileWorker.scheduleJob(context, source) },
+            onFailure = { throw RestrictedException() }
         )
     }
 
-    override suspend fun copyFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
+    override suspend fun copyFiles(source: List<FileModel>, dest: FileModel) {
         return context.checkStorageAccess(
-            onSuccess = {
-                callbackFlow {
-                    val dest = filesystem.provideFile(destPath)
-                    source.forEach {
-                        val fileModel = filesystem.copyFile(it, dest)
-                        send(fileModel)
-                        delay(20)
-                    }
-                    close()
-                }.flowOn(dispatcherProvider.io())
-            },
-            onFailure = {
-                throw RestrictedException()
-            }
+            onSuccess = { CopyFileWorker.scheduleJob(context, source + dest) },
+            onFailure = { throw RestrictedException() }
         )
     }
 
-    override suspend fun cutFiles(source: List<FileModel>, destPath: String): Flow<FileModel> {
+    override suspend fun cutFiles(source: List<FileModel>, dest: FileModel) {
         return context.checkStorageAccess(
-            onSuccess = {
-                callbackFlow {
-                    val dest = filesystem.provideFile(destPath)
-                    source.forEach { fileModel ->
-                        filesystem.copyFile(fileModel, dest)
-                        filesystem.deleteFile(fileModel)
-                        send(fileModel)
-                        delay(20)
-                    }
-                    close()
-                }.flowOn(dispatcherProvider.io())
-            },
-            onFailure = {
-                throw RestrictedException()
-            }
+            onSuccess = { CutFileWorker.scheduleJob(context, source + dest) },
+            onFailure = { throw RestrictedException() }
         )
     }
 
-    override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
+    override suspend fun compressFiles(source: List<FileModel>, dest: FileModel) {
         return context.checkStorageAccess(
-            onSuccess = {
-                filesystem.compress(source, dest)
-                    .flowOn(dispatcherProvider.io())
-            },
-            onFailure = {
-                throw RestrictedException()
-            }
+            onSuccess = { CompressFileWorker.scheduleJob(context, source + dest) },
+            onFailure = { throw RestrictedException() }
         )
     }
 
-    override suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel> {
+    override suspend fun extractAll(source: FileModel, dest: FileModel) {
         return context.checkStorageAccess(
-            onSuccess = {
-                filesystem.extractAll(source, dest)
-                    .flowOn(dispatcherProvider.io())
-            },
-            onFailure = {
-                throw RestrictedException()
-            }
+            onSuccess = { ExtractFileWorker.scheduleJob(context, listOf(source, dest)) },
+            onFailure = { throw RestrictedException() }
         )
     }
 }

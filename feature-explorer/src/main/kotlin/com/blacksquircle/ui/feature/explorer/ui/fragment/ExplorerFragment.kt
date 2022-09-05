@@ -83,8 +83,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         }
         tabAdapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
             override fun onTabSelected(position: Int) {
-                val selected = tabAdapter.getItem(position)
-                viewModel.obtainEvent(ExplorerEvent.ListFiles(selected))
+                viewModel.obtainEvent(ExplorerEvent.SelectTab(position))
             }
         })
 
@@ -139,9 +138,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         )
 
         binding.swipeRefresh.setOnRefreshListener {
-            val index = tabAdapter.itemCount - 1
-            val selected = tabAdapter.getItem(index)
-            viewModel.obtainEvent(ExplorerEvent.Refresh(selected))
+            viewModel.obtainEvent(ExplorerEvent.Refresh)
         }
         binding.actionAccess.setOnClickListener {
             context?.checkStorageAccess(
@@ -150,8 +147,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             )
         }
         binding.actionHome.setOnClickListener {
-            val selected = tabAdapter.getItem(0)
-            viewModel.obtainEvent(ExplorerEvent.ListFiles(selected))
+            viewModel.obtainEvent(ExplorerEvent.SelectTab(0))
         }
 
         setSupportActionBar(binding.toolbar)
@@ -243,17 +239,17 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.toolbar.isVisible = true
                         binding.recyclerView.isVisible = true
                         binding.actionHome.isVisible = true
-                        binding.actionBuffer.setImageResource(
-                            when (state.bufferType) {
-                                BufferType.COPY -> R.drawable.ic_paste
-                                BufferType.CUT -> R.drawable.ic_paste
+                        binding.actionOperation.setImageResource(
+                            when (state.operation) {
+                                Operation.COPY -> R.drawable.ic_paste
+                                Operation.CUT -> R.drawable.ic_paste
                                 else -> R.drawable.ic_plus
                             }
                         )
-                        binding.actionBuffer.setOnClickListener {
-                            when (state.bufferType) {
-                                BufferType.COPY -> viewModel.obtainEvent(ExplorerEvent.Paste)
-                                BufferType.CUT -> viewModel.obtainEvent(ExplorerEvent.Paste)
+                        binding.actionOperation.setOnClickListener {
+                            when (state.operation) {
+                                Operation.COPY -> viewModel.obtainEvent(ExplorerEvent.Paste)
+                                Operation.CUT -> viewModel.obtainEvent(ExplorerEvent.Paste)
                                 else -> viewModel.obtainEvent(ExplorerEvent.Create)
                             }
                         }
@@ -277,6 +273,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.emptyView.isVisible = false
                         binding.loadingBar.isVisible = false
                         binding.swipeRefresh.isVisible = false
+                        fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Empty -> {
                         binding.restrictedView.isVisible = false
@@ -290,6 +287,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.emptyView.isVisible = false
                         binding.loadingBar.isVisible = true
                         binding.swipeRefresh.isVisible = false
+                        fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Files -> {
                         binding.restrictedView.isVisible = false
