@@ -32,9 +32,9 @@ class RenameFileWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         return withContext(dispatcherProvider.io()) {
             try {
-                val (source, dest) = inputData.toFileList()
-                setProgress(source.toData())
-                filesystem.renameFile(source, dest.name)
+                val fileList = inputData.toFileList()
+                setProgress(fileList.first().toData())
+                filesystem.renameFile(fileList.first(), fileList.last().name)
                 delay(20)
                 Result.success()
             } catch (e: Exception) {

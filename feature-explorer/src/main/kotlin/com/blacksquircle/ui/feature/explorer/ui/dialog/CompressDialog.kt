@@ -10,7 +10,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogCompressBinding
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerEvent
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +31,7 @@ class CompressDialog : DialogFragment() {
             positiveButton(R.string.action_create_zip) {
                 val fileName = binding.input.text.toString()
                 navController.popBackStack()
-                viewModel.obtainEvent(ExplorerEvent.CompressFile(fileName))
+                viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName))
             }
         }
     }

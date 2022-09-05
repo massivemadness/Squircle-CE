@@ -24,14 +24,14 @@
     android:paddingEnd="24dp"
     android:paddingBottom="16dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/elapsed_time"
         android:textSize="14sp"
         tools:text="Elapsed time: 00:01:56" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
@@ -45,7 +45,7 @@
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

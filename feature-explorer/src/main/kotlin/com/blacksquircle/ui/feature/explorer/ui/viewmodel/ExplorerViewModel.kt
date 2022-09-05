@@ -33,6 +33,7 @@ import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.filesystem.base.exception.DirectoryExpectedException
 import com.blacksquircle.ui.filesystem.base.exception.RestrictedException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -59,54 +60,53 @@ class ExplorerViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private val _openFileEvent = Channel<FileModel>(Channel.BUFFERED)
-    val openFileEvent: Flow<FileModel> = _openFileEvent.receiveAsFlow()
-
-    private val _openFileAsEvent = Channel<FileModel>(Channel.BUFFERED)
-    val openFileAsEvent: Flow<FileModel> = _openFileAsEvent.receiveAsFlow()
+    private val _customEvent = MutableSharedFlow<ExplorerViewEvent>()
+    val customEvent: SharedFlow<ViewEvent> = _customEvent.asSharedFlow()
 
     private val breadcrumbs = mutableListOf<FileModel>()
     private val selection = mutableListOf<FileModel>()
     private val buffer = mutableListOf<FileModel>()
+    private val files = mutableListOf<FileModel>()
     private var operation = Operation.CREATE
     private var query = ""
 
     init {
-        obtainEvent(ExplorerEvent.ListFiles())
+        obtainEvent(ExplorerIntent.OpenFolder())
     }
 
-    fun obtainEvent(event: ExplorerEvent) {
+    fun obtainEvent(event: ExplorerIntent) {
         when (event) {
-            is ExplorerEvent.ListFiles -> listFiles(event)
-            is ExplorerEvent.SearchFiles -> searchFiles(event)
-            is ExplorerEvent.SelectFiles -> selectFiles(event)
-            is ExplorerEvent.SelectTab -> selectTab(event)
-            is ExplorerEvent.Refresh -> refreshList()
+            is ExplorerIntent.SearchFiles -> searchFiles(event)
+            is ExplorerIntent.SelectFiles -> selectFiles(event)
+            is ExplorerIntent.SelectTab -> selectTab(event)
+            is ExplorerIntent.Refresh -> refreshList()
 
-            is ExplorerEvent.Cut -> cutFile()
-            is ExplorerEvent.Copy -> copyFile()
-            is ExplorerEvent.Paste -> pasteFile()
-            is ExplorerEvent.Create -> createFile()
-            is ExplorerEvent.Rename -> renameFile()
-            is ExplorerEvent.Delete -> deleteFile()
-            is ExplorerEvent.SelectAll -> selectAll()
-            is ExplorerEvent.Properties -> properties()
-            is ExplorerEvent.CopyPath -> copyPath()
-            is ExplorerEvent.Compress -> compressFile()
+            is ExplorerIntent.Cut -> cutButton()
+            is ExplorerIntent.Copy -> copyButton()
+            is ExplorerIntent.Create -> createButton()
+            is ExplorerIntent.Rename -> renameButton()
+            is ExplorerIntent.Delete -> deleteButton()
+            is ExplorerIntent.SelectAll -> selectAllButton()
+            is ExplorerIntent.Properties -> propertiesButton()
+            is ExplorerIntent.CopyPath -> copyPathButton()
+            is ExplorerIntent.Compress -> compressButton()
 
-            is ExplorerEvent.OpenFileAs -> openFileAs(event)
-            is ExplorerEvent.OpenFile -> openFile(event)
-            is ExplorerEvent.CreateFile -> createFile(event)
-            is ExplorerEvent.RenameFile -> renameFile(event)
-            is ExplorerEvent.DeleteFile -> deleteFile(event)
-            is ExplorerEvent.CompressFile -> compressFile(event)
-            is ExplorerEvent.ExtractFile -> extractFile(event)
+            is ExplorerIntent.OpenFolder -> listFiles(event)
+            is ExplorerIntent.OpenFileAs -> openFileAs(event)
+            is ExplorerIntent.OpenFile -> openFile(event)
+            is ExplorerIntent.CreateFile -> createFile(event)
+            is ExplorerIntent.RenameFile -> renameFile(event)
+            is ExplorerIntent.DeleteFile -> deleteFile(event)
+            is ExplorerIntent.CutFile -> cutFile(event)
+            is ExplorerIntent.CopyFile -> copyFile(event)
+            is ExplorerIntent.CompressFile -> compressFile(event)
+            is ExplorerIntent.ExtractFile -> extractFile(event)
 
-            is ExplorerEvent.ShowHidden -> Unit
-            is ExplorerEvent.HideHidden -> Unit
-            is ExplorerEvent.SortByDate -> Unit
-            is ExplorerEvent.SortByName -> Unit
-            is ExplorerEvent.SortBySize -> Unit
+            is ExplorerIntent.ShowHidden -> Unit
+            is ExplorerIntent.HideHidden -> Unit
+            is ExplorerIntent.SortByDate -> Unit
+            is ExplorerIntent.SortByName -> Unit
+            is ExplorerIntent.SortBySize -> Unit
         }
     }
 
@@ -132,42 +132,45 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun listFiles(event: ExplorerEvent.ListFiles) {
+    private fun listFiles(event: ExplorerIntent.OpenFolder) {
         viewModelScope.launch {
             try {
                 if (!refreshState.value && query.isEmpty()) { // SwipeRefresh
                     _directoryViewState.value = DirectoryViewState.Loading
                 }
-                val fileTree = explorerRepository.listFiles(event.parent)
+                val fileTree = explorerRepository.listFiles(event.fileModel)
                 _explorerViewState.value = ExplorerViewState.ActionBar(
                     breadcrumbs = breadcrumbs.appendList(fileTree.parent),
                     selection = selection,
                     operation = operation,
                 )
-                val filtered = fileTree.children
-                    .filter { it.name.contains(query, ignoreCase = true) }
-                if (filtered.isNotEmpty()) {
-                    _directoryViewState.value = DirectoryViewState.Files(filtered)
+                if (fileTree.children.isNotEmpty()) {
+                    _directoryViewState.value = DirectoryViewState.Files(fileTree.children)
                 } else {
                     _directoryViewState.value = DirectoryViewState.Empty
                 }
-            } catch (e: Throwable) {
+                files.replaceList(fileTree.children)
+            } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 handleError(e)
-            } finally {
-                _refreshState.value = false
+                restoreState()
             }
         }
     }
 
-    private fun searchFiles(event: ExplorerEvent.SearchFiles) {
+    private fun searchFiles(event: ExplorerIntent.SearchFiles) {
         viewModelScope.launch {
             query = event.query
-            listFiles(ExplorerEvent.ListFiles(breadcrumbs.lastOrNull()))
+            val searchList = files.filter { it.name.contains(query, ignoreCase = true) }
+            if (searchList.isNotEmpty()) {
+                _directoryViewState.value = DirectoryViewState.Files(searchList)
+            } else {
+                _directoryViewState.value = DirectoryViewState.Empty
+            }
         }
     }
 
-    private fun selectFiles(event: ExplorerEvent.SelectFiles) {
+    private fun selectFiles(event: ExplorerIntent.SelectFiles) {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
@@ -177,27 +180,25 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun selectTab(event: ExplorerEvent.SelectTab) {
+    private fun selectTab(event: ExplorerIntent.SelectTab) {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs.replaceList(
-                    collection = breadcrumbs.subList(0, event.position + 1)
-                ),
+                breadcrumbs = breadcrumbs.replaceList(breadcrumbs.take(event.position + 1)),
                 selection = selection.replaceList(emptyList()),
                 operation = operation,
             )
-            listFiles(ExplorerEvent.ListFiles(breadcrumbs.lastOrNull()))
+            listFiles(ExplorerIntent.OpenFolder(breadcrumbs.lastOrNull()))
         }
     }
 
     private fun refreshList() {
         viewModelScope.launch {
             _refreshState.value = true
-            listFiles(ExplorerEvent.ListFiles(breadcrumbs.lastOrNull()))
+            listFiles(ExplorerIntent.OpenFolder(breadcrumbs.lastOrNull()))
         }
     }
 
-    private fun cutFile() {
+    private fun cutButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
@@ -210,7 +211,7 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun copyFile() {
+    private fun copyButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
@@ -223,44 +224,7 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    // TODO move to WorkManager
-    private fun pasteFile() {
-        viewModelScope.launch {
-            when (operation) {
-                Operation.COPY -> {
-                    // TODO copy buffer to current folder
-                    buffer.forEach {
-                        _viewEvent.send(ViewEvent.Toast("copy ${it.name} to ${breadcrumbs.last().path}"))
-                    }
-                    _explorerViewState.value = ExplorerViewState.ActionBar(
-                        breadcrumbs = breadcrumbs,
-                        operation = Operation.CREATE.also { type ->
-                            buffer.replaceList(emptyList())
-                            operation = type
-                        },
-                        selection = selection.replaceList(emptyList()),
-                    )
-                }
-                Operation.CUT -> {
-                    // TODO copy to current folder then delete
-                    buffer.forEach {
-                        _viewEvent.send(ViewEvent.Toast("copy and delete ${it.name} to ${breadcrumbs.last().path}"))
-                    }
-                    _explorerViewState.value = ExplorerViewState.ActionBar(
-                        breadcrumbs = breadcrumbs,
-                        operation = Operation.CREATE.also { type ->
-                            buffer.replaceList(emptyList())
-                            operation = type
-                        },
-                        selection = selection.replaceList(emptyList()),
-                    )
-                }
-                else -> Unit
-            }
-        }
-    }
-
-    private fun createFile() {
+    private fun createButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
@@ -275,7 +239,7 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun renameFile() {
+    private fun renameButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
@@ -290,7 +254,7 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun deleteFile() {
+    private fun deleteButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
@@ -305,25 +269,28 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun selectAll() {
+    private fun selectAllButton() {
         viewModelScope.launch {
-            // drop state here ??
+            _customEvent.emit(ExplorerViewEvent.SelectAll)
         }
     }
 
-    private fun properties() {
+    private fun propertiesButton() {
         viewModelScope.launch {
-            // drop state here ??
+            // TODO
+            // val fileModel = selection.first()
+            // val screen = ExplorerScreen.PropertiesDialog()
+            // _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
-    private fun copyPath() {
+    private fun copyPathButton() {
         viewModelScope.launch {
-            // drop state here ??
+            _customEvent.emit(ExplorerViewEvent.CopyPath(selection.first()))
         }
     }
 
-    private fun compressFile() {
+    private fun compressButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
@@ -338,158 +305,188 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun openFileAs(event: ExplorerEvent.OpenFileAs) {
+    private fun openFileAs(event: ExplorerIntent.OpenFileAs) {
         viewModelScope.launch {
             // drop state here ??
-            _openFileAsEvent.send(event.fileModel ?: selection.first())
+            _customEvent.emit(ExplorerViewEvent.OpenFileAs(event.fileModel ?: selection.first()))
         }
     }
 
-    private fun openFile(event: ExplorerEvent.OpenFile) {
+    private fun openFile(event: ExplorerIntent.OpenFile) {
         viewModelScope.launch {
             // drop state here ??
-            _openFileEvent.send(event.fileModel)
-        }
-    }
-
-    private fun createFile(event: ExplorerEvent.CreateFile) {
-        viewModelScope.launch {
-            val isValid = event.fileName.isValidFileName()
-            if (!isValid) {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
-                )
-                return@launch
+            when (event.fileModel.getType()) {
+                FileType.ARCHIVE -> extractFile(ExplorerIntent.ExtractFile(event.fileModel))
+                FileType.DEFAULT,
+                FileType.TEXT -> _customEvent.emit(ExplorerViewEvent.OpenFile(event.fileModel))
+                else -> openFileAs(ExplorerIntent.OpenFileAs(event.fileModel))
             }
-            val parent = breadcrumbs.last()
-            val child = parent.copy(
-                path = parent.path + "/" + event.fileName,
-                isFolder = event.isFolder
-            )
-            explorerRepository.createFile(child)
-            _viewEvent.send(
-                ViewEvent.Navigation(
-                    ExplorerScreen.ProgressDialog(1, Operation.CREATE)
-                )
-            )
-            _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.CREATE.also { type ->
-                    buffer.replaceList(emptyList())
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
         }
     }
 
-    private fun renameFile(event: ExplorerEvent.RenameFile) {
+    private fun createFile(event: ExplorerIntent.CreateFile) {
         viewModelScope.launch {
-            val isValid = event.fileName.isValidFileName()
-            if (!isValid) {
+            try {
+                val isValid = event.fileName.isValidFileName()
+                if (!isValid) {
+                    _viewEvent.send(
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
+                    )
+                    return@launch
+                }
+                val parent = breadcrumbs.last()
+                val child = parent.copy(
+                    path = parent.path + "/" + event.fileName,
+                    isFolder = event.isFolder
+                )
+                explorerRepository.createFile(child)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
+                    ViewEvent.Navigation(
+                        ExplorerScreen.ProgressDialog(1, Operation.CREATE)
+                    )
                 )
-                return@launch
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
+            } finally {
+                restoreState()
             }
-
-            val oldFile = buffer.first()
-            val newFile = oldFile.copy(
-                path = oldFile.path.substringBeforeLast('/') + "/" + event.fileName,
-                isFolder = oldFile.isFolder
-            )
-            explorerRepository.renameFile(oldFile, newFile)
-            _viewEvent.send(
-                ViewEvent.Navigation(
-                    ExplorerScreen.ProgressDialog(1, Operation.RENAME)
-                )
-            )
-            _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.CREATE.also { type ->
-                    buffer.replaceList(emptyList())
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
         }
     }
 
-    private fun deleteFile(event: ExplorerEvent.DeleteFile) {
+    private fun renameFile(event: ExplorerIntent.RenameFile) {
         viewModelScope.launch {
-            explorerRepository.deleteFiles(buffer)
-            _viewEvent.send(
-                ViewEvent.Navigation(
-                    ExplorerScreen.ProgressDialog(buffer.size, Operation.DELETE)
-                )
-            )
-            _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.CREATE.also { type ->
-                    buffer.replaceList(emptyList())
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
-        }
-    }
+            try {
+                val isValid = event.fileName.isValidFileName()
+                if (!isValid) {
+                    _viewEvent.send(
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
+                    )
+                    return@launch
+                }
 
-    private fun compressFile(event: ExplorerEvent.CompressFile) {
-        viewModelScope.launch {
-            val isValid = event.fileName.isValidFileName()
-            if (!isValid) {
+                val oldFile = buffer.first()
+                val newFile = oldFile.copy(
+                    path = oldFile.path.substringBeforeLast('/') + "/" + event.fileName,
+                    isFolder = oldFile.isFolder
+                )
+                explorerRepository.renameFile(oldFile, newFile)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
+                    ViewEvent.Navigation(
+                        ExplorerScreen.ProgressDialog(1, Operation.RENAME)
+                    )
                 )
-                return@launch
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
+            } finally {
+                restoreState()
             }
-
-            val parent = breadcrumbs.last()
-            val child = parent.copy(parent.path + "/" + event.fileName)
-            explorerRepository.compressFiles(buffer, child)
-            _viewEvent.send(
-                ViewEvent.Navigation(
-                    ExplorerScreen.ProgressDialog(buffer.size, Operation.COMPRESS)
-                )
-            )
-            _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.CREATE.also { type ->
-                    buffer.replaceList(emptyList())
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
         }
     }
 
-    private fun extractFile(event: ExplorerEvent.ExtractFile) {
+    private fun deleteFile(event: ExplorerIntent.DeleteFile) {
         viewModelScope.launch {
-            explorerRepository.extractFiles(event.fileModel, breadcrumbs.last())
-            _viewEvent.send(
-                ViewEvent.Navigation(
-                    ExplorerScreen.ProgressDialog(-1, Operation.EXTRACT)
+            try {
+                explorerRepository.deleteFiles(buffer)
+                _viewEvent.send(
+                    ViewEvent.Navigation(
+                        ExplorerScreen.ProgressDialog(buffer.size, Operation.DELETE)
+                    )
                 )
-            )
-            _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.CREATE.also { type ->
-                    buffer.replaceList(emptyList())
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
+            } finally {
+                restoreState()
+            }
+        }
+    }
+
+    private fun cutFile(event: ExplorerIntent.CutFile) {
+        viewModelScope.launch {
+            try {
+                explorerRepository.cutFiles(buffer, breadcrumbs.last())
+                _viewEvent.send(
+                    ViewEvent.Navigation(
+                        ExplorerScreen.ProgressDialog(buffer.size, Operation.CUT)
+                    )
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
+            } finally {
+                restoreState()
+            }
+        }
+    }
+
+    private fun copyFile(event: ExplorerIntent.CopyFile) {
+        viewModelScope.launch {
+            try {
+                explorerRepository.copyFiles(buffer, breadcrumbs.last())
+                _viewEvent.send(
+                    ViewEvent.Navigation(
+                        ExplorerScreen.ProgressDialog(buffer.size, Operation.COPY)
+                    )
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
+            } finally {
+                restoreState()
+            }
+        }
+    }
+
+    private fun compressFile(event: ExplorerIntent.CompressFile) {
+        viewModelScope.launch {
+            try {
+                val isValid = event.fileName.isValidFileName()
+                if (!isValid) {
+                    _viewEvent.send(
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
+                    )
+                    return@launch
+                }
+                val parent = breadcrumbs.last()
+                val child = parent.copy(parent.path + "/" + event.fileName)
+                explorerRepository.compressFiles(buffer, child)
+                _viewEvent.send(
+                    ViewEvent.Navigation(
+                        ExplorerScreen.ProgressDialog(buffer.size, Operation.COMPRESS)
+                    )
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
+            } finally {
+                restoreState()
+            }
+        }
+    }
+
+    private fun extractFile(event: ExplorerIntent.ExtractFile) {
+        viewModelScope.launch {
+            try {
+                explorerRepository.extractFiles(event.fileModel, breadcrumbs.last())
+                _viewEvent.send(
+                    ViewEvent.Navigation(
+                        ExplorerScreen.ProgressDialog(-1, Operation.EXTRACT)
+                    )
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
+            } finally {
+                restoreState()
+            }
         }
     }
 
     private suspend fun handleError(e: Throwable) {
         when (e) {
             is RestrictedException -> {
-                _explorerViewState.value = ExplorerViewState.ActionBar(
-                    breadcrumbs = breadcrumbs,
-                    selection = selection,
-                    operation = operation,
-                )
                 _directoryViewState.value = DirectoryViewState.Restricted
             }
             is DirectoryExpectedException -> {
@@ -503,6 +500,18 @@ class ExplorerViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun restoreState() {
+        _refreshState.value = false
+        _explorerViewState.value = ExplorerViewState.ActionBar(
+            breadcrumbs = breadcrumbs,
+            operation = Operation.CREATE.also { type ->
+                buffer.replaceList(emptyList())
+                operation = type
+            },
+            selection = selection.replaceList(emptyList()),
+        )
     }
 
     companion object {

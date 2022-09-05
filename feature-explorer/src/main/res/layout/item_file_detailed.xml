@@ -23,7 +23,7 @@
     android:gravity="center_vertical"
     android:background="?selectableItemBackground">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:padding="6dp"
@@ -39,7 +39,7 @@
         android:paddingTop="6dp"
         android:paddingBottom="6dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:textSize="16sp"
             tools:text="File Name" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -61,7 +61,7 @@
             android:textSize="13sp"
             tools:text="15 Jun. 2020 19:45:00" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

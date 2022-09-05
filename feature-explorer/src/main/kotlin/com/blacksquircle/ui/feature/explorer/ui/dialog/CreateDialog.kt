@@ -10,7 +10,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogCreateBinding
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerEvent
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +32,7 @@ class CreateDialog : DialogFragment() {
                 val fileName = binding.input.text.toString()
                 val isFolder = binding.boxIsFolder.isChecked
                 navController.popBackStack()
-                viewModel.obtainEvent(ExplorerEvent.CreateFile(fileName, isFolder))
+                viewModel.obtainEvent(ExplorerIntent.CreateFile(fileName, isFolder))
             }
         }
     }

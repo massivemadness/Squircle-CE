@@ -15,11 +15,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Named
 
@@ -35,11 +31,10 @@ class ExtractFileWorker @AssistedInject constructor(
         return withContext(dispatcherProvider.io()) {
             try {
                 val fileList = inputData.toFileList()
-                filesystem.extractAll(fileList.first(), fileList.last())
-                    .onEach { fileModel ->
-                        setProgress(fileModel.toData())
-                        delay(20)
-                    }
+                val source = fileList.first()
+                val dest = fileList.last()
+                filesystem.extractAll(source, dest)
+                    .onStart { setProgress(dest.toData()) }
                     .collect()
                 Result.success()
             } catch (e: Exception) {

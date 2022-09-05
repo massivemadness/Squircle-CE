@@ -11,7 +11,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogRenameBinding
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerEvent
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +34,7 @@ class RenameDialog : DialogFragment() {
             positiveButton(R.string.action_rename) {
                 val fileName = binding.input.text.toString()
                 navController.popBackStack()
-                viewModel.obtainEvent(ExplorerEvent.RenameFile(fileName))
+                viewModel.obtainEvent(ExplorerIntent.RenameFile(fileName))
             }
         }
     }

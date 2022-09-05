@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerEvent
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,7 +40,7 @@ class DeleteDialog : DialogFragment() {
             negativeButton(R.string.action_cancel)
             positiveButton(R.string.action_delete) {
                 navController.popBackStack()
-                viewModel.obtainEvent(ExplorerEvent.DeleteFile)
+                viewModel.obtainEvent(ExplorerIntent.DeleteFile)
             }
         }
     }

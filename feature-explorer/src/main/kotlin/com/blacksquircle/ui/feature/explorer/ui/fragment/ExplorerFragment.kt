@@ -48,12 +48,12 @@ import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.ui.adapter.DirectoryAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerEvent
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.DirectoryViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FileType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -83,7 +83,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         }
         tabAdapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
             override fun onTabSelected(position: Int) {
-                viewModel.obtainEvent(ExplorerEvent.SelectTab(position))
+                viewModel.obtainEvent(ExplorerIntent.SelectTab(position))
             }
         })
 
@@ -93,12 +93,9 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 override fun onClick(item: FileModel) {
                     if (!tracker.hasSelection()) {
                         if (item.isFolder) {
-                            viewModel.obtainEvent(ExplorerEvent.ListFiles(item))
-                        } else when (item.getType()) {
-                            FileType.ARCHIVE -> viewModel.obtainEvent(ExplorerEvent.ExtractFile(item))
-                            FileType.DEFAULT,
-                            FileType.TEXT -> viewModel.obtainEvent(ExplorerEvent.OpenFile(item))
-                            else -> viewModel.obtainEvent(ExplorerEvent.OpenFileAs(item))
+                            viewModel.obtainEvent(ExplorerIntent.OpenFolder(item))
+                        } else {
+                            viewModel.obtainEvent(ExplorerIntent.OpenFile(item))
                         }
                     } else {
                         toggleSelection(item)
@@ -127,18 +124,18 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             object : SelectionTracker.SelectionObserver<String>() {
                 override fun onSelectionCleared() {
                     val selection = fileAdapter.selection(tracker.selection)
-                    viewModel.obtainEvent(ExplorerEvent.SelectFiles(selection))
+                    viewModel.obtainEvent(ExplorerIntent.SelectFiles(selection))
                 }
 
                 override fun onSelectionChanged() {
                     val selection = fileAdapter.selection(tracker.selection)
-                    viewModel.obtainEvent(ExplorerEvent.SelectFiles(selection))
+                    viewModel.obtainEvent(ExplorerIntent.SelectFiles(selection))
                 }
             }
         )
 
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.obtainEvent(ExplorerEvent.Refresh)
+            viewModel.obtainEvent(ExplorerIntent.Refresh)
         }
         binding.actionAccess.setOnClickListener {
             context?.checkStorageAccess(
@@ -147,7 +144,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             )
         }
         binding.actionHome.setOnClickListener {
-            viewModel.obtainEvent(ExplorerEvent.SelectTab(0))
+            viewModel.obtainEvent(ExplorerIntent.SelectTab(0))
         }
 
         setSupportActionBar(binding.toolbar)
@@ -189,31 +186,31 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
-                    R.id.action_copy -> viewModel.obtainEvent(ExplorerEvent.Copy)
-                    R.id.action_cut -> viewModel.obtainEvent(ExplorerEvent.Cut)
-                    R.id.action_delete -> viewModel.obtainEvent(ExplorerEvent.Delete)
-                    R.id.action_select_all -> viewModel.obtainEvent(ExplorerEvent.SelectAll)
-                    R.id.action_open_as -> viewModel.obtainEvent(ExplorerEvent.OpenFileAs())
-                    R.id.action_rename -> viewModel.obtainEvent(ExplorerEvent.Rename)
-                    R.id.action_properties -> viewModel.obtainEvent(ExplorerEvent.Properties)
-                    R.id.action_copy_path -> viewModel.obtainEvent(ExplorerEvent.CopyPath)
-                    R.id.action_create_zip -> viewModel.obtainEvent(ExplorerEvent.Compress)
+                    R.id.action_copy -> viewModel.obtainEvent(ExplorerIntent.Copy)
+                    R.id.action_cut -> viewModel.obtainEvent(ExplorerIntent.Cut)
+                    R.id.action_delete -> viewModel.obtainEvent(ExplorerIntent.Delete)
+                    R.id.action_select_all -> viewModel.obtainEvent(ExplorerIntent.SelectAll)
+                    R.id.action_open_as -> viewModel.obtainEvent(ExplorerIntent.OpenFileAs())
+                    R.id.action_rename -> viewModel.obtainEvent(ExplorerIntent.Rename)
+                    R.id.action_properties -> viewModel.obtainEvent(ExplorerIntent.Properties)
+                    R.id.action_copy_path -> viewModel.obtainEvent(ExplorerIntent.CopyPath)
+                    R.id.action_create_zip -> viewModel.obtainEvent(ExplorerIntent.Compress)
                     R.id.action_show_hidden -> viewModel.obtainEvent(
                         if (!menuItem.isChecked) {
-                            ExplorerEvent.HideHidden
+                            ExplorerIntent.HideHidden
                         } else {
-                            ExplorerEvent.ShowHidden
+                            ExplorerIntent.ShowHidden
                         }
                     )
                     R.id.action_search -> {
                         val searchView = menuItem.actionView as? SearchView
                         searchView?.debounce(viewLifecycleOwner.lifecycleScope) { query ->
-                            viewModel.obtainEvent(ExplorerEvent.SearchFiles(query))
+                            viewModel.obtainEvent(ExplorerIntent.SearchFiles(query))
                         }
                     }
-                    R.id.sort_by_name -> viewModel.obtainEvent(ExplorerEvent.SortByName)
-                    R.id.sort_by_size -> viewModel.obtainEvent(ExplorerEvent.SortBySize)
-                    R.id.sort_by_date -> viewModel.obtainEvent(ExplorerEvent.SortByDate)
+                    R.id.sort_by_name -> viewModel.obtainEvent(ExplorerIntent.SortByName)
+                    R.id.sort_by_size -> viewModel.obtainEvent(ExplorerIntent.SortBySize)
+                    R.id.sort_by_date -> viewModel.obtainEvent(ExplorerIntent.SortByDate)
                 }
                 return false
             }
@@ -222,7 +219,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.obtainEvent(ExplorerEvent.SearchFiles(""))
+        viewModel.obtainEvent(ExplorerIntent.SearchFiles(""))
         tracker.clearSelection()
     }
 
@@ -234,23 +231,22 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         viewModel.explorerViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is ExplorerViewState.Stub -> Unit
                     is ExplorerViewState.ActionBar -> {
                         binding.toolbar.isVisible = true
                         binding.recyclerView.isVisible = true
                         binding.actionHome.isVisible = true
                         binding.actionOperation.setImageResource(
                             when (state.operation) {
-                                Operation.COPY -> R.drawable.ic_paste
                                 Operation.CUT -> R.drawable.ic_paste
+                                Operation.COPY -> R.drawable.ic_paste
                                 else -> R.drawable.ic_plus
                             }
                         )
                         binding.actionOperation.setOnClickListener {
                             when (state.operation) {
-                                Operation.COPY -> viewModel.obtainEvent(ExplorerEvent.Paste)
-                                Operation.CUT -> viewModel.obtainEvent(ExplorerEvent.Paste)
-                                else -> viewModel.obtainEvent(ExplorerEvent.Create)
+                                Operation.CUT -> viewModel.obtainEvent(ExplorerIntent.CutFile)
+                                Operation.COPY -> viewModel.obtainEvent(ExplorerIntent.CopyFile)
+                                else -> viewModel.obtainEvent(ExplorerIntent.Create)
                             }
                         }
                         tabAdapter.submitList(state.breadcrumbs)
@@ -261,6 +257,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                             stopActionMode()
                         }
                     }
+                    is ExplorerViewState.Stub -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -272,28 +269,28 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.restrictedView.isVisible = true
                         binding.emptyView.isVisible = false
                         binding.loadingBar.isVisible = false
-                        binding.swipeRefresh.isVisible = false
-                        fileAdapter.submitList(emptyList())
+                        binding.filesRecyclerView.isVisible = false
+                        // fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Empty -> {
                         binding.restrictedView.isVisible = false
                         binding.emptyView.isVisible = true
                         binding.loadingBar.isVisible = false
-                        binding.swipeRefresh.isVisible = false
+                        binding.filesRecyclerView.isVisible = false
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Loading -> {
                         binding.restrictedView.isVisible = false
                         binding.emptyView.isVisible = false
                         binding.loadingBar.isVisible = true
-                        binding.swipeRefresh.isVisible = false
-                        fileAdapter.submitList(emptyList())
+                        binding.filesRecyclerView.isVisible = false
+                        // fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Files -> {
                         binding.restrictedView.isVisible = false
                         binding.emptyView.isVisible = false
                         binding.loadingBar.isVisible = false
-                        binding.swipeRefresh.isVisible = true
+                        binding.filesRecyclerView.isVisible = true
                         fileAdapter.submitList(state.data)
                     }
                     is DirectoryViewState.Stub -> Unit
@@ -313,6 +310,20 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.customEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ExplorerViewEvent.SelectAll -> {
+                        tracker.setItemsSelected(fileAdapter.currentList.map(FileModel::path), true)
+                        fileAdapter.notifyItemRangeChanged(0, fileAdapter.itemCount)
+                    }
+                    is ExplorerViewEvent.CopyPath -> {
+                        event.fileModel.path.clipText(context)
+                    }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun startActionMode(size: Int) {
@@ -324,11 +335,11 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     private fun stopActionMode() {
+        tracker.clearSelection()
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         binding.toolbar.title = getString(R.string.label_local_storage)
         binding.toolbar.replaceMenu(R.menu.menu_explorer_default)
-        tracker.clearSelection()
-        fileAdapter.notifyDataSetChanged()
+        fileAdapter.notifyItemRangeChanged(0, fileAdapter.itemCount)
     }
 
     private fun toggleSelection(fileModel: FileModel) {
@@ -344,7 +355,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private fun permissionGranted() {
         val index = tabAdapter.itemCount - 1
         val selected = tabAdapter.getItem(index)
-        viewModel.obtainEvent(ExplorerEvent.ListFiles(selected))
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder(selected))
     }
 
     private fun permissionRejected() {

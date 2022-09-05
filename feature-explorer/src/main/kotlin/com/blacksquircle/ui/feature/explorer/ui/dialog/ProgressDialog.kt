@@ -14,7 +14,7 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.databinding.DialogProgressBinding
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerEvent
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.worker.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,7 +60,7 @@ class ProgressDialog : DialogFragment() {
                             )
                         }
                         .catch {
-                            viewModel.obtainEvent(ExplorerEvent.Refresh)
+                            viewModel.obtainEvent(ExplorerIntent.Refresh)
                             dismiss()
                         }
                         .launchIn(lifecycleScope)
@@ -79,7 +79,7 @@ class ProgressDialog : DialogFragment() {
                             )
                         }
                         .catch {
-                            viewModel.obtainEvent(ExplorerEvent.Refresh)
+                            viewModel.obtainEvent(ExplorerIntent.Refresh)
                             dismiss()
                         }
                         .launchIn(lifecycleScope)
@@ -98,7 +98,7 @@ class ProgressDialog : DialogFragment() {
                             )
                         }
                         .catch {
-                            viewModel.obtainEvent(ExplorerEvent.Refresh)
+                            viewModel.obtainEvent(ExplorerIntent.Refresh)
                             dismiss()
                         }
                         .launchIn(lifecycleScope)
@@ -117,7 +117,7 @@ class ProgressDialog : DialogFragment() {
                             )
                         }
                         .catch {
-                            viewModel.obtainEvent(ExplorerEvent.Refresh)
+                            viewModel.obtainEvent(ExplorerIntent.Refresh)
                             dismiss()
                         }
                         .launchIn(lifecycleScope)
@@ -136,7 +136,7 @@ class ProgressDialog : DialogFragment() {
                             )
                         }
                         .catch {
-                            viewModel.obtainEvent(ExplorerEvent.Refresh)
+                            viewModel.obtainEvent(ExplorerIntent.Refresh)
                             dismiss()
                         }
                         .launchIn(lifecycleScope)
@@ -155,7 +155,7 @@ class ProgressDialog : DialogFragment() {
                             )
                         }
                         .catch {
-                            viewModel.obtainEvent(ExplorerEvent.Refresh)
+                            viewModel.obtainEvent(ExplorerIntent.Refresh)
                             dismiss()
                         }
                         .launchIn(lifecycleScope)
@@ -174,7 +174,7 @@ class ProgressDialog : DialogFragment() {
                             )
                         }
                         .catch {
-                            viewModel.obtainEvent(ExplorerEvent.Refresh)
+                            viewModel.obtainEvent(ExplorerIntent.Refresh)
                             dismiss()
                         }
                         .launchIn(lifecycleScope)

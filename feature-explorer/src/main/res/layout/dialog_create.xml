@@ -23,7 +23,7 @@
     android:paddingStart="24dp"
     android:paddingEnd="24dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="4dp"
@@ -39,7 +39,7 @@
         android:id="@+id/input"
         tools:text="file.txt" />
 
-    <CheckBox
+    <com.google.android.material.checkbox.MaterialCheckBox
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:layout_marginTop="16dp"
