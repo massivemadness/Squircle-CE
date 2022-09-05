@@ -54,6 +54,13 @@ fun <T> MutableList<T>.replaceList(collection: Collection<T>): List<T> {
     return this
 }
 
+fun <T> MutableList<T>.appendList(element: T): List<T> {
+    if (!contains(element)) {
+        add(element)
+    }
+    return this
+}
+
 fun Context.openFileAs(fileModel: FileModel) {
     try {
         val file = File(fileModel.path)

@@ -31,5 +31,5 @@ interface ExplorerRepository {
     suspend fun copyFiles(source: List<FileModel>, dest: FileModel)
     suspend fun cutFiles(source: List<FileModel>, dest: FileModel)
     suspend fun compressFiles(source: List<FileModel>, dest: FileModel)
-    suspend fun extractAll(source: FileModel, dest: FileModel)
+    suspend fun extractFiles(source: FileModel, dest: FileModel)
 }

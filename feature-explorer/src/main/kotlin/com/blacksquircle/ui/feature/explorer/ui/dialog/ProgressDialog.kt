@@ -2,6 +2,7 @@ package com.blacksquircle.ui.feature.explorer.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -40,8 +41,9 @@ class ProgressDialog : DialogFragment() {
             negativeButton(R.string.action_cancel)
 
             binding = DialogProgressBinding.bind(getCustomView())
-            binding.progress.isIndeterminate = navArgs.totalCount <= 0
-            binding.progress.max = navArgs.totalCount
+            binding.progressBar.isIndeterminate = navArgs.totalCount == -1
+            binding.progressBar.max = navArgs.totalCount
+            binding.total.isVisible = navArgs.totalCount > 0
 
             when (Operation.find(navArgs.operation)) {
                 Operation.CREATE -> {
@@ -49,11 +51,11 @@ class ProgressDialog : DialogFragment() {
                     CreateFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
-                            binding.progress.progress += 1
-                            binding.textDetails.text = getString(R.string.message_creating, fileModel.path)
-                            binding.textOfTotal.text = getString(
+                            binding.progressBar.progress += 1
+                            binding.details.text = getString(R.string.message_creating, fileModel.path)
+                            binding.total.text = getString(
                                 R.string.message_of_total,
-                                binding.progress.progress,
+                                binding.progressBar.progress,
                                 navArgs.totalCount
                             )
                         }
@@ -68,11 +70,11 @@ class ProgressDialog : DialogFragment() {
                     RenameFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
-                            binding.progress.progress += 1
-                            binding.textDetails.text = getString(R.string.message_renaming, fileModel.path)
-                            binding.textOfTotal.text = getString(
+                            binding.progressBar.progress += 1
+                            binding.details.text = getString(R.string.message_renaming, fileModel.path)
+                            binding.total.text = getString(
                                 R.string.message_of_total,
-                                binding.progress.progress,
+                                binding.progressBar.progress,
                                 navArgs.totalCount
                             )
                         }
@@ -87,11 +89,11 @@ class ProgressDialog : DialogFragment() {
                     DeleteFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
-                            binding.progress.progress += 1
-                            binding.textDetails.text = getString(R.string.message_deleting, fileModel.path)
-                            binding.textOfTotal.text = getString(
+                            binding.progressBar.progress += 1
+                            binding.details.text = getString(R.string.message_deleting, fileModel.path)
+                            binding.total.text = getString(
                                 R.string.message_of_total,
-                                binding.progress.progress,
+                                binding.progressBar.progress,
                                 navArgs.totalCount
                             )
                         }
@@ -106,11 +108,11 @@ class ProgressDialog : DialogFragment() {
                     CopyFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
-                            binding.progress.progress += 1
-                            binding.textDetails.text = getString(R.string.message_copying, fileModel.path)
-                            binding.textOfTotal.text = getString(
+                            binding.progressBar.progress += 1
+                            binding.details.text = getString(R.string.message_copying, fileModel.path)
+                            binding.total.text = getString(
                                 R.string.message_of_total,
-                                binding.progress.progress,
+                                binding.progressBar.progress,
                                 navArgs.totalCount
                             )
                         }
@@ -125,11 +127,11 @@ class ProgressDialog : DialogFragment() {
                     CutFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
-                            binding.progress.progress += 1
-                            binding.textDetails.text = getString(R.string.message_copying, fileModel.path)
-                            binding.textOfTotal.text = getString(
+                            binding.progressBar.progress += 1
+                            binding.details.text = getString(R.string.message_copying, fileModel.path)
+                            binding.total.text = getString(
                                 R.string.message_of_total,
-                                binding.progress.progress,
+                                binding.progressBar.progress,
                                 navArgs.totalCount
                             )
                         }
@@ -144,11 +146,11 @@ class ProgressDialog : DialogFragment() {
                     CompressFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
-                            binding.progress.progress += 1
-                            binding.textDetails.text = getString(R.string.message_compressing, fileModel.path)
-                            binding.textOfTotal.text = getString(
+                            binding.progressBar.progress += 1
+                            binding.details.text = getString(R.string.message_compressing, fileModel.path)
+                            binding.total.text = getString(
                                 R.string.message_of_total,
-                                binding.progress.progress,
+                                binding.progressBar.progress,
                                 navArgs.totalCount
                             )
                         }
@@ -163,11 +165,11 @@ class ProgressDialog : DialogFragment() {
                     ExtractFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
-                            binding.progress.progress += 1
-                            binding.textDetails.text = getString(R.string.message_extracting, fileModel.path)
-                            binding.textOfTotal.text = getString(
+                            binding.progressBar.progress += 1
+                            binding.details.text = getString(R.string.message_extracting, fileModel.path)
+                            binding.total.text = getString(
                                 R.string.message_of_total,
-                                binding.progress.progress,
+                                binding.progressBar.progress,
                                 navArgs.totalCount
                             )
                         }
@@ -177,7 +179,6 @@ class ProgressDialog : DialogFragment() {
                         }
                         .launchIn(lifecycleScope)
                 }
-                Operation.NONE -> Unit
             }
 
             lifecycleScope.launchWhenStarted {
@@ -198,6 +199,6 @@ class ProgressDialog : DialogFragment() {
             R.string.message_elapsed_time,
             formatter.format(timeInMillis)
         )
-        binding.textElapsedTime.text = elapsedTime
+        binding.elapsedTime.text = elapsedTime
     }
 }

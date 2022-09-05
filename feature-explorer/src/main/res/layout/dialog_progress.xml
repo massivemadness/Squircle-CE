@@ -27,7 +27,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_elapsed_time"
+        android:id="@+id/elapsed_time"
         android:textSize="14sp"
         tools:text="Elapsed time: 00:01:56" />
 
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:id="@+id/text_details"
+        android:id="@+id/details"
         android:textSize="14sp"
         tools:text="Deleting…/storage/emulated/0/Download/JavaScriptAPI.js" />
 
@@ -48,16 +48,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/text_of_total"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/total"
             android:textSize="14sp"
             tools:text="6 / 18" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_gravity="center"
-            android:id="@+id/progress"
+            android:id="@+id/progress_bar"
             tools:progress="6"
             tools:max="18" />
 

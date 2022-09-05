@@ -26,30 +26,30 @@
         app:iconTint="?colorOnSurface"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        tools:ignore="AlwaysShowAction"/>
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/action_show_hidden"
         android:title="@string/action_show_hidden_files"
         android:checkable="true"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
     <group android:checkableBehavior="single">
 
         <item
             android:id="@+id/sort_by_name"
             android:title="@string/sort_by_name"
-            app:showAsAction="never"/>
+            app:showAsAction="never" />
 
         <item
             android:id="@+id/sort_by_size"
             android:title="@string/sort_by_size"
-            app:showAsAction="never"/>
+            app:showAsAction="never" />
 
         <item
             android:id="@+id/sort_by_date"
             android:title="@string/sort_by_date"
-            app:showAsAction="never"/>
+            app:showAsAction="never" />
 
     </group>
 

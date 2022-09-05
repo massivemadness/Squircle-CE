@@ -95,7 +95,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         if (item.isFolder) {
                             viewModel.obtainEvent(ExplorerEvent.ListFiles(item))
                         } else when (item.getType()) {
-                            FileType.ARCHIVE -> Unit // extract
+                            FileType.ARCHIVE -> viewModel.obtainEvent(ExplorerEvent.ExtractFile(item))
                             FileType.DEFAULT,
                             FileType.TEXT -> viewModel.obtainEvent(ExplorerEvent.OpenFile(item))
                             else -> viewModel.obtainEvent(ExplorerEvent.OpenFileAs(item))
@@ -235,7 +235,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .onEach { state ->
                 when (state) {
                     is ExplorerViewState.Stub -> Unit
-                    is ExplorerViewState.Data -> {
+                    is ExplorerViewState.ActionBar -> {
                         binding.toolbar.isVisible = true
                         binding.recyclerView.isVisible = true
                         binding.actionHome.isVisible = true

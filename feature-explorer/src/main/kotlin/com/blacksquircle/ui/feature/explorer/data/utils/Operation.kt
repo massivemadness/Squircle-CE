@@ -23,13 +23,12 @@ enum class Operation(val value: String) {
     CUT("Cut"),
     COPY("Copy"),
     COMPRESS("Compress"),
-    EXTRACT("Extract"),
-    NONE("None");
+    EXTRACT("Extract");
 
     companion object {
 
         fun find(value: String): Operation {
-            return values().find { it.value == value } ?: NONE
+            return values().find { it.value == value } ?: CREATE
         }
     }
 }

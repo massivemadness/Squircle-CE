@@ -110,7 +110,7 @@ class ExplorerRepositoryImpl(
         )
     }
 
-    override suspend fun extractAll(source: FileModel, dest: FileModel) {
+    override suspend fun extractFiles(source: FileModel, dest: FileModel) {
         return context.checkStorageAccess(
             onSuccess = { ExtractFileWorker.scheduleJob(context, listOf(source, dest)) },
             onFailure = { throw RestrictedException() }

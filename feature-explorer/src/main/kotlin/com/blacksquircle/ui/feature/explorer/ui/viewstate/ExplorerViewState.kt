@@ -9,7 +9,7 @@ sealed class ExplorerViewState : ViewState() {
 
     object Stub : ExplorerViewState()
 
-    data class Data(
+    data class ActionBar(
         val breadcrumbs: List<FileModel>,
         val selection: List<FileModel>,
         val operation: Operation,

@@ -28,7 +28,7 @@
         android:id="@+id/readable"
         android:text="@string/properties_readable"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:id="@+id/writable"
         android:text="@string/properties_writable"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -46,6 +46,6 @@
         android:id="@+id/executable"
         android:text="@string/properties_executable"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 </LinearLayout>

@@ -19,4 +19,5 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     )
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
+    object CompressDialog : ExplorerScreen("blacksquircle://explorer/compress")
 }

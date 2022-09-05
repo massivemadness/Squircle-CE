@@ -51,6 +51,14 @@
     </dialog>
 
     <dialog
+        android:id="@+id/compressDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.CompressDialog"
+        android:label="CompressDialog"
+        tools:layout="@layout/dialog_compress">
+        <deepLink app:uri="blacksquircle://explorer/compress" />
+    </dialog>
+
+    <dialog
         android:id="@+id/progressDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.ProgressDialog"
         android:label="ProgressDialog"

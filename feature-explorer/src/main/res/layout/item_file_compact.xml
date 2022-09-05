@@ -30,7 +30,7 @@
         android:layout_marginTop="2dp"
         android:id="@+id/item_icon"
         tools:src="@drawable/ic_folder"
-        tools:tint="@color/colorFolder"/>
+        tools:tint="@color/colorFolder" />
 
     <TextView
         android:layout_width="match_parent"
@@ -41,6 +41,6 @@
         android:ellipsize="middle"
         android:singleLine="true"
         android:textSize="16sp"
-        tools:text="File Name"/>
+        tools:text="File Name" />
 
 </LinearLayout>

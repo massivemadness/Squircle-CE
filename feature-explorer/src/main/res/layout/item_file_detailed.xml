@@ -59,7 +59,7 @@
             android:id="@+id/item_subtitle"
             android:singleLine="true"
             android:textSize="13sp"
-            tools:text="15 Jun. 2020 19:45:00"/>
+            tools:text="15 Jun. 2020 19:45:00" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
             android:layout_gravity="start"
             android:singleLine="true"
             android:textSize="13sp"
-            tools:text="0KB"/>
+            tools:text="0KB" />
 
     </LinearLayout>
 
