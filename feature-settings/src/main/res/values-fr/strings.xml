@@ -68,7 +68,7 @@
     <string name="pref_category_tab_options">Options d\'onglet</string>
     <string name="pref_category_encoding">Encodage</string>
     <string name="pref_category_linebreaks">Sauts de ligne</string>
-    <string name="pref_category_file_explorer">Explorateur de Fichier</string>
+    <string name="pref_category_file_manager">Explorateur de Fichier</string>
     <string name="pref_category_about">À Propos</string>
     <string name="pref_category_contribute">Contribuer</string>
 

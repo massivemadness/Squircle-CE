@@ -38,7 +38,6 @@ class ProgressDialog : DialogFragment() {
             customView(R.layout.dialog_progress)
             cancelOnTouchOutside(false)
             positiveButton(R.string.action_run_in_background)
-            negativeButton(R.string.action_cancel)
 
             binding = DialogProgressBinding.bind(getCustomView())
             binding.progressBar.isIndeterminate = navArgs.totalCount == -1
@@ -48,6 +47,9 @@ class ProgressDialog : DialogFragment() {
             when (Operation.find(navArgs.operation)) {
                 Operation.CREATE -> {
                     title(R.string.dialog_title_creating)
+                    negativeButton(R.string.action_cancel) {
+                        CreateFileWorker.cancelJob(requireContext())
+                    }
                     CreateFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
@@ -67,6 +69,9 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.RENAME -> {
                     title(R.string.dialog_title_renaming)
+                    negativeButton(R.string.action_cancel) {
+                        RenameFileWorker.cancelJob(requireContext())
+                    }
                     RenameFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
@@ -86,6 +91,9 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.DELETE -> {
                     title(R.string.dialog_title_deleting)
+                    negativeButton(R.string.action_cancel) {
+                        DeleteFileWorker.cancelJob(requireContext())
+                    }
                     DeleteFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
@@ -105,6 +113,9 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.COPY -> {
                     title(R.string.dialog_title_copying)
+                    negativeButton(R.string.action_cancel) {
+                        CopyFileWorker.cancelJob(requireContext())
+                    }
                     CopyFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
@@ -124,6 +135,9 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.CUT -> {
                     title(R.string.dialog_title_copying)
+                    negativeButton(R.string.action_cancel) {
+                        CutFileWorker.cancelJob(requireContext())
+                    }
                     CutFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
@@ -143,6 +157,9 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.COMPRESS -> {
                     title(R.string.dialog_title_compressing)
+                    negativeButton(R.string.action_cancel) {
+                        CompressFileWorker.cancelJob(requireContext())
+                    }
                     CompressFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->
@@ -162,6 +179,9 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.EXTRACT -> {
                     title(R.string.dialog_title_extracting)
+                    negativeButton(R.string.action_cancel) {
+                        ExtractFileWorker.cancelJob(requireContext())
+                    }
                     ExtractFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
                         .onEach { fileModel ->

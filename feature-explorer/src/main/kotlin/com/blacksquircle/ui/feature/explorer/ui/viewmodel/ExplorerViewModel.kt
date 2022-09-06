@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.data.utils.appendList
 import com.blacksquircle.ui.feature.explorer.data.utils.replaceList
@@ -64,6 +65,13 @@ class ExplorerViewModel @Inject constructor(
     private val _customEvent = MutableSharedFlow<ExplorerViewEvent>()
     val customEvent: SharedFlow<ExplorerViewEvent> = _customEvent.asSharedFlow()
 
+    var viewMode: Int = settingsManager.viewMode.toInt()
+        private set
+    var sortMode: Int = settingsManager.sortMode.toInt()
+        private set
+    var showHidden: Boolean = settingsManager.showHidden
+        private set
+
     private val breadcrumbs = mutableListOf<FileModel>()
     private val selection = mutableListOf<FileModel>()
     private val buffer = mutableListOf<FileModel>()
@@ -97,17 +105,17 @@ class ExplorerViewModel @Inject constructor(
             is ExplorerIntent.OpenFile -> openFile(event)
             is ExplorerIntent.CreateFile -> createFile(event)
             is ExplorerIntent.RenameFile -> renameFile(event)
-            is ExplorerIntent.DeleteFile -> deleteFile(event)
-            is ExplorerIntent.CutFile -> cutFile(event)
-            is ExplorerIntent.CopyFile -> copyFile(event)
+            is ExplorerIntent.DeleteFile -> deleteFile()
+            is ExplorerIntent.CutFile -> cutFile()
+            is ExplorerIntent.CopyFile -> copyFile()
             is ExplorerIntent.CompressFile -> compressFile(event)
             is ExplorerIntent.ExtractFile -> extractFile(event)
 
-            is ExplorerIntent.ShowHidden -> Unit
-            is ExplorerIntent.HideHidden -> Unit
-            is ExplorerIntent.SortByDate -> Unit
-            is ExplorerIntent.SortByName -> Unit
-            is ExplorerIntent.SortBySize -> Unit
+            is ExplorerIntent.ShowHidden -> showHidden()
+            is ExplorerIntent.HideHidden -> hideHidden()
+            is ExplorerIntent.SortByName -> sortByName()
+            is ExplorerIntent.SortBySize -> sortBySize()
+            is ExplorerIntent.SortByDate -> sortByDate()
         }
     }
 
@@ -399,7 +407,7 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun deleteFile(event: ExplorerIntent.DeleteFile) {
+    private fun deleteFile() {
         viewModelScope.launch {
             try {
                 explorerRepository.deleteFiles(buffer)
@@ -417,7 +425,7 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun cutFile(event: ExplorerIntent.CutFile) {
+    private fun cutFile() {
         viewModelScope.launch {
             try {
                 explorerRepository.cutFiles(buffer, breadcrumbs.last())
@@ -435,7 +443,7 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun copyFile(event: ExplorerIntent.CopyFile) {
+    private fun copyFile() {
         viewModelScope.launch {
             try {
                 explorerRepository.copyFiles(buffer, breadcrumbs.last())
@@ -495,6 +503,39 @@ class ExplorerViewModel @Inject constructor(
             } finally {
                 restoreState()
             }
+        }
+    }
+
+    private fun showHidden() {
+        settingsManager.showHidden = true
+        showHidden = true
+        refreshList()
+    }
+
+    private fun hideHidden() {
+        settingsManager.showHidden = false
+        showHidden = false
+        refreshList()
+    }
+
+    private fun sortByName() {
+        sortMode = FileSorter.SORT_BY_NAME.also {
+            settingsManager.sortMode = it.toString()
+            refreshList()
+        }
+    }
+
+    private fun sortBySize() {
+        sortMode = FileSorter.SORT_BY_SIZE.also {
+            settingsManager.sortMode = it.toString()
+            refreshList()
+        }
+    }
+
+    private fun sortByDate() {
+        sortMode = FileSorter.SORT_BY_DATE.also {
+            settingsManager.sortMode = it.toString()
+            refreshList()
         }
     }
 

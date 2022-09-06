@@ -102,4 +102,7 @@
     <string name="message_compressing">Сжатие…%1$s</string>
     <string name="message_extracting">Извлечение…%1$s</string>
 
+    <string name="explorer_channel_name">Файловый менеджер</string>
+    <string name="explorer_channel_description">Отображение и управление файловыми операциями</string>
+
 </resources>

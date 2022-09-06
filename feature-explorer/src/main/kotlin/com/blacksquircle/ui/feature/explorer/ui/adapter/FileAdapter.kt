@@ -34,8 +34,8 @@ class FileAdapter(
 
     companion object {
 
-        const val VIEW_MODE_COMPACT = 0
-        const val VIEW_MODE_DETAILED = 1
+        private const val VIEW_MODE_COMPACT = 0
+        private const val VIEW_MODE_DETAILED = 1
 
         private val diffCallback = object : DiffUtil.ItemCallback<FileModel>() {
             override fun areItemsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {

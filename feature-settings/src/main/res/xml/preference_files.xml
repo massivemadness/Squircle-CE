@@ -58,7 +58,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_category_file_explorer">
+    <PreferenceCategory android:title="@string/pref_category_file_manager">
 
         <SwitchPreference
             android:defaultValue="true"

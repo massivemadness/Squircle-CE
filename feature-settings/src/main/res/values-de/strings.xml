@@ -63,7 +63,7 @@
     <string name="pref_category_tab_options">Taboptionen</string>
     <string name="pref_category_encoding">Kodierung</string>
     <string name="pref_category_linebreaks">Zeilenabschlüsse</string>
-    <string name="pref_category_file_explorer">Dateiexplorer</string>
+    <string name="pref_category_file_manager">Dateiexplorer</string>
     <string name="pref_category_about">Über</string>
     <string name="pref_category_contribute">Beitragen</string>
 

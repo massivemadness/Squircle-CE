@@ -43,7 +43,7 @@ class ExplorerRepositoryImpl(
                 onSuccess = {
                     val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
                     fileTree.copy(children = fileTree.children
-                        .filter { if (it.isHidden) settingsManager.filterHidden else true }
+                        .filter { if (it.isHidden) settingsManager.showHidden else true }
                         .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
                         .sortedBy { it.isFolder != settingsManager.foldersOnTop }
                     )

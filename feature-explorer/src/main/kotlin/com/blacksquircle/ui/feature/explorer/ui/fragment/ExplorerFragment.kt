@@ -72,6 +72,77 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             viewModel.obtainEvent(ExplorerIntent.SelectTab(position))
         }
     }
+    private val defaultMenuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.menu_explorer_default, menu)
+        }
+        override fun onPrepareMenu(menu: Menu) {
+            val showHidden = menu.findItem(R.id.show_hidden)
+            val sortByName = menu.findItem(R.id.sort_by_name)
+            val sortBySize = menu.findItem(R.id.sort_by_size)
+            val sortByDate = menu.findItem(R.id.sort_by_date)
+
+            when (viewModel.sortMode) {
+                FileSorter.SORT_BY_NAME -> sortByName?.isChecked = true
+                FileSorter.SORT_BY_SIZE -> sortBySize?.isChecked = true
+                FileSorter.SORT_BY_DATE -> sortByDate?.isChecked = true
+            }
+            showHidden?.isChecked = viewModel.showHidden
+        }
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            when (menuItem.itemId) {
+                R.id.action_search -> {
+                    val searchView = menuItem.actionView as? SearchView
+                    searchView?.debounce(viewLifecycleOwner.lifecycleScope) { query ->
+                        viewModel.obtainEvent(ExplorerIntent.SearchFiles(query))
+                    }
+                }
+                R.id.show_hidden -> viewModel.obtainEvent(
+                    if (!menuItem.isChecked) {
+                        ExplorerIntent.ShowHidden
+                    } else {
+                        ExplorerIntent.HideHidden
+                    }
+                )
+                R.id.sort_by_name -> viewModel.obtainEvent(ExplorerIntent.SortByName)
+                R.id.sort_by_size -> viewModel.obtainEvent(ExplorerIntent.SortBySize)
+                R.id.sort_by_date -> viewModel.obtainEvent(ExplorerIntent.SortByDate)
+            }
+            return true
+        }
+    }
+    private val selectionMenuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.menu_explorer_selection, menu)
+        }
+        override fun onPrepareMenu(menu: Menu) {
+            val actionOpenWith = menu.findItem(R.id.action_open_with)
+            val actionRename = menu.findItem(R.id.action_rename)
+            val actionProperties = menu.findItem(R.id.action_properties)
+            val actionCopyPath = menu.findItem(R.id.action_copy_path)
+
+            if (tracker.selection.size() > 1) { // if more than 1 file selected
+                actionOpenWith?.isVisible = false
+                actionRename?.isVisible = false
+                actionProperties?.isVisible = false
+                actionCopyPath?.isVisible = false
+            }
+        }
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            when (menuItem.itemId) {
+                R.id.action_copy -> viewModel.obtainEvent(ExplorerIntent.Copy)
+                R.id.action_cut -> viewModel.obtainEvent(ExplorerIntent.Cut)
+                R.id.action_delete -> viewModel.obtainEvent(ExplorerIntent.Delete)
+                R.id.action_select_all -> viewModel.obtainEvent(ExplorerIntent.SelectAll)
+                R.id.action_open_with -> viewModel.obtainEvent(ExplorerIntent.OpenFileWith())
+                R.id.action_rename -> viewModel.obtainEvent(ExplorerIntent.Rename)
+                R.id.action_properties -> viewModel.obtainEvent(ExplorerIntent.Properties)
+                R.id.action_copy_path -> viewModel.obtainEvent(ExplorerIntent.CopyPath)
+                R.id.action_create_zip -> viewModel.obtainEvent(ExplorerIntent.Compress)
+            }
+            return true
+        }
+    }
 
     private lateinit var tracker: SelectionTracker<String>
     private lateinit var tabAdapter: DirectoryAdapter
@@ -115,7 +186,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             ).also {
                 tracker = it
             },
-            viewMode = FileAdapter.VIEW_MODE_DETAILED
+            viewMode = viewModel.viewMode
         ).also {
             fileAdapter = it
         }
@@ -150,70 +221,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.toolbar.setNavigationOnClickListener {
             stopActionMode()
         }
-        requireActivity().addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_explorer_default, menu)
-            }
-
-            override fun onPrepareMenu(menu: Menu) {
-                val actionShowHidden = menu.findItem(R.id.action_show_hidden)
-                val actionOpenWith = menu.findItem(R.id.action_open_with)
-                val actionRename = menu.findItem(R.id.action_rename)
-                val actionProperties = menu.findItem(R.id.action_properties)
-                val actionCopyPath = menu.findItem(R.id.action_copy_path)
-
-                val sortByName = menu.findItem(R.id.sort_by_name)
-                val sortBySize = menu.findItem(R.id.sort_by_size)
-                val sortByDate = menu.findItem(R.id.sort_by_date)
-
-                // actionShowHidden?.isChecked = viewModel.showHidden
-
-                val selectionSize = tracker.selection.size()
-                if (selectionSize > 1) { // if more than 1 file selected
-                    actionOpenWith?.isVisible = false
-                    actionRename?.isVisible = false
-                    actionProperties?.isVisible = false
-                    actionCopyPath?.isVisible = false
-                }
-
-                /*when (viewModel.sortMode) {
-                    FileSorter.SORT_BY_NAME -> sortByName?.isChecked = true
-                    FileSorter.SORT_BY_SIZE -> sortBySize?.isChecked = true
-                    FileSorter.SORT_BY_DATE -> sortByDate?.isChecked = true
-                }*/
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.action_copy -> viewModel.obtainEvent(ExplorerIntent.Copy)
-                    R.id.action_cut -> viewModel.obtainEvent(ExplorerIntent.Cut)
-                    R.id.action_delete -> viewModel.obtainEvent(ExplorerIntent.Delete)
-                    R.id.action_select_all -> viewModel.obtainEvent(ExplorerIntent.SelectAll)
-                    R.id.action_open_with -> viewModel.obtainEvent(ExplorerIntent.OpenFileWith())
-                    R.id.action_rename -> viewModel.obtainEvent(ExplorerIntent.Rename)
-                    R.id.action_properties -> viewModel.obtainEvent(ExplorerIntent.Properties)
-                    R.id.action_copy_path -> viewModel.obtainEvent(ExplorerIntent.CopyPath)
-                    R.id.action_create_zip -> viewModel.obtainEvent(ExplorerIntent.Compress)
-                    R.id.action_show_hidden -> viewModel.obtainEvent(
-                        if (!menuItem.isChecked) {
-                            ExplorerIntent.HideHidden
-                        } else {
-                            ExplorerIntent.ShowHidden
-                        }
-                    )
-                    R.id.action_search -> {
-                        val searchView = menuItem.actionView as? SearchView
-                        searchView?.debounce(viewLifecycleOwner.lifecycleScope) { query ->
-                            viewModel.obtainEvent(ExplorerIntent.SearchFiles(query))
-                        }
-                    }
-                    R.id.sort_by_name -> viewModel.obtainEvent(ExplorerIntent.SortByName)
-                    R.id.sort_by_size -> viewModel.obtainEvent(ExplorerIntent.SortBySize)
-                    R.id.sort_by_date -> viewModel.obtainEvent(ExplorerIntent.SortByDate)
-                }
-                return false
-            }
-        }, viewLifecycleOwner)
     }
 
     override fun onDestroyView() {
@@ -326,18 +333,20 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     private fun startActionMode(size: Int) {
-        if (tracker.hasSelection()) {
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            binding.toolbar.title = size.toString()
-            binding.toolbar.replaceMenu(R.menu.menu_explorer_actions)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.toolbar.title = size.toString()
+        activity?.removeMenuProvider(defaultMenuProvider)
+        activity?.removeMenuProvider(selectionMenuProvider)
+        activity?.addMenuProvider(selectionMenuProvider, viewLifecycleOwner)
     }
 
     private fun stopActionMode() {
         tracker.clearSelection()
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         binding.toolbar.title = getString(R.string.label_local_storage)
-        binding.toolbar.replaceMenu(R.menu.menu_explorer_default)
+        activity?.removeMenuProvider(selectionMenuProvider)
+        activity?.removeMenuProvider(defaultMenuProvider)
+        activity?.addMenuProvider(defaultMenuProvider, viewLifecycleOwner)
         fileAdapter.notifyItemRangeChanged(0, fileAdapter.itemCount)
     }
 

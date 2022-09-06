@@ -63,7 +63,7 @@
     <string name="pref_category_tab_options">Табуляция</string>
     <string name="pref_category_encoding">Кодировка</string>
     <string name="pref_category_linebreaks">Разделители строк</string>
-    <string name="pref_category_file_explorer">Проводник</string>
+    <string name="pref_category_file_manager">Проводник</string>
     <string name="pref_category_about">О программе</string>
     <string name="pref_category_contribute">Внести вклад</string>
 

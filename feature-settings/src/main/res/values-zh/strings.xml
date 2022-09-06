@@ -63,7 +63,7 @@
     <string name="pref_category_tab_options">制表符</string>
     <string name="pref_category_encoding">文本编码</string>
     <string name="pref_category_linebreaks">换行符</string>
-    <string name="pref_category_file_explorer">文件管理器</string>
+    <string name="pref_category_file_manager">文件管理器</string>
     <string name="pref_category_about">关于</string>
     <string name="pref_category_contribute">贡献</string>
 

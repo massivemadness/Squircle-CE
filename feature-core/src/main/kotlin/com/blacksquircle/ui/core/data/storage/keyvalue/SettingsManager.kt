@@ -164,8 +164,7 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         get() = sharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2") ?: "2"
         set(value) = sharedPreferences.edit().putString(KEY_LINEBREAK_FOR_SAVING, value).apply()
 
-    // TODO: 2020/8/7  For the following lines, the file explorer needs to refresh when its value changes
-    var filterHidden: Boolean
+    var showHidden: Boolean
         get() = sharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_SHOW_HIDDEN_FILES, value).apply()
     var foldersOnTop: Boolean

@@ -29,7 +29,7 @@
         tools:ignore="AlwaysShowAction" />
 
     <item
-        android:id="@+id/action_show_hidden"
+        android:id="@+id/show_hidden"
         android:title="@string/action_show_hidden_files"
         android:checkable="true"
         app:showAsAction="never" />

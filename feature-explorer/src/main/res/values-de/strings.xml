@@ -102,4 +102,7 @@
     <string name="message_compressing">Komprimieren…%1$s</string>
     <string name="message_extracting">Extrahieren…%1$s</string>
 
+    <string name="explorer_channel_name">File Manager</string>
+    <string name="explorer_channel_description">Display and control file operations</string>
+
 </resources>

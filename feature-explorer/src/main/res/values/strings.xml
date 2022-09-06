@@ -105,4 +105,7 @@
     <string name="message_extracting">Extracting…%1$s</string>
     <string name="message_of_total" translatable="false">%1$d / %2$d</string>
 
+    <string name="explorer_channel_name">File Manager</string>
+    <string name="explorer_channel_description">Display and control file operations</string>
+
 </resources>
