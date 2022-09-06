@@ -47,8 +47,8 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_open_as"
-        android:title="@string/action_open_as"
+        android:id="@+id/action_open_with"
+        android:title="@string/action_open_with"
         android:icon="@drawable/ic_folder_open"
         app:iconTint="@color/colorIcon"
         app:showAsAction="never" />
@@ -76,7 +76,7 @@
 
     <item
         android:id="@+id/action_create_zip"
-        android:title="@string/action_create_zip"
+        android:title="@string/action_compress"
         android:icon="@drawable/ic_file_archive"
         app:iconTint="@color/colorIcon"
         app:showAsAction="never" />

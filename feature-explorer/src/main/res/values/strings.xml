@@ -36,8 +36,8 @@
     <string name="action_delete">Delete</string>
     <string name="action_run_in_background">Run in background</string>
     <string name="action_show_hidden_files">Show hidden files</string>
-    <string name="action_create_zip">Create .zip</string>
-    <string name="action_open_as">Open As</string>
+    <string name="action_compress">Compress</string>
+    <string name="action_open_with">Open with</string>
     <string name="action_properties">Properties</string>
     <string name="action_cut">Cut</string>
     <string name="action_copy">Copy</string>

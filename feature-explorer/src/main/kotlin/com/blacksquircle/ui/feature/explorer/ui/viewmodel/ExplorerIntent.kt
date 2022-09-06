@@ -20,7 +20,7 @@ sealed class ExplorerIntent {
     object Compress : ExplorerIntent()
 
     data class OpenFolder(val fileModel: FileModel? = null) : ExplorerIntent()
-    data class OpenFileAs(val fileModel: FileModel? = null) : ExplorerIntent()
+    data class OpenFileWith(val fileModel: FileModel? = null) : ExplorerIntent()
     data class OpenFile(val fileModel: FileModel) : ExplorerIntent()
     data class CreateFile(val fileName: String, val isFolder: Boolean) : ExplorerIntent()
     data class RenameFile(val fileName: String) : ExplorerIntent()

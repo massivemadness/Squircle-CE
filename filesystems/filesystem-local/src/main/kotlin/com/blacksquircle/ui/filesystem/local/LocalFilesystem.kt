@@ -163,15 +163,14 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
         return suspendCoroutine { cont ->
             val file = File(fileModel.path)
-            val fileType = fileModel.getType()
             if (file.exists()) {
                 val result = PropertiesModel(
                     path = file.absolutePath,
                     lastModified = file.lastModified(),
                     size = file.size(),
-                    lines = file.lineCount(fileType),
-                    words = file.wordCount(fileType),
-                    chars = file.charCount(fileType),
+                    lines = file.lineCount(fileModel.type),
+                    words = file.wordCount(fileModel.type),
+                    chars = file.charCount(fileModel.type),
                     readable = file.canRead(),
                     writable = file.canWrite(),
                     executable = file.canExecute()
@@ -191,7 +190,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     }
 
     // TODO: Use ProgressMonitor
-    override suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
+    override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val destFile = FileConverter.toFile(dest)
             val archiveFile = ZipFile(destFile)
@@ -228,7 +227,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     }
 
     // TODO: Use ProgressMonitor
-    override suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel> {
+    override suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val sourceFile = FileConverter.toFile(source)
             val archiveFile = ZipFile(sourceFile)

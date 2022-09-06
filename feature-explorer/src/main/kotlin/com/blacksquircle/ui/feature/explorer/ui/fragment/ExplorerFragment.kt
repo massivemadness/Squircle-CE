@@ -67,6 +67,11 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private val requestAccess = registerForActivityResult(RequestPermission()) { result ->
         if (result) permissionGranted() else permissionRejected()
     }
+    private val onTabSelectedListener = object : TabAdapter.OnTabSelectedListener {
+        override fun onTabSelected(position: Int) {
+            viewModel.obtainEvent(ExplorerIntent.SelectTab(position))
+        }
+    }
 
     private lateinit var tracker: SelectionTracker<String>
     private lateinit var tabAdapter: DirectoryAdapter
@@ -81,11 +86,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.recyclerView.adapter = DirectoryAdapter().also {
             tabAdapter = it
         }
-        tabAdapter.setOnTabSelectedListener(object : TabAdapter.OnTabSelectedListener {
-            override fun onTabSelected(position: Int) {
-                viewModel.obtainEvent(ExplorerIntent.SelectTab(position))
-            }
-        })
 
         binding.filesRecyclerView.setHasFixedSize(true)
         binding.filesRecyclerView.adapter = FileAdapter(
@@ -115,7 +115,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             ).also {
                 tracker = it
             },
-            viewMode = FileAdapter.VIEW_MODE_COMPACT
+            viewMode = FileAdapter.VIEW_MODE_DETAILED
         ).also {
             fileAdapter = it
         }
@@ -126,7 +126,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                     val selection = fileAdapter.selection(tracker.selection)
                     viewModel.obtainEvent(ExplorerIntent.SelectFiles(selection))
                 }
-
                 override fun onSelectionChanged() {
                     val selection = fileAdapter.selection(tracker.selection)
                     viewModel.obtainEvent(ExplorerIntent.SelectFiles(selection))
@@ -158,7 +157,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
             override fun onPrepareMenu(menu: Menu) {
                 val actionShowHidden = menu.findItem(R.id.action_show_hidden)
-                val actionOpenAs = menu.findItem(R.id.action_open_as)
+                val actionOpenWith = menu.findItem(R.id.action_open_with)
                 val actionRename = menu.findItem(R.id.action_rename)
                 val actionProperties = menu.findItem(R.id.action_properties)
                 val actionCopyPath = menu.findItem(R.id.action_copy_path)
@@ -171,7 +170,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
                 val selectionSize = tracker.selection.size()
                 if (selectionSize > 1) { // if more than 1 file selected
-                    actionOpenAs?.isVisible = false
+                    actionOpenWith?.isVisible = false
                     actionRename?.isVisible = false
                     actionProperties?.isVisible = false
                     actionCopyPath?.isVisible = false
@@ -190,7 +189,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                     R.id.action_cut -> viewModel.obtainEvent(ExplorerIntent.Cut)
                     R.id.action_delete -> viewModel.obtainEvent(ExplorerIntent.Delete)
                     R.id.action_select_all -> viewModel.obtainEvent(ExplorerIntent.SelectAll)
-                    R.id.action_open_as -> viewModel.obtainEvent(ExplorerIntent.OpenFileAs())
+                    R.id.action_open_with -> viewModel.obtainEvent(ExplorerIntent.OpenFileWith())
                     R.id.action_rename -> viewModel.obtainEvent(ExplorerIntent.Rename)
                     R.id.action_properties -> viewModel.obtainEvent(ExplorerIntent.Properties)
                     R.id.action_copy_path -> viewModel.obtainEvent(ExplorerIntent.CopyPath)
@@ -249,8 +248,10 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                                 else -> viewModel.obtainEvent(ExplorerIntent.Create)
                             }
                         }
+                        tabAdapter.removeOnTabSelectedListener()
                         tabAdapter.submitList(state.breadcrumbs)
                         tabAdapter.select(state.breadcrumbs.size - 1)
+                        tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         if (state.selection.isNotEmpty()) {
                             startActionMode(state.selection.size)
                         } else {
@@ -269,28 +270,24 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.restrictedView.isVisible = true
                         binding.emptyView.isVisible = false
                         binding.loadingBar.isVisible = false
-                        binding.filesRecyclerView.isVisible = false
-                        // fileAdapter.submitList(emptyList())
+                        fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Empty -> {
                         binding.restrictedView.isVisible = false
                         binding.emptyView.isVisible = true
                         binding.loadingBar.isVisible = false
-                        binding.filesRecyclerView.isVisible = false
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Loading -> {
                         binding.restrictedView.isVisible = false
                         binding.emptyView.isVisible = false
                         binding.loadingBar.isVisible = true
-                        binding.filesRecyclerView.isVisible = false
-                        // fileAdapter.submitList(emptyList())
+                        fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Files -> {
                         binding.restrictedView.isVisible = false
                         binding.emptyView.isVisible = false
                         binding.loadingBar.isVisible = false
-                        binding.filesRecyclerView.isVisible = true
                         fileAdapter.submitList(state.data)
                     }
                     is DirectoryViewState.Stub -> Unit
@@ -320,7 +317,9 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                     }
                     is ExplorerViewEvent.CopyPath -> {
                         event.fileModel.path.clipText(context)
+                        context?.showToast(R.string.message_done)
                     }
+                    else -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -353,9 +352,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     private fun permissionGranted() {
-        val index = tabAdapter.itemCount - 1
-        val selected = tabAdapter.getItem(index)
-        viewModel.obtainEvent(ExplorerIntent.OpenFolder(selected))
+        viewModel.obtainEvent(ExplorerIntent.Refresh)
     }
 
     private fun permissionRejected() {

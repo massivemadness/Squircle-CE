@@ -84,7 +84,7 @@ class DetailedViewHolder(
             binding.itemFileLength.visibility = View.VISIBLE
         }
 
-        when (fileModel.getType()) {
+        when (fileModel.type) {
             FileType.TEXT -> {
                 binding.itemIcon.setImageResource(R.drawable.ic_file_document)
             }

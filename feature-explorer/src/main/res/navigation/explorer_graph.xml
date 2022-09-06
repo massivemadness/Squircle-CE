@@ -72,4 +72,15 @@
             app:argType="string" />
     </dialog>
 
+    <dialog
+        android:id="@+id/propertiesDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.PropertiesDialog"
+        android:label="PropertiesDialog"
+        tools:layout="@layout/dialog_properties">
+        <deepLink app:uri="blacksquircle://explorer/properties?data={data}" />
+        <argument
+            android:name="data"
+            app:argType="string" />
+    </dialog>
+
 </navigation>

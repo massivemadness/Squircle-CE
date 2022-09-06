@@ -105,7 +105,7 @@ class MockFilesystem : Filesystem {
         }
     }
 
-    override suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
+    override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             for (fileModel in source) {
                 send(fileModel)
@@ -113,7 +113,7 @@ class MockFilesystem : Filesystem {
         }
     }
 
-    override suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel> {
+    override suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             send(source)
         }

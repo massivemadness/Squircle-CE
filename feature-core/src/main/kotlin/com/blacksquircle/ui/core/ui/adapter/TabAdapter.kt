@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.core.ui.adapter
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
@@ -47,8 +48,7 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     override fun getItemCount(): Int = currentList.size
 
-    fun getItem(position: Int): T? = currentList.getOrNull(position)
-
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(list: List<T>) {
         _currentList = list.toMutableList()
         notifyDataSetChanged()
@@ -122,6 +122,18 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     fun setOnDataRefreshListener(listener: OnDataRefreshListener) {
         onDataRefreshListener = listener
+    }
+
+    fun removeOnTabSelectedListener() {
+        onTabSelectedListener = null
+    }
+
+    fun removeOnTabMovedListener() {
+        onTabMovedListener = null
+    }
+
+    fun removeOnDataRefreshListener() {
+        onDataRefreshListener = null
     }
 
     interface OnTabSelectedListener {

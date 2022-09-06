@@ -70,8 +70,8 @@ data class FileModel(
     val name: String
         get() = path.substringAfterLast('/')
 
-    fun getType(): FileType {
-        return when {
+    val type: FileType
+        get() = when {
             name.endsWith(TEXT) -> FileType.TEXT
             name.endsWith(ARCHIVE) -> FileType.ARCHIVE
             name.endsWith(IMAGE) -> FileType.IMAGE
@@ -82,7 +82,6 @@ data class FileModel(
             name.endsWith(APPLICATION) -> FileType.APPLICATION
             else -> FileType.DEFAULT
         }
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

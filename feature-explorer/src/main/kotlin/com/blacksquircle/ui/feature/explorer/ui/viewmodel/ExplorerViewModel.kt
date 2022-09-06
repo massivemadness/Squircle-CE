@@ -35,6 +35,7 @@ import com.blacksquircle.ui.filesystem.base.exception.RestrictedException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -61,7 +62,7 @@ class ExplorerViewModel @Inject constructor(
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     private val _customEvent = MutableSharedFlow<ExplorerViewEvent>()
-    val customEvent: SharedFlow<ViewEvent> = _customEvent.asSharedFlow()
+    val customEvent: SharedFlow<ExplorerViewEvent> = _customEvent.asSharedFlow()
 
     private val breadcrumbs = mutableListOf<FileModel>()
     private val selection = mutableListOf<FileModel>()
@@ -92,7 +93,7 @@ class ExplorerViewModel @Inject constructor(
             is ExplorerIntent.Compress -> compressButton()
 
             is ExplorerIntent.OpenFolder -> listFiles(event)
-            is ExplorerIntent.OpenFileAs -> openFileAs(event)
+            is ExplorerIntent.OpenFileWith -> openFileAs(event)
             is ExplorerIntent.OpenFile -> openFile(event)
             is ExplorerIntent.CreateFile -> createFile(event)
             is ExplorerIntent.RenameFile -> renameFile(event)
@@ -122,10 +123,11 @@ class ExplorerViewModel @Inject constructor(
             }
             breadcrumbs.size > 1 -> {
                 _explorerViewState.value = ExplorerViewState.ActionBar(
-                    breadcrumbs = breadcrumbs - breadcrumbs.last(),
+                    breadcrumbs = breadcrumbs.replaceList(breadcrumbs - breadcrumbs.last()),
                     selection = selection.replaceList(emptyList()),
                     operation = operation,
                 )
+                listFiles(ExplorerIntent.OpenFolder(breadcrumbs.lastOrNull()))
                 true
             }
             else -> false
@@ -154,6 +156,8 @@ class ExplorerViewModel @Inject constructor(
                 Log.e(TAG, e.message, e)
                 handleError(e)
                 restoreState()
+            } finally {
+                _refreshState.value = false
             }
         }
     }
@@ -277,16 +281,26 @@ class ExplorerViewModel @Inject constructor(
 
     private fun propertiesButton() {
         viewModelScope.launch {
-            // TODO
-            // val fileModel = selection.first()
-            // val screen = ExplorerScreen.PropertiesDialog()
-            // _viewEvent.send(ViewEvent.Navigation(screen))
+            try {
+                val fileModel = selection.first()
+                val properties = explorerRepository.propertiesOf(fileModel)
+                val data = Gson().toJson(properties) // TODO better way
+                val screen = ExplorerScreen.PropertiesDialog(data)
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                handleError(e)
+            } finally {
+                restoreState()
+            }
         }
     }
 
     private fun copyPathButton() {
         viewModelScope.launch {
-            _customEvent.emit(ExplorerViewEvent.CopyPath(selection.first()))
+            val fileModel = selection.first()
+            _customEvent.emit(ExplorerViewEvent.CopyPath(fileModel))
+            restoreState()
         }
     }
 
@@ -305,21 +319,21 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun openFileAs(event: ExplorerIntent.OpenFileAs) {
+    private fun openFileAs(event: ExplorerIntent.OpenFileWith) {
         viewModelScope.launch {
-            // drop state here ??
-            _customEvent.emit(ExplorerViewEvent.OpenFileAs(event.fileModel ?: selection.first()))
+            val fileModel = event.fileModel ?: selection.first()
+            _customEvent.emit(ExplorerViewEvent.OpenFileWith(fileModel))
+            restoreState()
         }
     }
 
     private fun openFile(event: ExplorerIntent.OpenFile) {
         viewModelScope.launch {
-            // drop state here ??
-            when (event.fileModel.getType()) {
+            when (event.fileModel.type) {
                 FileType.ARCHIVE -> extractFile(ExplorerIntent.ExtractFile(event.fileModel))
                 FileType.DEFAULT,
                 FileType.TEXT -> _customEvent.emit(ExplorerViewEvent.OpenFile(event.fileModel))
-                else -> openFileAs(ExplorerIntent.OpenFileAs(event.fileModel))
+                else -> openFileAs(ExplorerIntent.OpenFileWith(event.fileModel))
             }
         }
     }
@@ -503,7 +517,6 @@ class ExplorerViewModel @Inject constructor(
     }
 
     private fun restoreState() {
-        _refreshState.value = false
         _explorerViewState.value = ExplorerViewState.ActionBar(
             breadcrumbs = breadcrumbs,
             operation = Operation.CREATE.also { type ->

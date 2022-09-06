@@ -33,7 +33,7 @@ class ExtractFileWorker @AssistedInject constructor(
                 val fileList = inputData.toFileList()
                 val source = fileList.first()
                 val dest = fileList.last()
-                filesystem.extractAll(source, dest)
+                filesystem.extractFiles(source, dest)
                     .onStart { setProgress(dest.toData()) }
                     .collect()
                 Result.success()

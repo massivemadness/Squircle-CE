@@ -34,8 +34,8 @@
     <string name="action_delete">Deletar</string>
     <string name="action_run_in_background">Rodar no fundo</string>
     <string name="action_show_hidden_files">Exibir arquivos escondidos</string>
-    <string name="action_create_zip">Criar .zip</string>
-    <string name="action_open_as">Abrir como</string>
+    <string name="action_compress">Compress</string>
+    <string name="action_open_with">Abrir como</string>
     <string name="action_properties">Propriedades</string>
     <string name="action_cut">Cortar</string>
     <string name="action_copy">Copiar</string>

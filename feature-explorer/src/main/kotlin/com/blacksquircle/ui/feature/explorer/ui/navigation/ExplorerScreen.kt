@@ -17,6 +17,9 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     class ProgressDialog(totalCount: Int, operation: Operation) : ExplorerScreen(
         route = "blacksquircle://explorer/progress?totalCount=$totalCount&operation=${operation.value}"
     )
+    class PropertiesDialog(data: String) : ExplorerScreen(
+        route = "blacksquircle://explorer/properties?data=$data"
+    )
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
     object CompressDialog : ExplorerScreen("blacksquircle://explorer/compress")

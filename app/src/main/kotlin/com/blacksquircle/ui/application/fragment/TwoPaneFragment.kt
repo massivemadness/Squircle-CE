@@ -26,7 +26,7 @@ import com.blacksquircle.ui.databinding.FragmentTwoPaneBinding
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.explorer.data.utils.openFileAs
+import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
@@ -113,8 +113,8 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                             DocumentConverter.toModel(event.fileModel)
                         closeDrawer()
                     }
-                    is ExplorerViewEvent.OpenFileAs -> {
-                        context?.openFileAs(event.fileModel)
+                    is ExplorerViewEvent.OpenFileWith -> {
+                        context?.openFileWith(event.fileModel)
                         closeDrawer()
                     }
                     else -> Unit

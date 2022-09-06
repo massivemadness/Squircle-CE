@@ -34,8 +34,8 @@
     <string name="action_delete">Supprimer</string>
     <string name="action_run_in_background">Exécuter en arrière-plan</string>
     <string name="action_show_hidden_files">Afficher les fichiers cachés</string>
-    <string name="action_create_zip">Créer un .zip</string>
-    <string name="action_open_as">Ouvrir en tant que</string>
+    <string name="action_compress">Compress</string>
+    <string name="action_open_with">Ouvrir en tant que</string>
     <string name="action_properties">Propriétés</string>
     <string name="action_cut">Couper</string>
     <string name="action_copy">Copier</string>

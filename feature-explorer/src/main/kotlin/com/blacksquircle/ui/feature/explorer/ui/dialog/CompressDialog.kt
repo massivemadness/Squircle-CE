@@ -28,7 +28,7 @@ class CompressDialog : DialogFragment() {
             val binding = DialogCompressBinding.bind(getCustomView())
 
             negativeButton(R.string.action_cancel)
-            positiveButton(R.string.action_create_zip) {
+            positiveButton(R.string.action_compress) {
                 val fileName = binding.input.text.toString()
                 navController.popBackStack()
                 viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName))

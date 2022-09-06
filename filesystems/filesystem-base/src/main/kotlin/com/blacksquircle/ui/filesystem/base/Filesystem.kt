@@ -36,8 +36,8 @@ interface Filesystem {
     suspend fun propertiesOf(fileModel: FileModel): PropertiesModel
     suspend fun isExists(fileModel: FileModel): Boolean
 
-    suspend fun compress(source: List<FileModel>, dest: FileModel): Flow<FileModel>
-    suspend fun extractAll(source: FileModel, dest: FileModel): Flow<FileModel>
+    suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel>
+    suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel>
 
     suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String
     suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams)

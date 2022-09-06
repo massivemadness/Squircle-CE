@@ -34,8 +34,8 @@
     <string name="action_delete">Удалить</string>
     <string name="action_run_in_background">Выполнять в фоне</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
-    <string name="action_create_zip">Создать .zip</string>
-    <string name="action_open_as">Открыть как</string>
+    <string name="action_compress">Сжать</string>
+    <string name="action_open_with">Открыть как</string>
     <string name="action_properties">Свойства</string>
     <string name="action_cut">Вырезать</string>
     <string name="action_copy">Копировать</string>

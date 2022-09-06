@@ -35,7 +35,7 @@ class CompressFileWorker @AssistedInject constructor(
         return withContext(dispatcherProvider.io()) {
             try {
                 val fileList = inputData.toFileList()
-                filesystem.compress(fileList.dropLast(1), fileList.last())
+                filesystem.compressFiles(fileList.dropLast(1), fileList.last())
                     .onEach { fileModel ->
                         setProgress(fileModel.toData())
                         delay(20)

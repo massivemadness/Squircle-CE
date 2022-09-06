@@ -75,7 +75,7 @@ class CompactViewHolder(
             binding.itemIcon.setTint(R.color.colorFile)
         }
 
-        when (fileModel.getType()) {
+        when (fileModel.type) {
             FileType.TEXT -> {
                 binding.itemIcon.setImageResource(R.drawable.ic_file_document)
             }

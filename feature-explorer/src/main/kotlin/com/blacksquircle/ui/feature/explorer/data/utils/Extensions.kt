@@ -61,7 +61,7 @@ fun <T> MutableList<T>.appendList(element: T): List<T> {
     return this
 }
 
-fun Context.openFileAs(fileModel: FileModel) {
+fun Context.openFileWith(fileModel: FileModel) {
     try {
         val file = File(fileModel.path)
         if (!file.exists()) {
