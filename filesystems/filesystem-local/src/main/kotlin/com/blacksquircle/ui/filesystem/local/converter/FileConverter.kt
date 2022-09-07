@@ -23,7 +23,7 @@ object FileConverter {
 
     fun toModel(file: File): FileModel {
         return FileModel(
-            path = file.path,
+            uri = "file://" + file.path,
             size = file.length(),
             lastModified = file.lastModified(),
             isFolder = file.isDirectory,

@@ -39,7 +39,7 @@ class FileAdapter(
 
         private val diffCallback = object : DiffUtil.ItemCallback<FileModel>() {
             override fun areItemsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {
-                return oldItem.path == newItem.path
+                return oldItem.uri == newItem.uri
             }
             override fun areContentsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {
                 return oldItem == newItem
@@ -57,12 +57,12 @@ class FileAdapter(
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
         val fileModel = getItem(position)
-        val isSelected = selectionTracker.isSelected(fileModel.path)
+        val isSelected = selectionTracker.isSelected(fileModel.uri)
         holder.bind(fileModel, isSelected)
     }
 
     fun selection(keys: Selection<String>): List<FileModel> {
-        return currentList.filter { keys.contains(it.path) }
+        return currentList.filter { keys.contains(it.uri) }
     }
 
     abstract class FileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -19,14 +19,46 @@ package com.blacksquircle.ui.filesystem.base.model
 import com.blacksquircle.ui.filesystem.base.utils.endsWith
 
 data class FileModel(
-    val path: String,
+    val uri: String,
     val size: Long = 0L,
     val lastModified: Long = 0L,
     val isFolder: Boolean = false,
     val isHidden: Boolean = false
 ) {
 
+    val scheme: String
+        get() = uri.substringBeforeLast("://") + "://"
+    val path: String
+        get() = uri.substringAfterLast("://")
+    val name: String
+        get() = uri.substringAfterLast("/")
+    val type: FileType
+        get() = when {
+            name.endsWith(TEXT) -> FileType.TEXT
+            name.endsWith(ARCHIVE) -> FileType.ARCHIVE
+            name.endsWith(IMAGE) -> FileType.IMAGE
+            name.endsWith(AUDIO) -> FileType.AUDIO
+            name.endsWith(VIDEO) -> FileType.VIDEO
+            name.endsWith(DOCUMENT) -> FileType.DOCUMENT
+            name.endsWith(EBOOK) -> FileType.EBOOK
+            name.endsWith(APPLICATION) -> FileType.APPLICATION
+            else -> FileType.DEFAULT
+        }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as FileModel
+        if (uri != other.uri) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return uri.hashCode()
+    }
+
     companion object {
+
         val TEXT = arrayOf(
             ".txt", ".js", ".json", ".java", ".kt", ".kts", ".md", ".lua",
             ".rb", ".as", ".cs", ".c", ".cpp", ".h", ".hpp", ".lisp", ".lsp",
@@ -65,33 +97,5 @@ data class FileModel(
         val APPLICATION = arrayOf(
             ".apk", ".aab"
         )
-    }
-
-    val name: String
-        get() = path.substringAfterLast('/')
-
-    val type: FileType
-        get() = when {
-            name.endsWith(TEXT) -> FileType.TEXT
-            name.endsWith(ARCHIVE) -> FileType.ARCHIVE
-            name.endsWith(IMAGE) -> FileType.IMAGE
-            name.endsWith(AUDIO) -> FileType.AUDIO
-            name.endsWith(VIDEO) -> FileType.VIDEO
-            name.endsWith(DOCUMENT) -> FileType.DOCUMENT
-            name.endsWith(EBOOK) -> FileType.EBOOK
-            name.endsWith(APPLICATION) -> FileType.APPLICATION
-            else -> FileType.DEFAULT
-        }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as FileModel
-        if (path != other.path) return false
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return path.hashCode()
     }
 }

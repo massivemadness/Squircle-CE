@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.editor.domain.model
 
 data class DocumentModel(
     val uuid: String,
-    val path: String,
+    val uri: String,
     var modified: Boolean,
     var position: Int,
     var scrollX: Int,
@@ -27,18 +27,22 @@ data class DocumentModel(
     var selectionEnd: Int
 ) {
 
+    val scheme: String
+        get() = uri.substringBeforeLast("://") + "://"
+    val path: String
+        get() = uri.substringAfterLast("://")
     val name: String
-        get() = path.substringAfterLast('/')
+        get() = uri.substringAfterLast('/')
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
         other as DocumentModel
-        if (path != other.path) return false
+        if (uri != other.uri) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return path.hashCode()
+        return uri.hashCode()
     }
 }

@@ -23,7 +23,17 @@ object Migrations {
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE `${Tables.THEMES}` ADD COLUMN `variable_color` TEXT NOT NULL DEFAULT \"#000000\"")
+            val cursor = database.query("SELECT * FROM `${Tables.DOCUMENTS}`")
+            if (cursor.moveToFirst()) {
+                do {
+                    val columnUuid = cursor.getColumnIndexOrThrow("uuid")
+                    val columnPath = cursor.getColumnIndexOrThrow("path")
+                    val uuid = cursor.getString(columnUuid)
+                    val path = "file://" + cursor.getString(columnPath)
+                    database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `path` = '$path' WHERE `uuid` = '$uuid';")
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
         }
     }
 }

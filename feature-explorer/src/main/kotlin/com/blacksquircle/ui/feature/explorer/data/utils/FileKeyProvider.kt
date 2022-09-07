@@ -26,11 +26,11 @@ class FileKeyProvider(
 
     override fun getKey(position: Int): String {
         val adapter = recyclerView.adapter as FileAdapter
-        return adapter.currentList[position].path
+        return adapter.currentList[position].uri
     }
 
     override fun getPosition(key: String): Int {
         val adapter = recyclerView.adapter as FileAdapter
-        return adapter.currentList.indexOfFirst { it.path == key }
+        return adapter.currentList.indexOfFirst { it.uri == key }
     }
 }

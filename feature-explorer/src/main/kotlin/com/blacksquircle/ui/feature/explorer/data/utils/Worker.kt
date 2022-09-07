@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 private const val KEY_LIST = "list"
-private const val KEY_PATH = "path"
+private const val KEY_URI = "uri"
 private const val KEY_SIZE = "size"
 private const val KEY_LAST_MODIFIED = "lastModified"
 private const val KEY_IS_FOLDER = "isFolder"
@@ -14,7 +14,7 @@ private const val KEY_IS_HIDDEN = "isHidden"
 
 internal fun FileModel.toData(): Data {
     return Data.Builder()
-        .putString(KEY_PATH, path)
+        .putString(KEY_URI, uri)
         .putLong(KEY_SIZE, size)
         .putLong(KEY_LAST_MODIFIED, lastModified)
         .putBoolean(KEY_IS_FOLDER, isFolder)
@@ -24,7 +24,7 @@ internal fun FileModel.toData(): Data {
 
 internal fun Data.toFileModel(): FileModel {
     return FileModel(
-        path = getString(KEY_PATH).orEmpty(),
+        uri = getString(KEY_URI).orEmpty(),
         size = getLong(KEY_SIZE, 0L),
         lastModified = getLong(KEY_LAST_MODIFIED, 0L),
         isFolder = getBoolean(KEY_IS_FOLDER, false),

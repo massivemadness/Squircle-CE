@@ -369,7 +369,7 @@ class ExplorerViewModel @Inject constructor(
                 }
                 val parent = breadcrumbs.last()
                 val child = parent.copy(
-                    path = parent.path + "/" + event.fileName,
+                    uri = parent.uri + "/" + event.fileName,
                     isFolder = event.isFolder
                 )
                 explorerRepository.createFile(child)
@@ -402,7 +402,7 @@ class ExplorerViewModel @Inject constructor(
 
                 val oldFile = buffer.first()
                 val newFile = oldFile.copy(
-                    path = oldFile.path.substringBeforeLast('/') + "/" + event.fileName,
+                    uri = oldFile.uri.substringBeforeLast('/') + "/" + event.fileName,
                     isFolder = oldFile.isFolder
                 )
                 explorerRepository.renameFile(oldFile, newFile)
