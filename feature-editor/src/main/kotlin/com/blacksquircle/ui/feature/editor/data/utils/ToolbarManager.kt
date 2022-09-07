@@ -65,7 +65,6 @@ class ToolbarManager(
             R.id.action_open -> listener.onOpenButton()
             R.id.action_save -> listener.onSaveButton()
             R.id.action_save_as -> listener.onSaveAsButton()
-            R.id.action_properties -> listener.onPropertiesButton()
             R.id.action_close -> listener.onCloseButton()
 
             // Edit Menu
@@ -219,7 +218,6 @@ class ToolbarManager(
         fun onOpenButton()
         fun onSaveButton(): Boolean
         fun onSaveAsButton(): Boolean
-        fun onPropertiesButton(): Boolean
         fun onCloseButton(): Boolean
 
         fun onCutButton(): Boolean

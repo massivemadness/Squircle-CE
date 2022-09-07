@@ -121,10 +121,6 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        /*editorViewModel.openPropertiesEvent.observe(viewLifecycleOwner) {
-            explorerViewModel.openPropertiesEvent.value = it
-        }*/
     }
 
     private fun handleIntent(intent: Intent?) {

@@ -21,30 +21,25 @@
         android:id="@+id/action_new"
         android:title="@string/action_new"
         android:icon="@drawable/ic_plus"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_open"
         android:title="@string/action_open"
         android:icon="@drawable/ic_folder_open"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_save"
         android:title="@string/action_save"
         android:icon="@drawable/ic_save"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_save_as"
         android:title="@string/action_save_as"
         android:icon="@drawable/ic_save_as"
-        app:iconTint="@color/colorIcon"/>
-    <item
-        android:id="@+id/action_properties"
-        android:title="@string/action_properties"
-        android:icon="@drawable/ic_file_properties"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_close"
         android:title="@string/action_close"
         android:icon="@drawable/ic_close"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
 </menu>

@@ -55,7 +55,6 @@ import com.blacksquircle.ui.editorkit.plugin.textscroller.textScroller
 import com.blacksquircle.ui.editorkit.widget.TextScroller
 import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.data.utils.TabController
@@ -295,7 +294,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
                             ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
                             ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
-                            ctrl && keyCode == KeyEvent.KEYCODE_P -> onPropertiesButton()
                             ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
                             ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
                             ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
@@ -489,17 +487,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                 val enterFilePath = findViewById<TextInputEditText>(R.id.input)
                 enterFilePath.setText(document.path)
             }
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
-        return true
-    }
-
-    override fun onPropertiesButton(): Boolean {
-        val position = adapter.selectedPosition
-        if (position > -1) {
-            val document = adapter.currentList[position]
-            viewModel.openPropertiesEvent.value = DocumentConverter.toModel(document)
         } else {
             context?.showToast(R.string.message_no_open_files)
         }

@@ -30,7 +30,6 @@
     <string name="action_open">Abrir</string>
     <string name="action_save">Salvar</string>
     <string name="action_save_as">Salvar como</string>
-    <string name="action_properties">Propriedades</string>
     <string name="action_cut">Cortar</string>
     <string name="action_copy">Copiar</string>
     <string name="action_paste">Colar</string>

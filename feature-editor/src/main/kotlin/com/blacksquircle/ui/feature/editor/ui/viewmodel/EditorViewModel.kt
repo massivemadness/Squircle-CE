@@ -33,7 +33,6 @@ import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.themes.data.utils.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
-import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.model.ParseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,7 +65,6 @@ class EditorViewModel @Inject constructor(
     val contentEvent = SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>>() // Контент загруженного файла
 
     val openFileEvent = SingleLiveEvent<DocumentModel>() // Открытие файла из проводника в редакторе
-    val openPropertiesEvent = SingleLiveEvent<FileModel>() // Просмотр свойств выбранного файла
 
     // endregion EVENTS
 

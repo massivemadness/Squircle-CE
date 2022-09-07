@@ -32,7 +32,6 @@
     <string name="action_open">Open</string>
     <string name="action_save">Save</string>
     <string name="action_save_as">Save As</string>
-    <string name="action_properties">Properties</string>
     <string name="action_cut">Cut</string>
     <string name="action_copy">Copy</string>
     <string name="action_paste">Paste</string>
