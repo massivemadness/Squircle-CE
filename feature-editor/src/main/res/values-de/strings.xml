@@ -61,7 +61,7 @@
     <string name="message_no_open_files">Keine geöffneten Dateien</string>
     <string name="message_tab_limit_achieved">Tab-Limit erreicht</string>
     <string name="message_invalid_file_path">Ungültiger Dateipfad</string>
-    <string name="message_unknown_exception">Ein Fehler ist aufgetreten</string>
+    <string name="message_error_occurred">Ein Fehler ist aufgetreten</string>
     <string name="message_file_not_found">Datei nicht gefunden</string>
     <string name="message_out_of_memory">Kein Speicherplatz mehr</string>
     <string name="message_saved">Gespeichert</string>

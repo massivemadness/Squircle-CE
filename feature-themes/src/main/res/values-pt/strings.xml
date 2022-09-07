@@ -43,7 +43,7 @@
     <string name="message_theme_exported">Tema salvo em /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">Um erro ocorreu ao ler o arquivo do tema</string>
     <string name="message_no_result">Nenhum resultado</string>
-    <string name="message_unknown_exception">Um erro ocorreu</string>
+    <string name="message_error_occurred">Um erro ocorreu</string>
 
     <string name="theme_property_text_color">Define a cor do texto</string>
     <string name="theme_property_background_color">Define a cor do fundo</string>

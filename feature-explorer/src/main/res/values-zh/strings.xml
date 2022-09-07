@@ -84,7 +84,7 @@
     <string name="message_no_result">没有结果</string>
     <string name="message_cannot_be_opened">文件无法打开</string>
     <string name="message_invalid_file_name">无效的文件名称</string>
-    <string name="message_unknown_exception">发生错误</string>
+    <string name="message_error_occurred">发生错误</string>
     <string name="message_directory_expected">无法获取文件列表</string>
     <string name="message_file_already_exists">文件已存在</string>
     <string name="message_unsupported_archive">暂不支持该压缩包格式</string>

@@ -75,6 +75,17 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private val defaultMenuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.menu_explorer_default, menu)
+
+            val searchItem = menu.findItem(R.id.action_search)
+            val searchView = searchItem?.actionView as? SearchView
+            searchView?.debounce(viewLifecycleOwner.lifecycleScope) { query ->
+                viewModel.obtainEvent(ExplorerIntent.SearchFiles(query))
+            }
+
+            if (viewModel.query.isNotEmpty()) {
+                searchItem?.expandActionView()
+                searchView?.setQuery(viewModel.query, false)
+            }
         }
         override fun onPrepareMenu(menu: Menu) {
             val showHidden = menu.findItem(R.id.show_hidden)
@@ -91,12 +102,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         }
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
-                R.id.action_search -> {
-                    val searchView = menuItem.actionView as? SearchView
-                    searchView?.debounce(viewLifecycleOwner.lifecycleScope) { query ->
-                        viewModel.obtainEvent(ExplorerIntent.SearchFiles(query))
-                    }
-                }
                 R.id.show_hidden -> viewModel.obtainEvent(
                     if (!menuItem.isChecked) {
                         ExplorerIntent.ShowHidden
@@ -207,14 +212,14 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.obtainEvent(ExplorerIntent.Refresh)
         }
-        binding.actionAccess.setOnClickListener {
+        binding.actionHome.setOnClickListener {
+            viewModel.obtainEvent(ExplorerIntent.SelectTab(0))
+        }
+        binding.permissionView.actionAccess.setOnClickListener {
             context?.checkStorageAccess(
                 onSuccess = ::permissionGranted,
                 onFailure = ::permissionRejected
             )
-        }
-        binding.actionHome.setOnClickListener {
-            viewModel.obtainEvent(ExplorerIntent.SelectTab(0))
         }
 
         setSupportActionBar(binding.toolbar)
@@ -225,7 +230,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.obtainEvent(ExplorerIntent.SearchFiles(""))
         tracker.clearSelection()
     }
 
@@ -273,27 +277,30 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         viewModel.directoryViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is DirectoryViewState.Restricted -> {
-                        binding.restrictedView.isVisible = true
-                        binding.emptyView.isVisible = false
+                    is DirectoryViewState.Permission -> {
+                        binding.permissionView.root.isVisible = true
+                        binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
                         fileAdapter.submitList(emptyList())
                     }
-                    is DirectoryViewState.Empty -> {
-                        binding.restrictedView.isVisible = false
-                        binding.emptyView.isVisible = true
+                    is DirectoryViewState.Error -> {
+                        binding.permissionView.root.isVisible = false
+                        binding.errorView.root.isVisible = true
                         binding.loadingBar.isVisible = false
+                        binding.errorView.image.setImageResource(state.image)
+                        binding.errorView.title.text = state.title
+                        binding.errorView.subtitle.text = state.subtitle
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Loading -> {
-                        binding.restrictedView.isVisible = false
-                        binding.emptyView.isVisible = false
+                        binding.permissionView.root.isVisible = false
+                        binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Files -> {
-                        binding.restrictedView.isVisible = false
-                        binding.emptyView.isVisible = false
+                        binding.permissionView.root.isVisible = false
+                        binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
                         fileAdapter.submitList(state.data)
                     }

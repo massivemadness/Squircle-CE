@@ -31,7 +31,7 @@
     <string name="message_new_font_available">Neue Schriftart verfügar: %1$s</string>
     <string name="message_font_removed">Schriftart «%1$s» entfernt</string>
     <string name="message_no_result">Kein Ergebnis</string>
-    <string name="message_unknown_exception">Ein Fehler ist aufgetreten</string>
+    <string name="message_error_occurred">Ein Fehler ist aufgetreten</string>
 
     <string name="font_support_ligatures">* Unterstützt Ligaturen</string>
     <string name="font_disclaimer">Wenn Sie diese Schriftart verwenden möchten, sollten Sie die .ttf-Datei am festgelegten Pfad nicht entfernen</string>

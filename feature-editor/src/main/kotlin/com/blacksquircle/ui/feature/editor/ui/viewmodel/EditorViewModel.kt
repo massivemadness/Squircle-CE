@@ -78,7 +78,7 @@ class EditorViewModel @Inject constructor(
                 loadFilesEvent.value = documents
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                toastEvent.value = R.string.message_error_occurred
             }
         }
     }
@@ -102,7 +102,7 @@ class EditorViewModel @Inject constructor(
                         toastEvent.value = R.string.message_out_of_memory
                     }
                     else -> {
-                        toastEvent.value = R.string.message_unknown_exception
+                        toastEvent.value = R.string.message_error_occurred
                     }
                 }
             }
@@ -118,7 +118,7 @@ class EditorViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                toastEvent.value = R.string.message_error_occurred
             }
         }
     }
@@ -129,7 +129,7 @@ class EditorViewModel @Inject constructor(
                 documentRepository.updateDocument(documentModel)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                toastEvent.value = R.string.message_error_occurred
             }
         }
     }
@@ -140,7 +140,7 @@ class EditorViewModel @Inject constructor(
                 documentRepository.deleteDocument(documentModel)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_unknown_exception
+                toastEvent.value = R.string.message_error_occurred
             }
         }
     }

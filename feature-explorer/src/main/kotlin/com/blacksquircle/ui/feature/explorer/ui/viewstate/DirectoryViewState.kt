@@ -5,10 +5,17 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 sealed class DirectoryViewState : ViewState() {
 
-    object Restricted : DirectoryViewState()
+    object Permission : DirectoryViewState()
     object Loading : DirectoryViewState()
-    object Empty : DirectoryViewState()
     object Stub : DirectoryViewState()
 
-    data class Files(val data: List<FileModel>) : DirectoryViewState()
+    data class Files(
+        val data: List<FileModel>,
+    ) : DirectoryViewState()
+
+    data class Error(
+        val image: Int,
+        val title: String,
+        val subtitle: String,
+    ) : DirectoryViewState()
 }

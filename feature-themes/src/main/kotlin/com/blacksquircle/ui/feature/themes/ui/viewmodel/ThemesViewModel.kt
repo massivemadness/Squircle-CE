@@ -69,7 +69,7 @@ class ThemesViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_unknown_exception)
+                    stringProvider.getString(R.string.message_error_occurred)
                 ))
             }
         }
@@ -102,7 +102,7 @@ class ThemesViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_unknown_exception)
+                    stringProvider.getString(R.string.message_error_occurred)
                 ))
             }
         }
@@ -122,7 +122,7 @@ class ThemesViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_unknown_exception)
+                    stringProvider.getString(R.string.message_error_occurred)
                 ))
             }
         }
@@ -141,7 +141,7 @@ class ThemesViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_unknown_exception)
+                    stringProvider.getString(R.string.message_error_occurred)
                 ))
             }
         }
@@ -174,7 +174,7 @@ class ThemesViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_unknown_exception)
+                    stringProvider.getString(R.string.message_error_occurred)
                 ))
             }
         }

@@ -43,7 +43,7 @@
     <string name="message_theme_exported">Thème enregistré sous /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">Une erreur s\'est produite lors de la lecture du fichier de thème</string>
     <string name="message_no_result">Aucun résultat</string>
-    <string name="message_unknown_exception">Une erreur s\'est produite</string>
+    <string name="message_error_occurred">Une erreur s\'est produite</string>
 
     <string name="theme_property_text_color">Définit la couleur du texte de l\'éditeur</string>
     <string name="theme_property_background_color">Définit la couleur de fond de l\'éditeur</string>

@@ -31,7 +31,7 @@
     <string name="message_new_font_available">Nouvelle police disponible: %1$s</string>
     <string name="message_font_removed">Police «%1$s» supprimée</string>
     <string name="message_no_result">Aucun résultat</string>
-    <string name="message_unknown_exception">Une erreur s\'est produite</string>
+    <string name="message_error_occurred">Une erreur s\'est produite</string>
 
     <string name="font_support_ligatures">* Support des ligatures</string>
     <string name="font_disclaimer">Si vous souhaitez utiliser cette police, ne supprimez pas le fichier .ttf au chemin spécifié</string>

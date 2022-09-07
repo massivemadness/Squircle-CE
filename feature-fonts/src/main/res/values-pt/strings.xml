@@ -31,7 +31,7 @@
     <string name="message_new_font_available">Nova fonte disponível: %1$s</string>
     <string name="message_font_removed">A fonte «%1$s» foi removida</string>
     <string name="message_no_result">Nenhum resultado</string>
-    <string name="message_unknown_exception">Um erro ocorreu</string>
+    <string name="message_error_occurred">Um erro ocorreu</string>
 
     <string name="font_support_ligatures">* Suporta ligadura</string>
     <string name="font_disclaimer">Se você quer usar esta fonte, não delete o arquivo .ttf no caminho inserido</string>

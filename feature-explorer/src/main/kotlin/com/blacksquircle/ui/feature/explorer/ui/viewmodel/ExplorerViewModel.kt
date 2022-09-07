@@ -32,7 +32,7 @@ import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.DirectoryViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.filesystem.base.exception.DirectoryExpectedException
-import com.blacksquircle.ui.filesystem.base.exception.RestrictedException
+import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
@@ -71,13 +71,14 @@ class ExplorerViewModel @Inject constructor(
         private set
     var showHidden: Boolean = settingsManager.showHidden
         private set
+    var query: String = ""
+        private set
 
     private val breadcrumbs = mutableListOf<FileModel>()
     private val selection = mutableListOf<FileModel>()
     private val buffer = mutableListOf<FileModel>()
     private val files = mutableListOf<FileModel>()
     private var operation = Operation.CREATE
-    private var query = ""
 
     init {
         obtainEvent(ExplorerIntent.OpenFolder())
@@ -157,13 +158,17 @@ class ExplorerViewModel @Inject constructor(
                 if (fileTree.children.isNotEmpty()) {
                     _directoryViewState.value = DirectoryViewState.Files(fileTree.children)
                 } else {
-                    _directoryViewState.value = DirectoryViewState.Empty
+                    _directoryViewState.value = DirectoryViewState.Error(
+                        image = R.drawable.ic_file_find,
+                        title = stringProvider.getString(R.string.message_no_result),
+                        subtitle = "",
+                    )
                 }
                 files.replaceList(fileTree.children)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
-                restoreState()
+                initialState()
+                errorState(e)
             } finally {
                 _refreshState.value = false
             }
@@ -177,7 +182,11 @@ class ExplorerViewModel @Inject constructor(
             if (searchList.isNotEmpty()) {
                 _directoryViewState.value = DirectoryViewState.Files(searchList)
             } else {
-                _directoryViewState.value = DirectoryViewState.Empty
+                _directoryViewState.value = DirectoryViewState.Error(
+                    image = R.drawable.ic_file_find,
+                    title = stringProvider.getString(R.string.message_no_result),
+                    subtitle = "",
+                )
             }
         }
     }
@@ -297,9 +306,11 @@ class ExplorerViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             } finally {
-                restoreState()
+                initialState()
             }
         }
     }
@@ -308,7 +319,7 @@ class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val fileModel = selection.first()
             _customEvent.emit(ExplorerViewEvent.CopyPath(fileModel))
-            restoreState()
+            initialState()
         }
     }
 
@@ -331,7 +342,7 @@ class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val fileModel = event.fileModel ?: selection.first()
             _customEvent.emit(ExplorerViewEvent.OpenFileWith(fileModel))
-            restoreState()
+            initialState()
         }
     }
 
@@ -369,9 +380,11 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             } finally {
-                restoreState()
+                initialState()
             }
         }
     }
@@ -400,9 +413,11 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             } finally {
-                restoreState()
+                initialState()
             }
         }
     }
@@ -418,9 +433,11 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             } finally {
-                restoreState()
+                initialState()
             }
         }
     }
@@ -436,9 +453,11 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             } finally {
-                restoreState()
+                initialState()
             }
         }
     }
@@ -454,9 +473,11 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             } finally {
-                restoreState()
+                initialState()
             }
         }
     }
@@ -481,9 +502,11 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             } finally {
-                restoreState()
+                initialState()
             }
         }
     }
@@ -499,9 +522,11 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                handleError(e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             } finally {
-                restoreState()
+                initialState()
             }
         }
     }
@@ -539,25 +564,7 @@ class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleError(e: Throwable) {
-        when (e) {
-            is RestrictedException -> {
-                _directoryViewState.value = DirectoryViewState.Restricted
-            }
-            is DirectoryExpectedException -> {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_directory_expected))
-                )
-            }
-            else -> {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_unknown_exception))
-                )
-            }
-        }
-    }
-
-    private fun restoreState() {
+    private fun initialState() {
         _explorerViewState.value = ExplorerViewState.ActionBar(
             breadcrumbs = breadcrumbs,
             operation = Operation.CREATE.also { type ->
@@ -566,6 +573,28 @@ class ExplorerViewModel @Inject constructor(
             },
             selection = selection.replaceList(emptyList()),
         )
+    }
+
+    private fun errorState(e: Throwable) {
+        when (e) {
+            is PermissionException -> {
+                _directoryViewState.value = DirectoryViewState.Permission
+            }
+            is DirectoryExpectedException -> {
+                _directoryViewState.value = DirectoryViewState.Error(
+                    image = R.drawable.ic_file_error,
+                    title = stringProvider.getString(R.string.message_error_occurred),
+                    subtitle = stringProvider.getString(R.string.message_directory_expected),
+                )
+            }
+            else -> {
+                _directoryViewState.value = DirectoryViewState.Error(
+                    image = R.drawable.ic_file_error,
+                    title = stringProvider.getString(R.string.message_error_occurred),
+                    subtitle = e.message.orEmpty(),
+                )
+            }
+        }
     }
 
     companion object {

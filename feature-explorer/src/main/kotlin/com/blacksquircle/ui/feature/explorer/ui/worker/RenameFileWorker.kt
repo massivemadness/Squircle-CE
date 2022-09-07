@@ -64,7 +64,7 @@ class RenameFileWorker @AssistedInject constructor(
                             applicationContext.showToast(R.string.message_operation_cancelled)
                         }
                         else -> {
-                            applicationContext.showToast(R.string.message_unknown_exception)
+                            applicationContext.showToast(R.string.message_error_occurred)
                         }
                     }
                 }

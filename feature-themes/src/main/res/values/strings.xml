@@ -45,7 +45,7 @@
     <string name="message_theme_exported">Theme saved to /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
     <string name="message_no_result">No result</string>
-    <string name="message_unknown_exception">An error occurred</string>
+    <string name="message_error_occurred">An error occurred</string>
 
     <string name="theme_property_text_color">Defines the text color of the editor</string>
     <string name="theme_property_background_color">Defines the background color of the editor</string>

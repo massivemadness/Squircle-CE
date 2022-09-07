@@ -34,7 +34,7 @@
     <string name="message_new_font_available">New font available: %1$s</string>
     <string name="message_font_removed">Font «%1$s» removed</string>
     <string name="message_no_result">No result</string>
-    <string name="message_unknown_exception">An error occurred</string>
+    <string name="message_error_occurred">An error occurred</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
     <string name="font_support_ligatures">* Support ligatures</string>

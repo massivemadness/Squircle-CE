@@ -31,7 +31,7 @@
     <string name="message_new_font_available">新字体可用: %1$s</string>
     <string name="message_font_removed">字体 «%1$s» 已移除</string>
     <string name="message_no_result">没有结果</string>
-    <string name="message_unknown_exception">发生错误</string>
+    <string name="message_error_occurred">发生错误</string>
 
     <string name="font_support_ligatures">* 支持连体字母</string>
     <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>

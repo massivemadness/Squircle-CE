@@ -43,7 +43,7 @@
     <string name="message_theme_exported">主题已保存到 /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
     <string name="message_no_result">没有结果</string>
-    <string name="message_unknown_exception">发生错误</string>
+    <string name="message_error_occurred">发生错误</string>
 
     <string name="theme_property_text_color">定义编辑器的文本颜色</string>
     <string name="theme_property_background_color">定义编辑器的背景颜色</string>

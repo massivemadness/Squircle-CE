@@ -86,7 +86,7 @@
     <string name="message_no_result">No result</string>
     <string name="message_cannot_be_opened">File cannot be opened</string>
     <string name="message_invalid_file_name">Invalid file name</string>
-    <string name="message_unknown_exception">An error occurred</string>
+    <string name="message_error_occurred">An error occurred</string>
     <string name="message_directory_expected">Unable to get list of files from file</string>
     <string name="message_file_already_exists">File already exists</string>
     <string name="message_unsupported_archive">Unsupported archive</string>

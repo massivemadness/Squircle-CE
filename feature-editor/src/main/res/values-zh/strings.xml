@@ -61,7 +61,7 @@
     <string name="message_no_open_files">还没有打开任何文件</string>
     <string name="message_tab_limit_achieved">标签页已达上限</string>
     <string name="message_invalid_file_path">无效的文件路径</string>
-    <string name="message_unknown_exception">发生错误</string>
+    <string name="message_error_occurred">发生错误</string>
     <string name="message_file_not_found">文件不存在</string>
     <string name="message_out_of_memory">内存不足</string>
     <string name="message_saved">已保存</string>

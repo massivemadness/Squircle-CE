@@ -61,7 +61,7 @@
     <string name="message_no_open_files">Aucun fichier ouvert</string>
     <string name="message_tab_limit_achieved">Limite du nombre d\'onglets atteinte</string>
     <string name="message_invalid_file_path">Chemin d\'accès au fichier invalide</string>
-    <string name="message_unknown_exception">Une erreur est survenue</string>
+    <string name="message_error_occurred">Une erreur est survenue</string>
     <string name="message_file_not_found">Fichier introuvable</string>
     <string name="message_out_of_memory">Mémoire insuffisante</string>
     <string name="message_saved">Sauvegardé</string>

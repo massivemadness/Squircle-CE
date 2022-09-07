@@ -63,7 +63,7 @@
     <string name="message_no_open_files">No open files</string>
     <string name="message_tab_limit_achieved">Tab limit achieved</string>
     <string name="message_invalid_file_path">Invalid file path</string>
-    <string name="message_unknown_exception">An error occurred</string>
+    <string name="message_error_occurred">An error occurred</string>
     <string name="message_file_not_found">File not found</string>
     <string name="message_out_of_memory">Out of memory</string>
     <string name="message_saved">Saved</string>
