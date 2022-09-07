@@ -83,15 +83,12 @@ class ThemesRepositoryImpl(
 
     override suspend fun fetchThemes(query: String): List<ThemeModel> {
         return withContext(dispatcherProvider.io()) {
-            val themes = appDatabase.themeDao().loadAll(query)
+            val defaultThemes = InternalTheme.values()
+                .map(InternalTheme::theme)
+                .filter { it.name.contains(query, ignoreCase = true) }
+            val userThemes = appDatabase.themeDao().loadAll(query)
                 .map(ThemeConverter::toModel)
-
-            if (query.isEmpty()) {
-                themes + InternalTheme.values()
-                    .map(InternalTheme::theme)
-            } else {
-                themes
-            }
+            userThemes + defaultThemes
         }
     }
 

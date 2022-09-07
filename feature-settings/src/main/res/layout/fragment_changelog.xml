@@ -10,10 +10,13 @@
         style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:translationZ="4dp"
         android:id="@+id/toolbar"
         app:title="@string/label_changelog"
         app:navigationIcon="@drawable/ic_back"
-        app:navigationIconTint="?colorOnSurface" />
+        app:navigationIconTint="?colorOnSurface"
+        app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

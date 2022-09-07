@@ -32,14 +32,11 @@ class FontsRepositoryImpl(
 
     override suspend fun fetchFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
-            val fonts = appDatabase.fontDao().loadAll(query)
+            val defaultFonts = internalFonts()
+                .filter { it.fontName.contains(query, ignoreCase = true) }
+            val userFonts = appDatabase.fontDao().loadAll(query)
                 .map(FontConverter::toModel)
-
-            if (query.isEmpty()) {
-                fonts + internalFonts()
-            } else {
-                fonts
-            }
+            userFonts + defaultFonts
         }
     }
 

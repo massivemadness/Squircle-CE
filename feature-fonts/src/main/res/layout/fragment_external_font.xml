@@ -26,8 +26,11 @@
         style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:translationZ="4dp"
         android:id="@+id/toolbar"
         app:title="@string/label_external_font"
+        app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
         app:navigationIcon="@drawable/ic_back"
         app:navigationIconTint="?colorOnSurface" />
 

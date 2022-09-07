@@ -26,10 +26,13 @@
         style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:translationZ="4dp"
         android:id="@+id/toolbar"
         app:title="@string/label_themes"
         app:navigationIcon="@drawable/ic_back"
         app:navigationIconTint="?colorOnSurface"
+        app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
