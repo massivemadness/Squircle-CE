@@ -26,13 +26,13 @@ import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
 
-class CodeStyleFragment : PreferenceFragmentCompat() {
+class CloudFragment : PreferenceFragmentCompat() {
 
     private val binding by viewBinding(FragmentPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_code_style, rootKey)
+        setPreferencesFromResource(R.xml.preference_cloud, rootKey)
     }
 
     override fun onCreateView(
@@ -50,7 +50,7 @@ class CodeStyleFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.title = getString(R.string.pref_header_codeStyle_title)
+        binding.toolbar.title = getString(R.string.pref_header_cloud_title)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }

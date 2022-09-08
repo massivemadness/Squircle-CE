@@ -50,7 +50,7 @@ class FilesFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.title = getString(R.string.label_files)
+        binding.toolbar.title = getString(R.string.pref_header_files_title)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }

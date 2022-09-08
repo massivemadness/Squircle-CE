@@ -56,6 +56,11 @@ class SettingsViewModel @Inject constructor(
                 SettingsScreen.Files
             ),
             PreferenceItem(
+                R.string.pref_header_cloud_title,
+                R.string.pref_header_cloud_summary,
+                SettingsScreen.Cloud
+            ),
+            PreferenceItem(
                 R.string.pref_header_about_title,
                 R.string.pref_header_about_summary,
                 SettingsScreen.About

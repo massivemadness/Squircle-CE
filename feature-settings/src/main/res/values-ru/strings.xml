@@ -18,12 +18,6 @@
 <resources>
 
     <string name="label_settings">Настройки</string>
-    <string name="label_application">Приложение</string>
-    <string name="label_editor">Редактор</string>
-    <string name="label_code_style">Стиль кода</string>
-    <string name="label_files">Файлы</string>
-    <string name="label_about">О программе</string>
-    <string name="label_keyboard_preset">Клавиатурный пресет</string>
     <string name="label_changelog">Список изменений</string>
     <string name="label_latest_release">Последний релиз</string>
 
@@ -50,6 +44,8 @@
     <string name="pref_header_codeStyle_summary">Настройте стиль кода.</string>
     <string name="pref_header_files_title">Файлы</string>
     <string name="pref_header_files_summary">Настройте способ обработки файлов.</string>
+    <string name="pref_header_cloud_title">Облачное хранилище</string>
+    <string name="pref_header_cloud_summary">Настройте хранение файлов на сервере.</string>
     <string name="pref_header_about_title">О программе</string>
     <string name="pref_header_about_summary">Просмотр информации о программе.</string>
 
@@ -64,6 +60,7 @@
     <string name="pref_category_encoding">Кодировка</string>
     <string name="pref_category_linebreaks">Разделители строк</string>
     <string name="pref_category_file_manager">Проводник</string>
+    <string name="pref_category_servers">FTP(S) Сервера</string>
     <string name="pref_category_about">О программе</string>
     <string name="pref_category_contribute">Внести вклад</string>
 
@@ -111,6 +108,9 @@
     <string name="pref_use_spaces_not_tabs_summary">Вставлять пробелы вместо табов при использовании авто-отступов.</string>
     <string name="pref_tab_width_title">Ширина табов</string>
     <string name="pref_tab_width_summary">Указанная ширина будет использоваться для каждого таба в редакторе.</string>
+
+    <string name="pref_add_server_title">Добавить сервер</string>
+    <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
 
     <string name="pref_encoding_auto_detect_title">Автоопределение кодировки</string>
     <string name="pref_encoding_auto_detect_summary">Подбирать правильную кодировку автоматически при открытии файла.</string>

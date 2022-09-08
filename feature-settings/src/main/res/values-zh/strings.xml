@@ -18,12 +18,6 @@
 <resources>
 
     <string name="label_settings">设置</string>
-    <string name="label_application">应用</string>
-    <string name="label_editor">编辑器</string>
-    <string name="label_code_style">代码范</string>
-    <string name="label_files">文件</string>
-    <string name="label_about">关于</string>
-    <string name="label_keyboard_preset">快捷符号栏</string>
     <string name="label_changelog">更新日志</string>
     <string name="label_latest_release">最新版本</string>
 
@@ -50,6 +44,8 @@
     <string name="pref_header_codeStyle_summary">配置代码缩进、符号配对等。</string>
     <string name="pref_header_files_title">文件</string>
     <string name="pref_header_files_summary">配置文件的处理方式。</string>
+    <string name="pref_header_cloud_title">Cloud &amp; Servers</string>
+    <string name="pref_header_cloud_summary">Configure cloud storage and servers.</string>
     <string name="pref_header_about_title">关于</string>
     <string name="pref_header_about_summary">查看 Squircle CE 的有关信息。</string>
 
@@ -64,6 +60,7 @@
     <string name="pref_category_encoding">文本编码</string>
     <string name="pref_category_linebreaks">换行符</string>
     <string name="pref_category_file_manager">文件管理器</string>
+    <string name="pref_category_servers">FTP(S) Servers</string>
     <string name="pref_category_about">关于</string>
     <string name="pref_category_contribute">贡献</string>
 
@@ -111,6 +108,9 @@
     <string name="pref_use_spaces_not_tabs_summary">自动缩进时插入空格代替制表符</string>
     <string name="pref_tab_width_title">制表符个数</string>
     <string name="pref_tab_width_summary">指定编辑器中展示的制表符个数</string>
+
+    <string name="pref_add_server_title">Add Server</string>
+    <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
 
     <string name="pref_encoding_auto_detect_title">自动检测编码</string>
     <string name="pref_encoding_auto_detect_summary">自动检测编码对多字节语言是很有用的。</string>

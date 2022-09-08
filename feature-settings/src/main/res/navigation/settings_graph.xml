@@ -40,6 +40,9 @@
             android:id="@+id/to_filesFragment"
             app:destination="@id/filesFragment" />
         <action
+            android:id="@+id/to_cloudFragment"
+            app:destination="@id/cloudFragment" />
+        <action
             android:id="@+id/to_aboutFragment"
             app:destination="@id/aboutFragment" />
     </fragment>
@@ -47,14 +50,16 @@
     <fragment
         android:id="@+id/applicationFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragment.ApplicationFragment"
-        android:label="@string/label_application">
+        android:label="@string/pref_header_application_title"
+        tools:layout="@layout/fragment_preference">
         <deepLink app:uri="blacksquircle://settings/application" />
     </fragment>
 
     <fragment
         android:id="@+id/editorFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragment.EditorFragment"
-        android:label="@string/label_editor">
+        android:label="@string/pref_header_editor_title"
+        tools:layout="@layout/fragment_preference">
         <deepLink app:uri="blacksquircle://settings/editor" />
         <action
             android:id="@+id/to_presetDialog"
@@ -64,21 +69,32 @@
     <fragment
         android:id="@+id/codeStyleFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragment.CodeStyleFragment"
-        android:label="@string/label_code_style">
+        android:label="@string/pref_header_codeStyle_title"
+        tools:layout="@layout/fragment_preference">
         <deepLink app:uri="blacksquircle://settings/codestyle" />
     </fragment>
 
     <fragment
         android:id="@+id/filesFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragment.FilesFragment"
-        android:label="@string/label_files">
+        android:label="@string/pref_header_files_title"
+        tools:layout="@layout/fragment_preference">
         <deepLink app:uri="blacksquircle://settings/files" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cloudFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragment.CloudFragment"
+        android:label="@string/pref_header_cloud_title"
+        tools:layout="@layout/fragment_preference">
+        <deepLink app:uri="blacksquircle://settings/cloud" />
     </fragment>
 
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.fragment.AboutFragment"
-        android:label="@string/label_about">
+        android:label="@string/pref_header_about_title"
+        tools:layout="@layout/fragment_preference">
         <deepLink app:uri="blacksquircle://settings/about" />
         <action
             android:id="@+id/action_aboutFragment_to_changeLogFragment"
@@ -88,7 +104,7 @@
     <dialog
         android:id="@+id/presetDialog"
         android:name="com.blacksquircle.ui.feature.settings.ui.dialog.PresetDialog"
-        android:label="@string/label_keyboard_preset"
+        android:label="@string/pref_keyboard_preset_title"
         tools:layout="@layout/dialog_preset">
         <deepLink app:uri="blacksquircle://settings/editor/preset" />
     </dialog>

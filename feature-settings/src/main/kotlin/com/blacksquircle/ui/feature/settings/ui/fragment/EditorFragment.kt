@@ -64,7 +64,7 @@ class EditorFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.title = getString(R.string.label_editor)
+        binding.toolbar.title = getString(R.string.pref_header_editor_title)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }

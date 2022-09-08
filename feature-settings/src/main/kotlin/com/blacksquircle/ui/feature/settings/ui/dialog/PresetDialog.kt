@@ -33,7 +33,7 @@ class PresetDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
-            title(R.string.label_keyboard_preset)
+            title(R.string.pref_keyboard_preset_title)
             customView(R.layout.dialog_preset)
             negativeButton(R.string.action_reset) {
                 viewModel.resetKeyboardPreset()

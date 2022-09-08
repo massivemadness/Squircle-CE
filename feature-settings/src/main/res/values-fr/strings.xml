@@ -18,12 +18,6 @@
 <resources>
 
     <string name="label_settings">Paramètres</string>
-    <string name="label_application">Application</string>
-    <string name="label_editor">Éditeur</string>
-    <string name="label_code_style">Style de Code</string>
-    <string name="label_files">Fichiers</string>
-    <string name="label_about">À Propos</string>
-    <string name="label_keyboard_preset">Préréglage du clavier</string>
     <string name="label_changelog">ChangeLog</string>
     <string name="label_latest_release">Latest release</string>
 
@@ -55,6 +49,8 @@
     <string name="pref_header_codeStyle_summary">Configurer le style de code</string>
     <string name="pref_header_files_title">Fichiers</string>
     <string name="pref_header_files_summary">Configurer la façon dont les fichiers sont traités.</string>
+    <string name="pref_header_cloud_title">Cloud &amp; Servers</string>
+    <string name="pref_header_cloud_summary">Configure cloud storage and servers.</string>
     <string name="pref_header_about_title">À Propos</string>
     <string name="pref_header_about_summary">Voir les informations sur Squircle CE.</string>
 
@@ -69,6 +65,7 @@
     <string name="pref_category_encoding">Encodage</string>
     <string name="pref_category_linebreaks">Sauts de ligne</string>
     <string name="pref_category_file_manager">Explorateur de Fichier</string>
+    <string name="pref_category_servers">FTP(S) Servers</string>
     <string name="pref_category_about">À Propos</string>
     <string name="pref_category_contribute">Contribuer</string>
 
@@ -116,6 +113,9 @@
     <string name="pref_use_spaces_not_tabs_summary">Insertion d\'espaces au lieu de tabulations lors de l\'utilisation de l\'indentation automatique.</string>
     <string name="pref_tab_width_title">Largeur d\'onglet</string>
     <string name="pref_tab_width_summary">Spécifier la largeur des onglets affichés dans l\'éditeur.</string>
+
+    <string name="pref_add_server_title">Add Server</string>
+    <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
 
     <string name="pref_encoding_auto_detect_title">Détection automatique de l\'encodage</string>
     <string name="pref_encoding_auto_detect_summary">La détection automatique de l\'encodage est utile pour les langages multi-octets.</string>

@@ -18,12 +18,6 @@
 <resources>
 
     <string name="label_settings">Configurações</string>
-    <string name="label_application">Aplicativo</string>
-    <string name="label_editor">Editor</string>
-    <string name="label_code_style">Estilo de código</string>
-    <string name="label_files">Arquivos</string>
-    <string name="label_about">Sobre</string>
-    <string name="label_keyboard_preset">Predefinição de teclado</string>
     <string name="label_changelog">ChangeLog</string>
     <string name="label_latest_release">Latest release</string>
 
@@ -50,6 +44,8 @@
     <string name="pref_header_codeStyle_summary">Configure o estilo de código.</string>
     <string name="pref_header_files_title">Arquivo</string>
     <string name="pref_header_files_summary">Configure como os arquivos são manuseados.</string>
+    <string name="pref_header_cloud_title">Cloud &amp; Servers</string>
+    <string name="pref_header_cloud_summary">Configure cloud storage and servers.</string>
     <string name="pref_header_about_title">Sobre</string>
     <string name="pref_header_about_summary">Veja informações sobre o Squircle CE.</string>
 
@@ -64,6 +60,7 @@
     <string name="pref_category_encoding">Codificação</string>
     <string name="pref_category_linebreaks">Quebras de linha</string>
     <string name="pref_category_file_manager">Explorador de arquivos</string>
+    <string name="pref_category_servers">FTP(S) Servers</string>
     <string name="pref_category_about">Sobre</string>
     <string name="pref_category_contribute">Contribua</string>
 
@@ -111,6 +108,9 @@
     <string name="pref_use_spaces_not_tabs_summary">Usar espaços em vez de tabs nas identações automáticas.</string>
     <string name="pref_tab_width_title">Largura do tab</string>
     <string name="pref_tab_width_summary">Especifica a largura do tab.</string>
+
+    <string name="pref_add_server_title">Add Server</string>
+    <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
 
     <string name="pref_encoding_auto_detect_title">Detectar codificação automaticamente</string>
     <string name="pref_encoding_auto_detect_summary">É útil para linguagens multi-byte.</string>

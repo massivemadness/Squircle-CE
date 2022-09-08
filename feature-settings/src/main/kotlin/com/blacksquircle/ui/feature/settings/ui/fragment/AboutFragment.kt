@@ -74,7 +74,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.title = getString(R.string.label_about)
+        binding.toolbar.title = getString(R.string.pref_header_about_title)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }

@@ -24,6 +24,7 @@ sealed class SettingsScreen(route: String) : Screen<String>(route) {
     object Editor : SettingsScreen("blacksquircle://settings/editor")
     object CodeStyle : SettingsScreen("blacksquircle://settings/codestyle")
     object Files : SettingsScreen("blacksquircle://settings/files")
+    object Cloud : SettingsScreen("blacksquircle://settings/cloud")
     object About : SettingsScreen("blacksquircle://settings/about")
 
     object Preset : SettingsScreen("blacksquircle://settings/editor/preset")
