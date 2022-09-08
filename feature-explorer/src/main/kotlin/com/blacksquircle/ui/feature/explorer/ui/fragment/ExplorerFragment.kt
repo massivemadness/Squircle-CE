@@ -359,10 +359,10 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
     private fun toggleSelection(fileModel: FileModel) {
         val index = fileAdapter.currentList.indexOf(fileModel)
-        if (tracker.isSelected(fileModel.uri)) {
-            tracker.deselect(fileModel.uri)
+        if (tracker.isSelected(fileModel.fileUri)) {
+            tracker.deselect(fileModel.fileUri)
         } else {
-            tracker.select(fileModel.uri)
+            tracker.select(fileModel.fileUri)
         }
         fileAdapter.notifyItemChanged(index)
     }

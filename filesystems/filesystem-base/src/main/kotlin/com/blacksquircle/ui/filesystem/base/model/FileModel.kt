@@ -19,7 +19,8 @@ package com.blacksquircle.ui.filesystem.base.model
 import com.blacksquircle.ui.filesystem.base.utils.endsWith
 
 data class FileModel(
-    val uri: String,
+    val fileUri: String,
+    val filesystemUuid: String,
     val size: Long = 0L,
     val lastModified: Long = 0L,
     val isFolder: Boolean = false,
@@ -27,11 +28,11 @@ data class FileModel(
 ) {
 
     val scheme: String
-        get() = uri.substringBeforeLast("://") + "://"
+        get() = fileUri.substringBeforeLast("://") + "://"
     val path: String
-        get() = uri.substringAfterLast("://")
+        get() = fileUri.substringAfterLast("://")
     val name: String
-        get() = uri.substringAfterLast("/")
+        get() = fileUri.substringAfterLast("/")
     val type: FileType
         get() = when {
             name.endsWith(TEXT) -> FileType.TEXT
@@ -49,12 +50,12 @@ data class FileModel(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
         other as FileModel
-        if (uri != other.uri) return false
+        if (fileUri != other.fileUri) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return uri.hashCode()
+        return fileUri.hashCode()
     }
 
     companion object {

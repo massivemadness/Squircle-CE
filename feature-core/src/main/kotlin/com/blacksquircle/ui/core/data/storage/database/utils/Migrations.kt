@@ -23,14 +23,15 @@ object Migrations {
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `filesystem_uuid` TEXT NOT NULL DEFAULT 'local'")
             val cursor = database.query("SELECT * FROM `${Tables.DOCUMENTS}`")
             if (cursor.moveToFirst()) {
                 do {
                     val columnUuid = cursor.getColumnIndexOrThrow("uuid")
                     val columnPath = cursor.getColumnIndexOrThrow("path")
                     val uuid = cursor.getString(columnUuid)
-                    val path = "file://" + cursor.getString(columnPath)
-                    database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `path` = '$path' WHERE `uuid` = '$uuid';")
+                    val path = cursor.getString(columnPath)
+                    database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `path` = 'file://$path' WHERE `uuid` = '$uuid';")
                 } while (cursor.moveToNext())
             }
             cursor.close()

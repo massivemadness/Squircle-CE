@@ -41,4 +41,9 @@ interface Filesystem {
 
     suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String
     suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams)
+
+    interface Object<T> {
+        fun toFileModel(fileObject: T): FileModel
+        fun toFileObject(fileModel: FileModel): T
+    }
 }

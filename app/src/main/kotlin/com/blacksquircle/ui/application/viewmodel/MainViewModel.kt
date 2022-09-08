@@ -28,8 +28,9 @@ import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -41,11 +42,11 @@ class MainViewModel @Inject constructor(
     private val documentRepository: DocumentRepository
 ) : ViewModel() {
 
-    private val _viewEvent = MutableSharedFlow<ViewEvent>()
-    val viewEvent: SharedFlow<ViewEvent> = _viewEvent
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private val _intentEvent = MutableSharedFlow<Intent>()
-    val intentEvent: SharedFlow<Intent> = _intentEvent
+    private val _intentEvent = Channel<Intent>(Channel.BUFFERED)
+    val intentEvent: Flow<Intent> = _intentEvent.receiveAsFlow()
 
     val fullScreenMode: Boolean
         get() = settingsManager.fullScreenMode
@@ -54,20 +55,20 @@ class MainViewModel @Inject constructor(
 
     fun handleIntent(intent: Intent) {
         viewModelScope.launch {
-            _intentEvent.emit(intent)
+            _intentEvent.send(intent)
         }
     }
 
     fun handleDocument(file: File, onSuccess: () -> Unit) {
         viewModelScope.launch {
             try {
-                val fileModel = FileModel(file.absolutePath)
+                val fileModel = FileModel(file.absolutePath, "local")
                 val documentModel = DocumentConverter.toModel(fileModel)
                 documentRepository.updateDocument(documentModel)
                 onSuccess()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.emit(ViewEvent.Toast(
+                _viewEvent.send(ViewEvent.Toast(
                     stringProvider.getString(R.string.message_error_occurred)
                 ))
             }

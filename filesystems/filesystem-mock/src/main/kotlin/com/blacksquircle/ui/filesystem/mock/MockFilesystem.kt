@@ -30,14 +30,14 @@ class MockFilesystem : Filesystem {
 
     override suspend fun defaultLocation(): FileModel {
         return suspendCoroutine { cont ->
-            val fileModel = FileModel("/storage/emulated/0")
+            val fileModel = FileModel("file:///storage/emulated/0", MOCK_UUID)
             cont.resume(fileModel)
         }
     }
 
     override suspend fun provideFile(path: String): FileModel {
         return suspendCoroutine { cont ->
-            val fileModel = FileModel(path)
+            val fileModel = FileModel(path, MOCK_UUID)
             cont.resume(fileModel)
         }
     }
@@ -45,14 +45,14 @@ class MockFilesystem : Filesystem {
     override suspend fun provideDirectory(parent: FileModel): FileTree {
         return suspendCoroutine { cont ->
             val fileTree = FileTree(parent, listOf(
-                FileModel("/storage/emulated/0/folder_1", isFolder = true),
-                FileModel("/storage/emulated/0/folder_2", isFolder = true),
-                FileModel("/storage/emulated/0/folder_3", isFolder = true),
-                FileModel("/storage/emulated/0/folder_4", isFolder = true),
-                FileModel("/storage/emulated/0/file_1.txt", isFolder = false),
-                FileModel("/storage/emulated/0/file_2.txt", isFolder = false),
-                FileModel("/storage/emulated/0/file_3.txt", isFolder = false),
-                FileModel("/storage/emulated/0/file_4.txt", isFolder = false),
+                FileModel("file:///storage/emulated/0/folder_1", MOCK_UUID, isFolder = true),
+                FileModel("file:///storage/emulated/0/folder_2", MOCK_UUID, isFolder = true),
+                FileModel("file:///storage/emulated/0/folder_3", MOCK_UUID, isFolder = true),
+                FileModel("file:///storage/emulated/0/folder_4", MOCK_UUID, isFolder = true),
+                FileModel("file:///storage/emulated/0/file_1.txt", MOCK_UUID, isFolder = false),
+                FileModel("file:///storage/emulated/0/file_2.txt", MOCK_UUID, isFolder = false),
+                FileModel("file:///storage/emulated/0/file_3.txt", MOCK_UUID, isFolder = false),
+                FileModel("file:///storage/emulated/0/file_4.txt", MOCK_UUID, isFolder = false),
             ))
             cont.resume(fileTree)
         }
@@ -129,5 +129,9 @@ class MockFilesystem : Filesystem {
         return suspendCoroutine { cont ->
             cont.resume(Unit)
         }
+    }
+
+    companion object {
+        private const val MOCK_UUID = "mock"
     }
 }

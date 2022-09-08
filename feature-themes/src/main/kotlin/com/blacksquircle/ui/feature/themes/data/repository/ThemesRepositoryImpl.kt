@@ -115,7 +115,10 @@ class ThemesRepositoryImpl(
             val fileName = "${themeModel.name}.json"
             val fileText = ExternalTheme.serialize(externalTheme)
             val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val fileModel = FileModel(File(directory, fileName).absolutePath)
+            val fileModel = FileModel(
+                fileUri = "file://" + File(directory, fileName).absolutePath,
+                filesystemUuid = "local"
+            )
             filesystem.saveFile(fileModel, fileText, FileParams())
         }
     }

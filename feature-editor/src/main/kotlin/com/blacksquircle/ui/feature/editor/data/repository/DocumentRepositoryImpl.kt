@@ -172,7 +172,11 @@ class DocumentRepositoryImpl(
         if (cacheFilesystem.isExists(redoCacheFile)) { cacheFilesystem.deleteFile(redoCacheFile) }
     }
 
-    private suspend fun cacheFile(documentModel: DocumentModel, postfix: String) = FileModel(
-        uri = cacheFilesystem.defaultLocation().uri + "/" + "${documentModel.uuid}-$postfix.cache"
-    )
+    private suspend fun cacheFile(documentModel: DocumentModel, postfix: String): FileModel {
+        val defaultLocation = cacheFilesystem.defaultLocation()
+        return FileModel(
+            fileUri = defaultLocation.fileUri + "/" + "${documentModel.uuid}-$postfix.cache",
+            filesystemUuid = defaultLocation.filesystemUuid
+        )
+    }
 }

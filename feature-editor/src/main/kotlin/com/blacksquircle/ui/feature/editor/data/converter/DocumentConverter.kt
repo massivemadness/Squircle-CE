@@ -25,7 +25,8 @@ object DocumentConverter {
 
     fun toModel(documentModel: DocumentModel): FileModel {
         return FileModel(
-            uri = documentModel.uri,
+            fileUri = documentModel.fileUri,
+            filesystemUuid = documentModel.filesystemUuid,
             size = 0,
             lastModified = 0,
             isFolder = false,
@@ -36,7 +37,8 @@ object DocumentConverter {
     fun toModel(fileModel: FileModel): DocumentModel {
         return DocumentModel(
             uuid = UUID.randomUUID().toString(),
-            uri = fileModel.uri,
+            fileUri = fileModel.fileUri,
+            filesystemUuid = fileModel.filesystemUuid,
             modified = false,
             position = 0,
             scrollX = 0,
@@ -49,7 +51,8 @@ object DocumentConverter {
     fun toModel(documentEntity: DocumentEntity): DocumentModel {
         return DocumentModel(
             uuid = documentEntity.uuid,
-            uri = documentEntity.uri,
+            fileUri = documentEntity.fileUri,
+            filesystemUuid = documentEntity.filesystemUuid,
             modified = documentEntity.modified,
             position = documentEntity.position,
             scrollX = documentEntity.scrollX,
@@ -62,7 +65,8 @@ object DocumentConverter {
     fun toEntity(documentModel: DocumentModel): DocumentEntity {
         return DocumentEntity(
             uuid = documentModel.uuid,
-            uri = documentModel.uri,
+            fileUri = documentModel.fileUri,
+            filesystemUuid = documentModel.filesystemUuid,
             modified = documentModel.modified,
             position = documentModel.position,
             scrollX = documentModel.scrollX,

@@ -466,7 +466,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                     if (!filePath.isNullOrBlank()) {
                         val updateDocument = document.copy(
                             uuid = "whatever",
-                            uri = document.scheme + filePath
+                            fileUri = document.scheme + filePath
                         )
                         val documentContent = DocumentContent(
                             documentModel = updateDocument,

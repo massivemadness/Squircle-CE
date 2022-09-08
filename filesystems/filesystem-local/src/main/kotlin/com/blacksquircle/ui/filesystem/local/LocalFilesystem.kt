@@ -20,7 +20,6 @@ import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.*
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.endsWith
-import com.blacksquircle.ui.filesystem.local.converter.FileConverter
 import com.blacksquircle.ui.filesystem.local.utils.charCount
 import com.blacksquircle.ui.filesystem.local.utils.lineCount
 import com.blacksquircle.ui.filesystem.local.utils.size
@@ -41,17 +40,12 @@ import kotlin.coroutines.suspendCoroutine
 @Suppress("BlockingMethodInNonBlockingContext")
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
-    companion object {
-
-        /**
-         * zip4j only supports these formats
-         */
-        private val SUPPORTED_ARCHIVES = arrayOf(".zip", ".jar")
-    }
+    /** zip4j only supports these formats */
+    private val supportedArchives = arrayOf(".zip", ".jar")
 
     override suspend fun defaultLocation(): FileModel {
         return suspendCoroutine { cont ->
-            val fileModel = FileConverter.toModel(defaultLocation)
+            val fileModel = toFileModel(defaultLocation)
             if (defaultLocation.isDirectory) {
                 cont.resume(fileModel)
             } else {
@@ -64,7 +58,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return suspendCoroutine { cont ->
             val file = File(path)
             if (file.exists()) {
-                val fileModel = FileConverter.toModel(file)
+                val fileModel = toFileModel(file)
                 cont.resume(fileModel)
             } else {
                 cont.resumeWithException(FileNotFoundException(file.path))
@@ -74,10 +68,10 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     override suspend fun provideDirectory(parent: FileModel): FileTree {
         return suspendCoroutine { cont ->
-            val file = FileConverter.toFile(parent)
+            val file = toFileObject(parent)
             if (file.isDirectory) {
                 val children = file.listFiles().orEmpty()
-                    .map(FileConverter::toModel)
+                    .map(::toFileModel)
                     .toList()
                 val fileTree = FileTree(parent, children)
                 cont.resume(fileTree)
@@ -89,7 +83,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     override suspend fun createFile(fileModel: FileModel): FileModel {
         return suspendCoroutine { cont ->
-            val file = FileConverter.toFile(fileModel)
+            val file = toFileObject(fileModel)
             if (!file.exists()) {
                 if (fileModel.isFolder) {
                     file.mkdirs()
@@ -100,7 +94,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     }
                     file.createNewFile()
                 }
-                val fileModel2 = FileConverter.toModel(file)
+                val fileModel2 = toFileModel(file)
                 cont.resume(fileModel2)
             } else {
                 cont.resumeWithException(FileAlreadyExistsException(fileModel.path))
@@ -110,13 +104,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     override suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel {
         return suspendCoroutine { cont ->
-            val originalFile = FileConverter.toFile(fileModel)
+            val originalFile = toFileObject(fileModel)
             val parentFile = originalFile.parentFile!!
             val renamedFile = File(parentFile, fileName)
             if (originalFile.exists()) {
                 if (!renamedFile.exists()) {
                     originalFile.renameTo(renamedFile)
-                    val renamedModel = FileConverter.toModel(renamedFile)
+                    val renamedModel = toFileModel(renamedFile)
                     cont.resume(renamedModel)
                 } else {
                     cont.resumeWithException(FileAlreadyExistsException(renamedFile.absolutePath))
@@ -129,10 +123,10 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     override suspend fun deleteFile(fileModel: FileModel): FileModel {
         return suspendCoroutine { cont ->
-            val file = FileConverter.toFile(fileModel)
+            val file = toFileObject(fileModel)
             if (file.exists()) {
                 file.deleteRecursively()
-                val parentFile = FileConverter.toModel(file.parentFile!!)
+                val parentFile = toFileModel(file.parentFile!!)
                 cont.resume(parentFile)
             } else {
                 cont.resumeWithException(FileNotFoundException(fileModel.path))
@@ -142,8 +136,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     override suspend fun copyFile(source: FileModel, dest: FileModel): FileModel {
         return suspendCoroutine { cont ->
-            val directory = FileConverter.toFile(dest)
-            val sourceFile = FileConverter.toFile(source)
+            val directory = toFileObject(dest)
+            val sourceFile = toFileObject(source)
             val destFile = File(directory, sourceFile.name)
             if (sourceFile.exists()) {
                 if (!destFile.exists()) {
@@ -192,14 +186,14 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     // TODO: Use ProgressMonitor
     override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
-            val destFile = FileConverter.toFile(dest)
+            val destFile = toFileObject(dest)
             val archiveFile = ZipFile(destFile)
             invokeOnClose {
                 archiveFile.progressMonitor.isCancelAllTasks = true
             }
             if (!destFile.exists()) {
                 for (fileModel in source) {
-                    val sourceFile = FileConverter.toFile(fileModel)
+                    val sourceFile = toFileObject(fileModel)
                     if (sourceFile.exists()) {
                         try {
                             if (sourceFile.isDirectory) {
@@ -229,13 +223,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     // TODO: Use ProgressMonitor
     override suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
-            val sourceFile = FileConverter.toFile(source)
+            val sourceFile = toFileObject(source)
             val archiveFile = ZipFile(sourceFile)
             invokeOnClose {
                 archiveFile.progressMonitor.isCancelAllTasks = true
             }
             if (sourceFile.exists()) {
-                if (sourceFile.name.endsWith(SUPPORTED_ARCHIVES)) {
+                if (sourceFile.name.endsWith(supportedArchives)) {
                     when {
                         archiveFile.isValidZipFile -> {
                             try {
@@ -299,6 +293,27 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             }
             file.writeText(fileParams.linebreak(text), fileParams.charset)
             cont.resume(Unit)
+        }
+    }
+
+    companion object : Filesystem.Object<File> {
+
+        private const val LOCAL_UUID = "local"
+        private const val LOCAL_SCHEME = "file://"
+
+        override fun toFileModel(fileObject: File): FileModel {
+            return FileModel(
+                fileUri = LOCAL_SCHEME + fileObject.path,
+                filesystemUuid = LOCAL_UUID,
+                size = fileObject.length(),
+                lastModified = fileObject.lastModified(),
+                isFolder = fileObject.isDirectory,
+                isHidden = fileObject.isHidden
+            )
+        }
+
+        override fun toFileObject(fileModel: FileModel): File {
+            return File(fileModel.path)
         }
     }
 }
