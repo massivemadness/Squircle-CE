@@ -86,7 +86,6 @@ dependencies {
     // Modules
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
-    implementation project(':filesystems:filesystem-local')
     implementation project(':languages:language-base')
 
     // Features

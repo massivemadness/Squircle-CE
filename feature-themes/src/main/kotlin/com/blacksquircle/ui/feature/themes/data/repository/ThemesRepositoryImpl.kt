@@ -16,10 +16,13 @@
 
 package com.blacksquircle.ui.feature.themes.data.repository
 
+import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
-import com.blacksquircle.ui.core.data.factory.FilesystemFactory
+import android.provider.MediaStore
+import androidx.core.content.FileProvider
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -32,9 +35,6 @@ import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FileParams
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.File
@@ -43,12 +43,12 @@ class ThemesRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
-    private val filesystemFactory: FilesystemFactory,
     private val context: Context
 ) : ThemesRepository {
 
     companion object {
         private const val FALLBACK_COLOR = "#000000"
+        private const val MIME_TYPE_JSON = "application/json"
     }
 
     // region PROPERTIES
@@ -110,18 +110,33 @@ class ThemesRepositoryImpl(
         }
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun exportTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
-            val externalTheme = ThemeConverter.toExternalTheme(themeModel)
             val fileName = "${themeModel.name}.json"
-            val fileText = ExternalTheme.serialize(externalTheme)
-            val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val fileModel = FileModel(
-                fileUri = LocalFilesystem.LOCAL_SCHEME + File(directory, fileName).absolutePath,
-                filesystemUuid = LocalFilesystem.LOCAL_UUID
-            )
-            val filesystem = filesystemFactory.create(fileModel.filesystemUuid)
-            filesystem.saveFile(fileModel, fileText, FileParams())
+            val fileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val fileText = ExternalTheme.serialize(ThemeConverter.toExternalTheme(themeModel))
+
+            val resolver = context.contentResolver
+            val fileUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                    put(MediaStore.MediaColumns.MIME_TYPE, MIME_TYPE_JSON)
+                    put(MediaStore.MediaColumns.SIZE, fileText.length)
+                }
+                resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+            } else {
+                val file = File(fileDir, fileName)
+                val authority = "${context.packageName}.provider"
+                file.deleteRecursively()
+                file.createNewFile()
+                FileProvider.getUriForFile(context, authority, file)
+            } ?: Uri.EMPTY
+
+            resolver.openOutputStream(fileUri)?.use { output ->
+                output.write(fileText.toByteArray())
+                output.flush()
+            }
         }
     }
 

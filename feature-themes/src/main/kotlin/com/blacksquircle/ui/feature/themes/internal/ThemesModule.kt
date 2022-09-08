@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.themes.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
@@ -40,14 +39,12 @@ object ThemesModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
-        filesystemFactory: FilesystemFactory,
         @ApplicationContext context: Context
     ): ThemesRepository {
         return ThemesRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             appDatabase = appDatabase,
-            filesystemFactory = filesystemFactory,
             context = context
         )
     }
