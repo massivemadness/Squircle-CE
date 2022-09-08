@@ -17,10 +17,6 @@
 
 <resources>
 
-    <string name="label_permissions">Permissões</string>
-    <string name="label_directory">Diretório</string>
-    <string name="label_local_storage">Armazenamento local</string>
-
     <string name="hint_search">Pesquisar…</string>
     <string name="hint_enter_file_name">Insira o nome do arquivo</string>
     <string name="hint_enter_archive_name">Insira o nome do documento</string>
@@ -104,5 +100,9 @@
 
     <string name="explorer_channel_name">File Manager</string>
     <string name="explorer_channel_description">Display and control file operations</string>
+
+    <string name="storage_local">Armazenamento local</string>
+    <string name="storage_root">Root Directory</string>
+    <string name="storage_add">Add Server</string>
 
 </resources>

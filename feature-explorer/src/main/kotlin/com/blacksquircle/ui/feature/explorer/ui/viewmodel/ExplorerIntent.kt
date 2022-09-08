@@ -7,6 +7,7 @@ sealed class ExplorerIntent {
     data class SearchFiles(val query: String) : ExplorerIntent()
     data class SelectFiles(val selection: List<FileModel>) : ExplorerIntent()
     data class SelectTab(val position: Int) : ExplorerIntent()
+    data class SelectFilesystem(val position: Int) : ExplorerIntent()
     object Refresh : ExplorerIntent()
 
     object Cut : ExplorerIntent()

@@ -89,6 +89,7 @@ class ExplorerViewModel @Inject constructor(
             is ExplorerIntent.SearchFiles -> searchFiles(event)
             is ExplorerIntent.SelectFiles -> selectFiles(event)
             is ExplorerIntent.SelectTab -> selectTab(event)
+            is ExplorerIntent.SelectFilesystem -> selectFilesystem(event)
             is ExplorerIntent.Refresh -> refreshList()
 
             is ExplorerIntent.Cut -> cutButton()
@@ -209,6 +210,15 @@ class ExplorerViewModel @Inject constructor(
                 operation = operation,
             )
             listFiles(ExplorerIntent.OpenFolder(breadcrumbs.lastOrNull()))
+        }
+    }
+
+    private fun selectFilesystem(event: ExplorerIntent.SelectFilesystem) {
+        viewModelScope.launch {
+            explorerRepository.filesystem(event.position)
+            breadcrumbs.replaceList(emptyList())
+            initialState()
+            listFiles(ExplorerIntent.OpenFolder())
         }
     }
 

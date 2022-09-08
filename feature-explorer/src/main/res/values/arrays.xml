@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="filesystems">
+        <item>@string/storage_local</item>
+        <item>@string/storage_root</item>
+        <item>@string/storage_add</item>
+    </string-array>
+
+</resources>

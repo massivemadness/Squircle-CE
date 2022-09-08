@@ -23,6 +23,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
@@ -150,6 +152,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     private lateinit var tracker: SelectionTracker<String>
+    private lateinit var dropdownAdapter: ArrayAdapter<CharSequence>
     private lateinit var tabAdapter: DirectoryAdapter
     private lateinit var fileAdapter: FileAdapter
 
@@ -161,6 +164,27 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = DirectoryAdapter().also {
             tabAdapter = it
+        }
+
+        binding.dropDown.adapter = ArrayAdapter.createFromResource(
+            requireContext(), R.array.filesystems, R.layout.item_filesystem
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            dropdownAdapter = adapter
+        }
+        binding.dropDown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            private var previousPosition = 0
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position == previousPosition) return
+                if (position == dropdownAdapter.count - 1) {
+                    binding.dropDown.setSelection(previousPosition)
+                    context?.showToast(text = "TODO")
+                    return
+                }
+                previousPosition = position
+                viewModel.obtainEvent(ExplorerIntent.SelectFilesystem(position))
+            }
         }
 
         binding.filesRecyclerView.setHasFixedSize(true)
@@ -326,7 +350,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .onEach { event ->
                 when (event) {
                     is ExplorerViewEvent.SelectAll -> {
-                        tracker.setItemsSelected(fileAdapter.currentList.map(FileModel::path), true)
+                        tracker.setItemsSelected(fileAdapter.currentList.map(FileModel::fileUri), true)
                         fileAdapter.notifyItemRangeChanged(0, fileAdapter.itemCount)
                     }
                     is ExplorerViewEvent.CopyPath -> {
@@ -342,6 +366,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private fun startActionMode(size: Int) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.title = size.toString()
+        binding.dropDown.isVisible = false
         activity?.removeMenuProvider(defaultMenuProvider)
         activity?.removeMenuProvider(selectionMenuProvider)
         activity?.addMenuProvider(selectionMenuProvider, viewLifecycleOwner)
@@ -350,7 +375,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private fun stopActionMode() {
         tracker.clearSelection()
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        binding.toolbar.title = getString(R.string.label_local_storage)
+        binding.dropDown.isVisible = true
         activity?.removeMenuProvider(selectionMenuProvider)
         activity?.removeMenuProvider(defaultMenuProvider)
         activity?.addMenuProvider(defaultMenuProvider, viewLifecycleOwner)

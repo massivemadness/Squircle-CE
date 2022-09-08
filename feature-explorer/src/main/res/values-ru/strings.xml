@@ -17,10 +17,6 @@
 
 <resources>
 
-    <string name="label_permissions">Разрешения</string>
-    <string name="label_directory">Директория</string>
-    <string name="label_local_storage">На устройстве</string>
-
     <string name="hint_search">Поиск…</string>
     <string name="hint_enter_file_name">Введите имя файла</string>
     <string name="hint_enter_archive_name">Введите название архива</string>
@@ -104,5 +100,9 @@
 
     <string name="explorer_channel_name">Файловый менеджер</string>
     <string name="explorer_channel_description">Отображение и управление файловыми операциями</string>
+
+    <string name="storage_local">Устройство</string>
+    <string name="storage_root">Корневой каталог</string>
+    <string name="storage_add">Добавить сервер</string>
 
 </resources>

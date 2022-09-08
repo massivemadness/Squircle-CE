@@ -35,11 +35,22 @@
         app:navigationIconTint="?colorOnSurface"
         app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-        app:title="@string/label_local_storage"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:menu="@menu/menu_explorer_default" />
+        tools:menu="@menu/menu_explorer_default"
+        tools:title="@string/storage_local">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:spinnerMode="dropdown"
+            app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+            android:id="@+id/drop_down"
+            tools:visibility="gone" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -113,11 +124,13 @@
 
     <include
         layout="@layout/layout_permission_view"
-        android:id="@+id/permissionView" />
+        android:id="@+id/permissionView"
+        tools:visibility="gone" />
 
     <include
         layout="@layout/layout_error_view"
-        android:id="@+id/errorView" />
+        android:id="@+id/errorView"
+        tools:visibility="gone" />
 
     <ProgressBar
         android:layout_width="64dp"

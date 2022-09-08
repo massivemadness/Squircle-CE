@@ -17,10 +17,6 @@
 
 <resources>
 
-    <string name="label_permissions">Permissions</string>
-    <string name="label_directory">Directory</string>
-    <string name="label_local_storage">Local Storage</string>
-
     <string name="hint_search">Search…</string>
     <string name="hint_enter_file_name">Enter file name</string>
     <string name="hint_enter_archive_name">Enter archive name</string>
@@ -107,5 +103,9 @@
 
     <string name="explorer_channel_name">File Manager</string>
     <string name="explorer_channel_description">Display and control file operations</string>
+
+    <string name="storage_local">Local Storage</string>
+    <string name="storage_root">Root Directory</string>
+    <string name="storage_add">Add Server</string>
 
 </resources>

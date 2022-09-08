@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.filesystem.ftp
+package com.blacksquircle.ui.filesystem.ftps
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.*
 import kotlinx.coroutines.flow.Flow
 
-class FTPFilesystem(private val serverModel: ServerModel) : Filesystem {
+class FTPSFilesystem(private val serverModel: ServerModel) : Filesystem {
 
     override suspend fun defaultLocation(): FileModel {
         TODO("Not yet implemented")
@@ -75,6 +75,6 @@ class FTPFilesystem(private val serverModel: ServerModel) : Filesystem {
     }
 
     companion object {
-        const val FTP_SCHEME = "ftp://"
+        const val FTPS_SCHEME = "ftps://"
     }
 }

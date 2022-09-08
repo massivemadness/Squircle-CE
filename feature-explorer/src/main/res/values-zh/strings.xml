@@ -17,10 +17,6 @@
 
 <resources>
 
-    <string name="label_permissions">权限</string>
-    <string name="label_directory">目录</string>
-    <string name="label_local_storage">本地存储</string>
-
     <string name="hint_search">搜索…</string>
     <string name="hint_enter_file_name">输入文件名称</string>
     <string name="hint_enter_archive_name">输入压缩包名称</string>
@@ -104,5 +100,9 @@
 
     <string name="explorer_channel_name">File Manager</string>
     <string name="explorer_channel_description">Display and control file operations</string>
+
+    <string name="storage_local">本地存储</string>
+    <string name="storage_root">Root Directory</string>
+    <string name="storage_add">Add Server</string>
 
 </resources>

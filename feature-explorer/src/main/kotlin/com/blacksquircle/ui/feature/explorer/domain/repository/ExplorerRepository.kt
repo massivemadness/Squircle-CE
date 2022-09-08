@@ -22,6 +22,7 @@ import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 
 interface ExplorerRepository {
 
+    suspend fun filesystem(position: Int)
     suspend fun listFiles(parent: FileModel?): FileTree
     suspend fun propertiesOf(fileModel: FileModel): PropertiesModel
 
