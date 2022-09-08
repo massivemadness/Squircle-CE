@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2022 Squircle IDE contributors.
+  ~ Copyright 2022 Squircle CE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -97,7 +97,7 @@
                 android:id="@+id/item_subtitle"
                 android:textSize="14sp"
                 android:singleLine="true"
-                tools:text="Squircle IDE"/>
+                tools:text="Squircle CE"/>
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.AppTheme.OutlinedButton"

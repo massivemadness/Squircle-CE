@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Squircle IDE contributors.
+ * Copyright 2022 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ class ThemeConverterTest {
         val themeEntity = ThemeEntity(
             uuid = "0",
             name = "Test",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             textColor = "#FFFFFF",
             backgroundColor = "#303030",
@@ -65,7 +65,7 @@ class ThemeConverterTest {
         val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = true,
             colorScheme = ColorScheme(
@@ -137,7 +137,7 @@ class ThemeConverterTest {
         val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = true,
             colorScheme = ColorScheme(
@@ -167,7 +167,7 @@ class ThemeConverterTest {
         val themeEntity = ThemeEntity(
             uuid = "0",
             name = "Test",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             textColor = "#FFFFFF",
             backgroundColor = "#303030",
@@ -226,7 +226,7 @@ class ThemeConverterTest {
         val externalTheme = ExternalTheme(
             uuid = "0",
             name = "Test",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             externalScheme = ExternalScheme(
                 textColor = "#FFFFFF",
@@ -260,7 +260,7 @@ class ThemeConverterTest {
         val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = true,
             colorScheme = ColorScheme(

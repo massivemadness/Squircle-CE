@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2022 Squircle IDE contributors.
+  ~ Copyright 2022 Squircle CE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@
 
     <string name="dialog_message_delete">Êtes-vous sûr de vouloir supprimer ce fichier?</string>
     <string name="dialog_message_multi_delete">Êtes-vous sûr de vouloir supprimer les fichiers sélectionnés?</string>
-    <string name="dialog_message_storage_access">Pour fonctionner correctement en tant que gestionnaire de fichiers, Squircle IDE nécessite l\'accès à tous les fichiers\n\nVeuillez accorder l\'autorisation sur cet appareil après avoir cliqué sur « Continuer »</string>
+    <string name="dialog_message_storage_access">Pour fonctionner correctement en tant que gestionnaire de fichiers, Squircle CE nécessite l\'accès à tous les fichiers\n\nVeuillez accorder l\'autorisation sur cet appareil après avoir cliqué sur « Continuer »</string>
 
     <string name="properties_name">&lt;b>Nom:&lt;/b> %s&lt;br&gt;</string>
     <string name="properties_path">&lt;b>Chemin:&lt;/b> %s&lt;br&gt;</string>

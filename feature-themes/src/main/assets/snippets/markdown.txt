@@ -1,7 +1,7 @@
-# Squircle IDE
+# Squircle CE
 ---
 
-Thanks for using Squircle IDE!
+Thanks for using Squircle CE!
 
 1. Ordered List Item
 2. Ordered List Item
@@ -12,4 +12,4 @@ Thanks for using Squircle IDE!
 - Unordered List Item
 
 **OPEN SOURCE CODE:**
-https://github.com/massivemadness/Squircle-IDE
+https://github.com/massivemadness/Squircle-CE

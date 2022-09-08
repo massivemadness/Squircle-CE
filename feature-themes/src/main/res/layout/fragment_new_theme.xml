@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2022 Squircle IDE contributors.
+  ~ Copyright 2022 Squircle CE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@
                 android:singleLine="true"
                 android:hint="@string/hint_theme_author"
                 android:id="@+id/text_input_theme_author"
-                tools:text="Squircle IDE"/>
+                tools:text="Squircle CE"/>
 
             <TextView
                 android:layout_width="match_parent"

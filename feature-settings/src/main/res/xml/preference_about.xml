@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2022 Squircle IDE contributors.
+  ~ Copyright 2022 Squircle CE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@
             android:title="@string/pref_privacy_policy_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/massivemadness/Squircle-IDE/blob/master/PRIVACY-POLICY.md"/>
+                android:data="https://github.com/massivemadness/Squircle-CE/blob/master/PRIVACY-POLICY.md"/>
         </Preference>
 
     </PreferenceCategory>
@@ -40,7 +40,7 @@
             android:summary="@string/pref_contribute_summary">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/massivemadness/Squircle-IDE"/>
+                android:data="https://github.com/massivemadness/Squircle-CE"/>
         </Preference>
 
     </PreferenceCategory>

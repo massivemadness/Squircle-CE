@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Squircle IDE contributors.
+ * Copyright 2022 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ enum class InternalTheme(val theme: ThemeModel) {
         theme = ThemeModel(
             uuid = "DARCULA",
             name = "Darcula",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
             colorScheme = EditorTheme.DARCULA
@@ -34,7 +34,7 @@ enum class InternalTheme(val theme: ThemeModel) {
         theme = ThemeModel(
             uuid = "MONOKAI",
             name = "Monokai",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
             colorScheme = EditorTheme.MONOKAI
@@ -44,7 +44,7 @@ enum class InternalTheme(val theme: ThemeModel) {
         theme = ThemeModel(
             uuid = "OBSIDIAN",
             name = "Obsidian",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
             colorScheme = EditorTheme.OBSIDIAN
@@ -54,7 +54,7 @@ enum class InternalTheme(val theme: ThemeModel) {
         theme = ThemeModel(
             uuid = "LADIES_NIGHT",
             name = "Ladies Night",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
             colorScheme = EditorTheme.LADIES_NIGHT
@@ -64,7 +64,7 @@ enum class InternalTheme(val theme: ThemeModel) {
         theme = ThemeModel(
             uuid = "TOMORROW_NIGHT",
             name = "Tomorrow Night",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
             colorScheme = EditorTheme.TOMORROW_NIGHT
@@ -74,7 +74,7 @@ enum class InternalTheme(val theme: ThemeModel) {
         theme = ThemeModel(
             uuid = "VISUAL_STUDIO_2013",
             name = "Visual Studio 2013",
-            author = "Squircle IDE",
+            author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
             colorScheme = EditorTheme.VISUAL_STUDIO_2013

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2022 Squircle IDE contributors.
+  ~ Copyright 2022 Squircle CE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@
     <string name="pref_header_files_title">Files</string>
     <string name="pref_header_files_summary">Configure how files are handled.</string>
     <string name="pref_header_about_title">About</string>
-    <string name="pref_header_about_summary">View information about Squircle IDE.</string>
+    <string name="pref_header_about_summary">View information about Squircle CE.</string>
 
     <string name="pref_category_look_and_feel">Look And Feel</string>
     <string name="pref_category_other">Other</string>
@@ -77,7 +77,7 @@
     <string name="pref_fullscreen_title">Full screen</string>
     <string name="pref_fullscreen_summary">Launch the application in full screen mode.</string>
     <string name="pref_confirm_exit_title">Confirm exit from the app</string>
-    <string name="pref_confirm_exit_summary">If you press back, Squircle IDE ask for confirmation to exit.</string>
+    <string name="pref_confirm_exit_summary">If you press back, Squircle CE ask for confirmation to exit.</string>
 
     <string name="pref_font_size_title">Editor font size</string>
     <string name="pref_font_size_summary">Specify the default font size of editor.</string>
@@ -132,7 +132,7 @@
     <string name="pref_view_mode_title">View Mode</string>
     <string name="pref_sort_mode_title">Sort Mode</string>
 
-    <string name="pref_about_summary">Squircle IDE is an open source project published under the Apache 2.0 license\n\nVersion: %1$s (%2$d)</string>
+    <string name="pref_about_summary">Squircle CE is an open source project published under the Apache 2.0 license\n\nVersion: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Privacy Policy</string>
     <string name="pref_contribute_title">Contribute to development</string>
     <string name="pref_contribute_summary">You can create an issue on GitHub or translate this app to your native language.\n\nThank you!</string>

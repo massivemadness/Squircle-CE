@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2022 Squircle IDE contributors.
+  ~ Copyright 2022 Squircle CE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string name="app_name" translatable="false">Squircle IDE</string>
+    <string name="app_name" translatable="false">Squircle CE</string>
 
     <string name="action_restart">Restart</string>
     <string name="action_yes">Yes</string>
