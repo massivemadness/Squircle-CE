@@ -32,7 +32,6 @@
     <string name="action_export">Exporter</string>
     <string name="action_edit">Éditer</string>
     <string name="action_remove">Retirer</string>
-    <string name="action_cancel">Annuler</string>
 
     <string name="dialog_title_color_picker">Sélecteur de Couleurs</string>
 

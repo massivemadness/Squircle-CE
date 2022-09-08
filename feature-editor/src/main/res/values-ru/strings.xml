@@ -20,8 +20,6 @@
     <string name="hint_line">Линия:</string>
     <string name="hint_enter_file_path">Введите путь к файлу</string>
 
-    <string name="action_ok">OK</string>
-    <string name="action_cancel">Отмена</string>
     <string name="action_close">Закрыть</string>
     <string name="action_close_others">Закрыть другие</string>
     <string name="action_close_all">Закрыть все</string>

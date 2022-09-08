@@ -20,8 +20,6 @@
     <string name="hint_line">行:</string>
     <string name="hint_enter_file_path">输入文件路径</string>
 
-    <string name="action_ok">确认</string>
-    <string name="action_cancel">取消</string>
     <string name="action_close">关闭</string>
     <string name="action_close_others">关闭其他</string>
     <string name="action_close_all">关闭全部</string>

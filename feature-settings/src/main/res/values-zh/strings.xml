@@ -111,6 +111,7 @@
 
     <string name="pref_add_server_title">Add Server</string>
     <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
+    <string name="pref_edit_server_title">Edit Server</string>
 
     <string name="pref_encoding_auto_detect_title">自动检测编码</string>
     <string name="pref_encoding_auto_detect_summary">自动检测编码对多字节语言是很有用的。</string>

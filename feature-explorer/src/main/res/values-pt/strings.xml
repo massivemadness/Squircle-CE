@@ -22,7 +22,6 @@
     <string name="hint_enter_archive_name">Insira o nome do documento</string>
 
     <string name="action_grant_access">Permitir acesso</string>
-    <string name="action_cancel">Cancelar</string>
     <string name="action_create">Criar</string>
     <string name="action_copy_path">Copiar caminho</string>
     <string name="action_folder">Pasta</string>

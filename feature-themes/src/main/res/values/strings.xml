@@ -34,7 +34,6 @@
     <string name="action_export">Export</string>
     <string name="action_edit">Edit</string>
     <string name="action_remove">Remove</string>
-    <string name="action_cancel">Cancel</string>
 
     <string name="dialog_title_color_picker">Color Picker</string>
 

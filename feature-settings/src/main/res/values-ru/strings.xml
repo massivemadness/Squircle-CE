@@ -44,7 +44,7 @@
     <string name="pref_header_codeStyle_summary">Настройте стиль кода.</string>
     <string name="pref_header_files_title">Файлы</string>
     <string name="pref_header_files_summary">Настройте способ обработки файлов.</string>
-    <string name="pref_header_cloud_title">Облачное хранилище</string>
+    <string name="pref_header_cloud_title">Облачное хранение</string>
     <string name="pref_header_cloud_summary">Настройте хранение файлов на сервере.</string>
     <string name="pref_header_about_title">О программе</string>
     <string name="pref_header_about_summary">Просмотр информации о программе.</string>
@@ -111,6 +111,7 @@
 
     <string name="pref_add_server_title">Добавить сервер</string>
     <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
+    <string name="pref_edit_server_title">Изменить сервер</string>
 
     <string name="pref_encoding_auto_detect_title">Автоопределение кодировки</string>
     <string name="pref_encoding_auto_detect_summary">Подбирать правильную кодировку автоматически при открытии файла.</string>

@@ -116,6 +116,7 @@
 
     <string name="pref_add_server_title">Add Server</string>
     <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
+    <string name="pref_edit_server_title">Edit Server</string>
 
     <string name="pref_encoding_auto_detect_title">Détection automatique de l\'encodage</string>
     <string name="pref_encoding_auto_detect_summary">La détection automatique de l\'encodage est utile pour les langages multi-octets.</string>

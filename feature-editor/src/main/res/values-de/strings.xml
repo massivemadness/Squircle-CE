@@ -20,8 +20,6 @@
     <string name="hint_line">"Zeile: "</string>
     <string name="hint_enter_file_path">Geben Sie einen Dateipfad ein</string>
 
-    <string name="action_ok">OK</string>
-    <string name="action_cancel">Abbrechen</string>
     <string name="action_close">Schließen</string>
     <string name="action_close_others">Die anderen schließen</string>
     <string name="action_close_all">Alle schließen</string>

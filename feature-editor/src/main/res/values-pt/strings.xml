@@ -20,8 +20,6 @@
     <string name="hint_line">Linha:</string>
     <string name="hint_enter_file_path">Insira o caminho do arquivo</string>
 
-    <string name="action_ok">OK</string>
-    <string name="action_cancel">Cancelar</string>
     <string name="action_close">Fechar</string>
     <string name="action_close_others">Fechar outros</string>
     <string name="action_close_all">Fechar todos</string>

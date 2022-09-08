@@ -22,7 +22,6 @@
     <string name="hint_enter_archive_name">Entrer le nom de l\'archive</string>
 
     <string name="action_grant_access">Accorder l\'Accès</string>
-    <string name="action_cancel">Annuler</string>
     <string name="action_create">Créer</string>
     <string name="action_copy_path">Copier le chemin d\'accès</string>
     <string name="action_folder">Dossier</string>

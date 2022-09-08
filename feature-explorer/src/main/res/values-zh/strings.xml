@@ -22,7 +22,6 @@
     <string name="hint_enter_archive_name">输入压缩包名称</string>
 
     <string name="action_grant_access">授予访问权限</string>
-    <string name="action_cancel">取消</string>
     <string name="action_create">创建</string>
     <string name="action_copy_path">复制路径</string>
     <string name="action_folder">文件夹</string>

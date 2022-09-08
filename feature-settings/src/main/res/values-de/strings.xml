@@ -111,6 +111,7 @@
 
     <string name="pref_add_server_title">Add Server</string>
     <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
+    <string name="pref_edit_server_title">Edit Server</string>
 
     <string name="pref_encoding_auto_detect_title">Kodierung automatisch erkennen</string>
     <string name="pref_encoding_auto_detect_summary">Nützlich für Multi-Byte-Sprachen.</string>

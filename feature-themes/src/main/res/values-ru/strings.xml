@@ -32,7 +32,6 @@
     <string name="action_export">Экспорт</string>
     <string name="action_edit">Изменить</string>
     <string name="action_remove">Удалить</string>
-    <string name="action_cancel">Отмена</string>
 
     <string name="dialog_title_color_picker">Выберите цвет</string>
 

@@ -116,6 +116,7 @@
 
     <string name="pref_add_server_title">Add Server</string>
     <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
+    <string name="pref_edit_server_title">Edit Server</string>
 
     <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
     <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is useful for multi-byte language.</string>

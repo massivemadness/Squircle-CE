@@ -32,7 +32,6 @@
     <string name="action_export">导出</string>
     <string name="action_edit">编辑</string>
     <string name="action_remove">移除</string>
-    <string name="action_cancel">取消</string>
 
     <string name="dialog_title_color_picker">颜色选择器</string>
 
