@@ -105,6 +105,7 @@ dependencies {
 
     // Modules
     implementation project(':filesystems:filesystem-base')
+    implementation project(':filesystems:filesystem-local')
 
     // Features
     implementation project(':feature-core')

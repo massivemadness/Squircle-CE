@@ -26,10 +26,9 @@ include ':feature-core',
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local',
-        ':filesystems:filesystem-mock'
+        ':filesystems:filesystem-ftp'
 // TODO ':filesystems:filesystem-dropbox'
 // TODO ':filesystems:filesystem-googledrive'
-// TODO ':filesystems:filesystem-ftp'
 
 include ':languages:language-base',
         ':languages:language-actionscript',

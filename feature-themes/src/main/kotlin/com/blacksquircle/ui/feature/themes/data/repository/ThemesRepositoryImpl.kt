@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.themes.data.repository
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -31,9 +32,9 @@ import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.File
@@ -42,7 +43,7 @@ class ThemesRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
-    private val filesystem: Filesystem,
+    private val filesystemFactory: FilesystemFactory,
     private val context: Context
 ) : ThemesRepository {
 
@@ -116,9 +117,10 @@ class ThemesRepositoryImpl(
             val fileText = ExternalTheme.serialize(externalTheme)
             val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val fileModel = FileModel(
-                fileUri = "file://" + File(directory, fileName).absolutePath,
-                filesystemUuid = "local"
+                fileUri = LocalFilesystem.LOCAL_SCHEME + File(directory, fileName).absolutePath,
+                filesystemUuid = LocalFilesystem.LOCAL_UUID
             )
+            val filesystem = filesystemFactory.create(fileModel.filesystemUuid)
             filesystem.saveFile(fileModel, fileText, FileParams())
         }
     }

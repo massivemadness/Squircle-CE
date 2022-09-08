@@ -18,12 +18,12 @@ package com.blacksquircle.ui.core.internal
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Environment
 import com.blacksquircle.ui.core.data.delegate.DatabaseDelegate
-import com.blacksquircle.ui.core.data.delegate.FilesystemDelegate
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,15 +50,14 @@ object CoreModule {
 
     @Provides
     @Singleton
-    @Named("Local")
-    fun provideLocalFilesystem(): Filesystem {
-        return FilesystemDelegate.provideFilesystem(Environment.getExternalStorageDirectory())
+    fun provideFilesystemFactory(appDatabase: AppDatabase): FilesystemFactory {
+        return FilesystemFactory(appDatabase)
     }
 
     @Provides
     @Singleton
     @Named("Cache")
     fun provideCacheFilesystem(@ApplicationContext context: Context): Filesystem {
-        return FilesystemDelegate.provideFilesystem(context.filesDir)
+        return LocalFilesystem(context.filesDir)
     }
 }

@@ -6,6 +6,7 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.Observer
 import androidx.work.*
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.ui.extensions.createChannel
 import com.blacksquircle.ui.core.ui.extensions.createNotification
@@ -14,7 +15,6 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.toData
 import com.blacksquircle.ui.feature.explorer.data.utils.toFileList
 import com.blacksquircle.ui.feature.explorer.data.utils.toFileModel
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.*
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.assisted.Assisted
@@ -24,14 +24,13 @@ import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
-import javax.inject.Named
 
 @HiltWorker
 class ExtractFileWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val dispatcherProvider: DispatcherProvider,
-    @Named("Local") private val filesystem: Filesystem,
+    private val filesystemFactory: FilesystemFactory,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -41,6 +40,8 @@ class ExtractFileWorker @AssistedInject constructor(
                 val fileList = inputData.toFileList()
                 val source = fileList.first()
                 val dest = fileList.last()
+
+                val filesystem = filesystemFactory.create(dest.filesystemUuid)
                 filesystem.extractFiles(source, dest)
                     .onStart { setProgress(dest.toData()) }
                     .collect()

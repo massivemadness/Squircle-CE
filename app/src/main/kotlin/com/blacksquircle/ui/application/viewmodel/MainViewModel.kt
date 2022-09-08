@@ -27,6 +27,7 @@ import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -62,7 +63,7 @@ class MainViewModel @Inject constructor(
     fun handleDocument(file: File, onSuccess: () -> Unit) {
         viewModelScope.launch {
             try {
-                val fileModel = FileModel(file.absolutePath, "local")
+                val fileModel = FileModel(file.absolutePath, LocalFilesystem.LOCAL_UUID)
                 val documentModel = DocumentConverter.toModel(fileModel)
                 documentRepository.updateDocument(documentModel)
                 onSuccess()

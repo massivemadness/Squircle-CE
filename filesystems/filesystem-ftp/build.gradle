@@ -29,6 +29,9 @@ dependencies {
     // Core
     implementation library.kotlin
 
+    // Network
+    implementation library.ftpclient
+
     // Coroutines
     implementation library.coroutines_core
 

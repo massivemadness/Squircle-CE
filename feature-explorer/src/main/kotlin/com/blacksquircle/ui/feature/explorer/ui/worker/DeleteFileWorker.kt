@@ -6,6 +6,7 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.Observer
 import androidx.work.*
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.ui.extensions.createChannel
 import com.blacksquircle.ui.core.ui.extensions.createNotification
@@ -14,7 +15,6 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.toData
 import com.blacksquircle.ui.feature.explorer.data.utils.toFileList
 import com.blacksquircle.ui.feature.explorer.data.utils.toFileModel
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.FileAlreadyExistsException
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -27,14 +27,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.withContext
-import javax.inject.Named
 
 @HiltWorker
 class DeleteFileWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val dispatcherProvider: DispatcherProvider,
-    @Named("Local") private val filesystem: Filesystem,
+    private val filesystemFactory: FilesystemFactory,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -43,6 +42,7 @@ class DeleteFileWorker @AssistedInject constructor(
             try {
                 for (fileModel in inputData.toFileList()) {
                     setProgress(fileModel.toData())
+                    val filesystem = filesystemFactory.create(fileModel.filesystemUuid)
                     filesystem.deleteFile(fileModel)
                     delay(20)
                 }

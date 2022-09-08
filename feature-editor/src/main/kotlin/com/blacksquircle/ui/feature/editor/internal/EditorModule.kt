@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.internal
 
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
@@ -39,14 +40,14 @@ object EditorModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
-        @Named("Local") localFilesystem: Filesystem,
-        @Named("Cache") cacheFilesystem: Filesystem
+        filesystemFactory: FilesystemFactory,
+        @Named("Cache") cacheFilesystem: Filesystem,
     ): DocumentRepository {
         return DocumentRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             appDatabase = appDatabase,
-            localFilesystem = localFilesystem,
+            filesystemFactory = filesystemFactory,
             cacheFilesystem = cacheFilesystem
         )
     }

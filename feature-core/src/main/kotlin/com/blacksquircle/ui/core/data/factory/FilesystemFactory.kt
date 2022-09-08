@@ -14,16 +14,26 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.data.delegate
+package com.blacksquircle.ui.core.data.factory
 
+import android.os.Environment
+import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import java.io.File
 
-object FilesystemDelegate {
+class FilesystemFactory(private val database: AppDatabase) {
 
-    // TODO: Add Dropbox, Google Drive, ...
-    fun provideFilesystem(defaultLocation: File): Filesystem {
-        return LocalFilesystem(defaultLocation)
+    companion object {
+        private val cache = HashMap<String, Filesystem>()
+    }
+
+    fun create(uuid: String?): Filesystem {
+        val filesystemUuid = uuid ?: LocalFilesystem.LOCAL_UUID
+        return cache[filesystemUuid] ?: when (filesystemUuid) {
+            LocalFilesystem.LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
+            else -> throw IllegalArgumentException("Can't find filesystem")
+        }.also {
+            cache[filesystemUuid] = it
+        }
     }
 }

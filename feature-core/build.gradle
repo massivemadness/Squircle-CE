@@ -83,7 +83,7 @@ dependencies {
     // Modules
     implementation project(':filesystems:filesystem-base')
     implementation project(':filesystems:filesystem-local')
-    implementation project(':filesystems:filesystem-mock')
+    implementation project(':filesystems:filesystem-ftp')
 
     implementation project(':languages:language-base')
     implementation project(':languages:language-actionscript')

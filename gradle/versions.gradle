@@ -56,6 +56,7 @@ ext {
 
     // Network
     gson_version = '2.9.1'
+    ftpclient_version = '3.8.0'
 
     // Coroutines
     coroutines_version = '1.6.4'
@@ -118,6 +119,7 @@ ext {
 
             // Network
             gson: "com.google.code.gson:gson:$gson_version",
+            ftpclient: "commons-net:commons-net:$ftpclient_version",
 
             // Coroutines
             coroutines_core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",

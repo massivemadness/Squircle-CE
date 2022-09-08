@@ -17,13 +17,13 @@
 package com.blacksquircle.ui.feature.explorer.data.repository
 
 import android.content.Context
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.worker.*
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
@@ -33,7 +33,7 @@ import kotlinx.coroutines.withContext
 class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
-    private val filesystem: Filesystem,
+    private val filesystemFactory: FilesystemFactory,
     private val context: Context,
 ) : ExplorerRepository {
 
@@ -41,6 +41,7 @@ class ExplorerRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
                 onSuccess = {
+                    val filesystem = filesystemFactory.create(parent?.filesystemUuid)
                     val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
                     fileTree.copy(children = fileTree.children
                         .filter { if (it.isHidden) settingsManager.showHidden else true }
@@ -58,7 +59,10 @@ class ExplorerRepositoryImpl(
     override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
-                onSuccess = { filesystem.propertiesOf(fileModel) },
+                onSuccess = {
+                    val filesystem = filesystemFactory.create(fileModel.filesystemUuid)
+                    filesystem.propertiesOf(fileModel)
+                },
                 onFailure = { throw PermissionException() }
             )
         }

@@ -17,19 +17,18 @@
 package com.blacksquircle.ui.feature.themes.internal
 
 import android.content.Context
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
-import javax.inject.Named
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -41,14 +40,14 @@ object ThemesModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
-        @Named("Local") filesystem: Filesystem,
+        filesystemFactory: FilesystemFactory,
         @ApplicationContext context: Context
     ): ThemesRepository {
         return ThemesRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             appDatabase = appDatabase,
-            filesystem = filesystem,
+            filesystemFactory = filesystemFactory,
             context = context
         )
     }

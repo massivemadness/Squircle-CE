@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.repository
 
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.factory.LanguageFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -39,8 +40,8 @@ class DocumentRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
-    private val localFilesystem: Filesystem,
-    private val cacheFilesystem: Filesystem
+    private val filesystemFactory: FilesystemFactory,
+    private val cacheFilesystem: Filesystem,
 ) : DocumentRepository {
 
     override suspend fun fetchDocuments(): List<DocumentModel> {
@@ -80,6 +81,7 @@ class DocumentRepositoryImpl(
             } else {
                 updateDocument(documentModel)
 
+                val filesystem = filesystemFactory.create(documentModel.filesystemUuid)
                 val fileModel = DocumentConverter.toModel(documentModel)
                 val fileParams = FileParams(
                     chardet = settingsManager.encodingAutoDetect,
@@ -91,7 +93,7 @@ class DocumentRepositoryImpl(
                     language = LanguageFactory.create(documentModel.name),
                     undoStack = UndoStack(),
                     redoStack = UndoStack(),
-                    text = localFilesystem.loadFile(fileModel, fileParams)
+                    text = filesystem.loadFile(fileModel, fileParams)
                 )
             }
         }
@@ -100,12 +102,13 @@ class DocumentRepositoryImpl(
     override suspend fun saveFile(content: DocumentContent, params: DocumentParams) {
         withContext(dispatcherProvider.io()) {
             if (params.local) {
+                val filesystem = filesystemFactory.create(content.documentModel.filesystemUuid)
                 val fileModel = DocumentConverter.toModel(content.documentModel)
                 val fileParams = FileParams(
                     charset = charsetFor(settingsManager.encodingForSaving),
                     linebreak = LineBreak.find(settingsManager.lineBreakForSaving)
                 )
-                localFilesystem.saveFile(fileModel, content.text, fileParams)
+                filesystem.saveFile(fileModel, content.text, fileParams)
             }
             if (params.cache) {
                 createCacheFiles(content.documentModel)
