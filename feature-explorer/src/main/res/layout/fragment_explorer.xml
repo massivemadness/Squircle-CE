@@ -45,9 +45,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:spinnerMode="dropdown"
+            android:id="@+id/dropdown"
             app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-            android:id="@+id/drop_down"
             tools:visibility="gone" />
 
     </com.google.android.material.appbar.MaterialToolbar>

@@ -24,7 +24,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
@@ -43,12 +42,14 @@ import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.*
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.ui.adapter.DirectoryAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
+import com.blacksquircle.ui.feature.explorer.ui.adapter.ServerAdapter
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewEvent
@@ -152,7 +153,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     private lateinit var tracker: SelectionTracker<String>
-    private lateinit var dropdownAdapter: ArrayAdapter<CharSequence>
+    private lateinit var serverAdapter: ServerAdapter
     private lateinit var tabAdapter: DirectoryAdapter
     private lateinit var fileAdapter: FileAdapter
 
@@ -165,21 +166,17 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.recyclerView.adapter = DirectoryAdapter().also {
             tabAdapter = it
         }
-
-        binding.dropDown.adapter = ArrayAdapter.createFromResource(
-            requireContext(), R.array.filesystems, R.layout.item_filesystem
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            dropdownAdapter = adapter
+        binding.dropdown.adapter = ServerAdapter(requireContext()).also { adapter ->
+            serverAdapter = adapter
         }
-        binding.dropDown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.dropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             private var previousPosition = 0
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position == previousPosition) return
-                if (position == dropdownAdapter.count - 1) {
-                    binding.dropDown.setSelection(previousPosition)
-                    context?.showToast(text = "TODO")
+                if (position == serverAdapter.count - 1) {
+                    binding.dropdown.setSelection(previousPosition)
+                    navController.navigate(Screen.CloudServers)
                     return
                 }
                 previousPosition = position
@@ -361,12 +358,16 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.serverState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { serverAdapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun startActionMode(size: Int) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.title = size.toString()
-        binding.dropDown.isVisible = false
+        binding.dropdown.isVisible = false
         activity?.removeMenuProvider(defaultMenuProvider)
         activity?.removeMenuProvider(selectionMenuProvider)
         activity?.addMenuProvider(selectionMenuProvider, viewLifecycleOwner)
@@ -375,7 +376,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private fun stopActionMode() {
         tracker.clearSelection()
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        binding.dropDown.isVisible = true
+        binding.dropdown.isVisible = true
         activity?.removeMenuProvider(selectionMenuProvider)
         activity?.removeMenuProvider(defaultMenuProvider)
         activity?.addMenuProvider(defaultMenuProvider, viewLifecycleOwner)

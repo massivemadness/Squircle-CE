@@ -22,4 +22,5 @@
     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
     android:gravity="center_vertical"
     android:singleLine="true"
+    android:id="@android:id/text1"
     tools:text="Local Storage" />

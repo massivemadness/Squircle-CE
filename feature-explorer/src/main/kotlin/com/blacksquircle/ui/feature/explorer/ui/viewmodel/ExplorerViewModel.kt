@@ -65,6 +65,12 @@ class ExplorerViewModel @Inject constructor(
     private val _customEvent = MutableSharedFlow<ExplorerViewEvent>()
     val customEvent: SharedFlow<ExplorerViewEvent> = _customEvent.asSharedFlow()
 
+    val serverState = explorerRepository.serverFlow.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
+
     var viewMode: Int = settingsManager.viewMode.toInt()
         private set
     var sortMode: Int = settingsManager.sortMode.toInt()
@@ -166,7 +172,7 @@ class ExplorerViewModel @Inject constructor(
                     )
                 }
                 files.replaceList(fileTree.children)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 initialState()
                 errorState(e)
@@ -314,7 +320,7 @@ class ExplorerViewModel @Inject constructor(
                 val data = Gson().toJson(properties) // TODO better way
                 val screen = ExplorerScreen.PropertiesDialog(data)
                 _viewEvent.send(ViewEvent.Navigation(screen))
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 if (e is PermissionException) {
                     _directoryViewState.value = DirectoryViewState.Permission
@@ -388,7 +394,7 @@ class ExplorerViewModel @Inject constructor(
                         ExplorerScreen.ProgressDialog(1, Operation.CREATE)
                     )
                 )
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 if (e is PermissionException) {
                     _directoryViewState.value = DirectoryViewState.Permission
@@ -421,7 +427,7 @@ class ExplorerViewModel @Inject constructor(
                         ExplorerScreen.ProgressDialog(1, Operation.RENAME)
                     )
                 )
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 if (e is PermissionException) {
                     _directoryViewState.value = DirectoryViewState.Permission
@@ -441,7 +447,7 @@ class ExplorerViewModel @Inject constructor(
                         ExplorerScreen.ProgressDialog(buffer.size, Operation.DELETE)
                     )
                 )
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 if (e is PermissionException) {
                     _directoryViewState.value = DirectoryViewState.Permission
@@ -461,7 +467,7 @@ class ExplorerViewModel @Inject constructor(
                         ExplorerScreen.ProgressDialog(buffer.size, Operation.CUT)
                     )
                 )
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 if (e is PermissionException) {
                     _directoryViewState.value = DirectoryViewState.Permission
@@ -481,7 +487,7 @@ class ExplorerViewModel @Inject constructor(
                         ExplorerScreen.ProgressDialog(buffer.size, Operation.COPY)
                     )
                 )
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 if (e is PermissionException) {
                     _directoryViewState.value = DirectoryViewState.Permission
@@ -510,7 +516,7 @@ class ExplorerViewModel @Inject constructor(
                         ExplorerScreen.ProgressDialog(buffer.size, Operation.COMPRESS)
                     )
                 )
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 if (e is PermissionException) {
                     _directoryViewState.value = DirectoryViewState.Permission
@@ -530,7 +536,7 @@ class ExplorerViewModel @Inject constructor(
                         ExplorerScreen.ProgressDialog(-1, Operation.EXTRACT)
                     )
                 )
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 if (e is PermissionException) {
                     _directoryViewState.value = DirectoryViewState.Permission

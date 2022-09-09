@@ -22,6 +22,11 @@
     <string name="label_latest_release">Latest release</string>
 
     <string name="hint_enter_preset_chars">Insira os caracteres(sem separação)</string>
+    <string name="hint_server_name">Server Name</string>
+    <string name="hint_server_address">Server Address</string>
+    <string name="hint_port">Port</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
 
     <string name="action_save">Salvar</string>
     <string name="action_reset">Resetar</string>

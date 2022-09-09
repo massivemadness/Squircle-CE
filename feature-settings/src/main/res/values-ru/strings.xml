@@ -22,6 +22,11 @@
     <string name="label_latest_release">Последний релиз</string>
 
     <string name="hint_enter_preset_chars">Символы (без разделителей)</string>
+    <string name="hint_server_name">Имя сервера</string>
+    <string name="hint_server_address">Адрес сервера</string>
+    <string name="hint_port">Порт</string>
+    <string name="hint_username">Имя пользователя</string>
+    <string name="hint_password">Пароль</string>
 
     <string name="action_save">Сохранить</string>
     <string name="action_reset">Сброс</string>

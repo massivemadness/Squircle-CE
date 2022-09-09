@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
 import com.blacksquircle.ui.core.data.factory.FilesystemFactory
+import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
@@ -40,12 +41,14 @@ object ExplorerModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         filesystemFactory: FilesystemFactory,
+        appDatabase: AppDatabase,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             filesystemFactory = filesystemFactory,
-            context = context
+            context = context,
+            appDatabase = appDatabase,
         )
     }
 }

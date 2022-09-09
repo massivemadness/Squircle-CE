@@ -21,10 +21,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
+import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 
 class CloudFragment : PreferenceFragmentCompat() {
 
@@ -33,6 +36,12 @@ class CloudFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_cloud, rootKey)
+
+        val addServer = findPreference<Preference>(KEY_ADD_SERVER)
+        addServer?.setOnPreferenceClickListener {
+            navController.navigate(SettingsScreen.AddServer)
+            true
+        }
     }
 
     override fun onCreateView(
@@ -54,5 +63,9 @@ class CloudFragment : PreferenceFragmentCompat() {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
+    }
+
+    companion object {
+        private const val KEY_ADD_SERVER = "ADD_SERVER"
     }
 }

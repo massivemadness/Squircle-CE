@@ -88,6 +88,9 @@
         android:label="@string/pref_header_cloud_title"
         tools:layout="@layout/fragment_preference">
         <deepLink app:uri="blacksquircle://settings/cloud" />
+        <action
+            android:id="@+id/to_serverDialog"
+            app:destination="@id/serverDialog" />
     </fragment>
 
     <fragment
@@ -97,7 +100,7 @@
         tools:layout="@layout/fragment_preference">
         <deepLink app:uri="blacksquircle://settings/about" />
         <action
-            android:id="@+id/action_aboutFragment_to_changeLogFragment"
+            android:id="@+id/to_changeLogFragment"
             app:destination="@id/changeLogFragment" />
     </fragment>
 
@@ -107,6 +110,15 @@
         android:label="@string/pref_keyboard_preset_title"
         tools:layout="@layout/dialog_preset">
         <deepLink app:uri="blacksquircle://settings/editor/preset" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/serverDialog"
+        android:name="com.blacksquircle.ui.feature.settings.ui.dialog.ServerDialog"
+        android:label="@string/pref_add_server_title"
+        tools:layout="@layout/dialog_server">
+        <deepLink app:uri="blacksquircle://settings/cloud/add" />
+        <deepLink app:uri="blacksquircle://settings/cloud/edit" />
     </dialog>
 
     <fragment

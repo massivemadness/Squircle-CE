@@ -17,7 +17,9 @@
 package com.blacksquircle.ui.feature.explorer.data.repository
 
 import android.content.Context
+import com.blacksquircle.ui.core.data.converter.ServerConverter
 import com.blacksquircle.ui.core.data.factory.FilesystemFactory
+import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
@@ -29,6 +31,8 @@ import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class ExplorerRepositoryImpl(
@@ -36,7 +40,12 @@ class ExplorerRepositoryImpl(
     private val settingsManager: SettingsManager,
     private val filesystemFactory: FilesystemFactory,
     private val context: Context,
+    appDatabase: AppDatabase,
 ) : ExplorerRepository {
+
+    override val serverFlow = appDatabase.serverDao().flow()
+        .map { servers -> servers.map { entity -> ServerConverter.toModel(entity) } }
+        .flowOn(dispatcherProvider.io())
 
     private var currentFilesystem: Filesystem? = null
 

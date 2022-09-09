@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2022 Squircle CE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +14,11 @@
   ~ limitations under the License.
   -->
 
-<resources>
-
-    <string-array name="filesystems">
-        <item>@string/storage_local</item>
-        <item>@string/storage_root</item>
-        <item>@string/storage_add</item>
-    </string-array>
-
-</resources>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?android:attr/spinnerDropDownItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:theme="@style/Theme.MaterialComponents.Light"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:id="@android:id/text1" />

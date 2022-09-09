@@ -17,20 +17,28 @@
 package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.data.converter.ServerConverter
+import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.converter.ReleaseConverter
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
+import com.blacksquircle.ui.filesystem.base.model.ServerModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsManager: SettingsManager
+    private val appDatabase: AppDatabase,
+    private val settingsManager: SettingsManager,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
     private val _headersState = MutableStateFlow(
@@ -85,5 +93,12 @@ class SettingsViewModel @Inject constructor(
 
     fun fetchChangeLog(changelog: String) {
         _changelogState.value = ReleaseConverter.toReleaseModels(changelog)
+    }
+
+    fun saveServer(serverModel: ServerModel) {
+        viewModelScope.launch(dispatcherProvider.io()) {
+            val entity = ServerConverter.toEntity(serverModel)
+            appDatabase.serverDao().insert(entity)
+        }
     }
 }

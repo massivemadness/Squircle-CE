@@ -79,6 +79,9 @@ dependencies {
     implementation library.hilt_navigation
     kapt library.hilt_compiler
 
+    // Modules
+    implementation project(':filesystems:filesystem-base')
+
     // Features
     implementation project(':feature-core')
     implementation project(':feature-ui')

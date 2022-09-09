@@ -23,6 +23,11 @@
 
     <string name="hint_enter_preset_chars">Enter characters (without separation)</string>
     <string name="hint_preset_chars" translatable="false">{}();,.=|&amp;![]&lt;&gt;+-/*?:_</string>
+    <string name="hint_server_name">Server Name</string>
+    <string name="hint_server_address">Server Address</string>
+    <string name="hint_port">Port</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
 
     <string name="action_save">Save</string>
     <string name="action_reset">Reset</string>
