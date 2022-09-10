@@ -50,7 +50,7 @@ class ServerDialog : DialogFragment() {
                     username = binding.inputUsername.text.toString(),
                     password = binding.inputPassword.text.toString(),
                 )
-                viewModel.saveServer(serverModel)
+                viewModel.upsertServer(serverModel)
             }
         }
     }

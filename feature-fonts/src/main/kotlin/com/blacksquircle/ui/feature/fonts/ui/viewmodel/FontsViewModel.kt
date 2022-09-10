@@ -40,10 +40,10 @@ class FontsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _fontsState = MutableStateFlow<FontsViewState>(FontsViewState.Loading)
-    val fontsState: StateFlow<FontsViewState> = _fontsState
+    val fontsState: StateFlow<FontsViewState> = _fontsState.asStateFlow()
 
     private val _externalFontState = MutableStateFlow<ExternalFontViewState>(ExternalFontViewState.Invalid)
-    val externalFontState: StateFlow<ExternalFontViewState> = _externalFontState
+    val externalFontState: StateFlow<ExternalFontViewState> = _externalFontState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()

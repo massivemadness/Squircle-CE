@@ -20,28 +20,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
+import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class CloudFragment : PreferenceFragmentCompat() {
 
+    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
     private val binding by viewBinding(FragmentPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_cloud, rootKey)
-
-        val addServer = findPreference<Preference>(KEY_ADD_SERVER)
-        addServer?.setOnPreferenceClickListener {
-            navController.navigate(SettingsScreen.AddServer)
-            true
-        }
     }
 
     override fun onCreateView(
@@ -58,14 +60,41 @@ class CloudFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
 
         binding.toolbar.title = getString(R.string.pref_header_cloud_title)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
+
+        viewModel.fetchServers()
     }
 
-    companion object {
-        private const val KEY_ADD_SERVER = "ADD_SERVER"
+    private fun observeViewModel() {
+        viewModel.serverState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { servers ->
+                preferenceScreen.removeAll()
+
+                val categoryServers = PreferenceCategory(preferenceScreen.context)
+                categoryServers.setTitle(R.string.pref_category_servers)
+                preferenceScreen.addPreference(categoryServers)
+
+                val addServer = Preference(preferenceScreen.context)
+                addServer.setTitle(R.string.pref_add_server_title)
+                addServer.setSummary(R.string.pref_add_server_summary)
+                addServer.setOnPreferenceClickListener {
+                    navController.navigate(SettingsScreen.AddServer)
+                    true
+                }
+                categoryServers.addPreference(addServer)
+
+                servers.forEach { serverModel ->
+                    val server = Preference(preferenceScreen.context)
+                    server.title = serverModel.name
+                    server.summary = serverModel.address
+                    categoryServers.addPreference(server)
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

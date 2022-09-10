@@ -98,6 +98,28 @@
 
     <!-- endregion TOOLBAR -->
 
+    <include
+        layout="@layout/layout_permission_view"
+        android:id="@+id/permissionView"
+        tools:visibility="gone" />
+
+    <include
+        layout="@layout/layout_error_view"
+        android:id="@+id/errorView"
+        tools:visibility="gone" />
+
+    <ProgressBar
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:id="@+id/loadingBar"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- region FILES -->
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -121,27 +143,5 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- endregion FILES -->
-
-    <include
-        layout="@layout/layout_permission_view"
-        android:id="@+id/permissionView"
-        tools:visibility="gone" />
-
-    <include
-        layout="@layout/layout_error_view"
-        android:id="@+id/errorView"
-        tools:visibility="gone" />
-
-    <ProgressBar
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:visibility="gone"
-        android:id="@+id/loadingBar"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,11 @@ package com.blacksquircle.ui.feature.settings.internal
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.blacksquircle.ui.core.data.storage.database.AppDatabase
+import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.feature.settings.data.repository.SettingsRepositoryImpl
+import com.blacksquircle.ui.feature.settings.domain.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +34,16 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object SettingsModule {
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(
+        dispatcherProvider: DispatcherProvider,
+        settingsManager: SettingsManager,
+        appDatabase: AppDatabase,
+    ): SettingsRepository {
+        return SettingsRepositoryImpl(dispatcherProvider, settingsManager, appDatabase)
+    }
 
     @Provides
     @Singleton

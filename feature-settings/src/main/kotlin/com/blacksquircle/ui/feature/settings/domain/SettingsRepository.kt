@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.ui.extensions
+package com.blacksquircle.ui.feature.settings.domain
 
-import android.view.Window
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
+import com.blacksquircle.ui.filesystem.base.model.ServerModel
 
-fun Window.fullscreenMode(whether: Boolean) {
-    val controller = WindowCompat.getInsetsController(this, decorView)
-    val statusBarType = WindowInsetsCompat.Type.statusBars()
-    if (whether) {
-        controller.hide(statusBarType)
-    } else {
-        controller.show(statusBarType)
-    }
+interface SettingsRepository {
+
+    suspend fun fetchServers(): List<ServerModel>
+    suspend fun upsertServer(serverModel: ServerModel)
+    suspend fun resetKeyboardPreset()
 }

@@ -18,12 +18,10 @@ package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.data.converter.ServerConverter
-import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.converter.ReleaseConverter
+import com.blacksquircle.ui.feature.settings.domain.SettingsRepository
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
@@ -31,14 +29,14 @@ import com.blacksquircle.ui.filesystem.base.model.ServerModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val appDatabase: AppDatabase,
+    private val settingsRepository: SettingsRepository,
     private val settingsManager: SettingsManager,
-    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
     private val _headersState = MutableStateFlow(
@@ -75,10 +73,13 @@ class SettingsViewModel @Inject constructor(
             )
         )
     )
-    val headersState: StateFlow<List<PreferenceItem>> = _headersState
+    val headersState: StateFlow<List<PreferenceItem>> = _headersState.asStateFlow()
+
+    private val _serverState = MutableStateFlow<List<ServerModel>>(emptyList())
+    val serverState: StateFlow<List<ServerModel>> = _serverState.asStateFlow()
 
     private val _changelogState = MutableStateFlow<List<ReleaseModel>>(emptyList())
-    val changelogState: StateFlow<List<ReleaseModel>> = _changelogState
+    val changelogState: StateFlow<List<ReleaseModel>> = _changelogState.asStateFlow()
 
     var fullscreenMode: Boolean
         get() = settingsManager.fullScreenMode
@@ -87,18 +88,25 @@ class SettingsViewModel @Inject constructor(
         get() = settingsManager.keyboardPreset
         set(value) { settingsManager.keyboardPreset = value }
 
+    fun fetchServers() {
+        viewModelScope.launch {
+            _serverState.value = settingsRepository.fetchServers()
+        }
+    }
+
+    fun upsertServer(serverModel: ServerModel) {
+        viewModelScope.launch {
+            settingsRepository.upsertServer(serverModel)
+        }
+    }
+
     fun resetKeyboardPreset() {
-        settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)
+        viewModelScope.launch {
+            settingsRepository.resetKeyboardPreset()
+        }
     }
 
     fun fetchChangeLog(changelog: String) {
         _changelogState.value = ReleaseConverter.toReleaseModels(changelog)
-    }
-
-    fun saveServer(serverModel: ServerModel) {
-        viewModelScope.launch(dispatcherProvider.io()) {
-            val entity = ServerConverter.toEntity(serverModel)
-            appDatabase.serverDao().insert(entity)
-        }
     }
 }

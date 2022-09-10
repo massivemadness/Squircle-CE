@@ -14,15 +14,4 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <PreferenceCategory android:title="@string/pref_category_servers">
-
-        <Preference
-            android:key="ADD_SERVER"
-            android:title="@string/pref_add_server_title"
-            android:summary="@string/pref_add_server_summary" />
-
-    </PreferenceCategory>
-
-</PreferenceScreen>
+<PreferenceScreen />

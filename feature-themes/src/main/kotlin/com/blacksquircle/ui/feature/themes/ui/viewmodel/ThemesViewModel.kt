@@ -45,10 +45,10 @@ class ThemesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _themesState = MutableStateFlow<ThemesViewState>(ThemesViewState.Loading)
-    val themesState: StateFlow<ThemesViewState> = _themesState
+    val themesState: StateFlow<ThemesViewState> = _themesState.asStateFlow()
 
     private val _newThemeState = MutableStateFlow<NewThemeViewState>(NewThemeViewState.MetaData(Meta(), emptyList()))
-    val newThemeState: StateFlow<NewThemeViewState> = _newThemeState
+    val newThemeState: StateFlow<NewThemeViewState> = _newThemeState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
