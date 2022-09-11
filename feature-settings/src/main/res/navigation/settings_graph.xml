@@ -118,7 +118,12 @@
         android:label="@string/pref_add_server_title"
         tools:layout="@layout/dialog_server">
         <deepLink app:uri="blacksquircle://settings/cloud/add" />
-        <deepLink app:uri="blacksquircle://settings/cloud/edit" />
+        <deepLink app:uri="blacksquircle://settings/cloud/edit?data={data}" />
+        <argument
+            android:name="data"
+            android:defaultValue="@null"
+            app:nullable="true"
+            app:argType="string" />
     </dialog>
 
     <fragment

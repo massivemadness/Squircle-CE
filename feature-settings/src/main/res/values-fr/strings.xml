@@ -30,6 +30,7 @@
 
     <string name="action_save">Sauvegarde</string>
     <string name="action_reset">Réinitialisation</string>
+    <string name="action_delete">Supprimer</string>
 
     <string name="preset_disclaimer">Vous pouvez répéter les caractères</string>
     <string name="encoding_utf8_default">UTF-8 (Défaut)</string>

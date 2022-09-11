@@ -22,5 +22,6 @@ interface SettingsRepository {
 
     suspend fun fetchServers(): List<ServerModel>
     suspend fun upsertServer(serverModel: ServerModel)
+    suspend fun deleteServer(serverModel: ServerModel)
     suspend fun resetKeyboardPreset()
 }

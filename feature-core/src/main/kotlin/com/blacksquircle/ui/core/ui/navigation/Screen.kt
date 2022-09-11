@@ -18,7 +18,7 @@ package com.blacksquircle.ui.core.ui.navigation
 
 abstract class Screen<T>(val route: T) {
     object Settings : Screen<String>("blacksquircle://settings")
-    object CloudServers : Screen<String>("blacksquircle://settings/cloud")
+    object AddServer : Screen<String>("blacksquircle://settings/cloud/add")
     object Fonts : Screen<String>("blacksquircle://fonts")
     object Themes : Screen<String>("blacksquircle://themes")
 }

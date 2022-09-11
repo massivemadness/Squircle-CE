@@ -30,6 +30,7 @@
 
     <string name="action_save">Сохранить</string>
     <string name="action_reset">Сброс</string>
+    <string name="action_delete">Удалить</string>
 
     <string name="preset_disclaimer">Символы могут повторяться несколько раз</string>
     <string name="encoding_utf8_default">UTF-8 (По умолчанию)</string>

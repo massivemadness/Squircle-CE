@@ -36,7 +36,6 @@ import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -317,8 +316,7 @@ class ExplorerViewModel @Inject constructor(
             try {
                 val fileModel = selection.first()
                 val properties = explorerRepository.propertiesOf(fileModel)
-                val data = Gson().toJson(properties) // TODO better way
-                val screen = ExplorerScreen.PropertiesDialog(data)
+                val screen = ExplorerScreen.PropertiesDialog(properties)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)

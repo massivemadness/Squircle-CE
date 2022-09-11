@@ -44,6 +44,13 @@ class SettingsRepositoryImpl(
         }
     }
 
+    override suspend fun deleteServer(serverModel: ServerModel) {
+        withContext(dispatcherProvider.io()) {
+            val entity = ServerConverter.toEntity(serverModel)
+            appDatabase.serverDao().delete(entity)
+        }
+    }
+
     override suspend fun resetKeyboardPreset() {
         withContext(dispatcherProvider.io()) {
             settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)

@@ -176,7 +176,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 if (position == previousPosition) return
                 if (position == serverAdapter.count - 1) {
                     binding.dropdown.setSelection(previousPosition)
-                    navController.navigate(Screen.CloudServers)
+                    navController.navigate(Screen.AddServer)
                     return
                 }
                 previousPosition = position

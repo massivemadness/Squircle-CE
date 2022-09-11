@@ -97,6 +97,14 @@ class SettingsViewModel @Inject constructor(
     fun upsertServer(serverModel: ServerModel) {
         viewModelScope.launch {
             settingsRepository.upsertServer(serverModel)
+            fetchServers()
+        }
+    }
+
+    fun deleteServer(serverModel: ServerModel) {
+        viewModelScope.launch {
+            settingsRepository.deleteServer(serverModel)
+            fetchServers()
         }
     }
 

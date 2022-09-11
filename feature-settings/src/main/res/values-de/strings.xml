@@ -30,6 +30,7 @@
 
     <string name="action_save">Speichern</string>
     <string name="action_reset">Zurücksetzen</string>
+    <string name="action_delete">Löschen</string>
 
     <string name="preset_disclaimer">Sie können Zeichen mehrfach wiederholen</string>
     <string name="encoding_utf8_default">UTF-8 (Standard)</string>

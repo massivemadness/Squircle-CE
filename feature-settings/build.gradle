@@ -19,6 +19,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -70,6 +71,9 @@ dependencies {
     implementation library.navigation_ui
     implementation library.navigation_fragment
 
+    // Network
+    implementation library.gson
+
     // Coroutines
     implementation library.coroutines_core
     implementation library.coroutines_android
@@ -81,6 +85,9 @@ dependencies {
 
     // Modules
     implementation project(':filesystems:filesystem-base')
+    implementation project(':filesystems:filesystem-ftp')
+    implementation project(':filesystems:filesystem-ftps')
+    implementation project(':filesystems:filesystem-sftp')
 
     // Features
     implementation project(':feature-core')

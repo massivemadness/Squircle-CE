@@ -18,6 +18,8 @@ package com.blacksquircle.ui.feature.explorer.ui.navigation
 
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
+import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
+import com.google.gson.Gson
 
 sealed class ExplorerScreen(route: String) : Screen<String>(route) {
 
@@ -33,8 +35,8 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     class ProgressDialog(totalCount: Int, operation: Operation) : ExplorerScreen(
         route = "blacksquircle://explorer/progress?totalCount=$totalCount&operation=${operation.value}"
     )
-    class PropertiesDialog(data: String) : ExplorerScreen(
-        route = "blacksquircle://explorer/properties?data=$data"
+    class PropertiesDialog(properties: PropertiesModel) : ExplorerScreen(
+        route = "blacksquircle://explorer/properties?data=${Gson().toJson(properties)}"
     )
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
