@@ -116,7 +116,6 @@
     <string name="pref_tab_width_summary">Die angezeigte Breite von Tabulatoren festlegen.</string>
 
     <string name="pref_add_server_title">Add Server</string>
-    <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
     <string name="pref_edit_server_title">Edit Server</string>
 
     <string name="pref_encoding_auto_detect_title">Kodierung automatisch erkennen</string>

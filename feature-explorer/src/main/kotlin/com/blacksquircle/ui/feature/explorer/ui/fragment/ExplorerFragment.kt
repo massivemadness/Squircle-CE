@@ -166,20 +166,15 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.recyclerView.adapter = DirectoryAdapter().also {
             tabAdapter = it
         }
-        binding.dropdown.adapter = ServerAdapter(requireContext()).also { adapter ->
-            serverAdapter = adapter
+        binding.dropdown.adapter = ServerAdapter(requireContext()) {
+            navController.navigate(Screen.AddServer)
+            binding.dropdown.dismiss()
+        }.also {
+            serverAdapter = it
         }
         binding.dropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            private var previousPosition = 0
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position == previousPosition) return
-                if (position == serverAdapter.count - 1) {
-                    binding.dropdown.setSelection(previousPosition)
-                    navController.navigate(Screen.AddServer)
-                    return
-                }
-                previousPosition = position
                 viewModel.obtainEvent(ExplorerIntent.SelectFilesystem(position))
             }
         }
@@ -360,7 +355,14 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.serverState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { serverAdapter.submitList(it) }
+            .onEach { servers ->
+                serverAdapter.submitList(servers)
+                if (viewModel.dropdownPosition < serverAdapter.count - 1) {
+                    binding.dropdown.setSelection(viewModel.dropdownPosition)
+                } else {
+                    binding.dropdown.setSelection(0) // Can't select "Add Server"
+                }
+            }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 

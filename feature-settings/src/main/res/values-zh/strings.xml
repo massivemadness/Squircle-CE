@@ -116,7 +116,6 @@
     <string name="pref_tab_width_summary">指定编辑器中展示的制表符个数</string>
 
     <string name="pref_add_server_title">Add Server</string>
-    <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
     <string name="pref_edit_server_title">Edit Server</string>
 
     <string name="pref_encoding_auto_detect_title">自动检测编码</string>

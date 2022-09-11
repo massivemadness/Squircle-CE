@@ -24,6 +24,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.widget.AppCompatSpinner
+import androidx.appcompat.widget.ListPopupWindow
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.iterator
@@ -73,6 +75,13 @@ fun ImageView.setTint(@ColorRes colorRes: Int) {
     imageTintList = ColorStateList.valueOf(
         context.getColour(colorRes)
     )
+}
+
+fun AppCompatSpinner.dismiss() {
+    val popup = AppCompatSpinner::class.java.getDeclaredField("mPopup")
+    popup.isAccessible = true
+    val listPopupWindow = popup.get(this) as ListPopupWindow
+    listPopupWindow.dismiss()
 }
 
 /**

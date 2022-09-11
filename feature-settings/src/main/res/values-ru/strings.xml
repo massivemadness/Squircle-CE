@@ -116,7 +116,6 @@
     <string name="pref_tab_width_summary">Указанная ширина будет использоваться для каждого таба в редакторе.</string>
 
     <string name="pref_add_server_title">Добавить сервер</string>
-    <string name="pref_add_server_summary">FTP, FTPS, SFTP</string>
     <string name="pref_edit_server_title">Изменить сервер</string>
 
     <string name="pref_encoding_auto_detect_title">Автоопределение кодировки</string>

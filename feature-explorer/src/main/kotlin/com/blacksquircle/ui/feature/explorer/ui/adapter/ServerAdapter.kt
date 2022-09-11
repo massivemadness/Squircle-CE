@@ -20,12 +20,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.TextView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.replaceList
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
 
-class ServerAdapter(private val context: Context) : BaseAdapter() {
+class ServerAdapter(
+    private val context: Context,
+    private val addServer: () -> Unit
+) : BaseAdapter() {
 
     private val dataset = defaultList()
     private val inflater = LayoutInflater.from(context)
@@ -43,7 +47,17 @@ class ServerAdapter(private val context: Context) : BaseAdapter() {
         val text = view.findViewById<TextView>(android.R.id.text1)
         val item = getItem(position)
         text?.text = item
+        if (!isEnabled(position)) {
+            view.setOnClickListener {
+                addServer()
+            }
+        }
         return view
+    }
+
+    override fun areAllItemsEnabled() = false
+    override fun isEnabled(position: Int): Boolean {
+        return position < dataset.size - 1
     }
 
     override fun getItem(position: Int) = dataset[position]
