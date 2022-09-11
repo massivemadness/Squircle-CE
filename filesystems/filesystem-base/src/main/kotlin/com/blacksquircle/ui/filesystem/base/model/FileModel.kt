@@ -30,9 +30,9 @@ data class FileModel(
     val scheme: String
         get() = fileUri.substringBeforeLast("://") + "://"
     val path: String
-        get() = fileUri.substringAfterLast("://")
+        get() = fileUri.substringAfterLast("://").ifEmpty { "/" }
     val name: String
-        get() = fileUri.substringAfterLast("/")
+        get() = fileUri.substringAfterLast("/").ifEmpty { "/" }
     val type: FileType
         get() = when {
             name.endsWith(TEXT) -> FileType.TEXT

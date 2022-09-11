@@ -18,6 +18,7 @@ package com.blacksquircle.ui.core.data.storage.database.utils
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 
 object Migrations {
 
@@ -31,7 +32,8 @@ object Migrations {
                     val columnPath = cursor.getColumnIndexOrThrow("path")
                     val uuid = cursor.getString(columnUuid)
                     val path = cursor.getString(columnPath)
-                    database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `path` = 'file://$path' WHERE `uuid` = '$uuid';")
+                    val scheme = LocalFilesystem.LOCAL_SCHEME
+                    database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `path` = '$scheme$path' WHERE `uuid` = '$uuid';")
                 } while (cursor.moveToNext())
             }
             cursor.close()

@@ -24,6 +24,7 @@ import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
+import java.io.File
 
 class FilesystemFactory(private val database: AppDatabase) {
 
@@ -45,7 +46,7 @@ class FilesystemFactory(private val database: AppDatabase) {
     suspend fun findForPosition(position: Int): Filesystem {
         return when (position) {
             0 -> LocalFilesystem(Environment.getExternalStorageDirectory())
-            1 -> LocalFilesystem(Environment.getRootDirectory())
+            1 -> LocalFilesystem(File("/")) // Root
             else -> {
                 val serverModel = database.serverDao().loadAll()
                     .map(ServerConverter::toModel)
