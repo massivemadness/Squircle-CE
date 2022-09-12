@@ -33,7 +33,7 @@ data class ServerEntity(
     @ColumnInfo(name = "address")
     val address: String,
     @ColumnInfo(name = "port")
-    val port: Long,
+    val port: Int,
     @ColumnInfo(name = "username")
     val username: String,
     @ColumnInfo(name = "password")

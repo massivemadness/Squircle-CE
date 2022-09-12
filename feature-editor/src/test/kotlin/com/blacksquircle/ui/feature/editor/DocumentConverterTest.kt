@@ -29,6 +29,7 @@ class DocumentConverterTest {
     fun `convert FileModel to DocumentModel`() {
         val fileModel = FileModel(
             fileUri = "file:///storage/emulated/0/Test.txt",
+            filesystemUuid = "local",
             size = 0L,
             lastModified = 1L,
             isFolder = false,
@@ -37,6 +38,7 @@ class DocumentConverterTest {
         val documentModel = DocumentModel(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
+            filesystemUuid = "local",
             modified = false,
             position = 0,
             scrollX = 0,
@@ -47,6 +49,7 @@ class DocumentConverterTest {
         val convert = DocumentConverter.toModel(fileModel)
 
         assertEquals(documentModel.fileUri, convert.fileUri)
+        assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
         assertEquals(documentModel.modified, convert.modified)
@@ -62,6 +65,7 @@ class DocumentConverterTest {
         val documentEntity = DocumentEntity(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
+            filesystemUuid = "local",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -72,6 +76,7 @@ class DocumentConverterTest {
         val documentModel = DocumentModel(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
+            filesystemUuid = "local",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -82,6 +87,7 @@ class DocumentConverterTest {
         val convert = DocumentConverter.toModel(documentEntity)
 
         assertEquals(documentModel.fileUri, convert.fileUri)
+        assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
         assertEquals(documentModel.modified, convert.modified)
@@ -97,6 +103,7 @@ class DocumentConverterTest {
         val documentModel = DocumentModel(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
+            filesystemUuid = "local",
             modified = false,
             position = 10,
             scrollX = 0,
@@ -107,6 +114,7 @@ class DocumentConverterTest {
         val documentEntity = DocumentEntity(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
+            filesystemUuid = "local",
             modified = false,
             position = 10,
             scrollX = 0,
@@ -117,6 +125,7 @@ class DocumentConverterTest {
         val convert = DocumentConverter.toEntity(documentModel)
 
         assertEquals(documentEntity.fileUri, convert.fileUri)
+        assertEquals(documentEntity.filesystemUuid, convert.filesystemUuid)
         assertEquals(documentEntity.modified, convert.modified)
         assertEquals(documentEntity.position, convert.position)
         assertEquals(documentEntity.scrollX, convert.scrollX)

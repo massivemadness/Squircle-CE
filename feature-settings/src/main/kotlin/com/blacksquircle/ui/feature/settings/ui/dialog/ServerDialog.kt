@@ -57,7 +57,7 @@ class ServerDialog : DialogFragment() {
                         },
                         name = binding.inputServerName.text.toString(),
                         address = binding.inputServerAddress.text.toString(),
-                        port = binding.inputServerPort.text.toString().toLong(),
+                        port = binding.inputServerPort.text?.toString()?.toInt() ?: DEFAULT_FTP_PORT,
                         username = binding.inputUsername.text.toString(),
                         password = binding.inputPassword.text.toString(),
                     )
@@ -93,7 +93,7 @@ class ServerDialog : DialogFragment() {
                         },
                         name = binding.inputServerName.text.toString(),
                         address = binding.inputServerAddress.text.toString(),
-                        port = binding.inputServerPort.text.toString().toLong(),
+                        port = binding.inputServerPort.text?.toString()?.toInt() ?: DEFAULT_FTP_PORT,
                         username = binding.inputUsername.text.toString(),
                         password = binding.inputPassword.text.toString(),
                     )
@@ -104,5 +104,9 @@ class ServerDialog : DialogFragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val DEFAULT_FTP_PORT = 21
     }
 }

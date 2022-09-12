@@ -21,7 +21,7 @@ data class ServerModel(
     val scheme: String,
     val name: String,
     val address: String,
-    val port: Long,
+    val port: Int,
     val username: String,
     val password: String,
 )
