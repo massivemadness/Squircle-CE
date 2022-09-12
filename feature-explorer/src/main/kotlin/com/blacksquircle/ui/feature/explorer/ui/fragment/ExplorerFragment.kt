@@ -294,12 +294,14 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .onEach { state ->
                 when (state) {
                     is DirectoryViewState.Permission -> {
+                        binding.swipeRefresh.isVisible = false
                         binding.permissionView.root.isVisible = true
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Error -> {
+                        binding.swipeRefresh.isVisible = true
                         binding.permissionView.root.isVisible = false
                         binding.errorView.root.isVisible = true
                         binding.loadingBar.isVisible = false
@@ -309,12 +311,14 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Loading -> {
+                        binding.swipeRefresh.isVisible = true
                         binding.permissionView.root.isVisible = false
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Files -> {
+                        binding.swipeRefresh.isVisible = true
                         binding.permissionView.root.isVisible = false
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
