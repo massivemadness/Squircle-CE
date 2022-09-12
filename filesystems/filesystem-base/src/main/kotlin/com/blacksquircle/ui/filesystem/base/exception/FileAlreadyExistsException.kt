@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-class FileAlreadyExistsException(path: String) : RuntimeException("Cannot create file $path because it already exists")
+class FileAlreadyExistsException(path: String) : FilesystemException("Cannot create file $path because it's already exists")

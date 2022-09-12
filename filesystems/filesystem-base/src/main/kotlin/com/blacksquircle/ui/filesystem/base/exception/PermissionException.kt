@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-class PermissionException : RuntimeException("You have no access to work with this file")
+class PermissionException : FilesystemException("You have no access to work with this file")

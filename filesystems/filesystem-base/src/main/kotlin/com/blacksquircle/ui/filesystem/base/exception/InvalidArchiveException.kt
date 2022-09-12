@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-class InvalidArchiveException(path: String) : RuntimeException("$path (Invalid archive)")
+class InvalidArchiveException(path: String) : FilesystemException("Invalid archive ($path)")

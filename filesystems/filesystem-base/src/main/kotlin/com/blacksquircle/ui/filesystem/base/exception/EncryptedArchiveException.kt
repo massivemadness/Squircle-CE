@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-class EncryptedArchiveException(path: String) : RuntimeException("$path (Cannot open encrypted archive)")
+class EncryptedArchiveException(path: String) : FilesystemException("Cannot open encrypted archive ($path)")

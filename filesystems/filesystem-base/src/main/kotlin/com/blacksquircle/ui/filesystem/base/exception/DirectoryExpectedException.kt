@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-class DirectoryExpectedException : RuntimeException("Unable to get list of files from file")
+class DirectoryExpectedException : FilesystemException("File is not a directory")

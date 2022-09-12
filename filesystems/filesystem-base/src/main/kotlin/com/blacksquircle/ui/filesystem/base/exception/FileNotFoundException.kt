@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-class FileNotFoundException(path: String) : RuntimeException("$path (No such file or directory)")
+class FileNotFoundException(path: String) : FilesystemException("No such file or directory ($path)")

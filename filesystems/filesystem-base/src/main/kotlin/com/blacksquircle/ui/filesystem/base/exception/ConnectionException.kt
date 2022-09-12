@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-class UnsupportedArchiveException(path: String) : FilesystemException("Cannot open unsupported archive ($path)")
+class ConnectionException : FilesystemException("Failed to connect to remote server")
