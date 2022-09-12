@@ -26,19 +26,15 @@ class SFTPFilesystem(private val serverModel: ServerModel) : Filesystem {
         TODO("Not yet implemented")
     }
 
-    override suspend fun provideFile(path: String): FileModel {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun provideDirectory(parent: FileModel): FileTree {
         TODO("Not yet implemented")
     }
 
-    override suspend fun createFile(fileModel: FileModel): FileModel {
+    override suspend fun createFile(fileModel: FileModel) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel {
+    override suspend fun renameFile(fileModel: FileModel, fileName: String) {
         TODO("Not yet implemented")
     }
 
@@ -46,7 +42,7 @@ class SFTPFilesystem(private val serverModel: ServerModel) : Filesystem {
         TODO("Not yet implemented")
     }
 
-    override suspend fun copyFile(source: FileModel, dest: FileModel): FileModel {
+    override suspend fun copyFile(source: FileModel, dest: FileModel) {
         TODO("Not yet implemented")
     }
 
@@ -54,7 +50,7 @@ class SFTPFilesystem(private val serverModel: ServerModel) : Filesystem {
         TODO("Not yet implemented")
     }
 
-    override suspend fun isExists(fileModel: FileModel): Boolean {
+    override suspend fun exists(fileModel: FileModel): Boolean {
         TODO("Not yet implemented")
     }
 

@@ -54,18 +54,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override suspend fun provideFile(path: String): FileModel {
-        return suspendCoroutine { cont ->
-            val file = File(path)
-            if (file.exists()) {
-                val fileModel = toFileModel(file)
-                cont.resume(fileModel)
-            } else {
-                cont.resumeWithException(FileNotFoundException(file.path))
-            }
-        }
-    }
-
     override suspend fun provideDirectory(parent: FileModel): FileTree {
         return suspendCoroutine { cont ->
             val file = toFileObject(parent)
@@ -81,7 +69,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override suspend fun createFile(fileModel: FileModel): FileModel {
+    override suspend fun createFile(fileModel: FileModel) {
         return suspendCoroutine { cont ->
             val file = toFileObject(fileModel)
             if (!file.exists()) {
@@ -94,15 +82,14 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     }
                     file.createNewFile()
                 }
-                val fileModel2 = toFileModel(file)
-                cont.resume(fileModel2)
+                cont.resume(Unit)
             } else {
                 cont.resumeWithException(FileAlreadyExistsException(fileModel.path))
             }
         }
     }
 
-    override suspend fun renameFile(fileModel: FileModel, fileName: String): FileModel {
+    override suspend fun renameFile(fileModel: FileModel, fileName: String) {
         return suspendCoroutine { cont ->
             val originalFile = toFileObject(fileModel)
             val parentFile = originalFile.parentFile!!
@@ -110,8 +97,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             if (originalFile.exists()) {
                 if (!renamedFile.exists()) {
                     originalFile.renameTo(renamedFile)
-                    val renamedModel = toFileModel(renamedFile)
-                    cont.resume(renamedModel)
+                    cont.resume(Unit)
                 } else {
                     cont.resumeWithException(FileAlreadyExistsException(renamedFile.absolutePath))
                 }
@@ -134,7 +120,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override suspend fun copyFile(source: FileModel, dest: FileModel): FileModel {
+    override suspend fun copyFile(source: FileModel, dest: FileModel) {
         return suspendCoroutine { cont ->
             val directory = toFileObject(dest)
             val sourceFile = toFileObject(source)
@@ -142,9 +128,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             if (sourceFile.exists()) {
                 if (!destFile.exists()) {
                     sourceFile.copyRecursively(destFile, overwrite = false)
-                    // val destFile2 = FileConverter.toModel(destFile)
-                    // cont.resume(destFile2)
-                    cont.resume(source)
+                    cont.resume(Unit)
                 } else {
                     cont.resumeWithException(FileAlreadyExistsException(dest.path))
                 }
@@ -176,7 +160,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override suspend fun isExists(fileModel: FileModel): Boolean {
+    override suspend fun exists(fileModel: FileModel): Boolean {
         return suspendCoroutine { cont ->
             val file = File(fileModel.path)
             cont.resume(file.exists())
@@ -296,7 +280,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    companion object : Filesystem.Object<File> {
+    companion object : Filesystem.Mapper<File> {
 
         const val LOCAL_UUID = "local"
         const val LOCAL_SCHEME = "file://"

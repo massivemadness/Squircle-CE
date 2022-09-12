@@ -70,7 +70,7 @@ class DocumentRepositoryImpl(
     override suspend fun loadFile(documentModel: DocumentModel): DocumentContent {
         return withContext(dispatcherProvider.io()) {
             val cacheFile = cacheFile(documentModel, postfix = "text")
-            if (cacheFilesystem.isExists(cacheFile)) {
+            if (cacheFilesystem.exists(cacheFile)) {
                 DocumentContent(
                     documentModel = documentModel,
                     language = LanguageFactory.create(documentModel.name),
@@ -132,7 +132,7 @@ class DocumentRepositoryImpl(
     private suspend fun loadUndoStack(documentModel: DocumentModel): UndoStack {
         return try {
             val undoCacheFile = cacheFile(documentModel, postfix = "undo")
-            if (cacheFilesystem.isExists(undoCacheFile)) {
+            if (cacheFilesystem.exists(undoCacheFile)) {
                 return cacheFilesystem.loadFile(undoCacheFile, FileParams())
                     .decodeStack()
             }
@@ -145,7 +145,7 @@ class DocumentRepositoryImpl(
     private suspend fun loadRedoStack(documentModel: DocumentModel): UndoStack {
         return try {
             val redoCacheFile = cacheFile(documentModel, postfix = "redo")
-            if (cacheFilesystem.isExists(redoCacheFile)) {
+            if (cacheFilesystem.exists(redoCacheFile)) {
                 return cacheFilesystem.loadFile(redoCacheFile, FileParams())
                     .decodeStack()
             }
@@ -160,9 +160,9 @@ class DocumentRepositoryImpl(
         val undoCacheFile = cacheFile(documentModel, postfix = "undo")
         val redoCacheFile = cacheFile(documentModel, postfix = "redo")
 
-        if (!cacheFilesystem.isExists(textCacheFile)) { cacheFilesystem.createFile(textCacheFile) }
-        if (!cacheFilesystem.isExists(undoCacheFile)) { cacheFilesystem.createFile(undoCacheFile) }
-        if (!cacheFilesystem.isExists(redoCacheFile)) { cacheFilesystem.createFile(redoCacheFile) }
+        if (!cacheFilesystem.exists(textCacheFile)) { cacheFilesystem.createFile(textCacheFile) }
+        if (!cacheFilesystem.exists(undoCacheFile)) { cacheFilesystem.createFile(undoCacheFile) }
+        if (!cacheFilesystem.exists(redoCacheFile)) { cacheFilesystem.createFile(redoCacheFile) }
     }
 
     private suspend fun deleteCacheFiles(documentModel: DocumentModel) {
@@ -170,9 +170,9 @@ class DocumentRepositoryImpl(
         val undoCacheFile = cacheFile(documentModel, postfix = "undo")
         val redoCacheFile = cacheFile(documentModel, postfix = "redo")
 
-        if (cacheFilesystem.isExists(textCacheFile)) { cacheFilesystem.deleteFile(textCacheFile) }
-        if (cacheFilesystem.isExists(undoCacheFile)) { cacheFilesystem.deleteFile(undoCacheFile) }
-        if (cacheFilesystem.isExists(redoCacheFile)) { cacheFilesystem.deleteFile(redoCacheFile) }
+        if (cacheFilesystem.exists(textCacheFile)) { cacheFilesystem.deleteFile(textCacheFile) }
+        if (cacheFilesystem.exists(undoCacheFile)) { cacheFilesystem.deleteFile(undoCacheFile) }
+        if (cacheFilesystem.exists(redoCacheFile)) { cacheFilesystem.deleteFile(redoCacheFile) }
     }
 
     private suspend fun cacheFile(documentModel: DocumentModel, postfix: String): FileModel {
