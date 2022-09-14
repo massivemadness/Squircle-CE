@@ -50,8 +50,11 @@ object CoreModule {
 
     @Provides
     @Singleton
-    fun provideFilesystemFactory(appDatabase: AppDatabase): FilesystemFactory {
-        return FilesystemFactory(appDatabase)
+    fun provideFilesystemFactory(
+        @ApplicationContext context: Context,
+        appDatabase: AppDatabase,
+    ): FilesystemFactory {
+        return FilesystemFactory(appDatabase, context)
     }
 
     @Provides

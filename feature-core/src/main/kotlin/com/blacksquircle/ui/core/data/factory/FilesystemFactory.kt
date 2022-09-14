@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.core.data.factory
 
+import android.content.Context
 import android.os.Environment
 import com.blacksquircle.ui.core.data.converter.ServerConverter
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
@@ -26,18 +27,21 @@ import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import java.io.File
 
-class FilesystemFactory(private val database: AppDatabase) {
+class FilesystemFactory(
+    private val database: AppDatabase,
+    private val context: Context,
+) {
 
     suspend fun create(uuid: String?): Filesystem {
         val filesystemUuid = uuid ?: LocalFilesystem.LOCAL_UUID
         val persistent = database.serverDao().load(filesystemUuid)
         return when (filesystemUuid) {
-            LocalFilesystem.LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
+            LocalFilesystem.LOCAL_UUID -> LocalFilesystem(defaultLocation())
             persistent?.uuid -> when (persistent.scheme) {
-                FTPFilesystem.FTP_SCHEME -> FTPFilesystem(ServerConverter.toModel(persistent))
-                FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(ServerConverter.toModel(persistent))
-                SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(ServerConverter.toModel(persistent))
-                else -> throw IllegalArgumentException("Can't find filesystem")
+                FTPFilesystem.FTP_SCHEME -> FTPFilesystem(ServerConverter.toModel(persistent), cacheLocation())
+                FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(ServerConverter.toModel(persistent), cacheLocation())
+                SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(ServerConverter.toModel(persistent), cacheLocation())
+                else -> throw IllegalArgumentException("Unsupported file scheme")
             }
             else -> throw IllegalArgumentException("Can't find filesystem")
         }
@@ -45,20 +49,24 @@ class FilesystemFactory(private val database: AppDatabase) {
 
     suspend fun findForPosition(position: Int): Filesystem {
         return when (position) {
-            0 -> LocalFilesystem(Environment.getExternalStorageDirectory())
-            1 -> LocalFilesystem(File("/")) // Root
-            else -> {
+            0 -> LocalFilesystem(defaultLocation()) // Local Storage
+            1 -> LocalFilesystem(rootLocation()) // Root Directory
+            else -> { // Server List
                 val serverModel = database.serverDao().loadAll()
                     .map(ServerConverter::toModel)
                     .getOrNull(position - 2)
                     ?: throw IllegalArgumentException("Can't find filesystem")
                 when (serverModel.scheme) {
-                    FTPFilesystem.FTP_SCHEME -> FTPFilesystem(serverModel)
-                    FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(serverModel)
-                    SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(serverModel)
-                    else -> throw IllegalArgumentException("Can't find filesystem")
+                    FTPFilesystem.FTP_SCHEME -> FTPFilesystem(serverModel, cacheLocation())
+                    FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(serverModel, cacheLocation())
+                    SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(serverModel, cacheLocation())
+                    else -> throw IllegalArgumentException("Unsupported file scheme")
                 }
             }
         }
     }
+
+    private fun defaultLocation() = Environment.getExternalStorageDirectory()
+    private fun rootLocation() = File("/")
+    private fun cacheLocation() = context.cacheDir
 }

@@ -19,8 +19,12 @@ package com.blacksquircle.ui.filesystem.ftps
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.*
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
-class FTPSFilesystem(private val serverModel: ServerModel) : Filesystem {
+class FTPSFilesystem(
+    private val serverModel: ServerModel,
+    private val cacheLocation: File,
+) : Filesystem {
 
     override suspend fun defaultLocation(): FileModel {
         TODO("Not yet implemented")

@@ -24,13 +24,17 @@ import com.blacksquircle.ui.filesystem.base.model.*
 import kotlinx.coroutines.flow.Flow
 import org.apache.commons.net.ftp.*
 import java.io.*
+import java.util.*
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("BlockingMethodInNonBlockingContext")
-class FTPFilesystem(private val serverModel: ServerModel) : Filesystem {
+class FTPFilesystem(
+    private val serverModel: ServerModel,
+    private val cacheLocation: File,
+) : Filesystem {
 
     private val ftpClient = FTPClient()
     private val ftpMapper = FTPMapper()
@@ -113,22 +117,22 @@ class FTPFilesystem(private val serverModel: ServerModel) : Filesystem {
 
     override suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
         return suspendCoroutine { cont ->
+            val tempFile = File(cacheLocation, UUID.randomUUID().toString())
             try {
                 connect(cont)
-                val outputStream = object : OutputStream() {
-                    private val stringBuilder = StringBuilder()
-                    override fun toString() = stringBuilder.toString()
-                    override fun write(byte: Int) {
-                        stringBuilder.appendCodePoint(byte)
-                    }
+
+                tempFile.outputStream().use {
+                    ftpClient.retrieveFile(fileModel.path, it)
                 }
-                ftpClient.retrieveFile(fileModel.path, outputStream)
+                val text = tempFile.readText(fileParams.charset)
+
                 if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
                     cont.resumeWithException(FileNotFoundException(fileModel.path))
+                } else {
+                    cont.resume(text)
                 }
-                cont.resume(outputStream.toString())
-                outputStream.close()
             } finally {
+                tempFile.deleteRecursively()
                 disconnect()
             }
         }
@@ -136,16 +140,22 @@ class FTPFilesystem(private val serverModel: ServerModel) : Filesystem {
 
     override suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
         return suspendCoroutine { cont ->
+            val tempFile = File(cacheLocation, UUID.randomUUID().toString())
             try {
                 connect(cont)
-                val inputStream = text.byteInputStream(fileParams.charset)
-                ftpClient.storeFile(fileModel.path, inputStream)
+
+                tempFile.writeText(text, fileParams.charset)
+                tempFile.inputStream().use {
+                    ftpClient.storeFile(fileModel.path, it)
+                }
+
                 if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
                     cont.resumeWithException(FileNotFoundException(fileModel.path))
+                } else {
+                    cont.resume(Unit)
                 }
-                cont.resume(Unit)
-                inputStream.close()
             } finally {
+                tempFile.deleteRecursively()
                 disconnect()
             }
         }
