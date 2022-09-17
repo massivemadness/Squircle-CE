@@ -193,7 +193,6 @@ class FTPFilesystem(
                 size = fileObject.size,
                 lastModified = fileObject.timestamp.timeInMillis,
                 isFolder = fileObject.isDirectory,
-                isHidden = fileObject.name.startsWith("."),
             )
         }
 

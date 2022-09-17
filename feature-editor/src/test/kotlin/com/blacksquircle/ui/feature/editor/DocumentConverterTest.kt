@@ -33,7 +33,6 @@ class DocumentConverterTest {
             size = 0L,
             lastModified = 1L,
             isFolder = false,
-            isHidden = false
         )
         val documentModel = DocumentModel(
             uuid = "0",

@@ -30,7 +30,6 @@ object DocumentConverter {
             size = 0,
             lastModified = 0,
             isFolder = false,
-            isHidden = documentModel.name.startsWith(".")
         )
     }
 

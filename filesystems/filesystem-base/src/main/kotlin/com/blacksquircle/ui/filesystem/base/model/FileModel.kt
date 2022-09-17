@@ -24,7 +24,6 @@ data class FileModel(
     val size: Long = 0L,
     val lastModified: Long = 0L,
     val isFolder: Boolean = false,
-    val isHidden: Boolean = false
 ) {
 
     val scheme: String
@@ -45,6 +44,8 @@ data class FileModel(
             name.endsWith(APPLICATION) -> FileType.APPLICATION
             else -> FileType.DEFAULT
         }
+    val isHidden: Boolean
+        get() = name.startsWith(".")
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

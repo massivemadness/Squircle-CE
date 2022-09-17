@@ -292,7 +292,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 size = fileObject.length(),
                 lastModified = fileObject.lastModified(),
                 isFolder = fileObject.isDirectory,
-                isHidden = fileObject.isHidden
             )
         }
 
