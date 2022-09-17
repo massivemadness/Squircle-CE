@@ -87,6 +87,7 @@
     <string name="message_split_archive">Archiv ist unterteilt</string>
     <string name="message_encrypted_archive">Archiv ist verschlüsselt</string>
     <string name="message_operation_cancelled">Operation abgebrochen</string>
+    <string name="message_operation_not_supported">Operation not supported</string>
     <string name="message_done">Fertig</string>
     <string name="message_file_not_found">Datei nicht gefunden</string>
     <string name="message_elapsed_time">Verstrichene Zeit: %1$s</string>

@@ -87,6 +87,7 @@
     <string name="message_split_archive">L\'archive est divisée</string>
     <string name="message_encrypted_archive">L\'archive est chiffrée</string>
     <string name="message_operation_cancelled">Opération annulée</string>
+    <string name="message_operation_not_supported">Operation not supported</string>
     <string name="message_done">Fait</string>
     <string name="message_file_not_found">Fichier introuvable</string>
     <string name="message_elapsed_time">Temps écoulé: %1$s</string>

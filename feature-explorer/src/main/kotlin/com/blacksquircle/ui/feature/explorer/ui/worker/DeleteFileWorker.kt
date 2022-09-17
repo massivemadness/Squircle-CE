@@ -80,6 +80,9 @@ class DeleteFileWorker @AssistedInject constructor(
                         is CancellationException -> {
                             applicationContext.showToast(R.string.message_operation_cancelled)
                         }
+                        is UnsupportedOperationException -> {
+                            applicationContext.showToast(R.string.message_operation_not_supported)
+                        }
                         else -> {
                             applicationContext.showToast(R.string.message_error_occurred)
                         }
