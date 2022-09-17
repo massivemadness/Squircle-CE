@@ -106,13 +106,12 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override suspend fun deleteFile(fileModel: FileModel): FileModel {
+    override suspend fun deleteFile(fileModel: FileModel) {
         return suspendCoroutine { cont ->
             val file = toFileObject(fileModel)
             if (file.exists()) {
                 file.deleteRecursively()
-                val parentFile = toFileModel(file.parentFile!!)
-                cont.resume(parentFile)
+                cont.resume(Unit)
             } else {
                 cont.resumeWithException(FileNotFoundException(fileModel.path))
             }

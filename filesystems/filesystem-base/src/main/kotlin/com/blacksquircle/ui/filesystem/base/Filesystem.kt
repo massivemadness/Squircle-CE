@@ -29,7 +29,7 @@ interface Filesystem {
 
     suspend fun createFile(fileModel: FileModel)
     suspend fun renameFile(source: FileModel, dest: FileModel)
-    suspend fun deleteFile(fileModel: FileModel): FileModel
+    suspend fun deleteFile(fileModel: FileModel)
     suspend fun copyFile(source: FileModel, dest: FileModel)
     suspend fun propertiesOf(fileModel: FileModel): PropertiesModel
     suspend fun exists(fileModel: FileModel): Boolean

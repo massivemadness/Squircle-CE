@@ -104,8 +104,20 @@ class FTPFilesystem(
         }
     }
 
-    override suspend fun deleteFile(fileModel: FileModel): FileModel {
-        TODO("Not yet implemented")
+    override suspend fun deleteFile(fileModel: FileModel) {
+        return suspendCoroutine { cont ->
+            try {
+                connect(cont)
+                ftpClient.deleteFile(fileModel.path)
+                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(fileModel.path))
+                } else {
+                    cont.resume(Unit)
+                }
+            } finally {
+                disconnect()
+            }
+        }
     }
 
     override suspend fun copyFile(source: FileModel, dest: FileModel) {

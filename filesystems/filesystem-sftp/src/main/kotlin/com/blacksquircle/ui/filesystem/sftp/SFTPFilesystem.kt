@@ -42,7 +42,7 @@ class SFTPFilesystem(
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteFile(fileModel: FileModel): FileModel {
+    override suspend fun deleteFile(fileModel: FileModel) {
         TODO("Not yet implemented")
     }
 
