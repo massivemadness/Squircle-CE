@@ -314,8 +314,7 @@ class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val fileModel = selection.first()
-                val properties = explorerRepository.propertiesOf(fileModel)
-                val screen = ExplorerScreen.PropertiesDialog(properties)
+                val screen = ExplorerScreen.PropertiesDialog(fileModel)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -383,7 +382,7 @@ class ExplorerViewModel @Inject constructor(
                 val parent = breadcrumbs.last()
                 val child = parent.copy(
                     fileUri = parent.fileUri + "/" + event.fileName,
-                    isFolder = event.isFolder
+                    directory = event.directory
                 )
                 explorerRepository.createFile(child)
                 _viewEvent.send(
@@ -416,7 +415,7 @@ class ExplorerViewModel @Inject constructor(
                 val originalFile = buffer.first()
                 val renamedFile = originalFile.copy(
                     fileUri = originalFile.fileUri.substringBeforeLast('/') + "/" + event.fileName,
-                    isFolder = originalFile.isFolder
+                    directory = originalFile.directory
                 )
                 explorerRepository.renameFile(originalFile, renamedFile)
                 _viewEvent.send(

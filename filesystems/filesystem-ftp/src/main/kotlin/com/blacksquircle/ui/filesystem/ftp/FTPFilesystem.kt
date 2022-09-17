@@ -21,6 +21,8 @@ import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.ConnectionException
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.*
+import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
+import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import kotlinx.coroutines.flow.Flow
 import org.apache.commons.net.ftp.*
 import java.io.*
@@ -58,7 +60,7 @@ class FTPFilesystem(
                 val fileTree = FileTree(
                     parent = ftpMapper.parent(parent),
                     children = ftpClient.listFiles(parent.path)
-                        .filter { it.name != "." && it.name != ".." }
+                        .filter { it.name.isValidFileName() }
                         .map(ftpMapper::toFileModel)
                 )
                 cont.resume(fileTree)
@@ -68,11 +70,15 @@ class FTPFilesystem(
         }
     }
 
+    override suspend fun exists(fileModel: FileModel): Boolean {
+        throw UnsupportedOperationException()
+    }
+
     override suspend fun createFile(fileModel: FileModel) {
         return suspendCoroutine { cont ->
             try {
                 connect(cont)
-                if (fileModel.isFolder) {
+                if (fileModel.directory) {
                     ftpClient.makeDirectory(fileModel.path)
                 } else {
                     ftpClient.storeFile(fileModel.path, "".byteInputStream())
@@ -124,14 +130,6 @@ class FTPFilesystem(
         throw UnsupportedOperationException()
     }
 
-    override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
-        throw UnsupportedOperationException()
-    }
-
-    override suspend fun exists(fileModel: FileModel): Boolean {
-        throw UnsupportedOperationException()
-    }
-
     override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         throw UnsupportedOperationException()
     }
@@ -146,6 +144,7 @@ class FTPFilesystem(
             try {
                 connect(cont)
 
+                tempFile.createNewFile()
                 tempFile.outputStream().use {
                     ftpClient.retrieveFile(fileModel.path, it)
                 }
@@ -169,6 +168,7 @@ class FTPFilesystem(
             try {
                 connect(cont)
 
+                tempFile.createNewFile()
                 tempFile.writeText(text, fileParams.charset)
                 tempFile.inputStream().use {
                     ftpClient.storeFile(fileModel.path, it)
@@ -217,7 +217,17 @@ class FTPFilesystem(
                 filesystemUuid = serverModel.uuid,
                 size = fileObject.size,
                 lastModified = fileObject.timestamp.timeInMillis,
-                isFolder = fileObject.isDirectory,
+                directory = fileObject.isDirectory,
+                permission = with(fileObject) {
+                    var permission = Permission.NONE
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.READ_PERMISSION))
+                        permission = permission plusFlag Permission.READABLE
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.WRITE_PERMISSION))
+                        permission = permission plusFlag Permission.WRITABLE
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.EXECUTE_PERMISSION))
+                        permission = permission plusFlag Permission.EXECUTABLE
+                    permission
+                }
             )
         }
 

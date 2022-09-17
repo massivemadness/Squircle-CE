@@ -59,9 +59,6 @@
     <string name="properties_path">&lt;b>Pfad:&lt;/b> %s&lt;br&gt;</string>
     <string name="properties_modified">&lt;b>Geändert:&lt;/b> %s&lt;br&gt;</string>
     <string name="properties_size">&lt;b>Größe:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_line_count">&lt;b>Zeilenanzahl:&lt;/b> %d&lt;br&gt;</string>
-    <string name="properties_word_count">&lt;b>Wortanzahl:&lt;/b> %d&lt;br&gt;</string>
-    <string name="properties_char_count">&lt;b>Zeichenanzahl:&lt;/b> %d</string>
     <string name="properties_readable">R</string>
     <string name="properties_writable">W</string>
     <string name="properties_executable">X</string>

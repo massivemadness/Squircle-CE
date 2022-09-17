@@ -32,7 +32,7 @@ class DocumentConverterTest {
             filesystemUuid = "local",
             size = 0L,
             lastModified = 1L,
-            isFolder = false,
+            directory = false,
         )
         val documentModel = DocumentModel(
             uuid = "0",

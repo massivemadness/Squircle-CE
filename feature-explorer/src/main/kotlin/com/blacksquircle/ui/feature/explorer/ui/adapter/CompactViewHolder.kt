@@ -67,7 +67,7 @@ class CompactViewHolder(
             binding.itemIcon.alpha = 1f
         }
 
-        if (fileModel.isFolder) {
+        if (fileModel.directory) {
             binding.itemIcon.setImageResource(R.drawable.ic_folder)
             binding.itemIcon.setTint(R.color.colorFolder)
         } else {

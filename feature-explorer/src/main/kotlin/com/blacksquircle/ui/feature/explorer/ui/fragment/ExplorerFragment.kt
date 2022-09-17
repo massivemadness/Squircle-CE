@@ -184,7 +184,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             onItemClickListener = object : OnItemClickListener<FileModel> {
                 override fun onClick(item: FileModel) {
                     if (!tracker.hasSelection()) {
-                        if (item.isFolder) {
+                        if (item.directory) {
                             viewModel.obtainEvent(ExplorerIntent.OpenFolder(item))
                         } else {
                             viewModel.obtainEvent(ExplorerIntent.OpenFile(item))

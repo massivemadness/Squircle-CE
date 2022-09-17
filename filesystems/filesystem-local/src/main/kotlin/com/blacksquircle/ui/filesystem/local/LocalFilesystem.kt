@@ -20,10 +20,7 @@ import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.*
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.endsWith
-import com.blacksquircle.ui.filesystem.local.utils.charCount
-import com.blacksquircle.ui.filesystem.local.utils.lineCount
-import com.blacksquircle.ui.filesystem.local.utils.size
-import com.blacksquircle.ui.filesystem.local.utils.wordCount
+import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import com.ibm.icu.text.CharsetDetector
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -69,11 +66,18 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
+    override suspend fun exists(fileModel: FileModel): Boolean {
+        return suspendCoroutine { cont ->
+            val file = File(fileModel.path)
+            cont.resume(file.exists())
+        }
+    }
+
     override suspend fun createFile(fileModel: FileModel) {
         return suspendCoroutine { cont ->
             val file = toFileObject(fileModel)
             if (!file.exists()) {
-                if (fileModel.isFolder) {
+                if (fileModel.directory) {
                     file.mkdirs()
                 } else {
                     val parentFile = file.parentFile!!
@@ -133,35 +137,6 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             } else {
                 cont.resumeWithException(FileNotFoundException(source.path))
             }
-        }
-    }
-
-    override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
-        return suspendCoroutine { cont ->
-            val file = File(fileModel.path)
-            if (file.exists()) {
-                val result = PropertiesModel(
-                    path = file.absolutePath,
-                    lastModified = file.lastModified(),
-                    size = file.size(),
-                    lines = file.lineCount(fileModel.type),
-                    words = file.wordCount(fileModel.type),
-                    chars = file.charCount(fileModel.type),
-                    readable = file.canRead(),
-                    writable = file.canWrite(),
-                    executable = file.canExecute()
-                )
-                cont.resume(result)
-            } else {
-                cont.resumeWithException(FileNotFoundException(fileModel.path))
-            }
-        }
-    }
-
-    override suspend fun exists(fileModel: FileModel): Boolean {
-        return suspendCoroutine { cont ->
-            val file = File(fileModel.path)
-            cont.resume(file.exists())
         }
     }
 
@@ -289,7 +264,17 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 filesystemUuid = LOCAL_UUID,
                 size = fileObject.length(),
                 lastModified = fileObject.lastModified(),
-                isFolder = fileObject.isDirectory,
+                directory = fileObject.isDirectory,
+                permission = with(fileObject) {
+                    var permission = Permission.NONE
+                    if (fileObject.canRead())
+                        permission = permission plusFlag Permission.READABLE
+                    if (fileObject.canWrite())
+                        permission = permission plusFlag Permission.WRITABLE
+                    if (fileObject.canExecute())
+                        permission = permission plusFlag Permission.EXECUTABLE
+                    permission
+                }
             )
         }
 

@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.filesystem.local.utils
+package com.blacksquircle.ui.filesystem.base.model
 
-import java.io.File
-
-internal fun File.size(): Long {
-    if (isDirectory) {
-        var length = 0L
-        for (child in listFiles()!!) {
-            length += child.size()
-        }
-        return length
+@Retention(AnnotationRetention.SOURCE)
+annotation class Permission {
+    companion object {
+        const val NONE = 1 // 0001
+        const val READABLE = 1 shl 1 // 0010
+        const val WRITABLE = 1 shl 2 // 0100
+        const val EXECUTABLE = 1 shl 3 // 1000
     }
-    return length()
 }

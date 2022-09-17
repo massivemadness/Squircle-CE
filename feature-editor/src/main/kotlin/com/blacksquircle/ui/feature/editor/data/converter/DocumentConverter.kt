@@ -29,7 +29,7 @@ object DocumentConverter {
             filesystemUuid = documentModel.filesystemUuid,
             size = 0,
             lastModified = 0,
-            isFolder = false,
+            directory = false,
         )
     }
 

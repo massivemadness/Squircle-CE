@@ -30,7 +30,6 @@ import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
-import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -67,24 +66,12 @@ class ExplorerRepositoryImpl(
                     fileTree.copy(children = fileTree.children
                         .filter { if (it.isHidden) settingsManager.showHidden else true }
                         .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
-                        .sortedBy { it.isFolder != settingsManager.foldersOnTop }
+                        .sortedBy { it.directory != settingsManager.foldersOnTop }
                     )
                 },
                 onFailure = {
                     throw PermissionException()
                 }
-            )
-        }
-    }
-
-    override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
-        return withContext(dispatcherProvider.io()) {
-            context.checkStorageAccess(
-                onSuccess = {
-                    val filesystem = filesystemFactory.create(fileModel.filesystemUuid)
-                    filesystem.propertiesOf(fileModel)
-                },
-                onFailure = { throw PermissionException() }
             )
         }
     }

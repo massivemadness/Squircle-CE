@@ -19,20 +19,18 @@ package com.blacksquircle.ui.filesystem.base
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.FileTree
-import com.blacksquircle.ui.filesystem.base.model.PropertiesModel
 import kotlinx.coroutines.flow.Flow
 
 interface Filesystem {
 
     suspend fun defaultLocation(): FileModel
     suspend fun provideDirectory(parent: FileModel): FileTree
+    suspend fun exists(fileModel: FileModel): Boolean
 
     suspend fun createFile(fileModel: FileModel)
     suspend fun renameFile(source: FileModel, dest: FileModel)
     suspend fun deleteFile(fileModel: FileModel)
     suspend fun copyFile(source: FileModel, dest: FileModel)
-    suspend fun propertiesOf(fileModel: FileModel): PropertiesModel
-    suspend fun exists(fileModel: FileModel): Boolean
 
     suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel>
     suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel>

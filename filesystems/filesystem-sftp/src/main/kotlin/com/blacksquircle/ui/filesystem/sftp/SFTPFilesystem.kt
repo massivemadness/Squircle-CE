@@ -34,6 +34,10 @@ class SFTPFilesystem(
         TODO("Not yet implemented")
     }
 
+    override suspend fun exists(fileModel: FileModel): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun createFile(fileModel: FileModel) {
         TODO("Not yet implemented")
     }
@@ -47,14 +51,6 @@ class SFTPFilesystem(
     }
 
     override suspend fun copyFile(source: FileModel, dest: FileModel) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun exists(fileModel: FileModel): Boolean {
         TODO("Not yet implemented")
     }
 
