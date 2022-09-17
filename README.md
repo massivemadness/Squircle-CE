@@ -1,7 +1,6 @@
 # Squircle CE
 
-**Squircle CE** is a fast and free multi-language code editor for
-Android.
+**Squircle CE** is a fast and free multi-language code editor for Android.
 
 ![Android CI](https://github.com/massivemadness/Squircle-CE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 

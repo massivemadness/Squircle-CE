@@ -413,12 +413,12 @@ class ExplorerViewModel @Inject constructor(
                     return@launch
                 }
 
-                val oldFile = buffer.first()
-                val newFile = oldFile.copy(
-                    fileUri = oldFile.fileUri.substringBeforeLast('/') + "/" + event.fileName,
-                    isFolder = oldFile.isFolder
+                val originalFile = buffer.first()
+                val renamedFile = originalFile.copy(
+                    fileUri = originalFile.fileUri.substringBeforeLast('/') + "/" + event.fileName,
+                    isFolder = originalFile.isFolder
                 )
-                explorerRepository.renameFile(oldFile, newFile)
+                explorerRepository.renameFile(originalFile, renamedFile)
                 _viewEvent.send(
                     ViewEvent.Navigation(
                         ExplorerScreen.ProgressDialog(1, Operation.RENAME)

@@ -28,7 +28,7 @@ interface Filesystem {
     suspend fun provideDirectory(parent: FileModel): FileTree
 
     suspend fun createFile(fileModel: FileModel)
-    suspend fun renameFile(fileModel: FileModel, fileName: String)
+    suspend fun renameFile(source: FileModel, dest: FileModel)
     suspend fun deleteFile(fileModel: FileModel): FileModel
     suspend fun copyFile(source: FileModel, dest: FileModel)
     suspend fun propertiesOf(fileModel: FileModel): PropertiesModel

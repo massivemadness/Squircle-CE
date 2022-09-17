@@ -74,21 +74,34 @@ class FTPFilesystem(
                 connect(cont)
                 if (fileModel.isFolder) {
                     ftpClient.makeDirectory(fileModel.path)
-                    if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-                        cont.resumeWithException(FileNotFoundException(fileModel.path))
-                    }
                 } else {
-                    TODO("Not yet implemented")
+                    ftpClient.storeFile(fileModel.path, "".byteInputStream())
                 }
-                cont.resume(Unit)
+                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(fileModel.path))
+                } else {
+                    cont.resume(Unit)
+                }
             } finally {
                 disconnect()
             }
         }
     }
 
-    override suspend fun renameFile(fileModel: FileModel, fileName: String) {
-        TODO("Not yet implemented")
+    override suspend fun renameFile(source: FileModel, dest: FileModel) {
+        return suspendCoroutine { cont ->
+            try {
+                connect(cont)
+                ftpClient.rename(source.path, dest.path)
+                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(source.path))
+                } else {
+                    cont.resume(Unit)
+                }
+            } finally {
+                disconnect()
+            }
+        }
     }
 
     override suspend fun deleteFile(fileModel: FileModel): FileModel {
@@ -96,23 +109,23 @@ class FTPFilesystem(
     }
 
     override suspend fun copyFile(source: FileModel, dest: FileModel) {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun propertiesOf(fileModel: FileModel): PropertiesModel {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun exists(fileModel: FileModel): Boolean {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String {

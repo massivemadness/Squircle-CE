@@ -61,7 +61,7 @@ class RenameFileWorker @AssistedInject constructor(
                 setProgress(fileModel.toData())
 
                 val filesystem = filesystemFactory.create(fileModel.filesystemUuid)
-                filesystem.renameFile(fileList.first(), fileList.last().name)
+                filesystem.renameFile(fileList.first(), fileList.last())
                 delay(20)
 
                 withContext(dispatcherProvider.mainThread()) {

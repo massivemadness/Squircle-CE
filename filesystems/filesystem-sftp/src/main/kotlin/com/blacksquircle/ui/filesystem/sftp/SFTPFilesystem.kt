@@ -38,7 +38,7 @@ class SFTPFilesystem(
         TODO("Not yet implemented")
     }
 
-    override suspend fun renameFile(fileModel: FileModel, fileName: String) {
+    override suspend fun renameFile(source: FileModel, dest: FileModel) {
         TODO("Not yet implemented")
     }
 

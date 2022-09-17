@@ -89,11 +89,10 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override suspend fun renameFile(fileModel: FileModel, fileName: String) {
+    override suspend fun renameFile(source: FileModel, dest: FileModel) {
         return suspendCoroutine { cont ->
-            val originalFile = toFileObject(fileModel)
-            val parentFile = originalFile.parentFile!!
-            val renamedFile = File(parentFile, fileName)
+            val originalFile = toFileObject(source)
+            val renamedFile = toFileObject(dest)
             if (originalFile.exists()) {
                 if (!renamedFile.exists()) {
                     originalFile.renameTo(renamedFile)
@@ -102,7 +101,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                     cont.resumeWithException(FileAlreadyExistsException(renamedFile.absolutePath))
                 }
             } else {
-                cont.resumeWithException(FileNotFoundException(fileModel.path))
+                cont.resumeWithException(FileNotFoundException(source.path))
             }
         }
     }
