@@ -95,7 +95,7 @@ fun PopupMenu.makeRightPaddingRecursively() {
         for (item in menuBuilder.visibleItems) {
             item.makeRightPadding()
             if (item.hasSubMenu()) {
-                for (subItem in item.subMenu.iterator()) {
+                for (subItem in item.subMenu!!.iterator()) {
                     subItem.makeRightPadding()
                 }
             }

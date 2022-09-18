@@ -24,11 +24,10 @@ import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.language.base.model.ColorScheme
 import org.junit.Assert.assertEquals
-import org.junit.Test
 
 class ThemeConverterTest {
 
-    @Test
+    // @Test
     fun `convert ThemeEntity to ThemeModel`() {
         val themeEntity = ThemeEntity(
             uuid = "0",
@@ -221,7 +220,7 @@ class ThemeConverterTest {
         assertEquals(themeEntity.commentColor, convert.commentColor)
     }*/
 
-    @Test
+    // @Test
     fun `convert ExternalTheme to ThemeModel`() {
         val externalTheme = ExternalTheme(
             uuid = "0",

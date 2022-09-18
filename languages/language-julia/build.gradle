@@ -28,11 +28,17 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
+    namespace 'com.blacksquircle.ui.language.julia'
+    group libraryGroupId
+    version versions.publishVersionName
+
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
         consumerProguardFiles 'consumer-rules.pro'
+
+        archivesBaseName = libraryArtifactId
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'

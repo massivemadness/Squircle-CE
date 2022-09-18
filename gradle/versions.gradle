@@ -19,8 +19,8 @@ ext {
     versions = [
             minSdk: 21,
             targetSdk: 32,
-            compileSdk: 32,
-            buildTools: '32.0.0',
+            compileSdk: 33,
+            buildTools: '33.0.0',
 
             // Library
             publishVersionName: '2.2.0',
@@ -28,11 +28,11 @@ ext {
     ]
 
     // Plugins
-    agp_version = '7.2.1'
+    agp_version = '7.3.0'
 
     // Core
     kotlin_version = '1.6.21'
-    core_version = '1.8.0'
+    core_version = '1.9.0'
     activity_version = '1.5.1'
     fragment_version = '1.5.2'
 
@@ -40,7 +40,7 @@ ext {
     playcore_version = '1.8.1'
 
     // UI
-    appcompat_version = '1.5.0'
+    appcompat_version = '1.5.1'
     materialdesign_version = '1.6.1'
     constraintlayout_version = '2.1.4'
     swiperefreshlayout_version = '1.2.0-alpha01'
@@ -50,13 +50,14 @@ ext {
 
     // AAC
     lifecycle_version = '2.5.1'
-    navigation_version = '2.5.1'
+    navigation_version = '2.5.2'
     room_version = '2.4.3'
     workmanager_version = '2.7.1'
 
     // Network
     gson_version = '2.9.1'
     ftpclient_version = '3.8.0'
+    sftpclient_version = '0.1.55'
 
     // Coroutines
     coroutines_version = '1.6.4'
@@ -68,7 +69,7 @@ ext {
     // Other
     keyboardevent_version = '3.0.0-RC3'
     rhino_version = '1.7.14'
-    zip4j_version = '2.11.1'
+    zip4j_version = '2.11.2'
     chardet_version = '71.1'
 
     // Tests
@@ -120,6 +121,7 @@ ext {
             // Network
             gson: "com.google.code.gson:gson:$gson_version",
             ftpclient: "commons-net:commons-net:$ftpclient_version",
+            sftpclient: "com.jcraft:jsch:$sftpclient_version",
 
             // Coroutines
             coroutines_core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",

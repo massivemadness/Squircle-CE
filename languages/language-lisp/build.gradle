@@ -28,15 +28,13 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
+    namespace 'com.blacksquircle.ui.language.lisp'
     group libraryGroupId
     version versions.publishVersionName
 
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-
-        versionCode versions.publishVersionCode
-        versionName versions.publishVersionName
 
         consumerProguardFiles 'consumer-rules.pro'
 

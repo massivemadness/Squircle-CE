@@ -30,7 +30,7 @@ dependencies {
     implementation library.kotlin
 
     // Network
-    implementation library.ftpclient
+    implementation library.sftpclient
 
     // Coroutines
     implementation library.coroutines_core

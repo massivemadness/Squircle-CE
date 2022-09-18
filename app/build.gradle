@@ -25,6 +25,8 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
+    namespace 'com.blacksquircle.ui'
+
     defaultConfig {
         applicationId "com.blacksquircle.ui"
 
