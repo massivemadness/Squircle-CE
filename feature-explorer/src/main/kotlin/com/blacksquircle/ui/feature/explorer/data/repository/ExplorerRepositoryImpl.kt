@@ -43,7 +43,7 @@ class ExplorerRepositoryImpl(
 ) : ExplorerRepository {
 
     override val serverFlow = appDatabase.serverDao().flow()
-        .map { servers -> servers.map { entity -> ServerConverter.toModel(entity) } }
+        .map { it.map(ServerConverter::toModel) }
         .flowOn(dispatcherProvider.io())
 
     private var currentFilesystem: Filesystem? = null

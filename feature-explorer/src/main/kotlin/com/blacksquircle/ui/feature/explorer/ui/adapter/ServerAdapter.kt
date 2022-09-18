@@ -31,7 +31,7 @@ class ServerAdapter(
     private val addServer: () -> Unit
 ) : BaseAdapter() {
 
-    private val dataset = defaultList()
+    private val dataset = mutableListOf<CharSequence>()
     private val inflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -65,16 +65,12 @@ class ServerAdapter(
     override fun getCount() = dataset.size
 
     fun submitList(servers: List<ServerModel>) {
-        dataset.replaceList(defaultList())
+        dataset.replaceList(mutableListOf(
+            context.getString(R.string.storage_local),
+            context.getString(R.string.storage_root),
+        ))
         dataset.addAll(servers.map(ServerModel::name))
         dataset.add(context.getString(R.string.storage_add))
         notifyDataSetChanged()
-    }
-
-    private fun defaultList(): MutableList<CharSequence> {
-        return mutableListOf(
-            context.getString(R.string.storage_local),
-            context.getString(R.string.storage_root),
-        )
     }
 }
