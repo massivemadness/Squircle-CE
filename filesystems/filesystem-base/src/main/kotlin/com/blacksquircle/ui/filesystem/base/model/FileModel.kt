@@ -24,7 +24,7 @@ data class FileModel(
     val size: Long = 0L,
     val lastModified: Long = 0L,
     val directory: Boolean = false,
-    @Permission val permission: Int = Permission.NONE,
+    @Permission val permission: Int = Permission.EMPTY,
 ) {
 
     val scheme: String

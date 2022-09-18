@@ -16,36 +16,135 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:id="@+id/readable"
-        android:text="@string/properties_readable"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp">
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:id="@+id/writable"
-        android:text="@string/properties_writable"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:longClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:hint="@string/properties_name"
+            android:id="@+id/text_file_name"
+            tools:text="main.js" />
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:layout_width="wrap_content"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:id="@+id/executable"
-        android:text="@string/properties_executable"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:longClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:hint="@string/properties_path"
+            android:id="@+id/text_file_path"
+            tools:text="/storage/emulated/0/Documents/main.js" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:longClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:hint="@string/properties_modified"
+            android:id="@+id/text_last_modified"
+            tools:text="16/09/2022" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:longClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:hint="@string/properties_size"
+            android:id="@+id/text_file_size"
+            tools:text="256 KB" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:id="@+id/readable"
+            android:text="@string/properties_readable"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:checked="true" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:id="@+id/writable"
+            android:text="@string/properties_writable"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:checked="true" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:id="@+id/executable"
+            android:text="@string/properties_executable"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:checked="false" />
+
+    </LinearLayout>
 
 </LinearLayout>

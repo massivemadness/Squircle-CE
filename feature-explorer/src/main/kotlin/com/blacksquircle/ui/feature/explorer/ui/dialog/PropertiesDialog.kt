@@ -40,27 +40,24 @@ class PropertiesDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val fileModel = Gson().fromJson(navArgs.data, FileModel::class.java) // FIXME
+
         val readableSize = fileModel.size.toReadableSize()
         val readableDate = fileModel.lastModified
             .toReadableDate(getString(R.string.properties_date_format))
 
-        val properties = StringBuilder().apply {
-            append(getString(R.string.properties_name, fileModel.name))
-            append(getString(R.string.properties_path, fileModel.path))
-            append(getString(R.string.properties_modified, readableDate))
-            append(getString(R.string.properties_size, readableSize))
-        }
-
         return MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_properties)
-            message(text = properties) { html() }
             customView(R.layout.dialog_properties, scrollable = true)
-
             val binding = DialogPropertiesBinding.bind(getCustomView())
 
-            binding.readable.isChecked = fileModel.permission hasFlag Permission.READABLE
-            binding.writable.isChecked = fileModel.permission hasFlag Permission.WRITABLE
-            binding.executable.isChecked = fileModel.permission hasFlag Permission.EXECUTABLE
+            binding.textFileName.setText(fileModel.name)
+            binding.textFilePath.setText(fileModel.path)
+            binding.textLastModified.setText(readableDate)
+            binding.textFileSize.setText(readableSize)
+
+            binding.readable.isChecked = fileModel.permission hasFlag Permission.OWNER_READ
+            binding.writable.isChecked = fileModel.permission hasFlag Permission.OWNER_WRITE
+            binding.executable.isChecked = fileModel.permission hasFlag Permission.OWNER_EXECUTE
         }
     }
 }

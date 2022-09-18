@@ -55,10 +55,10 @@
     <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
     <string name="dialog_message_storage_access">作为文件管理器，Squircle CE 需要访问所有文件才能正常运行。\n\n请点击“继续”后在授予所有文件的管理权限。</string>
 
-    <string name="properties_name">&lt;b&gt;名称:&lt;/b&gt; %s&lt;br&gt;</string>
-    <string name="properties_path">&lt;b&gt;路径:&lt;/b&gt; %s&lt;br&gt;</string>
-    <string name="properties_modified">&lt;b&gt;日期:&lt;/b&gt; %s&lt;br&gt;</string>
-    <string name="properties_size">&lt;b&gt;大小:&lt;/b&gt; %s&lt;br&gt;</string>
+    <string name="properties_name">File Name:</string>
+    <string name="properties_path">File Path:</string>
+    <string name="properties_modified">Last Modified:</string>
+    <string name="properties_size">File Size:</string>
     <string name="properties_readable">可读</string>
     <string name="properties_writable">可写</string>
     <string name="properties_executable">可执行</string>

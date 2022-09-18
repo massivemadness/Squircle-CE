@@ -55,10 +55,10 @@
     <string name="dialog_message_multi_delete">Êtes-vous sûr de vouloir supprimer les fichiers sélectionnés?</string>
     <string name="dialog_message_storage_access">Pour fonctionner correctement en tant que gestionnaire de fichiers, Squircle CE nécessite l\'accès à tous les fichiers\n\nVeuillez accorder l\'autorisation sur cet appareil après avoir cliqué sur « Continuer »</string>
 
-    <string name="properties_name">&lt;b>Nom:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_path">&lt;b>Chemin:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_modified">&lt;b>Modifié le:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_size">&lt;b>Taille:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_name">File Name:</string>
+    <string name="properties_path">File Path:</string>
+    <string name="properties_modified">Last Modified:</string>
+    <string name="properties_size">File Size:</string>
     <string name="properties_readable">R</string>
     <string name="properties_writable">W</string>
     <string name="properties_executable">X</string>

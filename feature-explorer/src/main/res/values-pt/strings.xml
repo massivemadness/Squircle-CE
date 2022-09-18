@@ -55,10 +55,10 @@
     <string name="dialog_message_multi_delete">Você tem certeza de que quer deletar os arquivos selecionados?</string>
     <string name="dialog_message_storage_access">Como um gerenciador de arquivos, o Squircle CE precisa de acesso a todos os arquivos para funcionar corretamente\n\nPor favor permita o acesso neste dispositivo depois de clicar em «Continue»</string>
 
-    <string name="properties_name">&lt;b>Nome:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_path">&lt;b>Caminho:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_modified">&lt;b>Modificação:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_size">&lt;b>Tamanho:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_name">File Name:</string>
+    <string name="properties_path">File Path:</string>
+    <string name="properties_modified">Last Modified:</string>
+    <string name="properties_size">File Size:</string>
     <string name="properties_readable">R</string>
     <string name="properties_writable">W</string>
     <string name="properties_executable">X</string>

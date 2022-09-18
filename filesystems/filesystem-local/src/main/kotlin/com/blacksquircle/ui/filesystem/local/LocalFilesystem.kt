@@ -266,13 +266,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 lastModified = fileObject.lastModified(),
                 directory = fileObject.isDirectory,
                 permission = with(fileObject) {
-                    var permission = Permission.NONE
+                    var permission = Permission.EMPTY
                     if (fileObject.canRead())
-                        permission = permission plusFlag Permission.READABLE
+                        permission = permission plusFlag Permission.OWNER_READ
                     if (fileObject.canWrite())
-                        permission = permission plusFlag Permission.WRITABLE
+                        permission = permission plusFlag Permission.OWNER_WRITE
                     if (fileObject.canExecute())
-                        permission = permission plusFlag Permission.EXECUTABLE
+                        permission = permission plusFlag Permission.OWNER_EXECUTE
                     permission
                 }
             )

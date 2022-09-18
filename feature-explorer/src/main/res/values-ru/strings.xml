@@ -55,10 +55,10 @@
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
     <string name="dialog_message_storage_access">Как файловый менеджер, Squircle CE требует доступ к файлам для корректной работы\n\nПожалуйста, предоставьте разрешение на этом устройстве после нажатия «Продолжить»</string>
 
-    <string name="properties_name">&lt;b>Имя:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_path">&lt;b>Путь:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_modified">&lt;b>Изменён:&lt;/b> %s&lt;br&gt;</string>
-    <string name="properties_size">&lt;b>Размер:&lt;/b> %s&lt;br&gt;</string>
+    <string name="properties_name">Имя файла:</string>
+    <string name="properties_path">Путь к файлу:</string>
+    <string name="properties_modified">Последнее изменение:</string>
+    <string name="properties_size">Размер файла:</string>
     <string name="properties_readable">R</string>
     <string name="properties_writable">W</string>
     <string name="properties_executable">X</string>
