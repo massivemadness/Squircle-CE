@@ -86,9 +86,10 @@
     </string-array>
 
     <string-array name="server_type">
-        <item>FTP</item>
-        <item>FTPS</item>
-        <item>SFTP</item>
+        <item>@string/server_ftp</item>
+        <item>@string/server_ftps</item>
+        <item>@string/server_ftpes</item>
+        <item>@string/server_sftp</item>
     </string-array>
 
 </resources>

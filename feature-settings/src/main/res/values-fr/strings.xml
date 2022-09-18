@@ -42,9 +42,10 @@
     <string name="view_mode_compact_list">Liste Compacte</string>
     <string name="view_mode_detailed_list">Liste détaillée</string>
 
-    <string name="linebreak_cr" translatable="false">CR (Mac/Unix)</string>
-    <string name="linebreak_lf" translatable="false">LF (Android/Linux)</string>
-    <string name="linebreak_crlf" translatable="false">CRLF (Windows)</string>
+    <string name="server_ftp">FTP</string>
+    <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
+    <string name="server_ftpes">FTPES (Explicit FTPS)</string>
+    <string name="server_sftp">SFTP</string>
 
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configurer les paramètres globaux de l\'application.</string>

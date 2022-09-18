@@ -29,6 +29,7 @@ import com.blacksquircle.ui.feature.settings.databinding.DialogServerBinding
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
+import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import com.google.gson.Gson
@@ -52,7 +53,8 @@ class ServerDialog : DialogFragment() {
                         scheme = when (binding.serverType.selectedItemPosition) {
                             0 -> FTPFilesystem.FTP_SCHEME
                             1 -> FTPSFilesystem.FTPS_SCHEME
-                            2 -> SFTPFilesystem.SFTP_SCHEME
+                            2 -> FTPESFilesystem.FTPES_SCHEME
+                            3 -> SFTPFilesystem.SFTP_SCHEME
                             else -> throw IllegalArgumentException("Unsupported scheme type")
                         },
                         name = binding.inputServerName.text.toString(),
@@ -77,7 +79,8 @@ class ServerDialog : DialogFragment() {
                 val scheme = when (serverModel.scheme) {
                     FTPFilesystem.FTP_SCHEME -> 0
                     FTPSFilesystem.FTPS_SCHEME -> 1
-                    SFTPFilesystem.SFTP_SCHEME -> 2
+                    FTPESFilesystem.FTPES_SCHEME -> 2
+                    SFTPFilesystem.SFTP_SCHEME -> 3
                     else -> throw IllegalArgumentException("Unsupported scheme type")
                 }
                 binding.serverType.setSelection(scheme)
@@ -88,7 +91,8 @@ class ServerDialog : DialogFragment() {
                         scheme = when (binding.serverType.selectedItemPosition) {
                             0 -> FTPFilesystem.FTP_SCHEME
                             1 -> FTPSFilesystem.FTPS_SCHEME
-                            2 -> SFTPFilesystem.SFTP_SCHEME
+                            2 -> FTPESFilesystem.FTPES_SCHEME
+                            3 -> SFTPFilesystem.SFTP_SCHEME
                             else -> throw IllegalArgumentException("Unsupported scheme type")
                         },
                         name = binding.inputServerName.text.toString(),

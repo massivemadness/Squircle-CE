@@ -42,6 +42,11 @@
     <string name="view_mode_compact_list">Компактный список</string>
     <string name="view_mode_detailed_list">Подробный список</string>
 
+    <string name="server_ftp">FTP</string>
+    <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
+    <string name="server_ftpes">FTPES (Explicit FTPS)</string>
+    <string name="server_sftp">SFTP</string>
+
     <string name="pref_header_application_title">Приложение</string>
     <string name="pref_header_application_summary">Настройте основной функционал.</string>
     <string name="pref_header_editor_title">Редактор</string>
