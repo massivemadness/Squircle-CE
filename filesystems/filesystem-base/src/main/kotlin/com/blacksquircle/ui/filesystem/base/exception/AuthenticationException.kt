@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-class AuthenticationException : FilesystemException("Authentication failed")
+class AuthenticationException : FilesystemException("Failed to authenticate on remote server")

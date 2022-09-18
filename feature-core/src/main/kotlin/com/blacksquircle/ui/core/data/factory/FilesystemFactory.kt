@@ -22,6 +22,7 @@ import com.blacksquircle.ui.core.data.converter.ServerConverter
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
+import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
@@ -40,6 +41,7 @@ class FilesystemFactory(
             persistent?.uuid -> when (persistent.scheme) {
                 FTPFilesystem.FTP_SCHEME -> FTPFilesystem(ServerConverter.toModel(persistent), cacheLocation())
                 FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(ServerConverter.toModel(persistent), cacheLocation())
+                FTPESFilesystem.FTPES_SCHEME -> FTPESFilesystem(ServerConverter.toModel(persistent), cacheLocation())
                 SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(ServerConverter.toModel(persistent), cacheLocation())
                 else -> throw IllegalArgumentException("Unsupported file scheme")
             }
@@ -59,6 +61,7 @@ class FilesystemFactory(
                 when (serverModel.scheme) {
                     FTPFilesystem.FTP_SCHEME -> FTPFilesystem(serverModel, cacheLocation())
                     FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(serverModel, cacheLocation())
+                    FTPESFilesystem.FTPES_SCHEME -> FTPESFilesystem(serverModel, cacheLocation())
                     SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(serverModel, cacheLocation())
                     else -> throw IllegalArgumentException("Unsupported file scheme")
                 }

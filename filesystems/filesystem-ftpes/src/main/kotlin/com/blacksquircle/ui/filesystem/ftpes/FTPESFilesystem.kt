@@ -17,57 +17,246 @@
 package com.blacksquircle.ui.filesystem.ftpes
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
+import com.blacksquircle.ui.filesystem.base.exception.ConnectionException
+import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.*
+import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
+import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import kotlinx.coroutines.flow.Flow
+import org.apache.commons.net.ftp.FTPFile
+import org.apache.commons.net.ftp.FTPReply
+import org.apache.commons.net.ftp.FTPSClient
 import java.io.File
+import java.util.*
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
+@Suppress("BlockingMethodInNonBlockingContext")
 class FTPESFilesystem(
     private val serverModel: ServerModel,
     private val cacheLocation: File,
 ) : Filesystem {
 
+    private val ftpesClient = FTPSClient(false)
+    private val ftpesMapper = FTPESMapper()
+
+    init {
+        ftpesClient.connectTimeout = 10000
+    }
+
     override suspend fun defaultLocation(): FileModel {
-        TODO("Not yet implemented")
+        return FileModel(FTPES_SCHEME, serverModel.uuid)
     }
 
     override suspend fun provideDirectory(parent: FileModel): FileTree {
-        TODO("Not yet implemented")
+        return suspendCoroutine { cont ->
+            try {
+                connect(cont)
+                ftpesClient.changeWorkingDirectory(parent.path)
+                if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(parent.path))
+                }
+                val fileTree = FileTree(
+                    parent = ftpesMapper.parent(parent),
+                    children = ftpesClient.listFiles(parent.path)
+                        .filter { it.name.isValidFileName() }
+                        .map(ftpesMapper::toFileModel)
+                )
+                cont.resume(fileTree)
+            } finally {
+                disconnect()
+            }
+        }
     }
 
     override suspend fun exists(fileModel: FileModel): Boolean {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun createFile(fileModel: FileModel) {
-        TODO("Not yet implemented")
+        return suspendCoroutine { cont ->
+            try {
+                connect(cont)
+                if (fileModel.directory) {
+                    ftpesClient.makeDirectory(fileModel.path)
+                } else {
+                    ftpesClient.storeFile(fileModel.path, "".byteInputStream())
+                }
+                if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(fileModel.path))
+                } else {
+                    cont.resume(Unit)
+                }
+            } finally {
+                disconnect()
+            }
+        }
     }
 
     override suspend fun renameFile(source: FileModel, dest: FileModel) {
-        TODO("Not yet implemented")
+        return suspendCoroutine { cont ->
+            try {
+                connect(cont)
+                ftpesClient.rename(source.path, dest.path)
+                if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(source.path))
+                } else {
+                    cont.resume(Unit)
+                }
+            } finally {
+                disconnect()
+            }
+        }
     }
 
     override suspend fun deleteFile(fileModel: FileModel) {
-        TODO("Not yet implemented")
+        return suspendCoroutine { cont ->
+            try {
+                connect(cont)
+                if (fileModel.directory) {
+                    ftpesClient.removeDirectory(fileModel.path)
+                } else {
+                    ftpesClient.deleteFile(fileModel.path)
+                }
+                if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(fileModel.path))
+                } else {
+                    cont.resume(Unit)
+                }
+            } finally {
+                disconnect()
+            }
+        }
     }
 
     override suspend fun copyFile(source: FileModel, dest: FileModel) {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException()
     }
 
     override suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
-        TODO("Not yet implemented")
+        return suspendCoroutine { cont ->
+            val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+            try {
+                connect(cont)
+
+                tempFile.createNewFile()
+                tempFile.outputStream().use {
+                    ftpesClient.retrieveFile(fileModel.path, it)
+                }
+                val text = tempFile.readText(fileParams.charset)
+
+                if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(fileModel.path))
+                } else {
+                    cont.resume(text)
+                }
+            } finally {
+                tempFile.deleteRecursively()
+                disconnect()
+            }
+        }
     }
 
     override suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
-        TODO("Not yet implemented")
+        return suspendCoroutine { cont ->
+            val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+            try {
+                connect(cont)
+
+                tempFile.createNewFile()
+                tempFile.writeText(text, fileParams.charset)
+                tempFile.inputStream().use {
+                    ftpesClient.storeFile(fileModel.path, it)
+                }
+
+                if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
+                    cont.resumeWithException(FileNotFoundException(fileModel.path))
+                } else {
+                    cont.resume(Unit)
+                }
+            } finally {
+                tempFile.deleteRecursively()
+                disconnect()
+            }
+        }
+    }
+
+    private fun connect(continuation: Continuation<*>) {
+        if (ftpesClient.isConnected)
+            return
+        ftpesClient.connect(serverModel.address, serverModel.port)
+        if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
+            continuation.resumeWithException(ConnectionException())
+            return
+        }
+        ftpesClient.enterLocalPassiveMode()
+        ftpesClient.login(serverModel.username, serverModel.password)
+        if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
+            continuation.resumeWithException(AuthenticationException())
+            return
+        }
+    }
+
+    private fun disconnect() {
+        ftpesClient.logout()
+        ftpesClient.disconnect()
+    }
+
+    inner class FTPESMapper : Filesystem.Mapper<FTPFile> {
+
+        private var parent: FileModel? = null
+
+        override fun toFileModel(fileObject: FTPFile): FileModel {
+            return FileModel(
+                fileUri = parent?.fileUri + "/" + fileObject.name,
+                filesystemUuid = serverModel.uuid,
+                size = fileObject.size,
+                lastModified = fileObject.timestamp.timeInMillis,
+                directory = fileObject.isDirectory,
+                permission = with(fileObject) {
+                    var permission = Permission.EMPTY
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.READ_PERMISSION))
+                        permission = permission plusFlag Permission.OWNER_READ
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.WRITE_PERMISSION))
+                        permission = permission plusFlag Permission.OWNER_WRITE
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.EXECUTE_PERMISSION))
+                        permission = permission plusFlag Permission.OWNER_EXECUTE
+                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.READ_PERMISSION))
+                        permission = permission plusFlag Permission.GROUP_READ
+                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.WRITE_PERMISSION))
+                        permission = permission plusFlag Permission.GROUP_WRITE
+                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.EXECUTE_PERMISSION))
+                        permission = permission plusFlag Permission.GROUP_EXECUTE
+                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.READ_PERMISSION))
+                        permission = permission plusFlag Permission.OTHERS_READ
+                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.WRITE_PERMISSION))
+                        permission = permission plusFlag Permission.OTHERS_WRITE
+                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.EXECUTE_PERMISSION))
+                        permission = permission plusFlag Permission.OTHERS_EXECUTE
+                    permission
+                }
+            )
+        }
+
+        override fun toFileObject(fileModel: FileModel): FTPFile {
+            throw UnsupportedOperationException()
+        }
+
+        fun parent(parent: FileModel): FileModel {
+            this.parent = parent
+            return parent
+        }
     }
 
     companion object {
