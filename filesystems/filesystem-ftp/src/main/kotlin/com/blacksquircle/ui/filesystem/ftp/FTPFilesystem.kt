@@ -114,7 +114,11 @@ class FTPFilesystem(
         return suspendCoroutine { cont ->
             try {
                 connect(cont)
-                ftpClient.deleteFile(fileModel.path)
+                if (fileModel.directory) {
+                    ftpClient.removeDirectory(fileModel.path)
+                } else {
+                    ftpClient.deleteFile(fileModel.path)
+                }
                 if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
                     cont.resumeWithException(FileNotFoundException(fileModel.path))
                 } else {
