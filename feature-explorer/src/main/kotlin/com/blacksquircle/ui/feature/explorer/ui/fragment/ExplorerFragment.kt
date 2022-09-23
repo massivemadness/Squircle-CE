@@ -231,7 +231,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.actionHome.setOnClickListener {
             viewModel.obtainEvent(ExplorerIntent.SelectTab(0))
         }
-        binding.permissionView.actionAccess.setOnClickListener {
+        binding.errorView.actionAccess.setOnClickListener {
             context?.checkStorageAccess(
                 onSuccess = ::permissionGranted,
                 onFailure = ::permissionRejected
@@ -295,31 +295,32 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 when (state) {
                     is DirectoryViewState.Permission -> {
                         binding.swipeRefresh.isVisible = false
-                        binding.permissionView.root.isVisible = true
-                        binding.errorView.root.isVisible = false
+                        binding.errorView.root.isVisible = true
                         binding.loadingBar.isVisible = false
+                        binding.errorView.image.setImageResource(R.drawable.ic_file_error)
+                        binding.errorView.title.text = getString(R.string.message_access_denied)
+                        binding.errorView.subtitle.text = getString(R.string.message_access_required)
+                        binding.errorView.actionAccess.isVisible = true
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Error -> {
-                        binding.swipeRefresh.isVisible = true
-                        binding.permissionView.root.isVisible = false
+                        binding.swipeRefresh.isVisible = false
                         binding.errorView.root.isVisible = true
                         binding.loadingBar.isVisible = false
                         binding.errorView.image.setImageResource(state.image)
                         binding.errorView.title.text = state.title
                         binding.errorView.subtitle.text = state.subtitle
+                        binding.errorView.actionAccess.isVisible = false
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Loading -> {
                         binding.swipeRefresh.isVisible = true
-                        binding.permissionView.root.isVisible = false
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Files -> {
                         binding.swipeRefresh.isVisible = true
-                        binding.permissionView.root.isVisible = false
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
                         fileAdapter.submitList(state.data)

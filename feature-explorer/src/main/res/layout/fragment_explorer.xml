@@ -21,7 +21,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground">
+    android:background="?android:colorBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <!-- region TOOLBAR -->
 
@@ -97,11 +99,6 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- endregion TOOLBAR -->
-
-    <include
-        layout="@layout/layout_permission_view"
-        android:id="@+id/permissionView"
-        tools:visibility="gone" />
 
     <include
         layout="@layout/layout_error_view"

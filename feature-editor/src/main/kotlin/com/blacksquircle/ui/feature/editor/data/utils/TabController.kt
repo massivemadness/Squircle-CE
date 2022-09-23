@@ -23,7 +23,11 @@ import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 class TabController : ItemTouchHelper(itemTouchCallback) {
 
     companion object {
-        private val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(START or END, ACTION_STATE_IDLE) {
+
+        private const val STATE_DRAG = 0.5f
+        private const val STATE_NORMAL = 1.0f
+
+        private val itemTouchCallback = object : SimpleCallback(START or END, ACTION_STATE_IDLE) {
 
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -37,7 +41,7 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 super.onSelectedChanged(viewHolder, actionState)
                 if (actionState == ACTION_STATE_DRAG) {
-                    viewHolder?.itemView?.alpha = 0.5f
+                    viewHolder?.itemView?.alpha = STATE_DRAG
                 }
             }
 
@@ -46,7 +50,7 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
                 viewHolder: RecyclerView.ViewHolder
             ) {
                 super.clearView(recyclerView, viewHolder)
-                viewHolder.itemView.alpha = 1.0f
+                viewHolder.itemView.alpha = STATE_NORMAL
             }
 
             override fun onSwiped(

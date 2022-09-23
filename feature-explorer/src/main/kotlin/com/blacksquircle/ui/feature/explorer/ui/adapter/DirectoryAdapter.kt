@@ -54,7 +54,7 @@ class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHol
         }
 
         fun bind(item: FileModel, isSelected: Boolean) {
-            binding.selectionIndicator.isVisible = isSelected
+            binding.indicator.isVisible = isSelected
             binding.itemTitle.text = item.name
         }
     }
