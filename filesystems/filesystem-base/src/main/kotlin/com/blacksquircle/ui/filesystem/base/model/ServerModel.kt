@@ -22,6 +22,9 @@ data class ServerModel(
     val name: String,
     val address: String,
     val port: Int,
+    val authMethod: AuthMethod,
     val username: String,
     val password: String,
+    val privateKey: String,
+    val passphrase: String,
 )

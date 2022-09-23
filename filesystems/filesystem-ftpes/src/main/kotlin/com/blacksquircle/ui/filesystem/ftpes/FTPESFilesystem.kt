@@ -200,6 +200,10 @@ class FTPESFilesystem(
             continuation.resumeWithException(ConnectionException())
             return
         }
+        if (serverModel.authMethod != AuthMethod.PASSWORD) {
+            continuation.resumeWithException(AuthenticationException())
+            return
+        }
         ftpesClient.enterLocalPassiveMode()
         ftpesClient.login(serverModel.username, serverModel.password)
         if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {

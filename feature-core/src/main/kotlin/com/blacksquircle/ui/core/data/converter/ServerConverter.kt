@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.core.data.converter
 
 import com.blacksquircle.ui.core.data.storage.database.entity.server.ServerEntity
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
 
 object ServerConverter {
@@ -28,8 +29,11 @@ object ServerConverter {
             name = serverEntity.name,
             address = serverEntity.address,
             port = serverEntity.port,
+            authMethod = AuthMethod.find(serverEntity.authMethod),
             username = serverEntity.username,
             password = serverEntity.password,
+            privateKey = serverEntity.privateKey,
+            passphrase = serverEntity.passphrase,
         )
     }
 
@@ -40,8 +44,11 @@ object ServerConverter {
             name = serverModel.name,
             address = serverModel.address,
             port = serverModel.port,
+            authMethod = serverModel.authMethod.value,
             username = serverModel.username,
             password = serverModel.password,
+            privateKey = serverModel.privateKey,
+            passphrase = serverModel.passphrase,
         )
     }
 }

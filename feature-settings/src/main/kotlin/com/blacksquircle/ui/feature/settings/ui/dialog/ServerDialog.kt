@@ -27,6 +27,7 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.DialogServerBinding
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
@@ -60,8 +61,11 @@ class ServerDialog : DialogFragment() {
                         name = binding.inputServerName.text.toString(),
                         address = binding.inputServerAddress.text.toString(),
                         port = binding.inputServerPort.text?.toString()?.toIntOrNull() ?: DEFAULT_FTP_PORT,
+                        authMethod = AuthMethod.PASSWORD,
                         username = binding.inputUsername.text.toString(),
                         password = binding.inputPassword.text.toString(),
+                        privateKey = "",
+                        passphrase = "",
                     )
                     viewModel.upsertServer(serverModel)
                 }
@@ -98,8 +102,11 @@ class ServerDialog : DialogFragment() {
                         name = binding.inputServerName.text.toString(),
                         address = binding.inputServerAddress.text.toString(),
                         port = binding.inputServerPort.text?.toString()?.toIntOrNull() ?: DEFAULT_FTP_PORT,
+                        authMethod = AuthMethod.PASSWORD,
                         username = binding.inputUsername.text.toString(),
                         password = binding.inputPassword.text.toString(),
+                        privateKey = "",
+                        passphrase = "",
                     )
                     viewModel.upsertServer(changedModel)
                 }

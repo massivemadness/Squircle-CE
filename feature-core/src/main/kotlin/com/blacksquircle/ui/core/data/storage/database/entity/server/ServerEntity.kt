@@ -34,8 +34,14 @@ data class ServerEntity(
     val address: String,
     @ColumnInfo(name = "port")
     val port: Int,
+    @ColumnInfo(name = "auth_method")
+    val authMethod: Int,
     @ColumnInfo(name = "username")
     val username: String,
     @ColumnInfo(name = "password")
     val password: String,
+    @ColumnInfo(name = "private_key")
+    val privateKey: String,
+    @ColumnInfo(name = "passphrase")
+    val passphrase: String,
 )
