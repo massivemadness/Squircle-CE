@@ -129,7 +129,7 @@ class DocumentRepositoryImpl(
         }
     }
 
-    private suspend fun loadUndoStack(documentModel: DocumentModel): UndoStack {
+    private fun loadUndoStack(documentModel: DocumentModel): UndoStack {
         return try {
             val undoCacheFile = cacheFile(documentModel, postfix = "undo")
             if (cacheFilesystem.exists(undoCacheFile)) {
@@ -142,7 +142,7 @@ class DocumentRepositoryImpl(
         }
     }
 
-    private suspend fun loadRedoStack(documentModel: DocumentModel): UndoStack {
+    private fun loadRedoStack(documentModel: DocumentModel): UndoStack {
         return try {
             val redoCacheFile = cacheFile(documentModel, postfix = "redo")
             if (cacheFilesystem.exists(redoCacheFile)) {
@@ -155,7 +155,7 @@ class DocumentRepositoryImpl(
         }
     }
 
-    private suspend fun createCacheFiles(documentModel: DocumentModel) {
+    private fun createCacheFiles(documentModel: DocumentModel) {
         val textCacheFile = cacheFile(documentModel, postfix = "text")
         val undoCacheFile = cacheFile(documentModel, postfix = "undo")
         val redoCacheFile = cacheFile(documentModel, postfix = "redo")
@@ -165,7 +165,7 @@ class DocumentRepositoryImpl(
         if (!cacheFilesystem.exists(redoCacheFile)) { cacheFilesystem.createFile(redoCacheFile) }
     }
 
-    private suspend fun deleteCacheFiles(documentModel: DocumentModel) {
+    private fun deleteCacheFiles(documentModel: DocumentModel) {
         val textCacheFile = cacheFile(documentModel, postfix = "text")
         val undoCacheFile = cacheFile(documentModel, postfix = "undo")
         val redoCacheFile = cacheFile(documentModel, postfix = "redo")
@@ -175,7 +175,7 @@ class DocumentRepositoryImpl(
         if (cacheFilesystem.exists(redoCacheFile)) { cacheFilesystem.deleteFile(redoCacheFile) }
     }
 
-    private suspend fun cacheFile(documentModel: DocumentModel, postfix: String): FileModel {
+    private fun cacheFile(documentModel: DocumentModel, postfix: String): FileModel {
         val defaultLocation = cacheFilesystem.defaultLocation()
         return FileModel(
             fileUri = defaultLocation.fileUri + "/" + "${documentModel.uuid}-$postfix.cache",

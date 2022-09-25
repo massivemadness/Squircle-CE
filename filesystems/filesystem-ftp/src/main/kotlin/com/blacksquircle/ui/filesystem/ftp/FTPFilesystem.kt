@@ -27,12 +27,7 @@ import kotlinx.coroutines.flow.Flow
 import org.apache.commons.net.ftp.*
 import java.io.*
 import java.util.*
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
-@Suppress("BlockingMethodInNonBlockingContext")
 class FTPFilesystem(
     private val serverModel: ServerModel,
     private val cacheLocation: File,
@@ -45,168 +40,140 @@ class FTPFilesystem(
         ftpClient.connectTimeout = 10000
     }
 
-    override suspend fun defaultLocation(): FileModel {
+    override fun defaultLocation(): FileModel {
         return FileModel(FTP_SCHEME, serverModel.uuid)
     }
 
-    override suspend fun provideDirectory(parent: FileModel): FileTree {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-                ftpClient.changeWorkingDirectory(parent.path)
-                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-                    cont.resumeWithException(FileNotFoundException(parent.path))
-                }
-                val fileTree = FileTree(
-                    parent = ftpMapper.parent(parent),
-                    children = ftpClient.listFiles(parent.path)
-                        .filter { it.name.isValidFileName() }
-                        .map(ftpMapper::toFileModel)
-                )
-                cont.resume(fileTree)
-            } finally {
-                disconnect()
+    override fun provideDirectory(parent: FileModel): FileTree {
+        try {
+            connect()
+            ftpClient.changeWorkingDirectory(parent.path)
+            if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                throw FileNotFoundException(parent.path)
             }
+            return FileTree(
+                parent = ftpMapper.parent(parent),
+                children = ftpClient.listFiles(parent.path)
+                    .filter { it.name.isValidFileName() }
+                    .map(ftpMapper::toFileModel)
+            )
+        } finally {
+            disconnect()
         }
     }
 
-    override suspend fun exists(fileModel: FileModel): Boolean {
+    override fun exists(fileModel: FileModel): Boolean {
         throw UnsupportedOperationException()
     }
 
-    override suspend fun createFile(fileModel: FileModel) {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-                if (fileModel.directory) {
-                    ftpClient.makeDirectory(fileModel.path)
-                } else {
-                    ftpClient.storeFile(fileModel.path, "".byteInputStream())
-                }
-                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-                    cont.resumeWithException(FileNotFoundException(fileModel.path))
-                } else {
-                    cont.resume(Unit)
-                }
-            } finally {
-                disconnect()
+    override fun createFile(fileModel: FileModel) {
+        try {
+            connect()
+            if (fileModel.directory) {
+                ftpClient.makeDirectory(fileModel.path)
+            } else {
+                ftpClient.storeFile(fileModel.path, "".byteInputStream())
             }
+            if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                throw FileNotFoundException(fileModel.path)
+            }
+        } finally {
+            disconnect()
         }
     }
 
-    override suspend fun renameFile(source: FileModel, dest: FileModel) {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-                ftpClient.rename(source.path, dest.path)
-                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-                    cont.resumeWithException(FileNotFoundException(source.path))
-                } else {
-                    cont.resume(Unit)
-                }
-            } finally {
-                disconnect()
+    override fun renameFile(source: FileModel, dest: FileModel) {
+        try {
+            connect()
+            ftpClient.rename(source.path, dest.path)
+            if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                throw FileNotFoundException(source.path)
             }
+        } finally {
+            disconnect()
         }
     }
 
-    override suspend fun deleteFile(fileModel: FileModel) {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-                if (fileModel.directory) {
-                    ftpClient.removeDirectory(fileModel.path)
-                } else {
-                    ftpClient.deleteFile(fileModel.path)
-                }
-                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-                    cont.resumeWithException(FileNotFoundException(fileModel.path))
-                } else {
-                    cont.resume(Unit)
-                }
-            } finally {
-                disconnect()
+    override fun deleteFile(fileModel: FileModel) {
+        try {
+            connect()
+            if (fileModel.directory) {
+                ftpClient.removeDirectory(fileModel.path)
+            } else {
+                ftpClient.deleteFile(fileModel.path)
             }
+            if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                throw FileNotFoundException(fileModel.path)
+            }
+        } finally {
+            disconnect()
         }
     }
 
-    override suspend fun copyFile(source: FileModel, dest: FileModel) {
+    override fun copyFile(source: FileModel, dest: FileModel) {
         throw UnsupportedOperationException()
     }
 
-    override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
+    override fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         throw UnsupportedOperationException()
     }
 
-    override suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
+    override fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
         throw UnsupportedOperationException()
     }
 
-    override suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
-        return suspendCoroutine { cont ->
-            val tempFile = File(cacheLocation, UUID.randomUUID().toString())
-            try {
-                connect(cont)
+    override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
+        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+        try {
+            connect()
 
-                tempFile.createNewFile()
-                tempFile.outputStream().use {
-                    ftpClient.retrieveFile(fileModel.path, it)
-                }
-                val text = tempFile.readText(fileParams.charset)
-
-                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-                    cont.resumeWithException(FileNotFoundException(fileModel.path))
-                } else {
-                    cont.resume(text)
-                }
-            } finally {
-                tempFile.deleteRecursively()
-                disconnect()
+            tempFile.createNewFile()
+            tempFile.outputStream().use {
+                ftpClient.retrieveFile(fileModel.path, it)
             }
+            if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                throw FileNotFoundException(fileModel.path)
+            }
+            return tempFile.readText(fileParams.charset)
+        } finally {
+            tempFile.deleteRecursively()
+            disconnect()
         }
     }
 
-    override suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
-        return suspendCoroutine { cont ->
-            val tempFile = File(cacheLocation, UUID.randomUUID().toString())
-            try {
-                connect(cont)
+    override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
+        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+        try {
+            connect()
 
-                tempFile.createNewFile()
-                tempFile.writeText(text, fileParams.charset)
-                tempFile.inputStream().use {
-                    ftpClient.storeFile(fileModel.path, it)
-                }
-
-                if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-                    cont.resumeWithException(FileNotFoundException(fileModel.path))
-                } else {
-                    cont.resume(Unit)
-                }
-            } finally {
-                tempFile.deleteRecursively()
-                disconnect()
+            tempFile.createNewFile()
+            tempFile.writeText(text, fileParams.charset)
+            tempFile.inputStream().use {
+                ftpClient.storeFile(fileModel.path, it)
             }
+            if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
+                throw FileNotFoundException(fileModel.path)
+            }
+        } finally {
+            tempFile.deleteRecursively()
+            disconnect()
         }
     }
 
-    private fun connect(continuation: Continuation<*>) {
+    private fun connect() {
         if (ftpClient.isConnected)
             return
         ftpClient.connect(serverModel.address, serverModel.port)
         if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-            continuation.resumeWithException(ConnectionException())
-            return
+            throw ConnectionException()
         }
         if (serverModel.authMethod != AuthMethod.PASSWORD) {
-            continuation.resumeWithException(AuthenticationException())
-            return
+            throw AuthenticationException()
         }
         ftpClient.enterLocalPassiveMode()
         ftpClient.login(serverModel.username, serverModel.password)
         if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-            continuation.resumeWithException(AuthenticationException())
-            return
+            throw AuthenticationException()
         }
     }
 

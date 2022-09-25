@@ -23,20 +23,20 @@ import kotlinx.coroutines.flow.Flow
 
 interface Filesystem {
 
-    suspend fun defaultLocation(): FileModel
-    suspend fun provideDirectory(parent: FileModel): FileTree
-    suspend fun exists(fileModel: FileModel): Boolean
+    fun defaultLocation(): FileModel
+    fun provideDirectory(parent: FileModel): FileTree
+    fun exists(fileModel: FileModel): Boolean
 
-    suspend fun createFile(fileModel: FileModel)
-    suspend fun renameFile(source: FileModel, dest: FileModel)
-    suspend fun deleteFile(fileModel: FileModel)
-    suspend fun copyFile(source: FileModel, dest: FileModel)
+    fun createFile(fileModel: FileModel)
+    fun renameFile(source: FileModel, dest: FileModel)
+    fun deleteFile(fileModel: FileModel)
+    fun copyFile(source: FileModel, dest: FileModel)
 
-    suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel>
-    suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel>
+    fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel>
+    fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel>
 
-    suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String
-    suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams)
+    fun loadFile(fileModel: FileModel, fileParams: FileParams): String
+    fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams)
 
     interface Mapper<T> {
         fun toFileModel(fileObject: T): FileModel

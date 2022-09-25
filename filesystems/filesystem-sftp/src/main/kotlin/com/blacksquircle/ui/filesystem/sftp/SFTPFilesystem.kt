@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.filesystem.sftp
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.exception.FilesystemException
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
@@ -29,10 +28,6 @@ import com.jcraft.jsch.Session
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 import java.util.*
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class SFTPFilesystem(
     private val serverModel: ServerModel,
@@ -45,115 +40,102 @@ class SFTPFilesystem(
 
     private val sftpMapper = SFTPMapper()
 
-    override suspend fun defaultLocation(): FileModel {
+    override fun defaultLocation(): FileModel {
         return FileModel(SFTP_SCHEME, serverModel.uuid)
     }
 
     @Suppress("UNCHECKED_CAST")
-    override suspend fun provideDirectory(parent: FileModel): FileTree {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-                val list = channel?.ls(parent.path)
-                val fileTree = FileTree(
-                    parent = sftpMapper.parent(parent),
-                    children = (list as Vector<ChannelSftp.LsEntry>)
-                        .filter { it.filename.isValidFileName() }
-                        .map(sftpMapper::toFileModel)
-                )
-                cont.resume(fileTree)
-            } finally {
-                disconnect()
-            }
-        }
-    }
-
-    override suspend fun exists(fileModel: FileModel): Boolean {
-        throw UnsupportedOperationException()
-    }
-
-    override suspend fun createFile(fileModel: FileModel) {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-            } finally {
-                disconnect()
-            }
-        }
-    }
-
-    override suspend fun renameFile(source: FileModel, dest: FileModel) {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-            } finally {
-                disconnect()
-            }
-        }
-    }
-
-    override suspend fun deleteFile(fileModel: FileModel) {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-            } finally {
-                disconnect()
-            }
-        }
-    }
-
-    override suspend fun copyFile(source: FileModel, dest: FileModel) {
-        throw UnsupportedOperationException()
-    }
-
-    override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
-        throw UnsupportedOperationException()
-    }
-
-    override suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
-        throw UnsupportedOperationException()
-    }
-
-    override suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-            } finally {
-                disconnect()
-            }
-        }
-    }
-
-    override suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
-        return suspendCoroutine { cont ->
-            try {
-                connect(cont)
-            } finally {
-                disconnect()
-            }
-        }
-    }
-
-    private fun connect(continuation: Continuation<*>) {
+    override fun provideDirectory(parent: FileModel): FileTree {
         try {
-            jsch.removeAllIdentity()
-            session = jsch.getSession(
-                serverModel.username,
-                serverModel.address,
-                serverModel.port,
-            ).apply {
-                when (serverModel.authMethod) {
-                    AuthMethod.PASSWORD -> setPassword(serverModel.password)
-                    AuthMethod.KEYSTORE -> TODO() // load private key
-                }
-                setConfig("StrictHostKeyChecking", "no")
-                connect()
-            }
-            channel = session?.openChannel(CHANNEL_SFTP) as ChannelSftp
-            channel?.connect()
-        } catch (e: Exception) {
-            continuation.resumeWithException(FilesystemException(e.message))
+            connect()
+            return FileTree(
+                parent = sftpMapper.parent(parent),
+                children = (channel?.ls(parent.path) as Vector<ChannelSftp.LsEntry>)
+                    .filter { it.filename.isValidFileName() }
+                    .map(sftpMapper::toFileModel)
+            )
+        } finally {
+            disconnect()
         }
+    }
+
+    override fun exists(fileModel: FileModel): Boolean {
+        throw UnsupportedOperationException()
+    }
+
+    override fun createFile(fileModel: FileModel) {
+        try {
+            connect()
+            TODO("Not yet implemented")
+        } finally {
+            disconnect()
+        }
+    }
+
+    override fun renameFile(source: FileModel, dest: FileModel) {
+        try {
+            connect()
+            TODO("Not yet implemented")
+        } finally {
+            disconnect()
+        }
+    }
+
+    override fun deleteFile(fileModel: FileModel) {
+        try {
+            connect()
+            TODO("Not yet implemented")
+        } finally {
+            disconnect()
+        }
+    }
+
+    override fun copyFile(source: FileModel, dest: FileModel) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
+        throw UnsupportedOperationException()
+    }
+
+    override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
+        try {
+            connect()
+            TODO("Not yet implemented")
+        } finally {
+            disconnect()
+        }
+    }
+
+    override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
+        try {
+            connect()
+            TODO("Not yet implemented")
+        } finally {
+            disconnect()
+        }
+    }
+
+    private fun connect() {
+        jsch.removeAllIdentity()
+        session = jsch.getSession(
+            serverModel.username,
+            serverModel.address,
+            serverModel.port,
+        ).apply {
+            when (serverModel.authMethod) {
+                AuthMethod.PASSWORD -> setPassword(serverModel.password)
+                AuthMethod.KEYSTORE -> TODO() // load private key
+            }
+            setConfig("StrictHostKeyChecking", "no")
+            connect()
+        }
+        channel = session?.openChannel(CHANNEL_SFTP) as ChannelSftp
+        channel?.connect()
     }
 
     private fun disconnect() {

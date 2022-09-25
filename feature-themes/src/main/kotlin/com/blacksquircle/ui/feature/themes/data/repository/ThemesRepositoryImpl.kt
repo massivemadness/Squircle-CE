@@ -100,11 +100,10 @@ class ThemesRepositoryImpl(
         }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun importTheme(uri: Uri): ThemeModel {
         return withContext(dispatcherProvider.io()) {
-            val inputStream = context.contentResolver.openInputStream(uri)
-            val themeJson = inputStream?.bufferedReader()?.use(BufferedReader::readText)!!
+            val inputStream = context.contentResolver.openInputStream(uri)!!
+            val themeJson = inputStream.bufferedReader().use(BufferedReader::readText)
             val externalTheme = ExternalTheme.deserialize(themeJson)
             ThemeConverter.toModel(externalTheme)
         }

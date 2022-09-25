@@ -29,119 +29,84 @@ import kotlinx.coroutines.flow.callbackFlow
 import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.exception.ZipException
 import java.io.File
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@Suppress("BlockingMethodInNonBlockingContext")
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     /** zip4j only supports these formats */
     private val supportedArchives = arrayOf(".zip", ".jar")
 
-    override suspend fun defaultLocation(): FileModel {
-        return suspendCoroutine { cont ->
-            val fileModel = toFileModel(defaultLocation)
-            if (defaultLocation.isDirectory) {
-                cont.resume(fileModel)
-            } else {
-                cont.resumeWithException(DirectoryExpectedException())
+    override fun defaultLocation(): FileModel {
+        val fileModel = toFileModel(defaultLocation)
+        if (!defaultLocation.isDirectory) {
+            throw DirectoryExpectedException()
+        }
+        return fileModel
+    }
+
+    override fun provideDirectory(parent: FileModel): FileTree {
+        val file = toFileObject(parent)
+        if (!file.isDirectory) {
+            throw DirectoryExpectedException()
+        }
+        return FileTree(
+            parent = parent,
+            children = file.listFiles().orEmpty()
+                .map(::toFileModel).toList()
+        )
+    }
+
+    override fun exists(fileModel: FileModel): Boolean {
+        return File(fileModel.path).exists()
+    }
+
+    override fun createFile(fileModel: FileModel) {
+        val file = toFileObject(fileModel)
+        if (file.exists()) {
+            throw FileAlreadyExistsException(fileModel.path)
+        }
+        if (fileModel.directory) {
+            file.mkdirs()
+        } else {
+            val parentFile = file.parentFile!!
+            if (!parentFile.exists()) {
+                parentFile.mkdirs()
             }
+            file.createNewFile()
         }
     }
 
-    override suspend fun provideDirectory(parent: FileModel): FileTree {
-        return suspendCoroutine { cont ->
-            val file = toFileObject(parent)
-            if (file.isDirectory) {
-                val children = file.listFiles().orEmpty()
-                    .map(::toFileModel)
-                    .toList()
-                val fileTree = FileTree(parent, children)
-                cont.resume(fileTree)
-            } else {
-                cont.resumeWithException(DirectoryExpectedException())
-            }
-        }
+    override fun renameFile(source: FileModel, dest: FileModel) {
+        val originalFile = toFileObject(source)
+        val renamedFile = toFileObject(dest)
+        if (!originalFile.exists())
+            throw FileNotFoundException(source.path)
+        if (renamedFile.exists())
+            throw FileAlreadyExistsException(renamedFile.absolutePath)
+        originalFile.renameTo(renamedFile)
     }
 
-    override suspend fun exists(fileModel: FileModel): Boolean {
-        return suspendCoroutine { cont ->
-            val file = File(fileModel.path)
-            cont.resume(file.exists())
+    override fun deleteFile(fileModel: FileModel) {
+        val file = toFileObject(fileModel)
+        if (!file.exists()) {
+            throw FileNotFoundException(fileModel.path)
         }
+        file.deleteRecursively()
     }
 
-    override suspend fun createFile(fileModel: FileModel) {
-        return suspendCoroutine { cont ->
-            val file = toFileObject(fileModel)
-            if (!file.exists()) {
-                if (fileModel.directory) {
-                    file.mkdirs()
-                } else {
-                    val parentFile = file.parentFile!!
-                    if (!parentFile.exists()) {
-                        parentFile.mkdirs()
-                    }
-                    file.createNewFile()
-                }
-                cont.resume(Unit)
-            } else {
-                cont.resumeWithException(FileAlreadyExistsException(fileModel.path))
-            }
-        }
-    }
-
-    override suspend fun renameFile(source: FileModel, dest: FileModel) {
-        return suspendCoroutine { cont ->
-            val originalFile = toFileObject(source)
-            val renamedFile = toFileObject(dest)
-            if (originalFile.exists()) {
-                if (!renamedFile.exists()) {
-                    originalFile.renameTo(renamedFile)
-                    cont.resume(Unit)
-                } else {
-                    cont.resumeWithException(FileAlreadyExistsException(renamedFile.absolutePath))
-                }
-            } else {
-                cont.resumeWithException(FileNotFoundException(source.path))
-            }
-        }
-    }
-
-    override suspend fun deleteFile(fileModel: FileModel) {
-        return suspendCoroutine { cont ->
-            val file = toFileObject(fileModel)
-            if (file.exists()) {
-                file.deleteRecursively()
-                cont.resume(Unit)
-            } else {
-                cont.resumeWithException(FileNotFoundException(fileModel.path))
-            }
-        }
-    }
-
-    override suspend fun copyFile(source: FileModel, dest: FileModel) {
-        return suspendCoroutine { cont ->
-            val directory = toFileObject(dest)
-            val sourceFile = toFileObject(source)
-            val destFile = File(directory, sourceFile.name)
-            if (sourceFile.exists()) {
-                if (!destFile.exists()) {
-                    sourceFile.copyRecursively(destFile, overwrite = false)
-                    cont.resume(Unit)
-                } else {
-                    cont.resumeWithException(FileAlreadyExistsException(dest.path))
-                }
-            } else {
-                cont.resumeWithException(FileNotFoundException(source.path))
-            }
-        }
+    override fun copyFile(source: FileModel, dest: FileModel) {
+        val directory = toFileObject(dest)
+        val sourceFile = toFileObject(source)
+        val destFile = File(directory, sourceFile.name)
+        if (!sourceFile.exists())
+            throw FileNotFoundException(source.path)
+        if (destFile.exists())
+            throw FileAlreadyExistsException(dest.path)
+        sourceFile.copyRecursively(destFile, overwrite = false)
     }
 
     // TODO: Use ProgressMonitor
-    override suspend fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
+    override fun compressFiles(source: List<FileModel>, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val destFile = toFileObject(dest)
             val archiveFile = ZipFile(destFile)
@@ -178,7 +143,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     }
 
     // TODO: Use ProgressMonitor
-    override suspend fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
+    override fun extractFiles(source: FileModel, dest: FileModel): Flow<FileModel> {
         return callbackFlow {
             val sourceFile = toFileObject(source)
             val archiveFile = ZipFile(sourceFile)
@@ -214,43 +179,36 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         }
     }
 
-    override suspend fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
-        return suspendCoroutine { cont ->
-            val file = File(fileModel.path)
-            if (file.exists()) {
-                val charset = if (fileParams.chardet) {
-                    try {
-                        val charsetMatch = CharsetDetector()
-                            .setText(file.readBytes())
-                            .detect()
-                        charset(charsetMatch.name)
-                    } catch (e: Exception) {
-                        Charsets.UTF_8
-                    }
-                } else {
-                    fileParams.charset
-                }
-                val text = file.readText(charset)
-                cont.resume(text)
-            } else {
-                cont.resumeWithException(FileNotFoundException(fileModel.path))
-            }
+    override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
+        val file = File(fileModel.path)
+        if (!file.exists()) {
+            throw FileNotFoundException(fileModel.path)
         }
+        val charset = if (fileParams.chardet) {
+            try {
+                val charsetMatch = CharsetDetector()
+                    .setText(file.readBytes())
+                    .detect()
+                charset(charsetMatch.name)
+            } catch (e: Exception) {
+                Charsets.UTF_8
+            }
+        } else {
+            fileParams.charset
+        }
+        return file.readText(charset)
     }
 
-    override suspend fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
-        return suspendCoroutine { cont ->
-            val file = File(fileModel.path)
-            if (!file.exists()) {
-                val parentFile = file.parentFile!!
-                if (!parentFile.exists()) {
-                    parentFile.mkdirs()
-                }
-                file.createNewFile()
+    override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
+        val file = File(fileModel.path)
+        if (!file.exists()) {
+            val parentFile = file.parentFile!!
+            if (!parentFile.exists()) {
+                parentFile.mkdirs()
             }
-            file.writeText(fileParams.linebreak(text), fileParams.charset)
-            cont.resume(Unit)
+            file.createNewFile()
         }
+        file.writeText(fileParams.linebreak(text), fileParams.charset)
     }
 
     companion object : Filesystem.Mapper<File> {
