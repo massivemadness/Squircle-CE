@@ -66,7 +66,11 @@ class SFTPFilesystem(
     override fun createFile(fileModel: FileModel) {
         try {
             connect()
-            TODO("Not yet implemented")
+            if (fileModel.directory) {
+                channel?.mkdir(fileModel.path)
+            } else {
+                channel?.put("".byteInputStream(), fileModel.path)
+            }
         } finally {
             disconnect()
         }
@@ -75,7 +79,7 @@ class SFTPFilesystem(
     override fun renameFile(source: FileModel, dest: FileModel) {
         try {
             connect()
-            TODO("Not yet implemented")
+            channel?.rename(source.path, dest.path)
         } finally {
             disconnect()
         }
@@ -84,7 +88,11 @@ class SFTPFilesystem(
     override fun deleteFile(fileModel: FileModel) {
         try {
             connect()
-            TODO("Not yet implemented")
+            if (fileModel.directory) {
+                channel?.rmdir(fileModel.path)
+            } else {
+                channel?.rm(fileModel.path)
+            }
         } finally {
             disconnect()
         }
@@ -103,19 +111,32 @@ class SFTPFilesystem(
     }
 
     override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
+        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
         try {
             connect()
-            TODO("Not yet implemented")
+            tempFile.createNewFile()
+            tempFile.outputStream().use {
+                channel?.get(fileModel.path, it)
+            }
+            return tempFile.readText(fileParams.charset)
         } finally {
+            tempFile.deleteRecursively()
             disconnect()
         }
     }
 
     override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
+        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
         try {
             connect()
-            TODO("Not yet implemented")
+
+            tempFile.createNewFile()
+            tempFile.writeText(text, fileParams.charset)
+            tempFile.inputStream().use {
+                channel?.put(it, fileModel.path)
+            }
         } finally {
+            tempFile.deleteRecursively()
             disconnect()
         }
     }
