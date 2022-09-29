@@ -22,8 +22,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.blacksquircle.ui.core.ui.extensions.replaceList
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.data.utils.replaceList
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
 
 class ServerAdapter(

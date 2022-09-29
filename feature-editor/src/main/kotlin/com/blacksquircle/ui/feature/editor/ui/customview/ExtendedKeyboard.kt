@@ -68,7 +68,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
         private class KeyViewHolder(
             private val binding: ItemKeyboardKeyBinding,
             private val keyListener: OnKeyListener
-        ) : RecyclerView.ViewHolder(binding.root) {
+        ) : ViewHolder(binding.root) {
 
             companion object {
                 fun create(parent: ViewGroup, keyListener: OnKeyListener): KeyViewHolder {

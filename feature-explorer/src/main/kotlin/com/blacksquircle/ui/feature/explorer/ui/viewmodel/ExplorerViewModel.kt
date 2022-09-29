@@ -21,12 +21,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.ui.extensions.appendList
+import com.blacksquircle.ui.core.ui.extensions.replaceList
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
-import com.blacksquircle.ui.feature.explorer.data.utils.appendList
-import com.blacksquircle.ui.feature.explorer.data.utils.replaceList
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.DirectoryViewState

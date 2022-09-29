@@ -22,8 +22,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
 import android.view.View
-import androidx.annotation.MenuRes
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import androidx.core.content.getSystemService
 import com.blacksquircle.ui.core.ui.extensions.showToast
@@ -37,28 +35,9 @@ import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
 
-fun Toolbar.replaceMenu(@MenuRes menuRes: Int) {
-    menu.clear()
-    inflateMenu(menuRes)
-}
-
 fun View.setSelectableBackground() = with(TypedValue()) {
     context.theme.resolveAttribute(R.attr.selectableItemBackground, this, true)
     setBackgroundResource(resourceId)
-}
-
-fun <T> MutableList<T>.replaceList(collection: Collection<T>): List<T> {
-    val temp = collection.toList()
-    clear()
-    addAll(temp)
-    return this
-}
-
-fun <T> MutableList<T>.appendList(element: T): List<T> {
-    if (!contains(element)) {
-        add(element)
-    }
-    return this
 }
 
 fun Context.openFileWith(fileModel: FileModel) {
