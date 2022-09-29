@@ -29,6 +29,8 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.navigate
+import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
@@ -96,6 +98,14 @@ class CloudFragment : PreferenceFragmentCompat() {
                         true
                     }
                     categoryServers.addPreference(server)
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

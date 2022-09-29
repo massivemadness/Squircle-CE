@@ -11,8 +11,8 @@ The code editor provides basic completion based on a file content, it suggests n
 <b>Error Checking</b>
 Whenever you make a change, the code editor will correct you by highlighting a part of code that contains syntax errors <i>(Note that this feature currently works only for JavaScript, but it will be available for more languages soon)</i>
 
-<b>Powerful File Manager</b>
-A built-in file manager allows you not only create and delete files, but also cut, copy and paste files or even create zip archives
+<b>File Manager</b>
+A built-in file manager with SFTP/FTP(S) integration provides a convenient way to transfer files between mobile phone and computer
 
 <b>Cross-session Editing</b>
 All your changes automatically will be saved in cache, you don't need to save file every time you exit app

@@ -32,7 +32,9 @@
     <string name="action_reset">重置</string>
     <string name="action_delete">删除</string>
 
-    <string name="preset_disclaimer">注：同一个字符可以重复多次</string>
+    <string name="message_preset_disclaimer">注：同一个字符可以重复多次</string>
+    <string name="message_server_missing_fields">Server name and address must be not empty</string>
+
     <string name="encoding_utf8_default">UTF-8 (默认)</string>
 
     <string name="sort_by_name">按名称排序</string>

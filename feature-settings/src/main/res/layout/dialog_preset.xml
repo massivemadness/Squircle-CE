@@ -46,6 +46,6 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:textSize="12sp"
-        android:text="@string/preset_disclaimer"/>
+        android:text="@string/message_preset_disclaimer"/>
 
 </LinearLayout>

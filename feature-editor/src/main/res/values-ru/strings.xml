@@ -59,7 +59,7 @@
     <string name="message_no_open_files">Нет файлов</string>
     <string name="message_tab_limit_achieved">Вы достигли лимита вкладок</string>
     <string name="message_invalid_file_path">Некорректный путь к файлу</string>
-    <string name="message_error_occurred">Неизвестная ошибка</string>
+    <string name="message_error_occurred">Произошла ошибка</string>
     <string name="message_file_not_found">Файл не найден</string>
     <string name="message_out_of_memory">Недостаточно памяти</string>
     <string name="message_saved">Сохранено</string>

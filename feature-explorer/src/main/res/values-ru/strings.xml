@@ -76,7 +76,7 @@
     <string name="message_no_result">Нет результатов</string>
     <string name="message_cannot_be_opened">Файл невозможно открыть</string>
     <string name="message_invalid_file_name">Некорректное имя файла</string>
-    <string name="message_error_occurred">Неизвестная ошибка</string>
+    <string name="message_error_occurred">Произошла ошибка</string>
     <string name="message_directory_expected">Невозможно получить список файлов из файла</string>
     <string name="message_file_already_exists">Такой файл уже существует</string>
     <string name="message_unsupported_archive">Неподдерживаемый архив</string>

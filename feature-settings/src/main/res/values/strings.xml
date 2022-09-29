@@ -34,7 +34,9 @@
     <string name="action_reset">Reset</string>
     <string name="action_delete">Delete</string>
 
-    <string name="preset_disclaimer">You can repeat characters multiple times</string>
+    <string name="message_preset_disclaimer">You can repeat characters multiple times</string>
+    <string name="message_server_missing_fields">Server name and address must be not empty</string>
+
     <string name="encoding_utf8_default">UTF-8 (Default)</string>
 
     <string name="sort_by_name">Sort by Name</string>

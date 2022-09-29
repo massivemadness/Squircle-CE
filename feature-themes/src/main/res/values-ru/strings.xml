@@ -42,7 +42,7 @@
     <string name="message_theme_exported">Тема сохранена в /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
     <string name="message_no_result">Нет результатов</string>
-    <string name="message_error_occurred">Неизвестная ошибка</string>
+    <string name="message_error_occurred">Произошла ошибка</string>
 
     <string name="theme_property_text_color">Определяет цвет текста в редакторе</string>
     <string name="theme_property_background_color">Определяет цвет фона редактора</string>
