@@ -49,7 +49,7 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        view.applySystemWindowInsets { _, top, _, bottom ->
+        view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
             binding.container.updatePadding(bottom = bottom)
         }

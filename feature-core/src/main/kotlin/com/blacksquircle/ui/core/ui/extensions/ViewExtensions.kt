@@ -38,8 +38,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-inline fun View.applySystemWindowInsets(
-    crossinline block: (left: Int, top: Int, right: Int, bottom: Int) -> Unit,
+fun View.applySystemWindowInsets(
+    consume: Boolean,
+    block: (Int, Int, Int, Int) -> Unit,
 ) {
     ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
         val statusBarType = WindowInsetsCompat.Type.statusBars()
@@ -53,7 +54,12 @@ inline fun View.applySystemWindowInsets(
             systemWindowInsets.right,
             systemWindowInsets.bottom,
         )
-        WindowInsetsCompat.CONSUMED
+
+        if (consume) {
+            WindowInsetsCompat.CONSUMED
+        } else {
+            insets
+        }
     }
 }
 

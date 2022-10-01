@@ -166,7 +166,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        view.applySystemWindowInsets { _, top, _, bottom ->
+        view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.appBar.updatePadding(top = top)
             binding.filesRecyclerView.updatePadding(bottom = bottom)
             binding.errorView.root.updatePadding(bottom = bottom)

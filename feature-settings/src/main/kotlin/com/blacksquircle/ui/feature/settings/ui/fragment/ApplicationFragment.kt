@@ -72,7 +72,7 @@ class ApplicationFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.applySystemWindowInsets { _, top, _, bottom ->
+        view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
             binding.root[1].updatePadding(bottom = bottom)
         }

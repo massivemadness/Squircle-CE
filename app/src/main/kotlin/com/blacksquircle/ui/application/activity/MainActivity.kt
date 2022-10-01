@@ -20,8 +20,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.updatePadding
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
+import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.decorFitsSystemWindows
 import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
 import com.blacksquircle.ui.databinding.ActivityMainBinding
@@ -48,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
         window.decorFitsSystemWindows(false)
         window.fullscreenMode(mainViewModel.fullScreenMode)
+
+        binding.navHost.applySystemWindowInsets(false) { left, _, right, _ ->
+            binding.navHost.updatePadding(left = left, right = right)
+        }
 
         inAppUpdate.checkForUpdates(this) {
             Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)

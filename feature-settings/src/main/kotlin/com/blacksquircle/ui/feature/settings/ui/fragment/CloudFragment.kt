@@ -67,7 +67,7 @@ class CloudFragment : PreferenceFragmentCompat() {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        view.applySystemWindowInsets { _, top, _, bottom ->
+        view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
             binding.root[1].updatePadding(bottom = bottom)
         }

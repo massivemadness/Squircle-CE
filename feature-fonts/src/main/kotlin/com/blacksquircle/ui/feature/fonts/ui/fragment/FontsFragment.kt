@@ -62,7 +62,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        view.applySystemWindowInsets { _, top, _, bottom ->
+        view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
             binding.recyclerView.updatePadding(bottom = bottom)
             binding.actionAdd.translationY = -bottom.toFloat()

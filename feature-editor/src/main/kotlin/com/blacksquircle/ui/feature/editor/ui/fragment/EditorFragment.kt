@@ -89,7 +89,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
 
         toolbarManager.bind(binding)
 
-        view.applySystemWindowInsets { _, top, _, bottom ->
+        view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
             binding.errorView.root.updatePadding(bottom = bottom)
             binding.loadingBar.updatePadding(bottom = bottom)

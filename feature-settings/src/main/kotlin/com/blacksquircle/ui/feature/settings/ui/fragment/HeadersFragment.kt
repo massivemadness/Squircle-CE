@@ -51,7 +51,7 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        view.applySystemWindowInsets { _, top, _, bottom ->
+        view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
             binding.recyclerView.updatePadding(bottom = bottom)
         }
