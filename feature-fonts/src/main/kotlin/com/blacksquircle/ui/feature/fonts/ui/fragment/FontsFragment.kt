@@ -65,6 +65,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         view.applySystemWindowInsets { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
             binding.recyclerView.updatePadding(bottom = bottom)
+            binding.actionAdd.translationY = -bottom.toFloat()
         }
 
         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {

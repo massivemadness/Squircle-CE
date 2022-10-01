@@ -22,7 +22,7 @@
     android:orientation="horizontal"
     android:id="@+id/drawer_layout">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:id="@+id/fragment_explorer"
@@ -35,7 +35,7 @@
         android:layout_height="match_parent"
         android:background="?colorSecondaryVariant"/>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragment_editor"

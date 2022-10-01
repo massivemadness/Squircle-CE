@@ -242,6 +242,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.actionHome.setOnClickListener {
             viewModel.obtainEvent(ExplorerIntent.SelectTab(0))
         }
+        binding.errorView.actionPrimary.text = getString(R.string.action_grant_access)
         binding.errorView.actionPrimary.setOnClickListener {
             context?.checkStorageAccess(
                 onSuccess = ::permissionGranted,

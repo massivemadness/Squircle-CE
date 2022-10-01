@@ -22,7 +22,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragment_editor"
@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_editor"
         tools:ignore="FragmentTagUsage"/>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
