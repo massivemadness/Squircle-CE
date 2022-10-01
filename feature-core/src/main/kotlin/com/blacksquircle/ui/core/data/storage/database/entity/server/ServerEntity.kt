@@ -40,8 +40,8 @@ data class ServerEntity(
     val username: String,
     @ColumnInfo(name = "password")
     val password: String,
-    @ColumnInfo(name = "private_key")
+    @ColumnInfo(name = "private_key") // unused
     val privateKey: String,
-    @ColumnInfo(name = "passphrase")
+    @ColumnInfo(name = "passphrase") // unused
     val passphrase: String,
 )

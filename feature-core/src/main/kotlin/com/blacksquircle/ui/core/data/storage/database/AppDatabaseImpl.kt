@@ -27,12 +27,15 @@ import com.blacksquircle.ui.core.data.storage.database.entity.font.FontEntity
 import com.blacksquircle.ui.core.data.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.core.data.storage.database.entity.theme.ThemeEntity
 
-@Database(entities = [
-    DocumentEntity::class,
-    ServerEntity::class,
-    FontEntity::class,
-    ThemeEntity::class
-], version = 2)
+@Database(
+    entities = [
+        DocumentEntity::class,
+        ServerEntity::class,
+        FontEntity::class,
+        ThemeEntity::class
+    ],
+    version = 2,
+)
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
     companion object {
