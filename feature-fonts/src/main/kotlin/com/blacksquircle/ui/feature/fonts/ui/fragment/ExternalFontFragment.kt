@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.fonts.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -25,6 +26,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.fonts.R
@@ -46,6 +48,11 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+
+        view.applySystemWindowInsets { _, top, _, bottom ->
+            binding.toolbar.updatePadding(top = top)
+            binding.container.updatePadding(bottom = bottom)
+        }
 
         binding.textInputFontName.doAfterTextChanged { validateInput() }
         binding.textInputFontPath.doAfterTextChanged { validateInput() }

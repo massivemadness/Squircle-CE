@@ -22,6 +22,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
+import com.blacksquircle.ui.core.ui.extensions.decorFitsSystemWindows
 import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        window.decorFitsSystemWindows(false)
+        window.fullscreenMode(mainViewModel.fullScreenMode)
+
         inAppUpdate.checkForUpdates(this) {
             Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_restart) { inAppUpdate.completeUpdate() }
@@ -52,11 +56,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainViewModel.handleIntent(intent)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        window.fullscreenMode(mainViewModel.fullScreenMode)
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.InsetDrawable
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.annotation.ColorRes
@@ -28,12 +29,33 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.iterator
 import androidx.core.widget.doAfterTextChanged
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+inline fun View.applySystemWindowInsets(
+    crossinline block: (left: Int, top: Int, right: Int, bottom: Int) -> Unit,
+) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+        val statusBarType = WindowInsetsCompat.Type.statusBars()
+        val navigationBarType = WindowInsetsCompat.Type.navigationBars()
+        val imeType = WindowInsetsCompat.Type.ime()
+        val systemWindowInsets = insets.getInsets(statusBarType or navigationBarType or imeType)
+
+        block(
+            systemWindowInsets.left,
+            systemWindowInsets.top,
+            systemWindowInsets.right,
+            systemWindowInsets.bottom,
+        )
+        WindowInsetsCompat.CONSUMED
+    }
+}
 
 fun EditText.debounce(
     coroutineScope: CoroutineScope,

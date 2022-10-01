@@ -22,6 +22,7 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -67,7 +68,6 @@ import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 @AndroidEntryPoint
 class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
@@ -88,6 +88,22 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         observeViewModel()
 
         toolbarManager.bind(binding)
+
+        view.applySystemWindowInsets { _, top, _, bottom ->
+            binding.toolbar.updatePadding(top = top)
+            binding.errorView.root.updatePadding(bottom = bottom)
+            binding.loadingBar.updatePadding(bottom = bottom)
+            if (!binding.keyboard.isVisible) {
+                binding.editor.updatePadding(bottom = bottom)
+                binding.scroller.updatePadding(bottom = bottom)
+            } else {
+                binding.keyboard.updatePadding(bottom = bottom)
+            }
+        }
+
+        binding.errorView.image.setImageResource(R.drawable.ic_file_find)
+        binding.errorView.title.text = getString(R.string.message_no_open_files)
+        binding.errorView.actionPrimary.isVisible = false
 
         binding.tabLayout.setHasFixedSize(true)
         binding.tabLayout.adapter = DocumentAdapter(this).also { adapter ->
@@ -162,14 +178,13 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
             if (isVisible) {
                 binding.editor.isInvisible = isVisible
             } else {
-                if (!binding.emptyViewImage.isVisible) {
+                if (!binding.errorView.root.isVisible) {
                     binding.editor.isInvisible = isVisible
                 }
             }
         }
         viewModel.emptyView.observe(viewLifecycleOwner) { isVisible ->
-            binding.emptyViewImage.isVisible = isVisible
-            binding.emptyViewText.isVisible = isVisible
+            binding.errorView.root.isVisible = isVisible
             binding.editor.isInvisible = isVisible
         }
         viewModel.parseEvent.observe(viewLifecycleOwner) { model ->
@@ -249,9 +264,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         }
                         is SettingsEvent.Delimiters -> if (event.value) highlightDelimiters()
                         is SettingsEvent.ExtendedKeys -> {
-                            KeyboardVisibilityEvent.setEventListener(requireActivity(), viewLifecycleOwner) { isOpen ->
-                                binding.keyboardContainer.isVisible = event.value && isOpen
-                            }
+                            binding.keyboard.isVisible = event.value
                         }
                         is SettingsEvent.KeyboardPreset ->
                             binding.extendedKeyboard.submitList(event.value)

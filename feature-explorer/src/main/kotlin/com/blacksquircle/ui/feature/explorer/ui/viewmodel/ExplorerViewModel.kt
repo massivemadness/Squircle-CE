@@ -182,8 +182,6 @@ class ExplorerViewModel @Inject constructor(
     private fun searchFiles(event: ExplorerIntent.SearchFiles) {
         viewModelScope.launch {
             query = event.query
-            if (directoryViewState.value !is DirectoryViewState.Files)
-                return@launch
             val searchList = files.filter { it.name.contains(query, ignoreCase = true) }
             if (searchList.isNotEmpty()) {
                 _directoryViewState.value = DirectoryViewState.Files(searchList)
@@ -224,6 +222,7 @@ class ExplorerViewModel @Inject constructor(
                 dropdownPosition = event.position
                 explorerRepository.filesystem(event.position)
                 breadcrumbs.replaceList(emptyList())
+                files.replaceList(emptyList())
                 initialState()
                 listFiles(ExplorerIntent.OpenFolder())
             }

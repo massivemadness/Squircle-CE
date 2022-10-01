@@ -42,7 +42,7 @@
         <item name="md_ripple_color">?colorControlHighlight</item>
         <item name="md_corner_radius">4dp</item>
 
-        <item name="android:statusBarColor">@color/colorStatusBar</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">?colorSecondaryVariant</item>
         <item name="android:windowBackground">@drawable/launch_screen</item>
 

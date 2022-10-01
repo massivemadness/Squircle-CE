@@ -28,6 +28,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -63,6 +64,11 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+
+        view.applySystemWindowInsets { _, top, _, bottom ->
+            binding.toolbar.updatePadding(top = top)
+            binding.recyclerView.updatePadding(bottom = bottom)
+        }
 
         val gridLayoutManager = binding.recyclerView.layoutManager as GridLayoutManager
         GridSpacingItemDecoration(8, gridLayoutManager.spanCount).let {

@@ -28,6 +28,7 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestPermissi
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -45,7 +46,10 @@ import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.data.utils.*
+import com.blacksquircle.ui.feature.explorer.data.utils.FileKeyProvider
+import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
+import com.blacksquircle.ui.feature.explorer.data.utils.Operation
+import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.ui.adapter.DirectoryAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
@@ -162,8 +166,15 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
 
-        binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = DirectoryAdapter().also {
+        view.applySystemWindowInsets { _, top, _, bottom ->
+            binding.appBar.updatePadding(top = top)
+            binding.filesRecyclerView.updatePadding(bottom = bottom)
+            binding.errorView.root.updatePadding(bottom = bottom)
+            binding.loadingBar.updatePadding(bottom = bottom)
+        }
+
+        binding.tabRecyclerView.setHasFixedSize(true)
+        binding.tabRecyclerView.adapter = DirectoryAdapter().also {
             tabAdapter = it
         }
         binding.dropdown.adapter = ServerAdapter(requireContext()) {
@@ -201,7 +212,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             },
             selectionTracker = DefaultSelectionTracker(
                 "DefaultSelectionTracker",
-                FileKeyProvider(binding.recyclerView),
+                FileKeyProvider(binding.filesRecyclerView),
                 SelectionPredicates.createSelectAnything(),
                 StorageStrategy.createStringStorage()
             ).also {
@@ -231,7 +242,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.actionHome.setOnClickListener {
             viewModel.obtainEvent(ExplorerIntent.SelectTab(0))
         }
-        binding.errorView.actionAccess.setOnClickListener {
+        binding.errorView.actionPrimary.setOnClickListener {
             context?.checkStorageAccess(
                 onSuccess = ::permissionGranted,
                 onFailure = ::permissionRejected
@@ -259,7 +270,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 when (state) {
                     is ExplorerViewState.ActionBar -> {
                         binding.toolbar.isVisible = true
-                        binding.recyclerView.isVisible = true
+                        binding.tabRecyclerView.isVisible = true
                         binding.actionHome.isVisible = true
                         binding.actionOperation.setImageResource(
                             when (state.operation) {
@@ -300,7 +311,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.errorView.image.setImageResource(R.drawable.ic_file_error)
                         binding.errorView.title.text = getString(R.string.message_access_denied)
                         binding.errorView.subtitle.text = getString(R.string.message_access_required)
-                        binding.errorView.actionAccess.isVisible = true
+                        binding.errorView.actionPrimary.isVisible = true
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Error -> {
@@ -310,7 +321,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.errorView.image.setImageResource(state.image)
                         binding.errorView.title.text = state.title
                         binding.errorView.subtitle.text = state.subtitle
-                        binding.errorView.actionAccess.isVisible = false
+                        binding.errorView.actionPrimary.isVisible = false
                         fileAdapter.submitList(emptyList())
                     }
                     is DirectoryViewState.Loading -> {

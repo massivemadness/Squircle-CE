@@ -18,6 +18,8 @@ package com.blacksquircle.ui.feature.settings.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.get
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -25,6 +27,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.utils.getRawFileText
 import com.blacksquircle.ui.feature.settings.databinding.FragmentChangelogBinding
@@ -46,6 +49,11 @@ class ChangeLogFragment : Fragment(R.layout.fragment_changelog) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+
+        view.applySystemWindowInsets { _, top, _, bottom ->
+            binding.toolbar.updatePadding(top = top)
+            binding.recyclerView.updatePadding(bottom = bottom)
+        }
 
         binding.toolbar.setNavigationOnClickListener {
              navController.popBackStack()

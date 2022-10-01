@@ -15,12 +15,12 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <!-- region TOOLBAR -->
 
@@ -29,7 +29,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="?colorSurface"
-        android:elevation="4dp">
+        android:elevation="4dp"
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <!-- region DEFAULT PANEL -->
 
@@ -49,7 +53,7 @@
                 android:src="@drawable/ic_drawer"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_drawer"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -60,7 +64,7 @@
                 android:src="@drawable/ic_save"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_save"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -71,7 +75,7 @@
                 android:src="@drawable/ic_folder"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_file"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -82,7 +86,7 @@
                 android:src="@drawable/ic_edit"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_edit"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -93,7 +97,7 @@
                 android:src="@drawable/ic_file_find"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_find"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -104,7 +108,7 @@
                 android:src="@drawable/ic_tools"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_tools"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -115,7 +119,7 @@
                 android:src="@drawable/ic_undo"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_undo"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -126,7 +130,7 @@
                 android:src="@drawable/ic_redo"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_redo"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -137,7 +141,7 @@
                 android:src="@drawable/ic_overflow"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_overflow"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
         </RelativeLayout>
 
@@ -163,7 +167,7 @@
                 android:background="@null"
                 android:hint="@string/action_find"
                 android:singleLine="true"
-                android:id="@+id/input_find"/>
+                android:id="@+id/input_find" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -174,7 +178,7 @@
                 android:src="@drawable/ic_arrow_down"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_down"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -185,7 +189,7 @@
                 android:src="@drawable/ic_arrow_up"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_up"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -196,7 +200,7 @@
                 android:src="@drawable/ic_overflow"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_find_overflow"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
         </RelativeLayout>
 
@@ -223,7 +227,7 @@
                 android:background="@null"
                 android:hint="@string/action_replace"
                 android:singleLine="true"
-                android:id="@+id/input_replace"/>
+                android:id="@+id/input_replace" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -234,7 +238,7 @@
                 android:src="@drawable/ic_replace"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_replace"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -245,7 +249,7 @@
                 android:src="@drawable/ic_file_find_replace"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_replace_all"
-                app:tint="?colorOnSurface"/>
+                app:tint="?colorOnSurface" />
 
         </RelativeLayout>
 
@@ -262,78 +266,78 @@
         android:id="@+id/tab_layout"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_tab_document"
-        tools:itemCount="1"/>
+        tools:itemCount="1"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- endregion TOOLBAR -->
 
     <!-- region DOCUMENT -->
 
-    <FrameLayout
+    <com.blacksquircle.ui.editorkit.widget.TextProcessor
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:importantForAutofill="no"
+        android:textCursorDrawable="@drawable/caret"
+        android:dropDownAnchor="@id/tab_layout"
+        android:completionThreshold="2"
+        android:popupBackground="@drawable/autocomplete_bg"
+        android:background="@null"
+        android:scrollbars="none"
+        android:id="@+id/editor"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/keyboard" />
 
-        <com.blacksquircle.ui.editorkit.widget.TextProcessor
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:importantForAutofill="no"
-            android:textCursorDrawable="@drawable/caret"
-            android:dropDownAnchor="@id/tab_layout"
-            android:completionThreshold="2"
-            android:popupBackground="@drawable/autocomplete_bg"
-            android:background="@null"
-            android:scrollbars="none"
-            android:id="@+id/editor"/>
+    <com.blacksquircle.ui.editorkit.widget.TextScroller
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:layout_gravity="end"
+        android:id="@+id/scroller"
+        app:thumbTint="?colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/keyboard" />
 
-        <com.blacksquircle.ui.editorkit.widget.TextScroller
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:id="@+id/scroller"
-            app:thumbTint="?colorPrimary"/>
+    <include
+        layout="@layout/layout_error_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/errorView"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="gone" />
 
-        <ProgressBar
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:id="@+id/loadingBar"
-            tools:visibility="gone"/>
-
-        <ImageView
-            android:layout_width="92dp"
-            android:layout_height="92dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_file_find"
-            android:id="@+id/empty_view_image"
-            app:tint="?colorOnBackground"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="56dp"
-            android:textColor="?colorOnBackground"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:text="@string/message_no_open_files"
-            android:id="@+id/empty_view_text"/>
-
-    </FrameLayout>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:id="@+id/loadingBar"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- endregion DOCUMENT -->
 
     <!-- region EXTENDED KEYBOARD -->
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:elevation="2dp"
         android:visibility="gone"
-        android:id="@+id/keyboard_container"
-        tools:visibility="visible">
+        android:id="@+id/keyboard"
+        tools:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/editor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:id="@+id/action_tab"
@@ -342,20 +346,21 @@
             android:padding="8dp"
             android:background="?colorSurface"
             android:src="@drawable/ic_keyboard_tab"
-            app:tint="?colorOnSurface"/>
+            app:tint="?colorOnSurface" />
 
         <com.blacksquircle.ui.feature.editor.ui.customview.ExtendedKeyboard
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
             android:orientation="horizontal"
             android:background="?colorSecondaryVariant"
             android:id="@+id/extended_keyboard"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_keyboard_key"
-            tools:itemCount="24"/>
+            tools:itemCount="24" />
 
-    </LinearLayout>
+    </FrameLayout>
 
     <!-- endregion EXTENDED KEYBOARD-->
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,6 +20,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
+import androidx.core.view.updatePadding
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +30,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -63,6 +66,11 @@ class CloudFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+
+        view.applySystemWindowInsets { _, top, _, bottom ->
+            binding.toolbar.updatePadding(top = top)
+            binding.root[1].updatePadding(bottom = bottom)
+        }
 
         binding.toolbar.title = getString(R.string.pref_header_cloud_title)
         binding.toolbar.setNavigationOnClickListener {

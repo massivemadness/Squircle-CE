@@ -174,8 +174,8 @@ open class TextScroller @JvmOverloads constructor(
                     var newThumbTop = event.y.toInt() - thumbHeight / 2
                     if (newThumbTop < 0) {
                         newThumbTop = 0
-                    } else if (thumbHeight + newThumbTop > height) {
-                        newThumbTop = height - thumbHeight
+                    } else if (thumbHeight + newThumbTop > height - paddingBottom) {
+                        newThumbTop = height - paddingBottom - thumbHeight
                     }
                     thumbTop = newThumbTop.toFloat()
                     scrollView()
@@ -208,9 +208,9 @@ open class TextScroller @JvmOverloads constructor(
     private fun scrollView() {
         if (scrollableEditText == null) return
 
-        val scrollToAsFraction = thumbTop / (height - thumbHeight)
+        val scrollToAsFraction = thumbTop / (height - paddingBottom - thumbHeight)
         val lineHeight = scrollableEditText!!.lineHeight
-        val textAreaHeight = scrollableEditText!!.height
+        val textAreaHeight = scrollableEditText!!.height - scrollableEditText!!.paddingBottom
         scrollableEditText?.scrollTo(
             scrollableEditText!!.scrollX,
             ((textScrollMax * scrollToAsFraction) - (scrollToAsFraction * (textAreaHeight - lineHeight))).toInt()
@@ -228,17 +228,17 @@ open class TextScroller @JvmOverloads constructor(
     private fun getThumbTop(): Float {
         if (scrollableEditText == null) return 0f
 
-        val lineHeight = scrollableEditText?.lineHeight ?: 0
-        val textAreaHeight = scrollableEditText?.height ?: 0
-        val calculatedThumbTop = (height - thumbHeight) *
+        val lineHeight = scrollableEditText!!.lineHeight
+        val textAreaHeight = scrollableEditText!!.height - scrollableEditText!!.paddingBottom
+        val calculatedThumbTop = (height - paddingBottom - thumbHeight) *
             (textScrollY / (textScrollMax - textAreaHeight + lineHeight))
 
         val absoluteThumbTop = if (!calculatedThumbTop.isNaN()) {
             calculatedThumbTop
         } else 0f
 
-        return if (absoluteThumbTop > height - thumbHeight) {
-            (height - thumbHeight).toFloat()
+        return if (absoluteThumbTop > height - paddingBottom - thumbHeight) {
+            (height - paddingBottom - thumbHeight).toFloat()
         } else absoluteThumbTop
     }
 
@@ -247,7 +247,7 @@ open class TextScroller @JvmOverloads constructor(
     }
 
     private fun isShowScrollerJustified(): Boolean {
-        return textScrollMax / (scrollableEditText?.height ?: 0) >= 1.5
+        return textScrollMax / (scrollableEditText!!.height - scrollableEditText!!.paddingBottom) >= 1.5
     }
 
     enum class State {

@@ -67,7 +67,6 @@ ext {
     hilt_android_version = '1.0.0'
 
     // Other
-    keyboardevent_version = '3.0.0-RC3'
     rhino_version = '1.7.14'
     zip4j_version = '2.11.2'
     chardet_version = '71.1'
@@ -138,7 +137,6 @@ ext {
             ktlint: "com.pinterest:ktlint:$ktlint_version",
 
             // Other
-            keyboardevent: "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboardevent_version",
             rhino: "org.mozilla:rhino:$rhino_version",
             zip4j: "net.lingala.zip4j:zip4j:$zip4j_version",
             chardet: "com.ibm.icu:icu4j:$chardet_version"

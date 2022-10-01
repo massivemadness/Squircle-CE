@@ -17,12 +17,18 @@
 package com.blacksquircle.ui.core.ui.extensions
 
 import android.app.Activity
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.getSystemService
+import androidx.core.view.WindowCompat
 
 fun Activity.closeKeyboard() {
     val inputManager = getSystemService<InputMethodManager>()
     val windowToken = currentFocus?.windowToken
     val hideType = InputMethodManager.HIDE_NOT_ALWAYS
     inputManager?.hideSoftInputFromWindow(windowToken, hideType)
+}
+
+fun Window.decorFitsSystemWindows(decorFitsSystemWindows: Boolean) {
+    WindowCompat.setDecorFitsSystemWindows(this, decorFitsSystemWindows)
 }

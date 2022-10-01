@@ -26,6 +26,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -38,6 +39,7 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
+import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.core.ui.extensions.toHexString
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -79,6 +81,11 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+
+        view.applySystemWindowInsets { _, top, _, bottom ->
+            binding.toolbar.updatePadding(top = top)
+            binding.recyclerView.updatePadding(bottom = bottom)
+        }
 
         binding.textInputThemeName.doAfterTextChanged {
             viewModel.onThemeNameChanged(it.toString())

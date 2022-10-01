@@ -27,92 +27,107 @@
 
     <!-- region TOOLBAR -->
 
-    <com.google.android.material.appbar.MaterialToolbar
-        style="@style/Widget.MaterialComponents.Toolbar.Surface"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:translationZ="4dp"
-        android:padding="0dp"
-        android:id="@+id/toolbar"
-        app:navigationIconTint="?colorOnSurface"
-        app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?colorSurface"
+        android:elevation="4dp"
+        android:id="@+id/appBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:menu="@menu/menu_explorer_default"
-        tools:title="@string/storage_local">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.appcompat.widget.AppCompatSpinner
+        <com.google.android.material.appbar.MaterialToolbar
+            style="@style/Widget.MaterialComponents.Toolbar.Surface"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:spinnerMode="dropdown"
-            android:id="@+id/dropdown"
+            android:layout_height="45dp"
+            android:padding="0dp"
+            android:background="@android:color/transparent"
+            android:id="@+id/toolbar"
+            app:navigationIconTint="?colorOnSurface"
             app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-            tools:visibility="gone" />
+            tools:menu="@menu/menu_explorer_default"
+            tools:title="@string/storage_local">
 
-    </com.google.android.material.appbar.MaterialToolbar>
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:spinnerMode="dropdown"
+                android:id="@+id/dropdown"
+                app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                tools:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:paddingStart="42dp"
-        android:paddingEnd="42dp"
-        android:elevation="4dp"
-        android:orientation="horizontal"
-        android:background="?colorSurface"
-        android:id="@+id/recyclerView"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_tab_directory"
-        tools:itemCount="1" />
+        </com.google.android.material.appbar.MaterialToolbar>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:translationZ="4dp"
-        android:padding="6dp"
-        android:id="@+id/action_home"
-        android:src="@drawable/ic_home"
-        android:background="@drawable/ripple_16dp"
-        app:tint="?colorOnSurface"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:translationZ="4dp"
-        android:padding="6dp"
-        android:id="@+id/action_operation"
-        android:src="@drawable/ic_plus"
-        android:background="@drawable/ripple_16dp"
-        app:tint="?colorOnSurface"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:paddingStart="42dp"
+                android:paddingEnd="42dp"
+                android:orientation="horizontal"
+                android:id="@+id/tabRecyclerView"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:listitem="@layout/item_tab_directory"
+                tools:itemCount="1" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:padding="6dp"
+                android:id="@+id/action_home"
+                android:src="@drawable/ic_home"
+                android:background="@drawable/ripple_16dp"
+                app:tint="?colorOnSurface" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="end"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:padding="6dp"
+                android:id="@+id/action_operation"
+                android:src="@drawable/ic_plus"
+                android:background="@drawable/ripple_16dp"
+                app:tint="?colorOnSurface" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
     <!-- endregion TOOLBAR -->
 
     <include
         layout="@layout/layout_error_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:id="@+id/errorView"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="gone" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_gravity="center"
         android:indeterminate="true"
         android:visibility="gone"
         android:id="@+id/loadingBar"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -123,7 +138,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/swipe_refresh"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

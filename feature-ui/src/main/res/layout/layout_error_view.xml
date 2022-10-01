@@ -19,14 +19,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center"
-    app:layout_constraintTop_toBottomOf="@id/recyclerView"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    android:gravity="center">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="92dp"
@@ -47,7 +42,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:id="@+id/title"
-        tools:text="@string/message_no_result" />
+        tools:text="An error occurred" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
@@ -59,7 +54,7 @@
         android:textColor="?colorOnBackground"
         android:textSize="14sp"
         android:id="@+id/subtitle"
-        tools:text="@string/message_error_occurred" />
+        tools:text="An error occurred" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.AppTheme.OutlinedButton"
@@ -67,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
-        android:text="@string/action_grant_access"
-        android:id="@+id/action_access" />
+        android:id="@+id/action_primary"
+        tools:text="Button" />
 
 </LinearLayout>
