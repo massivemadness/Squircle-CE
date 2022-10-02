@@ -218,13 +218,20 @@ class ExplorerViewModel @Inject constructor(
 
     private fun selectFilesystem(event: ExplorerIntent.SelectFilesystem) {
         viewModelScope.launch {
-            if (dropdownPosition != event.position) {
-                dropdownPosition = event.position
-                explorerRepository.filesystem(event.position)
-                breadcrumbs.replaceList(emptyList())
-                files.replaceList(emptyList())
-                initialState()
-                listFiles(ExplorerIntent.OpenFolder())
+            try {
+                if (dropdownPosition != event.position) {
+                    dropdownPosition = event.position
+                    explorerRepository.filesystem(event.position)
+                    breadcrumbs.replaceList(emptyList())
+                    files.replaceList(emptyList())
+                    initialState()
+                    listFiles(ExplorerIntent.OpenFolder())
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                if (e is PermissionException) {
+                    _directoryViewState.value = DirectoryViewState.Permission
+                }
             }
         }
     }

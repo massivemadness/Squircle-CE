@@ -48,9 +48,11 @@ class ExplorerRepositoryImpl(
 
     private var currentFilesystem: Filesystem? = null
 
-    override suspend fun filesystem(position: Int) {
-        withContext(dispatcherProvider.io()) {
-            currentFilesystem = filesystemFactory.findForPosition(position)
+    override suspend fun filesystem(position: Int): Filesystem {
+        return withContext(dispatcherProvider.io()) {
+            filesystemFactory.findForPosition(position).also {
+                currentFilesystem = it
+            }
         }
     }
 
@@ -58,10 +60,7 @@ class ExplorerRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
                 onSuccess = {
-                    if (currentFilesystem == null) {
-                        filesystem(0) // initialize local filesystem
-                    }
-                    val filesystem = checkNotNull(currentFilesystem)
+                    val filesystem = currentFilesystem ?: filesystem(0)
                     val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
                     fileTree.copy(children = fileTree.children
                         .filter { if (it.isHidden) settingsManager.showHidden else true }

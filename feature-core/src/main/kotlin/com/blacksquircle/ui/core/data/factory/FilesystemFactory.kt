@@ -51,12 +51,12 @@ class FilesystemFactory(
 
     suspend fun findForPosition(position: Int): Filesystem {
         return when (position) {
-            0 -> LocalFilesystem(defaultLocation()) // Local Storage
-            1 -> LocalFilesystem(rootLocation()) // Root Directory
+            LOCAL -> LocalFilesystem(defaultLocation()) // Local Storage
+            ROOT -> LocalFilesystem(rootLocation()) // Root Directory
             else -> { // Server List
                 val serverModel = database.serverDao().loadAll()
                     .map(ServerConverter::toModel)
-                    .getOrNull(position - 2)
+                    .getOrNull(position - 2) // 0 = local, 1 = root, 2..3.. - servers
                     ?: throw IllegalArgumentException("Can't find filesystem")
                 when (serverModel.scheme) {
                     FTPFilesystem.FTP_SCHEME -> FTPFilesystem(serverModel, cacheLocation())
@@ -72,4 +72,9 @@ class FilesystemFactory(
     private fun defaultLocation() = Environment.getExternalStorageDirectory()
     private fun rootLocation() = File("/")
     private fun cacheLocation() = context.cacheDir
+
+    companion object {
+        private const val LOCAL = 0
+        private const val ROOT = 1
+    }
 }
