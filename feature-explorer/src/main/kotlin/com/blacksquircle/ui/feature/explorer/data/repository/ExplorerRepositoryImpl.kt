@@ -26,7 +26,6 @@ import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.worker.*
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
@@ -46,13 +45,11 @@ class ExplorerRepositoryImpl(
         .map { it.map(ServerConverter::toModel) }
         .flowOn(dispatcherProvider.io())
 
-    private var currentFilesystem: Filesystem? = null
+    private var currentFilesystem = FilesystemFactory.LOCAL
 
-    override suspend fun filesystem(position: Int): Filesystem {
+    override suspend fun filesystem(position: Int) {
         return withContext(dispatcherProvider.io()) {
-            filesystemFactory.findForPosition(position).also {
-                currentFilesystem = it
-            }
+            currentFilesystem = position
         }
     }
 
@@ -60,7 +57,7 @@ class ExplorerRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
                 onSuccess = {
-                    val filesystem = currentFilesystem ?: filesystem(0)
+                    val filesystem = filesystemFactory.findForPosition(currentFilesystem)
                     val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
                     fileTree.copy(children = fileTree.children
                         .filter { if (it.isHidden) settingsManager.showHidden else true }

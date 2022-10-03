@@ -26,12 +26,21 @@ import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
-import java.io.File
+import com.topjohnwu.superuser.Shell
+import com.topjohnwu.superuser.io.SuFile
 
 class FilesystemFactory(
     private val database: AppDatabase,
     private val context: Context,
 ) {
+
+    init {
+        Shell.setDefaultBuilder(
+            Shell.Builder.create()
+                .setFlags(Shell.FLAG_MOUNT_MASTER or Shell.FLAG_REDIRECT_STDERR)
+                .setContext(context)
+        )
+    }
 
     suspend fun create(uuid: String?): Filesystem {
         val filesystemUuid = uuid ?: LocalFilesystem.LOCAL_UUID
@@ -70,11 +79,11 @@ class FilesystemFactory(
     }
 
     private fun defaultLocation() = Environment.getExternalStorageDirectory()
-    private fun rootLocation() = File("/")
+    private fun rootLocation() = SuFile("/")
     private fun cacheLocation() = context.cacheDir
 
     companion object {
-        private const val LOCAL = 0
-        private const val ROOT = 1
+        const val LOCAL = 0
+        const val ROOT = 1
     }
 }

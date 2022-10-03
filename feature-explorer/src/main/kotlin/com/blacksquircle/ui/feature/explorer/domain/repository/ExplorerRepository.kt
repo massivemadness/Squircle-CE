@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.explorer.domain.repository
 
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
@@ -26,7 +25,7 @@ interface ExplorerRepository {
 
     val serverFlow: Flow<List<ServerModel>>
 
-    suspend fun filesystem(position: Int): Filesystem
+    suspend fun filesystem(position: Int)
     suspend fun listFiles(parent: FileModel?): FileTree
 
     suspend fun createFile(fileModel: FileModel)

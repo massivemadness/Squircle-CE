@@ -82,6 +82,9 @@ dependencies {
     implementation library.hilt
     kapt library.hilt_compiler
 
+    // Other
+    implementation library.superuser
+
     // Modules
     implementation project(':filesystems:filesystem-base')
     implementation project(':filesystems:filesystem-local')
