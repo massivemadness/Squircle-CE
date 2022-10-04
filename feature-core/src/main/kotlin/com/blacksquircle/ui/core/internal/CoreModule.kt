@@ -54,7 +54,7 @@ object CoreModule {
         @ApplicationContext context: Context,
         appDatabase: AppDatabase,
     ): FilesystemFactory {
-        return FilesystemFactory(appDatabase, context)
+        return FilesystemFactory(appDatabase, context.cacheDir)
     }
 
     @Provides

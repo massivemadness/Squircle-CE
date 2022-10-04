@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.core.data.factory
 
-import android.content.Context
 import android.os.Environment
 import com.blacksquircle.ui.core.data.converter.ServerConverter
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
@@ -25,33 +24,25 @@ import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
-import com.topjohnwu.superuser.Shell
-import com.topjohnwu.superuser.io.SuFile
+import java.io.File
 
 class FilesystemFactory(
     private val database: AppDatabase,
-    private val context: Context,
+    private val cacheDir: File,
 ) {
 
-    init {
-        Shell.setDefaultBuilder(
-            Shell.Builder.create()
-                .setFlags(Shell.FLAG_MOUNT_MASTER or Shell.FLAG_REDIRECT_STDERR)
-                .setContext(context)
-        )
-    }
-
-    suspend fun create(uuid: String?): Filesystem {
-        val filesystemUuid = uuid ?: LocalFilesystem.LOCAL_UUID
-        val persistent = database.serverDao().load(filesystemUuid)
-        return when (filesystemUuid) {
-            LocalFilesystem.LOCAL_UUID -> LocalFilesystem(defaultLocation())
+    suspend fun create(uuid: String): Filesystem {
+        val persistent = database.serverDao().load(uuid)
+        return when (uuid) {
+            LocalFilesystem.LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
+            RootFilesystem.ROOT_UUID -> RootFilesystem()
             persistent?.uuid -> when (persistent.scheme) {
-                FTPFilesystem.FTP_SCHEME -> FTPFilesystem(ServerConverter.toModel(persistent), cacheLocation())
-                FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(ServerConverter.toModel(persistent), cacheLocation())
-                FTPESFilesystem.FTPES_SCHEME -> FTPESFilesystem(ServerConverter.toModel(persistent), cacheLocation())
-                SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(ServerConverter.toModel(persistent), cacheLocation())
+                FTPFilesystem.FTP_SCHEME -> FTPFilesystem(ServerConverter.toModel(persistent), cacheDir)
+                FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(ServerConverter.toModel(persistent), cacheDir)
+                FTPESFilesystem.FTPES_SCHEME -> FTPESFilesystem(ServerConverter.toModel(persistent), cacheDir)
+                SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(ServerConverter.toModel(persistent), cacheDir)
                 else -> throw IllegalArgumentException("Unsupported file scheme")
             }
             else -> throw IllegalArgumentException("Can't find filesystem")
@@ -60,27 +51,23 @@ class FilesystemFactory(
 
     suspend fun findForPosition(position: Int): Filesystem {
         return when (position) {
-            LOCAL -> LocalFilesystem(defaultLocation()) // Local Storage
-            ROOT -> LocalFilesystem(rootLocation()) // Root Directory
+            LOCAL -> LocalFilesystem(Environment.getExternalStorageDirectory()) // Local Storage
+            ROOT -> RootFilesystem() // Root Directory
             else -> { // Server List
                 val serverModel = database.serverDao().loadAll()
                     .map(ServerConverter::toModel)
                     .getOrNull(position - 2) // 0 = local, 1 = root, 2..3.. - servers
                     ?: throw IllegalArgumentException("Can't find filesystem")
                 when (serverModel.scheme) {
-                    FTPFilesystem.FTP_SCHEME -> FTPFilesystem(serverModel, cacheLocation())
-                    FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(serverModel, cacheLocation())
-                    FTPESFilesystem.FTPES_SCHEME -> FTPESFilesystem(serverModel, cacheLocation())
-                    SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(serverModel, cacheLocation())
+                    FTPFilesystem.FTP_SCHEME -> FTPFilesystem(serverModel, cacheDir)
+                    FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(serverModel, cacheDir)
+                    FTPESFilesystem.FTPES_SCHEME -> FTPESFilesystem(serverModel, cacheDir)
+                    SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(serverModel, cacheDir)
                     else -> throw IllegalArgumentException("Unsupported file scheme")
                 }
             }
         }
     }
-
-    private fun defaultLocation() = Environment.getExternalStorageDirectory()
-    private fun rootLocation() = SuFile("/")
-    private fun cacheLocation() = context.cacheDir
 
     companion object {
         const val LOCAL = 0
