@@ -186,6 +186,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         viewModel.emptyView.observe(viewLifecycleOwner) { isVisible ->
             binding.errorView.root.isVisible = isVisible
             binding.editor.isInvisible = isVisible
+            binding.keyboard.isVisible = !isVisible
         }
         viewModel.parseEvent.observe(viewLifecycleOwner) { model ->
             model.exception?.let {
