@@ -1,0 +1,4 @@
+- Fixed: Empty file list in Root Directory
+- Fixed: Crash when switching FTP server
+- Fixed: Local directories were displayed while using FTP
+- Improved interaction with WindowInsets API
