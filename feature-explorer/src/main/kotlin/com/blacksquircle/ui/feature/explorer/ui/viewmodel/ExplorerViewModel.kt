@@ -86,6 +86,7 @@ class ExplorerViewModel @Inject constructor(
     private val buffer = mutableListOf<FileModel>()
     private val files = mutableListOf<FileModel>()
     private var operation = Operation.CREATE
+    private var currentJob: Job? = null
 
     fun obtainEvent(event: ExplorerIntent) {
         when (event) {
@@ -148,17 +149,28 @@ class ExplorerViewModel @Inject constructor(
     }
 
     private fun listFiles(event: ExplorerIntent.OpenFolder) {
-        viewModelScope.launch {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
             try {
-                if (!refreshState.value && query.isEmpty()) { // SwipeRefresh
+                if (!refreshState.value && query.isEmpty()) // SwipeRefresh
                     _directoryViewState.value = DirectoryViewState.Loading
+
+                val fileTree = if (event.fileModel != null) { // Different order
+                    _explorerViewState.value = ExplorerViewState.ActionBar(
+                        breadcrumbs = breadcrumbs.appendList(event.fileModel),
+                        selection = selection,
+                        operation = operation,
+                    )
+                    explorerRepository.listFiles(event.fileModel)
+                } else {
+                    explorerRepository.listFiles(null).also {
+                        _explorerViewState.value = ExplorerViewState.ActionBar(
+                            breadcrumbs = breadcrumbs.appendList(it.parent),
+                            selection = selection,
+                            operation = operation,
+                        )
+                    }
                 }
-                val fileTree = explorerRepository.listFiles(event.fileModel)
-                _explorerViewState.value = ExplorerViewState.ActionBar(
-                    breadcrumbs = breadcrumbs.appendList(fileTree.parent),
-                    selection = selection,
-                    operation = operation,
-                )
                 if (fileTree.children.isNotEmpty()) {
                     _directoryViewState.value = DirectoryViewState.Files(fileTree.children)
                 } else {
@@ -171,7 +183,6 @@ class ExplorerViewModel @Inject constructor(
                 files.replaceList(fileTree.children)
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                initialState()
                 errorState(e)
             } finally {
                 _refreshState.value = false
@@ -325,9 +336,7 @@ class ExplorerViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                if (e is PermissionException) {
-                    _directoryViewState.value = DirectoryViewState.Permission
-                }
+                errorState(e)
             } finally {
                 initialState()
             }
@@ -399,9 +408,7 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                if (e is PermissionException) {
-                    _directoryViewState.value = DirectoryViewState.Permission
-                }
+                errorState(e)
             } finally {
                 initialState()
             }
@@ -432,9 +439,7 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                if (e is PermissionException) {
-                    _directoryViewState.value = DirectoryViewState.Permission
-                }
+                errorState(e)
             } finally {
                 initialState()
             }
@@ -452,9 +457,7 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                if (e is PermissionException) {
-                    _directoryViewState.value = DirectoryViewState.Permission
-                }
+                errorState(e)
             } finally {
                 initialState()
             }
@@ -472,9 +475,7 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                if (e is PermissionException) {
-                    _directoryViewState.value = DirectoryViewState.Permission
-                }
+                errorState(e)
             } finally {
                 initialState()
             }
@@ -492,9 +493,7 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                if (e is PermissionException) {
-                    _directoryViewState.value = DirectoryViewState.Permission
-                }
+                errorState(e)
             } finally {
                 initialState()
             }
@@ -521,9 +520,7 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                if (e is PermissionException) {
-                    _directoryViewState.value = DirectoryViewState.Permission
-                }
+                errorState(e)
             } finally {
                 initialState()
             }
@@ -541,9 +538,7 @@ class ExplorerViewModel @Inject constructor(
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                if (e is PermissionException) {
-                    _directoryViewState.value = DirectoryViewState.Permission
-                }
+                errorState(e)
             } finally {
                 initialState()
             }
@@ -596,6 +591,9 @@ class ExplorerViewModel @Inject constructor(
 
     private fun errorState(e: Throwable) {
         when (e) {
+            is CancellationException -> {
+                _directoryViewState.value = DirectoryViewState.Loading
+            }
             is PermissionException -> {
                 _directoryViewState.value = DirectoryViewState.Permission
             }
