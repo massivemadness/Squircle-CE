@@ -28,7 +28,7 @@ import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-inline fun <T> Context.checkStorageAccess(
+fun <T> Context.checkStorageAccess(
     onSuccess: () -> T,
     onFailure: () -> T
 ): T {
@@ -47,7 +47,7 @@ inline fun <T> Context.checkStorageAccess(
     }
 }
 
-inline fun Activity.requestStorageAccess(
+fun Activity.requestStorageAccess(
     showRequestDialog: (Intent) -> Unit,
     showExplanationDialog: (Intent) -> Unit
 ) {

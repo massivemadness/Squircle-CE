@@ -32,6 +32,9 @@ import com.blacksquircle.ui.filesystem.base.model.FileTree
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -55,19 +58,18 @@ class ExplorerRepositoryImpl(
 
     override suspend fun listFiles(parent: FileModel?): FileTree {
         return withContext(dispatcherProvider.io()) {
-            context.checkStorageAccess(
-                onSuccess = {
-                    val filesystem = filesystemFactory.findForPosition(currentFilesystem)
-                    val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
-                    fileTree.copy(children = fileTree.children
-                        .filter { if (it.isHidden) settingsManager.showHidden else true }
-                        .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
-                        .sortedBy { it.directory != settingsManager.foldersOnTop }
-                    )
-                },
-                onFailure = {
-                    throw PermissionException()
-                }
+            suspendCoroutine<Unit> { cont ->
+                context.checkStorageAccess(
+                    onSuccess = { cont.resume(Unit) },
+                    onFailure = { cont.resumeWithException(PermissionException()) }
+                )
+            }
+            val filesystem = filesystemFactory.findForPosition(currentFilesystem)
+            val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
+            fileTree.copy(children = fileTree.children
+                .filter { if (it.isHidden) settingsManager.showHidden else true }
+                .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
+                .sortedBy { it.directory != settingsManager.foldersOnTop }
             )
         }
     }
