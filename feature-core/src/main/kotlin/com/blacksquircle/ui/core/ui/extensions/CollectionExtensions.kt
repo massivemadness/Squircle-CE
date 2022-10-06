@@ -29,3 +29,8 @@ fun <T> MutableList<T>.appendList(element: T): List<T> {
     }
     return this
 }
+
+// typealias
+fun <T> Collection<T>.indexOf(predicate: (T) -> Boolean): Int {
+    return indexOfFirst(predicate)
+}

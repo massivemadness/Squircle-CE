@@ -39,8 +39,8 @@ import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.databinding.FragmentTwoPaneBinding
-import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
+import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
@@ -125,8 +125,7 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
             .onEach { event ->
                 when (event) {
                     is ExplorerViewEvent.OpenFile -> {
-                        editorViewModel.openFileEvent.value =
-                            DocumentConverter.toModel(event.fileModel)
+                        editorViewModel.obtainEvent(EditorIntent.OpenFile(event.fileModel))
                         closeDrawer()
                     }
                     is ExplorerViewEvent.OpenFileWith -> {
@@ -157,7 +156,7 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
             if (isValidFile) {
                 val file = File(filePath)
                 mainViewModel.handleDocument(file) {
-                    editorViewModel.loadFiles()
+                    editorViewModel.obtainEvent(EditorIntent.LoadFiles)
                 }
             } else {
                 Log.d(TAG, "Invalid path")

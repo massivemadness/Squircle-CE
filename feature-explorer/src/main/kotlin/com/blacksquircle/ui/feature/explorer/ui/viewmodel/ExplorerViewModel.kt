@@ -52,7 +52,7 @@ class ExplorerViewModel @Inject constructor(
     private val _explorerViewState = MutableStateFlow<ExplorerViewState>(ExplorerViewState.Stub)
     val explorerViewState: StateFlow<ExplorerViewState> = _explorerViewState.asStateFlow()
 
-    private val _directoryViewState = MutableStateFlow<DirectoryViewState>(DirectoryViewState.Stub)
+    private val _directoryViewState = MutableStateFlow<DirectoryViewState>(DirectoryViewState.Loading)
     val directoryViewState: StateFlow<DirectoryViewState> = _directoryViewState.asStateFlow()
 
     private val _refreshState = MutableStateFlow(false)

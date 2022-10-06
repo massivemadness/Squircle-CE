@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.model
+package com.blacksquircle.ui.feature.editor.ui.viewstate
 
-data class DocumentModel(
-    val uuid: String,
-    val fileUri: String,
-    val filesystemUuid: String,
-    var modified: Boolean,
-    var position: Int,
-    var scrollX: Int,
-    var scrollY: Int,
-    var selectionStart: Int,
-    var selectionEnd: Int
-) {
+import androidx.core.text.PrecomputedTextCompat
+import com.blacksquircle.ui.core.ui.viewstate.ViewState
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 
-    val scheme: String
-        get() = fileUri.substringBeforeLast("://") + "://"
-    val path: String
-        get() = fileUri.substringAfterLast("://")
-    val name: String
-        get() = fileUri.substringAfterLast('/')
+sealed class DocumentViewState : ViewState() {
+
+    object Loading : DocumentViewState()
+
+    data class Content(
+        val content: DocumentContent,
+        val measurement: PrecomputedTextCompat?,
+    ) : DocumentViewState()
+
+    data class Error(
+        val image: Int,
+        val title: String,
+        val subtitle: String,
+    ) : DocumentViewState()
 }

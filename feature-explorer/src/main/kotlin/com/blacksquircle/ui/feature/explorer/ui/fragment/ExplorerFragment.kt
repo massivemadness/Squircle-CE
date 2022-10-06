@@ -337,7 +337,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.loadingBar.isVisible = false
                         fileAdapter.submitList(state.data)
                     }
-                    is DirectoryViewState.Stub -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

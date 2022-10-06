@@ -29,7 +29,7 @@ import com.blacksquircle.ui.feature.editor.databinding.ItemTabDocumentBinding
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 
 class DocumentAdapter(
-    private val tabInteractor: TabInteractor
+    private val tabInteractor: TabInteractor?
 ) : TabAdapter<DocumentModel, DocumentAdapter.DocumentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentViewHolder {
@@ -42,14 +42,14 @@ class DocumentAdapter(
 
     class DocumentViewHolder(
         private val binding: ItemTabDocumentBinding,
-        private val tabInteractor: TabInteractor,
+        private val tabInteractor: TabInteractor?,
         private val tabCallback: (Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(
                 parent: ViewGroup,
-                tabInteractor: TabInteractor,
+                tabInteractor: TabInteractor?,
                 tabCallback: (Int) -> Unit
             ): DocumentViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
@@ -67,9 +67,9 @@ class DocumentAdapter(
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.action_close -> tabInteractor.close(adapterPosition)
-                        R.id.action_close_others -> tabInteractor.closeOthers(adapterPosition)
-                        R.id.action_close_all -> tabInteractor.closeAll(adapterPosition)
+                        R.id.action_close -> tabInteractor?.close(adapterPosition)
+                        R.id.action_close_others -> tabInteractor?.closeOthers(adapterPosition)
+                        R.id.action_close_all -> tabInteractor?.closeAll(adapterPosition)
                     }
                     return@setOnMenuItemClickListener true
                 }
@@ -80,7 +80,7 @@ class DocumentAdapter(
             }
             binding.itemIcon.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    tabInteractor.close(adapterPosition)
+                    tabInteractor?.close(adapterPosition)
                 }
             }
         }

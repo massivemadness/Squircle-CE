@@ -14,24 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.model
+package com.blacksquircle.ui.feature.editor.ui.viewstate
 
-data class DocumentModel(
-    val uuid: String,
-    val fileUri: String,
-    val filesystemUuid: String,
-    var modified: Boolean,
-    var position: Int,
-    var scrollX: Int,
-    var scrollY: Int,
-    var selectionStart: Int,
-    var selectionEnd: Int
-) {
+import com.blacksquircle.ui.core.ui.viewstate.ViewState
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 
-    val scheme: String
-        get() = fileUri.substringBeforeLast("://") + "://"
-    val path: String
-        get() = fileUri.substringAfterLast("://")
-    val name: String
-        get() = fileUri.substringAfterLast('/')
+sealed class EditorViewState : ViewState() {
+
+    object Stub : EditorViewState()
+
+    data class ActionBar(
+        val documents: List<DocumentModel>,
+        val position: Int,
+    ) : EditorViewState()
 }

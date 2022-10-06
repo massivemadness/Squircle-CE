@@ -93,7 +93,7 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         get() = sharedPreferences.getString(KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf") ?: "file:///android_asset/fonts/jetbrains_mono.ttf"
         set(value) = sharedPreferences.edit().putString(KEY_FONT_TYPE, value).apply()
 
-    var selectedDocumentId: String
+    var selectedUuid: String
         get() = sharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "whatever") ?: "whatever"
         set(value) = sharedPreferences.edit().putString(KEY_SELECTED_DOCUMENT_ID, value).apply()
 

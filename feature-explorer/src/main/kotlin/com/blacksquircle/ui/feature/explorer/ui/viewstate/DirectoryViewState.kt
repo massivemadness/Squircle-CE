@@ -23,7 +23,6 @@ sealed class DirectoryViewState : ViewState() {
 
     object Permission : DirectoryViewState()
     object Loading : DirectoryViewState()
-    object Stub : DirectoryViewState()
 
     data class Files(
         val data: List<FileModel>,

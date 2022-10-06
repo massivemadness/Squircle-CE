@@ -14,24 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.model
+package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
-data class DocumentModel(
-    val uuid: String,
-    val fileUri: String,
-    val filesystemUuid: String,
-    var modified: Boolean,
-    var position: Int,
-    var scrollX: Int,
-    var scrollY: Int,
-    var selectionStart: Int,
-    var selectionEnd: Int
-) {
+import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-    val scheme: String
-        get() = fileUri.substringBeforeLast("://") + "://"
-    val path: String
-        get() = fileUri.substringAfterLast("://")
-    val name: String
-        get() = fileUri.substringAfterLast('/')
+sealed class EditorIntent {
+
+    object LoadFiles : EditorIntent()
+
+    data class SelectTab(val position: Int) : EditorIntent()
+    data class OpenFile(val fileModel: FileModel) : EditorIntent()
 }

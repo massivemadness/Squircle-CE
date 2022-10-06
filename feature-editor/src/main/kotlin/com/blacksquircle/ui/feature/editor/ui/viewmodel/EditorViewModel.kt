@@ -17,227 +17,144 @@
 package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
 import android.util.Log
-import androidx.core.text.PrecomputedTextCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.ui.extensions.launchEvent
-import com.blacksquircle.ui.core.ui.lifecycle.SingleLiveEvent
+import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.ui.extensions.appendList
+import com.blacksquircle.ui.core.ui.extensions.indexOf
+import com.blacksquircle.ui.core.ui.extensions.replaceList
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
+import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.themes.data.utils.InternalTheme
+import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
+import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
-import com.blacksquircle.ui.language.base.Language
-import com.blacksquircle.ui.language.base.model.ParseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(
+    private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
     private val themesRepository: ThemesRepository
 ) : ViewModel() {
 
+    private val _editorViewState = MutableStateFlow<EditorViewState>(EditorViewState.Stub)
+    val editorViewState: StateFlow<EditorViewState> = _editorViewState.asStateFlow()
+
+    private val _documentViewState = MutableStateFlow<DocumentViewState>(DocumentViewState.Loading)
+    val documentViewState: StateFlow<DocumentViewState> = _documentViewState.asStateFlow()
+
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    private val documents = mutableListOf<DocumentModel>()
+    private var currentJob: Job? = null
+
+    init {
+        loadFiles()
+    }
+
+    fun obtainEvent(event: EditorIntent) {
+        when (event) {
+            is EditorIntent.LoadFiles -> loadFiles()
+            is EditorIntent.SelectTab -> selectTab(event)
+            is EditorIntent.OpenFile -> openFile(event)
+        }
+    }
+
+    private fun loadFiles() {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            try {
+                val documentList = documentRepository.fetchDocuments()
+                val selectedUuid = settingsManager.selectedUuid
+                val selectedPosition = when {
+                    documentList.isEmpty() -> -1
+                    documentList.none { it.uuid == selectedUuid } -> 0
+                    else -> documentList.indexOf { it.uuid == selectedUuid }
+                }
+                _editorViewState.value = EditorViewState.ActionBar(
+                    documents = documents.replaceList(documentList),
+                    position = selectedPosition
+                )
+                if (documentList.isEmpty()) {
+                    _documentViewState.value = DocumentViewState.Error(
+                        image = R.drawable.ic_file_find,
+                        title = stringProvider.getString(R.string.message_no_open_files),
+                        subtitle = "",
+                    )
+                } else {
+                    selectTab(EditorIntent.SelectTab(selectedPosition))
+                }
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                errorState(e)
+            }
+        }
+    }
+
+    private fun selectTab(event: EditorIntent.SelectTab) {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            try {
+                _documentViewState.value = DocumentViewState.Loading
+                val selectedDocument = documents[event.position].also {
+                    settingsManager.selectedUuid = it.uuid
+                }
+                val content = documentRepository.loadFile(selectedDocument)
+                _documentViewState.value = DocumentViewState.Content(
+                    content = content,
+                    measurement = null,
+                )
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                errorState(e)
+            }
+        }
+    }
+
+    private fun openFile(event: EditorIntent.OpenFile) {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            try {
+                val document = DocumentConverter.toModel(event.fileModel)
+                _editorViewState.value = EditorViewState.ActionBar(
+                    documents = documents.appendList(document),
+                    position = documents.lastIndex,
+                )
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                errorState(e)
+            }
+        }
+    }
+
+    private fun errorState(e: Throwable) {
+        when (e) {
+            is CancellationException -> {
+                _documentViewState.value = DocumentViewState.Loading
+            }
+            else -> {
+                _documentViewState.value = DocumentViewState.Error(
+                    image = R.drawable.ic_file_error,
+                    title = stringProvider.getString(R.string.message_error_occurred),
+                    subtitle = e.message.orEmpty(),
+                )
+            }
+        }
+    }
+
     companion object {
         private const val TAG = "EditorViewModel"
     }
-
-    // region EVENTS
-
-    val loadingBar = MutableLiveData(false) // Индикатор загрузки документа
-    val emptyView = MutableLiveData(true) // Сообщение об отсутствии документов
-
-    val loadFilesEvent = MutableLiveData<List<DocumentModel>>() // Загрузка недавних файлов
-    val settingsEvent = MutableLiveData<List<SettingsEvent<*>>>() // Настройки
-
-    val toastEvent = SingleLiveEvent<Int>() // Отображение сообщений
-    val parseEvent = SingleLiveEvent<ParseResult>() // Проверка ошибок
-    val contentEvent = SingleLiveEvent<Pair<DocumentContent, PrecomputedTextCompat>>() // Контент загруженного файла
-
-    val openFileEvent = SingleLiveEvent<DocumentModel>() // Открытие файла из проводника в редакторе
-
-    // endregion EVENTS
-
-    val autoSaveFiles: Boolean
-        get() = settingsManager.autoSaveFiles
-
-    fun loadFiles() {
-        viewModelScope.launchEvent(loadingBar) {
-            try {
-                val documents = documentRepository.fetchDocuments()
-                loadFilesEvent.value = documents
-            } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_error_occurred
-            }
-        }
-    }
-
-    fun loadFile(documentModel: DocumentModel, params: PrecomputedTextCompat.Params) {
-        viewModelScope.launchEvent(loadingBar) {
-            try {
-                val content = documentRepository.loadFile(documentModel)
-                val precomputedText = withContext(Dispatchers.Default) {
-                    PrecomputedTextCompat.create(content.text, params)
-                }
-                settingsManager.selectedDocumentId = documentModel.uuid
-                contentEvent.value = content to precomputedText
-            } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
-                when (e) {
-                    is FileNotFoundException -> {
-                        toastEvent.value = R.string.message_file_not_found
-                    }
-                    is OutOfMemoryError -> {
-                        toastEvent.value = R.string.message_out_of_memory
-                    }
-                    else -> {
-                        toastEvent.value = R.string.message_error_occurred
-                    }
-                }
-            }
-        }
-    }
-
-    fun saveFile(documentContent: DocumentContent, params: DocumentParams) {
-        viewModelScope.launch {
-            try {
-                documentRepository.saveFile(documentContent, params)
-                if (params.local) {
-                    toastEvent.value = R.string.message_saved
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_error_occurred
-            }
-        }
-    }
-
-    fun updateDocument(documentModel: DocumentModel) {
-        viewModelScope.launch {
-            try {
-                documentRepository.updateDocument(documentModel)
-            } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_error_occurred
-            }
-        }
-    }
-
-    fun deleteDocument(documentModel: DocumentModel) {
-        viewModelScope.launch {
-            try {
-                documentRepository.deleteDocument(documentModel)
-            } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
-                toastEvent.value = R.string.message_error_occurred
-            }
-        }
-    }
-
-    fun openFile(documents: List<DocumentModel>) {
-        settingsManager.selectedDocumentId = documents.last().uuid
-        loadFilesEvent.value = documents
-    }
-
-    fun parse(documentModel: DocumentModel, language: Language?, sourceCode: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val parser = language?.getParser()
-            val parseResult = parser?.execute(documentModel.name, sourceCode)
-            parseResult?.let(parseEvent::postValue)
-        }
-    }
-
-    fun findRecentTab(list: List<DocumentModel>): Int {
-        return if (list.isNotEmpty()) {
-            var position = 0
-            list.forEachIndexed { index, documentModel ->
-                if (documentModel.uuid == settingsManager.selectedDocumentId) {
-                    position = index
-                }
-            }
-            position
-        } else {
-            -1
-        }
-    }
-
-    // region PREFERENCES
-
-    fun fetchSettings() {
-        viewModelScope.launch {
-            try {
-                val settings = mutableListOf<SettingsEvent<*>>()
-
-                val value = settingsManager.colorScheme
-                val theme = InternalTheme.find(value) ?: themesRepository.fetchTheme(value)
-                settings.add(SettingsEvent.ThemePref(theme))
-
-                val fontSize = settingsManager.fontSize.toFloat()
-                settings.add(SettingsEvent.FontSize(fontSize))
-
-                val fontType = settingsManager.fontType
-                settings.add(SettingsEvent.FontType(fontType))
-
-                val wordWrap = settingsManager.wordWrap
-                settings.add(SettingsEvent.WordWrap(wordWrap))
-
-                val codeCompletion = settingsManager.codeCompletion
-                settings.add(SettingsEvent.CodeCompletion(codeCompletion))
-
-                val errorHighlighting = settingsManager.errorHighlighting
-                settings.add(SettingsEvent.ErrorHighlight(errorHighlighting))
-
-                val pinchZoom = settingsManager.pinchZoom
-                settings.add(SettingsEvent.PinchZoom(pinchZoom))
-
-                val lineNumbers = Pair(
-                    settingsManager.lineNumbers,
-                    settingsManager.highlightCurrentLine
-                )
-                settings.add(SettingsEvent.LineNumbers(lineNumbers))
-
-                val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
-                settings.add(SettingsEvent.Delimiters(highlightMatchingDelimiters))
-
-                val extendedKeyboard = settingsManager.extendedKeyboard
-                settings.add(SettingsEvent.ExtendedKeys(extendedKeyboard))
-
-                val keyboardPreset = settingsManager.keyboardPreset.toCharArray().map(Char::toString)
-                settings.add(SettingsEvent.KeyboardPreset(keyboardPreset))
-
-                val softKeyboard = settingsManager.softKeyboard
-                settings.add(SettingsEvent.SoftKeys(softKeyboard))
-
-                val autoIndentation = Triple(
-                    settingsManager.autoIndentation,
-                    settingsManager.autoCloseBrackets,
-                    settingsManager.autoCloseQuotes
-                )
-                settings.add(SettingsEvent.AutoIndentation(autoIndentation))
-
-                val useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs
-                settings.add(SettingsEvent.UseSpacesNotTabs(useSpacesInsteadOfTabs))
-
-                val tabWidth = settingsManager.tabWidth
-                settings.add(SettingsEvent.TabWidth(tabWidth))
-
-                settingsEvent.value = settings
-            } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
-            }
-        }
-    }
-
-    // endregion PREFERENCES
 }
