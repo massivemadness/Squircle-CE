@@ -79,8 +79,6 @@ class DocumentRepositoryImpl(
                     text = cacheFilesystem.loadFile(cacheFile, FileParams())
                 )
             } else {
-                updateDocument(documentModel)
-
                 val filesystem = filesystemFactory.create(documentModel.filesystemUuid)
                 val fileModel = DocumentConverter.toModel(documentModel)
                 val fileParams = FileParams(
@@ -123,8 +121,6 @@ class DocumentRepositoryImpl(
                 val redoCacheFile = cacheFile(content.documentModel, postfix = "redo")
                 val redoStackText = content.redoStack.encodeStack()
                 cacheFilesystem.saveFile(redoCacheFile, redoStackText, FileParams())
-
-                updateDocument(content.documentModel)
             }
         }
     }

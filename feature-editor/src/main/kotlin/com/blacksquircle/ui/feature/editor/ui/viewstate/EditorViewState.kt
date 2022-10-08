@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui.viewstate
 
 import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import java.util.*
 
 sealed class EditorViewState : ViewState() {
 
@@ -26,5 +27,6 @@ sealed class EditorViewState : ViewState() {
     data class ActionBar(
         val documents: List<DocumentModel>,
         val position: Int,
+        val patch: String = UUID.randomUUID().toString(),
     ) : EditorViewState()
 }

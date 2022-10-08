@@ -34,3 +34,8 @@ fun <T> MutableList<T>.appendList(element: T): List<T> {
 fun <T> Collection<T>.indexOf(predicate: (T) -> Boolean): Int {
     return indexOfFirst(predicate)
 }
+
+fun <T> Collection<T>.indexOrNull(predicate: (T) -> Boolean): Int? {
+    val index = indexOfFirst(predicate)
+    return if (index > -1) index else null
+}

@@ -101,7 +101,17 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         toolbarManager.bind(binding)
 
         binding.tabLayout.setHasFixedSize(true)
-        binding.tabLayout.adapter = DocumentAdapter(null).also {
+        binding.tabLayout.adapter = DocumentAdapter(object : DocumentAdapter.TabInteractor {
+            override fun close(position: Int) {
+                viewModel.obtainEvent(EditorIntent.CloseTab(position))
+            }
+            override fun closeOthers(position: Int) {
+                viewModel.obtainEvent(EditorIntent.CloseOthers(position))
+            }
+            override fun closeAll(position: Int) {
+                viewModel.obtainEvent(EditorIntent.CloseAll(position))
+            }
+        }).also {
             this.tabAdapter = it
         }
         tabController.attachToRecyclerView(binding.tabLayout)

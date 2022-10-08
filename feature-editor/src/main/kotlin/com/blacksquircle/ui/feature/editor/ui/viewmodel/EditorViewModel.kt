@@ -21,9 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.extensions.appendList
-import com.blacksquircle.ui.core.ui.extensions.indexOf
-import com.blacksquircle.ui.core.ui.extensions.replaceList
+import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
@@ -58,6 +56,7 @@ class EditorViewModel @Inject constructor(
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     private val documents = mutableListOf<DocumentModel>()
+    private var selectedPosition = -1
     private var currentJob: Job? = null
 
     init {
@@ -67,8 +66,12 @@ class EditorViewModel @Inject constructor(
     fun obtainEvent(event: EditorIntent) {
         when (event) {
             is EditorIntent.LoadFiles -> loadFiles()
-            is EditorIntent.SelectTab -> selectTab(event)
+
             is EditorIntent.OpenFile -> openFile(event)
+            is EditorIntent.SelectTab -> selectTab(event)
+            is EditorIntent.CloseTab -> closeTab(event)
+            is EditorIntent.CloseOthers -> closeOthers(event)
+            is EditorIntent.CloseAll -> closeAll(event)
         }
     }
 
@@ -78,7 +81,7 @@ class EditorViewModel @Inject constructor(
             try {
                 val documentList = documentRepository.fetchDocuments()
                 val selectedUuid = settingsManager.selectedUuid
-                val selectedPosition = when {
+                selectedPosition = when {
                     documentList.isEmpty() -> -1
                     documentList.none { it.uuid == selectedUuid } -> 0
                     else -> documentList.indexOf { it.uuid == selectedUuid }
@@ -103,17 +106,44 @@ class EditorViewModel @Inject constructor(
         }
     }
 
+    private fun openFile(event: EditorIntent.OpenFile) {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            try {
+                val document = DocumentConverter.toModel(event.fileModel)
+                val position = documents.indexOrNull {
+                    it.fileUri == document.fileUri
+                } ?: run {
+                    documents.appendList(document).also {
+                        updatePosition()
+                    }
+                    documents.lastIndex
+                }
+                selectTab(EditorIntent.SelectTab(position))
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                errorState(e)
+            }
+        }
+    }
+
     private fun selectTab(event: EditorIntent.SelectTab) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {
+                _editorViewState.value = EditorViewState.ActionBar(
+                    documents = documents,
+                    position = event.position,
+                )
+
                 _documentViewState.value = DocumentViewState.Loading
-                val selectedDocument = documents[event.position].also {
-                    settingsManager.selectedUuid = it.uuid
-                }
-                val content = documentRepository.loadFile(selectedDocument)
+
+                val document = documents[event.position]
+                settingsManager.selectedUuid = document.uuid
+                selectedPosition = event.position
+
                 _documentViewState.value = DocumentViewState.Content(
-                    content = content,
+                    content = documentRepository.loadFile(document),
                     measurement = null,
                 )
             } catch (e: Throwable) {
@@ -123,18 +153,102 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun openFile(event: EditorIntent.OpenFile) {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
+    private fun closeTab(event: EditorIntent.CloseTab) {
+        viewModelScope.launch {
             try {
-                val document = DocumentConverter.toModel(event.fileModel)
+                val document = documents[event.position]
+                val reloadFile = event.position == selectedPosition
+                val position = when {
+                    event.position == selectedPosition -> when {
+                        event.position - 1 > -1 -> event.position - 1
+                        event.position + 1 < documents.size -> event.position
+                        else -> -1
+                    }
+                    event.position < selectedPosition -> selectedPosition - 1
+                    event.position > selectedPosition -> selectedPosition
+                    else -> -1
+                }
+
+                documentRepository.deleteDocument(document)
+                documents.removeAt(event.position)
+                selectedPosition = position
+                settingsManager.selectedUuid = documents.getOrNull(position)?.uuid.orEmpty()
+
                 _editorViewState.value = EditorViewState.ActionBar(
-                    documents = documents.appendList(document),
-                    position = documents.lastIndex,
+                    documents = documents,
+                    position = selectedPosition
+                )
+
+                if (reloadFile) {
+                    if (documents.isEmpty()) {
+                        _documentViewState.value = DocumentViewState.Error(
+                            image = R.drawable.ic_file_find,
+                            title = stringProvider.getString(R.string.message_no_open_files),
+                            subtitle = "",
+                        )
+                    } else {
+                        selectTab(EditorIntent.SelectTab(position))
+                    }
+                }
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun closeOthers(event: EditorIntent.CloseOthers) {
+        viewModelScope.launch {
+            try {
+                for (index in documents.size - 1 downTo 0) {
+                    if (index != event.position) {
+                        val document = documents[index]
+                        documentRepository.deleteDocument(document)
+                        documents.removeAt(index)
+                    }
+                }
+                selectTab(EditorIntent.SelectTab(0))
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun closeAll(event: EditorIntent.CloseAll) {
+        viewModelScope.launch {
+            try {
+                for (index in documents.size - 1 downTo 0) {
+                    val document = documents[index]
+                    documentRepository.deleteDocument(document)
+                    documents.removeAt(index)
+                }
+                selectedPosition = -1
+                _editorViewState.value = EditorViewState.ActionBar(
+                    documents = documents,
+                    position = selectedPosition
+                )
+                _documentViewState.value = DocumentViewState.Error(
+                    image = R.drawable.ic_file_find,
+                    title = stringProvider.getString(R.string.message_no_open_files),
+                    subtitle = "",
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
-                errorState(e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun updatePosition() {
+        viewModelScope.launch {
+            try {
+                documents.forEachIndexed { index, document ->
+                    documentRepository.updateDocument(document.copy(position = index))
+                }
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }

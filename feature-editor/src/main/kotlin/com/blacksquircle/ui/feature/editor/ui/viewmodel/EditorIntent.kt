@@ -22,6 +22,9 @@ sealed class EditorIntent {
 
     object LoadFiles : EditorIntent()
 
-    data class SelectTab(val position: Int) : EditorIntent()
     data class OpenFile(val fileModel: FileModel) : EditorIntent()
+    data class SelectTab(val position: Int) : EditorIntent()
+    data class CloseTab(val position: Int) : EditorIntent()
+    data class CloseOthers(val position: Int) : EditorIntent()
+    data class CloseAll(val position: Int) : EditorIntent()
 }
