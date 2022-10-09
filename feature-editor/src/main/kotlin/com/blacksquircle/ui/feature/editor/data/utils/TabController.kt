@@ -29,16 +29,26 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
 
         private val itemTouchCallback = object : SimpleCallback(START or END, ACTION_STATE_IDLE) {
 
+            private var from: Int? = null
+            private var to: Int? = null
+
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
+                if (from == null) // initial position
+                    from = viewHolder.adapterPosition
+                to = target.adapterPosition
                 val adapter = recyclerView.adapter as TabAdapter<*, *>
-                return adapter.move(from = viewHolder.adapterPosition, to = target.adapterPosition)
+                adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+                return true
             }
 
-            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+            override fun onSelectedChanged(
+                viewHolder: RecyclerView.ViewHolder?,
+                actionState: Int
+            ) {
                 super.onSelectedChanged(viewHolder, actionState)
                 if (actionState == ACTION_STATE_DRAG) {
                     viewHolder?.itemView?.alpha = STATE_DRAG
@@ -50,13 +60,24 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
                 viewHolder: RecyclerView.ViewHolder
             ) {
                 super.clearView(recyclerView, viewHolder)
+                val adapter = recyclerView.adapter as TabAdapter<*, *>
+                adapter.move(
+                    from = from ?: viewHolder.adapterPosition,
+                    to = to ?: viewHolder.adapterPosition,
+                )
                 viewHolder.itemView.alpha = STATE_NORMAL
+                reset()
             }
 
             override fun onSwiped(
                 viewHolder: RecyclerView.ViewHolder,
                 direction: Int
             ) = Unit
+
+            private fun reset() {
+                from = null
+                to = null
+            }
         }
     }
 }

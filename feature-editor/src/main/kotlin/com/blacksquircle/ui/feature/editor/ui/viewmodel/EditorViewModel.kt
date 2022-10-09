@@ -69,6 +69,8 @@ class EditorViewModel @Inject constructor(
 
             is EditorIntent.OpenFile -> openFile(event)
             is EditorIntent.SelectTab -> selectTab(event)
+            is EditorIntent.MoveTab -> moveTab(event)
+
             is EditorIntent.CloseTab -> closeTab(event)
             is EditorIntent.CloseOthers -> closeOthers(event)
             is EditorIntent.CloseAll -> closeAll(event)
@@ -119,7 +121,9 @@ class EditorViewModel @Inject constructor(
                     }
                     documents.lastIndex
                 }
-                selectTab(EditorIntent.SelectTab(position))
+                if (position != selectedPosition) {
+                    selectTab(EditorIntent.SelectTab(position))
+                }
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 errorState(e)
@@ -135,7 +139,6 @@ class EditorViewModel @Inject constructor(
                     documents = documents,
                     position = event.position,
                 )
-
                 _documentViewState.value = DocumentViewState.Loading
 
                 val document = documents[event.position]
@@ -149,6 +152,31 @@ class EditorViewModel @Inject constructor(
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 errorState(e)
+            }
+        }
+    }
+
+    private fun moveTab(event: EditorIntent.MoveTab) {
+        viewModelScope.launch {
+            try {
+                val document = documents[event.from]
+                documents.removeAt(event.from)
+                documents.add(event.to, document)
+                updatePosition()
+
+                when {
+                    selectedPosition in event.to until event.from -> selectedPosition++
+                    selectedPosition in (event.from + 1)..event.to -> selectedPosition--
+                    event.from == selectedPosition -> selectedPosition = event.to
+                }
+
+                _editorViewState.value = EditorViewState.ActionBar(
+                    documents = documents,
+                    position = selectedPosition,
+                )
+            } catch (e: Throwable) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }
@@ -207,7 +235,15 @@ class EditorViewModel @Inject constructor(
                         documents.removeAt(index)
                     }
                 }
-                selectTab(EditorIntent.SelectTab(0))
+                if (event.position != selectedPosition) {
+                    selectTab(EditorIntent.SelectTab(0))
+                } else {
+                    selectedPosition = 0
+                    _editorViewState.value = EditorViewState.ActionBar(
+                        documents = documents,
+                        position = selectedPosition
+                    )
+                }
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))

@@ -79,6 +79,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
             viewModel.obtainEvent(EditorIntent.SelectTab(position))
         }
     }
+    private val onTabMovedListener = object : TabAdapter.OnTabMovedListener {
+        override fun onTabMoved(from: Int, to: Int) {
+            viewModel.obtainEvent(EditorIntent.MoveTab(from, to))
+        }
+    }
 
     private lateinit var tabAdapter: DocumentAdapter
 
@@ -151,9 +156,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                 when (state) {
                     is EditorViewState.ActionBar -> {
                         tabAdapter.removeOnTabSelectedListener()
+                        tabAdapter.removeOnTabMovedListener()
                         tabAdapter.submitList(state.documents)
                         tabAdapter.select(state.position)
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
+                        tabAdapter.setOnTabMovedListener(onTabMovedListener)
                     }
                     is EditorViewState.Stub -> Unit
                 }
