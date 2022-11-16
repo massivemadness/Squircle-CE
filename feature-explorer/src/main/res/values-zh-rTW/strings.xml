@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2022 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="hint_search">搜尋…</string>
+    <string name="hint_enter_file_name">輸入檔案名稱</string>
+    <string name="hint_enter_archive_name">輸入壓縮檔名稱</string>
+
+    <string name="action_grant_access">授予訪問權限</string>
+    <string name="action_create">新增</string>
+    <string name="action_copy_path">複製路徑</string>
+    <string name="action_folder">資料夾</string>
+    <string name="action_rename">重新命名</string>
+    <string name="action_delete">刪除</string>
+    <string name="action_run_in_background">在後台運行</string>
+    <string name="action_show_hidden_files">顯示隱藏檔案</string>
+    <string name="action_compress">壓縮</string>
+    <string name="action_open_with">另開為</string>
+    <string name="action_properties">屬性</string>
+    <string name="action_cut">剪下</string>
+    <string name="action_copy">複製</string>
+    <string name="action_paste">貼上</string>
+    <string name="action_select_all">全選</string>
+    <string name="action_continue">繼續</string>
+
+    <string name="dialog_title_create">新增檔案</string>
+    <string name="dialog_title_rename">重新命名檔案</string>
+    <string name="dialog_title_multi_delete">刪除所選檔案</string>
+    <string name="dialog_title_properties">屬性</string>
+    <string name="dialog_title_creating">正在創建…</string>
+    <string name="dialog_title_renaming">正在重新命名…</string>
+    <string name="dialog_title_deleting">正在刪除檔案</string>
+    <string name="dialog_title_copying">正在複製檔案</string>
+    <string name="dialog_title_compressing">正在壓縮</string>
+    <string name="dialog_title_extracting">正在解壓縮</string>
+    <string name="dialog_title_archive_name">壓縮檔名稱</string>
+    <string name="dialog_title_storage_access">外部存儲權限</string>
+
+    <string name="dialog_message_delete">確定要刪除該檔案嗎？</string>
+    <string name="dialog_message_multi_delete">確定要刪除所選的檔案嗎？</string>
+    <string name="dialog_message_storage_access">作為檔案管理器，Squircle CE 需要訪問所有檔案才能正常運作。\n\n請點擊「繼續」後再授予所有檔案的管理權限。</string>
+
+    <string name="properties_name">檔案名稱：</string>
+    <string name="properties_path">檔案路徑：</string>
+    <string name="properties_modified">最後修改：</string>
+    <string name="properties_size">檔案大小：</string>
+    <string name="properties_readable">可讀</string>
+    <string name="properties_writable">可寫</string>
+    <string name="properties_executable">可執行</string>
+
+    <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
+    <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
+    <string name="progress_time_format">mm:ss</string>
+
+    <string name="sort_by_name">依名稱排序</string>
+    <string name="sort_by_size">依大小排序</string>
+    <string name="sort_by_date">依日期排序</string>
+
+    <string name="message_access_denied">沒有存儲空間訪問權限</string>
+    <string name="message_access_required">為了能正常編寫程式，必須授予存儲權限</string>
+    <string name="message_no_result">沒有結果</string>
+    <string name="message_cannot_be_opened">檔案無法開啟</string>
+    <string name="message_invalid_file_name">無效的檔案名稱</string>
+    <string name="message_error_occurred">發生錯誤</string>
+    <string name="message_directory_expected">無法獲取檔案列表</string>
+    <string name="message_file_already_exists">檔案已存在</string>
+    <string name="message_unsupported_archive">暫不支援該壓縮檔案格式</string>
+    <string name="message_invalid_archive">該壓縮檔案已損壞</string>
+    <string name="message_split_archive">暫不支援已分割的壓縮檔</string>
+    <string name="message_encrypted_archive">暫不支援已加密的壓縮檔</string>
+    <string name="message_operation_cancelled">操作已取消</string>
+    <string name="message_operation_not_supported">不支援的操作</string>
+    <string name="message_done">完成</string>
+    <string name="message_file_not_found">檔案不存在</string>
+    <string name="message_elapsed_time">運行時間: %1$s</string>
+    <string name="message_creating">正在創建…%1$s</string>
+    <string name="message_renaming">正在重新命名…%1$s</string>
+    <string name="message_deleting">正在刪除…%1$s</string>
+    <string name="message_copying">正在複製…%1$s</string>
+    <string name="message_compressing">正在壓縮…%1$s</string>
+    <string name="message_extracting">正在解壓縮…%1$s</string>
+
+    <string name="explorer_channel_name">檔案管理器</string>
+    <string name="explorer_channel_description">顯示和控制檔案操作</string>
+
+    <string name="storage_local">本機存儲</string>
+    <string name="storage_root">根目錄</string>
+    <string name="storage_add">添加伺服器</string>
+
+</resources>
