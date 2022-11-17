@@ -59,7 +59,7 @@
     <string name="pref_header_files_summary">設定檔案的處理方式。</string>
     <string name="pref_header_cloud_title">雲端 &amp; 伺服器</string>
     <string name="pref_header_cloud_summary">設定雲端存儲和伺服器。</string>
-    <string name="pref_header_about_title">关于</string>
+    <string name="pref_header_about_title">關於</string>
     <string name="pref_header_about_summary">查看 Squircle CE 的有關資訊。</string>
 
     <string name="pref_category_look_and_feel">外觀</string>
@@ -134,14 +134,14 @@
     <string name="pref_linebreaks_for_saving_files_title">以該換行符儲存</string>
     <string name="pref_linebreaks_for_saving_files_summary">預設使用該換行符儲存文字檔案</string>
     <string name="pref_show_hidden_files_title">顯示隱藏檔案</string>
-    <string name="pref_show_hidden_files_summary">將顯示隱藏的檔案和資料夾（以“.”開頭）。</string>
+    <string name="pref_show_hidden_files_summary">將顯示隱藏的檔案和資料夾（以「.」開頭）。</string>
     <string name="pref_folders_on_top_title">資料夾置頂</string>
     <string name="pref_folders_on_top_summary">資料夾將優先顯示在檔案的前面。</string>
     <string name="pref_view_mode_title">檢視模式</string>
     <string name="pref_sort_mode_title">排序方式</string>
 
     <string name="pref_about_summary">Squircle CE 是依據 Apache 2.0 許可協議發布的開源專案\n\n目前版本: %1$s (%2$d)</string>
-    <string name="pref_privacy_policy_title">查看“隱私權政策”</string>
+    <string name="pref_privacy_policy_title">查看「隱私權政策」</string>
     <string name="pref_contribute_title">參與貢獻，促進發展</string>
     <string name="pref_contribute_summary">你可以點擊此處到 GitHub 上提交 Issue ，或將本應用程式翻譯為在地語言。\n\n感謝您的信任和支持！</string>
 

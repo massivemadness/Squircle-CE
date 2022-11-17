@@ -64,7 +64,7 @@
     <string name="theme_property_variables_color">定義語法高亮的變數名顏色</string>
     <string name="theme_property_methods_color">定義語法高亮的方法名顏色，如：function foo() {}</string>
     <string name="theme_property_strings_color">定義語法高亮的字串顏色，如：str = \'Hello\'</string>
-    <string name="theme_property_comments_color">定義語法高亮的註解顏色，如: 以“//”開頭的內容</string>
+    <string name="theme_property_comments_color">定義語法高亮的註解顏色，如: 以「//」開頭的內容</string>
     <string name="theme_property_tag_color">定義標記語言的標籤符合顏色： &lt;, &lt;&gt;, /&gt;</string>
     <string name="theme_property_tag_name_color">定義標記語言的標籤名顏色： &lt;tag&gt;</string>
     <string name="theme_property_attr_name_color">定義標記語言的屬性名稱顏色： &lt;tag attr=…/&gt;</string>
