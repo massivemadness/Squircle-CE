@@ -164,10 +164,10 @@ class EditorViewModel @Inject constructor(
                 documents.add(event.to, document)
                 updatePosition()
 
-                when {
-                    selectedPosition in event.to until event.from -> selectedPosition++
-                    selectedPosition in (event.from + 1)..event.to -> selectedPosition--
-                    event.from == selectedPosition -> selectedPosition = event.to
+                when (selectedPosition) {
+                    in event.to until event.from -> selectedPosition++
+                    in (event.from + 1)..event.to -> selectedPosition--
+                    event.from -> selectedPosition = event.to
                 }
 
                 _editorViewState.value = EditorViewState.ActionBar(
@@ -181,6 +181,7 @@ class EditorViewModel @Inject constructor(
         }
     }
 
+    @Suppress("KotlinConstantConditions")
     private fun closeTab(event: EditorIntent.CloseTab) {
         viewModelScope.launch {
             try {
@@ -254,11 +255,10 @@ class EditorViewModel @Inject constructor(
     private fun closeAll(event: EditorIntent.CloseAll) {
         viewModelScope.launch {
             try {
-                for (index in documents.size - 1 downTo 0) {
-                    val document = documents[index]
+                documents.forEach { document ->
                     documentRepository.deleteDocument(document)
-                    documents.removeAt(index)
                 }
+                documents.clear()
                 selectedPosition = -1
                 _editorViewState.value = EditorViewState.ActionBar(
                     documents = documents,
