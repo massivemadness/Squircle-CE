@@ -19,8 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:id="@+id/drawer_layout">
+    android:orientation="horizontal">
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="280dp"
@@ -28,12 +27,12 @@
         android:id="@+id/fragment_explorer"
         android:name="com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment"
         tools:layout="@layout/fragment_explorer"
-        tools:ignore="FragmentTagUsage"/>
+        tools:ignore="FragmentTagUsage" />
 
     <View
         android:layout_width="2dp"
         android:layout_height="match_parent"
-        android:background="?colorSecondaryVariant"/>
+        android:background="?colorSecondaryVariant" />
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
@@ -41,6 +40,6 @@
         android:id="@+id/fragment_editor"
         android:name="com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment"
         tools:layout="@layout/fragment_editor"
-        tools:ignore="FragmentTagUsage"/>
+        tools:ignore="FragmentTagUsage" />
 
 </LinearLayout>

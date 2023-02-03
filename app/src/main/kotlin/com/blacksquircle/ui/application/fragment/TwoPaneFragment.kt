@@ -22,7 +22,6 @@ import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -61,8 +60,6 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
     private val editorViewModel by activityViewModels<EditorViewModel>()
     private val navController by lazy { findNavController() }
     private val binding by viewBinding(FragmentTwoPaneBinding::bind)
-    private val drawerLayout: DrawerLayout?
-        get() = binding.drawerLayout as? DrawerLayout
 
     private lateinit var editorBackPressedHandler: BackPressedHandler
     private lateinit var explorerBackPressedHandler: BackPressedHandler
@@ -76,13 +73,13 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
         explorerBackPressedHandler = childFragmentManager
             .fragment<ExplorerFragment>(R.id.fragment_explorer)
 
-        drawerLayout?.multiplyDraggingEdgeSizeBy(2)
+        binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
+                    if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
                         if (!explorerBackPressedHandler.handleOnBackPressed()) {
                             closeDrawer()
                         }
@@ -101,11 +98,11 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
     }
 
     override fun openDrawer() {
-        drawerLayout?.openDrawer(GravityCompat.START)
+        binding.drawerLayout?.openDrawer(GravityCompat.START)
     }
 
     override fun closeDrawer() {
-        drawerLayout?.closeDrawer(GravityCompat.START)
+        binding.drawerLayout?.closeDrawer(GravityCompat.START)
     }
 
     private fun observeViewModel() {
