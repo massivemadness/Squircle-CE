@@ -27,6 +27,7 @@ import com.blacksquircle.ui.editorkit.model.ErrorSpan
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResultSpan
 import com.blacksquircle.ui.editorkit.model.TabWidthSpan
+import com.blacksquircle.ui.editorkit.setSelectionRange
 import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.editorkit.utils.StylingTask
 import com.blacksquircle.ui.editorkit.utils.bottomVisibleLine
@@ -239,7 +240,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     private fun selectResult() {
         val findResult = findResultSpans[selectedFindResult]
-        setSelection(findResult.start, findResult.end)
+        setSelectionRange(findResult.start, findResult.end)
         scrollToFindResult()
     }
 

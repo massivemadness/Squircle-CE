@@ -18,6 +18,7 @@ package com.blacksquircle.ui.editorkit
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.widget.EditText
 import androidx.core.content.getSystemService
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.widget.TextProcessor
@@ -56,7 +57,7 @@ fun TextProcessor.selectLine() {
     val currentLine = lines.getLineForIndex(selectionStart)
     val lineStart = lines.getIndexForStartOfLine(currentLine)
     val lineEnd = lines.getIndexForEndOfLine(currentLine)
-    setSelection(lineStart, lineEnd)
+    setSelectionRange(lineStart, lineEnd)
 }
 
 fun TextProcessor.deleteLine() {
@@ -77,14 +78,14 @@ fun TextProcessor.duplicateLine() {
 fun TextProcessor.moveCaretToStartOfLine(): Boolean {
     val currentLine = lines.getLineForIndex(selectionStart)
     val lineStart = lines.getIndexForStartOfLine(currentLine)
-    setSelection(lineStart)
+    setSelectionIndex(lineStart)
     return true
 }
 
 fun TextProcessor.moveCaretToEndOfLine(): Boolean {
     val currentLine = lines.getLineForIndex(selectionEnd)
     val lineEnd = lines.getIndexForEndOfLine(currentLine)
-    setSelection(lineEnd)
+    setSelectionIndex(lineEnd)
     return true
 }
 
@@ -96,7 +97,7 @@ fun TextProcessor.moveCaretToPrevWord(): Boolean {
             for (i in selectionStart downTo 0) {
                 val char = text[i - 1]
                 if (!char.isLetterOrDigit() && char != '_') {
-                    setSelection(i)
+                    setSelectionIndex(i)
                     break
                 }
             }
@@ -104,7 +105,7 @@ fun TextProcessor.moveCaretToPrevWord(): Boolean {
             for (i in selectionStart downTo 0) {
                 val char = text[i - 1]
                 if (char.isLetterOrDigit() || char == '_') {
-                    setSelection(i)
+                    setSelectionIndex(i)
                     break
                 }
             }
@@ -121,7 +122,7 @@ fun TextProcessor.moveCaretToNextWord(): Boolean {
             for (i in selectionStart until text.length) {
                 val char = text[i]
                 if (!char.isLetterOrDigit() && char != '_') {
-                    setSelection(i)
+                    setSelectionIndex(i)
                     break
                 }
             }
@@ -129,7 +130,7 @@ fun TextProcessor.moveCaretToNextWord(): Boolean {
             for (i in selectionStart until text.length) {
                 val char = text[i]
                 if (char.isLetterOrDigit() || char == '_') {
-                    setSelection(i)
+                    setSelectionIndex(i)
                     break
                 }
             }
@@ -138,12 +139,25 @@ fun TextProcessor.moveCaretToNextWord(): Boolean {
     return true
 }
 
+fun EditText.setSelectionRange(start: Int, end: Int) {
+    setSelection(
+        if (start > text.length) text.length else start,
+        if (end > text.length) text.length else end,
+    )
+}
+
+fun EditText.setSelectionIndex(index: Int) {
+    setSelection(
+        if (index > text.length) text.length else index,
+    )
+}
+
 fun TextProcessor.gotoLine(lineNumber: Int) {
     val line = lineNumber - 1
     if (line < 0 || line >= lines.lineCount - 1) {
         throw LineException(lineNumber)
     }
-    setSelection(lines.getIndexForLine(line))
+    setSelectionIndex(lines.getIndexForLine(line))
 }
 
 fun TextProcessor.hasPrimaryClip(): Boolean {

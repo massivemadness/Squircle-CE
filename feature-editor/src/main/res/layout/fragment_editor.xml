@@ -279,6 +279,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:importantForAutofill="no"
+        android:hyphenationFrequency="none"
+        android:breakStrategy="simple"
         android:textCursorDrawable="@drawable/caret"
         android:dropDownAnchor="@id/tab_layout"
         android:completionThreshold="2"

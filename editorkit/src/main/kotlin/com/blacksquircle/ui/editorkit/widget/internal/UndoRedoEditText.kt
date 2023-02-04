@@ -22,6 +22,7 @@ import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.model.TextChange
 import com.blacksquircle.ui.editorkit.model.UndoStack
+import com.blacksquircle.ui.editorkit.setSelectionIndex
 
 abstract class UndoRedoEditText @JvmOverloads constructor(
     context: Context,
@@ -104,7 +105,7 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
             }
             redoStack.push(textChange)
             text.replace(textChange.start, end, textChange.oldText)
-            setSelection(textChange.start + textChange.oldText.length)
+            setSelectionIndex(textChange.start + textChange.oldText.length)
             isDoingUndoRedo = false
         } else {
             undoStack.removeAll()
@@ -122,7 +123,7 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
                 textChange.start + textChange.oldText.length,
                 textChange.newText
             )
-            setSelection(textChange.start + textChange.newText.length)
+            setSelectionIndex(textChange.start + textChange.newText.length)
             isDoingUndoRedo = false
         } else {
             undoStack.removeAll()

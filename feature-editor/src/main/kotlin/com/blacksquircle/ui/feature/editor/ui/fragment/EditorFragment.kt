@@ -191,7 +191,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         binding.editor.setTextContent(state.content.text)
                         binding.editor.scrollX = state.content.documentModel.scrollX
                         binding.editor.scrollY = state.content.documentModel.scrollY
-                        binding.editor.setSelection(
+                        binding.editor.setSelectionRange(
                             state.content.documentModel.selectionStart,
                             state.content.documentModel.selectionEnd
                         )

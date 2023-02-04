@@ -18,6 +18,7 @@ package com.blacksquircle.ui.editorkit.plugin.autoindent
 
 import android.util.Log
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
+import com.blacksquircle.ui.editorkit.setSelectionIndex
 import com.blacksquircle.ui.editorkit.widget.TextProcessor
 
 class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
@@ -71,7 +72,7 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
                     change.newText = replacementValue
                     undoStack.push(change)
                 }
-                editText.setSelection(newCursorPosition)
+                editText.setSelectionIndex(newCursorPosition)
                 isAutoIndenting = false
             }
         }
