@@ -67,6 +67,15 @@ open class TextProcessor @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Text is not saved to SavedState due to [android.os.TransactionTooLargeException].
+     * You should keep the entire text somewhere outside the view, like ViewModel.
+     * You can override this behavior if you don't work with large files.
+     */
+    override fun getFreezesText(): Boolean {
+        return false
+    }
+
     override fun onColorSchemeChanged() {
         super.onColorSchemeChanged()
         for (plugin in plugins) {
