@@ -25,17 +25,17 @@ import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
+import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
+import com.blacksquircle.ui.feature.themes.data.utils.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,6 +55,9 @@ class EditorViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private val _settings = MutableStateFlow<List<SettingsEvent<*>>>(emptyList())
+    val settings: StateFlow<List<SettingsEvent<*>>> = _settings.asStateFlow()
+
     private val documents = mutableListOf<DocumentModel>()
     private var selectedPosition = -1
     private var currentJob: Job? = null
@@ -66,6 +69,7 @@ class EditorViewModel @Inject constructor(
     fun obtainEvent(event: EditorIntent) {
         when (event) {
             is EditorIntent.LoadFiles -> loadFiles()
+            is EditorIntent.LoadSettings -> loadSettings()
 
             is EditorIntent.OpenFile -> openFile(event)
             is EditorIntent.SelectTab -> selectTab(event)
@@ -147,7 +151,7 @@ class EditorViewModel @Inject constructor(
 
                 _documentViewState.value = DocumentViewState.Content(
                     content = documentRepository.loadFile(document),
-                    measurement = null,
+                    showKeyboard = settingsManager.extendedKeyboard
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -300,6 +304,70 @@ class EditorViewModel @Inject constructor(
                     title = stringProvider.getString(R.string.message_error_occurred),
                     subtitle = e.message.orEmpty(),
                 )
+            }
+        }
+    }
+
+    private fun loadSettings() {
+        viewModelScope.launch {
+            try {
+                val settings = mutableListOf<SettingsEvent<*>>()
+
+                val value = settingsManager.colorScheme
+                val theme = InternalTheme.find(value) ?: themesRepository.fetchTheme(value)
+                settings.add(SettingsEvent.ThemePref(theme))
+
+                val fontSize = settingsManager.fontSize.toFloat()
+                settings.add(SettingsEvent.FontSize(fontSize))
+
+                val fontType = settingsManager.fontType
+                settings.add(SettingsEvent.FontType(fontType))
+
+                val wordWrap = settingsManager.wordWrap
+                settings.add(SettingsEvent.WordWrap(wordWrap))
+
+                val codeCompletion = settingsManager.codeCompletion
+                settings.add(SettingsEvent.CodeCompletion(codeCompletion))
+
+                val errorHighlighting = settingsManager.errorHighlighting
+                settings.add(SettingsEvent.ErrorHighlight(errorHighlighting))
+
+                val pinchZoom = settingsManager.pinchZoom
+                settings.add(SettingsEvent.PinchZoom(pinchZoom))
+
+                val lineNumbers = Pair(
+                    settingsManager.lineNumbers,
+                    settingsManager.highlightCurrentLine
+                )
+                settings.add(SettingsEvent.LineNumbers(lineNumbers))
+
+                val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
+                settings.add(SettingsEvent.Delimiters(highlightMatchingDelimiters))
+
+                val keyboardPreset = settingsManager.keyboardPreset
+                    .toCharArray().map(Char::toString)
+                settings.add(SettingsEvent.KeyboardPreset(keyboardPreset))
+
+                val softKeyboard = settingsManager.softKeyboard
+                settings.add(SettingsEvent.SoftKeys(softKeyboard))
+
+                val autoIndentation = Triple(
+                    settingsManager.autoIndentation,
+                    settingsManager.autoCloseBrackets,
+                    settingsManager.autoCloseQuotes
+                )
+                settings.add(SettingsEvent.AutoIndentation(autoIndentation))
+
+                val useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs
+                settings.add(SettingsEvent.UseSpacesNotTabs(useSpacesInsteadOfTabs))
+
+                val tabWidth = settingsManager.tabWidth
+                settings.add(SettingsEvent.TabWidth(tabWidth))
+
+                _settings.value = settings
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }

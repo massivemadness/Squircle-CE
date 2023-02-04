@@ -67,8 +67,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
-            binding.recyclerView.updatePadding(bottom = bottom)
-            binding.actionAdd.translationY = -bottom.toFloat()
+            binding.root.updatePadding(bottom = bottom)
         }
 
         val gridLayoutManager = binding.recyclerView.layoutManager as GridLayoutManager

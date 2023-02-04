@@ -21,6 +21,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 sealed class EditorIntent {
 
     object LoadFiles : EditorIntent()
+    object LoadSettings : EditorIntent()
 
     data class OpenFile(val fileModel: FileModel) : EditorIntent()
     data class SelectTab(val position: Int) : EditorIntent()

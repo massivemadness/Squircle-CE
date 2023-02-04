@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui.viewstate
 
-import androidx.core.text.PrecomputedTextCompat
 import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 
@@ -26,7 +25,7 @@ sealed class DocumentViewState : ViewState() {
 
     data class Content(
         val content: DocumentContent,
-        val measurement: PrecomputedTextCompat?,
+        val showKeyboard: Boolean,
     ) : DocumentViewState()
 
     data class Error(

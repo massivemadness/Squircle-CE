@@ -30,7 +30,6 @@ sealed class SettingsEvent<T>(val value: T) {
     class LineNumbers(value: Pair<Boolean, Boolean>) :
         SettingsEvent<Pair<Boolean, Boolean>>(value)
     class Delimiters(value: Boolean) : SettingsEvent<Boolean>(value)
-    class ExtendedKeys(value: Boolean) : SettingsEvent<Boolean>(value)
     class KeyboardPreset(value: List<String>) : SettingsEvent<List<String>>(value)
     class SoftKeys(value: Boolean) : SettingsEvent<Boolean>(value)
 

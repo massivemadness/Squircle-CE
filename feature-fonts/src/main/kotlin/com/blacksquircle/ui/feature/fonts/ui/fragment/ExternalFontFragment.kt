@@ -51,7 +51,7 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
-            binding.container.updatePadding(bottom = bottom)
+            binding.root.updatePadding(bottom = bottom)
         }
 
         binding.textInputFontName.doAfterTextChanged { validateInput() }

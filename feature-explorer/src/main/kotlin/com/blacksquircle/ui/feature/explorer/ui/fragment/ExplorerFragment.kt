@@ -168,9 +168,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.appBar.updatePadding(top = top)
-            binding.filesRecyclerView.updatePadding(bottom = bottom)
-            binding.errorView.root.updatePadding(bottom = bottom)
-            binding.loadingBar.updatePadding(bottom = bottom)
+            binding.root.updatePadding(bottom = bottom)
         }
 
         binding.tabRecyclerView.setHasFixedSize(true)

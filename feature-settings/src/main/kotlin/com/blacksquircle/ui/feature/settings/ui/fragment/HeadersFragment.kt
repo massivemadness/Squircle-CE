@@ -53,7 +53,7 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
-            binding.recyclerView.updatePadding(bottom = bottom)
+            binding.root.updatePadding(bottom = bottom)
         }
 
         binding.toolbar.setNavigationOnClickListener {
