@@ -31,7 +31,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
-    private lateinit var keyAdapter: KeyAdapter
+    private var keyAdapter: KeyAdapter? = null
 
     fun setKeyListener(keyListener: OnKeyListener) {
         keyAdapter = KeyAdapter(keyListener)
@@ -39,7 +39,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
     }
 
     fun submitList(keys: List<String>) {
-        keyAdapter.submitList(keys)
+        keyAdapter?.submitList(keys)
     }
 
     private class KeyAdapter(

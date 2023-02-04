@@ -15,9 +15,18 @@
   ~ limitations under the License.
   -->
 
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="28dp">
+        <shape>
+            <solid android:color="?colorSecondaryVariant" />
+        </shape>
+    </item>
 
-    <solid android:color="?colorSurface"/>
+    <item android:start="28dp">
+        <shape>
+            <solid android:color="?colorSurface" />
+        </shape>
+    </item>
 
-</shape>
+</layer-list>
