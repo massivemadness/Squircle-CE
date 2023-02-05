@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Squircle CE contributors.
+ * Copyright 2023 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,13 +101,14 @@ dependencies {
     kapt library.hilt_compiler
 
     // Modules
-    implementation project(':common-core')
-    implementation project(':common-ui')
-    implementation project(':feature-editor')
+    implementation project(':feature-editor-api')
+    implementation project(':feature-editor-impl')
     implementation project(':feature-explorer')
     implementation project(':feature-fonts')
     implementation project(':feature-settings')
     implementation project(':feature-themes')
+    implementation project(':common-core')
+    implementation project(':common-ui')
 
     implementation project(':filesystems:filesystem-base')
     implementation project(':filesystems:filesystem-local') // TODO remove
