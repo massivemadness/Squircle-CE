@@ -22,7 +22,8 @@ include ':common-core',
         ':feature-editor-impl',
         ':feature-explorer-api',
         ':feature-explorer-impl',
-        ':feature-fonts',
+        ':feature-fonts-api',
+        ':feature-fonts-impl',
         ':feature-settings',
         ':feature-themes'
 
