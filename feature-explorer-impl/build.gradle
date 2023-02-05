@@ -90,10 +90,9 @@ dependencies {
     kapt library.hilt_android_compiler
 
     // Modules
+    implementation project(':feature-explorer-api')
     implementation project(':common-core')
     implementation project(':common-ui')
-
-    implementation project(':filesystems:filesystem-base')
 
     // Tests
     testImplementation testLibrary.junit

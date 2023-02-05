@@ -58,7 +58,7 @@ class ExplorerRepositoryImpl(
 
     override suspend fun listFiles(parent: FileModel?): FileTree {
         return withContext(dispatcherProvider.io()) {
-            suspendCoroutine<Unit> { cont ->
+            suspendCoroutine { cont ->
                 context.checkStorageAccess(
                     onSuccess = { cont.resume(Unit) },
                     onFailure = { cont.resumeWithException(PermissionException()) },
