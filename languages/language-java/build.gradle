@@ -28,9 +28,9 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-    namespace 'com.blacksquircle.ui.language.java'
     group libraryGroupId
     version versions.publishVersionName
+    namespace 'com.blacksquircle.ui.language.java'
 
     defaultConfig {
         minSdkVersion versions.minSdk
@@ -42,6 +42,12 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 }
 

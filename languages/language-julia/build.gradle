@@ -28,9 +28,9 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-    namespace 'com.blacksquircle.ui.language.julia'
     group libraryGroupId
     version versions.publishVersionName
+    namespace 'com.blacksquircle.ui.language.julia'
 
     defaultConfig {
         minSdkVersion versions.minSdk
@@ -50,6 +50,12 @@ android {
     }
     task ndkBuild(type: Exec) {
         // commandLine "$androidNdkHome/ndk-build",'-C',file('jni').absolutePath
+    }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 }
 
