@@ -25,5 +25,5 @@ enum class FileType {
     VIDEO,
     DOCUMENT,
     EBOOK,
-    APPLICATION
+    APPLICATION,
 }

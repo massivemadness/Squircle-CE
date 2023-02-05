@@ -57,7 +57,7 @@ internal fun String.decodeStack(): UndoStack {
             val change = TextChange(
                 newText = items[i + 1],
                 oldText = items[i],
-                start = items[i + 2].toInt()
+                start = items[i + 2].toInt(),
             )
             result.push(change)
         }

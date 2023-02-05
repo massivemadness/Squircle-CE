@@ -68,7 +68,7 @@ class ExplorerViewModel @Inject constructor(
     val serverState = explorerRepository.serverFlow.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
+        initialValue = emptyList(),
     )
 
     var viewMode: Int = settingsManager.viewMode.toInt()
@@ -153,8 +153,9 @@ class ExplorerViewModel @Inject constructor(
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {
-                if (!refreshState.value && query.isEmpty()) // SwipeRefresh
+                if (!refreshState.value && query.isEmpty()) { // SwipeRefresh
                     _directoryViewState.value = DirectoryViewState.Loading
+                }
 
                 val fileTree = if (event.fileModel != null) { // Different order
                     _explorerViewState.value = ExplorerViewState.ActionBar(
@@ -392,20 +393,20 @@ class ExplorerViewModel @Inject constructor(
                 val isValid = event.fileName.isValidFileName()
                 if (!isValid) {
                     _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
                     )
                     return@launch
                 }
                 val parent = breadcrumbs.last()
                 val child = parent.copy(
                     fileUri = parent.fileUri + "/" + event.fileName,
-                    directory = event.directory
+                    directory = event.directory,
                 )
                 explorerRepository.createFile(child)
                 _viewEvent.send(
                     ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(1, Operation.CREATE)
-                    )
+                        ExplorerScreen.ProgressDialog(1, Operation.CREATE),
+                    ),
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -422,7 +423,7 @@ class ExplorerViewModel @Inject constructor(
                 val isValid = event.fileName.isValidFileName()
                 if (!isValid) {
                     _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
                     )
                     return@launch
                 }
@@ -430,13 +431,13 @@ class ExplorerViewModel @Inject constructor(
                 val originalFile = buffer.first()
                 val renamedFile = originalFile.copy(
                     fileUri = originalFile.fileUri.substringBeforeLast('/') + "/" + event.fileName,
-                    directory = originalFile.directory
+                    directory = originalFile.directory,
                 )
                 explorerRepository.renameFile(originalFile, renamedFile)
                 _viewEvent.send(
                     ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(1, Operation.RENAME)
-                    )
+                        ExplorerScreen.ProgressDialog(1, Operation.RENAME),
+                    ),
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -453,8 +454,8 @@ class ExplorerViewModel @Inject constructor(
                 explorerRepository.deleteFiles(buffer)
                 _viewEvent.send(
                     ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(buffer.size, Operation.DELETE)
-                    )
+                        ExplorerScreen.ProgressDialog(buffer.size, Operation.DELETE),
+                    ),
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -471,8 +472,8 @@ class ExplorerViewModel @Inject constructor(
                 explorerRepository.cutFiles(buffer, breadcrumbs.last())
                 _viewEvent.send(
                     ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(buffer.size, Operation.CUT)
-                    )
+                        ExplorerScreen.ProgressDialog(buffer.size, Operation.CUT),
+                    ),
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -489,8 +490,8 @@ class ExplorerViewModel @Inject constructor(
                 explorerRepository.copyFiles(buffer, breadcrumbs.last())
                 _viewEvent.send(
                     ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(buffer.size, Operation.COPY)
-                    )
+                        ExplorerScreen.ProgressDialog(buffer.size, Operation.COPY),
+                    ),
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -507,7 +508,7 @@ class ExplorerViewModel @Inject constructor(
                 val isValid = event.fileName.isValidFileName()
                 if (!isValid) {
                     _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name))
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
                     )
                     return@launch
                 }
@@ -516,8 +517,8 @@ class ExplorerViewModel @Inject constructor(
                 explorerRepository.compressFiles(buffer, child)
                 _viewEvent.send(
                     ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(buffer.size, Operation.COMPRESS)
-                    )
+                        ExplorerScreen.ProgressDialog(buffer.size, Operation.COMPRESS),
+                    ),
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -534,8 +535,8 @@ class ExplorerViewModel @Inject constructor(
                 explorerRepository.extractFiles(event.fileModel, breadcrumbs.last())
                 _viewEvent.send(
                     ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(-1, Operation.EXTRACT)
-                    )
+                        ExplorerScreen.ProgressDialog(-1, Operation.EXTRACT),
+                    ),
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)

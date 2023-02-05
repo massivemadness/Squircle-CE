@@ -29,13 +29,13 @@ class FontConverterTest {
         val fontEntity = FontEntity(
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false
+            supportLigatures = false,
         )
         val fontModel = FontModel(
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
             supportLigatures = false,
-            isExternal = true
+            isExternal = true,
         )
         val convert = FontConverter.toModel(fontEntity)
 
@@ -50,13 +50,13 @@ class FontConverterTest {
         val fontEntity = FontEntity(
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false
+            supportLigatures = false,
         )
         val fontModel = FontModel(
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
             supportLigatures = false,
-            isExternal = true
+            isExternal = true,
         )
         val convert = FontConverter.toEntity(fontModel)
 

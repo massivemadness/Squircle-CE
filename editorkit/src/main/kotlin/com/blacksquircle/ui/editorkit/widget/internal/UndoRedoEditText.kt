@@ -27,7 +27,7 @@ import com.blacksquircle.ui.editorkit.setSelectionIndex
 abstract class UndoRedoEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle
+    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
 ) : LineNumbersEditText(context, attrs, defStyleAttr) {
 
     var undoStack = UndoStack()
@@ -44,7 +44,7 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
                 TextChange(
                     newText = "",
                     oldText = text?.subSequence(start, start + count).toString(),
-                    start = start
+                    start = start,
                 )
             } else {
                 undoStack.removeAll()
@@ -61,7 +61,8 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
                 textLastChange?.newText = text?.subSequence(start, start + count).toString()
                 if (start == textLastChange?.start &&
                     (textLastChange?.oldText?.isNotEmpty()!! || textLastChange?.newText?.isNotEmpty()!!) &&
-                    textLastChange?.oldText != textLastChange?.newText) {
+                    textLastChange?.oldText != textLastChange?.newText
+                ) {
                     undoStack.push(textLastChange!!)
                     redoStack.removeAll()
                 }
@@ -121,7 +122,7 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
             text.replace(
                 textChange.start,
                 textChange.start + textChange.oldText.length,
-                textChange.newText
+                textChange.newText,
             )
             setSelectionIndex(textChange.start + textChange.newText.length)
             isDoingUndoRedo = false

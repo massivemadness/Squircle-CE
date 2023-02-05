@@ -27,7 +27,7 @@ import com.blacksquircle.ui.feature.fonts.databinding.ItemFontBinding
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 class FontAdapter(
-    private val actions: Actions
+    private val actions: Actions,
 ) : ListAdapter<FontModel, FontAdapter.FontViewHolder>(diffCallback) {
 
     companion object {
@@ -51,7 +51,7 @@ class FontAdapter(
 
     class FontViewHolder(
         private val binding: ItemFontBinding,
-        private val actions: Actions
+        private val actions: Actions,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {

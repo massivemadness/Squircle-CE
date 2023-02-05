@@ -164,7 +164,8 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
             strArr[3] = (start + 1).toString()
             return strArr
         } else if (newText == "]" && autoCloseBrackets &&
-            start + 1 < editText.text.length && editText.text[start + 1] == ']') {
+            start + 1 < editText.text.length && editText.text[start + 1] == ']'
+        ) {
             strArr = arrayOfNulls(4)
             strArr[2] = ""
             strArr[3] = (start + 1).toString()

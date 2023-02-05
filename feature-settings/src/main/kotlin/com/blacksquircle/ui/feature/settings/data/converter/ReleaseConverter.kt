@@ -55,7 +55,7 @@ object ReleaseConverter {
             val releaseModel = ReleaseModel(
                 versionName = versionName,
                 releaseDate = releaseDate,
-                releaseNotes = releaseNotes
+                releaseNotes = releaseNotes,
             )
 
             releases.add(releaseModel)

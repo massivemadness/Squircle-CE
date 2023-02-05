@@ -98,7 +98,7 @@ class DeleteFileWorker @AssistedInject constructor(
         applicationContext.createChannel(
             channelId = CHANNEL_ID,
             channelName = R.string.explorer_channel_name,
-            channelDescription = R.string.explorer_channel_description
+            channelDescription = R.string.explorer_channel_description,
         )
 
         val notification = applicationContext.createNotification(
@@ -113,9 +113,9 @@ class DeleteFileWorker @AssistedInject constructor(
                     UiR.drawable.ic_close,
                     applicationContext.getString(android.R.string.cancel),
                     WorkManager.getInstance(applicationContext)
-                        .createCancelPendingIntent(id)
-                )
-            )
+                        .createCancelPendingIntent(id),
+                ),
+            ),
         )
         return ForegroundInfo(NOTIFICATION_ID, notification)
     }

@@ -56,10 +56,12 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
     }
 
     fun move(from: Int, to: Int): Boolean {
-        if (from < 0 || from >= currentList.size)
+        if (from < 0 || from >= currentList.size) {
             return false
-        if (to < 0 || to >= currentList.size)
+        }
+        if (to < 0 || to >= currentList.size) {
             return false
+        }
 
         val temp = currentList[from]
         _currentList.removeAt(from)

@@ -24,19 +24,19 @@ import com.google.gson.Gson
 sealed class ExplorerScreen(route: String) : Screen<String>(route) {
 
     class RestrictedDialog(action: String, data: String) : ExplorerScreen(
-        route = "blacksquircle://explorer/restricted?action=$action&data=$data"
+        route = "blacksquircle://explorer/restricted?action=$action&data=$data",
     )
     class DeleteDialog(fileName: String, fileCount: Int) : ExplorerScreen(
-        route = "blacksquircle://explorer/delete?fileName=$fileName&fileCount=$fileCount"
+        route = "blacksquircle://explorer/delete?fileName=$fileName&fileCount=$fileCount",
     )
     class RenameDialog(fileName: String) : ExplorerScreen(
-        route = "blacksquircle://explorer/rename?fileName=$fileName"
+        route = "blacksquircle://explorer/rename?fileName=$fileName",
     )
     class ProgressDialog(totalCount: Int, operation: Operation) : ExplorerScreen(
-        route = "blacksquircle://explorer/progress?totalCount=$totalCount&operation=${operation.value}"
+        route = "blacksquircle://explorer/progress?totalCount=$totalCount&operation=${operation.value}",
     )
     class PropertiesDialog(fileModel: FileModel) : ExplorerScreen(
-        route = "blacksquircle://explorer/properties?data=${Gson().toJson(fileModel)}"
+        route = "blacksquircle://explorer/properties?data=${Gson().toJson(fileModel)}",
     )
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")

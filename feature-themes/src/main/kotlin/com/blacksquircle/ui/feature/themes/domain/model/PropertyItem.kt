@@ -18,5 +18,5 @@ package com.blacksquircle.ui.feature.themes.domain.model
 
 data class PropertyItem(
     val propertyKey: Property,
-    val propertyValue: String
+    val propertyValue: String,
 )

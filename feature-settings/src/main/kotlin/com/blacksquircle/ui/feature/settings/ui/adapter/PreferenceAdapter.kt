@@ -26,7 +26,7 @@ import com.blacksquircle.ui.feature.settings.databinding.ItemPreferenceBinding
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
 
 class PreferenceAdapter(
-    private val onItemClickListener: OnItemClickListener<PreferenceItem>
+    private val onItemClickListener: OnItemClickListener<PreferenceItem>,
 ) : ListAdapter<PreferenceItem, PreferenceAdapter.PreferenceViewHolder>(diffCallback) {
 
     companion object {
@@ -50,7 +50,7 @@ class PreferenceAdapter(
 
     class PreferenceViewHolder(
         private val binding: ItemPreferenceBinding,
-        private val onItemClickListener: OnItemClickListener<PreferenceItem>
+        private val onItemClickListener: OnItemClickListener<PreferenceItem>,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {

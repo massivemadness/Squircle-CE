@@ -24,7 +24,7 @@ import java.util.concurrent.Executors
 
 class StylingTask(
     private val doAsync: () -> List<SyntaxHighlightSpan>,
-    private val onSuccess: (List<SyntaxHighlightSpan>) -> Unit
+    private val onSuccess: (List<SyntaxHighlightSpan>) -> Unit,
 ) {
 
     private val mainThreadHandler = Handler(Looper.getMainLooper())

@@ -39,13 +39,13 @@ object ThemesModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): ThemesRepository {
         return ThemesRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             appDatabase = appDatabase,
-            context = context
+            context = context,
         )
     }
 }

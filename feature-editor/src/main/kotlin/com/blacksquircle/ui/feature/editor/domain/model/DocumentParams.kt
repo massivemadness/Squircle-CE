@@ -18,5 +18,5 @@ package com.blacksquircle.ui.feature.editor.domain.model
 
 data class DocumentParams(
     val local: Boolean = false,
-    val cache: Boolean = true
+    val cache: Boolean = true,
 )

@@ -74,7 +74,7 @@ class ProgressDialog : DialogFragment() {
                             binding.total.text = getString(
                                 R.string.message_of_total,
                                 binding.progressBar.progress,
-                                navArgs.totalCount
+                                navArgs.totalCount,
                             )
                         }
                         .catch {
@@ -96,7 +96,7 @@ class ProgressDialog : DialogFragment() {
                             binding.total.text = getString(
                                 R.string.message_of_total,
                                 binding.progressBar.progress,
-                                navArgs.totalCount
+                                navArgs.totalCount,
                             )
                         }
                         .catch {
@@ -118,7 +118,7 @@ class ProgressDialog : DialogFragment() {
                             binding.total.text = getString(
                                 R.string.message_of_total,
                                 binding.progressBar.progress,
-                                navArgs.totalCount
+                                navArgs.totalCount,
                             )
                         }
                         .catch {
@@ -140,7 +140,7 @@ class ProgressDialog : DialogFragment() {
                             binding.total.text = getString(
                                 R.string.message_of_total,
                                 binding.progressBar.progress,
-                                navArgs.totalCount
+                                navArgs.totalCount,
                             )
                         }
                         .catch {
@@ -162,7 +162,7 @@ class ProgressDialog : DialogFragment() {
                             binding.total.text = getString(
                                 R.string.message_of_total,
                                 binding.progressBar.progress,
-                                navArgs.totalCount
+                                navArgs.totalCount,
                             )
                         }
                         .catch {
@@ -184,7 +184,7 @@ class ProgressDialog : DialogFragment() {
                             binding.total.text = getString(
                                 R.string.message_of_total,
                                 binding.progressBar.progress,
-                                navArgs.totalCount
+                                navArgs.totalCount,
                             )
                         }
                         .catch {
@@ -206,7 +206,7 @@ class ProgressDialog : DialogFragment() {
                             binding.total.text = getString(
                                 R.string.message_of_total,
                                 binding.progressBar.progress,
-                                navArgs.totalCount
+                                navArgs.totalCount,
                             )
                         }
                         .catch {
@@ -233,7 +233,7 @@ class ProgressDialog : DialogFragment() {
         val formatter = SimpleDateFormat(getString(R.string.progress_time_format), Locale.getDefault())
         val elapsedTime = getString(
             R.string.message_elapsed_time,
-            formatter.format(timeInMillis)
+            formatter.format(timeInMillis),
         )
         binding.elapsedTime.text = elapsedTime
     }

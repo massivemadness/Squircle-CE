@@ -29,7 +29,7 @@ import com.blacksquircle.ui.uikit.R as UiR
 
 class CompactViewHolder(
     private val binding: ItemFileCompactBinding,
-    private val onItemClickListener: OnItemClickListener<FileModel>
+    private val onItemClickListener: OnItemClickListener<FileModel>,
 ) : FileAdapter.FileViewHolder(binding.root) {
 
     companion object {

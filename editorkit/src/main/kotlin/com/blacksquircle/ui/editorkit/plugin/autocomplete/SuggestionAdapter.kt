@@ -26,7 +26,7 @@ import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 
 abstract class SuggestionAdapter(
     context: Context,
-    resourceId: Int
+    resourceId: Int,
 ) : ArrayAdapter<Suggestion>(context, resourceId) {
 
     private var queryText: String? = null
@@ -51,7 +51,8 @@ abstract class SuggestionAdapter(
                 for (suggestion in provider.getAll()) {
                     val word = suggestion.text
                     if (word.startsWith(query, ignoreCase = true) &&
-                        !word.equals(query, ignoreCase = true)) {
+                        !word.equals(query, ignoreCase = true)
+                    ) {
                         queryText = query
                         suggestions.add(suggestion)
                     }

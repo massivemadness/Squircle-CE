@@ -28,7 +28,7 @@ import com.blacksquircle.ui.filesystem.base.model.ServerModel
 
 class ServerAdapter(
     private val context: Context,
-    private val addServer: () -> Unit
+    private val addServer: () -> Unit,
 ) : BaseAdapter() {
 
     private val dataset = mutableListOf<CharSequence>()
@@ -65,10 +65,12 @@ class ServerAdapter(
     override fun getCount() = dataset.size
 
     fun submitList(servers: List<ServerModel>) {
-        dataset.replaceList(mutableListOf(
-            context.getString(R.string.storage_local),
-            context.getString(R.string.storage_root),
-        ))
+        dataset.replaceList(
+            mutableListOf(
+                context.getString(R.string.storage_local),
+                context.getString(R.string.storage_root),
+            ),
+        )
         dataset.addAll(servers.map(ServerModel::name))
         dataset.add(context.getString(R.string.storage_add))
         notifyDataSetChanged()

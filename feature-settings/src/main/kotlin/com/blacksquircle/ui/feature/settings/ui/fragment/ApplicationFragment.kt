@@ -60,11 +60,11 @@ class ApplicationFragment : PreferenceFragmentCompat() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return inflater.inflate(R.layout.fragment_preference, container, false).also {
             (it as? ViewGroup)?.addView(
-                super.onCreateView(inflater, container, savedInstanceState)
+                super.onCreateView(inflater, container, savedInstanceState),
             )
         }
     }

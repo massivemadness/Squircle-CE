@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 class FontsRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
-    private val appDatabase: AppDatabase
+    private val appDatabase: AppDatabase,
 ) : FontsRepository {
 
     override suspend fun fetchFonts(query: String): List<FontModel> {
@@ -67,38 +67,38 @@ class FontsRepositoryImpl(
                 fontName = "Droid Sans Mono",
                 fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
                 supportLigatures = false,
-                isExternal = false
+                isExternal = false,
             ),
             FontModel(
                 fontName = "JetBrains Mono",
                 fontPath = "file:///android_asset/fonts/jetbrains_mono.ttf",
                 supportLigatures = true,
-                isExternal = false
+                isExternal = false,
             ),
             FontModel(
                 fontName = "Fira Code",
                 fontPath = "file:///android_asset/fonts/fira_code.ttf",
                 supportLigatures = true,
-                isExternal = false
+                isExternal = false,
             ),
             FontModel(
                 fontName = "Source Code Pro",
                 fontPath = "file:///android_asset/fonts/source_code_pro.ttf",
                 supportLigatures = false,
-                isExternal = false
+                isExternal = false,
             ),
             FontModel(
                 fontName = "Anonymous Pro",
                 fontPath = "file:///android_asset/fonts/anonymous_pro.ttf",
                 supportLigatures = false,
-                isExternal = false
+                isExternal = false,
             ),
             FontModel(
                 fontName = "DejaVu Sans Mono",
                 fontPath = "file:///android_asset/fonts/dejavu_sans_mono.ttf",
                 supportLigatures = false,
-                isExternal = false
-            )
+                isExternal = false,
+            ),
         )
     }
 }

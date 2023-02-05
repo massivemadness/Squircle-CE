@@ -35,10 +35,11 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
+                target: RecyclerView.ViewHolder,
             ): Boolean {
-                if (from == null) // initial position
+                if (from == null) { // initial position
                     from = viewHolder.adapterPosition
+                }
                 to = target.adapterPosition
                 val adapter = recyclerView.adapter as TabAdapter<*, *>
                 adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
@@ -47,7 +48,7 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
 
             override fun onSelectedChanged(
                 viewHolder: RecyclerView.ViewHolder?,
-                actionState: Int
+                actionState: Int,
             ) {
                 super.onSelectedChanged(viewHolder, actionState)
                 if (actionState == ACTION_STATE_DRAG) {
@@ -57,7 +58,7 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
 
             override fun clearView(
                 recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
+                viewHolder: RecyclerView.ViewHolder,
             ) {
                 super.clearView(recyclerView, viewHolder)
                 val adapter = recyclerView.adapter as TabAdapter<*, *>
@@ -71,7 +72,7 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
 
             override fun onSwiped(
                 viewHolder: RecyclerView.ViewHolder,
-                direction: Int
+                direction: Int,
             ) = Unit
 
             private fun reset() {

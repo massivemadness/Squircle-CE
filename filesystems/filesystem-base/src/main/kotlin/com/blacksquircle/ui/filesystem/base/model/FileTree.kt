@@ -18,5 +18,5 @@ package com.blacksquircle.ui.filesystem.base.model
 
 data class FileTree(
     val parent: FileModel,
-    val children: List<FileModel>
+    val children: List<FileModel>,
 )

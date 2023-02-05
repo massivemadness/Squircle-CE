@@ -85,27 +85,30 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
-        binding.toolbar.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_fonts, menu)
+        binding.toolbar.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_fonts, menu)
 
-                val searchItem = menu.findItem(R.id.action_search)
-                val searchView = searchItem?.actionView as? SearchView
+                    val searchItem = menu.findItem(R.id.action_search)
+                    val searchView = searchItem?.actionView as? SearchView
 
-                val state = viewModel.fontsState.value
-                if (state.query.isNotEmpty()) {
-                    searchItem?.expandActionView()
-                    searchView?.setQuery(state.query, false)
+                    val state = viewModel.fontsState.value
+                    if (state.query.isNotEmpty()) {
+                        searchItem?.expandActionView()
+                        searchView?.setQuery(state.query, false)
+                    }
+
+                    searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
+                        viewModel.fetchFonts(it)
+                    }
                 }
-
-                searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-                    viewModel.fetchFonts(it)
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return false
                 }
-            }
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return false
-            }
-        }, viewLifecycleOwner)
+            },
+            viewLifecycleOwner,
+        )
     }
 
     private fun observeViewModel() {

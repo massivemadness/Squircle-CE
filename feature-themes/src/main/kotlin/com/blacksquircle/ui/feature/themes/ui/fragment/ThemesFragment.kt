@@ -80,7 +80,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             override fun exportTheme(themeModel: ThemeModel) {
                 context?.checkStorageAccess(
                     onSuccess = { viewModel.exportTheme(themeModel) },
-                    onFailure = { context?.showToast(R.string.message_access_required) }
+                    onFailure = { context?.showToast(R.string.message_access_required) },
                 )
             }
             override fun editTheme(themeModel: ThemeModel) {
@@ -101,45 +101,48 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
-        binding.toolbar.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_themes, menu)
+        binding.toolbar.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_themes, menu)
 
-                val searchItem = menu.findItem(R.id.action_search)
-                val searchView = searchItem?.actionView as? SearchView
+                    val searchItem = menu.findItem(R.id.action_search)
+                    val searchView = searchItem?.actionView as? SearchView
 
-                val state = viewModel.themesState.value
-                if (state.query.isNotEmpty()) {
-                    searchItem?.expandActionView()
-                    searchView?.setQuery(state.query, false)
-                }
+                    val state = viewModel.themesState.value
+                    if (state.query.isNotEmpty()) {
+                        searchItem?.expandActionView()
+                        searchView?.setQuery(state.query, false)
+                    }
 
-                searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-                    viewModel.fetchThemes(it)
-                }
+                    searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
+                        viewModel.fetchThemes(it)
+                    }
 
-                val spinnerItem = menu.findItem(R.id.spinner)
-                val spinnerView = spinnerItem?.actionView as? AppCompatSpinner
+                    val spinnerItem = menu.findItem(R.id.spinner)
+                    val spinnerView = spinnerItem?.actionView as? AppCompatSpinner
 
-                spinnerView?.adapter = ArrayAdapter.createFromResource(
-                    requireContext(),
-                    R.array.language_names,
-                    android.R.layout.simple_spinner_dropdown_item
-                )
-                spinnerView?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) = Unit
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val path = requireContext().getStringArray(R.array.language_paths)[position]
-                        val extension = requireContext().getStringArray(R.array.language_extensions)[position]
-                        adapter.codeSnippet = requireContext().readAssetFileText(path) to extension
+                    spinnerView?.adapter = ArrayAdapter.createFromResource(
+                        requireContext(),
+                        R.array.language_names,
+                        android.R.layout.simple_spinner_dropdown_item,
+                    )
+                    spinnerView?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                            val path = requireContext().getStringArray(R.array.language_paths)[position]
+                            val extension = requireContext().getStringArray(R.array.language_extensions)[position]
+                            adapter.codeSnippet = requireContext().readAssetFileText(path) to extension
+                        }
                     }
                 }
-            }
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return false
-            }
-        }, viewLifecycleOwner)
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return false
+                }
+            },
+            viewLifecycleOwner,
+        )
     }
 
     private fun observeViewModel() {

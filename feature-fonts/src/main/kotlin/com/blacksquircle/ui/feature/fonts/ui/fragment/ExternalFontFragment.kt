@@ -62,7 +62,7 @@ class ExternalFontFragment : Fragment(R.layout.fragment_external_font) {
                 fontName = binding.textInputFontName.text.toString().trim(),
                 fontPath = binding.textInputFontPath.text.toString().trim(),
                 supportLigatures = binding.supportLigatures.isChecked,
-                isExternal = true
+                isExternal = true,
             )
             viewModel.createFont(fontModel)
         }

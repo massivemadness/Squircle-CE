@@ -52,7 +52,7 @@ class SFTPFilesystem(
                 parent = sftpMapper.parent(parent),
                 children = (channel?.ls(parent.path) as Vector<ChannelSftp.LsEntry>)
                     .filter { it.filename.isValidFileName() }
-                    .map(sftpMapper::toFileModel)
+                    .map(sftpMapper::toFileModel),
             )
         } finally {
             disconnect()
@@ -179,26 +179,35 @@ class SFTPFilesystem(
                 directory = fileObject.attrs.isDir,
                 permission = with(fileObject) {
                     var permission = Permission.EMPTY
-                    if (attrs.permissions hasFlag (4 shl 2)) // SftpATTRS.S_IRUSR
+                    if (attrs.permissions hasFlag (4 shl 2)) { // SftpATTRS.S_IRUSR
                         permission = permission plusFlag Permission.OWNER_READ
-                    if (attrs.permissions hasFlag (2 shl 2)) // SftpATTRS.S_IWUSR
+                    }
+                    if (attrs.permissions hasFlag (2 shl 2)) { // SftpATTRS.S_IWUSR
                         permission = permission plusFlag Permission.OWNER_WRITE
-                    if (attrs.permissions hasFlag (1 shl 2)) // SftpATTRS.S_IXUSR
+                    }
+                    if (attrs.permissions hasFlag (1 shl 2)) { // SftpATTRS.S_IXUSR
                         permission = permission plusFlag Permission.OWNER_EXECUTE
-                    if (attrs.permissions hasFlag (4 shl 1)) // SftpATTRS.S_IRGRP
+                    }
+                    if (attrs.permissions hasFlag (4 shl 1)) { // SftpATTRS.S_IRGRP
                         permission = permission plusFlag Permission.GROUP_READ
-                    if (attrs.permissions hasFlag (2 shl 1)) // SftpATTRS.S_IWGRP
+                    }
+                    if (attrs.permissions hasFlag (2 shl 1)) { // SftpATTRS.S_IWGRP
                         permission = permission plusFlag Permission.GROUP_WRITE
-                    if (attrs.permissions hasFlag (1 shl 1)) // SftpATTRS.S_IXGRP
+                    }
+                    if (attrs.permissions hasFlag (1 shl 1)) { // SftpATTRS.S_IXGRP
                         permission = permission plusFlag Permission.GROUP_EXECUTE
-                    if (attrs.permissions hasFlag 4) // SftpATTRS.S_IROTH
+                    }
+                    if (attrs.permissions hasFlag 4) { // SftpATTRS.S_IROTH
                         permission = permission plusFlag Permission.OTHERS_READ
-                    if (attrs.permissions hasFlag 2) // SftpATTRS.S_IWOTH
+                    }
+                    if (attrs.permissions hasFlag 2) { // SftpATTRS.S_IWOTH
                         permission = permission plusFlag Permission.OTHERS_WRITE
-                    if (attrs.permissions hasFlag 1) // SftpATTRS.S_IXOTH
+                    }
+                    if (attrs.permissions hasFlag 1) { // SftpATTRS.S_IXOTH
                         permission = permission plusFlag Permission.OTHERS_EXECUTE
+                    }
                     permission
-                }
+                },
             )
         }
 

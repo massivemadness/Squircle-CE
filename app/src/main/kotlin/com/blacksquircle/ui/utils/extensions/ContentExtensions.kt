@@ -104,7 +104,11 @@ private fun Context.resolveDataColumn(
     selectionArgs: Array<String>?,
 ): String {
     return contentResolver.query(
-        uri, arrayOf(COLUMN_DATA), selection, selectionArgs, null,
+        uri,
+        arrayOf(COLUMN_DATA),
+        selection,
+        selectionArgs,
+        null,
     ).use { cursor ->
         cursor ?: return ""
         cursor.moveToFirst()

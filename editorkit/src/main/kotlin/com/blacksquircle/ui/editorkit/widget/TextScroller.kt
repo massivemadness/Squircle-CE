@@ -34,7 +34,7 @@ import com.blacksquircle.ui.editorkit.widget.internal.ScrollableEditText
 open class TextScroller @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr), ScrollableEditText.OnScrollChangedListener {
 
     var state: State = State.HIDDEN
@@ -102,11 +102,15 @@ open class TextScroller @JvmOverloads constructor(
 
         thumbNormal = if (hasThumbNormal) {
             typedArray.getDrawableOrThrow(R.styleable.TextScroller_thumbNormal)
-        } else ContextCompat.getDrawable(context, R.drawable.fastscroll_default)!!
+        } else {
+            ContextCompat.getDrawable(context, R.drawable.fastscroll_default)!!
+        }
 
         thumbDragging = if (hasThumbDragging) {
             typedArray.getDrawableOrThrow(R.styleable.TextScroller_thumbDragging)
-        } else ContextCompat.getDrawable(context, R.drawable.fastscroll_pressed)!!
+        } else {
+            ContextCompat.getDrawable(context, R.drawable.fastscroll_pressed)!!
+        }
 
         if (hasThumbTint) {
             val thumbTint = typedArray.getColorOrThrow(R.styleable.TextScroller_thumbTint)
@@ -213,7 +217,7 @@ open class TextScroller @JvmOverloads constructor(
         val textAreaHeight = scrollableEditText!!.height - scrollableEditText!!.paddingBottom
         scrollableEditText?.scrollTo(
             scrollableEditText!!.scrollX,
-            ((textScrollMax * scrollToAsFraction) - (scrollToAsFraction * (textAreaHeight - lineHeight))).toInt()
+            ((textScrollMax * scrollToAsFraction) - (scrollToAsFraction * (textAreaHeight - lineHeight))).toInt(),
         )
     }
 
@@ -235,11 +239,15 @@ open class TextScroller @JvmOverloads constructor(
 
         val absoluteThumbTop = if (!calculatedThumbTop.isNaN()) {
             calculatedThumbTop
-        } else 0f
+        } else {
+            0f
+        }
 
         return if (absoluteThumbTop > height - paddingBottom - thumbHeight) {
             (height - paddingBottom - thumbHeight).toFloat()
-        } else absoluteThumbTop
+        } else {
+            absoluteThumbTop
+        }
     }
 
     private fun isPointInThumb(x: Float, y: Float): Boolean {
@@ -254,7 +262,7 @@ open class TextScroller @JvmOverloads constructor(
         HIDDEN,
         VISIBLE,
         DRAGGING,
-        EXITING
+        EXITING,
     }
 
     companion object {

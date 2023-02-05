@@ -25,6 +25,7 @@ sealed class SettingsEvent<T>(val value: T) {
 
     class WordWrap(value: Boolean) : SettingsEvent<Boolean>(value)
     class CodeCompletion(value: Boolean) : SettingsEvent<Boolean>(value)
+
     // class ErrorHighlight(value: Boolean) : SettingsEvent<Boolean>(value)
     class PinchZoom(value: Boolean) : SettingsEvent<Boolean>(value)
     class LineNumbers(value: Pair<Boolean, Boolean>) :

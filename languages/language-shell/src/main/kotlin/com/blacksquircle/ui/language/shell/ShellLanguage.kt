@@ -30,7 +30,8 @@ class ShellLanguage : Language {
     companion object {
 
         private val FILE_EXTENSIONS = arrayOf(
-            ".sh", ".ksh", ".bsh", ".csh", ".tcsh", ".zsh", ".bash", ".py"
+            ".sh", ".ksh", ".bsh", ".csh",
+            ".tcsh", ".zsh", ".bash", ".py",
         )
 
         fun supportFormat(fileName: String): Boolean {

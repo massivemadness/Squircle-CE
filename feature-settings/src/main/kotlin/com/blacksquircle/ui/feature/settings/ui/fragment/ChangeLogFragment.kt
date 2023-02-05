@@ -56,7 +56,7 @@ class ChangeLogFragment : Fragment(R.layout.fragment_changelog) {
         }
 
         binding.toolbar.setNavigationOnClickListener {
-             navController.popBackStack()
+            navController.popBackStack()
         }
 
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)

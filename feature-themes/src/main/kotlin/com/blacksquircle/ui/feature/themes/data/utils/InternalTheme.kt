@@ -27,8 +27,8 @@ enum class InternalTheme(val theme: ThemeModel) {
             author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
-            colorScheme = EditorTheme.DARCULA
-        )
+            colorScheme = EditorTheme.DARCULA,
+        ),
     ),
     THEME_MONOKAI(
         theme = ThemeModel(
@@ -37,8 +37,8 @@ enum class InternalTheme(val theme: ThemeModel) {
             author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
-            colorScheme = EditorTheme.MONOKAI
-        )
+            colorScheme = EditorTheme.MONOKAI,
+        ),
     ),
     THEME_OBSIDIAN(
         theme = ThemeModel(
@@ -47,8 +47,8 @@ enum class InternalTheme(val theme: ThemeModel) {
             author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
-            colorScheme = EditorTheme.OBSIDIAN
-        )
+            colorScheme = EditorTheme.OBSIDIAN,
+        ),
     ),
     THEME_LADIES_NIGHT(
         theme = ThemeModel(
@@ -57,8 +57,8 @@ enum class InternalTheme(val theme: ThemeModel) {
             author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
-            colorScheme = EditorTheme.LADIES_NIGHT
-        )
+            colorScheme = EditorTheme.LADIES_NIGHT,
+        ),
     ),
     THEME_TOMORROW_NIGHT(
         theme = ThemeModel(
@@ -67,8 +67,8 @@ enum class InternalTheme(val theme: ThemeModel) {
             author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
-            colorScheme = EditorTheme.TOMORROW_NIGHT
-        )
+            colorScheme = EditorTheme.TOMORROW_NIGHT,
+        ),
     ),
     THEME_VISUAL_STUDIO_2013(
         theme = ThemeModel(
@@ -77,8 +77,8 @@ enum class InternalTheme(val theme: ThemeModel) {
             author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
-            colorScheme = EditorTheme.VISUAL_STUDIO_2013
-        )
+            colorScheme = EditorTheme.VISUAL_STUDIO_2013,
+        ),
     );
 
     companion object {

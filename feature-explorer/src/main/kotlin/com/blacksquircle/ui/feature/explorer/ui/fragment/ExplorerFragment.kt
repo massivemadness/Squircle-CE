@@ -115,7 +115,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         ExplorerIntent.ShowHidden
                     } else {
                         ExplorerIntent.HideHidden
-                    }
+                    },
                 )
                 R.id.sort_by_name -> viewModel.obtainEvent(ExplorerIntent.SortByName)
                 R.id.sort_by_size -> viewModel.obtainEvent(ExplorerIntent.SortBySize)
@@ -213,11 +213,11 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 "DefaultSelectionTracker",
                 FileKeyProvider(binding.filesRecyclerView),
                 SelectionPredicates.createSelectAnything(),
-                StorageStrategy.createStringStorage()
+                StorageStrategy.createStringStorage(),
             ).also {
                 tracker = it
             },
-            viewMode = viewModel.viewMode
+            viewMode = viewModel.viewMode,
         ).also {
             fileAdapter = it
         }
@@ -232,7 +232,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                     val selection = fileAdapter.selection(tracker.selection)
                     viewModel.obtainEvent(ExplorerIntent.SelectFiles(selection))
                 }
-            }
+            },
         )
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -245,7 +245,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.errorView.actionPrimary.setOnClickListener {
             context?.checkStorageAccess(
                 onSuccess = ::permissionGranted,
-                onFailure = ::permissionRejected
+                onFailure = ::permissionRejected,
             )
         }
 
@@ -277,7 +277,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                                 Operation.CUT -> UiR.drawable.ic_paste
                                 Operation.COPY -> UiR.drawable.ic_paste
                                 else -> UiR.drawable.ic_plus
-                            }
+                            },
                         )
                         binding.actionOperation.setOnClickListener {
                             when (state.operation) {
@@ -420,10 +420,10 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             showExplanationDialog = { intent ->
                 val screen = ExplorerScreen.RestrictedDialog(
                     action = intent.action.toString(),
-                    data = intent.data.toString()
+                    data = intent.data.toString(),
                 )
                 navController.navigate(screen)
-            }
+            },
         )
     }
 }

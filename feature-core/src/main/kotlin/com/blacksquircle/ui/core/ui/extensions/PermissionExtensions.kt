@@ -30,7 +30,7 @@ import androidx.core.content.ContextCompat
 
 fun <T> Context.checkStorageAccess(
     onSuccess: () -> T,
-    onFailure: () -> T
+    onFailure: () -> T,
 ): T {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         if (Environment.isExternalStorageManager()) {
@@ -49,7 +49,7 @@ fun <T> Context.checkStorageAccess(
 
 fun Activity.requestStorageAccess(
     showRequestDialog: (Intent) -> Unit,
-    showExplanationDialog: (Intent) -> Unit
+    showExplanationDialog: (Intent) -> Unit,
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {

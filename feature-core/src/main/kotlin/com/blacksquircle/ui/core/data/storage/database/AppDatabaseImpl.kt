@@ -32,7 +32,7 @@ import com.blacksquircle.ui.core.data.storage.database.entity.theme.ThemeEntity
         DocumentEntity::class,
         ServerEntity::class,
         FontEntity::class,
-        ThemeEntity::class
+        ThemeEntity::class,
     ],
     version = 2,
 )

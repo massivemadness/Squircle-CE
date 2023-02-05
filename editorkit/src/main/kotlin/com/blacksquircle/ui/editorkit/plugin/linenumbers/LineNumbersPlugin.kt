@@ -100,7 +100,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
                     lineTop.toFloat(),
                     width.toFloat(),
                     lineBottom.toFloat(),
-                    selectedLinePaint
+                    selectedLinePaint,
                 )
             }
         }
@@ -116,7 +116,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
                 editText.scrollY.toFloat(),
                 (gutterWidth + editText.scrollX).toFloat(),
                 (editText.scrollY + editText.height).toFloat(),
-                gutterPaint
+                gutterPaint,
             )
             var topVisibleLine = editText.topVisibleLine
             if (topVisibleLine >= 2) {
@@ -138,7 +138,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
                             gutterCurrentLineNumberPaint
                         } else {
                             gutterTextPaint
-                        }
+                        },
                     )
                 }
                 prevLineNumber = number
@@ -149,7 +149,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
                 editText.scrollY.toFloat(),
                 (gutterWidth + editText.scrollX).toFloat(),
                 (editText.scrollY + editText.height).toFloat(),
-                gutterDividerPaint
+                gutterDividerPaint,
             )
         }
     }
@@ -200,7 +200,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
                 gutterWidth + gutterMargin,
                 gutterMargin,
                 editText.paddingEnd,
-                editText.paddingBottom
+                editText.paddingBottom,
             )
         }
     }

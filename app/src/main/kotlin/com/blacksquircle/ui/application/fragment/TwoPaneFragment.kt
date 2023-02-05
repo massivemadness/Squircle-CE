@@ -94,7 +94,7 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                         }
                     }
                 }
-            }
+            },
         )
     }
 

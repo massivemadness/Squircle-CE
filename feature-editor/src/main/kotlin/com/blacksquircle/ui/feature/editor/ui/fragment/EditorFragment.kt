@@ -67,8 +67,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
-    ToolbarManager.OnPanelClickListener {
+class EditorFragment : Fragment(R.layout.fragment_editor),
+    BackPressedHandler, ToolbarManager.OnPanelClickListener {
 
     private val viewModel by activityViewModels<EditorViewModel>()
     private val binding by viewBinding(FragmentEditorBinding::bind)
@@ -193,7 +193,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         binding.editor.scrollY = state.content.documentModel.scrollY
                         binding.editor.setSelectionRange(
                             state.content.documentModel.selectionStart,
-                            state.content.documentModel.selectionEnd
+                            state.content.documentModel.selectionEnd,
                         )
                         binding.editor.doOnPreDraw(View::requestFocus)
                     }
@@ -399,7 +399,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
             scrollX = binding.editor.scrollX,
             scrollY = binding.editor.scrollY,
             selectionStart = binding.editor.selectionStart,
-            selectionEnd = binding.editor.selectionEnd
+            selectionEnd = binding.editor.selectionEnd,
         )
         viewModel.obtainEvent(action)
     }
@@ -415,11 +415,13 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         .createTypefaceFromPath(event.value)
                     is SettingsEvent.WordWrap ->
                         binding.editor.setHorizontallyScrolling(!event.value)
-                    is SettingsEvent.CodeCompletion -> if (event.value) codeCompletion {
-                        suggestionAdapter = AutoCompleteAdapter(
-                            requireContext(),
-                            binding.editor.colorScheme
-                        )
+                    is SettingsEvent.CodeCompletion -> if (event.value) {
+                        codeCompletion {
+                            suggestionAdapter = AutoCompleteAdapter(
+                                requireContext(),
+                                binding.editor.colorScheme,
+                            )
+                        }
                     }
                     is SettingsEvent.PinchZoom -> if (event.value) pinchZoom()
                     is SettingsEvent.LineNumbers -> lineNumbers {

@@ -40,7 +40,7 @@ class AutoCompleteAdapter(
 
     class AutoCompleteViewHolder(
         private val binding: ItemSuggestionBinding,
-        private val queryColor: Int
+        private val queryColor: Int,
     ) : SuggestionViewHolder(binding.root) {
 
         companion object {
@@ -58,8 +58,9 @@ class AutoCompleteAdapter(
                 if (query.length < spannable.length) {
                     spannable.setSpan(
                         ForegroundColorSpan(queryColor),
-                        0, query.length,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        0,
+                        query.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                     )
                 }
 

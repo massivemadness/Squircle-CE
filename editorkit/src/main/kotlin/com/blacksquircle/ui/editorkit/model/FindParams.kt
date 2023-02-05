@@ -20,5 +20,5 @@ data class FindParams(
     val query: String,
     val regex: Boolean,
     val matchCase: Boolean,
-    val wordsOnly: Boolean
+    val wordsOnly: Boolean,
 )

@@ -24,5 +24,5 @@ data class DocumentContent(
     val language: Language?,
     val undoStack: UndoStack,
     val redoStack: UndoStack,
-    val text: String
+    val text: String,
 )

@@ -43,7 +43,7 @@ class DocumentConverterTest {
             scrollX = 0,
             scrollY = 0,
             selectionStart = 0,
-            selectionEnd = 0
+            selectionEnd = 0,
         )
         val convert = DocumentConverter.toModel(fileModel)
 
@@ -70,7 +70,7 @@ class DocumentConverterTest {
             scrollX = 0,
             scrollY = 50,
             selectionStart = 8,
-            selectionEnd = 10
+            selectionEnd = 10,
         )
         val documentModel = DocumentModel(
             uuid = "0",
@@ -81,7 +81,7 @@ class DocumentConverterTest {
             scrollX = 0,
             scrollY = 50,
             selectionStart = 8,
-            selectionEnd = 10
+            selectionEnd = 10,
         )
         val convert = DocumentConverter.toModel(documentEntity)
 
@@ -108,7 +108,7 @@ class DocumentConverterTest {
             scrollX = 0,
             scrollY = 50,
             selectionStart = 8,
-            selectionEnd = 10
+            selectionEnd = 10,
         )
         val documentEntity = DocumentEntity(
             uuid = "0",
@@ -119,7 +119,7 @@ class DocumentConverterTest {
             scrollX = 0,
             scrollY = 50,
             selectionStart = 8,
-            selectionEnd = 10
+            selectionEnd = 10,
         )
         val convert = DocumentConverter.toEntity(documentModel)
 

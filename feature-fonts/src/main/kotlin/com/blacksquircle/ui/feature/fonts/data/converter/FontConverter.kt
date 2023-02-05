@@ -26,7 +26,7 @@ object FontConverter {
             fontName = fontEntity.fontName,
             fontPath = fontEntity.fontPath,
             supportLigatures = fontEntity.supportLigatures,
-            isExternal = true
+            isExternal = true,
         )
     }
 
@@ -34,7 +34,7 @@ object FontConverter {
         return FontEntity(
             fontName = fontModel.fontName,
             fontPath = fontModel.fontPath,
-            supportLigatures = fontModel.supportLigatures
+            supportLigatures = fontModel.supportLigatures,
         )
     }
 }

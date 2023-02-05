@@ -29,7 +29,7 @@ data class ExternalTheme(
     @SerializedName("description")
     val description: String?,
     @SerializedName("color_scheme")
-    val externalScheme: ExternalScheme?
+    val externalScheme: ExternalScheme?,
 ) {
 
     companion object {

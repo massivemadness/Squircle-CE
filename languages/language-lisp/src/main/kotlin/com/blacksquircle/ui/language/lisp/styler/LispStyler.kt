@@ -33,9 +33,11 @@ class LispStyler private constructor() : LanguageStyler {
 
         private const val TAG = "LispStyler"
 
-        private val METHOD = Pattern.compile("(?<=(defclass|defconstant" +
-            "|defgeneric|defmacro|defmethod|defpackage|defparameter|defsetf|defstruct" +
-            "|deftype|defun|defvar)) ([\\w-]+)")
+        private val METHOD = Pattern.compile(
+            "(?<=(defclass|defconstant" +
+                "|defgeneric|defmacro|defmethod|defpackage|defparameter|defsetf|defstruct" +
+                "|deftype|defun|defvar)) ([\\w-]+)",
+        )
 
         private var lispStyler: LispStyler? = null
 

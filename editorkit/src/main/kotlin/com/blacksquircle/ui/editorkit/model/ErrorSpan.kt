@@ -25,7 +25,7 @@ import android.text.style.LineBackgroundSpan
 class ErrorSpan(
     private val lineWidth: Float = 1 * Resources.getSystem().displayMetrics.density + 0.5f,
     private val waveSize: Float = 3 * Resources.getSystem().displayMetrics.density + 0.5f,
-    private val color: Int = Color.RED
+    private val color: Int = Color.RED,
 ) : LineBackgroundSpan {
 
     override fun drawBackground(
@@ -39,7 +39,7 @@ class ErrorSpan(
         text: CharSequence,
         start: Int,
         end: Int,
-        lineNumber: Int
+        lineNumber: Int,
     ) {
         val width = paint.measureText(text, start, end)
         val linePaint = Paint(paint)

@@ -33,7 +33,7 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.uikit.R as UiR
 
 class ThemeAdapter(
-    private val actions: Actions
+    private val actions: Actions,
 ) : ListAdapter<ThemeModel, ThemeAdapter.ThemeViewHolder>(diffCallback) {
 
     companion object {
@@ -63,7 +63,7 @@ class ThemeAdapter(
 
     class ThemeViewHolder(
         private val binding: ItemThemeBinding,
-        private val actions: Actions
+        private val actions: Actions,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {

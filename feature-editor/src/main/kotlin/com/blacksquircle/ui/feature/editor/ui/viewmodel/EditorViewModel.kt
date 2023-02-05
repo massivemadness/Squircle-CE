@@ -48,7 +48,7 @@ class EditorViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
-    private val themesRepository: ThemesRepository
+    private val themesRepository: ThemesRepository,
 ) : ViewModel() {
 
     private val _editorViewState = MutableStateFlow<EditorViewState>(EditorViewState.Stub)
@@ -114,7 +114,7 @@ class EditorViewModel @Inject constructor(
                         documentList.isEmpty() -> -1
                         documentList.none { it.uuid == selectedUuid } -> 0
                         else -> documentList.indexOf { it.uuid == selectedUuid }
-                    }
+                    },
                 )
                 if (documentList.isNotEmpty()) {
                     selectTab(EditorIntent.SelectTab(selectedPosition))
@@ -162,7 +162,7 @@ class EditorViewModel @Inject constructor(
                 _documentViewState.value = DocumentViewState.Loading
                 _documentViewState.value = DocumentViewState.Content(
                     content = documentRepository.loadFile(document),
-                    showKeyboard = settingsManager.extendedKeyboard
+                    showKeyboard = settingsManager.extendedKeyboard,
                 )
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -185,7 +185,7 @@ class EditorViewModel @Inject constructor(
                         in (event.from + 1)..event.to -> selectedPosition--
                         event.from -> event.to
                         else -> selectedPosition
-                    }
+                    },
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
@@ -273,7 +273,7 @@ class EditorViewModel @Inject constructor(
                 if (selectedPosition > -1) {
                     val document = documents[selectedPosition]
                     _viewEvent.send(
-                        ViewEvent.Navigation(EditorScreen.SaveAsDialog(document.path))
+                        ViewEvent.Navigation(EditorScreen.SaveAsDialog(document.path)),
                     )
                 }
             } catch (e: Exception) {
@@ -291,7 +291,7 @@ class EditorViewModel @Inject constructor(
                     val updateDocument = document.copy(fileUri = document.scheme + event.filePath)
                     documentRepository.saveFileAs(updateDocument)
                     _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_saved))
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
                     )
                 }
             } catch (e: Exception) {
@@ -394,7 +394,7 @@ class EditorViewModel @Inject constructor(
                         documentRepository.updateDocument(content.documentModel)
                         if (event.local) {
                             _viewEvent.send(
-                                ViewEvent.Toast(stringProvider.getString(R.string.message_saved))
+                                ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
                             )
                         }
                     }
@@ -441,7 +441,7 @@ class EditorViewModel @Inject constructor(
             position = position.also {
                 selectedPosition = it
             },
-            panel = panel
+            panel = panel,
         )
     }
 
@@ -499,7 +499,7 @@ class EditorViewModel @Inject constructor(
 
                 val lineNumbers = Pair(
                     settingsManager.lineNumbers,
-                    settingsManager.highlightCurrentLine
+                    settingsManager.highlightCurrentLine,
                 )
                 settings.add(SettingsEvent.LineNumbers(lineNumbers))
 
@@ -516,7 +516,7 @@ class EditorViewModel @Inject constructor(
                 val autoIndentation = Triple(
                     settingsManager.autoIndentation,
                     settingsManager.autoCloseBrackets,
-                    settingsManager.autoCloseQuotes
+                    settingsManager.autoCloseQuotes,
                 )
                 settings.add(SettingsEvent.AutoIndentation(autoIndentation))
 

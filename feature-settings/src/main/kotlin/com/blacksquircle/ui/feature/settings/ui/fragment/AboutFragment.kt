@@ -50,7 +50,7 @@ class AboutFragment : PreferenceFragmentCompat() {
         changelog?.summary = getString(
             R.string.pref_about_summary,
             requireContext().versionName,
-            requireContext().versionCode
+            requireContext().versionCode,
         )
         changelog?.setOnPreferenceClickListener {
             if (counter < 10) {
@@ -65,11 +65,11 @@ class AboutFragment : PreferenceFragmentCompat() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return inflater.inflate(R.layout.fragment_preference, container, false).also {
             (it as? ViewGroup)?.addView(
-                super.onCreateView(inflater, container, savedInstanceState)
+                super.onCreateView(inflater, container, savedInstanceState),
             )
         }
     }

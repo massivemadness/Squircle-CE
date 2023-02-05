@@ -57,7 +57,7 @@ class FTPSFilesystem(
                 parent = ftpsMapper.parent(parent),
                 children = ftpsClient.listFiles(parent.path)
                     .filter { it.name.isValidFileName() }
-                    .map(ftpsMapper::toFileModel)
+                    .map(ftpsMapper::toFileModel),
             )
         } finally {
             disconnect()
@@ -163,8 +163,9 @@ class FTPSFilesystem(
     }
 
     private fun connect() {
-        if (ftpsClient.isConnected)
+        if (ftpsClient.isConnected) {
             return
+        }
         ftpsClient.connect(serverModel.address, serverModel.port)
         if (!FTPReply.isPositiveCompletion(ftpsClient.replyCode)) {
             throw ConnectionException()
@@ -197,26 +198,35 @@ class FTPSFilesystem(
                 directory = fileObject.isDirectory,
                 permission = with(fileObject) {
                     var permission = Permission.EMPTY
-                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.READ_PERMISSION))
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.READ_PERMISSION)) {
                         permission = permission plusFlag Permission.OWNER_READ
-                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.WRITE_PERMISSION))
+                    }
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.WRITE_PERMISSION)) {
                         permission = permission plusFlag Permission.OWNER_WRITE
-                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.EXECUTE_PERMISSION))
+                    }
+                    if (hasPermission(FTPFile.USER_ACCESS, FTPFile.EXECUTE_PERMISSION)) {
                         permission = permission plusFlag Permission.OWNER_EXECUTE
-                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.READ_PERMISSION))
+                    }
+                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.READ_PERMISSION)) {
                         permission = permission plusFlag Permission.GROUP_READ
-                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.WRITE_PERMISSION))
+                    }
+                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.WRITE_PERMISSION)) {
                         permission = permission plusFlag Permission.GROUP_WRITE
-                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.EXECUTE_PERMISSION))
+                    }
+                    if (hasPermission(FTPFile.GROUP_ACCESS, FTPFile.EXECUTE_PERMISSION)) {
                         permission = permission plusFlag Permission.GROUP_EXECUTE
-                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.READ_PERMISSION))
+                    }
+                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.READ_PERMISSION)) {
                         permission = permission plusFlag Permission.OTHERS_READ
-                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.WRITE_PERMISSION))
+                    }
+                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.WRITE_PERMISSION)) {
                         permission = permission plusFlag Permission.OTHERS_WRITE
-                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.EXECUTE_PERMISSION))
+                    }
+                    if (hasPermission(FTPFile.WORLD_ACCESS, FTPFile.EXECUTE_PERMISSION)) {
                         permission = permission plusFlag Permission.OTHERS_EXECUTE
+                    }
                     permission
-                }
+                },
             )
         }
 

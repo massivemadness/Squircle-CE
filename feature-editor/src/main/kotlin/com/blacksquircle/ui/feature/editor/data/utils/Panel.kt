@@ -19,5 +19,5 @@ package com.blacksquircle.ui.feature.editor.data.utils
 enum class Panel {
     DEFAULT,
     FIND,
-    FIND_REPLACE
+    FIND_REPLACE,
 }

@@ -76,14 +76,14 @@ class DocumentRepositoryImpl(
                     language = LanguageFactory.create(documentModel.name),
                     undoStack = loadUndoStack(documentModel),
                     redoStack = loadRedoStack(documentModel),
-                    text = cacheFilesystem.loadFile(cacheFile, FileParams())
+                    text = cacheFilesystem.loadFile(cacheFile, FileParams()),
                 )
             } else {
                 val filesystem = filesystemFactory.create(documentModel.filesystemUuid)
                 val fileModel = DocumentConverter.toModel(documentModel)
                 val fileParams = FileParams(
                     chardet = settingsManager.encodingAutoDetect,
-                    charset = charsetFor(settingsManager.encodingForOpening)
+                    charset = charsetFor(settingsManager.encodingForOpening),
                 )
 
                 DocumentContent(
@@ -91,7 +91,7 @@ class DocumentRepositoryImpl(
                     language = LanguageFactory.create(documentModel.name),
                     undoStack = UndoStack(),
                     redoStack = UndoStack(),
-                    text = filesystem.loadFile(fileModel, fileParams)
+                    text = filesystem.loadFile(fileModel, fileParams),
                 )
             }
         }
@@ -104,7 +104,7 @@ class DocumentRepositoryImpl(
                 val fileModel = DocumentConverter.toModel(content.documentModel)
                 val fileParams = FileParams(
                     charset = charsetFor(settingsManager.encodingForSaving),
-                    linebreak = LineBreak.find(settingsManager.lineBreakForSaving)
+                    linebreak = LineBreak.find(settingsManager.lineBreakForSaving),
                 )
                 filesystem.saveFile(fileModel, content.text, fileParams)
             }
@@ -134,7 +134,7 @@ class DocumentRepositoryImpl(
             val fileModel = DocumentConverter.toModel(documentModel)
             val fileParams = FileParams(
                 charset = charsetFor(settingsManager.encodingForSaving),
-                linebreak = LineBreak.find(settingsManager.lineBreakForSaving)
+                linebreak = LineBreak.find(settingsManager.lineBreakForSaving),
             )
             filesystem.saveFile(fileModel, text, fileParams)
         }
@@ -190,7 +190,7 @@ class DocumentRepositoryImpl(
         val defaultLocation = cacheFilesystem.defaultLocation()
         return FileModel(
             fileUri = defaultLocation.fileUri + "/" + "${documentModel.uuid}-$postfix.cache",
-            filesystemUuid = defaultLocation.filesystemUuid
+            filesystemUuid = defaultLocation.filesystemUuid,
         )
     }
 }

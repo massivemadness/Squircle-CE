@@ -36,7 +36,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FontsViewModel @Inject constructor(
     private val stringProvider: StringProvider,
-    private val fontsRepository: FontsRepository
+    private val fontsRepository: FontsRepository,
 ) : ViewModel() {
 
     private val _fontsState = MutableStateFlow<FontsViewState>(FontsViewState.Loading)
@@ -63,9 +63,11 @@ class FontsViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }
@@ -75,18 +77,22 @@ class FontsViewModel @Inject constructor(
             try {
                 fontsRepository.createFont(fontModel)
                 _viewEvent.send(ViewEvent.PopBackStack())
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(
-                        R.string.message_new_font_available,
-                        fontModel.fontName
-                    )
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_new_font_available,
+                            fontModel.fontName,
+                        ),
+                    ),
+                )
                 fetchFonts("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }
@@ -95,18 +101,22 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.removeFont(fontModel)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(
-                        R.string.message_font_removed,
-                        fontModel.fontName
-                    )
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_font_removed,
+                            fontModel.fontName,
+                        ),
+                    ),
+                )
                 fetchFonts("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }
@@ -115,17 +125,21 @@ class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.selectFont(fontModel)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(
-                        R.string.message_selected,
-                        fontModel.fontName
-                    )
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_selected,
+                            fontModel.fontName,
+                        ),
+                    ),
+                )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }

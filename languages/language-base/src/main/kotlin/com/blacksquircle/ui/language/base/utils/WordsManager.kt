@@ -46,7 +46,7 @@ class WordsManager {
             val word = Suggestion(
                 type = Suggestion.Type.WORD,
                 text = text.substring(matcher.start(), matcher.end()),
-                returnType = ""
+                returnType = "",
             )
             if (lineMap.containsKey(lineNumber)) {
                 lineMap[lineNumber]?.add(word)

@@ -48,7 +48,7 @@ internal fun Data.toFileModel(): FileModel {
         size = getLong(KEY_SIZE, 0L),
         lastModified = getLong(KEY_LAST_MODIFIED, 0L),
         directory = getBoolean(KEY_DIRECTORY, false),
-        permission = getInt(KEY_PERMISSION, Permission.EMPTY)
+        permission = getInt(KEY_PERMISSION, Permission.EMPTY),
     )
 }
 

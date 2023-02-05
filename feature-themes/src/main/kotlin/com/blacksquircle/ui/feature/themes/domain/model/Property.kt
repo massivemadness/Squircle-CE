@@ -42,5 +42,5 @@ enum class Property(val key: String) {
     TAG_NAME_COLOR("tag_name_color"),
     ATTR_NAME_COLOR("attr_name_color"),
     ATTR_VALUE_COLOR("attr_value_color"),
-    ENTITY_REF_COLOR("entity_ref_color")
+    ENTITY_REF_COLOR("entity_ref_color"),
 }

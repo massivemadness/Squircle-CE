@@ -27,7 +27,7 @@ import com.blacksquircle.ui.language.base.Language
 class CodeView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     var language: Language? = null
@@ -59,7 +59,7 @@ class CodeView @JvmOverloads constructor(
                             span,
                             span.start,
                             span.end,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                         )
                     }
                     text = currentText

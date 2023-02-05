@@ -1,7 +1,16 @@
+root = true
+
 [*.{kt,kts}]
 indent_size = 4
 insert_final_newline = false
 
 # noinspection EditorConfigKeyCorrectness
-disabled_rules = no-wildcard-imports, indent
-# FIXME https://github.com/pinterest/ktlint/issues/764
+ktlint_standard_no-wildcard-imports = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_trailing-comma-on-declaration-site = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_enum-entry-name-case = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_argument-list-wrapping = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_wrapping = disabled

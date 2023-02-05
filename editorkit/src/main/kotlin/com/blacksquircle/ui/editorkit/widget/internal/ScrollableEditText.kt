@@ -29,7 +29,7 @@ import kotlin.math.abs
 abstract class ScrollableEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle
+    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
 ) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr) {
 
     private val textScroller = OverScroller(context)
@@ -60,17 +60,24 @@ abstract class ScrollableEditText @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> abortFling()
             MotionEvent.ACTION_UP -> {
                 velocityTracker?.computeCurrentVelocity(1000, maximumVelocity)
-                val velocityX = if (isHorizontallyScrollableCompat())
-                    velocityTracker?.xVelocity?.toInt() ?: 0 else 0
+                val velocityX = if (isHorizontallyScrollableCompat()) {
+                    velocityTracker?.xVelocity?.toInt() ?: 0
+                } else {
+                    0
+                }
                 val velocityY = velocityTracker?.yVelocity?.toInt() ?: 0
                 if (abs(velocityY) < 0 || abs(velocityX) < 0) {
                     recycleVelocityTracker()
                 } else if (velocityX != 0 || velocityY != 0) {
                     textScroller.fling(
-                        scrollX, scrollY,
-                        -velocityX, -velocityY,
-                        0, layout.width - width + paddingStart + paddingEnd,
-                        0, layout.height - height + paddingTop + paddingBottom
+                        scrollX,
+                        scrollY,
+                        -velocityX,
+                        -velocityY,
+                        0,
+                        layout.width - width + paddingStart + paddingEnd,
+                        0,
+                        layout.height - height + paddingTop + paddingBottom,
                     )
                 }
             }

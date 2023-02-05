@@ -30,7 +30,7 @@ import androidx.core.content.getSystemService
 fun Context.createChannel(
     channelId: String,
     @StringRes channelName: Int,
-    @StringRes channelDescription: Int
+    @StringRes channelDescription: Int,
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val notificationManager = applicationContext.getSystemService<NotificationManager>()
@@ -54,7 +54,7 @@ fun Context.createNotification(
     autoCancel: Boolean? = null,
     ongoing: Boolean? = null,
     silent: Boolean? = null,
-    actions: List<NotificationCompat.Action>? = null
+    actions: List<NotificationCompat.Action>? = null,
 ): Notification {
     val notificationBuilder = NotificationCompat.Builder(this, channelId)
 

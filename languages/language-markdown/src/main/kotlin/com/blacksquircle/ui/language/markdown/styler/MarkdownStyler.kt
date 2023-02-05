@@ -65,7 +65,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                         val styleSpan = StyleSpan(
                             color = scheme.attrNameColor,
                             bold = true,
-                            italic = true
+                            italic = true,
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -74,7 +74,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.BOLD2 -> {
                         val styleSpan = StyleSpan(
                             color = scheme.attrNameColor,
-                            bold = true
+                            bold = true,
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -83,7 +83,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.ITALIC2 -> {
                         val styleSpan = StyleSpan(
                             color = scheme.attrNameColor,
-                            italic = true
+                            italic = true,
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -91,7 +91,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.STRIKETHROUGH -> {
                         val styleSpan = StyleSpan(
                             color = scheme.attrNameColor,
-                            strikethrough = true
+                            strikethrough = true,
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
@@ -121,7 +121,7 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.URL -> {
                         val styleSpan = StyleSpan(
                             color = scheme.attrValueColor,
-                            underline = true
+                            underline = true,
                         )
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)

@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
 
 class FileKeyProvider(
-    private val recyclerView: RecyclerView
+    private val recyclerView: RecyclerView,
 ) : ItemKeyProvider<String>(SCOPE_CACHED) {
 
     override fun getKey(position: Int): String {

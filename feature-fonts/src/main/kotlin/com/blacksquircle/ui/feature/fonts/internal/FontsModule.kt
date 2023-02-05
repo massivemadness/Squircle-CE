@@ -36,12 +36,12 @@ object FontsModule {
     fun provideFontsRepository(
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
     ): FontsRepository {
         return FontsRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
-            appDatabase = appDatabase
+            appDatabase = appDatabase,
         )
     }
 }

@@ -42,7 +42,7 @@ import java.util.regex.PatternSyntaxException
 abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle
+    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
 ) : UndoRedoEditText(context, attrs, defStyleAttr) {
 
     var language: Language? = null
@@ -125,7 +125,9 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     fun tab(): String {
         return if (useSpacesInsteadOfTabs) {
             " ".repeat(tabWidth)
-        } else "\t"
+        } else {
+            "\t"
+        }
     }
 
     fun clearFindResultSpans() {
@@ -164,7 +166,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                         } else {
                             Pattern.compile(
                                 "\\s" + Pattern.quote(params.query) + "\\s",
-                                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
+                                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
                             )
                         }
                     } else {
@@ -173,7 +175,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                         } else {
                             Pattern.compile(
                                 Pattern.quote(params.query),
-                                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
+                                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
                             )
                         }
                     }
@@ -188,7 +190,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                             findResultSpan,
                             findResultSpan.start,
                             findResultSpan.end,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                         )
                     }
                 }
@@ -248,7 +250,8 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
         if (selectedFindResult < findResultSpans.size) {
             val findResult = findResultSpans[selectedFindResult]
             if (findResult.start >= layout.getLineStart(topVisibleLine) &&
-                findResult.end <= layout.getLineEnd(bottomVisibleLine)) {
+                findResult.end <= layout.getLineEnd(bottomVisibleLine)
+            ) {
                 return
             }
             val height = layout.height - height + paddingBottom + paddingTop
@@ -258,7 +261,9 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             }
             val scrollX = if (isHorizontallyScrollableCompat()) {
                 layout.getPrimaryHorizontal(findResult.start).toInt()
-            } else scrollX
+            } else {
+                scrollX
+            }
 
             scrollTo(scrollX, lineTop)
         }
@@ -322,7 +327,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                         span,
                         if (span.start < lineStart) lineStart else span.start,
                         if (span.end > lineEnd) lineEnd else span.end,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                     )
                 }
             }
@@ -336,13 +341,13 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                 val isInText = span.start >= 0 && span.end <= text.length
                 val isValid = span.start <= span.end
                 val isVisible = span.start in lineStart..lineEnd ||
-                        span.start <= lineEnd && span.end >= lineStart
+                    span.start <= lineEnd && span.end >= lineStart
                 if (isInText && isValid && isVisible) {
                     text.setSpan(
                         span,
                         if (span.start < lineStart) lineStart else span.start,
                         if (span.end > lineEnd) lineEnd else span.end,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                     )
                 }
             }
@@ -364,7 +369,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                             TabWidthSpan(tabWidth),
                             start,
                             end,
-                            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                            Spannable.SPAN_INCLUSIVE_INCLUSIVE,
                         )
                     }
                 }
@@ -383,7 +388,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                 syntaxHighlightSpans.clear()
                 syntaxHighlightSpans.addAll(spans)
                 updateSyntaxHighlighting()
-            }
+            },
         )
         task?.execute()
     }

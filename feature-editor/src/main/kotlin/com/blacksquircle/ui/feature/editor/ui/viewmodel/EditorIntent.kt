@@ -51,7 +51,7 @@ sealed class EditorIntent {
         val scrollX: Int,
         val scrollY: Int,
         val selectionStart: Int,
-        val selectionEnd: Int
+        val selectionEnd: Int,
     ) : EditorIntent()
 
     object PanelDefault : EditorIntent()

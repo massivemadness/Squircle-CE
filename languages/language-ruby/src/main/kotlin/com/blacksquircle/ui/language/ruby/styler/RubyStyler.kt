@@ -143,7 +143,7 @@ class RubyStyler private constructor() : LanguageStyler {
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)
                     }
-                   RubyToken.INSTANCE_VARIABLE -> {
+                    RubyToken.INSTANCE_VARIABLE -> {
                         val styleSpan = StyleSpan(scheme.typeColor)
                         val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
                         syntaxHighlightSpans.add(syntaxHighlightSpan)

@@ -59,7 +59,7 @@ class ThemeConverterTest {
             tagNameColor = "#FF3000",
             attrNameColor = "#FF3000",
             attrValueColor = "#FF3000",
-            entityRefColor = "#FF3000"
+            entityRefColor = "#FF3000",
         )
         val themeModel = ThemeModel(
             uuid = "0",
@@ -93,8 +93,8 @@ class ThemeConverterTest {
                 tagNameColor = "#FF3000".toColorInt(),
                 attrNameColor = "#FF3000".toColorInt(),
                 attrValueColor = "#FF3000".toColorInt(),
-                entityRefColor = "#FF3000".toColorInt()
-            )
+                entityRefColor = "#FF3000".toColorInt(),
+            ),
         )
         val convert = ThemeConverter.toModel(themeEntity)
 
@@ -253,8 +253,8 @@ class ThemeConverterTest {
                 tagNameColor = "#FF3000",
                 attrNameColor = "#FF3000",
                 attrValueColor = "#FF3000",
-                entityRefColor = "#FF3000"
-            )
+                entityRefColor = "#FF3000",
+            ),
         )
         val themeModel = ThemeModel(
             uuid = "0",
@@ -288,8 +288,8 @@ class ThemeConverterTest {
                 tagNameColor = "#FF3000".toColorInt(),
                 attrNameColor = "#FF3000".toColorInt(),
                 attrValueColor = "#FF3000".toColorInt(),
-                entityRefColor = "#FF3000".toColorInt()
-            )
+                entityRefColor = "#FF3000".toColorInt(),
+            ),
         )
         val convert = ThemeConverter.toModel(externalTheme)
 

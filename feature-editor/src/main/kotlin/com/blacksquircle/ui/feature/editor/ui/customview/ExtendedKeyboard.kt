@@ -28,7 +28,7 @@ import com.blacksquircle.ui.feature.editor.databinding.ItemKeyboardKeyBinding
 class ExtendedKeyboard @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
     private var keyAdapter: KeyAdapter? = null
@@ -43,7 +43,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
     }
 
     private class KeyAdapter(
-        private val keyListener: OnKeyListener
+        private val keyListener: OnKeyListener,
     ) : ListAdapter<String, KeyAdapter.KeyViewHolder>(diffCallback) {
 
         companion object {
@@ -67,7 +67,7 @@ class ExtendedKeyboard @JvmOverloads constructor(
 
         private class KeyViewHolder(
             private val binding: ItemKeyboardKeyBinding,
-            private val keyListener: OnKeyListener
+            private val keyListener: OnKeyListener,
         ) : ViewHolder(binding.root) {
 
             companion object {

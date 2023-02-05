@@ -59,34 +59,34 @@ data class FileModel(
             ".tcsh", ".zsh", ".bash", ".groovy", ".gvy", ".gy", ".gsh", ".php",
             ".php3", ".php4", ".php5", ".phps", ".phtml", ".ts", ".ino", ".log",
             ".mjs", ".cjs", ".jl", ".yaml", ".yml", ".toml", ".gradle", ".mts",
-            ".cts", ".smali"
+            ".cts", ".smali",
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",
             ".zipx", ".gtar", "xtar", ".z", ".xz", ".bz", ".bz2",
-            ".zst", ".lzh", ".lzma", ".arj"
+            ".zst", ".lzh", ".lzma", ".arj",
         )
         val IMAGE = arrayOf(
-            ".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".ico"
+            ".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".ico",
         )
         val AUDIO = arrayOf(
             ".mp2", ".mp3", ".ogg", ".wma", ".aac", ".wav", ".flac",
             ".amr", ".m4a", ".m4b", ".m4p", ".mid", ".midi", ".mpga",
-            ".m3u"
+            ".m3u",
         )
         val VIDEO = arrayOf(
             ".3gp", ".mp4", ".avi", ".wmv", ".mkv", ".mpe", ".mpg",
-            ".mpeg", ".asf", ".m4v", ".mov", ".rmvb", ".m4u", ".m3u8"
+            ".mpeg", ".asf", ".m4v", ".mov", ".rmvb", ".m4u", ".m3u8",
         )
         val DOCUMENT = arrayOf(
             ".rtf", ".doc", ".docx", ".ppt", ".pptx", ".pps", ".ppsx",
-            ".xls", ".xlsx", ".csv", ".wps", ".pdf"
+            ".xls", ".xlsx", ".csv", ".wps", ".pdf",
         )
         val EBOOK = arrayOf(
-            ".epub", ".umb", ".chm", ".ceb", ".pdg", ".caj"
+            ".epub", ".umb", ".chm", ".ceb", ".pdg", ".caj",
         )
         val APPLICATION = arrayOf(
-            ".apk", ".aab"
+            ".apk", ".aab",
         )
     }
 }

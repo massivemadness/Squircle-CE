@@ -42,7 +42,7 @@ class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
                 ctrl = event?.isCtrlPressed ?: false,
                 shift = event?.isShiftPressed ?: false,
                 alt = event?.isAltPressed ?: false,
-                keyCode = keyCode
+                keyCode = keyCode,
             )
 
             // Shortcuts can be handled only if one of following keys is pressed

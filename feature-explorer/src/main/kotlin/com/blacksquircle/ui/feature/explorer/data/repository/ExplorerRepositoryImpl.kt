@@ -61,15 +61,16 @@ class ExplorerRepositoryImpl(
             suspendCoroutine<Unit> { cont ->
                 context.checkStorageAccess(
                     onSuccess = { cont.resume(Unit) },
-                    onFailure = { cont.resumeWithException(PermissionException()) }
+                    onFailure = { cont.resumeWithException(PermissionException()) },
                 )
             }
             val filesystem = filesystemFactory.findForPosition(currentFilesystem)
             val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
-            fileTree.copy(children = fileTree.children
-                .filter { if (it.isHidden) settingsManager.showHidden else true }
-                .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
-                .sortedBy { it.directory != settingsManager.foldersOnTop }
+            fileTree.copy(
+                children = fileTree.children
+                    .filter { if (it.isHidden) settingsManager.showHidden else true }
+                    .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
+                    .sortedBy { it.directory != settingsManager.foldersOnTop },
             )
         }
     }
@@ -78,7 +79,7 @@ class ExplorerRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
                 onSuccess = { CreateFileWorker.scheduleJob(context, listOf(fileModel)) },
-                onFailure = { throw PermissionException() }
+                onFailure = { throw PermissionException() },
             )
         }
     }
@@ -87,7 +88,7 @@ class ExplorerRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             context.checkStorageAccess(
                 onSuccess = { RenameFileWorker.scheduleJob(context, listOf(source, dest)) },
-                onFailure = { throw PermissionException() }
+                onFailure = { throw PermissionException() },
             )
         }
     }
@@ -95,35 +96,35 @@ class ExplorerRepositoryImpl(
     override suspend fun deleteFiles(source: List<FileModel>) {
         return context.checkStorageAccess(
             onSuccess = { DeleteFileWorker.scheduleJob(context, source) },
-            onFailure = { throw PermissionException() }
+            onFailure = { throw PermissionException() },
         )
     }
 
     override suspend fun copyFiles(source: List<FileModel>, dest: FileModel) {
         return context.checkStorageAccess(
             onSuccess = { CopyFileWorker.scheduleJob(context, source + dest) },
-            onFailure = { throw PermissionException() }
+            onFailure = { throw PermissionException() },
         )
     }
 
     override suspend fun cutFiles(source: List<FileModel>, dest: FileModel) {
         return context.checkStorageAccess(
             onSuccess = { CutFileWorker.scheduleJob(context, source + dest) },
-            onFailure = { throw PermissionException() }
+            onFailure = { throw PermissionException() },
         )
     }
 
     override suspend fun compressFiles(source: List<FileModel>, dest: FileModel) {
         return context.checkStorageAccess(
             onSuccess = { CompressFileWorker.scheduleJob(context, source + dest) },
-            onFailure = { throw PermissionException() }
+            onFailure = { throw PermissionException() },
         )
     }
 
     override suspend fun extractFiles(source: FileModel, dest: FileModel) {
         return context.checkStorageAccess(
             onSuccess = { ExtractFileWorker.scheduleJob(context, listOf(source, dest)) },
-            onFailure = { throw PermissionException() }
+            onFailure = { throw PermissionException() },
         )
     }
 }

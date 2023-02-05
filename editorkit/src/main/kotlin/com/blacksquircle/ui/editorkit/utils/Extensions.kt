@@ -29,7 +29,9 @@ val TextView.topVisibleLine: Int
         }
         return if (line >= lineCount) {
             lineCount - 1
-        } else line
+        } else {
+            line
+        }
     }
 
 val TextView.bottomVisibleLine: Int
@@ -43,5 +45,7 @@ val TextView.bottomVisibleLine: Int
         }
         return if (line >= lineCount) {
             lineCount - 1
-        } else line
+        } else {
+            line
+        }
     }

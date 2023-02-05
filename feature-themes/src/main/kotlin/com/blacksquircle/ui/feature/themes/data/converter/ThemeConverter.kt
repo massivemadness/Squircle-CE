@@ -60,8 +60,8 @@ object ThemeConverter {
                 tagNameColor = themeEntity.tagNameColor.toColorInt(),
                 attrNameColor = themeEntity.attrNameColor.toColorInt(),
                 attrValueColor = themeEntity.attrValueColor.toColorInt(),
-                entityRefColor = themeEntity.entityRefColor.toColorInt()
-            )
+                entityRefColor = themeEntity.entityRefColor.toColorInt(),
+            ),
         )
     }
 
@@ -96,7 +96,7 @@ object ThemeConverter {
             tagNameColor = themeModel.colorScheme.tagNameColor.toHexString(),
             attrNameColor = themeModel.colorScheme.attrNameColor.toHexString(),
             attrValueColor = themeModel.colorScheme.attrValueColor.toHexString(),
-            entityRefColor = themeModel.colorScheme.entityRefColor.toHexString()
+            entityRefColor = themeModel.colorScheme.entityRefColor.toHexString(),
         )
     }
 
@@ -132,8 +132,8 @@ object ThemeConverter {
                 tagNameColor = themeModel.colorScheme.tagNameColor.toHexString(),
                 attrNameColor = themeModel.colorScheme.attrNameColor.toHexString(),
                 attrValueColor = themeModel.colorScheme.attrValueColor.toHexString(),
-                entityRefColor = themeModel.colorScheme.entityRefColor.toHexString()
-            )
+                entityRefColor = themeModel.colorScheme.entityRefColor.toHexString(),
+            ),
         )
     }
 
@@ -170,8 +170,8 @@ object ThemeConverter {
                 tagNameColor = (externalTheme?.externalScheme?.tagNameColor ?: "#000000").toColorInt(),
                 attrNameColor = (externalTheme?.externalScheme?.attrNameColor ?: "#000000").toColorInt(),
                 attrValueColor = (externalTheme?.externalScheme?.attrValueColor ?: "#000000").toColorInt(),
-                entityRefColor = (externalTheme?.externalScheme?.entityRefColor ?: "#000000").toColorInt()
-            )
+                entityRefColor = (externalTheme?.externalScheme?.entityRefColor ?: "#000000").toColorInt(),
+            ),
         )
     }
 }

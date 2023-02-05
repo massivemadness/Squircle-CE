@@ -48,7 +48,7 @@ object EditorModule {
             settingsManager = settingsManager,
             appDatabase = appDatabase,
             filesystemFactory = filesystemFactory,
-            cacheFilesystem = cacheFilesystem
+            cacheFilesystem = cacheFilesystem,
         )
     }
 }

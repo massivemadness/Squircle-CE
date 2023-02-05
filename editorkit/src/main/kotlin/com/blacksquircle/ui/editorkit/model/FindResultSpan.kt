@@ -22,5 +22,5 @@ import com.blacksquircle.ui.language.base.span.StyleSpan
 data class FindResultSpan(
     private val span: StyleSpan,
     var start: Int,
-    var end: Int
+    var end: Int,
 ) : BackgroundColorSpan(span.color)

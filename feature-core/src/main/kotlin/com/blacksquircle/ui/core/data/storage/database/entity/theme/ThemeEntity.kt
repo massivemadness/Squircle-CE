@@ -83,5 +83,5 @@ data class ThemeEntity(
     @ColumnInfo(name = "attr_value_color")
     val attrValueColor: String,
     @ColumnInfo(name = "entity_ref_color")
-    val entityRefColor: String
+    val entityRefColor: String,
 )

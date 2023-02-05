@@ -23,7 +23,7 @@ import com.blacksquircle.ui.core.ui.extensions.dpToPx
 
 class GridSpacingItemDecoration(
     marginDp: Int,
-    private val columnCount: Int
+    private val columnCount: Int,
 ) : RecyclerView.ItemDecoration() {
 
     /**
@@ -36,13 +36,13 @@ class GridSpacingItemDecoration(
         } else {
             marginDp + (3 - marginDp % 3)
         }
-    ).dpToPx()
+        ).dpToPx()
 
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         val position = parent.getChildAdapterPosition(view)

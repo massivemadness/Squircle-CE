@@ -24,7 +24,8 @@ object Migrations {
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("""
+            database.execSQL(
+                """
                 CREATE TABLE IF NOT EXISTS `${Tables.SERVERS}` (
                     `uuid` TEXT NOT NULL, 
                     `scheme` TEXT NOT NULL, 
@@ -38,7 +39,8 @@ object Migrations {
                     `passphrase` TEXT NOT NULL, 
                     PRIMARY KEY(`uuid`)
                 )
-            """)
+            """,
+            )
             database.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `filesystem_uuid` TEXT NOT NULL DEFAULT 'local'")
             val cursor = database.query("SELECT * FROM `${Tables.DOCUMENTS}`")
             if (cursor.moveToFirst()) {

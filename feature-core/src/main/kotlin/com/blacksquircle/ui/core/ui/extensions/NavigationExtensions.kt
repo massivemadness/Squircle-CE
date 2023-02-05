@@ -41,7 +41,7 @@ fun NavController.navigate(
         .setExitAnim(NavR.anim.nav_default_exit_anim)
         .setPopEnterAnim(NavR.anim.nav_default_pop_enter_anim)
         .setPopExitAnim(NavR.anim.nav_default_pop_exit_anim)
-        .build()
+        .build(),
 ) {
     when (val route = screen.route) {
         is String -> navigate(route.toUri(), navOptions, extras)

@@ -34,7 +34,7 @@ import com.blacksquircle.ui.editorkit.widget.internal.SyntaxHighlightEditText
 open class TextProcessor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = android.R.attr.autoCompleteTextViewStyle
+    defStyleAttr: Int = android.R.attr.autoCompleteTextViewStyle,
 ) : SyntaxHighlightEditText(context, attrs, defStyleAttr), PluginContainer {
 
     companion object {

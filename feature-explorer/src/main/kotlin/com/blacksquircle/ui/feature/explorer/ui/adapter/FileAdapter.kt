@@ -29,7 +29,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 class FileAdapter(
     private val selectionTracker: SelectionTracker<String>,
     private val onItemClickListener: OnItemClickListener<FileModel>,
-    private val viewMode: Int
+    private val viewMode: Int,
 ) : ListAdapter<FileModel, FileAdapter.FileViewHolder>(diffCallback) {
 
     companion object {

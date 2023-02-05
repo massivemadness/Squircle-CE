@@ -27,7 +27,7 @@ class TabWidthSpan(private val width: Int) : ReplacementSpan() {
         text: CharSequence?,
         start: Int,
         end: Int,
-        fm: Paint.FontMetricsInt?
+        fm: Paint.FontMetricsInt?,
     ): Int = paint.measureText(" ".repeat(width)).toInt()
 
     override fun draw(
@@ -39,6 +39,6 @@ class TabWidthSpan(private val width: Int) : ReplacementSpan() {
         top: Int,
         y: Int,
         bottom: Int,
-        paint: Paint
+        paint: Paint,
     ) = Unit
 }

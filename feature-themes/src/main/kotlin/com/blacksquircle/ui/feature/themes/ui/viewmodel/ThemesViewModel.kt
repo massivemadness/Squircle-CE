@@ -41,7 +41,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ThemesViewModel @Inject constructor(
     private val stringProvider: StringProvider,
-    private val themesRepository: ThemesRepository
+    private val themesRepository: ThemesRepository,
 ) : ViewModel() {
 
     private val _themesState = MutableStateFlow<ThemesViewState>(ThemesViewState.Loading)
@@ -68,9 +68,11 @@ class ThemesViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }
@@ -82,9 +84,11 @@ class ThemesViewModel @Inject constructor(
                 loadProperties(themeModel)
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_theme_syntax_exception)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_theme_syntax_exception),
+                    ),
+                )
             }
         }
     }
@@ -93,17 +97,21 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.exportTheme(themeModel)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(
-                        R.string.message_theme_exported,
-                        themeModel.name.lowercase()
-                    )
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_theme_exported,
+                            themeModel.name.lowercase(),
+                        ),
+                    ),
+                )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }
@@ -112,18 +120,22 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.removeTheme(themeModel)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(
-                        R.string.message_theme_removed,
-                        themeModel.name
-                    )
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_theme_removed,
+                            themeModel.name,
+                        ),
+                    ),
+                )
                 fetchThemes("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }
@@ -132,17 +144,21 @@ class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.selectTheme(themeModel)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(
-                        R.string.message_selected,
-                        themeModel.name
-                    )
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_selected,
+                            themeModel.name,
+                        ),
+                    ),
+                )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }
@@ -164,18 +180,22 @@ class ThemesViewModel @Inject constructor(
             try {
                 themesRepository.createTheme(meta, properties)
                 _viewEvent.send(ViewEvent.PopBackStack())
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(
-                        R.string.message_new_theme_available,
-                        meta.name
-                    )
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_new_theme_available,
+                            meta.name,
+                        ),
+                    ),
+                )
                 fetchThemes("")
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(R.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }
@@ -185,8 +205,8 @@ class ThemesViewModel @Inject constructor(
         if (state != null) {
             _newThemeState.value = state.copy(
                 meta = state.meta.copy(
-                    name = value
-                )
+                    name = value,
+                ),
             )
         }
     }
@@ -196,8 +216,8 @@ class ThemesViewModel @Inject constructor(
         if (state != null) {
             _newThemeState.value = state.copy(
                 meta = state.meta.copy(
-                    author = value
-                )
+                    author = value,
+                ),
             )
         }
     }
@@ -207,8 +227,8 @@ class ThemesViewModel @Inject constructor(
         if (state != null) {
             _newThemeState.value = state.copy(
                 meta = state.meta.copy(
-                    description = value
-                )
+                    description = value,
+                ),
             )
         }
     }
@@ -223,7 +243,7 @@ class ThemesViewModel @Inject constructor(
                     } else {
                         propertyItem
                     }
-                }
+                },
             )
         }
     }
@@ -234,16 +254,16 @@ class ThemesViewModel @Inject constructor(
                 uuid = themeModel.uuid,
                 name = themeModel.name,
                 author = themeModel.author,
-                description = themeModel.description
+                description = themeModel.description,
             ),
             properties = listOf(
                 PropertyItem(
                     Property.TEXT_COLOR,
-                    themeModel.colorScheme.textColor.toHexString()
+                    themeModel.colorScheme.textColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.BACKGROUND_COLOR,
-                    themeModel.colorScheme.backgroundColor.toHexString()
+                    themeModel.colorScheme.backgroundColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.GUTTER_COLOR,
@@ -251,97 +271,97 @@ class ThemesViewModel @Inject constructor(
                 ),
                 PropertyItem(
                     Property.GUTTER_DIVIDER_COLOR,
-                    themeModel.colorScheme.gutterDividerColor.toHexString()
+                    themeModel.colorScheme.gutterDividerColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.GUTTER_CURRENT_LINE_NUMBER_COLOR,
-                    themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString()
+                    themeModel.colorScheme.gutterCurrentLineNumberColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.GUTTER_TEXT_COLOR,
-                    themeModel.colorScheme.gutterTextColor.toHexString()
+                    themeModel.colorScheme.gutterTextColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.SELECTED_LINE_COLOR,
-                    themeModel.colorScheme.selectedLineColor.toHexString()
+                    themeModel.colorScheme.selectedLineColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.SELECTION_COLOR,
-                    themeModel.colorScheme.selectionColor.toHexString()
+                    themeModel.colorScheme.selectionColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.SUGGESTION_QUERY_COLOR,
-                    themeModel.colorScheme.suggestionQueryColor.toHexString()
+                    themeModel.colorScheme.suggestionQueryColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.FIND_RESULT_BACKGROUND_COLOR,
-                    themeModel.colorScheme.findResultBackgroundColor.toHexString()
+                    themeModel.colorScheme.findResultBackgroundColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.DELIMITER_BACKGROUND_COLOR,
-                    themeModel.colorScheme.delimiterBackgroundColor.toHexString()
+                    themeModel.colorScheme.delimiterBackgroundColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.NUMBER_COLOR,
-                    themeModel.colorScheme.numberColor.toHexString()
+                    themeModel.colorScheme.numberColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.OPERATOR_COLOR,
-                    themeModel.colorScheme.operatorColor.toHexString()
+                    themeModel.colorScheme.operatorColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.KEYWORD_COLOR,
-                    themeModel.colorScheme.keywordColor.toHexString()
+                    themeModel.colorScheme.keywordColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.TYPE_COLOR,
-                    themeModel.colorScheme.typeColor.toHexString()
+                    themeModel.colorScheme.typeColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.LANG_CONST_COLOR,
-                    themeModel.colorScheme.langConstColor.toHexString()
+                    themeModel.colorScheme.langConstColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.PREPROCESSOR_COLOR,
-                    themeModel.colorScheme.preprocessorColor.toHexString()
+                    themeModel.colorScheme.preprocessorColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.VARIABLE_COLOR,
-                    themeModel.colorScheme.variableColor.toHexString()
+                    themeModel.colorScheme.variableColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.METHOD_COLOR,
-                    themeModel.colorScheme.methodColor.toHexString()
+                    themeModel.colorScheme.methodColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.STRING_COLOR,
-                    themeModel.colorScheme.stringColor.toHexString()
+                    themeModel.colorScheme.stringColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.COMMENT_COLOR,
-                    themeModel.colorScheme.commentColor.toHexString()
+                    themeModel.colorScheme.commentColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.TAG_COLOR,
-                    themeModel.colorScheme.tagColor.toHexString()
+                    themeModel.colorScheme.tagColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.TAG_NAME_COLOR,
-                    themeModel.colorScheme.tagNameColor.toHexString()
+                    themeModel.colorScheme.tagNameColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.ATTR_NAME_COLOR,
-                    themeModel.colorScheme.attrNameColor.toHexString()
+                    themeModel.colorScheme.attrNameColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.ATTR_VALUE_COLOR,
-                    themeModel.colorScheme.attrValueColor.toHexString()
+                    themeModel.colorScheme.attrValueColor.toHexString(),
                 ),
                 PropertyItem(
                     Property.ENTITY_REF_COLOR,
-                    themeModel.colorScheme.entityRefColor.toHexString()
-                )
-            )
+                    themeModel.colorScheme.entityRefColor.toHexString(),
+                ),
+            ),
         )
     }
 

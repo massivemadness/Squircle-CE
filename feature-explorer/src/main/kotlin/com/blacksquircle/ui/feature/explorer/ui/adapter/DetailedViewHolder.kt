@@ -32,7 +32,7 @@ import com.blacksquircle.ui.uikit.R as UiR
 
 class DetailedViewHolder(
     private val binding: ItemFileDetailedBinding,
-    private val onItemClickListener: OnItemClickListener<FileModel>
+    private val onItemClickListener: OnItemClickListener<FileModel>,
 ) : FileAdapter.FileViewHolder(binding.root) {
 
     companion object {
@@ -65,7 +65,7 @@ class DetailedViewHolder(
 
         binding.itemTitle.text = fileModel.name
         binding.itemSubtitle.text = fileModel.lastModified.toReadableDate(
-            pattern = itemView.context.getString(R.string.explorer_date_format)
+            pattern = itemView.context.getString(R.string.explorer_date_format),
         )
         binding.itemFileLength.text = fileModel.size.toReadableSize()
 

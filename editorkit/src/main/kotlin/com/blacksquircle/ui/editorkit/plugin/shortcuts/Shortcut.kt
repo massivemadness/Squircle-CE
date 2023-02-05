@@ -20,5 +20,5 @@ data class Shortcut(
     val ctrl: Boolean,
     val shift: Boolean,
     val alt: Boolean,
-    val keyCode: Int
+    val keyCode: Int,
 )

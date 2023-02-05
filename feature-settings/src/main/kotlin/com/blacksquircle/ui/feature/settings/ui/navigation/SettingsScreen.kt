@@ -34,6 +34,6 @@ sealed class SettingsScreen(route: String) : Screen<String>(route) {
 
     object AddServer : SettingsScreen("blacksquircle://settings/cloud/add")
     class EditServer(serverModel: ServerModel) : SettingsScreen(
-        route = "blacksquircle://settings/cloud/edit?data=${Gson().toJson(serverModel)}"
+        route = "blacksquircle://settings/cloud/edit?data=${Gson().toJson(serverModel)}",
     )
 }

@@ -25,7 +25,7 @@ data class DocumentModel(
     var scrollX: Int,
     var scrollY: Int,
     var selectionStart: Int,
-    var selectionEnd: Int
+    var selectionEnd: Int,
 ) {
 
     val scheme: String

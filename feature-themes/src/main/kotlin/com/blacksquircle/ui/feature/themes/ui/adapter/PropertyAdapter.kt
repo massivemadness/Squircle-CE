@@ -29,7 +29,7 @@ import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 
 class PropertyAdapter(
-    private val onItemClickListener: OnItemClickListener<PropertyItem>
+    private val onItemClickListener: OnItemClickListener<PropertyItem>,
 ) : ListAdapter<PropertyItem, PropertyAdapter.PropertyViewHolder>(diffCallback) {
 
     companion object {
@@ -53,7 +53,7 @@ class PropertyAdapter(
 
     class PropertyViewHolder(
         private val binding: ItemPropertyBinding,
-        private val onItemClickListener: OnItemClickListener<PropertyItem>
+        private val onItemClickListener: OnItemClickListener<PropertyItem>,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {

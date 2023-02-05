@@ -108,7 +108,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                         subColors = ColorPalette.PrimarySub,
                         initialSelection = item.propertyValue.toColorInt(),
                         allowCustomArgb = true,
-                        showAlphaSelector = false
+                        showAlphaSelector = false,
                     ) { _, color ->
                         viewModel.onThemePropertyChanged(item.propertyKey, color.toHexString())
                     }
@@ -125,7 +125,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                 uuid = navArgs.uuid ?: UUID.randomUUID().toString(),
                 name = binding.textInputThemeName.text.toString(),
                 author = binding.textInputThemeAuthor.text.toString(),
-                description = binding.textInputThemeDescription.text.toString()
+                description = binding.textInputThemeDescription.text.toString(),
             )
             viewModel.createTheme(meta, adapter.currentList)
         }
@@ -133,20 +133,23 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
-        binding.toolbar.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_new_theme, menu)
-            }
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.action_import -> {
-                        importThemeContract.launch(arrayOf("application/json"))
-                        true
-                    }
-                    else -> false
+        binding.toolbar.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_new_theme, menu)
                 }
-            }
-        }, viewLifecycleOwner)
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return when (menuItem.itemId) {
+                        R.id.action_import -> {
+                            importThemeContract.launch(arrayOf("application/json"))
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            },
+            viewLifecycleOwner,
+        )
     }
 
     private fun observeViewModel() {

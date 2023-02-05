@@ -30,7 +30,7 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.uikit.R as UiR
 
 class DocumentAdapter(
-    private val tabInteractor: TabInteractor?
+    private val tabInteractor: TabInteractor?,
 ) : TabAdapter<DocumentModel, DocumentAdapter.DocumentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentViewHolder {
@@ -44,14 +44,14 @@ class DocumentAdapter(
     class DocumentViewHolder(
         private val binding: ItemTabDocumentBinding,
         private val tabInteractor: TabInteractor?,
-        private val tabCallback: (Int) -> Unit
+        private val tabCallback: (Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(
                 parent: ViewGroup,
                 tabInteractor: TabInteractor?,
-                tabCallback: (Int) -> Unit
+                tabCallback: (Int) -> Unit,
             ): DocumentViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemTabDocumentBinding.inflate(inflater, parent, false)

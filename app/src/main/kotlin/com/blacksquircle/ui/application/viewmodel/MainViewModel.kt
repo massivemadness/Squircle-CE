@@ -40,7 +40,7 @@ import com.blacksquircle.ui.feature.editor.R as EditorR
 class MainViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
-    private val documentRepository: DocumentRepository
+    private val documentRepository: DocumentRepository,
 ) : ViewModel() {
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
@@ -69,9 +69,11 @@ class MainViewModel @Inject constructor(
                 onSuccess()
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(EditorR.string.message_error_occurred)
-                ))
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(EditorR.string.message_error_occurred),
+                    ),
+                )
             }
         }
     }

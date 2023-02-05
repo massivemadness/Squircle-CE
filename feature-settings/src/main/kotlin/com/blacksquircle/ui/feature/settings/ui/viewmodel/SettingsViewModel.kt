@@ -47,34 +47,34 @@ class SettingsViewModel @Inject constructor(
             PreferenceItem(
                 R.string.pref_header_application_title,
                 R.string.pref_header_application_summary,
-                SettingsScreen.Application
+                SettingsScreen.Application,
             ),
             PreferenceItem(
                 R.string.pref_header_editor_title,
                 R.string.pref_header_editor_summary,
-                SettingsScreen.Editor
+                SettingsScreen.Editor,
             ),
             PreferenceItem(
                 R.string.pref_header_codeStyle_title,
                 R.string.pref_header_codeStyle_summary,
-                SettingsScreen.CodeStyle
+                SettingsScreen.CodeStyle,
             ),
             PreferenceItem(
                 R.string.pref_header_files_title,
                 R.string.pref_header_files_summary,
-                SettingsScreen.Files
+                SettingsScreen.Files,
             ),
             PreferenceItem(
                 R.string.pref_header_cloud_title,
                 R.string.pref_header_cloud_summary,
-                SettingsScreen.Cloud
+                SettingsScreen.Cloud,
             ),
             PreferenceItem(
                 R.string.pref_header_about_title,
                 R.string.pref_header_about_summary,
-                SettingsScreen.About
-            )
-        )
+                SettingsScreen.About,
+            ),
+        ),
     )
     val headersState: StateFlow<List<PreferenceItem>> = _headersState.asStateFlow()
 
@@ -104,9 +104,11 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (serverModel.name.isBlank() || serverModel.address.isBlank()) {
-                    _viewEvent.send(ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_server_missing_fields)
-                    ))
+                    _viewEvent.send(
+                        ViewEvent.Toast(
+                            stringProvider.getString(R.string.message_server_missing_fields),
+                        ),
+                    )
                     return@launch
                 }
                 settingsRepository.upsertServer(serverModel)

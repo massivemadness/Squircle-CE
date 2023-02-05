@@ -31,7 +31,7 @@ import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.uikit.R as UiR
 
 class ToolbarManager(
-    private val listener: OnPanelClickListener
+    private val listener: OnPanelClickListener,
 ) : PopupMenu.OnMenuItemClickListener {
 
     var panel: Panel = Panel.DEFAULT
@@ -53,14 +53,13 @@ class ToolbarManager(
         query = "",
         regex = false,
         matchCase = false,
-        wordsOnly = false
+        wordsOnly = false,
     )
 
     private lateinit var binding: FragmentEditorBinding
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-
             // File Menu
             R.id.action_new -> listener.onNewButton()
             R.id.action_open -> listener.onOpenButton()

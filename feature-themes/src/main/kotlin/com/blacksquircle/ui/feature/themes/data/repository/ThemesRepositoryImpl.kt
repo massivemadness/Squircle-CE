@@ -43,7 +43,7 @@ class ThemesRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
-    private val context: Context
+    private val context: Context,
 ) : ThemesRepository {
 
     companion object {
@@ -201,7 +201,7 @@ class ThemesRepositoryImpl(
                 tagNameColor = tagNameColor,
                 attrNameColor = attrNameColor,
                 attrValueColor = attrValueColor,
-                entityRefColor = entityRefColor
+                entityRefColor = entityRefColor,
             )
 
             appDatabase.themeDao().insert(themeEntity)

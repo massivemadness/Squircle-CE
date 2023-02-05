@@ -49,7 +49,7 @@ class ReleaseAdapter : ListAdapter<ReleaseModel, ReleaseAdapter.ReleaseViewHolde
     }
 
     class ReleaseViewHolder(
-        private val binding: ItemReleaseBinding
+        private val binding: ItemReleaseBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {

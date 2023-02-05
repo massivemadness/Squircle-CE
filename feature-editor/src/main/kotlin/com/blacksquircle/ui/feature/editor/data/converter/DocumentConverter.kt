@@ -43,7 +43,7 @@ object DocumentConverter {
             scrollX = 0,
             scrollY = 0,
             selectionStart = 0,
-            selectionEnd = 0
+            selectionEnd = 0,
         )
     }
 
@@ -57,7 +57,7 @@ object DocumentConverter {
             scrollX = documentEntity.scrollX,
             scrollY = documentEntity.scrollY,
             selectionStart = documentEntity.selectionStart,
-            selectionEnd = documentEntity.selectionEnd
+            selectionEnd = documentEntity.selectionEnd,
         )
     }
 
@@ -71,7 +71,7 @@ object DocumentConverter {
             scrollX = documentModel.scrollX,
             scrollY = documentModel.scrollY,
             selectionStart = documentModel.selectionStart,
-            selectionEnd = documentModel.selectionEnd
+            selectionEnd = documentModel.selectionEnd,
         )
     }
 }

@@ -36,7 +36,7 @@ class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHol
 
     class DirectoryViewHolder(
         private val binding: ItemTabDirectoryBinding,
-        private val tabCallback: (Int) -> Unit
+        private val tabCallback: (Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {

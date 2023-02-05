@@ -47,7 +47,7 @@ object EditorTheme {
         tagNameColor = Color.parseColor("#E2C077"),
         attrNameColor = Color.parseColor("#BABABA"),
         attrValueColor = Color.parseColor("#ABC16D"),
-        entityRefColor = Color.parseColor("#6897BB")
+        entityRefColor = Color.parseColor("#6897BB"),
     )
 
     val MONOKAI = ColorScheme(
@@ -76,7 +76,7 @@ object EditorTheme {
         tagNameColor = Color.parseColor("#EB347E"),
         attrNameColor = Color.parseColor("#B6E951"),
         attrValueColor = Color.parseColor("#EBE48C"),
-        entityRefColor = Color.parseColor("#BB8FF8")
+        entityRefColor = Color.parseColor("#BB8FF8"),
     )
 
     val OBSIDIAN = ColorScheme(
@@ -105,7 +105,7 @@ object EditorTheme {
         tagNameColor = Color.parseColor("#9EC56F"),
         attrNameColor = Color.parseColor("#E0E2E4"),
         attrValueColor = Color.parseColor("#DE7C2E"),
-        entityRefColor = Color.parseColor("#F8CE4E")
+        entityRefColor = Color.parseColor("#F8CE4E"),
     )
 
     val LADIES_NIGHT = ColorScheme(
@@ -134,7 +134,7 @@ object EditorTheme {
         tagNameColor = Color.parseColor("#DA89A2"),
         attrNameColor = Color.parseColor("#E0E2E4"),
         attrValueColor = Color.parseColor("#75D367"),
-        entityRefColor = Color.parseColor("#7EFBFD")
+        entityRefColor = Color.parseColor("#7EFBFD"),
     )
 
     val TOMORROW_NIGHT = ColorScheme(
@@ -163,7 +163,7 @@ object EditorTheme {
         tagNameColor = Color.parseColor("#AD95B8"),
         attrNameColor = Color.parseColor("#C6C8C6"),
         attrValueColor = Color.parseColor("#B7BC73"),
-        entityRefColor = Color.parseColor("#D49668")
+        entityRefColor = Color.parseColor("#D49668"),
     )
 
     val VISUAL_STUDIO_2013 = ColorScheme(
@@ -192,6 +192,6 @@ object EditorTheme {
         tagNameColor = Color.parseColor("#669BD1"),
         attrNameColor = Color.parseColor("#C8C8C8"),
         attrValueColor = Color.parseColor("#CE9F89"),
-        entityRefColor = Color.parseColor("#BACDAB")
+        entityRefColor = Color.parseColor("#BACDAB"),
     )
 }

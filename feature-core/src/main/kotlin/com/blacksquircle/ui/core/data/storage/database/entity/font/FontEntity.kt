@@ -29,5 +29,5 @@ data class FontEntity(
     @ColumnInfo(name = "font_path")
     val fontPath: String,
     @ColumnInfo(name = "support_ligatures")
-    val supportLigatures: Boolean
+    val supportLigatures: Boolean,
 )

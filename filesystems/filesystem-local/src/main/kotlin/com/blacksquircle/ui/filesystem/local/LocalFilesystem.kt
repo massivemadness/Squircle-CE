@@ -52,7 +52,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return FileTree(
             parent = parent,
             children = file.listFiles().orEmpty()
-                .map(::toFileModel).toList()
+                .map(::toFileModel).toList(),
         )
     }
 
@@ -79,10 +79,12 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     override fun renameFile(source: FileModel, dest: FileModel) {
         val originalFile = toFileObject(source)
         val renamedFile = toFileObject(dest)
-        if (!originalFile.exists())
+        if (!originalFile.exists()) {
             throw FileNotFoundException(source.path)
-        if (renamedFile.exists())
+        }
+        if (renamedFile.exists()) {
             throw FileAlreadyExistsException(renamedFile.absolutePath)
+        }
         originalFile.renameTo(renamedFile)
     }
 
@@ -98,10 +100,12 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         val directory = toFileObject(dest)
         val sourceFile = toFileObject(source)
         val destFile = File(directory, sourceFile.name)
-        if (!sourceFile.exists())
+        if (!sourceFile.exists()) {
             throw FileNotFoundException(source.path)
-        if (destFile.exists())
+        }
+        if (destFile.exists()) {
             throw FileAlreadyExistsException(dest.path)
+        }
         sourceFile.copyRecursively(destFile, overwrite = false)
     }
 
@@ -225,14 +229,17 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
                 directory = fileObject.isDirectory,
                 permission = with(fileObject) {
                     var permission = Permission.EMPTY
-                    if (fileObject.canRead())
+                    if (fileObject.canRead()) {
                         permission = permission plusFlag Permission.OWNER_READ
-                    if (fileObject.canWrite())
+                    }
+                    if (fileObject.canWrite()) {
                         permission = permission plusFlag Permission.OWNER_WRITE
-                    if (fileObject.canExecute())
+                    }
+                    if (fileObject.canExecute()) {
                         permission = permission plusFlag Permission.OWNER_EXECUTE
+                    }
                     permission
-                }
+                },
             )
         }
 

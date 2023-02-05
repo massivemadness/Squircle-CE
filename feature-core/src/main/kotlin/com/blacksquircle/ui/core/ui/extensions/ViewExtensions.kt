@@ -66,7 +66,7 @@ fun View.applySystemWindowInsets(
 fun EditText.debounce(
     coroutineScope: CoroutineScope,
     waitMs: Long = 250L,
-    destinationFunction: (String) -> Unit
+    destinationFunction: (String) -> Unit,
 ) {
     var debounceJob: Job? = null
     doAfterTextChanged {
@@ -81,7 +81,7 @@ fun EditText.debounce(
 fun SearchView.debounce(
     coroutineScope: CoroutineScope,
     waitMs: Long = 250L,
-    destinationFunction: (String) -> Unit
+    destinationFunction: (String) -> Unit,
 ) {
     var debounceJob: Job? = null
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -101,7 +101,7 @@ fun SearchView.debounce(
 
 fun ImageView.setTint(@ColorRes colorRes: Int) {
     imageTintList = ColorStateList.valueOf(
-        context.getColour(colorRes)
+        context.getColour(colorRes),
     )
 }
 

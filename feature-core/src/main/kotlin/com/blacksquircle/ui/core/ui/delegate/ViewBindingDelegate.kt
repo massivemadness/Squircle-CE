@@ -27,7 +27,7 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 inline fun <reified T : ViewBinding> Fragment.viewBinding(
-    noinline bindMethod: (View) -> T
+    noinline bindMethod: (View) -> T,
 ): ViewBindingDelegate<T> {
     return ViewBindingDelegate(this, bindMethod)
 }

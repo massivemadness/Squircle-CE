@@ -42,7 +42,7 @@ class ColorPickerDialog : DialogFragment() {
                 colors = ColorPalette.Primary,
                 subColors = ColorPalette.PrimarySub,
                 allowCustomArgb = true,
-                showAlphaSelector = true
+                showAlphaSelector = true,
             ) { _, color ->
                 viewModel.obtainEvent(EditorIntent.InsertColor(color))
             }

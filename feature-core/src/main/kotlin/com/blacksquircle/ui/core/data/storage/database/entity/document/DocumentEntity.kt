@@ -41,5 +41,5 @@ data class DocumentEntity(
     @ColumnInfo(name = "selection_start")
     val selectionStart: Int,
     @ColumnInfo(name = "selection_end")
-    val selectionEnd: Int
+    val selectionEnd: Int,
 )
