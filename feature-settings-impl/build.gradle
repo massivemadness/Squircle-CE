@@ -86,6 +86,7 @@ dependencies {
     kapt library.hilt_compiler
 
     // Modules
+    implementation project(':feature-settings-api')
     implementation project(':common-core')
     implementation project(':common-ui')
 
