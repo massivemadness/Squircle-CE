@@ -86,14 +86,9 @@ dependencies {
     kapt library.hilt_compiler
 
     // Modules
+    implementation project(':feature-themes-api')
     implementation project(':common-core')
     implementation project(':common-ui')
-
-    implementation project(':editorkit')
-    implementation project(':filesystems:filesystem-base')
-    implementation project(':languages:language-base')
-
-    // Features
 
     // Tests
     testImplementation testLibrary.junit

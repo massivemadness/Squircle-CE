@@ -109,7 +109,8 @@ dependencies {
     implementation project(':feature-fonts-impl')
     implementation project(':feature-settings-api')
     implementation project(':feature-settings-impl')
-    implementation project(':feature-themes')
+    implementation project(':feature-themes-api')
+    implementation project(':feature-themes-impl')
     implementation project(':common-core')
     implementation project(':common-ui')
 

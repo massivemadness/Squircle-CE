@@ -85,7 +85,7 @@ dependencies {
 
     // Modules
     implementation project(':feature-editor-api')
-    implementation project(':feature-themes') // TODO remove
+    implementation project(':feature-themes-api')
     implementation project(':common-core')
     implementation project(':common-ui')
 

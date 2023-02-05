@@ -29,7 +29,7 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
-import com.blacksquircle.ui.feature.themes.data.utils.InternalTheme
+import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.data.utils
+package com.blacksquircle.ui.feature.themes.domain.model
 
 import com.blacksquircle.ui.editorkit.utils.EditorTheme
-import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 enum class InternalTheme(val theme: ThemeModel) {
     THEME_DARCULA(

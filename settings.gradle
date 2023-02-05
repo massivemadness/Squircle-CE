@@ -26,7 +26,8 @@ include ':common-core',
         ':feature-fonts-impl',
         ':feature-settings-api',
         ':feature-settings-impl',
-        ':feature-themes'
+        ':feature-themes-api',
+        ':feature-themes-impl'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local',
