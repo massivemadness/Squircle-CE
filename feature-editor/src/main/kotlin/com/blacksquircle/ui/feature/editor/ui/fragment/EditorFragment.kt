@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -87,6 +88,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     private val navController by lazy { findNavController() }
 
     private val onTabSelectedListener = object : TabAdapter.OnTabSelectedListener {
+        override fun onTabUnselected(position: Int) = saveFile()
         override fun onTabSelected(position: Int) {
             viewModel.obtainEvent(EditorIntent.SelectTab(position))
         }
@@ -140,13 +142,16 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
             binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
         }
 
-        binding.editor.clearText()
-
         binding.actionTab.setOnClickListener {
             binding.editor.insert(binding.editor.tab())
         }
 
         viewModel.obtainEvent(EditorIntent.LoadSettings)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveFile()
     }
 
     override fun handleOnBackPressed(): Boolean {
@@ -195,7 +200,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             state.content.documentModel.selectionStart,
                             state.content.documentModel.selectionEnd
                         )
-                        binding.editor.requestFocus()
+                        binding.editor.doOnPreDraw(View::requestFocus)
                     }
                     is DocumentViewState.Error -> {
                         binding.editor.isVisible = false
@@ -207,6 +212,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         binding.errorView.subtitle.text = state.subtitle
                         binding.errorView.actionPrimary.isVisible = false
                         binding.loadingBar.isVisible = false
+                        binding.editor.clearText()
                     }
                     is DocumentViewState.Loading -> {
                         binding.editor.isVisible = false
@@ -214,6 +220,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         binding.keyboard.isVisible = false
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
+                        binding.editor.clearText()
                     }
                 }
             }
@@ -249,30 +256,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     }
 
     override fun onSaveButton(): Boolean {
-        val position = tabAdapter.selectedPosition
-        if (position > -1) {
-            val isModified = tabAdapter.currentList[position].modified
-            if (isModified) {
-                tabAdapter.currentList[position].modified = false
-                tabAdapter.notifyItemChanged(position)
-            }
-
-            val documentContent = DocumentContent(
-                documentModel = tabAdapter.currentList[position],
-                language = binding.editor.language,
-                undoStack = binding.editor.undoStack.clone(),
-                redoStack = binding.editor.redoStack.clone(),
-                text = binding.editor.text.toString()
-            )
-
-            val params = DocumentParams(
-                local = true,
-                cache = true
-            )
-            // viewModel.saveFile(documentContent, params)
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
+        saveFile(local = true)
         return true
     }
 
@@ -512,6 +496,21 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     }
 
     // endregion TOOLBAR
+
+    private fun saveFile(local: Boolean = false) {
+        val action = EditorIntent.SaveFile(
+            local = local,
+            text = binding.editor.text.toString(),
+            language = binding.editor.language,
+            undoStack = binding.editor.undoStack.clone(),
+            redoStack = binding.editor.redoStack.clone(),
+            scrollX = binding.editor.scrollX,
+            scrollY = binding.editor.scrollY,
+            selectionStart = binding.editor.selectionStart,
+            selectionEnd = binding.editor.selectionEnd
+        )
+        viewModel.obtainEvent(action)
+    }
 
     private fun applySettings(settings: List<SettingsEvent<*>>) {
         val pluginSupplier = PluginSupplier.create {

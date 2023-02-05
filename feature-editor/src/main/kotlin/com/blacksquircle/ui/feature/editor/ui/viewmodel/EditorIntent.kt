@@ -16,7 +16,9 @@
 
 package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
+import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.language.base.Language
 
 sealed class EditorIntent {
 
@@ -30,4 +32,16 @@ sealed class EditorIntent {
     data class CloseTab(val position: Int) : EditorIntent()
     data class CloseOthers(val position: Int) : EditorIntent()
     data class CloseAll(val position: Int) : EditorIntent()
+
+    data class SaveFile(
+        val local: Boolean,
+        val text: String,
+        val language: Language?,
+        val undoStack: UndoStack,
+        val redoStack: UndoStack,
+        val scrollX: Int,
+        val scrollY: Int,
+        val selectionStart: Int,
+        val selectionEnd: Int
+    ) : EditorIntent()
 }

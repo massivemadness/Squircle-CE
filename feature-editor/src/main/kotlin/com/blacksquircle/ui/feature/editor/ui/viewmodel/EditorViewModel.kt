@@ -26,7 +26,9 @@ import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
@@ -78,12 +80,13 @@ class EditorViewModel @Inject constructor(
             is EditorIntent.CloseTab -> closeTab(event)
             is EditorIntent.CloseOthers -> closeOthers(event)
             is EditorIntent.CloseAll -> closeAll(event)
+
+            is EditorIntent.SaveFile -> saveFile(event)
         }
     }
 
     private fun loadFiles() {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
+        viewModelScope.launch {
             try {
                 val documentList = documentRepository.fetchDocuments()
                 val selectedUuid = settingsManager.selectedUuid
@@ -120,8 +123,8 @@ class EditorViewModel @Inject constructor(
                 val position = documents.indexOrNull {
                     it.fileUri == document.fileUri
                 } ?: run {
-                    documents.appendList(document).also {
-                        updatePosition()
+                    documents.appendList(document).also { documents ->
+                        updateDocuments(documents)
                     }
                     documents.lastIndex
                 }
@@ -166,7 +169,7 @@ class EditorViewModel @Inject constructor(
                 val document = documents[event.from]
                 documents.removeAt(event.from)
                 documents.add(event.to, document)
-                updatePosition()
+                updateDocuments(documents)
 
                 when (selectedPosition) {
                     in event.to until event.from -> selectedPosition++
@@ -178,7 +181,7 @@ class EditorViewModel @Inject constructor(
                     documents = documents,
                     position = selectedPosition,
                 )
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
@@ -223,7 +226,7 @@ class EditorViewModel @Inject constructor(
                         selectTab(EditorIntent.SelectTab(position))
                     }
                 }
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
@@ -249,7 +252,7 @@ class EditorViewModel @Inject constructor(
                         position = selectedPosition
                     )
                 }
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
@@ -259,10 +262,7 @@ class EditorViewModel @Inject constructor(
     private fun closeAll(event: EditorIntent.CloseAll) {
         viewModelScope.launch {
             try {
-                documents.forEach { document ->
-                    documentRepository.deleteDocument(document)
-                }
-                documents.clear()
+                deleteDocuments(documents)
                 selectedPosition = -1
                 _editorViewState.value = EditorViewState.ActionBar(
                     documents = documents,
@@ -273,24 +273,62 @@ class EditorViewModel @Inject constructor(
                     title = stringProvider.getString(R.string.message_no_open_files),
                     subtitle = "",
                 )
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }
 
-    private fun updatePosition() {
+    private fun saveFile(event: EditorIntent.SaveFile) {
         viewModelScope.launch {
             try {
-                documents.forEachIndexed { index, document ->
-                    documentRepository.updateDocument(document.copy(position = index))
+                if (selectedPosition > -1) {
+                    val content = DocumentContent(
+                        documentModel = documents[selectedPosition].apply {
+                            scrollX = event.scrollX
+                            scrollY = event.scrollY
+                            selectionStart = event.selectionStart
+                            selectionEnd = event.selectionEnd
+                        },
+                        language = event.language,
+                        undoStack = event.undoStack,
+                        redoStack = event.redoStack,
+                        text = event.text,
+                    )
+                    val currentState = documentViewState.value
+                    if (currentState is DocumentViewState.Content) {
+                        if (!event.local) {
+                            _documentViewState.value = currentState.copy(content = content)
+                        }
+                        documentRepository.saveFile(content, DocumentParams(event.local, true))
+                        documentRepository.updateDocument(content.documentModel)
+                        if (event.local) {
+                            _viewEvent.send(ViewEvent.Toast(
+                                stringProvider.getString(R.string.message_saved)
+                            ))
+                        }
+                    }
                 }
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
+    }
+
+    private suspend fun updateDocuments(documents: List<DocumentModel>) {
+        documents.forEachIndexed { index, document ->
+            documentRepository.updateDocument(document.copy(position = index))
+            document.position = index
+        }
+    }
+
+    private suspend fun deleteDocuments(documents: List<DocumentModel>) {
+        documents.forEach { document ->
+            documentRepository.deleteDocument(document)
+        }
+        this.documents.clear()
     }
 
     private fun errorState(e: Throwable) {
