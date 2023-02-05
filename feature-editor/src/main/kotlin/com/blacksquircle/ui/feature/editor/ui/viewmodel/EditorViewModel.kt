@@ -89,6 +89,10 @@ class EditorViewModel @Inject constructor(
             is EditorIntent.GotoLine -> gotoLine()
             is EditorIntent.GotoLineNumber -> gotoLineNumber(event)
 
+            is EditorIntent.ColorPicker -> colorPicker()
+            is EditorIntent.InsertColor -> insertColor(event)
+
+            is EditorIntent.ModifyContent -> modifyContent()
             is EditorIntent.SaveFile -> saveFile(event)
 
             is EditorIntent.PanelDefault -> panelDefault()
@@ -318,9 +322,44 @@ class EditorViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_line_not_exists))
-                )
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun colorPicker() {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition > -1) {
+                    _viewEvent.send(ViewEvent.Navigation(EditorScreen.ColorPicker))
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun insertColor(event: EditorIntent.InsertColor) {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition > -1) {
+                    val color = event.color.toHexString()
+                    _viewEvent.send(EditorViewEvent.InsertColor(color))
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun modifyContent() {
+        if (selectedPosition > -1) {
+            val document = documents[selectedPosition]
+            if (!document.modified) {
+                document.modified = true
+                refreshActionBar(selectedPosition)
             }
         }
     }
@@ -335,6 +374,10 @@ class EditorViewModel @Inject constructor(
                             scrollY = event.scrollY
                             selectionStart = event.selectionStart
                             selectionEnd = event.selectionEnd
+                            if (event.local && modified) {
+                                modified = false
+                                refreshActionBar(selectedPosition)
+                            }
                         },
                         language = event.language,
                         undoStack = event.undoStack,

@@ -38,6 +38,10 @@ sealed class EditorIntent {
     object GotoLine : EditorIntent()
     data class GotoLineNumber(val line: String) : EditorIntent()
 
+    object ColorPicker : EditorIntent()
+    data class InsertColor(val color: Int) : EditorIntent()
+
+    object ModifyContent : EditorIntent()
     data class SaveFile(
         val local: Boolean,
         val text: String,

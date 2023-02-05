@@ -40,4 +40,11 @@
         <deepLink app:uri="blacksquircle://editor/goto" />
     </dialog>
 
+    <dialog
+        android:id="@+id/colorPickerDialog"
+        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.ColorPickerDialog"
+        android:label="ColorPickerDialog">
+        <deepLink app:uri="blacksquircle://editor/colorpicker" />
+    </dialog>
+
 </navigation>

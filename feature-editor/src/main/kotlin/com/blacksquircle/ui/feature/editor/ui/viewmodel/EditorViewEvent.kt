@@ -20,5 +20,6 @@ import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 
 sealed class EditorViewEvent : ViewEvent() {
 
+    data class InsertColor(val color: String) : EditorViewEvent()
     data class GotoLine(val line: Int) : EditorViewEvent()
 }

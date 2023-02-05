@@ -25,4 +25,5 @@ sealed class EditorScreen(route: String) : Screen<String>(route) {
     )
 
     object GotoLine : EditorScreen("blacksquircle://editor/goto")
+    object ColorPicker : EditorScreen("blacksquircle://editor/colorpicker")
 }

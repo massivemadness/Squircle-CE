@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -29,8 +28,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.color.ColorPalette
-import com.afollestad.materialdialogs.color.colorChooser
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
@@ -230,6 +227,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigate(event.screen)
+                    is EditorViewEvent.InsertColor -> binding.editor.insert(event.color)
                     is EditorViewEvent.GotoLine -> try {
                         binding.editor.gotoLine(event.line)
                     } catch (e: Exception) {
@@ -386,26 +384,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         }
     }
 
-    @SuppressLint("CheckResult")
     override fun onInsertColorButton() {
-        val position = tabAdapter.selectedPosition
-        if (position > -1) {
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_color_picker)
-                colorChooser(
-                    colors = ColorPalette.Primary,
-                    subColors = ColorPalette.PrimarySub,
-                    allowCustomArgb = true,
-                    showAlphaSelector = true
-                ) { _, color ->
-                    binding.editor.insert(color.toHexString())
-                }
-                positiveButton(R.string.action_insert)
-                negativeButton(R.string.action_cancel)
-            }
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
+        viewModel.obtainEvent(EditorIntent.ColorPicker)
     }
 
     override fun onUndoButton(): Boolean {
@@ -504,14 +484,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
             }
             changeDetector {
                 onChangeListener = OnChangeListener {
-                    /*val position = adapter.selectedPosition
-                    if (position > -1) {
-                        val isModified = adapter.currentList[position].modified
-                        if (!isModified) {
-                            adapter.currentList[position].modified = true
-                            adapter.notifyItemChanged(position)
-                        }
-                    }*/
+                    viewModel.obtainEvent(EditorIntent.ModifyContent)
                 }
             }
             shortcuts {
