@@ -8,9 +8,6 @@ Beautiful syntax highlighting provides you a better way to understand your code 
 <b>Code Completion</b>
 The code editor provides basic completion based on a file content, it suggests names of functions, fields, and keywords within your file scope
 
-<b>Error Checking</b>
-Whenever you make a change, the code editor will correct you by highlighting a part of code that contains syntax errors <i>(Note that this feature currently works only for JavaScript, but it will be available for more languages soon)</i>
-
 <b>File Manager</b>
 A built-in file manager with SFTP/FTP(S) integration provides a convenient way to transfer files between mobile phone and computer
 

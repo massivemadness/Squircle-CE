@@ -50,11 +50,11 @@
             android:defaultValue="true"
             android:key="CODE_COMPLETION"/>
 
-        <SwitchPreference
+        <!--<SwitchPreference
             android:title="@string/pref_error_highlighting_title"
             android:summary="@string/pref_error_highlighting_summary"
             android:defaultValue="true"
-            android:key="ERROR_HIGHLIGHTING"/>
+            android:key="ERROR_HIGHLIGHTING" />-->
 
         <SwitchPreference
             android:title="@string/pref_pinch_zoom_title"

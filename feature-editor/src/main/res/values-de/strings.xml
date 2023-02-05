@@ -44,7 +44,7 @@
     <string name="action_close_replace">Ersetzen schließen</string>
     <string name="action_goto_line">Gehe zu Zeile</string>
     <string name="action_go_to">Gehe zu</string>
-    <string name="action_error_checking">Fehlerüberprüfung</string>
+    <!--<string name="action_error_checking">Fehlerüberprüfung</string>-->
     <string name="action_insert_color">Farbe einfügen</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_tools">Tools</string>

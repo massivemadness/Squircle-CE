@@ -104,7 +104,7 @@ class ToolbarManager(
             }
 
             // Tools Menu
-            R.id.action_error_checking -> listener.onErrorCheckingButton()
+            // R.id.action_error_checking -> listener.onErrorCheckingButton()
             R.id.action_insert_color -> listener.onInsertColorButton()
 
             // Overflow Menu
@@ -239,7 +239,7 @@ class ToolbarManager(
         fun onPreviousResultButton()
         fun onFindParamsChanged(params: FindParams)
 
-        fun onErrorCheckingButton()
+        // fun onErrorCheckingButton()
         fun onInsertColorButton()
 
         fun onUndoButton(): Boolean

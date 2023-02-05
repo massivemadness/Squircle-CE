@@ -19,7 +19,6 @@ package com.blacksquircle.ui.language.javascript.parser
 import com.blacksquircle.ui.language.base.exception.ParseException
 import com.blacksquircle.ui.language.base.model.ParseResult
 import com.blacksquircle.ui.language.base.parser.LanguageParser
-import org.mozilla.javascript.*
 
 class JavaScriptParser private constructor() : LanguageParser {
 
@@ -35,18 +34,8 @@ class JavaScriptParser private constructor() : LanguageParser {
     }
 
     override fun execute(name: String, source: String): ParseResult {
-        val context = Context.enter()
-        context.optimizationLevel = -1
-        context.maximumInterpreterStackDepth = 1 // to avoid recursive calls
-        return try {
-            val scope = context.initStandardObjects()
-            context.evaluateString(scope, source, name, 1, null)
-            ParseResult(null)
-        } catch (e: RhinoException) {
-            val parseException = ParseException(e.message, e.lineNumber(), e.columnNumber())
-            ParseResult(parseException)
-        } finally {
-            Context.exit()
-        }
+        // TODO Implement parser
+        val parseException = ParseException("Unable to parse unsupported language", 0, 0)
+        return ParseResult(parseException)
     }
 }

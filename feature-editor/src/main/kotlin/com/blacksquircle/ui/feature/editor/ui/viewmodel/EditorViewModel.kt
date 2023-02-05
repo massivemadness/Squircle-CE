@@ -490,8 +490,8 @@ class EditorViewModel @Inject constructor(
                 val codeCompletion = settingsManager.codeCompletion
                 settings.add(SettingsEvent.CodeCompletion(codeCompletion))
 
-                val errorHighlighting = settingsManager.errorHighlighting
-                settings.add(SettingsEvent.ErrorHighlight(errorHighlighting))
+                /*val errorHighlighting = settingsManager.errorHighlighting
+                settings.add(SettingsEvent.ErrorHighlight(errorHighlighting))*/
 
                 val pinchZoom = settingsManager.pinchZoom
                 settings.add(SettingsEvent.PinchZoom(pinchZoom))

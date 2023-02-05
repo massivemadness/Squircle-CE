@@ -36,7 +36,7 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         // Editor
         const val KEY_WORD_WRAP = "WORD_WRAP"
         const val KEY_CODE_COMPLETION = "CODE_COMPLETION"
-        const val KEY_ERROR_HIGHLIGHTING = "ERROR_HIGHLIGHTING"
+        // const val KEY_ERROR_HIGHLIGHTING = "ERROR_HIGHLIGHTING"
         const val KEY_PINCH_ZOOM = "PINCH_ZOOM"
         const val KEY_LINE_NUMBERS = "SHOW_LINE_NUMBERS"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
@@ -103,9 +103,9 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
     var codeCompletion: Boolean
         get() = sharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_CODE_COMPLETION, value).apply()
-    var errorHighlighting: Boolean
+    /*var errorHighlighting: Boolean
         get() = sharedPreferences.getBoolean(KEY_ERROR_HIGHLIGHTING, true)
-        set(value) = sharedPreferences.edit().putBoolean(KEY_ERROR_HIGHLIGHTING, value).apply()
+        set(value) = sharedPreferences.edit().putBoolean(KEY_ERROR_HIGHLIGHTING, value).apply()*/
     var pinchZoom: Boolean
         get() = sharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_PINCH_ZOOM, value).apply()

@@ -27,7 +27,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
@@ -365,25 +364,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
         binding.editor.find(params)
     }
 
-    override fun onErrorCheckingButton() {
-        val position = tabAdapter.selectedPosition
-        if (position > -1) {
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_result)
-                message(R.string.message_no_errors_detected)
-                /*viewModel.parseEvent.value?.let { model ->
-                    model.exception?.let {
-                        message(text = it.message)
-                        binding.editor.setErrorLine(it.lineNumber)
-                    }
-                }*/
-                positiveButton(R.string.action_ok)
-            }
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
-    }
-
     override fun onInsertColorButton() {
         viewModel.obtainEvent(EditorIntent.ColorPicker)
     }
@@ -440,25 +420,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                             requireContext(),
                             binding.editor.colorScheme
                         )
-                    }
-                    is SettingsEvent.ErrorHighlight -> {
-                        if (event.value) {
-                            binding.editor.debounce(
-                                coroutineScope = viewLifecycleOwner.lifecycleScope,
-                                waitMs = 1500
-                            ) { text ->
-                                if (text.isNotEmpty()) {
-                                    /*val position = adapter.selectedPosition
-                                    if (position > -1) {
-                                        viewModel.parse(
-                                            adapter.currentList[position],
-                                            binding.editor.language,
-                                            binding.editor.text.toString()
-                                        )
-                                    }*/
-                                }
-                            }
-                        }
                     }
                     is SettingsEvent.PinchZoom -> if (event.value) pinchZoom()
                     is SettingsEvent.LineNumbers -> lineNumbers {

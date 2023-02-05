@@ -98,8 +98,8 @@
     <string name="pref_word_wrap_summary">Enable word wrap to fit screen width.</string>
     <string name="pref_code_completion_title">Code Completion</string>
     <string name="pref_code_completion_summary">Show autocomplete suggestions.</string>
-    <string name="pref_error_highlighting_title">Error Highlighting</string>
-    <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>
+    <!--<string name="pref_error_highlighting_title">Error Highlighting</string>
+    <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>-->
     <string name="pref_pinch_zoom_title">Pinch Zoom</string>
     <string name="pref_pinch_zoom_summary">Enable zoom gesture in the editor.</string>
     <string name="pref_line_numbers_title">Line Numbers</string>

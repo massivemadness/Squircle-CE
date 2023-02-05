@@ -28,11 +28,11 @@
         android:icon="@drawable/ic_tools"
         app:iconTint="@color/colorIcon">
         <menu>
-            <item
+            <!--<item
                 android:id="@+id/action_error_checking"
                 android:title="@string/action_error_checking"
                 android:icon="@drawable/ic_code_check"
-                app:iconTint="@color/colorIcon"/>
+                app:iconTint="@color/colorIcon"/>-->
             <item
                 android:id="@+id/action_insert_color"
                 android:title="@string/action_insert_color"

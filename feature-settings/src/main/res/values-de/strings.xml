@@ -92,8 +92,8 @@
     <string name="pref_word_wrap_summary">Aktivieren, damit sich Wörter der Bildschirmbreite anpassen.</string>
     <string name="pref_code_completion_title">Code Completion</string>
     <string name="pref_code_completion_summary">Autovervollständigungsvorschläge anzeigen.</string>
-    <string name="pref_error_highlighting_title">Fehlermarkierung</string>
-    <string name="pref_error_highlighting_summary">Echtzeit-Fehlermarkierung aktivieren. Neustart erforderlich.</string>
+    <!--<string name="pref_error_highlighting_title">Fehlermarkierung</string>
+    <string name="pref_error_highlighting_summary">Echtzeit-Fehlermarkierung aktivieren. Neustart erforderlich.</string>-->
     <string name="pref_pinch_zoom_title">Pinch-to-Zoom-Gesten</string>
     <string name="pref_pinch_zoom_summary">Zoom-Gesten im Editor aktivieren.</string>
     <string name="pref_line_numbers_title">Line Numbers</string>

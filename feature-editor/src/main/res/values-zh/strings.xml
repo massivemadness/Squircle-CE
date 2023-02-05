@@ -44,7 +44,7 @@
     <string name="action_close_replace">关闭替换</string>
     <string name="action_goto_line">转到行</string>
     <string name="action_go_to">转到</string>
-    <string name="action_error_checking">错误检查</string>
+    <!--<string name="action_error_checking">错误检查</string>-->
     <string name="action_insert_color">插入颜色</string>
     <string name="action_settings">设置</string>
     <string name="action_tools">工具</string>

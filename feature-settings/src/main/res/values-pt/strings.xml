@@ -92,8 +92,8 @@
     <string name="pref_word_wrap_summary">Ativa a quebra de linha para o texto caber na tela.</string>
     <string name="pref_code_completion_title">Completação de código</string>
     <string name="pref_code_completion_summary">Mostra sugestões de autocompletação.</string>
-    <string name="pref_error_highlighting_title">Realçar erros</string>
-    <string name="pref_error_highlighting_summary">Realça erros em tempo real. É preciso reiniciar o aplicativo.</string>
+    <!--<string name="pref_error_highlighting_title">Realçar erros</string>
+    <string name="pref_error_highlighting_summary">Realça erros em tempo real. É preciso reiniciar o aplicativo.</string>-->
     <string name="pref_pinch_zoom_title">Zoom</string>
     <string name="pref_pinch_zoom_summary">Zoom de pinça no editor.</string>
     <string name="pref_line_numbers_title">Line Numbers</string>

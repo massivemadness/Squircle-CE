@@ -92,8 +92,8 @@
     <string name="pref_word_wrap_summary">Включите перенос слов для отображения текста по ширине экрана.</string>
     <string name="pref_code_completion_title">Автодополнение кода</string>
     <string name="pref_code_completion_summary">Показывать варианты автодополнения.</string>
-    <string name="pref_error_highlighting_title">Подсветка ошибок</string>
-    <string name="pref_error_highlighting_summary">Включить подсветку ошибок в реальном времени. Требуется перезапуск.</string>
+    <!--<string name="pref_error_highlighting_title">Подсветка ошибок</string>
+    <string name="pref_error_highlighting_summary">Включить подсветку ошибок в реальном времени. Требуется перезапуск.</string>-->
     <string name="pref_pinch_zoom_title">Увеличение жестом</string>
     <string name="pref_pinch_zoom_summary">Включить жест увеличения текста в редакторе.</string>
     <string name="pref_line_numbers_title">Номера строк</string>
