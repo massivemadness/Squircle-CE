@@ -43,7 +43,7 @@ class CreateDialog : DialogFragment() {
 
             val binding = DialogCreateBinding.bind(getCustomView())
 
-            negativeButton(R.string.action_cancel)
+            negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_create) {
                 val fileName = binding.input.text.toString()
                 val isFolder = binding.boxIsFolder.isChecked

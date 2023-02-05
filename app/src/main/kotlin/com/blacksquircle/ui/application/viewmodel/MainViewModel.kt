@@ -20,7 +20,6 @@ import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.R
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -35,6 +34,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
+import com.blacksquircle.ui.feature.editor.R as EditorR
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -70,7 +70,7 @@ class MainViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(
-                    stringProvider.getString(R.string.message_error_occurred)
+                    stringProvider.getString(EditorR.string.message_error_occurred)
                 ))
             }
         }

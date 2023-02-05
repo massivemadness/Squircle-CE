@@ -53,7 +53,7 @@ class DeleteDialog : DialogFragment() {
         return MaterialDialog(requireContext()).show {
             title(text = dialogTitle)
             message(dialogMessage)
-            negativeButton(R.string.action_cancel)
+            negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_delete) {
                 navController.popBackStack()
                 viewModel.obtainEvent(ExplorerIntent.DeleteFile)

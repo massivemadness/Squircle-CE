@@ -29,7 +29,7 @@ import kotlin.math.abs
 abstract class ScrollableEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
+    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle
 ) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr) {
 
     private val textScroller = OverScroller(context)

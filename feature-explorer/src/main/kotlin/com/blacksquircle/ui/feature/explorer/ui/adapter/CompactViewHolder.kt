@@ -25,6 +25,7 @@ import com.blacksquircle.ui.feature.explorer.data.utils.setSelectableBackground
 import com.blacksquircle.ui.feature.explorer.databinding.ItemFileCompactBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
+import com.blacksquircle.ui.uikit.R as UiR
 
 class CompactViewHolder(
     private val binding: ItemFileCompactBinding,
@@ -68,29 +69,29 @@ class CompactViewHolder(
         }
 
         if (fileModel.directory) {
-            binding.itemIcon.setImageResource(R.drawable.ic_folder)
+            binding.itemIcon.setImageResource(UiR.drawable.ic_folder)
             binding.itemIcon.setTint(R.color.colorFolder)
         } else {
-            binding.itemIcon.setImageResource(R.drawable.ic_file)
+            binding.itemIcon.setImageResource(UiR.drawable.ic_file)
             binding.itemIcon.setTint(R.color.colorFile)
         }
 
         when (fileModel.type) {
             FileType.TEXT -> {
-                binding.itemIcon.setImageResource(R.drawable.ic_file_document)
+                binding.itemIcon.setImageResource(UiR.drawable.ic_file_document)
             }
             FileType.ARCHIVE -> {
-                binding.itemIcon.setImageResource(R.drawable.ic_file_archive)
+                binding.itemIcon.setImageResource(UiR.drawable.ic_file_archive)
                 binding.itemIcon.setTint(R.color.colorFolder)
             }
             FileType.IMAGE -> {
-                binding.itemIcon.setImageResource(R.drawable.ic_file_image)
+                binding.itemIcon.setImageResource(UiR.drawable.ic_file_image)
             }
             FileType.AUDIO -> {
-                binding.itemIcon.setImageResource(R.drawable.ic_file_audio)
+                binding.itemIcon.setImageResource(UiR.drawable.ic_file_audio)
             }
             FileType.VIDEO -> {
-                binding.itemIcon.setImageResource(R.drawable.ic_file_video)
+                binding.itemIcon.setImageResource(UiR.drawable.ic_file_video)
             }
             else -> Unit
         }

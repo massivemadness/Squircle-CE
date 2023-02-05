@@ -35,7 +35,7 @@ class RestrictedDialog : DialogFragment() {
         return MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_storage_access)
             message(R.string.dialog_message_storage_access)
-            negativeButton(R.string.action_cancel)
+            negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_continue) {
                 val intent = Intent(navArgs.action).apply {
                     data = navArgs.data.toUri()

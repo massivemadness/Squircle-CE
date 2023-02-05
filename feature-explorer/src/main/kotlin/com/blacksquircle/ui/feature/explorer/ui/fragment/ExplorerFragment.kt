@@ -64,6 +64,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandler {
@@ -273,9 +274,9 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.actionHome.isVisible = true
                         binding.actionOperation.setImageResource(
                             when (state.operation) {
-                                Operation.CUT -> R.drawable.ic_paste
-                                Operation.COPY -> R.drawable.ic_paste
-                                else -> R.drawable.ic_plus
+                                Operation.CUT -> UiR.drawable.ic_paste
+                                Operation.COPY -> UiR.drawable.ic_paste
+                                else -> UiR.drawable.ic_plus
                             }
                         )
                         binding.actionOperation.setOnClickListener {
@@ -307,7 +308,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.swipeRefresh.isVisible = false
                         binding.errorView.root.isVisible = true
                         binding.loadingBar.isVisible = false
-                        binding.errorView.image.setImageResource(R.drawable.ic_file_error)
+                        binding.errorView.image.setImageResource(UiR.drawable.ic_file_error)
                         binding.errorView.title.text = getString(R.string.message_access_denied)
                         binding.errorView.subtitle.text = getString(R.string.message_access_required)
                         binding.errorView.actionPrimary.isVisible = true

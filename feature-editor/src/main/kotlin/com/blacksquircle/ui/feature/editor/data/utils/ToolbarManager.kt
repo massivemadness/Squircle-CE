@@ -28,6 +28,7 @@ import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
+import com.blacksquircle.ui.uikit.R as UiR
 
 class ToolbarManager(
     private val listener: OnPanelClickListener
@@ -163,7 +164,7 @@ class ToolbarManager(
 
     private fun setMenuClickListener(view: View, menuRes: Int) {
         view.setOnClickListener {
-            val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
+            val wrapper = ContextThemeWrapper(it.context, UiR.style.Widget_AppTheme_PopupMenu)
             val popupMenu = PopupMenu(wrapper, it)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)

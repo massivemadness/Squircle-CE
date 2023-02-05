@@ -51,6 +51,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.io.File
+import com.blacksquircle.ui.feature.editor.R as EditorR
 
 @AndroidEntryPoint
 class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
@@ -136,29 +137,34 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
     }
 
     private fun handleIntent(intent: Intent?) {
-        if (intent?.action == Intent.ACTION_VIEW) {
-            val contentUri = intent.data ?: return
-            Log.d(TAG, "Handle external content uri = $contentUri")
+        try {
+            if (intent?.action == Intent.ACTION_VIEW) {
+                Log.d(TAG, "Handle external content uri = ${intent.data}")
+                val contentUri = intent.data ?: return
 
-            val filePath = requireContext().resolveFilePath(contentUri)
-            Log.d(TAG, "Does it looks like a valid file path? ($filePath)")
+                val filePath = requireContext().resolveFilePath(contentUri)
+                Log.d(TAG, "Does it looks like a valid file path? ($filePath)")
 
-            val isValidFile = try {
-                File(filePath).exists()
-            } catch (e: Exception) {
-                false
-            }
-            Log.d(TAG, "isValidFile = $isValidFile")
-
-            if (isValidFile) {
-                val file = File(filePath)
-                mainViewModel.handleDocument(file) {
-                    editorViewModel.obtainEvent(EditorIntent.LoadFiles)
+                val isValidFile = try {
+                    File(filePath).exists()
+                } catch (e: Exception) {
+                    false
                 }
-            } else {
-                Log.d(TAG, "Invalid path")
-                context?.showToast(R.string.message_file_not_found)
+                Log.d(TAG, "isValidFile = $isValidFile")
+
+                if (isValidFile) {
+                    val file = File(filePath)
+                    mainViewModel.handleDocument(file) {
+                        editorViewModel.obtainEvent(EditorIntent.LoadFiles)
+                    }
+                } else {
+                    Log.d(TAG, "Invalid path")
+                    context?.showToast(EditorR.string.message_file_not_found)
+                }
             }
+        } catch (e: Throwable) {
+            Log.e(TAG, e.message, e)
+            context?.showToast(EditorR.string.message_file_not_found)
         }
     }
 

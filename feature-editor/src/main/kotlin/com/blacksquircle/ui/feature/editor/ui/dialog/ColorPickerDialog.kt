@@ -47,7 +47,7 @@ class ColorPickerDialog : DialogFragment() {
                 viewModel.obtainEvent(EditorIntent.InsertColor(color))
             }
             positiveButton(R.string.action_insert)
-            negativeButton(R.string.action_cancel)
+            negativeButton(android.R.string.cancel)
         }
     }
 }

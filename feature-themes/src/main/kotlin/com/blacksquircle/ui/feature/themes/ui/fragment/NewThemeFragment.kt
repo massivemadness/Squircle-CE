@@ -113,7 +113,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                         viewModel.onThemePropertyChanged(item.propertyKey, color.toHexString())
                     }
                     positiveButton(R.string.action_select)
-                    negativeButton(R.string.action_cancel)
+                    negativeButton(android.R.string.cancel)
                 }
             }
         }).also {

@@ -45,6 +45,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import com.blacksquircle.ui.uikit.R as UiR
 
 @HiltWorker
 class CompressFileWorker @AssistedInject constructor(
@@ -110,14 +111,14 @@ class CompressFileWorker @AssistedInject constructor(
         val notification = applicationContext.createNotification(
             channelId = CHANNEL_ID,
             notificationTitle = applicationContext.getString(R.string.dialog_title_compressing),
-            smallIcon = R.drawable.ic_file_clock,
+            smallIcon = UiR.drawable.ic_file_clock,
             indeterminate = true,
             ongoing = true,
             silent = true,
             actions = listOf(
                 NotificationCompat.Action(
-                    R.drawable.ic_close,
-                    applicationContext.getString(R.string.action_cancel),
+                    UiR.drawable.ic_close,
+                    applicationContext.getString(android.R.string.cancel),
                     WorkManager.getInstance(applicationContext)
                         .createCancelPendingIntent(id)
                 )

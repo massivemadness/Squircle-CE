@@ -27,6 +27,7 @@ import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemTabDocumentBinding
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.uikit.R as UiR
 
 class DocumentAdapter(
     private val tabInteractor: TabInteractor?
@@ -63,7 +64,7 @@ class DocumentAdapter(
                 tabCallback.invoke(adapterPosition)
             }
             binding.itemIcon.setOnLongClickListener {
-                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
+                val wrapper = ContextThemeWrapper(it.context, UiR.style.Widget_AppTheme_PopupMenu)
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {

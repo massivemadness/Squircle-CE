@@ -32,7 +32,7 @@ import com.blacksquircle.ui.editorkit.model.LinesCollection
 abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.autoCompleteTextViewStyle
+    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle
 ) : ScrollableEditText(context, attrs, defStyleAttr) {
 
     var softKeyboard: Boolean = false

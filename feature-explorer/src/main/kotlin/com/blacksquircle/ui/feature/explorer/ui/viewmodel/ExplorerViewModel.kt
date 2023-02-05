@@ -41,6 +41,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import com.blacksquircle.ui.uikit.R as UiR
 
 @HiltViewModel
 class ExplorerViewModel @Inject constructor(
@@ -175,7 +176,7 @@ class ExplorerViewModel @Inject constructor(
                     _directoryViewState.value = DirectoryViewState.Files(fileTree.children)
                 } else {
                     _directoryViewState.value = DirectoryViewState.Error(
-                        image = R.drawable.ic_file_find,
+                        image = UiR.drawable.ic_file_find,
                         title = stringProvider.getString(R.string.message_no_result),
                         subtitle = "",
                     )
@@ -198,7 +199,7 @@ class ExplorerViewModel @Inject constructor(
                 _directoryViewState.value = DirectoryViewState.Files(searchList)
             } else {
                 _directoryViewState.value = DirectoryViewState.Error(
-                    image = R.drawable.ic_file_find,
+                    image = UiR.drawable.ic_file_find,
                     title = stringProvider.getString(R.string.message_no_result),
                     subtitle = "",
                 )
@@ -599,14 +600,14 @@ class ExplorerViewModel @Inject constructor(
             }
             is DirectoryExpectedException -> {
                 _directoryViewState.value = DirectoryViewState.Error(
-                    image = R.drawable.ic_file_error,
+                    image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(R.string.message_error_occurred),
                     subtitle = stringProvider.getString(R.string.message_directory_expected),
                 )
             }
             else -> {
                 _directoryViewState.value = DirectoryViewState.Error(
-                    image = R.drawable.ic_file_error,
+                    image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(R.string.message_error_occurred),
                     subtitle = e.message.orEmpty(),
                 )

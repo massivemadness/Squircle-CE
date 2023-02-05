@@ -46,7 +46,7 @@ class RenameDialog : DialogFragment() {
             val binding = DialogRenameBinding.bind(getCustomView())
             binding.input.setText(navArgs.fileName)
 
-            negativeButton(R.string.action_cancel)
+            negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_rename) {
                 val fileName = binding.input.text.toString()
                 navController.popBackStack()

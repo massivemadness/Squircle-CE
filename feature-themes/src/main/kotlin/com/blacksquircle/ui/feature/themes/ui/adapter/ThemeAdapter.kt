@@ -30,6 +30,7 @@ import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.ItemThemeBinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
+import com.blacksquircle.ui.uikit.R as UiR
 
 class ThemeAdapter(
     private val actions: Actions
@@ -83,7 +84,7 @@ class ThemeAdapter(
                 actions.showInfo(themeModel)
             }
             binding.actionOverflow.setOnClickListener {
-                val wrapper = ContextThemeWrapper(it.context, R.style.Widget_AppTheme_PopupMenu)
+                val wrapper = ContextThemeWrapper(it.context, UiR.style.Widget_AppTheme_PopupMenu)
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {

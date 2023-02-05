@@ -43,7 +43,7 @@ class SaveAsDialog : DialogFragment() {
             val binding = DialogSaveAsBinding.bind(getCustomView())
 
             title(R.string.dialog_title_save_as)
-            negativeButton(R.string.action_cancel)
+            negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_save) {
                 val filePath = binding.input.text?.toString()?.trim()
                 if (!filePath.isNullOrBlank()) {

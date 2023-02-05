@@ -31,6 +31,7 @@ import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setBackgroundDrawableResource(R.color.colorBackground)
+        window.setBackgroundDrawableResource(UiR.color.colorBackground)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

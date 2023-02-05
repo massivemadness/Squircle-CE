@@ -34,8 +34,10 @@ import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class ServerDialog : DialogFragment() {
 
     private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
@@ -69,7 +71,7 @@ class ServerDialog : DialogFragment() {
                     )
                     viewModel.upsertServer(serverModel)
                 }
-                negativeButton(R.string.action_cancel)
+                negativeButton(android.R.string.cancel)
             } else {
                 title(R.string.pref_edit_server_title)
 

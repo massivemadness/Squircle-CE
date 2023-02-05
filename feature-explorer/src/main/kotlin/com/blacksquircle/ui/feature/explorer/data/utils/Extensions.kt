@@ -36,7 +36,7 @@ import kotlin.math.log10
 import kotlin.math.pow
 
 fun View.setSelectableBackground() = with(TypedValue()) {
-    context.theme.resolveAttribute(R.attr.selectableItemBackground, this, true)
+    context.theme.resolveAttribute(androidx.appcompat.R.attr.selectableItemBackground, this, true)
     setBackgroundResource(resourceId)
 }
 

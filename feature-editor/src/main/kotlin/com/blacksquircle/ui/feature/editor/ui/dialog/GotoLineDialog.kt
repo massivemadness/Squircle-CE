@@ -38,7 +38,7 @@ class GotoLineDialog : DialogFragment() {
         return MaterialDialog(requireContext()).show {
             title(R.string.dialog_title_goto_line)
             customView(R.layout.dialog_goto_line)
-            negativeButton(R.string.action_cancel)
+            negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_go_to) {
                 val binding = DialogGotoLineBinding.bind(getCustomView())
                 val line = binding.input.text.toString()

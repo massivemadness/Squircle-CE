@@ -43,7 +43,7 @@ class CompressDialog : DialogFragment() {
 
             val binding = DialogCompressBinding.bind(getCustomView())
 
-            negativeButton(R.string.action_cancel)
+            negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_compress) {
                 val fileName = binding.input.text.toString()
                 navController.popBackStack()

@@ -63,7 +63,7 @@ class ProgressDialog : DialogFragment() {
             when (Operation.find(navArgs.operation)) {
                 Operation.CREATE -> {
                     title(R.string.dialog_title_creating)
-                    negativeButton(R.string.action_cancel) {
+                    negativeButton(android.R.string.cancel) {
                         CreateFileWorker.cancelJob(requireContext())
                     }
                     CreateFileWorker.observeJob(requireContext())
@@ -85,7 +85,7 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.RENAME -> {
                     title(R.string.dialog_title_renaming)
-                    negativeButton(R.string.action_cancel) {
+                    negativeButton(android.R.string.cancel) {
                         RenameFileWorker.cancelJob(requireContext())
                     }
                     RenameFileWorker.observeJob(requireContext())
@@ -107,7 +107,7 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.DELETE -> {
                     title(R.string.dialog_title_deleting)
-                    negativeButton(R.string.action_cancel) {
+                    negativeButton(android.R.string.cancel) {
                         DeleteFileWorker.cancelJob(requireContext())
                     }
                     DeleteFileWorker.observeJob(requireContext())
@@ -129,7 +129,7 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.COPY -> {
                     title(R.string.dialog_title_copying)
-                    negativeButton(R.string.action_cancel) {
+                    negativeButton(android.R.string.cancel) {
                         CopyFileWorker.cancelJob(requireContext())
                     }
                     CopyFileWorker.observeJob(requireContext())
@@ -151,7 +151,7 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.CUT -> {
                     title(R.string.dialog_title_copying)
-                    negativeButton(R.string.action_cancel) {
+                    negativeButton(android.R.string.cancel) {
                         CutFileWorker.cancelJob(requireContext())
                     }
                     CutFileWorker.observeJob(requireContext())
@@ -173,7 +173,7 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.COMPRESS -> {
                     title(R.string.dialog_title_compressing)
-                    negativeButton(R.string.action_cancel) {
+                    negativeButton(android.R.string.cancel) {
                         CompressFileWorker.cancelJob(requireContext())
                     }
                     CompressFileWorker.observeJob(requireContext())
@@ -195,7 +195,7 @@ class ProgressDialog : DialogFragment() {
                 }
                 Operation.EXTRACT -> {
                     title(R.string.dialog_title_extracting)
-                    negativeButton(R.string.action_cancel) {
+                    negativeButton(android.R.string.cancel) {
                         ExtractFileWorker.cancelJob(requireContext())
                     }
                     ExtractFileWorker.observeJob(requireContext())

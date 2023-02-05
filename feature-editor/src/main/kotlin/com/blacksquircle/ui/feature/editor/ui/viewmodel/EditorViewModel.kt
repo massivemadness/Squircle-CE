@@ -41,6 +41,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import com.blacksquircle.ui.uikit.R as UiR
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(
@@ -447,7 +448,7 @@ class EditorViewModel @Inject constructor(
     private fun emptyState() {
         if (documents.isEmpty()) {
             _documentViewState.value = DocumentViewState.Error(
-                image = R.drawable.ic_file_find,
+                image = UiR.drawable.ic_file_find,
                 title = stringProvider.getString(R.string.message_no_open_files),
                 subtitle = "",
             )
@@ -461,7 +462,7 @@ class EditorViewModel @Inject constructor(
             }
             else -> {
                 _documentViewState.value = DocumentViewState.Error(
-                    image = R.drawable.ic_file_error,
+                    image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(R.string.message_error_occurred),
                     subtitle = e.message.orEmpty(),
                 )
