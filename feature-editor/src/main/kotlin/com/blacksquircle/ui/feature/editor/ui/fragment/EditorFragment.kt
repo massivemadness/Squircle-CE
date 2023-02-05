@@ -31,8 +31,6 @@ import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
@@ -41,7 +39,6 @@ import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.editorkit.*
-import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.plugin.autocomplete.codeCompletion
 import com.blacksquircle.ui.editorkit.plugin.autoindent.autoIndentation
@@ -65,10 +62,10 @@ import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
+import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
-import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -171,6 +168,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                         tabAdapter.select(state.position)
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         tabAdapter.setOnTabMovedListener(onTabMovedListener)
+                        toolbarManager.panel = state.panel
+                        if (state.panel == Panel.DEFAULT) {
+                            binding.editor.clearFindResultSpans()
+                        }
                     }
                     is EditorViewState.Stub -> Unit
                 }
@@ -229,6 +230,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigate(event.screen)
+                    is EditorViewEvent.GotoLine -> try {
+                        binding.editor.gotoLine(event.line)
+                    } catch (e: Exception) {
+                        context?.showToast(R.string.message_line_not_exists)
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -265,12 +271,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     }
 
     override fun onCloseButton(): Boolean {
-        val position = tabAdapter.selectedPosition
-        if (position > -1) {
-            // close(position)
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
+        viewModel.obtainEvent(EditorIntent.CloseTab(tabAdapter.selectedPosition))
         return true
     }
 
@@ -323,57 +324,25 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     }
 
     override fun onOpenFindButton(): Boolean {
-        val position = tabAdapter.selectedPosition
-        if (position > -1) {
-            toolbarManager.panel = Panel.FIND
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
+        viewModel.obtainEvent(EditorIntent.PanelFind)
         return true
     }
 
     override fun onCloseFindButton() {
-        toolbarManager.panel = Panel.DEFAULT
-        binding.inputFind.setText("")
-        binding.editor.clearFindResultSpans()
+        viewModel.obtainEvent(EditorIntent.PanelDefault)
     }
 
     override fun onOpenReplaceButton(): Boolean {
-        val position = tabAdapter.selectedPosition
-        if (position > -1) {
-            toolbarManager.panel = Panel.FIND_REPLACE
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
+        viewModel.obtainEvent(EditorIntent.PanelFindReplace)
         return true
     }
 
     override fun onCloseReplaceButton() {
-        toolbarManager.panel = Panel.FIND
-        binding.inputReplace.setText("")
+        viewModel.obtainEvent(EditorIntent.PanelFind)
     }
 
     override fun onGoToLineButton(): Boolean {
-        val position = tabAdapter.selectedPosition
-        if (position > -1) {
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_goto_line)
-                customView(R.layout.dialog_goto_line)
-                negativeButton(R.string.action_cancel)
-                positiveButton(R.string.action_go_to) {
-                    val input = getCustomView().findViewById<TextInputEditText>(R.id.input)
-                    val inputNumber = input.text.toString()
-                    try {
-                        val lineNumber = inputNumber.toIntOrNull() ?: 0
-                        binding.editor.gotoLine(lineNumber)
-                    } catch (e: LineException) {
-                        context.showToast(R.string.message_line_not_exists)
-                    }
-                }
-            }
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
+        viewModel.obtainEvent(EditorIntent.GotoLine)
         return true
     }
 

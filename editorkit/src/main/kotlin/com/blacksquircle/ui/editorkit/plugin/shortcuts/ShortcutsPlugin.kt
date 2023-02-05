@@ -39,9 +39,9 @@ class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         onShortcutListener?.let { onShortcutListener ->
             val shortcut = Shortcut(
-                ctrl = event?.isCtrlPressed ?: CTRL_DEFAULT,
-                shift = event?.isShiftPressed ?: SHIFT_DEFAULT,
-                alt = event?.isAltPressed ?: ALT_DEFAULT,
+                ctrl = event?.isCtrlPressed ?: false,
+                shift = event?.isShiftPressed ?: false,
+                alt = event?.isAltPressed ?: false,
                 keyCode = keyCode
             )
 
@@ -56,11 +56,6 @@ class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     companion object {
-
         const val PLUGIN_ID = "shortcuts-1095"
-
-        private const val CTRL_DEFAULT = false
-        private const val SHIFT_DEFAULT = false
-        private const val ALT_DEFAULT = false
     }
 }

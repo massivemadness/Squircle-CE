@@ -25,6 +25,7 @@ import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
+import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
@@ -63,6 +64,7 @@ class EditorViewModel @Inject constructor(
 
     private val documents = mutableListOf<DocumentModel>()
     private var selectedPosition = -1
+    private var panel = Panel.DEFAULT
     private var currentJob: Job? = null
 
     init {
@@ -83,7 +85,15 @@ class EditorViewModel @Inject constructor(
 
             is EditorIntent.SaveAs -> saveAs()
             is EditorIntent.SaveFileAs -> saveFileAs(event)
+
+            is EditorIntent.GotoLine -> gotoLine()
+            is EditorIntent.GotoLineNumber -> gotoLineNumber(event)
+
             is EditorIntent.SaveFile -> saveFile(event)
+
+            is EditorIntent.PanelDefault -> panelDefault()
+            is EditorIntent.PanelFind -> panelFind()
+            is EditorIntent.PanelFindReplace -> panelFindReplace()
         }
     }
 
@@ -183,29 +193,31 @@ class EditorViewModel @Inject constructor(
     private fun closeTab(event: EditorIntent.CloseTab) {
         viewModelScope.launch {
             try {
-                val document = documents[event.position]
-                val reloadFile = event.position == selectedPosition
-                val position = when {
-                    event.position == selectedPosition -> when {
-                        event.position - 1 > -1 -> event.position - 1
-                        event.position + 1 < documents.size -> event.position
+                if (event.position > -1) {
+                    val document = documents[event.position]
+                    val reloadFile = event.position == selectedPosition
+                    val position = when {
+                        event.position == selectedPosition -> when {
+                            event.position - 1 > -1 -> event.position - 1
+                            event.position + 1 < documents.size -> event.position
+                            else -> -1
+                        }
+                        event.position < selectedPosition -> selectedPosition - 1
+                        event.position > selectedPosition -> selectedPosition
                         else -> -1
                     }
-                    event.position < selectedPosition -> selectedPosition - 1
-                    event.position > selectedPosition -> selectedPosition
-                    else -> -1
-                }
 
-                documentRepository.deleteDocument(document)
-                documents.removeAt(event.position)
-                settingsManager.selectedUuid = documents.getOrNull(position)?.uuid.orEmpty()
-                refreshActionBar(position)
+                    documentRepository.deleteDocument(document)
+                    documents.removeAt(event.position)
+                    settingsManager.selectedUuid = documents.getOrNull(position)?.uuid.orEmpty()
+                    refreshActionBar(position)
 
-                if (reloadFile) {
-                    if (documents.isNotEmpty()) {
-                        selectTab(EditorIntent.SelectTab(position))
-                    } else {
-                        emptyState()
+                    if (reloadFile) {
+                        if (documents.isNotEmpty()) {
+                            selectTab(EditorIntent.SelectTab(position))
+                        } else {
+                            emptyState()
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -284,6 +296,35 @@ class EditorViewModel @Inject constructor(
         }
     }
 
+    private fun gotoLine() {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition > -1) {
+                    _viewEvent.send(ViewEvent.Navigation(EditorScreen.GotoLine))
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun gotoLineNumber(event: EditorIntent.GotoLineNumber) {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition > -1) {
+                    val lineNumber = event.line.toInt()
+                    _viewEvent.send(EditorViewEvent.GotoLine(lineNumber))
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_line_not_exists))
+                )
+            }
+        }
+    }
+
     private fun saveFile(event: EditorIntent.SaveFile) {
         viewModelScope.launch {
             try {
@@ -321,6 +362,21 @@ class EditorViewModel @Inject constructor(
         }
     }
 
+    private fun panelDefault() {
+        panel = Panel.DEFAULT
+        refreshActionBar(selectedPosition)
+    }
+
+    private fun panelFind() {
+        panel = Panel.FIND
+        refreshActionBar(selectedPosition)
+    }
+
+    private fun panelFindReplace() {
+        panel = Panel.FIND_REPLACE
+        refreshActionBar(selectedPosition)
+    }
+
     private suspend fun updateDocuments(documents: List<DocumentModel>) {
         documents.forEachIndexed { index, document ->
             documentRepository.updateDocument(document.copy(position = index))
@@ -340,7 +396,8 @@ class EditorViewModel @Inject constructor(
             documents = documents,
             position = position.also {
                 selectedPosition = it
-            }
+            },
+            panel = panel
         )
     }
 

@@ -14,21 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.viewstate
+package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.feature.editor.data.utils.Panel
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import java.util.*
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 
-sealed class EditorViewState : ViewState() {
+sealed class EditorViewEvent : ViewEvent() {
 
-    object Stub : EditorViewState()
-
-    data class ActionBar(
-        val documents: List<DocumentModel>,
-        val position: Int,
-        val panel: Panel,
-        val patch: String = UUID.randomUUID().toString(),
-    ) : EditorViewState()
+    data class GotoLine(val line: Int) : EditorViewEvent()
 }

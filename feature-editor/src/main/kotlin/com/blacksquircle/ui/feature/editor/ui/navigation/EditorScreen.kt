@@ -23,4 +23,6 @@ sealed class EditorScreen(route: String) : Screen<String>(route) {
     class SaveAsDialog(filePath: String) : EditorScreen(
         route = "blacksquircle://editor/saveAs?filePath=$filePath"
     )
+
+    object GotoLine : EditorScreen("blacksquircle://editor/goto")
 }

@@ -20,39 +20,30 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.databinding.DialogSaveAsBinding
+import com.blacksquircle.ui.feature.editor.databinding.DialogGotoLineBinding
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SaveAsDialog : DialogFragment() {
+class GotoLineDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<EditorViewModel>()
-    private val navArgs by navArgs<SaveAsDialogArgs>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
-            customView(R.layout.dialog_save_as)
-            val binding = DialogSaveAsBinding.bind(getCustomView())
-
-            title(R.string.dialog_title_save_as)
+            title(R.string.dialog_title_goto_line)
+            customView(R.layout.dialog_goto_line)
             negativeButton(R.string.action_cancel)
-            positiveButton(R.string.action_save) {
-                val filePath = binding.input.text?.toString()?.trim()
-                if (!filePath.isNullOrBlank()) {
-                    viewModel.obtainEvent(EditorIntent.SaveFileAs(filePath))
-                } else {
-                    context.showToast(R.string.message_invalid_file_path)
-                }
+            positiveButton(R.string.action_go_to) {
+                val binding = DialogGotoLineBinding.bind(getCustomView())
+                val line = binding.input.text.toString()
+                viewModel.obtainEvent(EditorIntent.GotoLineNumber(line))
             }
-            binding.input.setText(navArgs.filePath)
         }
     }
 }

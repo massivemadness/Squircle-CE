@@ -34,6 +34,10 @@ sealed class EditorIntent {
 
     object SaveAs : EditorIntent()
     data class SaveFileAs(val filePath: String) : EditorIntent()
+
+    object GotoLine : EditorIntent()
+    data class GotoLineNumber(val line: String) : EditorIntent()
+
     data class SaveFile(
         val local: Boolean,
         val text: String,
@@ -45,4 +49,8 @@ sealed class EditorIntent {
         val selectionStart: Int,
         val selectionEnd: Int
     ) : EditorIntent()
+
+    object PanelDefault : EditorIntent()
+    object PanelFind : EditorIntent()
+    object PanelFindReplace : EditorIntent()
 }

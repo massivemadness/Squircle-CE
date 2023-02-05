@@ -17,8 +17,6 @@
 
 <resources>
 
-    <string name="app_name" translatable="false">Squircle CE</string>
-
     <string name="action_restart">重新啟動</string>
     <string name="action_yes">確定</string>
     <string name="action_no">取消</string>
