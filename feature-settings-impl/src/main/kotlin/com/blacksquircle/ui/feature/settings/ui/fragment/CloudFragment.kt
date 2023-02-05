@@ -30,9 +30,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.ui.extensions.navigate
-import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
@@ -65,6 +63,8 @@ class CloudFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
+        postponeEnterTransition(view)
         observeViewModel()
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->

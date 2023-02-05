@@ -29,6 +29,8 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.navigate
+import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
+import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
@@ -66,6 +68,8 @@ class EditorFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
+        postponeEnterTransition(view)
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)

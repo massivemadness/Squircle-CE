@@ -63,6 +63,8 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFadeTransition(binding.recyclerView, R.id.toolbar)
+        postponeEnterTransition(view)
         observeViewModel()
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->

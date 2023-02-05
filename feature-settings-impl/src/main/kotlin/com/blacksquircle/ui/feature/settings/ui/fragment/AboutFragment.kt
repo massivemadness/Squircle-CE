@@ -28,6 +28,8 @@ import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.navigate
+import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
+import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.utils.applicationName
 import com.blacksquircle.ui.feature.settings.data.utils.versionCode
@@ -76,6 +78,8 @@ class AboutFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
+        postponeEnterTransition(view)
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)

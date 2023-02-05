@@ -25,7 +25,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.blacksquircle.ui.core.ui.navigation.Screen
-import androidx.navigation.ui.R as NavR
 
 fun NavController.popBackStack(n: Int) {
     for (index in 0 until n) {
@@ -35,19 +34,28 @@ fun NavController.popBackStack(n: Int) {
 
 fun NavController.navigate(
     screen: Screen<*>,
+    options: NavOptions? = null,
     extras: Navigator.Extras? = null,
-    navOptions: NavOptions? = NavOptions.Builder()
-        .setEnterAnim(NavR.anim.nav_default_enter_anim)
-        .setExitAnim(NavR.anim.nav_default_exit_anim)
-        .setPopEnterAnim(NavR.anim.nav_default_pop_enter_anim)
-        .setPopExitAnim(NavR.anim.nav_default_pop_exit_anim)
-        .build(),
 ) {
-    when (val route = screen.route) {
-        is String -> navigate(route.toUri(), navOptions, extras)
-        is Int -> navigate(route, null, navOptions, extras)
-        is NavDirections -> navigate(route.actionId, route.arguments, navOptions, extras)
-        else -> throw IllegalArgumentException("Unsupported route type")
+    when (screen.route) {
+        is String -> navigate(
+            deepLink = screen.route.toUri(),
+            navOptions = options,
+            navigatorExtras = extras
+        )
+        is NavDirections -> navigate(
+            resId = screen.route.actionId,
+            args = screen.route.arguments,
+            navOptions = options,
+            navigatorExtras = extras
+        )
+        is Int -> navigate(
+            resId = screen.route,
+            args = null,
+            navOptions = options,
+            navigatorExtras = extras
+        )
+        else -> throw IllegalArgumentException("Can't handle route type")
     }
 }
 

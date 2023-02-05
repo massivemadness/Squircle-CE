@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -31,9 +32,7 @@ import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.navigation.AppScreen
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.fragment
-import com.blacksquircle.ui.core.ui.extensions.navigate
-import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -67,6 +66,8 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFadeTransition(binding.root as ViewGroup)
+        postponeEnterTransition(view)
         observeViewModel()
 
         editorBackPressedHandler = childFragmentManager

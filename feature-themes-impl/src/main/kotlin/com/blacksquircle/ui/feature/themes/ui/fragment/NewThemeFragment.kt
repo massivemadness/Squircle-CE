@@ -39,9 +39,7 @@ import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.ui.extensions.showToast
-import com.blacksquircle.ui.core.ui.extensions.toHexString
+import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
@@ -80,6 +78,8 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFadeTransition(binding.container, R.id.toolbar)
+        postponeEnterTransition(view)
         observeViewModel()
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->

@@ -29,6 +29,8 @@ import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.navigate
+import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
+import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeadersBinding
 import com.blacksquircle.ui.feature.settings.ui.adapter.PreferenceAdapter
@@ -49,6 +51,8 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFadeTransition(binding.recyclerView, R.id.toolbar)
+        postponeEnterTransition(view)
         observeViewModel()
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
