@@ -101,17 +101,16 @@ dependencies {
     kapt library.hilt_compiler
 
     // Modules
-    implementation project(':filesystems:filesystem-base')
-    implementation project(':filesystems:filesystem-local')
-
-    // Features
-    implementation project(':feature-core')
+    implementation project(':common-core')
+    implementation project(':common-ui')
     implementation project(':feature-editor')
     implementation project(':feature-explorer')
     implementation project(':feature-fonts')
     implementation project(':feature-settings')
     implementation project(':feature-themes')
-    implementation project(':feature-ui')
+
+    implementation project(':filesystems:filesystem-base')
+    implementation project(':filesystems:filesystem-local') // TODO remove
 
     // Tests
     testImplementation testLibrary.junit

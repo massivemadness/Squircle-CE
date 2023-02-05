@@ -79,9 +79,9 @@ dependencies {
     implementation library.hilt_navigation
     kapt library.hilt_compiler
 
-    // Features
-    implementation project(':feature-core')
-    implementation project(':feature-ui')
+    // Modules
+    implementation project(':common-core')
+    implementation project(':common-ui')
 
     // Tests
     testImplementation testLibrary.junit

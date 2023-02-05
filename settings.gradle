@@ -16,13 +16,13 @@
 
 include ':app', ':editorkit'
 
-include ':feature-core',
+include ':common-core',
+        ':common-ui',
         ':feature-editor',
         ':feature-explorer',
         ':feature-fonts',
         ':feature-settings',
-        ':feature-themes',
-        ':feature-ui'
+        ':feature-themes'
 
 include ':filesystems:filesystem-base',
         ':filesystems:filesystem-local',

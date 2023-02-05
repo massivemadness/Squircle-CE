@@ -84,13 +84,12 @@ dependencies {
     kapt library.hilt_compiler
 
     // Modules
+    implementation project(':common-core')
+    implementation project(':common-ui')
+    implementation project(':feature-themes') // TODO remove
+
     implementation project(':editorkit')
     implementation project(':filesystems:filesystem-base')
-
-    // Features
-    implementation project(':feature-themes') // TODO remove
-    implementation project(':feature-core')
-    implementation project(':feature-ui')
 
     // Tests
     testImplementation testLibrary.junit
