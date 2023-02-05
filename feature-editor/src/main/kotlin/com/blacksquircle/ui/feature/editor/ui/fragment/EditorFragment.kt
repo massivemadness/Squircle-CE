@@ -62,8 +62,6 @@ import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.data.utils.TabController
 import com.blacksquircle.ui.feature.editor.data.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.ui.adapter.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
@@ -121,7 +119,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
                 viewModel.obtainEvent(EditorIntent.CloseOthers(position))
             }
             override fun closeAll(position: Int) {
-                viewModel.obtainEvent(EditorIntent.CloseAll(position))
+                viewModel.obtainEvent(EditorIntent.CloseAll)
             }
         }).also {
             this.tabAdapter = it
@@ -261,43 +259,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor), BackPressedHandler,
     }
 
     override fun onSaveAsButton(): Boolean {
-        val position = tabAdapter.selectedPosition
-        if (position > -1) {
-            val document = tabAdapter.currentList[position]
-            MaterialDialog(requireContext()).show {
-                title(R.string.dialog_title_save_as)
-                customView(R.layout.dialog_save_as, scrollable = true)
-                negativeButton(R.string.action_cancel)
-                positiveButton(R.string.action_save) {
-                    val enterFilePath = findViewById<TextInputEditText>(R.id.input)
-                    val filePath = enterFilePath.text?.toString()?.trim()
-                    if (!filePath.isNullOrBlank()) {
-                        val updateDocument = document.copy(
-                            uuid = "whatever",
-                            fileUri = document.scheme + filePath
-                        )
-                        val documentContent = DocumentContent(
-                            documentModel = updateDocument,
-                            language = binding.editor.language,
-                            undoStack = binding.editor.undoStack.clone(),
-                            redoStack = binding.editor.redoStack.clone(),
-                            text = binding.editor.text.toString()
-                        )
-                        val params = DocumentParams(
-                            local = true,
-                            cache = false
-                        )
-                        // viewModel.saveFile(documentContent, params)
-                    } else {
-                        context.showToast(R.string.message_invalid_file_path)
-                    }
-                }
-                val enterFilePath = findViewById<TextInputEditText>(R.id.input)
-                enterFilePath.setText(document.path)
-            }
-        } else {
-            context?.showToast(R.string.message_no_open_files)
-        }
+        saveFile(local = false)
+        viewModel.obtainEvent(EditorIntent.SaveAs)
         return true
     }
 

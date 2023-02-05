@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.themes.data.utils.InternalTheme
@@ -76,11 +77,12 @@ class EditorViewModel @Inject constructor(
             is EditorIntent.OpenFile -> openFile(event)
             is EditorIntent.SelectTab -> selectTab(event)
             is EditorIntent.MoveTab -> moveTab(event)
-
             is EditorIntent.CloseTab -> closeTab(event)
             is EditorIntent.CloseOthers -> closeOthers(event)
-            is EditorIntent.CloseAll -> closeAll(event)
+            is EditorIntent.CloseAll -> closeAll()
 
+            is EditorIntent.SaveAs -> saveAs()
+            is EditorIntent.SaveFileAs -> saveFileAs(event)
             is EditorIntent.SaveFile -> saveFile(event)
         }
     }
@@ -90,23 +92,19 @@ class EditorViewModel @Inject constructor(
             try {
                 val documentList = documentRepository.fetchDocuments()
                 val selectedUuid = settingsManager.selectedUuid
-                selectedPosition = when {
-                    documentList.isEmpty() -> -1
-                    documentList.none { it.uuid == selectedUuid } -> 0
-                    else -> documentList.indexOf { it.uuid == selectedUuid }
-                }
-                _editorViewState.value = EditorViewState.ActionBar(
-                    documents = documents.replaceList(documentList),
-                    position = selectedPosition
+                documents.replaceList(documentList)
+
+                refreshActionBar(
+                    position = when {
+                        documentList.isEmpty() -> -1
+                        documentList.none { it.uuid == selectedUuid } -> 0
+                        else -> documentList.indexOf { it.uuid == selectedUuid }
+                    }
                 )
-                if (documentList.isEmpty()) {
-                    _documentViewState.value = DocumentViewState.Error(
-                        image = R.drawable.ic_file_find,
-                        title = stringProvider.getString(R.string.message_no_open_files),
-                        subtitle = "",
-                    )
-                } else {
+                if (documentList.isNotEmpty()) {
                     selectTab(EditorIntent.SelectTab(selectedPosition))
+                } else {
+                    emptyState()
                 }
             } catch (e: Throwable) {
                 Log.e(TAG, e.message, e)
@@ -142,16 +140,11 @@ class EditorViewModel @Inject constructor(
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {
-                _editorViewState.value = EditorViewState.ActionBar(
-                    documents = documents,
-                    position = event.position,
-                )
-                _documentViewState.value = DocumentViewState.Loading
-
                 val document = documents[event.position]
                 settingsManager.selectedUuid = document.uuid
-                selectedPosition = event.position
+                refreshActionBar(event.position)
 
+                _documentViewState.value = DocumentViewState.Loading
                 _documentViewState.value = DocumentViewState.Content(
                     content = documentRepository.loadFile(document),
                     showKeyboard = settingsManager.extendedKeyboard
@@ -171,15 +164,13 @@ class EditorViewModel @Inject constructor(
                 documents.add(event.to, document)
                 updateDocuments(documents)
 
-                when (selectedPosition) {
-                    in event.to until event.from -> selectedPosition++
-                    in (event.from + 1)..event.to -> selectedPosition--
-                    event.from -> selectedPosition = event.to
-                }
-
-                _editorViewState.value = EditorViewState.ActionBar(
-                    documents = documents,
-                    position = selectedPosition,
+                refreshActionBar(
+                    position = when (selectedPosition) {
+                        in event.to until event.from -> selectedPosition++
+                        in (event.from + 1)..event.to -> selectedPosition--
+                        event.from -> event.to
+                        else -> selectedPosition
+                    }
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
@@ -207,23 +198,14 @@ class EditorViewModel @Inject constructor(
 
                 documentRepository.deleteDocument(document)
                 documents.removeAt(event.position)
-                selectedPosition = position
                 settingsManager.selectedUuid = documents.getOrNull(position)?.uuid.orEmpty()
-
-                _editorViewState.value = EditorViewState.ActionBar(
-                    documents = documents,
-                    position = selectedPosition
-                )
+                refreshActionBar(position)
 
                 if (reloadFile) {
-                    if (documents.isEmpty()) {
-                        _documentViewState.value = DocumentViewState.Error(
-                            image = R.drawable.ic_file_find,
-                            title = stringProvider.getString(R.string.message_no_open_files),
-                            subtitle = "",
-                        )
-                    } else {
+                    if (documents.isNotEmpty()) {
                         selectTab(EditorIntent.SelectTab(position))
+                    } else {
+                        emptyState()
                     }
                 }
             } catch (e: Exception) {
@@ -246,10 +228,35 @@ class EditorViewModel @Inject constructor(
                 if (event.position != selectedPosition) {
                     selectTab(EditorIntent.SelectTab(0))
                 } else {
-                    selectedPosition = 0
-                    _editorViewState.value = EditorViewState.ActionBar(
-                        documents = documents,
-                        position = selectedPosition
+                    refreshActionBar(0)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun closeAll() {
+        viewModelScope.launch {
+            try {
+                deleteDocuments(documents)
+                refreshActionBar(-1)
+                emptyState()
+            } catch (e: Exception) {
+                Log.e(TAG, e.message, e)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun saveAs() {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition > -1) {
+                    val document = documents[selectedPosition]
+                    _viewEvent.send(
+                        ViewEvent.Navigation(EditorScreen.SaveAsDialog(document.path))
                     )
                 }
             } catch (e: Exception) {
@@ -259,20 +266,17 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun closeAll(event: EditorIntent.CloseAll) {
+    private fun saveFileAs(event: EditorIntent.SaveFileAs) {
         viewModelScope.launch {
             try {
-                deleteDocuments(documents)
-                selectedPosition = -1
-                _editorViewState.value = EditorViewState.ActionBar(
-                    documents = documents,
-                    position = selectedPosition
-                )
-                _documentViewState.value = DocumentViewState.Error(
-                    image = R.drawable.ic_file_find,
-                    title = stringProvider.getString(R.string.message_no_open_files),
-                    subtitle = "",
-                )
+                if (selectedPosition > -1) {
+                    val document = documents[selectedPosition]
+                    val updateDocument = document.copy(fileUri = document.scheme + event.filePath)
+                    documentRepository.saveFileAs(updateDocument)
+                    _viewEvent.send(
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_saved))
+                    )
+                }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
@@ -304,9 +308,9 @@ class EditorViewModel @Inject constructor(
                         documentRepository.saveFile(content, DocumentParams(event.local, true))
                         documentRepository.updateDocument(content.documentModel)
                         if (event.local) {
-                            _viewEvent.send(ViewEvent.Toast(
-                                stringProvider.getString(R.string.message_saved)
-                            ))
+                            _viewEvent.send(
+                                ViewEvent.Toast(stringProvider.getString(R.string.message_saved))
+                            )
                         }
                     }
                 }
@@ -329,6 +333,25 @@ class EditorViewModel @Inject constructor(
             documentRepository.deleteDocument(document)
         }
         this.documents.clear()
+    }
+
+    private fun refreshActionBar(position: Int) {
+        _editorViewState.value = EditorViewState.ActionBar(
+            documents = documents,
+            position = position.also {
+                selectedPosition = it
+            }
+        )
+    }
+
+    private fun emptyState() {
+        if (documents.isEmpty()) {
+            _documentViewState.value = DocumentViewState.Error(
+                image = R.drawable.ic_file_find,
+                title = stringProvider.getString(R.string.message_no_open_files),
+                subtitle = "",
+            )
+        }
     }
 
     private fun errorState(e: Throwable) {

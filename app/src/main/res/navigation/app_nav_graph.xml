@@ -38,6 +38,10 @@
     </dialog>
 
     <include
+        android:id="@+id/editor_graph"
+        app:graph="@navigation/editor_graph" />
+
+    <include
         android:id="@+id/explorer_graph"
         app:graph="@navigation/explorer_graph" />
 
@@ -47,10 +51,10 @@
 
     <include
         android:id="@+id/fonts_graph"
-        app:graph="@navigation/fonts_graph"/>
+        app:graph="@navigation/fonts_graph" />
 
     <include
         android:id="@+id/themes_graph"
-        app:graph="@navigation/themes_graph"/>
+        app:graph="@navigation/themes_graph" />
 
 </navigation>

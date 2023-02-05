@@ -125,6 +125,21 @@ class DocumentRepositoryImpl(
         }
     }
 
+    override suspend fun saveFileAs(documentModel: DocumentModel) {
+        withContext(dispatcherProvider.io()) {
+            val cacheFile = cacheFile(documentModel, postfix = "text")
+            val text = cacheFilesystem.loadFile(cacheFile, FileParams())
+
+            val filesystem = filesystemFactory.create(documentModel.filesystemUuid)
+            val fileModel = DocumentConverter.toModel(documentModel)
+            val fileParams = FileParams(
+                charset = charsetFor(settingsManager.encodingForSaving),
+                linebreak = LineBreak.find(settingsManager.lineBreakForSaving)
+            )
+            filesystem.saveFile(fileModel, text, fileParams)
+        }
+    }
+
     private fun loadUndoStack(documentModel: DocumentModel): UndoStack {
         return try {
             val undoCacheFile = cacheFile(documentModel, postfix = "undo")

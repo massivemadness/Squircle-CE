@@ -28,4 +28,5 @@ interface DocumentRepository {
 
     suspend fun loadFile(documentModel: DocumentModel): DocumentContent
     suspend fun saveFile(content: DocumentContent, params: DocumentParams)
+    suspend fun saveFileAs(documentModel: DocumentModel)
 }

@@ -28,11 +28,12 @@ sealed class EditorIntent {
     data class OpenFile(val fileModel: FileModel) : EditorIntent()
     data class SelectTab(val position: Int) : EditorIntent()
     data class MoveTab(val from: Int, val to: Int) : EditorIntent()
-
     data class CloseTab(val position: Int) : EditorIntent()
     data class CloseOthers(val position: Int) : EditorIntent()
-    data class CloseAll(val position: Int) : EditorIntent()
+    object CloseAll : EditorIntent()
 
+    object SaveAs : EditorIntent()
+    data class SaveFileAs(val filePath: String) : EditorIntent()
     data class SaveFile(
         val local: Boolean,
         val text: String,
