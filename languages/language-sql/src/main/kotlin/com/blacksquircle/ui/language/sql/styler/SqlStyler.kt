@@ -220,9 +220,13 @@ class SqlStyler private constructor() : LanguageStyler {
                     SqlToken.TRANSLATE,
                     SqlToken.TRIM,
                     SqlToken.UPPER -> {
-                        val styleSpan = StyleSpan(scheme.keywordColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        syntaxHighlightSpans.add(
+                            SyntaxHighlightSpan(
+                                span = StyleSpan(scheme.keywordColor),
+                                start = lexer.tokenStart,
+                                end = lexer.tokenEnd
+                            )
+                        )
                     }
                     SqlToken.DOUBLE_QUOTED_STRING,
                     SqlToken.SINGLE_QUOTED_STRING -> {

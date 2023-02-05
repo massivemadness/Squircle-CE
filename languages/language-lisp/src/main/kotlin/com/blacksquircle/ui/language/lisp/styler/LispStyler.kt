@@ -217,9 +217,13 @@ class LispStyler private constructor() : LanguageStyler {
                     LispToken.WITH_SIMPLE_RESTART,
                     LispToken.WITH_SLOTS,
                     LispToken.WITH_STANDARD_IO_SYNTAX -> {
-                        val styleSpan = StyleSpan(scheme.keywordColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        syntaxHighlightSpans.add(
+                            SyntaxHighlightSpan(
+                                span = StyleSpan(scheme.keywordColor),
+                                start = lexer.tokenStart,
+                                end = lexer.tokenEnd
+                            )
+                        )
                     }
                     LispToken.TRUE,
                     LispToken.FALSE,
