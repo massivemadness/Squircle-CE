@@ -181,8 +181,8 @@ class EditorViewModel @Inject constructor(
 
                 refreshActionBar(
                     position = when (selectedPosition) {
-                        in event.to until event.from -> selectedPosition++
-                        in (event.from + 1)..event.to -> selectedPosition--
+                        in event.to until event.from -> selectedPosition + 1
+                        in (event.from + 1)..event.to -> selectedPosition - 1
                         event.from -> event.to
                         else -> selectedPosition
                     },
