@@ -20,7 +20,7 @@
     <PreferenceCategory android:title="@string/pref_category_about">
 
         <Preference
-            android:icon="@mipmap/ic_launch_screen"
+            android:icon="@mipmap/ic_launcher"
             android:summary="@string/pref_about_summary"
             android:key="ABOUT"/>
 

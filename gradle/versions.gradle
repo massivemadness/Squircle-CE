@@ -17,7 +17,7 @@
 ext {
 
     versions = [
-            minSdk: 23,
+            minSdk: 24,
             targetSdk: 32,
             compileSdk: 33,
             buildTools: '33.0.0',
@@ -35,6 +35,7 @@ ext {
     core_version = '1.9.0'
     activity_version = '1.6.1'
     fragment_version = '1.5.5'
+    splash_version = '1.0.0'
 
     // Google Play
     playcore_version = '1.8.1'
@@ -93,6 +94,7 @@ ext {
             core: "androidx.core:core-ktx:$core_version",
             activity: "androidx.activity:activity-ktx:$activity_version",
             fragment: "androidx.fragment:fragment-ktx:$fragment_version",
+            splash: "androidx.core:core-splashscreen:$splash_version",
 
             // Google Play
             playcore: "com.google.android.play:core-ktx:$playcore_version",

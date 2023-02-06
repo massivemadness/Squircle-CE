@@ -21,7 +21,6 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.InsetDrawable
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.appcompat.view.menu.MenuBuilder
@@ -32,7 +31,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.iterator
-import androidx.core.widget.doAfterTextChanged
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -59,21 +57,6 @@ fun View.applySystemWindowInsets(
             WindowInsetsCompat.CONSUMED
         } else {
             insets
-        }
-    }
-}
-
-fun EditText.debounce(
-    coroutineScope: CoroutineScope,
-    waitMs: Long = 250L,
-    destinationFunction: (String) -> Unit,
-) {
-    var debounceJob: Job? = null
-    doAfterTextChanged {
-        debounceJob?.cancel()
-        debounceJob = coroutineScope.launch {
-            delay(waitMs)
-            destinationFunction(text.toString())
         }
     }
 }

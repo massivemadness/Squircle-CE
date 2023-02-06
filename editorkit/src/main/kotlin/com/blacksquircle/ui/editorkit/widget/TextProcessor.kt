@@ -42,6 +42,7 @@ open class TextProcessor @JvmOverloads constructor(
     }
 
     private val plugins = hashSetOf<EditorPlugin>()
+    private var _freezesText = true
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -67,13 +68,13 @@ open class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    /**
-     * Text is not saved to SavedState due to [android.os.TransactionTooLargeException].
-     * You should keep the entire text somewhere outside the view, like ViewModel.
-     * You can override this behavior if you don't work with large files.
-     */
     override fun getFreezesText(): Boolean {
-        return false
+        return _freezesText
+    }
+
+    override fun setFreezesText(freezesText: Boolean) {
+        super.setFreezesText(freezesText)
+        _freezesText = freezesText
     }
 
     override fun onColorSchemeChanged() {

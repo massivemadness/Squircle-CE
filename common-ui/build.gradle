@@ -35,6 +35,9 @@ android {
 
 dependencies {
 
+    // Core
+    implementation library.splash
+
     // UI
     implementation library.appcompat
     implementation library.materialdesign

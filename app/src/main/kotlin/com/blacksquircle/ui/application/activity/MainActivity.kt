@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.updatePadding
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
@@ -31,7 +32,6 @@ import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
-        window.setBackgroundDrawableResource(UiR.color.colorBackground)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

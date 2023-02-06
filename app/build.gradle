@@ -75,6 +75,7 @@ dependencies {
     implementation library.core
     implementation library.activity
     implementation library.fragment
+    implementation library.splash
 
     // Google Play
     googlePlayImplementation library.playcore

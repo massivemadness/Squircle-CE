@@ -122,6 +122,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         binding.extendedKeyboard.setKeyListener(binding.editor::insert)
         binding.extendedKeyboard.setHasFixedSize(true)
 
+        binding.editor.freezesText = false
         binding.editor.onUndoRedoChangedListener = UndoRedoEditText.OnUndoRedoChangedListener {
             val canUndo = binding.editor.canUndo()
             val canRedo = binding.editor.canRedo()
