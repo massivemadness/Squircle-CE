@@ -30,11 +30,11 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.uikit.R as UiR
 
 class DocumentAdapter(
-    private val tabInteractor: TabInteractor?,
+    private val tabInteractor: TabInteractor,
 ) : TabAdapter<DocumentModel, DocumentAdapter.DocumentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentViewHolder {
-        return DocumentViewHolder.create(parent, tabInteractor) { select(it) }
+        return DocumentViewHolder.create(parent, tabInteractor, ::select)
     }
 
     override fun onBindViewHolder(holder: DocumentViewHolder, position: Int) {
@@ -43,34 +43,38 @@ class DocumentAdapter(
 
     class DocumentViewHolder(
         private val binding: ItemTabDocumentBinding,
-        private val tabInteractor: TabInteractor?,
-        private val tabCallback: (Int) -> Unit,
+        private val tabInteractor: TabInteractor,
+        private val select: (Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun create(
                 parent: ViewGroup,
-                tabInteractor: TabInteractor?,
-                tabCallback: (Int) -> Unit,
+                tabInteractor: TabInteractor,
+                select: (Int) -> Unit,
             ): DocumentViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemTabDocumentBinding.inflate(inflater, parent, false)
-                return DocumentViewHolder(binding, tabInteractor, tabCallback)
+                return DocumentViewHolder(binding, tabInteractor, select)
             }
         }
 
         init {
             itemView.setOnClickListener {
-                tabCallback.invoke(adapterPosition)
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    select.invoke(adapterPosition)
+                }
             }
             binding.itemIcon.setOnLongClickListener {
                 val wrapper = ContextThemeWrapper(it.context, UiR.style.Widget_AppTheme_PopupMenu)
                 val popupMenu = PopupMenu(wrapper, it)
                 popupMenu.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.action_close -> tabInteractor?.close(adapterPosition)
-                        R.id.action_close_others -> tabInteractor?.closeOthers(adapterPosition)
-                        R.id.action_close_all -> tabInteractor?.closeAll(adapterPosition)
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
+                        when (item.itemId) {
+                            R.id.action_close -> tabInteractor.close(adapterPosition)
+                            R.id.action_close_others -> tabInteractor.closeOthers(adapterPosition)
+                            R.id.action_close_all -> tabInteractor.closeAll(adapterPosition)
+                        }
                     }
                     return@setOnMenuItemClickListener true
                 }
@@ -81,7 +85,7 @@ class DocumentAdapter(
             }
             binding.itemIcon.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    tabInteractor?.close(adapterPosition)
+                    tabInteractor.close(adapterPosition)
                 }
             }
         }

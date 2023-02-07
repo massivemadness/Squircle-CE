@@ -31,10 +31,7 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
     private var onTabMovedListener: OnTabMovedListener? = null
-    private var onDataRefreshListener: OnDataRefreshListener? = null
-
     private var recyclerView: RecyclerView? = null
-    private var isClosing = false
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -52,7 +49,6 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
     fun submitList(list: List<T>) {
         _currentList = list.toMutableList()
         notifyDataSetChanged()
-        onDataRefreshListener?.onDataRefresh()
     }
 
     fun move(from: Int, to: Int): Boolean {
@@ -79,16 +75,14 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
     }
 
     fun select(newPosition: Int) {
-        if (newPosition == selectedPosition && !isClosing) {
+        if (newPosition == selectedPosition) {
             onTabSelectedListener?.onTabReselected(selectedPosition)
         } else {
             val previousPosition = selectedPosition
             _selectedPosition = newPosition
             if (previousPosition > -1 && selectedPosition > -1 && previousPosition < currentList.size) {
                 notifyItemChanged(previousPosition) // Update previous selected item
-                if (!isClosing) {
-                    onTabSelectedListener?.onTabUnselected(previousPosition)
-                }
+                onTabSelectedListener?.onTabUnselected(previousPosition)
             }
             if (selectedPosition > -1) {
                 notifyItemChanged(selectedPosition) // Update new selected item
@@ -96,27 +90,6 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
                 recyclerView?.smoothScrollToPosition(selectedPosition)
             }
         }
-    }
-
-    // I'm going crazy with this
-    fun close(position: Int) {
-        isClosing = true
-        var newPosition = selectedPosition
-        if (position == selectedPosition) {
-            newPosition = when {
-                position - 1 > -1 -> position - 1
-                position + 1 < itemCount -> position
-                else -> -1
-            }
-        }
-        if (position < selectedPosition) {
-            newPosition -= 1
-        }
-        _currentList.removeAt(position)
-        notifyItemRemoved(position)
-        onDataRefreshListener?.onDataRefresh()
-        select(newPosition)
-        isClosing = false
     }
 
     fun setOnTabSelectedListener(listener: OnTabSelectedListener) {
@@ -127,20 +100,12 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         onTabMovedListener = listener
     }
 
-    fun setOnDataRefreshListener(listener: OnDataRefreshListener) {
-        onDataRefreshListener = listener
-    }
-
     fun removeOnTabSelectedListener() {
         onTabSelectedListener = null
     }
 
     fun removeOnTabMovedListener() {
         onTabMovedListener = null
-    }
-
-    fun removeOnDataRefreshListener() {
-        onDataRefreshListener = null
     }
 
     interface OnTabSelectedListener {
@@ -150,10 +115,6 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
     }
 
     interface OnTabMovedListener {
-        fun onTabMoved(from: Int, to: Int)
-    }
-
-    interface OnDataRefreshListener {
-        fun onDataRefresh()
+        fun onTabMoved(from: Int, to: Int) = Unit
     }
 }

@@ -27,7 +27,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
-        return DirectoryViewHolder.create(parent) { select(it) }
+        return DirectoryViewHolder.create(parent, ::select)
     }
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
@@ -36,20 +36,22 @@ class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHol
 
     class DirectoryViewHolder(
         private val binding: ItemTabDirectoryBinding,
-        private val tabCallback: (Int) -> Unit,
+        private val select: (Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, tabCallback: (Int) -> Unit): DirectoryViewHolder {
+            fun create(parent: ViewGroup, select: (Int) -> Unit): DirectoryViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemTabDirectoryBinding.inflate(inflater, parent, false)
-                return DirectoryViewHolder(binding, tabCallback)
+                return DirectoryViewHolder(binding, select)
             }
         }
 
         init {
             itemView.setOnClickListener {
-                tabCallback.invoke(adapterPosition)
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    select.invoke(adapterPosition)
+                }
             }
         }
 

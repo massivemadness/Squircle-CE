@@ -70,10 +70,7 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
                 reset()
             }
 
-            override fun onSwiped(
-                viewHolder: RecyclerView.ViewHolder,
-                direction: Int,
-            ) = Unit
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
 
             private fun reset() {
                 from = null
