@@ -109,7 +109,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         binding.tabLayout.itemAnimator = TabItemAnimator()
         binding.tabLayout.adapter = DocumentAdapter(object : DocumentAdapter.TabInteractor {
             override fun close(position: Int) {
-                viewModel.obtainEvent(EditorIntent.CloseTab(position))
+                viewModel.obtainEvent(EditorIntent.CloseTab(position, false))
             }
             override fun closeOthers(position: Int) {
                 viewModel.obtainEvent(EditorIntent.CloseOthers(position))
@@ -279,7 +279,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     override fun onCloseButton(): Boolean {
-        viewModel.obtainEvent(EditorIntent.CloseTab(tabAdapter.selectedPosition))
+        viewModel.obtainEvent(EditorIntent.CloseTab(tabAdapter.selectedPosition, false))
         return true
     }
 

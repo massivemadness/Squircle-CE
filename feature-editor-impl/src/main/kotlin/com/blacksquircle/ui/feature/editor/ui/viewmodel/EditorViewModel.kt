@@ -199,6 +199,14 @@ class EditorViewModel @Inject constructor(
             try {
                 if (event.position > -1) {
                     val document = documents[event.position]
+                    if (document.modified && !event.allowModified) {
+                        _viewEvent.send(
+                            ViewEvent.Navigation(
+                                EditorScreen.CloseModifiedDialog(event.position, document.name)
+                            )
+                        )
+                        return@launch
+                    }
                     val reloadFile = event.position == selectedPosition
                     val position = when {
                         event.position == selectedPosition -> when {

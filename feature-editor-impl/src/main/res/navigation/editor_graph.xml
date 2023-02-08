@@ -33,6 +33,19 @@
     </dialog>
 
     <dialog
+        android:id="@+id/closeModifiedDialog"
+        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.CloseModifiedDialog"
+        android:label="CloseModifiedDialog">
+        <deepLink app:uri="blacksquircle://editor/close?position={position}&amp;fileName={fileName}" />
+        <argument
+            android:name="fileName"
+            app:argType="string" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </dialog>
+
+    <dialog
         android:id="@+id/gotoLineDialog"
         android:name="com.blacksquircle.ui.feature.editor.ui.dialog.GotoLineDialog"
         android:label="GotoLineDialog"
