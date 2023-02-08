@@ -88,7 +88,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     private val onTabMovedListener = object : TabAdapter.OnTabMovedListener {
         override fun onTabMoved(from: Int, to: Int) {
             viewModel.obtainEvent(EditorIntent.MoveTab(from, to))
-            binding.tabLayout.itemAnimator = null
         }
     }
 
@@ -164,15 +163,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                     is EditorViewState.ActionBar -> {
                         tabAdapter.removeOnTabSelectedListener()
                         tabAdapter.removeOnTabMovedListener()
-                        tabAdapter.submitList(state.documents) {
-                            val currentAnimator = binding.tabLayout.itemAnimator
-                            if (currentAnimator == null) {
-                                binding.tabLayout.doOnPreDraw { // fixes animation
-                                    binding.tabLayout.itemAnimator = TabItemAnimator()
-                                }
-                            }
-                        }
-                        tabAdapter.select(state.position)
+                        tabAdapter.submitList(state.documents, state.position)
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         tabAdapter.setOnTabMovedListener(onTabMovedListener)
                         toolbarManager.panel = state.panel

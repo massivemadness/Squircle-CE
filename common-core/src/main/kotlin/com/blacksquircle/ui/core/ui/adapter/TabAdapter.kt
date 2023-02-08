@@ -16,10 +16,11 @@
 
 package com.blacksquircle.ui.core.ui.adapter
 
+import androidx.core.view.doOnPreDraw
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
 abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
     diffCallback: DiffUtil.ItemCallback<T>,
@@ -43,12 +44,25 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
         this.recyclerView = null
     }
 
+    fun submitList(list: List<T>, position: Int) {
+        submitList(list.toList()) {
+            val currentAnimator = recyclerView?.itemAnimator
+            if (currentAnimator == null) {
+                recyclerView?.doOnPreDraw { // fixes animation
+                    recyclerView?.itemAnimator = DefaultItemAnimator()
+                }
+            }
+        }
+        select(position)
+    }
+
     fun move(from: Int, to: Int) {
         when {
             selectedPosition in to until from -> _selectedPosition++
             selectedPosition in (from + 1)..to -> _selectedPosition--
             from == selectedPosition -> _selectedPosition = to
         }
+        recyclerView?.itemAnimator = null // fixes animation
         onTabMovedListener?.onTabMoved(from, to)
     }
 

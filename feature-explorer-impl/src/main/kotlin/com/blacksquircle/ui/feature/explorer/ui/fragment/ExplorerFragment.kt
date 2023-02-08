@@ -284,8 +284,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                             }
                         }
                         tabAdapter.removeOnTabSelectedListener()
-                        tabAdapter.submitList(state.breadcrumbs)
-                        tabAdapter.select(state.breadcrumbs.size - 1)
+                        tabAdapter.submitList(state.breadcrumbs, state.breadcrumbs.size - 1)
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         if (state.selection.isNotEmpty()) {
                             startActionMode(state.selection.size)

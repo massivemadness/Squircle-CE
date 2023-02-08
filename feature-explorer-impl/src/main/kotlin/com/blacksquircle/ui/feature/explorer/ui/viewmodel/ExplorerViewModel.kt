@@ -130,7 +130,7 @@ class ExplorerViewModel @Inject constructor(
         return when {
             selection.isNotEmpty() -> {
                 _explorerViewState.value = ExplorerViewState.ActionBar(
-                    breadcrumbs = breadcrumbs.toList(),
+                    breadcrumbs = breadcrumbs,
                     selection = selection.replaceList(emptyList()),
                     operation = operation,
                 )
@@ -159,7 +159,7 @@ class ExplorerViewModel @Inject constructor(
 
                 val fileTree = if (event.fileModel != null) { // Different order
                     _explorerViewState.value = ExplorerViewState.ActionBar(
-                        breadcrumbs = breadcrumbs.appendList(event.fileModel).toList(),
+                        breadcrumbs = breadcrumbs.appendList(event.fileModel),
                         selection = selection,
                         operation = operation,
                     )
@@ -167,7 +167,7 @@ class ExplorerViewModel @Inject constructor(
                 } else {
                     explorerRepository.listFiles(null).also {
                         _explorerViewState.value = ExplorerViewState.ActionBar(
-                            breadcrumbs = breadcrumbs.appendList(it.parent).toList(),
+                            breadcrumbs = breadcrumbs.appendList(it.parent),
                             selection = selection,
                             operation = operation,
                         )
@@ -211,7 +211,7 @@ class ExplorerViewModel @Inject constructor(
     private fun selectFiles(event: ExplorerIntent.SelectFiles) {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs.toList(),
+                breadcrumbs = breadcrumbs,
                 selection = selection.replaceList(event.selection),
                 operation = operation,
             )
@@ -256,7 +256,7 @@ class ExplorerViewModel @Inject constructor(
     private fun cutButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs.toList(),
+                breadcrumbs = breadcrumbs,
                 operation = Operation.CUT.also { type ->
                     buffer.replaceList(selection)
                     operation = type
@@ -269,7 +269,7 @@ class ExplorerViewModel @Inject constructor(
     private fun copyButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs.toList(),
+                breadcrumbs = breadcrumbs,
                 operation = Operation.COPY.also { type ->
                     buffer.replaceList(selection)
                     operation = type
@@ -282,7 +282,7 @@ class ExplorerViewModel @Inject constructor(
     private fun createButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs.toList(),
+                breadcrumbs = breadcrumbs,
                 operation = Operation.CREATE.also { type ->
                     buffer.replaceList(emptyList()) // empty buffer for Operation.CREATE
                     operation = type
@@ -297,7 +297,7 @@ class ExplorerViewModel @Inject constructor(
     private fun renameButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs.toList(),
+                breadcrumbs = breadcrumbs,
                 operation = Operation.RENAME.also { type ->
                     buffer.replaceList(selection)
                     operation = type
@@ -312,7 +312,7 @@ class ExplorerViewModel @Inject constructor(
     private fun deleteButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs.toList(),
+                breadcrumbs = breadcrumbs,
                 operation = Operation.DELETE.also { type ->
                     buffer.replaceList(selection)
                     operation = type
@@ -356,7 +356,7 @@ class ExplorerViewModel @Inject constructor(
     private fun compressButton() {
         viewModelScope.launch {
             _explorerViewState.value = ExplorerViewState.ActionBar(
-                breadcrumbs = breadcrumbs.toList(),
+                breadcrumbs = breadcrumbs,
                 operation = Operation.COMPRESS.also { type ->
                     buffer.replaceList(selection)
                     operation = type
@@ -582,7 +582,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun initialState() {
         _explorerViewState.value = ExplorerViewState.ActionBar(
-            breadcrumbs = breadcrumbs.toList(),
+            breadcrumbs = breadcrumbs,
             operation = Operation.CREATE.also { type ->
                 buffer.replaceList(emptyList())
                 operation = type

@@ -222,6 +222,7 @@ class EditorViewModel @Inject constructor(
                     documentRepository.deleteDocument(document)
                     documents.removeAt(event.position)
                     settingsManager.selectedUuid = documents.getOrNull(position)?.uuid.orEmpty()
+                    updateDocuments()
                     refreshActionBar(position)
 
                     if (reloadFile) {
@@ -249,6 +250,7 @@ class EditorViewModel @Inject constructor(
                         documents.removeAt(index)
                     }
                 }
+                updateDocuments()
                 if (event.position != selectedPosition) {
                     selectTab(EditorIntent.SelectTab(0))
                 } else {
@@ -450,7 +452,7 @@ class EditorViewModel @Inject constructor(
 
     private fun refreshActionBar(position: Int) {
         _editorViewState.value = EditorViewState.ActionBar(
-            documents = documents.toList(), // new list
+            documents = documents,
             position = position.also {
                 selectedPosition = it
             },
