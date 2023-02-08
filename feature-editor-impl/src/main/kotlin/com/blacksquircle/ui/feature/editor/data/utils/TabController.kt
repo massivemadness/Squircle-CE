@@ -29,15 +29,15 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
 
         private val itemTouchCallback = object : SimpleCallback(START or END, ACTION_STATE_IDLE) {
 
-            private var from: Int? = null
-            private var to: Int? = null
+            private var from = -1
+            private var to = -1
 
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder,
             ): Boolean {
-                if (from == null) { // initial position
+                if (from == -1) { // initial position
                     from = viewHolder.adapterPosition
                 }
                 to = target.adapterPosition
@@ -62,10 +62,9 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
             ) {
                 super.clearView(recyclerView, viewHolder)
                 val adapter = recyclerView.adapter as TabAdapter<*, *>
-                adapter.move(
-                    from = from ?: viewHolder.adapterPosition,
-                    to = to ?: viewHolder.adapterPosition,
-                )
+                if (from > -1 && to > -1 && from != to) {
+                    adapter.move(from, to)
+                }
                 viewHolder.itemView.alpha = STATE_NORMAL
                 reset()
             }
@@ -73,8 +72,8 @@ class TabController : ItemTouchHelper(itemTouchCallback) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
 
             private fun reset() {
-                from = null
-                to = null
+                from = -1
+                to = -1
             }
         }
     }

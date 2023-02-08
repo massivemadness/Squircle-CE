@@ -16,18 +16,18 @@
 
 package com.blacksquircle.ui.core.ui.adapter
 
-import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
-abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
+abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
+    diffCallback: DiffUtil.ItemCallback<T>,
+) : ListAdapter<T, VH>(diffCallback) {
 
     val selectedPosition
         get() = _selectedPosition
     private var _selectedPosition = -1
-
-    val currentList: List<T>
-        get() = _currentList
-    private var _currentList: MutableList<T> = mutableListOf()
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
     private var onTabMovedListener: OnTabMovedListener? = null
@@ -43,35 +43,13 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         this.recyclerView = null
     }
 
-    override fun getItemCount(): Int = currentList.size
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun submitList(list: List<T>) {
-        _currentList = list.toMutableList()
-        notifyDataSetChanged()
-    }
-
-    fun move(from: Int, to: Int): Boolean {
-        if (from < 0 || from >= currentList.size) {
-            return false
-        }
-        if (to < 0 || to >= currentList.size) {
-            return false
-        }
-
-        val temp = currentList[from]
-        _currentList.removeAt(from)
-        _currentList.add(to, temp)
-
+    fun move(from: Int, to: Int) {
         when {
             selectedPosition in to until from -> _selectedPosition++
             selectedPosition in (from + 1)..to -> _selectedPosition--
             from == selectedPosition -> _selectedPosition = to
         }
-
         onTabMovedListener?.onTabMoved(from, to)
-        notifyItemMoved(from, to)
-        return true
     }
 
     fun select(newPosition: Int) {
@@ -80,14 +58,14 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapte
         } else {
             val previousPosition = selectedPosition
             _selectedPosition = newPosition
-            if (previousPosition > -1 && selectedPosition > -1 && previousPosition < currentList.size) {
+            if (previousPosition > -1 && previousPosition < currentList.size) {
                 notifyItemChanged(previousPosition) // Update previous selected item
                 onTabSelectedListener?.onTabUnselected(previousPosition)
             }
-            if (selectedPosition > -1) {
-                notifyItemChanged(selectedPosition) // Update new selected item
-                onTabSelectedListener?.onTabSelected(selectedPosition)
-                recyclerView?.smoothScrollToPosition(selectedPosition)
+            if (newPosition > -1) {
+                notifyItemChanged(newPosition) // Update new selected item
+                onTabSelectedListener?.onTabSelected(newPosition)
+                recyclerView?.smoothScrollToPosition(newPosition)
             }
         }
     }

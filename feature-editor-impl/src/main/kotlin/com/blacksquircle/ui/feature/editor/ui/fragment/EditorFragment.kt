@@ -57,6 +57,7 @@ import com.blacksquircle.ui.feature.editor.data.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
+import com.blacksquircle.ui.feature.editor.ui.adapter.TabItemAnimator
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
@@ -87,6 +88,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     private val onTabMovedListener = object : TabAdapter.OnTabMovedListener {
         override fun onTabMoved(from: Int, to: Int) {
             viewModel.obtainEvent(EditorIntent.MoveTab(from, to))
+            binding.tabLayout.itemAnimator = null
         }
     }
 
@@ -104,6 +106,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         toolbarManager.bind(binding)
 
         binding.tabLayout.setHasFixedSize(true)
+        binding.tabLayout.itemAnimator = TabItemAnimator()
         binding.tabLayout.adapter = DocumentAdapter(object : DocumentAdapter.TabInteractor {
             override fun close(position: Int) {
                 viewModel.obtainEvent(EditorIntent.CloseTab(position))
@@ -161,7 +164,14 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                     is EditorViewState.ActionBar -> {
                         tabAdapter.removeOnTabSelectedListener()
                         tabAdapter.removeOnTabMovedListener()
-                        tabAdapter.submitList(state.documents)
+                        tabAdapter.submitList(state.documents) {
+                            val currentAnimator = binding.tabLayout.itemAnimator
+                            if (currentAnimator == null) {
+                                binding.tabLayout.doOnPreDraw { // fixes animation
+                                    binding.tabLayout.itemAnimator = TabItemAnimator()
+                                }
+                            }
+                        }
                         tabAdapter.select(state.position)
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         tabAdapter.setOnTabMovedListener(onTabMovedListener)

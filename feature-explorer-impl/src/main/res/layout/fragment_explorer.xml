@@ -72,7 +72,7 @@
                 android:paddingStart="42dp"
                 android:paddingEnd="42dp"
                 android:orientation="horizontal"
-                android:id="@+id/tabRecyclerView"
+                android:id="@+id/tabLayout"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:layout_constraintStart_toStartOf="parent"

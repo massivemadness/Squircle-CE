@@ -172,8 +172,8 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             binding.root.updatePadding(bottom = bottom)
         }
 
-        binding.tabRecyclerView.setHasFixedSize(true)
-        binding.tabRecyclerView.adapter = DirectoryAdapter().also {
+        binding.tabLayout.setHasFixedSize(true)
+        binding.tabLayout.adapter = DirectoryAdapter().also {
             tabAdapter = it
         }
         binding.dropdown.adapter = ServerAdapter(requireContext()) {
@@ -269,9 +269,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .onEach { state ->
                 when (state) {
                     is ExplorerViewState.ActionBar -> {
-                        binding.toolbar.isVisible = true
-                        binding.tabRecyclerView.isVisible = true
-                        binding.actionHome.isVisible = true
                         binding.actionOperation.setImageResource(
                             when (state.operation) {
                                 Operation.CUT -> UiR.drawable.ic_paste

@@ -136,9 +136,8 @@ class EditorViewModel @Inject constructor(
                 val position = documents.indexOrNull {
                     it.fileUri == document.fileUri
                 } ?: run {
-                    documents.appendList(document).also { documents ->
-                        updateDocuments(documents)
-                    }
+                    documents.appendList(document)
+                    updateDocuments()
                     documents.lastIndex
                 }
                 if (position != selectedPosition) {
@@ -177,7 +176,7 @@ class EditorViewModel @Inject constructor(
                 val document = documents[event.from]
                 documents.removeAt(event.from)
                 documents.add(event.to, document)
-                updateDocuments(documents)
+                updateDocuments()
 
                 refreshActionBar(
                     position = when (selectedPosition) {
@@ -257,7 +256,7 @@ class EditorViewModel @Inject constructor(
     private fun closeAll() {
         viewModelScope.launch {
             try {
-                deleteDocuments(documents)
+                deleteDocuments()
                 refreshActionBar(-1)
                 emptyState()
             } catch (e: Exception) {
@@ -359,7 +358,7 @@ class EditorViewModel @Inject constructor(
         if (selectedPosition > -1) {
             val document = documents[selectedPosition]
             if (!document.modified) {
-                document.modified = true
+                documents[selectedPosition] = document.copy(modified = true)
                 refreshActionBar(selectedPosition)
             }
         }
@@ -369,17 +368,21 @@ class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (selectedPosition > -1) {
+                    val modified = documents[selectedPosition].modified
+                    val changeModified = event.local && modified
+                    val document = documents[selectedPosition].copy(
+                        modified = if (changeModified) false else modified,
+                        scrollX = event.scrollX,
+                        scrollY = event.scrollY,
+                        selectionStart = event.selectionStart,
+                        selectionEnd = event.selectionEnd,
+                    )
+                    documents[selectedPosition] = document
+                    if (changeModified) {
+                        refreshActionBar(selectedPosition)
+                    }
                     val content = DocumentContent(
-                        documentModel = documents[selectedPosition].apply {
-                            scrollX = event.scrollX
-                            scrollY = event.scrollY
-                            selectionStart = event.selectionStart
-                            selectionEnd = event.selectionEnd
-                            if (event.local && modified) {
-                                modified = false
-                                refreshActionBar(selectedPosition)
-                            }
-                        },
+                        documentModel = document,
                         language = event.language,
                         undoStack = event.undoStack,
                         redoStack = event.redoStack,
@@ -421,23 +424,25 @@ class EditorViewModel @Inject constructor(
         refreshActionBar(selectedPosition)
     }
 
-    private suspend fun updateDocuments(documents: List<DocumentModel>) {
-        documents.forEachIndexed { index, document ->
-            documentRepository.updateDocument(document.copy(position = index))
-            document.position = index
+    private suspend fun updateDocuments() {
+        for (index in documents.size - 1 downTo 0) {
+            val document = documents[index].copy(position = index)
+            documentRepository.updateDocument(document)
+            documents[index] = document
         }
     }
 
-    private suspend fun deleteDocuments(documents: List<DocumentModel>) {
-        documents.forEach { document ->
+    private suspend fun deleteDocuments() {
+        for (index in documents.size - 1 downTo 0) {
+            val document = documents[index]
             documentRepository.deleteDocument(document)
         }
-        this.documents.clear()
+        documents.clear()
     }
 
     private fun refreshActionBar(position: Int) {
         _editorViewState.value = EditorViewState.ActionBar(
-            documents = documents,
+            documents = documents.toList(), // new list
             position = position.also {
                 selectedPosition = it
             },

@@ -26,7 +26,9 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PresetDialog : DialogFragment() {
 
     private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)

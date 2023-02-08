@@ -21,6 +21,7 @@ import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
@@ -31,7 +32,19 @@ import com.blacksquircle.ui.uikit.R as UiR
 
 class DocumentAdapter(
     private val tabInteractor: TabInteractor,
-) : TabAdapter<DocumentModel, DocumentAdapter.DocumentViewHolder>() {
+) : TabAdapter<DocumentModel, DocumentAdapter.DocumentViewHolder>(diffCallback) {
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<DocumentModel>() {
+            override fun areItemsTheSame(oldItem: DocumentModel, newItem: DocumentModel): Boolean {
+                return oldItem.uuid == newItem.uuid
+            }
+            override fun areContentsTheSame(oldItem: DocumentModel, newItem: DocumentModel): Boolean {
+                return oldItem.modified == newItem.modified &&
+                    oldItem.position == newItem.position
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentViewHolder {
         return DocumentViewHolder.create(parent, tabInteractor, ::select)

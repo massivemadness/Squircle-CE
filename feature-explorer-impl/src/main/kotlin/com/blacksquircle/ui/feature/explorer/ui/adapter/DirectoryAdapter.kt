@@ -19,12 +19,24 @@ package com.blacksquircle.ui.feature.explorer.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.feature.explorer.databinding.ItemTabDirectoryBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>() {
+class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>(diffCallback) {
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<FileModel>() {
+            override fun areItemsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {
+                return oldItem.fileUri == newItem.fileUri
+            }
+            override fun areContentsTheSame(oldItem: FileModel, newItem: FileModel): Boolean {
+                return oldItem.fileUri == newItem.fileUri
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
         return DirectoryViewHolder.create(parent, ::select)
