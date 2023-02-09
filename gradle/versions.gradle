@@ -36,6 +36,7 @@ ext {
     activity_version = '1.6.1'
     fragment_version = '1.5.5'
     splash_version = '1.0.0'
+    profileinstaller_version = '1.2.2'
 
     // Google Play
     playcore_version = '1.8.1'
@@ -96,6 +97,7 @@ ext {
             activity: "androidx.activity:activity-ktx:$activity_version",
             fragment: "androidx.fragment:fragment-ktx:$fragment_version",
             splash: "androidx.core:core-splashscreen:$splash_version",
+            profileinstaller: "androidx.profileinstaller:profileinstaller:$profileinstaller_version",
 
             // Google Play
             playcore: "com.google.android.play:core-ktx:$playcore_version",

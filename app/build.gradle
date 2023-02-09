@@ -82,6 +82,7 @@ dependencies {
     implementation library.activity
     implementation library.fragment
     implementation library.splash
+    implementation library.profileinstaller
 
     // Google Play
     googlePlayImplementation library.playcore
