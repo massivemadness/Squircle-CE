@@ -73,6 +73,10 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
 
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
     </application>
 
     <queries>

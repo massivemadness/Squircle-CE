@@ -90,7 +90,7 @@ dependencies {
     implementation project(':common-ui')
 
     // Tests
-    testImplementation testLibrary.junit
-    androidTestImplementation androidTestLibrary.junit_ext
-    androidTestImplementation androidTestLibrary.test_runner
+    testImplementation library.junit
+    androidTestImplementation library.junit_ext
+    androidTestImplementation library.test_runner
 }

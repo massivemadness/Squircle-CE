@@ -28,7 +28,7 @@ ext {
     ]
 
     // Plugins
-    agp_version = '7.4.0'
+    agp_version = '7.4.1'
 
     // Core
     kotlin_version = '1.8.10'
@@ -76,6 +76,7 @@ ext {
     junit_version = '4.13.2'
     junit_ext_version = '1.1.5'
     test_runner_version = '1.5.2'
+    macrobenchmark_version = '1.1.1'
 
     // Lint
     ktlint_version = '0.48.2'
@@ -141,15 +142,12 @@ ext {
             // Other
             zip4j: "net.lingala.zip4j:zip4j:$zip4j_version",
             chardet: "com.ibm.icu:icu4j:$chardet_version",
-            superuser: "com.github.topjohnwu.libsu:io:$superuser_version"
-    ]
+            superuser: "com.github.topjohnwu.libsu:io:$superuser_version",
 
-    testLibrary = [
-            junit: "junit:junit:$junit_version"
-    ]
-
-    androidTestLibrary = [
+            // Tests
+            junit: "junit:junit:$junit_version",
             junit_ext: "androidx.test.ext:junit:$junit_ext_version",
             test_runner: "androidx.test:runner:$test_runner_version",
+            macrobenchmark: "androidx.benchmark:benchmark-macro-junit4:$macrobenchmark_version"
     ]
 }
