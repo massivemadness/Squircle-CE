@@ -19,7 +19,6 @@ package com.blacksquircle.ui.editorkit.widget.internal
 import android.content.Context
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
-import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.model.TextChange
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.editorkit.setSelectionIndex
@@ -80,11 +79,10 @@ abstract class UndoRedoEditText @JvmOverloads constructor(
         onUndoRedoChangedListener?.onUndoRedoChanged()
     }
 
-    open fun clearText() {
+    fun clearUndoHistory() {
         undoStack.removeAll()
         redoStack.removeAll()
         onUndoRedoChangedListener?.onUndoRedoChanged()
-        setTextContent("")
     }
 
     fun canUndo(): Boolean = undoStack.canUndo()

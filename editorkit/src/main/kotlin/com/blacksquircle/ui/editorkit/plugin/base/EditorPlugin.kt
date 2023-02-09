@@ -84,7 +84,6 @@ abstract class EditorPlugin(val pluginId: String) {
     open fun setTextContent(text: CharSequence) = Unit
     open fun setTextSize(size: Float) = Unit
     open fun setTypeface(tf: Typeface?) = Unit
-    open fun setEmptyText() = Unit
 
     open fun showDropDown() = Unit
 

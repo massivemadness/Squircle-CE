@@ -19,9 +19,12 @@ package com.blacksquircle.ui.feature.editor.ui.fragment
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.core.text.PrecomputedTextCompat
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -57,15 +60,16 @@ import com.blacksquircle.ui.feature.editor.data.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
-import com.blacksquircle.ui.feature.editor.ui.adapter.TabItemAnimator
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class EditorFragment : Fragment(R.layout.fragment_editor),
@@ -105,7 +109,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         toolbarManager.bind(binding)
 
         binding.tabLayout.setHasFixedSize(true)
-        binding.tabLayout.itemAnimator = TabItemAnimator()
         binding.tabLayout.adapter = DocumentAdapter(object : DocumentAdapter.TabInteractor {
             override fun close(position: Int) {
                 viewModel.obtainEvent(EditorIntent.CloseTab(position, false))
@@ -180,6 +183,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
             .onEach { state ->
                 when (state) {
                     is DocumentViewState.Content -> {
+                        val measurement = withContext(Dispatchers.Default) {
+                            val textMetrics = TextViewCompat.getTextMetricsParams(binding.editor)
+                            PrecomputedTextCompat.create(state.content.text, textMetrics)
+                        }
                         binding.editor.isVisible = true
                         binding.scroller.isVisible = true
                         binding.keyboard.isVisible = state.showKeyboard
@@ -190,7 +197,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.editor.language = state.content.language
                         binding.editor.undoStack = state.content.undoStack
                         binding.editor.redoStack = state.content.redoStack
-                        binding.editor.setTextContent(state.content.text)
+                        binding.editor.setTextContent(measurement)
                         binding.editor.scrollX = state.content.documentModel.scrollX
                         binding.editor.scrollY = state.content.documentModel.scrollY
                         binding.editor.setSelectionRange(
@@ -200,8 +207,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.editor.doOnPreDraw(View::requestFocus)
                     }
                     is DocumentViewState.Error -> {
-                        binding.editor.isVisible = false
-                        binding.scroller.isVisible = false
+                        binding.editor.isInvisible = true
+                        binding.scroller.isInvisible = true
                         binding.keyboard.isVisible = false
                         binding.errorView.root.isVisible = true
                         binding.errorView.image.setImageResource(state.image)
@@ -209,15 +216,15 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.errorView.subtitle.text = state.subtitle
                         binding.errorView.actionPrimary.isVisible = false
                         binding.loadingBar.isVisible = false
-                        binding.editor.clearText()
+                        binding.editor.clearUndoHistory()
                     }
                     is DocumentViewState.Loading -> {
-                        binding.editor.isVisible = false
-                        binding.scroller.isVisible = false
+                        binding.editor.isInvisible = true
+                        binding.scroller.isInvisible = true
                         binding.keyboard.isVisible = false
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
-                        binding.editor.clearText()
+                        binding.editor.clearUndoHistory()
                     }
                 }
             }
@@ -392,6 +399,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     // endregion TOOLBAR
 
     private fun saveFile(local: Boolean = false) {
+        if (!binding.editor.isVisible) return
         val action = EditorIntent.SaveFile(
             local = local,
             text = binding.editor.text.toString(),

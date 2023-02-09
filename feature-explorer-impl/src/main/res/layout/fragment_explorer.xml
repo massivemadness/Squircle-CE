@@ -121,7 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="gone" />
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <ProgressBar
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:indeterminate="true"

@@ -212,13 +212,6 @@ open class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    override fun clearText() {
-        super.clearText()
-        for (plugin in plugins) {
-            plugin.setEmptyText()
-        }
-    }
-
     override fun showDropDown() {
         super.showDropDown()
         for (plugin in plugins) {
