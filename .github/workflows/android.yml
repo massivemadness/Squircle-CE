@@ -19,6 +19,8 @@ jobs:
         cache: gradle
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: Check Kotlin code style
+      run: ./gradlew ktlint
     - name: Build with Gradle
       run: ./gradlew :app:assembleDebug
     - name: Upload Debug APK (Google Play)
