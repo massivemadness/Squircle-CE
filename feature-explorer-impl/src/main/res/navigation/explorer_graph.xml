@@ -19,19 +19,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/explorer_graph"
-    app:startDestination="@id/restrictedDialog">
+    app:startDestination="@id/storageDeniedDialog">
 
     <dialog
-        android:id="@+id/restrictedDialog"
-        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.RestrictedDialog"
-        android:label="RestrictedDialog">
-        <deepLink app:uri="blacksquircle://explorer/restricted?action={action}&amp;data={data}" />
-        <argument
-            android:name="action"
-            app:argType="string" />
-        <argument
-            android:name="data"
-            app:argType="string" />
+        android:id="@+id/storageDeniedDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.StorageDeniedDialog"
+        android:label="StorageDeniedDialog">
+        <deepLink app:uri="blacksquircle://explorer/storage_denied_forever" />
     </dialog>
 
     <dialog

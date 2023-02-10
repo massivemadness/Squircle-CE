@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.fragment
 
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
@@ -24,7 +23,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
@@ -40,6 +38,8 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
+import com.blacksquircle.ui.core.ui.contract.PermissionResult
+import com.blacksquircle.ui.core.ui.contract.StoragePermission
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
@@ -72,8 +72,16 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val binding by viewBinding(FragmentExplorerBinding::bind)
     private val navController by lazy { findNavController() }
-    private val requestAccess = registerForActivityResult(RequestPermission()) { result ->
-        if (result) permissionGranted() else permissionRejected()
+    private val storagePermission = StoragePermission(this) { result ->
+        when (result) {
+            PermissionResult.DENIED,
+            PermissionResult.DENIED_FOREVER -> {
+                navController.navigate(ExplorerScreen.StorageDeniedForever)
+            }
+            PermissionResult.GRANTED -> {
+                viewModel.obtainEvent(ExplorerIntent.Refresh)
+            }
+        }
     }
     private val onTabSelectedListener = object : TabAdapter.OnTabSelectedListener {
         override fun onTabSelected(position: Int) {
@@ -243,10 +251,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         }
         binding.errorView.actionPrimary.text = getString(R.string.action_grant_access)
         binding.errorView.actionPrimary.setOnClickListener {
-            context?.checkStorageAccess(
-                onSuccess = ::permissionGranted,
-                onFailure = ::permissionRejected,
-            )
+            storagePermission.launch()
         }
 
         setSupportActionBar(binding.toolbar)
@@ -404,22 +409,5 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             tracker.select(fileModel.fileUri)
         }
         fileAdapter.notifyItemChanged(index)
-    }
-
-    private fun permissionGranted() {
-        viewModel.obtainEvent(ExplorerIntent.Refresh)
-    }
-
-    private fun permissionRejected() {
-        activity?.requestStorageAccess(
-            showRequestDialog = { requestAccess.launch(WRITE_EXTERNAL_STORAGE) },
-            showExplanationDialog = { intent ->
-                val screen = ExplorerScreen.RestrictedDialog(
-                    action = intent.action.toString(),
-                    data = intent.data.toString(),
-                )
-                navController.navigate(screen)
-            },
-        )
     }
 }

@@ -18,7 +18,7 @@ ext {
 
     versions = [
             minSdk: 24,
-            targetSdk: 32,
+            targetSdk: 33,
             compileSdk: 33,
             buildTools: '33.0.0',
 
@@ -42,7 +42,7 @@ ext {
     playcore_version = '1.8.1'
 
     // UI
-    appcompat_version = '1.6.0'
+    appcompat_version = '1.6.1'
     materialdesign_version = '1.8.0'
     constraintlayout_version = '2.1.4'
     swiperefreshlayout_version = '1.2.0-alpha01'
@@ -54,7 +54,7 @@ ext {
     lifecycle_version = '2.5.1'
     navigation_version = '2.5.3'
     room_version = '2.5.0'
-    workmanager_version = '2.7.1'
+    workmanager_version = '2.8.0'
 
     // Network
     gson_version = '2.10.1'

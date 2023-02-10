@@ -17,6 +17,8 @@
 package com.blacksquircle.ui.feature.explorer.ui.worker
 
 import android.content.Context
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
@@ -55,7 +57,7 @@ class CutFileWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return withContext(dispatcherProvider.io()) {
-            setForeground(createForegroundInfo())
+            setForeground(getForegroundInfo())
             try {
                 val fileList = inputData.toFileList()
                 for (fileModel in fileList.dropLast(1)) {
@@ -97,7 +99,7 @@ class CutFileWorker @AssistedInject constructor(
         }
     }
 
-    private fun createForegroundInfo(): ForegroundInfo {
+    override suspend fun getForegroundInfo(): ForegroundInfo {
         applicationContext.createChannel(
             channelId = CHANNEL_ID,
             channelName = R.string.explorer_channel_name,
@@ -120,7 +122,15 @@ class CutFileWorker @AssistedInject constructor(
                 ),
             ),
         )
-        return ForegroundInfo(NOTIFICATION_ID, notification)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ForegroundInfo(
+                NOTIFICATION_ID,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+            )
+        } else {
+            ForegroundInfo(NOTIFICATION_ID, notification)
+        }
     }
 
     companion object {
@@ -133,6 +143,7 @@ class CutFileWorker @AssistedInject constructor(
 
         fun scheduleJob(context: Context, fileList: List<FileModel>) {
             val workRequest = OneTimeWorkRequestBuilder<CutFileWorker>()
+                // .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
                 .setInputData(fileList.toData())
                 .build()
 

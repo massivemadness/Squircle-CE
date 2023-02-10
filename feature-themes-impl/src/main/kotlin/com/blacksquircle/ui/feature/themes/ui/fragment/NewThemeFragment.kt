@@ -22,8 +22,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
 import androidx.core.view.updatePadding
@@ -61,11 +60,9 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     private val binding by viewBinding(FragmentNewThemeBinding::bind)
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<NewThemeFragmentArgs>()
-
-    private val importThemeContract: ActivityResultLauncher<Array<String>> =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            uri?.let(viewModel::importTheme)
-        }
+    private val importTheme = registerForActivityResult(OpenDocument()) { uri ->
+        uri?.let(viewModel::importTheme)
+    }
 
     private lateinit var adapter: PropertyAdapter
 
@@ -141,7 +138,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                     return when (menuItem.itemId) {
                         R.id.action_import -> {
-                            importThemeContract.launch(arrayOf("application/json"))
+                            importTheme.launch(arrayOf("application/json"))
                             true
                         }
                         else -> false

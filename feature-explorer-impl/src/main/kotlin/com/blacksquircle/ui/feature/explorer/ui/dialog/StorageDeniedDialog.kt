@@ -18,18 +18,17 @@ package com.blacksquircle.ui.feature.explorer.ui.dialog
 
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import androidx.core.net.toUri
+import android.provider.Settings
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.explorer.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RestrictedDialog : DialogFragment() {
-
-    private val navArgs by navArgs<RestrictedDialogArgs>()
+class StorageDeniedDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
@@ -37,8 +36,14 @@ class RestrictedDialog : DialogFragment() {
             message(R.string.dialog_message_storage_access)
             negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_continue) {
-                val intent = Intent(navArgs.action).apply {
-                    data = navArgs.data.toUri()
+                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                        data = Uri.parse("package:${context.packageName}")
+                    }
+                } else {
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.parse("package:${context.packageName}")
+                    }
                 }
                 startActivity(intent)
             }

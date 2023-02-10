@@ -23,9 +23,6 @@ import com.google.gson.Gson
 
 sealed class ExplorerScreen(route: String) : Screen<String>(route) {
 
-    class RestrictedDialog(action: String, data: String) : ExplorerScreen(
-        route = "blacksquircle://explorer/restricted?action=$action&data=$data",
-    )
     class DeleteDialog(fileName: String, fileCount: Int) : ExplorerScreen(
         route = "blacksquircle://explorer/delete?fileName=$fileName&fileCount=$fileCount",
     )
@@ -41,4 +38,8 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
     object CompressDialog : ExplorerScreen("blacksquircle://explorer/compress")
+
+    object StorageDeniedForever : ExplorerScreen(
+        route = "blacksquircle://explorer/storage_denied_forever"
+    )
 }
