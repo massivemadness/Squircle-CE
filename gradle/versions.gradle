@@ -20,7 +20,7 @@ ext {
             minSdk: 24,
             targetSdk: 33,
             compileSdk: 33,
-            buildTools: '33.0.0',
+            buildTools: '33.0.2',
 
             // Library
             publishVersionName: '2.2.0',

@@ -21,11 +21,6 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew :app:assembleDebug
-  upload:
-    needs: [ build ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
       - name: Upload Debug APK (Google Play)
         uses: actions/upload-artifact@v3
         with:

@@ -38,6 +38,19 @@ android {
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
+    signingConfigs {
+        release {
+            def prop = new Properties()
+            def localProperties = rootProject.file('local.properties')
+            if (localProperties.exists()) {
+                prop.load(new FileInputStream(localProperties))
+            }
+            storeFile file(prop["KEYSTORE_PATH"])
+            storePassword prop["KEYSTORE_PASSWORD"]
+            keyAlias prop["KEY_ALIAS"]
+            keyPassword prop["KEY_PASSWORD"]
+        }
+    }
     flavorDimensions "store"
     productFlavors {
         googlePlay { dimension "store" }
@@ -45,7 +58,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         benchmark {
