@@ -46,27 +46,30 @@ class MainViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private val _intentEvent = Channel<Intent>(Channel.BUFFERED)
-    val intentEvent: Flow<Intent> = _intentEvent.receiveAsFlow()
-
     val fullScreenMode: Boolean
         get() = settingsManager.fullScreenMode
     val confirmExit: Boolean
         get() = settingsManager.confirmExit
 
-    fun handleIntent(intent: Intent) {
+    fun handleIntent(intent: Intent?) {
         viewModelScope.launch {
-            _intentEvent.send(intent)
+            if (intent != null) {
+                _viewEvent.send(ViewEvent.NewIntent(intent))
+            }
         }
     }
 
-    fun handleDocument(file: File, onSuccess: () -> Unit) {
+    fun handleDocument(file: File, reloadList: () -> Unit) {
         viewModelScope.launch {
             try {
                 val fileModel = FileModel(file.absolutePath, LocalFilesystem.LOCAL_UUID)
+                val documentList = documentRepository.fetchDocuments()
                 val documentModel = DocumentConverter.toModel(fileModel)
-                documentRepository.updateDocument(documentModel)
-                onSuccess()
+                    .copy(position = documentList.size)
+                if (documentList.none { it.fileUri == documentModel.fileUri }) {
+                    documentRepository.updateDocument(documentModel)
+                    reloadList()
+                }
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)
                 _viewEvent.send(

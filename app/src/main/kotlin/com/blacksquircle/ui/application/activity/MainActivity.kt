@@ -62,11 +62,13 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }
 
-        mainViewModel.handleIntent(intent)
+        if (savedInstanceState == null) {
+            mainViewModel.handleIntent(intent)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        mainViewModel.handleIntent(intent ?: return)
+        mainViewModel.handleIntent(intent)
     }
 }

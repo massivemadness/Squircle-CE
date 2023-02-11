@@ -136,12 +136,9 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    is ViewEvent.NewIntent -> handleIntent(event.intent)
                 }
             }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        mainViewModel.intentEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach(::handleIntent)
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         explorerViewModel.customEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
@@ -177,14 +174,15 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                 }
                 Log.d(TAG, "isValidFile = $isValidFile")
 
-                if (isValidFile) {
-                    val file = File(filePath)
-                    mainViewModel.handleDocument(file) {
-                        editorViewModel.obtainEvent(EditorIntent.LoadFiles)
-                    }
-                } else {
+                if (!isValidFile) {
                     Log.d(TAG, "Invalid path")
                     context?.showToast(EditorR.string.message_file_not_found)
+                    return
+                }
+
+                val file = File(filePath)
+                mainViewModel.handleDocument(file) {
+                    editorViewModel.obtainEvent(EditorIntent.LoadFiles)
                 }
             }
         } catch (e: Throwable) {
