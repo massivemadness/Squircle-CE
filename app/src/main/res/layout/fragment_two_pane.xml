@@ -30,8 +30,7 @@
             android:layout_height="match_parent"
             android:id="@+id/fragment_editor"
             android:name="com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment"
-            tools:layout="@layout/fragment_editor"
-            tools:ignore="FragmentTagUsage" />
+            tools:layout="@layout/fragment_editor" />
 
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="280dp"
@@ -39,8 +38,7 @@
             android:layout_gravity="start"
             android:id="@+id/fragment_explorer"
             android:name="com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment"
-            tools:layout="@layout/fragment_explorer"
-            tools:ignore="FragmentTagUsage" />
+            tools:layout="@layout/fragment_explorer" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

@@ -23,6 +23,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
+import androidx.core.view.doOnLayout
+import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -61,6 +63,19 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
     private val navController by lazy { findNavController() }
     private val binding by viewBinding(FragmentTwoPaneBinding::bind)
 
+    private val drawerListener = object : DrawerListener {
+        override fun onDrawerStateChanged(newState: Int) = Unit
+        override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+            binding.fragmentEditor.translationX = slideOffset * drawerView.width
+        }
+        override fun onDrawerOpened(drawerView: View) {
+            binding.fragmentEditor.translationX = drawerView.width.toFloat()
+        }
+        override fun onDrawerClosed(drawerView: View) {
+            binding.fragmentEditor.translationX = 0f
+        }
+    }
+
     private lateinit var editorBackPressedHandler: BackPressedHandler
     private lateinit var explorerBackPressedHandler: BackPressedHandler
 
@@ -75,13 +90,22 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
         explorerBackPressedHandler = childFragmentManager
             .fragment<ExplorerFragment>(R.id.fragment_explorer)
 
+        binding.drawerLayout?.setScrimColor(0x48000000)
+        binding.drawerLayout?.addDrawerListener(drawerListener)
         binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
+        binding.drawerLayout?.doOnLayout {
+            if (binding.drawerLayout?.isOpen == true) {
+                drawerListener.onDrawerOpened(binding.fragmentExplorer)
+            } else {
+                drawerListener.onDrawerClosed(binding.fragmentExplorer)
+            }
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (binding.drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
+                    if (binding.drawerLayout?.isOpen == true) {
                         if (!explorerBackPressedHandler.handleOnBackPressed()) {
                             closeDrawer()
                         }
