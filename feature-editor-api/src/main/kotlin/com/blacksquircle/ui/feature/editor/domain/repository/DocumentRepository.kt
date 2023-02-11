@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.domain.repository
 
+import android.net.Uri
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
@@ -28,5 +29,5 @@ interface DocumentRepository {
 
     suspend fun loadFile(documentModel: DocumentModel): DocumentContent
     suspend fun saveFile(content: DocumentContent, params: DocumentParams)
-    suspend fun saveFileAs(documentModel: DocumentModel)
+    suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri)
 }

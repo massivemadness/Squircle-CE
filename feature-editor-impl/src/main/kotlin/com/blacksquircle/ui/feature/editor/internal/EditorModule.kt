@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.internal
 
+import android.content.Context
 import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -27,6 +28,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Named
 
@@ -37,6 +39,7 @@ object EditorModule {
     @Provides
     @ViewModelScoped
     fun provideDocumentRepository(
+        @ApplicationContext context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
@@ -49,6 +52,7 @@ object EditorModule {
             appDatabase = appDatabase,
             filesystemFactory = filesystemFactory,
             cacheFilesystem = cacheFilesystem,
+            context = context,
         )
     }
 }

@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.feature.editor.data.repository
 
+import android.content.Context
+import android.net.Uri
 import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.factory.LanguageFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
@@ -42,6 +44,7 @@ class DocumentRepositoryImpl(
     private val appDatabase: AppDatabase,
     private val filesystemFactory: FilesystemFactory,
     private val cacheFilesystem: Filesystem,
+    private val context: Context,
 ) : DocumentRepository {
 
     override suspend fun fetchDocuments(): List<DocumentModel> {
@@ -125,18 +128,14 @@ class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun saveFileAs(documentModel: DocumentModel) {
+    override suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
             val cacheFile = cacheFile(documentModel, postfix = "text")
             val text = cacheFilesystem.loadFile(cacheFile, FileParams())
-
-            val filesystem = filesystemFactory.create(documentModel.filesystemUuid)
-            val fileModel = DocumentConverter.toModel(documentModel)
-            val fileParams = FileParams(
-                charset = charsetFor(settingsManager.encodingForSaving),
-                linebreak = LineBreak.find(settingsManager.lineBreakForSaving),
-            )
-            filesystem.saveFile(fileModel, text, fileParams)
+            context.contentResolver.openOutputStream(fileUri)?.use { output ->
+                output.write(text.toByteArray())
+                output.flush()
+            }
         }
     }
 

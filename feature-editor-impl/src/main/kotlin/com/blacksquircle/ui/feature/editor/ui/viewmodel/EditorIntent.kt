@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
+import android.net.Uri
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.language.base.Language
@@ -31,9 +32,6 @@ sealed class EditorIntent {
     data class CloseTab(val position: Int, val allowModified: Boolean) : EditorIntent()
     data class CloseOthers(val position: Int) : EditorIntent()
     object CloseAll : EditorIntent()
-
-    object SaveAs : EditorIntent()
-    data class SaveFileAs(val filePath: String) : EditorIntent()
 
     object GotoLine : EditorIntent()
     data class GotoLineNumber(val line: String) : EditorIntent()
@@ -53,6 +51,7 @@ sealed class EditorIntent {
         val selectionStart: Int,
         val selectionEnd: Int,
     ) : EditorIntent()
+    data class SaveFileAs(val fileUri: Uri) : EditorIntent()
 
     object PanelDefault : EditorIntent()
     object PanelFind : EditorIntent()

@@ -31,6 +31,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
+import com.blacksquircle.ui.core.ui.contract.ContractResult
+import com.blacksquircle.ui.core.ui.contract.CreateFileContract
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
@@ -82,6 +84,13 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     private val toolbarManager by lazy { ToolbarManager(this) }
     private val tabController by lazy { TabController() }
     private val navController by lazy { findNavController() }
+
+    private val createFileContract = CreateFileContract(this) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.SaveFileAs(result.uri))
+            is ContractResult.Canceled -> Unit
+        }
+    }
 
     private val onTabSelectedListener = object : TabAdapter.OnTabSelectedListener {
         override fun onTabUnselected(position: Int) = saveFile()
@@ -271,8 +280,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     override fun onSaveAsButton(): Boolean {
-        saveFile(local = false)
-        viewModel.obtainEvent(EditorIntent.SaveAs)
+        val position = tabAdapter.selectedPosition
+        if (position > -1) {
+            val documentModel = tabAdapter.currentList[position]
+            createFileContract.launch(documentModel.name, documentModel.extension)
+        }
         return true
     }
 

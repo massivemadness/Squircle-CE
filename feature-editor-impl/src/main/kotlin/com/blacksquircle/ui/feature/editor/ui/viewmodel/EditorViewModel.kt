@@ -84,9 +84,6 @@ class EditorViewModel @Inject constructor(
             is EditorIntent.CloseOthers -> closeOthers(event)
             is EditorIntent.CloseAll -> closeAll()
 
-            is EditorIntent.SaveAs -> saveAs()
-            is EditorIntent.SaveFileAs -> saveFileAs(event)
-
             is EditorIntent.GotoLine -> gotoLine()
             is EditorIntent.GotoLineNumber -> gotoLineNumber(event)
 
@@ -95,6 +92,7 @@ class EditorViewModel @Inject constructor(
 
             is EditorIntent.ModifyContent -> modifyContent()
             is EditorIntent.SaveFile -> saveFile(event)
+            is EditorIntent.SaveFileAs -> saveFileAs(event)
 
             is EditorIntent.PanelDefault -> panelDefault()
             is EditorIntent.PanelFind -> panelFind()
@@ -276,29 +274,12 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun saveAs() {
-        viewModelScope.launch {
-            try {
-                if (selectedPosition > -1) {
-                    val document = documents[selectedPosition]
-                    _viewEvent.send(
-                        ViewEvent.Navigation(EditorScreen.SaveAsDialog(document.path)),
-                    )
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
     private fun saveFileAs(event: EditorIntent.SaveFileAs) {
         viewModelScope.launch {
             try {
                 if (selectedPosition > -1) {
                     val document = documents[selectedPosition]
-                    val updateDocument = document.copy(fileUri = document.scheme + event.filePath)
-                    documentRepository.saveFileAs(updateDocument)
+                    documentRepository.saveFileAs(document, event.fileUri)
                     _viewEvent.send(
                         ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
                     )

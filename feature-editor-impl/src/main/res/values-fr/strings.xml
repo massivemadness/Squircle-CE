@@ -18,7 +18,6 @@
 <resources>
 
     <string name="hint_line">Ligne:</string>
-    <string name="hint_enter_file_path">Entrer le chemin d\'accès du fichier</string>
 
     <string name="action_close">Fermer</string>
     <string name="action_close_others">Fermer les autres</string>
@@ -50,15 +49,12 @@
     <string name="action_tools">Outils</string>
 
     <string name="dialog_title_result">Résultat</string>
-    <string name="dialog_title_save_as">Enregistrer Sous…</string>
     <string name="dialog_title_goto_line">Aller à la ligne…</string>
     <string name="dialog_title_color_picker">Sélecteur de Couleurs</string>
 
     <string name="dialog_message_close_tab">Voulez-vous vraiment fermer ce fichier? Toutes les modifications non enregistrées seront supprimées</string>
 
     <string name="message_no_open_files">Aucun fichier ouvert</string>
-    <string name="message_tab_limit_achieved">Limite du nombre d\'onglets atteinte</string>
-    <string name="message_invalid_file_path">Chemin d\'accès au fichier invalide</string>
     <string name="message_error_occurred">Une erreur est survenue</string>
     <string name="message_file_not_found">Fichier introuvable</string>
     <string name="message_out_of_memory">Mémoire insuffisante</string>
