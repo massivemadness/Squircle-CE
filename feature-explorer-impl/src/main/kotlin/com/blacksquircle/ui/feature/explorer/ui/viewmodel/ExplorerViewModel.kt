@@ -136,15 +136,6 @@ class ExplorerViewModel @Inject constructor(
                 )
                 true
             }
-            breadcrumbs.size > 1 -> {
-                _explorerViewState.value = ExplorerViewState.ActionBar(
-                    breadcrumbs = breadcrumbs.replaceList(breadcrumbs - breadcrumbs.last()),
-                    selection = selection.replaceList(emptyList()),
-                    operation = operation,
-                )
-                listFiles(ExplorerIntent.OpenFolder(breadcrumbs.lastOrNull()))
-                true
-            }
             else -> false
         }
     }
