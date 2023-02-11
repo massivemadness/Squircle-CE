@@ -36,6 +36,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
+import com.blacksquircle.ui.core.ui.contract.ContractResult
+import com.blacksquircle.ui.core.ui.contract.CreateFileContract
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -59,7 +61,15 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
     private val binding by viewBinding(FragmentThemesBinding::bind)
     private val navController by lazy { findNavController() }
 
+    private val createFileContract = CreateFileContract(this) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.exportTheme(themeModel, result.uri)
+            is ContractResult.Canceled -> Unit
+        }
+    }
+
     private lateinit var adapter: ThemeAdapter
+    private lateinit var themeModel: ThemeModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,10 +90,8 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         binding.recyclerView.adapter = ThemeAdapter(object : ThemeAdapter.Actions {
             override fun selectTheme(themeModel: ThemeModel) = viewModel.selectTheme(themeModel)
             override fun exportTheme(themeModel: ThemeModel) {
-                context?.checkStorageAccess(
-                    onSuccess = { viewModel.exportTheme(themeModel) },
-                    onFailure = { context?.showToast(R.string.message_access_required) },
-                )
+                this@ThemesFragment.themeModel = themeModel
+                createFileContract.launch(themeModel.name + ".json", "application/json")
             }
             override fun editTheme(themeModel: ThemeModel) {
                 navController.navigate(ThemesScreen.Update(themeModel.uuid))

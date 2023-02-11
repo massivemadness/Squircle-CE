@@ -35,11 +35,10 @@
 
     <string name="dialog_title_color_picker">Farbauswahl</string>
 
-    <string name="message_access_required">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
+    <string name="message_saved">Gespeichert</string>
     <string name="message_selected">«%1$s» ausgewählt</string>
     <string name="message_new_theme_available">Neues Thema verfügbar: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» entfernt</string>
-    <string name="message_theme_exported">Theme in /Download/%1$s.json gespeichert</string>
     <string name="message_theme_syntax_exception">Beim Lesen der Theme-Datei ist ein Fehler aufgetreten</string>
     <string name="message_no_result">Kein Ergebnis</string>
     <string name="message_error_occurred">Ein Fehler ist aufgetreten</string>

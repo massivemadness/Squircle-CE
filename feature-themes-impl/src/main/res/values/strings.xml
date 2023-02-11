@@ -37,11 +37,10 @@
 
     <string name="dialog_title_color_picker">Color Picker</string>
 
-    <string name="message_access_required">Application requires storage access to work with files</string>
+    <string name="message_saved">Saved</string>
     <string name="message_selected">Selected «%1$s»</string>
     <string name="message_new_theme_available">New theme available: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» removed</string>
-    <string name="message_theme_exported">Theme saved to /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
     <string name="message_no_result">No result</string>
     <string name="message_error_occurred">An error occurred</string>

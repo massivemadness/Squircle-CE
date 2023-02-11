@@ -93,17 +93,12 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    fun exportTheme(themeModel: ThemeModel) {
+    fun exportTheme(themeModel: ThemeModel, fileUri: Uri) {
         viewModelScope.launch {
             try {
-                themesRepository.exportTheme(themeModel)
+                themesRepository.exportTheme(themeModel, fileUri)
                 _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(
-                            R.string.message_theme_exported,
-                            themeModel.name.lowercase(),
-                        ),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
                 )
             } catch (e: Exception) {
                 Log.e(TAG, e.message, e)

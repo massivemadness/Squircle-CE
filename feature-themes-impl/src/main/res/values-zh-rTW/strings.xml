@@ -35,11 +35,10 @@
 
     <string name="dialog_title_color_picker">顏色選擇器</string>
 
-    <string name="message_access_required">為了能正常編輯程式碼，必須授予儲存權限</string>
+    <string name="message_saved">已儲存</string>
     <string name="message_selected">已選擇 «%1$s»</string>
     <string name="message_new_theme_available">新主題可用: %1$s</string>
     <string name="message_theme_removed">主題 «%1$s» 已移除</string>
-    <string name="message_theme_exported">主題已儲存到 /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">讀取主題檔案時發生錯誤</string>
     <string name="message_no_result">沒有結果</string>
     <string name="message_error_occurred">發生錯誤</string>

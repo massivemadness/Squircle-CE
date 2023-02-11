@@ -22,7 +22,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
 import androidx.core.view.updatePadding
@@ -37,6 +36,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorPalette
 import com.afollestad.materialdialogs.color.colorChooser
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
+import com.blacksquircle.ui.core.ui.contract.ContractResult
+import com.blacksquircle.ui.core.ui.contract.OpenFileContract
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -60,8 +61,11 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     private val binding by viewBinding(FragmentNewThemeBinding::bind)
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<NewThemeFragmentArgs>()
-    private val importTheme = registerForActivityResult(OpenDocument()) { uri ->
-        uri?.let(viewModel::importTheme)
+    private val openFileContract = OpenFileContract(this) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.importTheme(result.uri)
+            is ContractResult.Canceled -> Unit
+        }
     }
 
     private lateinit var adapter: PropertyAdapter
@@ -136,13 +140,10 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                     menuInflater.inflate(R.menu.menu_new_theme, menu)
                 }
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    return when (menuItem.itemId) {
-                        R.id.action_import -> {
-                            importTheme.launch(arrayOf("application/json"))
-                            true
-                        }
-                        else -> false
+                    when (menuItem.itemId) {
+                        R.id.action_import -> openFileContract.launch(OpenFileContract.JSON)
                     }
+                    return true
                 }
             },
             viewLifecycleOwner,

@@ -20,7 +20,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.Fragment
 
@@ -57,10 +56,8 @@ class CreateFileContract(
         }
     }
 
-    fun launch(title: String, extension: String) {
-        MimeTypeMap.getSingleton()
-            .getMimeTypeFromExtension(extension)
-            ?.let { mimeType = it }
+    fun launch(title: String, mimeType: String) {
+        this.mimeType = mimeType
         createDocument.launch(title)
     }
 }

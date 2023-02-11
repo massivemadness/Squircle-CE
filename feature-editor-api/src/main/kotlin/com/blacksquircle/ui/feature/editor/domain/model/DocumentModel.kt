@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.feature.editor.domain.model
 
+import android.webkit.MimeTypeMap
+
 data class DocumentModel(
     val uuid: String,
     val fileUri: String,
@@ -36,4 +38,8 @@ data class DocumentModel(
         get() = fileUri.substringAfterLast("/")
     val extension: String
         get() = fileUri.substringAfterLast(".")
+    val mimeType: String
+        get() = MimeTypeMap.getSingleton()
+            .getMimeTypeFromExtension(extension)
+            ?: "*/*"
 }

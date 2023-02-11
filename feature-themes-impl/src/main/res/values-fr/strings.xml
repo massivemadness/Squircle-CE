@@ -35,11 +35,10 @@
 
     <string name="dialog_title_color_picker">Sélecteur de Couleurs</string>
 
-    <string name="message_access_required">L\'application requière l\'accès au stockage pour travailler avec les fichiers</string>
+    <string name="message_saved">Sauvegardé</string>
     <string name="message_selected">«%1$s» sélectionné</string>
     <string name="message_new_theme_available">Nouveau thème disponible: %1$s</string>
     <string name="message_theme_removed">Thème «%1$s» retiré</string>
-    <string name="message_theme_exported">Thème enregistré sous /Download/%1$s.json</string>
     <string name="message_theme_syntax_exception">Une erreur s\'est produite lors de la lecture du fichier de thème</string>
     <string name="message_no_result">Aucun résultat</string>
     <string name="message_error_occurred">Une erreur s\'est produite</string>

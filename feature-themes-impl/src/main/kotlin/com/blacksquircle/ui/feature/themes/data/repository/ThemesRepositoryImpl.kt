@@ -16,28 +16,18 @@
 
 package com.blacksquircle.ui.feature.themes.data.repository
 
-import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
-import androidx.core.content.FileProvider
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
-import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
-import com.blacksquircle.ui.feature.themes.domain.model.Meta
-import com.blacksquircle.ui.feature.themes.domain.model.Property
-import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
-import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
+import com.blacksquircle.ui.feature.themes.domain.model.*
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
-import java.io.File
 
 class ThemesRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -45,11 +35,6 @@ class ThemesRepositoryImpl(
     private val appDatabase: AppDatabase,
     private val context: Context,
 ) : ThemesRepository {
-
-    companion object {
-        private const val FALLBACK_COLOR = "#000000"
-        private const val MIME_TYPE_JSON = "application/json"
-    }
 
     // region PROPERTIES
 
@@ -102,37 +87,19 @@ class ThemesRepositoryImpl(
 
     override suspend fun importTheme(uri: Uri): ThemeModel {
         return withContext(dispatcherProvider.io()) {
-            val inputStream = context.contentResolver.openInputStream(uri)!!
-            val themeJson = inputStream.bufferedReader().use(BufferedReader::readText)
-            val externalTheme = ExternalTheme.deserialize(themeJson)
-            ThemeConverter.toModel(externalTheme)
+            context.contentResolver.openInputStream(uri)?.use {
+                val themeJson = it.bufferedReader().use(BufferedReader::readText)
+                val externalTheme = ExternalTheme.deserialize(themeJson)
+                return@withContext ThemeConverter.toModel(externalTheme)
+            }
+            throw IllegalStateException("Unable to open input stream")
         }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun exportTheme(themeModel: ThemeModel) {
+    override suspend fun exportTheme(themeModel: ThemeModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            val fileName = "${themeModel.name}.json"
-            val fileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val fileText = ExternalTheme.serialize(ThemeConverter.toExternalTheme(themeModel))
-
-            val resolver = context.contentResolver
-            val fileUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-                    put(MediaStore.MediaColumns.MIME_TYPE, MIME_TYPE_JSON)
-                    put(MediaStore.MediaColumns.SIZE, fileText.length)
-                }
-                resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
-            } else {
-                val file = File(fileDir, fileName)
-                val authority = "${context.packageName}.provider"
-                file.deleteRecursively()
-                file.createNewFile()
-                FileProvider.getUriForFile(context, authority, file)
-            } ?: Uri.EMPTY
-
-            resolver.openOutputStream(fileUri)?.use { output ->
+            context.contentResolver.openOutputStream(fileUri)?.use { output ->
                 output.write(fileText.toByteArray())
                 output.flush()
             }
@@ -247,5 +214,9 @@ class ThemesRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             settingsManager.colorScheme = themeModel.uuid
         }
+    }
+
+    companion object {
+        private const val FALLBACK_COLOR = "#000000"
     }
 }

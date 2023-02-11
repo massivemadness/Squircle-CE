@@ -283,7 +283,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         val position = tabAdapter.selectedPosition
         if (position > -1) {
             val documentModel = tabAdapter.currentList[position]
-            createFileContract.launch(documentModel.name, documentModel.extension)
+            createFileContract.launch(
+                documentModel.name,
+                documentModel.mimeType,
+            )
         }
         return true
     }

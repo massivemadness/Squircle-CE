@@ -27,7 +27,7 @@ interface ThemesRepository {
     suspend fun fetchTheme(uuid: String): ThemeModel
 
     suspend fun importTheme(uri: Uri): ThemeModel
-    suspend fun exportTheme(themeModel: ThemeModel)
+    suspend fun exportTheme(themeModel: ThemeModel, fileUri: Uri)
 
     suspend fun createTheme(meta: Meta, properties: List<PropertyItem>)
     suspend fun removeTheme(themeModel: ThemeModel)
