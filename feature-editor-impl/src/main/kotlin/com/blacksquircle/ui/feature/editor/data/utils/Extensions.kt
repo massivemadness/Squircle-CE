@@ -27,7 +27,7 @@ internal fun charsetFor(charsetName: String): Charset = try {
     Charsets.UTF_8
 }
 
-internal fun UndoStack.encodeStack(): String {
+internal fun UndoStack.encode(): String {
     val builder = StringBuilder()
     val delimiter = "\u0005"
     for (i in size - 1 downTo 0) {
@@ -45,7 +45,7 @@ internal fun UndoStack.encodeStack(): String {
     return builder.toString()
 }
 
-internal fun String.decodeStack(): UndoStack {
+internal fun String.decode(): UndoStack {
     val result = UndoStack()
     if (isNotEmpty()) {
         val items = split("\u0005").toTypedArray()

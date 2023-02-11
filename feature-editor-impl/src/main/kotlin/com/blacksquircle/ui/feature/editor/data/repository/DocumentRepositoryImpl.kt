@@ -26,8 +26,8 @@ import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
-import com.blacksquircle.ui.feature.editor.data.utils.decodeStack
-import com.blacksquircle.ui.feature.editor.data.utils.encodeStack
+import com.blacksquircle.ui.feature.editor.data.utils.decode
+import com.blacksquircle.ui.feature.editor.data.utils.encode
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
@@ -72,7 +72,7 @@ class DocumentRepositoryImpl(
 
     override suspend fun loadFile(documentModel: DocumentModel): DocumentContent {
         return withContext(dispatcherProvider.io()) {
-            val cacheFile = cacheFile(documentModel, postfix = "text")
+            val cacheFile = cacheFile(documentModel, postfix = "text.cache")
             if (cacheFilesystem.exists(cacheFile)) {
                 DocumentContent(
                     documentModel = documentModel,
@@ -114,23 +114,20 @@ class DocumentRepositoryImpl(
             if (params.cache) {
                 createCacheFiles(content.documentModel)
 
-                val textCacheFile = cacheFile(content.documentModel, postfix = "text")
+                val textCacheFile = cacheFile(content.documentModel, postfix = "text.cache")
+                val undoCacheFile = cacheFile(content.documentModel, postfix = "undo.cache")
+                val redoCacheFile = cacheFile(content.documentModel, postfix = "redo.cache")
+
                 cacheFilesystem.saveFile(textCacheFile, content.text, FileParams())
-
-                val undoCacheFile = cacheFile(content.documentModel, postfix = "undo")
-                val undoStackText = content.undoStack.encodeStack()
-                cacheFilesystem.saveFile(undoCacheFile, undoStackText, FileParams())
-
-                val redoCacheFile = cacheFile(content.documentModel, postfix = "redo")
-                val redoStackText = content.redoStack.encodeStack()
-                cacheFilesystem.saveFile(redoCacheFile, redoStackText, FileParams())
+                cacheFilesystem.saveFile(undoCacheFile, content.undoStack.encode(), FileParams())
+                cacheFilesystem.saveFile(redoCacheFile, content.redoStack.encode(), FileParams())
             }
         }
     }
 
     override suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            val cacheFile = cacheFile(documentModel, postfix = "text")
+            val cacheFile = cacheFile(documentModel, postfix = "text.cache")
             val text = cacheFilesystem.loadFile(cacheFile, FileParams())
             context.contentResolver.openOutputStream(fileUri)?.use { output ->
                 output.write(text.toByteArray())
@@ -139,12 +136,11 @@ class DocumentRepositoryImpl(
         }
     }
 
-    private fun loadUndoStack(documentModel: DocumentModel): UndoStack {
+    private fun loadUndoStack(document: DocumentModel): UndoStack {
         return try {
-            val undoCacheFile = cacheFile(documentModel, postfix = "undo")
+            val undoCacheFile = cacheFile(document, postfix = "undo.cache")
             if (cacheFilesystem.exists(undoCacheFile)) {
-                return cacheFilesystem.loadFile(undoCacheFile, FileParams())
-                    .decodeStack()
+                return cacheFilesystem.loadFile(undoCacheFile, FileParams()).decode()
             }
             UndoStack()
         } catch (e: Exception) {
@@ -152,12 +148,11 @@ class DocumentRepositoryImpl(
         }
     }
 
-    private fun loadRedoStack(documentModel: DocumentModel): UndoStack {
+    private fun loadRedoStack(document: DocumentModel): UndoStack {
         return try {
-            val redoCacheFile = cacheFile(documentModel, postfix = "redo")
+            val redoCacheFile = cacheFile(document, postfix = "redo.cache")
             if (cacheFilesystem.exists(redoCacheFile)) {
-                return cacheFilesystem.loadFile(redoCacheFile, FileParams())
-                    .decodeStack()
+                return cacheFilesystem.loadFile(redoCacheFile, FileParams()).decode()
             }
             UndoStack()
         } catch (e: Exception) {
@@ -165,30 +160,30 @@ class DocumentRepositoryImpl(
         }
     }
 
-    private fun createCacheFiles(documentModel: DocumentModel) {
-        val textCacheFile = cacheFile(documentModel, postfix = "text")
-        val undoCacheFile = cacheFile(documentModel, postfix = "undo")
-        val redoCacheFile = cacheFile(documentModel, postfix = "redo")
+    private fun createCacheFiles(document: DocumentModel) {
+        val textCacheFile = cacheFile(document, postfix = "text.cache")
+        val undoCacheFile = cacheFile(document, postfix = "undo.cache")
+        val redoCacheFile = cacheFile(document, postfix = "redo.cache")
 
         if (!cacheFilesystem.exists(textCacheFile)) { cacheFilesystem.createFile(textCacheFile) }
         if (!cacheFilesystem.exists(undoCacheFile)) { cacheFilesystem.createFile(undoCacheFile) }
         if (!cacheFilesystem.exists(redoCacheFile)) { cacheFilesystem.createFile(redoCacheFile) }
     }
 
-    private fun deleteCacheFiles(documentModel: DocumentModel) {
-        val textCacheFile = cacheFile(documentModel, postfix = "text")
-        val undoCacheFile = cacheFile(documentModel, postfix = "undo")
-        val redoCacheFile = cacheFile(documentModel, postfix = "redo")
+    private fun deleteCacheFiles(document: DocumentModel) {
+        val textCacheFile = cacheFile(document, postfix = "text.cache")
+        val undoCacheFile = cacheFile(document, postfix = "undo.cache")
+        val redoCacheFile = cacheFile(document, postfix = "redo.cache")
 
         if (cacheFilesystem.exists(textCacheFile)) { cacheFilesystem.deleteFile(textCacheFile) }
         if (cacheFilesystem.exists(undoCacheFile)) { cacheFilesystem.deleteFile(undoCacheFile) }
         if (cacheFilesystem.exists(redoCacheFile)) { cacheFilesystem.deleteFile(redoCacheFile) }
     }
 
-    private fun cacheFile(documentModel: DocumentModel, postfix: String): FileModel {
+    private fun cacheFile(document: DocumentModel, postfix: String): FileModel {
         val defaultLocation = cacheFilesystem.defaultLocation()
         return FileModel(
-            fileUri = defaultLocation.fileUri + "/" + "${documentModel.uuid}-$postfix.cache",
+            fileUri = defaultLocation.fileUri + "/" + "${document.uuid}-$postfix",
             filesystemUuid = defaultLocation.filesystemUuid,
         )
     }

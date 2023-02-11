@@ -34,7 +34,7 @@ data class FileModel(
     val name: String
         get() = fileUri.substringAfterLast("/").ifEmpty { "/" }
     val extension: String
-        get() = fileUri.substringAfterLast(".")
+        get() = fileUri.substringAfterLast(".", "")
 
     val type: FileType
         get() = when {

@@ -37,7 +37,7 @@ data class DocumentModel(
     val name: String
         get() = fileUri.substringAfterLast("/")
     val extension: String
-        get() = fileUri.substringAfterLast(".")
+        get() = fileUri.substringAfterLast(".", "")
     val mimeType: String
         get() = MimeTypeMap.getSingleton()
             .getMimeTypeFromExtension(extension)
