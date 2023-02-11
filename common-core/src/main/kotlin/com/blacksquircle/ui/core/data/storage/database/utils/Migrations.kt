@@ -18,6 +18,7 @@ package com.blacksquircle.ui.core.data.storage.database.utils
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.blacksquircle.ui.core.data.factory.LanguageFactory
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 
 object Migrations {
@@ -51,6 +52,24 @@ object Migrations {
                     val path = cursor.getString(columnPath)
                     val scheme = LocalFilesystem.LOCAL_SCHEME
                     database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `path` = '$scheme$path' WHERE `uuid` = '$uuid';")
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+        }
+    }
+
+    val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `language` TEXT NOT NULL DEFAULT 'plaintext'")
+            val cursor = database.query("SELECT * FROM `${Tables.DOCUMENTS}`")
+            if (cursor.moveToFirst()) {
+                do {
+                    val columnUuid = cursor.getColumnIndexOrThrow("uuid")
+                    val columnPath = cursor.getColumnIndexOrThrow("path")
+                    val uuid = cursor.getString(columnUuid)
+                    val path = cursor.getString(columnPath)
+                    val language = LanguageFactory.create(path).languageName
+                    database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `language` = '$language' WHERE `uuid` = '$uuid';")
                 } while (cursor.moveToNext())
             }
             cursor.close()

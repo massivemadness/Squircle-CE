@@ -38,6 +38,7 @@ class DocumentConverterTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
+            language = "plaintext",
             modified = false,
             position = 0,
             scrollX = 0,
@@ -51,6 +52,7 @@ class DocumentConverterTest {
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
+        assertEquals(documentModel.language, convert.language)
         assertEquals(documentModel.modified, convert.modified)
         assertEquals(documentModel.position, convert.position)
         assertEquals(documentModel.scrollX, convert.scrollX)
@@ -65,6 +67,7 @@ class DocumentConverterTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
+            language = "plaintext",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -76,6 +79,7 @@ class DocumentConverterTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
+            language = "plaintext",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -89,6 +93,7 @@ class DocumentConverterTest {
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
+        assertEquals(documentModel.language, convert.language)
         assertEquals(documentModel.modified, convert.modified)
         assertEquals(documentModel.position, convert.position)
         assertEquals(documentModel.scrollX, convert.scrollX)
@@ -103,6 +108,7 @@ class DocumentConverterTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
+            language = "plaintext",
             modified = false,
             position = 10,
             scrollX = 0,
@@ -114,6 +120,7 @@ class DocumentConverterTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
+            language = "plaintext",
             modified = false,
             position = 10,
             scrollX = 0,
@@ -125,6 +132,7 @@ class DocumentConverterTest {
 
         assertEquals(documentEntity.fileUri, convert.fileUri)
         assertEquals(documentEntity.filesystemUuid, convert.filesystemUuid)
+        assertEquals(documentEntity.language, convert.language)
         assertEquals(documentEntity.modified, convert.modified)
         assertEquals(documentEntity.position, convert.position)
         assertEquals(documentEntity.scrollX, convert.scrollX)

@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.converter
 
+import com.blacksquircle.ui.core.data.factory.LanguageFactory
 import com.blacksquircle.ui.core.data.storage.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -38,6 +39,7 @@ object DocumentConverter {
             uuid = UUID.randomUUID().toString(),
             fileUri = fileModel.fileUri,
             filesystemUuid = fileModel.filesystemUuid,
+            language = LanguageFactory.create(fileModel.name).languageName,
             modified = false,
             position = 0,
             scrollX = 0,
@@ -52,6 +54,7 @@ object DocumentConverter {
             uuid = documentEntity.uuid,
             fileUri = documentEntity.fileUri,
             filesystemUuid = documentEntity.filesystemUuid,
+            language = documentEntity.language,
             modified = documentEntity.modified,
             position = documentEntity.position,
             scrollX = documentEntity.scrollX,
@@ -66,6 +69,7 @@ object DocumentConverter {
             uuid = documentModel.uuid,
             fileUri = documentModel.fileUri,
             filesystemUuid = documentModel.filesystemUuid,
+            language = documentModel.language,
             modified = documentModel.modified,
             position = documentModel.position,
             scrollX = documentModel.scrollX,

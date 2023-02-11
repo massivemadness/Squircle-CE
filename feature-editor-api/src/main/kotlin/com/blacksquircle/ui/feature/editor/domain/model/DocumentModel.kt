@@ -22,6 +22,7 @@ data class DocumentModel(
     val uuid: String,
     val fileUri: String,
     val filesystemUuid: String,
+    val language: String,
     val modified: Boolean,
     val position: Int,
     var scrollX: Int,

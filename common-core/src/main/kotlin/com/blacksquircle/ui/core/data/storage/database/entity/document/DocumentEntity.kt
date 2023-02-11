@@ -30,6 +30,8 @@ data class DocumentEntity(
     val fileUri: String,
     @ColumnInfo(name = "filesystem_uuid")
     val filesystemUuid: String,
+    @ColumnInfo(name = "language")
+    val language: String,
     @ColumnInfo(name = "modified")
     val modified: Boolean,
     @ColumnInfo(name = "position")
