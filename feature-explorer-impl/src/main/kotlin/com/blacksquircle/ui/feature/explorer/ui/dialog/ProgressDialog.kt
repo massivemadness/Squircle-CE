@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import androidx.core.view.isVisible
@@ -23,13 +24,18 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.blacksquircle.ui.core.ui.contract.NotificationPermission
+import com.blacksquircle.ui.core.ui.contract.PermissionResult
+import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.databinding.DialogProgressBinding
+import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.worker.*
@@ -46,14 +52,28 @@ class ProgressDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val navArgs by navArgs<ProgressDialogArgs>()
+    private val navController by lazy { findNavController() }
+    private val notificationPermission = NotificationPermission(this) { result ->
+        when (result) {
+            PermissionResult.DENIED,
+            PermissionResult.DENIED_FOREVER -> {
+                navController.navigate(ExplorerScreen.NotificationDeniedForever)
+            }
+            PermissionResult.GRANTED -> dismiss()
+        }
+    }
 
     private lateinit var binding: DialogProgressBinding
 
+    @SuppressLint("CheckResult")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
             customView(R.layout.dialog_progress)
             cancelOnTouchOutside(false)
-            positiveButton(R.string.action_run_in_background)
+            positiveButton(R.string.action_run_in_background) {
+                notificationPermission.launch()
+            }
+            noAutoDismiss()
 
             binding = DialogProgressBinding.bind(getCustomView())
             binding.progressBar.isIndeterminate = navArgs.totalCount == -1
@@ -65,6 +85,7 @@ class ProgressDialog : DialogFragment() {
                     title(R.string.dialog_title_creating)
                     negativeButton(android.R.string.cancel) {
                         CreateFileWorker.cancelJob(requireContext())
+                        dismiss()
                     }
                     CreateFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
@@ -87,6 +108,7 @@ class ProgressDialog : DialogFragment() {
                     title(R.string.dialog_title_renaming)
                     negativeButton(android.R.string.cancel) {
                         RenameFileWorker.cancelJob(requireContext())
+                        dismiss()
                     }
                     RenameFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
@@ -109,6 +131,7 @@ class ProgressDialog : DialogFragment() {
                     title(R.string.dialog_title_deleting)
                     negativeButton(android.R.string.cancel) {
                         DeleteFileWorker.cancelJob(requireContext())
+                        dismiss()
                     }
                     DeleteFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
@@ -131,6 +154,7 @@ class ProgressDialog : DialogFragment() {
                     title(R.string.dialog_title_copying)
                     negativeButton(android.R.string.cancel) {
                         CopyFileWorker.cancelJob(requireContext())
+                        dismiss()
                     }
                     CopyFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
@@ -153,6 +177,7 @@ class ProgressDialog : DialogFragment() {
                     title(R.string.dialog_title_copying)
                     negativeButton(android.R.string.cancel) {
                         CutFileWorker.cancelJob(requireContext())
+                        dismiss()
                     }
                     CutFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
@@ -175,6 +200,7 @@ class ProgressDialog : DialogFragment() {
                     title(R.string.dialog_title_compressing)
                     negativeButton(android.R.string.cancel) {
                         CompressFileWorker.cancelJob(requireContext())
+                        dismiss()
                     }
                     CompressFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)
@@ -197,6 +223,7 @@ class ProgressDialog : DialogFragment() {
                     title(R.string.dialog_title_extracting)
                     negativeButton(android.R.string.cancel) {
                         ExtractFileWorker.cancelJob(requireContext())
+                        dismiss()
                     }
                     ExtractFileWorker.observeJob(requireContext())
                         .flowWithLifecycle(lifecycle)

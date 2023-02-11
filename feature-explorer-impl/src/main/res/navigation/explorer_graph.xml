@@ -29,6 +29,13 @@
     </dialog>
 
     <dialog
+        android:id="@+id/notificationDeniedDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.NotificationDeniedDialog"
+        android:label="NotificationDeniedDialog">
+        <deepLink app:uri="blacksquircle://explorer/notification_denied_forever" />
+    </dialog>
+
+    <dialog
         android:id="@+id/createDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.CreateDialog"
         android:label="CreateDialog"

@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.explorer.ui.dialog
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.DialogFragment
@@ -28,22 +27,16 @@ import com.blacksquircle.ui.feature.explorer.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StorageDeniedDialog : DialogFragment() {
+class NotificationDeniedDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_storage_permission)
-            message(R.string.dialog_message_storage_permission)
+            title(R.string.dialog_title_notification_permission)
+            message(R.string.dialog_message_notification_permission)
             negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_continue) {
-                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                        data = Uri.parse("package:${context.packageName}")
-                    }
-                } else {
-                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        data = Uri.parse("package:${context.packageName}")
-                    }
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.parse("package:${context.packageName}")
                 }
                 startActivity(intent)
             }

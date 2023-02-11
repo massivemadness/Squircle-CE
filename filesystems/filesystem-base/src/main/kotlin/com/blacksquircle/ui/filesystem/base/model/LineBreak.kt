@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.filesystem.base.model
 
 /**
- * @author Dmitry Rubtsov
+ * @author Dmitrii Rubtsov
  */
 enum class LineBreak(private val linebreak: String) {
     CR("\r"),

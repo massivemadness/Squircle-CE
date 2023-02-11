@@ -42,4 +42,7 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     object StorageDeniedForever : ExplorerScreen(
         route = "blacksquircle://explorer/storage_denied_forever"
     )
+    object NotificationDeniedForever : ExplorerScreen(
+        route = "blacksquircle://explorer/notification_denied_forever"
+    )
 }

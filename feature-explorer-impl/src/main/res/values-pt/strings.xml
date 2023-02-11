@@ -49,11 +49,13 @@
     <string name="dialog_title_compressing">Compactando…</string>
     <string name="dialog_title_extracting">Extraindo…</string>
     <string name="dialog_title_archive_name">Nome do documento</string>
-    <string name="dialog_title_storage_access">Acesso ao armazenamento</string>
+    <string name="dialog_title_storage_permission">Acesso ao armazenamento</string>
+    <string name="dialog_title_notification_permission">Notifications</string>
 
     <string name="dialog_message_delete">Você tem certeza de que quer deletar este arquivo?</string>
     <string name="dialog_message_multi_delete">Você tem certeza de que quer deletar os arquivos selecionados?</string>
-    <string name="dialog_message_storage_access">Como um gerenciador de arquivos, o Squircle CE precisa de acesso a todos os arquivos para funcionar corretamente\n\nPor favor permita o acesso neste dispositivo depois de clicar em «Continue»</string>
+    <string name="dialog_message_storage_permission">Como um gerenciador de arquivos, o Squircle CE precisa de acesso a todos os arquivos para funcionar corretamente\n\nPor favor permita o acesso neste dispositivo depois de clicar em «Continue»</string>
+    <string name="dialog_message_notification_permission">Squircle CE needs access to notifications to run in background\n\nPlease allow the access in the upcoming system setting</string>
 
     <string name="properties_name">File Name:</string>
     <string name="properties_path">File Path:</string>

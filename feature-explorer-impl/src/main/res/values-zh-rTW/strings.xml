@@ -49,11 +49,13 @@
     <string name="dialog_title_compressing">正在壓縮</string>
     <string name="dialog_title_extracting">正在解壓縮</string>
     <string name="dialog_title_archive_name">壓縮檔名稱</string>
-    <string name="dialog_title_storage_access">外部存儲權限</string>
+    <string name="dialog_title_storage_permission">外部存儲權限</string>
+    <string name="dialog_title_notification_permission">Notifications</string>
 
     <string name="dialog_message_delete">確定要刪除該檔案嗎？</string>
     <string name="dialog_message_multi_delete">確定要刪除所選的檔案嗎？</string>
-    <string name="dialog_message_storage_access">作為檔案管理器，Squircle CE 需要訪問所有檔案才能正常運作。\n\n請點擊「繼續」後再授予所有檔案的管理權限。</string>
+    <string name="dialog_message_storage_permission">作為檔案管理器，Squircle CE 需要訪問所有檔案才能正常運作。\n\n請點擊「繼續」後再授予所有檔案的管理權限。</string>
+    <string name="dialog_message_notification_permission">Squircle CE needs access to notifications to run in background\n\nPlease allow the access in the upcoming system setting</string>
 
     <string name="properties_name">檔案名稱：</string>
     <string name="properties_path">檔案路徑：</string>
