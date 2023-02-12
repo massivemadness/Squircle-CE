@@ -33,9 +33,9 @@ enum class LineBreak(private val linebreak: String) {
         private const val CODE_LF = "2"
         private const val CODE_CRLF = "3"
 
-        private val cr = "\\r".toRegex()
-        private val lf = "\\n".toRegex()
-        private val crlf = "\\r\\n".toRegex()
+        private const val cr = "\\r"
+        private const val lf = "\\n"
+        private const val crlf = "\\r\\n"
 
         fun find(value: String): LineBreak {
             val linebreak = when (value) {
@@ -53,9 +53,9 @@ enum class LineBreak(private val linebreak: String) {
      */
     operator fun invoke(text: String): String {
         return when (this) {
-            CR -> text.replace(lf, linebreak).replace(crlf, linebreak)
-            LF -> text.replace(cr, linebreak).replace(crlf, linebreak)
-            CRLF -> text.replace(cr, linebreak).replace(lf, linebreak)
+            CR -> text.replace("($crlf|$lf)".toRegex(), linebreak)
+            LF -> text.replace("($crlf|$cr)".toRegex(), linebreak)
+            CRLF -> text.replace("($cr|$lf)".toRegex(), linebreak)
         }
     }
 }
