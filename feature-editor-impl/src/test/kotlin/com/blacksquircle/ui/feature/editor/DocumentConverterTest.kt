@@ -20,10 +20,21 @@ import com.blacksquircle.ui.core.data.storage.database.entity.document.DocumentE
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.language.base.Language
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class DocumentConverterTest {
+
+    private val plainTextLanguage = mockk<Language>()
+
+    @Before
+    fun setup() {
+        every { plainTextLanguage.languageName } returns "plaintext"
+    }
 
     @Test
     fun `convert FileModel to DocumentModel`() {
@@ -38,7 +49,7 @@ class DocumentConverterTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
-            language = "plaintext",
+            language = plainTextLanguage,
             modified = false,
             position = 0,
             scrollX = 0,
@@ -52,7 +63,7 @@ class DocumentConverterTest {
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
-        assertEquals(documentModel.language, convert.language)
+        assertEquals(documentModel.language.languageName, convert.language.languageName)
         assertEquals(documentModel.modified, convert.modified)
         assertEquals(documentModel.position, convert.position)
         assertEquals(documentModel.scrollX, convert.scrollX)
@@ -79,7 +90,7 @@ class DocumentConverterTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
-            language = "plaintext",
+            language = plainTextLanguage,
             modified = true,
             position = 10,
             scrollX = 0,
@@ -93,7 +104,7 @@ class DocumentConverterTest {
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
         assertEquals(documentModel.name, convert.name)
         assertEquals(documentModel.path, convert.path)
-        assertEquals(documentModel.language, convert.language)
+        assertEquals(documentModel.language.languageName, convert.language.languageName)
         assertEquals(documentModel.modified, convert.modified)
         assertEquals(documentModel.position, convert.position)
         assertEquals(documentModel.scrollX, convert.scrollX)
@@ -108,7 +119,7 @@ class DocumentConverterTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
-            language = "plaintext",
+            language = plainTextLanguage,
             modified = false,
             position = 10,
             scrollX = 0,

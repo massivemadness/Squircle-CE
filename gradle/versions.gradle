@@ -78,6 +78,7 @@ ext {
     junit_ext_version = '1.1.5'
     test_runner_version = '1.5.2'
     macrobenchmark_version = '1.1.1'
+    mockk_version = '1.13.4'
 
     // Lint
     ktlint_version = '0.48.2'
@@ -150,6 +151,7 @@ ext {
             junit: "junit:junit:$junit_version",
             junit_ext: "androidx.test.ext:junit:$junit_ext_version",
             test_runner: "androidx.test:runner:$test_runner_version",
-            macrobenchmark: "androidx.benchmark:benchmark-macro-junit4:$macrobenchmark_version"
+            macrobenchmark: "androidx.benchmark:benchmark-macro-junit4:$macrobenchmark_version",
+            mockk: "io.mockk:mockk:$mockk_version"
     ]
 }
