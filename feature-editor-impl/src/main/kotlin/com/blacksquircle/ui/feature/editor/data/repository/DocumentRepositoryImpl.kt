@@ -46,7 +46,7 @@ class DocumentRepositoryImpl(
     private val context: Context,
 ) : DocumentRepository {
 
-    override suspend fun fetchDocuments(): List<DocumentModel> {
+    override suspend fun loadDocuments(): List<DocumentModel> {
         return withContext(dispatcherProvider.io()) {
             appDatabase.documentDao().loadAll()
                 .map(DocumentConverter::toModel)

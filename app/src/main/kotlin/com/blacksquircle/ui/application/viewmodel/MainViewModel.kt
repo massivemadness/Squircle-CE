@@ -63,7 +63,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val fileModel = FileModel(file.absolutePath, LocalFilesystem.LOCAL_UUID)
-                val documentList = documentRepository.fetchDocuments()
+                val documentList = documentRepository.loadDocuments()
                 val documentModel = DocumentConverter.toModel(fileModel)
                     .copy(position = documentList.size)
                 if (documentList.none { it.fileUri == documentModel.fileUri }) {

@@ -103,7 +103,7 @@ class EditorViewModel @Inject constructor(
     private fun loadFiles() {
         viewModelScope.launch {
             try {
-                val documentList = documentRepository.fetchDocuments()
+                val documentList = documentRepository.loadDocuments()
                 val selectedUuid = settingsManager.selectedUuid
                 documents.replaceList(documentList)
 
@@ -417,8 +417,8 @@ class EditorViewModel @Inject constructor(
     private suspend fun updateDocuments() {
         for (index in documents.size - 1 downTo 0) {
             val document = documents[index].copy(position = index)
-            documentRepository.updateDocument(document)
             documents[index] = document
+            documentRepository.updateDocument(document)
         }
     }
 

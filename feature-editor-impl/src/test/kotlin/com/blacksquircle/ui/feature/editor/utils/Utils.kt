@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.repository
+package com.blacksquircle.ui.feature.editor.utils
 
-import android.net.Uri
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
+import com.blacksquircle.ui.language.base.Language
+import io.mockk.mockk
 
-interface DocumentRepository {
+private val language = mockk<Language>()
 
-    suspend fun loadDocuments(): List<DocumentModel>
-    suspend fun updateDocument(documentModel: DocumentModel)
-    suspend fun deleteDocument(documentModel: DocumentModel)
-
-    suspend fun loadFile(documentModel: DocumentModel): DocumentContent
-    suspend fun saveFile(content: DocumentContent, params: DocumentParams)
-    suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri)
+fun createDocument(
+    position: Int,
+    fileName: String,
+): DocumentModel {
+    return DocumentModel(
+        uuid = fileName,
+        fileUri = "/mnt/sdcard/Documents/$fileName",
+        filesystemUuid = "local",
+        language = language,
+        modified = false,
+        position = position,
+        scrollX = 0,
+        scrollY = 0,
+        selectionStart = 0,
+        selectionEnd = 0
+    )
 }

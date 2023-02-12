@@ -38,10 +38,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Check Kotlin code style
         run: ./gradlew ktlint
-#  test:
-#    needs: [ build ]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Unit tests
-#        run: ./gradlew test
+  test:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Unit Test
+        run: ./gradlew testDebugUnitTest

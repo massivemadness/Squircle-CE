@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor
+package com.blacksquircle.ui.feature.editor.converter
 
 import com.blacksquircle.ui.core.data.storage.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter

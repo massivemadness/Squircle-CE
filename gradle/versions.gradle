@@ -131,6 +131,7 @@ ext {
             // Coroutines
             coroutines_core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
             coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
+            coroutines_test: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version",
 
             // DI
             hilt: "com.google.dagger:hilt-android:$hilt_version",
