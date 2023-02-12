@@ -75,9 +75,9 @@ abstract class ScrollableEditText @JvmOverloads constructor(
                         -velocityX,
                         -velocityY,
                         0,
-                        layout.width - width + paddingStart + paddingEnd,
+                        (layout?.width ?: width) - width + paddingStart + paddingEnd,
                         0,
-                        layout.height - height + paddingTop + paddingBottom,
+                        (layout?.height ?: width) - height + paddingTop + paddingBottom,
                     )
                 }
             }

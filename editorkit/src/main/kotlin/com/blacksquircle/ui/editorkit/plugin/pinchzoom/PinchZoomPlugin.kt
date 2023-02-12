@@ -20,6 +20,7 @@ import android.util.Log
 import android.view.MotionEvent
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
 import com.blacksquircle.ui.editorkit.widget.TextProcessor
+import kotlin.math.ceil
 import kotlin.math.sqrt
 
 class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
@@ -67,7 +68,7 @@ class PinchZoomPlugin : EditorPlugin(PLUGIN_ID) {
         editText.textSize = when {
             size < minTextSize -> minTextSize
             size > maxTextSize -> maxTextSize
-            else -> size
+            else -> ceil(size * 2) / 2 // step 0.5
         }
         return true
     }
