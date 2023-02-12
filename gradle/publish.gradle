@@ -96,7 +96,7 @@ publishing {
                 developers {
                     developer {
                         id = 'massivemadness'
-                        name = 'Dmitry Rubtsov'
+                        name = 'Dmitrii Rubtsov'
                         email = 'dm.mironov01@gmail.com'
                     }
                 }

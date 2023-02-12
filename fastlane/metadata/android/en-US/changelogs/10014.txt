@@ -1,0 +1,8 @@
+- Added: Experimental SAF support in «Save As» dialog
+- Added: Taiwanese translation
+- Fixed: Infinite loading in split screen mode
+- Fixed: Extended keyboard was always visible
+- Fixed: Error messages are now embedded in UI
+- Removed error checking, it'll be rewritten from scratch in the future
+- Internal architecture improvements
+- Bugfixes and minor improvements
