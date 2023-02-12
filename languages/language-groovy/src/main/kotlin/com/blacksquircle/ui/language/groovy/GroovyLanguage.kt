@@ -29,14 +29,14 @@ class GroovyLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".groovy", ".gvy", ".gy", ".gsh", ".gradle")
+        const val LANGUAGE_NAME = "groovy"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".groovy", ".gvy", ".gy", ".gsh", ".gradle")
         }
     }
 
-    override val languageName = "groovy"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return GroovyParser.getInstance()

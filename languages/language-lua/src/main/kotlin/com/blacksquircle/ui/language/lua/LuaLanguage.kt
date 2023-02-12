@@ -28,14 +28,14 @@ class LuaLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".lua"
+        const val LANGUAGE_NAME = "lua"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".lua")
         }
     }
 
-    override val languageName = "lua"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return LuaParser.getInstance()

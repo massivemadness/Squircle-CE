@@ -28,14 +28,14 @@ class CSharpLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".cs"
+        const val LANGUAGE_NAME = "csharp"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".cs")
         }
     }
 
-    override val languageName = "csharp"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return CSharpParser.getInstance()

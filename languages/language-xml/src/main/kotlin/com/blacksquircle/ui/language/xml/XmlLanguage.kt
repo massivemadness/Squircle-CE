@@ -29,17 +29,23 @@ class XmlLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(
-            ".xhtml", ".xht", ".xml", ".xaml",
-            ".xdf", ".xmpp", ".html", ".htm",
-        )
+        const val LANGUAGE_NAME = "xml"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(
+                ".xhtml",
+                ".xht",
+                ".xml",
+                ".xaml",
+                ".xdf",
+                ".xmpp",
+                ".html",
+                ".htm",
+            )
         }
     }
 
-    override val languageName = "xml"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return XmlParser.getInstance()

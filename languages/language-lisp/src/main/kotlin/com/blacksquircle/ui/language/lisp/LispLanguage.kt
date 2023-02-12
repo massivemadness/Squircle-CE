@@ -29,14 +29,14 @@ class LispLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".lisp", ".lsp", ".cl", ".l")
+        const val LANGUAGE_NAME = "lisp"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".lisp", ".lsp", ".cl", ".l")
         }
     }
 
-    override val languageName = "lisp"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return LispParser.getInstance()

@@ -28,14 +28,14 @@ class JuliaLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".jl"
+        const val LANGUAGE_NAME = "julia"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".jl")
         }
     }
 
-    override val languageName = "julia"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         /*try {

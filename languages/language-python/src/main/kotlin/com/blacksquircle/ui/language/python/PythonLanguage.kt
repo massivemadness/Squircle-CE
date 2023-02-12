@@ -29,14 +29,14 @@ class PythonLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".py", ".pyw", ".pyi")
+        const val LANGUAGE_NAME = "python"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".py", ".pyw", ".pyi")
         }
     }
 
-    override val languageName = "python"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return PythonParser.getInstance()

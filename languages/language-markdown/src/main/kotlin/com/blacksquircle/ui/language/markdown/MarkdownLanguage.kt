@@ -28,14 +28,14 @@ class MarkdownLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".md"
+        const val LANGUAGE_NAME = "markdown"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".md")
         }
     }
 
-    override val languageName = "markdown"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return MarkdownParser.getInstance()

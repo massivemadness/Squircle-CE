@@ -17,11 +17,9 @@
 package com.blacksquircle.ui.feature.editor.domain.model
 
 import com.blacksquircle.ui.editorkit.model.UndoStack
-import com.blacksquircle.ui.language.base.Language
 
 data class DocumentContent(
     val documentModel: DocumentModel,
-    val language: Language?,
     val undoStack: UndoStack,
     val redoStack: UndoStack,
     val text: String,

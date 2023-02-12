@@ -29,14 +29,14 @@ class YamlLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".yaml", ".yml")
+        const val LANGUAGE_NAME = "yaml"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".yaml", ".yml")
         }
     }
 
-    override val languageName = "yaml"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return YamlParser.getInstance()

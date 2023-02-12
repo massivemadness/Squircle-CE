@@ -76,4 +76,35 @@ object LanguageFactory {
             else -> PlainTextLanguage()
         }
     }
+
+    fun fromName(languageName: String): Language {
+        return when (languageName) {
+            ActionScriptLanguage.LANGUAGE_NAME -> ActionScriptLanguage()
+            CLanguage.LANGUAGE_NAME -> CLanguage()
+            CppLanguage.LANGUAGE_NAME -> CppLanguage()
+            CSharpLanguage.LANGUAGE_NAME -> CSharpLanguage()
+            GroovyLanguage.LANGUAGE_NAME -> GroovyLanguage()
+            HtmlLanguage.LANGUAGE_NAME -> HtmlLanguage()
+            JavaLanguage.LANGUAGE_NAME -> JavaLanguage()
+            JavaScriptLanguage.LANGUAGE_NAME -> JavaScriptLanguage()
+            JsonLanguage.LANGUAGE_NAME -> JsonLanguage()
+            JuliaLanguage.LANGUAGE_NAME -> JuliaLanguage()
+            KotlinLanguage.LANGUAGE_NAME -> KotlinLanguage()
+            LispLanguage.LANGUAGE_NAME -> LispLanguage()
+            LuaLanguage.LANGUAGE_NAME -> LuaLanguage()
+            MarkdownLanguage.LANGUAGE_NAME -> MarkdownLanguage()
+            PhpLanguage.LANGUAGE_NAME -> PhpLanguage()
+            PythonLanguage.LANGUAGE_NAME -> PythonLanguage()
+            RubyLanguage.LANGUAGE_NAME -> RubyLanguage()
+            ShellLanguage.LANGUAGE_NAME -> ShellLanguage()
+            SmaliLanguage.LANGUAGE_NAME -> SmaliLanguage()
+            SqlLanguage.LANGUAGE_NAME -> SqlLanguage()
+            TomlLanguage.LANGUAGE_NAME -> TomlLanguage()
+            TypeScriptLanguage.LANGUAGE_NAME -> TypeScriptLanguage()
+            VisualBasicLanguage.LANGUAGE_NAME -> VisualBasicLanguage()
+            XmlLanguage.LANGUAGE_NAME -> XmlLanguage()
+            YamlLanguage.LANGUAGE_NAME -> YamlLanguage()
+            else -> PlainTextLanguage()
+        }
+    }
 }

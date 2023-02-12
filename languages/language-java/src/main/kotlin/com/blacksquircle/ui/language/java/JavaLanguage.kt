@@ -28,14 +28,14 @@ class JavaLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".java"
+        const val LANGUAGE_NAME = "java"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".java")
         }
     }
 
-    override val languageName = "java"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return JavaParser.getInstance()

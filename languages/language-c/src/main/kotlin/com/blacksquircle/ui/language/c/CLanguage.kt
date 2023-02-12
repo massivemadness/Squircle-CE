@@ -29,14 +29,14 @@ class CLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".c", ".h")
+        const val LANGUAGE_NAME = "c"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".c", ".h")
         }
     }
 
-    override val languageName = "c"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return CParser.getInstance()

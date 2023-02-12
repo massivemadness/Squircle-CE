@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.editor.ui.viewmodel
 import android.net.Uri
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.language.base.Language
 
 sealed class EditorIntent {
 
@@ -43,7 +42,6 @@ sealed class EditorIntent {
     data class SaveFile(
         val local: Boolean,
         val text: String,
-        val language: Language?,
         val undoStack: UndoStack,
         val redoStack: UndoStack,
         val scrollX: Int,

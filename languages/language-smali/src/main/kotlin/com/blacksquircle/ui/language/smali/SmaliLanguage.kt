@@ -28,14 +28,14 @@ class SmaliLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".smali"
+        const val LANGUAGE_NAME = "smali"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".smali")
         }
     }
 
-    override val languageName = "smali"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return SmaliParser.getInstance()

@@ -29,14 +29,14 @@ class SqlLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".sql", ".sqlite", ".sqlite2", ".sqlite3")
+        const val LANGUAGE_NAME = "sql"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".sql", ".sqlite", ".sqlite2", ".sqlite3")
         }
     }
 
-    override val languageName = "sql"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return SqlParser.getInstance()

@@ -29,17 +29,22 @@ class ShellLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(
-            ".sh", ".ksh", ".bsh", ".csh",
-            ".tcsh", ".zsh", ".bash", ".py",
-        )
+        const val LANGUAGE_NAME = "shell"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(
+                ".sh",
+                ".ksh",
+                ".bsh",
+                ".csh",
+                ".tcsh",
+                ".zsh",
+                ".bash",
+            )
         }
     }
 
-    override val languageName = "shell"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return ShellParser.getInstance()

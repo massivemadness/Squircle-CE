@@ -203,7 +203,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.loadingBar.isVisible = false
 
                         binding.scroller.state = TextScroller.State.HIDDEN
-                        binding.editor.language = state.content.language
+                        binding.editor.language = state.content.documentModel.language
                         binding.editor.undoStack = state.content.undoStack
                         binding.editor.redoStack = state.content.redoStack
                         binding.editor.setTextContent(measurement)
@@ -418,7 +418,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         val action = EditorIntent.SaveFile(
             local = local,
             text = binding.editor.text.toString(),
-            language = binding.editor.language,
             undoStack = binding.editor.undoStack.clone(),
             redoStack = binding.editor.redoStack.clone(),
             scrollX = binding.editor.scrollX,

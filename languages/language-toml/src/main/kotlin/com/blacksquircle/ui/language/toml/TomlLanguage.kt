@@ -28,14 +28,14 @@ class TomlLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".toml"
+        const val LANGUAGE_NAME = "toml"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".toml")
         }
     }
 
-    override val languageName = "toml"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return TomlParser.getInstance()

@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.language.base.utils
 
-fun String.endsWith(suffixes: Array<String>, ignoreCase: Boolean = true): Boolean {
+fun String.endsWith(vararg suffixes: String, ignoreCase: Boolean = false): Boolean {
     for (suffix in suffixes) {
         if (endsWith(suffix, ignoreCase)) {
             return true

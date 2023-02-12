@@ -29,14 +29,14 @@ class JavaScriptLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".js", ".mjs", ".cjs")
+        const val LANGUAGE_NAME = "javascript"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".js", ".mjs", ".cjs")
         }
     }
 
-    override val languageName = "javascript"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return JavaScriptParser.getInstance()

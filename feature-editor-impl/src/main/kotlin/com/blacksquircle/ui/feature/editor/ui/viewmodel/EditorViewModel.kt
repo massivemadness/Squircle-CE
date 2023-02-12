@@ -374,7 +374,6 @@ class EditorViewModel @Inject constructor(
                     }
                     val content = DocumentContent(
                         documentModel = document,
-                        language = event.language,
                         undoStack = event.undoStack,
                         redoStack = event.redoStack,
                         text = event.text,

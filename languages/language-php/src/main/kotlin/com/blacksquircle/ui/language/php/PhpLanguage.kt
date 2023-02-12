@@ -29,14 +29,21 @@ class PhpLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".php", ".php3", ".php4", ".php5", ".phps", ".phtml")
+        const val LANGUAGE_NAME = "php"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(
+                ".php",
+                ".php3",
+                ".php4",
+                ".php5",
+                ".phps",
+                ".phtml",
+            )
         }
     }
 
-    override val languageName = "php"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return PhpParser.getInstance()

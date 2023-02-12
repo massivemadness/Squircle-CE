@@ -29,14 +29,14 @@ class VisualBasicLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".vb", ".bas", ".cls")
+        const val LANGUAGE_NAME = "visualbasic"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".vb", ".bas", ".cls")
         }
     }
 
-    override val languageName = "visualbasic"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return VisualBasicParser.getInstance()

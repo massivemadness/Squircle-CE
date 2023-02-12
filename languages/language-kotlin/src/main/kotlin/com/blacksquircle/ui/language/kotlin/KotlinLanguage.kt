@@ -29,14 +29,14 @@ class KotlinLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".kt", ".kts")
+        const val LANGUAGE_NAME = "kotlin"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".kt", ".kts")
         }
     }
 
-    override val languageName = "kotlin"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return KotlinParser.getInstance()

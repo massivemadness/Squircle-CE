@@ -29,14 +29,14 @@ class HtmlLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".htm", ".html")
+        const val LANGUAGE_NAME = "html"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".htm", ".html")
         }
     }
 
-    override val languageName = "html"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return HtmlParser.getInstance()

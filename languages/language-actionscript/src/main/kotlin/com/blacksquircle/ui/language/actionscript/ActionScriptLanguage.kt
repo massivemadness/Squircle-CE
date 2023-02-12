@@ -28,14 +28,14 @@ class ActionScriptLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".as"
+        const val LANGUAGE_NAME = "actionscript"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".as")
         }
     }
 
-    override val languageName = "actionscript"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return ActionScriptParser.getInstance()

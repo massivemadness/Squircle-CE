@@ -29,14 +29,14 @@ class TypeScriptLanguage : Language {
 
     companion object {
 
-        private val FILE_EXTENSIONS = arrayOf(".ts", ".mts", ".cts")
+        const val LANGUAGE_NAME = "typescript"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSIONS)
+            return fileName.endsWith(".ts", ".mts", ".cts")
         }
     }
 
-    override val languageName = "typescript"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return TypeScriptParser.getInstance()

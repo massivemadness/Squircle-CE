@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.editor.data.repository
 import android.content.Context
 import android.net.Uri
 import com.blacksquircle.ui.core.data.factory.FilesystemFactory
-import com.blacksquircle.ui.core.data.factory.LanguageFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
@@ -72,14 +71,13 @@ class DocumentRepositoryImpl(
 
     override suspend fun loadFile(documentModel: DocumentModel): DocumentContent {
         return withContext(dispatcherProvider.io()) {
-            val cacheFile = cacheFile(documentModel, postfix = "text.cache")
-            if (cacheFilesystem.exists(cacheFile)) {
+            val textCacheFile = cacheFile(documentModel, postfix = "text.cache")
+            if (cacheFilesystem.exists(textCacheFile)) {
                 DocumentContent(
                     documentModel = documentModel,
-                    language = LanguageFactory.create(documentModel.name),
                     undoStack = loadUndoStack(documentModel),
                     redoStack = loadRedoStack(documentModel),
-                    text = cacheFilesystem.loadFile(cacheFile, FileParams()),
+                    text = cacheFilesystem.loadFile(textCacheFile, FileParams()),
                 )
             } else {
                 val filesystem = filesystemFactory.create(documentModel.filesystemUuid)
@@ -88,14 +86,14 @@ class DocumentRepositoryImpl(
                     chardet = settingsManager.encodingAutoDetect,
                     charset = charsetFor(settingsManager.encodingForOpening),
                 )
-
                 DocumentContent(
                     documentModel = documentModel,
-                    language = LanguageFactory.create(documentModel.name),
                     undoStack = UndoStack(),
                     redoStack = UndoStack(),
                     text = filesystem.loadFile(fileModel, fileParams),
-                )
+                ).also { content ->
+                    saveFile(content, DocumentParams(local = false, cache = true))
+                }
             }
         }
     }
@@ -127,8 +125,8 @@ class DocumentRepositoryImpl(
 
     override suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            val cacheFile = cacheFile(documentModel, postfix = "text.cache")
-            val text = cacheFilesystem.loadFile(cacheFile, FileParams())
+            val textCacheFile = cacheFile(documentModel, postfix = "text.cache")
+            val text = cacheFilesystem.loadFile(textCacheFile, FileParams())
             context.contentResolver.openOutputStream(fileUri)?.use { output ->
                 output.write(text.toByteArray())
                 output.flush()

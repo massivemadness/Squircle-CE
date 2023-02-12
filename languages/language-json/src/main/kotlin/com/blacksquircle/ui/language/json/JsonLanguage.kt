@@ -28,14 +28,14 @@ class JsonLanguage : Language {
 
     companion object {
 
-        private const val FILE_EXTENSION = ".json"
+        const val LANGUAGE_NAME = "json"
 
         fun supportFormat(fileName: String): Boolean {
-            return fileName.endsWith(FILE_EXTENSION, ignoreCase = true)
+            return fileName.endsWith(".json")
         }
     }
 
-    override val languageName = "json"
+    override val languageName = LANGUAGE_NAME
 
     override fun getParser(): LanguageParser {
         return JsonParser.getInstance()

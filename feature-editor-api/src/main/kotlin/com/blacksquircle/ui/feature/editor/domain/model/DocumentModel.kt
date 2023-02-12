@@ -17,12 +17,13 @@
 package com.blacksquircle.ui.feature.editor.domain.model
 
 import android.webkit.MimeTypeMap
+import com.blacksquircle.ui.language.base.Language
 
 data class DocumentModel(
     val uuid: String,
     val fileUri: String,
     val filesystemUuid: String,
-    val language: String,
+    val language: Language,
     val modified: Boolean,
     val position: Int,
     var scrollX: Int,
