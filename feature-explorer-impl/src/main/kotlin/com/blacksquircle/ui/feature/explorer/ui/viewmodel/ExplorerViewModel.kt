@@ -79,7 +79,7 @@ class ExplorerViewModel @Inject constructor(
         private set
     var query: String = ""
         private set
-    var dropdownPosition: Int = -1
+    var dropdownPosition: Int = 0
         private set
 
     private val breadcrumbs = mutableListOf<FileModel>()
@@ -88,6 +88,10 @@ class ExplorerViewModel @Inject constructor(
     private val files = mutableListOf<FileModel>()
     private var operation = Operation.CREATE
     private var currentJob: Job? = null
+
+    init {
+        listFiles(ExplorerIntent.OpenFolder())
+    }
 
     fun obtainEvent(event: ExplorerIntent) {
         when (event) {
@@ -103,6 +107,7 @@ class ExplorerViewModel @Inject constructor(
             is ExplorerIntent.Rename -> renameButton()
             is ExplorerIntent.Delete -> deleteButton()
             is ExplorerIntent.SelectAll -> selectAllButton()
+            is ExplorerIntent.UnselectAll -> unselectAllButton()
             is ExplorerIntent.Properties -> propertiesButton()
             is ExplorerIntent.CopyPath -> copyPathButton()
             is ExplorerIntent.Compress -> compressButton()
@@ -123,17 +128,6 @@ class ExplorerViewModel @Inject constructor(
             is ExplorerIntent.SortByName -> sortByName()
             is ExplorerIntent.SortBySize -> sortBySize()
             is ExplorerIntent.SortByDate -> sortByDate()
-        }
-    }
-
-    fun handleOnBackPressed(): Boolean {
-        return when {
-            selection.isNotEmpty() -> {
-                selection.replaceList(emptyList())
-                refreshActionBar()
-                true
-            }
-            else -> false
         }
     }
 
@@ -288,6 +282,13 @@ class ExplorerViewModel @Inject constructor(
     private fun selectAllButton() {
         viewModelScope.launch {
             _customEvent.emit(ExplorerViewEvent.SelectAll)
+        }
+    }
+
+    private fun unselectAllButton() {
+        viewModelScope.launch {
+            selection.replaceList(emptyList())
+            refreshActionBar()
         }
     }
 

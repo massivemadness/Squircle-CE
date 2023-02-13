@@ -32,6 +32,7 @@ sealed class ExplorerIntent {
     object Rename : ExplorerIntent()
     object Delete : ExplorerIntent()
     object SelectAll : ExplorerIntent()
+    object UnselectAll : ExplorerIntent()
     object Properties : ExplorerIntent()
     object CopyPath : ExplorerIntent()
     object Compress : ExplorerIntent()

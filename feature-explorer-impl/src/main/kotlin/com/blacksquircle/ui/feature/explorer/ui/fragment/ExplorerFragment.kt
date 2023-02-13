@@ -256,7 +256,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
-            stopActionMode()
+            viewModel.obtainEvent(ExplorerIntent.UnselectAll)
         }
     }
 
@@ -266,7 +266,11 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     override fun handleOnBackPressed(): Boolean {
-        return viewModel.handleOnBackPressed()
+        if (tracker.hasSelection()) {
+            viewModel.obtainEvent(ExplorerIntent.UnselectAll)
+            return true
+        }
+        return false
     }
 
     private fun observeViewModel() {
