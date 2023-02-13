@@ -17,18 +17,20 @@
 package com.blacksquircle.ui.feature.editor.ui.viewstate
 
 import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.feature.editor.data.utils.Panel
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import java.util.*
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 
 sealed class EditorViewState : ViewState() {
 
-    object Stub : EditorViewState()
+    object Loading : EditorViewState()
 
-    data class ActionBar(
-        val documents: List<DocumentModel>,
-        val position: Int,
-        val panel: Panel,
-        val patch: String = UUID.randomUUID().toString(),
+    data class Content(
+        val content: DocumentContent,
+        val showKeyboard: Boolean,
+    ) : EditorViewState()
+
+    data class Error(
+        val image: Int,
+        val title: String,
+        val subtitle: String,
     ) : EditorViewState()
 }

@@ -19,16 +19,15 @@ package com.blacksquircle.ui.feature.editor
 import android.util.Log
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
-import com.blacksquircle.ui.feature.editor.utils.MainDispatcherRule
-import com.blacksquircle.ui.feature.editor.utils.createDocument
+import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -93,14 +92,14 @@ class SelectTabTests {
         viewModel.obtainEvent(EditorIntent.LoadFiles)
 
         // Then
-        val editorViewState = EditorViewState.ActionBar(documentList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
-        val documentViewState = DocumentViewState.Content(
-            DocumentContent(documentList[editorViewState.position], undoStack, redoStack, text),
+        val editorViewState = EditorViewState.Content(
+            DocumentContent(documentList[toolbarViewState.position], undoStack, redoStack, text),
             showKeyboard = true
         )
-        assertEquals(documentViewState, viewModel.documentViewState.value)
+        assertEquals(editorViewState, viewModel.editorViewState.value)
     }
 
     private fun editorViewModel(): EditorViewModel {

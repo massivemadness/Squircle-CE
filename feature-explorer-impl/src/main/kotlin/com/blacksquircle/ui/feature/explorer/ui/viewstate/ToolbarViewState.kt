@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.utils
+package com.blacksquircle.ui.feature.explorer.ui.viewstate
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.*
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
+import com.blacksquircle.ui.core.ui.viewstate.ViewState
+import com.blacksquircle.ui.feature.explorer.data.utils.Operation
+import com.blacksquircle.ui.filesystem.base.model.FileModel
+import java.util.*
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class MainDispatcherRule(
-    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
-) : TestWatcher() {
+sealed class ToolbarViewState : ViewState() {
 
-    override fun starting(description: Description) {
-        Dispatchers.setMain(testDispatcher)
-    }
+    object Stub : ToolbarViewState()
 
-    override fun finished(description: Description) {
-        Dispatchers.resetMain()
-    }
+    data class ActionBar(
+        val breadcrumbs: List<FileModel>,
+        val selection: List<FileModel>,
+        val operation: Operation,
+        val patch: String = UUID.randomUUID().toString(),
+    ) : ToolbarViewState()
 }

@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.viewstate
+package com.blacksquircle.ui.feature.editor.ui.viewstate
 
 import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.feature.editor.data.utils.Panel
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import java.util.*
 
-sealed class DirectoryViewState : ViewState() {
+sealed class ToolbarViewState : ViewState() {
 
-    object Permission : DirectoryViewState()
-    object Loading : DirectoryViewState()
+    object Stub : ToolbarViewState()
 
-    data class Files(
-        val data: List<FileModel>,
-    ) : DirectoryViewState()
-
-    data class Error(
-        val image: Int,
-        val title: String,
-        val subtitle: String,
-    ) : DirectoryViewState()
+    data class ActionBar(
+        val documents: List<DocumentModel>,
+        val position: Int,
+        val panel: Panel,
+        val patch: String = UUID.randomUUID().toString(),
+    ) : ToolbarViewState()
 }

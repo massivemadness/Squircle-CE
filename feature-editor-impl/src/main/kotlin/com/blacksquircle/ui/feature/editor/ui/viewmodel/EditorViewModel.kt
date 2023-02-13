@@ -32,8 +32,8 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
-import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
+import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,11 +51,11 @@ class EditorViewModel @Inject constructor(
     private val themesRepository: ThemesRepository,
 ) : ViewModel() {
 
-    private val _editorViewState = MutableStateFlow<EditorViewState>(EditorViewState.Stub)
-    val editorViewState: StateFlow<EditorViewState> = _editorViewState.asStateFlow()
+    private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.Stub)
+    val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
 
-    private val _documentViewState = MutableStateFlow<DocumentViewState>(DocumentViewState.Loading)
-    val documentViewState: StateFlow<DocumentViewState> = _documentViewState.asStateFlow()
+    private val _editorViewState = MutableStateFlow<EditorViewState>(EditorViewState.Loading)
+    val editorViewState: StateFlow<EditorViewState> = _editorViewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -156,8 +156,8 @@ class EditorViewModel @Inject constructor(
                 settingsManager.selectedUuid = document.uuid
                 refreshActionBar(event.position)
 
-                _documentViewState.value = DocumentViewState.Loading
-                _documentViewState.value = DocumentViewState.Content(
+                _editorViewState.value = EditorViewState.Loading
+                _editorViewState.value = EditorViewState.Content(
                     content = documentRepository.loadFile(document),
                     showKeyboard = settingsManager.extendedKeyboard,
                 )
@@ -378,10 +378,10 @@ class EditorViewModel @Inject constructor(
                         redoStack = event.redoStack,
                         text = event.text,
                     )
-                    val currentState = documentViewState.value
-                    if (currentState is DocumentViewState.Content) {
+                    val currentState = editorViewState.value
+                    if (currentState is EditorViewState.Content) {
                         if (!event.local) {
-                            _documentViewState.value = currentState.copy(content = content)
+                            _editorViewState.value = currentState.copy(content = content)
                         }
                         documentRepository.saveFile(content, DocumentParams(event.local, true))
                         documentRepository.updateDocument(content.documentModel)
@@ -431,7 +431,7 @@ class EditorViewModel @Inject constructor(
     }
 
     private fun refreshActionBar(position: Int) {
-        _editorViewState.value = EditorViewState.ActionBar(
+        _toolbarViewState.value = ToolbarViewState.ActionBar(
             documents = documents,
             position = position.also {
                 selectedPosition = it
@@ -442,7 +442,7 @@ class EditorViewModel @Inject constructor(
 
     private fun emptyState() {
         if (documents.isEmpty()) {
-            _documentViewState.value = DocumentViewState.Error(
+            _editorViewState.value = EditorViewState.Error(
                 image = UiR.drawable.ic_file_find,
                 title = stringProvider.getString(R.string.message_no_open_files),
                 subtitle = "",
@@ -453,10 +453,10 @@ class EditorViewModel @Inject constructor(
     private fun errorState(e: Throwable) {
         when (e) {
             is CancellationException -> {
-                _documentViewState.value = DocumentViewState.Loading
+                _editorViewState.value = EditorViewState.Loading
             }
             else -> {
-                _documentViewState.value = DocumentViewState.Error(
+                _editorViewState.value = EditorViewState.Error(
                     image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(R.string.message_error_occurred),
                     subtitle = e.message.orEmpty(),

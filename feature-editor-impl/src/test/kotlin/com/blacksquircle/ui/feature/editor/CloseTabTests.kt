@@ -19,13 +19,12 @@ package com.blacksquircle.ui.feature.editor
 import android.util.Log
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
-import com.blacksquircle.ui.feature.editor.utils.MainDispatcherRule
-import com.blacksquircle.ui.feature.editor.utils.createDocument
+import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -90,8 +89,8 @@ class CloseTabTests {
             createDocument(position = 0, fileName = "second.txt"),
             createDocument(position = 1, fileName = "third.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -116,8 +115,8 @@ class CloseTabTests {
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 1, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 1, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -142,8 +141,8 @@ class CloseTabTests {
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "third.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -168,8 +167,8 @@ class CloseTabTests {
             createDocument(position = 0, fileName = "second.txt"),
             createDocument(position = 1, fileName = "third.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 1, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 1, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -194,8 +193,8 @@ class CloseTabTests {
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -219,8 +218,8 @@ class CloseTabTests {
         val updatedList = listOf(
             createDocument(position = 0, fileName = "second.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -244,8 +243,8 @@ class CloseTabTests {
         val updatedList = listOf(
             createDocument(position = 0, fileName = "second.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -266,8 +265,8 @@ class CloseTabTests {
         viewModel.obtainEvent(EditorIntent.CloseAll)
 
         // Then
-        val editorViewState = EditorViewState.ActionBar(emptyList(), -1, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(emptyList(), -1, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     private fun editorViewModel(): EditorViewModel {

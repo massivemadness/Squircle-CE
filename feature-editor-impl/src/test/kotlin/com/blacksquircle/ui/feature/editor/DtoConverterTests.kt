@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.converter
+package com.blacksquircle.ui.feature.editor
 
 import com.blacksquircle.ui.core.data.storage.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
@@ -27,7 +27,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class DocumentConverterTest {
+class DtoConverterTests {
 
     private val plainTextLanguage = mockk<Language>()
 

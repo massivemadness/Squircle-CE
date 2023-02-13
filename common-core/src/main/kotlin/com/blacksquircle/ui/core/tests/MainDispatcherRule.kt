@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.viewstate
+package com.blacksquircle.ui.core.tests
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.*
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-sealed class DocumentViewState : ViewState() {
+@OptIn(ExperimentalCoroutinesApi::class)
+class MainDispatcherRule(
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+) : TestWatcher() {
 
-    object Loading : DocumentViewState()
+    override fun starting(description: Description) {
+        Dispatchers.setMain(testDispatcher)
+    }
 
-    data class Content(
-        val content: DocumentContent,
-        val showKeyboard: Boolean,
-    ) : DocumentViewState()
-
-    data class Error(
-        val image: Int,
-        val title: String,
-        val subtitle: String,
-    ) : DocumentViewState()
+    override fun finished(description: Description) {
+        Dispatchers.resetMain()
+    }
 }

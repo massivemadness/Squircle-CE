@@ -65,8 +65,8 @@ import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
+import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
@@ -169,10 +169,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     private fun observeViewModel() {
-        viewModel.editorViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+        viewModel.toolbarViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is EditorViewState.ActionBar -> {
+                    is ToolbarViewState.ActionBar -> {
                         tabAdapter.removeOnTabSelectedListener()
                         tabAdapter.removeOnTabMovedListener()
                         tabAdapter.submitList(state.documents, state.position)
@@ -183,15 +183,15 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                             binding.editor.clearFindResultSpans()
                         }
                     }
-                    is EditorViewState.Stub -> Unit
+                    is ToolbarViewState.Stub -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.documentViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+        viewModel.editorViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is DocumentViewState.Content -> {
+                    is EditorViewState.Content -> {
                         val measurement = withContext(Dispatchers.Default) {
                             val textMetrics = TextViewCompat.getTextMetricsParams(binding.editor)
                             PrecomputedTextCompat.create(state.content.text, textMetrics)
@@ -215,7 +215,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         )
                         binding.editor.doOnPreDraw(View::requestFocus)
                     }
-                    is DocumentViewState.Error -> {
+                    is EditorViewState.Error -> {
                         binding.editor.isInvisible = true
                         binding.scroller.isInvisible = true
                         binding.keyboard.isVisible = false
@@ -227,7 +227,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.loadingBar.isVisible = false
                         binding.editor.clearUndoHistory()
                     }
-                    is DocumentViewState.Loading -> {
+                    is EditorViewState.Loading -> {
                         binding.editor.isInvisible = true
                         binding.scroller.isInvisible = true
                         binding.keyboard.isVisible = false

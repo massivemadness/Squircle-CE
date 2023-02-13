@@ -58,8 +58,8 @@ import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.feature.explorer.ui.viewstate.DirectoryViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
+import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -270,10 +270,10 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     }
 
     private fun observeViewModel() {
-        viewModel.explorerViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+        viewModel.toolbarViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is ExplorerViewState.ActionBar -> {
+                    is ToolbarViewState.ActionBar -> {
                         binding.actionOperation.setImageResource(
                             when (state.operation) {
                                 Operation.CUT -> UiR.drawable.ic_paste
@@ -297,15 +297,15 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                             stopActionMode()
                         }
                     }
-                    is ExplorerViewState.Stub -> Unit
+                    is ToolbarViewState.Stub -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.directoryViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+        viewModel.explorerViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is DirectoryViewState.Permission -> {
+                    is ExplorerViewState.Permission -> {
                         binding.swipeRefresh.isVisible = false
                         binding.errorView.root.isVisible = true
                         binding.loadingBar.isVisible = false
@@ -315,7 +315,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.errorView.actionPrimary.isVisible = true
                         fileAdapter.submitList(emptyList())
                     }
-                    is DirectoryViewState.Error -> {
+                    is ExplorerViewState.Error -> {
                         binding.swipeRefresh.isVisible = false
                         binding.errorView.root.isVisible = true
                         binding.loadingBar.isVisible = false
@@ -325,13 +325,13 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.errorView.actionPrimary.isVisible = false
                         fileAdapter.submitList(emptyList())
                     }
-                    is DirectoryViewState.Loading -> {
+                    is ExplorerViewState.Loading -> {
                         binding.swipeRefresh.isVisible = true
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
                         fileAdapter.submitList(emptyList())
                     }
-                    is DirectoryViewState.Files -> {
+                    is ExplorerViewState.Files -> {
                         binding.swipeRefresh.isVisible = true
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false

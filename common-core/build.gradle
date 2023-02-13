@@ -118,4 +118,8 @@ dependencies {
     implementation project(':languages:language-visualbasic')
     implementation project(':languages:language-xml')
     implementation project(':languages:language-yaml')
+
+    // Tests
+    implementation library.junit
+    implementation library.coroutines_test
 }

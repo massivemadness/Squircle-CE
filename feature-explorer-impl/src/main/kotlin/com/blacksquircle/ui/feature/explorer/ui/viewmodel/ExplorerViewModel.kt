@@ -29,8 +29,8 @@ import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
-import com.blacksquircle.ui.feature.explorer.ui.viewstate.DirectoryViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
+import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.filesystem.base.exception.DirectoryExpectedException
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -50,11 +50,11 @@ class ExplorerViewModel @Inject constructor(
     private val explorerRepository: ExplorerRepository,
 ) : ViewModel() {
 
-    private val _explorerViewState = MutableStateFlow<ExplorerViewState>(ExplorerViewState.Stub)
-    val explorerViewState: StateFlow<ExplorerViewState> = _explorerViewState.asStateFlow()
+    private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.Stub)
+    val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
 
-    private val _directoryViewState = MutableStateFlow<DirectoryViewState>(DirectoryViewState.Loading)
-    val directoryViewState: StateFlow<DirectoryViewState> = _directoryViewState.asStateFlow()
+    private val _explorerViewState = MutableStateFlow<ExplorerViewState>(ExplorerViewState.Loading)
+    val explorerViewState: StateFlow<ExplorerViewState> = _explorerViewState.asStateFlow()
 
     private val _refreshState = MutableStateFlow(false)
     val refreshState: StateFlow<Boolean> = _refreshState.asStateFlow()
@@ -129,7 +129,7 @@ class ExplorerViewModel @Inject constructor(
     fun handleOnBackPressed(): Boolean {
         return when {
             selection.isNotEmpty() -> {
-                _explorerViewState.value = ExplorerViewState.ActionBar(
+                _toolbarViewState.value = ToolbarViewState.ActionBar(
                     breadcrumbs = breadcrumbs,
                     selection = selection.replaceList(emptyList()),
                     operation = operation,
@@ -145,11 +145,11 @@ class ExplorerViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             try {
                 if (!refreshState.value && query.isEmpty()) { // SwipeRefresh
-                    _directoryViewState.value = DirectoryViewState.Loading
+                    _explorerViewState.value = ExplorerViewState.Loading
                 }
 
                 val fileTree = if (event.fileModel != null) { // Different order
-                    _explorerViewState.value = ExplorerViewState.ActionBar(
+                    _toolbarViewState.value = ToolbarViewState.ActionBar(
                         breadcrumbs = breadcrumbs.appendList(event.fileModel),
                         selection = selection,
                         operation = operation,
@@ -157,7 +157,7 @@ class ExplorerViewModel @Inject constructor(
                     explorerRepository.listFiles(event.fileModel)
                 } else {
                     explorerRepository.listFiles(null).also {
-                        _explorerViewState.value = ExplorerViewState.ActionBar(
+                        _toolbarViewState.value = ToolbarViewState.ActionBar(
                             breadcrumbs = breadcrumbs.appendList(it.parent),
                             selection = selection,
                             operation = operation,
@@ -165,9 +165,9 @@ class ExplorerViewModel @Inject constructor(
                     }
                 }
                 if (fileTree.children.isNotEmpty()) {
-                    _directoryViewState.value = DirectoryViewState.Files(fileTree.children)
+                    _explorerViewState.value = ExplorerViewState.Files(fileTree.children)
                 } else {
-                    _directoryViewState.value = DirectoryViewState.Error(
+                    _explorerViewState.value = ExplorerViewState.Error(
                         image = UiR.drawable.ic_file_find,
                         title = stringProvider.getString(R.string.message_no_result),
                         subtitle = "",
@@ -188,9 +188,9 @@ class ExplorerViewModel @Inject constructor(
             query = event.query
             val searchList = files.filter { it.name.contains(query, ignoreCase = true) }
             if (searchList.isNotEmpty()) {
-                _directoryViewState.value = DirectoryViewState.Files(searchList)
+                _explorerViewState.value = ExplorerViewState.Files(searchList)
             } else {
-                _directoryViewState.value = DirectoryViewState.Error(
+                _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_find,
                     title = stringProvider.getString(R.string.message_no_result),
                     subtitle = "",
@@ -201,7 +201,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun selectFiles(event: ExplorerIntent.SelectFiles) {
         viewModelScope.launch {
-            _explorerViewState.value = ExplorerViewState.ActionBar(
+            _toolbarViewState.value = ToolbarViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
                 selection = selection.replaceList(event.selection),
                 operation = operation,
@@ -211,7 +211,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun selectTab(event: ExplorerIntent.SelectTab) {
         viewModelScope.launch {
-            _explorerViewState.value = ExplorerViewState.ActionBar(
+            _toolbarViewState.value = ToolbarViewState.ActionBar(
                 breadcrumbs = breadcrumbs.replaceList(breadcrumbs.take(event.position + 1)),
                 selection = selection.replaceList(emptyList()),
                 operation = operation,
@@ -246,7 +246,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun cutButton() {
         viewModelScope.launch {
-            _explorerViewState.value = ExplorerViewState.ActionBar(
+            _toolbarViewState.value = ToolbarViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
                 operation = Operation.CUT.also { type ->
                     buffer.replaceList(selection)
@@ -259,7 +259,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun copyButton() {
         viewModelScope.launch {
-            _explorerViewState.value = ExplorerViewState.ActionBar(
+            _toolbarViewState.value = ToolbarViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
                 operation = Operation.COPY.also { type ->
                     buffer.replaceList(selection)
@@ -272,7 +272,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun createButton() {
         viewModelScope.launch {
-            _explorerViewState.value = ExplorerViewState.ActionBar(
+            _toolbarViewState.value = ToolbarViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
                 operation = Operation.CREATE.also { type ->
                     buffer.replaceList(emptyList()) // empty buffer for Operation.CREATE
@@ -287,7 +287,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun renameButton() {
         viewModelScope.launch {
-            _explorerViewState.value = ExplorerViewState.ActionBar(
+            _toolbarViewState.value = ToolbarViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
                 operation = Operation.RENAME.also { type ->
                     buffer.replaceList(selection)
@@ -302,7 +302,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun deleteButton() {
         viewModelScope.launch {
-            _explorerViewState.value = ExplorerViewState.ActionBar(
+            _toolbarViewState.value = ToolbarViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
                 operation = Operation.DELETE.also { type ->
                     buffer.replaceList(selection)
@@ -346,7 +346,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun compressButton() {
         viewModelScope.launch {
-            _explorerViewState.value = ExplorerViewState.ActionBar(
+            _toolbarViewState.value = ToolbarViewState.ActionBar(
                 breadcrumbs = breadcrumbs,
                 operation = Operation.COMPRESS.also { type ->
                     buffer.replaceList(selection)
@@ -572,7 +572,7 @@ class ExplorerViewModel @Inject constructor(
     }
 
     private fun initialState() {
-        _explorerViewState.value = ExplorerViewState.ActionBar(
+        _toolbarViewState.value = ToolbarViewState.ActionBar(
             breadcrumbs = breadcrumbs,
             operation = Operation.CREATE.also { type ->
                 buffer.replaceList(emptyList())
@@ -585,20 +585,20 @@ class ExplorerViewModel @Inject constructor(
     private fun errorState(e: Throwable) {
         when (e) {
             is CancellationException -> {
-                _directoryViewState.value = DirectoryViewState.Loading
+                _explorerViewState.value = ExplorerViewState.Loading
             }
             is PermissionException -> {
-                _directoryViewState.value = DirectoryViewState.Permission
+                _explorerViewState.value = ExplorerViewState.Permission
             }
             is DirectoryExpectedException -> {
-                _directoryViewState.value = DirectoryViewState.Error(
+                _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(R.string.message_error_occurred),
                     subtitle = stringProvider.getString(R.string.message_directory_expected),
                 )
             }
             else -> {
-                _directoryViewState.value = DirectoryViewState.Error(
+                _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(R.string.message_error_occurred),
                     subtitle = e.message.orEmpty(),

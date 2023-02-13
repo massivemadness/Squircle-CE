@@ -19,13 +19,12 @@ package com.blacksquircle.ui.feature.editor
 import android.util.Log
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
-import com.blacksquircle.ui.feature.editor.utils.MainDispatcherRule
-import com.blacksquircle.ui.feature.editor.utils.createDocument
+import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -91,8 +90,8 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "third.txt"),
             createDocument(position = 2, fileName = "first.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -118,8 +117,8 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "first.txt"),
             createDocument(position = 2, fileName = "second.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -145,8 +144,8 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "first.txt"),
             createDocument(position = 2, fileName = "third.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -172,8 +171,8 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "third.txt"),
             createDocument(position = 2, fileName = "second.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -199,8 +198,8 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "third.txt"),
             createDocument(position = 2, fileName = "second.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     @Test
@@ -226,8 +225,8 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "first.txt"),
             createDocument(position = 2, fileName = "third.txt"),
         )
-        val editorViewState = EditorViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
     private fun editorViewModel(): EditorViewModel {

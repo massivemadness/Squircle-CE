@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.utils
+package com.blacksquircle.ui.feature.editor
 
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.language.base.Language
@@ -22,20 +22,17 @@ import io.mockk.mockk
 
 private val language = mockk<Language>()
 
-fun createDocument(
-    position: Int,
-    fileName: String,
-): DocumentModel {
+fun createDocument(position: Int, fileName: String): DocumentModel {
     return DocumentModel(
         uuid = fileName,
-        fileUri = "/mnt/sdcard/Documents/$fileName",
+        fileUri = "file:///storage/emulated/0/$fileName",
         filesystemUuid = "local",
         language = language,
         modified = false,
         position = position,
-        scrollX = 0,
-        scrollY = 0,
-        selectionStart = 0,
-        selectionEnd = 0
+        scrollX = 1,
+        scrollY = 2,
+        selectionStart = 3,
+        selectionEnd = 4,
     )
 }
