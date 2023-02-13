@@ -68,7 +68,7 @@ class SelectTabTests {
     }
 
     @Test
-    fun `When the user opens the app Then load documents list and select tab`() = runTest {
+    fun `When the user opens the app Then load documents and select tab`() = runTest {
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
