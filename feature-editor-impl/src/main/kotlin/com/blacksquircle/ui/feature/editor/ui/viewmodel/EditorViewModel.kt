@@ -432,7 +432,7 @@ class EditorViewModel @Inject constructor(
 
     private fun refreshActionBar(position: Int) {
         _toolbarViewState.value = ToolbarViewState.ActionBar(
-            documents = documents,
+            documents = documents.toList(),
             position = position.also {
                 selectedPosition = it
             },

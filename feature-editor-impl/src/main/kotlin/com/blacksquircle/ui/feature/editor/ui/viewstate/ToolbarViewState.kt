@@ -29,6 +29,5 @@ sealed class ToolbarViewState : ViewState() {
         val documents: List<DocumentModel>,
         val position: Int,
         val panel: Panel,
-        val patch: String = UUID.randomUUID().toString(),
     ) : ToolbarViewState()
 }

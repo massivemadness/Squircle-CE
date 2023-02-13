@@ -45,7 +45,7 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
     }
 
     fun submitList(list: List<T>, position: Int) {
-        submitList(list.toList()) {
+        submitList(list) {
             val currentAnimator = recyclerView?.itemAnimator
             if (currentAnimator == null) {
                 recyclerView?.doOnPreDraw { // fixes animation

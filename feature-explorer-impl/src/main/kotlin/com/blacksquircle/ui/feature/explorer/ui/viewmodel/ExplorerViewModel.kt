@@ -129,11 +129,8 @@ class ExplorerViewModel @Inject constructor(
     fun handleOnBackPressed(): Boolean {
         return when {
             selection.isNotEmpty() -> {
-                _toolbarViewState.value = ToolbarViewState.ActionBar(
-                    breadcrumbs = breadcrumbs,
-                    selection = selection.replaceList(emptyList()),
-                    operation = operation,
-                )
+                selection.replaceList(emptyList())
+                refreshActionBar()
                 true
             }
             else -> false
@@ -149,19 +146,13 @@ class ExplorerViewModel @Inject constructor(
                 }
 
                 val fileTree = if (event.fileModel != null) { // Different order
-                    _toolbarViewState.value = ToolbarViewState.ActionBar(
-                        breadcrumbs = breadcrumbs.appendList(event.fileModel),
-                        selection = selection,
-                        operation = operation,
-                    )
+                    breadcrumbs.appendList(event.fileModel)
+                    refreshActionBar()
                     explorerRepository.listFiles(event.fileModel)
                 } else {
                     explorerRepository.listFiles(null).also {
-                        _toolbarViewState.value = ToolbarViewState.ActionBar(
-                            breadcrumbs = breadcrumbs.appendList(it.parent),
-                            selection = selection,
-                            operation = operation,
-                        )
+                        breadcrumbs.appendList(it.parent)
+                        refreshActionBar()
                     }
                 }
                 if (fileTree.children.isNotEmpty()) {
@@ -201,21 +192,17 @@ class ExplorerViewModel @Inject constructor(
 
     private fun selectFiles(event: ExplorerIntent.SelectFiles) {
         viewModelScope.launch {
-            _toolbarViewState.value = ToolbarViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                selection = selection.replaceList(event.selection),
-                operation = operation,
-            )
+            selection.replaceList(event.selection)
+            refreshActionBar()
         }
     }
 
     private fun selectTab(event: ExplorerIntent.SelectTab) {
         viewModelScope.launch {
-            _toolbarViewState.value = ToolbarViewState.ActionBar(
-                breadcrumbs = breadcrumbs.replaceList(breadcrumbs.take(event.position + 1)),
-                selection = selection.replaceList(emptyList()),
-                operation = operation,
-            )
+            breadcrumbs.replaceList(breadcrumbs.take(event.position + 1))
+            selection.replaceList(emptyList())
+            refreshActionBar()
+
             listFiles(ExplorerIntent.OpenFolder(breadcrumbs.lastOrNull()))
         }
     }
@@ -246,40 +233,29 @@ class ExplorerViewModel @Inject constructor(
 
     private fun cutButton() {
         viewModelScope.launch {
-            _toolbarViewState.value = ToolbarViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.CUT.also { type ->
-                    buffer.replaceList(selection)
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
+            operation = Operation.CUT
+            buffer.replaceList(selection)
+            selection.replaceList(emptyList())
+            refreshActionBar()
         }
     }
 
     private fun copyButton() {
         viewModelScope.launch {
-            _toolbarViewState.value = ToolbarViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.COPY.also { type ->
-                    buffer.replaceList(selection)
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
+            operation = Operation.COPY
+            buffer.replaceList(selection)
+            selection.replaceList(emptyList())
+            refreshActionBar()
         }
     }
 
     private fun createButton() {
         viewModelScope.launch {
-            _toolbarViewState.value = ToolbarViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.CREATE.also { type ->
-                    buffer.replaceList(emptyList()) // empty buffer for Operation.CREATE
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
+            operation = Operation.CREATE
+            buffer.replaceList(emptyList()) // empty buffer for Operation.CREATE
+            selection.replaceList(emptyList())
+            refreshActionBar()
+
             val screen = ExplorerScreen.CreateDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
@@ -287,14 +263,11 @@ class ExplorerViewModel @Inject constructor(
 
     private fun renameButton() {
         viewModelScope.launch {
-            _toolbarViewState.value = ToolbarViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.RENAME.also { type ->
-                    buffer.replaceList(selection)
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
+            operation = Operation.RENAME
+            buffer.replaceList(selection)
+            selection.replaceList(emptyList())
+            refreshActionBar()
+
             val screen = ExplorerScreen.RenameDialog(buffer.first().name)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
@@ -302,14 +275,11 @@ class ExplorerViewModel @Inject constructor(
 
     private fun deleteButton() {
         viewModelScope.launch {
-            _toolbarViewState.value = ToolbarViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.DELETE.also { type ->
-                    buffer.replaceList(selection)
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
+            operation = Operation.DELETE
+            buffer.replaceList(selection)
+            selection.replaceList(emptyList())
+            refreshActionBar()
+
             val screen = ExplorerScreen.DeleteDialog(buffer.first().name, buffer.size)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
@@ -346,14 +316,11 @@ class ExplorerViewModel @Inject constructor(
 
     private fun compressButton() {
         viewModelScope.launch {
-            _toolbarViewState.value = ToolbarViewState.ActionBar(
-                breadcrumbs = breadcrumbs,
-                operation = Operation.COMPRESS.also { type ->
-                    buffer.replaceList(selection)
-                    operation = type
-                },
-                selection = selection.replaceList(emptyList()),
-            )
+            operation = Operation.COMPRESS
+            buffer.replaceList(selection)
+            selection.replaceList(emptyList())
+            refreshActionBar()
+
             val screen = ExplorerScreen.CompressDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
@@ -572,13 +539,17 @@ class ExplorerViewModel @Inject constructor(
     }
 
     private fun initialState() {
+        operation = Operation.CREATE
+        buffer.replaceList(emptyList())
+        selection.replaceList(emptyList())
+        refreshActionBar()
+    }
+
+    private fun refreshActionBar() {
         _toolbarViewState.value = ToolbarViewState.ActionBar(
-            breadcrumbs = breadcrumbs,
-            operation = Operation.CREATE.also { type ->
-                buffer.replaceList(emptyList())
-                operation = type
-            },
-            selection = selection.replaceList(emptyList()),
+            breadcrumbs = breadcrumbs.toList(),
+            selection = selection.toList(),
+            operation = operation,
         )
     }
 

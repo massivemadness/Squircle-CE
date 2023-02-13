@@ -51,9 +51,6 @@ class CloseTabTests {
         mockkStatic(Log::class) // TODO Timber?
         every { Log.e(any(), any(), any()) } answers { println(arg<Exception>(2).message); 0 }
 
-        mockkStatic(UUID::class) // TODO remove UUID in EditorViewState
-        every { UUID.randomUUID() } returns UUID(0, 0)
-
         every { settingsManager.extendedKeyboard } returns true
         every { settingsManager.selectedUuid = any() } returns Unit
         every { settingsManager.selectedUuid } returns ""

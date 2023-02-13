@@ -36,7 +36,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.UUID
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SelectTabTests {
@@ -53,9 +52,6 @@ class SelectTabTests {
     fun setup() {
         mockkStatic(Log::class) // TODO Timber?
         every { Log.e(any(), any(), any()) } answers { println(arg<Exception>(2).message); 0 }
-
-        mockkStatic(UUID::class) // TODO remove UUID in EditorViewState
-        every { UUID.randomUUID() } returns UUID(0, 0)
 
         every { settingsManager.extendedKeyboard } returns true
         every { settingsManager.selectedUuid = any() } returns Unit

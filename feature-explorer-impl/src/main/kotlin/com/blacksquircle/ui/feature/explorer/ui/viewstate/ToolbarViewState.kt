@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.explorer.ui.viewstate
 import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import java.util.*
 
 sealed class ToolbarViewState : ViewState() {
 
@@ -29,6 +28,5 @@ sealed class ToolbarViewState : ViewState() {
         val breadcrumbs: List<FileModel>,
         val selection: List<FileModel>,
         val operation: Operation,
-        val patch: String = UUID.randomUUID().toString(),
     ) : ToolbarViewState()
 }
