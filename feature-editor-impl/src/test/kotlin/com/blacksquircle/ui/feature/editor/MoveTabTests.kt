@@ -19,13 +19,10 @@ package com.blacksquircle.ui.feature.editor
 import android.util.Log
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.data.utils.Panel
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.editor.ui.viewstate.DocumentViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.editor.utils.MainDispatcherRule
 import com.blacksquircle.ui.feature.editor.utils.createDocument
@@ -37,10 +34,10 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.UUID
+import java.util.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class EditorViewModelTest {
+class MoveTabTests {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -69,38 +66,6 @@ class EditorViewModelTest {
         coEvery { documentRepository.loadFile(any()) } returns mockk()
         coEvery { documentRepository.saveFile(any(), any()) } returns Unit
         coEvery { documentRepository.saveFileAs(any(), any()) } returns Unit
-    }
-
-    @Test
-    fun `When the user opens the app Then load documents list`() = runTest {
-        val documentList = listOf(
-            createDocument(position = 0, fileName = "first.txt"),
-            createDocument(position = 1, fileName = "second.txt"),
-            createDocument(position = 2, fileName = "third.txt"),
-        )
-        val selected = documentList[0]
-        val undoStack = mockk<UndoStack>()
-        val redoStack = mockk<UndoStack>()
-        val text = "Text of first.txt"
-        val documentContent = DocumentContent(selected, undoStack, redoStack, text)
-
-        every { settingsManager.selectedUuid } returns selected.uuid
-        coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns documentContent
-
-        // When
-        val viewModel = editorViewModel()
-        viewModel.obtainEvent(EditorIntent.LoadFiles)
-
-        // Then
-        val editorViewState = EditorViewState.ActionBar(documentList, 0, Panel.DEFAULT)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
-
-        val documentViewState = DocumentViewState.Content(
-            DocumentContent(documentList[editorViewState.position], undoStack, redoStack, text),
-            showKeyboard = true
-        )
-        assertEquals(documentViewState, viewModel.documentViewState.value)
     }
 
     @Test
