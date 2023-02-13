@@ -75,7 +75,6 @@ class CloseTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -101,7 +100,6 @@ class CloseTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -127,7 +125,6 @@ class CloseTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -153,7 +150,6 @@ class CloseTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -179,7 +175,6 @@ class CloseTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -205,7 +200,6 @@ class CloseTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -230,7 +224,6 @@ class CloseTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -255,7 +248,6 @@ class CloseTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()

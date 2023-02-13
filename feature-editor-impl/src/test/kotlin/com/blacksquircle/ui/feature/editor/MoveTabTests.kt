@@ -75,7 +75,6 @@ class MoveTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -102,7 +101,6 @@ class MoveTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -129,7 +127,6 @@ class MoveTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -156,7 +153,6 @@ class MoveTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -183,7 +179,6 @@ class MoveTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
@@ -210,7 +205,6 @@ class MoveTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns mockk()
 
         // When
         val viewModel = editorViewModel()
