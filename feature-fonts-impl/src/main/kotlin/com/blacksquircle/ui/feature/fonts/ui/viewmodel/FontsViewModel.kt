@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
@@ -30,6 +29,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -62,7 +62,7 @@ class FontsViewModel @Inject constructor(
                     _fontsState.value = FontsViewState.Empty(query)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -87,7 +87,7 @@ class FontsViewModel @Inject constructor(
                 )
                 fetchFonts("")
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -111,7 +111,7 @@ class FontsViewModel @Inject constructor(
                 )
                 fetchFonts("")
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -134,7 +134,7 @@ class FontsViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -157,7 +157,6 @@ class FontsViewModel @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "FontsViewModel"
         private const val TTF = ".ttf"
     }
 }

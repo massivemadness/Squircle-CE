@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.inappupdate
+package com.blacksquircle.ui.core.tests
 
-import android.app.Activity
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 import timber.log.Timber
 
-class InAppUpdateStub : InAppUpdate {
+class TimberConsoleRule : TestWatcher() {
 
-    override fun checkForUpdates(activity: Activity, onComplete: () -> Unit) {
-        Timber.d("checkForUpdates")
+    private val consoleTree = ConsoleTree()
+
+    override fun starting(description: Description) {
+        Timber.plant(consoleTree)
     }
 
-    override fun completeUpdate() {
-        Timber.d("completeUpdate")
+    override fun finished(description: Description) {
+        Timber.uproot(consoleTree)
     }
 }

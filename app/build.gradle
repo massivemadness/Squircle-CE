@@ -84,6 +84,7 @@ dependencies {
     implementation library.fragment
     implementation library.splash
     implementation library.profileinstaller
+    implementation library.timber
 
     // Google Play
     googlePlayImplementation library.playcore

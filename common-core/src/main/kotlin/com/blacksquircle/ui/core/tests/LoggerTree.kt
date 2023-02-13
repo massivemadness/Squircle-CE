@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.inappupdate
+package com.blacksquircle.ui.core.tests
 
-import android.app.Activity
 import timber.log.Timber
 
-class InAppUpdateStub : InAppUpdate {
+class LoggerTree : Timber.DebugTree() {
 
-    override fun checkForUpdates(activity: Activity, onComplete: () -> Unit) {
-        Timber.d("checkForUpdates")
-    }
-
-    override fun completeUpdate() {
-        Timber.d("completeUpdate")
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        val className = tag?.substringBefore('$', tag)
+        super.log(priority, className, message, t)
     }
 }

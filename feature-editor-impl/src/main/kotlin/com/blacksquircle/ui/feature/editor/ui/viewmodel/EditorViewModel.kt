@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -40,6 +39,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 import com.blacksquircle.ui.uikit.R as UiR
 
@@ -120,7 +120,7 @@ class EditorViewModel @Inject constructor(
                     emptyState()
                 }
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             }
         }
@@ -142,7 +142,7 @@ class EditorViewModel @Inject constructor(
                     selectTab(EditorIntent.SelectTab(position))
                 }
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             }
         }
@@ -162,7 +162,7 @@ class EditorViewModel @Inject constructor(
                     showKeyboard = settingsManager.extendedKeyboard,
                 )
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             }
         }
@@ -185,7 +185,7 @@ class EditorViewModel @Inject constructor(
                     },
                 )
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -232,7 +232,7 @@ class EditorViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -255,7 +255,7 @@ class EditorViewModel @Inject constructor(
                     refreshActionBar(0)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -268,7 +268,7 @@ class EditorViewModel @Inject constructor(
                 refreshActionBar(-1)
                 emptyState()
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -285,7 +285,7 @@ class EditorViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -298,7 +298,7 @@ class EditorViewModel @Inject constructor(
                     _viewEvent.send(ViewEvent.Navigation(EditorScreen.GotoLine))
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -312,7 +312,7 @@ class EditorViewModel @Inject constructor(
                     _viewEvent.send(EditorViewEvent.GotoLine(lineNumber))
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -325,7 +325,7 @@ class EditorViewModel @Inject constructor(
                     _viewEvent.send(ViewEvent.Navigation(EditorScreen.ColorPicker))
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -339,7 +339,7 @@ class EditorViewModel @Inject constructor(
                     _viewEvent.send(EditorViewEvent.InsertColor(color))
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -393,7 +393,7 @@ class EditorViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -523,13 +523,9 @@ class EditorViewModel @Inject constructor(
 
                 _settings.value = settings
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "EditorViewModel"
     }
 }

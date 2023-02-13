@@ -29,3 +29,7 @@ fun Window.fullscreenMode(whether: Boolean) {
         controller.show(statusBarType)
     }
 }
+
+fun Window.decorFitsSystemWindows(decorFitsSystemWindows: Boolean) {
+    WindowCompat.setDecorFitsSystemWindows(this, decorFitsSystemWindows)
+}

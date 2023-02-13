@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -33,6 +32,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -114,7 +114,7 @@ class SettingsViewModel @Inject constructor(
                 settingsRepository.upsertServer(serverModel)
                 fetchServers()
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -126,7 +126,7 @@ class SettingsViewModel @Inject constructor(
                 settingsRepository.deleteServer(serverModel)
                 fetchServers()
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -137,7 +137,7 @@ class SettingsViewModel @Inject constructor(
             try {
                 settingsRepository.resetKeyboardPreset()
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
@@ -145,9 +145,5 @@ class SettingsViewModel @Inject constructor(
 
     fun fetchChangeLog(changelog: String) {
         _changelogState.value = ReleaseConverter.toReleaseModels(changelog)
-    }
-
-    companion object {
-        private const val TAG = "SettingsViewModel"
     }
 }

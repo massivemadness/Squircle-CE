@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -40,6 +39,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 import com.blacksquircle.ui.uikit.R as UiR
 
@@ -166,7 +166,7 @@ class ExplorerViewModel @Inject constructor(
                 }
                 files.replaceList(fileTree.children)
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 _refreshState.value = false
@@ -219,7 +219,7 @@ class ExplorerViewModel @Inject constructor(
                     listFiles(ExplorerIntent.OpenFolder())
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
             }
         }
     }
@@ -298,7 +298,7 @@ class ExplorerViewModel @Inject constructor(
                 val screen = ExplorerScreen.PropertiesDialog(fileModel)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 initialState()
@@ -367,7 +367,7 @@ class ExplorerViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 initialState()
@@ -398,7 +398,7 @@ class ExplorerViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 initialState()
@@ -416,7 +416,7 @@ class ExplorerViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 initialState()
@@ -434,7 +434,7 @@ class ExplorerViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 initialState()
@@ -452,7 +452,7 @@ class ExplorerViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 initialState()
@@ -479,7 +479,7 @@ class ExplorerViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 initialState()
@@ -497,7 +497,7 @@ class ExplorerViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Throwable) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 errorState(e)
             } finally {
                 initialState()
@@ -576,9 +576,5 @@ class ExplorerViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "ExplorerViewModel"
     }
 }

@@ -60,6 +60,7 @@ dependencies {
     implementation library.core
     implementation library.activity
     implementation library.fragment
+    implementation library.timber
 
     // UI
     implementation library.appcompat

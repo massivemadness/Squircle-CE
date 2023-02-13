@@ -37,6 +37,7 @@ ext {
     fragment_version = '1.5.5'
     splash_version = '1.0.0'
     profileinstaller_version = '1.2.2'
+    timber_version = '5.0.1'
 
     // Google Play
     playcore_version = '1.8.1'
@@ -99,6 +100,7 @@ ext {
             fragment: "androidx.fragment:fragment-ktx:$fragment_version",
             splash: "androidx.core:core-splashscreen:$splash_version",
             profileinstaller: "androidx.profileinstaller:profileinstaller:$profileinstaller_version",
+            timber: "com.jakewharton.timber:timber:$timber_version",
 
             // Google Play
             playcore: "com.google.android.play:core-ktx:$playcore_version",

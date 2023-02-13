@@ -66,6 +66,7 @@ dependencies {
     // Core
     implementation library.kotlin
     implementation library.core
+    implementation library.timber
 
     // UI
     implementation library.appcompat

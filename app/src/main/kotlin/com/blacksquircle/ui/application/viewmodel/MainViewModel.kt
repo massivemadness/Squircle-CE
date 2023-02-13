@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.application.viewmodel
 
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -32,6 +31,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import com.blacksquircle.ui.feature.editor.R as EditorR
@@ -71,7 +71,7 @@ class MainViewModel @Inject constructor(
                     reloadList()
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(EditorR.string.message_error_occurred),
@@ -79,9 +79,5 @@ class MainViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "MainViewModel"
     }
 }

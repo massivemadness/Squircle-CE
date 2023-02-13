@@ -18,7 +18,6 @@ package com.blacksquircle.ui.application.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
@@ -51,6 +50,7 @@ import com.blacksquircle.ui.utils.extensions.resolveFilePath
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 import java.io.File
 import com.blacksquircle.ui.feature.editor.R as EditorR
 
@@ -161,21 +161,21 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
     private fun handleIntent(intent: Intent?) {
         try {
             if (intent?.action == Intent.ACTION_VIEW) {
-                Log.d(TAG, "Handle external content uri = ${intent.data}")
+                Timber.d("Handle external content uri = " + intent.data)
                 val contentUri = intent.data ?: return
 
                 val filePath = requireContext().resolveFilePath(contentUri)
-                Log.d(TAG, "Does it looks like a valid file path? ($filePath)")
+                Timber.d("Does it looks like a valid file path? ($filePath)")
 
                 val isValidFile = try {
                     File(filePath).exists()
                 } catch (e: Exception) {
                     false
                 }
-                Log.d(TAG, "isValidFile = $isValidFile")
+                Timber.d("isValidFile = $isValidFile")
 
                 if (!isValidFile) {
-                    Log.d(TAG, "Invalid path")
+                    Timber.d("Invalid path")
                     context?.showToast(EditorR.string.message_file_not_found)
                     return
                 }
@@ -186,12 +186,8 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                 }
             }
         } catch (e: Throwable) {
-            Log.e(TAG, e.message, e)
+            Timber.e(e, e.message)
             context?.showToast(EditorR.string.message_file_not_found)
         }
-    }
-
-    companion object {
-        private const val TAG = "TwoPaneFragment"
     }
 }

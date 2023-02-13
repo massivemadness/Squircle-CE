@@ -18,7 +18,6 @@ package com.blacksquircle.ui.utils.inappupdate
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
@@ -27,12 +26,11 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.*
+import timber.log.Timber
 
 class InAppUpdateImpl(context: Context) : InAppUpdate {
 
     companion object {
-
-        private const val TAG = "InAppUpdateImpl"
 
         private const val PRIORITY_HIGH = 5
         private const val PRIORITY_M_HIGH = 4
@@ -46,7 +44,7 @@ class InAppUpdateImpl(context: Context) : InAppUpdate {
     private val appUpdateManager by lazy { AppUpdateManagerFactory.create(context) }
 
     override fun checkForUpdates(activity: Activity, onComplete: () -> Unit) {
-        Log.d(TAG, "checkForUpdates")
+        Timber.d("checkForUpdates")
         appUpdateManager.registerListener(object : InstallStateUpdatedListener {
             override fun onStateUpdate(state: InstallState) {
                 if (state.installStatus == InstallStatus.DOWNLOADED) {
@@ -91,12 +89,12 @@ class InAppUpdateImpl(context: Context) : InAppUpdate {
                 }
             }
             .addOnFailureListener {
-                Log.e(TAG, it.message, it)
+                Timber.e(it, it.message)
             }
     }
 
     override fun completeUpdate() {
-        Log.d(TAG, "completeUpdate")
+        Timber.d("completeUpdate")
         appUpdateManager.completeUpdate()
     }
 

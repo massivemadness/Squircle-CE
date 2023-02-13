@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.themes.ui.viewmodel
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
@@ -36,6 +35,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -67,7 +67,7 @@ class ThemesViewModel @Inject constructor(
                     _themesState.value = ThemesViewState.Empty(query)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -83,7 +83,7 @@ class ThemesViewModel @Inject constructor(
                 val themeModel = themesRepository.importTheme(uri)
                 loadProperties(themeModel)
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_theme_syntax_exception),
@@ -101,7 +101,7 @@ class ThemesViewModel @Inject constructor(
                     ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
                 )
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -125,7 +125,7 @@ class ThemesViewModel @Inject constructor(
                 )
                 fetchThemes("")
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -148,7 +148,7 @@ class ThemesViewModel @Inject constructor(
                     ),
                 )
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -185,7 +185,7 @@ class ThemesViewModel @Inject constructor(
                 )
                 fetchThemes("")
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_error_occurred),
@@ -358,9 +358,5 @@ class ThemesViewModel @Inject constructor(
                 ),
             ),
         )
-    }
-
-    companion object {
-        private const val TAG = "ThemesViewModel"
     }
 }

@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.explorer.ui.worker
 import android.content.Context
 import android.content.pm.ServiceInfo
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.Observer
@@ -45,6 +44,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import com.blacksquircle.ui.uikit.R as UiR
 
 @HiltWorker
@@ -71,7 +71,7 @@ class CreateFileWorker @AssistedInject constructor(
                 }
                 Result.success()
             } catch (e: Exception) {
-                Log.e(TAG, e.message, e)
+                Timber.e(e, e.message)
                 withContext(dispatcherProvider.mainThread()) {
                     when (e) {
                         is FileNotFoundException -> {
@@ -132,9 +132,7 @@ class CreateFileWorker @AssistedInject constructor(
 
     companion object {
 
-        private const val TAG = "CreateFileWorker"
         private const val JOB_NAME = "create-file"
-
         private const val CHANNEL_ID = "file-explorer"
         private const val NOTIFICATION_ID = 140
 

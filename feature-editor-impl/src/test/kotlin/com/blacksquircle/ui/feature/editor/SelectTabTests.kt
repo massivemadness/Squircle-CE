@@ -16,10 +16,10 @@
 
 package com.blacksquircle.ui.feature.editor
 
-import android.util.Log
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
+import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
@@ -43,6 +43,9 @@ class SelectTabTests {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
+    @get:Rule
+    val timberConsoleRule = TimberConsoleRule()
+
     private val stringProvider = mockk<StringProvider>()
     private val settingsManager = mockk<SettingsManager>()
     private val documentRepository = mockk<DocumentRepository>()
@@ -50,9 +53,6 @@ class SelectTabTests {
 
     @Before
     fun setup() {
-        mockkStatic(Log::class) // TODO Timber?
-        every { Log.e(any(), any(), any()) } answers { println(arg<Exception>(2).message); 0 }
-
         every { settingsManager.extendedKeyboard } returns true
         every { settingsManager.selectedUuid = any() } returns Unit
         every { settingsManager.selectedUuid } returns ""
