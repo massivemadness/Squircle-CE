@@ -274,23 +274,6 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun saveFileAs(event: EditorIntent.SaveFileAs) {
-        viewModelScope.launch {
-            try {
-                if (selectedPosition > -1) {
-                    val document = documents[selectedPosition]
-                    documentRepository.saveFileAs(document, event.fileUri)
-                    _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
-                    )
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
     private fun gotoLine() {
         viewModelScope.launch {
             try {
@@ -360,7 +343,8 @@ class EditorViewModel @Inject constructor(
             try {
                 if (selectedPosition > -1) {
                     val modified = documents[selectedPosition].modified
-                    val changeModified = event.local && modified
+                    val localStorage = event.local || settingsManager.autoSaveFiles
+                    val changeModified = localStorage && modified
                     val document = documents[selectedPosition].copy(
                         modified = if (changeModified) false else modified,
                         scrollX = event.scrollX,
@@ -372,18 +356,19 @@ class EditorViewModel @Inject constructor(
                     if (changeModified) {
                         refreshActionBar(selectedPosition)
                     }
-                    val content = DocumentContent(
-                        documentModel = document,
-                        undoStack = event.undoStack,
-                        redoStack = event.redoStack,
-                        text = event.text,
-                    )
                     val currentState = editorViewState.value
                     if (currentState is EditorViewState.Content) {
-                        if (!event.local) {
+                        val content = DocumentContent(
+                            documentModel = document,
+                            undoStack = event.undoStack,
+                            redoStack = event.redoStack,
+                            text = event.text,
+                        )
+                        val params = DocumentParams(localStorage, true)
+                        if (!localStorage) {
                             _editorViewState.value = currentState.copy(content = content)
                         }
-                        documentRepository.saveFile(content, DocumentParams(event.local, true))
+                        documentRepository.saveFile(content, params)
                         documentRepository.updateDocument(content.documentModel)
                         if (event.local) {
                             _viewEvent.send(
@@ -391,6 +376,23 @@ class EditorViewModel @Inject constructor(
                             )
                         }
                     }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun saveFileAs(event: EditorIntent.SaveFileAs) {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition > -1) {
+                    val document = documents[selectedPosition]
+                    documentRepository.saveFileAs(document, event.fileUri)
+                    _viewEvent.send(
+                        ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
+                    )
                 }
             } catch (e: Exception) {
                 Timber.e(e, e.message)
