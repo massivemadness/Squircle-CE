@@ -134,14 +134,14 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
                     spinnerView?.adapter = ArrayAdapter.createFromResource(
                         requireContext(),
-                        R.array.language_names,
+                        R.array.preview_names,
                         android.R.layout.simple_spinner_dropdown_item,
                     )
                     spinnerView?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onNothingSelected(parent: AdapterView<*>?) = Unit
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            val path = requireContext().getStringArray(R.array.language_paths)[position]
-                            val extension = requireContext().getStringArray(R.array.language_extensions)[position]
+                            val path = requireContext().getStringArray(R.array.preview_paths)[position]
+                            val extension = requireContext().getStringArray(R.array.preview_extensions)[position]
                             adapter.codeSnippet = requireContext().readAssetFileText(path) to extension
                         }
                     }
