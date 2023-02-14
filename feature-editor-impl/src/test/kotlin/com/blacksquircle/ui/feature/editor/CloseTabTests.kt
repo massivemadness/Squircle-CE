@@ -52,6 +52,7 @@ class CloseTabTests {
     @Before
     fun setup() {
         every { settingsManager.extendedKeyboard } returns true
+        every { settingsManager.autoSaveFiles } returns false
         every { settingsManager.selectedUuid = any() } returns Unit
         every { settingsManager.selectedUuid } returns ""
 
