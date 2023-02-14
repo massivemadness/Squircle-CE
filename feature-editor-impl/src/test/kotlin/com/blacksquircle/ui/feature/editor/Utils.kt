@@ -22,13 +22,17 @@ import io.mockk.mockk
 
 private val language = mockk<Language>()
 
-fun createDocument(position: Int, fileName: String): DocumentModel {
+fun createDocument(
+    position: Int,
+    fileName: String,
+    modified: Boolean = false,
+): DocumentModel {
     return DocumentModel(
         uuid = fileName,
         fileUri = "file:///storage/emulated/0/$fileName",
         filesystemUuid = "local",
         language = language,
-        modified = false,
+        modified = modified,
         position = position,
         scrollX = 1,
         scrollY = 2,
