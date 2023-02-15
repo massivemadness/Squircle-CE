@@ -133,8 +133,13 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         }
         tabController.attachToRecyclerView(binding.tabLayout)
 
-        binding.extendedKeyboard.setKeyListener(binding.editor::insert)
         binding.extendedKeyboard.setHasFixedSize(true)
+        binding.extendedKeyboard.setKeyListener { char ->
+            activity?.focusedTextField()?.insert(char)
+        }
+        binding.actionTab.setOnClickListener {
+            activity?.focusedTextField()?.insert(binding.editor.tab())
+        }
 
         binding.editor.freezesText = false
         binding.editor.onUndoRedoChangedListener = UndoRedoEditText.OnUndoRedoChangedListener {
@@ -146,10 +151,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
 
             binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
             binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
-        }
-
-        binding.actionTab.setOnClickListener {
-            binding.editor.insert(binding.editor.tab())
         }
 
         viewModel.obtainEvent(EditorIntent.LoadSettings)
@@ -178,10 +179,12 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         tabAdapter.submitList(state.documents, state.position)
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         tabAdapter.setOnTabMovedListener(onTabMovedListener)
-                        binding.editor.language = state.documents[state.position].language
                         toolbarManager.panel = state.panel
                         if (state.panel == Panel.DEFAULT) {
                             binding.editor.clearFindResultSpans()
+                        }
+                        if (state.position > -1) {
+                            binding.editor.language = state.documents[state.position].language
                         }
                     }
                     is ToolbarViewState.Stub -> Unit

@@ -16,7 +16,9 @@
 
 package com.blacksquircle.ui.core.ui.extensions
 
+import android.app.Activity
 import android.view.Window
+import android.widget.EditText
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -32,4 +34,12 @@ fun Window.fullscreenMode(whether: Boolean) {
 
 fun Window.decorFitsSystemWindows(decorFitsSystemWindows: Boolean) {
     WindowCompat.setDecorFitsSystemWindows(this, decorFitsSystemWindows)
+}
+
+fun Activity.focusedTextField(): EditText? {
+    val currentFocusView = currentFocus
+    if (currentFocusView is EditText) {
+        return currentFocusView
+    }
+    return null
 }

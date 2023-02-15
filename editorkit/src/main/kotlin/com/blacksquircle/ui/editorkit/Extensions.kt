@@ -26,31 +26,44 @@ import com.blacksquircle.ui.editorkit.widget.TextProcessor
 private const val LABEL_CUT = "CUT"
 private const val LABEL_COPY = "COPY"
 
-val TextProcessor.selectedText: CharSequence
+val EditText.selectedText: CharSequence
     get() = text.subSequence(selectionStart, selectionEnd)
 
-fun TextProcessor.insert(delta: CharSequence) {
+fun EditText.insert(delta: CharSequence) {
     text.replace(selectionStart, selectionEnd, delta)
 }
 
-fun TextProcessor.cut() {
+fun EditText.cut() {
     val clipboardManager = context.getSystemService<ClipboardManager>()
     val clipData = ClipData.newPlainText(LABEL_CUT, selectedText)
     clipboardManager?.setPrimaryClip(clipData)
     text.replace(selectionStart, selectionEnd, "")
 }
 
-fun TextProcessor.copy() {
+fun EditText.copy() {
     val clipboardManager = context.getSystemService<ClipboardManager>()
     val clipData = ClipData.newPlainText(LABEL_COPY, selectedText)
     clipboardManager?.setPrimaryClip(clipData)
 }
 
-fun TextProcessor.paste() {
+fun EditText.paste() {
     val clipboardManager = context.getSystemService<ClipboardManager>()
     val clipData = clipboardManager?.primaryClip?.getItemAt(0)
     val clipText = clipData?.coerceToText(context)
     text.replace(selectionStart, selectionEnd, clipText)
+}
+
+fun EditText.setSelectionRange(start: Int, end: Int) {
+    setSelection(
+        if (start > text.length) text.length else start,
+        if (end > text.length) text.length else end,
+    )
+}
+
+fun EditText.setSelectionIndex(index: Int) {
+    setSelection(
+        if (index > text.length) text.length else index,
+    )
 }
 
 fun TextProcessor.selectLine() {
@@ -137,19 +150,6 @@ fun TextProcessor.moveCaretToNextWord(): Boolean {
         }
     }
     return true
-}
-
-fun EditText.setSelectionRange(start: Int, end: Int) {
-    setSelection(
-        if (start > text.length) text.length else start,
-        if (end > text.length) text.length else end,
-    )
-}
-
-fun EditText.setSelectionIndex(index: Int) {
-    setSelection(
-        if (index > text.length) text.length else index,
-    )
 }
 
 fun TextProcessor.gotoLine(lineNumber: Int) {
