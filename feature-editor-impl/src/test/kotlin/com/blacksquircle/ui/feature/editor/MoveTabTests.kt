@@ -21,7 +21,6 @@ import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
@@ -87,7 +86,7 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "third.txt"),
             createDocument(position = 2, fileName = "first.txt"),
         )
-        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
@@ -113,7 +112,7 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "first.txt"),
             createDocument(position = 2, fileName = "second.txt"),
         )
-        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
@@ -139,7 +138,7 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "first.txt"),
             createDocument(position = 2, fileName = "third.txt"),
         )
-        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
@@ -165,7 +164,7 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "third.txt"),
             createDocument(position = 2, fileName = "second.txt"),
         )
-        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
@@ -191,7 +190,7 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "third.txt"),
             createDocument(position = 2, fileName = "second.txt"),
         )
-        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
@@ -217,7 +216,7 @@ class MoveTabTests {
             createDocument(position = 1, fileName = "first.txt"),
             createDocument(position = 2, fileName = "third.txt"),
         )
-        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 2)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 

@@ -22,10 +22,9 @@ import android.text.Spannable
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.getSpans
-import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.model.ErrorSpan
 import com.blacksquircle.ui.editorkit.model.FindParams
-import com.blacksquircle.ui.editorkit.model.FindResultSpan
+import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.editorkit.model.TabWidthSpan
 import com.blacksquircle.ui.editorkit.setSelectionRange
 import com.blacksquircle.ui.editorkit.utils.EditorTheme
@@ -61,7 +60,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     var tabWidth = 4
 
     private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
-    private val findResultSpans = mutableListOf<FindResultSpan>()
+    private val findResults = mutableListOf<FindResult>()
 
     private var findResultStyleSpan: StyleSpan? = null
     private var task: StylingTask? = null
@@ -74,7 +73,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     override fun setTextContent(textParams: PrecomputedTextCompat) {
         syntaxHighlightSpans.clear()
-        findResultSpans.clear()
+        findResults.clear()
         super.setTextContent(textParams)
         syntaxHighlight()
     }
@@ -132,15 +131,6 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
         }
     }
 
-    fun clearFindResultSpans() {
-        selectedFindResult = 0
-        findResultSpans.clear()
-        val spans = text.getSpans<FindResultSpan>(0, text.length)
-        for (span in spans) {
-            text.removeSpan(span)
-        }
-    }
-
     fun setErrorLine(lineNumber: Int) {
         if (lineNumber > 0) {
             val lineStart = lines.getIndexForStartOfLine(lineNumber - 1)
@@ -153,104 +143,107 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     fun find(params: FindParams) {
+        clearFindResultSpans()
         if (params.query.isNotEmpty()) {
             try {
-                val pattern = if (params.regex) {
-                    if (params.matchCase) {
-                        Pattern.compile(params.query)
-                    } else {
-                        Pattern.compile(params.query, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
-                    }
-                } else {
-                    if (params.wordsOnly) {
-                        if (params.matchCase) {
-                            Pattern.compile("\\s${params.query}\\s")
-                        } else {
-                            Pattern.compile(
-                                "\\s" + Pattern.quote(params.query) + "\\s",
-                                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
-                            )
-                        }
-                    } else {
-                        if (params.matchCase) {
-                            Pattern.compile(Pattern.quote(params.query))
-                        } else {
-                            Pattern.compile(
-                                Pattern.quote(params.query),
-                                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
-                            )
-                        }
-                    }
+                val pattern = when {
+                    params.regex && params.matchCase -> Pattern.compile(params.query)
+                    params.regex && !params.matchCase -> Pattern.compile(
+                        params.query,
+                        Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
+                    )
+                    params.wordsOnly && params.matchCase -> Pattern.compile("\\s${params.query}\\s")
+                    params.wordsOnly && !params.matchCase -> Pattern.compile(
+                        "\\s" + Pattern.quote(params.query) + "\\s",
+                        Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
+                    )
+                    params.matchCase -> Pattern.compile(Pattern.quote(params.query))
+                    else -> Pattern.compile(
+                        Pattern.quote(params.query),
+                        Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
+                    )
                 }
                 val matcher = pattern.matcher(text)
                 while (matcher.find()) {
-                    findResultStyleSpan?.let {
-                        val findResultSpan = FindResultSpan(it, matcher.start(), matcher.end())
-                        findResultSpans.add(findResultSpan)
-
-                        text.setSpan(
-                            findResultSpan,
-                            findResultSpan.start,
-                            findResultSpan.end,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-                        )
-                    }
+                    val findResult = FindResult(matcher.start(), matcher.end())
+                    findResults.add(findResult)
                 }
-                if (findResultSpans.isNotEmpty()) {
+                if (findResults.isNotEmpty()) {
                     selectResult()
                 }
             } catch (e: PatternSyntaxException) {
                 // nothing
             }
         }
+        updateSyntaxHighlighting()
+    }
+
+    fun find(findResults: List<FindResult>) {
+        clearFindResultSpans()
+        for (findResult in findResults) {
+            this.findResults.add(findResult)
+        }
+        if (findResults.isNotEmpty()) {
+            selectResult()
+        }
+        updateSyntaxHighlighting()
     }
 
     fun findNext() {
-        if (selectedFindResult < findResultSpans.size - 1) {
+        if (selectedFindResult < findResults.size - 1) {
             selectedFindResult += 1
             selectResult()
         }
     }
 
     fun findPrevious() {
-        if (selectedFindResult > 0 && selectedFindResult < findResultSpans.size) {
+        if (selectedFindResult > 0 && selectedFindResult < findResults.size) {
             selectedFindResult -= 1
             selectResult()
         }
     }
 
     fun replaceFindResult(replaceText: String) {
-        if (findResultSpans.isNotEmpty()) {
-            val findResult = findResultSpans[selectedFindResult]
+        if (findResults.isNotEmpty()) {
+            val findResult = findResults[selectedFindResult]
             text.replace(findResult.start, findResult.end, replaceText)
-            findResultSpans.remove(findResult)
-            if (selectedFindResult >= findResultSpans.size) {
+            findResults.remove(findResult)
+            if (selectedFindResult >= findResults.size) {
                 selectedFindResult--
             }
         }
     }
 
     fun replaceAllFindResults(replaceText: String) {
-        if (findResultSpans.isNotEmpty()) {
+        if (findResults.isNotEmpty()) {
             val stringBuilder = StringBuilder(text)
-            for (index in findResultSpans.size - 1 downTo 0) {
-                val findResultSpan = findResultSpans[index]
+            for (index in findResults.size - 1 downTo 0) {
+                val findResultSpan = findResults[index]
                 stringBuilder.replace(findResultSpan.start, findResultSpan.end, replaceText)
-                findResultSpans.removeAt(index)
+                findResults.removeAt(index)
             }
             setText(stringBuilder.toString())
         }
     }
 
+    fun clearFindResultSpans() {
+        selectedFindResult = 0
+        findResults.clear()
+        val spans = text.getSpans<FindResult.Span>(0, text.length)
+        for (span in spans) {
+            text.removeSpan(span)
+        }
+    }
+
     private fun selectResult() {
-        val findResult = findResultSpans[selectedFindResult]
+        val findResult = findResults[selectedFindResult]
         setSelectionRange(findResult.start, findResult.end)
         scrollToFindResult()
     }
 
     private fun scrollToFindResult() {
-        if (selectedFindResult < findResultSpans.size) {
-            val findResult = findResultSpans[selectedFindResult]
+        if (selectedFindResult < findResults.size) {
+            val findResult = findResults[selectedFindResult]
             if (findResult.start >= layout.getLineStart(topVisibleLine) &&
                 findResult.end <= layout.getLineEnd(bottomVisibleLine)
             ) {
@@ -283,7 +276,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                 syntaxHighlightSpans.remove(span) // FIXME may cause ConcurrentModificationException
             }*/
         }
-        for (findResult in findResultSpans) {
+        for (findResult in findResults) {
             /*if (from > findResult.start && from <= findResult.end) {
                 findResultSpans.remove(findResult) // FIXME may cause IndexOutOfBoundsException
             }*/
@@ -335,22 +328,24 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             }
             isSyntaxHighlighting = false
 
-            val textFindSpans = text.getSpans<FindResultSpan>(0, text.length)
+            val textFindSpans = text.getSpans<FindResult.Span>(0, text.length)
             for (span in textFindSpans) {
                 text.removeSpan(span)
             }
-            for (span in findResultSpans) {
-                val isInText = span.start >= 0 && span.end <= text.length
-                val isValid = span.start <= span.end
-                val isVisible = span.start in lineStart..lineEnd ||
-                    span.start <= lineEnd && span.end >= lineStart
-                if (isInText && isValid && isVisible) {
-                    text.setSpan(
-                        span,
-                        if (span.start < lineStart) lineStart else span.start,
-                        if (span.end > lineEnd) lineEnd else span.end,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-                    )
+            findResultStyleSpan?.let { styleSpan ->
+                for (span in findResults) {
+                    val isInText = span.start >= 0 && span.end <= text.length
+                    val isValid = span.start <= span.end
+                    val isVisible = span.start in lineStart..lineEnd ||
+                        span.start <= lineEnd && span.end >= lineStart
+                    if (isInText && isValid && isVisible) {
+                        text.setSpan(
+                            FindResult.Span(styleSpan),
+                            if (span.start < lineStart) lineStart else span.start,
+                            if (span.end > lineEnd) lineEnd else span.end,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+                        )
+                    }
                 }
             }
 

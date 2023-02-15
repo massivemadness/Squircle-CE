@@ -44,7 +44,7 @@ sealed class EditorIntent {
     data class SaveFile(
         val local: Boolean,
         val unselected: Boolean,
-        val text: String,
+        val text: CharSequence,
         val undoStack: UndoStack,
         val redoStack: UndoStack,
         val scrollX: Int,
@@ -58,4 +58,9 @@ sealed class EditorIntent {
     object PanelDefault : EditorIntent()
     object PanelFind : EditorIntent()
     object PanelFindReplace : EditorIntent()
+
+    data class FindQuery(val text: CharSequence, val query: String) : EditorIntent()
+    data class FindRegex(val text: CharSequence) : EditorIntent()
+    data class FindMatchCase(val text: CharSequence) : EditorIntent()
+    data class FindWordsOnly(val text: CharSequence) : EditorIntent()
 }

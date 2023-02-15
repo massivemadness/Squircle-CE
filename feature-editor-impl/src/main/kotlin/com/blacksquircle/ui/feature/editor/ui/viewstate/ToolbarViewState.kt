@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.viewstate
 
 import com.blacksquircle.ui.core.ui.viewstate.ViewState
+import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 
@@ -27,6 +28,7 @@ sealed class ToolbarViewState : ViewState() {
     data class ActionBar(
         val documents: List<DocumentModel>,
         val position: Int,
-        val panel: Panel,
+        val panel: Panel = Panel.DEFAULT,
+        val findParams: FindParams = FindParams()
     ) : ToolbarViewState()
 }

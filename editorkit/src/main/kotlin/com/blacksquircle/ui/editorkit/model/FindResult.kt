@@ -19,8 +19,7 @@ package com.blacksquircle.ui.editorkit.model
 import android.text.style.BackgroundColorSpan
 import com.blacksquircle.ui.language.base.span.StyleSpan
 
-data class FindResultSpan(
-    private val span: StyleSpan,
-    var start: Int,
-    var end: Int,
-) : BackgroundColorSpan(span.color)
+data class FindResult(var start: Int, var end: Int) {
+
+    class Span(styleSpan: StyleSpan) : BackgroundColorSpan(styleSpan.color)
+}

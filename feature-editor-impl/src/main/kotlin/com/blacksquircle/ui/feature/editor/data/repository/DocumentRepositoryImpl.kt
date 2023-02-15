@@ -22,6 +22,8 @@ import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.editorkit.model.FindParams
+import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
@@ -36,6 +38,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
 import kotlinx.coroutines.withContext
+import java.util.regex.Pattern
 
 class DocumentRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -131,6 +134,37 @@ class DocumentRepositoryImpl(
                 output.write(text.toByteArray())
                 output.flush()
             }
+        }
+    }
+
+    override suspend fun find(text: CharSequence, params: FindParams): List<FindResult> {
+        return withContext(dispatcherProvider.io()) {
+            val findResults = mutableListOf<FindResult>()
+            if (params.query.isEmpty()) {
+                return@withContext emptyList()
+            }
+            val pattern = when {
+                params.regex && params.matchCase -> Pattern.compile(params.query)
+                params.regex && !params.matchCase -> Pattern.compile(
+                    params.query, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
+                )
+                params.wordsOnly && params.matchCase -> Pattern.compile("\\s${params.query}\\s")
+                params.wordsOnly && !params.matchCase -> Pattern.compile(
+                    "\\s" + Pattern.quote(params.query) + "\\s",
+                    Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
+                )
+                params.matchCase -> Pattern.compile(Pattern.quote(params.query))
+                else -> Pattern.compile(
+                    Pattern.quote(params.query),
+                    Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
+                )
+            }
+            val matcher = pattern.matcher(text)
+            while (matcher.find()) {
+                val findResult = FindResult(matcher.start(), matcher.end())
+                findResults.add(findResult)
+            }
+            findResults
         }
     }
 

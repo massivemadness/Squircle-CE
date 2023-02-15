@@ -21,9 +21,9 @@ import androidx.annotation.ColorInt
 
 data class StyleSpan(
     @ColorInt
-    var color: Int = Color.WHITE,
-    var bold: Boolean = false,
-    var italic: Boolean = false,
-    var underline: Boolean = false,
-    var strikethrough: Boolean = false
+    val color: Int = Color.WHITE,
+    val bold: Boolean = false,
+    val italic: Boolean = false,
+    val underline: Boolean = false,
+    val strikethrough: Boolean = false
 )

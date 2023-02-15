@@ -23,7 +23,6 @@ import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
@@ -89,7 +88,7 @@ class SelectTabTests {
         viewModel.obtainEvent(EditorIntent.LoadFiles)
 
         // Then
-        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 0, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
         val editorViewState = EditorViewState.Content(documentContent, true)
@@ -120,7 +119,7 @@ class SelectTabTests {
         viewModel.obtainEvent(EditorIntent.SelectTab(1))
 
         // Then
-        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 1, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 1)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
         val editorViewState = EditorViewState.Content(expectedContent, true)
@@ -145,7 +144,7 @@ class SelectTabTests {
         viewModel.obtainEvent(EditorIntent.OpenFile(fileModel))
 
         // Then
-        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 1, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 1)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
@@ -167,7 +166,7 @@ class SelectTabTests {
         viewModel.obtainEvent(EditorIntent.OpenFile(fileModel))
 
         // Then
-        val expectedViewState = ToolbarViewState.ActionBar(documentList + document, 2, Panel.DEFAULT)
+        val expectedViewState = ToolbarViewState.ActionBar(documentList + document, 2)
         val actualViewState = viewModel.toolbarViewState.value as ToolbarViewState.ActionBar
 
         assertEquals(expectedViewState.position, actualViewState.position)

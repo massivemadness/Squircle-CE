@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.editorkit.model
 
 data class FindParams(
-    val query: String,
-    val regex: Boolean,
-    val matchCase: Boolean,
-    val wordsOnly: Boolean,
+    val query: String = "",
+    val regex: Boolean = false,
+    val matchCase: Boolean = false,
+    val wordsOnly: Boolean = false,
 )

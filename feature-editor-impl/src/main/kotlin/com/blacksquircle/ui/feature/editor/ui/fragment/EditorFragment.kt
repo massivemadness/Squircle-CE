@@ -40,7 +40,6 @@ import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.editorkit.*
-import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.plugin.autocomplete.codeCompletion
 import com.blacksquircle.ui.editorkit.plugin.autoindent.autoIndentation
 import com.blacksquircle.ui.editorkit.plugin.base.PluginSupplier
@@ -180,6 +179,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         tabAdapter.setOnTabMovedListener(onTabMovedListener)
                         toolbarManager.panel = state.panel
+                        toolbarManager.params = state.findParams
                         if (state.panel == Panel.DEFAULT) {
                             binding.editor.clearFindResultSpans()
                         }
@@ -247,6 +247,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigate(event.screen)
+                    is EditorViewEvent.FindResults -> binding.editor.find(event.results)
                     is EditorViewEvent.InsertColor -> binding.editor.insert(event.color)
                     is EditorViewEvent.GotoLine -> try {
                         binding.editor.gotoLine(event.line)
@@ -386,9 +387,20 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         binding.editor.findPrevious()
     }
 
-    override fun onFindParamsChanged(params: FindParams) {
-        binding.editor.clearFindResultSpans()
-        binding.editor.find(params)
+    override fun onFindQueryChanged(query: String) {
+        viewModel.obtainEvent(EditorIntent.FindQuery(binding.editor.text, query))
+    }
+
+    override fun onFindRegexButton() {
+        viewModel.obtainEvent(EditorIntent.FindRegex(binding.editor.text))
+    }
+
+    override fun onFindMatchCaseButton() {
+        viewModel.obtainEvent(EditorIntent.FindMatchCase(binding.editor.text))
+    }
+
+    override fun onFindWordsOnlyButton() {
+        viewModel.obtainEvent(EditorIntent.FindWordsOnly(binding.editor.text))
     }
 
     override fun onForceSyntaxButton() {
@@ -425,9 +437,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         val action = EditorIntent.SaveFile(
             local = local,
             unselected = unselected,
-            text = binding.editor.text.toString(),
-            undoStack = binding.editor.undoStack.clone(),
-            redoStack = binding.editor.redoStack.clone(),
+            text = binding.editor.text,
+            undoStack = binding.editor.undoStack,
+            redoStack = binding.editor.redoStack,
             scrollX = binding.editor.scrollX,
             scrollY = binding.editor.scrollY,
             selectionStart = binding.editor.selectionStart,

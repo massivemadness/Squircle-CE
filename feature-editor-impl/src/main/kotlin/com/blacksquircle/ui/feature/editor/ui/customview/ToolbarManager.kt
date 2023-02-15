@@ -40,6 +40,8 @@ class ToolbarManager(
             updatePanel()
         }
 
+    var params = FindParams()
+
     private var orientation: Int = Configuration.ORIENTATION_UNDEFINED
         set(value) {
             field = when (value) {
@@ -48,13 +50,6 @@ class ToolbarManager(
                 else -> Configuration.ORIENTATION_UNDEFINED
             }
         }
-
-    private var params = FindParams(
-        query = "",
-        regex = false,
-        matchCase = false,
-        wordsOnly = false,
-    )
 
     private lateinit var binding: FragmentEditorBinding
 
@@ -90,18 +85,9 @@ class ToolbarManager(
                 }
             }
             R.id.action_goto_line -> listener.onGoToLineButton()
-            R.id.action_regex -> {
-                params = params.copy(regex = !params.regex)
-                listener.onFindParamsChanged(params)
-            }
-            R.id.action_match_case -> {
-                params = params.copy(matchCase = !params.matchCase)
-                listener.onFindParamsChanged(params)
-            }
-            R.id.action_words_only -> {
-                params = params.copy(wordsOnly = !params.wordsOnly)
-                listener.onFindParamsChanged(params)
-            }
+            R.id.action_regex -> listener.onFindRegexButton()
+            R.id.action_match_case -> listener.onFindMatchCaseButton()
+            R.id.action_words_only -> listener.onFindWordsOnlyButton()
 
             // Tools Menu
             R.id.action_force_syntax -> listener.onForceSyntaxButton()
@@ -140,8 +126,7 @@ class ToolbarManager(
         binding.actionDown.setOnClickListener { listener.onNextResultButton() }
         binding.actionUp.setOnClickListener { listener.onPreviousResultButton() }
         binding.inputFind.doAfterTextChanged {
-            params = params.copy(query = it.toString())
-            listener.onFindParamsChanged(params)
+            listener.onFindQueryChanged(it.toString())
         }
     }
 
@@ -200,13 +185,11 @@ class ToolbarManager(
                 binding.defaultPanel.isVisible = false
                 binding.findPanel.isVisible = true
                 binding.replacePanel.isVisible = false
-                binding.inputFind.requestFocus()
             }
             Panel.FIND_REPLACE -> {
                 binding.defaultPanel.isVisible = false
                 binding.findPanel.isVisible = true
                 binding.replacePanel.isVisible = true
-                binding.inputReplace.requestFocus()
             }
         }
     }
@@ -237,7 +220,11 @@ class ToolbarManager(
         fun onReplaceAllButton(replaceText: String)
         fun onNextResultButton()
         fun onPreviousResultButton()
-        fun onFindParamsChanged(params: FindParams)
+
+        fun onFindQueryChanged(query: String)
+        fun onFindRegexButton()
+        fun onFindMatchCaseButton()
+        fun onFindWordsOnlyButton()
 
         fun onForceSyntaxButton()
         fun onInsertColorButton()

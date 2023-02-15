@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
@@ -67,6 +68,7 @@ class EditorViewModel @Inject constructor(
     private val documents = mutableListOf<DocumentModel>()
     private var selectedPosition = -1
     private var panel = Panel.DEFAULT
+    private var findParams = FindParams()
     private var currentJob: Job? = null
 
     init {
@@ -101,6 +103,11 @@ class EditorViewModel @Inject constructor(
             is EditorIntent.PanelDefault -> panelDefault()
             is EditorIntent.PanelFind -> panelFind()
             is EditorIntent.PanelFindReplace -> panelFindReplace()
+
+            is EditorIntent.FindQuery -> findQuery(event)
+            is EditorIntent.FindRegex -> findRegex(event)
+            is EditorIntent.FindMatchCase -> findMatchCase(event)
+            is EditorIntent.FindWordsOnly -> findWordsOnly(event)
         }
     }
 
@@ -349,15 +356,15 @@ class EditorViewModel @Inject constructor(
                     )
                     documents[selectedPosition] = document
                     if (changeModified) {
-                        refreshActionBar(selectedPosition)
+                        refreshActionBar()
                     }
                     val currentState = editorViewState.value
                     if (currentState is EditorViewState.Content) {
                         val content = DocumentContent(
                             documentModel = document,
-                            undoStack = event.undoStack,
-                            redoStack = event.redoStack,
-                            text = event.text,
+                            undoStack = event.undoStack.clone(),
+                            redoStack = event.redoStack.clone(),
+                            text = event.text.toString(),
                         )
                         val params = DocumentParams(localStorage, true)
                         if (!localStorage && !event.unselected) {
@@ -420,7 +427,7 @@ class EditorViewModel @Inject constructor(
                         language = LanguageFactory.fromName(event.languageName)
                     )
                     documentRepository.updateDocument(document)
-                    refreshActionBar(selectedPosition)
+                    refreshActionBar()
                 }
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -434,24 +441,84 @@ class EditorViewModel @Inject constructor(
             val document = documents[selectedPosition]
             if (!document.modified) {
                 documents[selectedPosition] = document.copy(modified = true)
-                refreshActionBar(selectedPosition)
+                refreshActionBar()
             }
         }
     }
 
     private fun panelDefault() {
         panel = Panel.DEFAULT
-        refreshActionBar(selectedPosition)
+        refreshActionBar()
     }
 
     private fun panelFind() {
         panel = Panel.FIND
-        refreshActionBar(selectedPosition)
+        refreshActionBar()
     }
 
     private fun panelFindReplace() {
         panel = Panel.FIND_REPLACE
-        refreshActionBar(selectedPosition)
+        refreshActionBar()
+    }
+
+    private fun findQuery(event: EditorIntent.FindQuery) {
+        viewModelScope.launch {
+            try {
+                findParams = findParams.copy(query = event.query)
+                refreshActionBar()
+
+                val results = documentRepository.find(event.text, findParams)
+                _viewEvent.send(EditorViewEvent.FindResults(results))
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun findRegex(event: EditorIntent.FindRegex) {
+        viewModelScope.launch {
+            try {
+                findParams = findParams.copy(regex = !findParams.regex)
+                refreshActionBar()
+
+                val results = documentRepository.find(event.text, findParams)
+                _viewEvent.send(EditorViewEvent.FindResults(results))
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun findMatchCase(event: EditorIntent.FindMatchCase) {
+        viewModelScope.launch {
+            try {
+                findParams = findParams.copy(matchCase = !findParams.matchCase)
+                refreshActionBar()
+
+                val results = documentRepository.find(event.text, findParams)
+                _viewEvent.send(EditorViewEvent.FindResults(results))
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun findWordsOnly(event: EditorIntent.FindWordsOnly) {
+        viewModelScope.launch {
+            try {
+                findParams = findParams.copy(wordsOnly = !findParams.wordsOnly)
+                refreshActionBar()
+
+                val results = documentRepository.find(event.text, findParams)
+                _viewEvent.send(EditorViewEvent.FindResults(results))
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
     }
 
     private suspend fun updateDocuments() {
@@ -470,13 +537,14 @@ class EditorViewModel @Inject constructor(
         documents.clear()
     }
 
-    private fun refreshActionBar(position: Int) {
+    private fun refreshActionBar(position: Int = selectedPosition) {
         _toolbarViewState.value = ToolbarViewState.ActionBar(
             documents = documents.toList(),
             position = position.also {
                 selectedPosition = it
             },
             panel = panel,
+            findParams = findParams,
         )
     }
 

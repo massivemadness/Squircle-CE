@@ -22,7 +22,6 @@ import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
@@ -85,7 +84,7 @@ class SaveFileTests {
         val updatedList = listOf(
             createDocument(position = 0, fileName = "dirty.txt", modified = true)
         )
-        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
@@ -118,7 +117,7 @@ class SaveFileTests {
         val updatedList = listOf(
             createDocument(position = 0, fileName = "dirty.txt", modified = false)
         )
-        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
@@ -148,7 +147,7 @@ class SaveFileTests {
         viewModel.obtainEvent(intent)
 
         // Then
-        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 0, Panel.DEFAULT)
+        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
     }
 
