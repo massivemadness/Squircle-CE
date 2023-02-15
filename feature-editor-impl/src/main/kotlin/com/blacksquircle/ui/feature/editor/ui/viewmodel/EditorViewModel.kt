@@ -18,18 +18,19 @@ package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.data.factory.LanguageFactory
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
-import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
@@ -90,9 +91,12 @@ class EditorViewModel @Inject constructor(
             is EditorIntent.ColorPicker -> colorPicker()
             is EditorIntent.InsertColor -> insertColor(event)
 
-            is EditorIntent.ModifyContent -> modifyContent()
+            is EditorIntent.ForceSyntax -> forceSyntax()
+            is EditorIntent.ForceSyntaxHighlighting -> forceSyntaxHighlighting(event)
+
             is EditorIntent.SaveFile -> saveFile(event)
             is EditorIntent.SaveFileAs -> saveFileAs(event)
+            is EditorIntent.ModifyContent -> modifyContent()
 
             is EditorIntent.PanelDefault -> panelDefault()
             is EditorIntent.PanelFind -> panelFind()
@@ -152,11 +156,12 @@ class EditorViewModel @Inject constructor(
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {
+                _editorViewState.value = EditorViewState.Loading
+
                 val document = documents[event.position]
                 settingsManager.selectedUuid = document.uuid
                 refreshActionBar(event.position)
 
-                _editorViewState.value = EditorViewState.Loading
                 _editorViewState.value = EditorViewState.Content(
                     content = documentRepository.loadFile(document),
                     showKeyboard = settingsManager.extendedKeyboard,
@@ -328,16 +333,6 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun modifyContent() {
-        if (selectedPosition > -1) {
-            val document = documents[selectedPosition]
-            if (!document.modified) {
-                documents[selectedPosition] = document.copy(modified = true)
-                refreshActionBar(selectedPosition)
-            }
-        }
-    }
-
     private fun saveFile(event: EditorIntent.SaveFile) {
         viewModelScope.launch {
             try {
@@ -365,7 +360,7 @@ class EditorViewModel @Inject constructor(
                             text = event.text,
                         )
                         val params = DocumentParams(localStorage, true)
-                        if (!localStorage) {
+                        if (!localStorage && !event.unselected) {
                             _editorViewState.value = currentState.copy(content = content)
                         }
                         documentRepository.saveFile(content, params)
@@ -397,6 +392,49 @@ class EditorViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun forceSyntax() {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition > -1) {
+                    val document = documents[selectedPosition]
+                    val screen = EditorScreen.ForceSyntaxDialog(document.language.languageName)
+                    _viewEvent.send(ViewEvent.Navigation(screen))
+                }
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun forceSyntaxHighlighting(event: EditorIntent.ForceSyntaxHighlighting) {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition > -1) {
+                    val document = documents[selectedPosition]
+                    documents[selectedPosition] = document.copy(
+                        language = LanguageFactory.fromName(event.languageName)
+                    )
+                    documentRepository.updateDocument(document)
+                    refreshActionBar(selectedPosition)
+                }
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun modifyContent() {
+        if (selectedPosition > -1) {
+            val document = documents[selectedPosition]
+            if (!document.modified) {
+                documents[selectedPosition] = document.copy(modified = true)
+                refreshActionBar(selectedPosition)
             }
         }
     }

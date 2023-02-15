@@ -38,9 +38,12 @@ sealed class EditorIntent {
     object ColorPicker : EditorIntent()
     data class InsertColor(val color: Int) : EditorIntent()
 
-    object ModifyContent : EditorIntent()
+    object ForceSyntax : EditorIntent()
+    data class ForceSyntaxHighlighting(val languageName: String) : EditorIntent()
+
     data class SaveFile(
         val local: Boolean,
+        val unselected: Boolean,
         val text: String,
         val undoStack: UndoStack,
         val redoStack: UndoStack,
@@ -50,6 +53,7 @@ sealed class EditorIntent {
         val selectionEnd: Int,
     ) : EditorIntent()
     data class SaveFileAs(val fileUri: Uri) : EditorIntent()
+    object ModifyContent : EditorIntent()
 
     object PanelDefault : EditorIntent()
     object PanelFind : EditorIntent()

@@ -44,14 +44,14 @@
     <string name="action_close_replace">Close Replace</string>
     <string name="action_goto_line">Go to Line</string>
     <string name="action_go_to">Go to</string>
-    <!--<string name="action_error_checking">Error Checking</string>-->
+    <string name="action_force_syntax">Force Syntax</string>
     <string name="action_insert_color">Insert Color</string>
     <string name="action_settings">Settings</string>
     <string name="action_tools">Tools</string>
 
-    <string name="dialog_title_result">Result</string>
     <string name="dialog_title_goto_line">Go to Line…</string>
     <string name="dialog_title_color_picker">Color Picker</string>
+    <string name="dialog_title_force_syntax">Syntax Highlighting</string>
 
     <string name="dialog_message_close_tab">Are you sure you want to close this file? All unsaved changes will be discarded</string>
 

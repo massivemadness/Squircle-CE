@@ -113,7 +113,9 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
         syntaxHighlight()
     }
 
-    open fun onLanguageChanged() = Unit
+    open fun onLanguageChanged() {
+        syntaxHighlight()
+    }
 
     open fun onColorSchemeChanged() {
         findResultStyleSpan = StyleSpan(color = colorScheme.findResultBackgroundColor)

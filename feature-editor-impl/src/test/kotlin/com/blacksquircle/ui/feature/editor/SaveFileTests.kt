@@ -21,8 +21,8 @@ import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.editorkit.model.UndoStack
-import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
@@ -103,6 +103,7 @@ class SaveFileTests {
         val viewModel = editorViewModel()
         val intent = EditorIntent.SaveFile(
             local = true, // local storage
+            unselected = false,
             text = "whatever",
             undoStack = UndoStack(),
             redoStack = UndoStack(),
@@ -135,6 +136,7 @@ class SaveFileTests {
         val viewModel = editorViewModel()
         val intent = EditorIntent.SaveFile(
             local = false, // cache only
+            unselected = false,
             text = "whatever",
             undoStack = UndoStack(),
             redoStack = UndoStack(),

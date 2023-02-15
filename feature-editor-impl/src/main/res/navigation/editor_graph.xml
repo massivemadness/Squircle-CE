@@ -19,16 +19,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/editor_graph"
-    app:startDestination="@id/saveAsDialog">
+    app:startDestination="@id/forceSyntaxDialog">
 
     <dialog
-        android:id="@+id/saveAsDialog"
-        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.SaveAsDialog"
-        android:label="SaveAsDialog"
-        tools:layout="@layout/dialog_save_as">
-        <deepLink app:uri="blacksquircle://editor/saveAs?filePath={filePath}" />
+        android:id="@+id/forceSyntaxDialog"
+        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.ForceSyntaxDialog"
+        android:label="ForceSyntaxDialog">
+        <deepLink app:uri="blacksquircle://editor/syntax?languageName={languageName}" />
         <argument
-            android:name="filePath"
+            android:name="languageName"
             app:argType="string" />
     </dialog>
 

@@ -55,13 +55,13 @@ import com.blacksquircle.ui.editorkit.plugin.textscroller.textScroller
 import com.blacksquircle.ui.editorkit.widget.TextScroller
 import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.data.utils.Panel
 import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
-import com.blacksquircle.ui.feature.editor.data.utils.TabController
-import com.blacksquircle.ui.feature.editor.data.utils.ToolbarManager
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
+import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
+import com.blacksquircle.ui.feature.editor.ui.customview.Panel
+import com.blacksquircle.ui.feature.editor.ui.customview.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
@@ -93,7 +93,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     private val onTabSelectedListener = object : TabAdapter.OnTabSelectedListener {
-        override fun onTabUnselected(position: Int) = saveFile()
+        override fun onTabUnselected(position: Int) = saveFile(local = false, unselected = true)
         override fun onTabSelected(position: Int) {
             viewModel.obtainEvent(EditorIntent.SelectTab(position))
         }
@@ -157,7 +157,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
 
     override fun onPause() {
         super.onPause()
-        saveFile()
+        saveFile(local = false, unselected = false)
     }
 
     override fun handleOnBackPressed(): Boolean {
@@ -178,6 +178,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         tabAdapter.submitList(state.documents, state.position)
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         tabAdapter.setOnTabMovedListener(onTabMovedListener)
+                        binding.editor.language = state.documents[state.position].language
                         toolbarManager.panel = state.panel
                         if (state.panel == Panel.DEFAULT) {
                             binding.editor.clearFindResultSpans()
@@ -203,7 +204,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.loadingBar.isVisible = false
 
                         binding.scroller.state = TextScroller.State.HIDDEN
-                        binding.editor.language = state.content.documentModel.language
                         binding.editor.undoStack = state.content.undoStack
                         binding.editor.redoStack = state.content.redoStack
                         binding.editor.setTextContent(measurement)
@@ -275,7 +275,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     override fun onSaveButton(): Boolean {
-        saveFile(local = true)
+        saveFile(local = true, unselected = false)
         return true
     }
 
@@ -316,7 +316,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
 
     override fun onPasteButton(): Boolean {
         val position = tabAdapter.selectedPosition
-        if (binding.editor.hasPrimaryClip() && position > -1) {
+        if (position > -1 && binding.editor.hasPrimaryClip()) {
             binding.editor.paste()
         } else {
             context?.showToast(R.string.message_nothing_to_paste)
@@ -388,6 +388,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         binding.editor.find(params)
     }
 
+    override fun onForceSyntaxButton() {
+        viewModel.obtainEvent(EditorIntent.ForceSyntax)
+    }
+
     override fun onInsertColorButton() {
         viewModel.obtainEvent(EditorIntent.ColorPicker)
     }
@@ -413,10 +417,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
 
     // endregion TOOLBAR
 
-    private fun saveFile(local: Boolean = false) {
+    private fun saveFile(local: Boolean, unselected: Boolean) {
         if (!binding.editor.isVisible) return
         val action = EditorIntent.SaveFile(
             local = local,
+            unselected = unselected,
             text = binding.editor.text.toString(),
             undoStack = binding.editor.undoStack.clone(),
             redoStack = binding.editor.redoStack.clone(),

@@ -20,6 +20,9 @@ import com.blacksquircle.ui.core.ui.navigation.Screen
 
 sealed class EditorScreen(route: String) : Screen<String>(route) {
 
+    class ForceSyntaxDialog(languageName: String) : EditorScreen(
+        route = "blacksquircle://editor/syntax?languageName=$languageName",
+    )
     class CloseModifiedDialog(position: Int, fileName: String) : EditorScreen(
         route = "blacksquircle://editor/close?position=$position&fileName=$fileName",
     )

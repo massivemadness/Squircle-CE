@@ -43,14 +43,14 @@
     <string name="action_close_replace">關閉取代</string>
     <string name="action_goto_line">跳到行</string>
     <string name="action_go_to">跳到</string>
-    <!--<string name="action_error_checking">錯誤檢查</string>-->
+    <string name="action_force_syntax">Force Syntax</string>
     <string name="action_insert_color">插入顏色</string>
     <string name="action_settings">設定</string>
     <string name="action_tools">工具</string>
 
-    <string name="dialog_title_result">結果</string>
     <string name="dialog_title_goto_line">跳到行</string>
     <string name="dialog_title_color_picker">顏色選擇器</string>
+    <string name="dialog_title_force_syntax">Syntax Highlighting</string>
 
     <string name="dialog_message_close_tab">確定要關閉該檔案嗎？所有未儲存的更改將會遺失</string>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.utils
+package com.blacksquircle.ui.feature.editor.ui.customview
 
 import android.content.res.Configuration
 import android.view.Menu
@@ -104,7 +104,7 @@ class ToolbarManager(
             }
 
             // Tools Menu
-            // R.id.action_error_checking -> listener.onErrorCheckingButton()
+            R.id.action_force_syntax -> listener.onForceSyntaxButton()
             R.id.action_insert_color -> listener.onInsertColorButton()
 
             // Overflow Menu
@@ -239,7 +239,7 @@ class ToolbarManager(
         fun onPreviousResultButton()
         fun onFindParamsChanged(params: FindParams)
 
-        // fun onErrorCheckingButton()
+        fun onForceSyntaxButton()
         fun onInsertColorButton()
 
         fun onUndoButton(): Boolean
