@@ -41,7 +41,7 @@ class SFTPFilesystem(
     private val sftpMapper = SFTPMapper()
 
     override fun defaultLocation(): FileModel {
-        return FileModel(SFTP_SCHEME, serverModel.uuid)
+        return FileModel(SFTP_SCHEME + serverModel.initialDir, serverModel.uuid)
     }
 
     @Suppress("UNCHECKED_CAST")

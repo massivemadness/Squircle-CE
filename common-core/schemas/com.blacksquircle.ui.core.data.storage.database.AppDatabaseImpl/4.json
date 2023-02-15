@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "ab300ad75f903bdba0f857a5bec7da68",
+    "identityHash": "db9e4c5860eba257b2142faa1af32b37",
     "entities": [
       {
         "tableName": "tbl_documents",
@@ -80,7 +80,7 @@
       },
       {
         "tableName": "tbl_servers",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `scheme` TEXT NOT NULL, `name` TEXT NOT NULL, `address` TEXT NOT NULL, `port` INTEGER NOT NULL, `auth_method` INTEGER NOT NULL, `username` TEXT NOT NULL, `password` TEXT NOT NULL, `private_key` TEXT NOT NULL, `passphrase` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `scheme` TEXT NOT NULL, `name` TEXT NOT NULL, `address` TEXT NOT NULL, `port` INTEGER NOT NULL, `initial_dir` TEXT NOT NULL, `auth_method` INTEGER NOT NULL, `username` TEXT NOT NULL, `password` TEXT NOT NULL, `private_key` TEXT NOT NULL, `passphrase` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -110,6 +110,12 @@
             "fieldPath": "port",
             "columnName": "port",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "initialDir",
+            "columnName": "initial_dir",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -388,7 +394,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ab300ad75f903bdba0f857a5bec7da68')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'db9e4c5860eba257b2142faa1af32b37')"
     ]
   }
 }

@@ -17,7 +17,6 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -90,6 +89,25 @@
                 android:hint="@string/hint_ftp_port" />
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textSize="12sp"
+            android:text="@string/hint_initial_dir" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:singleLine="true"
+            android:id="@+id/input_initial_dir" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:layout_width="match_parent"

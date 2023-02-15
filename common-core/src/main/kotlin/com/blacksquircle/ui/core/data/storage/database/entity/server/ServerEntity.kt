@@ -34,6 +34,8 @@ data class ServerEntity(
     val address: String,
     @ColumnInfo(name = "port")
     val port: Int,
+    @ColumnInfo(name = "initial_dir")
+    val initialDir: String,
     @ColumnInfo(name = "auth_method")
     val authMethod: Int,
     @ColumnInfo(name = "username")

@@ -43,7 +43,7 @@ class FTPSFilesystem(
     }
 
     override fun defaultLocation(): FileModel {
-        return FileModel(FTPS_SCHEME, serverModel.uuid)
+        return FileModel(FTPS_SCHEME + serverModel.initialDir, serverModel.uuid)
     }
 
     override fun provideDirectory(parent: FileModel): FileTree {

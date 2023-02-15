@@ -63,6 +63,7 @@ class ServerDialog : DialogFragment() {
                         name = binding.inputServerName.text.toString(),
                         address = binding.inputServerAddress.text.toString(),
                         port = binding.inputServerPort.text?.toString()?.toIntOrNull() ?: DEFAULT_FTP_PORT,
+                        initialDir = binding.inputInitialDir.text.toString(),
                         authMethod = AuthMethod.PASSWORD,
                         username = binding.inputUsername.text.toString(),
                         password = binding.inputPassword.text.toString(),
@@ -79,6 +80,7 @@ class ServerDialog : DialogFragment() {
                 binding.inputServerName.setText(serverModel.name)
                 binding.inputServerAddress.setText(serverModel.address)
                 binding.inputServerPort.setText(serverModel.port.toString())
+                binding.inputInitialDir.setText(serverModel.initialDir)
                 binding.inputUsername.setText(serverModel.username)
                 binding.inputPassword.setText(serverModel.password)
 
@@ -104,6 +106,7 @@ class ServerDialog : DialogFragment() {
                         name = binding.inputServerName.text.toString(),
                         address = binding.inputServerAddress.text.toString(),
                         port = binding.inputServerPort.text?.toString()?.toIntOrNull() ?: DEFAULT_FTP_PORT,
+                        initialDir = binding.inputInitialDir.text.toString(),
                         authMethod = AuthMethod.PASSWORD,
                         username = binding.inputUsername.text.toString(),
                         password = binding.inputPassword.text.toString(),
