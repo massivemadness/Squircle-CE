@@ -44,6 +44,7 @@
     <string name="message_error_occurred">Une erreur s\'est produite</string>
 
     <string name="theme_property_text_color">Définit la couleur du texte de l\'éditeur</string>
+    <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>
     <string name="theme_property_background_color">Définit la couleur de fond de l\'éditeur</string>
     <string name="theme_property_gutter_color">Définit la couleur de fond de la gouttière</string>
     <string name="theme_property_gutter_divider_color">Définit la couleur de séparation de la gouttière</string>

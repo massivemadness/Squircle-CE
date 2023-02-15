@@ -20,6 +20,7 @@ import androidx.annotation.ColorInt
 
 data class ColorScheme(
     @ColorInt val textColor: Int,
+    @ColorInt val cursorColor: Int,
     @ColorInt val backgroundColor: Int,
     @ColorInt val gutterColor: Int,
     @ColorInt val gutterDividerColor: Int,

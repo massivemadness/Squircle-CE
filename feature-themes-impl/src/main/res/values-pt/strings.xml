@@ -44,6 +44,7 @@
     <string name="message_error_occurred">Um erro ocorreu</string>
 
     <string name="theme_property_text_color">Define a cor do texto</string>
+    <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>
     <string name="theme_property_background_color">Define a cor do fundo</string>
     <string name="theme_property_gutter_color">Define a cor do contador de linhas</string>
     <string name="theme_property_gutter_divider_color">Define a cor do divisor entre o texto e o contador de linhas</string>

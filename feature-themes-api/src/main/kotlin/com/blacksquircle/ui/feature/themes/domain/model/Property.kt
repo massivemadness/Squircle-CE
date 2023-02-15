@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.themes.domain.model
 
 enum class Property(val key: String) {
     TEXT_COLOR("text_color"),
+    CURSOR_COLOR("cursor_color"),
     BACKGROUND_COLOR("background_color"),
     GUTTER_COLOR("gutter_color"),
     GUTTER_DIVIDER_COLOR("gutter_divider_color"),

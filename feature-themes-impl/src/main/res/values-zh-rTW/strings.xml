@@ -44,6 +44,7 @@
     <string name="message_error_occurred">發生錯誤</string>
 
     <string name="theme_property_text_color">定義編輯器的文字顏色</string>
+    <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>
     <string name="theme_property_background_color">定義編輯器的背景顏色</string>
     <string name="theme_property_gutter_color">定義行號欄的背景顏色</string>
     <string name="theme_property_gutter_divider_color">定義行號欄的分割線顏色</string>

@@ -21,6 +21,8 @@ import com.google.gson.annotations.SerializedName
 data class ExternalScheme(
     @SerializedName("text_color")
     val textColor: String?,
+    @SerializedName("cursor_color")
+    val cursorColor: String?,
     @SerializedName("background_color")
     val backgroundColor: String?,
     @SerializedName("gutter_color")

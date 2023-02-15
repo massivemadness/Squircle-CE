@@ -44,6 +44,7 @@
     <string name="message_error_occurred">Ein Fehler ist aufgetreten</string>
 
     <string name="theme_property_text_color">Definiert die Textfarbe des Editors</string>
+    <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>
     <string name="theme_property_background_color">Definiert die Hintergrundfarbe des Editors</string>
     <string name="theme_property_gutter_color">Definiert die Hintergrundfarbe der Seitenleiste</string>
     <string name="theme_property_gutter_divider_color">Definiert die Trennfarbe der Seitenleiste</string>

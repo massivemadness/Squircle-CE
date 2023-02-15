@@ -75,4 +75,10 @@ object Migrations {
             cursor.close()
         }
     }
+
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE `${Tables.THEMES}` ADD COLUMN `cursor_color` TEXT NOT NULL DEFAULT '#BBBBBB'")
+        }
+    }
 }

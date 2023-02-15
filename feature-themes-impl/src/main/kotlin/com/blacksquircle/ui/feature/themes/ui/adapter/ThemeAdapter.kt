@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.data.factory.LanguageFactory
+import com.blacksquircle.ui.core.ui.extensions.getColorAttr
+import com.blacksquircle.ui.core.ui.extensions.isColorDark
 import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.ItemThemeBinding
@@ -106,6 +108,19 @@ class ThemeAdapter(
             binding.itemTitle.text = item.name
             binding.itemSubtitle.text = item.author
             binding.actionOverflow.isVisible = item.isExternal
+
+            val isDark = item.colorScheme.backgroundColor.isColorDark()
+            if (isDark) {
+                val darkColor = itemView.context
+                    .getColorAttr(android.R.attr.textColorSecondary)
+                binding.itemTitle.setTextColor(darkColor)
+                binding.itemSubtitle.setTextColor(darkColor)
+            } else {
+                val lightColor = itemView.context
+                    .getColorAttr(android.R.attr.textColorSecondaryInverse)
+                binding.itemTitle.setTextColor(lightColor)
+                binding.itemSubtitle.setTextColor(lightColor)
+            }
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)
             binding.editor.themeModel = themeModel

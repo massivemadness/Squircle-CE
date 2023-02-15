@@ -79,6 +79,7 @@ class PropertyAdapter(
 
             val stringResId = when (item.propertyKey) {
                 Property.TEXT_COLOR -> R.string.theme_property_text_color
+                Property.CURSOR_COLOR -> R.string.theme_property_cursor_color
                 Property.BACKGROUND_COLOR -> R.string.theme_property_background_color
                 Property.GUTTER_COLOR -> R.string.theme_property_gutter_color
                 Property.GUTTER_DIVIDER_COLOR -> R.string.theme_property_gutter_divider_color

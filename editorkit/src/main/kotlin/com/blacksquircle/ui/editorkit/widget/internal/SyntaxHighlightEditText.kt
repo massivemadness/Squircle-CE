@@ -27,10 +27,7 @@ import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.editorkit.model.TabWidthSpan
 import com.blacksquircle.ui.editorkit.setSelectionRange
-import com.blacksquircle.ui.editorkit.utils.EditorTheme
-import com.blacksquircle.ui.editorkit.utils.StylingTask
-import com.blacksquircle.ui.editorkit.utils.bottomVisibleLine
-import com.blacksquircle.ui.editorkit.utils.topVisibleLine
+import com.blacksquircle.ui.editorkit.utils.*
 import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.span.StyleSpan
@@ -119,6 +116,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     open fun onColorSchemeChanged() {
         findResultStyleSpan = StyleSpan(color = colorScheme.findResultBackgroundColor)
         setTextColor(colorScheme.textColor)
+        setCursorDrawableColor(colorScheme.cursorColor)
         setBackgroundColor(colorScheme.backgroundColor)
         highlightColor = colorScheme.selectionColor
     }

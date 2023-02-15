@@ -39,6 +39,7 @@ class ThemesRepositoryImpl(
     // region PROPERTIES
 
     private var textColor: String = FALLBACK_COLOR
+    private var cursorColor: String = FALLBACK_COLOR
     private var backgroundColor: String = FALLBACK_COLOR
     private var gutterColor: String = FALLBACK_COLOR
     private var gutterDividerColor: String = FALLBACK_COLOR
@@ -111,6 +112,7 @@ class ThemesRepositoryImpl(
             for (property in properties) {
                 when (property.propertyKey) {
                     Property.TEXT_COLOR -> textColor = property.propertyValue
+                    Property.CURSOR_COLOR -> cursorColor = property.propertyValue
                     Property.BACKGROUND_COLOR -> backgroundColor = property.propertyValue
                     Property.GUTTER_COLOR -> gutterColor = property.propertyValue
                     Property.GUTTER_DIVIDER_COLOR -> gutterDividerColor = property.propertyValue
@@ -144,6 +146,7 @@ class ThemesRepositoryImpl(
                 author = meta.author,
                 description = meta.description,
                 textColor = textColor,
+                cursorColor = cursorColor,
                 backgroundColor = backgroundColor,
                 gutterColor = gutterColor,
                 gutterDividerColor = gutterDividerColor,
@@ -174,6 +177,7 @@ class ThemesRepositoryImpl(
             appDatabase.themeDao().insert(themeEntity)
 
             textColor = FALLBACK_COLOR
+            cursorColor = FALLBACK_COLOR
             backgroundColor = FALLBACK_COLOR
             gutterColor = FALLBACK_COLOR
             gutterDividerColor = FALLBACK_COLOR

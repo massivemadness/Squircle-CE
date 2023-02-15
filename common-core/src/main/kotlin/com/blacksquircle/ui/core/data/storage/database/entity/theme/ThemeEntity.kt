@@ -34,6 +34,8 @@ data class ThemeEntity(
     val description: String,
     @ColumnInfo(name = "text_color")
     val textColor: String,
+    @ColumnInfo(name = "cursor_color")
+    val cursorColor: String,
     @ColumnInfo(name = "background_color")
     val backgroundColor: String,
     @ColumnInfo(name = "gutter_color")

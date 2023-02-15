@@ -43,7 +43,8 @@
     <string name="message_no_result">Нет результатов</string>
     <string name="message_error_occurred">Произошла ошибка</string>
 
-    <string name="theme_property_text_color">Определяет цвет текста в редакторе</string>
+    <string name="theme_property_text_color">Определяет цвет текста редактора</string>
+    <string name="theme_property_cursor_color">Определяет цвет курсора редактора</string>
     <string name="theme_property_background_color">Определяет цвет фона редактора</string>
     <string name="theme_property_gutter_color">Определяет цвет фона панели номеров строк</string>
     <string name="theme_property_gutter_divider_color">Определяет цвет разделителя панели номеров строк</string>

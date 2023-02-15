@@ -281,7 +281,6 @@
         android:importantForAutofill="no"
         android:hyphenationFrequency="none"
         android:breakStrategy="simple"
-        android:textCursorDrawable="@drawable/caret"
         android:dropDownAnchor="@id/tab_layout"
         android:completionThreshold="2"
         android:popupBackground="@drawable/autocomplete_bg"

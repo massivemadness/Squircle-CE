@@ -46,6 +46,7 @@
     <string name="message_error_occurred">An error occurred</string>
 
     <string name="theme_property_text_color">Defines the text color of the editor</string>
+    <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>
     <string name="theme_property_background_color">Defines the background color of the editor</string>
     <string name="theme_property_gutter_color">Defines the background color of gutter</string>
     <string name="theme_property_gutter_divider_color">Defines the divider color of gutter</string>

@@ -36,6 +36,7 @@ object ThemeConverter {
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = themeEntity.textColor.toColorInt(),
+                cursorColor = themeEntity.cursorColor.toColorInt(),
                 backgroundColor = themeEntity.backgroundColor.toColorInt(),
                 gutterColor = themeEntity.gutterColor.toColorInt(),
                 gutterDividerColor = themeEntity.gutterDividerColor.toColorInt(),
@@ -72,6 +73,7 @@ object ThemeConverter {
             author = themeModel.author,
             description = themeModel.description,
             textColor = themeModel.colorScheme.textColor.toHexString(),
+            cursorColor = themeModel.colorScheme.cursorColor.toHexString(),
             backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),
             gutterColor = themeModel.colorScheme.gutterColor.toHexString(),
             gutterDividerColor = themeModel.colorScheme.gutterDividerColor.toHexString(),
@@ -108,6 +110,7 @@ object ThemeConverter {
             description = themeModel.description,
             externalScheme = ExternalScheme(
                 textColor = themeModel.colorScheme.textColor.toHexString(),
+                cursorColor = themeModel.colorScheme.cursorColor.toHexString(),
                 backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),
                 gutterColor = themeModel.colorScheme.gutterColor.toHexString(),
                 gutterDividerColor = themeModel.colorScheme.gutterDividerColor.toHexString(),
@@ -146,6 +149,7 @@ object ThemeConverter {
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = (externalTheme?.externalScheme?.textColor ?: "#000000").toColorInt(),
+                cursorColor = (externalTheme?.externalScheme?.cursorColor ?: "#000000").toColorInt(),
                 backgroundColor = (externalTheme?.externalScheme?.backgroundColor ?: "#000000").toColorInt(),
                 gutterColor = (externalTheme?.externalScheme?.gutterColor ?: "#000000").toColorInt(),
                 gutterDividerColor = (externalTheme?.externalScheme?.gutterDividerColor ?: "#000000").toColorInt(),

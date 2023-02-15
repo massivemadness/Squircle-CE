@@ -35,6 +35,7 @@ class ThemeConverterTest {
             author = "Squircle CE",
             description = "Default color scheme",
             textColor = "#FFFFFF",
+            cursorColor = "#BBBBBB",
             backgroundColor = "#303030",
             gutterColor = "#F0F0F0",
             gutterDividerColor = "#FFFFFF",
@@ -69,6 +70,7 @@ class ThemeConverterTest {
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
+                cursorColor = "#BBBBBB".toColorInt(),
                 backgroundColor = "#303030".toColorInt(),
                 gutterColor = "#F0F0F0".toColorInt(),
                 gutterDividerColor = "#FFFFFF".toColorInt(),
@@ -104,6 +106,7 @@ class ThemeConverterTest {
         assertEquals(themeModel.description, convert.description)
         assertEquals(themeModel.isExternal, convert.isExternal)
         assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
+        assertEquals(themeModel.colorScheme.cursorColor, convert.colorScheme.cursorColor)
         assertEquals(themeModel.colorScheme.backgroundColor, convert.colorScheme.backgroundColor)
         assertEquals(themeModel.colorScheme.gutterColor, convert.colorScheme.gutterColor)
         assertEquals(themeModel.colorScheme.gutterDividerColor, convert.colorScheme.gutterDividerColor)
@@ -131,7 +134,7 @@ class ThemeConverterTest {
         assertEquals(themeModel.colorScheme.entityRefColor, convert.colorScheme.entityRefColor)
     }
 
-    /*@Test
+    // @Test
     fun `convert ThemeModel to ThemeEntity`() {
         val themeModel = ThemeModel(
             uuid = "0",
@@ -141,6 +144,7 @@ class ThemeConverterTest {
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
+                cursorColor = "#BBBBBB".toColorInt(),
                 backgroundColor = "#303030".toColorInt(),
                 gutterColor = "#F0F0F0".toColorInt(),
                 gutterDividerColor = "#FFFFFF".toColorInt(),
@@ -160,7 +164,12 @@ class ThemeConverterTest {
                 variableColor = "#FF3000".toColorInt(),
                 methodColor = "#FF3000".toColorInt(),
                 stringColor = "#FF3000".toColorInt(),
-                commentColor = "#FF3000".toColorInt()
+                commentColor = "#FF3000".toColorInt(),
+                tagColor = "#FF3000".toColorInt(),
+                tagNameColor = "#FF3000".toColorInt(),
+                attrNameColor = "#FF3000".toColorInt(),
+                attrValueColor = "#FF3000".toColorInt(),
+                entityRefColor = "#FF3000".toColorInt(),
             )
         )
         val themeEntity = ThemeEntity(
@@ -169,6 +178,7 @@ class ThemeConverterTest {
             author = "Squircle CE",
             description = "Default color scheme",
             textColor = "#FFFFFF",
+            cursorColor = "#BBBBBB",
             backgroundColor = "#303030",
             gutterColor = "#F0F0F0",
             gutterDividerColor = "#FFFFFF",
@@ -188,7 +198,12 @@ class ThemeConverterTest {
             variableColor = "#FF3000",
             methodColor = "#FF3000",
             stringColor = "#FF3000",
-            commentColor = "#FF3000"
+            commentColor = "#FF3000",
+            tagColor = "#FF3000",
+            tagNameColor = "#FF3000",
+            attrNameColor = "#FF3000",
+            attrValueColor = "#FF3000",
+            entityRefColor = "#FF3000",
         )
         val convert = ThemeConverter.toEntity(themeModel)
 
@@ -196,8 +211,8 @@ class ThemeConverterTest {
         assertEquals(themeEntity.name, convert.name)
         assertEquals(themeEntity.author, convert.author)
         assertEquals(themeEntity.description, convert.description)
-        assertEquals(themeEntity.isExternal, convert.isExternal)
         assertEquals(themeEntity.textColor, convert.textColor)
+        assertEquals(themeEntity.cursorColor, convert.cursorColor)
         assertEquals(themeEntity.backgroundColor, convert.backgroundColor)
         assertEquals(themeEntity.gutterColor, convert.gutterColor)
         assertEquals(themeEntity.gutterDividerColor, convert.gutterDividerColor)
@@ -218,7 +233,12 @@ class ThemeConverterTest {
         assertEquals(themeEntity.methodColor, convert.methodColor)
         assertEquals(themeEntity.stringColor, convert.stringColor)
         assertEquals(themeEntity.commentColor, convert.commentColor)
-    }*/
+        assertEquals(themeModel.colorScheme.tagColor, convert.tagColor)
+        assertEquals(themeModel.colorScheme.tagNameColor, convert.tagNameColor)
+        assertEquals(themeModel.colorScheme.attrNameColor, convert.attrNameColor)
+        assertEquals(themeModel.colorScheme.attrValueColor, convert.attrValueColor)
+        assertEquals(themeModel.colorScheme.entityRefColor, convert.entityRefColor)
+    }
 
     // @Test
     fun `convert ExternalTheme to ThemeModel`() {
@@ -229,6 +249,7 @@ class ThemeConverterTest {
             description = "Default color scheme",
             externalScheme = ExternalScheme(
                 textColor = "#FFFFFF",
+                cursorColor = "#BBBBBB",
                 backgroundColor = "#303030",
                 gutterColor = "#F0F0F0",
                 gutterDividerColor = "#FFFFFF",
@@ -264,6 +285,7 @@ class ThemeConverterTest {
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
+                cursorColor = "#BBBBBB".toColorInt(),
                 backgroundColor = "#303030".toColorInt(),
                 gutterColor = "#F0F0F0".toColorInt(),
                 gutterDividerColor = "#FFFFFF".toColorInt(),
@@ -299,6 +321,7 @@ class ThemeConverterTest {
         assertEquals(themeModel.description, convert.description)
         assertEquals(themeModel.isExternal, convert.isExternal)
         assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
+        assertEquals(themeModel.colorScheme.cursorColor, convert.colorScheme.cursorColor)
         assertEquals(themeModel.colorScheme.backgroundColor, convert.colorScheme.backgroundColor)
         assertEquals(themeModel.colorScheme.gutterColor, convert.colorScheme.gutterColor)
         assertEquals(themeModel.colorScheme.gutterDividerColor, convert.colorScheme.gutterDividerColor)

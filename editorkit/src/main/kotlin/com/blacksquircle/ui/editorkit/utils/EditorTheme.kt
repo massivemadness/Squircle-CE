@@ -23,6 +23,7 @@ object EditorTheme {
 
     val DARCULA = ColorScheme(
         textColor = Color.parseColor("#ABB7C5"),
+        cursorColor = Color.parseColor("#BBBBBB"),
         backgroundColor = Color.parseColor("#303030"),
         gutterColor = Color.parseColor("#313335"),
         gutterDividerColor = Color.parseColor("#555555"),
@@ -52,6 +53,7 @@ object EditorTheme {
 
     val MONOKAI = ColorScheme(
         textColor = Color.parseColor("#F8F8F8"),
+        cursorColor = Color.parseColor("#BBBBBB"),
         backgroundColor = Color.parseColor("#272823"),
         gutterColor = Color.parseColor("#272823"),
         gutterDividerColor = Color.parseColor("#5B5A4F"),
@@ -81,6 +83,7 @@ object EditorTheme {
 
     val OBSIDIAN = ColorScheme(
         textColor = Color.parseColor("#E0E2E4"),
+        cursorColor = Color.parseColor("#BBBBBB"),
         backgroundColor = Color.parseColor("#2A3134"),
         gutterColor = Color.parseColor("#2A3134"),
         gutterDividerColor = Color.parseColor("#67777B"),
@@ -110,6 +113,7 @@ object EditorTheme {
 
     val LADIES_NIGHT = ColorScheme(
         textColor = Color.parseColor("#E0E2E4"),
+        cursorColor = Color.parseColor("#BBBBBB"),
         backgroundColor = Color.parseColor("#22282C"),
         gutterColor = Color.parseColor("#2A3134"),
         gutterDividerColor = Color.parseColor("#4F575A"),
@@ -139,6 +143,7 @@ object EditorTheme {
 
     val TOMORROW_NIGHT = ColorScheme(
         textColor = Color.parseColor("#C6C8C6"),
+        cursorColor = Color.parseColor("#BBBBBB"),
         backgroundColor = Color.parseColor("#222426"),
         gutterColor = Color.parseColor("#222426"),
         gutterDividerColor = Color.parseColor("#4B4D51"),
@@ -168,6 +173,7 @@ object EditorTheme {
 
     val VISUAL_STUDIO_2013 = ColorScheme(
         textColor = Color.parseColor("#C8C8C8"),
+        cursorColor = Color.parseColor("#BBBBBB"),
         backgroundColor = Color.parseColor("#232323"),
         gutterColor = Color.parseColor("#2C2C2C"),
         gutterDividerColor = Color.parseColor("#555555"),

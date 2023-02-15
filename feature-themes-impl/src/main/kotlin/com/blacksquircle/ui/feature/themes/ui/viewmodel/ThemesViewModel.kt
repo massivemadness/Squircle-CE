@@ -257,6 +257,10 @@ class ThemesViewModel @Inject constructor(
                     themeModel.colorScheme.textColor.toHexString(),
                 ),
                 PropertyItem(
+                    Property.CURSOR_COLOR,
+                    themeModel.colorScheme.cursorColor.toHexString(),
+                ),
+                PropertyItem(
                     Property.BACKGROUND_COLOR,
                     themeModel.colorScheme.backgroundColor.toHexString(),
                 ),
