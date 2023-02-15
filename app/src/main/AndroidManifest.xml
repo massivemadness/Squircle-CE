@@ -54,10 +54,78 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="content" />
-                <data android:scheme="file" />
-
+                <data android:host="*" />
                 <data android:mimeType="*/*" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+
+                <data android:pathPattern=".*\\.txt" />
+                <data android:pathPattern=".*\\.js" />
+                <data android:pathPattern=".*\\.json" />
+                <data android:pathPattern=".*\\.java" />
+                <data android:pathPattern=".*\\.kt" />
+                <data android:pathPattern=".*\\.kts" />
+                <data android:pathPattern=".*\\.md" />
+                <data android:pathPattern=".*\\.lua" />
+                <data android:pathPattern=".*\\.rb" />
+                <data android:pathPattern=".*\\.as" />
+                <data android:pathPattern=".*\\.cs" />
+                <data android:pathPattern=".*\\.c" />
+                <data android:pathPattern=".*\\.cpp" />
+                <data android:pathPattern=".*\\.h" />
+                <data android:pathPattern=".*\\.hpp" />
+                <data android:pathPattern=".*\\.lisp" />
+                <data android:pathPattern=".*\\.lsp" />
+                <data android:pathPattern=".*\\.cl" />
+                <data android:pathPattern=".*\\.l" />
+                <data android:pathPattern=".*\\.py" />
+                <data android:pathPattern=".*\\.pyw" />
+                <data android:pathPattern=".*\\.pyi" />
+                <data android:pathPattern=".*\\.vb" />
+                <data android:pathPattern=".*\\.bas" />
+                <data android:pathPattern=".*\\.cls" />
+                <data android:pathPattern=".*\\.sql" />
+                <data android:pathPattern=".*\\.sqlite" />
+                <data android:pathPattern=".*\\.sqlite2" />
+                <data android:pathPattern=".*\\.sqlite3" />
+                <data android:pathPattern=".*\\.htm" />
+                <data android:pathPattern=".*\\.html" />
+                <data android:pathPattern=".*\\.xhtml" />
+                <data android:pathPattern=".*\\.xht" />
+                <data android:pathPattern=".*\\.xaml" />
+                <data android:pathPattern=".*\\.xdf" />
+                <data android:pathPattern=".*\\.xmpp" />
+                <data android:pathPattern=".*\\.xml" />
+                <data android:pathPattern=".*\\.sh" />
+                <data android:pathPattern=".*\\.ksh" />
+                <data android:pathPattern=".*\\.bsh" />
+                <data android:pathPattern=".*\\.csh" />
+                <data android:pathPattern=".*\\.tcsh" />
+                <data android:pathPattern=".*\\.zsh" />
+                <data android:pathPattern=".*\\.bash" />
+                <data android:pathPattern=".*\\.groovy" />
+                <data android:pathPattern=".*\\.gvy" />
+                <data android:pathPattern=".*\\.gy" />
+                <data android:pathPattern=".*\\.gsh" />
+                <data android:pathPattern=".*\\.php" />
+                <data android:pathPattern=".*\\.php3" />
+                <data android:pathPattern=".*\\.php4" />
+                <data android:pathPattern=".*\\.php5" />
+                <data android:pathPattern=".*\\.phps" />
+                <data android:pathPattern=".*\\.phtml" />
+                <data android:pathPattern=".*\\.ts" />
+                <data android:pathPattern=".*\\.ino" />
+                <data android:pathPattern=".*\\.log" />
+                <data android:pathPattern=".*\\.mjs" />
+                <data android:pathPattern=".*\\.cjs" />
+                <data android:pathPattern=".*\\.jl" />
+                <data android:pathPattern=".*\\.yaml" />
+                <data android:pathPattern=".*\\.yml" />
+                <data android:pathPattern=".*\\.toml" />
+                <data android:pathPattern=".*\\.gradle" />
+                <data android:pathPattern=".*\\.mts" />
+                <data android:pathPattern=".*\\.cts" />
+                <data android:pathPattern=".*\\.smali" />
             </intent-filter>
         </activity>
 
