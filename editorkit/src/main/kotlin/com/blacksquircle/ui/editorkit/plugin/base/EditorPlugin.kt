@@ -21,11 +21,11 @@ import android.graphics.Typeface
 import android.text.Editable
 import android.view.KeyEvent
 import android.view.MotionEvent
-import com.blacksquircle.ui.editorkit.model.LinesCollection
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.editorkit.widget.TextProcessor
 import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.base.model.ColorScheme
+import com.blacksquircle.ui.language.base.model.TextStructure
 
 abstract class EditorPlugin(val pluginId: String) {
 
@@ -40,8 +40,8 @@ abstract class EditorPlugin(val pluginId: String) {
         get() = editText.language
     protected val colorScheme: ColorScheme
         get() = editText.colorScheme
-    protected val lines: LinesCollection
-        get() = editText.lines
+    protected val structure: TextStructure
+        get() = editText.structure
     protected val undoStack: UndoStack
         get() = editText.undoStack
     protected val redoStack: UndoStack
@@ -74,12 +74,11 @@ abstract class EditorPlugin(val pluginId: String) {
 
     open fun beforeTextChanged(text: CharSequence?, start: Int, count: Int, after: Int) = Unit
     open fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) = Unit
-    open fun onTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) = Unit
     open fun afterTextChanged(text: Editable?) = Unit
 
-    open fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) = Unit
+    open fun processLine(lineNumber: Int, lineStart: Int, lineEnd: Int) = Unit
+    open fun addLine(lineNumber: Int, lineStart: Int) = Unit
     open fun removeLine(lineNumber: Int) = Unit
-    open fun clearLines() = Unit
 
     open fun setTextContent(text: CharSequence) = Unit
     open fun setTextSize(size: Float) = Unit

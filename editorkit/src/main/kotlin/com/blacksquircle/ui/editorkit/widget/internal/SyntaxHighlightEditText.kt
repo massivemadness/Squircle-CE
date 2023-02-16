@@ -131,8 +131,8 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
 
     fun setErrorLine(lineNumber: Int) {
         if (lineNumber > 0) {
-            val lineStart = lines.getIndexForStartOfLine(lineNumber - 1)
-            val lineEnd = lines.getIndexForEndOfLine(lineNumber - 1)
+            val lineStart = structure.getIndexForStartOfLine(lineNumber - 1)
+            val lineEnd = structure.getIndexForEndOfLine(lineNumber - 1)
             if (lineStart < text.length && lineEnd < text.length && lineStart > -1 && lineEnd > -1) {
                 isErrorSpansVisible = true
                 text.setSpan(ErrorSpan(), lineStart, lineEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

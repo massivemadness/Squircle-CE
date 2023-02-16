@@ -175,11 +175,11 @@ class AutoIndentPlugin : EditorPlugin(PLUGIN_ID) {
     }
 
     private fun getIndentationForOffset(offset: Int): String {
-        return getIndentationForLine(lines.getLineForIndex(offset))
+        return getIndentationForLine(structure.getLineForIndex(offset))
     }
 
     private fun getIndentationForLine(line: Int): String {
-        val realLine = lines.getLine(line)
+        val realLine = structure.getLine(line)
         val start = realLine.start
         var i = start
         while (i < editText.text.length) {

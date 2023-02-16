@@ -53,40 +53,23 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
         onPopupChangePosition()
     }
 
-    override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
-        super.addLine(lineNumber, lineStart, lineLength)
+    override fun setTextContent(text: CharSequence) {
+        super.setTextContent(text)
+        language?.getProvider()?.clearLines()
+        language?.getProvider()?.processAllLines(structure)
+    }
+
+    override fun processLine(lineNumber: Int, lineStart: Int, lineEnd: Int) {
+        super.processLine(lineNumber, lineStart, lineEnd)
         language?.getProvider()?.processLine(
             lineNumber = lineNumber,
-            text = editText.text.subSequence(lineStart, lineStart + lineLength),
+            text = editText.text.subSequence(lineStart, lineEnd),
         )
     }
 
     override fun removeLine(lineNumber: Int) {
         super.removeLine(lineNumber)
-        language?.getProvider()?.deleteLine(
-            lineNumber = lines.getIndexForLine(lineNumber),
-        )
-    }
-
-    override fun clearLines() {
-        super.clearLines()
-        language?.getProvider()?.clearLines()
-    }
-
-    override fun onTextReplaced(newStart: Int, newEnd: Int, newText: CharSequence) {
-        super.onTextReplaced(newStart, newEnd, newText)
-        val startLine = lines.getLineForIndex(newStart)
-        val endLine = lines.getLineForIndex(newText.length + newStart)
-        for (currentLine in startLine..endLine) {
-            val lineStart = lines.getIndexForStartOfLine(currentLine)
-            val lineEnd = lines.getIndexForEndOfLine(currentLine)
-            if (lineStart <= lineEnd && lineEnd <= editText.text.length) {
-                language?.getProvider()?.processLine(
-                    lineNumber = currentLine,
-                    text = editText.text.subSequence(lineStart, lineEnd),
-                )
-            }
-        }
+        language?.getProvider()?.deleteLine(lineNumber)
     }
 
     override fun onLanguageChanged(language: Language?) {

@@ -17,9 +17,13 @@
 package com.blacksquircle.ui.language.base.provider
 
 import com.blacksquircle.ui.language.base.model.Suggestion
+import com.blacksquircle.ui.language.base.model.TextStructure
 
 interface SuggestionProvider {
+
     fun getAll(): Set<Suggestion>
+
+    fun processAllLines(structure: TextStructure)
     fun processLine(lineNumber: Int, text: CharSequence)
     fun deleteLine(lineNumber: Int)
     fun clearLines()

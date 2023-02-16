@@ -82,12 +82,12 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
     override fun beforeDraw(canvas: Canvas?) {
         super.beforeDraw(canvas)
         if (highlightCurrentLine) {
-            val currentLineStart = lines.getLineForIndex(editText.selectionStart)
-            if (currentLineStart == lines.getLineForIndex(editText.selectionEnd)) {
+            val currentLineStart = structure.getLineForIndex(editText.selectionStart)
+            if (currentLineStart == structure.getLineForIndex(editText.selectionEnd)) {
                 if (editText.layout == null) return
 
-                val selectedLineStartIndex = lines.getIndexForStartOfLine(currentLineStart)
-                val selectedLineEndIndex = lines.getIndexForEndOfLine(currentLineStart)
+                val selectedLineStartIndex = structure.getIndexForStartOfLine(currentLineStart)
+                val selectedLineEndIndex = structure.getIndexForEndOfLine(currentLineStart)
                 val topVisualLine = editText.layout.getLineForOffset(selectedLineStartIndex)
                 val bottomVisualLine = editText.layout.getLineForOffset(selectedLineEndIndex)
 
@@ -110,7 +110,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
     override fun afterDraw(canvas: Canvas?) {
         super.afterDraw(canvas)
         if (lineNumbers) {
-            val currentLineStart = lines.getLineForIndex(editText.selectionStart)
+            val currentLineStart = structure.getLineForIndex(editText.selectionStart)
             canvas?.drawRect(
                 editText.scrollX.toFloat(),
                 editText.scrollY.toFloat(),
@@ -128,7 +128,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
             val textRight = (gutterWidth - gutterMargin / 2) + editText.scrollX
             while (topVisibleLine <= editText.bottomVisibleLine) {
                 if (editText.layout == null) return
-                val number = lines.getLineForIndex(editText.layout.getLineStart(topVisibleLine))
+                val number = structure.getLineForIndex(editText.layout.getLineStart(topVisibleLine))
                 if (number != prevLineNumber) {
                     canvas?.drawText(
                         (number + 1).toString(),
@@ -177,7 +177,7 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
             var widestNumber = 0
             var widestWidth = 0f
 
-            gutterDigitCount = lines.lineCount.toString().length
+            gutterDigitCount = structure.lineCount.toString().length
             for (i in 0..9) {
                 val width = editText.paint.measureText(i.toString())
                 if (width > widestWidth) {

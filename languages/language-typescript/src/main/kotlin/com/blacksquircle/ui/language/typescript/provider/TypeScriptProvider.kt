@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.language.typescript.provider
 
 import com.blacksquircle.ui.language.base.model.Suggestion
+import com.blacksquircle.ui.language.base.model.TextStructure
 import com.blacksquircle.ui.language.base.provider.SuggestionProvider
 import com.blacksquircle.ui.language.base.utils.WordsManager
 
@@ -37,6 +38,10 @@ class TypeScriptProvider private constructor() : SuggestionProvider {
 
     override fun getAll(): Set<Suggestion> {
         return wordsManager.getWords()
+    }
+
+    override fun processAllLines(structure: TextStructure) {
+        wordsManager.processAllLines(structure)
     }
 
     override fun processLine(lineNumber: Int, text: CharSequence) {

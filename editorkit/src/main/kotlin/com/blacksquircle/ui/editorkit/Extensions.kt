@@ -67,37 +67,37 @@ fun EditText.setSelectionIndex(index: Int) {
 }
 
 fun TextProcessor.selectLine() {
-    val currentLine = lines.getLineForIndex(selectionStart)
-    val lineStart = lines.getIndexForStartOfLine(currentLine)
-    val lineEnd = lines.getIndexForEndOfLine(currentLine)
+    val currentLine = structure.getLineForIndex(selectionStart)
+    val lineStart = structure.getIndexForStartOfLine(currentLine)
+    val lineEnd = structure.getIndexForEndOfLine(currentLine)
     setSelectionRange(lineStart, lineEnd)
 }
 
 fun TextProcessor.deleteLine() {
-    val currentLine = lines.getLineForIndex(selectionStart)
-    val lineStart = lines.getIndexForStartOfLine(currentLine)
-    val lineEnd = lines.getIndexForEndOfLine(currentLine)
+    val currentLine = structure.getLineForIndex(selectionStart)
+    val lineStart = structure.getIndexForStartOfLine(currentLine)
+    val lineEnd = structure.getIndexForEndOfLine(currentLine)
     text.delete(lineStart, lineEnd)
 }
 
 fun TextProcessor.duplicateLine() {
-    val currentLine = lines.getLineForIndex(selectionStart)
-    val lineStart = lines.getIndexForStartOfLine(currentLine)
-    val lineEnd = lines.getIndexForEndOfLine(currentLine)
+    val currentLine = structure.getLineForIndex(selectionStart)
+    val lineStart = structure.getIndexForStartOfLine(currentLine)
+    val lineEnd = structure.getIndexForEndOfLine(currentLine)
     val lineText = text.subSequence(lineStart, lineEnd)
     text.insert(lineEnd, "\n" + lineText)
 }
 
 fun TextProcessor.moveCaretToStartOfLine(): Boolean {
-    val currentLine = lines.getLineForIndex(selectionStart)
-    val lineStart = lines.getIndexForStartOfLine(currentLine)
+    val currentLine = structure.getLineForIndex(selectionStart)
+    val lineStart = structure.getIndexForStartOfLine(currentLine)
     setSelectionIndex(lineStart)
     return true
 }
 
 fun TextProcessor.moveCaretToEndOfLine(): Boolean {
-    val currentLine = lines.getLineForIndex(selectionEnd)
-    val lineEnd = lines.getIndexForEndOfLine(currentLine)
+    val currentLine = structure.getLineForIndex(selectionEnd)
+    val lineEnd = structure.getIndexForEndOfLine(currentLine)
     setSelectionIndex(lineEnd)
     return true
 }
@@ -154,10 +154,10 @@ fun TextProcessor.moveCaretToNextWord(): Boolean {
 
 fun TextProcessor.gotoLine(lineNumber: Int) {
     val line = lineNumber - 1
-    if (line < 0 || line >= lines.lineCount - 1) {
+    if (line < 0 || line >= structure.lineCount - 1) {
         throw LineException(lineNumber)
     }
-    setSelectionIndex(lines.getIndexForLine(line))
+    setSelectionIndex(structure.getIndexForLine(line))
 }
 
 fun TextProcessor.hasPrimaryClip(): Boolean {

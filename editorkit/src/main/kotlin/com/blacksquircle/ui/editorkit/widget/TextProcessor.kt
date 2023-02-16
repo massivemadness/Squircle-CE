@@ -156,13 +156,6 @@ open class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    override fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
-        super.replaceText(newStart, newEnd, newText)
-        for (plugin in plugins) {
-            plugin.onTextReplaced(newStart, newEnd, newText)
-        }
-    }
-
     override fun doAfterTextChanged(text: Editable?) {
         super.doAfterTextChanged(text)
         for (plugin in plugins) {
@@ -170,10 +163,17 @@ open class TextProcessor @JvmOverloads constructor(
         }
     }
 
-    override fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
-        super.addLine(lineNumber, lineStart, lineLength)
+    override fun processLine(lineNumber: Int, lineStart: Int, lineEnd: Int) {
+        super.processLine(lineNumber, lineStart, lineEnd)
         for (plugin in plugins) {
-            plugin.addLine(lineNumber, lineStart, lineLength)
+            plugin.processLine(lineNumber, lineStart, lineEnd)
+        }
+    }
+
+    override fun addLine(lineNumber: Int, lineStart: Int) {
+        super.addLine(lineNumber, lineStart)
+        for (plugin in plugins) {
+            plugin.addLine(lineNumber, lineStart)
         }
     }
 
@@ -185,9 +185,6 @@ open class TextProcessor @JvmOverloads constructor(
     }
 
     override fun setTextContent(textParams: PrecomputedTextCompat) {
-        for (plugin in plugins) {
-            plugin.clearLines()
-        }
         super.setTextContent(textParams)
         for (plugin in plugins) {
             plugin.setTextContent(textParams)

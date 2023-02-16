@@ -25,7 +25,7 @@ import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
-import com.blacksquircle.ui.editorkit.model.LinesCollection
+import com.blacksquircle.ui.language.base.model.TextStructure
 
 abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
@@ -43,7 +43,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
             }
         }
 
-    val lines = LinesCollection()
+    val structure = TextStructure()
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -76,49 +76,58 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     open fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
         textChangedNewText = text?.subSequence(start, start + count) ?: ""
         replaceText(textChangeStart, textChangeEnd, textChangedNewText)
+        val startLine = structure.getLineForIndex(textChangeStart)
+        val endLine = structure.getLineForIndex(textChangeStart + textChangedNewText.length)
+        for (currentLine in startLine..endLine) {
+            val lineStart = structure.getIndexForStartOfLine(currentLine)
+            val lineEnd = structure.getIndexForEndOfLine(currentLine)
+            if (lineStart <= lineEnd) {
+                processLine(currentLine, lineStart, lineEnd)
+            }
+        }
     }
 
     open fun doAfterTextChanged(text: Editable?) = Unit
 
     open fun setTextContent(textParams: PrecomputedTextCompat) {
         removeTextChangedListener(textWatcher)
-
         setText(textParams)
-        replaceText(0, lines.text.length, textParams)
-
+        replaceText(0, structure.text.length, textParams)
         addTextChangedListener(textWatcher)
+    }
+
+    open fun setTextContent(text: CharSequence) {
+        val textParams = TextViewCompat.getTextMetricsParams(this)
+        val precomputedText = PrecomputedTextCompat.create(text, textParams)
+        setTextContent(precomputedText)
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
         val start = if (newStart < 0) 0 else newStart
-        val end = if (newEnd >= lines.text.length) lines.text.length else newEnd
+        val end = if (newEnd >= structure.text.length) structure.text.length else newEnd
         val newCharCount = newText.length - (end - start)
-        val startLine = lines.getLineForIndex(start)
+        val startLine = structure.getLineForIndex(start)
         for (i in start until end) {
-            if (lines.text[i] == '\n') {
+            if (structure.text[i] == '\n') {
                 removeLine(startLine + 1)
             }
         }
-        lines.shiftIndexes(lines.getLineForIndex(start) + 1, newCharCount)
+        structure.shiftIndexes(structure.getLineForIndex(start) + 1, newCharCount)
         for (i in newText.indices) {
             if (newText[i] == '\n') {
-                lines.add(lines.getLineForIndex(start + i) + 1, start + i + 1)
+                addLine(structure.getLineForIndex(start + i) + 1, start + i + 1)
             }
         }
-        lines.text.replace(start, end, newText)
+        structure.text.replace(start, end, newText)
     }
 
-    open fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {
-        lines.add(lineNumber, lineStart)
+    open fun processLine(lineNumber: Int, lineStart: Int, lineEnd: Int) = Unit
+
+    open fun addLine(lineNumber: Int, lineStart: Int) {
+        structure.add(lineNumber, lineStart)
     }
 
     open fun removeLine(lineNumber: Int) {
-        lines.remove(lineNumber)
-    }
-
-    fun setTextContent(text: CharSequence) {
-        val textParams = TextViewCompat.getTextMetricsParams(this)
-        val precomputedText = PrecomputedTextCompat.create(text, textParams)
-        setTextContent(precomputedText)
+        structure.remove(lineNumber)
     }
 }

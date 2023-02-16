@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.editorkit.model
+package com.blacksquircle.ui.language.base.model
 
 import android.text.SpannableStringBuilder
 
-class LinesCollection {
+class TextStructure {
 
     val text = SpannableStringBuilder("")
     val lineCount: Int
@@ -105,10 +105,5 @@ class LinesCollection {
         return Line(0)
     }
 
-    data class Line(var start: Int) : Comparable<Line> {
-
-        override fun compareTo(other: Line): Int {
-            return start - other.start
-        }
-    }
+    data class Line(var start: Int)
 }

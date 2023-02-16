@@ -40,8 +40,6 @@
 
 The `editorkit` module provides code editor without any support for
 programming languages.  
-***If you are upgrading from any older version, please have a look at
-the [migration guide](MIGRATION-GUIDE.md).***  
 Please note that this library only supports Kotlin.
 
 [![MavenCentral](https://img.shields.io/maven-central/v/com.blacksquircle.ui/editorkit?label=Download)](https://repo1.maven.org/maven2/com/blacksquircle/ui/editorkit/)
@@ -649,8 +647,8 @@ list up to date. This is done by calling the `processLine` method. This
 method is responsible for parsing a line of text and saving the code
 suggestions for that line.
 
-After calling `setTextContent` the code editor will call `processLine`
-for each line to find all possible code suggestions.
+After calling `setTextContent` the code editor will call `processAllLines` 
+to find all possible code suggestions.
 
 ```kotlin
 class CustomProvider : SuggestionProvider {
@@ -661,6 +659,10 @@ class CustomProvider : SuggestionProvider {
 
     override fun getAll(): Set<Suggestion> {
         return wordsManager.getWords()
+    }
+
+    override fun processAllLines(structure: TextStructure) {
+        wordsManager.processAllLines(structure)
     }
 
     override fun processLine(lineNumber: Int, text: CharSequence) {

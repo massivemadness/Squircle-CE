@@ -17,7 +17,9 @@
 package com.blacksquircle.ui.language.base.utils
 
 import com.blacksquircle.ui.language.base.model.Suggestion
+import com.blacksquircle.ui.language.base.model.TextStructure
 import java.util.*
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class WordsManager {
@@ -39,9 +41,32 @@ class WordsManager {
         return wordsSet
     }
 
+    fun processAllLines(structure: TextStructure) {
+        val string = structure.text.toString()
+        val matcher = wordsPattern.matcher(string)
+        for (line in 0 until structure.lineCount) {
+            matcher.region(
+                structure.getIndexForStartOfLine(line),
+                structure.getIndexForEndOfLine(line)
+            )
+            processLine(matcher, line, string)
+        }
+    }
+
     fun processLine(lineNumber: Int, text: CharSequence) {
+        processLine(wordsPattern.matcher(text), lineNumber, text)
+    }
+
+    fun deleteLine(lineNumber: Int) {
+        lineMap.remove(lineNumber)
+    }
+
+    fun clearLines() {
+        lineMap.clear()
+    }
+
+    private fun processLine(matcher: Matcher, lineNumber: Int, text: CharSequence) {
         lineMap[lineNumber]?.clear()
-        val matcher = wordsPattern.matcher(text)
         while (matcher.find()) {
             val word = Suggestion(
                 type = Suggestion.Type.WORD,
@@ -55,13 +80,5 @@ class WordsManager {
                     .also { it.add(word) }
             }
         }
-    }
-
-    fun deleteLine(lineNumber: Int) {
-        lineMap.remove(lineNumber)
-    }
-
-    fun clearLines() {
-        lineMap.clear()
     }
 }
