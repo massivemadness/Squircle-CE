@@ -134,3 +134,5 @@ signing {
 afterEvaluate {
     publishReleasePublicationToSonatypeRepository.dependsOn assembleRelease
 }
+
+// ./gradlew publishReleasePublicationToSonatypeRepository --no-parallel
