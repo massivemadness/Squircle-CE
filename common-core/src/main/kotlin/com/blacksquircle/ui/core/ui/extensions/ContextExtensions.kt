@@ -45,8 +45,7 @@ private const val ASSET_PATH = "file:///android_asset/"
 
 fun Context.createTypefaceFromPath(path: String): Typeface {
     return if (path.startsWith(ASSET_PATH)) {
-        val newPath = path.substring(22)
-        Typeface.createFromAsset(assets, newPath)
+        Typeface.createFromAsset(assets, path.substring(ASSET_PATH.length))
     } else {
         try {
             Typeface.createFromFile(path)

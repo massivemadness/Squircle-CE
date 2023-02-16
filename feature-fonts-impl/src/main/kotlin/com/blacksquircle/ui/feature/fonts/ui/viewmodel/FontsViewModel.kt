@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
@@ -23,14 +24,12 @@ import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.fonts.ui.viewstate.ExternalFontViewState
 import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,9 +40,6 @@ class FontsViewModel @Inject constructor(
 
     private val _fontsState = MutableStateFlow<FontsViewState>(FontsViewState.Loading)
     val fontsState: StateFlow<FontsViewState> = _fontsState.asStateFlow()
-
-    private val _externalFontState = MutableStateFlow<ExternalFontViewState>(ExternalFontViewState.Invalid)
-    val externalFontState: StateFlow<ExternalFontViewState> = _externalFontState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -64,34 +60,24 @@ class FontsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
                 )
             }
         }
     }
 
-    fun createFont(fontModel: FontModel) {
+    fun importFont(fileUri: Uri) {
         viewModelScope.launch {
             try {
-                fontsRepository.createFont(fontModel)
-                _viewEvent.send(ViewEvent.PopBackStack())
+                fontsRepository.importFont(fileUri)
                 _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(
-                            R.string.message_new_font_available,
-                            fontModel.fontName,
-                        ),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_new_font_available)),
                 )
                 fetchFonts("")
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
                 )
             }
         }
@@ -113,9 +99,7 @@ class FontsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
                 )
             }
         }
@@ -136,27 +120,9 @@ class FontsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
                 )
             }
         }
-    }
-
-    fun validateInput(fontName: String, fontPath: String) {
-        val isFontNameValid = fontName.trim().isNotBlank()
-        val isFontPathValid = fontPath.trim().isNotBlank() && File(fontPath)
-            .run { exists() && name.endsWith(TTF, ignoreCase = true) }
-
-        if (isFontNameValid && isFontPathValid) {
-            _externalFontState.value = ExternalFontViewState.Valid
-        } else {
-            _externalFontState.value = ExternalFontViewState.Invalid
-        }
-    }
-
-    companion object {
-        private const val TTF = ".ttf"
     }
 }

@@ -18,22 +18,15 @@
 <resources>
 
     <string name="label_fonts">字体</string>
-    <string name="label_external_font">外部字体</string>
 
-    <string name="hint_enter_font_name">输入字体名称</string>
-    <string name="hint_enter_font_path">输入字体路径</string>
     <string name="hint_search">搜索…</string>
 
     <string name="action_select">选择</string>
-    <string name="action_save">保存</string>
 
     <string name="message_selected">已选择 «%1$s»</string>
-    <string name="message_new_font_available">新字体可用: %1$s</string>
+    <string name="message_new_font_available">新字体可用</string>
     <string name="message_font_removed">字体 «%1$s» 已移除</string>
     <string name="message_no_result">没有结果</string>
     <string name="message_error_occurred">发生错误</string>
-
-    <string name="font_support_ligatures">* 支持连体字母</string>
-    <string name="font_disclaimer">注：如果要使用该字体，请勿删除上面指定路径下的 .ttf 文件</string>
 
 </resources>

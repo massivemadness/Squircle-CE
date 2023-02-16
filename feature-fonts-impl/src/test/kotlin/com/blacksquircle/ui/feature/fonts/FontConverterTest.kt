@@ -27,41 +27,43 @@ class FontConverterTest {
     @Test
     fun `convert FontEntity to FontModel`() {
         val fontEntity = FontEntity(
+            fontUuid = "droid_sans_mono.ttf",
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false,
+            supportLigatures = false, // unused
         )
         val fontModel = FontModel(
+            fontUuid = "droid_sans_mono.ttf",
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false,
             isExternal = true,
         )
         val convert = FontConverter.toModel(fontEntity)
 
+        assertEquals(fontModel.fontUuid, convert.fontUuid)
         assertEquals(fontModel.fontName, convert.fontName)
         assertEquals(fontModel.fontPath, convert.fontPath)
-        assertEquals(fontModel.supportLigatures, convert.supportLigatures)
         assertEquals(fontModel.isExternal, convert.isExternal)
     }
 
     @Test
     fun `convert FontModel to FontEntity`() {
         val fontEntity = FontEntity(
+            fontUuid = "droid_sans_mono.ttf",
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false,
+            supportLigatures = false, // unused
         )
         val fontModel = FontModel(
+            fontUuid = "droid_sans_mono.ttf",
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false,
             isExternal = true,
         )
         val convert = FontConverter.toEntity(fontModel)
 
+        assertEquals(fontEntity.fontUuid, convert.fontUuid)
         assertEquals(fontEntity.fontName, convert.fontName)
         assertEquals(fontEntity.fontPath, convert.fontPath)
-        assertEquals(fontEntity.supportLigatures, convert.supportLigatures)
     }
 }

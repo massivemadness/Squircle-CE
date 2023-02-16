@@ -38,5 +38,6 @@ class OpenFileContract(
 
     companion object {
         const val JSON = "application/json"
+        const val FONT = "font/*"
     }
 }

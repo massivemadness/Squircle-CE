@@ -23,18 +23,19 @@ object FontConverter {
 
     fun toModel(fontEntity: FontEntity): FontModel {
         return FontModel(
+            fontUuid = fontEntity.fontUuid,
             fontName = fontEntity.fontName,
             fontPath = fontEntity.fontPath,
-            supportLigatures = fontEntity.supportLigatures,
             isExternal = true,
         )
     }
 
     fun toEntity(fontModel: FontModel): FontEntity {
         return FontEntity(
+            fontUuid = fontModel.fontUuid,
             fontName = fontModel.fontName,
             fontPath = fontModel.fontPath,
-            supportLigatures = fontModel.supportLigatures,
+            supportLigatures = false, // unused
         )
     }
 }

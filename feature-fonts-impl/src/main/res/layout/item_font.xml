@@ -59,20 +59,6 @@
         android:textSize="24sp"
         android:text="@string/font_panagram"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_content"
-        android:layout_toStartOf="@id/action_select"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:id="@+id/item_subtitle"
-        android:textSize="14sp"
-        android:singleLine="true"
-        android:text="@string/font_support_ligatures"/>
-
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.AppTheme.OutlinedButton"
         android:layout_width="wrap_content"

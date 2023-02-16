@@ -18,22 +18,15 @@
 <resources>
 
     <string name="label_fonts">Polices</string>
-    <string name="label_external_font">Police Externe</string>
 
-    <string name="hint_enter_font_name">Saisissez le nom de la police</string>
-    <string name="hint_enter_font_path">Entrez le chemin d\'accès de la police</string>
     <string name="hint_search">Recherche…</string>
 
     <string name="action_select">sélectionner</string>
-    <string name="action_save">Sauvegarder</string>
 
     <string name="message_selected">«%1$s» Sélectionnée</string>
-    <string name="message_new_font_available">Nouvelle police disponible: %1$s</string>
+    <string name="message_new_font_available">Nouvelle police disponible</string>
     <string name="message_font_removed">Police «%1$s» supprimée</string>
     <string name="message_no_result">Aucun résultat</string>
     <string name="message_error_occurred">Une erreur s\'est produite</string>
-
-    <string name="font_support_ligatures">* Support des ligatures</string>
-    <string name="font_disclaimer">Si vous souhaitez utiliser cette police, ne supprimez pas le fichier .ttf au chemin spécifié</string>
 
 </resources>

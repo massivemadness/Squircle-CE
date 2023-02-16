@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.fonts.domain.model
 
 data class FontModel(
+    val fontUuid: String,
     val fontName: String,
     val fontPath: String,
-    val supportLigatures: Boolean,
     val isExternal: Boolean,
 )

@@ -32,6 +32,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.blacksquircle.ui.core.ui.contract.ContractResult
+import com.blacksquircle.ui.core.ui.contract.OpenFileContract
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -39,7 +41,6 @@ import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.ui.adapter.FontAdapter
-import com.blacksquircle.ui.feature.fonts.ui.navigation.FontsScreen
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,6 +53,12 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
     private val viewModel by hiltNavGraphViewModels<FontsViewModel>(R.id.fonts_graph)
     private val binding by viewBinding(FragmentFontsBinding::bind)
     private val navController by lazy { findNavController() }
+    private val openFileContract = OpenFileContract(this) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.importFont(result.uri)
+            is ContractResult.Canceled -> Unit
+        }
+    }
 
     private lateinit var adapter: FontAdapter
 
@@ -78,7 +85,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         }
 
         binding.actionAdd.setOnClickListener {
-            navController.navigate(FontsScreen.Create)
+            openFileContract.launch(OpenFileContract.FONT)
         }
 
         binding.toolbar.setNavigationOnClickListener {

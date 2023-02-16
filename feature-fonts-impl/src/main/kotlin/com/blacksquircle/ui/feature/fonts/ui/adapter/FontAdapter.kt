@@ -77,7 +77,6 @@ class FontAdapter(
             fontModel = item
             binding.itemTitle.text = item.fontName
             binding.itemContent.typeface = itemView.context.createTypefaceFromPath(item.fontPath)
-            binding.itemSubtitle.isVisible = item.supportLigatures
             binding.actionRemove.isVisible = item.isExternal
         }
     }

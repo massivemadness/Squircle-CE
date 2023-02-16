@@ -16,13 +16,14 @@
 
 package com.blacksquircle.ui.feature.fonts.domain.repository
 
+import android.net.Uri
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 interface FontsRepository {
 
     suspend fun fetchFonts(query: String): List<FontModel>
 
-    suspend fun createFont(fontModel: FontModel)
+    suspend fun importFont(fileUri: Uri)
     suspend fun removeFont(fontModel: FontModel)
     suspend fun selectFont(fontModel: FontModel)
 }

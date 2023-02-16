@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.fonts.internal
 
+import android.content.Context
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
@@ -25,6 +26,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
@@ -34,6 +36,7 @@ object FontsModule {
     @Provides
     @ViewModelScoped
     fun provideFontsRepository(
+        @ApplicationContext context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
@@ -42,6 +45,7 @@ object FontsModule {
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             appDatabase = appDatabase,
+            context = context,
         )
     }
 }

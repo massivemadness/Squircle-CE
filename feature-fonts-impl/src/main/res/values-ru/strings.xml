@@ -18,22 +18,15 @@
 <resources>
 
     <string name="label_fonts">Шрифты</string>
-    <string name="label_external_font">Внешний шрифт</string>
 
-    <string name="hint_enter_font_name">Название шрифта</string>
-    <string name="hint_enter_font_path">Путь к шрифту</string>
     <string name="hint_search">Поиск…</string>
 
     <string name="action_select">Выбрать</string>
-    <string name="action_save">Сохранить</string>
 
     <string name="message_selected">Выбран «%1$s»</string>
-    <string name="message_new_font_available">Добавлен новый шрифт: %1$s</string>
+    <string name="message_new_font_available">Добавлен новый шрифт</string>
     <string name="message_font_removed">Шрифт «%1$s» удален</string>
     <string name="message_no_result">Нет результатов</string>
     <string name="message_error_occurred">Произошла ошибка</string>
-
-    <string name="font_support_ligatures">* Поддерживает лигатуры</string>
-    <string name="font_disclaimer">Если вы хотите использовать этот шрифт, не удаляйте .ttf файл по указанному пути.</string>
 
 </resources>

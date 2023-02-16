@@ -18,22 +18,15 @@
 <resources>
 
     <string name="label_fonts">Fontes</string>
-    <string name="label_external_font">Fonte externa</string>
 
-    <string name="hint_enter_font_name">Insira o nome da fonte</string>
-    <string name="hint_enter_font_path">Insira o caminho da fonte</string>
     <string name="hint_search">Pesquisar…</string>
 
     <string name="action_select">Selecionar</string>
-    <string name="action_save">Salvar</string>
 
     <string name="message_selected">«%1$s» selecionado</string>
-    <string name="message_new_font_available">Nova fonte disponível: %1$s</string>
+    <string name="message_new_font_available">Nova fonte disponível</string>
     <string name="message_font_removed">A fonte «%1$s» foi removida</string>
     <string name="message_no_result">Nenhum resultado</string>
     <string name="message_error_occurred">Um erro ocorreu</string>
-
-    <string name="font_support_ligatures">* Suporta ligadura</string>
-    <string name="font_disclaimer">Se você quer usar esta fonte, não delete o arquivo .ttf no caminho inserido</string>
 
 </resources>

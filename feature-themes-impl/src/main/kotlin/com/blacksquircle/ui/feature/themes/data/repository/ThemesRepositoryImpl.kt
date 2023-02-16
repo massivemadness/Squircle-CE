@@ -86,9 +86,9 @@ class ThemesRepositoryImpl(
         }
     }
 
-    override suspend fun importTheme(uri: Uri): ThemeModel {
+    override suspend fun importTheme(fileUri: Uri): ThemeModel {
         return withContext(dispatcherProvider.io()) {
-            context.contentResolver.openInputStream(uri)?.use {
+            context.contentResolver.openInputStream(fileUri)?.use {
                 val themeJson = it.bufferedReader().use(BufferedReader::readText)
                 val externalTheme = ExternalTheme.deserialize(themeJson)
                 return@withContext ThemeConverter.toModel(externalTheme)

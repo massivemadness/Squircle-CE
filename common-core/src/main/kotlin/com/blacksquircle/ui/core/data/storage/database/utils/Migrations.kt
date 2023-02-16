@@ -80,6 +80,8 @@ object Migrations {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("ALTER TABLE `${Tables.THEMES}` ADD COLUMN `cursor_color` TEXT NOT NULL DEFAULT '#BBBBBB'")
             database.execSQL("ALTER TABLE `${Tables.SERVERS}` ADD COLUMN `initial_dir` TEXT NOT NULL DEFAULT ''")
+            database.execSQL("ALTER TABLE `${Tables.FONTS}` ADD COLUMN `font_uuid` TEXT NOT NULL DEFAULT 'legacy'")
+            // database.execSQL("ALTER TABLE `${Tables.FONTS}` DROP COLUMN `support_ligatures`")
         }
     }
 }

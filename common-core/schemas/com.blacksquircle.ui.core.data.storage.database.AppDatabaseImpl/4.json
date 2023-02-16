@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "db9e4c5860eba257b2142faa1af32b37",
+    "identityHash": "5eece1d87d7400564ba75de5963f1af0",
     "entities": [
       {
         "tableName": "tbl_documents",
@@ -160,8 +160,14 @@
       },
       {
         "tableName": "tbl_fonts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`font_name` TEXT NOT NULL, `font_path` TEXT NOT NULL, `support_ligatures` INTEGER NOT NULL, PRIMARY KEY(`font_path`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`font_uuid` TEXT NOT NULL, `font_name` TEXT NOT NULL, `font_path` TEXT NOT NULL, `support_ligatures` INTEGER NOT NULL, PRIMARY KEY(`font_path`))",
         "fields": [
+          {
+            "fieldPath": "fontUuid",
+            "columnName": "font_uuid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
           {
             "fieldPath": "fontName",
             "columnName": "font_name",
@@ -394,7 +400,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'db9e4c5860eba257b2142faa1af32b37')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5eece1d87d7400564ba75de5963f1af0')"
     ]
   }
 }

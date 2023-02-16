@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.feature.fonts.data.repository
 
+import android.content.Context
+import android.net.Uri
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
@@ -23,11 +25,14 @@ import com.blacksquircle.ui.feature.fonts.data.converter.FontConverter
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.util.UUID
 
 class FontsRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
+    private val context: Context,
 ) : FontsRepository {
 
     override suspend fun fetchFonts(query: String): List<FontModel> {
@@ -40,14 +45,33 @@ class FontsRepositoryImpl(
         }
     }
 
-    override suspend fun createFont(fontModel: FontModel) {
+    override suspend fun importFont(fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            appDatabase.fontDao().insert(FontConverter.toEntity(fontModel))
+            context.contentResolver.openInputStream(fileUri)?.use { inputStream ->
+                val fontUuid = UUID.randomUUID().toString()
+                val fontName = fileUri.path.orEmpty().substringAfterLast('/')
+                val fontFile = File(context.cacheDir, fontUuid)
+                if (!fontFile.exists()) {
+                    fontFile.createNewFile()
+                    inputStream.copyTo(fontFile.outputStream())
+                }
+                val fontModel = FontModel(
+                    fontUuid = fontUuid,
+                    fontName = fontName,
+                    fontPath = fontFile.absolutePath,
+                    isExternal = true,
+                )
+                appDatabase.fontDao().insert(FontConverter.toEntity(fontModel))
+            }
         }
     }
 
     override suspend fun removeFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
+            val fontFile = File(context.cacheDir, fontModel.fontUuid)
+            if (fontFile.exists()) {
+                fontFile.deleteRecursively()
+            }
             appDatabase.fontDao().delete(FontConverter.toEntity(fontModel))
             if (settingsManager.fontType == fontModel.fontPath) {
                 settingsManager.remove(SettingsManager.KEY_FONT_TYPE)
@@ -64,39 +88,39 @@ class FontsRepositoryImpl(
     private fun internalFonts(): List<FontModel> {
         return listOf(
             FontModel(
+                fontUuid = "droid_sans_mono",
                 fontName = "Droid Sans Mono",
                 fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
-                supportLigatures = false,
                 isExternal = false,
             ),
             FontModel(
+                fontUuid = "jetbrains_mono",
                 fontName = "JetBrains Mono",
                 fontPath = "file:///android_asset/fonts/jetbrains_mono.ttf",
-                supportLigatures = true,
                 isExternal = false,
             ),
             FontModel(
+                fontUuid = "fira_code",
                 fontName = "Fira Code",
                 fontPath = "file:///android_asset/fonts/fira_code.ttf",
-                supportLigatures = true,
                 isExternal = false,
             ),
             FontModel(
+                fontUuid = "source_code_pro",
                 fontName = "Source Code Pro",
                 fontPath = "file:///android_asset/fonts/source_code_pro.ttf",
-                supportLigatures = false,
                 isExternal = false,
             ),
             FontModel(
+                fontUuid = "anonymous_pro",
                 fontName = "Anonymous Pro",
                 fontPath = "file:///android_asset/fonts/anonymous_pro.ttf",
-                supportLigatures = false,
                 isExternal = false,
             ),
             FontModel(
+                fontUuid = "dejavu_sans_mono",
                 fontName = "DejaVu Sans Mono",
                 fontPath = "file:///android_asset/fonts/dejavu_sans_mono.ttf",
-                supportLigatures = false,
                 isExternal = false,
             ),
         )

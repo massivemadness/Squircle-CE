@@ -77,10 +77,10 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    fun importTheme(uri: Uri) {
+    fun importTheme(fileUri: Uri) {
         viewModelScope.launch {
             try {
-                val themeModel = themesRepository.importTheme(uri)
+                val themeModel = themesRepository.importTheme(fileUri)
                 loadProperties(themeModel)
             } catch (e: Exception) {
                 Timber.e(e, e.message)
