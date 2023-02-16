@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.editorkit.model
 
 import android.text.style.BackgroundColorSpan
-import com.blacksquircle.ui.language.base.span.StyleSpan
+import com.blacksquircle.ui.language.base.model.StyleSpan
 
 data class FindResult(var start: Int, var end: Int) {
 

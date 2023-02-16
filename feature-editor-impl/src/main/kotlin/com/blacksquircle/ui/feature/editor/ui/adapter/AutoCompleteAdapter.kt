@@ -23,10 +23,10 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.editorkit.plugin.autocomplete.SuggestionAdapter
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemSuggestionBinding
-import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.model.Suggestion
 
 class AutoCompleteAdapter(
@@ -54,7 +54,7 @@ class AutoCompleteAdapter(
 
         override fun bind(suggestion: Suggestion?, query: String) {
             if (suggestion != null) {
-                val spannable = SpannableString(suggestion.text)
+                val spannable = SpannableString(suggestion.toString())
                 if (query.length < spannable.length) {
                     spannable.setSpan(
                         ForegroundColorSpan(queryColor),

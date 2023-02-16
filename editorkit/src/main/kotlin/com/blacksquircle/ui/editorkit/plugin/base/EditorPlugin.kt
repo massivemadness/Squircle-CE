@@ -21,10 +21,10 @@ import android.graphics.Typeface
 import android.text.Editable
 import android.view.KeyEvent
 import android.view.MotionEvent
+import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.editorkit.widget.TextProcessor
 import com.blacksquircle.ui.language.base.Language
-import com.blacksquircle.ui.language.base.model.ColorScheme
 import com.blacksquircle.ui.language.base.model.TextStructure
 
 abstract class EditorPlugin(val pluginId: String) {
@@ -59,8 +59,8 @@ abstract class EditorPlugin(val pluginId: String) {
 
     open fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) = Unit
     open fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) = Unit
-    open fun beforeDraw(canvas: Canvas?) = Unit
-    open fun afterDraw(canvas: Canvas?) = Unit
+    open fun drawBehind(canvas: Canvas?) = Unit
+    open fun onDraw(canvas: Canvas?) = Unit
 
     open fun onColorSchemeChanged(colorScheme: ColorScheme) = Unit
     open fun onLanguageChanged(language: Language?) = Unit

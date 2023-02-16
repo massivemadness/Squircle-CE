@@ -22,6 +22,7 @@ import android.text.Spannable
 import android.util.AttributeSet
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.getSpans
+import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.editorkit.model.ErrorSpan
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResult
@@ -29,9 +30,9 @@ import com.blacksquircle.ui.editorkit.model.TabWidthSpan
 import com.blacksquircle.ui.editorkit.setSelectionRange
 import com.blacksquircle.ui.editorkit.utils.*
 import com.blacksquircle.ui.language.base.Language
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.StyleSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TokenType
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
@@ -56,7 +57,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     var useSpacesInsteadOfTabs = true
     var tabWidth = 4
 
-    private val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    private val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
     private val findResults = mutableListOf<FindResult>()
 
     private var findResultStyleSpan: StyleSpan? = null
@@ -69,7 +70,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     private var isErrorSpansVisible = false
 
     override fun setTextContent(textParams: PrecomputedTextCompat) {
-        syntaxHighlightSpans.clear()
+        syntaxHighlightResults.clear()
         findResults.clear()
         super.setTextContent(textParams)
         syntaxHighlight()
@@ -263,7 +264,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     }
 
     private fun shiftSpans(from: Int, byHowMuch: Int) {
-        for (span in syntaxHighlightSpans) {
+        for (span in syntaxHighlightResults) {
             if (span.start >= from) {
                 span.start += byHowMuch
             }
@@ -300,7 +301,7 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
             val lineEnd = layout.getLineEnd(bottomVisibleLine)
 
             isSyntaxHighlighting = true
-            val textSyntaxSpans = text.getSpans<SyntaxHighlightSpan>(0, text.length)
+            val textSyntaxSpans = text.getSpans<SyntaxHighlightResult.Span>(0, text.length)
             for (span in textSyntaxSpans) {
                 // FIXME sometimes it leaves a few spans on the screen
                 // val isVisible = span.start in lineStart..lineEnd ||
@@ -310,16 +311,36 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                 // }
                 text.removeSpan(span)
             }
-            for (span in syntaxHighlightSpans) {
-                val isInText = span.start >= 0 && span.end <= text.length
-                val isValid = span.start <= span.end
-                val isVisible = span.start in lineStart..lineEnd ||
-                    span.start <= lineEnd && span.end >= lineStart
+            for (result in syntaxHighlightResults) {
+                val isInText = result.start >= 0 && result.end <= text.length
+                val isValid = result.start <= result.end
+                val isVisible = result.start in lineStart..lineEnd ||
+                    result.start <= lineEnd && result.end >= lineStart
                 if (isInText && isValid && isVisible) {
                     text.setSpan(
-                        span,
-                        if (span.start < lineStart) lineStart else span.start,
-                        if (span.end > lineEnd) lineEnd else span.end,
+                        SyntaxHighlightResult.Span(
+                            StyleSpan(
+                                color = when (result.tokenType) {
+                                    TokenType.NUMBER -> colorScheme.numberColor
+                                    TokenType.OPERATOR -> colorScheme.operatorColor
+                                    TokenType.KEYWORD -> colorScheme.keywordColor
+                                    TokenType.TYPE -> colorScheme.typeColor
+                                    TokenType.LANG_CONST -> colorScheme.langConstColor
+                                    TokenType.PREPROCESSOR -> colorScheme.preprocessorColor
+                                    TokenType.VARIABLE -> colorScheme.variableColor
+                                    TokenType.METHOD -> colorScheme.methodColor
+                                    TokenType.STRING -> colorScheme.stringColor
+                                    TokenType.COMMENT -> colorScheme.commentColor
+                                    TokenType.TAG -> colorScheme.tagColor
+                                    TokenType.TAG_NAME -> colorScheme.tagNameColor
+                                    TokenType.ATTR_NAME -> colorScheme.attrNameColor
+                                    TokenType.ATTR_VALUE -> colorScheme.attrValueColor
+                                    TokenType.ENTITY_REF -> colorScheme.entityRefColor
+                                }
+                            )
+                        ),
+                        if (result.start < lineStart) lineStart else result.start,
+                        if (result.end > lineEnd) lineEnd else result.end,
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                     )
                 }
@@ -331,16 +352,16 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
                 text.removeSpan(span)
             }
             findResultStyleSpan?.let { styleSpan ->
-                for (span in findResults) {
-                    val isInText = span.start >= 0 && span.end <= text.length
-                    val isValid = span.start <= span.end
-                    val isVisible = span.start in lineStart..lineEnd ||
-                        span.start <= lineEnd && span.end >= lineStart
+                for (result in findResults) {
+                    val isInText = result.start >= 0 && result.end <= text.length
+                    val isValid = result.start <= result.end
+                    val isVisible = result.start in lineStart..lineEnd ||
+                        result.start <= lineEnd && result.end >= lineStart
                     if (isInText && isValid && isVisible) {
                         text.setSpan(
                             FindResult.Span(styleSpan),
-                            if (span.start < lineStart) lineStart else span.start,
-                            if (span.end > lineEnd) lineEnd else span.end,
+                            if (result.start < lineStart) lineStart else result.start,
+                            if (result.end > lineEnd) lineEnd else result.end,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
                         )
                     }
@@ -376,12 +397,10 @@ abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     private fun syntaxHighlight() {
         cancelSyntaxHighlighting()
         task = StylingTask(
-            doAsync = {
-                language?.getStyler()?.execute(text.toString(), colorScheme) ?: emptyList()
-            },
+            doAsync = { language?.getStyler()?.execute(structure) ?: emptyList() },
             onSuccess = { spans ->
-                syntaxHighlightSpans.clear()
-                syntaxHighlightSpans.addAll(spans)
+                syntaxHighlightResults.clear()
+                syntaxHighlightResults.addAll(spans)
                 updateSyntaxHighlighting()
             },
         )

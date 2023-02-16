@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.language.markdown.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 import com.blacksquircle.ui.language.markdown.lexer.MarkdownLexer
 import com.blacksquircle.ui.language.markdown.lexer.MarkdownToken
@@ -41,8 +41,9 @@ class MarkdownStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val source = structure.text.toString()
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         val sourceReader = StringReader(source)
         val lexer = MarkdownLexer(sourceReader)
 
@@ -50,57 +51,44 @@ class MarkdownStyler private constructor() : LanguageStyler {
             try {
                 when (lexer.advance()) {
                     MarkdownToken.HEADER -> {
-                        val styleSpan = StyleSpan(scheme.tagNameColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.TAG_NAME
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.UNORDERED_LIST_ITEM,
                     MarkdownToken.ORDERED_LIST_ITEM -> {
-                        val styleSpan = StyleSpan(scheme.attrValueColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.ATTR_VALUE
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.BOLDITALIC1,
                     MarkdownToken.BOLDITALIC2 -> {
-                        val styleSpan = StyleSpan(
-                            color = scheme.attrNameColor,
-                            bold = true,
-                            italic = true,
-                        )
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.ATTR_NAME
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.BOLD1,
                     MarkdownToken.BOLD2 -> {
-                        val styleSpan = StyleSpan(
-                            color = scheme.attrNameColor,
-                            bold = true,
-                        )
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.ATTR_NAME
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.ITALIC1,
                     MarkdownToken.ITALIC2 -> {
-                        val styleSpan = StyleSpan(
-                            color = scheme.attrNameColor,
-                            italic = true,
-                        )
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.ATTR_NAME
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.STRIKETHROUGH -> {
-                        val styleSpan = StyleSpan(
-                            color = scheme.attrNameColor,
-                            strikethrough = true,
-                        )
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.ATTR_NAME
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.CODE,
                     MarkdownToken.CODE_BLOCK -> {
-                        val styleSpan = StyleSpan(scheme.commentColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.COMMENT
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.LT,
                     MarkdownToken.GT,
@@ -114,17 +102,14 @@ class MarkdownStyler private constructor() : LanguageStyler {
                     MarkdownToken.RBRACE,
                     MarkdownToken.LBRACK,
                     MarkdownToken.RBRACK -> {
-                        val styleSpan = StyleSpan(scheme.tagColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.TAG
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.URL -> {
-                        val styleSpan = StyleSpan(
-                            color = scheme.attrValueColor,
-                            underline = true,
-                        )
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.ATTR_VALUE
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     MarkdownToken.IDENTIFIER,
                     MarkdownToken.WHITESPACE,
@@ -140,6 +125,6 @@ class MarkdownStyler private constructor() : LanguageStyler {
                 break
             }
         }
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }

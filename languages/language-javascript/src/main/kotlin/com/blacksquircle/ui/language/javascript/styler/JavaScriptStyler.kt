@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.language.javascript.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 import com.blacksquircle.ui.language.javascript.lexer.JavaScriptLexer
 import com.blacksquircle.ui.language.javascript.lexer.JavaScriptToken
@@ -44,8 +44,9 @@ class JavaScriptStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val source = structure.text.toString()
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         val sourceReader = StringReader(source)
         val lexer = JavaScriptLexer(sourceReader)
 
@@ -53,9 +54,9 @@ class JavaScriptStyler private constructor() : LanguageStyler {
         val matcher = METHOD.matcher(source)
         matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(scheme.methodColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
+            val tokenType = TokenType.METHOD
+            val syntaxHighlightResult = SyntaxHighlightResult(tokenType, matcher.start(), matcher.end())
+            syntaxHighlightResults.add(syntaxHighlightResult)
         }
 
         while (true) {
@@ -65,9 +66,9 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.INTEGER_LITERAL,
                     JavaScriptToken.FLOAT_LITERAL,
                     JavaScriptToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(scheme.numberColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.NUMBER
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     JavaScriptToken.EQEQ,
                     JavaScriptToken.NOTEQ,
@@ -114,9 +115,9 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.MOD,
                     JavaScriptToken.ELLIPSIS,
                     JavaScriptToken.ARROW -> {
-                        val styleSpan = StyleSpan(scheme.operatorColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.OPERATOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     JavaScriptToken.SEMICOLON,
                     JavaScriptToken.COMMA,
@@ -173,9 +174,9 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.CONST,
                     JavaScriptToken.VAR,
                     JavaScriptToken.LET -> {
-                        val styleSpan = StyleSpan(scheme.keywordColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.KEYWORD
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     JavaScriptToken.CLASS,
                     JavaScriptToken.INTERFACE,
@@ -189,31 +190,31 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                     JavaScriptToken.LONG,
                     JavaScriptToken.SHORT,
                     JavaScriptToken.VOID -> {
-                        val styleSpan = StyleSpan(scheme.typeColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.TYPE
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     JavaScriptToken.TRUE,
                     JavaScriptToken.FALSE,
                     JavaScriptToken.NULL,
                     JavaScriptToken.NAN,
                     JavaScriptToken.UNDEFINED -> {
-                        val styleSpan = StyleSpan(scheme.langConstColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.LANG_CONST
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     JavaScriptToken.DOUBLE_QUOTED_STRING,
                     JavaScriptToken.SINGLE_QUOTED_STRING,
                     JavaScriptToken.SINGLE_BACKTICK_STRING -> {
-                        val styleSpan = StyleSpan(scheme.stringColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.STRING
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     JavaScriptToken.LINE_COMMENT,
                     JavaScriptToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(scheme.commentColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.COMMENT
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     JavaScriptToken.IDENTIFIER,
                     JavaScriptToken.WHITESPACE,
@@ -229,6 +230,6 @@ class JavaScriptStyler private constructor() : LanguageStyler {
                 break
             }
         }
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }

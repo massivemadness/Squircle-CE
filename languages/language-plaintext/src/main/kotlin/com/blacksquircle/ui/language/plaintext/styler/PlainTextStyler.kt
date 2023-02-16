@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.language.plaintext.styler
 
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 
 class PlainTextStyler private constructor() : LanguageStyler {
@@ -33,8 +33,7 @@ class PlainTextStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(
-        source: String,
-        scheme: ColorScheme
-    ): List<SyntaxHighlightSpan> = emptyList()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        return emptyList()
+    }
 }

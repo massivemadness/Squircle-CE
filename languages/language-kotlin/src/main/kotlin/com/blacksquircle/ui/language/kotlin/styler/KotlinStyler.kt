@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.language.kotlin.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 import com.blacksquircle.ui.language.kotlin.lexer.KotlinLexer
 import com.blacksquircle.ui.language.kotlin.lexer.KotlinToken
@@ -44,8 +44,9 @@ class KotlinStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val source = structure.text.toString()
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         val sourceReader = StringReader(source)
         val lexer = KotlinLexer(sourceReader)
 
@@ -53,9 +54,9 @@ class KotlinStyler private constructor() : LanguageStyler {
         val matcher = METHOD.matcher(source)
         matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(scheme.methodColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
+            val tokenType = TokenType.METHOD
+            val syntaxHighlightResult = SyntaxHighlightResult(tokenType, matcher.start(), matcher.end())
+            syntaxHighlightResults.add(syntaxHighlightResult)
         }
 
         while (true) {
@@ -65,9 +66,9 @@ class KotlinStyler private constructor() : LanguageStyler {
                     KotlinToken.INTEGER_LITERAL,
                     KotlinToken.FLOAT_LITERAL,
                     KotlinToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(scheme.numberColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.NUMBER
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     KotlinToken.EQEQ,
                     KotlinToken.NOTEQ,
@@ -115,9 +116,9 @@ class KotlinStyler private constructor() : LanguageStyler {
                     KotlinToken.ELLIPSIS,
                     KotlinToken.DOUBLE_COLON,
                     KotlinToken.ARROW -> {
-                        val styleSpan = StyleSpan(scheme.operatorColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.OPERATOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     KotlinToken.SEMICOLON,
                     KotlinToken.COMMA,
@@ -184,33 +185,33 @@ class KotlinStyler private constructor() : LanguageStyler {
                     KotlinToken.WHEN,
                     KotlinToken.WHERE,
                     KotlinToken.WHILE -> {
-                        val styleSpan = StyleSpan(scheme.keywordColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.KEYWORD
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     KotlinToken.TRUE,
                     KotlinToken.FALSE,
                     KotlinToken.NULL -> {
-                        val styleSpan = StyleSpan(scheme.langConstColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.LANG_CONST
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     KotlinToken.ANNOTATION -> {
-                        val styleSpan = StyleSpan(scheme.preprocessorColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.PREPROCESSOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     KotlinToken.DOUBLE_QUOTED_STRING,
                     KotlinToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(scheme.stringColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.STRING
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     KotlinToken.LINE_COMMENT,
                     KotlinToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(scheme.commentColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.COMMENT
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     KotlinToken.IDENTIFIER,
                     KotlinToken.WHITESPACE,
@@ -226,6 +227,6 @@ class KotlinStyler private constructor() : LanguageStyler {
                 break
             }
         }
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }

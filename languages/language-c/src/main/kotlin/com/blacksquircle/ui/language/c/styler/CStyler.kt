@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.language.c.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 import com.blacksquircle.ui.language.c.lexer.CLexer
 import com.blacksquircle.ui.language.c.lexer.CToken
@@ -41,8 +41,9 @@ class CStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val source = structure.text.toString()
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         val sourceReader = StringReader(source)
         val lexer = CLexer(sourceReader)
 
@@ -53,9 +54,9 @@ class CStyler private constructor() : LanguageStyler {
                     CToken.INTEGER_LITERAL,
                     CToken.FLOAT_LITERAL,
                     CToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(scheme.numberColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.NUMBER
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.TRIGRAPH,
                     CToken.EQ,
@@ -99,10 +100,9 @@ class CStyler private constructor() : LanguageStyler {
                     CToken.RBRACE,
                     CToken.LBRACK,
                     CToken.RBRACK -> {
-                        val styleSpan = StyleSpan(scheme.operatorColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.OPERATOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.SEMICOLON,
                     CToken.COMMA,
@@ -132,16 +132,14 @@ class CStyler private constructor() : LanguageStyler {
                     CToken.VOLATILE,
                     CToken.WHILE,
                     CToken.RETURN -> {
-                        val styleSpan = StyleSpan(scheme.keywordColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.KEYWORD
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.FUNCTION -> {
-                        val styleSpan = StyleSpan(scheme.methodColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.METHOD
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.BOOL,
                     CToken.CHAR,
@@ -157,18 +155,16 @@ class CStyler private constructor() : LanguageStyler {
                     CToken.UNSIGNED,
                     CToken.VOID,
                     CToken.WCHAR_T -> {
-                        val styleSpan = StyleSpan(scheme.typeColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.TYPE
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.TRUE,
                     CToken.FALSE,
                     CToken.NULL -> {
-                        val styleSpan = StyleSpan(scheme.langConstColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.LANG_CONST
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.__DATE__,
                     CToken.__TIME__,
@@ -176,24 +172,21 @@ class CStyler private constructor() : LanguageStyler {
                     CToken.__LINE__,
                     CToken.__STDC__,
                     CToken.PREPROCESSOR -> {
-                        val styleSpan = StyleSpan(scheme.preprocessorColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.PREPROCESSOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.DOUBLE_QUOTED_STRING,
                     CToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(scheme.stringColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.STRING
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.LINE_COMMENT,
                     CToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(scheme.commentColor)
-                        val syntaxHighlightSpan =
-                            SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.COMMENT
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     CToken.IDENTIFIER,
                     CToken.WHITESPACE,
@@ -209,6 +202,6 @@ class CStyler private constructor() : LanguageStyler {
                 break
             }
         }
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }

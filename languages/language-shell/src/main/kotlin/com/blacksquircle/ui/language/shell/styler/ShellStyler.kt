@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.language.shell.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 import com.blacksquircle.ui.language.shell.lexer.ShellLexer
 import com.blacksquircle.ui.language.shell.lexer.ShellToken
@@ -44,17 +44,18 @@ class ShellStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val source = structure.text.toString()
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         val sourceReader = StringReader(source)
         val lexer = ShellLexer(sourceReader)
 
         val matcher = METHOD.matcher(source)
         matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(scheme.methodColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
+            val tokenType = TokenType.METHOD
+            val syntaxHighlightResult = SyntaxHighlightResult(tokenType, matcher.start(), matcher.end())
+            syntaxHighlightResults.add(syntaxHighlightResult)
         }
 
         while (true) {
@@ -62,9 +63,9 @@ class ShellStyler private constructor() : LanguageStyler {
                 when (lexer.advance()) {
                     ShellToken.INTEGER_LITERAL,
                     ShellToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(scheme.numberColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.NUMBER
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     ShellToken.BREAK,
                     ShellToken.CASE,
@@ -101,15 +102,15 @@ class ShellStyler private constructor() : LanguageStyler {
                     ShellToken.READONLY,
                     ShellToken.RETURN,
                     ShellToken.TEST -> {
-                        val styleSpan = StyleSpan(scheme.keywordColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.KEYWORD
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     ShellToken.TRUE,
                     ShellToken.FALSE -> {
-                        val styleSpan = StyleSpan(scheme.langConstColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.LANG_CONST
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     ShellToken.MULTEQ,
                     ShellToken.DIVEQ,
@@ -157,9 +158,9 @@ class ShellStyler private constructor() : LanguageStyler {
                     ShellToken.LBRACK,
                     ShellToken.RBRACK,
                     ShellToken.EVAL_CONTENT -> {
-                        val styleSpan = StyleSpan(scheme.operatorColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.OPERATOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     ShellToken.SEMICOLON,
                     ShellToken.COMMA,
@@ -168,15 +169,15 @@ class ShellStyler private constructor() : LanguageStyler {
                     }
                     ShellToken.SHEBANG,
                     ShellToken.COMMENT -> {
-                        val styleSpan = StyleSpan(scheme.commentColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.COMMENT
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     ShellToken.DOUBLE_QUOTED_STRING,
                     ShellToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(scheme.stringColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.STRING
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     ShellToken.IDENTIFIER,
                     ShellToken.WHITESPACE,
@@ -192,6 +193,6 @@ class ShellStyler private constructor() : LanguageStyler {
                 break
             }
         }
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }

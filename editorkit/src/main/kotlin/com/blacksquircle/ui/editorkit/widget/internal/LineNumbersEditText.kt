@@ -19,6 +19,7 @@ package com.blacksquircle.ui.editorkit.widget.internal
 import android.content.Context
 import android.text.Editable
 import android.text.InputType
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
@@ -43,7 +44,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
             }
         }
 
-    val structure = TextStructure()
+    val structure = TextStructure(SpannableStringBuilder())
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

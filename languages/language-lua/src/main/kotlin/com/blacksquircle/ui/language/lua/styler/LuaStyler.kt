@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.language.lua.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 import com.blacksquircle.ui.language.lua.lexer.LuaLexer
 import com.blacksquircle.ui.language.lua.lexer.LuaToken
@@ -44,8 +44,9 @@ class LuaStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val source = structure.text.toString()
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         val sourceReader = StringReader(source)
         val lexer = LuaLexer(sourceReader)
 
@@ -53,9 +54,9 @@ class LuaStyler private constructor() : LanguageStyler {
         val matcher = METHOD.matcher(source)
         matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(scheme.methodColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
+            val tokenType = TokenType.METHOD
+            val syntaxHighlightResult = SyntaxHighlightResult(tokenType, matcher.start(), matcher.end())
+            syntaxHighlightResults.add(syntaxHighlightResult)
         }
 
         while (true) {
@@ -65,9 +66,9 @@ class LuaStyler private constructor() : LanguageStyler {
                     LuaToken.INTEGER_LITERAL,
                     LuaToken.FLOAT_LITERAL,
                     LuaToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(scheme.numberColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.NUMBER
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LuaToken.LT,
                     LuaToken.GT,
@@ -94,9 +95,9 @@ class LuaStyler private constructor() : LanguageStyler {
                     LuaToken.RBRACE,
                     LuaToken.LBRACK,
                     LuaToken.RBRACK -> {
-                        val styleSpan = StyleSpan(scheme.operatorColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.OPERATOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LuaToken.SEMICOLON,
                     LuaToken.COMMA,
@@ -123,9 +124,9 @@ class LuaStyler private constructor() : LanguageStyler {
                     LuaToken.AND,
                     LuaToken.OR,
                     LuaToken.NOT -> {
-                        val styleSpan = StyleSpan(scheme.keywordColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.KEYWORD
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LuaToken._G,
                     LuaToken._VERSION,
@@ -156,28 +157,28 @@ class LuaStyler private constructor() : LanguageStyler {
                     LuaToken.TYPE,
                     LuaToken.UNPACK,
                     LuaToken.XPCALL -> {
-                        val styleSpan = StyleSpan(scheme.methodColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.METHOD
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LuaToken.TRUE,
                     LuaToken.FALSE,
                     LuaToken.NULL -> {
-                        val styleSpan = StyleSpan(scheme.langConstColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.LANG_CONST
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LuaToken.DOUBLE_QUOTED_STRING,
                     LuaToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(scheme.stringColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.STRING
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LuaToken.LINE_COMMENT,
                     LuaToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(scheme.commentColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.COMMENT
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LuaToken.IDENTIFIER,
                     LuaToken.WHITESPACE,
@@ -193,6 +194,6 @@ class LuaStyler private constructor() : LanguageStyler {
                 break
             }
         }
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }

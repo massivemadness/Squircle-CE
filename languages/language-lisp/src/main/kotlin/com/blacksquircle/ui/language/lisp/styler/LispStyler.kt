@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.language.lisp.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 import com.blacksquircle.ui.language.lisp.lexer.LispLexer
 import com.blacksquircle.ui.language.lisp.lexer.LispToken
@@ -48,8 +48,9 @@ class LispStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val source = structure.text.toString()
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         val sourceReader = StringReader(source)
         val lexer = LispLexer(sourceReader)
 
@@ -57,9 +58,9 @@ class LispStyler private constructor() : LanguageStyler {
         val matcher = METHOD.matcher(source)
         matcher.region(0, source.length)
         while (matcher.find()) {
-            val styleSpan = StyleSpan(scheme.methodColor)
-            val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
-            syntaxHighlightSpans.add(syntaxHighlightSpan)
+            val tokenType = TokenType.METHOD
+            val syntaxHighlightResult = SyntaxHighlightResult(tokenType, matcher.start(), matcher.end())
+            syntaxHighlightResults.add(syntaxHighlightResult)
         }
 
         while (true) {
@@ -69,9 +70,9 @@ class LispStyler private constructor() : LanguageStyler {
                     LispToken.INTEGER_LITERAL,
                     LispToken.FLOAT_LITERAL,
                     LispToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(scheme.numberColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.NUMBER
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LispToken.EQEQ,
                     LispToken.NOTEQ,
@@ -119,9 +120,9 @@ class LispStyler private constructor() : LanguageStyler {
                     LispToken.AT,
                     LispToken.BACKTICK,
                     LispToken.SINGLE_QUOTE -> {
-                        val styleSpan = StyleSpan(scheme.operatorColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.OPERATOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LispToken.COMMA,
                     LispToken.DOT -> {
@@ -217,9 +218,9 @@ class LispStyler private constructor() : LanguageStyler {
                     LispToken.WITH_SIMPLE_RESTART,
                     LispToken.WITH_SLOTS,
                     LispToken.WITH_STANDARD_IO_SYNTAX -> {
-                        syntaxHighlightSpans.add(
-                            SyntaxHighlightSpan(
-                                span = StyleSpan(scheme.keywordColor),
+                        syntaxHighlightResults.add(
+                            SyntaxHighlightResult(
+                                tokenType = TokenType.KEYWORD,
                                 start = lexer.tokenStart,
                                 end = lexer.tokenEnd
                             )
@@ -228,20 +229,20 @@ class LispStyler private constructor() : LanguageStyler {
                     LispToken.TRUE,
                     LispToken.FALSE,
                     LispToken.NULL -> {
-                        val styleSpan = StyleSpan(scheme.langConstColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.LANG_CONST
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LispToken.DOUBLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(scheme.stringColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.STRING
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LispToken.LINE_COMMENT,
                     LispToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(scheme.commentColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.COMMENT
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     LispToken.IDENTIFIER,
                     LispToken.WHITESPACE,
@@ -257,6 +258,6 @@ class LispStyler private constructor() : LanguageStyler {
                 break
             }
         }
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }

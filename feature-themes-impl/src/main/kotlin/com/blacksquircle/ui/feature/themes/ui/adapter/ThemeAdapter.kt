@@ -123,10 +123,13 @@ class ThemeAdapter(
             }
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)
-            binding.editor.themeModel = themeModel
-            binding.editor.text = codeSnippet.first
+            binding.editor.setTextColor(item.colorScheme.textColor)
             binding.editor.doOnPreDraw {
-                binding.editor.language = LanguageFactory.create(codeSnippet.second)
+                binding.editor.syntaxHighlight(
+                    text = codeSnippet.first,
+                    language = LanguageFactory.create(codeSnippet.second),
+                    colorScheme = item.colorScheme,
+                )
             }
         }
     }

@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.language.sql.parser
 
-import com.blacksquircle.ui.language.base.exception.ParseException
 import com.blacksquircle.ui.language.base.model.ParseResult
+import com.blacksquircle.ui.language.base.model.TextStructure
 import com.blacksquircle.ui.language.base.parser.LanguageParser
 
 class SqlParser private constructor() : LanguageParser {
@@ -33,9 +33,7 @@ class SqlParser private constructor() : LanguageParser {
         }
     }
 
-    override fun execute(name: String, source: String): ParseResult {
-        // TODO Implement parser
-        val parseException = ParseException("Unable to parse unsupported language", 0, 0)
-        return ParseResult(parseException)
+    override fun execute(structure: TextStructure): ParseResult {
+        TODO("Not yet implemented")
     }
 }

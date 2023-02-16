@@ -22,11 +22,11 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.Editable
 import android.util.Log
+import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.editorkit.plugin.base.EditorPlugin
 import com.blacksquircle.ui.editorkit.utils.bottomVisibleLine
 import com.blacksquircle.ui.editorkit.utils.topVisibleLine
 import com.blacksquircle.ui.editorkit.widget.TextProcessor
-import com.blacksquircle.ui.language.base.model.ColorScheme
 
 class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
 
@@ -79,8 +79,8 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
         gutterTextPaint.textAlign = Paint.Align.RIGHT
     }
 
-    override fun beforeDraw(canvas: Canvas?) {
-        super.beforeDraw(canvas)
+    override fun drawBehind(canvas: Canvas?) {
+        super.drawBehind(canvas)
         if (highlightCurrentLine) {
             val currentLineStart = structure.getLineForIndex(editText.selectionStart)
             if (currentLineStart == structure.getLineForIndex(editText.selectionEnd)) {
@@ -107,8 +107,8 @@ class LineNumbersPlugin : EditorPlugin(PLUGIN_ID) {
         updateGutter()
     }
 
-    override fun afterDraw(canvas: Canvas?) {
-        super.afterDraw(canvas)
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
         if (lineNumbers) {
             val currentLineStart = structure.getLineForIndex(editText.selectionStart)
             canvas?.drawRect(

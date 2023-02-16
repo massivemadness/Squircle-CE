@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.editorkit.utils
 
 import android.graphics.Color
-import com.blacksquircle.ui.language.base.model.ColorScheme
+import com.blacksquircle.ui.editorkit.model.ColorScheme
 
 object EditorTheme {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.language.base.span
+package com.blacksquircle.ui.language.base.model
 
 import android.graphics.Color
 import androidx.annotation.ColorInt

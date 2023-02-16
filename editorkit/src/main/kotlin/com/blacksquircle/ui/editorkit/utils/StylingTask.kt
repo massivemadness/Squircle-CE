@@ -19,12 +19,12 @@ package com.blacksquircle.ui.editorkit.utils
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
 import java.util.concurrent.Executors
 
 class StylingTask(
-    private val doAsync: () -> List<SyntaxHighlightSpan>,
-    private val onSuccess: (List<SyntaxHighlightSpan>) -> Unit,
+    private val doAsync: () -> List<SyntaxHighlightResult>,
+    private val onSuccess: (List<SyntaxHighlightResult>) -> Unit,
 ) {
 
     private val mainThreadHandler = Handler(Looper.getMainLooper())

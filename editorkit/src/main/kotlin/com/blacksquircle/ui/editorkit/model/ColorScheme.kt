@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.language.base.model
+package com.blacksquircle.ui.editorkit.model
 
 import androidx.annotation.ColorInt
 

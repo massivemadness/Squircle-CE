@@ -18,9 +18,8 @@ package com.blacksquircle.ui.language.base.model
 
 import android.text.SpannableStringBuilder
 
-class TextStructure {
+class TextStructure(val text: SpannableStringBuilder) {
 
-    val text = SpannableStringBuilder("")
     val lineCount: Int
         get() = lines.size
 

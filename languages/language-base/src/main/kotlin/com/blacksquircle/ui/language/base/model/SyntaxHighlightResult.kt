@@ -14,30 +14,29 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.language.base.span
+package com.blacksquircle.ui.language.base.model
 
 import android.text.TextPaint
 import android.text.style.CharacterStyle
 
-data class SyntaxHighlightSpan(
-    private val span: StyleSpan,
+data class SyntaxHighlightResult(
+    val tokenType: TokenType,
     var start: Int,
     var end: Int
-) : CharacterStyle(), Comparable<SyntaxHighlightSpan> {
+) {
 
-    override fun updateDrawState(textPaint: TextPaint?) {
-        textPaint?.color = span.color
-        textPaint?.isFakeBoldText = span.bold
-        textPaint?.isUnderlineText = span.underline
-        if (span.italic) {
-            textPaint?.textSkewX = -0.1f
-        }
-        if (span.strikethrough) {
-            textPaint?.flags = TextPaint.STRIKE_THRU_TEXT_FLAG
-        }
-    }
+    class Span(private val span: StyleSpan) : CharacterStyle() {
 
-    override fun compareTo(other: SyntaxHighlightSpan): Int {
-        return start - other.start
+        override fun updateDrawState(textPaint: TextPaint?) {
+            textPaint?.color = span.color
+            textPaint?.isFakeBoldText = span.bold
+            textPaint?.isUnderlineText = span.underline
+            if (span.italic) {
+                textPaint?.textSkewX = -0.1f
+            }
+            if (span.strikethrough) {
+                textPaint?.flags = TextPaint.STRIKE_THRU_TEXT_FLAG
+            }
+        }
     }
 }

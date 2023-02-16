@@ -19,10 +19,10 @@ package com.blacksquircle.ui.feature.themes.data.converter
 import androidx.core.graphics.toColorInt
 import com.blacksquircle.ui.core.data.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.core.ui.extensions.toHexString
+import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalScheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.language.base.model.ColorScheme
 import java.util.*
 
 object ThemeConverter {

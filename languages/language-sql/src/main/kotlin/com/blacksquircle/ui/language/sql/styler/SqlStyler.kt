@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.language.sql.styler
 
 import android.util.Log
-import com.blacksquircle.ui.language.base.model.ColorScheme
-import com.blacksquircle.ui.language.base.span.StyleSpan
-import com.blacksquircle.ui.language.base.span.SyntaxHighlightSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.language.base.styler.LanguageStyler
 import com.blacksquircle.ui.language.sql.lexer.SqlLexer
 import com.blacksquircle.ui.language.sql.lexer.SqlToken
@@ -41,8 +41,9 @@ class SqlStyler private constructor() : LanguageStyler {
         }
     }
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val source = structure.text.toString()
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         val sourceReader = StringReader(source)
         val lexer = SqlLexer(sourceReader)
 
@@ -52,9 +53,9 @@ class SqlStyler private constructor() : LanguageStyler {
                     SqlToken.INTEGER_LITERAL,
                     SqlToken.FLOAT_LITERAL,
                     SqlToken.DOUBLE_LITERAL -> {
-                        val styleSpan = StyleSpan(scheme.numberColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.NUMBER
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     SqlToken.GTEQ,
                     SqlToken.LTEQ,
@@ -74,9 +75,9 @@ class SqlStyler private constructor() : LanguageStyler {
                     SqlToken.SEMICOLON,
                     SqlToken.COMMA,
                     SqlToken.DOT -> {
-                        val styleSpan = StyleSpan(scheme.operatorColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.OPERATOR
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     SqlToken.ADD,
                     SqlToken.ALL,
@@ -220,9 +221,9 @@ class SqlStyler private constructor() : LanguageStyler {
                     SqlToken.TRANSLATE,
                     SqlToken.TRIM,
                     SqlToken.UPPER -> {
-                        syntaxHighlightSpans.add(
-                            SyntaxHighlightSpan(
-                                span = StyleSpan(scheme.keywordColor),
+                        syntaxHighlightResults.add(
+                            SyntaxHighlightResult(
+                                tokenType = TokenType.KEYWORD,
                                 start = lexer.tokenStart,
                                 end = lexer.tokenEnd
                             )
@@ -230,15 +231,15 @@ class SqlStyler private constructor() : LanguageStyler {
                     }
                     SqlToken.DOUBLE_QUOTED_STRING,
                     SqlToken.SINGLE_QUOTED_STRING -> {
-                        val styleSpan = StyleSpan(scheme.stringColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.STRING
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     SqlToken.LINE_COMMENT,
                     SqlToken.BLOCK_COMMENT -> {
-                        val styleSpan = StyleSpan(scheme.commentColor)
-                        val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, lexer.tokenStart, lexer.tokenEnd)
-                        syntaxHighlightSpans.add(syntaxHighlightSpan)
+                        val tokenType = TokenType.COMMENT
+                        val syntaxHighlightResult = SyntaxHighlightResult(tokenType, lexer.tokenStart, lexer.tokenEnd)
+                        syntaxHighlightResults.add(syntaxHighlightResult)
                     }
                     SqlToken.IDENTIFIER,
                     SqlToken.WHITESPACE,
@@ -254,6 +255,6 @@ class SqlStyler private constructor() : LanguageStyler {
                 break
             }
         }
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }

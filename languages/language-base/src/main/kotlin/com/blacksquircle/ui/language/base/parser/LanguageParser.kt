@@ -17,7 +17,8 @@
 package com.blacksquircle.ui.language.base.parser
 
 import com.blacksquircle.ui.language.base.model.ParseResult
+import com.blacksquircle.ui.language.base.model.TextStructure
 
 interface LanguageParser {
-    fun execute(name: String, source: String): ParseResult
+    fun execute(structure: TextStructure): ParseResult
 }

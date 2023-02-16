@@ -18,11 +18,16 @@ package com.blacksquircle.ui.feature.themes.ui.customview
 
 import android.content.Context
 import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.toSpannable
-import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
+import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.language.base.Language
+import com.blacksquircle.ui.language.base.model.StyleSpan
+import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
+import com.blacksquircle.ui.language.base.model.TextStructure
+import com.blacksquircle.ui.language.base.model.TokenType
 
 class CodeView @JvmOverloads constructor(
     context: Context,
@@ -30,41 +35,45 @@ class CodeView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-    var language: Language? = null
-        set(value) {
-            field = value
-            syntaxHighlight()
+    fun syntaxHighlight(
+        text: CharSequence,
+        language: Language,
+        colorScheme: ColorScheme,
+    ) {
+        if (layout == null) {
+            return
         }
-
-    var themeModel: ThemeModel? = null
-        set(value) {
-            field = value
-            colorize()
+        val structure = TextStructure(SpannableStringBuilder(text))
+        val results = language.getStyler().execute(structure)
+        val currentText = text.toSpannable()
+        for (result in results) {
+            currentText.setSpan(
+                SyntaxHighlightResult.Span(
+                    StyleSpan(
+                        color = when (result.tokenType) {
+                            TokenType.NUMBER -> colorScheme.numberColor
+                            TokenType.OPERATOR -> colorScheme.operatorColor
+                            TokenType.KEYWORD -> colorScheme.keywordColor
+                            TokenType.TYPE -> colorScheme.typeColor
+                            TokenType.LANG_CONST -> colorScheme.langConstColor
+                            TokenType.PREPROCESSOR -> colorScheme.preprocessorColor
+                            TokenType.VARIABLE -> colorScheme.variableColor
+                            TokenType.METHOD -> colorScheme.methodColor
+                            TokenType.STRING -> colorScheme.stringColor
+                            TokenType.COMMENT -> colorScheme.commentColor
+                            TokenType.TAG -> colorScheme.tagColor
+                            TokenType.TAG_NAME -> colorScheme.tagNameColor
+                            TokenType.ATTR_NAME -> colorScheme.attrNameColor
+                            TokenType.ATTR_VALUE -> colorScheme.attrValueColor
+                            TokenType.ENTITY_REF -> colorScheme.entityRefColor
+                        }
+                    )
+                ),
+                result.start,
+                result.end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+            )
         }
-
-    private fun colorize() {
-        themeModel?.let {
-            setTextColor(it.colorScheme.textColor)
-            // setBackgroundColor(it.colorScheme.backgroundColor)
-        }
-    }
-
-    private fun syntaxHighlight() {
-        themeModel?.let {
-            language?.getStyler()?.execute(text.toString(), it.colorScheme)?.let { spans ->
-                if (layout != null) {
-                    val currentText = text.toSpannable()
-                    for (span in spans) {
-                        currentText.setSpan(
-                            span,
-                            span.start,
-                            span.end,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
-                        )
-                    }
-                    text = currentText
-                }
-            }
-        }
+        setText(currentText)
     }
 }
