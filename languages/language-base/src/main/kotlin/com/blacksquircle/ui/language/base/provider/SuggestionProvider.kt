@@ -20,7 +20,7 @@ import com.blacksquircle.ui.language.base.model.Suggestion
 
 interface SuggestionProvider {
     fun getAll(): Set<Suggestion>
-    fun processLine(lineNumber: Int, text: String)
+    fun processLine(lineNumber: Int, text: CharSequence)
     fun deleteLine(lineNumber: Int)
     fun clearLines()
 }

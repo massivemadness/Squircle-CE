@@ -39,7 +39,7 @@ class HtmlProvider private constructor() : SuggestionProvider {
         return wordsManager.getWords()
     }
 
-    override fun processLine(lineNumber: Int, text: String) {
+    override fun processLine(lineNumber: Int, text: CharSequence) {
         wordsManager.processLine(lineNumber, text)
     }
 

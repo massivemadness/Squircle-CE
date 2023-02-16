@@ -16,15 +16,24 @@
 
 package com.blacksquircle.ui.editorkit.model
 
-class LinesCollection : Iterable<LinesCollection.Line> {
+import android.text.SpannableStringBuilder
 
+class LinesCollection {
+
+    val text = SpannableStringBuilder("")
     val lineCount: Int
         get() = lines.size
 
-    private val lines = mutableListOf(Line(0))
+    private val lines = mutableListOf<Line>()
+
+    init {
+        lines.add(Line(0))
+    }
 
     fun add(line: Int, index: Int) {
-        lines.add(line, Line(index))
+        if (line != 0) {
+            lines.add(line, Line(index))
+        }
     }
 
     fun remove(line: Int) {
@@ -39,10 +48,7 @@ class LinesCollection : Iterable<LinesCollection.Line> {
     }
 
     fun shiftIndexes(fromLine: Int, shiftBy: Int) {
-        if (fromLine <= 0) {
-            return
-        }
-        if (fromLine < lineCount) {
+        if (fromLine in 1 until lineCount) {
             var i = fromLine
             while (i < lineCount) {
                 val newIndex = getIndexForLine(i) + shiftBy
@@ -70,6 +76,9 @@ class LinesCollection : Iterable<LinesCollection.Line> {
     }
 
     fun getIndexForEndOfLine(lineNumber: Int): Int {
+        if (lineNumber == lineCount - 1) {
+            return text.length
+        }
         return getIndexForLine(lineNumber + 1) - 1
     }
 
@@ -94,10 +103,6 @@ class LinesCollection : Iterable<LinesCollection.Line> {
             return lines[line]
         }
         return Line(0)
-    }
-
-    override fun iterator(): Iterator<Line> {
-        return lines.iterator()
     }
 
     data class Line(var start: Int) : Comparable<Line> {

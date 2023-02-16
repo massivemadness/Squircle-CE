@@ -19,20 +19,18 @@ package com.blacksquircle.ui.editorkit.widget.internal
 import android.content.Context
 import android.text.Editable
 import android.text.InputType
-import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
-import com.blacksquircle.ui.editorkit.R
 import com.blacksquircle.ui.editorkit.model.LinesCollection
 
 abstract class LineNumbersEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
+    defStyleAttr: Int = android.R.attr.autoCompleteTextViewStyle,
 ) : ScrollableEditText(context, attrs, defStyleAttr) {
 
     var softKeyboard: Boolean = false
@@ -47,7 +45,6 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     val lines = LinesCollection()
 
-    private val textContent = SpannableStringBuilder("")
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             doBeforeTextChanged(s, start, count, after)
@@ -62,7 +59,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     private var textChangeStart = 0
     private var textChangeEnd = 0
-    private var textChangedNewText = ""
+    private var textChangedNewText: CharSequence = ""
 
     init {
         gravity = Gravity.START or Gravity.TOP
@@ -77,7 +74,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
     }
 
     open fun doOnTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-        textChangedNewText = text?.subSequence(start, start + count).toString()
+        textChangedNewText = text?.subSequence(start, start + count) ?: ""
         replaceText(textChangeStart, textChangeEnd, textChangedNewText)
     }
 
@@ -87,29 +84,18 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
         removeTextChangedListener(textWatcher)
 
         setText(textParams)
-        textContent.clear()
-        replaceText(0, textContent.length, textParams.toString())
-
-        lines.clear()
-        var lineNumber = 0
-        var lineStart = 0
-        text.lines().forEach { line ->
-            addLine(lineNumber, lineStart, line.length)
-            lineStart += line.length + 1
-            lineNumber++
-        }
-        lines.add(lineNumber, lineStart)
+        replaceText(0, lines.text.length, textParams)
 
         addTextChangedListener(textWatcher)
     }
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
         val start = if (newStart < 0) 0 else newStart
-        val end = if (newEnd >= textContent.length) textContent.length else newEnd
+        val end = if (newEnd >= lines.text.length) lines.text.length else newEnd
         val newCharCount = newText.length - (end - start)
         val startLine = lines.getLineForIndex(start)
         for (i in start until end) {
-            if (textContent[i] == '\n') {
+            if (lines.text[i] == '\n') {
                 removeLine(startLine + 1)
             }
         }
@@ -119,7 +105,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
                 lines.add(lines.getLineForIndex(start + i) + 1, start + i + 1)
             }
         }
-        textContent.replace(start, end, newText)
+        lines.text.replace(start, end, newText)
     }
 
     open fun addLine(lineNumber: Int, lineStart: Int, lineLength: Int) {

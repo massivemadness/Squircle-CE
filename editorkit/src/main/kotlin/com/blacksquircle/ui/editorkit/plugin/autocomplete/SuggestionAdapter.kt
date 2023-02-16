@@ -49,7 +49,7 @@ abstract class SuggestionAdapter(
             suggestionProvider?.let { provider ->
                 val query = constraint.toString()
                 for (suggestion in provider.getAll()) {
-                    val word = suggestion.text
+                    val word = suggestion.toString()
                     if (word.startsWith(query, ignoreCase = true) &&
                         !word.equals(query, ignoreCase = true)
                     ) {

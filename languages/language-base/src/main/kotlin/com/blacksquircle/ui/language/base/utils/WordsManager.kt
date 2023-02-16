@@ -39,13 +39,13 @@ class WordsManager {
         return wordsSet
     }
 
-    fun processLine(lineNumber: Int, text: String) {
+    fun processLine(lineNumber: Int, text: CharSequence) {
         lineMap[lineNumber]?.clear()
         val matcher = wordsPattern.matcher(text)
         while (matcher.find()) {
             val word = Suggestion(
                 type = Suggestion.Type.WORD,
-                text = text.substring(matcher.start(), matcher.end()),
+                text = text.subSequence(matcher.start(), matcher.end()),
                 returnType = "",
             )
             if (lineMap.containsKey(lineNumber)) {

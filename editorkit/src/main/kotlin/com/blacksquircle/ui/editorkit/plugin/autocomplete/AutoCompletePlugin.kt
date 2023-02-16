@@ -57,7 +57,7 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
         super.addLine(lineNumber, lineStart, lineLength)
         language?.getProvider()?.processLine(
             lineNumber = lineNumber,
-            text = editText.text.substring(lineStart, lineStart + lineLength),
+            text = editText.text.subSequence(lineStart, lineStart + lineLength),
         )
     }
 
@@ -83,7 +83,7 @@ class AutoCompletePlugin : EditorPlugin(PLUGIN_ID) {
             if (lineStart <= lineEnd && lineEnd <= editText.text.length) {
                 language?.getProvider()?.processLine(
                     lineNumber = currentLine,
-                    text = editText.text.substring(lineStart, lineEnd),
+                    text = editText.text.subSequence(lineStart, lineEnd),
                 )
             }
         }

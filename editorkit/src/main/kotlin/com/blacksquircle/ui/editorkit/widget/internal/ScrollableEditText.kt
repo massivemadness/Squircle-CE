@@ -21,16 +21,15 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.ViewConfiguration
+import android.widget.MultiAutoCompleteTextView
 import android.widget.OverScroller
-import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
-import com.blacksquircle.ui.editorkit.R
 import kotlin.math.abs
 
 abstract class ScrollableEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
-) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyleAttr) {
+    defStyleAttr: Int = android.R.attr.autoCompleteTextViewStyle,
+) : MultiAutoCompleteTextView(context, attrs, defStyleAttr) {
 
     private val textScroller = OverScroller(context)
     private val scrollListeners = mutableListOf<OnScrollChangedListener>()

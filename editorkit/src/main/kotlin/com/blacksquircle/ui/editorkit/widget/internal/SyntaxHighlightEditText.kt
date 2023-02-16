@@ -38,7 +38,7 @@ import java.util.regex.PatternSyntaxException
 abstract class SyntaxHighlightEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
+    defStyleAttr: Int = android.R.attr.autoCompleteTextViewStyle,
 ) : UndoRedoEditText(context, attrs, defStyleAttr) {
 
     var language: Language? = null

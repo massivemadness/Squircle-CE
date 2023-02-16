@@ -26,7 +26,7 @@ import com.blacksquircle.ui.editorkit.setSelectionIndex
 abstract class UndoRedoEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = androidx.appcompat.R.attr.autoCompleteTextViewStyle,
+    defStyleAttr: Int = android.R.attr.autoCompleteTextViewStyle,
 ) : LineNumbersEditText(context, attrs, defStyleAttr) {
 
     var undoStack = UndoStack()
