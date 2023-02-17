@@ -25,6 +25,9 @@ import com.blacksquircle.ui.core.data.storage.database.utils.Tables
 @Dao
 abstract class FontDao : BaseDao<FontEntity> {
 
+    @Query("SELECT * FROM `${Tables.FONTS}`")
+    abstract suspend fun loadAll(): List<FontEntity>
+
     @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_name` LIKE '%' || :searchQuery || '%'")
     abstract suspend fun loadAll(searchQuery: String): List<FontEntity>
 

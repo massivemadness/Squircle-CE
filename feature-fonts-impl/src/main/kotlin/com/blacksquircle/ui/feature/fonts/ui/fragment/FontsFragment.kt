@@ -41,6 +41,7 @@ import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.ui.adapter.FontAdapter
+import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontIntent
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +56,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
     private val navController by lazy { findNavController() }
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
-            is ContractResult.Success -> viewModel.importFont(result.uri)
+            is ContractResult.Success -> viewModel.obtainEvent(FontIntent.ImportFont(result.uri))
             is ContractResult.Canceled -> Unit
         }
     }
@@ -78,8 +79,12 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         }
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = FontAdapter(object : FontAdapter.Actions {
-            override fun selectFont(fontModel: FontModel) = viewModel.selectFont(fontModel)
-            override fun removeFont(fontModel: FontModel) = viewModel.removeFont(fontModel)
+            override fun selectFont(fontModel: FontModel) {
+                viewModel.obtainEvent(FontIntent.SelectFont(fontModel))
+            }
+            override fun removeFont(fontModel: FontModel) {
+                viewModel.obtainEvent(FontIntent.RemoveFont(fontModel))
+            }
         }).also {
             adapter = it
         }
@@ -106,7 +111,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
                     }
 
                     searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-                        viewModel.fetchFonts(it)
+                        viewModel.obtainEvent(FontIntent.SearchFonts(it))
                     }
                 }
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

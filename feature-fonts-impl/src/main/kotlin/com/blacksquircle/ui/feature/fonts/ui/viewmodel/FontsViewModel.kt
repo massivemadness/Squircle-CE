@@ -16,13 +16,11 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,17 +43,29 @@ class FontsViewModel @Inject constructor(
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     init {
-        fetchFonts("")
+        loadFonts()
     }
 
-    fun fetchFonts(query: String) {
+    fun obtainEvent(event: FontIntent) {
+        when (event) {
+            is FontIntent.LoadFonts -> loadFonts()
+            is FontIntent.SearchFonts -> loadFonts(event)
+            is FontIntent.ImportFont -> importFont(event)
+            is FontIntent.SelectFont -> selectFont(event)
+            is FontIntent.RemoveFont -> removeFont(event)
+        }
+    }
+
+    private fun loadFonts() {
         viewModelScope.launch {
             try {
-                val fonts = fontsRepository.fetchFonts(query)
-                if (fonts.isNotEmpty()) {
-                    _fontsState.value = FontsViewState.Data(query, fonts)
-                } else {
-                    _fontsState.value = FontsViewState.Empty(query)
+                val fonts = fontsRepository.loadFonts()
+                _fontsState.update {
+                    if (fonts.isNotEmpty()) {
+                        FontsViewState.Data(query = "", fonts = fonts)
+                    } else {
+                        FontsViewState.Empty(query = "")
+                    }
                 }
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -66,14 +76,34 @@ class FontsViewModel @Inject constructor(
         }
     }
 
-    fun importFont(fileUri: Uri) {
+    private fun loadFonts(event: FontIntent.SearchFonts) {
         viewModelScope.launch {
             try {
-                fontsRepository.importFont(fileUri)
+                val fonts = fontsRepository.loadFonts(event.query)
+                _fontsState.update {
+                    if (fonts.isNotEmpty()) {
+                        FontsViewState.Data(event.query, fonts)
+                    } else {
+                        FontsViewState.Empty(event.query)
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
+                )
+            }
+        }
+    }
+
+    private fun importFont(event: FontIntent.ImportFont) {
+        viewModelScope.launch {
+            try {
+                fontsRepository.importFont(event.fileUri)
                 _viewEvent.send(
                     ViewEvent.Toast(stringProvider.getString(R.string.message_new_font_available)),
                 )
-                fetchFonts("")
+                loadFonts()
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
@@ -83,40 +113,40 @@ class FontsViewModel @Inject constructor(
         }
     }
 
-    fun removeFont(fontModel: FontModel) {
+    private fun selectFont(event: FontIntent.SelectFont) {
         viewModelScope.launch {
             try {
-                fontsRepository.removeFont(fontModel)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(
-                            R.string.message_font_removed,
-                            fontModel.fontName,
-                        ),
-                    ),
-                )
-                fetchFonts("")
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
-                )
-            }
-        }
-    }
-
-    fun selectFont(fontModel: FontModel) {
-        viewModelScope.launch {
-            try {
-                fontsRepository.selectFont(fontModel)
+                fontsRepository.selectFont(event.fontModel)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
                             R.string.message_selected,
-                            fontModel.fontName,
+                            event.fontModel.fontName,
                         ),
                     ),
                 )
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
+                )
+            }
+        }
+    }
+
+    private fun removeFont(event: FontIntent.RemoveFont) {
+        viewModelScope.launch {
+            try {
+                fontsRepository.removeFont(event.fontModel)
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_font_removed,
+                            event.fontModel.fontName,
+                        ),
+                    ),
+                )
+                loadFonts()
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(

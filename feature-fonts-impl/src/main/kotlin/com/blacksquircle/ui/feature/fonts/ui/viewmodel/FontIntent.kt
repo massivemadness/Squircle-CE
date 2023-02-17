@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.domain.repository
+package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 
 import android.net.Uri
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
-interface FontsRepository {
+sealed class FontIntent {
 
-    suspend fun loadFonts(): List<FontModel>
-    suspend fun loadFonts(query: String): List<FontModel>
+    object LoadFonts : FontIntent()
 
-    suspend fun importFont(fileUri: Uri)
-    suspend fun selectFont(fontModel: FontModel)
-    suspend fun removeFont(fontModel: FontModel)
+    data class SearchFonts(val query: String) : FontIntent()
+    data class ImportFont(val fileUri: Uri) : FontIntent()
+    data class SelectFont(val fontModel: FontModel) : FontIntent()
+    data class RemoveFont(val fontModel: FontModel) : FontIntent()
 }

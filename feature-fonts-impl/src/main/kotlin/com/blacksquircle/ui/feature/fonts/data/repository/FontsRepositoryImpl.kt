@@ -35,7 +35,14 @@ class FontsRepositoryImpl(
     private val context: Context,
 ) : FontsRepository {
 
-    override suspend fun fetchFonts(query: String): List<FontModel> {
+    override suspend fun loadFonts(): List<FontModel> {
+        return withContext(dispatcherProvider.io()) {
+            appDatabase.fontDao().loadAll()
+                .map(FontConverter::toModel) + internalFonts()
+        }
+    }
+
+    override suspend fun loadFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
             val defaultFonts = internalFonts()
                 .filter { it.fontName.contains(query, ignoreCase = true) }
@@ -66,6 +73,12 @@ class FontsRepositoryImpl(
         }
     }
 
+    override suspend fun selectFont(fontModel: FontModel) {
+        withContext(dispatcherProvider.io()) {
+            settingsManager.fontType = fontModel.fontPath
+        }
+    }
+
     override suspend fun removeFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
             val fontFile = File(context.cacheDir, fontModel.fontUuid)
@@ -76,12 +89,6 @@ class FontsRepositoryImpl(
             if (settingsManager.fontType == fontModel.fontPath) {
                 settingsManager.remove(SettingsManager.KEY_FONT_TYPE)
             }
-        }
-    }
-
-    override suspend fun selectFont(fontModel: FontModel) {
-        withContext(dispatcherProvider.io()) {
-            settingsManager.fontType = fontModel.fontPath
         }
     }
 
