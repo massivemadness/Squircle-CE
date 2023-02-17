@@ -46,6 +46,7 @@ import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.ui.adapter.PropertyAdapter
+import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.feature.themes.ui.viewstate.NewThemeViewState
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
@@ -63,7 +64,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     private val navArgs by navArgs<NewThemeFragmentArgs>()
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
-            is ContractResult.Success -> viewModel.importTheme(result.uri)
+            is ContractResult.Success -> viewModel.obtainIntent(ThemeIntent.ImportTheme(result.uri))
             is ContractResult.Canceled -> Unit
         }
     }
@@ -73,7 +74,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            viewModel.fetchProperties(navArgs.uuid)
+            viewModel.obtainIntent(ThemeIntent.LoadProperties(navArgs.uuid))
         }
     }
 
@@ -89,13 +90,13 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         }
 
         binding.textInputThemeName.doAfterTextChanged {
-            viewModel.onThemeNameChanged(it.toString())
+            viewModel.obtainIntent(ThemeIntent.ChangeName(it.toString()))
         }
         binding.textInputThemeAuthor.doAfterTextChanged {
-            viewModel.onThemeAuthorChanged(it.toString())
+            viewModel.obtainIntent(ThemeIntent.ChangeAuthor(it.toString()))
         }
         binding.textInputThemeDescription.doAfterTextChanged {
-            viewModel.onThemeDescriptionChanged(it.toString())
+            viewModel.obtainIntent(ThemeIntent.ChangeDescription(it.toString()))
         }
 
         binding.recyclerView.setHasFixedSize(false)
@@ -111,7 +112,11 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                         allowCustomArgb = true,
                         showAlphaSelector = false,
                     ) { _, color ->
-                        viewModel.onThemePropertyChanged(item.propertyKey, color.toHexString())
+                        val event = ThemeIntent.ChangeProperty(
+                            item.propertyKey,
+                            color.toHexString(),
+                        )
+                        viewModel.obtainIntent(event)
                     }
                     positiveButton(R.string.action_select)
                     negativeButton(android.R.string.cancel)
@@ -128,7 +133,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                 author = binding.textInputThemeAuthor.text.toString(),
                 description = binding.textInputThemeDescription.text.toString(),
             )
-            viewModel.createTheme(meta, adapter.currentList)
+            viewModel.obtainIntent(ThemeIntent.CreateTheme(meta, adapter.currentList))
         }
 
         binding.toolbar.setNavigationOnClickListener {

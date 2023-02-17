@@ -25,6 +25,9 @@ import com.blacksquircle.ui.core.data.storage.database.utils.Tables
 @Dao
 abstract class ThemeDao : BaseDao<ThemeEntity> {
 
+    @Query("SELECT * FROM `${Tables.THEMES}`")
+    abstract suspend fun loadAll(): List<ThemeEntity>
+
     @Query("SELECT * FROM `${Tables.THEMES}` WHERE `name` LIKE '%' || :searchQuery || '%'")
     abstract suspend fun loadAll(searchQuery: String): List<ThemeEntity>
 

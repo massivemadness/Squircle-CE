@@ -48,6 +48,7 @@ import com.blacksquircle.ui.feature.themes.databinding.FragmentThemesBinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.ui.adapter.ThemeAdapter
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
+import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.feature.themes.ui.viewstate.ThemesViewState
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,10 +61,11 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
     private val viewModel by hiltNavGraphViewModels<ThemesViewModel>(R.id.themes_graph)
     private val binding by viewBinding(FragmentThemesBinding::bind)
     private val navController by lazy { findNavController() }
-
     private val createFileContract = CreateFileContract(this) { result ->
         when (result) {
-            is ContractResult.Success -> viewModel.exportTheme(themeModel, result.uri)
+            is ContractResult.Success -> {
+                viewModel.obtainIntent(ThemeIntent.ExportTheme(themeModel, result.uri))
+            }
             is ContractResult.Canceled -> Unit
         }
     }
@@ -88,7 +90,9 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         }
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = ThemeAdapter(object : ThemeAdapter.Actions {
-            override fun selectTheme(themeModel: ThemeModel) = viewModel.selectTheme(themeModel)
+            override fun selectTheme(themeModel: ThemeModel) {
+                viewModel.obtainIntent(ThemeIntent.SelectTheme(themeModel))
+            }
             override fun exportTheme(themeModel: ThemeModel) {
                 this@ThemesFragment.themeModel = themeModel
                 createFileContract.launch(themeModel.name + ".json", "application/json")
@@ -96,7 +100,9 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             override fun editTheme(themeModel: ThemeModel) {
                 navController.navigate(ThemesScreen.Update(themeModel.uuid))
             }
-            override fun removeTheme(themeModel: ThemeModel) = viewModel.removeTheme(themeModel)
+            override fun removeTheme(themeModel: ThemeModel) {
+                viewModel.obtainIntent(ThemeIntent.RemoveTheme(themeModel))
+            }
             override fun showInfo(themeModel: ThemeModel) {
                 context?.showToast(text = themeModel.description)
             }
@@ -126,7 +132,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                     }
 
                     searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-                        viewModel.fetchThemes(it)
+                        viewModel.obtainIntent(ThemeIntent.SearchThemes(it))
                     }
 
                     val spinnerItem = menu.findItem(R.id.spinner)
@@ -170,7 +176,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                         binding.recyclerView.isInvisible = false
                         adapter.submitList(state.themes)
                     }
-                    ThemesViewState.Loading -> {
+                    is ThemesViewState.Loading -> {
                         binding.loadingBar.isVisible = true
                         binding.emptyView.isVisible = false
                         binding.recyclerView.isInvisible = true

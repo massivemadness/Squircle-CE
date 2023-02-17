@@ -68,7 +68,17 @@ class ThemesRepositoryImpl(
 
     // endregion PROPERTIES
 
-    override suspend fun fetchThemes(query: String): List<ThemeModel> {
+    override suspend fun loadThemes(): List<ThemeModel> {
+        return withContext(dispatcherProvider.io()) {
+            val defaultThemes = InternalTheme.values()
+                .map(InternalTheme::theme)
+            val userThemes = appDatabase.themeDao().loadAll()
+                .map(ThemeConverter::toModel)
+            userThemes + defaultThemes
+        }
+    }
+
+    override suspend fun loadThemes(query: String): List<ThemeModel> {
         return withContext(dispatcherProvider.io()) {
             val defaultThemes = InternalTheme.values()
                 .map(InternalTheme::theme)
@@ -79,7 +89,7 @@ class ThemesRepositoryImpl(
         }
     }
 
-    override suspend fun fetchTheme(uuid: String): ThemeModel {
+    override suspend fun loadTheme(uuid: String): ThemeModel {
         return withContext(dispatcherProvider.io()) {
             val themeEntity = appDatabase.themeDao().load(uuid)
             ThemeConverter.toModel(themeEntity)

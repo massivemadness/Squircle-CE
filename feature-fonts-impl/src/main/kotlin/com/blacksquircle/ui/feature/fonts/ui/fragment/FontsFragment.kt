@@ -137,7 +137,7 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
                         binding.recyclerView.isInvisible = false
                         adapter.submitList(state.fonts)
                     }
-                    FontsViewState.Loading -> {
+                    is FontsViewState.Loading -> {
                         binding.loadingBar.isVisible = true
                         binding.emptyView.isVisible = false
                         binding.recyclerView.isInvisible = true

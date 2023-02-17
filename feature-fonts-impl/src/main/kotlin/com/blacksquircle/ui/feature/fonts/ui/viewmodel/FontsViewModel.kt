@@ -49,6 +49,7 @@ class FontsViewModel @Inject constructor(
     fun obtainEvent(event: FontIntent) {
         when (event) {
             is FontIntent.LoadFonts -> loadFonts()
+
             is FontIntent.SearchFonts -> loadFonts(event)
             is FontIntent.ImportFont -> importFont(event)
             is FontIntent.SelectFont -> selectFont(event)

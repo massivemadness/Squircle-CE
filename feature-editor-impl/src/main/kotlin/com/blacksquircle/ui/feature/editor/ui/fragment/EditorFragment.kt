@@ -83,7 +83,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     private val toolbarManager by lazy { ToolbarManager(this) }
     private val tabController by lazy { TabController() }
     private val navController by lazy { findNavController() }
-
     private val createFileContract = CreateFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.SaveFileAs(result.uri))

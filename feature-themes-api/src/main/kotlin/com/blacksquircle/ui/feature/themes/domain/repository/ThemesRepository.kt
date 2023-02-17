@@ -23,8 +23,9 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 interface ThemesRepository {
 
-    suspend fun fetchThemes(query: String): List<ThemeModel>
-    suspend fun fetchTheme(uuid: String): ThemeModel
+    suspend fun loadThemes(): List<ThemeModel>
+    suspend fun loadThemes(query: String): List<ThemeModel>
+    suspend fun loadTheme(uuid: String): ThemeModel
 
     suspend fun importTheme(fileUri: Uri): ThemeModel
     suspend fun exportTheme(themeModel: ThemeModel, fileUri: Uri)
