@@ -212,6 +212,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.editor.undoStack = state.content.undoStack
                         binding.editor.redoStack = state.content.redoStack
                         binding.editor.setTextContent(measurement)
+                        binding.editor.abortFling()
                         binding.editor.scrollX = state.content.documentModel.scrollX
                         binding.editor.scrollY = state.content.documentModel.scrollY
                         binding.editor.setSelectionRange(
