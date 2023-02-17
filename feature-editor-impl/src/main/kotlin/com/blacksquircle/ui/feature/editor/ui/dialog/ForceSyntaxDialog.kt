@@ -24,6 +24,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
@@ -45,9 +46,10 @@ class ForceSyntaxDialog : DialogFragment() {
                 res = R.array.language_title,
                 initialSelection = languages.indexOf(navArgs.languageName),
                 waitForPositiveButton = false,
-            ) { _, index, _ ->
+            ) { _, index, text ->
                 val intent = EditorIntent.ForceSyntaxHighlighting(languages[index])
                 viewModel.obtainEvent(intent)
+                context.showToast(text = text)
                 dismiss()
             }
             negativeButton(android.R.string.cancel)

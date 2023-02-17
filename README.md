@@ -403,6 +403,7 @@ the color scheme:
 ```kotlin
 editor.colorScheme = ColorScheme(
     textColor = Color.parseColor("#C8C8C8"),
+    cursorColor = Color.parseColor("#BBBBBB"),
     backgroundColor = Color.parseColor("#232323"),
     gutterColor = Color.parseColor("#2C2C2C"),
     gutterDividerColor = Color.parseColor("#555555"),
@@ -470,8 +471,8 @@ class CustomPlugin : EditorPlugin("custom-plugin-id") {
         color = Color.GRAY
     }
 
-    override fun afterDraw(canvas: Canvas?) {
-        super.afterDraw(canvas)
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
         if (publicProperty) {
             var i = editText.topVisibleLine
             while (i <= editText.bottomVisibleLine) {
@@ -627,7 +628,7 @@ line by calling `editor.setErrorLine(lineNumber)` method.
 ```kotlin
 class CustomParser : LanguageParser {
 
-    override fun execute(name: String, source: String): ParseResult {
+    override fun execute(structure: TextStructure): ParseResult {
         // TODO Implement parser
         val lineNumber = 0
         val columnNumber = 0
@@ -696,12 +697,12 @@ on the main thread.
 ```kotlin
 class CustomStyler : LanguageStyler {
 
-    override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
-        val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+    override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+        val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
         
         // TODO Implement syntax highlighting
         
-        return syntaxHighlightSpans
+        return syntaxHighlightResults
     }
 }
 ```

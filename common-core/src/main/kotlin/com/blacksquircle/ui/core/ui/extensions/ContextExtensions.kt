@@ -25,7 +25,11 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.color.MaterialColors
 
-fun Context.showToast(@StringRes textRes: Int = -1, text: String = "", duration: Int = Toast.LENGTH_SHORT) {
+fun Context.showToast(
+    @StringRes textRes: Int = -1,
+    text: CharSequence = "",
+    duration: Int = Toast.LENGTH_SHORT,
+) {
     if (textRes != -1) {
         Toast.makeText(this, textRes, duration).show()
     } else {
