@@ -23,7 +23,7 @@
     android:paddingEnd="20dp"
     android:paddingBottom="16dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="4dp"
@@ -40,7 +40,7 @@
         android:hint="@string/hint_preset_chars"
         android:id="@+id/input"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="4dp"

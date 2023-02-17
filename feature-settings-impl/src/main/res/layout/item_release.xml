@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="v2020.2.2"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -68,7 +68,7 @@
         app:layout_constraintBottom_toBottomOf="@id/item_title"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

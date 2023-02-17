@@ -26,7 +26,7 @@
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -44,7 +44,7 @@
             android:singleLine="true"
             android:id="@+id/input_server_name" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -71,7 +71,7 @@
             android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -90,25 +90,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:textSize="12sp"
-            android:text="@string/hint_initial_dir" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:singleLine="true"
-            android:id="@+id/input_initial_dir" />
-
         <androidx.appcompat.widget.AppCompatSpinner
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -121,7 +102,7 @@
             app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -140,7 +121,7 @@
             android:singleLine="true"
             android:id="@+id/input_username" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -159,6 +140,25 @@
             android:inputType="textPassword"
             android:singleLine="true"
             android:id="@+id/input_password" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textSize="12sp"
+            android:text="@string/hint_initial_dir" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:singleLine="true"
+            android:id="@+id/input_initial_dir" />
 
     </LinearLayout>
 

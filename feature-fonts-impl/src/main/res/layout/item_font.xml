@@ -22,7 +22,7 @@
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toStartOf="@id/action_remove"
@@ -34,7 +34,7 @@
         android:singleLine="true"
         tools:text="JetBrains Mono"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -46,7 +46,7 @@
         android:src="@drawable/ic_close"
         app:tint="@color/colorIcon"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/item_title"

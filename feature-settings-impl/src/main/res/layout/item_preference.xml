@@ -26,7 +26,7 @@
     android:paddingEnd="24dp"
     android:background="?selectableItemBackground">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_title"
@@ -34,7 +34,7 @@
         android:singleLine="true"
         tools:text="Application"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_subtitle"

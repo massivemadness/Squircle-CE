@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.settings.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.afollestad.materialdialogs.MaterialDialog
@@ -26,6 +25,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +41,7 @@ class PresetDialog : DialogFragment() {
                 viewModel.resetKeyboardPreset()
             }
             positiveButton(R.string.action_save) {
-                val inputEditText = getCustomView().findViewById<EditText>(R.id.input)
+                val inputEditText = getCustomView().findViewById<TextInputEditText>(R.id.input)
                 val keyboardPreset = inputEditText.text.toString().trim()
                 if (keyboardPreset.isNotEmpty()) {
                     viewModel.keyboardPreset = keyboardPreset
@@ -49,7 +49,7 @@ class PresetDialog : DialogFragment() {
             }
 
             setOnShowListener {
-                val inputEditText = getCustomView().findViewById<EditText>(R.id.input)
+                val inputEditText = getCustomView().findViewById<TextInputEditText>(R.id.input)
                 if (savedInstanceState == null) {
                     inputEditText.setText(viewModel.keyboardPreset)
                 }

@@ -24,7 +24,7 @@
     <string name="hint_enter_preset_chars">符號欄預設符號（不要加分隔符）</string>
     <string name="hint_server_name">伺服器名稱</string>
     <string name="hint_server_address">伺服器地址</string>
-    <string name="hint_initial_dir">Initial directory</string>
+    <string name="hint_initial_dir">Initial Folder</string>
     <string name="hint_port">Port</string>
     <string name="hint_username">使用者名稱</string>
     <string name="hint_password">密碼</string>

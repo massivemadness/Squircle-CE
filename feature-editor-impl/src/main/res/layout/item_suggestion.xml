@@ -22,7 +22,7 @@
     android:orientation="horizontal"
     tools:background="?colorSurface">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="28dp"
         android:layout_height="match_parent"
         android:paddingBottom="4dp"
@@ -34,7 +34,7 @@
         tools:background="?colorSecondaryVariant"
         tools:text="m"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="6dp"

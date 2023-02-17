@@ -23,7 +23,7 @@
     android:layout_height="30dp"
     android:background="?selectableItemBackground">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="JavaScriptAPI.js"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginEnd="4dp"

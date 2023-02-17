@@ -25,7 +25,7 @@
     <string name="hint_preset_chars" translatable="false">{}();,.=|&amp;![]&lt;&gt;+-/*?:_</string>
     <string name="hint_server_name">Server Name</string>
     <string name="hint_server_address">Server Address</string>
-    <string name="hint_initial_dir">Initial directory</string>
+    <string name="hint_initial_dir">Initial Folder</string>
     <string name="hint_port">Port</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>

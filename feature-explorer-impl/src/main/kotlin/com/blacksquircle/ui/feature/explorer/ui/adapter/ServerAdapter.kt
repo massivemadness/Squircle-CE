@@ -21,10 +21,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
 import com.blacksquircle.ui.core.ui.extensions.replaceList
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.google.android.material.textview.MaterialTextView
 
 class ServerAdapter(
     private val context: Context,
@@ -36,7 +36,7 @@ class ServerAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: inflater.inflate(R.layout.item_filesystem, parent, false)
-        val text = view.findViewById<TextView>(android.R.id.text1)
+        val text = view.findViewById<MaterialTextView>(android.R.id.text1)
         val item = getItem(position)
         text?.text = item
         return view
@@ -44,7 +44,7 @@ class ServerAdapter(
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: inflater.inflate(R.layout.item_dropdown, parent, false)
-        val text = view.findViewById<TextView>(android.R.id.text1)
+        val text = view.findViewById<MaterialTextView>(android.R.id.text1)
         val item = getItem(position)
         text?.text = item
         if (!isEnabled(position)) {

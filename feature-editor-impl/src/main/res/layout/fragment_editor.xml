@@ -42,7 +42,7 @@
             android:layout_height="45dp"
             android:id="@+id/default_panel">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
@@ -55,7 +55,7 @@
                 android:id="@+id/action_drawer"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_file"
@@ -66,7 +66,7 @@
                 android:id="@+id/action_save"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_edit"
@@ -77,7 +77,7 @@
                 android:id="@+id/action_file"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_find"
@@ -88,7 +88,7 @@
                 android:id="@+id/action_edit"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_tools"
@@ -99,7 +99,7 @@
                 android:id="@+id/action_find"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_undo"
@@ -110,7 +110,7 @@
                 android:id="@+id/action_tools"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_redo"
@@ -121,7 +121,7 @@
                 android:id="@+id/action_undo"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_overflow"
@@ -132,7 +132,7 @@
                 android:id="@+id/action_redo"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentEnd="true"
@@ -155,7 +155,7 @@
             android:id="@+id/find_panel"
             android:visibility="gone">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toStartOf="@id/action_down"
@@ -169,7 +169,7 @@
                 android:singleLine="true"
                 android:id="@+id/input_find" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_up"
@@ -180,7 +180,7 @@
                 android:id="@+id/action_down"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_find_overflow"
@@ -191,7 +191,7 @@
                 android:id="@+id/action_up"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentEnd="true"
@@ -215,7 +215,7 @@
             android:visibility="gone"
             android:background="?colorSecondaryVariant">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toStartOf="@id/action_replace"
@@ -229,7 +229,7 @@
                 android:singleLine="true"
                 android:id="@+id/input_replace" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_toStartOf="@id/action_replace_all"
@@ -240,7 +240,7 @@
                 android:id="@+id/action_replace"
                 app:tint="?colorOnSurface" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentEnd="true"
@@ -340,7 +340,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/action_tab"
             android:layout_width="36dp"
             android:layout_height="36dp"

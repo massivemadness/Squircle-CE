@@ -25,7 +25,7 @@
     android:paddingEnd="18dp"
     android:background="?selectableItemBackground">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toStartOf="@id/item_color"
@@ -35,7 +35,7 @@
         android:singleLine="true"
         tools:text="text_color"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/item_title"
@@ -46,7 +46,7 @@
         android:textColor="?android:textColorSecondary"
         tools:text="Defines text color of the editor"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"

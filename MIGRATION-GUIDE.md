@@ -27,7 +27,8 @@ Migration steps:
 3. Added `processAllLines` method to `SuggestionProvider`. It'll be invoked when
    the `setTextContent` is called.
 4. If you're using custom plugins, the `clearLines` and `onTextReplaced` methods has been removed.
-   As an alternative you can use `setTextContent` and `processLine`.
+   As an alternative you can use `setTextContent` and `processLine`. The `beforeDraw`
+   and `afterDraw` methods has been renamed to `drawBehind` and `onDraw`.
 
 ---
 
