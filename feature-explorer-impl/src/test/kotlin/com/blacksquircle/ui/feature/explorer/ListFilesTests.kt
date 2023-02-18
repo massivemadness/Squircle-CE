@@ -60,6 +60,8 @@ class ListFilesTests {
         every { settingsManager.viewMode = any() } returns Unit
         every { settingsManager.sortMode } returns "0"
         every { settingsManager.sortMode = any() } returns Unit
+        every { settingsManager.filesystem } returns "local"
+        every { settingsManager.filesystem = any() } returns Unit
 
         coEvery { explorerRepository.serverFlow } returns MutableStateFlow(emptyList())
         coEvery { explorerRepository.filesystem(any()) } returns Unit
