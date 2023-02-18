@@ -27,7 +27,10 @@ private const val LABEL_CUT = "CUT"
 private const val LABEL_COPY = "COPY"
 
 val EditText.selectedText: CharSequence
-    get() = text.subSequence(selectionStart, selectionEnd)
+    get() = text.subSequence(
+        if (selectionStart > text.length) text.length else selectionStart,
+        if (selectionEnd > text.length) text.length else selectionEnd,
+    )
 
 fun EditText.insert(delta: CharSequence) {
     text.replace(selectionStart, selectionEnd, delta)

@@ -195,6 +195,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
             .onEach { state ->
                 when (state) {
                     is EditorViewState.Content -> {
+                        binding.loadingBar.isVisible = true // measuring text
+                        binding.errorView.root.isVisible = false
                         val measurement = withContext(Dispatchers.Default) {
                             val textMetrics = TextViewCompat.getTextMetricsParams(binding.editor)
                             PrecomputedTextCompat.create(state.content.text, textMetrics)
@@ -202,7 +204,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.editor.isVisible = true
                         binding.scroller.isVisible = true
                         binding.keyboard.isVisible = state.showKeyboard
-                        binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
 
                         binding.scroller.state = TextScroller.State.HIDDEN

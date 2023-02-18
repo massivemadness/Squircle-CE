@@ -90,7 +90,11 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
         }
 
         binding.actionAdd.setOnClickListener {
-            openFileContract.launch(OpenFileContract.FONT)
+            openFileContract.launch(
+                OpenFileContract.OCTET_STREAM,
+                OpenFileContract.X_FONT,
+                OpenFileContract.FONT,
+            )
         }
 
         binding.toolbar.setNavigationOnClickListener {

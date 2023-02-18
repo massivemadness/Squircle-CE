@@ -105,7 +105,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     open fun replaceText(newStart: Int, newEnd: Int, newText: CharSequence) {
         val start = if (newStart < 0) 0 else newStart
-        val end = if (newEnd >= structure.text.length) structure.text.length else newEnd
+        val end = if (newEnd > structure.text.length) structure.text.length else newEnd
         val newCharCount = newText.length - (end - start)
         val startLine = structure.getLineForIndex(start)
         for (i in start until end) {
