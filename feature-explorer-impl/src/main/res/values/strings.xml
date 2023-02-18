@@ -17,7 +17,6 @@
 
 <resources>
 
-    <string name="hint_search">Search…</string>
     <string name="hint_enter_file_name">Enter file name</string>
     <string name="hint_enter_archive_name">Enter archive name</string>
     <string name="hint_file_name" translatable="false">file.txt</string>
@@ -28,16 +27,11 @@
     <string name="action_copy_path">Copy Path</string>
     <string name="action_folder">Folder</string>
     <string name="action_rename">Rename</string>
-    <string name="action_delete">Delete</string>
     <string name="action_run_in_background">Run in background</string>
     <string name="action_show_hidden_files">Show hidden files</string>
     <string name="action_compress">Compress</string>
     <string name="action_open_with">Open with</string>
     <string name="action_properties">Properties</string>
-    <string name="action_cut">Cut</string>
-    <string name="action_copy">Copy</string>
-    <string name="action_paste">Paste</string>
-    <string name="action_select_all">Select All</string>
     <string name="action_continue">Continue</string>
 
     <string name="dialog_title_create">Create…</string>
@@ -77,10 +71,8 @@
 
     <string name="message_access_denied">Access Denied</string>
     <string name="message_access_required">Application requires storage access to work with files</string>
-    <string name="message_no_result">No result</string>
     <string name="message_cannot_be_opened">File cannot be opened</string>
     <string name="message_invalid_file_name">Invalid file name</string>
-    <string name="message_error_occurred">An error occurred</string>
     <string name="message_directory_expected">Unable to get list of files from file</string>
     <string name="message_file_already_exists">File already exists</string>
     <string name="message_unsupported_archive">Unsupported archive</string>

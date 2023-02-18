@@ -25,12 +25,7 @@
     <string name="action_insert">Insérer</string>
     <string name="action_new">Nouveau</string>
     <string name="action_open">Ouvrir</string>
-    <string name="action_save">Sauvegarder</string>
     <string name="action_save_as">Enregistrer sous</string>
-    <string name="action_cut">Couper</string>
-    <string name="action_copy">Copier</string>
-    <string name="action_paste">Coller</string>
-    <string name="action_select_all">Tout Sélectionner</string>
     <string name="action_select_line">Sélectionner une ligne</string>
     <string name="action_delete_line">Supprimer une ligne</string>
     <string name="action_duplicate_line">Dupliquer la ligne</string>
@@ -55,7 +50,6 @@
     <string name="dialog_message_close_tab">Voulez-vous vraiment fermer ce fichier? Toutes les modifications non enregistrées seront supprimées</string>
 
     <string name="message_no_open_files">Aucun fichier ouvert</string>
-    <string name="message_error_occurred">Une erreur est survenue</string>
     <string name="message_file_not_found">Fichier introuvable</string>
     <string name="message_out_of_memory">Mémoire insuffisante</string>
     <string name="message_saved">Sauvegardé</string>

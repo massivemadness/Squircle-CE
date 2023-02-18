@@ -17,7 +17,6 @@
 
 <resources>
 
-    <string name="hint_search">搜尋…</string>
     <string name="hint_enter_file_name">輸入檔案名稱</string>
     <string name="hint_enter_archive_name">輸入壓縮檔名稱</string>
 
@@ -26,16 +25,11 @@
     <string name="action_copy_path">複製路徑</string>
     <string name="action_folder">資料夾</string>
     <string name="action_rename">重新命名</string>
-    <string name="action_delete">刪除</string>
     <string name="action_run_in_background">在後台運行</string>
     <string name="action_show_hidden_files">顯示隱藏檔案</string>
     <string name="action_compress">壓縮</string>
     <string name="action_open_with">另開為</string>
     <string name="action_properties">屬性</string>
-    <string name="action_cut">剪下</string>
-    <string name="action_copy">複製</string>
-    <string name="action_paste">貼上</string>
-    <string name="action_select_all">全選</string>
     <string name="action_continue">繼續</string>
 
     <string name="dialog_title_create">新增檔案</string>
@@ -75,10 +69,8 @@
 
     <string name="message_access_denied">沒有存儲空間訪問權限</string>
     <string name="message_access_required">為了能正常編寫程式，必須授予存儲權限</string>
-    <string name="message_no_result">沒有結果</string>
     <string name="message_cannot_be_opened">檔案無法開啟</string>
     <string name="message_invalid_file_name">無效的檔案名稱</string>
-    <string name="message_error_occurred">發生錯誤</string>
     <string name="message_directory_expected">無法獲取檔案列表</string>
     <string name="message_file_already_exists">檔案已存在</string>
     <string name="message_unsupported_archive">暫不支援該壓縮檔案格式</string>

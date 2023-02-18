@@ -25,12 +25,7 @@
     <string name="action_insert">插入</string>
     <string name="action_new">新增</string>
     <string name="action_open">開啟</string>
-    <string name="action_save">儲存</string>
     <string name="action_save_as">另存為</string>
-    <string name="action_cut">剪下</string>
-    <string name="action_copy">複製</string>
-    <string name="action_paste">貼上</string>
-    <string name="action_select_all">全選</string>
     <string name="action_select_line">選擇目前行</string>
     <string name="action_delete_line">刪除目前行</string>
     <string name="action_duplicate_line">複製目前行</string>
@@ -55,7 +50,6 @@
     <string name="dialog_message_close_tab">確定要關閉該檔案嗎？所有未儲存的更改將會遺失</string>
 
     <string name="message_no_open_files">還沒有開啟任何檔案</string>
-    <string name="message_error_occurred">發生錯誤</string>
     <string name="message_file_not_found">檔案不存在</string>
     <string name="message_out_of_memory">記憶體不足</string>
     <string name="message_saved">已儲存</string>

@@ -36,6 +36,7 @@ import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class ServerDialog : DialogFragment() {
@@ -50,7 +51,7 @@ class ServerDialog : DialogFragment() {
             val binding = DialogServerBinding.bind(getCustomView())
             if (navArgs.data.isNullOrEmpty()) {
                 title(R.string.pref_add_server_title)
-                positiveButton(R.string.action_save) {
+                positiveButton(UiR.string.common_save) {
                     val serverModel = ServerModel(
                         uuid = UUID.randomUUID().toString(),
                         scheme = when (binding.serverType.selectedItemPosition) {
@@ -93,7 +94,7 @@ class ServerDialog : DialogFragment() {
                 }
                 binding.serverType.setSelection(scheme)
 
-                positiveButton(R.string.action_save) {
+                positiveButton(UiR.string.common_save) {
                     val changedModel = ServerModel(
                         uuid = serverModel.uuid,
                         scheme = when (binding.serverType.selectedItemPosition) {
@@ -115,7 +116,7 @@ class ServerDialog : DialogFragment() {
                     )
                     viewModel.upsertServer(changedModel)
                 }
-                negativeButton(R.string.action_delete) {
+                negativeButton(UiR.string.common_delete) {
                     viewModel.deleteServer(serverModel)
                 }
             }

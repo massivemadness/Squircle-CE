@@ -27,6 +27,7 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class PresetDialog : DialogFragment() {
@@ -40,7 +41,7 @@ class PresetDialog : DialogFragment() {
             negativeButton(R.string.action_reset) {
                 viewModel.resetKeyboardPreset()
             }
-            positiveButton(R.string.action_save) {
+            positiveButton(UiR.string.common_save) {
                 val inputEditText = getCustomView().findViewById<TextInputEditText>(R.id.input)
                 val keyboardPreset = inputEditText.text.toString().trim()
                 if (keyboardPreset.isNotEmpty()) {

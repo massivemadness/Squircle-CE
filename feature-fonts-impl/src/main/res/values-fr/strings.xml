@@ -19,14 +19,10 @@
 
     <string name="label_fonts">Polices</string>
 
-    <string name="hint_search">Recherche…</string>
-
     <string name="action_select">sélectionner</string>
 
     <string name="message_selected">«%1$s» Sélectionnée</string>
     <string name="message_new_font_available">Nouvelle police disponible</string>
     <string name="message_font_removed">Police «%1$s» supprimée</string>
-    <string name="message_no_result">Aucun résultat</string>
-    <string name="message_error_occurred">Une erreur s\'est produite</string>
 
 </resources>

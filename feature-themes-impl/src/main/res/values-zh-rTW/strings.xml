@@ -24,10 +24,8 @@
     <string name="hint_enter_theme_author">輸入主題作者</string>
     <string name="hint_enter_theme_desc">者題簡述</string>
     <string name="hint_theme_desc">如：預設配色方案</string>
-    <string name="hint_search">搜尋…</string>
 
     <string name="action_select">選擇</string>
-    <string name="action_save">儲存</string>
     <string name="action_import">匯入</string>
     <string name="action_export">匯出</string>
     <string name="action_edit">編輯</string>
@@ -40,8 +38,6 @@
     <string name="message_new_theme_available">新主題可用: %1$s</string>
     <string name="message_theme_removed">主題 «%1$s» 已移除</string>
     <string name="message_theme_syntax_exception">讀取主題檔案時發生錯誤</string>
-    <string name="message_no_result">沒有結果</string>
-    <string name="message_error_occurred">發生錯誤</string>
 
     <string name="theme_property_text_color">定義編輯器的文字顏色</string>
     <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>

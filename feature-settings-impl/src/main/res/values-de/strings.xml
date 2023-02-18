@@ -29,9 +29,7 @@
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
 
-    <string name="action_save">Speichern</string>
     <string name="action_reset">Zurücksetzen</string>
-    <string name="action_delete">Löschen</string>
 
     <string name="message_preset_disclaimer">Sie können Zeichen mehrfach wiederholen</string>
     <string name="message_server_missing_fields">Server name and address must be not empty</string>

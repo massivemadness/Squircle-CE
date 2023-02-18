@@ -26,10 +26,8 @@
     <string name="hint_theme_name" translatable="false">Darcula</string>
     <string name="hint_theme_author" translatable="false">Squircle CE</string>
     <string name="hint_theme_desc">Default color scheme</string>
-    <string name="hint_search">Search…</string>
 
     <string name="action_select">Select</string>
-    <string name="action_save">Save</string>
     <string name="action_import">Import</string>
     <string name="action_export">Export</string>
     <string name="action_edit">Edit</string>
@@ -42,8 +40,6 @@
     <string name="message_new_theme_available">New theme available: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» removed</string>
     <string name="message_theme_syntax_exception">An error occurred when reading theme file</string>
-    <string name="message_no_result">No result</string>
-    <string name="message_error_occurred">An error occurred</string>
 
     <string name="theme_property_text_color">Defines the text color of the editor</string>
     <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>

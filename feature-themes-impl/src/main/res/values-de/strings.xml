@@ -24,10 +24,8 @@
     <string name="hint_enter_theme_author">Geben Sie einen Theme-Autor ein</string>
     <string name="hint_enter_theme_desc">Kurze Beschreibung</string>
     <string name="hint_theme_desc">Standard-Farbschema</string>
-    <string name="hint_search">Suchen…</string>
 
     <string name="action_select">Auswählen</string>
-    <string name="action_save">Speichern</string>
     <string name="action_import">Importieren</string>
     <string name="action_export">Exportieren</string>
     <string name="action_edit">Bearbeiten</string>
@@ -40,8 +38,6 @@
     <string name="message_new_theme_available">Neues Thema verfügbar: %1$s</string>
     <string name="message_theme_removed">Theme «%1$s» entfernt</string>
     <string name="message_theme_syntax_exception">Beim Lesen der Theme-Datei ist ein Fehler aufgetreten</string>
-    <string name="message_no_result">Kein Ergebnis</string>
-    <string name="message_error_occurred">Ein Fehler ist aufgetreten</string>
 
     <string name="theme_property_text_color">Definiert die Textfarbe des Editors</string>
     <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>

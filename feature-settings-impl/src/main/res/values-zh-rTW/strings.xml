@@ -29,9 +29,7 @@
     <string name="hint_username">使用者名稱</string>
     <string name="hint_password">密碼</string>
 
-    <string name="action_save">儲存</string>
     <string name="action_reset">重置</string>
-    <string name="action_delete">刪除</string>
 
     <string name="message_preset_disclaimer">註：同一個字符可以重複多次</string>
     <string name="message_server_missing_fields">伺服器名稱和地址不能為空</string>

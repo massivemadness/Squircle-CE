@@ -25,12 +25,7 @@
     <string name="action_insert">Insira</string>
     <string name="action_new">Novo</string>
     <string name="action_open">Abrir</string>
-    <string name="action_save">Salvar</string>
     <string name="action_save_as">Salvar como</string>
-    <string name="action_cut">Cortar</string>
-    <string name="action_copy">Copiar</string>
-    <string name="action_paste">Colar</string>
-    <string name="action_select_all">Selecionar tudo</string>
     <string name="action_select_line">Selecionar linha</string>
     <string name="action_delete_line">Deletar linha</string>
     <string name="action_duplicate_line">Duplicar linha</string>
@@ -55,7 +50,6 @@
     <string name="dialog_message_close_tab">Você tem certeza de que quer fechar este arquivo? Todas as mudanças serão discartadas</string>
 
     <string name="message_no_open_files">Nenhum arquivo aberto</string>
-    <string name="message_error_occurred">Um erro ocorreu</string>
     <string name="message_file_not_found">Arquivo não encontrado</string>
     <string name="message_out_of_memory">Sem memória</string>
     <string name="message_saved">Salvo</string>

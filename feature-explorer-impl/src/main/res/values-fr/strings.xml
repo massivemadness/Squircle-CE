@@ -17,7 +17,6 @@
 
 <resources>
 
-    <string name="hint_search">Recherche…</string>
     <string name="hint_enter_file_name">Entrer le nom du fichier</string>
     <string name="hint_enter_archive_name">Entrer le nom de l\'archive</string>
 
@@ -26,16 +25,11 @@
     <string name="action_copy_path">Copier le chemin d\'accès</string>
     <string name="action_folder">Dossier</string>
     <string name="action_rename">Renommer</string>
-    <string name="action_delete">Supprimer</string>
     <string name="action_run_in_background">Exécuter en arrière-plan</string>
     <string name="action_show_hidden_files">Afficher les fichiers cachés</string>
     <string name="action_compress">Compress</string>
     <string name="action_open_with">Ouvrir en tant que</string>
     <string name="action_properties">Propriétés</string>
-    <string name="action_cut">Couper</string>
-    <string name="action_copy">Copier</string>
-    <string name="action_paste">Coller</string>
-    <string name="action_select_all">Tout Sélectionner</string>
     <string name="action_continue">Continuer</string>
 
     <string name="dialog_title_create">Création…</string>
@@ -75,10 +69,8 @@
 
     <string name="message_access_denied">Accès Refusé</string>
     <string name="message_access_required">L\'application requiert l\'accès au stockage pour travailler avec les fichiers</string>
-    <string name="message_no_result">Aucun Résultat</string>
     <string name="message_cannot_be_opened">Le fichier ne peut pas être ouvert</string>
     <string name="message_invalid_file_name">Nom de fichier non valide</string>
-    <string name="message_error_occurred">Une erreur s\'est produite</string>
     <string name="message_directory_expected">Impossible d\'obtenir la liste des fichiers à partir du fichier</string>
     <string name="message_file_already_exists">Le fichier existe déjà</string>
     <string name="message_unsupported_archive">Archive non prise en charge</string>

@@ -154,7 +154,7 @@ class ExplorerViewModel @Inject constructor(
                 } else {
                     _explorerViewState.value = ExplorerViewState.Error(
                         image = UiR.drawable.ic_file_find,
-                        title = stringProvider.getString(R.string.message_no_result),
+                        title = stringProvider.getString(UiR.string.common_no_result),
                         subtitle = "",
                     )
                 }
@@ -177,7 +177,7 @@ class ExplorerViewModel @Inject constructor(
             } else {
                 _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_find,
-                    title = stringProvider.getString(R.string.message_no_result),
+                    title = stringProvider.getString(UiR.string.common_no_result),
                     subtitle = "",
                 )
             }
@@ -565,14 +565,14 @@ class ExplorerViewModel @Inject constructor(
             is DirectoryExpectedException -> {
                 _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_error,
-                    title = stringProvider.getString(R.string.message_error_occurred),
+                    title = stringProvider.getString(UiR.string.common_error_occurred),
                     subtitle = stringProvider.getString(R.string.message_directory_expected),
                 )
             }
             else -> {
                 _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_error,
-                    title = stringProvider.getString(R.string.message_error_occurred),
+                    title = stringProvider.getString(UiR.string.common_error_occurred),
                     subtitle = e.message.orEmpty(),
                 )
             }

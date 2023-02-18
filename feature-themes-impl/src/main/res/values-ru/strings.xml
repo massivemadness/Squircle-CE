@@ -24,10 +24,8 @@
     <string name="hint_enter_theme_author">Автор темы</string>
     <string name="hint_enter_theme_desc">Краткое описание</string>
     <string name="hint_theme_desc">Новая цветовая схема</string>
-    <string name="hint_search">Поиск…</string>
 
     <string name="action_select">Выбрать</string>
-    <string name="action_save">Сохранить</string>
     <string name="action_import">Импорт</string>
     <string name="action_export">Экспорт</string>
     <string name="action_edit">Изменить</string>
@@ -40,8 +38,6 @@
     <string name="message_new_theme_available">Добавлена новая тема: %1$s</string>
     <string name="message_theme_removed">Тема «%1$s» удалена</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
-    <string name="message_no_result">Нет результатов</string>
-    <string name="message_error_occurred">Произошла ошибка</string>
 
     <string name="theme_property_text_color">Определяет цвет текста редактора</string>
     <string name="theme_property_cursor_color">Определяет цвет курсора редактора</string>

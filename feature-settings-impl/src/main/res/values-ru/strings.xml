@@ -29,9 +29,7 @@
     <string name="hint_username">Имя пользователя</string>
     <string name="hint_password">Пароль</string>
 
-    <string name="action_save">Сохранить</string>
     <string name="action_reset">Сброс</string>
-    <string name="action_delete">Удалить</string>
 
     <string name="message_preset_disclaimer">Символы могут повторяться несколько раз</string>
     <string name="message_server_missing_fields">Имя сервера и адрес не должны быть пустыми</string>

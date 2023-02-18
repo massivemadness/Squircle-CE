@@ -19,14 +19,10 @@
 
     <string name="label_fonts">字體</string>
 
-    <string name="hint_search">搜尋…</string>
-
     <string name="action_select">選擇</string>
 
     <string name="message_selected">已選擇 «%1$s»</string>
     <string name="message_new_font_available">新字體可用</string>
     <string name="message_font_removed">字體 «%1$s» 已移除</string>
-    <string name="message_no_result">沒有結果</string>
-    <string name="message_error_occurred">發生錯誤</string>
 
 </resources>

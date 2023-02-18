@@ -29,7 +29,7 @@
         app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_save"
-        android:title="@string/action_save"
+        android:title="@string/common_save"
         android:icon="@drawable/ic_save"
         app:iconTint="@color/colorIcon" />
     <item

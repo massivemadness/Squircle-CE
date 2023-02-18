@@ -25,12 +25,7 @@
     <string name="action_insert">插入</string>
     <string name="action_new">新建</string>
     <string name="action_open">打开</string>
-    <string name="action_save">保存</string>
     <string name="action_save_as">另存为</string>
-    <string name="action_cut">剪切</string>
-    <string name="action_copy">复制</string>
-    <string name="action_paste">粘贴</string>
-    <string name="action_select_all">全选</string>
     <string name="action_select_line">选择当前行</string>
     <string name="action_delete_line">删除当前行</string>
     <string name="action_duplicate_line">复制当前行</string>
@@ -55,7 +50,6 @@
     <string name="dialog_message_close_tab">确定要关闭该文件吗？所有未保存的更改将会丢失</string>
 
     <string name="message_no_open_files">还没有打开任何文件</string>
-    <string name="message_error_occurred">发生错误</string>
     <string name="message_file_not_found">文件不存在</string>
     <string name="message_out_of_memory">内存不足</string>
     <string name="message_saved">已保存</string>

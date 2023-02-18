@@ -86,7 +86,7 @@
             android:textColor="?colorOnBackground"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:text="@string/message_no_result" />
+            android:text="@string/common_no_result" />
 
     </LinearLayout>
 

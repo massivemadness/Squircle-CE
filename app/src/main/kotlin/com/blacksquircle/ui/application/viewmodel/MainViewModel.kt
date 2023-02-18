@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
-import com.blacksquircle.ui.feature.editor.R as EditorR
+import com.blacksquircle.ui.uikit.R as UiR
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -74,7 +74,7 @@ class MainViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
-                        stringProvider.getString(EditorR.string.message_error_occurred),
+                        stringProvider.getString(UiR.string.common_error_occurred),
                     ),
                 )
             }

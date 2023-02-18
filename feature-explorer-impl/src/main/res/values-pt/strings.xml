@@ -17,7 +17,6 @@
 
 <resources>
 
-    <string name="hint_search">Pesquisar…</string>
     <string name="hint_enter_file_name">Insira o nome do arquivo</string>
     <string name="hint_enter_archive_name">Insira o nome do documento</string>
 
@@ -26,16 +25,11 @@
     <string name="action_copy_path">Copiar caminho</string>
     <string name="action_folder">Pasta</string>
     <string name="action_rename">Renomear</string>
-    <string name="action_delete">Deletar</string>
     <string name="action_run_in_background">Rodar no fundo</string>
     <string name="action_show_hidden_files">Exibir arquivos escondidos</string>
     <string name="action_compress">Compress</string>
     <string name="action_open_with">Abrir como</string>
     <string name="action_properties">Propriedades</string>
-    <string name="action_cut">Cortar</string>
-    <string name="action_copy">Copiar</string>
-    <string name="action_paste">Colar</string>
-    <string name="action_select_all">Selecionar tudo</string>
     <string name="action_continue">Continuar</string>
 
     <string name="dialog_title_create">Criar…</string>
@@ -75,10 +69,8 @@
 
     <string name="message_access_denied">Acesso negado</string>
     <string name="message_access_required">O Squircle precisa de acesso ao armazenamento para trabalhar com arquivos</string>
-    <string name="message_no_result">Nenhum resultado</string>
     <string name="message_cannot_be_opened">O arquivo não pode ser aberto</string>
     <string name="message_invalid_file_name">Nome inválido</string>
-    <string name="message_error_occurred">Um erro ocorreu</string>
     <string name="message_directory_expected">Não foi possível obter a lista de arquivos do arquivo</string>
     <string name="message_file_already_exists">O arquivo já existe</string>
     <string name="message_unsupported_archive">Arquivo não suportado</string>

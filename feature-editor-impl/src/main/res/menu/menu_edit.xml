@@ -19,37 +19,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_cut"
-        android:title="@string/action_cut"
+        android:title="@android:string/cut"
         android:icon="@drawable/ic_cut"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_copy"
-        android:title="@string/action_copy"
+        android:title="@android:string/copy"
         android:icon="@drawable/ic_copy"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_paste"
-        android:title="@string/action_paste"
+        android:title="@android:string/paste"
         android:icon="@drawable/ic_paste"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_select_all"
-        android:title="@string/action_select_all"
+        android:title="@android:string/selectAll"
         android:icon="@drawable/ic_select_all"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_select_line"
         android:title="@string/action_select_line"
         android:icon="@drawable/ic_line_select"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_delete_line"
         android:title="@string/action_delete_line"
         android:icon="@drawable/ic_minus"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
     <item
         android:id="@+id/action_duplicate_line"
         android:title="@string/action_duplicate_line"
         android:icon="@drawable/ic_line_duplicate"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorIcon" />
 </menu>

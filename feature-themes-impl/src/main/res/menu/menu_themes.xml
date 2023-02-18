@@ -20,17 +20,17 @@
 
     <item
         android:id="@+id/spinner"
-        android:title="@string/hint_search"
+        android:title="@string/label_themes"
         app:iconTint="?colorOnSurface"
         app:showAsAction="ifRoom"
-        app:actionViewClass="androidx.appcompat.widget.AppCompatSpinner"/>
+        app:actionViewClass="androidx.appcompat.widget.AppCompatSpinner" />
 
     <item
         android:id="@+id/action_search"
-        android:title="@string/hint_search"
+        android:title="@android:string/search_go"
         android:icon="@drawable/ic_search"
         app:iconTint="?colorOnSurface"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
 </menu>

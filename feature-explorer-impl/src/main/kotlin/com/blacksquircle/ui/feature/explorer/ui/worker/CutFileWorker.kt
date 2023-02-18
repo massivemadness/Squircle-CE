@@ -90,7 +90,7 @@ class CutFileWorker @AssistedInject constructor(
                             applicationContext.showToast(R.string.message_operation_not_supported)
                         }
                         else -> {
-                            applicationContext.showToast(R.string.message_error_occurred)
+                            applicationContext.showToast(UiR.string.common_error_occurred)
                         }
                     }
                 }

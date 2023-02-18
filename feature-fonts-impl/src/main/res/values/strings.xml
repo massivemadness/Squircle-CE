@@ -19,15 +19,11 @@
 
     <string name="label_fonts">Fonts</string>
 
-    <string name="hint_search">Search…</string>
-
     <string name="action_select">Select</string>
 
     <string name="message_selected">Selected «%1$s»</string>
     <string name="message_new_font_available">New font available</string>
     <string name="message_font_removed">Font «%1$s» removed</string>
-    <string name="message_no_result">No result</string>
-    <string name="message_error_occurred">An error occurred</string>
 
     <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
 

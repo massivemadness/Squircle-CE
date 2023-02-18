@@ -25,12 +25,7 @@
     <string name="action_insert">Einfügen</string>
     <string name="action_new">Neu</string>
     <string name="action_open">Öffnen</string>
-    <string name="action_save">Speichern</string>
     <string name="action_save_as">Speichern unter</string>
-    <string name="action_cut">Ausschneiden</string>
-    <string name="action_copy">Kopieren</string>
-    <string name="action_paste">Einfügen</string>
-    <string name="action_select_all">Alles auswählen</string>
     <string name="action_select_line">Zeile auswählen</string>
     <string name="action_delete_line">Zeile löschen</string>
     <string name="action_duplicate_line">Zeile duplizieren</string>
@@ -55,7 +50,6 @@
     <string name="dialog_message_close_tab">Sind Sie sicher, dass Sie die Datei schließen wollen? Alle ungespeicherten Änderungen werden verworfen</string>
 
     <string name="message_no_open_files">Keine geöffneten Dateien</string>
-    <string name="message_error_occurred">Ein Fehler ist aufgetreten</string>
     <string name="message_file_not_found">Datei nicht gefunden</string>
     <string name="message_out_of_memory">Kein Speicherplatz mehr</string>
     <string name="message_saved">Gespeichert</string>

@@ -26,12 +26,7 @@
     <string name="action_insert">Insert</string>
     <string name="action_new">New</string>
     <string name="action_open">Open</string>
-    <string name="action_save">Save</string>
     <string name="action_save_as">Save As</string>
-    <string name="action_cut">Cut</string>
-    <string name="action_copy">Copy</string>
-    <string name="action_paste">Paste</string>
-    <string name="action_select_all">Select All</string>
     <string name="action_select_line">Select Line</string>
     <string name="action_delete_line">Delete Line</string>
     <string name="action_duplicate_line">Duplicate Line</string>
@@ -56,7 +51,6 @@
     <string name="dialog_message_close_tab">Are you sure you want to close this file? All unsaved changes will be discarded</string>
 
     <string name="message_no_open_files">No open files</string>
-    <string name="message_error_occurred">An error occurred</string>
     <string name="message_file_not_found">File not found</string>
     <string name="message_out_of_memory">Out of memory</string>
     <string name="message_saved">Saved</string>

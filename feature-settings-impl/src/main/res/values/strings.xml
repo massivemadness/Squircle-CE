@@ -31,9 +31,7 @@
     <string name="hint_password">Password</string>
     <string name="hint_ftp_port" translatable="false">21</string>
 
-    <string name="action_save">Save</string>
     <string name="action_reset">Reset</string>
-    <string name="action_delete">Delete</string>
 
     <string name="message_preset_disclaimer">You can repeat characters multiple times</string>
     <string name="message_server_missing_fields">Server name and address must be not empty</string>

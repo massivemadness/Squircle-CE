@@ -17,7 +17,6 @@
 
 <resources>
 
-    <string name="hint_search">Suchen…</string>
     <string name="hint_enter_file_name">Geben Sie einen Dateinamen ein</string>
     <string name="hint_enter_archive_name">Geben Sie einen Archivnamen ein</string>
 
@@ -26,16 +25,11 @@
     <string name="action_copy_path">Pfad kopieren</string>
     <string name="action_folder">Ordner</string>
     <string name="action_rename">Umbenennen</string>
-    <string name="action_delete">Löschen</string>
     <string name="action_run_in_background">Im Hintergrund laufen</string>
     <string name="action_show_hidden_files">Versteckte Dateien anzeigen</string>
     <string name="action_compress">Compress</string>
     <string name="action_open_with">Öffnen als</string>
     <string name="action_properties">Eigenschaften</string>
-    <string name="action_cut">Ausschneiden</string>
-    <string name="action_copy">Kopieren</string>
-    <string name="action_paste">Einfügen</string>
-    <string name="action_select_all">Alles auswählen</string>
     <string name="action_continue">Continue</string>
 
     <string name="dialog_title_create">Erstellen…</string>
@@ -75,10 +69,8 @@
 
     <string name="message_access_denied">Zugriff abgelehnt</string>
     <string name="message_access_required">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
-    <string name="message_no_result">Kein Ergebnis</string>
     <string name="message_cannot_be_opened">Datei kann nicht geöffnet werden</string>
     <string name="message_invalid_file_name">Ungültiger Dateiname</string>
-    <string name="message_error_occurred">Ein Fehler ist aufgetreten</string>
     <string name="message_directory_expected">Kann die Liste der Dateien nicht aus Datei lesen</string>
     <string name="message_file_already_exists">Datei existiert bereits</string>
     <string name="message_unsupported_archive">Nicht unterstütztes Archiv</string>

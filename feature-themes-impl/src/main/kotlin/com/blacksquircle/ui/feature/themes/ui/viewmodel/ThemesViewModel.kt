@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import com.blacksquircle.ui.uikit.R as UiR
 
 @HiltViewModel
 class ThemesViewModel @Inject constructor(
@@ -91,7 +92,7 @@ class ThemesViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
+                        stringProvider.getString(UiR.string.common_error_occurred),
                     ),
                 )
             }
@@ -113,7 +114,7 @@ class ThemesViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
+                        stringProvider.getString(UiR.string.common_error_occurred),
                     ),
                 )
             }
@@ -147,7 +148,7 @@ class ThemesViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
+                        stringProvider.getString(UiR.string.common_error_occurred),
                     ),
                 )
             }
@@ -170,7 +171,7 @@ class ThemesViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
+                        stringProvider.getString(UiR.string.common_error_occurred),
                     ),
                 )
             }
@@ -194,7 +195,7 @@ class ThemesViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
+                        stringProvider.getString(UiR.string.common_error_occurred),
                     ),
                 )
             }
@@ -219,7 +220,7 @@ class ThemesViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(
                     ViewEvent.Toast(
-                        stringProvider.getString(R.string.message_error_occurred),
+                        stringProvider.getString(UiR.string.common_error_occurred),
                     ),
                 )
             }

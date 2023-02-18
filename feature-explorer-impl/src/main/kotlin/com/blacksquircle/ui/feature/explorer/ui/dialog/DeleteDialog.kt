@@ -27,6 +27,7 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class DeleteDialog : DialogFragment() {
@@ -54,7 +55,7 @@ class DeleteDialog : DialogFragment() {
             title(text = dialogTitle)
             message(dialogMessage)
             negativeButton(android.R.string.cancel)
-            positiveButton(R.string.action_delete) {
+            positiveButton(UiR.string.common_delete) {
                 navController.popBackStack()
                 viewModel.obtainEvent(ExplorerIntent.DeleteFile)
             }

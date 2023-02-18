@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import com.blacksquircle.ui.uikit.R as UiR
 
 @HiltViewModel
 class FontsViewModel @Inject constructor(
@@ -71,7 +72,7 @@ class FontsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
@@ -91,7 +92,7 @@ class FontsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
@@ -108,7 +109,7 @@ class FontsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
@@ -129,7 +130,7 @@ class FontsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
@@ -151,7 +152,7 @@ class FontsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
