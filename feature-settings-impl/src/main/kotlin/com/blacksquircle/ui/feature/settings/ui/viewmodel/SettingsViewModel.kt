@@ -124,6 +124,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 settingsRepository.deleteServer(serverModel)
+                if (settingsManager.filesystem == serverModel.uuid) {
+                    settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
+                }
                 fetchServers()
             } catch (e: Exception) {
                 Timber.e(e, e.message)

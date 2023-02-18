@@ -142,9 +142,7 @@ class EditorViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             try {
                 val document = DocumentConverter.toModel(event.fileModel)
-                val position = documents.indexOrNull {
-                    it.fileUri == document.fileUri
-                } ?: run {
+                val position = documents.indexOrNull { it.fileUri == document.fileUri } ?: run {
                     documents.appendList(document)
                     updateDocuments()
                     documents.lastIndex

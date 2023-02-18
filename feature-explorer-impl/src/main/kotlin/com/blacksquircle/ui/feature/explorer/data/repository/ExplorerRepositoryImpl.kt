@@ -48,11 +48,12 @@ class ExplorerRepositoryImpl(
         .map { it.map(ServerConverter::toModel) }
         .flowOn(dispatcherProvider.io())
 
-    private var currentFilesystem = FilesystemFactory.LOCAL
+    private var currentFilesystem = settingsManager.filesystem
 
-    override suspend fun filesystem(position: Int) {
+    override suspend fun filesystem(filesystemUuid: String) {
         return withContext(dispatcherProvider.io()) {
-            currentFilesystem = position
+            settingsManager.filesystem = filesystemUuid
+            currentFilesystem = filesystemUuid
         }
     }
 
@@ -64,7 +65,7 @@ class ExplorerRepositoryImpl(
                     onFailure = { cont.resumeWithException(PermissionException()) },
                 )
             }
-            val filesystem = filesystemFactory.findForPosition(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentFilesystem)
             val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
             fileTree.copy(
                 children = fileTree.children

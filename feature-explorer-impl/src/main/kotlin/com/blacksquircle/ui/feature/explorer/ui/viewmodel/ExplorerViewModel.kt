@@ -71,6 +71,8 @@ class ExplorerViewModel @Inject constructor(
         initialValue = emptyList(),
     )
 
+    var filesystem: String = settingsManager.filesystem
+        private set
     var viewMode: Int = settingsManager.viewMode.toInt()
         private set
     var sortMode: Int = settingsManager.sortMode.toInt()
@@ -78,8 +80,6 @@ class ExplorerViewModel @Inject constructor(
     var showHidden: Boolean = settingsManager.showHidden
         private set
     var query: String = ""
-        private set
-    var dropdownPosition: Int = 0
         private set
 
     private val breadcrumbs = mutableListOf<FileModel>()
@@ -204,9 +204,9 @@ class ExplorerViewModel @Inject constructor(
     private fun selectFilesystem(event: ExplorerIntent.SelectFilesystem) {
         viewModelScope.launch {
             try {
-                if (dropdownPosition != event.position) {
-                    dropdownPosition = event.position
-                    explorerRepository.filesystem(event.position)
+                if (filesystem != event.filesystemUuid) {
+                    filesystem = event.filesystemUuid
+                    explorerRepository.filesystem(filesystem)
                     breadcrumbs.replaceList(emptyList())
                     files.replaceList(emptyList())
                     initialState()

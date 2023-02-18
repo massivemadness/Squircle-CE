@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.ui.extensions.replaceList
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
@@ -31,7 +32,9 @@ class ServerAdapter(
     private val addServer: () -> Unit,
 ) : BaseAdapter() {
 
-    private val dataset = mutableListOf<CharSequence>()
+    private val serverList = mutableListOf<ServerModel>()
+    private val renderList = mutableListOf<CharSequence>()
+
     private val inflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -57,22 +60,31 @@ class ServerAdapter(
 
     override fun areAllItemsEnabled() = false
     override fun isEnabled(position: Int): Boolean {
-        return position < dataset.size - 1
+        return position < renderList.size - 1
     }
 
-    override fun getItem(position: Int) = dataset[position]
+    override fun getItem(position: Int) = renderList[position]
     override fun getItemId(position: Int) = position.toLong()
-    override fun getCount() = dataset.size
+    override fun getCount() = renderList.size
 
     fun submitList(servers: List<ServerModel>) {
-        dataset.replaceList(
+        serverList.replaceList(servers)
+        renderList.replaceList(
             mutableListOf(
                 context.getString(R.string.storage_local),
                 context.getString(R.string.storage_root),
             ),
         )
-        dataset.addAll(servers.map(ServerModel::name))
-        dataset.add(context.getString(R.string.storage_add))
+        renderList.addAll(servers.map(ServerModel::name))
+        renderList.add(context.getString(R.string.storage_add))
         notifyDataSetChanged()
+    }
+
+    fun fromPosition(position: Int): String {
+        return when (position) {
+            0 -> FilesystemFactory.LOCAL_UUID
+            1 -> FilesystemFactory.ROOT_UUID
+            else -> serverList[position - 2].uuid
+        }
     }
 }

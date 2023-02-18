@@ -25,7 +25,7 @@ interface ExplorerRepository {
 
     val serverFlow: Flow<List<ServerModel>>
 
-    suspend fun filesystem(position: Int)
+    suspend fun filesystem(filesystemUuid: String)
     suspend fun listFiles(parent: FileModel?): FileTree
 
     suspend fun createFile(fileModel: FileModel)

@@ -74,6 +74,7 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
         const val KEY_VIEW_MODE = "VIEW_MODE"
         const val KEY_SORT_MODE = "SORT_MODE"
+        const val KEY_FILESYSTEM = "FILESYSTEM"
     }
 
     var colorScheme: String
@@ -178,6 +179,9 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
     var sortMode: String
         get() = sharedPreferences.getString(KEY_SORT_MODE, "0") ?: "0"
         set(value) = sharedPreferences.edit().putString(KEY_SORT_MODE, value).apply()
+    var filesystem: String
+        get() = sharedPreferences.getString(KEY_FILESYSTEM, "local") ?: "local"
+        set(value) = sharedPreferences.edit().putString(KEY_FILESYSTEM, value).apply()
 
     fun remove(key: String) {
         sharedPreferences.edit().remove(key).apply()

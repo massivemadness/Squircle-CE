@@ -36,6 +36,7 @@ import androidx.recyclerview.selection.DefaultSelectionTracker
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
+import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.contract.PermissionResult
@@ -193,7 +194,8 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.dropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                viewModel.obtainEvent(ExplorerIntent.SelectFilesystem(position))
+                val selected = serverAdapter.fromPosition(position)
+                viewModel.obtainEvent(ExplorerIntent.SelectFilesystem(selected))
             }
         }
 
@@ -376,12 +378,20 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
 
         viewModel.serverState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { servers ->
-                serverAdapter.submitList(servers)
-                if (viewModel.dropdownPosition < serverAdapter.count - 1) {
-                    binding.dropdown.setSelection(viewModel.dropdownPosition)
-                } else {
-                    binding.dropdown.setSelection(0) // Can't select "Add Server"
+                val position = when (viewModel.filesystem) {
+                    FilesystemFactory.LOCAL_UUID -> 0
+                    FilesystemFactory.ROOT_UUID -> 1
+                    else -> {
+                        val index = servers.indexOf { it.uuid == viewModel.filesystem }
+                        if (index == -1) { // not found
+                            0
+                        } else {
+                            index + 2 // 0 = local, 1 = root, 2..n = server
+                        }
+                    }
                 }
+                serverAdapter.submitList(servers)
+                binding.dropdown.setSelection(position)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }

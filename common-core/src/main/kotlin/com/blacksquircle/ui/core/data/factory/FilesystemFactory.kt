@@ -34,31 +34,14 @@ class FilesystemFactory(
 ) {
 
     suspend fun create(uuid: String): Filesystem {
-        val persistent = database.serverDao().load(uuid)
         return when (uuid) {
-            LocalFilesystem.LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
-            RootFilesystem.ROOT_UUID -> RootFilesystem()
-            persistent?.uuid -> when (persistent.scheme) {
-                FTPFilesystem.FTP_SCHEME -> FTPFilesystem(ServerConverter.toModel(persistent), cacheDir)
-                FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(ServerConverter.toModel(persistent), cacheDir)
-                FTPESFilesystem.FTPES_SCHEME -> FTPESFilesystem(ServerConverter.toModel(persistent), cacheDir)
-                SFTPFilesystem.SFTP_SCHEME -> SFTPFilesystem(ServerConverter.toModel(persistent), cacheDir)
-                else -> throw IllegalArgumentException("Unsupported file scheme")
-            }
-            else -> throw IllegalArgumentException("Can't find filesystem")
-        }
-    }
-
-    suspend fun findForPosition(position: Int): Filesystem {
-        return when (position) {
-            LOCAL -> LocalFilesystem(Environment.getExternalStorageDirectory()) // Local Storage
-            ROOT -> RootFilesystem() // Root Directory
-            else -> { // Server List
-                val serverModel = database.serverDao().loadAll()
-                    .map(ServerConverter::toModel)
-                    .getOrNull(position - 2) // 0 = local, 1 = root, 2..3.. - servers
+            LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
+            ROOT_UUID -> RootFilesystem()
+            else -> {
+                val serverEntity = database.serverDao().load(uuid)
                     ?: throw IllegalArgumentException("Can't find filesystem")
-                when (serverModel.scheme) {
+                val serverModel = ServerConverter.toModel(serverEntity)
+                return when (serverModel.scheme) {
                     FTPFilesystem.FTP_SCHEME -> FTPFilesystem(serverModel, cacheDir)
                     FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(serverModel, cacheDir)
                     FTPESFilesystem.FTPES_SCHEME -> FTPESFilesystem(serverModel, cacheDir)
@@ -70,7 +53,7 @@ class FilesystemFactory(
     }
 
     companion object {
-        const val LOCAL = 0
-        const val ROOT = 1
+        const val LOCAL_UUID = LocalFilesystem.LOCAL_UUID
+        const val ROOT_UUID = RootFilesystem.ROOT_UUID
     }
 }
