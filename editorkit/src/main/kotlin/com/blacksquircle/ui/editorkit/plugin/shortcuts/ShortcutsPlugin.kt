@@ -38,6 +38,16 @@ class ShortcutsPlugin : EditorPlugin(PLUGIN_ID) {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         onShortcutListener?.let { onShortcutListener ->
+            if (keyCode == KeyEvent.KEYCODE_CTRL_LEFT ||
+                keyCode == KeyEvent.KEYCODE_CTRL_RIGHT ||
+                keyCode == KeyEvent.KEYCODE_SHIFT_LEFT ||
+                keyCode == KeyEvent.KEYCODE_SHIFT_RIGHT ||
+                keyCode == KeyEvent.KEYCODE_ALT_LEFT ||
+                keyCode == KeyEvent.KEYCODE_ALT_RIGHT
+            ) {
+                return false
+            }
+
             val shortcut = Shortcut(
                 ctrl = event?.isCtrlPressed ?: false,
                 shift = event?.isShiftPressed ?: false,

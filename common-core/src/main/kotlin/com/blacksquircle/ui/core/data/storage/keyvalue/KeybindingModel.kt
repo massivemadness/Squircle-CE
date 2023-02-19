@@ -27,5 +27,5 @@ data class KeybindingModel(
     val isAlt: Boolean
         get() = value.length >= 4 && value[2] == '1'
     val keyCode: Int
-        get() = if (value.length >= 4) value.substring(3..value.length).toInt() else -1
+        get() = if (value.length >= 4) value.substring(3 until value.length).toInt() else -1
 }
