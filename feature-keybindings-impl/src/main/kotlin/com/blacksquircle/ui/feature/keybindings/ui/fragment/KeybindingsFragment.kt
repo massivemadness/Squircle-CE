@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.keybindings.ui.fragment
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,8 +85,19 @@ class KeybindingsFragment : PreferenceFragmentCompat() {
         viewModel.keybindings.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { keybindings ->
                 keybindings.forEach { model ->
-                    val pref = findPreference<Preference>(model.keybinding.key)
-                    pref?.summary = model.value.ifEmpty { getString(R.string.keybinding_none) }
+                    val preference = findPreference<Preference>(model.keybinding.key)
+                    val summary = StringBuilder().apply {
+                        if (model.isCtrl) append(getString(R.string.keybinding_ctrl))
+                        if (model.isShift) append(getString(R.string.keybinding_shift))
+                        if (model.isAlt) append(getString(R.string.keybinding_alt))
+                        if (model.keyCode == -1) {
+                            append(getString(R.string.keybinding_none))
+                        } else {
+                            val keyCode = KeyEvent.keyCodeToString(model.keyCode)
+                            append(keyCode.substringAfter('_'))
+                        }
+                    }
+                    preference?.summary = summary
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
