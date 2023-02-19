@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment
+package com.blacksquircle.ui.feature.keybindings.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,8 +32,8 @@ import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
-import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.keybindings.R
+import com.blacksquircle.ui.feature.keybindings.ui.viewmodel.KeybindingsViewModel
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -41,7 +41,7 @@ import com.blacksquircle.ui.uikit.R as UiR
 
 class KeybindingsFragment : PreferenceFragmentCompat() {
 
-    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
+    private val viewModel by hiltNavGraphViewModels<KeybindingsViewModel>(R.id.keybindings_graph)
     private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
@@ -63,7 +63,7 @@ class KeybindingsFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
+        setFadeTransition(binding.root[1] as ViewGroup, UiR.id.toolbar)
         postponeEnterTransition(view)
         observeViewModel()
 
@@ -76,6 +76,8 @@ class KeybindingsFragment : PreferenceFragmentCompat() {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
+
+        viewModel.loadKeybindings()
     }
 
     private fun observeViewModel() {
@@ -83,7 +85,7 @@ class KeybindingsFragment : PreferenceFragmentCompat() {
             .onEach { keybindings ->
                 keybindings.forEach { model ->
                     val pref = findPreference<Preference>(model.keybinding.key)
-                    pref?.summary = model.value
+                    pref?.summary = model.value.ifEmpty { getString(R.string.keybinding_none) }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

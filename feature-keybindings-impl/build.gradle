@@ -1,0 +1,95 @@
+/*
+ * Copyright 2023 Squircle CE contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    namespace 'com.blacksquircle.ui.feature.keybindings'
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    // Core
+    implementation library.kotlin
+    implementation library.core
+    implementation library.activity
+    implementation library.fragment
+    implementation library.timber
+
+    // UI
+    implementation library.appcompat
+    implementation library.materialdesign
+    implementation library.materialdialogs_core
+    implementation library.preferencescompat
+
+    // AAC
+    implementation library.viewmodel
+    implementation library.lifecycle
+    implementation library.navigation_ui
+    implementation library.navigation_fragment
+
+    // Coroutines
+    implementation library.coroutines_core
+    implementation library.coroutines_android
+
+    // DI
+    implementation library.hilt
+    implementation library.hilt_navigation
+    kapt library.hilt_compiler
+
+    // Modules
+    implementation project(':feature-keybindings-api')
+    implementation project(':common-core')
+    implementation project(':common-ui')
+
+    // Tests
+    testImplementation library.junit
+    androidTestImplementation library.junit_ext
+    androidTestImplementation library.test_runner
+}

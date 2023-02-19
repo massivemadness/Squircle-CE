@@ -61,4 +61,8 @@
         android:id="@+id/servers_graph"
         app:graph="@navigation/servers_graph" />
 
+    <include
+        android:id="@+id/keybindings_graph"
+        app:graph="@navigation/keybindings_graph" />
+
 </navigation>

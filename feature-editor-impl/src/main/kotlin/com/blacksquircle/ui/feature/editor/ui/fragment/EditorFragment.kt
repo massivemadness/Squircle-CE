@@ -30,8 +30,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.data.storage.keyvalue.Keybinding
-import com.blacksquircle.ui.core.data.storage.keyvalue.KeybindingModel
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.contract.ContractResult
 import com.blacksquircle.ui.core.ui.contract.CreateFileContract
@@ -68,6 +66,8 @@ import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
+import com.blacksquircle.ui.feature.keybindings.domain.model.Keybinding
+import com.blacksquircle.ui.feature.keybindings.domain.model.KeybindingModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn

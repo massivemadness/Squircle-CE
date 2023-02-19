@@ -117,6 +117,8 @@ dependencies {
     implementation project(':feature-explorer-impl')
     implementation project(':feature-fonts-api')
     implementation project(':feature-fonts-impl')
+    implementation project(':feature-keybindings-api')
+    implementation project(':feature-keybindings-impl')
     implementation project(':feature-servers-api')
     implementation project(':feature-servers-impl')
     implementation project(':feature-settings-api')

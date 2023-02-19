@@ -84,7 +84,7 @@ class CloudFragment : PreferenceFragmentCompat() {
     }
 
     private fun observeViewModel() {
-        viewModel.serverState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+        viewModel.servers.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { servers ->
                 preferenceScreen.removeAll()
 

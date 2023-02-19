@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.data.storage.keyvalue
+package com.blacksquircle.ui.feature.keybindings
 
-data class KeybindingModel(
-    val keybinding: Keybinding,
-    val value: String,
-) {
-    val isCtrl: Boolean
-        get() = value.length >= 4 && value[0] == '1'
-    val isShift: Boolean
-        get() = value.length >= 4 && value[1] == '1'
-    val isAlt: Boolean
-        get() = value.length >= 4 && value[2] == '1'
-    val keyCode: Int
-        get() = if (value.length >= 4) value.substring(3 until value.length).toInt() else -1
+import org.junit.Assert.*
+import org.junit.Test
+
+class ExampleUnitTest {
+
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
+    }
 }

@@ -38,8 +38,8 @@ class ServersViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
-    private val _serverState = MutableStateFlow<List<ServerModel>>(emptyList())
-    val serverState: StateFlow<List<ServerModel>> = _serverState.asStateFlow()
+    private val _servers = MutableStateFlow<List<ServerModel>>(emptyList())
+    val servers: StateFlow<List<ServerModel>> = _servers.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -54,7 +54,7 @@ class ServersViewModel @Inject constructor(
 
     private fun loadServers() {
         viewModelScope.launch {
-            _serverState.value = serversRepository.loadServers()
+            _servers.value = serversRepository.loadServers()
         }
     }
 

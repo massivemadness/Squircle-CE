@@ -35,6 +35,7 @@ import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
+import com.blacksquircle.ui.feature.keybindings.domain.repository.KeybindingsRepository
 import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,6 +52,7 @@ class EditorViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
     private val themesRepository: ThemesRepository,
+    private val keybindingsRepository: KeybindingsRepository,
 ) : ViewModel() {
 
     private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.Stub)
@@ -627,7 +629,7 @@ class EditorViewModel @Inject constructor(
                 val tabWidth = settingsManager.tabWidth
                 settings.add(SettingsEvent.TabWidth(tabWidth))
 
-                val keybindings = settingsManager.keybindings()
+                val keybindings = keybindingsRepository.loadKeybindings()
                 settings.add(SettingsEvent.Keybindings(keybindings))
 
                 _settings.value = settings

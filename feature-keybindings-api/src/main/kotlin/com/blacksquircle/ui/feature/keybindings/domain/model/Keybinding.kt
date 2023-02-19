@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.data.storage.keyvalue
+package com.blacksquircle.ui.feature.keybindings.domain.model
 
 /**
  * 10078 - 1 ctrl, 0 shift, 0 alt, 42 key code

@@ -36,8 +36,6 @@
     <string name="view_mode_compact_list">Liste Compacte</string>
     <string name="view_mode_detailed_list">Liste détaillée</string>
 
-    <string name="keybinding_none">None set</string>
-
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configurer les paramètres globaux de l\'application.</string>
     <string name="pref_header_editor_title">Éditeur</string>
@@ -64,9 +62,6 @@
     <string name="pref_category_encoding">Encodage</string>
     <string name="pref_category_linebreaks">Sauts de ligne</string>
     <string name="pref_category_file_manager">Explorateur de Fichier</string>
-    <string name="pref_category_file_keybindings">File Keybindings</string>
-    <string name="pref_category_editor_keybindings">Editor Keybindings</string>
-    <string name="pref_category_tools_keybindings">Tools Keybindings</string>
     <string name="pref_category_about">À Propos</string>
     <string name="pref_category_contribute">Contribuer</string>
 

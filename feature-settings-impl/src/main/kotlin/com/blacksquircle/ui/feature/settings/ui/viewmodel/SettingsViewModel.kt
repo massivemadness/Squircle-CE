@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.data.storage.keyvalue.KeybindingModel
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -83,9 +82,6 @@ class SettingsViewModel @Inject constructor(
     )
     val headersState: StateFlow<List<PreferenceItem>> = _headersState.asStateFlow()
 
-    private val _keybindings = MutableStateFlow<List<KeybindingModel>>(emptyList())
-    val keybindings: StateFlow<List<KeybindingModel>> = _keybindings.asStateFlow()
-
     private val _changelogState = MutableStateFlow<List<ReleaseModel>>(emptyList())
     val changelogState: StateFlow<List<ReleaseModel>> = _changelogState.asStateFlow()
 
@@ -98,12 +94,6 @@ class SettingsViewModel @Inject constructor(
     var keyboardPreset: String
         get() = settingsManager.keyboardPreset
         set(value) { settingsManager.keyboardPreset = value }
-
-    fun loadKeybindings() {
-        viewModelScope.launch {
-            // _keybindings.value = settingsRepository.loadKeybindings()
-        }
-    }
 
     fun resetKeyboardPreset() {
         viewModelScope.launch {

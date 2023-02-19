@@ -36,8 +36,6 @@
     <string name="view_mode_compact_list">Компактный список</string>
     <string name="view_mode_detailed_list">Подробный список</string>
 
-    <string name="keybinding_none">Не назначено</string>
-
     <string name="pref_header_application_title">Приложение</string>
     <string name="pref_header_application_summary">Настройте основной функционал.</string>
     <string name="pref_header_editor_title">Редактор</string>
@@ -64,9 +62,6 @@
     <string name="pref_category_encoding">Кодировка</string>
     <string name="pref_category_linebreaks">Разделители строк</string>
     <string name="pref_category_file_manager">Проводник</string>
-    <string name="pref_category_file_keybindings">Файл</string>
-    <string name="pref_category_editor_keybindings">Редактор</string>
-    <string name="pref_category_tools_keybindings">Инструменты</string>
     <string name="pref_category_about">О программе</string>
     <string name="pref_category_contribute">Внести вклад</string>
 

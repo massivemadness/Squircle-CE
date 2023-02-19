@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.utils
 
-import com.blacksquircle.ui.core.data.storage.keyvalue.KeybindingModel
+import com.blacksquircle.ui.feature.keybindings.domain.model.KeybindingModel
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 sealed class SettingsEvent<T>(val value: T) {
