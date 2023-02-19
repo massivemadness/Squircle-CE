@@ -26,9 +26,9 @@
     <string name="action_new">Новый файл</string>
     <string name="action_open">Открыть</string>
     <string name="action_save_as">Сохранить как</string>
-    <string name="action_select_line">Выделить линию</string>
-    <string name="action_delete_line">Удалить линию</string>
-    <string name="action_duplicate_line">Повторить линию</string>
+    <string name="action_select_line">Выделить строку</string>
+    <string name="action_delete_line">Удалить строку</string>
+    <string name="action_duplicate_line">Повторить строку</string>
     <string name="action_regex">Регулярки</string>
     <string name="action_match_case">Учит. регистр</string>
     <string name="action_words_only">Только слова</string>

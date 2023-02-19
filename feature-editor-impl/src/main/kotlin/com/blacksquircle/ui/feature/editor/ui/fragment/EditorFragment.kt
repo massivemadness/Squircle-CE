@@ -524,7 +524,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                                 Shortcut.REPLACE -> onOpenReplaceButton()
                                 Shortcut.GOTO_LINE -> onGoToLineButton()
                                 Shortcut.FORCE_SYNTAX -> onForceSyntaxButton()
-                                Shortcut.COLOR_PICKER -> onInsertColorButton()
+                                Shortcut.INSERT_COLOR -> onInsertColorButton()
                                 else -> when (keyCode) {
                                     KeyEvent.KEYCODE_TAB -> {
                                         binding.editor.insert(binding.editor.tab()); true

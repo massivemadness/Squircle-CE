@@ -32,7 +32,7 @@ object ShortcutsModule {
 
     @Provides
     @Singleton
-    fun provideKeybindingsRepository(
+    fun provideShortcutsRepository(
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
     ): ShortcutsRepository {

@@ -30,7 +30,7 @@ enum class Shortcut(val key: String, val defaultValue: String) {
     PASTE("shortcut_paste", "10050"), // Ctrl + V
     SELECT_ALL("shortcut_select_all", "10029"), // Ctrl + A
     SELECT_LINE("shortcut_select_line", "00129"), // Alt + A
-    DELETE_LINE("shortcut_delete_line", "10067"), // Ctrl + Backspace
+    DELETE_LINE("shortcut_delete_line", "10067"), // Ctrl + DEL
     DUPLICATE_LINE("shortcut_duplicate_line", "10032"), // Ctrl + D
     PREV_WORD("shortcut_prev_word", "00121"), // Alt + ←
     NEXT_WORD("shortcut_next_word", "00122"), // Alt + →
@@ -42,5 +42,5 @@ enum class Shortcut(val key: String, val defaultValue: String) {
     REPLACE("shortcut_replace", "10046"), // Ctrl + R
     GOTO_LINE("shortcut_goto_line", "10035"), // Ctrl + G
     FORCE_SYNTAX("shortcut_force_syntax", ""), // None set
-    COLOR_PICKER("shortcut_color_picker", "") // None set
+    INSERT_COLOR("shortcut_insert_color", "") // None set
 }

@@ -31,9 +31,11 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
+import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.feature.shortcuts.R
+import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
 import kotlinx.coroutines.flow.launchIn
@@ -86,18 +88,21 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
             .onEach { keybindings ->
                 keybindings.forEach { model ->
                     val preference = findPreference<Preference>(model.shortcut.key)
-                    val summary = StringBuilder().apply {
-                        if (model.isCtrl) append(getString(R.string.keybinding_ctrl))
-                        if (model.isShift) append(getString(R.string.keybinding_shift))
-                        if (model.isAlt) append(getString(R.string.keybinding_alt))
+                    preference?.setOnPreferenceClickListener {
+                        navController.navigate(ShortcutScreen.Edit(model.shortcut.key))
+                        true
+                    }
+                    preference?.summary = StringBuilder().apply {
                         if (model.keyCode == -1) {
-                            append(getString(R.string.keybinding_none))
+                            append(getString(R.string.shortcut_none))
                         } else {
+                            if (model.isCtrl) append(getString(R.string.keybinding_ctrl) + " + ")
+                            if (model.isShift) append(getString(R.string.keybinding_shift) + " + ")
+                            if (model.isAlt) append(getString(R.string.keybinding_alt) + " + ")
                             val keyCode = KeyEvent.keyCodeToString(model.keyCode)
                             append(keyCode.substringAfter('_'))
                         }
                     }
-                    preference?.summary = summary
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

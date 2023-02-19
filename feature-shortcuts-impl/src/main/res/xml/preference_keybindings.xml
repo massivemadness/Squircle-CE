@@ -22,34 +22,34 @@
 
         <Preference
             android:enabled="false"
-            android:key="KEYBINDING_NEW"
-            android:title="New"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_new"
+            android:title="@string/shortcut_new_file"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + N" />
 
         <Preference
             android:enabled="false"
-            android:key="KEYBINDING_OPEN"
-            android:title="Open"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_open"
+            android:title="@string/shortcut_open_file"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + O" />
 
         <Preference
-            android:key="KEYBINDING_SAVE"
-            android:title="Save"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_save"
+            android:title="@string/shortcut_save_file"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + S" />
 
         <Preference
-            android:key="KEYBINDING_SAVE_AS"
-            android:title="Save As"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_save_as"
+            android:title="@string/shortcut_save_as"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + Shift + S" />
 
         <Preference
-            android:key="KEYBINDING_CLOSE"
-            android:title="Close"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_close"
+            android:title="@string/shortcut_close_file"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + W" />
 
     </PreferenceCategory>
@@ -57,99 +57,99 @@
     <PreferenceCategory android:title="@string/pref_category_editor_keybindings">
 
         <Preference
-            android:key="KEYBINDING_CUT"
-            android:title="Cut"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_cut"
+            android:title="@android:string/cut"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + X" />
 
         <Preference
-            android:key="KEYBINDING_COPY"
-            android:title="Copy"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_copy"
+            android:title="@android:string/copy"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + C" />
 
         <Preference
-            android:key="KEYBINDING_PASTE"
-            android:title="Paste"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_paste"
+            android:title="@android:string/paste"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + V" />
 
         <Preference
-            android:key="KEYBINDING_SELECT_ALL"
-            android:title="Select all"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_select_all"
+            android:title="@android:string/selectAll"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + A" />
 
         <Preference
-            android:key="KEYBINDING_SELECT_LINE"
-            android:title="Select Line"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_select_line"
+            android:title="@string/shortcut_select_line"
+            android:summary="@string/shortcut_none"
             tools:summary="Alt + A" />
 
         <Preference
-            android:key="KEYBINDING_DELETE_LINE"
-            android:title="Delete Line"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_delete_line"
+            android:title="@string/shortcut_delete_line"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + DEL" />
 
         <Preference
-            android:key="KEYBINDING_DUPLICATE_LINE"
-            android:title="Duplicate Line"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_duplicate_line"
+            android:title="@string/shortcut_duplicate_line"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + D" />
 
         <Preference
-            android:key="KEYBINDING_PREV_WORD"
-            android:title="Previous Word"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_prev_word"
+            android:title="@string/shortcut_prev_word"
+            android:summary="@string/shortcut_none"
             tools:summary="Alt + ←" />
 
         <Preference
-            android:key="KEYBINDING_NEXT_WORD"
-            android:title="Next Word"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_next_word"
+            android:title="@string/shortcut_next_word"
+            android:summary="@string/shortcut_none"
             tools:summary="Alt + →" />
 
         <Preference
-            android:key="KEYBINDING_LINE_START"
-            android:title="Start of Line"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_line_start"
+            android:title="@string/shortcut_start_of_line"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + ←" />
 
         <Preference
-            android:key="KEYBINDING_LINE_END"
-            android:title="End of Line"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_line_end"
+            android:title="@string/shortcut_end_of_line"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + →" />
 
         <Preference
-            android:key="KEYBINDING_UNDO"
-            android:title="Undo"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_undo"
+            android:title="@string/shortcut_undo"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + Z" />
 
         <Preference
-            android:key="KEYBINDING_REDO"
-            android:title="Redo"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_redo"
+            android:title="@string/shortcut_redo"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + Shift + Z" />
 
         <Preference
-            android:key="KEYBINDING_FIND"
-            android:title="Find"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_find"
+            android:title="@string/shortcut_find"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + F" />
 
         <Preference
-            android:key="KEYBINDING_REPLACE"
-            android:title="Replace"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_replace"
+            android:title="@string/shortcut_replace"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + R" />
 
         <Preference
-            android:key="KEYBINDING_GOTO_LINE"
-            android:title="Go to Line"
-            android:summary="@string/keybinding_none"
+            android:key="shortcut_goto_line"
+            android:title="@string/shortcut_goto_line"
+            android:summary="@string/shortcut_none"
             tools:summary="Ctrl + G" />
 
     </PreferenceCategory>
@@ -157,16 +157,16 @@
     <PreferenceCategory android:title="@string/pref_category_tools_keybindings">
 
         <Preference
-            android:key="KEYBINDING_FORCE_SYNTAX"
-            android:title="Force Syntax"
-            android:summary="@string/keybinding_none"
-            tools:summary="@string/keybinding_none" />
+            android:key="shortcut_force_syntax"
+            android:title="@string/shortcut_force_syntax"
+            android:summary="@string/shortcut_none"
+            tools:summary="@string/shortcut_none" />
 
         <Preference
-            android:key="KEYBINDING_COLOR_PICKER"
-            android:title="Color Picker"
-            android:summary="@string/keybinding_none"
-            tools:summary="@string/keybinding_none" />
+            android:key="shortcut_insert_color"
+            android:title="@string/shortcut_insert_color"
+            android:summary="@string/shortcut_none"
+            tools:summary="@string/shortcut_none" />
 
     </PreferenceCategory>
 

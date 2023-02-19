@@ -29,4 +29,15 @@
         <deepLink app:uri="blacksquircle://settings/keybindings" />
     </fragment>
 
+    <dialog
+        android:id="@+id/shortcutDialog"
+        android:name="com.blacksquircle.ui.feature.shortcuts.ui.dialog.ShortcutDialog"
+        android:label="@string/pref_header_keybindings_title"
+        tools:layout="@layout/dialog_shortcut">
+        <deepLink app:uri="blacksquircle://settings/keybindings/{key}" />
+        <argument
+            android:name="key"
+            app:argType="string" />
+    </dialog>
+
 </navigation>
