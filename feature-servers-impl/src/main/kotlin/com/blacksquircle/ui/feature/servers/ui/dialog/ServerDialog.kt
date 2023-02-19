@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.dialog
+package com.blacksquircle.ui.feature.servers.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
@@ -24,9 +24,10 @@ import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.databinding.DialogServerBinding
-import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.feature.servers.databinding.DialogServerBinding
+import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerIntent
+import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerModel
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
@@ -41,7 +42,7 @@ import com.blacksquircle.ui.uikit.R as UiR
 @AndroidEntryPoint
 class ServerDialog : DialogFragment() {
 
-    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
+    private val viewModel by hiltNavGraphViewModels<ServersViewModel>(R.id.servers_graph)
     private val navArgs by navArgs<ServerDialogArgs>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -71,7 +72,7 @@ class ServerDialog : DialogFragment() {
                         privateKey = "",
                         passphrase = "",
                     )
-                    viewModel.upsertServer(serverModel)
+                    viewModel.obtainEvent(ServerIntent.UpsertServer(serverModel))
                 }
                 negativeButton(android.R.string.cancel)
             } else {
@@ -114,10 +115,10 @@ class ServerDialog : DialogFragment() {
                         privateKey = "",
                         passphrase = "",
                     )
-                    viewModel.upsertServer(changedModel)
+                    viewModel.obtainEvent(ServerIntent.UpsertServer(changedModel))
                 }
                 negativeButton(UiR.string.common_delete) {
-                    viewModel.deleteServer(serverModel)
+                    viewModel.obtainEvent(ServerIntent.DeleteServer(serverModel))
                 }
             }
         }

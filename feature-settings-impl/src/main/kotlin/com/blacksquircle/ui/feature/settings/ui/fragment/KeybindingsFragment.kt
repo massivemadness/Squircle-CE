@@ -22,18 +22,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.core.view.updatePadding
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
+import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import com.blacksquircle.ui.uikit.R as UiR
 
 class KeybindingsFragment : PreferenceFragmentCompat() {
 
-    private val binding by viewBinding(FragmentPreferenceBinding::bind)
+    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
+    private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -45,7 +54,7 @@ class KeybindingsFragment : PreferenceFragmentCompat() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.fragment_preference, container, false).also {
+        return inflater.inflate(UiR.layout.layout_preference, container, false).also {
             (it as? ViewGroup)?.addView(
                 super.onCreateView(inflater, container, savedInstanceState),
             )
@@ -56,6 +65,7 @@ class KeybindingsFragment : PreferenceFragmentCompat() {
         super.onViewCreated(view, savedInstanceState)
         setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
         postponeEnterTransition(view)
+        observeViewModel()
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
             binding.toolbar.updatePadding(top = top)
@@ -66,5 +76,16 @@ class KeybindingsFragment : PreferenceFragmentCompat() {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
+    }
+
+    private fun observeViewModel() {
+        viewModel.keybindings.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { keybindings ->
+                keybindings.forEach { model ->
+                    val pref = findPreference<Preference>(model.keybinding.key)
+                    pref?.summary = model.value
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

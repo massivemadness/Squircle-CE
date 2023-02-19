@@ -85,11 +85,4 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="server_type">
-        <item>@string/server_ftp</item>
-        <item>@string/server_ftps</item>
-        <item>@string/server_ftpes</item>
-        <item>@string/server_sftp</item>
-    </string-array>
-
 </resources>

@@ -33,7 +33,7 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
         route = "blacksquircle://explorer/progress?totalCount=$totalCount&operation=${operation.value}",
     )
     class PropertiesDialog(fileModel: FileModel) : ExplorerScreen(
-        route = "blacksquircle://explorer/properties?data=${Gson().toJson(fileModel)}",
+        route = "blacksquircle://explorer/properties?data=${Gson().toJson(fileModel)}", // fixme
     )
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")

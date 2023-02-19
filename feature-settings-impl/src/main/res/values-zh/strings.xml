@@ -22,17 +22,10 @@
     <string name="label_latest_release">最新版本</string>
 
     <string name="hint_enter_preset_chars">符号栏预设符号（不要带分隔符）</string>
-    <string name="hint_server_name">Server Name</string>
-    <string name="hint_server_address">Server Address</string>
-    <string name="hint_initial_dir">Initial Folder</string>
-    <string name="hint_port">Port</string>
-    <string name="hint_username">Username</string>
-    <string name="hint_password">Password</string>
 
     <string name="action_reset">重置</string>
 
     <string name="message_preset_disclaimer">注：同一个字符可以重复多次</string>
-    <string name="message_server_missing_fields">Server name and address must be not empty</string>
 
     <string name="encoding_utf8_default">UTF-8 (默认)</string>
 
@@ -44,11 +37,6 @@
     <string name="view_mode_detailed_list">详细列表</string>
 
     <string name="keybinding_none">None set</string>
-
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (Explicit FTPS)</string>
-    <string name="server_sftp">SFTP</string>
 
     <string name="pref_header_application_title">应用</string>
     <string name="pref_header_application_summary">配置应用全局性的设置。</string>
@@ -79,7 +67,6 @@
     <string name="pref_category_file_keybindings">File Keybindings</string>
     <string name="pref_category_editor_keybindings">Editor Keybindings</string>
     <string name="pref_category_tools_keybindings">Tools Keybindings</string>
-    <string name="pref_category_servers">FTP(S) Servers</string>
     <string name="pref_category_about">关于</string>
     <string name="pref_category_contribute">贡献</string>
 
@@ -127,9 +114,6 @@
     <string name="pref_use_spaces_not_tabs_summary">自动缩进时插入空格代替制表符</string>
     <string name="pref_tab_width_title">制表符个数</string>
     <string name="pref_tab_width_summary">指定编辑器中展示的制表符个数</string>
-
-    <string name="pref_add_server_title">Add Server</string>
-    <string name="pref_edit_server_title">Edit Server</string>
 
     <string name="pref_encoding_auto_detect_title">自动检测编码</string>
     <string name="pref_encoding_auto_detect_summary">自动检测编码对多字节语言是很有用的。</string>

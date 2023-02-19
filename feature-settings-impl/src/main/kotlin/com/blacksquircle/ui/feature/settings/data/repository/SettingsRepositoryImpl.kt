@@ -16,44 +16,13 @@
 
 package com.blacksquircle.ui.feature.settings.data.repository
 
-import com.blacksquircle.ui.core.data.converter.ServerConverter
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.settings.domain.SettingsRepository
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
-import kotlinx.coroutines.withContext
 
 class SettingsRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
-) : SettingsRepository {
-
-    override suspend fun fetchServers(): List<ServerModel> {
-        return withContext(dispatcherProvider.io()) {
-            appDatabase.serverDao().loadAll()
-                .map(ServerConverter::toModel)
-        }
-    }
-
-    override suspend fun upsertServer(serverModel: ServerModel) {
-        withContext(dispatcherProvider.io()) {
-            val entity = ServerConverter.toEntity(serverModel)
-            appDatabase.serverDao().insert(entity)
-        }
-    }
-
-    override suspend fun deleteServer(serverModel: ServerModel) {
-        withContext(dispatcherProvider.io()) {
-            val entity = ServerConverter.toEntity(serverModel)
-            appDatabase.serverDao().delete(entity)
-        }
-    }
-
-    override suspend fun resetKeyboardPreset() {
-        withContext(dispatcherProvider.io()) {
-            settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)
-        }
-    }
-}
+) : SettingsRepository

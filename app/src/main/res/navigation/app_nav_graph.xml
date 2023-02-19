@@ -57,4 +57,8 @@
         android:id="@+id/themes_graph"
         app:graph="@navigation/themes_graph" />
 
+    <include
+        android:id="@+id/servers_graph"
+        app:graph="@navigation/servers_graph" />
+
 </navigation>

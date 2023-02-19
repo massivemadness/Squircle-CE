@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.data.storage.keyvalue.KeybindingModel
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
@@ -27,7 +28,6 @@ import com.blacksquircle.ui.feature.settings.domain.SettingsRepository
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -83,8 +83,8 @@ class SettingsViewModel @Inject constructor(
     )
     val headersState: StateFlow<List<PreferenceItem>> = _headersState.asStateFlow()
 
-    private val _serverState = MutableStateFlow<List<ServerModel>>(emptyList())
-    val serverState: StateFlow<List<ServerModel>> = _serverState.asStateFlow()
+    private val _keybindings = MutableStateFlow<List<KeybindingModel>>(emptyList())
+    val keybindings: StateFlow<List<KeybindingModel>> = _keybindings.asStateFlow()
 
     private val _changelogState = MutableStateFlow<List<ReleaseModel>>(emptyList())
     val changelogState: StateFlow<List<ReleaseModel>> = _changelogState.asStateFlow()
@@ -99,51 +99,16 @@ class SettingsViewModel @Inject constructor(
         get() = settingsManager.keyboardPreset
         set(value) { settingsManager.keyboardPreset = value }
 
-    fun fetchServers() {
+    fun loadKeybindings() {
         viewModelScope.launch {
-            _serverState.value = settingsRepository.fetchServers()
-        }
-    }
-
-    fun upsertServer(serverModel: ServerModel) {
-        viewModelScope.launch {
-            try {
-                if (serverModel.name.isBlank() || serverModel.address.isBlank()) {
-                    _viewEvent.send(
-                        ViewEvent.Toast(
-                            stringProvider.getString(R.string.message_server_missing_fields),
-                        ),
-                    )
-                    return@launch
-                }
-                settingsRepository.upsertServer(serverModel)
-                fetchServers()
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    fun deleteServer(serverModel: ServerModel) {
-        viewModelScope.launch {
-            try {
-                settingsRepository.deleteServer(serverModel)
-                if (settingsManager.filesystem == serverModel.uuid) {
-                    settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
-                }
-                fetchServers()
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
+            // _keybindings.value = settingsRepository.loadKeybindings()
         }
     }
 
     fun resetKeyboardPreset() {
         viewModelScope.launch {
             try {
-                settingsRepository.resetKeyboardPreset()
+                settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))

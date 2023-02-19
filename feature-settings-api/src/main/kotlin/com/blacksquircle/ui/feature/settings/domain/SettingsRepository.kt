@@ -16,12 +16,4 @@
 
 package com.blacksquircle.ui.feature.settings.domain
 
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
-
-interface SettingsRepository {
-
-    suspend fun fetchServers(): List<ServerModel>
-    suspend fun upsertServer(serverModel: ServerModel)
-    suspend fun deleteServer(serverModel: ServerModel)
-    suspend fun resetKeyboardPreset()
-}
+interface SettingsRepository

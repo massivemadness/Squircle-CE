@@ -31,13 +31,14 @@ import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import com.blacksquircle.ui.uikit.R as UiR
 
 class ApplicationFragment : PreferenceFragmentCompat() {
 
     private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
-    private val binding by viewBinding(FragmentPreferenceBinding::bind)
+    private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -60,7 +61,7 @@ class ApplicationFragment : PreferenceFragmentCompat() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.fragment_preference, container, false).also {
+        return inflater.inflate(UiR.layout.layout_preference, container, false).also {
             (it as? ViewGroup)?.addView(
                 super.onCreateView(inflater, container, savedInstanceState),
             )

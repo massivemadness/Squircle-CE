@@ -22,17 +22,10 @@
     <string name="label_latest_release">Последний релиз</string>
 
     <string name="hint_enter_preset_chars">Символы (без разделителей)</string>
-    <string name="hint_server_name">Имя сервера</string>
-    <string name="hint_server_address">Адрес сервера</string>
-    <string name="hint_initial_dir">Папка по-умолчанию</string>
-    <string name="hint_port">Порт</string>
-    <string name="hint_username">Имя пользователя</string>
-    <string name="hint_password">Пароль</string>
 
     <string name="action_reset">Сброс</string>
 
     <string name="message_preset_disclaimer">Символы могут повторяться несколько раз</string>
-    <string name="message_server_missing_fields">Имя сервера и адрес не должны быть пустыми</string>
 
     <string name="encoding_utf8_default">UTF-8 (По умолчанию)</string>
 
@@ -44,11 +37,6 @@
     <string name="view_mode_detailed_list">Подробный список</string>
 
     <string name="keybinding_none">Не назначено</string>
-
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (Explicit FTPS)</string>
-    <string name="server_sftp">SFTP</string>
 
     <string name="pref_header_application_title">Приложение</string>
     <string name="pref_header_application_summary">Настройте основной функционал.</string>
@@ -79,7 +67,6 @@
     <string name="pref_category_file_keybindings">Файл</string>
     <string name="pref_category_editor_keybindings">Редактор</string>
     <string name="pref_category_tools_keybindings">Инструменты</string>
-    <string name="pref_category_servers">FTP(S) Сервера</string>
     <string name="pref_category_about">О программе</string>
     <string name="pref_category_contribute">Внести вклад</string>
 
@@ -127,9 +114,6 @@
     <string name="pref_use_spaces_not_tabs_summary">Вставлять пробелы вместо табов при использовании авто-отступов.</string>
     <string name="pref_tab_width_title">Ширина табов</string>
     <string name="pref_tab_width_summary">Указанная ширина будет использоваться для каждого таба в редакторе.</string>
-
-    <string name="pref_add_server_title">Добавить сервер</string>
-    <string name="pref_edit_server_title">Изменить сервер</string>
 
     <string name="pref_encoding_auto_detect_title">Автоопределение кодировки</string>
     <string name="pref_encoding_auto_detect_summary">Подбирать правильную кодировку автоматически при открытии файла.</string>

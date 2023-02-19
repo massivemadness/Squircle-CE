@@ -17,8 +17,6 @@
 package com.blacksquircle.ui.feature.settings.ui.navigation
 
 import com.blacksquircle.ui.core.ui.navigation.Screen
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
-import com.google.gson.Gson
 
 sealed class SettingsScreen(route: String) : Screen<String>(route) {
 
@@ -32,9 +30,4 @@ sealed class SettingsScreen(route: String) : Screen<String>(route) {
 
     object Preset : SettingsScreen("blacksquircle://settings/editor/preset")
     object ChangeLog : SettingsScreen("blacksquircle://settings/about/changelog")
-
-    object AddServer : SettingsScreen("blacksquircle://settings/cloud/add")
-    class EditServer(serverModel: ServerModel) : SettingsScreen(
-        route = "blacksquircle://settings/cloud/edit?data=${Gson().toJson(serverModel)}",
-    )
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment
+package com.blacksquircle.ui.feature.servers.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,18 +31,21 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
+import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
-import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
-import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
-import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
+import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerIntent
+import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
+import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import com.blacksquircle.ui.uikit.R as UiR
 
 class CloudFragment : PreferenceFragmentCompat() {
 
-    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
-    private val binding by viewBinding(FragmentPreferenceBinding::bind)
+    private val viewModel by hiltNavGraphViewModels<ServersViewModel>(R.id.servers_graph)
+    private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -54,7 +57,7 @@ class CloudFragment : PreferenceFragmentCompat() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.fragment_preference, container, false).also {
+        return inflater.inflate(UiR.layout.layout_preference, container, false).also {
             (it as? ViewGroup)?.addView(
                 super.onCreateView(inflater, container, savedInstanceState),
             )
@@ -63,7 +66,7 @@ class CloudFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
+        setFadeTransition(binding.root[1] as ViewGroup, UiR.id.toolbar)
         postponeEnterTransition(view)
         observeViewModel()
 
@@ -77,7 +80,7 @@ class CloudFragment : PreferenceFragmentCompat() {
             navController.popBackStack()
         }
 
-        viewModel.fetchServers()
+        viewModel.obtainEvent(ServerIntent.LoadServers)
     }
 
     private fun observeViewModel() {
@@ -92,7 +95,7 @@ class CloudFragment : PreferenceFragmentCompat() {
                 val addServer = Preference(preferenceScreen.context)
                 addServer.setTitle(R.string.pref_add_server_title)
                 addServer.setOnPreferenceClickListener {
-                    navController.navigate(SettingsScreen.AddServer)
+                    navController.navigate(Screen.AddServer)
                     true
                 }
                 categoryServers.addPreference(addServer)
@@ -102,7 +105,7 @@ class CloudFragment : PreferenceFragmentCompat() {
                     server.title = serverModel.name
                     server.summary = serverModel.address
                     server.setOnPreferenceClickListener {
-                        navController.navigate(SettingsScreen.EditServer(serverModel))
+                        navController.navigate(ServersScreen.EditServer(serverModel))
                         true
                     }
                     categoryServers.addPreference(server)

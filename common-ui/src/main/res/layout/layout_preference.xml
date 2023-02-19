@@ -32,6 +32,6 @@
         app:navigationIconTint="?colorOnSurface"
         app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-        tools:title="@string/label_settings" />
+        tools:title="Settings" />
 
 </LinearLayout>

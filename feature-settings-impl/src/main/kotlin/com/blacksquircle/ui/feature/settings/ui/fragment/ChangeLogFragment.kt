@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.settings.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.get
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels

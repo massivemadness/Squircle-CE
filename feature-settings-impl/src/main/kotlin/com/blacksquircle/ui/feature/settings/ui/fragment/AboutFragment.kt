@@ -34,12 +34,13 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.utils.applicationName
 import com.blacksquircle.ui.feature.settings.data.utils.versionCode
 import com.blacksquircle.ui.feature.settings.data.utils.versionName
-import com.blacksquircle.ui.feature.settings.databinding.FragmentPreferenceBinding
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
+import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import com.blacksquircle.ui.uikit.R as UiR
 
 class AboutFragment : PreferenceFragmentCompat() {
 
-    private val binding by viewBinding(FragmentPreferenceBinding::bind)
+    private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
     private var counter = 1
@@ -69,7 +70,7 @@ class AboutFragment : PreferenceFragmentCompat() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.fragment_preference, container, false).also {
+        return inflater.inflate(UiR.layout.layout_preference, container, false).also {
             (it as? ViewGroup)?.addView(
                 super.onCreateView(inflater, container, savedInstanceState),
             )

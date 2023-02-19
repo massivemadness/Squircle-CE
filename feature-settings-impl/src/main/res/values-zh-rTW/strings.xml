@@ -22,17 +22,10 @@
     <string name="label_latest_release">最新版本</string>
 
     <string name="hint_enter_preset_chars">符號欄預設符號（不要加分隔符）</string>
-    <string name="hint_server_name">伺服器名稱</string>
-    <string name="hint_server_address">伺服器地址</string>
-    <string name="hint_initial_dir">Initial Folder</string>
-    <string name="hint_port">Port</string>
-    <string name="hint_username">使用者名稱</string>
-    <string name="hint_password">密碼</string>
 
     <string name="action_reset">重置</string>
 
     <string name="message_preset_disclaimer">註：同一個字符可以重複多次</string>
-    <string name="message_server_missing_fields">伺服器名稱和地址不能為空</string>
 
     <string name="encoding_utf8_default">UTF-8 (預設)</string>
 
@@ -44,11 +37,6 @@
     <string name="view_mode_detailed_list">詳細列表</string>
 
     <string name="keybinding_none">None set</string>
-
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (Explicit FTPS)</string>
-    <string name="server_sftp">SFTP</string>
 
     <string name="pref_header_application_title">應用程式</string>
     <string name="pref_header_application_summary">設定全域應用程式設定。</string>
@@ -79,7 +67,6 @@
     <string name="pref_category_file_keybindings">File Keybindings</string>
     <string name="pref_category_editor_keybindings">Editor Keybindings</string>
     <string name="pref_category_tools_keybindings">Tools Keybindings</string>
-    <string name="pref_category_servers">FTP(S) 伺服器</string>
     <string name="pref_category_about">關於</string>
     <string name="pref_category_contribute">貢獻</string>
 
@@ -127,9 +114,6 @@
     <string name="pref_use_spaces_not_tabs_summary">自動縮排時插入空格代替製表符</string>
     <string name="pref_tab_width_title">製表符個數</string>
     <string name="pref_tab_width_summary">指定編輯器中顯示的製表符個數</string>
-
-    <string name="pref_add_server_title">添加伺服器</string>
-    <string name="pref_edit_server_title">編輯伺服器</string>
 
     <string name="pref_encoding_auto_detect_title">自動檢測編碼</string>
     <string name="pref_encoding_auto_detect_summary">自動檢測編碼對多字節語言是很有用的。</string>
