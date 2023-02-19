@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.utils
 
-import com.blacksquircle.ui.feature.keybindings.domain.model.KeybindingModel
+import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 sealed class SettingsEvent<T>(val value: T) {
@@ -40,5 +40,5 @@ sealed class SettingsEvent<T>(val value: T) {
     class UseSpacesNotTabs(value: Boolean) : SettingsEvent<Boolean>(value)
     class TabWidth(value: Int) : SettingsEvent<Int>(value)
 
-    class Keybindings(value: List<KeybindingModel>) : SettingsEvent<List<KeybindingModel>>(value)
+    class Keybindings(value: List<Keybinding>) : SettingsEvent<List<Keybinding>>(value)
 }

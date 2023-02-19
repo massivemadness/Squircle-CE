@@ -15,46 +15,26 @@
  */
 
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-    namespace 'com.blacksquircle.ui'
+    namespace 'com.blacksquircle.ui.feature.shortcuts'
 
     defaultConfig {
-        applicationId "com.blacksquircle.ui"
-
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
-        versionCode 10014
-        versionName "2023.1.0"
-
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-    }
-    flavorDimensions "store"
-    productFlavors {
-        googlePlay { dimension "store" }
-        fdroid { dimension "store" }
-    }
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        benchmark {
-            signingConfig signingConfigs.debug
-            matchingFallbacks = ['release']
-            proguardFiles 'benchmark-rules.pro'
-            debuggable false
-        }
+
+        consumerProguardFiles 'consumer-rules.pro'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -65,8 +45,6 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        fdroid.java.srcDirs += 'src/fdroid/kotlin'
-        googlePlay.java.srcDirs += 'src/googlePlay/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
@@ -82,20 +60,15 @@ dependencies {
     implementation library.core
     implementation library.activity
     implementation library.fragment
-    implementation library.splash
-    implementation library.profileinstaller
     implementation library.timber
-
-    // Google Play
-    googlePlayImplementation library.playcore
 
     // UI
     implementation library.appcompat
     implementation library.materialdesign
     implementation library.materialdialogs_core
+    implementation library.preferencescompat
 
     // AAC
-    implementation library.livedata
     implementation library.viewmodel
     implementation library.lifecycle
     implementation library.navigation_ui
@@ -107,29 +80,13 @@ dependencies {
 
     // DI
     implementation library.hilt
-    implementation library.hilt_worker
+    implementation library.hilt_navigation
     kapt library.hilt_compiler
+    implementation project(':feature-shortcuts-api')
 
     // Modules
-    implementation project(':feature-editor-api')
-    implementation project(':feature-editor-impl')
-    implementation project(':feature-explorer-api')
-    implementation project(':feature-explorer-impl')
-    implementation project(':feature-fonts-api')
-    implementation project(':feature-fonts-impl')
-    implementation project(':feature-servers-api')
-    implementation project(':feature-servers-impl')
-    implementation project(':feature-settings-api')
-    implementation project(':feature-settings-impl')
-    implementation project(':feature-shortcuts-api')
-    implementation project(':feature-shortcuts-impl')
-    implementation project(':feature-themes-api')
-    implementation project(':feature-themes-impl')
     implementation project(':common-core')
     implementation project(':common-ui')
-
-    implementation project(':filesystems:filesystem-base')
-    implementation project(':filesystems:filesystem-local') // TODO remove
 
     // Tests
     testImplementation library.junit

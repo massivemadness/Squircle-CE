@@ -24,7 +24,7 @@ import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
-import com.blacksquircle.ui.feature.keybindings.domain.repository.KeybindingsRepository
+import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,7 +48,7 @@ class CloseTabTests {
     private val settingsManager = mockk<SettingsManager>()
     private val documentRepository = mockk<DocumentRepository>()
     private val themesRepository = mockk<ThemesRepository>()
-    private val keybindingsRepository = mockk<KeybindingsRepository>()
+    private val shortcutsRepository = mockk<ShortcutsRepository>()
 
     @Before
     fun setup() {
@@ -266,7 +266,7 @@ class CloseTabTests {
             settingsManager = settingsManager,
             documentRepository = documentRepository,
             themesRepository = themesRepository,
-            keybindingsRepository = keybindingsRepository,
+            shortcutsRepository = shortcutsRepository,
         )
     }
 }

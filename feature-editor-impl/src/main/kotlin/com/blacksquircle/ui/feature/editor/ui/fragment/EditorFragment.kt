@@ -66,8 +66,8 @@ import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
-import com.blacksquircle.ui.feature.keybindings.domain.model.Keybinding
-import com.blacksquircle.ui.feature.keybindings.domain.model.KeybindingModel
+import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
@@ -493,38 +493,38 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                     is SettingsEvent.TabWidth -> binding.editor.tabWidth = event.value
                     is SettingsEvent.Keybindings -> shortcuts {
                         onShortcutListener = OnShortcutListener { (ctrl, shift, alt, keyCode) ->
-                            when (findKeybinding(ctrl, shift, alt, keyCode, event.value)) {
-                                Keybinding.NEW -> onNewButton()
-                                Keybinding.OPEN -> onOpenButton()
-                                Keybinding.SAVE -> onSaveButton()
-                                Keybinding.SAVE_AS -> onSaveAsButton()
-                                Keybinding.CLOSE -> onCloseButton()
-                                Keybinding.CUT -> onCutButton()
-                                Keybinding.COPY -> onCopyButton()
-                                Keybinding.PASTE -> onPasteButton()
-                                Keybinding.SELECT_ALL -> onSelectAllButton()
-                                Keybinding.SELECT_LINE -> onSelectLineButton()
-                                Keybinding.DELETE_LINE -> onDeleteLineButton()
-                                Keybinding.DUPLICATE_LINE -> onDuplicateLineButton()
-                                Keybinding.PREV_WORD -> {
+                            when (hasShortcut(ctrl, shift, alt, keyCode, event.value)) {
+                                Shortcut.NEW -> onNewButton()
+                                Shortcut.OPEN -> onOpenButton()
+                                Shortcut.SAVE -> onSaveButton()
+                                Shortcut.SAVE_AS -> onSaveAsButton()
+                                Shortcut.CLOSE -> onCloseButton()
+                                Shortcut.CUT -> onCutButton()
+                                Shortcut.COPY -> onCopyButton()
+                                Shortcut.PASTE -> onPasteButton()
+                                Shortcut.SELECT_ALL -> onSelectAllButton()
+                                Shortcut.SELECT_LINE -> onSelectLineButton()
+                                Shortcut.DELETE_LINE -> onDeleteLineButton()
+                                Shortcut.DUPLICATE_LINE -> onDuplicateLineButton()
+                                Shortcut.PREV_WORD -> {
                                     binding.editor.moveCaretToPrevWord(); true
                                 }
-                                Keybinding.NEXT_WORD -> {
+                                Shortcut.NEXT_WORD -> {
                                     binding.editor.moveCaretToNextWord(); true
                                 }
-                                Keybinding.LINE_START -> {
+                                Shortcut.LINE_START -> {
                                     binding.editor.moveCaretToStartOfLine(); true
                                 }
-                                Keybinding.LINE_END -> {
+                                Shortcut.LINE_END -> {
                                     binding.editor.moveCaretToEndOfLine(); true
                                 }
-                                Keybinding.UNDO -> onUndoButton()
-                                Keybinding.REDO -> onRedoButton()
-                                Keybinding.FIND -> onOpenFindButton()
-                                Keybinding.REPLACE -> onOpenReplaceButton()
-                                Keybinding.GOTO_LINE -> onGoToLineButton()
-                                Keybinding.FORCE_SYNTAX -> onForceSyntaxButton()
-                                Keybinding.COLOR_PICKER -> onInsertColorButton()
+                                Shortcut.UNDO -> onUndoButton()
+                                Shortcut.REDO -> onRedoButton()
+                                Shortcut.FIND -> onOpenFindButton()
+                                Shortcut.REPLACE -> onOpenReplaceButton()
+                                Shortcut.GOTO_LINE -> onGoToLineButton()
+                                Shortcut.FORCE_SYNTAX -> onForceSyntaxButton()
+                                Shortcut.COLOR_PICKER -> onInsertColorButton()
                                 else -> when (keyCode) {
                                     KeyEvent.KEYCODE_TAB -> {
                                         binding.editor.insert(binding.editor.tab()); true
@@ -549,16 +549,16 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         binding.editor.plugins(pluginSupplier)
     }
 
-    private fun findKeybinding(
+    private fun hasShortcut(
         ctrl: Boolean,
         shift: Boolean,
         alt: Boolean,
         keyCode: Int,
-        data: List<KeybindingModel>,
-    ): Keybinding? {
+        data: List<Keybinding>,
+    ): Shortcut? {
         return data.find {
             it.isCtrl == ctrl && it.isShift == shift && it.isAlt == alt && it.keyCode == keyCode
-        }?.keybinding
+        }?.shortcut
     }
 
     companion object {

@@ -86,8 +86,8 @@ dependencies {
 
     // Modules
     implementation project(':feature-editor-api')
-    implementation project(':feature-keybindings-api')
     implementation project(':feature-settings-api')
+    implementation project(':feature-shortcuts-api')
     implementation project(':feature-themes-api')
     implementation project(':common-core')
     implementation project(':common-ui')
