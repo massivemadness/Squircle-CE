@@ -183,6 +183,17 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         get() = sharedPreferences.getString(KEY_FILESYSTEM, "local") ?: "local"
         set(value) = sharedPreferences.edit().putString(KEY_FILESYSTEM, value).apply()
 
+    fun keybindings(): List<KeybindingModel> {
+        return Keybinding.values()
+            .map { keybinding ->
+                KeybindingModel(
+                    keybinding = keybinding,
+                    value = sharedPreferences.getString(keybinding.key, keybinding.defaultValue)
+                        ?: keybinding.defaultValue
+                )
+            }
+    }
+
     fun remove(key: String) {
         sharedPreferences.edit().remove(key).apply()
     }

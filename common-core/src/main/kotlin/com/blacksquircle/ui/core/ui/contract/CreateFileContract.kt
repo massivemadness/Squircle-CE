@@ -60,4 +60,8 @@ class CreateFileContract(
         this.mimeType = mimeType
         createDocument.launch(title)
     }
+
+    companion object {
+        const val JSON = "application/json"
+    }
 }

@@ -61,7 +61,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
     private val viewModel by hiltNavGraphViewModels<ThemesViewModel>(R.id.themes_graph)
     private val binding by viewBinding(FragmentThemesBinding::bind)
     private val navController by lazy { findNavController() }
-    private val createFileContract = CreateFileContract(this) { result ->
+    private val exportThemeContract = CreateFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> {
                 viewModel.obtainIntent(ThemeIntent.ExportTheme(themeModel, result.uri))
@@ -95,7 +95,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             }
             override fun exportTheme(themeModel: ThemeModel) {
                 this@ThemesFragment.themeModel = themeModel
-                createFileContract.launch(themeModel.name + ".json", "application/json")
+                exportThemeContract.launch(themeModel.name + ".json", CreateFileContract.JSON)
             }
             override fun editTheme(themeModel: ThemeModel) {
                 navController.navigate(ThemesScreen.Update(themeModel.uuid))

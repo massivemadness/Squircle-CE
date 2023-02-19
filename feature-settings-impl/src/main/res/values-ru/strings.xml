@@ -43,6 +43,8 @@
     <string name="view_mode_compact_list">Компактный список</string>
     <string name="view_mode_detailed_list">Подробный список</string>
 
+    <string name="keybinding_none">Не назначено</string>
+
     <string name="server_ftp">FTP</string>
     <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
     <string name="server_ftpes">FTPES (Explicit FTPS)</string>
@@ -56,6 +58,8 @@
     <string name="pref_header_codeStyle_summary">Настройте стиль кода.</string>
     <string name="pref_header_files_title">Файлы</string>
     <string name="pref_header_files_summary">Настройте способ обработки файлов.</string>
+    <string name="pref_header_keybindings_title">Сочетания клавиш</string>
+    <string name="pref_header_keybindings_summary">Настройте сочетания клавиш.</string>
     <string name="pref_header_cloud_title">Облачное хранение</string>
     <string name="pref_header_cloud_summary">Настройте хранение файлов на сервере.</string>
     <string name="pref_header_about_title">О программе</string>
@@ -72,6 +76,9 @@
     <string name="pref_category_encoding">Кодировка</string>
     <string name="pref_category_linebreaks">Разделители строк</string>
     <string name="pref_category_file_manager">Проводник</string>
+    <string name="pref_category_file_keybindings">Файл</string>
+    <string name="pref_category_editor_keybindings">Редактор</string>
+    <string name="pref_category_tools_keybindings">Инструменты</string>
     <string name="pref_category_servers">FTP(S) Сервера</string>
     <string name="pref_category_about">О программе</string>
     <string name="pref_category_contribute">Внести вклад</string>

@@ -91,18 +91,16 @@ fun TextProcessor.duplicateLine() {
     text.insert(lineEnd, "\n" + lineText)
 }
 
-fun TextProcessor.moveCaretToStartOfLine(): Boolean {
+fun TextProcessor.moveCaretToStartOfLine() {
     val currentLine = structure.getLineForIndex(selectionStart)
     val lineStart = structure.getIndexForStartOfLine(currentLine)
     setSelectionIndex(lineStart)
-    return true
 }
 
-fun TextProcessor.moveCaretToEndOfLine(): Boolean {
+fun TextProcessor.moveCaretToEndOfLine() {
     val currentLine = structure.getLineForIndex(selectionEnd)
     val lineEnd = structure.getIndexForEndOfLine(currentLine)
     setSelectionIndex(lineEnd)
-    return true
 }
 
 fun TextProcessor.moveCaretToPrevWord(): Boolean {

@@ -43,6 +43,8 @@
     <string name="view_mode_compact_list">緊湊列表</string>
     <string name="view_mode_detailed_list">詳細列表</string>
 
+    <string name="keybinding_none">None set</string>
+
     <string name="server_ftp">FTP</string>
     <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
     <string name="server_ftpes">FTPES (Explicit FTPS)</string>
@@ -56,6 +58,8 @@
     <string name="pref_header_codeStyle_summary">設定程式碼縮排、符號配對等。</string>
     <string name="pref_header_files_title">檔案</string>
     <string name="pref_header_files_summary">設定檔案的處理方式。</string>
+    <string name="pref_header_keybindings_title">Keybindings</string>
+    <string name="pref_header_keybindings_summary">Configure keybindings.</string>
     <string name="pref_header_cloud_title">雲端 &amp; 伺服器</string>
     <string name="pref_header_cloud_summary">設定雲端存儲和伺服器。</string>
     <string name="pref_header_about_title">關於</string>
@@ -72,6 +76,9 @@
     <string name="pref_category_encoding">文字編輯</string>
     <string name="pref_category_linebreaks">換行符</string>
     <string name="pref_category_file_manager">檔案管理器</string>
+    <string name="pref_category_file_keybindings">File Keybindings</string>
+    <string name="pref_category_editor_keybindings">Editor Keybindings</string>
+    <string name="pref_category_tools_keybindings">Tools Keybindings</string>
     <string name="pref_category_servers">FTP(S) 伺服器</string>
     <string name="pref_category_about">關於</string>
     <string name="pref_category_contribute">貢獻</string>

@@ -43,5 +43,5 @@ data class DocumentModel(
     val mimeType: String
         get() = MimeTypeMap.getSingleton()
             .getMimeTypeFromExtension(extension)
-            ?: "*/*"
+            ?: "text/*"
 }

@@ -40,6 +40,9 @@
             android:id="@+id/to_filesFragment"
             app:destination="@id/filesFragment" />
         <action
+            android:id="@+id/to_keybindingsFragment"
+            app:destination="@id/keybindingsFragment" />
+        <action
             android:id="@+id/to_cloudFragment"
             app:destination="@id/cloudFragment" />
         <action
@@ -80,6 +83,14 @@
         android:label="@string/pref_header_files_title"
         tools:layout="@layout/fragment_preference">
         <deepLink app:uri="blacksquircle://settings/files" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/keybindingsFragment"
+        android:name="com.blacksquircle.ui.feature.settings.ui.fragment.KeybindingsFragment"
+        android:label="@string/pref_header_keybindings_title"
+        tools:layout="@layout/fragment_preference">
+        <deepLink app:uri="blacksquircle://settings/keybindings" />
     </fragment>
 
     <fragment

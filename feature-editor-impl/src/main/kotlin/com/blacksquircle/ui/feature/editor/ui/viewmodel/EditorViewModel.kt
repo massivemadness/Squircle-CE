@@ -578,7 +578,7 @@ class EditorViewModel @Inject constructor(
 
                 val scheme = settingsManager.colorScheme
                 val theme = InternalTheme.find(scheme) ?: themesRepository.loadTheme(scheme)
-                settings.add(SettingsEvent.ThemePref(theme))
+                settings.add(SettingsEvent.Theme(theme))
 
                 val fontSize = settingsManager.fontSize.toFloat()
                 settings.add(SettingsEvent.FontSize(fontSize))
@@ -626,6 +626,9 @@ class EditorViewModel @Inject constructor(
 
                 val tabWidth = settingsManager.tabWidth
                 settings.add(SettingsEvent.TabWidth(tabWidth))
+
+                val keybindings = settingsManager.keybindings()
+                settings.add(SettingsEvent.Keybindings(keybindings))
 
                 _settings.value = settings
             } catch (e: Exception) {

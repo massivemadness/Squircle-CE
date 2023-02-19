@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <PreferenceCategory android:title="@string/pref_category_file_keybindings">
+
+        <Preference
+            android:enabled="false"
+            android:key="KEYBINDING_NEW"
+            android:title="New"
+            tools:summary="Ctrl + N" />
+
+        <Preference
+            android:enabled="false"
+            android:key="KEYBINDING_OPEN"
+            android:title="Open"
+            tools:summary="Ctrl + O" />
+
+        <Preference
+            android:key="KEYBINDING_SAVE"
+            android:title="Save"
+            tools:summary="Ctrl + S" />
+
+        <Preference
+            android:key="KEYBINDING_SAVE_AS"
+            android:title="Save As"
+            tools:summary="Ctrl + Shift + S" />
+
+        <Preference
+            android:key="KEYBINDING_CLOSE"
+            android:title="Close"
+            tools:summary="Ctrl + W" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_editor_keybindings">
+
+        <Preference
+            android:key="KEYBINDING_CUT"
+            android:title="Cut"
+            tools:summary="Ctrl + X" />
+
+        <Preference
+            android:key="KEYBINDING_COPY"
+            android:title="Copy"
+            tools:summary="Ctrl + C" />
+
+        <Preference
+            android:key="KEYBINDING_PASTE"
+            android:title="Paste"
+            tools:summary="Ctrl + V" />
+
+        <Preference
+            android:key="KEYBINDING_SELECT_ALL"
+            android:title="Select all"
+            tools:summary="Ctrl + A" />
+
+        <Preference
+            android:key="KEYBINDING_SELECT_LINE"
+            android:title="Select Line"
+            tools:summary="Alt + A" />
+
+        <Preference
+            android:key="KEYBINDING_DELETE_LINE"
+            android:title="Delete Line"
+            tools:summary="Ctrl + DEL" />
+
+        <Preference
+            android:key="KEYBINDING_DUPLICATE_LINE"
+            android:title="Duplicate Line"
+            tools:summary="Ctrl + D" />
+
+        <Preference
+            android:key="KEYBINDING_PREV_WORD"
+            android:title="Previous Word"
+            tools:summary="Alt + ←" />
+
+        <Preference
+            android:key="KEYBINDING_NEXT_WORD"
+            android:title="Next Word"
+            tools:summary="Alt + →" />
+
+        <Preference
+            android:key="KEYBINDING_LINE_START"
+            android:title="Start of Line"
+            tools:summary="Ctrl + ←" />
+
+        <Preference
+            android:key="KEYBINDING_LINE_END"
+            android:title="End of Line"
+            tools:summary="Ctrl + →" />
+
+        <Preference
+            android:key="KEYBINDING_UNDO"
+            android:title="Undo"
+            tools:summary="Ctrl + Z" />
+
+        <Preference
+            android:key="KEYBINDING_REDO"
+            android:title="Redo"
+            tools:summary="Ctrl + Shift + Z" />
+
+        <Preference
+            android:key="KEYBINDING_FIND"
+            android:title="Find"
+            tools:summary="Ctrl + F" />
+
+        <Preference
+            android:key="KEYBINDING_REPLACE"
+            android:title="Replace"
+            tools:summary="Ctrl + R" />
+
+        <Preference
+            android:key="KEYBINDING_GOTO_LINE"
+            android:title="Go to Line"
+            tools:summary="Ctrl + G" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_tools_keybindings">
+
+        <Preference
+            android:key="KEYBINDING_FORCE_SYNTAX"
+            android:title="Force Syntax"
+            tools:summary="@string/keybinding_none" />
+
+        <Preference
+            android:key="KEYBINDING_COLOR_PICKER"
+            android:title="Color Picker"
+            tools:summary="@string/keybinding_none" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

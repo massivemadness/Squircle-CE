@@ -65,6 +65,11 @@ class SettingsViewModel @Inject constructor(
                 SettingsScreen.Files,
             ),
             PreferenceItem(
+                R.string.pref_header_keybindings_title,
+                R.string.pref_header_keybindings_summary,
+                SettingsScreen.Keybindings,
+            ),
+            PreferenceItem(
                 R.string.pref_header_cloud_title,
                 R.string.pref_header_cloud_summary,
                 SettingsScreen.Cloud,

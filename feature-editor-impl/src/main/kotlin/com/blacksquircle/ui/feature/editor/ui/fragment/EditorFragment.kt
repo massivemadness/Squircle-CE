@@ -30,6 +30,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.blacksquircle.ui.core.data.storage.keyvalue.Keybinding
+import com.blacksquircle.ui.core.data.storage.keyvalue.KeybindingModel
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.contract.ContractResult
 import com.blacksquircle.ui.core.ui.contract.CreateFileContract
@@ -83,7 +85,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     private val toolbarManager by lazy { ToolbarManager(this) }
     private val tabController by lazy { TabController() }
     private val navController by lazy { findNavController() }
-    private val createFileContract = CreateFileContract(this) { result ->
+    private val saveFileAsContract = CreateFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.SaveFileAs(result.uri))
             is ContractResult.Canceled -> Unit
@@ -270,13 +272,15 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         drawerHandler.openDrawer()
     }
 
-    override fun onNewButton() {
+    override fun onNewButton(): Boolean {
         onDrawerButton() // TODO 27/02/21 Add Dialog
+        return true
     }
 
-    override fun onOpenButton() {
+    override fun onOpenButton(): Boolean {
         onDrawerButton()
         context?.showToast(R.string.message_select_file)
+        return true
     }
 
     override fun onSaveButton(): Boolean {
@@ -288,7 +292,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         val position = tabAdapter.selectedPosition
         if (position > -1) {
             val documentModel = tabAdapter.currentList[position]
-            createFileContract.launch(
+            saveFileAsContract.launch(
                 documentModel.name,
                 documentModel.mimeType,
             )
@@ -404,12 +408,14 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         viewModel.obtainEvent(EditorIntent.FindWordsOnly(binding.editor.text))
     }
 
-    override fun onForceSyntaxButton() {
+    override fun onForceSyntaxButton(): Boolean {
         viewModel.obtainEvent(EditorIntent.ForceSyntax)
+        return true
     }
 
-    override fun onInsertColorButton() {
+    override fun onInsertColorButton(): Boolean {
         viewModel.obtainEvent(EditorIntent.ColorPicker)
+        return true
     }
 
     override fun onUndoButton(): Boolean {
@@ -453,7 +459,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         val pluginSupplier = PluginSupplier.create {
             settings.forEach { event ->
                 when (event) {
-                    is SettingsEvent.ThemePref ->
+                    is SettingsEvent.Theme ->
                         binding.editor.colorScheme = event.value.colorScheme
                     is SettingsEvent.FontSize -> binding.editor.textSize = event.value
                     is SettingsEvent.FontType -> binding.editor.typeface = requireContext()
@@ -485,6 +491,50 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                     is SettingsEvent.UseSpacesNotTabs ->
                         binding.editor.useSpacesInsteadOfTabs = event.value
                     is SettingsEvent.TabWidth -> binding.editor.tabWidth = event.value
+                    is SettingsEvent.Keybindings -> shortcuts {
+                        onShortcutListener = OnShortcutListener { (ctrl, shift, alt, keyCode) ->
+                            when (findKeybinding(ctrl, shift, alt, keyCode, event.value)) {
+                                Keybinding.NEW -> onNewButton()
+                                Keybinding.OPEN -> onOpenButton()
+                                Keybinding.SAVE -> onSaveButton()
+                                Keybinding.SAVE_AS -> onSaveAsButton()
+                                Keybinding.CLOSE -> onCloseButton()
+                                Keybinding.CUT -> onCutButton()
+                                Keybinding.COPY -> onCopyButton()
+                                Keybinding.PASTE -> onPasteButton()
+                                Keybinding.SELECT_ALL -> onSelectAllButton()
+                                Keybinding.SELECT_LINE -> onSelectLineButton()
+                                Keybinding.DELETE_LINE -> onDeleteLineButton()
+                                Keybinding.DUPLICATE_LINE -> onDuplicateLineButton()
+                                Keybinding.PREV_WORD -> {
+                                    binding.editor.moveCaretToPrevWord(); true
+                                }
+                                Keybinding.NEXT_WORD -> {
+                                    binding.editor.moveCaretToNextWord(); true
+                                }
+                                Keybinding.LINE_START -> {
+                                    binding.editor.moveCaretToStartOfLine(); true
+                                }
+                                Keybinding.LINE_END -> {
+                                    binding.editor.moveCaretToEndOfLine(); true
+                                }
+                                Keybinding.UNDO -> onUndoButton()
+                                Keybinding.REDO -> onRedoButton()
+                                Keybinding.FIND -> onOpenFindButton()
+                                Keybinding.REPLACE -> onOpenReplaceButton()
+                                Keybinding.GOTO_LINE -> onGoToLineButton()
+                                Keybinding.FORCE_SYNTAX -> onForceSyntaxButton()
+                                Keybinding.COLOR_PICKER -> onInsertColorButton()
+                                else -> when (keyCode) {
+                                    KeyEvent.KEYCODE_TAB -> {
+                                        binding.editor.insert(binding.editor.tab()); true
+                                    }
+                                    else -> false
+                                }
+                            }
+                        }
+                        shortcutKeyFilter = listOf(KeyEvent.KEYCODE_TAB)
+                    }
                 }
             }
             textScroller {
@@ -495,40 +545,20 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                     viewModel.obtainEvent(EditorIntent.ModifyContent)
                 }
             }
-            shortcuts {
-                onShortcutListener = OnShortcutListener { (ctrl, shift, alt, keyCode) ->
-                    when {
-                        ctrl && shift && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
-                        ctrl && shift && keyCode == KeyEvent.KEYCODE_S -> onSaveAsButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_X -> onCutButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_C -> onCopyButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_V -> onPasteButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_A -> onSelectAllButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_DEL -> onDeleteLineButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_D -> onDuplicateLineButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_Z -> onUndoButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_Y -> onRedoButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_S -> onSaveButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_W -> onCloseButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_F -> onOpenFindButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_R -> onOpenReplaceButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_G -> onGoToLineButton()
-                        ctrl && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToStartOfLine()
-                        ctrl && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToEndOfLine()
-                        alt && keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> binding.editor.moveCaretToPrevWord()
-                        alt && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> binding.editor.moveCaretToNextWord()
-                        alt && keyCode == KeyEvent.KEYCODE_A -> onSelectLineButton()
-                        alt && keyCode == KeyEvent.KEYCODE_S -> onSettingsButton()
-                        keyCode == KeyEvent.KEYCODE_TAB -> {
-                            binding.editor.insert(binding.editor.tab()); true
-                        }
-                        else -> false
-                    }
-                }
-                shortcutKeyFilter = listOf(KeyEvent.KEYCODE_TAB)
-            }
         }
         binding.editor.plugins(pluginSupplier)
+    }
+
+    private fun findKeybinding(
+        ctrl: Boolean,
+        shift: Boolean,
+        alt: Boolean,
+        keyCode: Int,
+        data: List<KeybindingModel>,
+    ): Keybinding? {
+        return data.find {
+            it.isCtrl == ctrl && it.isShift == shift && it.isAlt == alt && it.keyCode == keyCode
+        }?.keybinding
     }
 
     companion object {

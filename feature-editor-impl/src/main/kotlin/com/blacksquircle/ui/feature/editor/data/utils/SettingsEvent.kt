@@ -16,10 +16,11 @@
 
 package com.blacksquircle.ui.feature.editor.data.utils
 
+import com.blacksquircle.ui.core.data.storage.keyvalue.KeybindingModel
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 sealed class SettingsEvent<T>(val value: T) {
-    class ThemePref(value: ThemeModel) : SettingsEvent<ThemeModel>(value)
+    class Theme(value: ThemeModel) : SettingsEvent<ThemeModel>(value)
     class FontSize(value: Float) : SettingsEvent<Float>(value)
     class FontType(value: String) : SettingsEvent<String>(value)
 
@@ -38,4 +39,6 @@ sealed class SettingsEvent<T>(val value: T) {
         SettingsEvent<Triple<Boolean, Boolean, Boolean>>(value)
     class UseSpacesNotTabs(value: Boolean) : SettingsEvent<Boolean>(value)
     class TabWidth(value: Int) : SettingsEvent<Int>(value)
+
+    class Keybindings(value: List<KeybindingModel>) : SettingsEvent<List<KeybindingModel>>(value)
 }

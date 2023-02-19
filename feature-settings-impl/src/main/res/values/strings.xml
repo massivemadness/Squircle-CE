@@ -49,6 +49,8 @@
     <string name="linebreak_lf" translatable="false">LF (Android/Linux/Unix)</string>
     <string name="linebreak_crlf" translatable="false">CRLF (Windows)</string>
 
+    <string name="keybinding_none">None set</string>
+
     <string name="server_ftp">FTP</string>
     <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
     <string name="server_ftpes">FTPES (Explicit FTPS)</string>
@@ -62,6 +64,8 @@
     <string name="pref_header_codeStyle_summary">Configure the code style.</string>
     <string name="pref_header_files_title">Files</string>
     <string name="pref_header_files_summary">Configure how files are handled.</string>
+    <string name="pref_header_keybindings_title">Keybindings</string>
+    <string name="pref_header_keybindings_summary">Configure keybindings.</string>
     <string name="pref_header_cloud_title">Cloud &amp; Servers</string>
     <string name="pref_header_cloud_summary">Configure cloud storage and servers.</string>
     <string name="pref_header_about_title">About</string>
@@ -78,6 +82,9 @@
     <string name="pref_category_encoding">Encoding</string>
     <string name="pref_category_linebreaks">Linebreaks</string>
     <string name="pref_category_file_manager">File Manager</string>
+    <string name="pref_category_file_keybindings">File Keybindings</string>
+    <string name="pref_category_editor_keybindings">Editor Keybindings</string>
+    <string name="pref_category_tools_keybindings">Tools Keybindings</string>
     <string name="pref_category_servers">FTP(S) Servers</string>
     <string name="pref_category_about">About</string>
     <string name="pref_category_contribute">Contribute</string>

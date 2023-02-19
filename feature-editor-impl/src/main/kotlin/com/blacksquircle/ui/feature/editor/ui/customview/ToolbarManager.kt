@@ -197,8 +197,8 @@ class ToolbarManager(
     interface OnPanelClickListener {
         fun onDrawerButton()
 
-        fun onNewButton()
-        fun onOpenButton()
+        fun onNewButton(): Boolean
+        fun onOpenButton(): Boolean
         fun onSaveButton(): Boolean
         fun onSaveAsButton(): Boolean
         fun onCloseButton(): Boolean
@@ -226,8 +226,8 @@ class ToolbarManager(
         fun onFindMatchCaseButton()
         fun onFindWordsOnlyButton()
 
-        fun onForceSyntaxButton()
-        fun onInsertColorButton()
+        fun onForceSyntaxButton(): Boolean
+        fun onInsertColorButton(): Boolean
 
         fun onUndoButton(): Boolean
         fun onRedoButton(): Boolean
