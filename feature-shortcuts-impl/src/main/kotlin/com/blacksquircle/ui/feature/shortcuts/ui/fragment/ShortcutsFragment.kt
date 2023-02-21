@@ -29,10 +29,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.ui.extensions.navigate
-import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
-import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
+import com.blacksquircle.ui.core.ui.extensions.*
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
@@ -99,6 +97,15 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
                             append(model.key)
                         }
                     }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    is ViewEvent.Navigation -> navController.navigate(event.screen)
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

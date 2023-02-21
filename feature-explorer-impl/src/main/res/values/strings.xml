@@ -32,7 +32,6 @@
     <string name="action_compress">Compress</string>
     <string name="action_open_with">Open with</string>
     <string name="action_properties">Properties</string>
-    <string name="action_continue">Continue</string>
 
     <string name="dialog_title_create">Create…</string>
     <string name="dialog_title_rename">Rename…</string>

@@ -30,7 +30,6 @@
     <string name="action_compress">Compress</string>
     <string name="action_open_with">Öffnen als</string>
     <string name="action_properties">Eigenschaften</string>
-    <string name="action_continue">Continue</string>
 
     <string name="dialog_title_create">Erstellen…</string>
     <string name="dialog_title_multi_delete">Mehrfaches Entfernen</string>

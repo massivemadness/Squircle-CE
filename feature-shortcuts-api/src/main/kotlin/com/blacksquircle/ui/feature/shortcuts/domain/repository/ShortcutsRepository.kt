@@ -22,4 +22,5 @@ interface ShortcutsRepository {
 
     suspend fun loadShortcuts(): List<Keybinding>
     suspend fun saveShortcut(keybinding: Keybinding)
+    suspend fun removeShortcut(keybinding: Keybinding)
 }

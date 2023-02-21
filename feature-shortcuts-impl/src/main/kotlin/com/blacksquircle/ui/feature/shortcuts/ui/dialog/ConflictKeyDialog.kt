@@ -14,32 +14,33 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.dialog
+package com.blacksquircle.ui.feature.shortcuts.ui.dialog
 
 import android.app.Dialog
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import androidx.fragment.app.DialogFragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.afollestad.materialdialogs.MaterialDialog
-import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.shortcuts.R
+import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutIntent
+import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
-class NotificationDeniedDialog : DialogFragment() {
+class ConflictKeyDialog : DialogFragment() {
+
+    private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_notification_permission)
-            message(R.string.dialog_message_notification_permission)
-            negativeButton(android.R.string.cancel)
+            title(android.R.string.dialog_alert_title)
+            message(R.string.shortcut_conflict)
+            negativeButton(android.R.string.cancel) {
+                viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = false))
+            }
             positiveButton(UiR.string.common_continue) {
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = Uri.parse("package:${context.packageName}")
-                }
-                startActivity(intent)
+                viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = true))
             }
         }
     }

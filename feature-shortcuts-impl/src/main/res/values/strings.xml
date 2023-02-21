@@ -45,6 +45,7 @@
     <string name="shortcut_force_syntax">Force Syntax</string>
     <string name="shortcut_insert_color">Insert Color</string>
 
+    <string name="shortcut_conflict">This shortcut is already assigned to other actions. Do you want to remove the other assignments?</string>
     <string name="shortcut_press_key">Press the new keybinding (must contain Ctrl or Alt)</string>
     <string name="shortcut_none">None set</string>
 

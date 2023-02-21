@@ -30,7 +30,6 @@
     <string name="action_compress">Compress</string>
     <string name="action_open_with">另开为</string>
     <string name="action_properties">属性</string>
-    <string name="action_continue">继续</string>
 
     <string name="dialog_title_create">创建文件</string>
     <string name="dialog_title_rename">重命名文件</string>

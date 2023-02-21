@@ -20,5 +20,6 @@ import com.blacksquircle.ui.core.ui.navigation.Screen
 
 sealed class ShortcutScreen(route: String) : Screen<String>(route) {
 
-    class Edit(key: String) : ShortcutScreen("blacksquircle://settings/keybindings/$key")
+    class Edit(key: String) : ShortcutScreen("blacksquircle://settings/keybindings/edit?key=$key")
+    class Conflict : ShortcutScreen("blacksquircle://settings/keybindings/conflict")
 }

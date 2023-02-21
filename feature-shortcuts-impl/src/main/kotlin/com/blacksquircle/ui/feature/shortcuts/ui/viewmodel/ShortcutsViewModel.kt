@@ -22,6 +22,7 @@ import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import com.blacksquircle.ui.uikit.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -42,6 +43,9 @@ class ShortcutsViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private var pendingKey: Keybinding? = null
+    private var conflictKey: Keybinding? = null
+
     init {
         loadShortcuts()
     }
@@ -50,6 +54,7 @@ class ShortcutsViewModel @Inject constructor(
         when (event) {
             is ShortcutIntent.LoadShortcuts -> loadShortcuts()
             is ShortcutIntent.SaveShortcut -> saveShortcut(event)
+            is ShortcutIntent.ResolveConflict -> resolveConflict(event)
         }
     }
 
@@ -69,7 +74,39 @@ class ShortcutsViewModel @Inject constructor(
     private fun saveShortcut(event: ShortcutIntent.SaveShortcut) {
         viewModelScope.launch {
             try {
-                shortcutsRepository.saveShortcut(event.keybinding)
+                val existingKey = shortcuts.value.find {
+                    it.shortcut != event.keybinding.shortcut &&
+                        it.key == event.keybinding.key &&
+                        it.isCtrl == event.keybinding.isCtrl &&
+                        it.isShift == event.keybinding.isShift &&
+                        it.isAlt == event.keybinding.isAlt
+                }
+                if (existingKey != null) {
+                    pendingKey = event.keybinding
+                    conflictKey = existingKey
+                    _viewEvent.send(ViewEvent.Navigation(ShortcutScreen.Conflict()))
+                } else {
+                    shortcutsRepository.saveShortcut(event.keybinding)
+                    loadShortcuts()
+                }
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.common_error_occurred)),
+                )
+            }
+        }
+    }
+
+    private fun resolveConflict(event: ShortcutIntent.ResolveConflict) {
+        viewModelScope.launch {
+            try {
+                if (event.reassign) {
+                    shortcutsRepository.removeShortcut(checkNotNull(conflictKey))
+                    shortcutsRepository.saveShortcut(checkNotNull(pendingKey))
+                }
+                pendingKey = null
+                conflictKey = null
                 loadShortcuts()
             } catch (e: Exception) {
                 Timber.e(e, e.message)

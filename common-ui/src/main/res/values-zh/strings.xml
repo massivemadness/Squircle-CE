@@ -21,5 +21,6 @@
     <string name="common_no_result">没有结果</string>
     <string name="common_save">保存</string>
     <string name="common_delete">删除</string>
+    <string name="common_continue">继续</string>
 
 </resources>

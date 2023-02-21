@@ -26,6 +26,7 @@ import androidx.fragment.app.DialogFragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.explorer.R
 import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class StorageDeniedDialog : DialogFragment() {
@@ -35,7 +36,7 @@ class StorageDeniedDialog : DialogFragment() {
             title(R.string.dialog_title_storage_permission)
             message(R.string.dialog_message_storage_permission)
             negativeButton(android.R.string.cancel)
-            positiveButton(R.string.action_continue) {
+            positiveButton(UiR.string.common_continue) {
                 val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
                         data = Uri.parse("package:${context.packageName}")

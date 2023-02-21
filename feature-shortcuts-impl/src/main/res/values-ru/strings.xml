@@ -45,6 +45,7 @@
     <string name="shortcut_force_syntax">Синтаксис</string>
     <string name="shortcut_insert_color">Вставить цвет</string>
 
+    <string name="shortcut_conflict">На выбранную клавишу уже назначено действие. Вы хотите отвязать клавишу?</string>
     <string name="shortcut_press_key">Нажмите новую клавишу (Ctrl или Alt обязателен)</string>
     <string name="shortcut_none">Не назначено</string>
 

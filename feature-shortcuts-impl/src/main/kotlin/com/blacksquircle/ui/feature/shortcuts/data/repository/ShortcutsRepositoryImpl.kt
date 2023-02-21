@@ -57,4 +57,16 @@ class ShortcutsRepositoryImpl(
             settingsManager.update(keybinding.shortcut.key, value.toString())
         }
     }
+
+    override suspend fun removeShortcut(keybinding: Keybinding) {
+        withContext(dispatcherProvider.io()) {
+            val value = StringBuilder().apply {
+                append('0') // ctrl
+                append('0') // shift
+                append('0') // alt
+                append(' ') // none
+            }
+            settingsManager.update(keybinding.shortcut.key, value.toString())
+        }
+    }
 }

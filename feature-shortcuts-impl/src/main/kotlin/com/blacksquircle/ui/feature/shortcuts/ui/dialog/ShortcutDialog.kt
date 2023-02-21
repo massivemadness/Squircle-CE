@@ -22,6 +22,7 @@ import android.view.KeyEvent
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
@@ -43,6 +44,7 @@ class ShortcutDialog : DialogFragment() {
 
     private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)
     private val navArgs by navArgs<ShortcutDialogArgs>()
+    private val navController by lazy { findNavController() }
 
     private lateinit var binding: DialogShortcutBinding
 
@@ -96,6 +98,7 @@ class ShortcutDialog : DialogFragment() {
 
             negativeButton(android.R.string.cancel)
             positiveButton(UiR.string.common_save) {
+                navController.popBackStack()
                 val newKeybinding = keybinding.copy(
                     isCtrl = newCtrl,
                     isShift = newShift,

@@ -21,5 +21,6 @@
     <string name="common_no_result">Aucun résultat</string>
     <string name="common_save">Sauvegarde</string>
     <string name="common_delete">Supprimer</string>
+    <string name="common_continue">Continuer</string>
 
 </resources>
