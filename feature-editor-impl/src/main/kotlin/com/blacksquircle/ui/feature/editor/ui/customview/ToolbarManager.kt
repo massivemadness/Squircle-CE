@@ -210,6 +210,10 @@ class ToolbarManager(
         fun onSelectLineButton(): Boolean
         fun onDeleteLineButton(): Boolean
         fun onDuplicateLineButton(): Boolean
+        fun onPreviousWordButton(): Boolean
+        fun onNextWordButton(): Boolean
+        fun onStartOfLineButton(): Boolean
+        fun onEndOfLineButton(): Boolean
 
         fun onOpenFindButton(): Boolean
         fun onCloseFindButton()

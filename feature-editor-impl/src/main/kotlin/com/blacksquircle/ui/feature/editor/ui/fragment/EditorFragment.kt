@@ -353,6 +353,26 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         return true
     }
 
+    override fun onPreviousWordButton(): Boolean {
+        binding.editor.moveCaretToPrevWord()
+        return true
+    }
+
+    override fun onNextWordButton(): Boolean {
+        binding.editor.moveCaretToNextWord()
+        return true
+    }
+
+    override fun onStartOfLineButton(): Boolean {
+        binding.editor.moveCaretToStartOfLine()
+        return true
+    }
+
+    override fun onEndOfLineButton(): Boolean {
+        binding.editor.moveCaretToEndOfLine()
+        return true
+    }
+
     override fun onOpenFindButton(): Boolean {
         viewModel.obtainEvent(EditorIntent.PanelFind)
         return true
@@ -506,18 +526,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                                 Shortcut.SELECT_LINE -> onSelectLineButton()
                                 Shortcut.DELETE_LINE -> onDeleteLineButton()
                                 Shortcut.DUPLICATE_LINE -> onDuplicateLineButton()
-                                Shortcut.PREV_WORD -> {
-                                    binding.editor.moveCaretToPrevWord(); true
-                                }
-                                Shortcut.NEXT_WORD -> {
-                                    binding.editor.moveCaretToNextWord(); true
-                                }
-                                Shortcut.LINE_START -> {
-                                    binding.editor.moveCaretToStartOfLine(); true
-                                }
-                                Shortcut.LINE_END -> {
-                                    binding.editor.moveCaretToEndOfLine(); true
-                                }
+                                Shortcut.PREV_WORD -> onPreviousWordButton()
+                                Shortcut.NEXT_WORD -> onNextWordButton()
+                                Shortcut.START_OF_LINE -> onStartOfLineButton()
+                                Shortcut.END_OF_LINE -> onEndOfLineButton()
                                 Shortcut.UNDO -> onUndoButton()
                                 Shortcut.REDO -> onRedoButton()
                                 Shortcut.FIND -> onOpenFindButton()

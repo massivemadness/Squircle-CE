@@ -34,13 +34,13 @@ enum class Shortcut(val key: String, val defaultValue: String) {
     DUPLICATE_LINE("shortcut_duplicate_line", "100D"), // Ctrl + D
     PREV_WORD("shortcut_prev_word", "001\u2190"), // Alt + ←
     NEXT_WORD("shortcut_next_word", "001\u2192"), // Alt + →
-    LINE_START("shortcut_line_start", "100\u2190"), // Ctrl + ←
-    LINE_END("shortcut_line_end", "100\u2192"), // Ctrl + →
+    START_OF_LINE("shortcut_start_of_line", "100\u2190"), // Ctrl + ←
+    END_OF_LINE("shortcut_end_of_line", "100\u2192"), // Ctrl + →
     UNDO("shortcut_undo", "100Z"), // Ctrl + Z
     REDO("shortcut_redo", "110Z"), // Ctrl + Shift + Z
     FIND("shortcut_find", "100F"), // Ctrl + F
     REPLACE("shortcut_replace", "100R"), // Ctrl + R
     GOTO_LINE("shortcut_goto_line", "100G"), // Ctrl + G
-    FORCE_SYNTAX("shortcut_force_syntax", "000 "), // None set
-    INSERT_COLOR("shortcut_insert_color", "000 ") // None set
+    FORCE_SYNTAX("shortcut_force_syntax", "000\u0000"), // None set
+    INSERT_COLOR("shortcut_insert_color", "000\u0000") // None set
 }

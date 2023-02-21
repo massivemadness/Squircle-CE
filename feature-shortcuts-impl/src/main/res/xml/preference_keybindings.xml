@@ -21,14 +21,12 @@
     <PreferenceCategory android:title="@string/pref_category_file_keybindings">
 
         <Preference
-            android:enabled="false"
             android:key="shortcut_new"
             android:title="@string/shortcut_new_file"
             android:summary="@string/shortcut_none"
             tools:summary="Ctrl + N" />
 
         <Preference
-            android:enabled="false"
             android:key="shortcut_open"
             android:title="@string/shortcut_open_file"
             android:summary="@string/shortcut_none"
@@ -111,13 +109,13 @@
             tools:summary="Alt + →" />
 
         <Preference
-            android:key="shortcut_line_start"
+            android:key="shortcut_start_of_line"
             android:title="@string/shortcut_start_of_line"
             android:summary="@string/shortcut_none"
             tools:summary="Ctrl + ←" />
 
         <Preference
-            android:key="shortcut_line_end"
+            android:key="shortcut_end_of_line"
             android:title="@string/shortcut_end_of_line"
             android:summary="@string/shortcut_none"
             tools:summary="Ctrl + →" />

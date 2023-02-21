@@ -21,5 +21,5 @@ data class Keybinding(
     val isCtrl: Boolean = false,
     val isShift: Boolean = false,
     val isAlt: Boolean = false,
-    val key: Char = ' ',
+    val key: Char = '\u0000',
 )

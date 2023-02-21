@@ -57,10 +57,11 @@ class ShortcutsRepositoryImpl(
     override suspend fun saveShortcut(keybinding: Keybinding) {
         withContext(dispatcherProvider.io()) {
             val value = StringBuilder().apply {
+                val isValid = keybinding.isCtrl || keybinding.isAlt
                 if (keybinding.isCtrl) append('1') else append('0')
                 if (keybinding.isShift) append('1') else append('0')
                 if (keybinding.isAlt) append('1') else append('0')
-                append(keybinding.key)
+                if (isValid) append(keybinding.key) else append('\u0000')
             }
             settingsManager.update(keybinding.shortcut.key, value.toString())
         }
@@ -72,7 +73,7 @@ class ShortcutsRepositoryImpl(
                 append('0') // ctrl
                 append('0') // shift
                 append('0') // alt
-                append(' ') // none
+                append('\u0000') // none
             }
             settingsManager.update(keybinding.shortcut.key, value.toString())
         }

@@ -102,7 +102,7 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
                         true
                     }
                     preference?.summary = StringBuilder().apply {
-                        if (model.key == ' ') {
+                        if (model.key == '\u0000') {
                             append(getString(R.string.shortcut_none))
                         } else {
                             if (model.isCtrl) append(getString(R.string.keybinding_ctrl) + " + ")

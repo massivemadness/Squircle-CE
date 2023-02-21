@@ -81,8 +81,8 @@ class ShortcutDialog : DialogFragment() {
                 Shortcut.DUPLICATE_LINE -> R.string.shortcut_duplicate_line
                 Shortcut.PREV_WORD -> R.string.shortcut_prev_word
                 Shortcut.NEXT_WORD -> R.string.shortcut_next_word
-                Shortcut.LINE_START -> R.string.shortcut_start_of_line
-                Shortcut.LINE_END -> R.string.shortcut_end_of_line
+                Shortcut.START_OF_LINE -> R.string.shortcut_start_of_line
+                Shortcut.END_OF_LINE -> R.string.shortcut_end_of_line
                 Shortcut.UNDO -> R.string.shortcut_undo
                 Shortcut.REDO -> R.string.shortcut_redo
                 Shortcut.FIND -> R.string.shortcut_find
