@@ -46,6 +46,14 @@ class ShortcutsRepositoryImpl(
         }
     }
 
+    override suspend fun restoreShortcuts() {
+        withContext(dispatcherProvider.io()) {
+            Shortcut.values().forEach { keybinding ->
+                settingsManager.remove(keybinding.key)
+            }
+        }
+    }
+
     override suspend fun saveShortcut(keybinding: Keybinding) {
         withContext(dispatcherProvider.io()) {
             val value = StringBuilder().apply {

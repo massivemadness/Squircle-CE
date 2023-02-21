@@ -100,10 +100,7 @@ class ShortcutDialog : DialogFragment() {
             positiveButton(UiR.string.common_save) {
                 navController.popBackStack()
                 val newKeybinding = keybinding.copy(
-                    isCtrl = newCtrl,
-                    isShift = newShift,
-                    isAlt = newAlt,
-                    key = newKey,
+                    isCtrl = newCtrl, isShift = newShift, isAlt = newAlt, key = newKey,
                 )
                 viewModel.obtainEvent(ShortcutIntent.SaveShortcut(newKeybinding))
             }

@@ -17,9 +17,8 @@
 package com.blacksquircle.ui.feature.shortcuts.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuProvider
 import androidx.core.view.get
 import androidx.core.view.updatePadding
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -33,6 +32,7 @@ import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
+import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
 import kotlinx.coroutines.flow.launchIn
@@ -44,6 +44,19 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
     private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)
     private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
+
+    private val defaultMenuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.menu_shortcuts, menu)
+        }
+        override fun onPrepareMenu(menu: Menu) = Unit
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            when (menuItem.itemId) {
+                R.id.action_restore -> viewModel.obtainEvent(ShortcutIntent.RestoreShortcuts)
+            }
+            return true
+        }
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_keybindings, rootKey)
@@ -73,6 +86,7 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
         }
 
         binding.toolbar.title = getString(R.string.pref_header_keybindings_title)
+        binding.toolbar.addMenuProvider(defaultMenuProvider, viewLifecycleOwner)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }

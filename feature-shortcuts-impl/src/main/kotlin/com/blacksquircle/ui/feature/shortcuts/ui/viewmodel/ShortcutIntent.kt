@@ -21,6 +21,7 @@ import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 sealed class ShortcutIntent {
 
     object LoadShortcuts : ShortcutIntent()
+    object RestoreShortcuts : ShortcutIntent()
 
     data class SaveShortcut(val keybinding: Keybinding) : ShortcutIntent()
     data class ResolveConflict(val reassign: Boolean) : ShortcutIntent()

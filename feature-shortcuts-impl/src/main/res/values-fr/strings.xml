@@ -17,6 +17,8 @@
 
 <resources>
 
+    <string name="action_restore">Restore defaults</string>
+
     <string name="pref_header_keybindings_title">Keybindings</string>
 
     <string name="pref_category_file_keybindings">File Keybindings</string>

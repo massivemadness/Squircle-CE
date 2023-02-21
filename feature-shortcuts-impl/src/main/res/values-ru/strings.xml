@@ -17,6 +17,8 @@
 
 <resources>
 
+    <string name="action_restore">Восстановить</string>
+
     <string name="pref_header_keybindings_title">Сочетания клавиш</string>
 
     <string name="pref_category_file_keybindings">Файл</string>

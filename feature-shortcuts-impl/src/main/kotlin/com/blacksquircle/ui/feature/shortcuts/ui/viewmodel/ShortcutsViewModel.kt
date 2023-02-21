@@ -53,6 +53,8 @@ class ShortcutsViewModel @Inject constructor(
     fun obtainEvent(event: ShortcutIntent) {
         when (event) {
             is ShortcutIntent.LoadShortcuts -> loadShortcuts()
+            is ShortcutIntent.RestoreShortcuts -> restoreShortcuts()
+
             is ShortcutIntent.SaveShortcut -> saveShortcut(event)
             is ShortcutIntent.ResolveConflict -> resolveConflict(event)
         }
@@ -62,6 +64,20 @@ class ShortcutsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _shortcuts.value = shortcutsRepository.loadShortcuts()
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.common_error_occurred)),
+                )
+            }
+        }
+    }
+
+    private fun restoreShortcuts() {
+        viewModelScope.launch {
+            try {
+                shortcutsRepository.restoreShortcuts()
+                loadShortcuts()
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
