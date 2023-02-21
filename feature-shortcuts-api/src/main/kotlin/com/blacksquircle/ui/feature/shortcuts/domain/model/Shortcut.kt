@@ -30,12 +30,12 @@ enum class Shortcut(val key: String, val defaultValue: String) {
     PASTE("shortcut_paste", "100V"), // Ctrl + V
     SELECT_ALL("shortcut_select_all", "100A"), // Ctrl + A
     SELECT_LINE("shortcut_select_line", "001A"), // Alt + A
-    DELETE_LINE("shortcut_delete_line", "10067"), // todo Ctrl + DEL
+    DELETE_LINE("shortcut_delete_line", "100\u232B"), // Ctrl + ⌫
     DUPLICATE_LINE("shortcut_duplicate_line", "100D"), // Ctrl + D
-    PREV_WORD("shortcut_prev_word", "001←"), // Alt + ←
-    NEXT_WORD("shortcut_next_word", "001→"), // Alt + →
-    LINE_START("shortcut_line_start", "100←"), // Ctrl + ←
-    LINE_END("shortcut_line_end", "100→"), // Ctrl + →
+    PREV_WORD("shortcut_prev_word", "001\u2190"), // Alt + ←
+    NEXT_WORD("shortcut_next_word", "001\u2192"), // Alt + →
+    LINE_START("shortcut_line_start", "100\u2190"), // Ctrl + ←
+    LINE_END("shortcut_line_end", "100\u2192"), // Ctrl + →
     UNDO("shortcut_undo", "100Z"), // Ctrl + Z
     REDO("shortcut_redo", "110Z"), // Ctrl + Shift + Z
     FIND("shortcut_find", "100F"), // Ctrl + F
