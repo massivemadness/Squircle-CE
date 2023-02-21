@@ -41,5 +41,10 @@ fun Int.isColorDark(threshold: Double = 0.5): Boolean {
 }
 
 fun Int.keyCodeToChar(): Char {
-    return KeyEvent(KeyEvent.ACTION_DOWN, this).unicodeChar.toChar()
+    val charCode = when (this) {
+        KeyEvent.KEYCODE_DPAD_LEFT -> 8592 // ←
+        KeyEvent.KEYCODE_DPAD_RIGHT -> 8594 // →
+        else -> KeyEvent(KeyEvent.ACTION_DOWN, this).unicodeChar
+    }
+    return charCode.toChar()
 }
