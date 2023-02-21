@@ -556,9 +556,14 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         keyCode: Int,
         data: List<Keybinding>,
     ): Shortcut? {
-        return data.find {
-            it.isCtrl == ctrl && it.isShift == shift && it.isAlt == alt && it.keyCode == keyCode
-        }?.shortcut
+        val char = keyCode.keyCodeToChar()
+        val keybinding = data.find {
+            it.key == char.uppercaseChar() &&
+                it.isCtrl == ctrl &&
+                it.isShift == shift &&
+                it.isAlt == alt
+        }
+        return keybinding?.shortcut
     }
 
     companion object {

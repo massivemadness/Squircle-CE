@@ -22,10 +22,12 @@ import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
+import com.blacksquircle.ui.uikit.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,9 +42,41 @@ class ShortcutsViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    fun loadShortcuts() {
+    init {
+        loadShortcuts()
+    }
+
+    fun obtainEvent(event: ShortcutIntent) {
+        when (event) {
+            is ShortcutIntent.LoadShortcuts -> loadShortcuts()
+            is ShortcutIntent.SaveShortcut -> saveShortcut(event)
+        }
+    }
+
+    private fun loadShortcuts() {
         viewModelScope.launch {
-            _shortcuts.value = shortcutsRepository.loadShortcuts()
+            try {
+                _shortcuts.value = shortcutsRepository.loadShortcuts()
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.common_error_occurred)),
+                )
+            }
+        }
+    }
+
+    private fun saveShortcut(event: ShortcutIntent.SaveShortcut) {
+        viewModelScope.launch {
+            try {
+                shortcutsRepository.saveShortcut(event.keybinding)
+                loadShortcuts()
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.common_error_occurred)),
+                )
+            }
         }
     }
 }

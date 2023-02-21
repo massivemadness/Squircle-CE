@@ -187,6 +187,10 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         return sharedPreferences.getString(key, defaultValue) ?: defaultValue
     }
 
+    fun update(key: String, value: String) {
+        sharedPreferences.edit().putString(key, value).apply()
+    }
+
     fun remove(key: String) {
         sharedPreferences.edit().remove(key).apply()
     }

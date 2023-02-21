@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.domain.model
+package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
 
-data class Keybinding(
-    val shortcut: Shortcut,
-    val isCtrl: Boolean = false,
-    val isShift: Boolean = false,
-    val isAlt: Boolean = false,
-    val key: Char = ' ',
-)
+import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
+
+sealed class ShortcutIntent {
+
+    object LoadShortcuts : ShortcutIntent()
+    data class SaveShortcut(val keybinding: Keybinding) : ShortcutIntent()
+}

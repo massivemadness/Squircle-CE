@@ -45,7 +45,7 @@
     <string name="shortcut_force_syntax">Force Syntax</string>
     <string name="shortcut_insert_color">Farbe einfügen</string>
 
-    <string name="shortcut_press_key">Press the new keybinding (must contain Ctrl, Shift or Alt)</string>
+    <string name="shortcut_press_key">Press the new keybinding (must contain Ctrl or Alt)</string>
     <string name="shortcut_none">None set</string>
 
 </resources>

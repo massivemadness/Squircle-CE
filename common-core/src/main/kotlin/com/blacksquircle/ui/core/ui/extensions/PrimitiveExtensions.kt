@@ -18,6 +18,7 @@ package com.blacksquircle.ui.core.ui.extensions
 
 import android.content.res.Resources
 import android.graphics.Color
+import android.view.KeyEvent
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
@@ -37,4 +38,8 @@ fun Int.isColorDark(threshold: Double = 0.5): Boolean {
     val darkness =
         1 - (0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255
     return darkness >= threshold
+}
+
+fun Int.keyCodeToChar(): Char {
+    return KeyEvent(KeyEvent.ACTION_DOWN, this).unicodeChar.toChar()
 }

@@ -18,24 +18,45 @@ package com.blacksquircle.ui.feature.shortcuts.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.KeyEvent
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.blacksquircle.ui.core.ui.extensions.keyCodeToChar
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.databinding.DialogShortcutBinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
+import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.uikit.R as UiR
 
+/**
+ * All credits goes to Quoda
+ */
 @AndroidEntryPoint
 class ShortcutDialog : DialogFragment() {
 
     private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)
     private val navArgs by navArgs<ShortcutDialogArgs>()
+
+    private lateinit var binding: DialogShortcutBinding
+
+    private var ctrlPressed = false
+    private var shiftPressed = false
+    private var altPressed = false
+
+    private var newCtrl = false
+    private var newShift = false
+    private var newAlt = false
+
+    private var updatingText = false
+    private var newEnabled = true
+    private var newKey = ' '
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
@@ -71,14 +92,176 @@ class ShortcutDialog : DialogFragment() {
             title(titleRes)
             message(R.string.shortcut_press_key)
             customView(R.layout.dialog_shortcut)
-
-            val binding = DialogShortcutBinding.bind(getCustomView())
-            binding.ctrl.isChecked = keybinding.isCtrl
-            binding.shift.isChecked = keybinding.isShift
-            binding.alt.isChecked = keybinding.isAlt
+            binding = DialogShortcutBinding.bind(getCustomView())
 
             negativeButton(android.R.string.cancel)
-            positiveButton(UiR.string.common_save)
+            positiveButton(UiR.string.common_save) {
+                val newKeybinding = keybinding.copy(
+                    isCtrl = newCtrl,
+                    isShift = newShift,
+                    isAlt = newAlt,
+                    key = newKey,
+                )
+                viewModel.obtainEvent(ShortcutIntent.SaveShortcut(newKeybinding))
+            }
+
+            binding.ctrl.setOnCheckedChangeListener { _, isChecked ->
+                newCtrl = isChecked
+                ctrlPressed = isChecked
+                format(newEnabled, newCtrl, newShift, newAlt, newKey)
+            }
+            binding.shift.setOnCheckedChangeListener { _, isChecked ->
+                newShift = isChecked
+                shiftPressed = isChecked
+                format(newEnabled, newCtrl, newShift, newAlt, newKey)
+            }
+            binding.alt.setOnCheckedChangeListener { _, isChecked ->
+                newAlt = isChecked
+                altPressed = isChecked
+                format(newEnabled, newCtrl, newShift, newAlt, newKey)
+            }
+
+            // Virtual keyboard
+            binding.inputShortcut.doOnTextChanged { text, start, _, count ->
+                if (updatingText) return@doOnTextChanged
+                if (binding.ctrl.isChecked) ctrlPressed = true
+                if (binding.shift.isChecked) shiftPressed = true
+                if (binding.alt.isChecked) altPressed = true
+
+                if (!ctrlPressed && !shiftPressed && !altPressed) {
+                    format(false, false, false, false, ' ')
+                    ctrlPressed = false
+                    shiftPressed = false
+                    altPressed = false
+                    newEnabled = true
+                } else if (count == 1) {
+                    val char = text?.get(start) ?: return@doOnTextChanged
+                    if (char.isUpperCase()) {
+                        shiftPressed = true
+                    }
+                    format(true, ctrlPressed, shiftPressed, altPressed, char)
+                    newCtrl = ctrlPressed
+                    newShift = shiftPressed
+                    newAlt = altPressed
+                    if (char.code != 0) {
+                        newKey = char.uppercaseChar()
+                    }
+                    newEnabled = true
+                    ctrlPressed = false
+                    shiftPressed = false
+                    altPressed = false
+                } else {
+                    format(false, false, false, false, ' ')
+                    newEnabled = false
+                    ctrlPressed = false
+                    shiftPressed = false
+                    altPressed = false
+                }
+            }
+
+            // Hardware keyboard
+            binding.inputShortcut.setOnKeyListener { _, keyCode, event ->
+                if (updatingText) return@setOnKeyListener true
+
+                val ctrlKey = keyCode == KeyEvent.KEYCODE_CTRL_LEFT ||
+                    keyCode == KeyEvent.KEYCODE_CTRL_RIGHT
+                val shiftKey = keyCode == KeyEvent.KEYCODE_SHIFT_LEFT ||
+                    keyCode == KeyEvent.KEYCODE_SHIFT_RIGHT
+                val altKey = keyCode == KeyEvent.KEYCODE_ALT_LEFT ||
+                    keyCode == KeyEvent.KEYCODE_ALT_RIGHT
+
+                if (ctrlKey) {
+                    if (event.action != KeyEvent.ACTION_UP) {
+                        ctrlPressed = !ctrlPressed
+                    }
+                    binding.ctrl.isChecked = ctrlPressed
+                }
+                if (shiftKey) {
+                    if (event.action != KeyEvent.ACTION_UP) {
+                        shiftPressed = !shiftPressed
+                    }
+                    binding.shift.isChecked = shiftPressed
+                }
+                if (altKey) {
+                    if (event.action != KeyEvent.ACTION_UP) {
+                        altPressed = !altPressed
+                    }
+                    binding.alt.isChecked = altPressed
+                }
+
+                val controlKeyPressed = ctrlKey || shiftKey || altKey
+                val controlKeyGlobal = !ctrlPressed && !shiftPressed && !altPressed
+                if (controlKeyPressed || controlKeyGlobal) {
+                    return@setOnKeyListener true
+                }
+
+                val char = keyCode.keyCodeToChar()
+                format(true, ctrlPressed, shiftPressed, altPressed, char)
+
+                newCtrl = ctrlPressed
+                newShift = shiftPressed
+                newAlt = altPressed
+                newKey = char
+                newEnabled = true
+                ctrlPressed = false
+                shiftPressed = false
+                altPressed = false
+                false
+            }
+
+            ctrlPressed = keybinding.isCtrl
+            newCtrl = ctrlPressed
+
+            shiftPressed = keybinding.isShift
+            newShift = shiftPressed
+
+            altPressed = keybinding.isAlt
+            newAlt = altPressed
+
+            newKey = keybinding.key
+            format(newEnabled, newCtrl, newShift, newAlt, newKey)
+        }
+    }
+
+    private fun format(
+        enabled: Boolean,
+        ctrl: Boolean,
+        shift: Boolean,
+        alt: Boolean,
+        char: Char,
+    ) {
+        if (char.code != 0) {
+            if (!enabled || ctrl || shift || alt) {
+                newEnabled = enabled
+
+                val display = StringBuilder().apply {
+                    if (!enabled) {
+                        append(getString(R.string.shortcut_none))
+                    } else if (ctrl || alt) {
+                        if (ctrl) append(getString(R.string.keybinding_ctrl) + " + ")
+                        if (shift) append(getString(R.string.keybinding_shift) + " + ")
+                        if (alt) append(getString(R.string.keybinding_alt) + " + ")
+                        when (char) {
+                            ' ' -> append(getString(R.string.keybinding_space))
+                            '\t' -> append(getString(R.string.keybinding_tab))
+                            else -> append(char.uppercaseChar())
+                        }
+                    } else {
+                        append(getString(R.string.shortcut_none))
+                    }
+                }
+
+                updatingText = true
+                binding.inputShortcut.setText(display)
+                updatingText = false
+
+                binding.ctrl.isChecked = ctrl
+                binding.shift.isChecked = shift
+                binding.alt.isChecked = alt
+                return
+            }
+            newEnabled = false
+            format(false, ctrl, shift, alt, char)
         }
     }
 }

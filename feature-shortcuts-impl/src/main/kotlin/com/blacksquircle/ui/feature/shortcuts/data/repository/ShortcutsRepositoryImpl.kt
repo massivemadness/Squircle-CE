@@ -31,11 +31,30 @@ class ShortcutsRepositoryImpl(
     override suspend fun loadShortcuts(): List<Keybinding> {
         return withContext(dispatcherProvider.io()) {
             Shortcut.values().map { keybinding ->
+                val value = settingsManager.load(
+                    key = keybinding.key,
+                    defaultValue = keybinding.defaultValue,
+                )
                 Keybinding(
                     shortcut = keybinding,
-                    value = settingsManager.load(keybinding.key, keybinding.defaultValue)
+                    isCtrl = value[0] == '1',
+                    isShift = value[1] == '1',
+                    isAlt = value[2] == '1',
+                    key = value[3],
                 )
             }
+        }
+    }
+
+    override suspend fun saveShortcut(keybinding: Keybinding) {
+        withContext(dispatcherProvider.io()) {
+            val value = StringBuilder().apply {
+                if (keybinding.isCtrl) append('1') else append('0')
+                if (keybinding.isShift) append('1') else append('0')
+                if (keybinding.isAlt) append('1') else append('0')
+                append(keybinding.key)
+            }
+            settingsManager.update(keybinding.shortcut.key, value.toString())
         }
     }
 }

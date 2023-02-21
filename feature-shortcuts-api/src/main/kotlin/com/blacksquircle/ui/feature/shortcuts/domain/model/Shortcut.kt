@@ -17,30 +17,30 @@
 package com.blacksquircle.ui.feature.shortcuts.domain.model
 
 /**
- * 10042 - 1 ctrl, 0 shift, 0 alt, 42 key code
+ * 100N - 1 ctrl, 0 shift, 0 alt, N char
  */
 enum class Shortcut(val key: String, val defaultValue: String) {
-    NEW("shortcut_new", "10042"), // Ctrl + N
-    OPEN("shortcut_open", "10043"), // Ctrl + O
-    SAVE("shortcut_save", "10047"), // Ctrl + S
-    SAVE_AS("shortcut_save_as", "11047"), // Ctrl + Shift + S
-    CLOSE("shortcut_close", "10051"), // Ctrl + W
-    CUT("shortcut_cut", "10052"), // Ctrl + X
-    COPY("shortcut_copy", "10031"), // Ctrl + C
-    PASTE("shortcut_paste", "10050"), // Ctrl + V
-    SELECT_ALL("shortcut_select_all", "10029"), // Ctrl + A
-    SELECT_LINE("shortcut_select_line", "00129"), // Alt + A
-    DELETE_LINE("shortcut_delete_line", "10067"), // Ctrl + DEL
-    DUPLICATE_LINE("shortcut_duplicate_line", "10032"), // Ctrl + D
-    PREV_WORD("shortcut_prev_word", "00121"), // Alt + ←
-    NEXT_WORD("shortcut_next_word", "00122"), // Alt + →
-    LINE_START("shortcut_line_start", "10021"), // Ctrl + ←
-    LINE_END("shortcut_line_end", "10022"), // Ctrl + →
-    UNDO("shortcut_undo", "10054"), // Ctrl + Z
-    REDO("shortcut_redo", "11054"), // Ctrl + Shift + Z
-    FIND("shortcut_find", "10034"), // Ctrl + F
-    REPLACE("shortcut_replace", "10046"), // Ctrl + R
-    GOTO_LINE("shortcut_goto_line", "10035"), // Ctrl + G
-    FORCE_SYNTAX("shortcut_force_syntax", ""), // None set
-    INSERT_COLOR("shortcut_insert_color", "") // None set
+    NEW("shortcut_new", "100N"), // Ctrl + N
+    OPEN("shortcut_open", "100O"), // Ctrl + O
+    SAVE("shortcut_save", "100S"), // Ctrl + S
+    SAVE_AS("shortcut_save_as", "110S"), // Ctrl + Shift + S
+    CLOSE("shortcut_close", "100W"), // Ctrl + W
+    CUT("shortcut_cut", "100X"), // Ctrl + X
+    COPY("shortcut_copy", "100C"), // Ctrl + C
+    PASTE("shortcut_paste", "100V"), // Ctrl + V
+    SELECT_ALL("shortcut_select_all", "100A"), // Ctrl + A
+    SELECT_LINE("shortcut_select_line", "001A"), // Alt + A
+    DELETE_LINE("shortcut_delete_line", "10067"), // todo Ctrl + DEL
+    DUPLICATE_LINE("shortcut_duplicate_line", "100D"), // Ctrl + D
+    PREV_WORD("shortcut_prev_word", "001←"), // todo Alt + ←
+    NEXT_WORD("shortcut_next_word", "001→"), // todo Alt + →
+    LINE_START("shortcut_line_start", "100←"), // todo Ctrl + ←
+    LINE_END("shortcut_line_end", "100→"), // todo Ctrl + →
+    UNDO("shortcut_undo", "100Z"), // Ctrl + Z
+    REDO("shortcut_redo", "110Z"), // Ctrl + Shift + Z
+    FIND("shortcut_find", "100F"), // Ctrl + F
+    REPLACE("shortcut_replace", "100R"), // Ctrl + R
+    GOTO_LINE("shortcut_goto_line", "100G"), // Ctrl + G
+    FORCE_SYNTAX("shortcut_force_syntax", "000 "), // None set
+    INSERT_COLOR("shortcut_insert_color", "000 ") // None set
 }

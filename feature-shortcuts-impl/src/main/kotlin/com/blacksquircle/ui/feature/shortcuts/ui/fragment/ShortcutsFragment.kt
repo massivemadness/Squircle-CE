@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.shortcuts.ui.fragment
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,8 +78,6 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
-
-        viewModel.loadShortcuts()
     }
 
     private fun observeViewModel() {
@@ -93,14 +90,13 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
                         true
                     }
                     preference?.summary = StringBuilder().apply {
-                        if (model.keyCode == -1) {
+                        if (model.key == ' ') {
                             append(getString(R.string.shortcut_none))
                         } else {
                             if (model.isCtrl) append(getString(R.string.keybinding_ctrl) + " + ")
                             if (model.isShift) append(getString(R.string.keybinding_shift) + " + ")
                             if (model.isAlt) append(getString(R.string.keybinding_alt) + " + ")
-                            val keyCode = KeyEvent.keyCodeToString(model.keyCode)
-                            append(keyCode.substringAfter('_'))
+                            append(model.key)
                         }
                     }
                 }
