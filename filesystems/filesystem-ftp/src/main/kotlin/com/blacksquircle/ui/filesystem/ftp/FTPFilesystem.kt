@@ -29,7 +29,7 @@ import java.io.*
 import java.util.*
 
 class FTPFilesystem(
-    private val serverModel: ServerModel,
+    private val serverConfig: ServerConfig,
     private val cacheLocation: File,
 ) : Filesystem {
 
@@ -41,7 +41,7 @@ class FTPFilesystem(
     }
 
     override fun defaultLocation(): FileModel {
-        return FileModel(FTP_SCHEME + serverModel.initialDir, serverModel.uuid)
+        return FileModel(FTP_SCHEME + serverConfig.initialDir, serverConfig.uuid)
     }
 
     override fun provideDirectory(parent: FileModel): FileTree {
@@ -164,15 +164,15 @@ class FTPFilesystem(
         if (ftpClient.isConnected) {
             return
         }
-        ftpClient.connect(serverModel.address, serverModel.port)
+        ftpClient.connect(serverConfig.address, serverConfig.port)
         if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
             throw ConnectionException()
         }
-        if (serverModel.authMethod != AuthMethod.PASSWORD) {
+        if (serverConfig.authMethod != AuthMethod.PASSWORD) {
             throw AuthenticationException()
         }
         ftpClient.enterLocalPassiveMode()
-        ftpClient.login(serverModel.username, serverModel.password)
+        ftpClient.login(serverConfig.username, serverConfig.password)
         if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
             throw AuthenticationException()
         }
@@ -190,7 +190,7 @@ class FTPFilesystem(
         override fun toFileModel(fileObject: FTPFile): FileModel {
             return FileModel(
                 fileUri = parent?.fileUri + "/" + fileObject.name,
-                filesystemUuid = serverModel.uuid,
+                filesystemUuid = serverConfig.uuid,
                 size = fileObject.size,
                 lastModified = fileObject.timestamp.timeInMillis,
                 directory = fileObject.isDirectory,

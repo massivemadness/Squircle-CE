@@ -30,7 +30,7 @@ import java.io.File
 import java.util.*
 
 class SFTPFilesystem(
-    private val serverModel: ServerModel,
+    private val serverConfig: ServerConfig,
     private val cacheLocation: File,
 ) : Filesystem {
 
@@ -41,7 +41,7 @@ class SFTPFilesystem(
     private val sftpMapper = SFTPMapper()
 
     override fun defaultLocation(): FileModel {
-        return FileModel(SFTP_SCHEME + serverModel.initialDir, serverModel.uuid)
+        return FileModel(SFTP_SCHEME + serverConfig.initialDir, serverConfig.uuid)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -144,12 +144,12 @@ class SFTPFilesystem(
     private fun connect() {
         jsch.removeAllIdentity()
         session = jsch.getSession(
-            serverModel.username,
-            serverModel.address,
-            serverModel.port,
+            serverConfig.username,
+            serverConfig.address,
+            serverConfig.port,
         ).apply {
-            when (serverModel.authMethod) {
-                AuthMethod.PASSWORD -> setPassword(serverModel.password)
+            when (serverConfig.authMethod) {
+                AuthMethod.PASSWORD -> setPassword(serverConfig.password)
                 AuthMethod.KEYSTORE -> TODO() // load private key
             }
             setConfig("StrictHostKeyChecking", "no")
@@ -173,7 +173,7 @@ class SFTPFilesystem(
         override fun toFileModel(fileObject: LsEntry): FileModel {
             return FileModel(
                 fileUri = parent?.fileUri + "/" + fileObject.filename,
-                filesystemUuid = serverModel.uuid,
+                filesystemUuid = serverConfig.uuid,
                 size = fileObject.attrs.size,
                 lastModified = fileObject.attrs.mTime * 1000L,
                 directory = fileObject.attrs.isDir,

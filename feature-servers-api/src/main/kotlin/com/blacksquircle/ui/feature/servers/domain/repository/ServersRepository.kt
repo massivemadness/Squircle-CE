@@ -16,11 +16,11 @@
 
 package com.blacksquircle.ui.feature.servers.domain.repository
 
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 interface ServersRepository {
 
-    suspend fun loadServers(): List<ServerModel>
-    suspend fun upsertServer(serverModel: ServerModel)
-    suspend fun deleteServer(serverModel: ServerModel)
+    suspend fun loadServers(): List<ServerConfig>
+    suspend fun upsertServer(serverConfig: ServerConfig)
+    suspend fun deleteServer(serverConfig: ServerConfig)
 }

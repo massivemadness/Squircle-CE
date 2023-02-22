@@ -23,7 +23,7 @@ import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -38,8 +38,8 @@ class ServersViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
-    private val _servers = MutableStateFlow<List<ServerModel>>(emptyList())
-    val servers: StateFlow<List<ServerModel>> = _servers.asStateFlow()
+    private val _servers = MutableStateFlow<List<ServerConfig>>(emptyList())
+    val servers: StateFlow<List<ServerConfig>> = _servers.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -61,7 +61,7 @@ class ServersViewModel @Inject constructor(
     private fun upsertServer(event: ServerIntent.UpsertServer) {
         viewModelScope.launch {
             try {
-                val serverModel = event.serverModel
+                val serverModel = event.serverConfig
                 if (serverModel.name.isBlank() || serverModel.address.isBlank()) {
                     _viewEvent.send(
                         ViewEvent.Toast(
@@ -82,7 +82,7 @@ class ServersViewModel @Inject constructor(
     private fun deleteServer(event: ServerIntent.DeleteServer) {
         viewModelScope.launch {
             try {
-                val serverModel = event.serverModel
+                val serverModel = event.serverConfig
                 serversRepository.deleteServer(serverModel)
                 if (settingsManager.filesystem == serverModel.uuid) {
                     settingsManager.remove(SettingsManager.KEY_FILESYSTEM)

@@ -20,15 +20,44 @@ latest version of [EditorKit](README.md#editorkit) library.
 
 Migration steps:
 
-1. `LanguageStyler` and `LanguageParser` now only take `TextStructure` class as a parameter.
+1. The `LanguageStyler` and `LanguageParser` now take `TextStructure` as a parameter.
    This is a new class that contains text + metadata, which can help you to optimize the process.
-2. `LanguageStyler` has no longer access to `ColorScheme`. You have to provide a special token that
-   represents the data type, the spans will be applied by the code editor itself.
-3. Added `processAllLines` method to `SuggestionProvider`. It'll be invoked when
-   the `setTextContent` is called.
-4. If you're using custom plugins, the `clearLines` and `onTextReplaced` methods has been removed.
-   As an alternative you can use `setTextContent` and `processLine`. The `beforeDraw`
-   and `afterDraw` methods has been renamed to `drawBehind` and `onDraw`.
+   The `LanguageStyler` has no longer access to `ColorScheme` and span attributes. You have to
+   provide a special token that represents the data type, the spans will be applied by the code
+   editor itself.
+   ```kotlin
+   // Before
+   class CustomStyler : LanguageStyler {
+ 
+       override fun execute(source: String, scheme: ColorScheme): List<SyntaxHighlightSpan> {
+           val syntaxHighlightSpans = mutableListOf<SyntaxHighlightSpan>()
+           
+           // Before
+           val styleSpan = StyleSpan(scheme.methodColor)
+           val syntaxHighlightSpan = SyntaxHighlightSpan(styleSpan, matcher.start(), matcher.end())
+           syntaxHighlightSpans.add(syntaxHighlightSpan)
+               
+           return syntaxHighlightSpans
+       }
+   }
+   
+   // After
+   class CustomStyler : LanguageStyler {
+ 
+       override fun execute(structure: TextStructure): List<SyntaxHighlightResult> {
+           val syntaxHighlightResults = mutableListOf<SyntaxHighlightResult>()
+           
+           // After
+           val tokenType = TokenType.METHOD
+           val syntaxHighlightResult = SyntaxHighlightResult(tokenType, matcher.start(), matcher.end())
+           syntaxHighlightResults.add(syntaxHighlightResult)
+               
+           return syntaxHighlightResults
+       }
+   }
+   ```
+2. If you're using custom plugins, the `clearLines` and `onTextReplaced` methods has been removed.
+   The `beforeDraw` and `afterDraw` methods has been renamed to `drawBehind` and `onDraw`.
 
 ---
 

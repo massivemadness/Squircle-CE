@@ -18,12 +18,12 @@ package com.blacksquircle.ui.core.data.converter
 
 import com.blacksquircle.ui.core.data.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 object ServerConverter {
 
-    fun toModel(serverEntity: ServerEntity): ServerModel {
-        return ServerModel(
+    fun toModel(serverEntity: ServerEntity): ServerConfig {
+        return ServerConfig(
             uuid = serverEntity.uuid,
             scheme = serverEntity.scheme,
             name = serverEntity.name,
@@ -38,19 +38,19 @@ object ServerConverter {
         )
     }
 
-    fun toEntity(serverModel: ServerModel): ServerEntity {
+    fun toEntity(serverConfig: ServerConfig): ServerEntity {
         return ServerEntity(
-            uuid = serverModel.uuid,
-            scheme = serverModel.scheme,
-            name = serverModel.name,
-            address = serverModel.address,
-            port = serverModel.port,
-            initialDir = serverModel.initialDir,
-            authMethod = serverModel.authMethod.value,
-            username = serverModel.username,
-            password = serverModel.password,
-            privateKey = serverModel.privateKey,
-            passphrase = serverModel.passphrase,
+            uuid = serverConfig.uuid,
+            scheme = serverConfig.scheme,
+            name = serverConfig.name,
+            address = serverConfig.address,
+            port = serverConfig.port,
+            initialDir = serverConfig.initialDir,
+            authMethod = serverConfig.authMethod.value,
+            username = serverConfig.username,
+            password = serverConfig.password,
+            privateKey = serverConfig.privateKey,
+            passphrase = serverConfig.passphrase,
         )
     }
 }

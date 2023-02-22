@@ -20,7 +20,7 @@ import com.blacksquircle.ui.core.data.converter.ServerConverter
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.withContext
 
 class ServersRepositoryImpl(
@@ -28,23 +28,23 @@ class ServersRepositoryImpl(
     private val appDatabase: AppDatabase,
 ) : ServersRepository {
 
-    override suspend fun loadServers(): List<ServerModel> {
+    override suspend fun loadServers(): List<ServerConfig> {
         return withContext(dispatcherProvider.io()) {
             appDatabase.serverDao().loadAll()
                 .map(ServerConverter::toModel)
         }
     }
 
-    override suspend fun upsertServer(serverModel: ServerModel) {
+    override suspend fun upsertServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
-            val entity = ServerConverter.toEntity(serverModel)
+            val entity = ServerConverter.toEntity(serverConfig)
             appDatabase.serverDao().insert(entity)
         }
     }
 
-    override suspend fun deleteServer(serverModel: ServerModel) {
+    override suspend fun deleteServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
-            val entity = ServerConverter.toEntity(serverModel)
+            val entity = ServerConverter.toEntity(serverConfig)
             appDatabase.serverDao().delete(entity)
         }
     }

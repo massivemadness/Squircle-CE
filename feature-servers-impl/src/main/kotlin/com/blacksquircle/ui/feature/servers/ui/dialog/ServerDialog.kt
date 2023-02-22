@@ -29,7 +29,7 @@ import com.blacksquircle.ui.feature.servers.databinding.DialogServerBinding
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerIntent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
@@ -53,7 +53,7 @@ class ServerDialog : DialogFragment() {
             if (navArgs.data.isNullOrEmpty()) {
                 title(R.string.pref_add_server_title)
                 positiveButton(UiR.string.common_save) {
-                    val serverModel = ServerModel(
+                    val serverConfig = ServerConfig(
                         uuid = UUID.randomUUID().toString(),
                         scheme = when (binding.serverType.selectedItemPosition) {
                             0 -> FTPFilesystem.FTP_SCHEME
@@ -72,21 +72,21 @@ class ServerDialog : DialogFragment() {
                         privateKey = "",
                         passphrase = "",
                     )
-                    viewModel.obtainEvent(ServerIntent.UpsertServer(serverModel))
+                    viewModel.obtainEvent(ServerIntent.UpsertServer(serverConfig))
                 }
                 negativeButton(android.R.string.cancel)
             } else {
                 title(R.string.pref_edit_server_title)
 
-                val serverModel = Gson().fromJson(navArgs.data, ServerModel::class.java)
-                binding.inputServerName.setText(serverModel.name)
-                binding.inputServerAddress.setText(serverModel.address)
-                binding.inputServerPort.setText(serverModel.port.toString())
-                binding.inputInitialDir.setText(serverModel.initialDir)
-                binding.inputUsername.setText(serverModel.username)
-                binding.inputPassword.setText(serverModel.password)
+                val serverConfig = Gson().fromJson(navArgs.data, ServerConfig::class.java)
+                binding.inputServerName.setText(serverConfig.name)
+                binding.inputServerAddress.setText(serverConfig.address)
+                binding.inputServerPort.setText(serverConfig.port.toString())
+                binding.inputInitialDir.setText(serverConfig.initialDir)
+                binding.inputUsername.setText(serverConfig.username)
+                binding.inputPassword.setText(serverConfig.password)
 
-                val scheme = when (serverModel.scheme) {
+                val scheme = when (serverConfig.scheme) {
                     FTPFilesystem.FTP_SCHEME -> 0
                     FTPSFilesystem.FTPS_SCHEME -> 1
                     FTPESFilesystem.FTPES_SCHEME -> 2
@@ -96,8 +96,8 @@ class ServerDialog : DialogFragment() {
                 binding.serverType.setSelection(scheme)
 
                 positiveButton(UiR.string.common_save) {
-                    val changedModel = ServerModel(
-                        uuid = serverModel.uuid,
+                    val changedModel = ServerConfig(
+                        uuid = serverConfig.uuid,
                         scheme = when (binding.serverType.selectedItemPosition) {
                             0 -> FTPFilesystem.FTP_SCHEME
                             1 -> FTPSFilesystem.FTPS_SCHEME
@@ -118,7 +118,7 @@ class ServerDialog : DialogFragment() {
                     viewModel.obtainEvent(ServerIntent.UpsertServer(changedModel))
                 }
                 negativeButton(UiR.string.common_delete) {
-                    viewModel.obtainEvent(ServerIntent.DeleteServer(serverModel))
+                    viewModel.obtainEvent(ServerIntent.DeleteServer(serverConfig))
                 }
             }
         }

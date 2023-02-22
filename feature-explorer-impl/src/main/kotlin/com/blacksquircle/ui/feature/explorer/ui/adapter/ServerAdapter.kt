@@ -24,7 +24,7 @@ import android.widget.BaseAdapter
 import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.ui.extensions.replaceList
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.google.android.material.textview.MaterialTextView
 
 class ServerAdapter(
@@ -32,7 +32,7 @@ class ServerAdapter(
     private val addServer: () -> Unit,
 ) : BaseAdapter() {
 
-    private val serverList = mutableListOf<ServerModel>()
+    private val serverList = mutableListOf<ServerConfig>()
     private val renderList = mutableListOf<CharSequence>()
 
     private val inflater = LayoutInflater.from(context)
@@ -67,7 +67,7 @@ class ServerAdapter(
     override fun getItemId(position: Int) = position.toLong()
     override fun getCount() = renderList.size
 
-    fun submitList(servers: List<ServerModel>) {
+    fun submitList(servers: List<ServerConfig>) {
         serverList.replaceList(servers)
         renderList.replaceList(
             mutableListOf(
@@ -75,7 +75,7 @@ class ServerAdapter(
                 context.getString(R.string.storage_root),
             ),
         )
-        renderList.addAll(servers.map(ServerModel::name))
+        renderList.addAll(servers.map(ServerConfig::name))
         renderList.add(context.getString(R.string.storage_add))
         notifyDataSetChanged()
     }

@@ -16,12 +16,12 @@
 
 package com.blacksquircle.ui.feature.servers.ui.viewmodel
 
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 sealed class ServerIntent {
 
     object LoadServers : ServerIntent()
 
-    data class UpsertServer(val serverModel: ServerModel) : ServerIntent()
-    data class DeleteServer(val serverModel: ServerModel) : ServerIntent()
+    data class UpsertServer(val serverConfig: ServerConfig) : ServerIntent()
+    data class DeleteServer(val serverConfig: ServerConfig) : ServerIntent()
 }

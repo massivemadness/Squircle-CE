@@ -17,13 +17,13 @@
 package com.blacksquircle.ui.feature.servers.ui.navigation
 
 import com.blacksquircle.ui.core.ui.navigation.Screen
-import com.blacksquircle.ui.filesystem.base.model.ServerModel
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.google.gson.Gson
 
 sealed class ServersScreen(route: String) : Screen<String>(route) {
 
     object AddServer : ServersScreen("blacksquircle://settings/cloud/add")
-    class EditServer(serverModel: ServerModel) : ServersScreen(
-        route = "blacksquircle://settings/cloud/edit?data=${Gson().toJson(serverModel)}", // fixme
+    class EditServer(serverConfig: ServerConfig) : ServersScreen(
+        route = "blacksquircle://settings/cloud/edit?data=${Gson().toJson(serverConfig)}", // fixme
     )
 }
