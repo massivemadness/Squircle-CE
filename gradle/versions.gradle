@@ -71,7 +71,7 @@ ext {
     hilt_android_version = '1.0.0'
 
     // Other
-    zip4j_version = '2.11.3'
+    zip4j_version = '2.11.4'
     chardet_version = '72.1'
     superuser_version = '5.0.3'
 
