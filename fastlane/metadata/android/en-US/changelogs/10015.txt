@@ -1,0 +1,7 @@
+- Added: Force Syntax Highlighting
+- Added: Quoda-inspired keybindings
+- Added: Cursor color in theme editor
+- Added: Initial directory for cloud servers
+- Fixed: Input delay in Find/Replace text field
+- Fixed: App was always present in system "Open with" dialog
+- Bugfixes and minor improvements
