@@ -23,29 +23,36 @@ import androidx.core.content.getSystemService
 import com.blacksquircle.ui.editorkit.exception.LineException
 import com.blacksquircle.ui.editorkit.widget.TextProcessor
 
-private const val LABEL_CUT = "CUT"
-private const val LABEL_COPY = "COPY"
+private val EditText.selStart: Int
+    get() = when {
+        selectionStart > text.length -> text.length
+        selectionStart < 0 -> 0
+        else -> selectionStart
+    }
+private val EditText.selEnd: Int
+    get() = when {
+        selectionEnd > text.length -> text.length
+        selectionEnd < 0 -> 0
+        else -> selectionEnd
+    }
 
 val EditText.selectedText: CharSequence
-    get() = text.subSequence(
-        if (selectionStart > text.length) text.length else selectionStart,
-        if (selectionEnd > text.length) text.length else selectionEnd,
-    )
+    get() = text.subSequence(selStart, selEnd)
 
 fun EditText.insert(delta: CharSequence) {
-    text.replace(selectionStart, selectionEnd, delta)
+    text.replace(selStart, selEnd, delta)
 }
 
 fun EditText.cut() {
     val clipboardManager = context.getSystemService<ClipboardManager>()
-    val clipData = ClipData.newPlainText(LABEL_CUT, selectedText)
+    val clipData = ClipData.newPlainText("CUT", selectedText)
     clipboardManager?.setPrimaryClip(clipData)
-    text.replace(selectionStart, selectionEnd, "")
+    text.replace(selStart, selEnd, "")
 }
 
 fun EditText.copy() {
     val clipboardManager = context.getSystemService<ClipboardManager>()
-    val clipData = ClipData.newPlainText(LABEL_COPY, selectedText)
+    val clipData = ClipData.newPlainText("COPY", selectedText)
     clipboardManager?.setPrimaryClip(clipData)
 }
 
@@ -53,7 +60,7 @@ fun EditText.paste() {
     val clipboardManager = context.getSystemService<ClipboardManager>()
     val clipData = clipboardManager?.primaryClip?.getItemAt(0)
     val clipText = clipData?.coerceToText(context)
-    text.replace(selectionStart, selectionEnd, clipText)
+    text.replace(selStart, selEnd, clipText)
 }
 
 fun EditText.setSelectionRange(start: Int, end: Int) {
@@ -70,21 +77,21 @@ fun EditText.setSelectionIndex(index: Int) {
 }
 
 fun TextProcessor.selectLine() {
-    val currentLine = structure.getLineForIndex(selectionStart)
+    val currentLine = structure.getLineForIndex(selStart)
     val lineStart = structure.getIndexForStartOfLine(currentLine)
     val lineEnd = structure.getIndexForEndOfLine(currentLine)
     setSelectionRange(lineStart, lineEnd)
 }
 
 fun TextProcessor.deleteLine() {
-    val currentLine = structure.getLineForIndex(selectionStart)
+    val currentLine = structure.getLineForIndex(selStart)
     val lineStart = structure.getIndexForStartOfLine(currentLine)
     val lineEnd = structure.getIndexForEndOfLine(currentLine)
     text.delete(lineStart, lineEnd)
 }
 
 fun TextProcessor.duplicateLine() {
-    val currentLine = structure.getLineForIndex(selectionStart)
+    val currentLine = structure.getLineForIndex(selStart)
     val lineStart = structure.getIndexForStartOfLine(currentLine)
     val lineEnd = structure.getIndexForEndOfLine(currentLine)
     val lineText = text.subSequence(lineStart, lineEnd)
@@ -92,13 +99,13 @@ fun TextProcessor.duplicateLine() {
 }
 
 fun TextProcessor.moveCaretToStartOfLine() {
-    val currentLine = structure.getLineForIndex(selectionStart)
+    val currentLine = structure.getLineForIndex(selStart)
     val lineStart = structure.getIndexForStartOfLine(currentLine)
     setSelectionIndex(lineStart)
 }
 
 fun TextProcessor.moveCaretToEndOfLine() {
-    val currentLine = structure.getLineForIndex(selectionEnd)
+    val currentLine = structure.getLineForIndex(selEnd)
     val lineEnd = structure.getIndexForEndOfLine(currentLine)
     setSelectionIndex(lineEnd)
 }

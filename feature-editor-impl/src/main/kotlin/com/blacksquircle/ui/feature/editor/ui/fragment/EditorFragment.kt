@@ -61,6 +61,7 @@ import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
 import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.customview.ToolbarManager
+import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
@@ -213,8 +214,10 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.editor.redoStack = state.content.redoStack
                         binding.editor.setTextContent(measurement)
                         binding.editor.abortFling()
-                        binding.editor.scrollX = state.content.documentModel.scrollX
-                        binding.editor.scrollY = state.content.documentModel.scrollY
+                        binding.editor.scrollTo(
+                            state.content.documentModel.scrollX,
+                            state.content.documentModel.scrollY,
+                        )
                         binding.editor.setSelectionRange(
                             state.content.documentModel.selectionStart,
                             state.content.documentModel.selectionEnd,

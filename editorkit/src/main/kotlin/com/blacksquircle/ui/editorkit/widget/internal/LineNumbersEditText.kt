@@ -92,7 +92,7 @@ abstract class LineNumbersEditText @JvmOverloads constructor(
 
     open fun setTextContent(textParams: PrecomputedTextCompat) {
         removeTextChangedListener(textWatcher)
-        setText(textParams)
+        TextViewCompat.setPrecomputedText(this, textParams)
         replaceText(0, structure.text.length, textParams)
         addTextChangedListener(textWatcher)
     }
