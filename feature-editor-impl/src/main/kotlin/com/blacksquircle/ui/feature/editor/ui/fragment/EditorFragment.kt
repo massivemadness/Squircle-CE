@@ -61,7 +61,6 @@ import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
 import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.customview.ToolbarManager
-import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel

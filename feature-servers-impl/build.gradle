@@ -91,7 +91,6 @@ dependencies {
     implementation project(':common-core')
     implementation project(':common-ui')
 
-    implementation project(':filesystems:filesystem-base')
     implementation project(':filesystems:filesystem-ftp')
     implementation project(':filesystems:filesystem-ftps')
     implementation project(':filesystems:filesystem-ftpes')

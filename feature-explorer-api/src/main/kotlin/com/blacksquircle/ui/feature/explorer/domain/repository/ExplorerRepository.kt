@@ -18,12 +18,8 @@ package com.blacksquircle.ui.feature.explorer.domain.repository
 
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import kotlinx.coroutines.flow.Flow
 
 interface ExplorerRepository {
-
-    val serverFlow: Flow<List<ServerConfig>>
 
     suspend fun filesystem(filesystemUuid: String)
     suspend fun listFiles(parent: FileModel?): FileTree

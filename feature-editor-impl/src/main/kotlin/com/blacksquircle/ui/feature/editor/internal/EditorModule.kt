@@ -17,12 +17,12 @@
 package com.blacksquircle.ui.feature.editor.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.editor.data.repository.DocumentRepositoryImpl
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides

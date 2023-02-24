@@ -19,17 +19,13 @@ package com.blacksquircle.ui.core.internal
 import android.content.Context
 import android.content.SharedPreferences
 import com.blacksquircle.ui.core.data.delegate.DatabaseDelegate
-import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -46,21 +42,5 @@ object CoreModule {
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return DatabaseDelegate.provideAppDatabase(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideFilesystemFactory(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-    ): FilesystemFactory {
-        return FilesystemFactory(appDatabase, context.cacheDir)
-    }
-
-    @Provides
-    @Singleton
-    @Named("Cache")
-    fun provideCacheFilesystem(@ApplicationContext context: Context): Filesystem {
-        return LocalFilesystem(context.filesDir)
     }
 }

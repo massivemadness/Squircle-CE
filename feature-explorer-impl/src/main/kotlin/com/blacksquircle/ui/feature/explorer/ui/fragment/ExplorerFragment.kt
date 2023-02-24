@@ -36,7 +36,6 @@ import androidx.recyclerview.selection.DefaultSelectionTracker
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
-import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.contract.PermissionResult
@@ -62,6 +61,8 @@ import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -379,8 +380,8 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         viewModel.serverState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { servers ->
                 val position = when (viewModel.filesystem) {
-                    FilesystemFactory.LOCAL_UUID -> 0
-                    FilesystemFactory.ROOT_UUID -> 1
+                    LocalFilesystem.LOCAL_UUID -> 0
+                    RootFilesystem.ROOT_UUID -> 1
                     else -> {
                         val index = servers.indexOf { it.uuid == viewModel.filesystem }
                         if (index == -1) { // not found

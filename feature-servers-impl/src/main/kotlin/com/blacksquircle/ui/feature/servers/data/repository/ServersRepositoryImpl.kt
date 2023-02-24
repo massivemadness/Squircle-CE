@@ -16,17 +16,23 @@
 
 package com.blacksquircle.ui.feature.servers.data.repository
 
-import com.blacksquircle.ui.core.data.converter.ServerConverter
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.feature.servers.data.converter.ServerConverter
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class ServersRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val appDatabase: AppDatabase,
 ) : ServersRepository {
+
+    override val serverFlow = appDatabase.serverDao().flow()
+        .map { it.map(ServerConverter::toModel) }
+        .flowOn(dispatcherProvider.io())
 
     override suspend fun loadServers(): List<ServerConfig> {
         return withContext(dispatcherProvider.io()) {

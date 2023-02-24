@@ -218,7 +218,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     companion object : Filesystem.Mapper<File> {
 
         const val LOCAL_UUID = "local"
-        const val LOCAL_SCHEME = "file://"
+        private const val LOCAL_SCHEME = "file://"
 
         override fun toFileModel(fileObject: File): FileModel {
             return FileModel(

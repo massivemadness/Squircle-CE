@@ -92,9 +92,17 @@ dependencies {
 
     // Modules
     implementation project(':feature-explorer-api')
+    implementation project(':feature-servers-api')
     implementation project(':feature-settings-api')
     implementation project(':common-core')
     implementation project(':common-ui')
+
+    implementation project(':filesystems:filesystem-local')
+    implementation project(':filesystems:filesystem-root')
+    implementation project(':filesystems:filesystem-ftp')
+    implementation project(':filesystems:filesystem-ftps')
+    implementation project(':filesystems:filesystem-ftpes')
+    implementation project(':filesystems:filesystem-sftp')
 
     // Tests
     testImplementation library.junit

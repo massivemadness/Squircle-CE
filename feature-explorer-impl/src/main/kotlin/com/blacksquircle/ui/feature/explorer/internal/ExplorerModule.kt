@@ -17,38 +17,56 @@
 package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
+import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object ExplorerModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideExplorerRepository(
         @ApplicationContext context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         filesystemFactory: FilesystemFactory,
-        appDatabase: AppDatabase,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             filesystemFactory = filesystemFactory,
             context = context,
-            appDatabase = appDatabase,
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideFilesystemFactory(
+        @ApplicationContext context: Context,
+        appDatabase: AppDatabase,
+    ): FilesystemFactory {
+        return FilesystemFactoryImpl(appDatabase, context.cacheDir)
+    }
+
+    @Provides
+    @Singleton
+    @Named("Cache")
+    fun provideCacheFilesystem(@ApplicationContext context: Context): Filesystem {
+        return LocalFilesystem(context.filesDir)
     }
 }

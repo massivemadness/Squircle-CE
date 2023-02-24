@@ -52,7 +52,4 @@ dependencies {
     // Core
     implementation library.kotlin
     implementation library.core
-
-    // Modules
-    api project(':filesystems:filesystem-base')
 }

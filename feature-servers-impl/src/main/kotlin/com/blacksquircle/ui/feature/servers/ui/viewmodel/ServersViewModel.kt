@@ -61,8 +61,8 @@ class ServersViewModel @Inject constructor(
     private fun upsertServer(event: ServerIntent.UpsertServer) {
         viewModelScope.launch {
             try {
-                val serverModel = event.serverConfig
-                if (serverModel.name.isBlank() || serverModel.address.isBlank()) {
+                val serverConfig = event.serverConfig
+                if (serverConfig.name.isBlank() || serverConfig.address.isBlank()) {
                     _viewEvent.send(
                         ViewEvent.Toast(
                             stringProvider.getString(R.string.message_server_missing_fields),
@@ -70,7 +70,7 @@ class ServersViewModel @Inject constructor(
                     )
                     return@launch
                 }
-                serversRepository.upsertServer(serverModel)
+                serversRepository.upsertServer(serverConfig)
                 loadServers()
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -82,9 +82,9 @@ class ServersViewModel @Inject constructor(
     private fun deleteServer(event: ServerIntent.DeleteServer) {
         viewModelScope.launch {
             try {
-                val serverModel = event.serverConfig
-                serversRepository.deleteServer(serverModel)
-                if (settingsManager.filesystem == serverModel.uuid) {
+                val serverConfig = event.serverConfig
+                serversRepository.deleteServer(serverConfig)
+                if (settingsManager.filesystem == serverConfig.uuid) {
                     settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
                 }
                 loadServers()

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.data.converter
+package com.blacksquircle.ui.feature.servers.data.converter
 
 import com.blacksquircle.ui.core.data.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod

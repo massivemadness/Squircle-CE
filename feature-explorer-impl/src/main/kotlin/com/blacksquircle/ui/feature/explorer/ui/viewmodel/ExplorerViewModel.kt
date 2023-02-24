@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepositor
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.exception.DirectoryExpectedException
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -48,6 +49,7 @@ class ExplorerViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val explorerRepository: ExplorerRepository,
+    private val serversRepository: ServersRepository,
 ) : ViewModel() {
 
     private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.Stub)
@@ -65,7 +67,7 @@ class ExplorerViewModel @Inject constructor(
     private val _customEvent = MutableSharedFlow<ExplorerViewEvent>()
     val customEvent: SharedFlow<ExplorerViewEvent> = _customEvent.asSharedFlow()
 
-    val serverState = explorerRepository.serverFlow.stateIn(
+    val serverState = serversRepository.serverFlow.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList(),

@@ -23,7 +23,6 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.Observer
 import androidx.work.*
-import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.ui.extensions.createChannel
 import com.blacksquircle.ui.core.ui.extensions.createNotification
@@ -32,6 +31,7 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.toData
 import com.blacksquircle.ui.feature.explorer.data.utils.toFileList
 import com.blacksquircle.ui.feature.explorer.data.utils.toFileModel
+import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.exception.FileAlreadyExistsException
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel

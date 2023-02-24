@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.domain.repository
+package com.blacksquircle.ui.feature.explorer.domain.factory
 
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import kotlinx.coroutines.flow.Flow
+import com.blacksquircle.ui.filesystem.base.Filesystem
 
-interface ServersRepository {
-
-    val serverFlow: Flow<List<ServerConfig>>
-
-    suspend fun loadServers(): List<ServerConfig>
-    suspend fun upsertServer(serverConfig: ServerConfig)
-    suspend fun deleteServer(serverConfig: ServerConfig)
+interface FilesystemFactory {
+    suspend fun create(uuid: String): Filesystem
 }

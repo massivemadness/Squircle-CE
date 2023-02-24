@@ -100,12 +100,12 @@ class CloudFragment : PreferenceFragmentCompat() {
                 }
                 categoryServers.addPreference(addServer)
 
-                servers.forEach { serverModel ->
+                servers.forEach { serverConfig ->
                     val server = Preference(preferenceScreen.context)
-                    server.title = serverModel.name
-                    server.summary = serverModel.address
+                    server.title = serverConfig.name
+                    server.summary = serverConfig.address
                     server.setOnPreferenceClickListener {
-                        navController.navigate(ServersScreen.EditServer(serverModel))
+                        navController.navigate(ServersScreen.EditServer(serverConfig))
                         true
                     }
                     categoryServers.addPreference(server)

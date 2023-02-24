@@ -21,10 +21,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.blacksquircle.ui.core.data.factory.FilesystemFactory
 import com.blacksquircle.ui.core.ui.extensions.replaceList
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.google.android.material.textview.MaterialTextView
 
 class ServerAdapter(
@@ -82,8 +83,8 @@ class ServerAdapter(
 
     fun fromPosition(position: Int): String {
         return when (position) {
-            0 -> FilesystemFactory.LOCAL_UUID
-            1 -> FilesystemFactory.ROOT_UUID
+            0 -> LocalFilesystem.LOCAL_UUID
+            1 -> RootFilesystem.ROOT_UUID
             else -> serverList[position - 2].uuid
         }
     }

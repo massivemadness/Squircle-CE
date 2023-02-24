@@ -53,6 +53,9 @@ dependencies {
     implementation library.kotlin
     implementation library.core
 
+    // Coroutines
+    implementation library.coroutines_core
+
     // Modules
     api project(':filesystems:filesystem-base')
 }
