@@ -29,6 +29,7 @@ interface DocumentRepository {
     suspend fun updateDocument(documentModel: DocumentModel)
     suspend fun deleteDocument(documentModel: DocumentModel)
 
+    suspend fun openFile(fileUri: Uri): DocumentModel
     suspend fun loadFile(documentModel: DocumentModel): DocumentContent
     suspend fun saveFile(content: DocumentContent, params: DocumentParams)
     suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri)

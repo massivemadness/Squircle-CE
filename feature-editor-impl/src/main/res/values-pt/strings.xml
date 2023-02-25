@@ -53,7 +53,6 @@
     <string name="message_file_not_found">Arquivo não encontrado</string>
     <string name="message_out_of_memory">Sem memória</string>
     <string name="message_saved">Salvo</string>
-    <string name="message_select_file">Selecione o arquivo</string>
     <string name="message_nothing_to_cut">Nada para cortar</string>
     <string name="message_nothing_to_copy">Nada to copiar</string>
     <string name="message_nothing_to_paste">Nada para colar</string>

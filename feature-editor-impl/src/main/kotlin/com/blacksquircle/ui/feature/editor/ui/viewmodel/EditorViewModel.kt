@@ -83,6 +83,7 @@ class EditorViewModel @Inject constructor(
             is EditorIntent.LoadSettings -> loadSettings()
 
             is EditorIntent.OpenFile -> openFile(event)
+            is EditorIntent.OpenFileUri -> openFileUri(event)
             is EditorIntent.SelectTab -> selectTab(event)
             is EditorIntent.MoveTab -> moveTab(event)
             is EditorIntent.CloseTab -> closeTab(event)
@@ -144,6 +145,25 @@ class EditorViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             try {
                 val document = DocumentConverter.toModel(event.fileModel)
+                val position = documents.indexOrNull { it.fileUri == document.fileUri } ?: run {
+                    documents.appendList(document)
+                    updateDocuments()
+                    documents.lastIndex
+                }
+                if (position != selectedPosition) {
+                    selectTab(EditorIntent.SelectTab(position))
+                }
+            } catch (e: Throwable) {
+                Timber.e(e, e.message)
+                errorState(e)
+            }
+        }
+    }
+
+    private fun openFileUri(event: EditorIntent.OpenFileUri) {
+        viewModelScope.launch {
+            try {
+                val document = documentRepository.openFile(event.fileUri)
                 val position = documents.indexOrNull { it.fileUri == document.fileUri } ?: run {
                     documents.appendList(document)
                     updateDocuments()

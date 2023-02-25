@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils.inappupdate
+package com.blacksquircle.ui.utils
 
 import android.app.Activity
 import timber.log.Timber

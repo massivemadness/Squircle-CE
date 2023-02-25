@@ -28,7 +28,7 @@ import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.decorFitsSystemWindows
 import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
 import com.blacksquircle.ui.databinding.ActivityMainBinding
-import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
+import com.blacksquircle.ui.utils.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

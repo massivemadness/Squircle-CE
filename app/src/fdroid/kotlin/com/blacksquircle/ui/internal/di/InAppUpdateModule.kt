@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.internal.di
 
-import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
-import com.blacksquircle.ui.utils.inappupdate.InAppUpdateStub
+import com.blacksquircle.ui.utils.InAppUpdate
+import com.blacksquircle.ui.utils.InAppUpdateStub
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -20,27 +20,17 @@ import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
-import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
-import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
-import com.blacksquircle.ui.uikit.R as UiR
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
-    private val documentRepository: DocumentRepository,
 ) : ViewModel() {
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
@@ -55,28 +45,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (intent != null) {
                 _viewEvent.send(ViewEvent.NewIntent(intent))
-            }
-        }
-    }
-
-    fun handleDocument(file: File, reloadList: () -> Unit) {
-        viewModelScope.launch {
-            try {
-                val fileModel = FileModel(file.absolutePath, LocalFilesystem.LOCAL_UUID)
-                val documentList = documentRepository.loadDocuments()
-                val documentModel = DocumentConverter.toModel(fileModel)
-                    .copy(position = documentList.size)
-                if (documentList.none { it.fileUri == documentModel.fileUri }) {
-                    documentRepository.updateDocument(documentModel)
-                    reloadList()
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(UiR.string.common_error_occurred),
-                    ),
-                )
             }
         }
     }

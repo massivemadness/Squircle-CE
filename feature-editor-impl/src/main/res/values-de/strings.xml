@@ -53,7 +53,6 @@
     <string name="message_file_not_found">Datei nicht gefunden</string>
     <string name="message_out_of_memory">Kein Speicherplatz mehr</string>
     <string name="message_saved">Gespeichert</string>
-    <string name="message_select_file">Wähle Datei aus</string>
     <string name="message_nothing_to_cut">Nichts zum Ausschneiden</string>
     <string name="message_nothing_to_copy">Nichts zum Kopieren</string>
     <string name="message_nothing_to_paste">Nichts zum Einfügen</string>

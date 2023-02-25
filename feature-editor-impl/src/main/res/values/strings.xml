@@ -54,7 +54,6 @@
     <string name="message_file_not_found">File not found</string>
     <string name="message_out_of_memory">Out of memory</string>
     <string name="message_saved">Saved</string>
-    <string name="message_select_file">Select File</string>
     <string name="message_nothing_to_cut">Nothing to cut</string>
     <string name="message_nothing_to_copy">Nothing to copy</string>
     <string name="message_nothing_to_paste">Nothing to paste</string>

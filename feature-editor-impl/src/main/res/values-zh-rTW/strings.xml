@@ -53,7 +53,6 @@
     <string name="message_file_not_found">檔案不存在</string>
     <string name="message_out_of_memory">記憶體不足</string>
     <string name="message_saved">已儲存</string>
-    <string name="message_select_file">選擇檔案</string>
     <string name="message_nothing_to_cut">沒有任何內容可以剪下</string>
     <string name="message_nothing_to_copy">沒有任何內容可以複製</string>
     <string name="message_nothing_to_paste">沒有任何內容可以貼上</string>

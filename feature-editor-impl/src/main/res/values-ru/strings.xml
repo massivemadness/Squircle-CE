@@ -53,7 +53,6 @@
     <string name="message_file_not_found">Файл не найден</string>
     <string name="message_out_of_memory">Недостаточно памяти</string>
     <string name="message_saved">Сохранено</string>
-    <string name="message_select_file">Выберите файл</string>
     <string name="message_nothing_to_cut">Невозможно вырезать</string>
     <string name="message_nothing_to_copy">Невозможно копировать</string>
     <string name="message_nothing_to_paste">Невозможно вставить</string>

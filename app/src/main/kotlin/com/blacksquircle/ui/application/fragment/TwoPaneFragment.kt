@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.application.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -45,14 +44,9 @@ import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.utils.extensions.multiplyDraggingEdgeSizeBy
-import com.blacksquircle.ui.utils.extensions.resolveFilePath
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
-import java.io.File
-import com.blacksquircle.ui.feature.editor.R as EditorR
 
 @AndroidEntryPoint
 class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
@@ -92,7 +86,6 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
 
         binding.drawerLayout?.setScrimColor(0x48000000)
         binding.drawerLayout?.addDrawerListener(drawerListener)
-        binding.drawerLayout?.multiplyDraggingEdgeSizeBy(2)
         binding.drawerLayout?.doOnLayout {
             if (binding.drawerLayout?.isOpen == true) {
                 drawerListener.onDrawerOpened(binding.fragmentExplorer)
@@ -136,7 +129,11 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    is ViewEvent.NewIntent -> handleIntent(event.intent)
+                    is ViewEvent.NewIntent -> {
+                        val fileUri = event.intent.data ?: return@onEach
+                        val editorIntent = EditorIntent.OpenFileUri(fileUri)
+                        editorViewModel.obtainEvent(editorIntent)
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -156,38 +153,5 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-    }
-
-    private fun handleIntent(intent: Intent?) {
-        try {
-            if (intent?.action == Intent.ACTION_VIEW) {
-                Timber.d("Handle external content uri = " + intent.data)
-                val contentUri = intent.data ?: return
-
-                val filePath = requireContext().resolveFilePath(contentUri)
-                Timber.d("Does it looks like a valid file path? ($filePath)")
-
-                val isValidFile = try {
-                    File(filePath).exists()
-                } catch (e: Exception) {
-                    false
-                }
-                Timber.d("isValidFile = $isValidFile")
-
-                if (!isValidFile) {
-                    Timber.d("Invalid path")
-                    context?.showToast(EditorR.string.message_file_not_found)
-                    return
-                }
-
-                val file = File(filePath)
-                mainViewModel.handleDocument(file) {
-                    editorViewModel.obtainEvent(EditorIntent.LoadFiles)
-                }
-            }
-        } catch (e: Throwable) {
-            Timber.e(e, e.message)
-            context?.showToast(EditorR.string.message_file_not_found)
-        }
     }
 }

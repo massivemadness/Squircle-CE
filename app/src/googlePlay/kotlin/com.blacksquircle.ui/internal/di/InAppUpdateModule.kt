@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.internal.di
 
 import android.content.Context
-import com.blacksquircle.ui.utils.inappupdate.InAppUpdate
-import com.blacksquircle.ui.utils.inappupdate.InAppUpdateImpl
+import com.blacksquircle.ui.utils.InAppUpdate
+import com.blacksquircle.ui.utils.InAppUpdateImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

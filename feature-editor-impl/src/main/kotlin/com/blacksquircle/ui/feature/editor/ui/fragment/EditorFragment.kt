@@ -33,6 +33,7 @@ import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.ui.adapter.TabAdapter
 import com.blacksquircle.ui.core.ui.contract.ContractResult
 import com.blacksquircle.ui.core.ui.contract.CreateFileContract
+import com.blacksquircle.ui.core.ui.contract.OpenFileContract
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
@@ -88,6 +89,12 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     private val saveFileAsContract = CreateFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.SaveFileAs(result.uri))
+            is ContractResult.Canceled -> Unit
+        }
+    }
+    private val openFileContract = OpenFileContract(this) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.OpenFileUri(result.uri))
             is ContractResult.Canceled -> Unit
         }
     }
@@ -280,8 +287,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     override fun onOpenButton(): Boolean {
-        onDrawerButton()
-        context?.showToast(R.string.message_select_file)
+        openFileContract.launch(OpenFileContract.ANY)
         return true
     }
 

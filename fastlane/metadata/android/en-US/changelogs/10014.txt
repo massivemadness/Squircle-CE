@@ -1,4 +1,4 @@
-- Added: Experimental SAF support in «Save As» dialog
+- Added: Save As (SAF) in Menu > File
 - Added: Taiwanese translation
 - Fixed: Infinite loading in split screen mode
 - Fixed: Extended keyboard was always visible

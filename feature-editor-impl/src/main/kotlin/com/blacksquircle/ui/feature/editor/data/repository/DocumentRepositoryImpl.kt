@@ -21,6 +21,7 @@ import android.net.Uri
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.ui.extensions.extractFilePath
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.editorkit.model.UndoStack
@@ -34,10 +35,13 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
 import kotlinx.coroutines.withContext
+import timber.log.Timber
+import java.io.File
 import java.util.regex.Pattern
 
 class DocumentRepositoryImpl(
@@ -69,6 +73,23 @@ class DocumentRepositoryImpl(
 
             val documentEntity = DocumentConverter.toEntity(documentModel)
             appDatabase.documentDao().delete(documentEntity)
+        }
+    }
+
+    override suspend fun openFile(fileUri: Uri): DocumentModel {
+        return withContext(dispatcherProvider.io()) {
+            Timber.d("Uri received = $fileUri")
+            val filePath = context.extractFilePath(fileUri)
+            Timber.d("Extracted path = $filePath")
+
+            val isValidFile = try { File(filePath).exists() } catch (e: Throwable) { false }
+            Timber.d("Is valid file = $isValidFile")
+            if (!isValidFile) {
+                throw FileNotFoundException(filePath)
+            }
+
+            val fileModel = FileModel("file://$filePath", "local")
+            DocumentConverter.toModel(fileModel)
         }
     }
 

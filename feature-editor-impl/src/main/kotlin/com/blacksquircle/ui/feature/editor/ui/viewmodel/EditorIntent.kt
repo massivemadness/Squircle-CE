@@ -26,6 +26,7 @@ sealed class EditorIntent {
     object LoadSettings : EditorIntent()
 
     data class OpenFile(val fileModel: FileModel) : EditorIntent()
+    data class OpenFileUri(val fileUri: Uri) : EditorIntent()
     data class SelectTab(val position: Int) : EditorIntent()
     data class MoveTab(val from: Int, val to: Int) : EditorIntent()
     data class CloseTab(val position: Int, val allowModified: Boolean) : EditorIntent()
