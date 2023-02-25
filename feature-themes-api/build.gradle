@@ -55,6 +55,5 @@ dependencies {
 
     // Modules
     api project(':editorkit')
-    api project(':filesystems:filesystem-base')
     api project(':languages:language-base')
 }

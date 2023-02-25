@@ -46,7 +46,6 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
     buildFeatures {
         viewBinding true
@@ -90,6 +89,7 @@ dependencies {
 
     // Tests
     testImplementation library.junit
+    testImplementation library.mockk
     androidTestImplementation library.junit_ext
     androidTestImplementation library.test_runner
 }
