@@ -33,7 +33,7 @@ abstract class ServerDao : BaseDao<ServerEntity> {
     abstract suspend fun loadAll(): List<ServerEntity>
 
     @Query("SELECT * FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
-    abstract suspend fun load(uuid: String): ServerEntity?
+    abstract suspend fun load(uuid: String): ServerEntity
 
     @Query("DELETE FROM `${Tables.SERVERS}`")
     abstract suspend fun deleteAll()

@@ -17,13 +17,13 @@
 package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
 import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import dagger.Module
@@ -58,9 +58,9 @@ object ExplorerModule {
     @Singleton
     fun provideFilesystemFactory(
         @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
+        serversRepository: ServersRepository,
     ): FilesystemFactory {
-        return FilesystemFactoryImpl(appDatabase, context.cacheDir)
+        return FilesystemFactoryImpl(serversRepository, context.cacheDir)
     }
 
     @Provides

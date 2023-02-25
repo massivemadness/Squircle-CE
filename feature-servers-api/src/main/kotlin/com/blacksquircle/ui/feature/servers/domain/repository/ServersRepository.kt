@@ -24,6 +24,7 @@ interface ServersRepository {
     val serverFlow: Flow<List<ServerConfig>>
 
     suspend fun loadServers(): List<ServerConfig>
+    suspend fun loadServer(uuid: String): ServerConfig
     suspend fun upsertServer(serverConfig: ServerConfig)
     suspend fun deleteServer(serverConfig: ServerConfig)
 }

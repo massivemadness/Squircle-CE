@@ -41,6 +41,13 @@ class ServersRepositoryImpl(
         }
     }
 
+    override suspend fun loadServer(uuid: String): ServerConfig {
+        return withContext(dispatcherProvider.io()) {
+            val serverEntity = appDatabase.serverDao().load(uuid)
+            ServerConverter.toModel(serverEntity)
+        }
+    }
+
     override suspend fun upsertServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
             val entity = ServerConverter.toEntity(serverConfig)

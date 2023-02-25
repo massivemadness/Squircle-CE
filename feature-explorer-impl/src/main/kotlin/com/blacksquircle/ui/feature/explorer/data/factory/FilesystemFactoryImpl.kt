@@ -17,11 +17,9 @@
 package com.blacksquircle.ui.feature.explorer.data.factory
 
 import android.os.Environment
-import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
@@ -31,31 +29,16 @@ import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import java.io.File
 
 class FilesystemFactoryImpl(
-    private val appDatabase: AppDatabase,
+    private val serversRepository: ServersRepository,
     private val cacheDirectory: File,
 ) : FilesystemFactory {
 
     override suspend fun create(uuid: String): Filesystem {
         return when (uuid) {
-            LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
-            ROOT_UUID -> RootFilesystem()
+            LocalFilesystem.LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
+            RootFilesystem.ROOT_UUID -> RootFilesystem()
             else -> {
-                val serverEntity = appDatabase.serverDao().load(uuid)
-                    ?: throw IllegalArgumentException("Can't find filesystem")
-                // FIXME val serverModel = ServerConverter.toModel(serverEntity)
-                val serverConfig = ServerConfig(
-                    uuid = serverEntity.uuid,
-                    scheme = serverEntity.scheme,
-                    name = serverEntity.name,
-                    address = serverEntity.address,
-                    port = serverEntity.port,
-                    initialDir = serverEntity.initialDir,
-                    authMethod = AuthMethod.find(serverEntity.authMethod),
-                    username = serverEntity.username,
-                    password = serverEntity.password,
-                    privateKey = serverEntity.privateKey,
-                    passphrase = serverEntity.passphrase,
-                )
+                val serverConfig = serversRepository.loadServer(uuid)
                 return when (serverConfig.scheme) {
                     FTPFilesystem.FTP_SCHEME -> FTPFilesystem(serverConfig, cacheDirectory)
                     FTPSFilesystem.FTPS_SCHEME -> FTPSFilesystem(serverConfig, cacheDirectory)
@@ -65,10 +48,5 @@ class FilesystemFactoryImpl(
                 }
             }
         }
-    }
-
-    companion object {
-        const val LOCAL_UUID = LocalFilesystem.LOCAL_UUID
-        const val ROOT_UUID = RootFilesystem.ROOT_UUID
     }
 }
