@@ -19,9 +19,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
     android:paddingStart="20dp"
-    android:paddingEnd="20dp"
-    android:paddingBottom="16dp">
+    android:paddingEnd="20dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
@@ -29,7 +30,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:textSize="12sp"
-        android:text="@string/hint_enter_preset_chars"/>
+        android:text="@string/hint_enter_preset_chars" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
@@ -38,7 +39,7 @@
         android:maxLength="32"
         android:typeface="monospace"
         android:hint="@string/hint_preset_chars"
-        android:id="@+id/input"/>
+        android:id="@android:id/edit" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
@@ -46,6 +47,6 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:textSize="12sp"
-        android:text="@string/message_preset_disclaimer"/>
+        android:text="@string/message_preset_disclaimer" />
 
 </LinearLayout>

@@ -58,9 +58,6 @@
         android:label="@string/pref_header_editor_title"
         tools:layout="@layout/layout_preference">
         <deepLink app:uri="blacksquircle://settings/editor" />
-        <action
-            android:id="@+id/to_presetDialog"
-            app:destination="@id/presetDialog" />
     </fragment>
 
     <fragment
@@ -89,14 +86,6 @@
             android:id="@+id/to_changeLogFragment"
             app:destination="@id/changeLogFragment" />
     </fragment>
-
-    <dialog
-        android:id="@+id/presetDialog"
-        android:name="com.blacksquircle.ui.feature.settings.ui.dialog.PresetDialog"
-        android:label="@string/pref_keyboard_preset_title"
-        tools:layout="@layout/dialog_preset">
-        <deepLink app:uri="blacksquircle://settings/editor/preset" />
-    </dialog>
 
     <fragment
         android:id="@+id/changeLogFragment"

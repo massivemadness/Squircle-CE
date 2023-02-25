@@ -27,7 +27,5 @@ sealed class SettingsScreen(route: String) : Screen<String>(route) {
     object Keybindings : SettingsScreen("blacksquircle://settings/keybindings")
     object Cloud : SettingsScreen("blacksquircle://settings/cloud")
     object About : SettingsScreen("blacksquircle://settings/about")
-
-    object Preset : SettingsScreen("blacksquircle://settings/editor/preset")
     object ChangeLog : SettingsScreen("blacksquircle://settings/about/changelog")
 }

@@ -33,7 +33,6 @@ import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
 import com.blacksquircle.ui.uikit.R as UiR
 
@@ -45,12 +44,8 @@ class EditorFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_editor, rootKey)
 
-        findPreference<Preference>(KEY_FONT_TYPE)?.setOnPreferenceClickListener {
+        findPreference<Preference>(SettingsManager.KEY_FONT_TYPE)?.setOnPreferenceClickListener {
             navController.navigate(Screen.Fonts)
-            true
-        }
-        findPreference<Preference>(KEY_KEYBOARD_PRESET)?.setOnPreferenceClickListener {
-            navController.navigate(SettingsScreen.Preset)
             true
         }
     }
@@ -81,10 +76,5 @@ class EditorFragment : PreferenceFragmentCompat() {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
-    }
-
-    companion object {
-        private const val KEY_FONT_TYPE = SettingsManager.KEY_FONT_TYPE
-        private const val KEY_KEYBOARD_PRESET = SettingsManager.KEY_KEYBOARD_PRESET
     }
 }

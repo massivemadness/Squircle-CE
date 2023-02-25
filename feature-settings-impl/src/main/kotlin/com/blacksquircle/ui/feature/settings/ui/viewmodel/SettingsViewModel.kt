@@ -17,27 +17,20 @@
 package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.converter.ReleaseConverter
-import com.blacksquircle.ui.feature.settings.domain.SettingsRepository
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val stringProvider: StringProvider,
-    private val settingsRepository: SettingsRepository,
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
@@ -91,20 +84,6 @@ class SettingsViewModel @Inject constructor(
     var fullscreenMode: Boolean
         get() = settingsManager.fullScreenMode
         set(value) { settingsManager.fullScreenMode = value }
-    var keyboardPreset: String
-        get() = settingsManager.keyboardPreset
-        set(value) { settingsManager.keyboardPreset = value }
-
-    fun resetKeyboardPreset() {
-        viewModelScope.launch {
-            try {
-                settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
 
     fun fetchChangeLog(changelog: String) {
         _changelogState.value = ReleaseConverter.toReleaseModels(changelog)
