@@ -23,9 +23,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.blacksquircle.ui.core.ui.extensions.replaceList
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.google.android.material.textview.MaterialTextView
 
 class ServerAdapter(
@@ -33,8 +31,7 @@ class ServerAdapter(
     private val addServer: () -> Unit,
 ) : BaseAdapter() {
 
-    private val serverList = mutableListOf<ServerConfig>()
-    private val renderList = mutableListOf<CharSequence>()
+    private val filesystemList = mutableListOf<FilesystemModel>()
 
     private val inflater = LayoutInflater.from(context)
 
@@ -42,7 +39,7 @@ class ServerAdapter(
         val view = convertView ?: inflater.inflate(R.layout.item_filesystem, parent, false)
         val text = view.findViewById<MaterialTextView>(android.R.id.text1)
         val item = getItem(position)
-        text?.text = item
+        text?.text = item.title
         return view
     }
 
@@ -50,7 +47,7 @@ class ServerAdapter(
         val view = convertView ?: inflater.inflate(R.layout.item_dropdown, parent, false)
         val text = view.findViewById<MaterialTextView>(android.R.id.text1)
         val item = getItem(position)
-        text?.text = item
+        text?.text = item.title
         if (!isEnabled(position)) {
             view.setOnClickListener {
                 addServer()
@@ -61,31 +58,21 @@ class ServerAdapter(
 
     override fun areAllItemsEnabled() = false
     override fun isEnabled(position: Int): Boolean {
-        return position < renderList.size - 1
+        return position < filesystemList.size - 1
     }
 
-    override fun getItem(position: Int) = renderList[position]
+    override fun getItem(position: Int) = filesystemList[position]
     override fun getItemId(position: Int) = position.toLong()
-    override fun getCount() = renderList.size
+    override fun getCount() = filesystemList.size
 
-    fun submitList(servers: List<ServerConfig>) {
-        serverList.replaceList(servers)
-        renderList.replaceList(
-            mutableListOf(
-                context.getString(R.string.storage_local),
-                context.getString(R.string.storage_root),
-            ),
+    fun submitList(filesystems: List<FilesystemModel>) {
+        filesystemList.replaceList(filesystems)
+        filesystemList.add(
+            FilesystemModel(
+                uuid = "",
+                title = context.getString(R.string.storage_add)
+            )
         )
-        renderList.addAll(servers.map(ServerConfig::name))
-        renderList.add(context.getString(R.string.storage_add))
         notifyDataSetChanged()
-    }
-
-    fun fromPosition(position: Int): String {
-        return when (position) {
-            0 -> LocalFilesystem.LOCAL_UUID
-            1 -> RootFilesystem.ROOT_UUID
-            else -> serverList[position - 2].uuid
-        }
     }
 }

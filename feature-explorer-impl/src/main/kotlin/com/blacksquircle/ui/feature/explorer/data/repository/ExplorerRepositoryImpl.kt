@@ -20,13 +20,17 @@ import android.content.Context
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
+import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
+import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.worker.*
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -41,7 +45,22 @@ class ExplorerRepositoryImpl(
 
     private var currentFilesystem = settingsManager.filesystem
 
-    override suspend fun filesystem(filesystemUuid: String) {
+    override suspend fun loadFilesystems(): List<FilesystemModel> {
+        return withContext(dispatcherProvider.io()) {
+            listOf(
+                FilesystemModel(
+                    uuid = LocalFilesystem.LOCAL_UUID,
+                    title = context.getString(R.string.storage_local),
+                ),
+                FilesystemModel(
+                    uuid = RootFilesystem.ROOT_UUID,
+                    title = context.getString(R.string.storage_root),
+                ),
+            )
+        }
+    }
+
+    override suspend fun selectFilesystem(filesystemUuid: String) {
         return withContext(dispatcherProvider.io()) {
             settingsManager.filesystem = filesystemUuid
             currentFilesystem = filesystemUuid

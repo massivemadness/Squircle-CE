@@ -26,6 +26,7 @@ import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -49,6 +50,7 @@ class ListFilesTests {
     private val stringProvider = mockk<StringProvider>()
     private val settingsManager = mockk<SettingsManager>()
     private val explorerRepository = mockk<ExplorerRepository>()
+    private val serversRepository = mockk<ServersRepository>()
 
     @Before
     fun setup() {
@@ -63,8 +65,8 @@ class ListFilesTests {
         every { settingsManager.filesystem } returns "local"
         every { settingsManager.filesystem = any() } returns Unit
 
-        coEvery { explorerRepository.serverFlow } returns MutableStateFlow(emptyList())
-        coEvery { explorerRepository.filesystem(any()) } returns Unit
+        coEvery { serversRepository.serverFlow } returns MutableStateFlow(emptyList())
+        coEvery { explorerRepository.selectFilesystem(any()) } returns Unit
         coEvery { explorerRepository.createFile(any()) } returns Unit
         coEvery { explorerRepository.renameFile(any(), any()) } returns Unit
         coEvery { explorerRepository.deleteFiles(any()) } returns Unit
@@ -140,6 +142,7 @@ class ListFilesTests {
             stringProvider = stringProvider,
             settingsManager = settingsManager,
             explorerRepository = explorerRepository,
+            serversRepository = serversRepository,
         )
     }
 }

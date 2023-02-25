@@ -60,7 +60,7 @@ class ServerDialog : DialogFragment() {
                             1 -> FTPSFilesystem.FTPS_SCHEME
                             2 -> FTPESFilesystem.FTPES_SCHEME
                             3 -> SFTPFilesystem.SFTP_SCHEME
-                            else -> throw IllegalArgumentException("Unsupported scheme type")
+                            else -> throw IllegalArgumentException("Unsupported file scheme")
                         },
                         name = binding.inputServerName.text.toString(),
                         address = binding.inputServerAddress.text.toString(),
@@ -91,7 +91,7 @@ class ServerDialog : DialogFragment() {
                     FTPSFilesystem.FTPS_SCHEME -> 1
                     FTPESFilesystem.FTPES_SCHEME -> 2
                     SFTPFilesystem.SFTP_SCHEME -> 3
-                    else -> throw IllegalArgumentException("Unsupported scheme type")
+                    else -> throw IllegalArgumentException("Unsupported file scheme")
                 }
                 binding.serverType.setSelection(scheme)
 
@@ -103,7 +103,7 @@ class ServerDialog : DialogFragment() {
                             1 -> FTPSFilesystem.FTPS_SCHEME
                             2 -> FTPESFilesystem.FTPES_SCHEME
                             3 -> SFTPFilesystem.SFTP_SCHEME
-                            else -> throw IllegalArgumentException("Unsupported scheme type")
+                            else -> throw IllegalArgumentException("Unsupported file scheme")
                         },
                         name = binding.inputServerName.text.toString(),
                         address = binding.inputServerAddress.text.toString(),

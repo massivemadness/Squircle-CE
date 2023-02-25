@@ -148,7 +148,7 @@ class RootFilesystem : Filesystem {
     companion object : Filesystem.Mapper<SuFile> {
 
         const val ROOT_UUID = "root"
-        private const val ROOT_SCHEME = "sufile://"
+        const val ROOT_SCHEME = "sufile://"
 
         init {
             Shell.enableVerboseLogging = BuildConfig.DEBUG

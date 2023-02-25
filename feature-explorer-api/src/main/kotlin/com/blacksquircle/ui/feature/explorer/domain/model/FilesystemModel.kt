@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.providers.resources
+package com.blacksquircle.ui.feature.explorer.domain.model
 
-import android.content.Context
-import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-class StringProviderImpl(private val context: Context) : StringProvider {
-
-    override fun getString(resId: Int): String {
-        return context.getString(resId)
-    }
-
-    override fun getString(resId: Int, vararg formatArgs: Any): String {
-        return context.getString(resId, *formatArgs)
-    }
+data class FilesystemModel(val uuid: String, val title: String) {
+    constructor(serverConfig: ServerConfig) : this(serverConfig.uuid, serverConfig.name)
 }

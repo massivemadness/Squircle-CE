@@ -51,6 +51,7 @@ import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
+import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.ui.adapter.DirectoryAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.ServerAdapter
@@ -61,9 +62,8 @@ import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import com.blacksquircle.ui.uikit.R as UiR
@@ -195,8 +195,8 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.dropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selected = serverAdapter.fromPosition(position)
-                viewModel.obtainEvent(ExplorerIntent.SelectFilesystem(selected))
+                val selected = serverAdapter.getItem(position)
+                viewModel.obtainEvent(ExplorerIntent.SelectFilesystem(selected.uuid))
             }
         }
 
@@ -377,21 +377,11 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.serverState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { servers ->
-                val position = when (viewModel.filesystem) {
-                    LocalFilesystem.LOCAL_UUID -> 0
-                    RootFilesystem.ROOT_UUID -> 1
-                    else -> {
-                        val index = servers.indexOf { it.uuid == viewModel.filesystem }
-                        if (index == -1) { // not found
-                            0
-                        } else {
-                            index + 2 // 0 = local, 1 = root, 2..n = server
-                        }
-                    }
-                }
-                serverAdapter.submitList(servers)
+        viewModel.filesystems.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .filterNot(List<FilesystemModel>::isEmpty)
+            .onEach { filesystems ->
+                val position = filesystems.indexOrNull { it.uuid == viewModel.filesystem } ?: 0
+                serverAdapter.submitList(filesystems)
                 binding.dropdown.setSelection(position)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

@@ -26,6 +26,7 @@ import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
+import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
@@ -49,7 +50,7 @@ class ExplorerViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val explorerRepository: ExplorerRepository,
-    private val serversRepository: ServersRepository,
+    serversRepository: ServersRepository,
 ) : ViewModel() {
 
     private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.Stub)
@@ -67,11 +68,13 @@ class ExplorerViewModel @Inject constructor(
     private val _customEvent = MutableSharedFlow<ExplorerViewEvent>()
     val customEvent: SharedFlow<ExplorerViewEvent> = _customEvent.asSharedFlow()
 
-    val serverState = serversRepository.serverFlow.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList(),
-    )
+    val filesystems = serversRepository.serverFlow
+        .map { servers -> explorerRepository.loadFilesystems() + servers.map(::FilesystemModel) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList(),
+        )
 
     var filesystem: String = settingsManager.filesystem
         private set
@@ -208,7 +211,7 @@ class ExplorerViewModel @Inject constructor(
             try {
                 if (filesystem != event.filesystemUuid) {
                     filesystem = event.filesystemUuid
-                    explorerRepository.filesystem(filesystem)
+                    explorerRepository.selectFilesystem(filesystem)
                     breadcrumbs.replaceList(emptyList())
                     files.replaceList(emptyList())
                     initialState()

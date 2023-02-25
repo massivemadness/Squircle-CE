@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.providers.coroutine
+package com.blacksquircle.ui.internal.provider.resources
 
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
-import kotlinx.coroutines.Dispatchers
+import android.content.Context
+import com.blacksquircle.ui.core.domain.resources.StringProvider
 
-class DispatcherProviderImpl : DispatcherProvider {
-    override fun io() = Dispatchers.IO
-    override fun computation() = Dispatchers.Default
-    override fun mainThread() = Dispatchers.Main
+class StringProviderImpl(private val context: Context) : StringProvider {
+
+    override fun getString(resId: Int): String {
+        return context.getString(resId)
+    }
+
+    override fun getString(resId: Int, vararg formatArgs: Any): String {
+        return context.getString(resId, *formatArgs)
+    }
 }
