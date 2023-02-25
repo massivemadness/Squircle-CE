@@ -86,15 +86,21 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     private val toolbarManager by lazy { ToolbarManager(this) }
     private val tabController by lazy { TabController() }
     private val navController by lazy { findNavController() }
-    private val saveFileAsContract = CreateFileContract(this) { result ->
+    private val newFileContract = CreateFileContract(this) { result ->
         when (result) {
-            is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.SaveFileAs(result.uri))
+            is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.NewFile(result.uri))
             is ContractResult.Canceled -> Unit
         }
     }
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.OpenFileUri(result.uri))
+            is ContractResult.Canceled -> Unit
+        }
+    }
+    private val saveFileAsContract = CreateFileContract(this) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.obtainEvent(EditorIntent.SaveFileAs(result.uri))
             is ContractResult.Canceled -> Unit
         }
     }
@@ -282,7 +288,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     override fun onNewButton(): Boolean {
-        onDrawerButton() // TODO 27/02/21 Add Dialog
+        newFileContract.launch(getString(R.string.untitled), CreateFileContract.TEXT)
         return true
     }
 

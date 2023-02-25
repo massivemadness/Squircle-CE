@@ -63,5 +63,6 @@ class CreateFileContract(
 
     companion object {
         const val JSON = "application/json"
+        const val TEXT = "text/*"
     }
 }

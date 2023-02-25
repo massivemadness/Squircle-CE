@@ -82,6 +82,7 @@ class EditorViewModel @Inject constructor(
             is EditorIntent.LoadFiles -> loadFiles()
             is EditorIntent.LoadSettings -> loadSettings()
 
+            is EditorIntent.NewFile -> newFile(event)
             is EditorIntent.OpenFile -> openFile(event)
             is EditorIntent.OpenFileUri -> openFileUri(event)
             is EditorIntent.SelectTab -> selectTab(event)
@@ -133,6 +134,17 @@ class EditorViewModel @Inject constructor(
                 } else {
                     emptyState()
                 }
+            } catch (e: Throwable) {
+                Timber.e(e, e.message)
+                errorState(e)
+            }
+        }
+    }
+
+    private fun newFile(event: EditorIntent.NewFile) {
+        viewModelScope.launch {
+            try {
+                openFileUri(EditorIntent.OpenFileUri(event.fileUri))
             } catch (e: Throwable) {
                 Timber.e(e, e.message)
                 errorState(e)

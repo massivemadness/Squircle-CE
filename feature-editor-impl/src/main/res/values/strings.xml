@@ -20,6 +20,8 @@
     <string name="hint_line">Line:</string>
     <string name="hint_line_number" translatable="false">0</string>
 
+    <string name="untitled" translatable="false">untitled</string>
+
     <string name="action_close">Close</string>
     <string name="action_close_others">Close Others</string>
     <string name="action_close_all">Close All</string>
