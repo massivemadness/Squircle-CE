@@ -37,7 +37,7 @@
         android:singleLine="true"
         android:hint="@string/hint_file_name"
         android:id="@+id/input"
-        tools:text="file.txt" />
+        tools:text="untitled.txt" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:layout_width="match_parent"
