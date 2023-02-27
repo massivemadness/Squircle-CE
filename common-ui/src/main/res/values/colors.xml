@@ -27,10 +27,10 @@
     <color name="colorSecondaryVariant">#37383A</color>
 
     <color name="colorOnPrimary">#000000</color>
-    <color name="colorOnSecondary">#000000</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
     <color name="colorOnSurface">#FFFFFF</color>
     <color name="colorOnError">#FFFFFF</color>
-    <color name="colorOnBackground">#7F7F7F</color>
+    <color name="colorOnBackground">#737373</color>
 
     <!--<color name="colorGreen">#008860</color>
     <color name="colorRed">#CD0000</color>-->

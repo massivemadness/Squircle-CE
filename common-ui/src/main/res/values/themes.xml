@@ -44,7 +44,7 @@
         <item name="snackbarStyle">@style/Widget.AppTheme.Snackbar</item>
         <item name="snackbarButtonStyle">@style/Widget.AppTheme.TextButton</item>
         <item name="snackbarTextViewStyle">@style/Widget.AppTheme.SnackBarTextView</item>
-        <item name="alertDialogTheme">@style/Dialog.AppTheme.Alert</item>
+        <item name="alertDialogTheme">@style/Dialog.AppTheme.Dark.Alert</item>
         <item name="textInputStyle">@style/Widget.Design.TextInputLayout</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
