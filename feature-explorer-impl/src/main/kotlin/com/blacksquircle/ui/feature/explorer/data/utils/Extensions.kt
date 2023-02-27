@@ -34,9 +34,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
+import androidx.appcompat.R as CompatR
 
 fun View.setSelectableBackground() = with(TypedValue()) {
-    context.theme.resolveAttribute(androidx.appcompat.R.attr.selectableItemBackground, this, true)
+    context.theme.resolveAttribute(CompatR.attr.selectableItemBackground, this, true)
+    setBackgroundResource(resourceId)
+}
+
+fun View.setSelectedBackground() = with(TypedValue()) {
+    context.theme.resolveAttribute(CompatR.attr.colorControlHighlight, this, true)
     setBackgroundResource(resourceId)
 }
 
