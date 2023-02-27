@@ -1,3 +1,19 @@
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="200dp"
     android:height="200dp"
@@ -5,24 +21,10 @@
     android:viewportHeight="200">
   <group>
     <clip-path
-        android:pathData="M0,0h200v200h-200z"/>
+        android:pathData="M200,0H0V200H200V0Z"/>
     <path
-        android:pathData="M101.41,74.09L92.22,83.28L81.92,72.97L100.74,53.7L101.41,74.09Z"
-        android:fillColor="#ffffff"/>
-    <path
-        android:pathData="M127.17,99.85L117.99,108.82L128.29,119.12L146.66,99.85H127.17Z"
-        android:fillColor="#ffffff"/>
-    <path
-        android:pathData="M146.66,99.85L100.74,53.7V74.76L127.17,99.85H146.66Z"
-        android:fillColor="#ffffff"/>
-    <path
-        android:pathData="M73.18,101.42L82.81,91.79L72.51,81.48L53.24,100.3L73.18,101.42Z"
-        android:fillColor="#ffffff"/>
-    <path
-        android:pathData="M99.17,126.96L108.35,117.55L118.66,127.86L99.39,146.23L99.17,126.96Z"
-        android:fillColor="#ffffff"/>
-    <path
-        android:pathData="M99.39,146.23L53.24,100.3H74.3L99.39,126.74V146.23Z"
-        android:fillColor="#ffffff"/>
+        android:pathData="M60,99.6L75.84,83.76L84.35,92.26L77.01,99.6L99.64,122.22L106.97,114.89L115.44,123.36L99.6,139.2L60,99.6ZM115.46,106.41L123.92,114.87L139.2,99.6L99.6,60L84.33,75.27L92.83,83.78L99.64,76.97L122.27,99.6L115.46,106.41Z"
+        android:fillColor="#ffffff"
+        android:fillType="evenOdd"/>
   </group>
 </vector>

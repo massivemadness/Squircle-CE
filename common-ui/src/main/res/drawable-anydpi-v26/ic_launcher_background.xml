@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2023 Squircle CE contributors.
   ~
@@ -23,11 +22,11 @@
     android:viewportHeight="200">
   <group>
     <clip-path
-        android:pathData="M0,0h200v200h-200z"/>
+        android:pathData="M200,0H0V200H200V0Z"/>
     <path
         android:pathData="M200,0H0V200H200V0Z">
       <aapt:attr name="android:fillColor">
-        <gradient 
+        <gradient
             android:centerX="65"
             android:centerY="130"
             android:gradientRadius="120"
