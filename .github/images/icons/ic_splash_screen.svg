@@ -1,0 +1,40 @@
+<!--
+  - Copyright 2023 Squircle CE contributors.
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  -     http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <mask id="mask0_213_4107" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="36" y="36"
+        width="128" height="128">
+        <path
+            d="M36 100C36 135.346 64.6538 164 100 164C135.346 164 164 135.346 164 100C164 64.6538 135.346 36 100 36C64.6538 36 36 64.6538 36 100Z"
+            fill="white" />
+    </mask>
+    <g mask="url(#mask0_213_4107)">
+        <path d="M164 36H36V164H164V36Z" fill="url(#paint0_radial_213_4107)" />
+        <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M60 99.598L75.8405 83.7575L84.3466 92.2636L77.0121 99.5981L99.6395 122.225L106.974 114.891L115.438 123.355L99.598 139.196L60 99.598ZM115.459 106.406L123.924 114.87L139.196 99.598L99.598 60L84.3258 75.2722L92.8319 83.7783L99.6395 76.9707L122.267 99.5981L115.459 106.406Z"
+            fill="white" />
+    </g>
+    <defs>
+        <radialGradient id="paint0_radial_213_4107" cx="0" cy="0" r="1"
+            gradientUnits="userSpaceOnUse" gradientTransform="translate(65 130) scale(120)">
+            <stop stop-color="#C13338" />
+            <stop offset="0.1" stop-color="#BC3338" />
+            <stop offset="0.3" stop-color="#86383C" />
+            <stop offset="0.6" stop-color="#573D3F" />
+            <stop offset="0.75" stop-color="#3E3F41" />
+        </radialGradient>
+    </defs>
+</svg>
