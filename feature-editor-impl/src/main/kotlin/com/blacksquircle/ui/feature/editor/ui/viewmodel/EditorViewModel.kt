@@ -31,7 +31,7 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.customview.Panel
+import com.blacksquircle.ui.feature.editor.ui.customview.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
@@ -69,7 +69,7 @@ class EditorViewModel @Inject constructor(
 
     private val documents = mutableListOf<DocumentModel>()
     private var selectedPosition = -1
-    private var panel = Panel.DEFAULT
+    private var mode = ToolbarManager.Mode.DEFAULT
     private var findParams = FindParams()
     private var currentJob: Job? = null
 
@@ -479,17 +479,17 @@ class EditorViewModel @Inject constructor(
     }
 
     private fun panelDefault() {
-        panel = Panel.DEFAULT
+        mode = ToolbarManager.Mode.DEFAULT
         refreshActionBar()
     }
 
     private fun panelFind() {
-        panel = Panel.FIND
+        mode = ToolbarManager.Mode.FIND
         refreshActionBar()
     }
 
     private fun panelFindReplace() {
-        panel = Panel.FIND_REPLACE
+        mode = ToolbarManager.Mode.FIND_REPLACE
         refreshActionBar()
     }
 
@@ -575,7 +575,7 @@ class EditorViewModel @Inject constructor(
             position = position.also {
                 selectedPosition = it
             },
-            panel = panel,
+            mode = mode,
             findParams = findParams,
         )
     }

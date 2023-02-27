@@ -34,7 +34,7 @@ class ToolbarManager(
     private val listener: OnPanelClickListener,
 ) : PopupMenu.OnMenuItemClickListener {
 
-    var panel: Panel = Panel.DEFAULT
+    var mode: Mode = Mode.DEFAULT
         set(value) {
             field = value
             updatePanel()
@@ -78,7 +78,7 @@ class ToolbarManager(
                 listener.onCloseFindButton()
             }
             R.id.action_switch_replace -> {
-                if (panel == Panel.FIND) {
+                if (mode == Mode.FIND) {
                     listener.onOpenReplaceButton()
                 } else {
                     listener.onCloseReplaceButton()
@@ -164,7 +164,7 @@ class ToolbarManager(
         val matchCase = menu.findItem(R.id.action_match_case)
         val wordsOnly = menu.findItem(R.id.action_words_only)
 
-        if (panel == Panel.FIND_REPLACE) {
+        if (mode == Mode.FIND_REPLACE) {
             switchReplace?.setTitle(R.string.action_close_replace)
         }
 
@@ -174,19 +174,19 @@ class ToolbarManager(
     }
 
     private fun updatePanel() {
-        when (panel) {
-            Panel.DEFAULT -> {
+        when (mode) {
+            Mode.DEFAULT -> {
                 binding.defaultPanel.isVisible = true
                 binding.findPanel.isVisible = false
                 binding.replacePanel.isVisible = false
                 binding.editor.requestFocus()
             }
-            Panel.FIND -> {
+            Mode.FIND -> {
                 binding.defaultPanel.isVisible = false
                 binding.findPanel.isVisible = true
                 binding.replacePanel.isVisible = false
             }
-            Panel.FIND_REPLACE -> {
+            Mode.FIND_REPLACE -> {
                 binding.defaultPanel.isVisible = false
                 binding.findPanel.isVisible = true
                 binding.replacePanel.isVisible = true
@@ -237,5 +237,11 @@ class ToolbarManager(
         fun onRedoButton(): Boolean
 
         fun onSettingsButton(): Boolean
+    }
+
+    enum class Mode {
+        DEFAULT,
+        FIND,
+        FIND_REPLACE,
     }
 }

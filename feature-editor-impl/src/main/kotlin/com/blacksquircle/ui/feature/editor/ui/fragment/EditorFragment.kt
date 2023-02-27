@@ -60,7 +60,6 @@ import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
-import com.blacksquircle.ui.feature.editor.ui.customview.Panel
 import com.blacksquircle.ui.feature.editor.ui.customview.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
@@ -175,7 +174,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     override fun handleOnBackPressed(): Boolean {
-        if (toolbarManager.panel != Panel.DEFAULT) {
+        if (toolbarManager.mode != ToolbarManager.Mode.DEFAULT) {
             onCloseFindButton()
             return true
         }
@@ -192,9 +191,9 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         tabAdapter.submitList(state.documents, state.position)
                         tabAdapter.setOnTabSelectedListener(onTabSelectedListener)
                         tabAdapter.setOnTabMovedListener(onTabMovedListener)
-                        toolbarManager.panel = state.panel
+                        toolbarManager.mode = state.mode
                         toolbarManager.params = state.findParams
-                        if (state.panel == Panel.DEFAULT) {
+                        if (state.mode == ToolbarManager.Mode.DEFAULT) {
                             binding.editor.clearFindResultSpans()
                         }
                         if (state.position > -1) {

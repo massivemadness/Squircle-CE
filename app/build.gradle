@@ -129,7 +129,6 @@ dependencies {
     implementation project(':common-ui')
 
     implementation project(':filesystems:filesystem-base')
-    implementation project(':filesystems:filesystem-local') // TODO remove
 
     // Tests
     testImplementation library.junit
