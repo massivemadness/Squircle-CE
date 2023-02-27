@@ -29,7 +29,7 @@
         android:padding="6dp"
         android:id="@+id/item_icon"
         tools:src="@drawable/ic_folder"
-        tools:tint="@color/colorFolder"
+        tools:tint="?colorPrimaryVariant"
         tools:ignore="ContentDescription" />
 
     <LinearLayout

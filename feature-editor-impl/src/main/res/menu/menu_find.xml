@@ -21,17 +21,17 @@
         android:id="@+id/action_switch_find"
         android:title="@string/action_close_find"
         android:icon="@drawable/ic_search"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground"/>
     <item
         android:id="@+id/action_switch_replace"
         android:title="@string/action_replace"
         android:icon="@drawable/ic_replace"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground"/>
     <item
         android:id="@+id/action_goto_line"
         android:title="@string/action_goto_line"
         android:icon="@drawable/ic_goto_line"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground"/>
 
     <group android:checkableBehavior="all">
         <item

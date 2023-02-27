@@ -32,7 +32,7 @@
         android:layout_marginEnd="16dp"
         android:id="@+id/item_title"
         android:textAppearance="?android:textAppearanceListItem"
-        android:singleLine="true"
+        android:textColor="?android:textColorPrimary"
         tools:text="text_color"/>
 
     <com.google.android.material.textview.MaterialTextView
@@ -52,6 +52,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
         android:id="@+id/item_color"
-        android:src="@color/colorIcon"/>
+        android:src="?colorOnBackground" />
 
 </RelativeLayout>

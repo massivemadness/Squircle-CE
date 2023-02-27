@@ -19,13 +19,14 @@ package com.blacksquircle.ui.feature.explorer.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
-import com.blacksquircle.ui.core.ui.extensions.setTint
+import com.blacksquircle.ui.core.ui.extensions.setTintAttr
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.setSelectableBackground
 import com.blacksquircle.ui.feature.explorer.databinding.ItemFileCompactBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.uikit.R as UiR
+import com.google.android.material.R as MtrlR
 
 class CompactViewHolder(
     private val binding: ItemFileCompactBinding,
@@ -70,10 +71,10 @@ class CompactViewHolder(
 
         if (fileModel.directory) {
             binding.itemIcon.setImageResource(UiR.drawable.ic_folder)
-            binding.itemIcon.setTint(R.color.colorFolder)
+            binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
         } else {
             binding.itemIcon.setImageResource(UiR.drawable.ic_file)
-            binding.itemIcon.setTint(R.color.colorFile)
+            binding.itemIcon.setTintAttr(MtrlR.attr.colorOnBackground)
         }
 
         when (fileModel.type) {
@@ -82,7 +83,7 @@ class CompactViewHolder(
             }
             FileType.ARCHIVE -> {
                 binding.itemIcon.setImageResource(UiR.drawable.ic_file_archive)
-                binding.itemIcon.setTint(R.color.colorFolder)
+                binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
             }
             FileType.IMAGE -> {
                 binding.itemIcon.setImageResource(UiR.drawable.ic_file_image)

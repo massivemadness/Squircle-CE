@@ -40,7 +40,7 @@
         android:id="@+id/item_title"
         android:drawablePadding="8dp"
         app:drawableEndCompat="@drawable/ic_arrow_right"
-        app:drawableTint="@color/colorIcon"
+        app:drawableTint="?colorOnBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

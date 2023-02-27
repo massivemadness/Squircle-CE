@@ -50,35 +50,35 @@
         android:id="@+id/action_open_with"
         android:title="@string/action_open_with"
         android:icon="@drawable/ic_folder_open"
-        app:iconTint="@color/colorIcon"
+        app:iconTint="@color/colorOnBackground"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_rename"
         android:title="@string/action_rename"
         android:icon="@drawable/ic_edit"
-        app:iconTint="@color/colorIcon"
+        app:iconTint="@color/colorOnBackground"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_properties"
         android:title="@string/action_properties"
         android:icon="@drawable/ic_file_properties"
-        app:iconTint="@color/colorIcon"
+        app:iconTint="@color/colorOnBackground"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_copy_path"
         android:title="@string/action_copy_path"
         android:icon="@drawable/ic_copy"
-        app:iconTint="@color/colorIcon"
+        app:iconTint="@color/colorOnBackground"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_create_zip"
         android:title="@string/action_compress"
         android:icon="@drawable/ic_file_archive"
-        app:iconTint="@color/colorIcon"
+        app:iconTint="@color/colorOnBackground"
         app:showAsAction="never" />
 
 </menu>

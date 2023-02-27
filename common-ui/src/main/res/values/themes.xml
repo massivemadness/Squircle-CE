@@ -31,6 +31,7 @@
         <item name="colorError">@color/colorError</item>
         <item name="android:colorBackground">@color/colorBackground</item>
 
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
 
         <item name="colorOnPrimary">@color/colorOnPrimary</item>

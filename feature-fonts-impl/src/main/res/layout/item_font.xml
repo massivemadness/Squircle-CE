@@ -44,7 +44,7 @@
         android:id="@+id/action_remove"
         android:background="?selectableItemBackgroundBorderless"
         android:src="@drawable/ic_close"
-        app:tint="@color/colorIcon"/>
+        app:tint="?colorOnBackground" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"

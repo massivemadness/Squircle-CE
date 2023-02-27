@@ -20,7 +20,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
-import com.blacksquircle.ui.core.ui.extensions.setTint
+import com.blacksquircle.ui.core.ui.extensions.setTintAttr
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.setSelectableBackground
 import com.blacksquircle.ui.feature.explorer.data.utils.toReadableDate
@@ -29,6 +29,7 @@ import com.blacksquircle.ui.feature.explorer.databinding.ItemFileDetailedBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.uikit.R as UiR
+import com.google.android.material.R as MtrlR
 
 class DetailedViewHolder(
     private val binding: ItemFileDetailedBinding,
@@ -77,11 +78,11 @@ class DetailedViewHolder(
 
         if (fileModel.directory) {
             binding.itemIcon.setImageResource(UiR.drawable.ic_folder)
-            binding.itemIcon.setTint(R.color.colorFolder)
+            binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
             binding.itemFileLength.visibility = View.GONE
         } else {
             binding.itemIcon.setImageResource(UiR.drawable.ic_file)
-            binding.itemIcon.setTint(R.color.colorFile)
+            binding.itemIcon.setTintAttr(MtrlR.attr.colorOnBackground)
             binding.itemFileLength.visibility = View.VISIBLE
         }
 
@@ -91,7 +92,7 @@ class DetailedViewHolder(
             }
             FileType.ARCHIVE -> {
                 binding.itemIcon.setImageResource(UiR.drawable.ic_file_archive)
-                binding.itemIcon.setTint(R.color.colorFolder)
+                binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
             }
             FileType.IMAGE -> {
                 binding.itemIcon.setImageResource(UiR.drawable.ic_file_image)

@@ -54,7 +54,7 @@
             android:id="@+id/action_overflow"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/ic_overflow"
-            app:tint="@color/colorIcon"/>
+            app:tint="@color/colorOnBackground"/>
 
         <com.blacksquircle.ui.feature.themes.ui.customview.CodeView
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                 android:layout_alignParentStart="true"
                 android:src="@drawable/ic_person"
                 android:id="@+id/item_icon"
-                app:tint="@color/colorIcon"/>
+                app:tint="@color/colorOnBackground"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"

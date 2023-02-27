@@ -21,15 +21,15 @@
         android:id="@+id/action_export"
         android:title="@string/action_export"
         android:icon="@drawable/ic_file_export"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground"/>
     <item
         android:id="@+id/action_edit"
         android:title="@string/action_edit"
         android:icon="@drawable/ic_edit"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground"/>
     <item
         android:id="@+id/action_remove"
         android:title="@string/action_remove"
         android:icon="@drawable/ic_delete"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground"/>
 </menu>

@@ -22,6 +22,7 @@ import android.graphics.drawable.InsetDrawable
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.AppCompatSpinner
@@ -85,6 +86,12 @@ fun SearchView.debounce(
 fun ImageView.setTint(@ColorRes colorRes: Int) {
     imageTintList = ColorStateList.valueOf(
         context.getColour(colorRes),
+    )
+}
+
+fun ImageView.setTintAttr(@AttrRes attrRes: Int) {
+    imageTintList = ColorStateList.valueOf(
+        context.getColorAttr(attrRes),
     )
 }
 

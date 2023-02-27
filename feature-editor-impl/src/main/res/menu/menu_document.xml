@@ -21,15 +21,15 @@
         android:id="@+id/action_close"
         android:title="@string/action_close"
         android:icon="@drawable/ic_close"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground" />
     <item
         android:id="@+id/action_close_others"
         android:title="@string/action_close_others"
         android:icon="@drawable/ic_row_others"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground" />
     <item
         android:id="@+id/action_close_all"
         android:title="@string/action_close_all"
         android:icon="@drawable/ic_row_all"
-        app:iconTint="@color/colorIcon"/>
+        app:iconTint="@color/colorOnBackground" />
 </menu>
