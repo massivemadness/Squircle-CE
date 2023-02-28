@@ -20,7 +20,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.extensions.setTintAttr
-import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.setSelectableBackground
 import com.blacksquircle.ui.feature.explorer.data.utils.setSelectedBackground
 import com.blacksquircle.ui.feature.explorer.databinding.ItemFileCompactBinding

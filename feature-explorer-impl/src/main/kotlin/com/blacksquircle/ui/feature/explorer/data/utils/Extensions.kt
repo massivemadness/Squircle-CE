@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.data.utils
 
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -27,6 +28,7 @@ import androidx.core.content.getSystemService
 import com.blacksquircle.ui.core.ui.extensions.showToast
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
 import java.text.DecimalFormat
@@ -65,7 +67,8 @@ fun Context.openFileWith(fileModel: FileModel) {
             setDataAndType(uri, mime)
         }
         startActivity(intent)
-    } catch (e: Exception) {
+    } catch (e: ActivityNotFoundException) {
+        Timber.d(e, e.message)
         showToast(R.string.message_cannot_be_opened)
     }
 }
