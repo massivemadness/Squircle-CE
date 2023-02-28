@@ -75,8 +75,8 @@ class PreferenceAdapter(
 
         fun bind(item: PreferenceHeader) {
             preferenceHeader = item
-            binding.itemTitle.setText(item.title)
-            binding.itemSubtitle.setText(item.subtitle)
+            binding.itemTitle.text = item.title
+            binding.itemSubtitle.text = item.subtitle
             binding.root.isActivated = item.selected
             if (item.selected) {
                 binding.itemTitle.setTextColor(

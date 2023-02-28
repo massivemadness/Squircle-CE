@@ -70,8 +70,8 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
         }
     }
 
-    private lateinit var editorBackPressedHandler: BackPressedHandler
-    private lateinit var explorerBackPressedHandler: BackPressedHandler
+    private var editorBackPressedHandler: BackPressedHandler? = null
+    private var explorerBackPressedHandler: BackPressedHandler? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -99,11 +99,11 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     if (binding.drawerLayout?.isOpen == true) {
-                        if (!explorerBackPressedHandler.handleOnBackPressed()) {
+                        if (explorerBackPressedHandler?.handleOnBackPressed() == false) {
                             closeDrawer()
                         }
                     } else {
-                        if (!editorBackPressedHandler.handleOnBackPressed()) {
+                        if (editorBackPressedHandler?.handleOnBackPressed() == false) {
                             if (mainViewModel.confirmExit) {
                                 navController.navigate(AppScreen.ConfirmExit)
                             } else {

@@ -60,6 +60,6 @@ fun NavController.navigate(
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T {
-    return findFragmentById(id) as T
+fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T? {
+    return findFragmentById(id) as? T
 }

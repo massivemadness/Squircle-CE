@@ -17,7 +17,9 @@
 package com.blacksquircle.ui.feature.settings.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.converter.ReleaseConverter
@@ -27,54 +29,57 @@ import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
     private val _headersState = MutableStateFlow(
         listOf(
             PreferenceHeader(
-                title = R.string.pref_header_application_title,
-                subtitle = R.string.pref_header_application_summary,
+                title = stringProvider.getString(R.string.pref_header_application_title),
+                subtitle = stringProvider.getString(R.string.pref_header_application_summary),
                 selected = false,
                 screen = SettingsScreen.Application,
             ),
             PreferenceHeader(
-                title = R.string.pref_header_editor_title,
-                subtitle = R.string.pref_header_editor_summary,
+                title = stringProvider.getString(R.string.pref_header_editor_title),
+                subtitle = stringProvider.getString(R.string.pref_header_editor_summary),
                 selected = false,
                 screen = SettingsScreen.Editor,
             ),
             PreferenceHeader(
-                title = R.string.pref_header_codeStyle_title,
-                subtitle = R.string.pref_header_codeStyle_summary,
+                title = stringProvider.getString(R.string.pref_header_codeStyle_title),
+                subtitle = stringProvider.getString(R.string.pref_header_codeStyle_summary),
                 selected = false,
                 screen = SettingsScreen.CodeStyle,
             ),
             PreferenceHeader(
-                title = R.string.pref_header_files_title,
-                subtitle = R.string.pref_header_files_summary,
+                title = stringProvider.getString(R.string.pref_header_files_title),
+                subtitle = stringProvider.getString(R.string.pref_header_files_summary),
                 selected = false,
                 screen = SettingsScreen.Files,
             ),
             PreferenceHeader(
-                title = R.string.pref_header_keybindings_title,
-                subtitle = R.string.pref_header_keybindings_summary,
+                title = stringProvider.getString(R.string.pref_header_keybindings_title),
+                subtitle = stringProvider.getString(R.string.pref_header_keybindings_summary),
                 selected = false,
                 screen = SettingsScreen.Keybindings,
             ),
             PreferenceHeader(
-                title = R.string.pref_header_cloud_title,
-                subtitle = R.string.pref_header_cloud_summary,
+                title = stringProvider.getString(R.string.pref_header_cloud_title),
+                subtitle = stringProvider.getString(R.string.pref_header_cloud_summary),
                 selected = false,
                 screen = SettingsScreen.Cloud,
             ),
             PreferenceHeader(
-                title = R.string.pref_header_about_title,
-                subtitle = R.string.pref_header_about_summary,
+                title = stringProvider.getString(R.string.pref_header_about_title),
+                subtitle = stringProvider.getString(R.string.pref_header_about_summary),
                 selected = false,
                 screen = SettingsScreen.About,
             ),
@@ -93,6 +98,19 @@ class SettingsViewModel @Inject constructor(
         set(value) { settingsManager.fullScreenMode = value }
 
     fun fetchChangeLog(changelog: String) {
-        _changelogState.value = ReleaseConverter.toReleaseModels(changelog)
+        viewModelScope.launch {
+            try {
+                _changelogState.value = ReleaseConverter.toReleaseModels(changelog)
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    fun selectHeader(header: PreferenceHeader) {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.Navigation(header.screen))
+        }
     }
 }

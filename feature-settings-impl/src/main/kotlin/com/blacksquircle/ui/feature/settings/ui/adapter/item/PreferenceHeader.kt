@@ -16,12 +16,11 @@
 
 package com.blacksquircle.ui.feature.settings.ui.adapter.item
 
-import androidx.annotation.StringRes
-import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
+import com.blacksquircle.ui.core.ui.navigation.Screen
 
 data class PreferenceHeader(
-    @StringRes val title: Int,
-    @StringRes val subtitle: Int,
+    val title: String,
+    val subtitle: String,
     val selected: Boolean,
-    val screen: SettingsScreen,
+    val screen: Screen<*>,
 )

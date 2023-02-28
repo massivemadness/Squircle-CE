@@ -26,10 +26,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.ui.extensions.navigate
-import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
-import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
+import com.blacksquircle.ui.core.ui.extensions.*
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeaderListBinding
 import com.blacksquircle.ui.feature.settings.ui.adapter.PreferenceAdapter
@@ -65,9 +63,7 @@ class HeaderListFragment : Fragment(R.layout.fragment_header_list) {
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = PreferenceAdapter(object : OnItemClickListener<PreferenceHeader> {
-            override fun onClick(item: PreferenceHeader) {
-                navController.navigate(item.screen)
-            }
+            override fun onClick(item: PreferenceHeader) = viewModel.selectHeader(item)
         }).also {
             adapter = it
         }
@@ -76,6 +72,15 @@ class HeaderListFragment : Fragment(R.layout.fragment_header_list) {
     private fun observeViewModel() {
         viewModel.headersState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { adapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    is ViewEvent.Navigation -> navController.navigate(event.screen)
+                }
+            }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

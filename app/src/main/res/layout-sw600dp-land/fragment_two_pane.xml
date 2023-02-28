@@ -26,20 +26,17 @@
         android:layout_height="match_parent"
         android:id="@+id/fragment_explorer"
         android:name="com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment"
-        tools:layout="@layout/fragment_explorer"
-        tools:ignore="FragmentTagUsage" />
+        tools:layout="@layout/fragment_explorer" />
 
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="?colorSecondaryVariant" />
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="1dp"
+        android:layout_height="match_parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragment_editor"
         android:name="com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment"
-        tools:layout="@layout/fragment_editor"
-        tools:ignore="FragmentTagUsage" />
+        tools:layout="@layout/fragment_editor" />
 
 </LinearLayout>
