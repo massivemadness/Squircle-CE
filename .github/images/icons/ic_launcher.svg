@@ -30,11 +30,11 @@
     <defs>
         <radialGradient id="paint0_radial_213_4119" cx="0" cy="0" r="1"
             gradientUnits="userSpaceOnUse" gradientTransform="translate(65 130) scale(120)">
-            <stop stop-color="#C13338" />
-            <stop offset="0.1" stop-color="#BC3338" />
-            <stop offset="0.3" stop-color="#86383C" />
-            <stop offset="0.6" stop-color="#573D3F" />
-            <stop offset="0.75" stop-color="#3E3F41" />
+            <stop stop-color="#C13338"/>
+            <stop offset="0.2" stop-color="#BC3338"/>
+            <stop offset="0.45" stop-color="#86383C"/>
+            <stop offset="0.6" stop-color="#573D3F"/>
+            <stop offset="0.75" stop-color="#3E3F41"/>
         </radialGradient>
         <clipPath id="clip0_213_4119">
             <rect width="200" height="200" fill="white" />
