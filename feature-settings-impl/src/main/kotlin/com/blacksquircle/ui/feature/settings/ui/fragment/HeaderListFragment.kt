@@ -31,19 +31,19 @@ import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.databinding.FragmentHeadersBinding
+import com.blacksquircle.ui.feature.settings.databinding.FragmentHeaderListBinding
 import com.blacksquircle.ui.feature.settings.ui.adapter.PreferenceAdapter
-import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
+import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceHeader
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class HeadersFragment : Fragment(R.layout.fragment_headers) {
+class HeaderListFragment : Fragment(R.layout.fragment_header_list) {
 
     private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
-    private val binding by viewBinding(FragmentHeadersBinding::bind)
+    private val binding by viewBinding(FragmentHeaderListBinding::bind)
     private val navController by lazy { findNavController() }
 
     private lateinit var adapter: PreferenceAdapter
@@ -64,8 +64,8 @@ class HeadersFragment : Fragment(R.layout.fragment_headers) {
         }
 
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = PreferenceAdapter(object : OnItemClickListener<PreferenceItem> {
-            override fun onClick(item: PreferenceItem) {
+        binding.recyclerView.adapter = PreferenceAdapter(object : OnItemClickListener<PreferenceHeader> {
+            override fun onClick(item: PreferenceHeader) {
                 navController.navigate(item.screen)
             }
         }).also {

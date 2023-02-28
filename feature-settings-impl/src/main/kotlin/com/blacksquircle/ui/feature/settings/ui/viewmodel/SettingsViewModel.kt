@@ -21,7 +21,7 @@ import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.converter.ReleaseConverter
-import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
+import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceHeader
 import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,44 +36,51 @@ class SettingsViewModel @Inject constructor(
 
     private val _headersState = MutableStateFlow(
         listOf(
-            PreferenceItem(
-                R.string.pref_header_application_title,
-                R.string.pref_header_application_summary,
-                SettingsScreen.Application,
+            PreferenceHeader(
+                title = R.string.pref_header_application_title,
+                subtitle = R.string.pref_header_application_summary,
+                selected = false,
+                screen = SettingsScreen.Application,
             ),
-            PreferenceItem(
-                R.string.pref_header_editor_title,
-                R.string.pref_header_editor_summary,
-                SettingsScreen.Editor,
+            PreferenceHeader(
+                title = R.string.pref_header_editor_title,
+                subtitle = R.string.pref_header_editor_summary,
+                selected = false,
+                screen = SettingsScreen.Editor,
             ),
-            PreferenceItem(
-                R.string.pref_header_codeStyle_title,
-                R.string.pref_header_codeStyle_summary,
-                SettingsScreen.CodeStyle,
+            PreferenceHeader(
+                title = R.string.pref_header_codeStyle_title,
+                subtitle = R.string.pref_header_codeStyle_summary,
+                selected = false,
+                screen = SettingsScreen.CodeStyle,
             ),
-            PreferenceItem(
-                R.string.pref_header_files_title,
-                R.string.pref_header_files_summary,
-                SettingsScreen.Files,
+            PreferenceHeader(
+                title = R.string.pref_header_files_title,
+                subtitle = R.string.pref_header_files_summary,
+                selected = false,
+                screen = SettingsScreen.Files,
             ),
-            PreferenceItem(
-                R.string.pref_header_keybindings_title,
-                R.string.pref_header_keybindings_summary,
-                SettingsScreen.Keybindings,
+            PreferenceHeader(
+                title = R.string.pref_header_keybindings_title,
+                subtitle = R.string.pref_header_keybindings_summary,
+                selected = false,
+                screen = SettingsScreen.Keybindings,
             ),
-            PreferenceItem(
-                R.string.pref_header_cloud_title,
-                R.string.pref_header_cloud_summary,
-                SettingsScreen.Cloud,
+            PreferenceHeader(
+                title = R.string.pref_header_cloud_title,
+                subtitle = R.string.pref_header_cloud_summary,
+                selected = false,
+                screen = SettingsScreen.Cloud,
             ),
-            PreferenceItem(
-                R.string.pref_header_about_title,
-                R.string.pref_header_about_summary,
-                SettingsScreen.About,
+            PreferenceHeader(
+                title = R.string.pref_header_about_title,
+                subtitle = R.string.pref_header_about_summary,
+                selected = false,
+                screen = SettingsScreen.About,
             ),
         ),
     )
-    val headersState: StateFlow<List<PreferenceItem>> = _headersState.asStateFlow()
+    val headersState: StateFlow<List<PreferenceHeader>> = _headersState.asStateFlow()
 
     private val _changelogState = MutableStateFlow<List<ReleaseModel>>(emptyList())
     val changelogState: StateFlow<List<ReleaseModel>> = _changelogState.asStateFlow()

@@ -22,19 +22,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
+import com.blacksquircle.ui.core.ui.extensions.getColorAttr
+import com.blacksquircle.ui.core.ui.extensions.setActivatedBackground
+import com.blacksquircle.ui.core.ui.extensions.setSelectableBackground
 import com.blacksquircle.ui.feature.settings.databinding.ItemPreferenceBinding
-import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceItem
+import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceHeader
+import com.google.android.material.R as MtrlR
 
 class PreferenceAdapter(
-    private val onItemClickListener: OnItemClickListener<PreferenceItem>,
-) : ListAdapter<PreferenceItem, PreferenceAdapter.PreferenceViewHolder>(diffCallback) {
+    private val onItemClickListener: OnItemClickListener<PreferenceHeader>,
+) : ListAdapter<PreferenceHeader, PreferenceAdapter.PreferenceViewHolder>(diffCallback) {
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<PreferenceItem>() {
-            override fun areItemsTheSame(oldItem: PreferenceItem, newItem: PreferenceItem): Boolean {
+        private val diffCallback = object : DiffUtil.ItemCallback<PreferenceHeader>() {
+            override fun areItemsTheSame(oldItem: PreferenceHeader, newItem: PreferenceHeader): Boolean {
                 return oldItem.screen == newItem.screen
             }
-            override fun areContentsTheSame(oldItem: PreferenceItem, newItem: PreferenceItem): Boolean {
+            override fun areContentsTheSame(oldItem: PreferenceHeader, newItem: PreferenceHeader): Boolean {
                 return oldItem == newItem
             }
         }
@@ -50,29 +54,47 @@ class PreferenceAdapter(
 
     class PreferenceViewHolder(
         private val binding: ItemPreferenceBinding,
-        private val onItemClickListener: OnItemClickListener<PreferenceItem>,
+        private val onItemClickListener: OnItemClickListener<PreferenceHeader>,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<PreferenceItem>): PreferenceViewHolder {
+            fun create(parent: ViewGroup, onItemClickListener: OnItemClickListener<PreferenceHeader>): PreferenceViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemPreferenceBinding.inflate(inflater, parent, false)
                 return PreferenceViewHolder(binding, onItemClickListener)
             }
         }
 
-        private lateinit var preferenceItem: PreferenceItem
+        private lateinit var preferenceHeader: PreferenceHeader
 
         init {
             itemView.setOnClickListener {
-                onItemClickListener.onClick(preferenceItem)
+                onItemClickListener.onClick(preferenceHeader)
             }
         }
 
-        fun bind(item: PreferenceItem) {
-            preferenceItem = item
+        fun bind(item: PreferenceHeader) {
+            preferenceHeader = item
             binding.itemTitle.setText(item.title)
             binding.itemSubtitle.setText(item.subtitle)
+            binding.root.isActivated = item.selected
+            if (item.selected) {
+                binding.itemTitle.setTextColor(
+                    itemView.context.getColorAttr(MtrlR.attr.colorOnPrimary)
+                )
+                binding.itemSubtitle.setTextColor(
+                    itemView.context.getColorAttr(MtrlR.attr.colorOnPrimary)
+                )
+                binding.root.setActivatedBackground()
+            } else {
+                binding.itemTitle.setTextColor(
+                    itemView.context.getColorAttr(android.R.attr.textColorPrimary)
+                )
+                binding.itemSubtitle.setTextColor(
+                    itemView.context.getColorAttr(android.R.attr.textColorSecondary)
+                )
+                binding.root.setSelectableBackground()
+            }
         }
     }
 }

@@ -19,11 +19,13 @@ package com.blacksquircle.ui.core.ui.extensions
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.InsetDrawable
+import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
+import androidx.appcompat.R
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.ListPopupWindow
@@ -60,6 +62,21 @@ fun View.applySystemWindowInsets(
             insets
         }
     }
+}
+
+fun View.setSelectableBackground() = with(TypedValue()) {
+    context.theme.resolveAttribute(R.attr.selectableItemBackground, this, true)
+    setBackgroundResource(resourceId)
+}
+
+fun View.setSelectedBackground() = with(TypedValue()) {
+    context.theme.resolveAttribute(R.attr.colorControlHighlight, this, true)
+    setBackgroundResource(resourceId)
+}
+
+fun View.setActivatedBackground() = with(TypedValue()) {
+    context.theme.resolveAttribute(android.R.attr.activatedBackgroundIndicator, this, true)
+    setBackgroundResource(resourceId)
 }
 
 fun SearchView.debounce(

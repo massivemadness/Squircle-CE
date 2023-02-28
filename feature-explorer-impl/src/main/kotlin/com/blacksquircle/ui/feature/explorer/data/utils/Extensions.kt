@@ -16,13 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.data.utils
 
-import android.content.ActivityNotFoundException
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
-import android.util.TypedValue
-import android.view.View
+import android.content.*
 import androidx.core.content.FileProvider
 import androidx.core.content.getSystemService
 import com.blacksquircle.ui.core.ui.extensions.showToast
@@ -36,17 +30,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
-import androidx.appcompat.R as CompatR
-
-fun View.setSelectableBackground() = with(TypedValue()) {
-    context.theme.resolveAttribute(CompatR.attr.selectableItemBackground, this, true)
-    setBackgroundResource(resourceId)
-}
-
-fun View.setSelectedBackground() = with(TypedValue()) {
-    context.theme.resolveAttribute(CompatR.attr.colorControlHighlight, this, true)
-    setBackgroundResource(resourceId)
-}
 
 fun Context.openFileWith(fileModel: FileModel) {
     try {
