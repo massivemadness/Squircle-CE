@@ -69,11 +69,9 @@ dependencies {
     implementation library.constraintlayout
 
     // AAC
-    implementation library.livedata
     implementation library.viewmodel
     implementation library.lifecycle
-    implementation library.navigation_ui
-    implementation library.navigation_fragment
+    implementation library.navigation
 
     // Coroutines
     implementation library.coroutines_core
