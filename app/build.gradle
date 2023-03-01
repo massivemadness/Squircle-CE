@@ -111,6 +111,8 @@ dependencies {
     kapt library.hilt_compiler
 
     // Modules
+    implementation project(':feature-changelog-api')
+    implementation project(':feature-changelog-impl')
     implementation project(':feature-editor-api')
     implementation project(':feature-editor-impl')
     implementation project(':feature-explorer-api')

@@ -18,8 +18,6 @@ package com.blacksquircle.ui.feature.settings.data.utils
 
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.annotation.RawRes
-import java.io.BufferedReader
 
 val Context.applicationName: String
     get() = try {
@@ -41,8 +39,3 @@ val Context.versionCode: Int
     } catch (e: PackageManager.NameNotFoundException) {
         -1
     }
-
-fun Context.getRawFileText(@RawRes resId: Int): String {
-    val inputStream = resources.openRawResource(resId)
-    return inputStream.bufferedReader().use(BufferedReader::readText)
-}

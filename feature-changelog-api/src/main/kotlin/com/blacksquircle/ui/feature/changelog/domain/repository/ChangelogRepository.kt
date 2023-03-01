@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.adapter.item
+package com.blacksquircle.ui.feature.changelog.domain.repository
 
-import com.blacksquircle.ui.core.ui.navigation.Screen
+import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 
-data class PreferenceHeader(
-    val title: String,
-    val subtitle: String,
-    val selected: Boolean,
-    val screen: Screen<*>,
-)
+interface ChangelogRepository {
+
+    suspend fun loadChangelog(): List<ReleaseModel>
+}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.adapter
+package com.blacksquircle.ui.feature.changelog.ui.adapter
 
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -24,8 +24,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.feature.settings.databinding.ItemReleaseBinding
-import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
+import com.blacksquircle.ui.feature.changelog.databinding.ItemReleaseBinding
+import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 
 class ReleaseAdapter : ListAdapter<ReleaseModel, ReleaseAdapter.ReleaseViewHolder>(diffCallback) {
 

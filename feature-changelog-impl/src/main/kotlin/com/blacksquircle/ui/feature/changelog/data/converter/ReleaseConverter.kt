@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.data.converter
+package com.blacksquircle.ui.feature.changelog.data.converter
 
-import com.blacksquircle.ui.feature.settings.ui.adapter.item.ReleaseModel
+import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import java.util.regex.Pattern
 
 object ReleaseConverter {

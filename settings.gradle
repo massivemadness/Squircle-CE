@@ -18,6 +18,8 @@ include ':app', ':benchmark', ':editorkit'
 
 include ':common-core',
         ':common-ui',
+        ':feature-changelog-api',
+        ':feature-changelog-impl',
         ':feature-editor-api',
         ':feature-editor-impl',
         ':feature-explorer-api',

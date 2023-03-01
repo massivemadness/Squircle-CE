@@ -26,7 +26,6 @@ import com.blacksquircle.ui.core.ui.extensions.getColorAttr
 import com.blacksquircle.ui.core.ui.extensions.setActivatedBackground
 import com.blacksquircle.ui.core.ui.extensions.setSelectableBackground
 import com.blacksquircle.ui.feature.settings.databinding.ItemPreferenceBinding
-import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceHeader
 import com.google.android.material.R as MtrlR
 
 class PreferenceAdapter(

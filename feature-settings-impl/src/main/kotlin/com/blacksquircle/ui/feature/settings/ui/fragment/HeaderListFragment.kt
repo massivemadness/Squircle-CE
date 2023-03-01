@@ -31,7 +31,7 @@ import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.databinding.FragmentHeaderListBinding
 import com.blacksquircle.ui.feature.settings.ui.adapter.PreferenceAdapter
-import com.blacksquircle.ui.feature.settings.ui.adapter.item.PreferenceHeader
+import com.blacksquircle.ui.feature.settings.ui.adapter.PreferenceHeader
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn

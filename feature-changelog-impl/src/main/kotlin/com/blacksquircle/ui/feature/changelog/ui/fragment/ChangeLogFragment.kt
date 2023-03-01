@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment
+package com.blacksquircle.ui.feature.changelog.ui.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -26,14 +26,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
-import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
-import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.data.utils.getRawFileText
-import com.blacksquircle.ui.feature.settings.databinding.FragmentChangelogBinding
-import com.blacksquircle.ui.feature.settings.ui.adapter.ReleaseAdapter
-import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.core.ui.extensions.*
+import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.feature.changelog.R
+import com.blacksquircle.ui.feature.changelog.databinding.FragmentChangelogBinding
+import com.blacksquircle.ui.feature.changelog.ui.adapter.ReleaseAdapter
+import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangelogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -41,7 +39,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class ChangeLogFragment : Fragment(R.layout.fragment_changelog) {
 
-    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
+    private val viewModel by hiltNavGraphViewModels<ChangelogViewModel>(R.id.changelog_graph)
     private val binding by viewBinding(FragmentChangelogBinding::bind)
     private val navController by lazy { findNavController() }
 
@@ -65,17 +63,24 @@ class ChangeLogFragment : Fragment(R.layout.fragment_changelog) {
         val itemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.recyclerView.addItemDecoration(itemDecoration)
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = ReleaseAdapter().also {
-            adapter = it
-        }
-
-        val changelog = requireContext().getRawFileText(R.raw.changelog)
-        viewModel.fetchChangeLog(changelog)
+        binding.recyclerView.adapter = ReleaseAdapter()
+            .also {
+                adapter = it
+            }
     }
 
     private fun observeViewModel() {
         viewModel.changelogState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { adapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    is ViewEvent.Navigation -> navController.navigate(event.screen)
+                }
+            }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

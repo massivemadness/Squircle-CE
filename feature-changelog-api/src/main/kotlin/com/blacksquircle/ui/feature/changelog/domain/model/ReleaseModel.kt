@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.adapter.item
+package com.blacksquircle.ui.feature.changelog.domain.model
 
 data class ReleaseModel(
     val versionName: String,

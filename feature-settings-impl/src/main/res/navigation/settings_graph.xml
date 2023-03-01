@@ -87,12 +87,4 @@
             app:destination="@id/changeLogFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/changeLogFragment"
-        android:name="com.blacksquircle.ui.feature.settings.ui.fragment.ChangeLogFragment"
-        android:label="@string/label_changelog"
-        tools:layout="@layout/fragment_changelog">
-        <deepLink app:uri="blacksquircle://settings/about/changelog" />
-    </fragment>
-
 </navigation>
