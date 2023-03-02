@@ -1,10 +1,11 @@
 <img src="https://raw.githubusercontent.com/massivemadness/Squircle-CE/develop/.github/images/icon.png" alt="Squircle CE" width="120" height="120" align="left">
-
 # Squircle CE &middot; ![Android CI](https://github.com/massivemadness/Squircle-CE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This is the complete source code and the build instructions for the **Squircle CE** project.  
+<b>Squircle CE</b> is a fast and free multi-language code editor for Android.  
+This repository contains the complete source code and the build instructions for the project.
+
 > **Note**
-> EditorKit library has been moved to a separate Git repository. You can find the new repository at [@massivemadness/EditorKit](https://github.com/massivemadness/EditorKit).
+> Code Editor library has been moved to a separate Git repository [@massivemadness/EditorKit](https://github.com/massivemadness/EditorKit).
 
 ### Build instructions
 
@@ -20,6 +21,10 @@ This is the complete source code and the build instructions for the **Squircle C
 
 * `googlePlay`: A flavor used for publishing the app on [Google Play](https://play.google.com/store/apps/details?id=com.blacksquircle.ui)
 * `fdroid`: A flavor used for publishing the app on [F-Droid](https://f-droid.org/packages/com.blacksquircle.ui/)
+
+## Screenshots
+
+<img src="https://raw.githubusercontent.com/massivemadness/Squircle-CE/master/.github/images/repository-screenshots.png">
 
 ## License
 
