@@ -7,7 +7,7 @@
 ![Android CI](https://github.com/massivemadness/Squircle-CE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 > **Note**
-> Code Editor library has been moved to a separate Git repository [@massivemadness/EditorKit](https://github.com/massivemadness/EditorKit).
+> Code Editor library has been moved to a separate Git [repository](https://github.com/massivemadness/EditorKit).
 
 ## Build instructions
 
