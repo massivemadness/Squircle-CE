@@ -1,0 +1,4 @@
+[submodule "editorkit"]
+	path = editorkit
+	url = https://github.com/massivemadness/EditorKit.git
+	shallow = true
