@@ -1,4 +1,6 @@
-# Squircle CE
+<img src="./github/images/icon.png" alt="Squircle CE" width="120" height="120" align="left">
+
+# Squircle CE &middot; ![Android CI](https://github.com/massivemadness/Squircle-CE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 This is the complete source code and the build instructions for the **Squircle CE** project.
 
