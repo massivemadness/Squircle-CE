@@ -4,10 +4,17 @@
 <b>Squircle CE</b> is a fast and free multi-language code editor for Android.  
 This repository contains the complete source code and the build instructions for the project.
 
-> **Note**
-> Code Editor library has been moved to a separate Git repository [@massivemadness/EditorKit](https://github.com/massivemadness/EditorKit).
+**Note:** Code Editor library has been moved to a separate Git repository [@massivemadness/EditorKit](https://github.com/massivemadness/EditorKit).
 
-### Build instructions
+## Build instructions
+
+### Prerequisites
+
+* At least **546,7MB** of free disk space: **141,2MB** for source codes and around **405,5MB** for files generated after building all variants
+* **4GB** of RAM
+* **macOS** or **Linux**-based operating system. **Windows** platform is supported by using [MSYS](https://www.msys2.org/) (e.g., [Git Bash](https://gitforwindows.org/)).
+
+### Building
 
 1. `$ git clone --recursive --depth=1 --shallow-submodules https://github.com/massivemadness/Squircle-CE Squircle-CE`
    — clone **Squircle CE** with submodules
