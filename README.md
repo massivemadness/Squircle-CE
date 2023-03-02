@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/massivemadness/Squircle-CE/develop/.github/images/icon.png" alt="Squircle CE" width="120" height="120" align="left">
+<img src="https://raw.githubusercontent.com/massivemadness/Squircle-CE/develop/.github/images/icon.png" alt="Squircle CE" width="120" height="120" align="right">
 
 # Squircle CE &middot; ![Android CI](https://github.com/massivemadness/Squircle-CE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
