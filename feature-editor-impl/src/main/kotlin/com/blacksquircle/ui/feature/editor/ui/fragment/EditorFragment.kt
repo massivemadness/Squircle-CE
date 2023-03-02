@@ -492,7 +492,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         val pluginSupplier = PluginSupplier.create {
             settings.forEach { event ->
                 when (event) {
-                    is SettingsEvent.Theme ->
+                    is SettingsEvent.ColorScheme ->
                         binding.editor.colorScheme = event.value.colorScheme
                     is SettingsEvent.FontSize -> binding.editor.textSize = event.value
                     is SettingsEvent.FontType -> binding.editor.typeface = requireContext()

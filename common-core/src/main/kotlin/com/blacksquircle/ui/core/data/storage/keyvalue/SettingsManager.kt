@@ -16,13 +16,16 @@
 
 package com.blacksquircle.ui.core.data.storage.keyvalue
 
+import android.content.Context
 import android.content.SharedPreferences
+import com.blacksquircle.ui.core.ui.theme.Theme
 
-class SettingsManager(private val sharedPreferences: SharedPreferences) {
+class SettingsManager(private val context: Context) {
 
     companion object {
 
         // Look And Feel
+        const val KEY_THEME = "THEME"
         const val KEY_COLOR_SCHEME = "COLOR_SCHEME"
         const val KEY_FULLSCREEN_MODE = "FULLSCREEN_MODE"
 
@@ -77,6 +80,17 @@ class SettingsManager(private val sharedPreferences: SharedPreferences) {
         const val KEY_FILESYSTEM = "FILESYSTEM"
     }
 
+    private val fileName: String
+        get() = context.packageName + "_preferences"
+
+    private var _sharedPreferences: SharedPreferences? = null
+    private val sharedPreferences: SharedPreferences
+        get() = _sharedPreferences ?: context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+            .also { _sharedPreferences = it }
+
+    var theme: String
+        get() = sharedPreferences.getString(KEY_THEME, Theme.DARK.value) ?: Theme.DARK.value
+        set(value) = sharedPreferences.edit().putString(KEY_THEME, value).apply()
     var colorScheme: String
         get() = sharedPreferences.getString(KEY_COLOR_SCHEME, "DARCULA") ?: "DARCULA"
         set(value) = sharedPreferences.edit().putString(KEY_COLOR_SCHEME, value).apply()

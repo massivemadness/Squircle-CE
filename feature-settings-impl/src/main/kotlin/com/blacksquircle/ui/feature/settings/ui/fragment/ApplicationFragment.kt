@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.settings.ui.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,12 +25,14 @@ import androidx.core.view.get
 import androidx.core.view.updatePadding
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
 import com.blacksquircle.ui.core.ui.navigation.Screen
+import com.blacksquircle.ui.core.ui.theme.Theme
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
@@ -44,6 +47,16 @@ class ApplicationFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_application, rootKey)
 
+        findPreference<ListPreference>(SettingsManager.KEY_THEME)?.run {
+            isEnabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+            if (!isEnabled) {
+                setSummary(R.string.message_app_theme_disclaimer)
+            }
+            setOnPreferenceChangeListener { _, theme ->
+                Theme.of(theme as String).apply()
+                true
+            }
+        }
         findPreference<Preference>(SettingsManager.KEY_COLOR_SCHEME)
             ?.setOnPreferenceClickListener {
                 navController.navigate(Screen.Themes)

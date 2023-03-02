@@ -23,7 +23,12 @@
 
     <string name="action_reset">Réinitialisation</string>
 
+    <string name="message_app_theme_disclaimer">Requires Android 10 or newer</string>
     <string name="message_preset_disclaimer">Vous pouvez répéter les caractères</string>
+
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System default</string>
 
     <string name="encoding_utf8_default">UTF-8 (Défaut)</string>
 
@@ -63,6 +68,8 @@
     <string name="pref_category_about">À Propos</string>
     <string name="pref_category_contribute">Contribuer</string>
 
+    <string name="pref_app_theme_title">Application Theme</string>
+    <string name="pref_app_theme_summary">Configure the application theme.</string>
     <string name="pref_color_scheme_title">Schéma de couleur</string>
     <string name="pref_color_scheme_summary">Configurer le schéma de la coloration syntaxique.</string>
     <string name="pref_fullscreen_title">Plein écran</string>

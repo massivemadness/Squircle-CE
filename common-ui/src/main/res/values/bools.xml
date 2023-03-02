@@ -15,10 +15,7 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_restore"
-        android:title="@string/action_restore"
-        app:showAsAction="never" />
-</menu>
+<resources>
+    <bool name="windowLightStatusBar">false</bool>
+    <bool name="windowLightNavigationBar">false</bool>
+</resources>

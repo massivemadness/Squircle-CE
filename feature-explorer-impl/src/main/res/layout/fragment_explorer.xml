@@ -91,7 +91,7 @@
                 android:id="@+id/action_home"
                 android:src="@drawable/ic_home"
                 android:background="@drawable/ripple_16dp"
-                app:tint="?colorOnSurface" />
+                app:tint="?colorOnSurfaceVariant" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="36dp"
@@ -103,7 +103,7 @@
                 android:id="@+id/action_operation"
                 android:src="@drawable/ic_plus"
                 android:background="@drawable/ripple_16dp"
-                app:tint="?colorOnSurface" />
+                app:tint="?colorOnSurfaceVariant" />
 
         </FrameLayout>
 

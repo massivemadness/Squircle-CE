@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.data.factory.LanguageFactory
-import com.blacksquircle.ui.core.ui.extensions.getColorAttr
+import com.blacksquircle.ui.core.ui.extensions.getColour
 import com.blacksquircle.ui.core.ui.extensions.isColorDark
 import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.feature.themes.R
@@ -111,15 +111,13 @@ class ThemeAdapter(
 
             val isDark = item.colorScheme.backgroundColor.isColorDark()
             if (isDark) {
-                val darkColor = itemView.context
-                    .getColorAttr(android.R.attr.textColorSecondary)
-                binding.itemTitle.setTextColor(darkColor)
-                binding.itemSubtitle.setTextColor(darkColor)
+                val textColor = itemView.context.getColour(android.R.color.white)
+                binding.itemTitle.setTextColor(textColor)
+                binding.itemSubtitle.setTextColor(textColor)
             } else {
-                val lightColor = itemView.context
-                    .getColorAttr(android.R.attr.textColorSecondaryInverse)
-                binding.itemTitle.setTextColor(lightColor)
-                binding.itemSubtitle.setTextColor(lightColor)
+                val textColor = itemView.context.getColour(android.R.color.black)
+                binding.itemTitle.setTextColor(textColor)
+                binding.itemSubtitle.setTextColor(textColor)
             }
 
             binding.card.setCardBackgroundColor(item.colorScheme.backgroundColor)

@@ -23,7 +23,12 @@
 
     <string name="action_reset">Сброс</string>
 
+    <string name="message_app_theme_disclaimer">Требуется Android 10 или новее</string>
     <string name="message_preset_disclaimer">Символы могут повторяться несколько раз</string>
+
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
+    <string name="theme_system">Системная</string>
 
     <string name="encoding_utf8_default">UTF-8 (По умолчанию)</string>
 
@@ -63,6 +68,8 @@
     <string name="pref_category_about">О программе</string>
     <string name="pref_category_contribute">Внести вклад</string>
 
+    <string name="pref_app_theme_title">Тема приложения</string>
+    <string name="pref_app_theme_summary">Настройте тему приложения.</string>
     <string name="pref_color_scheme_title">Цветовая схема</string>
     <string name="pref_color_scheme_summary">Настройте цветовую схему подсветки синтаксиса.</string>
     <string name="pref_fullscreen_title">Полноэкранный режим</string>

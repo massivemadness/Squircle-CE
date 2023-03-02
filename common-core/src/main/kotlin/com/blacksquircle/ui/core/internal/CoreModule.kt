@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.core.internal
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.blacksquircle.ui.core.data.delegate.DatabaseDelegate
 import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
@@ -34,8 +33,8 @@ object CoreModule {
 
     @Provides
     @Singleton
-    fun provideSettingsManager(sharedPreferences: SharedPreferences): SettingsManager {
-        return SettingsManager(sharedPreferences)
+    fun provideSettingsManager(@ApplicationContext context: Context): SettingsManager {
+        return SettingsManager(context)
     }
 
     @Provides

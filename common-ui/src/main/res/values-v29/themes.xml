@@ -15,16 +15,9 @@
   ~ limitations under the License.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="SplashTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/colorBackground</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_screen</item>
-        <item name="windowSplashScreenAnimationDuration">1000</item>
-        <item name="postSplashScreenTheme">@style/AppTheme</item>
-    </style>
-
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSurface">@color/colorSurface</item>
@@ -51,8 +44,8 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">?colorSecondaryVariant</item>
         <item name="android:windowLightStatusBar">@bool/windowLightStatusBar</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">@bool/windowLightNavigationBar</item>
-        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:windowLightNavigationBar">@bool/windowLightNavigationBar</item>
+        <item name="android:forceDarkAllowed">false</item>
     </style>
 
 </resources>

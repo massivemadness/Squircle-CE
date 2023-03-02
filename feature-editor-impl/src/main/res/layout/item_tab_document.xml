@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="JavaScriptAPI.js"/>
+        tools:text="JavaScriptAPI.js" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
@@ -51,11 +51,11 @@
         android:background="@drawable/ripple_14dp"
         android:contentDescription="@string/action_close"
         android:id="@+id/item_icon"
-        app:tint="?colorOnSurface"
+        app:tint="?colorOnSurfaceVariant"
         app:layout_constraintStart_toEndOf="@id/item_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <View
         android:layout_width="0dp"
@@ -64,6 +64,6 @@
         android:id="@+id/selection_indicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

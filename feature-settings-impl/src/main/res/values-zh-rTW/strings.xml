@@ -23,7 +23,12 @@
 
     <string name="action_reset">重置</string>
 
+    <string name="message_app_theme_disclaimer">Requires Android 10 or newer</string>
     <string name="message_preset_disclaimer">註：同一個字符可以重複多次</string>
+
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System default</string>
 
     <string name="encoding_utf8_default">UTF-8 (預設)</string>
 
@@ -63,6 +68,8 @@
     <string name="pref_category_about">關於</string>
     <string name="pref_category_contribute">貢獻</string>
 
+    <string name="pref_app_theme_title">Application Theme</string>
+    <string name="pref_app_theme_summary">Configure the application theme.</string>
     <string name="pref_color_scheme_title">配色方案</string>
     <string name="pref_color_scheme_summary">設定語法高亮顯示顏色方案。</string>
     <string name="pref_fullscreen_title">全螢幕模式</string>

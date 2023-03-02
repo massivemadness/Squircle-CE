@@ -20,7 +20,7 @@ import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 sealed class SettingsEvent<T>(val value: T) {
-    class Theme(value: ThemeModel) : SettingsEvent<ThemeModel>(value)
+    class ColorScheme(value: ThemeModel) : SettingsEvent<ThemeModel>(value)
     class FontSize(value: Float) : SettingsEvent<Float>(value)
     class FontType(value: String) : SettingsEvent<String>(value)
 
