@@ -1,0 +1,36 @@
+# Squircle CE
+
+This is the complete source code and the build instructions for the **Squircle CE** project.
+
+### Build instructions
+
+1. `$ git clone --recursive --depth=1 --shallow-submodules https://github.com/massivemadness/Squircle-CE Squircle-CE`
+   — clone **Squircle CE** with submodules
+2. In case you forgot the `--recursive` flag, `cd` into `Squircle-CE` directory
+   and: `$ git submodule init && git submodule update --init --recursive --depth=1`
+3. `$ cd Squircle-CE`
+4. Now you can open the project using **[Android Studio](https://developer.android.com/studio/)** or
+   build manually from the command line: `./gradlew assembleRelease`.
+
+#### Available flavors
+
+* `googlePlay`: A flavor used for publishing the app on [Google Play](https://play.google.com/store/apps/details?id=com.blacksquircle.ui)
+* `fdroid`: A flavor used for publishing the app on [F-Droid](https://f-droid.org/packages/com.blacksquircle.ui/)
+
+## License
+
+```
+Copyright 2023 Squircle CE contributors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
