@@ -49,6 +49,16 @@ enum class InternalTheme(val theme: ThemeModel) {
             colorScheme = EditorTheme.OBSIDIAN,
         ),
     ),
+    THEME_INTELLIJ_LIGHT(
+        theme = ThemeModel(
+            uuid = "INTELLIJ_LIGHT",
+            name = "IntelliJ Light",
+            author = "Squircle CE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.INTELLIJ_LIGHT,
+        ),
+    ),
     THEME_LADIES_NIGHT(
         theme = ThemeModel(
             uuid = "LADIES_NIGHT",
@@ -69,6 +79,16 @@ enum class InternalTheme(val theme: ThemeModel) {
             colorScheme = EditorTheme.TOMORROW_NIGHT,
         ),
     ),
+    THEME_SOLARIZED_LIGHT(
+        theme = ThemeModel(
+            uuid = "SOLARIZED_LIGHT",
+            name = "Solarized Light",
+            author = "Squircle CE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.SOLARIZED_LIGHT,
+        ),
+    ),
     THEME_VISUAL_STUDIO(
         theme = ThemeModel(
             uuid = "VISUAL_STUDIO_2013",
@@ -77,16 +97,6 @@ enum class InternalTheme(val theme: ThemeModel) {
             description = "Default color scheme",
             isExternal = false,
             colorScheme = EditorTheme.VISUAL_STUDIO,
-        ),
-    ),
-    THEME_INTELLIJ_LIGHT(
-        theme = ThemeModel(
-            uuid = "INTELLIJ_LIGHT",
-            name = "IntelliJ Light",
-            author = "Squircle CE",
-            description = "Default color scheme",
-            isExternal = false,
-            colorScheme = EditorTheme.INTELLIJ_LIGHT,
         ),
     );
 
