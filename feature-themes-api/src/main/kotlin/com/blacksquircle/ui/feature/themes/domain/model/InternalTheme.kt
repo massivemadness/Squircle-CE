@@ -29,6 +29,16 @@ enum class InternalTheme(val theme: ThemeModel) {
             colorScheme = EditorTheme.DARCULA,
         ),
     ),
+    THEME_ECLIPSE(
+        theme = ThemeModel(
+            uuid = "ECLIPSE",
+            name = "Eclipse",
+            author = "Squircle CE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.ECLIPSE,
+        ),
+    ),
     THEME_MONOKAI(
         theme = ThemeModel(
             uuid = "MONOKAI",
