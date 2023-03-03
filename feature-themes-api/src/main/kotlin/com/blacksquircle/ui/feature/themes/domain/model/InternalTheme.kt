@@ -69,14 +69,24 @@ enum class InternalTheme(val theme: ThemeModel) {
             colorScheme = EditorTheme.TOMORROW_NIGHT,
         ),
     ),
-    THEME_VISUAL_STUDIO_2013(
+    THEME_VISUAL_STUDIO(
         theme = ThemeModel(
             uuid = "VISUAL_STUDIO_2013",
-            name = "Visual Studio 2013",
+            name = "Visual Studio",
             author = "Squircle CE",
             description = "Default color scheme",
             isExternal = false,
-            colorScheme = EditorTheme.VISUAL_STUDIO_2013,
+            colorScheme = EditorTheme.VISUAL_STUDIO,
+        ),
+    ),
+    THEME_INTELLIJ_LIGHT(
+        theme = ThemeModel(
+            uuid = "INTELLIJ_LIGHT",
+            name = "IntelliJ Light",
+            author = "Squircle CE",
+            description = "Default color scheme",
+            isExternal = false,
+            colorScheme = EditorTheme.INTELLIJ_LIGHT,
         ),
     );
 
