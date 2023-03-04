@@ -24,6 +24,7 @@ import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
+import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import io.mockk.*
@@ -49,6 +50,7 @@ class CloseTabTests {
     private val documentRepository = mockk<DocumentRepository>()
     private val themesRepository = mockk<ThemesRepository>()
     private val shortcutsRepository = mockk<ShortcutsRepository>()
+    private val settingsRepository = mockk<SettingsRepository>()
 
     @Before
     fun setup() {
@@ -267,6 +269,7 @@ class CloseTabTests {
             documentRepository = documentRepository,
             themesRepository = themesRepository,
             shortcutsRepository = shortcutsRepository,
+            settingsRepository = settingsRepository,
         )
     }
 }
