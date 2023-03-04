@@ -19,12 +19,10 @@ package com.blacksquircle.ui.feature.editor.ui.fragment
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import androidx.core.text.PrecomputedTextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
-import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -70,10 +68,8 @@ import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class EditorFragment : Fragment(R.layout.fragment_editor),
@@ -204,21 +200,16 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
             .onEach { state ->
                 when (state) {
                     is EditorViewState.Content -> {
-                        binding.loadingBar.isVisible = true // measuring text
-                        binding.errorView.root.isVisible = false
-                        val measurement = withContext(Dispatchers.Default) {
-                            val textMetrics = TextViewCompat.getTextMetricsParams(binding.editor)
-                            PrecomputedTextCompat.create(state.content.text, textMetrics)
-                        }
                         binding.editor.isVisible = true
                         binding.scroller.isVisible = true
+                        binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
                         keyboardManager.mode = state.mode
 
                         binding.scroller.state = TextScroller.State.HIDDEN
                         binding.editor.undoStack = state.content.undoStack
                         binding.editor.redoStack = state.content.redoStack
-                        binding.editor.setTextContent(measurement)
+                        binding.editor.setTextContent(state.content.text)
                         binding.editor.abortFling()
                         binding.editor.scrollTo(
                             state.content.documentModel.scrollX,
