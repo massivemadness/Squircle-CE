@@ -31,7 +31,8 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.customview.ToolbarManager
+import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
+import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
@@ -203,7 +204,11 @@ class EditorViewModel @Inject constructor(
 
                 _editorViewState.value = EditorViewState.Content(
                     content = documentRepository.loadFile(document),
-                    showKeyboard = settingsManager.extendedKeyboard,
+                    mode = if (settingsManager.extendedKeyboard) {
+                        KeyboardManager.Mode.KEYBOARD
+                    } else {
+                        KeyboardManager.Mode.NONE
+                    },
                 )
             } catch (e: Throwable) {
                 Timber.e(e, e.message)

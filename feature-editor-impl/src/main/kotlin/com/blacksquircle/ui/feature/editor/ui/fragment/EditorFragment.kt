@@ -60,7 +60,8 @@ import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
-import com.blacksquircle.ui.feature.editor.ui.customview.ToolbarManager
+import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
+import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
@@ -76,13 +77,14 @@ import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class EditorFragment : Fragment(R.layout.fragment_editor),
-    BackPressedHandler, ToolbarManager.OnPanelClickListener {
+    BackPressedHandler, ToolbarManager.OnToolbarListener, KeyboardManager.OnKeyboardListener {
 
     private val viewModel by activityViewModels<EditorViewModel>()
     private val binding by viewBinding(FragmentEditorBinding::bind)
 
     private val drawerHandler by lazy { parentFragment as DrawerHandler }
     private val toolbarManager by lazy { ToolbarManager(this) }
+    private val keyboardManager by lazy { KeyboardManager(this) }
     private val tabController by lazy { TabController() }
     private val navController by lazy { findNavController() }
     private val newFileContract = CreateFileContract(this) { result ->
@@ -128,6 +130,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         }
 
         toolbarManager.bind(binding)
+        keyboardManager.bind(binding)
 
         binding.tabLayout.setHasFixedSize(true)
         binding.tabLayout.adapter = DocumentAdapter(object : DocumentAdapter.TabInteractor {
@@ -144,14 +147,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
             this.tabAdapter = it
         }
         tabController.attachToRecyclerView(binding.tabLayout)
-
-        binding.extendedKeyboard.setHasFixedSize(true)
-        binding.extendedKeyboard.setKeyListener { char ->
-            activity?.focusedTextField()?.insert(char)
-        }
-        binding.actionTab.setOnClickListener {
-            activity?.focusedTextField()?.insert(binding.editor.tab())
-        }
 
         binding.editor.freezesText = false
         binding.editor.onUndoRedoChangedListener = UndoRedoEditText.OnUndoRedoChangedListener {
@@ -217,8 +212,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         }
                         binding.editor.isVisible = true
                         binding.scroller.isVisible = true
-                        binding.keyboard.isVisible = state.showKeyboard
                         binding.loadingBar.isVisible = false
+                        keyboardManager.mode = state.mode
 
                         binding.scroller.state = TextScroller.State.HIDDEN
                         binding.editor.undoStack = state.content.undoStack
@@ -238,21 +233,21 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                     is EditorViewState.Error -> {
                         binding.editor.isInvisible = true
                         binding.scroller.isInvisible = true
-                        binding.keyboard.isVisible = false
                         binding.errorView.root.isVisible = true
                         binding.errorView.image.setImageResource(state.image)
                         binding.errorView.title.text = state.title
                         binding.errorView.subtitle.text = state.subtitle
                         binding.errorView.actionPrimary.isVisible = false
                         binding.loadingBar.isVisible = false
+                        keyboardManager.mode = KeyboardManager.Mode.NONE
                         binding.editor.clearUndoHistory()
                     }
                     is EditorViewState.Loading -> {
                         binding.editor.isInvisible = true
                         binding.scroller.isInvisible = true
-                        binding.keyboard.isVisible = false
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
+                        keyboardManager.mode = KeyboardManager.Mode.NONE
                         binding.editor.clearUndoHistory()
                     }
                 }
@@ -470,6 +465,15 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         return true
     }
 
+    override fun onKeyButton(char: String) {
+        activity?.focusedTextField()?.insert(char)
+    }
+
+    override fun onTabButton(): Boolean {
+        onKeyButton(binding.editor.tab())
+        return true
+    }
+
     // endregion TOOLBAR
 
     private fun saveFile(local: Boolean, unselected: Boolean) {
@@ -513,8 +517,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         highlightCurrentLine = event.value.second
                     }
                     is SettingsEvent.Delimiters -> if (event.value) highlightDelimiters()
-                    is SettingsEvent.KeyboardPreset ->
-                        binding.extendedKeyboard.submitList(event.value)
+                    is SettingsEvent.KeyboardPreset -> keyboardManager.submitList(event.value)
                     is SettingsEvent.SoftKeys -> binding.editor.softKeyboard = event.value
                     is SettingsEvent.AutoIndentation -> autoIndentation {
                         autoIndentLines = event.value.first
@@ -551,9 +554,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                                 Shortcut.FORCE_SYNTAX -> onForceSyntaxButton()
                                 Shortcut.INSERT_COLOR -> onInsertColorButton()
                                 else -> when (keyCode) {
-                                    KeyEvent.KEYCODE_TAB -> {
-                                        binding.editor.insert(binding.editor.tab()); true
-                                    }
+                                    KeyEvent.KEYCODE_TAB -> onTabButton()
                                     else -> false
                                 }
                             }

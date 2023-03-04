@@ -331,7 +331,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="2dp"
+        android:background="?colorSecondaryVariant"
         android:visibility="gone"
         android:id="@+id/keyboard"
         tools:visibility="visible"
@@ -340,25 +340,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:orientation="horizontal"
+            android:id="@+id/extended_keyboard"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_keyboard_key"
+            tools:itemCount="24" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/action_tab"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:padding="8dp"
-            android:background="?colorSurface"
             android:src="@drawable/ic_keyboard_tab"
             app:tint="?colorOnSurface" />
-
-        <com.blacksquircle.ui.feature.editor.ui.customview.ExtendedKeyboard
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:orientation="horizontal"
-            android:background="?colorSecondaryVariant"
-            android:id="@+id/extended_keyboard"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_keyboard_key"
-            tools:itemCount="24" />
 
     </FrameLayout>
 

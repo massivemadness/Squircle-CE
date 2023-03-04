@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.editor.ui.viewstate
 import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.ui.customview.ToolbarManager
+import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 
 sealed class ToolbarViewState : ViewState() {
 

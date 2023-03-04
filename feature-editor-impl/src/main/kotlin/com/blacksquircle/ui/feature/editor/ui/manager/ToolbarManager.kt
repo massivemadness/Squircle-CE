@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.customview
+package com.blacksquircle.ui.feature.editor.ui.manager
 
 import android.content.res.Configuration
 import android.view.Menu
@@ -31,7 +31,7 @@ import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.uikit.R as UiR
 
 class ToolbarManager(
-    private val listener: OnPanelClickListener,
+    private val listener: OnToolbarListener,
 ) : PopupMenu.OnMenuItemClickListener {
 
     var mode: Mode = Mode.DEFAULT
@@ -194,7 +194,7 @@ class ToolbarManager(
         }
     }
 
-    interface OnPanelClickListener {
+    interface OnToolbarListener {
         fun onDrawerButton()
 
         fun onNewButton(): Boolean
