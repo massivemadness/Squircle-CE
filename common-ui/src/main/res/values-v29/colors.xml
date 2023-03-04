@@ -17,8 +17,8 @@
 
 <resources>
 
-    <color name="colorPrimary">#008860</color>
-    <color name="colorSecondary">#008860</color>
+    <color name="colorPrimary">#3E73B9</color>
+    <color name="colorSecondary">#3E73B9</color>
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorError">#CD0000</color>
     <color name="colorBackground">#FFFFFF</color>
