@@ -5,7 +5,8 @@
 <b>Squircle CE</b> is a fast and free multi-language code editor for Android.
 
 This repository contains the complete source code and the build instructions for the project.  
-_Note: If you're looking for the code editor library, it has been moved to a separate Git [repository](https://github.com/massivemadness/EditorKit)._
+_Note: If you're looking for the code editor library, it has been moved to a separate
+Git [repository](https://github.com/massivemadness/EditorKit)._
 
 ![Android CI](https://github.com/massivemadness/Squircle-CE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -25,8 +26,14 @@ _Note: If you're looking for the code editor library, it has been moved to a sep
    — clone **Squircle CE** with submodules
 2. In case you forgot the `--recursive` flag, `cd` into `Squircle-CE` directory
    and: `$ git submodule init && git submodule update --init --recursive --depth=1`
-3. `$ cd Squircle-CE`
-4. Now you can open the project using **[Android Studio](https://developer.android.com/studio/)** or
+3. Create `local.properties` file with the following properties:  
+   `KEYSTORE_PATH`: absolute path to the keystore file  
+   `KEYSTORE_PASSWORD`: password for the keystore  
+   `KEY_ALIAS`: key alias that will be used to sign the app  
+   `KEY_PASSWORD`: key password  
+   **Warning**: keep this file safe and make sure nobody, except you, has access to it.
+4. `$ cd Squircle-CE`
+5. Now you can open the project using **[Android Studio](https://developer.android.com/studio/)** or
    build manually from the command line: `./gradlew assembleRelease`.
 
 #### Available flavors

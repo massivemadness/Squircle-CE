@@ -43,8 +43,19 @@ android {
         googlePlay { dimension "store" }
         fdroid { dimension "store" }
     }
+    Properties props = new Properties()
+    props.load(rootProject.file('local.properties').newDataInputStream())
+    signingConfigs {
+        release {
+            storeFile file("${props['KEYSTORE_PATH']}")
+            storePassword "${props['KEYSTORE_PASSWORD']}"
+            keyAlias "${props['KEY_ALIAS']}"
+            keyPassword "${props['KEY_PASSWORD']}"
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

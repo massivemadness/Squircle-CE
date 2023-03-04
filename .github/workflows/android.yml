@@ -13,7 +13,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: 'true'
-      - name: set up JDK 11
+      - name: Create local.properties
+        run: |
+          echo "Creating local.properties file"
+          echo "KEYSTORE_PATH=${{ secrets.KEYSTORE_PATH }}" > local.properties
+          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: '11'
