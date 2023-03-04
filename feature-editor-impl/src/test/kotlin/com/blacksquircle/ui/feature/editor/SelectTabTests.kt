@@ -93,7 +93,7 @@ class SelectTabTests {
         val toolbarViewState = ToolbarViewState.ActionBar(documentList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
-        val editorViewState = EditorViewState.Content(documentContent, true)
+        val editorViewState = EditorViewState.Content(documentContent)
         assertEquals(editorViewState, viewModel.editorViewState.value)
     }
 
@@ -124,7 +124,7 @@ class SelectTabTests {
         val toolbarViewState = ToolbarViewState.ActionBar(documentList, 1)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
-        val editorViewState = EditorViewState.Content(expectedContent, true)
+        val editorViewState = EditorViewState.Content(expectedContent)
         assertEquals(editorViewState, viewModel.editorViewState.value)
     }
 
