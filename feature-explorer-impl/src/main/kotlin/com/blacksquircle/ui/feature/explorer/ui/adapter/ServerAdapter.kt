@@ -69,7 +69,7 @@ class ServerAdapter(
         filesystemList.replaceList(filesystems)
         filesystemList.add(
             FilesystemModel(
-                uuid = "",
+                uuid = "null",
                 title = context.getString(R.string.storage_add)
             )
         )

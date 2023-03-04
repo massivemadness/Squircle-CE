@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.GravityCompat
 import androidx.core.view.doOnLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
@@ -84,7 +85,10 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
         explorerBackPressedHandler = childFragmentManager
             .fragment<ExplorerFragment>(R.id.fragment_explorer)
 
-        binding.drawerLayout?.setScrimColor(0x48000000)
+        val scrimColor = ColorUtils.setAlphaComponent(
+            requireContext().getColorAttr(android.R.attr.colorBackground), 0x80, // 50% alpha
+        )
+        binding.drawerLayout?.setScrimColor(scrimColor)
         binding.drawerLayout?.addDrawerListener(drawerListener)
         binding.drawerLayout?.doOnLayout {
             if (binding.drawerLayout?.isOpen == true) {
