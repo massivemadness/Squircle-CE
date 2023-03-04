@@ -405,7 +405,7 @@ class EditorViewModel @Inject constructor(
                         )
                         val params = DocumentParams(localStorage, true)
                         if (!localStorage && !event.unselected) {
-                            _editorViewState.value = currentState.copy(content = content)
+                            currentState.content = content
                         }
                         documentRepository.saveFile(content, params)
                         documentRepository.updateDocument(content.documentModel)

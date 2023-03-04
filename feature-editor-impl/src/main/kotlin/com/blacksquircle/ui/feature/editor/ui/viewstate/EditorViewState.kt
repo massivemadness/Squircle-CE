@@ -25,7 +25,7 @@ sealed class EditorViewState : ViewState() {
     object Loading : EditorViewState()
 
     data class Content(
-        val content: DocumentContent,
+        var content: DocumentContent,
         val mode: KeyboardManager.Mode = KeyboardManager.Mode.KEYBOARD,
     ) : EditorViewState()
 
