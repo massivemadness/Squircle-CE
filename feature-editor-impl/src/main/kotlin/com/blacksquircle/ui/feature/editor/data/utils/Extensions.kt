@@ -22,8 +22,9 @@ import java.nio.charset.Charset
 import java.nio.charset.UnsupportedCharsetException
 
 internal fun charsetFor(charsetName: String): Charset = try {
-    charset(charsetName)
+    Charset.forName(charsetName)
 } catch (e: UnsupportedCharsetException) {
+    e.printStackTrace()
     Charsets.UTF_8
 }
 

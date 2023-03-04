@@ -23,13 +23,16 @@ import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import java.nio.charset.Charset
 import com.blacksquircle.ui.uikit.R as UiR
 
 class FilesFragment : PreferenceFragmentCompat() {
@@ -39,6 +42,19 @@ class FilesFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_files, rootKey)
+
+        val supportedEncodings = Charset.availableCharsets()
+            .map(Map.Entry<String, Charset>::key)
+            .toTypedArray()
+
+        findPreference<ListPreference>(SettingsManager.KEY_ENCODING_FOR_OPENING)?.apply {
+            entries = supportedEncodings
+            entryValues = supportedEncodings
+        }
+        findPreference<ListPreference>(SettingsManager.KEY_ENCODING_FOR_SAVING)?.apply {
+            entries = supportedEncodings
+            entryValues = supportedEncodings
+        }
     }
 
     override fun onCreateView(

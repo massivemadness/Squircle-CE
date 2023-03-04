@@ -31,8 +31,6 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_system">System default</string>
 
-    <string name="encoding_utf8_default">UTF-8 (Default)</string>
-
     <string name="sort_by_name">Sort by Name</string>
     <string name="sort_by_size">Sort by Size</string>
     <string name="sort_by_date">Sort by Date</string>

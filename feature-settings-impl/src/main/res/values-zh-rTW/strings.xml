@@ -30,8 +30,6 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_system">System default</string>
 
-    <string name="encoding_utf8_default">UTF-8 (預設)</string>
-
     <string name="sort_by_name">依名稱排序</string>
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>

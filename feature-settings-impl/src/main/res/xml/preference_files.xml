@@ -32,18 +32,14 @@
             android:dependency="ENCODING_AUTO_DETECT"
             android:key="ENCODING_FOR_OPENING"
             android:summary="@string/pref_encoding_for_opening_summary"
-            android:title="@string/pref_encoding_for_opening_title"
-            app:entries="@array/encoding_entries"
-            app:entryValues="@array/encoding_values" />
+            android:title="@string/pref_encoding_for_opening_title" />
 
         <ListPreference
             android:defaultValue="UTF-8"
             android:dependency="ENCODING_AUTO_DETECT"
             android:key="ENCODING_FOR_SAVING"
             android:summary="@string/pref_encoding_for_saving_summary"
-            android:title="@string/pref_encoding_for_saving_title"
-            app:entries="@array/encoding_entries"
-            app:entryValues="@array/encoding_values" />
+            android:title="@string/pref_encoding_for_saving_title" />
 
     </PreferenceCategory>
 
