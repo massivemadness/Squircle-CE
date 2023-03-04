@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.domain
+package com.blacksquircle.ui.feature.settings.domain.model
 
-interface SettingsRepository
+data class KeyModel(
+    val display: String,
+    val value: Char,
+)

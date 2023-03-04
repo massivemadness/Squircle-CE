@@ -19,8 +19,9 @@ package com.blacksquircle.ui.feature.editor.ui.manager
 import androidx.core.view.isVisible
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.KeyAdapter
+import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 
-class KeyboardManager(private val onKeyboardListener: OnKeyboardListener) {
+class KeyboardManager(private val listener: OnKeyboardListener) {
 
     var mode: Mode = Mode.NONE
         set(value) {
@@ -37,15 +38,14 @@ class KeyboardManager(private val onKeyboardListener: OnKeyboardListener) {
         updatePanel()
 
         binding.extendedKeyboard.setHasFixedSize(true)
-        binding.extendedKeyboard.adapter = KeyAdapter(onKeyboardListener::onKeyButton).also {
+        binding.extendedKeyboard.adapter = KeyAdapter { keyModel ->
+            listener.onKeyButton(keyModel.value)
+        }.also {
             keyAdapter = it
-        }
-        binding.actionTab.setOnClickListener {
-            onKeyboardListener.onTabButton()
         }
     }
 
-    fun submitList(keys: List<String>) {
+    fun submitList(keys: List<KeyModel>) {
         keyAdapter?.submitList(keys)
     }
 
@@ -53,18 +53,15 @@ class KeyboardManager(private val onKeyboardListener: OnKeyboardListener) {
         when (mode) {
             Mode.KEYBOARD -> {
                 binding.keyboard.isVisible = true
-                binding.actionTab.isVisible = true
             }
             Mode.NONE -> {
                 binding.keyboard.isVisible = false
-                binding.actionTab.isVisible = false
             }
         }
     }
 
     interface OnKeyboardListener {
-        fun onKeyButton(char: String)
-        fun onTabButton(): Boolean
+        fun onKeyButton(char: Char): Boolean
     }
 
     enum class Mode {

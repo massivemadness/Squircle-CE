@@ -105,9 +105,9 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
                         if (model.key == '\u0000') {
                             append(getString(R.string.shortcut_none))
                         } else {
-                            if (model.isCtrl) append(getString(R.string.keybinding_ctrl) + " + ")
-                            if (model.isShift) append(getString(R.string.keybinding_shift) + " + ")
-                            if (model.isAlt) append(getString(R.string.keybinding_alt) + " + ")
+                            if (model.isCtrl) append(getString(UiR.string.common_ctrl) + " + ")
+                            if (model.isShift) append(getString(UiR.string.common_shift) + " + ")
+                            if (model.isAlt) append(getString(UiR.string.common_alt) + " + ")
                             append(model.key)
                         }
                     }

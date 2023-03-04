@@ -16,13 +16,26 @@
 
 package com.blacksquircle.ui.feature.settings.data.repository
 
-import com.blacksquircle.ui.core.data.storage.database.AppDatabase
+import android.content.Context
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
-import com.blacksquircle.ui.feature.settings.domain.SettingsRepository
+import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
+import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
+import com.blacksquircle.ui.uikit.R as UiR
 
 class SettingsRepositoryImpl(
-    private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
-    private val appDatabase: AppDatabase,
-) : SettingsRepository
+    private val context: Context,
+) : SettingsRepository {
+
+    override fun keyboardPreset(): List<KeyModel> {
+        val preset = "\t" + settingsManager.keyboardPreset
+        return preset.map { char ->
+            val display = if (char == '\t') {
+                context.getString(UiR.string.common_tab)
+            } else {
+                char.toString()
+            }
+            KeyModel(display, char)
+        }
+    }
+}

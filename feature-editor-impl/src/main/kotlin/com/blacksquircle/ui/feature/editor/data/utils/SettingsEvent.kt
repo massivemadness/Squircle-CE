@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.utils
 
+import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
@@ -32,7 +33,7 @@ sealed class SettingsEvent<T>(val value: T) {
     class LineNumbers(value: Pair<Boolean, Boolean>) :
         SettingsEvent<Pair<Boolean, Boolean>>(value)
     class Delimiters(value: Boolean) : SettingsEvent<Boolean>(value)
-    class KeyboardPreset(value: List<String>) : SettingsEvent<List<String>>(value)
+    class KeyboardPreset(value: List<KeyModel>) : SettingsEvent<List<KeyModel>>(value)
     class SoftKeys(value: Boolean) : SettingsEvent<Boolean>(value)
 
     class AutoIndentation(value: Triple<Boolean, Boolean, Boolean>) :

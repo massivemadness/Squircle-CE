@@ -238,12 +238,12 @@ class ShortcutDialog : DialogFragment() {
                     if (!enabled) {
                         append(getString(R.string.shortcut_none))
                     } else if (ctrl || alt) {
-                        if (ctrl) append(getString(R.string.keybinding_ctrl) + " + ")
-                        if (shift) append(getString(R.string.keybinding_shift) + " + ")
-                        if (alt) append(getString(R.string.keybinding_alt) + " + ")
+                        if (ctrl) append(getString(UiR.string.common_ctrl) + " + ")
+                        if (shift) append(getString(UiR.string.common_shift) + " + ")
+                        if (alt) append(getString(UiR.string.common_alt) + " + ")
                         when (char) {
-                            ' ' -> append(getString(R.string.keybinding_space))
-                            '\t' -> append(getString(R.string.keybinding_tab))
+                            ' ' -> append(getString(UiR.string.common_space))
+                            '\t' -> append(getString(UiR.string.common_tab))
                             else -> append(char.uppercaseChar())
                         }
                     } else {

@@ -16,14 +16,14 @@
 
 package com.blacksquircle.ui.feature.settings.internal
 
-import com.blacksquircle.ui.core.data.storage.database.AppDatabase
+import android.content.Context
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.settings.data.repository.SettingsRepositoryImpl
-import com.blacksquircle.ui.feature.settings.domain.SettingsRepository
+import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -34,10 +34,9 @@ object SettingsModule {
     @Provides
     @Singleton
     fun provideSettingsRepository(
-        dispatcherProvider: DispatcherProvider,
+        @ApplicationContext context: Context,
         settingsManager: SettingsManager,
-        appDatabase: AppDatabase,
     ): SettingsRepository {
-        return SettingsRepositoryImpl(dispatcherProvider, settingsManager, appDatabase)
+        return SettingsRepositoryImpl(settingsManager, context)
     }
 }

@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/keybinding_ctrl"
+        android:text="@string/common_ctrl"
         android:id="@+id/ctrl"
         app:layout_constraintTop_toBottomOf="@id/input_shortcut"
         app:layout_constraintStart_toStartOf="parent" />
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="@string/keybinding_shift"
+        android:text="@string/common_shift"
         android:id="@+id/shift"
         app:layout_constraintTop_toBottomOf="@id/input_shortcut"
         app:layout_constraintStart_toEndOf="@id/ctrl"
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="@string/keybinding_alt"
+        android:text="@string/common_alt"
         android:id="@+id/alt"
         app:layout_constraintTop_toBottomOf="@id/input_shortcut"
         app:layout_constraintStart_toEndOf="@id/shift" />

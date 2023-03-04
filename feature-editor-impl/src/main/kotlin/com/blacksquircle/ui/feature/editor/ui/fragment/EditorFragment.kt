@@ -456,12 +456,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         return true
     }
 
-    override fun onKeyButton(char: String) {
-        activity?.focusedTextField()?.insert(char)
-    }
-
-    override fun onTabButton(): Boolean {
-        onKeyButton(binding.editor.tab())
+    override fun onKeyButton(char: Char): Boolean {
+        activity?.focusedTextField()?.insert(char.toString())
         return true
     }
 
@@ -545,7 +541,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                                 Shortcut.FORCE_SYNTAX -> onForceSyntaxButton()
                                 Shortcut.INSERT_COLOR -> onInsertColorButton()
                                 else -> when (keyCode) {
-                                    KeyEvent.KEYCODE_TAB -> onTabButton()
+                                    KeyEvent.KEYCODE_TAB -> onKeyButton('\t')
                                     else -> false
                                 }
                             }

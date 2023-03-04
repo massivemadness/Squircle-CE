@@ -343,20 +343,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
             android:orientation="horizontal"
             android:id="@+id/extended_keyboard"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_keyboard_key"
             tools:itemCount="24" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/action_tab"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_keyboard_tab"
-            app:tint="?colorOnSurface" />
 
     </FrameLayout>
 

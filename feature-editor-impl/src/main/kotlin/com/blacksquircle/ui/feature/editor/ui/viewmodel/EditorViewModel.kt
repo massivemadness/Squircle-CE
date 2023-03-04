@@ -36,6 +36,7 @@ import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
+import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
@@ -54,6 +55,7 @@ class EditorViewModel @Inject constructor(
     private val documentRepository: DocumentRepository,
     private val themesRepository: ThemesRepository,
     private val shortcutsRepository: ShortcutsRepository,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
     private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.Stub)
@@ -646,8 +648,7 @@ class EditorViewModel @Inject constructor(
                 val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
                 settings.add(SettingsEvent.Delimiters(highlightMatchingDelimiters))
 
-                val keyboardPreset = settingsManager.keyboardPreset
-                    .toCharArray().map(Char::toString)
+                val keyboardPreset = settingsRepository.keyboardPreset()
                 settings.add(SettingsEvent.KeyboardPreset(keyboardPreset))
 
                 val softKeyboard = settingsManager.softKeyboard

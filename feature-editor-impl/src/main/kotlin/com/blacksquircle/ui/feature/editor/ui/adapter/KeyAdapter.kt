@@ -22,17 +22,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.feature.editor.databinding.ItemKeyboardKeyBinding
+import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 
 class KeyAdapter(
-    private val onKey: (String) -> Unit,
-) : ListAdapter<String, KeyAdapter.KeyViewHolder>(diffCallback) {
+    private val onKey: (KeyModel) -> Unit,
+) : ListAdapter<KeyModel, KeyAdapter.KeyViewHolder>(diffCallback) {
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<String>() {
-            override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-                return oldItem == newItem
+        private val diffCallback = object : DiffUtil.ItemCallback<KeyModel>() {
+            override fun areItemsTheSame(oldItem: KeyModel, newItem: KeyModel): Boolean {
+                return oldItem.value == newItem.value
             }
-            override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+            override fun areContentsTheSame(oldItem: KeyModel, newItem: KeyModel): Boolean {
                 return oldItem == newItem
             }
         }
@@ -48,28 +49,28 @@ class KeyAdapter(
 
     class KeyViewHolder(
         private val binding: ItemKeyboardKeyBinding,
-        private val onKey: (String) -> Unit,
+        private val onKey: (KeyModel) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
-            fun create(parent: ViewGroup, onKey: (String) -> Unit): KeyViewHolder {
+            fun create(parent: ViewGroup, onKey: (KeyModel) -> Unit): KeyViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemKeyboardKeyBinding.inflate(inflater, parent, false)
                 return KeyViewHolder(binding, onKey)
             }
         }
 
-        private lateinit var char: String
+        private lateinit var keyModel: KeyModel
 
         init {
             itemView.setOnClickListener {
-                onKey(char)
+                onKey(keyModel)
             }
         }
 
-        fun bind(item: String) {
-            char = item
-            binding.itemTitle.text = char
+        fun bind(item: KeyModel) {
+            keyModel = item
+            binding.itemTitle.text = item.display
         }
     }
 }
