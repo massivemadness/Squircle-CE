@@ -290,7 +290,7 @@
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/keyboard" />
+        app:layout_constraintBottom_toTopOf="@id/keyboard_extended" />
 
     <com.blacksquircle.ui.editorkit.widget.TextScroller
         android:layout_width="30dp"
@@ -300,7 +300,7 @@
         app:thumbTint="?colorPrimary"
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/keyboard" />
+        app:layout_constraintBottom_toTopOf="@id/keyboard_extended" />
 
     <include
         layout="@layout/layout_error_view"
@@ -328,21 +328,104 @@
 
     <!-- region EXTENDED KEYBOARD -->
 
-    <androidx.recyclerview.widget.RecyclerView
+    <View
         android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="?colorSecondaryVariant"
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/keyboardBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_folder_open"
+        android:background="@drawable/ripple_16dp"
+        android:id="@+id/keyboard_tool_open"
+        app:tint="?colorOnSurface"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/keyboard_tool_save"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_save"
+        android:background="@drawable/ripple_16dp"
+        android:id="@+id/keyboard_tool_save"
+        app:tint="?colorOnSurface"
+        app:layout_constraintStart_toEndOf="@id/keyboard_tool_open"
+        app:layout_constraintEnd_toStartOf="@id/keyboard_tool_close"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_close"
+        android:background="@drawable/ripple_16dp"
+        android:id="@+id/keyboard_tool_close"
+        app:tint="?colorOnSurface"
+        app:layout_constraintStart_toEndOf="@id/keyboard_tool_save"
+        app:layout_constraintEnd_toStartOf="@id/keyboard_tool_undo"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_undo"
+        android:background="@drawable/ripple_16dp"
+        android:id="@+id/keyboard_tool_undo"
+        app:tint="?colorOnSurface"
+        app:layout_constraintStart_toEndOf="@id/keyboard_tool_close"
+        app:layout_constraintEnd_toStartOf="@id/keyboard_tool_redo"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_redo"
+        android:background="@drawable/ripple_16dp"
+        android:id="@+id/keyboard_tool_redo"
+        app:tint="?colorOnSurface"
+        app:layout_constraintStart_toEndOf="@id/keyboard_tool_undo"
+        app:layout_constraintEnd_toStartOf="@id/keyboard_swap"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="gone"
-        android:background="?colorSecondaryVariant"
-        android:id="@+id/keyboard"
+        android:id="@+id/keyboard_extended"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/editor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/keyboard_swap"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:visibility="visible"
         tools:listitem="@layout/item_keyboard_key"
-        tools:itemCount="24" />
+        tools:itemCount="24"
+        tools:ignore="RtlSymmetry" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_keyboard_swap"
+        android:background="@drawable/ripple_16dp"
+        android:id="@+id/keyboard_swap"
+        app:tint="?colorOnSurface"
+        app:layout_constraintStart_toEndOf="@id/keyboard_tool_redo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <!-- endregion EXTENDED KEYBOARD-->
 

@@ -64,6 +64,9 @@ class EditorViewModel @Inject constructor(
     private val _editorViewState = MutableStateFlow<EditorViewState>(EditorViewState.Loading)
     val editorViewState: StateFlow<EditorViewState> = _editorViewState.asStateFlow()
 
+    private val _keyboardViewState = MutableStateFlow(KeyboardManager.Mode.NONE)
+    val keyboardViewState: StateFlow<KeyboardManager.Mode> = _keyboardViewState.asStateFlow()
+
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
@@ -72,7 +75,8 @@ class EditorViewModel @Inject constructor(
 
     private val documents = mutableListOf<DocumentModel>()
     private var selectedPosition = -1
-    private var mode = ToolbarManager.Mode.DEFAULT
+    private var toolbarMode = ToolbarManager.Mode.DEFAULT
+    private var keyboardMode = KeyboardManager.Mode.KEYBOARD
     private var findParams = FindParams()
     private var currentJob: Job? = null
 
@@ -105,7 +109,9 @@ class EditorViewModel @Inject constructor(
 
             is EditorIntent.SaveFile -> saveFile(event)
             is EditorIntent.SaveFileAs -> saveFileAs(event)
+
             is EditorIntent.ModifyContent -> modifyContent()
+            is EditorIntent.SwapKeyboard -> swapKeyboard()
 
             is EditorIntent.PanelDefault -> panelDefault()
             is EditorIntent.PanelFind -> panelFind()
@@ -199,6 +205,7 @@ class EditorViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             try {
                 _editorViewState.value = EditorViewState.Loading
+                _keyboardViewState.value = KeyboardManager.Mode.NONE
 
                 val document = documents[event.position]
                 settingsManager.selectedUuid = document.uuid
@@ -206,12 +213,12 @@ class EditorViewModel @Inject constructor(
 
                 _editorViewState.value = EditorViewState.Content(
                     content = documentRepository.loadFile(document),
-                    mode = if (settingsManager.extendedKeyboard) {
-                        KeyboardManager.Mode.KEYBOARD
-                    } else {
-                        KeyboardManager.Mode.NONE
-                    },
                 )
+                _keyboardViewState.value = if (settingsManager.extendedKeyboard) {
+                    keyboardMode
+                } else {
+                    KeyboardManager.Mode.NONE
+                }
             } catch (e: Throwable) {
                 Timber.e(e, e.message)
                 errorState(e)
@@ -485,18 +492,30 @@ class EditorViewModel @Inject constructor(
         }
     }
 
+    private fun swapKeyboard() {
+        _keyboardViewState.update {
+            when (keyboardMode) {
+                KeyboardManager.Mode.KEYBOARD -> KeyboardManager.Mode.TOOLS
+                KeyboardManager.Mode.TOOLS -> KeyboardManager.Mode.KEYBOARD
+                KeyboardManager.Mode.NONE -> KeyboardManager.Mode.NONE
+            }.also { mode ->
+                keyboardMode = mode
+            }
+        }
+    }
+
     private fun panelDefault() {
-        mode = ToolbarManager.Mode.DEFAULT
+        toolbarMode = ToolbarManager.Mode.DEFAULT
         refreshActionBar()
     }
 
     private fun panelFind() {
-        mode = ToolbarManager.Mode.FIND
+        toolbarMode = ToolbarManager.Mode.FIND
         refreshActionBar()
     }
 
     private fun panelFindReplace() {
-        mode = ToolbarManager.Mode.FIND_REPLACE
+        toolbarMode = ToolbarManager.Mode.FIND_REPLACE
         refreshActionBar()
     }
 
@@ -582,7 +601,7 @@ class EditorViewModel @Inject constructor(
             position = position.also {
                 selectedPosition = it
             },
-            mode = mode,
+            mode = toolbarMode,
             findParams = findParams,
         )
     }
@@ -594,6 +613,7 @@ class EditorViewModel @Inject constructor(
                 title = stringProvider.getString(R.string.message_no_open_files),
                 subtitle = "",
             )
+            _keyboardViewState.value = KeyboardManager.Mode.NONE
         }
     }
 
@@ -601,6 +621,7 @@ class EditorViewModel @Inject constructor(
         when (e) {
             is CancellationException -> {
                 _editorViewState.value = EditorViewState.Loading
+                _keyboardViewState.value = KeyboardManager.Mode.NONE
             }
             else -> {
                 _editorViewState.value = EditorViewState.Error(
@@ -608,6 +629,7 @@ class EditorViewModel @Inject constructor(
                     title = stringProvider.getString(UiR.string.common_error_occurred),
                     subtitle = e.message.orEmpty(),
                 )
+                _keyboardViewState.value = KeyboardManager.Mode.NONE
             }
         }
     }

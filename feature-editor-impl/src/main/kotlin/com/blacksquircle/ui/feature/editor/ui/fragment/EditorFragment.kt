@@ -151,9 +151,17 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
 
             binding.actionUndo.isClickable = canUndo
             binding.actionRedo.isClickable = canRedo
-
             binding.actionUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
             binding.actionRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
+
+            binding.keyboardToolUndo.isClickable = canUndo
+            binding.keyboardToolRedo.isClickable = canRedo
+            binding.keyboardToolUndo.imageAlpha = if (canUndo) ALPHA_FULL else ALPHA_SEMI
+            binding.keyboardToolRedo.imageAlpha = if (canRedo) ALPHA_FULL else ALPHA_SEMI
+        }
+
+        binding.keyboardSwap.setOnClickListener {
+            viewModel.obtainEvent(EditorIntent.SwapKeyboard)
         }
 
         viewModel.obtainEvent(EditorIntent.LoadSettings)
@@ -188,7 +196,8 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                             binding.editor.clearFindResultSpans()
                         }
                         if (state.position > -1) {
-                            binding.editor.language = state.documents[state.position].language
+                            val document = state.documents[state.position]
+                            binding.editor.language = document.language
                         }
                     }
                 }
@@ -203,7 +212,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.scroller.isVisible = true
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
-                        keyboardManager.mode = state.mode
 
                         binding.scroller.state = TextScroller.State.HIDDEN
                         binding.editor.undoStack = state.content.undoStack
@@ -229,7 +237,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.errorView.subtitle.text = state.subtitle
                         binding.errorView.actionPrimary.isVisible = false
                         binding.loadingBar.isVisible = false
-                        keyboardManager.mode = KeyboardManager.Mode.NONE
                         binding.editor.clearUndoHistory()
                     }
                     is EditorViewState.Loading -> {
@@ -237,11 +244,14 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.scroller.isInvisible = true
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
-                        keyboardManager.mode = KeyboardManager.Mode.NONE
                         binding.editor.clearUndoHistory()
                     }
                 }
             }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.keyboardViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { keyboardManager.mode = it }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)

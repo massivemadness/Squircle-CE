@@ -37,7 +37,7 @@ class ToolbarManager(
     var mode: Mode = Mode.DEFAULT
         set(value) {
             field = value
-            updatePanel()
+            updateToolbar()
         }
 
     var params = FindParams()
@@ -103,7 +103,7 @@ class ToolbarManager(
         this.binding = binding
         orientation = binding.root.resources?.configuration
             ?.orientation ?: Configuration.ORIENTATION_PORTRAIT
-        updatePanel()
+        updateToolbar()
 
         binding.actionDrawer.setOnClickListener { listener.onDrawerButton() }
         binding.actionSave.setOnClickListener { listener.onSaveButton() }
@@ -173,7 +173,7 @@ class ToolbarManager(
         wordsOnly?.isChecked = params.wordsOnly
     }
 
-    private fun updatePanel() {
+    private fun updateToolbar() {
         when (mode) {
             Mode.DEFAULT -> {
                 binding.defaultPanel.isVisible = true

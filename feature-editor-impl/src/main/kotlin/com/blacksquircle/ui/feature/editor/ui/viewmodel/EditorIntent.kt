@@ -55,7 +55,9 @@ sealed class EditorIntent {
         val selectionEnd: Int,
     ) : EditorIntent()
     data class SaveFileAs(val fileUri: Uri) : EditorIntent()
+
     object ModifyContent : EditorIntent()
+    object SwapKeyboard : EditorIntent()
 
     object PanelDefault : EditorIntent()
     object PanelFind : EditorIntent()

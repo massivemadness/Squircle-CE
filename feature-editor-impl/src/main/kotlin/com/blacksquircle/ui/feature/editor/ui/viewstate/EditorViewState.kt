@@ -18,16 +18,12 @@ package com.blacksquircle.ui.feature.editor.ui.viewstate
 
 import com.blacksquircle.ui.core.ui.viewstate.ViewState
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
-import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 
 sealed class EditorViewState : ViewState() {
 
     object Loading : EditorViewState()
 
-    data class Content(
-        var content: DocumentContent,
-        val mode: KeyboardManager.Mode = KeyboardManager.Mode.KEYBOARD,
-    ) : EditorViewState()
+    data class Content(var content: DocumentContent) : EditorViewState()
 
     data class Error(
         val image: Int,

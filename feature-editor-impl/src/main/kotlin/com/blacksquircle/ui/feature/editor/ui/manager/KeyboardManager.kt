@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.manager
 
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.KeyAdapter
@@ -26,7 +27,7 @@ class KeyboardManager(private val listener: Listener) {
     var mode: Mode = Mode.NONE
         set(value) {
             field = value
-            updatePanel()
+            updateKeyboard()
         }
 
     private lateinit var binding: FragmentEditorBinding
@@ -35,37 +36,74 @@ class KeyboardManager(private val listener: Listener) {
 
     fun bind(binding: FragmentEditorBinding) {
         this.binding = binding
-        updatePanel()
+        updateKeyboard()
 
-        binding.keyboard.setHasFixedSize(true)
-        binding.keyboard.adapter = KeyAdapter { keyModel ->
+        binding.keyboardExtended.setHasFixedSize(true)
+        binding.keyboardExtended.adapter = KeyAdapter { keyModel ->
             listener.onKeyButton(keyModel.value)
         }.also {
             keyAdapter = it
         }
+
+        binding.keyboardToolOpen.setOnClickListener { listener.onOpenButton() }
+        binding.keyboardToolSave.setOnClickListener { listener.onSaveButton() }
+        binding.keyboardToolClose.setOnClickListener { listener.onCloseButton() }
+        binding.keyboardToolUndo.setOnClickListener { listener.onUndoButton() }
+        binding.keyboardToolRedo.setOnClickListener { listener.onRedoButton() }
     }
 
     fun submitList(keys: List<KeyModel>) {
         keyAdapter?.submitList(keys)
     }
 
-    private fun updatePanel() {
+    private fun updateKeyboard() {
         when (mode) {
             Mode.KEYBOARD -> {
-                binding.keyboard.isVisible = true
+                binding.keyboardBackground.isVisible = true
+
+                binding.keyboardExtended.isVisible = true
+                binding.keyboardToolOpen.isInvisible = true
+                binding.keyboardToolSave.isInvisible = true
+                binding.keyboardToolClose.isInvisible = true
+                binding.keyboardToolUndo.isInvisible = true
+                binding.keyboardToolRedo.isInvisible = true
+                binding.keyboardSwap.isVisible = true
+            }
+            Mode.TOOLS -> {
+                binding.keyboardBackground.isVisible = true
+                binding.keyboardExtended.isInvisible = true
+                binding.keyboardToolOpen.isVisible = true
+                binding.keyboardToolSave.isVisible = true
+                binding.keyboardToolClose.isVisible = true
+                binding.keyboardToolUndo.isVisible = true
+                binding.keyboardToolRedo.isVisible = true
+                binding.keyboardSwap.isVisible = true
             }
             Mode.NONE -> {
-                binding.keyboard.isVisible = false
+                binding.keyboardBackground.isVisible = false
+                binding.keyboardExtended.isVisible = false
+                binding.keyboardToolOpen.isVisible = false
+                binding.keyboardToolSave.isVisible = false
+                binding.keyboardToolClose.isVisible = false
+                binding.keyboardToolUndo.isVisible = false
+                binding.keyboardToolRedo.isVisible = false
+                binding.keyboardSwap.isVisible = false
             }
         }
     }
 
     interface Listener {
         fun onKeyButton(char: Char): Boolean
+        fun onOpenButton(): Boolean
+        fun onSaveButton(): Boolean
+        fun onCloseButton(): Boolean
+        fun onUndoButton(): Boolean
+        fun onRedoButton(): Boolean
     }
 
     enum class Mode {
         KEYBOARD,
+        TOOLS,
         NONE,
     }
 }
