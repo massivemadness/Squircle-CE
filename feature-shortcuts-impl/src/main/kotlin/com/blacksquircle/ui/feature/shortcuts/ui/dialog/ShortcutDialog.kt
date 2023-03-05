@@ -79,6 +79,7 @@ class ShortcutDialog : DialogFragment() {
                 Shortcut.SELECT_LINE -> R.string.shortcut_select_line
                 Shortcut.DELETE_LINE -> R.string.shortcut_delete_line
                 Shortcut.DUPLICATE_LINE -> R.string.shortcut_duplicate_line
+                Shortcut.TOGGLE_CASE -> R.string.shortcut_toggle_case
                 Shortcut.PREV_WORD -> R.string.shortcut_prev_word
                 Shortcut.NEXT_WORD -> R.string.shortcut_next_word
                 Shortcut.START_OF_LINE -> R.string.shortcut_start_of_line

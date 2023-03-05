@@ -37,8 +37,8 @@ class KeyboardManager(private val listener: OnKeyboardListener) {
         this.binding = binding
         updatePanel()
 
-        binding.extendedKeyboard.setHasFixedSize(true)
-        binding.extendedKeyboard.adapter = KeyAdapter { keyModel ->
+        binding.keyboard.setHasFixedSize(true)
+        binding.keyboard.adapter = KeyAdapter { keyModel ->
             listener.onKeyButton(keyModel.value)
         }.also {
             keyAdapter = it

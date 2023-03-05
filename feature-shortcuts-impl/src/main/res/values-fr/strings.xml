@@ -34,6 +34,7 @@
     <string name="shortcut_select_line">Sélectionner une ligne</string>
     <string name="shortcut_delete_line">Supprimer une ligne</string>
     <string name="shortcut_duplicate_line">Dupliquer la ligne</string>
+    <string name="shortcut_toggle_case">Toggle Case</string>
     <string name="shortcut_prev_word">Previous Word</string>
     <string name="shortcut_next_word">Next Word</string>
     <string name="shortcut_start_of_line">Start of Line</string>

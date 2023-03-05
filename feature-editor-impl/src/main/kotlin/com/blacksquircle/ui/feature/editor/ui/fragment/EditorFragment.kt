@@ -352,6 +352,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
         return true
     }
 
+    override fun onToggleCaseButton(): Boolean {
+        binding.editor.toggleCase()
+        return true
+    }
+
     override fun onPreviousWordButton(): Boolean {
         binding.editor.moveCaretToPrevWord()
         return true
@@ -529,6 +534,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                                 Shortcut.SELECT_LINE -> onSelectLineButton()
                                 Shortcut.DELETE_LINE -> onDeleteLineButton()
                                 Shortcut.DUPLICATE_LINE -> onDuplicateLineButton()
+                                Shortcut.TOGGLE_CASE -> onToggleCaseButton()
                                 Shortcut.PREV_WORD -> onPreviousWordButton()
                                 Shortcut.NEXT_WORD -> onNextWordButton()
                                 Shortcut.START_OF_LINE -> onStartOfLineButton()

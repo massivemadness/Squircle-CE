@@ -328,28 +328,21 @@
 
     <!-- region EXTENDED KEYBOARD -->
 
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorSecondaryVariant"
+        android:orientation="horizontal"
         android:visibility="gone"
+        android:background="?colorSecondaryVariant"
         android:id="@+id/keyboard"
-        tools:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/editor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/extended_keyboard"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_keyboard_key"
-            tools:itemCount="24" />
-
-    </FrameLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible"
+        tools:listitem="@layout/item_keyboard_key"
+        tools:itemCount="24" />
 
     <!-- endregion EXTENDED KEYBOARD-->
 
