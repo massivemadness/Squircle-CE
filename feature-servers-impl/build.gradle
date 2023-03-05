@@ -97,6 +97,7 @@ dependencies {
     // Tests
     testImplementation library.junit
     testImplementation library.mockk
+    testImplementation library.coroutines_test
     androidTestImplementation library.junit_ext
     androidTestImplementation library.test_runner
 }
