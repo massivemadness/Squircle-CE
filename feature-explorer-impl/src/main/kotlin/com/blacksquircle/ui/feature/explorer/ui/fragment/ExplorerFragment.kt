@@ -304,7 +304,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                             stopActionMode()
                         }
                     }
-                    is ToolbarViewState.Stub -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

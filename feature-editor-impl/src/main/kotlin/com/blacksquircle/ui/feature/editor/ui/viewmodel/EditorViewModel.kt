@@ -58,7 +58,7 @@ class EditorViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
-    private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.Stub)
+    private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
     val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
 
     private val _editorViewState = MutableStateFlow<EditorViewState>(EditorViewState.Loading)

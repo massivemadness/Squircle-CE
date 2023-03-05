@@ -21,7 +21,7 @@ import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.KeyAdapter
 import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 
-class KeyboardManager(private val listener: OnKeyboardListener) {
+class KeyboardManager(private val listener: Listener) {
 
     var mode: Mode = Mode.NONE
         set(value) {
@@ -60,7 +60,7 @@ class KeyboardManager(private val listener: OnKeyboardListener) {
         }
     }
 
-    interface OnKeyboardListener {
+    interface Listener {
         fun onKeyButton(char: Char): Boolean
     }
 

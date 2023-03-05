@@ -22,11 +22,9 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 sealed class ToolbarViewState : ViewState() {
 
-    object Stub : ToolbarViewState()
-
     data class ActionBar(
-        val breadcrumbs: List<FileModel>,
-        val selection: List<FileModel>,
-        val operation: Operation,
+        val breadcrumbs: List<FileModel> = emptyList(),
+        val selection: List<FileModel> = emptyList(),
+        val operation: Operation = Operation.CREATE,
     ) : ToolbarViewState()
 }

@@ -53,7 +53,7 @@ class ExplorerViewModel @Inject constructor(
     serversRepository: ServersRepository,
 ) : ViewModel() {
 
-    private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.Stub)
+    private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
     val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
 
     private val _explorerViewState = MutableStateFlow<ExplorerViewState>(ExplorerViewState.Loading)

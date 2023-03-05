@@ -73,7 +73,7 @@ import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class EditorFragment : Fragment(R.layout.fragment_editor),
-    BackPressedHandler, ToolbarManager.OnToolbarListener, KeyboardManager.OnKeyboardListener {
+    BackPressedHandler, ToolbarManager.Listener, KeyboardManager.Listener {
 
     private val viewModel by activityViewModels<EditorViewModel>()
     private val binding by viewBinding(FragmentEditorBinding::bind)
@@ -191,7 +191,6 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                             binding.editor.language = state.documents[state.position].language
                         }
                     }
-                    is ToolbarViewState.Stub -> Unit
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

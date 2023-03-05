@@ -23,11 +23,9 @@ import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 
 sealed class ToolbarViewState : ViewState() {
 
-    object Stub : ToolbarViewState()
-
     data class ActionBar(
-        val documents: List<DocumentModel>,
-        val position: Int,
+        val documents: List<DocumentModel> = emptyList(),
+        val position: Int = -1,
         val mode: ToolbarManager.Mode = ToolbarManager.Mode.DEFAULT,
         val findParams: FindParams = FindParams()
     ) : ToolbarViewState()

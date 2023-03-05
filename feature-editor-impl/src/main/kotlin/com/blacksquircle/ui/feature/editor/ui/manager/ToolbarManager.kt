@@ -31,7 +31,7 @@ import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.uikit.R as UiR
 
 class ToolbarManager(
-    private val listener: OnToolbarListener,
+    private val listener: Listener,
 ) : PopupMenu.OnMenuItemClickListener {
 
     var mode: Mode = Mode.DEFAULT
@@ -194,7 +194,7 @@ class ToolbarManager(
         }
     }
 
-    interface OnToolbarListener {
+    interface Listener {
         fun onDrawerButton()
 
         fun onNewButton(): Boolean
