@@ -27,9 +27,11 @@ import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -171,6 +173,37 @@ class ListFilesTests {
             title = stringProvider.getString(UiR.string.common_no_result),
             subtitle = "",
         )
+        assertEquals(explorerViewState, viewModel.explorerViewState.value)
+    }
+
+    @Test
+    fun `When opening a folder Then display loading state`() = runTest {
+        // Given
+        coEvery { explorerRepository.listFiles(any()) } coAnswers {
+            delay(200)
+            FileTree(mockk(), emptyList())
+        }
+
+        // When
+        val viewModel = explorerViewModel()
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder())
+
+        // Then
+        val explorerViewState = ExplorerViewState.Loading
+        assertEquals(explorerViewState, viewModel.explorerViewState.value)
+    }
+
+    @Test
+    fun `When opening a folder without storage access Then display permission state`() = runTest {
+        // Given
+        coEvery { explorerRepository.listFiles(any()) } answers { throw PermissionException() }
+
+        // When
+        val viewModel = explorerViewModel()
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder())
+
+        // Then
+        val explorerViewState = ExplorerViewState.Permission
         assertEquals(explorerViewState, viewModel.explorerViewState.value)
     }
 

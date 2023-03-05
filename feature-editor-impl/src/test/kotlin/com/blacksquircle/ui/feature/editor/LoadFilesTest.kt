@@ -34,8 +34,9 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -98,10 +99,10 @@ class LoadFilesTest {
 
         // Then
         val toolbarViewState = ToolbarViewState.ActionBar(documentList, 0)
-        Assert.assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
         val editorViewState = EditorViewState.Content(documentContent)
-        Assert.assertEquals(editorViewState, viewModel.editorViewState.value)
+        assertEquals(editorViewState, viewModel.editorViewState.value)
     }
 
     @Test
@@ -115,14 +116,28 @@ class LoadFilesTest {
 
         // Then
         val toolbarViewState = ToolbarViewState.ActionBar()
-        Assert.assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
+        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
         val editorViewState = EditorViewState.Error(
             image = UiR.drawable.ic_file_find,
             title = stringProvider.getString(R.string.message_no_open_files),
             subtitle = "",
         )
-        Assert.assertEquals(editorViewState, viewModel.editorViewState.value)
+        assertEquals(editorViewState, viewModel.editorViewState.value)
+    }
+
+    @Test
+    fun `When opening the screen Then display loading state`() = runTest {
+        // Given
+        coEvery { documentRepository.loadDocuments() } coAnswers { delay(200); emptyList() }
+
+        // When
+        val viewModel = editorViewModel()
+        viewModel.obtainEvent(EditorIntent.LoadFiles)
+
+        // Then
+        val editorViewState = EditorViewState.Loading
+        assertEquals(editorViewState, viewModel.editorViewState.value)
     }
 
     private fun editorViewModel(): EditorViewModel {

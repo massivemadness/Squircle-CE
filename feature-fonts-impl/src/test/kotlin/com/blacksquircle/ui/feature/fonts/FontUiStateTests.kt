@@ -46,7 +46,7 @@ class FontUiStateTests {
     private val fontsRepository = mockk<FontsRepository>()
 
     @Test
-    fun `When opening a screen Then display loading state`() = runTest {
+    fun `When opening the screen Then display loading state`() = runTest {
         // Given
         coEvery { fontsRepository.loadFonts() } coAnswers { delay(200); emptyList() }
 

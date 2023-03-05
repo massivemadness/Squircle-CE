@@ -46,7 +46,7 @@ class ThemeUiStateTests {
     private val themesRepository = mockk<ThemesRepository>()
 
     @Test
-    fun `When opening a screen Then display loading state`() = runTest {
+    fun `When opening the screen Then display loading state`() = runTest {
         // Given
         coEvery { themesRepository.loadThemes() } coAnswers { delay(200); emptyList() }
 
