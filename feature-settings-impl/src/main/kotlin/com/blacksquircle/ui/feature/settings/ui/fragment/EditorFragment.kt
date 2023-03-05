@@ -34,8 +34,10 @@ import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.uikit.R as UiR
 
+@AndroidEntryPoint
 class EditorFragment : PreferenceFragmentCompat() {
 
     private val binding by viewBinding(LayoutPreferenceBinding::bind)

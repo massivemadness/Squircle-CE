@@ -38,10 +38,12 @@ import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerIntent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import com.blacksquircle.ui.uikit.R as UiR
 
+@AndroidEntryPoint
 class CloudFragment : PreferenceFragmentCompat() {
 
     private val viewModel by hiltNavGraphViewModels<ServersViewModel>(R.id.servers_graph)

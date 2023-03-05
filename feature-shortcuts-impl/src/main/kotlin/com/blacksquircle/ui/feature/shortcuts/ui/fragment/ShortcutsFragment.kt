@@ -35,10 +35,12 @@ import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import com.blacksquircle.ui.uikit.R as UiR
 
+@AndroidEntryPoint
 class ShortcutsFragment : PreferenceFragmentCompat() {
 
     private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)

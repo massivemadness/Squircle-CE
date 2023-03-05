@@ -36,8 +36,10 @@ import com.blacksquircle.ui.feature.settings.data.utils.versionCode
 import com.blacksquircle.ui.feature.settings.data.utils.versionName
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.uikit.R as UiR
 
+@AndroidEntryPoint
 class AboutFragment : PreferenceFragmentCompat() {
 
     private val binding by viewBinding(LayoutPreferenceBinding::bind)

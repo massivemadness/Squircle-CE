@@ -32,9 +32,11 @@ import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.nio.charset.Charset
 import com.blacksquircle.ui.uikit.R as UiR
 
+@AndroidEntryPoint
 class FilesFragment : PreferenceFragmentCompat() {
 
     private val binding by viewBinding(LayoutPreferenceBinding::bind)

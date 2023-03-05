@@ -16,11 +16,14 @@
 
 package com.blacksquircle.ui.feature.editor.ui.adapter
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.blacksquircle.ui.core.ui.extensions.dpToPx
 import com.blacksquircle.ui.feature.editor.databinding.ItemKeyboardKeyBinding
 import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 
@@ -70,7 +73,14 @@ class KeyAdapter(
 
         fun bind(item: KeyModel) {
             keyModel = item
-            binding.itemTitle.text = item.display
+            binding.title.text = item.display
+            if (item.display.length > 1) {
+                binding.title.updatePadding(bottom = 0)
+                binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            } else {
+                binding.title.updatePadding(bottom = 2.dpToPx())
+                binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            }
         }
     }
 }
