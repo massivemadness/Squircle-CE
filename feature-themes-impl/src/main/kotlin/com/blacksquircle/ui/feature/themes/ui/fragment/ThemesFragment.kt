@@ -64,7 +64,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
     private val exportThemeContract = CreateFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> {
-                viewModel.obtainIntent(ThemeIntent.ExportTheme(themeModel, result.uri))
+                viewModel.obtainEvent(ThemeIntent.ExportTheme(themeModel, result.uri))
             }
             is ContractResult.Canceled -> Unit
         }
@@ -91,7 +91,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = ThemeAdapter(object : ThemeAdapter.Actions {
             override fun selectTheme(themeModel: ThemeModel) {
-                viewModel.obtainIntent(ThemeIntent.SelectTheme(themeModel))
+                viewModel.obtainEvent(ThemeIntent.SelectTheme(themeModel))
             }
             override fun exportTheme(themeModel: ThemeModel) {
                 this@ThemesFragment.themeModel = themeModel
@@ -101,7 +101,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                 navController.navigate(ThemesScreen.Update(themeModel.uuid))
             }
             override fun removeTheme(themeModel: ThemeModel) {
-                viewModel.obtainIntent(ThemeIntent.RemoveTheme(themeModel))
+                viewModel.obtainEvent(ThemeIntent.RemoveTheme(themeModel))
             }
             override fun showInfo(themeModel: ThemeModel) {
                 context?.showToast(text = themeModel.description)
@@ -132,7 +132,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                     }
 
                     searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-                        viewModel.obtainIntent(ThemeIntent.SearchThemes(it))
+                        viewModel.obtainEvent(ThemeIntent.SearchThemes(it))
                     }
 
                     val spinnerItem = menu.findItem(R.id.spinner)

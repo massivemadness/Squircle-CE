@@ -64,7 +64,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     private val navArgs by navArgs<NewThemeFragmentArgs>()
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
-            is ContractResult.Success -> viewModel.obtainIntent(ThemeIntent.ImportTheme(result.uri))
+            is ContractResult.Success -> viewModel.obtainEvent(ThemeIntent.ImportTheme(result.uri))
             is ContractResult.Canceled -> Unit
         }
     }
@@ -74,7 +74,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            viewModel.obtainIntent(ThemeIntent.LoadProperties(navArgs.uuid))
+            viewModel.obtainEvent(ThemeIntent.LoadProperties(navArgs.uuid))
         }
     }
 
@@ -90,13 +90,13 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         }
 
         binding.textInputThemeName.doAfterTextChanged {
-            viewModel.obtainIntent(ThemeIntent.ChangeName(it.toString()))
+            viewModel.obtainEvent(ThemeIntent.ChangeName(it.toString()))
         }
         binding.textInputThemeAuthor.doAfterTextChanged {
-            viewModel.obtainIntent(ThemeIntent.ChangeAuthor(it.toString()))
+            viewModel.obtainEvent(ThemeIntent.ChangeAuthor(it.toString()))
         }
         binding.textInputThemeDescription.doAfterTextChanged {
-            viewModel.obtainIntent(ThemeIntent.ChangeDescription(it.toString()))
+            viewModel.obtainEvent(ThemeIntent.ChangeDescription(it.toString()))
         }
 
         binding.recyclerView.setHasFixedSize(false)
@@ -116,7 +116,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                             item.propertyKey,
                             color.toHexString(),
                         )
-                        viewModel.obtainIntent(event)
+                        viewModel.obtainEvent(event)
                     }
                     positiveButton(R.string.action_select)
                     negativeButton(android.R.string.cancel)
@@ -133,7 +133,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                 author = binding.textInputThemeAuthor.text.toString(),
                 description = binding.textInputThemeDescription.text.toString(),
             )
-            viewModel.obtainIntent(ThemeIntent.CreateTheme(meta, adapter.currentList))
+            viewModel.obtainEvent(ThemeIntent.CreateTheme(meta, adapter.currentList))
         }
 
         binding.toolbar.setNavigationOnClickListener {

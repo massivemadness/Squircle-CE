@@ -57,7 +57,7 @@ class ThemesViewModel @Inject constructor(
         loadThemes()
     }
 
-    fun obtainIntent(event: ThemeIntent) {
+    fun obtainEvent(event: ThemeIntent) {
         when (event) {
             is ThemeIntent.LoadThemes -> loadThemes()
 
