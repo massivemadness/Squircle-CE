@@ -97,6 +97,12 @@
             tools:summary="Ctrl + D" />
 
         <Preference
+            android:key="shortcut_toggle_case"
+            android:title="@string/shortcut_toggle_case"
+            android:summary="@string/shortcut_none"
+            tools:summary="Ctrl + Shift + U" />
+
+        <Preference
             android:key="shortcut_prev_word"
             android:title="@string/shortcut_prev_word"
             android:summary="@string/shortcut_none"
