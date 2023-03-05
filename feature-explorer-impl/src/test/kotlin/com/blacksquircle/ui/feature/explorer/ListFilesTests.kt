@@ -37,6 +37,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.util.*
+import com.blacksquircle.ui.uikit.R as UiR
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ListFilesTests {
@@ -54,6 +55,8 @@ class ListFilesTests {
 
     @Before
     fun setup() {
+        every { stringProvider.getString(UiR.string.common_no_result) } returns "No result"
+
         every { settingsManager.showHidden } returns true
         every { settingsManager.showHidden = any() } returns Unit
         every { settingsManager.foldersOnTop } returns true
@@ -78,6 +81,7 @@ class ListFilesTests {
 
     @Test
     fun `When the user opens the app Then load default directory and select tab`() = runTest {
+        // Given
         val rootTree = FileTree(
             parent = createFolder("Documents"),
             children = listOf(
@@ -90,7 +94,7 @@ class ListFilesTests {
 
         // When
         val viewModel = explorerViewModel()
-        viewModel.obtainEvent(ExplorerIntent.OpenFolder(null))
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder())
 
         // Then
         val toolbarViewState =
@@ -103,6 +107,7 @@ class ListFilesTests {
 
     @Test
     fun `When opening a folder Then load files and select tab`() = runTest {
+        // Given
         val rootTree = FileTree(
             parent = createFolder("Documents"),
             children = listOf(
@@ -124,7 +129,7 @@ class ListFilesTests {
 
         // When
         val viewModel = explorerViewModel()
-        viewModel.obtainEvent(ExplorerIntent.OpenFolder(null))
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder())
         viewModel.obtainEvent(ExplorerIntent.OpenFolder(dirTree.parent))
 
         // Then
@@ -134,6 +139,38 @@ class ListFilesTests {
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
         val explorerViewState = ExplorerViewState.Files(dirTree.children)
+        assertEquals(explorerViewState, viewModel.explorerViewState.value)
+    }
+
+    @Test
+    fun `When opening an empty folder Then display empty state`() = runTest {
+        // Given
+        val rootTree = FileTree(
+            parent = createFolder("Documents"),
+            children = listOf(
+                createFolder(fileName = "Documents/folder_1"),
+                createFolder(fileName = "Documents/folder_2"),
+                createFolder(fileName = "Documents/folder_3"),
+            )
+        )
+        val dirTree = FileTree(
+            parent = rootTree.children[0],
+            children = emptyList()
+        )
+        coEvery { explorerRepository.listFiles(null) } returns rootTree
+        coEvery { explorerRepository.listFiles(dirTree.parent) } returns dirTree
+
+        // When
+        val viewModel = explorerViewModel()
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder())
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder(dirTree.parent))
+
+        // Then
+        val explorerViewState = ExplorerViewState.Error(
+            image = UiR.drawable.ic_file_find,
+            title = stringProvider.getString(UiR.string.common_no_result),
+            subtitle = "",
+        )
         assertEquals(explorerViewState, viewModel.explorerViewState.value)
     }
 

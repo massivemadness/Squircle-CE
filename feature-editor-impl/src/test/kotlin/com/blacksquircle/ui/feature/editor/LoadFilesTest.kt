@@ -30,17 +30,19 @@ import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import com.blacksquircle.ui.uikit.R as UiR
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SelectTabTests {
+class LoadFilesTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -57,6 +59,8 @@ class SelectTabTests {
 
     @Before
     fun setup() {
+        every { stringProvider.getString(R.string.message_no_open_files) } returns "No open files"
+
         every { settingsManager.extendedKeyboard } returns true
         every { settingsManager.autoSaveFiles } returns false
         every { settingsManager.selectedUuid = any() } returns Unit
@@ -72,7 +76,7 @@ class SelectTabTests {
     }
 
     @Test
-    fun `When selecting tab Then load document content`() = runTest {
+    fun `When the user opens the app Then load documents and select tab`() = runTest {
         // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
@@ -80,85 +84,45 @@ class SelectTabTests {
             createDocument(position = 2, fileName = "third.txt"),
         )
         val selected = documentList[0]
-        val expected = documentList[1]
         val undoStack = mockk<UndoStack>()
         val redoStack = mockk<UndoStack>()
-        val selectedContent = DocumentContent(selected, undoStack, redoStack, "Text of first.txt")
-        val expectedContent = DocumentContent(expected, undoStack, redoStack, "Text of second.txt")
+        val documentContent = DocumentContent(selected, undoStack, redoStack, "Text of first.txt")
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns selectedContent
-        coEvery { documentRepository.loadFile(expected) } returns expectedContent
+        coEvery { documentRepository.loadFile(any()) } returns documentContent
 
         // When
         val viewModel = editorViewModel()
-        viewModel.obtainEvent(EditorIntent.SelectTab(1))
+        viewModel.obtainEvent(EditorIntent.LoadFiles)
 
         // Then
-        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 1)
-        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
+        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 0)
+        Assert.assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
-        val editorViewState = EditorViewState.Content(expectedContent)
-        assertEquals(editorViewState, viewModel.editorViewState.value)
+        val editorViewState = EditorViewState.Content(documentContent)
+        Assert.assertEquals(editorViewState, viewModel.editorViewState.value)
     }
 
     @Test
-    fun `When opening a file that is in the documents list Then select existing tab`() = runTest {
+    fun `When there is no documents in database Then display empty state`() = runTest {
         // Given
-        val documentList = listOf(
-            createDocument(position = 0, fileName = "first.txt"),
-            createDocument(position = 1, fileName = "second.txt"),
-            createDocument(position = 2, fileName = "third.txt"),
-        )
-        val selected = documentList[0]
-
-        every { settingsManager.selectedUuid } returns selected.uuid
-        coEvery { documentRepository.loadDocuments() } returns documentList
+        coEvery { documentRepository.loadDocuments() } returns emptyList()
 
         // When
         val viewModel = editorViewModel()
-        val fileModel = FileModel(documentList[1].fileUri, "local")
-        viewModel.obtainEvent(EditorIntent.OpenFile(fileModel))
+        viewModel.obtainEvent(EditorIntent.LoadFiles)
 
         // Then
-        val toolbarViewState = ToolbarViewState.ActionBar(documentList, 1)
-        assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
-    }
+        val toolbarViewState = ToolbarViewState.ActionBar()
+        Assert.assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
-    @Test
-    fun `When opening a file that isn't in the documents list Then select a new tab`() = runTest {
-        // Given
-        val documentList = listOf(
-            createDocument(position = 0, fileName = "first.txt"),
-            createDocument(position = 1, fileName = "second.txt"),
+        val editorViewState = EditorViewState.Error(
+            image = UiR.drawable.ic_file_find,
+            title = stringProvider.getString(R.string.message_no_open_files),
+            subtitle = "",
         )
-        val selected = documentList[0]
-
-        every { settingsManager.selectedUuid } returns selected.uuid
-        coEvery { documentRepository.loadDocuments() } returns documentList
-
-        // When
-        val viewModel = editorViewModel()
-        val document = createDocument(position = 2, fileName = "third.txt")
-        val fileModel = FileModel(document.fileUri, "local")
-        viewModel.obtainEvent(EditorIntent.OpenFile(fileModel))
-
-        // Then
-        val expectedViewState = ToolbarViewState.ActionBar(documentList + document, 2)
-        val actualViewState = viewModel.toolbarViewState.value as ToolbarViewState.ActionBar
-
-        assertEquals(expectedViewState.position, actualViewState.position)
-        assertEquals(expectedViewState.documents.size, actualViewState.documents.size)
-
-        assertEquals(expectedViewState.documents[0].fileUri, actualViewState.documents[0].fileUri)
-        assertEquals(expectedViewState.documents[0].position, actualViewState.documents[0].position)
-
-        assertEquals(expectedViewState.documents[1].fileUri, actualViewState.documents[1].fileUri)
-        assertEquals(expectedViewState.documents[1].position, actualViewState.documents[1].position)
-
-        assertEquals(expectedViewState.documents[2].fileUri, actualViewState.documents[2].fileUri)
-        assertEquals(expectedViewState.documents[2].position, actualViewState.documents[2].position)
+        Assert.assertEquals(editorViewState, viewModel.editorViewState.value)
     }
 
     private fun editorViewModel(): EditorViewModel {
