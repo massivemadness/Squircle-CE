@@ -40,7 +40,7 @@
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
 
     <string name="theme_property_text_color">定义编辑器的文本颜色</string>
-    <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>
+    <string name="theme_property_cursor_color">定义编辑器的光标颜色</string>
     <string name="theme_property_background_color">定义编辑器的背景颜色</string>
     <string name="theme_property_gutter_color">定义行号栏的背景颜色</string>
     <string name="theme_property_gutter_divider_color">定义行号栏的分割线颜色</string>
