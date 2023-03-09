@@ -38,14 +38,14 @@
     <string name="action_close_replace">关闭替换</string>
     <string name="action_goto_line">转到行</string>
     <string name="action_go_to">转到</string>
-    <string name="action_force_syntax">Force Syntax</string>
+    <string name="action_force_syntax">强制语法</string>
     <string name="action_insert_color">插入颜色</string>
     <string name="action_settings">设置</string>
     <string name="action_tools">工具</string>
 
     <string name="dialog_title_goto_line">跳转到行</string>
     <string name="dialog_title_color_picker">颜色选择器</string>
-    <string name="dialog_title_force_syntax">Syntax Highlighting</string>
+    <string name="dialog_title_force_syntax">语法高亮</string>
 
     <string name="dialog_message_close_tab">确定要关闭该文件吗？所有未保存的更改将会丢失</string>
 

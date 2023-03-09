@@ -27,7 +27,7 @@
     <string name="action_rename">重命名</string>
     <string name="action_run_in_background">在后台运行</string>
     <string name="action_show_hidden_files">显示隐藏文件</string>
-    <string name="action_compress">Compress</string>
+    <string name="action_compress">压缩</string>
     <string name="action_open_with">另开为</string>
     <string name="action_properties">属性</string>
 
@@ -35,25 +35,25 @@
     <string name="dialog_title_rename">重命名文件</string>
     <string name="dialog_title_multi_delete">删除所选文件</string>
     <string name="dialog_title_properties">属性</string>
-    <string name="dialog_title_creating">Creating…</string>
-    <string name="dialog_title_renaming">Renaming…</string>
+    <string name="dialog_title_creating">正在创建中</string>
+    <string name="dialog_title_renaming">正在重命名中</string>
     <string name="dialog_title_deleting">文件删除中</string>
     <string name="dialog_title_copying">文件复制中</string>
     <string name="dialog_title_compressing">正在压缩中</string>
     <string name="dialog_title_extracting">正在解压中</string>
     <string name="dialog_title_archive_name">压缩包名称</string>
     <string name="dialog_title_storage_permission">外部存储权限</string>
-    <string name="dialog_title_notification_permission">Notifications</string>
+    <string name="dialog_title_notification_permission">通知</string>
 
     <string name="dialog_message_delete">确定要删除该文件吗？</string>
     <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
     <string name="dialog_message_storage_permission">作为文件管理器，Squircle CE 需要访问所有文件才能正常运行。\n\n请点击“继续”后在授予所有文件的管理权限。</string>
-    <string name="dialog_message_notification_permission">Squircle CE needs access to notifications to run in background\n\nPlease allow the access in the upcoming system setting</string>
+    <string name="dialog_message_notification_permission">Squircle CE 需要通知权限以保证后台运行\n\n请在下一个系统设置界面中选择允许通知</string>
 
-    <string name="properties_name">File Name:</string>
-    <string name="properties_path">File Path:</string>
-    <string name="properties_modified">Last Modified:</string>
-    <string name="properties_size">File Size:</string>
+    <string name="properties_name">文件名:</string>
+    <string name="properties_path">文件路径:</string>
+    <string name="properties_modified">最后修改:</string>
+    <string name="properties_size">文件大小:</string>
     <string name="properties_readable">可读</string>
     <string name="properties_writable">可写</string>
     <string name="properties_executable">可执行</string>
@@ -77,22 +77,22 @@
     <string name="message_split_archive">暂不支持已分卷的压缩包</string>
     <string name="message_encrypted_archive">暂不支持已加密的压缩包</string>
     <string name="message_operation_cancelled">操作已取消</string>
-    <string name="message_operation_not_supported">Operation not supported</string>
+    <string name="message_operation_not_supported">操作不支持</string>
     <string name="message_done">已完毕</string>
     <string name="message_file_not_found">文件不存在</string>
     <string name="message_elapsed_time">运行时间: %1$s</string>
-    <string name="message_creating">Creating…%1$s</string>
-    <string name="message_renaming">Renaming…%1$s</string>
+    <string name="message_creating">创建中…%1$s</string>
+    <string name="message_renaming">重命名中…%1$s</string>
     <string name="message_deleting">删除中…%1$s</string>
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
 
-    <string name="explorer_channel_name">File Manager</string>
-    <string name="explorer_channel_description">Display and control file operations</string>
+    <string name="explorer_channel_name">文件管理器</string>
+    <string name="explorer_channel_description">显示并控制文件操作</string>
 
     <string name="storage_local">本地存储</string>
-    <string name="storage_root">Root Directory</string>
-    <string name="storage_add">Add Server</string>
+    <string name="storage_root">根目录</string>
+    <string name="storage_add">添加服务器</string>
 
 </resources>

@@ -23,12 +23,12 @@
 
     <string name="action_reset">重置</string>
 
-    <string name="message_app_theme_disclaimer">Requires Android 10 or newer</string>
+    <string name="message_app_theme_disclaimer">需要安卓 10 及以上</string>
     <string name="message_preset_disclaimer">注：同一个字符可以重复多次</string>
 
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_system">System default</string>
+    <string name="theme_light">亮</string>
+    <string name="theme_dark">暗</string>
+    <string name="theme_system">系统默认</string>
 
     <string name="sort_by_name">按名称排序</string>
     <string name="sort_by_size">按大小排序</string>
@@ -45,10 +45,10 @@
     <string name="pref_header_codeStyle_summary">配置代码缩进、符号配对等。</string>
     <string name="pref_header_files_title">文件</string>
     <string name="pref_header_files_summary">配置文件的处理方式。</string>
-    <string name="pref_header_keybindings_title">Keybindings</string>
-    <string name="pref_header_keybindings_summary">Configure keybindings.</string>
-    <string name="pref_header_cloud_title">Cloud &amp; Servers</string>
-    <string name="pref_header_cloud_summary">Configure cloud storage and servers.</string>
+    <string name="pref_header_keybindings_title">快捷键</string>
+    <string name="pref_header_keybindings_summary">配置快捷键。</string>
+    <string name="pref_header_cloud_title">云 &amp; 服务器</string>
+    <string name="pref_header_cloud_summary">配置云存储和服务器。</string>
     <string name="pref_header_about_title">关于</string>
     <string name="pref_header_about_summary">查看 Squircle CE 的有关信息。</string>
 
@@ -66,8 +66,8 @@
     <string name="pref_category_about">关于</string>
     <string name="pref_category_contribute">贡献</string>
 
-    <string name="pref_app_theme_title">Application Theme</string>
-    <string name="pref_app_theme_summary">Configure the application theme.</string>
+    <string name="pref_app_theme_title">应用主题</string>
+    <string name="pref_app_theme_summary">配置应用主题。</string>
     <string name="pref_color_scheme_title">配色方案</string>
     <string name="pref_color_scheme_summary">配置语法高亮显示颜色方案。</string>
     <string name="pref_fullscreen_title">全屏模式</string>
@@ -87,8 +87,8 @@
     <string name="pref_error_highlighting_summary">启用实时错误高亮显示（需要重启本应用才能生效）。</string>-->
     <string name="pref_pinch_zoom_title">手势缩放</string>
     <string name="pref_pinch_zoom_summary">在编辑器中启用缩放手势。</string>
-    <string name="pref_line_numbers_title">Line Numbers</string>
-    <string name="pref_line_numbers_summary">Display the line numbers to the left of the code editor.</string>
+    <string name="pref_line_numbers_title">行号</string>
+    <string name="pref_line_numbers_summary">在代码编辑器左侧显示行号</string>
     <string name="pref_highlight_line_title">高亮当前行</string>
     <string name="pref_highlight_line_summary">高亮显示光标当前所在的行。</string>
     <string name="pref_highlight_delimiters_title">高亮成对符</string>
@@ -115,11 +115,11 @@
 
     <string name="pref_encoding_auto_detect_title">自动检测编码</string>
     <string name="pref_encoding_auto_detect_summary">自动检测编码对多字节语言是很有用的。</string>
-    <string name="pref_encoding_for_opening_title">以该编码打开</string>
+    <string name="pref_encoding_for_opening_title">打开时默认编码</string>
     <string name="pref_encoding_for_opening_summary">默认使用该编码类型打开文本文件。</string>
-    <string name="pref_encoding_for_saving_title">以该编码保存</string>
+    <string name="pref_encoding_for_saving_title">保存时默认编码</string>
     <string name="pref_encoding_for_saving_summary">默认使用该编码类型保存文本文件。</string>
-    <string name="pref_linebreaks_for_saving_files_title">以该换行符保存</string>
+    <string name="pref_linebreaks_for_saving_files_title">保存时默认换行符类型</string>
     <string name="pref_linebreaks_for_saving_files_summary">默认使用该换行符类型保存文本文件</string>
     <string name="pref_show_hidden_files_title">显示隐藏文件</string>
     <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
