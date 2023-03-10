@@ -14,12 +14,9 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="hint_enter_file_name">輸入檔案名稱</string>
     <string name="hint_enter_archive_name">輸入壓縮檔名稱</string>
-
     <string name="action_grant_access">授予訪問權限</string>
     <string name="action_create">新增</string>
     <string name="action_copy_path">複製路徑</string>
@@ -30,7 +27,6 @@
     <string name="action_compress">壓縮</string>
     <string name="action_open_with">另開為</string>
     <string name="action_properties">屬性</string>
-
     <string name="dialog_title_create">新增檔案</string>
     <string name="dialog_title_rename">重新命名檔案</string>
     <string name="dialog_title_multi_delete">刪除所選檔案</string>
@@ -44,12 +40,10 @@
     <string name="dialog_title_archive_name">壓縮檔名稱</string>
     <string name="dialog_title_storage_permission">外部存儲權限</string>
     <string name="dialog_title_notification_permission">Notifications</string>
-
     <string name="dialog_message_delete">確定要刪除該檔案嗎？</string>
     <string name="dialog_message_multi_delete">確定要刪除所選的檔案嗎？</string>
     <string name="dialog_message_storage_permission">作為檔案管理器，Squircle CE 需要訪問所有檔案才能正常運作。\n\n請點擊「繼續」後再授予所有檔案的管理權限。</string>
     <string name="dialog_message_notification_permission">Squircle CE needs access to notifications to run in background\n\nPlease allow the access in the upcoming system setting</string>
-
     <string name="properties_name">檔案名稱：</string>
     <string name="properties_path">檔案路徑：</string>
     <string name="properties_modified">最後修改：</string>
@@ -57,15 +51,12 @@
     <string name="properties_readable">可讀</string>
     <string name="properties_writable">可寫</string>
     <string name="properties_executable">可執行</string>
-
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
     <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
     <string name="progress_time_format">mm:ss</string>
-
     <string name="sort_by_name">依名稱排序</string>
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>
-
     <string name="message_access_denied">沒有存儲空間訪問權限</string>
     <string name="message_access_required">為了能正常編寫程式，必須授予存儲權限</string>
     <string name="message_cannot_be_opened">檔案無法開啟</string>
@@ -87,12 +78,9 @@
     <string name="message_copying">正在複製…%1$s</string>
     <string name="message_compressing">正在壓縮…%1$s</string>
     <string name="message_extracting">正在解壓縮…%1$s</string>
-
     <string name="explorer_channel_name">檔案管理器</string>
     <string name="explorer_channel_description">顯示和控制檔案操作</string>
-
     <string name="storage_local">本機存儲</string>
     <string name="storage_root">根目錄</string>
     <string name="storage_add">添加伺服器</string>
-
 </resources>
