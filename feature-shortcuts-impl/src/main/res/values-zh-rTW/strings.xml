@@ -14,26 +14,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="action_restore">Restore defaults</string>
-
     <string name="pref_header_keybindings_title">Keybindings</string>
-
     <string name="pref_category_file_keybindings">File Keybindings</string>
     <string name="pref_category_editor_keybindings">Editor Keybindings</string>
     <string name="pref_category_tools_keybindings">Tools Keybindings</string>
-
-    <string name="shortcut_new_file">新增</string>
-    <string name="shortcut_open_file">開啟</string>
-    <string name="shortcut_save_file">儲存</string>
-    <string name="shortcut_save_as">另存為</string>
-    <string name="shortcut_close_file">關閉</string>
-
-    <string name="shortcut_select_line">選擇目前行</string>
-    <string name="shortcut_delete_line">刪除目前行</string>
-    <string name="shortcut_duplicate_line">複製目前行</string>
+    <string name="shortcut_new_file">New File</string>
+    <string name="shortcut_open_file">Open File</string>
+    <string name="shortcut_save_file">Save File</string>
+    <string name="shortcut_save_as">Save As</string>
+    <string name="shortcut_close_file">Close File</string>
+    <string name="shortcut_select_line">Select Line</string>
+    <string name="shortcut_delete_line">Delete Line</string>
+    <string name="shortcut_duplicate_line">Duplicate Line</string>
     <string name="shortcut_toggle_case">Toggle Case</string>
     <string name="shortcut_prev_word">Previous Word</string>
     <string name="shortcut_next_word">Next Word</string>
@@ -41,15 +35,12 @@
     <string name="shortcut_end_of_line">End of Line</string>
     <string name="shortcut_undo">Undo</string>
     <string name="shortcut_redo">Redo</string>
-    <string name="shortcut_find">尋找</string>
-    <string name="shortcut_replace">取代</string>
-    <string name="shortcut_goto_line">跳到行</string>
-
+    <string name="shortcut_find">Find</string>
+    <string name="shortcut_replace">Replace</string>
+    <string name="shortcut_goto_line">Go to Line</string>
     <string name="shortcut_force_syntax">Force Syntax</string>
-    <string name="shortcut_insert_color">插入顏色</string>
-
+    <string name="shortcut_insert_color">Insert Color</string>
     <string name="shortcut_conflict">This shortcut is already assigned to other actions. Do you want to remove the other assignments?</string>
     <string name="shortcut_press_key">Press the new keybinding (must contain Ctrl or Alt)</string>
     <string name="shortcut_none">None set</string>
-
 </resources>
