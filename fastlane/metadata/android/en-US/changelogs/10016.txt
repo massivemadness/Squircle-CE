@@ -1,0 +1,6 @@
+- Added: Light Theme
+- Added: Keyboard with tools panel
+- Added: New File (SAF) in Menu > File
+- Added: Open File (SAF) in Menu > File
+- Improved Chinese translation
+- Bugfixes and minor improvements
