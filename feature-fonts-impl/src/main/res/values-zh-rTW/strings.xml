@@ -14,15 +14,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="label_fonts">字體</string>
-
     <string name="action_select">選擇</string>
-
     <string name="message_selected">已選擇 «%1$s»</string>
     <string name="message_new_font_available">新字體可用</string>
     <string name="message_font_removed">字體 «%1$s» 已移除</string>
-
 </resources>
