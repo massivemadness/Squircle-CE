@@ -14,13 +14,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="common_error_occurred">Произошла ошибка</string>
     <string name="common_no_result">Нет результатов</string>
     <string name="common_save">Сохранить</string>
     <string name="common_delete">Удалить</string>
     <string name="common_continue">Продолжить</string>
-
 </resources>
