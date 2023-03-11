@@ -14,31 +14,24 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="label_themes">Темы</string>
     <string name="label_new_theme">Новая тема</string>
-
     <string name="hint_enter_theme_name">Название темы</string>
     <string name="hint_enter_theme_author">Автор темы</string>
     <string name="hint_enter_theme_desc">Краткое описание</string>
     <string name="hint_theme_desc">Новая цветовая схема</string>
-
     <string name="action_select">Выбрать</string>
     <string name="action_import">Импорт</string>
     <string name="action_export">Экспорт</string>
     <string name="action_edit">Изменить</string>
     <string name="action_remove">Удалить</string>
-
     <string name="dialog_title_color_picker">Выберите цвет</string>
-
     <string name="message_saved">Сохранено</string>
     <string name="message_selected">Выбран «%1$s»</string>
     <string name="message_new_theme_available">Добавлена новая тема: %1$s</string>
     <string name="message_theme_removed">Тема «%1$s» удалена</string>
     <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
-
     <string name="theme_property_text_color">Определяет цвет текста редактора</string>
     <string name="theme_property_cursor_color">Определяет цвет курсора редактора</string>
     <string name="theme_property_background_color">Определяет цвет фона редактора</string>
@@ -66,5 +59,4 @@
     <string name="theme_property_attr_name_color">Определяет цвет названия у аттрибутов в разметке: &lt;tag attr=…/&gt;</string>
     <string name="theme_property_attr_value_color">Определяет цвет значения у аттрибутов в разметке: &lt;tag attr=\"value\"/&gt;</string>
     <string name="theme_property_entity_ref_color">Определяет цвет символов-мнемоников в разметке: &amp;amp; &amp;lt; &amp;gt; …</string>
-
 </resources>
