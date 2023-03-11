@@ -14,23 +14,17 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="action_restore">重置为默认</string>
-
     <string name="pref_header_keybindings_title">快捷键</string>
-
     <string name="pref_category_file_keybindings">文件操作快捷键</string>
     <string name="pref_category_editor_keybindings">编辑操作快捷键</string>
     <string name="pref_category_tools_keybindings">工具操作快捷键</string>
-
     <string name="shortcut_new_file">新建</string>
     <string name="shortcut_open_file">打开</string>
     <string name="shortcut_save_file">保存</string>
     <string name="shortcut_save_as">另存为</string>
     <string name="shortcut_close_file">关闭</string>
-
     <string name="shortcut_select_line">选择当前行</string>
     <string name="shortcut_delete_line">删除当前行</string>
     <string name="shortcut_duplicate_line">复制当前行</string>
@@ -44,12 +38,9 @@
     <string name="shortcut_find">查找</string>
     <string name="shortcut_replace">替换</string>
     <string name="shortcut_goto_line">转到行</string>
-
     <string name="shortcut_force_syntax">强制语法</string>
     <string name="shortcut_insert_color">插入颜色</string>
-
     <string name="shortcut_conflict">该快捷键已被其他操作绑定，是否继续将绑定改为此操作？</string>
     <string name="shortcut_press_key">按下新的快捷键（必须包含 Ctrl 或 Alt）</string>
     <string name="shortcut_none">无设定</string>
-
 </resources>
