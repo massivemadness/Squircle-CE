@@ -14,17 +14,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="action_restart">Reiniciar</string>
     <string name="action_yes">Sim</string>
     <string name="action_no">Não</string>
-
     <string name="dialog_title_exit">Sair</string>
     <string name="dialog_message_exit">Você tem certeza que deseja sair? Todas as mudanças serão salvas no cache</string>
-
     <string name="message_in_app_update_ready">O app está pronto para ser atualizado</string>
     <string name="message_in_app_update_failed">A atualização falhou</string>
-
 </resources>
