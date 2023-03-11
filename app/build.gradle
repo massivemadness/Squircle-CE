@@ -98,7 +98,7 @@ dependencies {
     implementation library.timber
 
     // Google Play
-    googlePlayImplementation library.playcore
+    googlePlayImplementation library.appupdate
 
     // UI
     implementation library.appcompat

@@ -69,14 +69,14 @@ class InAppUpdateImpl(context: Context) : InAppUpdate {
                             }
                         }
                         PRIORITY_MEDIUM -> {
-                            if (clientStalenessDays >= 30 && info.isImmediateUpdateAllowed) {
+                            if (clientStalenessDays >= 15 && info.isImmediateUpdateAllowed) {
                                 startUpdate(activity, info, AppUpdateType.IMMEDIATE)
                             } else if (info.isFlexibleUpdateAllowed) {
                                 startUpdate(activity, info, AppUpdateType.FLEXIBLE)
                             }
                         }
                         PRIORITY_M_LOW -> {
-                            if (clientStalenessDays >= 90 && info.isImmediateUpdateAllowed) {
+                            if (clientStalenessDays >= 30 && info.isImmediateUpdateAllowed) {
                                 startUpdate(activity, info, AppUpdateType.IMMEDIATE)
                             } else if (info.isFlexibleUpdateAllowed) {
                                 startUpdate(activity, info, AppUpdateType.FLEXIBLE)
