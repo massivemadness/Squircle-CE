@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="label_themes">主题</string>
+    <string name="label_new_theme">新建主题</string>
+    <string name="hint_enter_theme_name">输入主题名称</string>
+    <string name="hint_enter_theme_author">输入主题作者</string>
+    <string name="hint_enter_theme_desc">主题简要描述</string>
+    <string name="hint_theme_desc">如：默认配色方案</string>
+    <string name="action_select">选择</string>
+    <string name="action_import">导入</string>
+    <string name="action_export">导出</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_remove">移除</string>
+    <string name="dialog_title_color_picker">颜色选择器</string>
+    <string name="message_saved">已保存</string>
+    <string name="message_selected">已选择 «%1$s»</string>
+    <string name="message_new_theme_available">新主题可用: %1$s</string>
+    <string name="message_theme_removed">主题 «%1$s» 已移除</string>
+    <string name="message_theme_syntax_exception">读取主题文件时出错</string>
+    <string name="theme_property_text_color">定义编辑器的文本颜色</string>
+    <string name="theme_property_cursor_color">定义编辑器光标颜色</string>
+    <string name="theme_property_background_color">定义编辑器的背景颜色</string>
+    <string name="theme_property_gutter_color">定义行号栏的背景颜色</string>
+    <string name="theme_property_gutter_divider_color">定义行号栏的分割线颜色</string>
+    <string name="theme_property_gutter_current_line_number_color">定义行号栏的当前所选行号颜色</string>
+    <string name="theme_property_gutter_text_color">定义行号栏的行号颜色</string>
+    <string name="theme_property_selected_line_color">定义编辑器的当前所选行背景颜色</string>
+    <string name="theme_property_selection_color">定义编辑器的当前所选文本背景颜色</string>
+    <string name="theme_property_suggestion_query_color">定义代码提示下拉菜单中的文字颜色</string>
+    <string name="theme_property_find_result_background_color">定义查找结果的背景颜色</string>
+    <string name="theme_property_delimiter_background_color">定义成对的分隔符的背景颜色</string>
+    <string name="theme_property_numbers_color">定义语法高亮的数字颜色，如：123、0.5、0xFF</string>
+    <string name="theme_property_operators_color">定义语法高亮的操作符颜色，如：+-*/=、[]、 {}、()</string>
+    <string name="theme_property_keywords_color">定义语法高亮的关键词颜色，如：function、if、else</string>
+    <string name="theme_property_types_color">定义语法高亮的类型颜色，如：const、var、let</string>
+    <string name="theme_property_lang_const_color">定义语法高亮的语言常量颜色，如：true, false, null</string>
+    <string name="theme_property_preprocessor_color">定义语法高亮的宏命令和注解颜色，如： #include, @Override, …</string>
+    <string name="theme_property_variables_color">定义语法高亮的变量名颜色</string>
+    <string name="theme_property_methods_color">定义语法高亮的方法名颜色，如：function foo() {}</string>
+    <string name="theme_property_strings_color">定义语法高亮的字符串颜色，如：str = \'Hello\'</string>
+    <string name="theme_property_comments_color">定义语法高亮的注释颜色，如: 以“//”开头的内容</string>
+    <string name="theme_property_tag_color">定义标记语言的标签符号颜色： &lt;, &lt;&gt;, /&gt;</string>
+    <string name="theme_property_tag_name_color">定义标记语言的标签名称颜色： &lt;tag&gt;</string>
+    <string name="theme_property_attr_name_color">定义标记语言的属性名称颜色： &lt;tag attr=…/&gt;</string>
+    <string name="theme_property_attr_value_color">定义标记语言的属性值颜色： &lt;tag attr=\"value\"/&gt;</string>
+    <string name="theme_property_entity_ref_color">定义标记语言的实体符号颜色： &amp;amp; &amp;lt; &amp;gt; …</string>
+</resources>
