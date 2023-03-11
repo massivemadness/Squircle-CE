@@ -14,31 +14,24 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="label_themes">主题</string>
     <string name="label_new_theme">新建主题</string>
-
     <string name="hint_enter_theme_name">输入主题名称</string>
     <string name="hint_enter_theme_author">输入主题作者</string>
     <string name="hint_enter_theme_desc">主题简要描述</string>
     <string name="hint_theme_desc">如：默认配色方案</string>
-
     <string name="action_select">选择</string>
     <string name="action_import">导入</string>
     <string name="action_export">导出</string>
     <string name="action_edit">编辑</string>
     <string name="action_remove">移除</string>
-
     <string name="dialog_title_color_picker">颜色选择器</string>
-
     <string name="message_saved">已保存</string>
     <string name="message_selected">已选择 «%1$s»</string>
     <string name="message_new_theme_available">新主题可用: %1$s</string>
     <string name="message_theme_removed">主题 «%1$s» 已移除</string>
     <string name="message_theme_syntax_exception">读取主题文件时出错</string>
-
     <string name="theme_property_text_color">定义编辑器的文本颜色</string>
     <string name="theme_property_cursor_color">定义编辑器光标颜色</string>
     <string name="theme_property_background_color">定义编辑器的背景颜色</string>
@@ -66,5 +59,4 @@
     <string name="theme_property_attr_name_color">定义标记语言的属性名称颜色： &lt;tag attr=…/&gt;</string>
     <string name="theme_property_attr_value_color">定义标记语言的属性值颜色： &lt;tag attr=\"value\"/&gt;</string>
     <string name="theme_property_entity_ref_color">定义标记语言的实体符号颜色： &amp;amp; &amp;lt; &amp;gt; …</string>
-
 </resources>
