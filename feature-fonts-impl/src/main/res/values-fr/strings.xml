@@ -14,15 +14,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="label_fonts">Polices</string>
-
     <string name="action_select">sélectionner</string>
-
     <string name="message_selected">«%1$s» Sélectionnée</string>
     <string name="message_new_font_available">Nouvelle police disponible</string>
     <string name="message_font_removed">Police «%1$s» supprimée</string>
-
 </resources>
