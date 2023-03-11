@@ -14,17 +14,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="action_restart">Обновить</string>
     <string name="action_yes">Да</string>
     <string name="action_no">Нет</string>
-
     <string name="dialog_title_exit">Выход</string>
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
-
     <string name="message_in_app_update_ready">Обновление загружено</string>
     <string name="message_in_app_update_failed">Произошла ошибка при установке пакета</string>
-
 </resources>
