@@ -14,15 +14,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="label_fonts">Fontes</string>
-
     <string name="action_select">Selecionar</string>
-
     <string name="message_selected">«%1$s» selecionado</string>
     <string name="message_new_font_available">Nova fonte disponível</string>
     <string name="message_font_removed">A fonte «%1$s» foi removida</string>
-
 </resources>

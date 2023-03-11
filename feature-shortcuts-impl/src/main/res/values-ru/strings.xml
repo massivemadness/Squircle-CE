@@ -14,23 +14,17 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="action_restore">Восстановить</string>
-
     <string name="pref_header_keybindings_title">Сочетания клавиш</string>
-
     <string name="pref_category_file_keybindings">Файл</string>
     <string name="pref_category_editor_keybindings">Редактор</string>
     <string name="pref_category_tools_keybindings">Инструменты</string>
-
     <string name="shortcut_new_file">Новый файл</string>
     <string name="shortcut_open_file">Открыть файл</string>
     <string name="shortcut_save_file">Сохранить файл</string>
     <string name="shortcut_save_as">Сохранить как</string>
     <string name="shortcut_close_file">Закрыть файл</string>
-
     <string name="shortcut_select_line">Выделить строку</string>
     <string name="shortcut_delete_line">Удалить строку</string>
     <string name="shortcut_duplicate_line">Повторить строку</string>
@@ -44,12 +38,9 @@
     <string name="shortcut_find">Найти</string>
     <string name="shortcut_replace">Заменить</string>
     <string name="shortcut_goto_line">Перейти к строке</string>
-
     <string name="shortcut_force_syntax">Синтаксис</string>
     <string name="shortcut_insert_color">Вставить цвет</string>
-
     <string name="shortcut_conflict">На выбранную клавишу уже назначено действие. Вы хотите отвязать клавишу?</string>
     <string name="shortcut_press_key">Нажмите новую клавишу (Ctrl или Alt обязателен)</string>
     <string name="shortcut_none">Не назначено</string>
-
 </resources>
