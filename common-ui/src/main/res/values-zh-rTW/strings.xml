@@ -14,13 +14,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="common_error_occurred">發生錯誤</string>
     <string name="common_no_result">沒有結果</string>
     <string name="common_save">儲存</string>
     <string name="common_delete">刪除</string>
     <string name="common_continue">繼續</string>
-
 </resources>
