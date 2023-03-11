@@ -43,7 +43,7 @@ Git [repository](https://github.com/massivemadness/EditorKit)._
 * `fdroid`: A flavor used for publishing the app
   on [F-Droid](https://f-droid.org/packages/com.blacksquircle.ui/)
 
-## Translations
+## Translations &middot; [![Crowdin](https://badges.crowdin.net/squircle-ce/localized.svg)](https://crowdin.com/project/squircle-ce)
 
 If you'd like to translate **Squircle CE** to a new language, or make a translation correction,
 please register an account at [Crowdin](https://crowdin.com) and join the project here:
