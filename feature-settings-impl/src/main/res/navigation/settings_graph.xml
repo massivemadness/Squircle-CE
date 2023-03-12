@@ -82,9 +82,6 @@
         android:label="@string/pref_header_about_title"
         tools:layout="@layout/layout_preference">
         <deepLink app:uri="blacksquircle://settings/about" />
-        <action
-            android:id="@+id/to_changeLogFragment"
-            app:destination="@id/changeLogFragment" />
     </fragment>
 
 </navigation>
