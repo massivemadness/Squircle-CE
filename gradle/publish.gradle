@@ -34,8 +34,16 @@ task androidSourcesJar(type: Jar) {
     }
 }
 
+task javadocJar(type: Jar) {
+    archiveClassifier.set('javadoc')
+    if (!project.plugins.findPlugin("com.android.library")) {
+        from sourceSets.main.allJava
+    }
+}
+
 artifacts {
     archives androidSourcesJar
+    archives javadocJar
 }
 
 // Default values
@@ -81,16 +89,16 @@ publishing {
                 artifact("$buildDir/libs/${libraryArtifactId}-${version}.jar")
             }
             artifact androidSourcesJar
+            artifact javadocJar
 
             pom {
-                packaging 'aar'
                 name = libraryArtifactId
                 description = 'Squircle CE is a fast and free multi-language code editor for Android.'
-                url = 'https://github.com/massivemadness/Squircle-CE'
+                url = 'https://github.com/massivemadness/EditorKit'
                 licenses {
                     license {
                         name = 'Apache 2.0 License'
-                        url = 'https://github.com/massivemadness/Squircle-CE/blob/master/LICENSE'
+                        url = 'https://github.com/massivemadness/EditorKit/blob/master/LICENSE'
                     }
                 }
                 developers {
@@ -101,9 +109,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:github.com/massivemadness/Squircle-CE.git'
-                    developerConnection = 'scm:git:ssh://github.com/massivemadness/Squircle-CE.git'
-                    url = 'https://github.com/massivemadness/Squircle-CE/tree/master'
+                    connection = 'scm:git:github.com/massivemadness/EditorKit.git'
+                    developerConnection = 'scm:git:ssh://github.com/massivemadness/EditorKit.git'
+                    url = 'https://github.com/massivemadness/EditorKit/tree/master'
                 }
                 withXml {
                     def dependenciesNode = asNode().appendNode('dependencies')
@@ -132,7 +140,7 @@ signing {
 }
 
 afterEvaluate {
-    publishReleasePublicationToSonatypeRepository.dependsOn assembleRelease
+    publishReleasePublicationToSonatypeRepository.dependsOn build
 }
 
 // ./gradlew publishReleasePublicationToSonatypeRepository --no-parallel
