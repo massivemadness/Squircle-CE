@@ -93,7 +93,7 @@ publishing {
 
             pom {
                 name = libraryArtifactId
-                description = 'Squircle CE is a fast and free multi-language code editor for Android.'
+                description = 'EditorKit is a multi-language code editor for Android.'
                 url = 'https://github.com/massivemadness/EditorKit'
                 licenses {
                     license {

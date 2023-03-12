@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.filesystem.sftp
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
@@ -24,6 +25,7 @@ import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import com.jcraft.jsch.ChannelSftp
 import com.jcraft.jsch.ChannelSftp.LsEntry
 import com.jcraft.jsch.JSch
+import com.jcraft.jsch.JSchException
 import com.jcraft.jsch.Session
 import kotlinx.coroutines.flow.Flow
 import java.io.File
@@ -142,21 +144,29 @@ class SFTPFilesystem(
     }
 
     private fun connect() {
-        jsch.removeAllIdentity()
-        session = jsch.getSession(
-            serverConfig.username,
-            serverConfig.address,
-            serverConfig.port,
-        ).apply {
-            when (serverConfig.authMethod) {
-                AuthMethod.PASSWORD -> setPassword(serverConfig.password)
-                AuthMethod.KEYSTORE -> TODO() // load private key
+        try {
+            jsch.removeAllIdentity()
+            session = jsch.getSession(
+                serverConfig.username,
+                serverConfig.address,
+                serverConfig.port,
+            ).apply {
+                when (serverConfig.authMethod) {
+                    AuthMethod.PASSWORD -> setPassword(serverConfig.password)
+                    AuthMethod.KEYSTORE -> TODO() // load private key
+                }
+                setConfig("StrictHostKeyChecking", "no")
+                connect()
             }
-            setConfig("StrictHostKeyChecking", "no")
-            connect()
+            channel = session?.openChannel(CHANNEL_SFTP) as ChannelSftp
+            channel?.connect()
+        } catch (e: JSchException) {
+            if (e.message.orEmpty().contains("Auth")) {
+                throw AuthenticationException()
+            } else {
+                throw e
+            }
         }
-        channel = session?.openChannel(CHANNEL_SFTP) as ChannelSftp
-        channel?.connect()
     }
 
     private fun disconnect() {

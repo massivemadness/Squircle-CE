@@ -70,6 +70,7 @@ class ExplorerViewModel @Inject constructor(
 
     val filesystems = serversRepository.serverFlow
         .map { servers -> explorerRepository.loadFilesystems() + servers.map(::FilesystemModel) }
+        .catch { errorState(it) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
