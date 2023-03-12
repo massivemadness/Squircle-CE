@@ -23,9 +23,9 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.toSpannable
 import com.blacksquircle.ui.editorkit.model.ColorScheme
+import com.blacksquircle.ui.editorkit.model.StyleSpan
+import com.blacksquircle.ui.editorkit.model.SyntaxHighlightSpan
 import com.blacksquircle.ui.language.base.Language
-import com.blacksquircle.ui.language.base.model.StyleSpan
-import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
 import com.blacksquircle.ui.language.base.model.TextStructure
 import com.blacksquircle.ui.language.base.model.TokenType
 
@@ -48,7 +48,7 @@ class CodeView @JvmOverloads constructor(
         val currentText = text.toSpannable()
         for (result in results) {
             currentText.setSpan(
-                SyntaxHighlightResult.Span(
+                SyntaxHighlightSpan(
                     StyleSpan(
                         color = when (result.tokenType) {
                             TokenType.NUMBER -> colorScheme.numberColor
