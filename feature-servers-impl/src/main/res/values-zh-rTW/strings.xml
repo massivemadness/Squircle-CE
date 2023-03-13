@@ -31,6 +31,9 @@
     <string name="server_ftpes">FTPES (Explicit FTPS)</string>
     <string name="server_sftp">SFTP</string>
 
+    <string name="ask_for_password">Ask for password</string>
+    <string name="save_password">Save password</string>
+
     <string name="pref_header_cloud_title">雲端 &amp; 伺服器</string>
 
     <string name="pref_category_servers">FTP(S) 伺服器</string>

@@ -24,6 +24,7 @@ data class ServerConfig(
     val port: Int,
     val initialDir: String,
     val authMethod: AuthMethod,
+    val askForPassword: Boolean,
     val username: String,
     val password: String,
     val privateKey: String,

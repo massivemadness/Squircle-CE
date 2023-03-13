@@ -17,6 +17,7 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -111,7 +112,8 @@
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:textSize="12sp"
-            android:text="@string/hint_username" />
+            android:text="@string/hint_username"
+            android:id="@+id/username" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -121,25 +123,42 @@
             android:singleLine="true"
             android:id="@+id/input_username" />
 
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:spinnerMode="dropdown"
+            android:entries="@array/password_behavior"
+            android:id="@+id/passwordBehavior"
+            app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:visibility="gone"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:textSize="12sp"
-            android:text="@string/hint_password" />
+            android:text="@string/hint_password"
+            android:id="@+id/password"
+            tools:visibility="visible" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:visibility="gone"
             android:inputType="textPassword"
             android:singleLine="true"
-            android:id="@+id/input_password" />
+            android:id="@+id/input_password"
+            tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"

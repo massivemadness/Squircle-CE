@@ -34,7 +34,7 @@ import com.blacksquircle.ui.core.data.storage.database.entity.theme.ThemeEntity
         FontEntity::class,
         ThemeEntity::class,
     ],
-    version = 4,
+    version = 5,
 )
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 

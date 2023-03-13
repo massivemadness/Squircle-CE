@@ -24,4 +24,9 @@
         <item>@string/server_sftp</item>
     </string-array>
 
+    <string-array name="password_behavior">
+        <item>@string/ask_for_password</item>
+        <item>@string/save_password</item>
+    </string-array>
+
 </resources>
