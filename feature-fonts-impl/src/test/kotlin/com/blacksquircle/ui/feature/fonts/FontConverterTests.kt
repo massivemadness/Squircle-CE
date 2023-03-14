@@ -22,7 +22,7 @@ import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class FontConverterTest {
+class FontConverterTests {
 
     @Test
     fun `convert FontEntity to FontModel`() {
@@ -38,12 +38,8 @@ class FontConverterTest {
             fontPath = "/storage/emulated/0/font.ttf",
             isExternal = true,
         )
-        val convert = FontConverter.toModel(fontEntity)
 
-        assertEquals(fontModel.fontUuid, convert.fontUuid)
-        assertEquals(fontModel.fontName, convert.fontName)
-        assertEquals(fontModel.fontPath, convert.fontPath)
-        assertEquals(fontModel.isExternal, convert.isExternal)
+        assertEquals(fontModel, FontConverter.toModel(fontEntity))
     }
 
     @Test
@@ -60,10 +56,7 @@ class FontConverterTest {
             fontPath = "/storage/emulated/0/font.ttf",
             isExternal = true,
         )
-        val convert = FontConverter.toEntity(fontModel)
 
-        assertEquals(fontEntity.fontUuid, convert.fontUuid)
-        assertEquals(fontEntity.fontName, convert.fontName)
-        assertEquals(fontEntity.fontPath, convert.fontPath)
+        assertEquals(fontEntity, FontConverter.toEntity(fontModel))
     }
 }

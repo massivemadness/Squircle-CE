@@ -25,7 +25,7 @@ import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import org.junit.Assert.assertEquals
 
-class ThemeConverterTest {
+class ThemeConverterTests {
 
     // @Test
     fun `convert ThemeEntity to ThemeModel`() {

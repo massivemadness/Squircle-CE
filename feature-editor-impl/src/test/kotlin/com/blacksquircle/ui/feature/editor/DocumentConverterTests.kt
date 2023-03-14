@@ -27,7 +27,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class DtoConverterTests {
+class DocumentConverterTests {
 
     private val plainTextLanguage = mockk<Language>()
 
@@ -61,8 +61,6 @@ class DtoConverterTests {
 
         assertEquals(documentModel.fileUri, convert.fileUri)
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
-        assertEquals(documentModel.name, convert.name)
-        assertEquals(documentModel.path, convert.path)
         assertEquals(documentModel.language.languageName, convert.language.languageName)
         assertEquals(documentModel.modified, convert.modified)
         assertEquals(documentModel.position, convert.position)
@@ -102,8 +100,6 @@ class DtoConverterTests {
 
         assertEquals(documentModel.fileUri, convert.fileUri)
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
-        assertEquals(documentModel.name, convert.name)
-        assertEquals(documentModel.path, convert.path)
         assertEquals(documentModel.language.languageName, convert.language.languageName)
         assertEquals(documentModel.modified, convert.modified)
         assertEquals(documentModel.position, convert.position)
@@ -139,16 +135,7 @@ class DtoConverterTests {
             selectionStart = 8,
             selectionEnd = 10,
         )
-        val convert = DocumentConverter.toEntity(documentModel)
 
-        assertEquals(documentEntity.fileUri, convert.fileUri)
-        assertEquals(documentEntity.filesystemUuid, convert.filesystemUuid)
-        assertEquals(documentEntity.language, convert.language)
-        assertEquals(documentEntity.modified, convert.modified)
-        assertEquals(documentEntity.position, convert.position)
-        assertEquals(documentEntity.scrollX, convert.scrollX)
-        assertEquals(documentEntity.scrollY, convert.scrollY)
-        assertEquals(documentEntity.selectionStart, convert.selectionStart)
-        assertEquals(documentEntity.selectionEnd, convert.selectionEnd)
+        assertEquals(documentEntity, DocumentConverter.toEntity(documentModel))
     }
 }
