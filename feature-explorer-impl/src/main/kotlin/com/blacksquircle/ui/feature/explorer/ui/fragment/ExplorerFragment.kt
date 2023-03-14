@@ -333,6 +333,13 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                                     storagePermission.launch()
                                 }
                             }
+                            is ExplorerErrorAction.AskForPassword -> {
+                                binding.errorView.actionPrimary.isVisible = true
+                                binding.errorView.actionPrimary.setText(R.string.action_authenticate)
+                                binding.errorView.actionPrimary.setOnClickListener {
+                                    // TODO password dialog
+                                }
+                            }
                         }
                         fileAdapter.submitList(emptyList())
                     }

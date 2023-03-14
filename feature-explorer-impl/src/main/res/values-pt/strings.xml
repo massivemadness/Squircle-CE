@@ -21,6 +21,7 @@
     <string name="hint_enter_archive_name">Insira o nome do documento</string>
 
     <string name="action_grant_access">Permitir acesso</string>
+    <string name="action_authenticate">Authenticate</string>
     <string name="action_create">Criar</string>
     <string name="action_copy_path">Copiar caminho</string>
     <string name="action_folder">Pasta</string>
@@ -66,11 +67,12 @@
     <string name="sort_by_size">Ordenar por tamanho</string>
     <string name="sort_by_date">Ordenar por data</string>
 
+    <string name="message_auth_required">Auth Required</string>
+    <string name="message_enter_password">Enter password to connect to remote server</string>
     <string name="message_access_denied">Acesso negado</string>
     <string name="message_access_required">O Squircle precisa de acesso ao armazenamento para trabalhar com arquivos</string>
     <string name="message_cannot_be_opened">O arquivo não pode ser aberto</string>
     <string name="message_invalid_file_name">Nome inválido</string>
-    <string name="message_directory_expected">Não foi possível obter a lista de arquivos do arquivo</string>
     <string name="message_file_already_exists">O arquivo já existe</string>
     <string name="message_unsupported_archive">Arquivo não suportado</string>
     <string name="message_invalid_archive">Arquivo inválido</string>

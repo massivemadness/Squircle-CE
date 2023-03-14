@@ -21,6 +21,7 @@
     <string name="hint_enter_archive_name">Введите название архива</string>
 
     <string name="action_grant_access">Предоставить</string>
+    <string name="action_authenticate">Авторизовать</string>
     <string name="action_create">Создать</string>
     <string name="action_copy_path">Скопировать путь</string>
     <string name="action_folder">Папка</string>
@@ -66,11 +67,12 @@
     <string name="sort_by_size">Сорт. по размеру</string>
     <string name="sort_by_date">Сорт. по дате</string>
 
+    <string name="message_auth_required">Требуется авторизация</string>
+    <string name="message_enter_password">Введите пароль для подключения к серверу</string>
     <string name="message_access_denied">Доступ запрещён</string>
     <string name="message_access_required">Приложение требует разрешения для работы с файлами</string>
     <string name="message_cannot_be_opened">Файл невозможно открыть</string>
     <string name="message_invalid_file_name">Некорректное имя файла</string>
-    <string name="message_directory_expected">Невозможно получить список файлов из файла</string>
     <string name="message_file_already_exists">Такой файл уже существует</string>
     <string name="message_unsupported_archive">Неподдерживаемый архив</string>
     <string name="message_invalid_archive">Архив поврежден</string>

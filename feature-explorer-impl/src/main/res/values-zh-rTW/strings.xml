@@ -21,6 +21,7 @@
     <string name="hint_enter_archive_name">輸入壓縮檔名稱</string>
 
     <string name="action_grant_access">授予訪問權限</string>
+    <string name="action_authenticate">Authenticate</string>
     <string name="action_create">新增</string>
     <string name="action_copy_path">複製路徑</string>
     <string name="action_folder">資料夾</string>
@@ -66,11 +67,12 @@
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>
 
+    <string name="message_auth_required">Auth Required</string>
+    <string name="message_enter_password">Enter password to connect to remote server</string>
     <string name="message_access_denied">沒有存儲空間訪問權限</string>
     <string name="message_access_required">為了能正常編寫程式，必須授予存儲權限</string>
     <string name="message_cannot_be_opened">檔案無法開啟</string>
     <string name="message_invalid_file_name">無效的檔案名稱</string>
-    <string name="message_directory_expected">無法獲取檔案列表</string>
     <string name="message_file_already_exists">檔案已存在</string>
     <string name="message_unsupported_archive">暫不支援該壓縮檔案格式</string>
     <string name="message_invalid_archive">該壓縮檔案已損壞</string>

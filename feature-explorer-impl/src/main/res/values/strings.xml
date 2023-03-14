@@ -23,6 +23,7 @@
     <string name="hint_archive_name" translatable="false">untitled.zip</string>
 
     <string name="action_grant_access">Grant Access</string>
+    <string name="action_authenticate">Authenticate</string>
     <string name="action_create">Create</string>
     <string name="action_copy_path">Copy Path</string>
     <string name="action_folder">Folder</string>
@@ -68,11 +69,12 @@
     <string name="sort_by_size">Sort by Size</string>
     <string name="sort_by_date">Sort by Date</string>
 
+    <string name="message_auth_required">Auth Required</string>
+    <string name="message_enter_password">Enter password to connect to remote server</string>
     <string name="message_access_denied">Access Denied</string>
     <string name="message_access_required">Application requires storage access to work with files</string>
     <string name="message_cannot_be_opened">File cannot be opened</string>
     <string name="message_invalid_file_name">Invalid file name</string>
-    <string name="message_directory_expected">Unable to get list of files from file</string>
     <string name="message_file_already_exists">File already exists</string>
     <string name="message_unsupported_archive">Unsupported archive</string>
     <string name="message_invalid_archive">Invalid archive</string>

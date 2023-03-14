@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.filesystem.ftp
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.AskForPasswordException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.ConnectionException
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
@@ -161,6 +162,9 @@ class FTPFilesystem(
     }
 
     private fun connect() {
+        if (serverConfig.askForPassword && serverConfig.password.isEmpty()) {
+            throw AskForPasswordException()
+        }
         if (ftpClient.isConnected) {
             return
         }
@@ -169,7 +173,7 @@ class FTPFilesystem(
             throw ConnectionException()
         }
         if (serverConfig.authMethod != AuthMethod.PASSWORD) {
-            throw AuthenticationException()
+            throw UnsupportedOperationException()
         }
         ftpClient.enterLocalPassiveMode()
         ftpClient.login(serverConfig.username, serverConfig.password)
@@ -179,8 +183,10 @@ class FTPFilesystem(
     }
 
     private fun disconnect() {
-        ftpClient.logout()
-        ftpClient.disconnect()
+        if (ftpClient.isConnected) {
+            ftpClient.logout()
+            ftpClient.disconnect()
+        }
     }
 
     inner class FTPMapper : Filesystem.Mapper<FTPFile> {

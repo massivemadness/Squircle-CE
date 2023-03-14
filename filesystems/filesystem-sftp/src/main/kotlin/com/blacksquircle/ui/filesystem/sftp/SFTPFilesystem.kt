@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.filesystem.sftp
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.AskForPasswordException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
@@ -144,6 +145,9 @@ class SFTPFilesystem(
     }
 
     private fun connect() {
+        if (serverConfig.askForPassword && serverConfig.password.isEmpty()) {
+            throw AskForPasswordException()
+        }
         try {
             jsch.removeAllIdentity()
             session = jsch.getSession(

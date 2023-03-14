@@ -21,6 +21,7 @@
     <string name="hint_enter_archive_name">输入压缩包名称</string>
 
     <string name="action_grant_access">授予访问权限</string>
+    <string name="action_authenticate">Authenticate</string>
     <string name="action_create">创建</string>
     <string name="action_copy_path">复制路径</string>
     <string name="action_folder">文件夹</string>
@@ -66,11 +67,12 @@
     <string name="sort_by_size">按大小排序</string>
     <string name="sort_by_date">按日期排序</string>
 
+    <string name="message_auth_required">Auth Required</string>
+    <string name="message_enter_password">Enter password to connect to remote server</string>
     <string name="message_access_denied">没有存储空间访问权限</string>
     <string name="message_access_required">为了能正常编写代码，必须授予存储权限</string>
     <string name="message_cannot_be_opened">文件无法打开</string>
     <string name="message_invalid_file_name">无效的文件名称</string>
-    <string name="message_directory_expected">无法获取文件列表</string>
     <string name="message_file_already_exists">文件已存在</string>
     <string name="message_unsupported_archive">暂不支持该压缩包格式</string>
     <string name="message_invalid_archive">该压缩包已损坏</string>
