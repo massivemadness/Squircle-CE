@@ -337,7 +337,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                                 binding.errorView.actionPrimary.isVisible = true
                                 binding.errorView.actionPrimary.setText(R.string.action_authenticate)
                                 binding.errorView.actionPrimary.setOnClickListener {
-                                    // TODO password dialog
+                                    navController.navigate(ExplorerScreen.AuthRequiredDialog)
                                 }
                             }
                         }

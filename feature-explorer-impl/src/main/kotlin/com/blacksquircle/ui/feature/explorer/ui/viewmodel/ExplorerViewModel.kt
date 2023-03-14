@@ -108,6 +108,7 @@ class ExplorerViewModel @Inject constructor(
             is ExplorerIntent.SelectFiles -> selectFiles(event)
             is ExplorerIntent.SelectTab -> selectTab(event)
             is ExplorerIntent.SelectFilesystem -> selectFilesystem(event)
+            is ExplorerIntent.Authenticate -> authenticate(event)
             is ExplorerIntent.Refresh -> refreshList()
 
             is ExplorerIntent.Cut -> cutButton()
@@ -218,11 +219,21 @@ class ExplorerViewModel @Inject constructor(
                 if (filesystem != event.filesystemUuid) {
                     filesystem = event.filesystemUuid
                     explorerRepository.selectFilesystem(filesystem)
-                    breadcrumbs.replaceList(emptyList())
-                    files.replaceList(emptyList())
                     initialState()
                     listFiles(ExplorerIntent.OpenFolder())
                 }
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+            }
+        }
+    }
+
+    private fun authenticate(event: ExplorerIntent.Authenticate) {
+        viewModelScope.launch {
+            try {
+                explorerRepository.authenticate(event.password)
+                initialState()
+                listFiles(ExplorerIntent.OpenFolder())
             } catch (e: Exception) {
                 Timber.e(e, e.message)
             }

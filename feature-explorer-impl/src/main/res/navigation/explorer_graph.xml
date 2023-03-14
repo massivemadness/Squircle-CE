@@ -100,4 +100,11 @@
             app:argType="string" />
     </dialog>
 
+    <dialog
+        android:id="@+id/authDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.AuthDialog"
+        android:label="AuthDialog">
+        <deepLink app:uri="blacksquircle://explorer/authenticate" />
+    </dialog>
+
 </navigation>

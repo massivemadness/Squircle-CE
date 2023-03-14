@@ -19,6 +19,7 @@
 
     <string name="hint_enter_file_name">Enter file name</string>
     <string name="hint_enter_archive_name">Enter archive name</string>
+    <string name="hint_enter_password">Enter password</string>
     <string name="hint_file_name" translatable="false">untitled.txt</string>
     <string name="hint_archive_name" translatable="false">untitled.zip</string>
 
@@ -34,6 +35,7 @@
     <string name="action_open_with">Open with</string>
     <string name="action_properties">Properties</string>
 
+    <string name="dialog_title_authentication">Authentication</string>
     <string name="dialog_title_create">Create…</string>
     <string name="dialog_title_rename">Rename…</string>
     <string name="dialog_title_multi_delete">Multi-delete</string>

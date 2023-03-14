@@ -19,6 +19,7 @@
 
     <string name="hint_enter_file_name">輸入檔案名稱</string>
     <string name="hint_enter_archive_name">輸入壓縮檔名稱</string>
+    <string name="hint_enter_password">Enter password</string>
 
     <string name="action_grant_access">授予訪問權限</string>
     <string name="action_authenticate">Authenticate</string>
@@ -32,6 +33,7 @@
     <string name="action_open_with">另開為</string>
     <string name="action_properties">屬性</string>
 
+    <string name="dialog_title_authentication">Authentication</string>
     <string name="dialog_title_create">新增檔案</string>
     <string name="dialog_title_rename">重新命名檔案</string>
     <string name="dialog_title_multi_delete">刪除所選檔案</string>

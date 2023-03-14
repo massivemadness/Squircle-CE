@@ -19,6 +19,7 @@
 
     <string name="hint_enter_file_name">Entrer le nom du fichier</string>
     <string name="hint_enter_archive_name">Entrer le nom de l\'archive</string>
+    <string name="hint_enter_password">Enter password</string>
 
     <string name="action_grant_access">Accorder l\'Accès</string>
     <string name="action_authenticate">Authenticate</string>
@@ -32,6 +33,7 @@
     <string name="action_open_with">Ouvrir en tant que</string>
     <string name="action_properties">Propriétés</string>
 
+    <string name="dialog_title_authentication">Authentication</string>
     <string name="dialog_title_create">Création…</string>
     <string name="dialog_title_rename">Renommer…</string>
     <string name="dialog_title_multi_delete">Suppression multiple</string>

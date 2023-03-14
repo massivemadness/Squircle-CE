@@ -39,6 +39,7 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
     object CompressDialog : ExplorerScreen("blacksquircle://explorer/compress")
 
+    object AuthRequiredDialog : ExplorerScreen("blacksquircle://explorer/authenticate")
     object StorageDeniedForever : ExplorerScreen(
         route = "blacksquircle://explorer/storage_denied_forever"
     )
