@@ -59,6 +59,7 @@ import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -252,10 +253,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         binding.actionHome.setOnClickListener {
             viewModel.obtainEvent(ExplorerIntent.SelectTab(0))
         }
-        binding.errorView.actionPrimary.text = getString(R.string.action_grant_access)
-        binding.errorView.actionPrimary.setOnClickListener {
-            storagePermission.launch()
-        }
 
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
@@ -311,15 +308,11 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         viewModel.explorerViewState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is ExplorerViewState.Permission -> {
-                        binding.swipeRefresh.isVisible = false
-                        binding.errorView.root.isVisible = true
+                    is ExplorerViewState.Files -> {
+                        binding.swipeRefresh.isVisible = true
+                        binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = false
-                        binding.errorView.image.setImageResource(UiR.drawable.ic_file_error)
-                        binding.errorView.title.text = getString(R.string.message_access_denied)
-                        binding.errorView.subtitle.text = getString(R.string.message_access_required)
-                        binding.errorView.actionPrimary.isVisible = true
-                        fileAdapter.submitList(emptyList())
+                        fileAdapter.submitList(state.data)
                     }
                     is ExplorerViewState.Error -> {
                         binding.swipeRefresh.isVisible = false
@@ -328,7 +321,19 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.errorView.image.setImageResource(state.image)
                         binding.errorView.title.text = state.title
                         binding.errorView.subtitle.text = state.subtitle
-                        binding.errorView.actionPrimary.isVisible = false
+                        when (state.action) {
+                            is ExplorerErrorAction.DoNothing -> {
+                                binding.errorView.actionPrimary.isVisible = false
+                                binding.errorView.actionPrimary.setOnClickListener(null)
+                            }
+                            is ExplorerErrorAction.RequestPermission -> {
+                                binding.errorView.actionPrimary.isVisible = true
+                                binding.errorView.actionPrimary.setText(R.string.action_grant_access)
+                                binding.errorView.actionPrimary.setOnClickListener {
+                                    storagePermission.launch()
+                                }
+                            }
+                        }
                         fileAdapter.submitList(emptyList())
                     }
                     is ExplorerViewState.Loading -> {
@@ -336,12 +341,6 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.errorView.root.isVisible = false
                         binding.loadingBar.isVisible = true
                         fileAdapter.submitList(emptyList())
-                    }
-                    is ExplorerViewState.Files -> {
-                        binding.swipeRefresh.isVisible = true
-                        binding.errorView.root.isVisible = false
-                        binding.loadingBar.isVisible = false
-                        fileAdapter.submitList(state.data)
                     }
                 }
             }

@@ -29,6 +29,7 @@ import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
+import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
@@ -162,6 +163,7 @@ class ExplorerViewModel @Inject constructor(
                         image = UiR.drawable.ic_file_find,
                         title = stringProvider.getString(UiR.string.common_no_result),
                         subtitle = "",
+                        action = ExplorerErrorAction.DoNothing,
                     )
                 }
                 files.replaceList(fileTree.children)
@@ -185,6 +187,7 @@ class ExplorerViewModel @Inject constructor(
                     image = UiR.drawable.ic_file_find,
                     title = stringProvider.getString(UiR.string.common_no_result),
                     subtitle = "",
+                    action = ExplorerErrorAction.DoNothing,
                 )
             }
         }
@@ -566,13 +569,19 @@ class ExplorerViewModel @Inject constructor(
                 _explorerViewState.value = ExplorerViewState.Loading
             }
             is PermissionException -> {
-                _explorerViewState.value = ExplorerViewState.Permission
+                _explorerViewState.value = ExplorerViewState.Error(
+                    image = UiR.drawable.ic_file_error,
+                    title = stringProvider.getString(R.string.message_access_denied),
+                    subtitle = stringProvider.getString(R.string.message_access_required),
+                    action = ExplorerErrorAction.RequestPermission,
+                )
             }
             is DirectoryExpectedException -> {
                 _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(UiR.string.common_error_occurred),
                     subtitle = stringProvider.getString(R.string.message_directory_expected),
+                    action = ExplorerErrorAction.DoNothing,
                 )
             }
             else -> {
@@ -580,6 +589,7 @@ class ExplorerViewModel @Inject constructor(
                     image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(UiR.string.common_error_occurred),
                     subtitle = e.message.orEmpty(),
+                    action = ExplorerErrorAction.DoNothing,
                 )
             }
         }

@@ -24,6 +24,7 @@ import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
@@ -58,6 +59,8 @@ class ListFilesTests {
     @Before
     fun setup() {
         every { stringProvider.getString(UiR.string.common_no_result) } returns "No result"
+        every { stringProvider.getString(R.string.message_access_denied) } returns "Access denied"
+        every { stringProvider.getString(R.string.message_access_required) } returns "Access required"
 
         every { settingsManager.showHidden } returns true
         every { settingsManager.showHidden = any() } returns Unit
@@ -172,6 +175,7 @@ class ListFilesTests {
             image = UiR.drawable.ic_file_find,
             title = stringProvider.getString(UiR.string.common_no_result),
             subtitle = "",
+            action = ExplorerErrorAction.DoNothing,
         )
         assertEquals(explorerViewState, viewModel.explorerViewState.value)
     }
@@ -203,7 +207,12 @@ class ListFilesTests {
         viewModel.obtainEvent(ExplorerIntent.OpenFolder())
 
         // Then
-        val explorerViewState = ExplorerViewState.Permission
+        val explorerViewState = ExplorerViewState.Error(
+            image = UiR.drawable.ic_file_error,
+            title = stringProvider.getString(R.string.message_access_denied),
+            subtitle = stringProvider.getString(R.string.message_access_required),
+            action = ExplorerErrorAction.RequestPermission,
+        )
         assertEquals(explorerViewState, viewModel.explorerViewState.value)
     }
 

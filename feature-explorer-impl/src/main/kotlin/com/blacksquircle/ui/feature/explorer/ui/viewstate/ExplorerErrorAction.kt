@@ -16,21 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.viewstate
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-
-sealed class ExplorerViewState : ViewState() {
-
-    object Loading : ExplorerViewState()
-
-    data class Files(
-        val data: List<FileModel>,
-    ) : ExplorerViewState()
-
-    data class Error(
-        val image: Int,
-        val title: String,
-        val subtitle: String,
-        val action: ExplorerErrorAction,
-    ) : ExplorerViewState()
+sealed class ExplorerErrorAction {
+    object DoNothing : ExplorerErrorAction()
+    object RequestPermission : ExplorerErrorAction()
 }
