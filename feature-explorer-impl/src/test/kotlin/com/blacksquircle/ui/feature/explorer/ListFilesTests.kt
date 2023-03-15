@@ -175,7 +175,7 @@ class ListFilesTests {
             image = UiR.drawable.ic_file_find,
             title = stringProvider.getString(UiR.string.common_no_result),
             subtitle = "",
-            action = ExplorerErrorAction.DoNothing,
+            action = ExplorerErrorAction.Undefined,
         )
         assertEquals(explorerViewState, viewModel.explorerViewState.value)
     }

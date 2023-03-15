@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.explorer.ui.viewstate
 
 sealed class ExplorerErrorAction {
-    object DoNothing : ExplorerErrorAction()
+    object Undefined : ExplorerErrorAction()
     object RequestPermission : ExplorerErrorAction()
     object AskForPassword : ExplorerErrorAction()
 }

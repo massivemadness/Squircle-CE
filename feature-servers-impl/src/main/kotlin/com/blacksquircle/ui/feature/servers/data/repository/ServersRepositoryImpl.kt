@@ -34,6 +34,14 @@ class ServersRepositoryImpl(
         .map { it.map(ServerConverter::toModel) }
         .flowOn(dispatcherProvider.io())
 
+    private val passwordCache = HashMap<String, String>()
+
+    override suspend fun authenticate(uuid: String, password: String) {
+        withContext(dispatcherProvider.io()) {
+            passwordCache[uuid] = password
+        }
+    }
+
     override suspend fun loadServers(): List<ServerConfig> {
         return withContext(dispatcherProvider.io()) {
             appDatabase.serverDao().loadAll()
@@ -44,7 +52,8 @@ class ServersRepositoryImpl(
     override suspend fun loadServer(uuid: String): ServerConfig {
         return withContext(dispatcherProvider.io()) {
             val serverEntity = appDatabase.serverDao().load(uuid)
-            ServerConverter.toModel(serverEntity)
+            val serverConfig = ServerConverter.toModel(serverEntity)
+            serverConfig.copy(password = passwordCache.getOrDefault(uuid, serverConfig.password))
         }
     }
 

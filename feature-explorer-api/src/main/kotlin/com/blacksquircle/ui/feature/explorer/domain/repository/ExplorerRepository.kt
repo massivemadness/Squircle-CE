@@ -24,7 +24,6 @@ interface ExplorerRepository {
 
     suspend fun loadFilesystems(): List<FilesystemModel>
     suspend fun selectFilesystem(filesystemUuid: String)
-    suspend fun authenticate(password: String)
 
     suspend fun listFiles(parent: FileModel?): FileTree
 

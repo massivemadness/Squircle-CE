@@ -322,7 +322,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.errorView.title.text = state.title
                         binding.errorView.subtitle.text = state.subtitle
                         when (state.action) {
-                            is ExplorerErrorAction.DoNothing -> {
+                            is ExplorerErrorAction.Undefined -> {
                                 binding.errorView.actionPrimary.isVisible = false
                                 binding.errorView.actionPrimary.setOnClickListener(null)
                             }

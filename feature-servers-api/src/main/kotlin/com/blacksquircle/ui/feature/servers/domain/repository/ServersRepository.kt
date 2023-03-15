@@ -23,6 +23,8 @@ interface ServersRepository {
 
     val serverFlow: Flow<List<ServerConfig>>
 
+    suspend fun authenticate(uuid: String, password: String)
+
     suspend fun loadServers(): List<ServerConfig>
     suspend fun loadServer(uuid: String): ServerConfig
     suspend fun upsertServer(serverConfig: ServerConfig)

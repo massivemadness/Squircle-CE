@@ -67,12 +67,6 @@ class ExplorerRepositoryImpl(
         }
     }
 
-    override suspend fun authenticate(password: String) {
-        withContext(dispatcherProvider.io()) {
-            // TODO update database
-        }
-    }
-
     override suspend fun listFiles(parent: FileModel?): FileTree {
         return withContext(dispatcherProvider.io()) {
             suspendCoroutine { cont ->

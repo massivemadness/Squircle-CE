@@ -34,6 +34,7 @@ import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.exception.AskForPasswordException
+import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
@@ -53,7 +54,7 @@ class ExplorerViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val explorerRepository: ExplorerRepository,
-    serversRepository: ServersRepository,
+    private val serversRepository: ServersRepository,
 ) : ViewModel() {
 
     private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
@@ -166,7 +167,7 @@ class ExplorerViewModel @Inject constructor(
                         image = UiR.drawable.ic_file_find,
                         title = stringProvider.getString(UiR.string.common_no_result),
                         subtitle = "",
-                        action = ExplorerErrorAction.DoNothing,
+                        action = ExplorerErrorAction.Undefined,
                     )
                 }
                 files.replaceList(fileTree.children)
@@ -190,7 +191,7 @@ class ExplorerViewModel @Inject constructor(
                     image = UiR.drawable.ic_file_find,
                     title = stringProvider.getString(UiR.string.common_no_result),
                     subtitle = "",
-                    action = ExplorerErrorAction.DoNothing,
+                    action = ExplorerErrorAction.Undefined,
                 )
             }
         }
@@ -219,6 +220,8 @@ class ExplorerViewModel @Inject constructor(
                 if (filesystem != event.filesystemUuid) {
                     filesystem = event.filesystemUuid
                     explorerRepository.selectFilesystem(filesystem)
+                    breadcrumbs.replaceList(emptyList())
+                    files.replaceList(emptyList())
                     initialState()
                     listFiles(ExplorerIntent.OpenFolder())
                 }
@@ -231,7 +234,7 @@ class ExplorerViewModel @Inject constructor(
     private fun authenticate(event: ExplorerIntent.Authenticate) {
         viewModelScope.launch {
             try {
-                explorerRepository.authenticate(event.password)
+                serversRepository.authenticate(filesystem, event.password)
                 initialState()
                 listFiles(ExplorerIntent.OpenFolder())
             } catch (e: Exception) {
@@ -597,12 +600,20 @@ class ExplorerViewModel @Inject constructor(
                     action = ExplorerErrorAction.AskForPassword,
                 )
             }
+            is AuthenticationException -> {
+                _explorerViewState.value = ExplorerViewState.Error(
+                    image = UiR.drawable.ic_file_error,
+                    title = stringProvider.getString(UiR.string.common_error_occurred),
+                    subtitle = e.message.orEmpty(),
+                    action = ExplorerErrorAction.AskForPassword,
+                )
+            }
             else -> {
                 _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(UiR.string.common_error_occurred),
                     subtitle = e.message.orEmpty(),
-                    action = ExplorerErrorAction.DoNothing,
+                    action = ExplorerErrorAction.Undefined,
                 )
             }
         }
