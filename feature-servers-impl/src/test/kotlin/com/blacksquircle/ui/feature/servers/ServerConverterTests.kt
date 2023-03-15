@@ -35,11 +35,8 @@ class ServerConverterTests {
             port = 21,
             initialDir = "",
             authMethod = AuthMethod.PASSWORD.value,
-            askForPassword = false,
             username = "username",
             password = "password",
-            privateKey = "",
-            passphrase = "",
         )
         val serverConfig = ServerConfig(
             uuid = "1234567890",
@@ -49,11 +46,8 @@ class ServerConverterTests {
             port = 21,
             initialDir = "",
             authMethod = AuthMethod.PASSWORD,
-            askForPassword = false,
             username = "username",
             password = "password",
-            privateKey = "",
-            passphrase = "",
         )
 
         assertEquals(serverConfig, ServerConverter.toModel(serverEntity))
@@ -69,11 +63,8 @@ class ServerConverterTests {
             port = 21,
             initialDir = "",
             authMethod = AuthMethod.PASSWORD,
-            askForPassword = false,
             username = "username",
             password = "password",
-            privateKey = "",
-            passphrase = "",
         )
         val serverEntity = ServerEntity(
             uuid = "1234567890",
@@ -83,11 +74,8 @@ class ServerConverterTests {
             port = 21,
             initialDir = "",
             authMethod = AuthMethod.PASSWORD.value,
-            askForPassword = false,
             username = "username",
             password = "password",
-            privateKey = "",
-            passphrase = "",
         )
 
         assertEquals(serverEntity, ServerConverter.toEntity(serverConfig))
