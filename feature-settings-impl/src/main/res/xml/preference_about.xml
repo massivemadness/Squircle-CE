@@ -22,13 +22,13 @@
         <Preference
             android:icon="@mipmap/ic_launcher"
             android:summary="@string/pref_about_summary"
-            android:key="ABOUT"/>
+            android:key="ABOUT" />
 
         <Preference
             android:title="@string/pref_privacy_policy_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/massivemadness/Squircle-CE/blob/master/PRIVACY-POLICY.md"/>
+                android:data="https://github.com/massivemadness/Squircle-CE/blob/master/PRIVACY-POLICY.md" />
         </Preference>
 
     </PreferenceCategory>
@@ -36,11 +36,19 @@
     <PreferenceCategory android:title="@string/pref_category_contribute">
 
         <Preference
+            android:title="@string/pref_translation_title"
+            android:summary="@string/pref_translation_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://crowdin.com/project/squircle-ce" />
+        </Preference>
+
+        <Preference
             android:title="@string/pref_contribute_title"
             android:summary="@string/pref_contribute_summary">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/massivemadness/Squircle-CE"/>
+                android:data="https://github.com/massivemadness/Squircle-CE" />
         </Preference>
 
     </PreferenceCategory>

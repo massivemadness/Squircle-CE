@@ -130,6 +130,8 @@
 
     <string name="pref_about_summary">Squircle CE 是依據 Apache 2.0 許可協議發布的開源專案\n\n目前版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看「隱私權政策」</string>
+    <string name="pref_translation_title">Translation Platform</string>
+    <string name="pref_translation_summary">Translate this app to your language</string>
     <string name="pref_contribute_title">參與貢獻，促進發展</string>
     <string name="pref_contribute_summary">你可以點擊此處到 GitHub 上提交 Issue ，或將本應用程式翻譯為在地語言。\n\n感謝您的信任和支持！</string>
 

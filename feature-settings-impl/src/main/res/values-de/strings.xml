@@ -130,6 +130,8 @@
 
     <string name="pref_about_summary">Squircle CE ist ein Open-Source-Projekt, das unter der Apache 2.0-Lizenz veröffentlicht wurde  Version: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Datenschutzerklärung</string>
+    <string name="pref_translation_title">Translation Platform</string>
+    <string name="pref_translation_summary">Translate this app to your language</string>
     <string name="pref_contribute_title">Zur Entwicklung beitragen</string>
     <string name="pref_contribute_summary">Sie können einen Issue auf GitHub erstellen oder die App in Ihre native Sprache übersetzen.</string>
 

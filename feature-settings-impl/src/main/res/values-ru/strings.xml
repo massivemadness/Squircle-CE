@@ -115,6 +115,8 @@
     <string name="pref_sort_mode_title">Режим сортировки</string>
     <string name="pref_about_summary">Squircle CE это проект с открытым исходным кодом, опубликованный под лицензией Apache 2.0\n\nВерсия: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
+    <string name="pref_translation_title">Платформа переводов</string>
+    <string name="pref_translation_summary">Перевести приложение на свой язык</string>
     <string name="pref_contribute_title">Внести вклад в разработку</string>
     <string name="pref_contribute_summary">Вы можете создать Issue на GitHub или перевести приложение на свой родной язык.\n\nСпасибо!</string>
 </resources>

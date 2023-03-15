@@ -115,6 +115,8 @@
     <string name="pref_sort_mode_title">排序方式</string>
     <string name="pref_about_summary">Squircle CE 是依据 Apache 2.0 许可协议发布的开源项目\n\n当前版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看“隐私政策”</string>
+    <string name="pref_translation_title">Translation Platform</string>
+    <string name="pref_translation_summary">Translate this app to your language</string>
     <string name="pref_contribute_title">参与贡献，促进发展</string>
     <string name="pref_contribute_summary">您可以点击此处到 GitHub 上提 Issue ，或将本应用翻译为本土语言。\n\n感谢您的信任和支持！</string>
 </resources>
