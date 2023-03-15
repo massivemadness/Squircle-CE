@@ -91,19 +91,15 @@ class ServerDialog : DialogFragment() {
                 },
                 name = binding.inputServerName.text.toString(),
                 address = binding.inputServerAddress.text.toString(),
-                port = binding.inputServerPort.text?.toString()?.toIntOrNull()
-                    ?: DEFAULT_FTP_PORT,
+                port = binding.inputServerPort.text?.toString()?.toIntOrNull() ?: DEFAULT_FTP_PORT,
                 initialDir = binding.inputInitialDir.text.toString(),
                 authMethod = AuthMethod.PASSWORD,
-                askForPassword = binding.passwordBehavior.selectedItemPosition == ASK_FOR_PASSWORD,
                 username = binding.inputUsername.text.toString(),
                 password = if (binding.passwordBehavior.selectedItemPosition == SAVE_PASSWORD) {
                     binding.inputPassword.text.toString()
                 } else {
-                    "" // null
+                    null
                 },
-                privateKey = "",
-                passphrase = "",
             )
             viewModel.obtainEvent(ServerIntent.UpsertServer(serverConfig))
         }
@@ -128,7 +124,7 @@ class ServerDialog : DialogFragment() {
         }
         binding.serverType.setSelection(scheme)
         binding.passwordBehavior.setSelection(
-            if (serverConfig.askForPassword) ASK_FOR_PASSWORD else SAVE_PASSWORD
+            if (serverConfig.password == null) ASK_FOR_PASSWORD else SAVE_PASSWORD
         )
 
         title(R.string.pref_edit_server_title)
@@ -144,19 +140,15 @@ class ServerDialog : DialogFragment() {
                 },
                 name = binding.inputServerName.text.toString(),
                 address = binding.inputServerAddress.text.toString(),
-                port = binding.inputServerPort.text?.toString()?.toIntOrNull()
-                    ?: DEFAULT_FTP_PORT,
+                port = binding.inputServerPort.text?.toString()?.toIntOrNull() ?: DEFAULT_FTP_PORT,
                 initialDir = binding.inputInitialDir.text.toString(),
                 authMethod = AuthMethod.PASSWORD,
-                askForPassword = binding.passwordBehavior.selectedItemPosition == ASK_FOR_PASSWORD,
                 username = binding.inputUsername.text.toString(),
                 password = if (binding.passwordBehavior.selectedItemPosition == SAVE_PASSWORD) {
                     binding.inputPassword.text.toString()
                 } else {
-                    "" // null
+                    null
                 },
-                privateKey = "",
-                passphrase = "",
             )
             viewModel.obtainEvent(ServerIntent.UpsertServer(changedModel))
         }

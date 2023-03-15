@@ -38,14 +38,8 @@ data class ServerEntity(
     val initialDir: String,
     @ColumnInfo(name = "auth_method")
     val authMethod: Int,
-    @ColumnInfo(name = "ask_for_password")
-    val askForPassword: Boolean,
     @ColumnInfo(name = "username")
     val username: String,
     @ColumnInfo(name = "password")
-    val password: String,
-    @ColumnInfo(name = "private_key") // unused
-    val privateKey: String,
-    @ColumnInfo(name = "passphrase") // unused
-    val passphrase: String,
+    val password: String?,
 )

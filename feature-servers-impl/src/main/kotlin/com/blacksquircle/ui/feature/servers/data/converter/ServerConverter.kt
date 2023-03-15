@@ -31,11 +31,8 @@ object ServerConverter {
             port = serverEntity.port,
             initialDir = serverEntity.initialDir,
             authMethod = AuthMethod.find(serverEntity.authMethod),
-            askForPassword = serverEntity.askForPassword,
             username = serverEntity.username,
             password = serverEntity.password,
-            privateKey = serverEntity.privateKey,
-            passphrase = serverEntity.passphrase,
         )
     }
 
@@ -48,11 +45,8 @@ object ServerConverter {
             port = serverConfig.port,
             initialDir = serverConfig.initialDir,
             authMethod = serverConfig.authMethod.value,
-            askForPassword = serverConfig.askForPassword,
             username = serverConfig.username,
             password = serverConfig.password,
-            privateKey = serverConfig.privateKey,
-            passphrase = serverConfig.passphrase,
         )
     }
 }

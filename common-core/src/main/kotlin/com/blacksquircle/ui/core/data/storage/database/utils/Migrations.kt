@@ -85,7 +85,25 @@ object Migrations {
 
     val MIGRATION_4_5 = object : Migration(4, 5) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE `${Tables.SERVERS}` ADD COLUMN `ask_for_password` INTEGER NOT NULL DEFAULT 0")
+            database.execSQL("ALTER TABLE `${Tables.SERVERS}` RENAME TO `${Tables.SERVERS}_tmp`")
+            database.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS `${Tables.SERVERS}` (
+                    `uuid` TEXT NOT NULL, 
+                    `scheme` TEXT NOT NULL, 
+                    `name` TEXT NOT NULL, 
+                    `address` TEXT NOT NULL, 
+                    `port` INTEGER NOT NULL, 
+                    `initial_dir` TEXT NOT NULL, 
+                    `auth_method` INTEGER NOT NULL, 
+                    `username` TEXT NOT NULL, 
+                    `password` TEXT, 
+                    PRIMARY KEY(`uuid`)
+                )
+            """,
+            )
+            database.execSQL("INSERT INTO ${Tables.SERVERS} SELECT uuid, scheme, name, address, port, initial_dir, auth_method, username, password FROM ${Tables.SERVERS}_tmp")
+            database.execSQL("DROP TABLE ${Tables.SERVERS}_tmp")
         }
     }
 }

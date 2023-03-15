@@ -164,7 +164,7 @@ class FTPSFilesystem(
     }
 
     private fun connect() {
-        if (serverConfig.askForPassword && serverConfig.password.isEmpty()) {
+        if (serverConfig.password == null) {
             throw AskForPasswordException()
         }
         if (ftpsClient.isConnected) {
