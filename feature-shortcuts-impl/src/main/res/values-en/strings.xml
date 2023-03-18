@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="action_restore">Restore defaults</string>
+
+    <string name="pref_header_keybindings_title">Keybindings</string>
+
+    <string name="pref_category_file_keybindings">File Keybindings</string>
+    <string name="pref_category_editor_keybindings">Editor Keybindings</string>
+    <string name="pref_category_tools_keybindings">Tools Keybindings</string>
+
+    <string name="shortcut_new_file">New File</string>
+    <string name="shortcut_open_file">Open File</string>
+    <string name="shortcut_save_file">Save File</string>
+    <string name="shortcut_save_as">Save As</string>
+    <string name="shortcut_close_file">Close File</string>
+
+    <string name="shortcut_select_line">Select Line</string>
+    <string name="shortcut_delete_line">Delete Line</string>
+    <string name="shortcut_duplicate_line">Duplicate Line</string>
+    <string name="shortcut_toggle_case">Toggle Case</string>
+    <string name="shortcut_prev_word">Previous Word</string>
+    <string name="shortcut_next_word">Next Word</string>
+    <string name="shortcut_start_of_line">Start of Line</string>
+    <string name="shortcut_end_of_line">End of Line</string>
+    <string name="shortcut_undo">Undo</string>
+    <string name="shortcut_redo">Redo</string>
+    <string name="shortcut_find">Find</string>
+    <string name="shortcut_replace">Replace</string>
+    <string name="shortcut_goto_line">Go to Line</string>
+
+    <string name="shortcut_force_syntax">Force Syntax</string>
+    <string name="shortcut_insert_color">Insert Color</string>
+
+    <string name="shortcut_conflict">This shortcut is already assigned to other actions. Do you want to remove the other assignments?</string>
+    <string name="shortcut_press_key">Press the new keybinding (must contain Ctrl or Alt)</string>
+    <string name="shortcut_none">None set</string>
+
+</resources>
