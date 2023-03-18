@@ -27,10 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:translationZ="4dp"
+        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         android:id="@+id/toolbar"
         app:navigationIcon="@drawable/ic_back"
         app:navigationIconTint="?colorOnSurface"
-        app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
         tools:title="Settings" />
 

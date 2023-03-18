@@ -34,8 +34,8 @@
             android:layout_marginEnd="16dp"
             android:spinnerMode="dropdown"
             android:entries="@array/server_type"
+            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             android:id="@+id/serverType"
-            app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -158,8 +158,8 @@
             android:visibility="gone"
             android:spinnerMode="dropdown"
             android:entries="@array/authMethod"
+            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             android:id="@+id/authMethod"
-            app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -203,8 +203,8 @@
             android:visibility="gone"
             android:spinnerMode="dropdown"
             android:entries="@array/passphraseBehavior"
+            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             android:id="@+id/passphraseBehavior"
-            app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -238,8 +238,8 @@
             android:layout_marginEnd="16dp"
             android:spinnerMode="dropdown"
             android:entries="@array/passwordBehavior"
+            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             android:id="@+id/passwordBehavior"
-            app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
         <com.google.android.material.textview.MaterialTextView

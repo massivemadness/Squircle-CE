@@ -45,9 +45,9 @@
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
             android:background="@android:color/transparent"
+            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             android:id="@+id/toolbar"
             app:navigationIconTint="?colorOnSurface"
-            app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             tools:menu="@menu/menu_explorer_default"
             tools:title="@string/storage_local">
@@ -56,8 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:spinnerMode="dropdown"
+                android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
                 android:id="@+id/dropdown"
-                app:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
                 tools:visibility="gone" />
 
