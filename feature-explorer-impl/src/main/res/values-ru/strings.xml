@@ -20,6 +20,7 @@
     <string name="hint_enter_file_name">Введите имя файла</string>
     <string name="hint_enter_archive_name">Введите название архива</string>
     <string name="hint_enter_password">Введите пароль</string>
+    <string name="hint_enter_passphrase">Введите фразу-пароль</string>
 
     <string name="action_grant_access">Предоставить</string>
     <string name="action_authenticate">Авторизовать</string>
@@ -71,6 +72,7 @@
 
     <string name="message_auth_required">Требуется авторизация</string>
     <string name="message_enter_password">Введите пароль для подключения к серверу</string>
+    <string name="message_enter_passphrase">Введите фразу-пароль для подключения к серверу</string>
     <string name="message_access_denied">Доступ запрещён</string>
     <string name="message_access_required">Приложение требует разрешения для работы с файлами</string>
     <string name="message_cannot_be_opened">Файл невозможно открыть</string>

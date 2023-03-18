@@ -17,17 +17,13 @@
 package com.blacksquircle.ui.filesystem.sftp
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.exception.AskForPasswordException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.filesystem.base.utils.plusFlag
-import com.jcraft.jsch.ChannelSftp
+import com.jcraft.jsch.*
 import com.jcraft.jsch.ChannelSftp.LsEntry
-import com.jcraft.jsch.JSch
-import com.jcraft.jsch.JSchException
-import com.jcraft.jsch.Session
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 import java.util.*
@@ -145,9 +141,6 @@ class SFTPFilesystem(
     }
 
     private fun connect() {
-        if (serverConfig.password == null) {
-            throw AskForPasswordException()
-        }
         try {
             jsch.removeAllIdentity()
             session = jsch.getSession(
@@ -156,8 +149,28 @@ class SFTPFilesystem(
                 serverConfig.port,
             ).apply {
                 when (serverConfig.authMethod) {
-                    AuthMethod.PASSWORD -> setPassword(serverConfig.password)
-                    AuthMethod.KEYSTORE -> TODO() // load private key
+                    AuthMethod.PASSWORD -> {
+                        if (serverConfig.password == null) {
+                            throw AuthenticationException(AuthMethod.PASSWORD, false)
+                        }
+                        setPassword(serverConfig.password)
+                    }
+                    AuthMethod.KEY -> {
+                        if (serverConfig.passphrase == null) {
+                            throw AuthenticationException(AuthMethod.KEY, false)
+                        }
+                        val keyFile = serverConfig.privateKey.orEmpty()
+                        val keyPair = KeyPair.load(jsch, keyFile)
+                        if (keyPair.isEncrypted) {
+                            if (keyPair.decrypt(serverConfig.passphrase)) {
+                                jsch.addIdentity(keyFile, serverConfig.passphrase)
+                            } else {
+                                throw AuthenticationException(AuthMethod.KEY, false)
+                            }
+                        } else {
+                            jsch.addIdentity(keyFile)
+                        }
+                    }
                 }
                 setConfig("StrictHostKeyChecking", "no")
                 connect()
@@ -166,7 +179,7 @@ class SFTPFilesystem(
             channel?.connect()
         } catch (e: JSchException) {
             if (e.message.orEmpty().contains("Auth")) {
-                throw AuthenticationException()
+                throw AuthenticationException(serverConfig.authMethod, true)
             } else {
                 throw e
             }

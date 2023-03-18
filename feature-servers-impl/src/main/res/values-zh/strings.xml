@@ -23,16 +23,22 @@
     <string name="hint_port">端口</string>
     <string name="hint_username">用户名</string>
     <string name="hint_password">密码</string>
-
-    <string name="message_server_missing_fields">服务器名称和地址不能为空</string>
+    <string name="hint_passphrase">Passphrase</string>
+    <string name="hint_key_file">Key File</string>
+    <string name="hint_required">Required</string>
 
     <string name="server_ftp">FTP</string>
     <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
     <string name="server_ftpes">FTPES (显式 FTPS)</string>
     <string name="server_sftp">SFTP</string>
 
+    <string name="auth_method_password">Password Authentication</string>
+    <string name="auth_method_key">Private Key Authentication</string>
+
     <string name="ask_for_password">Ask for password</string>
     <string name="save_password">Save password</string>
+    <string name="ask_for_passphrase">Ask for passphrase</string>
+    <string name="save_passphrase">Save passphrase</string>
 
     <string name="pref_header_cloud_title">云 &amp; 服务器</string>
 

@@ -16,8 +16,10 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.viewstate
 
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
+
 sealed class ExplorerErrorAction {
     object Undefined : ExplorerErrorAction()
     object RequestPermission : ExplorerErrorAction()
-    object AskForPassword : ExplorerErrorAction()
+    class EnterCredentials(val authMethod: AuthMethod) : ExplorerErrorAction()
 }

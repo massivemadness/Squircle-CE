@@ -21,7 +21,6 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
-import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -62,15 +61,10 @@ class ServersViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val serverConfig = event.serverConfig
-                if (serverConfig.name.isBlank() || serverConfig.address.isBlank()) {
-                    _viewEvent.send(
-                        ViewEvent.Toast(
-                            stringProvider.getString(R.string.message_server_missing_fields),
-                        ),
-                    )
-                    return@launch
-                }
                 serversRepository.upsertServer(serverConfig)
+                if (settingsManager.filesystem == serverConfig.uuid) {
+                    settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
+                }
                 loadServers()
             } catch (e: Exception) {
                 Timber.e(e, e.message)

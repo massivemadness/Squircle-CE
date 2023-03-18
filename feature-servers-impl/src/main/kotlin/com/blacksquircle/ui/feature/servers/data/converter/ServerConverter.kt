@@ -33,6 +33,8 @@ object ServerConverter {
             authMethod = AuthMethod.find(serverEntity.authMethod),
             username = serverEntity.username,
             password = serverEntity.password,
+            privateKey = serverEntity.privateKey,
+            passphrase = serverEntity.passphrase,
         )
     }
 
@@ -47,6 +49,8 @@ object ServerConverter {
             authMethod = serverConfig.authMethod.value,
             username = serverConfig.username,
             password = serverConfig.password,
+            privateKey = serverConfig.privateKey,
+            passphrase = serverConfig.passphrase,
         )
     }
 }

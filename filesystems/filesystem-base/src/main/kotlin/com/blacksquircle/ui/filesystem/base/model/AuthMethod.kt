@@ -18,7 +18,7 @@ package com.blacksquircle.ui.filesystem.base.model
 
 enum class AuthMethod(val value: Int) {
     PASSWORD(0),
-    KEYSTORE(1);
+    KEY(1);
 
     companion object {
 

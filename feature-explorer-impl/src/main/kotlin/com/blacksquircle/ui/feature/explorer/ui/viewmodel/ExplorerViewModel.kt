@@ -33,9 +33,9 @@ import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.filesystem.base.exception.AskForPasswordException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
@@ -592,21 +592,25 @@ class ExplorerViewModel @Inject constructor(
                     action = ExplorerErrorAction.RequestPermission,
                 )
             }
-            is AskForPasswordException -> {
-                _explorerViewState.value = ExplorerViewState.Error(
-                    image = UiR.drawable.ic_file_error,
-                    title = stringProvider.getString(R.string.message_auth_required),
-                    subtitle = stringProvider.getString(R.string.message_enter_password),
-                    action = ExplorerErrorAction.AskForPassword,
-                )
-            }
             is AuthenticationException -> {
-                _explorerViewState.value = ExplorerViewState.Error(
-                    image = UiR.drawable.ic_file_error,
-                    title = stringProvider.getString(UiR.string.common_error_occurred),
-                    subtitle = e.message.orEmpty(),
-                    action = ExplorerErrorAction.AskForPassword,
-                )
+                if (e.authError) {
+                    _explorerViewState.value = ExplorerViewState.Error(
+                        image = UiR.drawable.ic_file_error,
+                        title = stringProvider.getString(UiR.string.common_error_occurred),
+                        subtitle = e.message.orEmpty(),
+                        action = ExplorerErrorAction.EnterCredentials(e.authMethod)
+                    )
+                } else {
+                    _explorerViewState.value = ExplorerViewState.Error(
+                        image = UiR.drawable.ic_file_error,
+                        title = stringProvider.getString(R.string.message_auth_required),
+                        subtitle = when (e.authMethod) {
+                            AuthMethod.PASSWORD -> stringProvider.getString(R.string.message_enter_password)
+                            AuthMethod.KEY -> stringProvider.getString(R.string.message_enter_passphrase)
+                        },
+                        action = ExplorerErrorAction.EnterCredentials(e.authMethod)
+                    )
+                }
             }
             else -> {
                 _explorerViewState.value = ExplorerViewState.Error(

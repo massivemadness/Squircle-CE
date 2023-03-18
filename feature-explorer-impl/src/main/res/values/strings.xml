@@ -20,6 +20,7 @@
     <string name="hint_enter_file_name">Enter file name</string>
     <string name="hint_enter_archive_name">Enter archive name</string>
     <string name="hint_enter_password">Enter password</string>
+    <string name="hint_enter_passphrase">Enter passphrase</string>
     <string name="hint_file_name" translatable="false">untitled.txt</string>
     <string name="hint_archive_name" translatable="false">untitled.zip</string>
 
@@ -73,6 +74,7 @@
 
     <string name="message_auth_required">Auth Required</string>
     <string name="message_enter_password">Enter password to connect to remote server</string>
+    <string name="message_enter_passphrase">Enter passphrase to connect to remote server</string>
     <string name="message_access_denied">Access Denied</string>
     <string name="message_access_required">Application requires storage access to work with files</string>
     <string name="message_cannot_be_opened">File cannot be opened</string>

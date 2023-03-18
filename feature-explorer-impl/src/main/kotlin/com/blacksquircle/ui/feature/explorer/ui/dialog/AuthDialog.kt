@@ -20,6 +20,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -27,6 +28,7 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogAuthBinding
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.uikit.R as UiR
 
@@ -34,6 +36,7 @@ import com.blacksquircle.ui.uikit.R as UiR
 class AuthDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
+    private val navArgs by navArgs<AuthDialogArgs>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialDialog(requireContext()).show {
@@ -41,6 +44,10 @@ class AuthDialog : DialogFragment() {
             customView(R.layout.dialog_auth)
 
             val binding = DialogAuthBinding.bind(getCustomView())
+            binding.input.hint = when (AuthMethod.find(navArgs.authMethod)) {
+                AuthMethod.PASSWORD -> getString(R.string.hint_enter_password)
+                AuthMethod.KEY -> getString(R.string.hint_enter_passphrase)
+            }
 
             negativeButton(android.R.string.cancel)
             positiveButton(UiR.string.common_continue) {

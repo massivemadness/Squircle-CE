@@ -104,7 +104,10 @@
         android:id="@+id/authDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.AuthDialog"
         android:label="AuthDialog">
-        <deepLink app:uri="blacksquircle://explorer/authenticate" />
+        <deepLink app:uri="blacksquircle://explorer/authenticate?authMethod={authMethod}" />
+        <argument
+            android:name="authMethod"
+            app:argType="integer" />
     </dialog>
 
 </navigation>

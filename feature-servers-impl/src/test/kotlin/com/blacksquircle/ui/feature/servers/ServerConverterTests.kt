@@ -37,6 +37,8 @@ class ServerConverterTests {
             authMethod = AuthMethod.PASSWORD.value,
             username = "username",
             password = "password",
+            privateKey = null,
+            passphrase = "test",
         )
         val serverConfig = ServerConfig(
             uuid = "1234567890",
@@ -48,6 +50,8 @@ class ServerConverterTests {
             authMethod = AuthMethod.PASSWORD,
             username = "username",
             password = "password",
+            privateKey = null,
+            passphrase = "test",
         )
 
         assertEquals(serverConfig, ServerConverter.toModel(serverEntity))
@@ -65,6 +69,8 @@ class ServerConverterTests {
             authMethod = AuthMethod.PASSWORD,
             username = "username",
             password = "password",
+            privateKey = null,
+            passphrase = "test",
         )
         val serverEntity = ServerEntity(
             uuid = "1234567890",
@@ -76,6 +82,8 @@ class ServerConverterTests {
             authMethod = AuthMethod.PASSWORD.value,
             username = "username",
             password = "password",
+            privateKey = null,
+            passphrase = "test",
         )
 
         assertEquals(serverEntity, ServerConverter.toEntity(serverConfig))

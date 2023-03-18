@@ -18,7 +18,7 @@ Git [repository](https://github.com/massivemadness/EditorKit)._
   files generated after building all variants
 * **4GB** of RAM
 * **macOS** or **Linux**-based operating system. **Windows** platform is supported by
-  using [MSYS](https://www.msys2.org/) (e.g., [Git Bash](https://gitforwindows.org/)).
+  using [Git Bash](https://gitforwindows.org/).
 
 ### Building
 

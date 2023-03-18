@@ -98,11 +98,13 @@ object Migrations {
                     `auth_method` INTEGER NOT NULL, 
                     `username` TEXT NOT NULL, 
                     `password` TEXT, 
+                    `private_key` TEXT, 
+                    `passphrase` TEXT, 
                     PRIMARY KEY(`uuid`)
                 )
             """,
             )
-            database.execSQL("INSERT INTO ${Tables.SERVERS} SELECT uuid, scheme, name, address, port, initial_dir, auth_method, username, password FROM ${Tables.SERVERS}_tmp")
+            database.execSQL("INSERT INTO ${Tables.SERVERS} SELECT uuid, scheme, name, address, port, initial_dir, auth_method, username, password, private_key, passphrase FROM ${Tables.SERVERS}_tmp")
             database.execSQL("DROP TABLE ${Tables.SERVERS}_tmp")
         }
     }

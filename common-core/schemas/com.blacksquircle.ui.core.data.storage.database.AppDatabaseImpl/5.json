@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "eb6aa45b4f493c29b39c27081d0d3102",
+    "identityHash": "b8793c64142189fcb6752ddd741a7402",
     "entities": [
       {
         "tableName": "tbl_documents",
@@ -80,7 +80,7 @@
       },
       {
         "tableName": "tbl_servers",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `scheme` TEXT NOT NULL, `name` TEXT NOT NULL, `address` TEXT NOT NULL, `port` INTEGER NOT NULL, `initial_dir` TEXT NOT NULL, `auth_method` INTEGER NOT NULL, `username` TEXT NOT NULL, `password` TEXT, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `scheme` TEXT NOT NULL, `name` TEXT NOT NULL, `address` TEXT NOT NULL, `port` INTEGER NOT NULL, `initial_dir` TEXT NOT NULL, `auth_method` INTEGER NOT NULL, `username` TEXT NOT NULL, `password` TEXT, `private_key` TEXT, `passphrase` TEXT, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -133,6 +133,18 @@
           {
             "fieldPath": "password",
             "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "privateKey",
+            "columnName": "private_key",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "passphrase",
+            "columnName": "passphrase",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -388,7 +400,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eb6aa45b4f493c29b39c27081d0d3102')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b8793c64142189fcb6752ddd741a7402')"
     ]
   }
 }

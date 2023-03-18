@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.ui.navigation
 
 import com.blacksquircle.ui.core.ui.navigation.Screen
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.google.gson.Gson
 
@@ -35,11 +36,13 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     class PropertiesDialog(fileModel: FileModel) : ExplorerScreen(
         route = "blacksquircle://explorer/properties?data=${Gson().toJson(fileModel)}", // fixme
     )
+    class AuthDialog(authMethod: AuthMethod) : ExplorerScreen(
+        route = "blacksquircle://explorer/authenticate?authMethod=${authMethod.value}"
+    )
 
     object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
     object CompressDialog : ExplorerScreen("blacksquircle://explorer/compress")
 
-    object AuthRequiredDialog : ExplorerScreen("blacksquircle://explorer/authenticate")
     object StorageDeniedForever : ExplorerScreen(
         route = "blacksquircle://explorer/storage_denied_forever"
     )

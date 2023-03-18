@@ -321,7 +321,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         binding.errorView.image.setImageResource(state.image)
                         binding.errorView.title.text = state.title
                         binding.errorView.subtitle.text = state.subtitle
-                        when (state.action) {
+                        when (val action = state.action) {
                             is ExplorerErrorAction.Undefined -> {
                                 binding.errorView.actionPrimary.isVisible = false
                                 binding.errorView.actionPrimary.setOnClickListener(null)
@@ -333,11 +333,13 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                                     storagePermission.launch()
                                 }
                             }
-                            is ExplorerErrorAction.AskForPassword -> {
+                            is ExplorerErrorAction.EnterCredentials -> {
                                 binding.errorView.actionPrimary.isVisible = true
                                 binding.errorView.actionPrimary.setText(R.string.action_authenticate)
                                 binding.errorView.actionPrimary.setOnClickListener {
-                                    navController.navigate(ExplorerScreen.AuthRequiredDialog)
+                                    navController.navigate(
+                                        ExplorerScreen.AuthDialog(action.authMethod)
+                                    )
                                 }
                             }
                         }

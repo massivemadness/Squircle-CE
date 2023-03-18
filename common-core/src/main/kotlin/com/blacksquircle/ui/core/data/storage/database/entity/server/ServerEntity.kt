@@ -42,4 +42,8 @@ data class ServerEntity(
     val username: String,
     @ColumnInfo(name = "password")
     val password: String?,
+    @ColumnInfo(name = "private_key")
+    val privateKey: String?,
+    @ColumnInfo(name = "passphrase")
+    val passphrase: String?,
 )

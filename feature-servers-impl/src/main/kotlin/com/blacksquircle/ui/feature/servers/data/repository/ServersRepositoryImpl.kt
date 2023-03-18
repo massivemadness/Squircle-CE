@@ -20,6 +20,7 @@ import com.blacksquircle.ui.core.data.storage.database.AppDatabase
 import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.servers.data.converter.ServerConverter
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -34,11 +35,11 @@ class ServersRepositoryImpl(
         .map { it.map(ServerConverter::toModel) }
         .flowOn(dispatcherProvider.io())
 
-    private val passwordCache = HashMap<String, String>()
+    private val credentials = HashMap<String, String>()
 
     override suspend fun authenticate(uuid: String, password: String) {
         withContext(dispatcherProvider.io()) {
-            passwordCache[uuid] = password
+            credentials[uuid] = password
         }
     }
 
@@ -53,12 +54,20 @@ class ServersRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val serverEntity = appDatabase.serverDao().load(uuid)
             val serverConfig = ServerConverter.toModel(serverEntity)
-            serverConfig.copy(password = passwordCache.getOrDefault(uuid, serverConfig.password))
+            when (serverConfig.authMethod) {
+                AuthMethod.PASSWORD -> serverConfig.copy(
+                    password = credentials[uuid] ?: serverConfig.password
+                )
+                AuthMethod.KEY -> serverConfig.copy(
+                    passphrase = credentials[uuid] ?: serverConfig.passphrase
+                )
+            }
         }
     }
 
     override suspend fun upsertServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
+            credentials.remove(serverConfig.uuid)
             val entity = ServerConverter.toEntity(serverConfig)
             appDatabase.serverDao().insert(entity)
         }
@@ -66,6 +75,7 @@ class ServersRepositoryImpl(
 
     override suspend fun deleteServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
+            credentials.remove(serverConfig.uuid)
             val entity = ServerConverter.toEntity(serverConfig)
             appDatabase.serverDao().delete(entity)
         }
