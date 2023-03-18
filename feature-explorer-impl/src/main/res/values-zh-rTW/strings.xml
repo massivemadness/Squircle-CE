@@ -58,9 +58,6 @@
     <string name="properties_path">檔案路徑：</string>
     <string name="properties_modified">最後修改：</string>
     <string name="properties_size">檔案大小：</string>
-    <string name="properties_readable">可讀</string>
-    <string name="properties_writable">可寫</string>
-    <string name="properties_executable">可執行</string>
 
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
     <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
