@@ -33,11 +33,11 @@ data class DocumentModel(
 ) {
 
     val scheme: String
-        get() = fileUri.substringBeforeLast("://") + "://"
+        get() = fileUri.substringBefore("://")
     val path: String
-        get() = fileUri.substringAfterLast("://")
+        get() = fileUri.substringAfterLast("://").ifEmpty { "/" }
     val name: String
-        get() = fileUri.substringAfterLast("/")
+        get() = fileUri.substringAfterLast("/").ifEmpty { "/" }
     val extension: String
         get() = fileUri.substringAfterLast(".", "")
     val mimeType: String

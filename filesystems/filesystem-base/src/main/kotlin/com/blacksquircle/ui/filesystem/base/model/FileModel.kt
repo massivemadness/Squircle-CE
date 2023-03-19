@@ -28,7 +28,7 @@ data class FileModel(
 ) {
 
     val scheme: String
-        get() = fileUri.substringBeforeLast("://") + "://"
+        get() = fileUri.substringBefore("://")
     val path: String
         get() = fileUri.substringAfterLast("://").ifEmpty { "/" }
     val name: String
