@@ -103,7 +103,7 @@ class ShortcutDialog : DialogFragment() {
                 val newKeybinding = keybinding.copy(
                     isCtrl = newCtrl, isShift = newShift, isAlt = newAlt, key = newKey,
                 )
-                viewModel.obtainEvent(ShortcutIntent.SaveShortcut(newKeybinding))
+                viewModel.obtainEvent(ShortcutIntent.Reassign(newKeybinding))
             }
 
             binding.ctrl.setOnCheckedChangeListener { _, isChecked ->

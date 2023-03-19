@@ -54,9 +54,9 @@ class ShortcutsViewModel @Inject constructor(
     fun obtainEvent(event: ShortcutIntent) {
         when (event) {
             is ShortcutIntent.LoadShortcuts -> loadShortcuts()
-            is ShortcutIntent.RestoreShortcuts -> restoreShortcuts()
+            is ShortcutIntent.RestoreDefaults -> restoreDefaults()
 
-            is ShortcutIntent.SaveShortcut -> saveShortcut(event)
+            is ShortcutIntent.Reassign -> reassignShortcut(event)
             is ShortcutIntent.ResolveConflict -> resolveConflict(event)
         }
     }
@@ -74,10 +74,10 @@ class ShortcutsViewModel @Inject constructor(
         }
     }
 
-    private fun restoreShortcuts() {
+    private fun restoreDefaults() {
         viewModelScope.launch {
             try {
-                shortcutsRepository.restoreShortcuts()
+                shortcutsRepository.restoreDefaults()
                 loadShortcuts()
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -88,7 +88,7 @@ class ShortcutsViewModel @Inject constructor(
         }
     }
 
-    private fun saveShortcut(event: ShortcutIntent.SaveShortcut) {
+    private fun reassignShortcut(event: ShortcutIntent.Reassign) {
         viewModelScope.launch {
             try {
                 val existingKey = shortcuts.value.find {
@@ -103,7 +103,7 @@ class ShortcutsViewModel @Inject constructor(
                     conflictKey = existingKey
                     _viewEvent.send(ViewEvent.Navigation(ShortcutScreen.Conflict()))
                 } else {
-                    shortcutsRepository.saveShortcut(event.keybinding)
+                    shortcutsRepository.reassign(event.keybinding)
                     loadShortcuts()
                 }
             } catch (e: Exception) {
@@ -119,8 +119,8 @@ class ShortcutsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (event.reassign) {
-                    shortcutsRepository.removeShortcut(checkNotNull(conflictKey))
-                    shortcutsRepository.saveShortcut(checkNotNull(pendingKey))
+                    shortcutsRepository.disable(checkNotNull(conflictKey))
+                    shortcutsRepository.reassign(checkNotNull(pendingKey))
                 }
                 pendingKey = null
                 conflictKey = null

@@ -54,7 +54,7 @@ class ShortcutsFragment : PreferenceFragmentCompat() {
         override fun onPrepareMenu(menu: Menu) = Unit
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
-                R.id.action_restore -> viewModel.obtainEvent(ShortcutIntent.RestoreShortcuts)
+                R.id.action_restore -> viewModel.obtainEvent(ShortcutIntent.RestoreDefaults)
             }
             return true
         }

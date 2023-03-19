@@ -46,7 +46,7 @@ class ShortcutsRepositoryImpl(
         }
     }
 
-    override suspend fun restoreShortcuts() {
+    override suspend fun restoreDefaults() {
         withContext(dispatcherProvider.io()) {
             Shortcut.values().forEach { keybinding ->
                 settingsManager.remove(keybinding.key)
@@ -54,7 +54,7 @@ class ShortcutsRepositoryImpl(
         }
     }
 
-    override suspend fun saveShortcut(keybinding: Keybinding) {
+    override suspend fun reassign(keybinding: Keybinding) {
         withContext(dispatcherProvider.io()) {
             val value = StringBuilder().apply {
                 val isValid = keybinding.isCtrl || keybinding.isAlt
@@ -67,7 +67,7 @@ class ShortcutsRepositoryImpl(
         }
     }
 
-    override suspend fun removeShortcut(keybinding: Keybinding) {
+    override suspend fun disable(keybinding: Keybinding) {
         withContext(dispatcherProvider.io()) {
             val value = StringBuilder().apply {
                 append('0') // ctrl

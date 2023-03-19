@@ -21,8 +21,8 @@ import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 interface ShortcutsRepository {
 
     suspend fun loadShortcuts(): List<Keybinding>
-    suspend fun restoreShortcuts()
+    suspend fun restoreDefaults()
 
-    suspend fun saveShortcut(keybinding: Keybinding)
-    suspend fun removeShortcut(keybinding: Keybinding)
+    suspend fun reassign(keybinding: Keybinding)
+    suspend fun disable(keybinding: Keybinding)
 }
