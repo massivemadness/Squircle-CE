@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
@@ -60,13 +61,13 @@ object ExplorerModule {
         @ApplicationContext context: Context,
         serversRepository: ServersRepository,
     ): FilesystemFactory {
-        return FilesystemFactoryImpl(serversRepository, context.cacheDir)
+        return FilesystemFactoryImpl(serversRepository, Directories.ftpDir(context))
     }
 
     @Provides
     @Singleton
     @Named("Cache")
     fun provideCacheFilesystem(@ApplicationContext context: Context): Filesystem {
-        return LocalFilesystem(context.filesDir)
+        return LocalFilesystem(Directories.filesDir(context))
     }
 }
