@@ -18,11 +18,11 @@ package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.data.factory.LanguageFactory
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.extensions.*
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.factory.LanguageFactory
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter

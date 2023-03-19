@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.mvi
 
-import com.blacksquircle.ui.core.ui.mvi.ViewState
+import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 

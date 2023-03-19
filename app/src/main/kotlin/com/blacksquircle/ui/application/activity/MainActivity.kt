@@ -24,9 +24,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.updatePadding
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
-import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.ui.extensions.decorFitsSystemWindows
-import com.blacksquircle.ui.core.ui.extensions.fullscreenMode
+import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
+import com.blacksquircle.ui.core.extensions.decorFitsSystemWindows
+import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.utils.InAppUpdate
 import com.google.android.material.snackbar.Snackbar

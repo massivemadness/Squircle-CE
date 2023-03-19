@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers.ui.navigation
 
-import com.blacksquircle.ui.core.ui.navigation.Screen
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.google.gson.Gson
 

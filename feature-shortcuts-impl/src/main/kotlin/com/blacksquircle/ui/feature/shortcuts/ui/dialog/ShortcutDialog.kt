@@ -27,7 +27,7 @@ import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.blacksquircle.ui.core.ui.extensions.keyCodeToChar
+import com.blacksquircle.ui.core.extensions.keyCodeToChar
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.databinding.DialogShortcutBinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut

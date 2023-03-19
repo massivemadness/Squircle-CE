@@ -18,10 +18,10 @@ package com.blacksquircle.ui.feature.themes.data.repository
 
 import android.content.Context
 import android.net.Uri
-import com.blacksquircle.ui.core.data.storage.database.AppDatabase
-import com.blacksquircle.ui.core.data.storage.database.entity.theme.ThemeEntity
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.*

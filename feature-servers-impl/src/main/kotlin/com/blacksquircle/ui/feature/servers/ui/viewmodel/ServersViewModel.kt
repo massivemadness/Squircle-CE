@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.feature.servers.ui.mvi.ServerIntent
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
@@ -41,6 +41,10 @@ class ServersViewModel @Inject constructor(
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    init {
+        loadServers()
+    }
 
     fun obtainEvent(event: ServerIntent) {
         when (event) {

@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.explorer
 
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation

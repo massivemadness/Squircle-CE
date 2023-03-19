@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui.mvi
 
-import com.blacksquircle.ui.core.ui.mvi.ViewIntent
+import com.blacksquircle.ui.core.mvi.ViewIntent
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 
 sealed class ShortcutIntent : ViewIntent() {

@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui.adapter
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.ui.adapter.TabAdapter
+import com.blacksquircle.ui.core.adapter.TabAdapter
 
 class TabController : ItemTouchHelper(itemTouchCallback) {
 

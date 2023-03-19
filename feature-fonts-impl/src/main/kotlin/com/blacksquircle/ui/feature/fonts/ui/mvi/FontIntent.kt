@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.fonts.ui.mvi
 
 import android.net.Uri
-import com.blacksquircle.ui.core.ui.mvi.ViewIntent
+import com.blacksquircle.ui.core.mvi.ViewIntent
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 sealed class FontIntent : ViewIntent() {

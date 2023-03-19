@@ -36,11 +36,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
-import com.blacksquircle.ui.core.ui.contract.ContractResult
-import com.blacksquircle.ui.core.ui.contract.CreateFileContract
-import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.*
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.core.contract.ContractResult
+import com.blacksquircle.ui.core.contract.CreateFileContract
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.data.utils.GridSpacingItemDecoration
 import com.blacksquircle.ui.feature.themes.data.utils.readAssetFileText

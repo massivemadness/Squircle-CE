@@ -25,10 +25,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.data.factory.LanguageFactory
-import com.blacksquircle.ui.core.ui.extensions.getColour
-import com.blacksquircle.ui.core.ui.extensions.isColorDark
-import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
+import com.blacksquircle.ui.core.extensions.getColour
+import com.blacksquircle.ui.core.extensions.isColorDark
+import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
+import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.ItemThemeBinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel

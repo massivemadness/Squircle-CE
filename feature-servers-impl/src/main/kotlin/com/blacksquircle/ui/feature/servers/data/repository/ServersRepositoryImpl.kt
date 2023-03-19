@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.servers.data.repository
 
-import com.blacksquircle.ui.core.data.storage.database.AppDatabase
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.feature.servers.data.converter.ServerConverter
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod

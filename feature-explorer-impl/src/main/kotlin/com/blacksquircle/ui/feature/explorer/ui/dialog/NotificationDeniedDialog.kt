@@ -24,7 +24,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.DialogFragment
 import com.afollestad.materialdialogs.MaterialDialog
-import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.explorer.R
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

@@ -23,10 +23,10 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.Observer
 import androidx.work.*
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.ui.extensions.createChannel
-import com.blacksquircle.ui.core.ui.extensions.createNotification
-import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.extensions.createChannel
+import com.blacksquircle.ui.core.extensions.createNotification
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.toData
 import com.blacksquircle.ui.feature.explorer.data.utils.toFileList

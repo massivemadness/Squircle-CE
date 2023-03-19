@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.changelog.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.changelog.data.repository.ChangelogRepositoryImpl
 import com.blacksquircle.ui.feature.changelog.domain.repository.ChangelogRepository
 import dagger.Module

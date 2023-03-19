@@ -32,11 +32,11 @@ import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.navigation.AppScreen
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
-import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.*
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
-import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
-import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.databinding.FragmentTwoPaneBinding
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent

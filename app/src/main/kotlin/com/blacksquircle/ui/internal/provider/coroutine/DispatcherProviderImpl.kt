@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.internal.provider.coroutine
 
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import kotlinx.coroutines.Dispatchers
 
 class DispatcherProviderImpl : DispatcherProvider {

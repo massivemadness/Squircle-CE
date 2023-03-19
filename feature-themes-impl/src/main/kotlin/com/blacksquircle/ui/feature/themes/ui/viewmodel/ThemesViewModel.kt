@@ -18,9 +18,9 @@ package com.blacksquircle.ui.feature.themes.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.extensions.toHexString
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.core.extensions.toHexString
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
 import com.blacksquircle.ui.feature.themes.domain.model.Meta

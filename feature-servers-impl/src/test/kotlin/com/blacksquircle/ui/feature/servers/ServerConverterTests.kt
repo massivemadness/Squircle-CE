@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers
 
-import com.blacksquircle.ui.core.data.storage.database.entity.server.ServerEntity
+import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.feature.servers.data.converter.ServerConverter
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig

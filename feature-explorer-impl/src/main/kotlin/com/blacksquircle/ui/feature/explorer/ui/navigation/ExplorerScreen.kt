@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.navigation
 
-import com.blacksquircle.ui.core.ui.navigation.Screen
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel

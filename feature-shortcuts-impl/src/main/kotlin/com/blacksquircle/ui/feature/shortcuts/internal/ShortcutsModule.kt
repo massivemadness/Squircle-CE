@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.shortcuts.internal
 
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutsRepositoryImpl
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import dagger.Module

@@ -25,11 +25,11 @@ import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.ui.extensions.navigate
-import com.blacksquircle.ui.core.ui.extensions.postponeEnterTransition
-import com.blacksquircle.ui.core.ui.extensions.setFadeTransition
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
+import com.blacksquircle.ui.core.extensions.navigate
+import com.blacksquircle.ui.core.extensions.postponeEnterTransition
+import com.blacksquircle.ui.core.extensions.setFadeTransition
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.utils.applicationName
 import com.blacksquircle.ui.feature.settings.data.utils.versionCode

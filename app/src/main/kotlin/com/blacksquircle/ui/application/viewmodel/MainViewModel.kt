@@ -19,8 +19,8 @@ package com.blacksquircle.ui.application.viewmodel
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow

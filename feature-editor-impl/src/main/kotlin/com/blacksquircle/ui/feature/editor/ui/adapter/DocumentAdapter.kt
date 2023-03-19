@@ -23,8 +23,8 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.ui.adapter.TabAdapter
-import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
+import com.blacksquircle.ui.core.adapter.TabAdapter
+import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemTabDocumentBinding
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel

@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.mvi
 
 import android.net.Uri
-import com.blacksquircle.ui.core.ui.mvi.ViewIntent
+import com.blacksquircle.ui.core.mvi.ViewIntent
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 

@@ -29,9 +29,9 @@ import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.blacksquircle.ui.core.ui.contract.ContractResult
-import com.blacksquircle.ui.core.ui.contract.OpenFileContract
-import com.blacksquircle.ui.core.ui.extensions.extractFilePath
+import com.blacksquircle.ui.core.contract.ContractResult
+import com.blacksquircle.ui.core.contract.OpenFileContract
+import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.databinding.DialogServerBinding
 import com.blacksquircle.ui.feature.servers.ui.mvi.ServerIntent

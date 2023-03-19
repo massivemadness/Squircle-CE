@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.settings.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.data.repository.SettingsRepositoryImpl
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import dagger.Module

@@ -22,7 +22,7 @@ import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
+import com.blacksquircle.ui.core.adapter.OnItemClickListener
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.ItemPropertyBinding
 import com.blacksquircle.ui.feature.themes.domain.model.Property

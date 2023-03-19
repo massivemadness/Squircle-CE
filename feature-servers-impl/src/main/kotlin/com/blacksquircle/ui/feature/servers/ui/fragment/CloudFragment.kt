@@ -29,12 +29,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
-import com.blacksquircle.ui.core.ui.delegate.viewBinding
-import com.blacksquircle.ui.core.ui.extensions.*
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
-import com.blacksquircle.ui.core.ui.navigation.Screen
+import com.blacksquircle.ui.core.delegate.viewBinding
+import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.ui.mvi.ServerIntent
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
@@ -81,8 +80,6 @@ class CloudFragment : PreferenceFragmentCompat() {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
-
-        viewModel.obtainEvent(ServerIntent.LoadServers)
     }
 
     private fun observeViewModel() {

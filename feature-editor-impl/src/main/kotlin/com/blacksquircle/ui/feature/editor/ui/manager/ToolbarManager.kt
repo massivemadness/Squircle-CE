@@ -24,7 +24,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import com.blacksquircle.ui.core.ui.extensions.makeRightPaddingRecursively
+import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding

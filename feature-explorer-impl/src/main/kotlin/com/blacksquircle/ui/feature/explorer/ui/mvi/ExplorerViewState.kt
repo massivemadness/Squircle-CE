@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.mvi
 
-import com.blacksquircle.ui.core.ui.mvi.ViewState
+import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 sealed class ExplorerViewState : ViewState() {

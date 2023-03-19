@@ -18,10 +18,10 @@ package com.blacksquircle.ui.feature.editor.data.repository
 
 import android.content.Context
 import android.net.Uri
-import com.blacksquircle.ui.core.data.storage.database.AppDatabase
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.ui.extensions.extractFilePath
+import com.blacksquircle.ui.core.extensions.extractFilePath
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.editorkit.model.UndoStack

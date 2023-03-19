@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.changelog.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import com.blacksquircle.ui.feature.changelog.domain.repository.ChangelogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.feature.explorer.data.repository
 
 import android.content.Context
-import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.ui.extensions.checkStorageAccess
+import com.blacksquircle.ui.core.extensions.checkStorageAccess
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory

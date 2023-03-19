@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent

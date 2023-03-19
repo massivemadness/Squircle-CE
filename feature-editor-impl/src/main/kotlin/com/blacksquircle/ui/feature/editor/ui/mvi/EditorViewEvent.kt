@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.mvi
 
-import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.editorkit.model.FindResult
 
 sealed class EditorViewEvent : ViewEvent() {

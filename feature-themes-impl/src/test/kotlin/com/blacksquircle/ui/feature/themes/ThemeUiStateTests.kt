@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes
 
-import com.blacksquircle.ui.core.domain.resources.StringProvider
+import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel

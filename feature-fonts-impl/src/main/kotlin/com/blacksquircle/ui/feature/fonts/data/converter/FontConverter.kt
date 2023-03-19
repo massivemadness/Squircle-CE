@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.fonts.data.converter
 
-import com.blacksquircle.ui.core.data.storage.database.entity.font.FontEntity
+import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 object FontConverter {

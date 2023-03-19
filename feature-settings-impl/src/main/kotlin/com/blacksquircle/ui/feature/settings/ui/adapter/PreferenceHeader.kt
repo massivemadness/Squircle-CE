@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.settings.ui.adapter
 
-import com.blacksquircle.ui.core.ui.navigation.Screen
+import com.blacksquircle.ui.core.navigation.Screen
 
 data class PreferenceHeader(
     val title: String,

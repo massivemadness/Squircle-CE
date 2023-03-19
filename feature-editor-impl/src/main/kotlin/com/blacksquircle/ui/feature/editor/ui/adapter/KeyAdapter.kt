@@ -23,7 +23,7 @@ import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.ui.extensions.dpToPx
+import com.blacksquircle.ui.core.extensions.dpToPx
 import com.blacksquircle.ui.feature.editor.databinding.ItemKeyboardKeyBinding
 import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 

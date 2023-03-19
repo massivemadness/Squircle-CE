@@ -21,10 +21,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.ui.adapter.OnItemClickListener
-import com.blacksquircle.ui.core.ui.extensions.getColorAttr
-import com.blacksquircle.ui.core.ui.extensions.setActivatedBackground
-import com.blacksquircle.ui.core.ui.extensions.setSelectableBackground
+import com.blacksquircle.ui.core.adapter.OnItemClickListener
+import com.blacksquircle.ui.core.extensions.getColorAttr
+import com.blacksquircle.ui.core.extensions.setActivatedBackground
+import com.blacksquircle.ui.core.extensions.setSelectableBackground
 import com.blacksquircle.ui.feature.settings.databinding.ItemPreferenceBinding
 import com.google.android.material.R as MtrlR
 

@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.explorer.data.utils
 import android.content.*
 import androidx.core.content.FileProvider
 import androidx.core.content.getSystemService
-import com.blacksquircle.ui.core.ui.extensions.showToast
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import timber.log.Timber

@@ -29,9 +29,9 @@ import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import com.blacksquircle.ui.core.ui.contract.NotificationPermission
-import com.blacksquircle.ui.core.ui.contract.PermissionResult
-import com.blacksquircle.ui.core.ui.extensions.navigate
+import com.blacksquircle.ui.core.contract.NotificationPermission
+import com.blacksquircle.ui.core.contract.PermissionResult
+import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.databinding.DialogProgressBinding

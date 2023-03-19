@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.changelog.data.repository
 
 import android.content.Context
-import com.blacksquircle.ui.core.domain.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.changelog.R
 import com.blacksquircle.ui.feature.changelog.data.converter.ReleaseConverter
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel

@@ -21,7 +21,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.ui.adapter.TabAdapter
+import com.blacksquircle.ui.core.adapter.TabAdapter
 import com.blacksquircle.ui.feature.explorer.databinding.ItemTabDirectoryBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 

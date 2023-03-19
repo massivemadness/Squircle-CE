@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.core.tests
 
+import com.blacksquircle.ui.core.logger.ConsoleTree
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import timber.log.Timber

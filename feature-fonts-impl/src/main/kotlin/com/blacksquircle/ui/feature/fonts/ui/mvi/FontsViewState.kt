@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.mvi
 
-import com.blacksquircle.ui.core.ui.mvi.ViewState
+import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 sealed class FontsViewState : ViewState() {

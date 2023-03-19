@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.navigation
 
-import com.blacksquircle.ui.core.ui.navigation.Screen
+import com.blacksquircle.ui.core.navigation.Screen
 
 sealed class EditorScreen(route: String) : Screen<String>(route) {
 
