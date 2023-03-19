@@ -92,7 +92,7 @@ class ServerDialog : DialogFragment() {
     }
 
     private fun MaterialDialog.editServerLayout() {
-        val serverConfig = Gson().fromJson(navArgs.data, ServerConfig::class.java)
+        val serverConfig = Gson().fromJson(navArgs.data, ServerConfig::class.java) // FIXME
         binding.inputServerName.setText(serverConfig.name)
         binding.inputServerAddress.setText(serverConfig.address)
         binding.inputServerPort.setText(serverConfig.port.toString())

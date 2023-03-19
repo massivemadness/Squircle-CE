@@ -86,7 +86,7 @@
             app:argType="integer" />
         <argument
             android:name="operation"
-            app:argType="string" />
+            app:argType="integer" />
     </dialog>
 
     <dialog

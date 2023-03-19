@@ -16,18 +16,18 @@
 
 package com.blacksquircle.ui.feature.explorer.data.utils
 
-enum class Operation(val value: String) {
-    CREATE("Create"),
-    RENAME("Rename"),
-    DELETE("Delete"),
-    CUT("Cut"),
-    COPY("Copy"),
-    COMPRESS("Compress"),
-    EXTRACT("Extract");
+enum class Operation(val value: Int) {
+    CREATE(0),
+    RENAME(1),
+    DELETE(2),
+    CUT(3),
+    COPY(4),
+    COMPRESS(5),
+    EXTRACT(6);
 
     companion object {
 
-        fun find(value: String): Operation {
+        fun find(value: Int): Operation {
             return values().find { it.value == value } ?: CREATE
         }
     }

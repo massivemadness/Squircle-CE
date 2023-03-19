@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.navigation
+package com.blacksquircle.ui.core.extensions
 
-import com.blacksquircle.ui.core.extensions.toJsonEncoded
-import com.blacksquircle.ui.core.navigation.Screen
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.google.gson.Gson
+import java.net.URLDecoder
+import java.net.URLEncoder
 
-sealed class ServersScreen(route: String) : Screen<String>(route) {
+fun String.encodeUrl(encoding: String = "UTF-8"): String = URLEncoder.encode(this, encoding)
+fun String.decodeUrl(encoding: String = "UTF-8"): String = URLDecoder.decode(this, encoding)
 
-    object AddServer : ServersScreen("blacksquircle://settings/cloud/add")
-    class EditServer(serverConfig: ServerConfig) : ServersScreen(
-        route = "blacksquircle://settings/cloud/edit?data=${Gson().toJsonEncoded(serverConfig)}",
-    )
-}
+fun Gson.toJsonEncoded(any: Any): String = toJson(any).encodeUrl()
