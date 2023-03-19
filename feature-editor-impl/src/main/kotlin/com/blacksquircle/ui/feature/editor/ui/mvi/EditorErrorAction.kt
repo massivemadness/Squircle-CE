@@ -16,19 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.mvi
 
-import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
-
-sealed class EditorViewState : ViewState() {
-
-    object Loading : EditorViewState()
-
-    data class Content(var content: DocumentContent) : EditorViewState()
-
-    data class Error(
-        val image: Int,
-        val title: String,
-        val subtitle: String,
-        val action: EditorErrorAction,
-    ) : EditorViewState()
+sealed class EditorErrorAction {
+    object Undefined : EditorErrorAction()
+    object CloseDocument : EditorErrorAction()
 }

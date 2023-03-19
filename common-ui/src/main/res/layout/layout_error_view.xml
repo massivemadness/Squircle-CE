@@ -42,7 +42,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:id="@+id/title"
-        tools:text="An error occurred" />
+        tools:text="Error title" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
         android:textColor="?colorOnBackground"
         android:textSize="14sp"
         android:id="@+id/subtitle"
-        tools:text="An error occurred" />
+        tools:text="Error message" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.AppTheme.OutlinedButton"

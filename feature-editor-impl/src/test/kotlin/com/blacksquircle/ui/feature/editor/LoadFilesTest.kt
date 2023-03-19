@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorErrorAction
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
@@ -122,6 +123,7 @@ class LoadFilesTest {
             image = UiR.drawable.ic_file_find,
             title = stringProvider.getString(R.string.message_no_open_files),
             subtitle = "",
+            action = EditorErrorAction.Undefined
         )
         assertEquals(editorViewState, viewModel.editorViewState.value)
     }

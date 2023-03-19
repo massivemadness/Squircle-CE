@@ -33,10 +33,7 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewEvent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewState
-import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
+import com.blacksquircle.ui.feature.editor.ui.mvi.*
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
@@ -614,6 +611,7 @@ class EditorViewModel @Inject constructor(
                 image = UiR.drawable.ic_file_find,
                 title = stringProvider.getString(R.string.message_no_open_files),
                 subtitle = "",
+                action = EditorErrorAction.Undefined,
             )
             _keyboardViewState.value = KeyboardManager.Mode.NONE
         }
@@ -630,6 +628,7 @@ class EditorViewModel @Inject constructor(
                     image = UiR.drawable.ic_file_error,
                     title = stringProvider.getString(UiR.string.common_error_occurred),
                     subtitle = e.message.orEmpty(),
+                    action = EditorErrorAction.CloseDocument,
                 )
                 _keyboardViewState.value = KeyboardManager.Mode.NONE
             }

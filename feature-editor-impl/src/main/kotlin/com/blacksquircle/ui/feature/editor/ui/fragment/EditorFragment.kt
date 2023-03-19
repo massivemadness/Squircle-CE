@@ -60,10 +60,7 @@ import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
 import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewEvent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewState
-import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
+import com.blacksquircle.ui.feature.editor.ui.mvi.*
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
@@ -235,7 +232,19 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.errorView.image.setImageResource(state.image)
                         binding.errorView.title.text = state.title
                         binding.errorView.subtitle.text = state.subtitle
-                        binding.errorView.actionPrimary.isVisible = false
+                        when (state.action) {
+                            is EditorErrorAction.Undefined -> {
+                                binding.errorView.actionPrimary.isVisible = false
+                                binding.errorView.actionPrimary.setOnClickListener(null)
+                            }
+                            is EditorErrorAction.CloseDocument -> {
+                                binding.errorView.actionPrimary.isVisible = true
+                                binding.errorView.actionPrimary.setText(R.string.action_close)
+                                binding.errorView.actionPrimary.setOnClickListener {
+                                    onCloseButton()
+                                }
+                            }
+                        }
                         binding.loadingBar.isVisible = false
                         binding.editor.clearUndoHistory()
                     }
