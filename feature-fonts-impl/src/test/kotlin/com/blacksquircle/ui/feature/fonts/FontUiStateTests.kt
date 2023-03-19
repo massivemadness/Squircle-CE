@@ -21,9 +21,9 @@ import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontIntent
+import com.blacksquircle.ui.feature.fonts.ui.mvi.FontIntent
+import com.blacksquircle.ui.feature.fonts.ui.mvi.FontsViewState
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
-import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

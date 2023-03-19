@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.viewstate
+package com.blacksquircle.ui.feature.fonts.ui.mvi
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.core.ui.mvi.ViewState
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
-sealed class ExplorerViewState : ViewState() {
+sealed class FontsViewState : ViewState() {
 
-    object Loading : ExplorerViewState()
+    abstract val query: String
 
-    data class Files(
-        val data: List<FileModel>,
-    ) : ExplorerViewState()
+    object Loading : FontsViewState() {
+        override val query: String = ""
+    }
 
-    data class Error(
-        val image: Int,
-        val title: String,
-        val subtitle: String,
-        val action: ExplorerErrorAction,
-    ) : ExplorerViewState()
+    data class Empty(
+        override val query: String,
+    ) : FontsViewState()
+
+    data class Data(
+        override val query: String,
+        val fonts: List<FontModel>,
+    ) : FontsViewState()
 }

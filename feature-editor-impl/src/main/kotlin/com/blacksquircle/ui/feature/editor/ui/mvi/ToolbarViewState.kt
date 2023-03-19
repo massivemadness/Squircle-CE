@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.viewmodel
+package com.blacksquircle.ui.feature.editor.ui.mvi
 
-import android.net.Uri
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.core.ui.mvi.ViewState
+import com.blacksquircle.ui.editorkit.model.FindParams
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 
-sealed class FontIntent {
+sealed class ToolbarViewState : ViewState() {
 
-    object LoadFonts : FontIntent()
-
-    data class SearchFonts(val query: String) : FontIntent()
-    data class ImportFont(val fileUri: Uri) : FontIntent()
-    data class SelectFont(val fontModel: FontModel) : FontIntent()
-    data class RemoveFont(val fontModel: FontModel) : FontIntent()
+    data class ActionBar(
+        val documents: List<DocumentModel> = emptyList(),
+        val position: Int = -1,
+        val mode: ToolbarManager.Mode = ToolbarManager.Mode.DEFAULT,
+        val findParams: FindParams = FindParams()
+    ) : ToolbarViewState()
 }

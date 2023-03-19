@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.viewmodel
+package com.blacksquircle.ui.feature.themes.ui.mvi
 
 import android.net.Uri
+import com.blacksquircle.ui.core.ui.mvi.ViewIntent
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
-sealed class ThemeIntent {
+sealed class ThemeIntent : ViewIntent() {
 
     object LoadThemes : ThemeIntent()
 

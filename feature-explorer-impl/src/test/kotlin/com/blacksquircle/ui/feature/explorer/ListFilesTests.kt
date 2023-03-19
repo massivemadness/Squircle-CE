@@ -22,11 +22,11 @@ import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
+import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerErrorAction
+import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
+import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewState
+import com.blacksquircle.ui.feature.explorer.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerErrorAction
-import com.blacksquircle.ui.feature.explorer.ui.viewstate.ExplorerViewState
-import com.blacksquircle.ui.feature.explorer.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileTree

@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.viewmodel
+package com.blacksquircle.ui.feature.editor.ui.mvi
 
 import android.net.Uri
+import com.blacksquircle.ui.core.ui.mvi.ViewIntent
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-sealed class EditorIntent {
+sealed class EditorIntent : ViewIntent() {
 
     object LoadFiles : EditorIntent()
     object LoadSettings : EditorIntent()

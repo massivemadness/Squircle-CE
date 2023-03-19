@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.viewmodel
+package com.blacksquircle.ui.feature.servers.ui.mvi
 
+import com.blacksquircle.ui.core.ui.mvi.ViewIntent
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-sealed class ServerIntent {
+sealed class ServerIntent : ViewIntent() {
 
     object LoadServers : ServerIntent()
 

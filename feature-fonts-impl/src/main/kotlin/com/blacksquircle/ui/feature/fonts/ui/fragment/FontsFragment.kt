@@ -36,14 +36,14 @@ import com.blacksquircle.ui.core.ui.contract.ContractResult
 import com.blacksquircle.ui.core.ui.contract.OpenFileContract
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.ui.adapter.FontAdapter
-import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontIntent
+import com.blacksquircle.ui.feature.fonts.ui.mvi.FontIntent
+import com.blacksquircle.ui.feature.fonts.ui.mvi.FontsViewState
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
-import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

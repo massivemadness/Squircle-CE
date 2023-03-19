@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.viewstate
+package com.blacksquircle.ui.feature.editor.ui.mvi
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.feature.explorer.data.utils.Operation
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.core.ui.mvi.ViewState
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 
-sealed class ToolbarViewState : ViewState() {
+sealed class EditorViewState : ViewState() {
 
-    data class ActionBar(
-        val breadcrumbs: List<FileModel> = emptyList(),
-        val selection: List<FileModel> = emptyList(),
-        val operation: Operation = Operation.CREATE,
-    ) : ToolbarViewState()
+    object Loading : EditorViewState()
+
+    data class Content(var content: DocumentContent) : EditorViewState()
+
+    data class Error(
+        val image: Int,
+        val title: String,
+        val subtitle: String,
+    ) : EditorViewState()
 }

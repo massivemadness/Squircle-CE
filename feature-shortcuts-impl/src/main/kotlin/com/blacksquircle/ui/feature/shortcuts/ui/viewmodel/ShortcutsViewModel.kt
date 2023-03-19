@@ -19,9 +19,10 @@ package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import com.blacksquircle.ui.uikit.R
 import dagger.hilt.android.lifecycle.HiltViewModel

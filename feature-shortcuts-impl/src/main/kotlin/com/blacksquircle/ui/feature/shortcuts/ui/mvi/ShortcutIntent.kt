@@ -14,25 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.viewstate
+package com.blacksquircle.ui.feature.shortcuts.ui.mvi
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
+import com.blacksquircle.ui.core.ui.mvi.ViewIntent
+import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 
-sealed class ThemesViewState : ViewState() {
+sealed class ShortcutIntent : ViewIntent() {
 
-    abstract val query: String
+    object LoadShortcuts : ShortcutIntent()
+    object RestoreShortcuts : ShortcutIntent()
 
-    object Loading : ThemesViewState() {
-        override val query: String = ""
-    }
-
-    data class Empty(
-        override val query: String,
-    ) : ThemesViewState()
-
-    data class Data(
-        override val query: String,
-        val themes: List<ThemeModel>,
-    ) : ThemesViewState()
+    data class SaveShortcut(val keybinding: Keybinding) : ShortcutIntent()
+    data class ResolveConflict(val reassign: Boolean) : ShortcutIntent()
 }

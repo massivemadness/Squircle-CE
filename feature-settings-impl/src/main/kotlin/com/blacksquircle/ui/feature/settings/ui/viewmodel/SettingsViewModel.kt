@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.adapter.PreferenceHeader
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen

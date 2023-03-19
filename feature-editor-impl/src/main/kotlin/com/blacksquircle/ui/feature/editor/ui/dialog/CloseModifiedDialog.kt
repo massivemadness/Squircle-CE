@@ -23,7 +23,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

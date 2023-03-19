@@ -25,7 +25,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.DialogGotoLineBinding
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

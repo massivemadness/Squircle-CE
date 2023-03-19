@@ -34,7 +34,7 @@ import com.blacksquircle.ui.core.ui.contract.OpenFileContract
 import com.blacksquircle.ui.core.ui.extensions.extractFilePath
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.databinding.DialogServerBinding
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerIntent
+import com.blacksquircle.ui.feature.servers.ui.mvi.ServerIntent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig

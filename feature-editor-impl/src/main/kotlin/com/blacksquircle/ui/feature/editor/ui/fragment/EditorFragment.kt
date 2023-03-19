@@ -34,10 +34,10 @@ import com.blacksquircle.ui.core.ui.contract.CreateFileContract
 import com.blacksquircle.ui.core.ui.contract.OpenFileContract
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.core.ui.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.ui.navigation.DrawerHandler
 import com.blacksquircle.ui.core.ui.navigation.Screen
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.plugin.autocomplete.codeCompletion
 import com.blacksquircle.ui.editorkit.plugin.autoindent.autoIndentation
@@ -60,11 +60,11 @@ import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
 import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewEvent
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewEvent
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewState
+import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
-import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import dagger.hilt.android.AndroidEntryPoint

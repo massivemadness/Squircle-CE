@@ -19,10 +19,11 @@ package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.fonts.ui.viewstate.FontsViewState
+import com.blacksquircle.ui.feature.fonts.ui.mvi.FontIntent
+import com.blacksquircle.ui.feature.fonts.ui.mvi.FontsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*

@@ -21,9 +21,9 @@ import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemeIntent
+import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
+import com.blacksquircle.ui.feature.themes.ui.mvi.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
-import com.blacksquircle.ui.feature.themes.ui.viewstate.ThemesViewState
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

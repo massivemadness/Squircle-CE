@@ -31,11 +31,11 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.core.ui.navigation.Screen
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
 import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.feature.servers.ui.mvi.ServerIntent
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerIntent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
 import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
 import dagger.hilt.android.AndroidEntryPoint

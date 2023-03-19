@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.viewmodel
+package com.blacksquircle.ui.core.ui.mvi
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
-import com.blacksquircle.ui.editorkit.model.FindResult
+import android.content.Intent
+import com.blacksquircle.ui.core.ui.navigation.Screen
 
-sealed class EditorViewEvent : ViewEvent() {
+abstract class ViewEvent {
 
-    data class FindResults(val results: List<FindResult>) : EditorViewEvent()
-    data class InsertColor(val color: String) : EditorViewEvent()
-    data class GotoLine(val line: Int) : EditorViewEvent()
+    data class Toast(val message: String) : ViewEvent()
+    data class NewIntent(val intent: Intent) : ViewEvent()
+    data class Navigation(val screen: Screen<*>) : ViewEvent()
+    data class PopBackStack(val data: Any? = null) : ViewEvent()
 }

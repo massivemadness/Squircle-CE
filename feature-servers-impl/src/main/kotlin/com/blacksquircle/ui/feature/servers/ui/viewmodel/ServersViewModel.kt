@@ -19,9 +19,9 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.core.domain.resources.StringProvider
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.ui.mvi.ServerIntent
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -32,7 +32,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ServersViewModel @Inject constructor(
-    private val stringProvider: StringProvider,
     private val serversRepository: ServersRepository,
     private val settingsManager: SettingsManager,
 ) : ViewModel() {

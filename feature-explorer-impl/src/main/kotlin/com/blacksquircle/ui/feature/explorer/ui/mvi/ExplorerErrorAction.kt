@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
+package com.blacksquircle.ui.feature.explorer.ui.mvi
 
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 
-sealed class ShortcutIntent {
-
-    object LoadShortcuts : ShortcutIntent()
-    object RestoreShortcuts : ShortcutIntent()
-
-    data class SaveShortcut(val keybinding: Keybinding) : ShortcutIntent()
-    data class ResolveConflict(val reassign: Boolean) : ShortcutIntent()
+sealed class ExplorerErrorAction {
+    object Undefined : ExplorerErrorAction()
+    object RequestPermission : ExplorerErrorAction()
+    class EnterCredentials(val authMethod: AuthMethod) : ExplorerErrorAction()
 }

@@ -22,7 +22,7 @@ import com.blacksquircle.ui.core.data.factory.LanguageFactory
 import com.blacksquircle.ui.core.data.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.ui.extensions.*
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
@@ -33,9 +33,11 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewEvent
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewState
+import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
-import com.blacksquircle.ui.feature.editor.ui.viewstate.EditorViewState
-import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme

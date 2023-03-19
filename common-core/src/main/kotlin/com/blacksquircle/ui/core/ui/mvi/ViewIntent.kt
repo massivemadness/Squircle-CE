@@ -14,20 +14,6 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.viewstate
+package com.blacksquircle.ui.core.ui.mvi
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
-
-sealed class EditorViewState : ViewState() {
-
-    object Loading : EditorViewState()
-
-    data class Content(var content: DocumentContent) : EditorViewState()
-
-    data class Error(
-        val image: Int,
-        val title: String,
-        val subtitle: String,
-    ) : EditorViewState()
-}
+abstract class ViewIntent

@@ -27,7 +27,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.blacksquircle.ui.core.ui.delegate.viewBinding
 import com.blacksquircle.ui.core.ui.extensions.*
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
 import com.blacksquircle.ui.feature.changelog.R
 import com.blacksquircle.ui.feature.changelog.databinding.FragmentChangelogBinding
 import com.blacksquircle.ui.feature.changelog.ui.adapter.ReleaseAdapter

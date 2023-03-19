@@ -22,7 +22,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.shortcuts.R
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutIntent
+import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.uikit.R as UiR

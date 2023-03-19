@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.viewmodel
+package com.blacksquircle.ui.feature.themes.ui.mvi
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewEvent
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.core.ui.mvi.ViewState
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
-sealed class ExplorerViewEvent : ViewEvent() {
+sealed class ThemesViewState : ViewState() {
 
-    data class OpenFile(val fileModel: FileModel) : ExplorerViewEvent()
-    data class OpenFileWith(val fileModel: FileModel) : ExplorerViewEvent()
-    data class CopyPath(val fileModel: FileModel) : ExplorerViewEvent()
-    object SelectAll : ExplorerViewEvent()
+    abstract val query: String
+
+    object Loading : ThemesViewState() {
+        override val query: String = ""
+    }
+
+    data class Empty(
+        override val query: String,
+    ) : ThemesViewState()
+
+    data class Data(
+        override val query: String,
+        val themes: List<ThemeModel>,
+    ) : ThemesViewState()
 }

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.viewstate
+package com.blacksquircle.ui.feature.editor.ui.mvi
 
-import com.blacksquircle.ui.core.ui.viewstate.ViewState
-import com.blacksquircle.ui.feature.themes.domain.model.Meta
-import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
+import com.blacksquircle.ui.core.ui.mvi.ViewEvent
+import com.blacksquircle.ui.editorkit.model.FindResult
 
-sealed class NewThemeViewState : ViewState() {
+sealed class EditorViewEvent : ViewEvent() {
 
-    data class MetaData(
-        val meta: Meta,
-        val properties: List<PropertyItem>,
-    ) : NewThemeViewState()
+    data class FindResults(val results: List<FindResult>) : EditorViewEvent()
+    data class InsertColor(val color: String) : EditorViewEvent()
+    data class GotoLine(val line: Int) : EditorViewEvent()
 }

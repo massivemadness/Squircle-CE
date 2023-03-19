@@ -21,9 +21,9 @@ import com.blacksquircle.ui.core.domain.resources.StringProvider
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorIntent
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
+import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.editor.ui.viewstate.ToolbarViewState
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository

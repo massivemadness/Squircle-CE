@@ -14,6 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.ui.viewstate
+package com.blacksquircle.ui.feature.themes.ui.mvi
 
-abstract class ViewState
+import com.blacksquircle.ui.core.ui.mvi.ViewState
+import com.blacksquircle.ui.feature.themes.domain.model.Meta
+import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
+
+sealed class NewThemeViewState : ViewState() {
+
+    data class MetaData(
+        val meta: Meta,
+        val properties: List<PropertyItem>,
+    ) : NewThemeViewState()
+}

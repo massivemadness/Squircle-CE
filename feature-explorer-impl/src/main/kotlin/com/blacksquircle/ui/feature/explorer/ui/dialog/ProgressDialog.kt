@@ -35,8 +35,8 @@ import com.blacksquircle.ui.core.ui.extensions.navigate
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.databinding.DialogProgressBinding
+import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.worker.*
 import dagger.hilt.android.AndroidEntryPoint
