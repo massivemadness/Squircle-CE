@@ -1,0 +1,5 @@
+- Added: Private key authentication
+- Added: Ask for password option
+- Fixed: Syntax Highlighting crashes
+- Fixed: Auto-save option causing file content to be discarded
+- Bugfixes and minor improvements
