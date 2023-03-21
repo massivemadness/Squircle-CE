@@ -140,4 +140,6 @@
     <string name="pref_contribute_title">Contribute to development</string>
     <string name="pref_contribute_summary">You can create an issue on GitHub or translate this app to your native language.\n\nThank you!</string>
 
+    <string name="debug_suffix" translatable="false">-debug</string>
+
 </resources>

@@ -30,6 +30,7 @@ import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.core.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.extensions.setFadeTransition
+import com.blacksquircle.ui.feature.settings.BuildConfig
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.utils.applicationName
 import com.blacksquircle.ui.feature.settings.data.utils.versionCode
@@ -54,7 +55,7 @@ class AboutFragment : PreferenceFragmentCompat() {
         changelog?.title = requireContext().applicationName
         changelog?.summary = getString(
             R.string.pref_about_summary,
-            requireContext().versionName,
+            versionName(),
             requireContext().versionCode,
         )
         changelog?.setOnPreferenceClickListener {
@@ -92,6 +93,14 @@ class AboutFragment : PreferenceFragmentCompat() {
         binding.toolbar.title = getString(R.string.pref_header_about_title)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
+        }
+    }
+
+    private fun versionName(): String {
+        return if (BuildConfig.DEBUG) {
+            requireContext().versionName + getString(R.string.debug_suffix)
+        } else {
+            requireContext().versionName
         }
     }
 
