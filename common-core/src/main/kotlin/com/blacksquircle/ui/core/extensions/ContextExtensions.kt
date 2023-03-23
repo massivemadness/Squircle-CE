@@ -21,6 +21,7 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
@@ -68,6 +69,7 @@ private const val SCHEME_CONTENT = "content"
 private const val SCHEME_FILE = "file"
 
 private const val AUTHORITY_EXTERNAL_STORAGE = "com.android.externalstorage.documents"
+private const val AUTHORITY_DOWNLOADS = "com.android.providers.downloads.documents"
 
 private const val TYPE_PRIMARY = "primary"
 private const val TYPE_NON = "non"
@@ -95,6 +97,17 @@ fun Context.extractFilePath(fileUri: Uri): String = when {
                 }
                 filePath
             }
+        }
+    }
+    fileUri.authority == AUTHORITY_DOWNLOADS -> {
+        contentResolver.query(
+            fileUri, arrayOf(MediaStore.Downloads.DISPLAY_NAME), null, null, null,
+        ).use { cursor ->
+            cursor ?: throw FileNotFoundException(fileUri.toString())
+            cursor.moveToFirst()
+            val fileIndex = cursor.getColumnIndex(MediaStore.Downloads.DISPLAY_NAME)
+            val fileName = cursor.getStringOrNull(fileIndex)
+            return@use Environment.getExternalStorageDirectory().path + "/Download/" + fileName
         }
     }
     fileUri.scheme == SCHEME_FILE -> fileUri.path.orEmpty()

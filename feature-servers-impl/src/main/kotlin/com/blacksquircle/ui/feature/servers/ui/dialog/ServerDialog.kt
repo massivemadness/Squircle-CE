@@ -217,7 +217,10 @@ class ServerDialog : DialogFragment() {
         binding.inputServerPort.hint = HINT_FTP_PORT.toString()
 
         binding.keyFileLayout.setEndIconOnClickListener {
-            openFileContract.launch(OpenFileContract.OCTET_STREAM)
+            openFileContract.launch(
+                OpenFileContract.OCTET_STREAM,
+                OpenFileContract.PEM,
+            )
         }
         binding.serverType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
