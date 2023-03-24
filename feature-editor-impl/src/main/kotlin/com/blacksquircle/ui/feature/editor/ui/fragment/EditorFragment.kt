@@ -192,7 +192,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         if (state.mode == ToolbarManager.Mode.DEFAULT) {
                             binding.editor.clearFindResultSpans()
                         }
-                        if (state.position > -1) {
+                        if (state.documents.getOrNull(state.position) != null) {
                             val document = state.documents[state.position]
                             binding.editor.language = document.language
                         }
