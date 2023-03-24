@@ -60,7 +60,7 @@ class KeyboardManager(private val listener: Listener) {
         when (mode) {
             Mode.KEYBOARD -> {
                 binding.keyboardBackground.isVisible = true
-
+                binding.keyboardDivider.isVisible = true
                 binding.keyboardExtended.isVisible = true
                 binding.keyboardToolOpen.isInvisible = true
                 binding.keyboardToolSave.isInvisible = true
@@ -71,6 +71,7 @@ class KeyboardManager(private val listener: Listener) {
             }
             Mode.TOOLS -> {
                 binding.keyboardBackground.isVisible = true
+                binding.keyboardDivider.isVisible = true
                 binding.keyboardExtended.isInvisible = true
                 binding.keyboardToolOpen.isVisible = true
                 binding.keyboardToolSave.isVisible = true
@@ -81,6 +82,7 @@ class KeyboardManager(private val listener: Listener) {
             }
             Mode.NONE -> {
                 binding.keyboardBackground.isVisible = false
+                binding.keyboardDivider.isVisible = false
                 binding.keyboardExtended.isVisible = false
                 binding.keyboardToolOpen.isVisible = false
                 binding.keyboardToolSave.isVisible = false
