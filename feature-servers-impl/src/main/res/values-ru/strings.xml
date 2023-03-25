@@ -14,9 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="hint_server_name">Имя сервера</string>
     <string name="hint_server_address">Адрес сервера</string>
     <string name="hint_initial_dir">Папка по-умолчанию</string>
@@ -26,25 +24,18 @@
     <string name="hint_passphrase">Фраза-пароль</string>
     <string name="hint_key_file">Файл ключа</string>
     <string name="hint_required">Обязательно</string>
-
     <string name="server_ftp">FTP</string>
     <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (Explicit FTPS)</string>
+    <string name="server_ftpes">FTPES (копируется FTPS)</string>
     <string name="server_sftp">SFTP</string>
-
     <string name="auth_method_password">Авторизация по паролю</string>
     <string name="auth_method_key">Авторизация приватным ключом</string>
-
     <string name="ask_for_password">Спрашивать пароль</string>
     <string name="save_password">Запомнить пароль</string>
     <string name="ask_for_passphrase">Спрашивать фразу-пароль</string>
     <string name="save_passphrase">Запомнить фразу-пароль</string>
-
     <string name="pref_header_cloud_title">Облачное хранение</string>
-
     <string name="pref_category_servers">FTP(S) Сервера</string>
-
     <string name="pref_add_server_title">Добавить сервер</string>
     <string name="pref_edit_server_title">Изменить сервер</string>
-
 </resources>
