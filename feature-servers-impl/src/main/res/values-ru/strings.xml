@@ -26,7 +26,7 @@
     <string name="hint_required">Обязательно</string>
     <string name="server_ftp">FTP</string>
     <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (копируется FTPS)</string>
+    <string name="server_ftpes">FTPES (явный FTPS)</string>
     <string name="server_sftp">SFTP</string>
     <string name="auth_method_password">Авторизация по паролю</string>
     <string name="auth_method_key">Авторизация приватным ключом</string>
