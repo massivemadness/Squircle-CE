@@ -14,16 +14,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="hint_enter_file_name">输入文件名称</string>
     <string name="hint_enter_archive_name">输入压缩包名称</string>
-    <string name="hint_enter_password">Enter password</string>
-    <string name="hint_enter_passphrase">Enter passphrase</string>
-
+    <string name="hint_enter_password">请输入密码</string>
+    <string name="hint_enter_passphrase">请输入密码口令</string>
     <string name="action_grant_access">授予访问权限</string>
-    <string name="action_authenticate">Authenticate</string>
+    <string name="action_authenticate">认证</string>
     <string name="action_create">创建</string>
     <string name="action_copy_path">复制路径</string>
     <string name="action_folder">文件夹</string>
@@ -33,8 +30,7 @@
     <string name="action_compress">压缩</string>
     <string name="action_open_with">另开为</string>
     <string name="action_properties">属性</string>
-
-    <string name="dialog_title_authentication">Authentication</string>
+    <string name="dialog_title_authentication">认证</string>
     <string name="dialog_title_create">创建文件</string>
     <string name="dialog_title_rename">重命名文件</string>
     <string name="dialog_title_multi_delete">删除所选文件</string>
@@ -48,28 +44,23 @@
     <string name="dialog_title_archive_name">压缩包名称</string>
     <string name="dialog_title_storage_permission">外部存储权限</string>
     <string name="dialog_title_notification_permission">通知</string>
-
     <string name="dialog_message_delete">确定要删除该文件吗？</string>
     <string name="dialog_message_multi_delete">确定要删除选定的文件吗？</string>
     <string name="dialog_message_storage_permission">作为文件管理器，Squircle CE 需要访问所有文件才能正常运行。\n\n请点击“继续”后在授予所有文件的管理权限。</string>
     <string name="dialog_message_notification_permission">Squircle CE 需要通知权限以保证后台运行\n\n请在下一个系统设置界面中选择允许通知</string>
-
     <string name="properties_name">文件名:</string>
     <string name="properties_path">文件路径:</string>
     <string name="properties_modified">最后修改:</string>
     <string name="properties_size">文件大小:</string>
-
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
     <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
     <string name="progress_time_format">mm:ss</string>
-
     <string name="sort_by_name">按名称排序</string>
     <string name="sort_by_size">按大小排序</string>
     <string name="sort_by_date">按日期排序</string>
-
-    <string name="message_auth_required">Auth Required</string>
-    <string name="message_enter_password">Enter password to connect to remote server</string>
-    <string name="message_enter_passphrase">Enter passphrase to connect to remote server</string>
+    <string name="message_auth_required">需要认证</string>
+    <string name="message_enter_password">请输入密码以连接到远程服务器</string>
+    <string name="message_enter_passphrase">请输入密码以连接到远程服务器</string>
     <string name="message_access_denied">没有存储空间访问权限</string>
     <string name="message_access_required">为了能正常编写代码，必须授予存储权限</string>
     <string name="message_cannot_be_opened">文件无法打开</string>
@@ -90,12 +81,9 @@
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
-
     <string name="explorer_channel_name">文件管理器</string>
     <string name="explorer_channel_description">显示并控制文件操作</string>
-
     <string name="storage_local">本地存储</string>
     <string name="storage_root">根目录</string>
     <string name="storage_add">添加服务器</string>
-
 </resources>
