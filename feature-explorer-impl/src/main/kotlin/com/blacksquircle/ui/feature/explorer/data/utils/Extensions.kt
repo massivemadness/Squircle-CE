@@ -50,7 +50,7 @@ fun Context.openFileWith(fileModel: FileModel) {
             setDataAndType(uri, mime)
         }
         startActivity(intent)
-    } catch (e: ActivityNotFoundException) {
+    } catch (e: Exception) {
         Timber.d(e, e.message)
         showToast(R.string.message_cannot_be_opened)
     }
