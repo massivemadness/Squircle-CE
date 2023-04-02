@@ -28,6 +28,7 @@ dependencies {
 
     // Core
     implementation library.kotlin
+    implementation files("libs/bcprov-jdk18on-172.jar")
 
     // Network
     implementation library.sftpclient

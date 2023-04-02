@@ -25,7 +25,9 @@ import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import com.jcraft.jsch.*
 import com.jcraft.jsch.ChannelSftp.LsEntry
 import kotlinx.coroutines.flow.Flow
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.io.File
+import java.security.Security
 import java.util.*
 
 class SFTPFilesystem(
@@ -38,6 +40,10 @@ class SFTPFilesystem(
     private var channel: ChannelSftp? = null
 
     private val sftpMapper = SFTPMapper()
+
+    init {
+        Security.insertProviderAt(BouncyCastleProvider(), 1)
+    }
 
     override fun defaultLocation(): FileModel {
         return FileModel(SFTP_SCHEME + serverConfig.initialDir, serverConfig.uuid)
