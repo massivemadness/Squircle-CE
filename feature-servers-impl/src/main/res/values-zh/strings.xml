@@ -14,37 +14,28 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="hint_server_name">服务器名称</string>
     <string name="hint_server_address">服务器地址</string>
     <string name="hint_initial_dir">初始路径</string>
     <string name="hint_port">端口</string>
     <string name="hint_username">用户名</string>
     <string name="hint_password">密码</string>
-    <string name="hint_passphrase">Passphrase</string>
-    <string name="hint_key_file">Key File</string>
-    <string name="hint_required">Required</string>
-
+    <string name="hint_passphrase">口令</string>
+    <string name="hint_key_file">密钥文件</string>
+    <string name="hint_required">必填项</string>
     <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
+    <string name="server_ftps">FTPS (通过 TLS/SSL)</string>
     <string name="server_ftpes">FTPES (显式 FTPS)</string>
     <string name="server_sftp">SFTP</string>
-
-    <string name="auth_method_password">Password Authentication</string>
-    <string name="auth_method_key">Private Key Authentication</string>
-
-    <string name="ask_for_password">Ask for password</string>
-    <string name="save_password">Save password</string>
-    <string name="ask_for_passphrase">Ask for passphrase</string>
-    <string name="save_passphrase">Save passphrase</string>
-
+    <string name="auth_method_password">密码验证</string>
+    <string name="auth_method_key">私钥验证</string>
+    <string name="ask_for_password">询问密码</string>
+    <string name="save_password">保存密码</string>
+    <string name="ask_for_passphrase">询问口令</string>
+    <string name="save_passphrase">保存口令</string>
     <string name="pref_header_cloud_title">云 &amp; 服务器</string>
-
     <string name="pref_category_servers">FTP(S) 服务器</string>
-
     <string name="pref_add_server_title">添加服务器</string>
     <string name="pref_edit_server_title">编辑服务器</string>
-
 </resources>

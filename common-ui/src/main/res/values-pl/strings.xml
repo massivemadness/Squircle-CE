@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_fonts">Fonts</string>
-    <string name="action_select">Select</string>
-    <string name="message_selected">Selected «%1$s»</string>
-    <string name="message_new_font_available">New font available</string>
-    <string name="message_font_removed">Font «%1$s» removed</string>
+    <string name="common_error_occurred">Wystąpił błąd</string>
+    <string name="common_no_result">Brak wyników</string>
+    <string name="common_save">Zapisz</string>
+    <string name="common_delete">Usuń</string>
+    <string name="common_continue">Kontynuuj</string>
 </resources>

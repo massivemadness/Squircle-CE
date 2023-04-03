@@ -15,9 +15,11 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_fonts">Fonts</string>
-    <string name="action_select">Select</string>
-    <string name="message_selected">Selected «%1$s»</string>
-    <string name="message_new_font_available">New font available</string>
-    <string name="message_font_removed">Font «%1$s» removed</string>
+    <string name="action_restart">Käynnistä uudelleen</string>
+    <string name="action_yes">Kyllä</string>
+    <string name="action_no">Ei</string>
+    <string name="dialog_title_exit">Poistu</string>
+    <string name="dialog_message_exit">Oletko varma, että haluat poistua? Kaikki muutokset tallennetaan välimuistiin</string>
+    <string name="message_in_app_update_ready">Sovellus on valmis päivitettäväksi</string>
+    <string name="message_in_app_update_failed">Päivityksen asennus epäonnistui</string>
 </resources>

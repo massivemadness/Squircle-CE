@@ -14,13 +14,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="common_error_occurred">An error occurred</string>
     <string name="common_no_result">No result</string>
     <string name="common_save">Save</string>
     <string name="common_delete">Delete</string>
     <string name="common_continue">Continue</string>
-
 </resources>
