@@ -49,13 +49,12 @@ class SFTPFilesystem(
         return FileModel(SFTP_SCHEME + serverConfig.initialDir, serverConfig.uuid)
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun provideDirectory(parent: FileModel): FileTree {
         try {
             connect()
             return FileTree(
                 parent = sftpMapper.parent(parent),
-                children = (channel?.ls(parent.path) as Vector<ChannelSftp.LsEntry>)
+                children = channel?.ls(parent.path).orEmpty()
                     .filter { it.filename.isValidFileName() }
                     .map(sftpMapper::toFileModel),
             )

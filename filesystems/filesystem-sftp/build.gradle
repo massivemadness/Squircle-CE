@@ -31,7 +31,7 @@ dependencies {
     implementation files("libs/bcprov-jdk18on-172.jar")
 
     // Network
-    implementation library.sftpclient
+    implementation library.jsch
 
     // Coroutines
     implementation library.coroutines_core
