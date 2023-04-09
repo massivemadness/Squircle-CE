@@ -17,15 +17,15 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:width="28dp">
+    <item>
         <shape>
-            <solid android:color="?colorSecondaryVariant" />
+            <solid android:color="?colorSurface" />
         </shape>
     </item>
 
-    <item android:start="28dp">
+    <item android:width="28dp">
         <shape>
-            <solid android:color="?colorSurface" />
+            <solid android:color="?colorSecondaryVariant" />
         </shape>
     </item>
 
