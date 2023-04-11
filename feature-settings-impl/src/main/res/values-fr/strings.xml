@@ -93,6 +93,8 @@
     <string name="pref_highlight_line_summary">Mettre en évidence la ligne où se trouve actuellement le signe d\'insertion.</string>
     <string name="pref_highlight_delimiters_title">Mettre en évidence les délimiteurs correspondants</string>
     <string name="pref_highlight_delimiters_summary">Mettre en évidence le délimiteur d\'ouverture ou de fermeture lorsque vous placez le signe d\'insertion sur sa paire.</string>
+    <string name="pref_read_only_title">Read Only</string>
+    <string name="pref_read_only_summary">Restrict editing and modification of the files.</string>
     <string name="pref_auto_save_files_title">Sauvegarde automatique des fichiers</string>
     <string name="pref_auto_save_files_summary">Sauvegarder automatiquement le fichier lors de changement d\'onglet ou de la fermeture de l\'application.</string>
     <string name="pref_extended_keyboard_title">Clavier Étendu</string>

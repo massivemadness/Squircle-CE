@@ -671,6 +671,9 @@ class EditorViewModel @Inject constructor(
                 val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
                 settings.add(SettingsEvent.Delimiters(highlightMatchingDelimiters))
 
+                val readOnly = settingsManager.readOnly
+                settings.add(SettingsEvent.ReadOnly(readOnly))
+
                 val keyboardPreset = settingsRepository.keyboardPreset()
                 settings.add(SettingsEvent.KeyboardPreset(keyboardPreset))
 

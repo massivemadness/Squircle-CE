@@ -93,6 +93,8 @@
     <string name="pref_highlight_line_summary">高亮顯示游標目前所在的行。</string>
     <string name="pref_highlight_delimiters_title">高亮顯示成對的符號</string>
     <string name="pref_highlight_delimiters_summary">在游標處插入符號時，高亮顯示成對的符號，如括號、引號。</string>
+    <string name="pref_read_only_title">Read Only</string>
+    <string name="pref_read_only_summary">Restrict editing and modification of the files.</string>
     <string name="pref_auto_save_files_title">自動儲存</string>
     <string name="pref_auto_save_files_summary">在切換選項卡或關閉應用程式時自動儲存檔案。</string>
     <string name="pref_extended_keyboard_title">快捷符號欄</string>

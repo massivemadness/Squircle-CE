@@ -93,6 +93,8 @@
     <string name="pref_highlight_line_summary">Realça a linha onde você está.</string>
     <string name="pref_highlight_delimiters_title">Realçar colchetes</string>
     <string name="pref_highlight_delimiters_summary">Realça as colchetes quando o ponteiro está na abertura ou no final da colchete.</string>
+    <string name="pref_read_only_title">Read Only</string>
+    <string name="pref_read_only_summary">Restrict editing and modification of the files.</string>
     <string name="pref_auto_save_files_title">Salvar arquivos automaticamente</string>
     <string name="pref_auto_save_files_summary">Salvar o arquivo quando mudar de aba ou sair.</string>
     <string name="pref_extended_keyboard_title">Teclado extendido</string>

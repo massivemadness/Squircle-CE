@@ -45,6 +45,7 @@ class SettingsManager(private val context: Context) {
         const val KEY_LINE_NUMBERS = "SHOW_LINE_NUMBERS"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
         const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
+        const val KEY_READ_ONLY = "READ_ONLY"
 
         // Tabs
         const val KEY_SELECTED_DOCUMENT_ID = "SELECTED_DOCUMENT_ID"
@@ -135,6 +136,9 @@ class SettingsManager(private val context: Context) {
     var highlightMatchingDelimiters: Boolean
         get() = sharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, value).apply()
+    var readOnly: Boolean
+        get() = sharedPreferences.getBoolean(KEY_READ_ONLY, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_READ_ONLY, value).apply()
 
     var autoSaveFiles: Boolean
         get() = sharedPreferences.getBoolean(KEY_AUTO_SAVE_FILES, false)

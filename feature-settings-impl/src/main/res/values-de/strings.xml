@@ -93,6 +93,8 @@
     <string name="pref_highlight_line_summary">Hebt die Zeile hervor, in der der Cursor gerade ist.</string>
     <string name="pref_highlight_delimiters_title">Passende Klammer hervorheben</string>
     <string name="pref_highlight_delimiters_summary">Hebt die öffnende oder schließende Klammer hervor, wenn der Cursor an der anderen Klammer ist.</string>
+    <string name="pref_read_only_title">Read Only</string>
+    <string name="pref_read_only_summary">Restrict editing and modification of the files.</string>
     <string name="pref_auto_save_files_title">Dateien automatisch speichern</string>
     <string name="pref_auto_save_files_summary">Dateien automatisch speichern, wenn die App gewechselt oder geschlossen wird.</string>
     <string name="pref_extended_keyboard_title">Erweiterte Tastatur</string>

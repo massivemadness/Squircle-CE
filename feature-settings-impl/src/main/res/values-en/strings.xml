@@ -81,6 +81,8 @@
     <string name="pref_highlight_line_summary">Highlight the line where the caret currently resides.</string>
     <string name="pref_highlight_delimiters_title">Highlight Matching Delimiters</string>
     <string name="pref_highlight_delimiters_summary">Highlight the opening or closing delimiter when you set the caret at its pair.</string>
+    <string name="pref_read_only_title">Read Only</string>
+    <string name="pref_read_only_summary">Restrict editing and modification of the files.</string>
     <string name="pref_auto_save_files_title">Auto-save Files</string>
     <string name="pref_auto_save_files_summary">Automatically save file on switching tab or closing the app.</string>
     <string name="pref_extended_keyboard_title">Extended Keyboard</string>

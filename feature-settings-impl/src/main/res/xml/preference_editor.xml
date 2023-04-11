@@ -27,12 +27,12 @@
             android:defaultValue="14"
             android:max="20"
             app:min="10"
-            app:showSeekBarValue="true"/>
+            app:showSeekBarValue="true" />
 
         <Preference
             android:title="@string/pref_font_type_title"
             android:summary="@string/pref_font_type_summary"
-            android:key="FONT_TYPE_3"/>
+            android:key="FONT_TYPE_3" />
 
     </PreferenceCategory>
 
@@ -42,13 +42,13 @@
             android:title="@string/pref_word_wrap_title"
             android:summary="@string/pref_word_wrap_summary"
             android:defaultValue="true"
-            android:key="WORD_WRAP"/>
+            android:key="WORD_WRAP" />
 
         <SwitchPreference
             android:title="@string/pref_code_completion_title"
             android:summary="@string/pref_code_completion_summary"
             android:defaultValue="true"
-            android:key="CODE_COMPLETION"/>
+            android:key="CODE_COMPLETION" />
 
         <!--<SwitchPreference
             android:title="@string/pref_error_highlighting_title"
@@ -60,25 +60,31 @@
             android:title="@string/pref_pinch_zoom_title"
             android:summary="@string/pref_pinch_zoom_summary"
             android:defaultValue="true"
-            android:key="PINCH_ZOOM"/>
+            android:key="PINCH_ZOOM" />
 
         <SwitchPreference
             android:title="@string/pref_line_numbers_title"
             android:summary="@string/pref_line_numbers_summary"
             android:defaultValue="true"
-            android:key="SHOW_LINE_NUMBERS"/>
+            android:key="SHOW_LINE_NUMBERS" />
 
         <SwitchPreference
             android:title="@string/pref_highlight_line_title"
             android:summary="@string/pref_highlight_line_summary"
             android:defaultValue="true"
-            android:key="HIGHLIGHT_CURRENT_LINE"/>
+            android:key="HIGHLIGHT_CURRENT_LINE" />
 
         <SwitchPreference
             android:title="@string/pref_highlight_delimiters_title"
             android:summary="@string/pref_highlight_delimiters_summary"
             android:defaultValue="true"
-            android:key="HIGHLIGHT_MATCHING_DELIMITERS"/>
+            android:key="HIGHLIGHT_MATCHING_DELIMITERS" />
+
+        <SwitchPreference
+            android:title="@string/pref_read_only_title"
+            android:summary="@string/pref_read_only_summary"
+            android:defaultValue="false"
+            android:key="READ_ONLY" />
 
     </PreferenceCategory>
 
@@ -88,7 +94,7 @@
             android:title="@string/pref_auto_save_files_title"
             android:summary="@string/pref_auto_save_files_summary"
             android:defaultValue="false"
-            android:key="AUTO_SAVE_FILES"/>
+            android:key="AUTO_SAVE_FILES" />
 
     </PreferenceCategory>
 
@@ -98,7 +104,7 @@
             android:title="@string/pref_extended_keyboard_title"
             android:summary="@string/pref_extended_keyboard_summary"
             android:defaultValue="true"
-            android:key="USE_EXTENDED_KEYBOARD"/>
+            android:key="USE_EXTENDED_KEYBOARD" />
 
         <EditTextPreference
             android:title="@string/pref_keyboard_preset_title"
@@ -106,13 +112,13 @@
             android:dialogLayout="@layout/dialog_preset"
             android:positiveButtonText="@string/common_save"
             android:defaultValue="@string/hint_preset_chars"
-            android:key="KEYBOARD_PRESET_1"/>
+            android:key="KEYBOARD_PRESET_1" />
 
         <SwitchPreference
             android:title="@string/pref_soft_keyboard_title"
             android:summary="@string/pref_soft_keyboard_summary"
             android:defaultValue="false"
-            android:key="USE_SOFT_KEYBOARD"/>
+            android:key="USE_SOFT_KEYBOARD" />
 
     </PreferenceCategory>
 

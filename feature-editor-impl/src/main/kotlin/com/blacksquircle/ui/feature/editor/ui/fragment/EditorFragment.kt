@@ -527,6 +527,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         highlightCurrentLine = event.value.second
                     }
                     is SettingsEvent.Delimiters -> if (event.value) highlightDelimiters()
+                    is SettingsEvent.ReadOnly -> binding.editor.readOnly = event.value
                     is SettingsEvent.KeyboardPreset -> keyboardManager.submitList(event.value)
                     is SettingsEvent.SoftKeys -> binding.editor.softKeyboard = event.value
                     is SettingsEvent.AutoIndentation -> autoIndentation {
