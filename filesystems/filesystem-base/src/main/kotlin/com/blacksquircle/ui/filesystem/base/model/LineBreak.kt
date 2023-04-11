@@ -19,43 +19,43 @@ package com.blacksquircle.ui.filesystem.base.model
 /**
  * @author Dmitrii Rubtsov
  */
-enum class LineBreak(private val linebreak: String) {
+enum class LineBreak(val linebreak: String) {
     CR("\r"),
     LF("\n"),
     CRLF("\r\n");
 
+    /**
+     * Заменяет все EOL-разделители в [text] на выбранный [linebreak].
+     */
+    fun replace(text: String): String {
+        return when (this) {
+            CR -> text.replace("($crlf|$lf)".toRegex(), linebreak)
+            LF -> text.replace("($crlf|$cr)".toRegex(), linebreak)
+            CRLF -> text.replace("($cr|$lf)".toRegex(), linebreak)
+        }
+    }
+
     companion object {
 
         /**
-         * Эти значения хранятся в SharedPreferences.
+         * Эти значения хранятся в SharedPreferences
          */
-        private const val CODE_CR = "1"
-        private const val CODE_LF = "2"
-        private const val CODE_CRLF = "3"
+        private const val VALUE_CR = "1"
+        private const val VALUE_LF = "2"
+        private const val VALUE_CRLF = "3"
 
         private const val cr = "\\r"
         private const val lf = "\\n"
         private const val crlf = "\\r\\n"
 
-        fun find(value: String): LineBreak {
+        fun of(value: String): LineBreak {
             val linebreak = when (value) {
-                CODE_CR -> "\r"
-                CODE_LF -> "\n"
-                CODE_CRLF -> "\r\n"
+                VALUE_CR -> "\r"
+                VALUE_LF -> "\n"
+                VALUE_CRLF -> "\r\n"
                 else -> throw IllegalArgumentException("No linebreak found")
             }
             return checkNotNull(values().find { it.linebreak == linebreak })
-        }
-    }
-
-    /**
-     * Заменяет все EOL-разделители в [text] на выбранный [linebreak].
-     */
-    operator fun invoke(text: String): String {
-        return when (this) {
-            CR -> text.replace("($crlf|$lf)".toRegex(), linebreak)
-            LF -> text.replace("($crlf|$cr)".toRegex(), linebreak)
-            CRLF -> text.replace("($cr|$lf)".toRegex(), linebreak)
         }
     }
 }

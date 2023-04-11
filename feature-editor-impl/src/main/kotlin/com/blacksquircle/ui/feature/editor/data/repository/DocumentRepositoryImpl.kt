@@ -131,7 +131,7 @@ class DocumentRepositoryImpl(
                 val fileModel = DocumentConverter.toModel(content.documentModel)
                 val fileParams = FileParams(
                     charset = charsetFor(settingsManager.encodingForSaving),
-                    linebreak = LineBreak.find(settingsManager.lineBreakForSaving),
+                    linebreak = LineBreak.of(settingsManager.lineBreakForSaving),
                 )
                 filesystem.saveFile(fileModel, content.text, fileParams)
             }

@@ -142,7 +142,7 @@ class RootFilesystem : Filesystem {
             file.createNewFile()
         }
         file.newOutputStream().bufferedWriter(fileParams.charset)
-            .use { it.write(fileParams.linebreak(text)) }
+            .use { it.write(fileParams.linebreak.replace(text)) }
     }
 
     companion object : Filesystem.Mapper<SuFile> {

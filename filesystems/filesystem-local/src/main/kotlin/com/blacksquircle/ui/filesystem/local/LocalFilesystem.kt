@@ -212,7 +212,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             }
             file.createNewFile()
         }
-        file.writeText(fileParams.linebreak(text), fileParams.charset)
+        file.writeText(fileParams.linebreak.replace(text), fileParams.charset)
     }
 
     companion object : Filesystem.Mapper<File> {
