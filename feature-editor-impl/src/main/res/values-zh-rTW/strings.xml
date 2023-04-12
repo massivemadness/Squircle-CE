@@ -14,11 +14,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="hint_line">行：</string>
-
     <string name="action_close">關閉</string>
     <string name="action_close_others">關閉其它</string>
     <string name="action_close_all">關閉全部</string>
@@ -38,17 +35,14 @@
     <string name="action_close_replace">關閉取代</string>
     <string name="action_goto_line">跳到行</string>
     <string name="action_go_to">跳到</string>
-    <string name="action_force_syntax">Force Syntax</string>
+    <string name="action_force_syntax">強制語法</string>
     <string name="action_insert_color">插入顏色</string>
     <string name="action_settings">設定</string>
     <string name="action_tools">工具</string>
-
     <string name="dialog_title_goto_line">跳到行</string>
     <string name="dialog_title_color_picker">顏色選擇器</string>
-    <string name="dialog_title_force_syntax">Syntax Highlighting</string>
-
+    <string name="dialog_title_force_syntax">語法重點標示</string>
     <string name="dialog_message_close_tab">確定要關閉該檔案嗎？所有未儲存的更改將會遺失</string>
-
     <string name="message_no_open_files">還沒有開啟任何檔案</string>
     <string name="message_file_not_found">檔案不存在</string>
     <string name="message_out_of_memory">記憶體不足</string>
@@ -58,5 +52,4 @@
     <string name="message_nothing_to_paste">沒有任何內容可以貼上</string>
     <string name="message_line_not_exists">行號不存在</string>
     <string name="message_no_errors_detected">未檢測到語法錯誤</string>
-
 </resources>
