@@ -152,9 +152,11 @@ class DocumentRepositoryImpl(
     override suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
             val textCacheFile = cacheFile(documentModel, postfix = "text.txt")
-            val text = cacheFilesystem.loadFile(textCacheFile, FileParams())
+            val pureTextUtf8 = cacheFilesystem.loadFile(textCacheFile, FileParams())
+            val encoding = charsetFor(settingsManager.encodingForSaving)
+            val linebreak = LineBreak.of(settingsManager.lineBreakForSaving)
             context.contentResolver.openOutputStream(fileUri)?.use { output ->
-                output.write(text.toByteArray())
+                output.write(linebreak.replace(pureTextUtf8).toByteArray(encoding))
                 output.flush()
             }
         }
@@ -162,10 +164,10 @@ class DocumentRepositoryImpl(
 
     override suspend fun find(text: CharSequence, params: FindParams): List<FindResult> {
         return withContext(dispatcherProvider.io()) {
-            val findResults = mutableListOf<FindResult>()
             if (params.query.isEmpty()) {
                 return@withContext emptyList()
             }
+            val findResults = mutableListOf<FindResult>()
             val pattern = when {
                 params.regex && params.matchCase -> Pattern.compile(params.query)
                 params.regex && !params.matchCase -> Pattern.compile(
