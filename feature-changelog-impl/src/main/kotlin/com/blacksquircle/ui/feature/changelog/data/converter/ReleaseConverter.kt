@@ -21,7 +21,7 @@ import java.util.regex.Pattern
 
 object ReleaseConverter {
 
-    private val RELEASE = Pattern.compile("<u>(.*?)(?=<br>\\n<br>)", Pattern.DOTALL)
+    private val RELEASE = Pattern.compile("<b>(.*?)(?=<br>\\n<br>)", Pattern.DOTALL)
     private val VERSION_NAME = Pattern.compile("v(.*?)(?=,)")
     private val RELEASE_DATE = Pattern.compile("(?<=, )\\d(.*?)(?=</b>)")
     private val RELEASE_NOTES = Pattern.compile("• (.*?)$", Pattern.MULTILINE)
