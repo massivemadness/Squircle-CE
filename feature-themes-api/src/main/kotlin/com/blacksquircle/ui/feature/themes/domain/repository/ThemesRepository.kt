@@ -23,6 +23,7 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 interface ThemesRepository {
 
+    suspend fun current(): ThemeModel
     suspend fun loadThemes(): List<ThemeModel>
     suspend fun loadThemes(query: String): List<ThemeModel>
     suspend fun loadTheme(uuid: String): ThemeModel

@@ -39,8 +39,7 @@ class FontsRepositoryImpl(
     override suspend fun current(): FontModel {
         return withContext(dispatcherProvider.io()) {
             val fontPath = settingsManager.fontType
-            InternalFont.find(fontPath)
-                ?: FontConverter.toModel(appDatabase.fontDao().load(fontPath))
+            InternalFont.find(fontPath) ?: loadFont(fontPath)
         }
     }
 
@@ -62,6 +61,13 @@ class FontsRepositoryImpl(
             val userFonts = appDatabase.fontDao().loadAll()
                 .map(FontConverter::toModel)
             userFonts + defaultFonts
+        }
+    }
+
+    override suspend fun loadFont(path: String): FontModel {
+        return withContext(dispatcherProvider.io()) {
+            val fontEntity = appDatabase.fontDao().load(path)
+            FontConverter.toModel(fontEntity)
         }
     }
 

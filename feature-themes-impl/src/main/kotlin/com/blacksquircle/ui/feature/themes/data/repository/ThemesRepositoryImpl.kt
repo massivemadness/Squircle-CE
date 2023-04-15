@@ -68,6 +68,13 @@ class ThemesRepositoryImpl(
 
     // endregion PROPERTIES
 
+    override suspend fun current(): ThemeModel {
+        return withContext(dispatcherProvider.io()) {
+            val colorScheme = settingsManager.colorScheme
+            InternalTheme.find(colorScheme) ?: loadTheme(colorScheme)
+        }
+    }
+
     override suspend fun loadThemes(): List<ThemeModel> {
         return withContext(dispatcherProvider.io()) {
             val defaultThemes = InternalTheme.values()

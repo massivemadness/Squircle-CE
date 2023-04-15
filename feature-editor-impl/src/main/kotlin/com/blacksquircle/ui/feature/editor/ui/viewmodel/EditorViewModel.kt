@@ -38,7 +38,6 @@ import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
-import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -642,9 +641,8 @@ class EditorViewModel @Inject constructor(
             try {
                 val settings = mutableListOf<SettingsEvent<*>>()
 
-                val scheme = settingsManager.colorScheme
-                val theme = InternalTheme.find(scheme) ?: themesRepository.loadTheme(scheme)
-                settings.add(SettingsEvent.ColorScheme(theme))
+                val themeModel = themesRepository.current()
+                settings.add(SettingsEvent.ColorScheme(themeModel))
 
                 val fontSize = settingsManager.fontSize.toFloat()
                 settings.add(SettingsEvent.FontSize(fontSize))
