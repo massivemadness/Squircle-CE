@@ -44,6 +44,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -244,7 +245,7 @@ class ProgressDialog : DialogFragment() {
                 }
             }
 
-            lifecycleScope.launchWhenStarted {
+            lifecycleScope.launch {
                 val then = System.currentTimeMillis()
                 formatElapsedTime(0L) // 00:00
                 repeat(Int.MAX_VALUE) {
