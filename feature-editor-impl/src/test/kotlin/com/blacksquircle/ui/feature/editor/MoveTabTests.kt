@@ -24,6 +24,7 @@ import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
@@ -49,6 +50,7 @@ class MoveTabTests {
     private val settingsManager = mockk<SettingsManager>()
     private val documentRepository = mockk<DocumentRepository>()
     private val themesRepository = mockk<ThemesRepository>()
+    private val fontsRepository = mockk<FontsRepository>()
     private val shortcutsRepository = mockk<ShortcutsRepository>()
     private val settingsRepository = mockk<SettingsRepository>()
 
@@ -70,6 +72,7 @@ class MoveTabTests {
 
     @Test
     fun `When moving selected tab from 1 to 3 position Then check documents order`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -96,6 +99,7 @@ class MoveTabTests {
 
     @Test
     fun `When moving selected tab from 3 to 1 position Then check documents order`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -122,6 +126,7 @@ class MoveTabTests {
 
     @Test
     fun `When moving unselected tab from 1 to 2 position Then check documents order`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -148,6 +153,7 @@ class MoveTabTests {
 
     @Test
     fun `When moving unselected tab from 3 to 2 position Then check documents order`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -174,6 +180,7 @@ class MoveTabTests {
 
     @Test
     fun `When moving unselected tab from 2 to 3 position Then check documents order`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -200,6 +207,7 @@ class MoveTabTests {
 
     @Test
     fun `When moving unselected tab from 2 to 1 position Then check documents order`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -230,6 +238,7 @@ class MoveTabTests {
             settingsManager = settingsManager,
             documentRepository = documentRepository,
             themesRepository = themesRepository,
+            fontsRepository = fontsRepository,
             shortcutsRepository = shortcutsRepository,
             settingsRepository = settingsRepository,
         )

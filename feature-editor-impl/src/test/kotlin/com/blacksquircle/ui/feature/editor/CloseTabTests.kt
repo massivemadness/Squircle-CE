@@ -24,6 +24,7 @@ import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
@@ -49,6 +50,7 @@ class CloseTabTests {
     private val settingsManager = mockk<SettingsManager>()
     private val documentRepository = mockk<DocumentRepository>()
     private val themesRepository = mockk<ThemesRepository>()
+    private val fontsRepository = mockk<FontsRepository>()
     private val shortcutsRepository = mockk<ShortcutsRepository>()
     private val settingsRepository = mockk<SettingsRepository>()
 
@@ -70,6 +72,7 @@ class CloseTabTests {
 
     @Test
     fun `When closing selected tab at the first position Then check documents list`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -95,6 +98,7 @@ class CloseTabTests {
 
     @Test
     fun `When closing selected tab at the last position Then check documents list`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -120,6 +124,7 @@ class CloseTabTests {
 
     @Test
     fun `When closing selected tab in the middle Then check documents list`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -145,6 +150,7 @@ class CloseTabTests {
 
     @Test
     fun `When closing unselected tab at the first position Then check documents list`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -170,6 +176,7 @@ class CloseTabTests {
 
     @Test
     fun `When closing unselected tab at the last position Then check documents list`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -195,6 +202,7 @@ class CloseTabTests {
 
     @Test
     fun `When closing all tabs but not selected Then check documents list`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -219,6 +227,7 @@ class CloseTabTests {
 
     @Test
     fun `When closing all tabs but not unselected Then check documents list`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -243,6 +252,7 @@ class CloseTabTests {
 
     @Test
     fun `When closing all tabs Then check documents list`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "first.txt"),
             createDocument(position = 1, fileName = "second.txt"),
@@ -268,6 +278,7 @@ class CloseTabTests {
             settingsManager = settingsManager,
             documentRepository = documentRepository,
             themesRepository = themesRepository,
+            fontsRepository = fontsRepository,
             shortcutsRepository = shortcutsRepository,
             settingsRepository = settingsRepository,
         )

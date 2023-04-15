@@ -28,6 +28,7 @@ import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
@@ -56,6 +57,7 @@ class LoadFilesTest {
     private val settingsManager = mockk<SettingsManager>()
     private val documentRepository = mockk<DocumentRepository>()
     private val themesRepository = mockk<ThemesRepository>()
+    private val fontsRepository = mockk<FontsRepository>()
     private val shortcutsRepository = mockk<ShortcutsRepository>()
     private val settingsRepository = mockk<SettingsRepository>()
 
@@ -148,6 +150,7 @@ class LoadFilesTest {
             settingsManager = settingsManager,
             documentRepository = documentRepository,
             themesRepository = themesRepository,
+            fontsRepository = fontsRepository,
             shortcutsRepository = shortcutsRepository,
             settingsRepository = settingsRepository,
         )

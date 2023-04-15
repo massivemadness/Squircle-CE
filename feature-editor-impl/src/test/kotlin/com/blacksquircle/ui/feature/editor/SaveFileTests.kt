@@ -25,6 +25,7 @@ import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
@@ -51,6 +52,7 @@ class SaveFileTests {
     private val settingsManager = mockk<SettingsManager>()
     private val documentRepository = mockk<DocumentRepository>()
     private val themesRepository = mockk<ThemesRepository>()
+    private val fontsRepository = mockk<FontsRepository>()
     private val shortcutsRepository = mockk<ShortcutsRepository>()
     private val settingsRepository = mockk<SettingsRepository>()
 
@@ -72,6 +74,7 @@ class SaveFileTests {
 
     @Test
     fun `When modifying the text Then set modified status true`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "dirty.txt", modified = false)
         )
@@ -94,6 +97,7 @@ class SaveFileTests {
 
     @Test
     fun `When saving the file to local storage Then set modified status false`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "dirty.txt", modified = true)
         )
@@ -127,6 +131,7 @@ class SaveFileTests {
 
     @Test
     fun `When saving the file to cache Then keep modified status false`() = runTest {
+        // Given
         val documentList = listOf(
             createDocument(position = 0, fileName = "dirty.txt", modified = true)
         )
@@ -161,6 +166,7 @@ class SaveFileTests {
             settingsManager = settingsManager,
             documentRepository = documentRepository,
             themesRepository = themesRepository,
+            fontsRepository = fontsRepository,
             shortcutsRepository = shortcutsRepository,
             settingsRepository = settingsRepository,
         )
