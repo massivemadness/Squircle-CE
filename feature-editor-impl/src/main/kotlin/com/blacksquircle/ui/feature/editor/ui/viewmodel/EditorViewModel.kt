@@ -35,6 +35,7 @@ import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.mvi.*
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
+import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
@@ -53,6 +54,7 @@ class EditorViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
     private val themesRepository: ThemesRepository,
+    private val fontsRepository: FontsRepository,
     private val shortcutsRepository: ShortcutsRepository,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
@@ -647,8 +649,8 @@ class EditorViewModel @Inject constructor(
                 val fontSize = settingsManager.fontSize.toFloat()
                 settings.add(SettingsEvent.FontSize(fontSize))
 
-                val fontType = settingsManager.fontType
-                settings.add(SettingsEvent.FontType(fontType))
+                val fontModel = fontsRepository.current()
+                settings.add(SettingsEvent.FontType(fontModel))
 
                 val wordWrap = settingsManager.wordWrap
                 settings.add(SettingsEvent.WordWrap(wordWrap))

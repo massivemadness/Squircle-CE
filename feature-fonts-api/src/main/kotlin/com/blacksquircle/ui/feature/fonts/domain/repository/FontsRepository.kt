@@ -21,6 +21,7 @@ import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 interface FontsRepository {
 
+    suspend fun current(): FontModel
     suspend fun loadFonts(): List<FontModel>
     suspend fun loadFonts(query: String): List<FontModel>
 

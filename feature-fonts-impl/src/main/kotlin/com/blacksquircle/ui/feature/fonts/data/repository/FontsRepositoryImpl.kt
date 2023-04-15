@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.data.converter.FontConverter
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.model.InternalFont
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -35,18 +36,30 @@ class FontsRepositoryImpl(
     private val context: Context,
 ) : FontsRepository {
 
+    override suspend fun current(): FontModel {
+        return withContext(dispatcherProvider.io()) {
+            val fontPath = settingsManager.fontType
+            InternalFont.find(fontPath)
+                ?: FontConverter.toModel(appDatabase.fontDao().load(fontPath))
+        }
+    }
+
     override suspend fun loadFonts(): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
-            appDatabase.fontDao().loadAll()
-                .map(FontConverter::toModel) + internalFonts()
+            val defaultFonts = InternalFont.values()
+                .map(InternalFont::font)
+            val userFonts = appDatabase.fontDao().loadAll()
+                .map(FontConverter::toModel)
+            userFonts + defaultFonts
         }
     }
 
     override suspend fun loadFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
-            val defaultFonts = internalFonts()
+            val defaultFonts = InternalFont.values()
+                .map(InternalFont::font)
                 .filter { it.fontName.contains(query, ignoreCase = true) }
-            val userFonts = appDatabase.fontDao().loadAll(query)
+            val userFonts = appDatabase.fontDao().loadAll()
                 .map(FontConverter::toModel)
             userFonts + defaultFonts
         }
@@ -90,46 +103,5 @@ class FontsRepositoryImpl(
                 settingsManager.remove(SettingsManager.KEY_FONT_TYPE)
             }
         }
-    }
-
-    private fun internalFonts(): List<FontModel> {
-        return listOf(
-            FontModel(
-                fontUuid = "droid_sans_mono",
-                fontName = "Droid Sans Mono",
-                fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
-                isExternal = false,
-            ),
-            FontModel(
-                fontUuid = "jetbrains_mono",
-                fontName = "JetBrains Mono",
-                fontPath = "file:///android_asset/fonts/jetbrains_mono.ttf",
-                isExternal = false,
-            ),
-            FontModel(
-                fontUuid = "fira_code",
-                fontName = "Fira Code",
-                fontPath = "file:///android_asset/fonts/fira_code.ttf",
-                isExternal = false,
-            ),
-            FontModel(
-                fontUuid = "source_code_pro",
-                fontName = "Source Code Pro",
-                fontPath = "file:///android_asset/fonts/source_code_pro.ttf",
-                isExternal = false,
-            ),
-            FontModel(
-                fontUuid = "anonymous_pro",
-                fontName = "Anonymous Pro",
-                fontPath = "file:///android_asset/fonts/anonymous_pro.ttf",
-                isExternal = false,
-            ),
-            FontModel(
-                fontUuid = "dejavu_sans_mono",
-                fontName = "DejaVu Sans Mono",
-                fontPath = "file:///android_asset/fonts/dejavu_sans_mono.ttf",
-                isExternal = false,
-            ),
-        )
     }
 }

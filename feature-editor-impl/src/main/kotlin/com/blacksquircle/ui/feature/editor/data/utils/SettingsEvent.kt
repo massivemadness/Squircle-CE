@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.utils
 
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
@@ -23,7 +24,7 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 sealed class SettingsEvent<T>(val value: T) {
     class ColorScheme(value: ThemeModel) : SettingsEvent<ThemeModel>(value)
     class FontSize(value: Float) : SettingsEvent<Float>(value)
-    class FontType(value: String) : SettingsEvent<String>(value)
+    class FontType(value: FontModel) : SettingsEvent<FontModel>(value)
 
     class WordWrap(value: Boolean) : SettingsEvent<Boolean>(value)
     class CodeCompletion(value: Boolean) : SettingsEvent<Boolean>(value)

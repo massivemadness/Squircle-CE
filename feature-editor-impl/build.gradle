@@ -87,6 +87,7 @@ dependencies {
     implementation project(':feature-settings-api')
     implementation project(':feature-shortcuts-api')
     implementation project(':feature-themes-api')
+    implementation project(':feature-fonts-api')
     implementation project(':common-core')
     implementation project(':common-ui')
 
