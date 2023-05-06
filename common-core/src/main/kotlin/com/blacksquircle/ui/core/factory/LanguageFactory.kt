@@ -47,34 +47,9 @@ import com.blacksquircle.ui.language.yaml.YamlLanguage
 object LanguageFactory {
 
     fun create(fileName: String): Language {
-        return when {
-            ActionScriptLanguage.supportFormat(fileName) -> ActionScriptLanguage()
-            CLanguage.supportFormat(fileName) -> CLanguage()
-            CppLanguage.supportFormat(fileName) -> CppLanguage()
-            CSharpLanguage.supportFormat(fileName) -> CSharpLanguage()
-            GroovyLanguage.supportFormat(fileName) -> GroovyLanguage()
-            HtmlLanguage.supportFormat(fileName) -> HtmlLanguage()
-            JavaLanguage.supportFormat(fileName) -> JavaLanguage()
-            JavaScriptLanguage.supportFormat(fileName) -> JavaScriptLanguage()
-            JsonLanguage.supportFormat(fileName) -> JsonLanguage()
-            JuliaLanguage.supportFormat(fileName) -> JuliaLanguage()
-            KotlinLanguage.supportFormat(fileName) -> KotlinLanguage()
-            LispLanguage.supportFormat(fileName) -> LispLanguage()
-            LuaLanguage.supportFormat(fileName) -> LuaLanguage()
-            MarkdownLanguage.supportFormat(fileName) -> MarkdownLanguage()
-            PhpLanguage.supportFormat(fileName) -> PhpLanguage()
-            PythonLanguage.supportFormat(fileName) -> PythonLanguage()
-            RubyLanguage.supportFormat(fileName) -> RubyLanguage()
-            ShellLanguage.supportFormat(fileName) -> ShellLanguage()
-            SmaliLanguage.supportFormat(fileName) -> SmaliLanguage()
-            SqlLanguage.supportFormat(fileName) -> SqlLanguage()
-            TomlLanguage.supportFormat(fileName) -> TomlLanguage()
-            TypeScriptLanguage.supportFormat(fileName) -> TypeScriptLanguage()
-            VisualBasicLanguage.supportFormat(fileName) -> VisualBasicLanguage()
-            XmlLanguage.supportFormat(fileName) -> XmlLanguage()
-            YamlLanguage.supportFormat(fileName) -> YamlLanguage()
-            else -> PlainTextLanguage()
-        }
+        val extension = '.' + fileName.substringAfterLast('.')
+        val languageName = FileAssociation.guessLanguage(extension)
+        return fromName(languageName)
     }
 
     fun fromName(languageName: String): Language {
@@ -94,6 +69,7 @@ object LanguageFactory {
             LuaLanguage.LANGUAGE_NAME -> LuaLanguage()
             MarkdownLanguage.LANGUAGE_NAME -> MarkdownLanguage()
             PhpLanguage.LANGUAGE_NAME -> PhpLanguage()
+            PlainTextLanguage.LANGUAGE_NAME -> PlainTextLanguage()
             PythonLanguage.LANGUAGE_NAME -> PythonLanguage()
             RubyLanguage.LANGUAGE_NAME -> RubyLanguage()
             ShellLanguage.LANGUAGE_NAME -> ShellLanguage()

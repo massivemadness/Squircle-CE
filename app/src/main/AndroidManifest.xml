@@ -60,6 +60,7 @@
                 <data android:scheme="content" />
 
                 <data android:pathPattern=".*\\.txt" />
+                <data android:pathPattern=".*\\.log" />
                 <data android:pathPattern=".*\\.js" />
                 <data android:pathPattern=".*\\.json" />
                 <data android:pathPattern=".*\\.java" />
@@ -115,7 +116,6 @@
                 <data android:pathPattern=".*\\.phtml" />
                 <data android:pathPattern=".*\\.ts" />
                 <data android:pathPattern=".*\\.ino" />
-                <data android:pathPattern=".*\\.log" />
                 <data android:pathPattern=".*\\.mjs" />
                 <data android:pathPattern=".*\\.cjs" />
                 <data android:pathPattern=".*\\.jl" />
