@@ -24,10 +24,13 @@ import com.blacksquircle.ui.feature.themes.data.model.ExternalScheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import org.junit.Assert.assertEquals
+import org.junit.Ignore
+import org.junit.Test
 
 class ThemeConverterTests {
 
-    // @Test
+    @Test
+    @Ignore("FIXME: Method parseColor in android.graphics.Color not mocked.")
     fun `convert ThemeEntity to ThemeModel`() {
         val themeEntity = ThemeEntity(
             uuid = "0",
@@ -134,7 +137,8 @@ class ThemeConverterTests {
         assertEquals(themeModel.colorScheme.entityRefColor, convert.colorScheme.entityRefColor)
     }
 
-    // @Test
+    @Test
+    @Ignore("FIXME: Method parseColor in android.graphics.Color not mocked.")
     fun `convert ThemeModel to ThemeEntity`() {
         val themeModel = ThemeModel(
             uuid = "0",
@@ -233,14 +237,15 @@ class ThemeConverterTests {
         assertEquals(themeEntity.methodColor, convert.methodColor)
         assertEquals(themeEntity.stringColor, convert.stringColor)
         assertEquals(themeEntity.commentColor, convert.commentColor)
-        assertEquals(themeModel.colorScheme.tagColor, convert.tagColor)
-        assertEquals(themeModel.colorScheme.tagNameColor, convert.tagNameColor)
-        assertEquals(themeModel.colorScheme.attrNameColor, convert.attrNameColor)
-        assertEquals(themeModel.colorScheme.attrValueColor, convert.attrValueColor)
-        assertEquals(themeModel.colorScheme.entityRefColor, convert.entityRefColor)
+        assertEquals(themeEntity.tagColor, convert.tagColor)
+        assertEquals(themeEntity.tagNameColor, convert.tagNameColor)
+        assertEquals(themeEntity.attrNameColor, convert.attrNameColor)
+        assertEquals(themeEntity.attrValueColor, convert.attrValueColor)
+        assertEquals(themeEntity.entityRefColor, convert.entityRefColor)
     }
 
-    // @Test
+    @Test
+    @Ignore("FIXME: Method parseColor in android.graphics.Color not mocked.")
     fun `convert ExternalTheme to ThemeModel`() {
         val externalTheme = ExternalTheme(
             uuid = "0",
