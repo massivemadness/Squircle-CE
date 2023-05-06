@@ -14,29 +14,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="label_settings">設定</string>
-
     <string name="hint_enter_preset_chars">符號欄預設符號（不要加分隔符）</string>
-
     <string name="action_reset">重置</string>
-
-    <string name="message_app_theme_disclaimer">Requires Android 10 or newer</string>
+    <string name="message_app_theme_disclaimer">需要 Android 10 或更新版本</string>
     <string name="message_preset_disclaimer">註：同一個字符可以重複多次</string>
-
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_system">System default</string>
-
+    <string name="theme_light">淺色</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_system">系統預設</string>
     <string name="sort_by_name">依名稱排序</string>
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>
-
     <string name="view_mode_compact_list">緊湊列表</string>
     <string name="view_mode_detailed_list">詳細列表</string>
-
     <string name="pref_header_application_title">應用程式</string>
     <string name="pref_header_application_summary">設定全域應用程式設定。</string>
     <string name="pref_header_editor_title">編輯器</string>
@@ -45,13 +36,12 @@
     <string name="pref_header_codeStyle_summary">設定程式碼縮排、符號配對等。</string>
     <string name="pref_header_files_title">檔案</string>
     <string name="pref_header_files_summary">設定檔案的處理方式。</string>
-    <string name="pref_header_keybindings_title">Keybindings</string>
-    <string name="pref_header_keybindings_summary">Configure keybindings.</string>
+    <string name="pref_header_keybindings_title">按鍵繫結</string>
+    <string name="pref_header_keybindings_summary">設定按鍵繫結</string>
     <string name="pref_header_cloud_title">雲端 &amp; 伺服器</string>
     <string name="pref_header_cloud_summary">設定雲端存儲和伺服器。</string>
     <string name="pref_header_about_title">關於</string>
     <string name="pref_header_about_summary">查看 Squircle CE 的有關資訊。</string>
-
     <string name="pref_category_look_and_feel">外觀</string>
     <string name="pref_category_other">其它</string>
     <string name="pref_category_font">字體</string>
@@ -65,16 +55,14 @@
     <string name="pref_category_file_manager">檔案管理器</string>
     <string name="pref_category_about">關於</string>
     <string name="pref_category_contribute">貢獻</string>
-
-    <string name="pref_app_theme_title">Application Theme</string>
-    <string name="pref_app_theme_summary">Configure the application theme.</string>
+    <string name="pref_app_theme_title">應用程式主題</string>
+    <string name="pref_app_theme_summary">設定應用程式主題</string>
     <string name="pref_color_scheme_title">配色方案</string>
     <string name="pref_color_scheme_summary">設定語法高亮顯示顏色方案。</string>
     <string name="pref_fullscreen_title">全螢幕模式</string>
     <string name="pref_fullscreen_summary">以全螢幕模式啟動本應用程式。</string>
     <string name="pref_confirm_exit_title">確定退出應用程式</string>
     <string name="pref_confirm_exit_summary">啟用後按下返回鍵將彈出確認對話框，否則直接退出。</string>
-
     <string name="pref_font_size_title">字體大小</string>
     <string name="pref_font_size_summary">指定編輯器的預設字體大小。</string>
     <string name="pref_font_type_title">字體類型</string>
@@ -83,8 +71,8 @@
     <string name="pref_word_wrap_summary">是否依據螢幕寬度自動換行。</string>
     <string name="pref_code_completion_title">程式碼補全</string>
     <string name="pref_code_completion_summary">輸入時將自動在下拉選單中顯示程式碼補全建議。</string>
-    <!--<string name="pref_error_highlighting_title">錯誤高亮</string>
-    <string name="pref_error_highlighting_summary">啟用即時錯誤高亮顯示（需要重新啟動應用程式才能生效）。</string>-->
+    <!--<string name="pref_error_highlighting_title">Error Highlighting</string>
+    <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>-->
     <string name="pref_pinch_zoom_title">手勢縮放</string>
     <string name="pref_pinch_zoom_summary">在編輯器中啟用縮放手勢。</string>
     <string name="pref_line_numbers_title">行號</string>
@@ -93,8 +81,8 @@
     <string name="pref_highlight_line_summary">高亮顯示游標目前所在的行。</string>
     <string name="pref_highlight_delimiters_title">高亮顯示成對的符號</string>
     <string name="pref_highlight_delimiters_summary">在游標處插入符號時，高亮顯示成對的符號，如括號、引號。</string>
-    <string name="pref_read_only_title">Read Only</string>
-    <string name="pref_read_only_summary">Restrict editing and modification of the files.</string>
+    <string name="pref_read_only_title">唯讀</string>
+    <string name="pref_read_only_summary">限制檔案的編輯和修改。</string>
     <string name="pref_auto_save_files_title">自動儲存</string>
     <string name="pref_auto_save_files_summary">在切換選項卡或關閉應用程式時自動儲存檔案。</string>
     <string name="pref_extended_keyboard_title">快捷符號欄</string>
@@ -103,7 +91,6 @@
     <string name="pref_keyboard_preset_summary">為快捷符號欄選擇預設符號。</string>
     <string name="pref_soft_keyboard_title">螢幕鍵盤</string>
     <string name="pref_soft_keyboard_summary">永遠使用螢幕鍵盤。</string>
-
     <string name="pref_auto_indent_title">自動縮排</string>
     <string name="pref_auto_indent_summary">根據前一行自動縮排新的行。</string>
     <string name="pref_close_brackets_title">括號閉合</string>
@@ -114,7 +101,6 @@
     <string name="pref_use_spaces_not_tabs_summary">自動縮排時插入空格代替製表符</string>
     <string name="pref_tab_width_title">製表符個數</string>
     <string name="pref_tab_width_summary">指定編輯器中顯示的製表符個數</string>
-
     <string name="pref_encoding_auto_detect_title">自動檢測編碼</string>
     <string name="pref_encoding_auto_detect_summary">自動檢測編碼對多字節語言是很有用的。</string>
     <string name="pref_encoding_for_opening_title">以該編碼開啟</string>
@@ -129,12 +115,10 @@
     <string name="pref_folders_on_top_summary">資料夾將優先顯示在檔案的前面。</string>
     <string name="pref_view_mode_title">檢視模式</string>
     <string name="pref_sort_mode_title">排序方式</string>
-
     <string name="pref_about_summary">Squircle CE 是依據 Apache 2.0 許可協議發布的開源專案\n\n目前版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看「隱私權政策」</string>
-    <string name="pref_translation_title">Translation Platform</string>
-    <string name="pref_translation_summary">Translate this app to your language</string>
+    <string name="pref_translation_title">翻譯平台</string>
+    <string name="pref_translation_summary">將這個應用程式翻譯至您的語言</string>
     <string name="pref_contribute_title">參與貢獻，促進發展</string>
     <string name="pref_contribute_summary">你可以點擊此處到 GitHub 上提交 Issue ，或將本應用程式翻譯為在地語言。\n\n感謝您的信任和支持！</string>
-
 </resources>
