@@ -21,6 +21,7 @@ import com.blacksquircle.ui.language.base.Language
 import com.blacksquircle.ui.language.c.CLanguage
 import com.blacksquircle.ui.language.cpp.CppLanguage
 import com.blacksquircle.ui.language.csharp.CSharpLanguage
+import com.blacksquircle.ui.language.css.CssLanguage
 import com.blacksquircle.ui.language.groovy.GroovyLanguage
 import com.blacksquircle.ui.language.html.HtmlLanguage
 import com.blacksquircle.ui.language.java.JavaLanguage
@@ -58,6 +59,7 @@ object LanguageFactory {
             CLanguage.LANGUAGE_NAME -> CLanguage()
             CppLanguage.LANGUAGE_NAME -> CppLanguage()
             CSharpLanguage.LANGUAGE_NAME -> CSharpLanguage()
+            CssLanguage.LANGUAGE_NAME -> CssLanguage()
             GroovyLanguage.LANGUAGE_NAME -> GroovyLanguage()
             HtmlLanguage.LANGUAGE_NAME -> HtmlLanguage()
             JavaLanguage.LANGUAGE_NAME -> JavaLanguage()

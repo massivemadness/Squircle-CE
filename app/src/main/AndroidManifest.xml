@@ -126,6 +126,8 @@
                 <data android:pathPattern=".*\\.mts" />
                 <data android:pathPattern=".*\\.cts" />
                 <data android:pathPattern=".*\\.smali" />
+                <data android:pathPattern=".*\\.css" />
+                <data android:pathPattern=".*\\.scss" />
             </intent-filter>
         </activity>
 

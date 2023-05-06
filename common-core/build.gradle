@@ -92,6 +92,7 @@ dependencies {
     implementation project(':editorkit:language-c')
     implementation project(':editorkit:language-cpp')
     implementation project(':editorkit:language-csharp')
+    implementation project(':editorkit:language-css')
     implementation project(':editorkit:language-groovy')
     implementation project(':editorkit:language-html')
     implementation project(':editorkit:language-java')
