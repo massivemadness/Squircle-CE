@@ -1,0 +1,5 @@
+- Added: Support for CSS language
+- Added: Read Only in Settings > Editor
+- Fixed: Encoding and LineBreaks were ignored when using «Save As» option
+- Fixed: RSA key validation for SFTP
+- Bugfixes and minor improvements

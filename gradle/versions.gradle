@@ -23,8 +23,8 @@ ext {
             buildTools: '33.0.2',
 
             // Library
-            publishVersionName: '2.6.0',
-            publishVersionCode: 17
+            publishVersionName: '2.7.0',
+            publishVersionCode: 18
     ]
 
     // Plugins

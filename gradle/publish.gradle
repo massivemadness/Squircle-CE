@@ -140,6 +140,11 @@ signing {
 }
 
 afterEvaluate {
+    if (project.plugins.findPlugin("com.android.library")) {
+        signReleasePublication.dependsOn bundleReleaseAar // Android module
+    } else {
+        signReleasePublication.dependsOn jar // Java module
+    }
     publishReleasePublicationToSonatypeRepository.dependsOn build
 }
 
