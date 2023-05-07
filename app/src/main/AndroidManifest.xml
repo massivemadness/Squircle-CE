@@ -130,6 +130,13 @@
                 <data android:pathPattern=".*\\.scss" />
                 <data android:pathPattern=".*\\.go" />
                 <data android:pathPattern=".*\\.tex" />
+                <data android:pathPattern=".*\\.f90" />
+                <data android:pathPattern=".*\\.f95" />
+                <data android:pathPattern=".*\\.f03" />
+                <data android:pathPattern=".*\\.f08" />
+                <data android:pathPattern=".*\\.f" />
+                <data android:pathPattern=".*\\.for" />
+                <data android:pathPattern=".*\\.ftn" />
             </intent-filter>
         </activity>
 

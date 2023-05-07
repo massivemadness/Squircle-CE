@@ -22,6 +22,7 @@ import com.blacksquircle.ui.language.c.CLanguage
 import com.blacksquircle.ui.language.cpp.CppLanguage
 import com.blacksquircle.ui.language.csharp.CSharpLanguage
 import com.blacksquircle.ui.language.css.CssLanguage
+import com.blacksquircle.ui.language.fortran.FortranLanguage
 import com.blacksquircle.ui.language.go.GoLanguage
 import com.blacksquircle.ui.language.groovy.GroovyLanguage
 import com.blacksquircle.ui.language.html.HtmlLanguage
@@ -62,6 +63,7 @@ object LanguageFactory {
             CppLanguage.LANGUAGE_NAME -> CppLanguage()
             CSharpLanguage.LANGUAGE_NAME -> CSharpLanguage()
             CssLanguage.LANGUAGE_NAME -> CssLanguage()
+            FortranLanguage.LANGUAGE_NAME -> FortranLanguage()
             GoLanguage.LANGUAGE_NAME -> GoLanguage()
             GroovyLanguage.LANGUAGE_NAME -> GroovyLanguage()
             HtmlLanguage.LANGUAGE_NAME -> HtmlLanguage()
