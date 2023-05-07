@@ -21,6 +21,7 @@ import com.blacksquircle.ui.language.c.CLanguage
 import com.blacksquircle.ui.language.cpp.CppLanguage
 import com.blacksquircle.ui.language.csharp.CSharpLanguage
 import com.blacksquircle.ui.language.css.CssLanguage
+import com.blacksquircle.ui.language.go.GoLanguage
 import com.blacksquircle.ui.language.groovy.GroovyLanguage
 import com.blacksquircle.ui.language.html.HtmlLanguage
 import com.blacksquircle.ui.language.java.JavaLanguage
@@ -58,6 +59,7 @@ object FileAssociation {
         associations[".cs"] = CSharpLanguage.LANGUAGE_NAME
         associations[".css"] = CssLanguage.LANGUAGE_NAME
         associations[".scss"] = CssLanguage.LANGUAGE_NAME
+        associations[".go"] = GoLanguage.LANGUAGE_NAME
         associations[".groovy"] = GroovyLanguage.LANGUAGE_NAME
         associations[".gvy"] = GroovyLanguage.LANGUAGE_NAME
         associations[".gy"] = GroovyLanguage.LANGUAGE_NAME

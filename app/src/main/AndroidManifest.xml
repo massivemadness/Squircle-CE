@@ -128,6 +128,7 @@
                 <data android:pathPattern=".*\\.smali" />
                 <data android:pathPattern=".*\\.css" />
                 <data android:pathPattern=".*\\.scss" />
+                <data android:pathPattern=".*\\.go" />
             </intent-filter>
         </activity>
 
