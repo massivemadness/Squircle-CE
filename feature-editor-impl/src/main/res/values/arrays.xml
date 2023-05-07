@@ -31,6 +31,7 @@
         <item>Json</item>
         <item>Julia</item>
         <item>Kotlin</item>
+        <item>LaTeX</item>
         <item>Lisp</item>
         <item>Lua</item>
         <item>Markdown</item>
@@ -62,6 +63,7 @@
         <item>json</item>
         <item>julia</item>
         <item>kotlin</item>
+        <item>latex</item>
         <item>lisp</item>
         <item>lua</item>
         <item>markdown</item>

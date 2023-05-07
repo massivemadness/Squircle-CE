@@ -129,6 +129,7 @@
                 <data android:pathPattern=".*\\.css" />
                 <data android:pathPattern=".*\\.scss" />
                 <data android:pathPattern=".*\\.go" />
+                <data android:pathPattern=".*\\.tex" />
             </intent-filter>
         </activity>
 

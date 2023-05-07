@@ -101,6 +101,7 @@ dependencies {
     implementation project(':editorkit:language-json')
     implementation project(':editorkit:language-julia')
     implementation project(':editorkit:language-kotlin')
+    implementation project(':editorkit:language-latex')
     implementation project(':editorkit:language-lisp')
     implementation project(':editorkit:language-lua')
     implementation project(':editorkit:language-markdown')

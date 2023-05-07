@@ -30,6 +30,7 @@ import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.language.json.JsonLanguage
 import com.blacksquircle.ui.language.julia.JuliaLanguage
 import com.blacksquircle.ui.language.kotlin.KotlinLanguage
+import com.blacksquircle.ui.language.latex.LatexLanguage
 import com.blacksquircle.ui.language.lisp.LispLanguage
 import com.blacksquircle.ui.language.lua.LuaLanguage
 import com.blacksquircle.ui.language.markdown.MarkdownLanguage
@@ -69,6 +70,7 @@ object LanguageFactory {
             JsonLanguage.LANGUAGE_NAME -> JsonLanguage()
             JuliaLanguage.LANGUAGE_NAME -> JuliaLanguage()
             KotlinLanguage.LANGUAGE_NAME -> KotlinLanguage()
+            LatexLanguage.LANGUAGE_NAME -> LatexLanguage()
             LispLanguage.LANGUAGE_NAME -> LispLanguage()
             LuaLanguage.LANGUAGE_NAME -> LuaLanguage()
             MarkdownLanguage.LANGUAGE_NAME -> MarkdownLanguage()

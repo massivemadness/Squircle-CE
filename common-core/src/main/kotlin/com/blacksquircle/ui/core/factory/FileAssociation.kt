@@ -29,6 +29,7 @@ import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.language.json.JsonLanguage
 import com.blacksquircle.ui.language.julia.JuliaLanguage
 import com.blacksquircle.ui.language.kotlin.KotlinLanguage
+import com.blacksquircle.ui.language.latex.LatexLanguage
 import com.blacksquircle.ui.language.lisp.LispLanguage
 import com.blacksquircle.ui.language.lua.LuaLanguage
 import com.blacksquircle.ui.language.markdown.MarkdownLanguage
@@ -75,6 +76,7 @@ object FileAssociation {
         associations[".jl"] = JuliaLanguage.LANGUAGE_NAME
         associations[".kt"] = KotlinLanguage.LANGUAGE_NAME
         associations[".kts"] = KotlinLanguage.LANGUAGE_NAME
+        associations[".tex"] = LatexLanguage.LANGUAGE_NAME
         associations[".lisp"] = LispLanguage.LANGUAGE_NAME
         associations[".lsp"] = LispLanguage.LANGUAGE_NAME
         associations[".cl"] = LispLanguage.LANGUAGE_NAME
