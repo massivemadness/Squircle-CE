@@ -28,7 +28,7 @@ dependencies {
 
     // Core
     implementation library.kotlin
-    implementation files("libs/bcprov-jdk18on-172.jar")
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.72'
 
     // Network
     implementation library.jsch
