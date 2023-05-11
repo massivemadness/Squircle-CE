@@ -48,9 +48,9 @@ class RenameDialog : DialogFragment() {
 
             negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_rename) {
-                val fileName = binding.input.text.toString()
+                val fileName = binding.input.text?.ifEmpty { getString(R.string.hint_file_name) }
                 navController.popBackStack()
-                viewModel.obtainEvent(ExplorerIntent.RenameFile(fileName))
+                viewModel.obtainEvent(ExplorerIntent.RenameFile(fileName.toString()))
             }
         }
     }

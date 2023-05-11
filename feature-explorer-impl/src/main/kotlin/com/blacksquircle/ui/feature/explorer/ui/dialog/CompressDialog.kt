@@ -45,9 +45,9 @@ class CompressDialog : DialogFragment() {
 
             negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_compress) {
-                val fileName = binding.input.text.toString()
+                val fileName = binding.input.text?.ifEmpty { getString(R.string.hint_archive_name) }
                 navController.popBackStack()
-                viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName))
+                viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName.toString()))
             }
         }
     }

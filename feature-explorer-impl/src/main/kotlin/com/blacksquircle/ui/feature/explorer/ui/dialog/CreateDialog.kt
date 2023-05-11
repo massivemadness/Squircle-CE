@@ -45,10 +45,10 @@ class CreateDialog : DialogFragment() {
 
             negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_create) {
-                val fileName = binding.input.text.toString()
+                val fileName = binding.input.text?.ifEmpty { getString(R.string.hint_file_name) }
                 val isFolder = binding.boxIsFolder.isChecked
                 navController.popBackStack()
-                viewModel.obtainEvent(ExplorerIntent.CreateFile(fileName, isFolder))
+                viewModel.obtainEvent(ExplorerIntent.CreateFile(fileName.toString(), isFolder))
             }
         }
     }

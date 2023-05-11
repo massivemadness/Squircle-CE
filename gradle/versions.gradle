@@ -74,6 +74,7 @@ ext {
     zip4j_version = '2.11.5'
     chardet_version = '73.1'
     superuser_version = '5.0.4'
+    bouncycastle_version = '1.72'
 
     // Tests
     junit_version = '4.13.2'
@@ -149,6 +150,7 @@ ext {
             zip4j: "net.lingala.zip4j:zip4j:$zip4j_version",
             chardet: "com.ibm.icu:icu4j:$chardet_version",
             superuser: "com.github.topjohnwu.libsu:io:$superuser_version",
+            bouncycastle: "org.bouncycastle:bcprov-jdk18on:$bouncycastle_version",
 
             // Tests
             junit: "junit:junit:$junit_version",
