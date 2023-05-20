@@ -15,12 +15,12 @@
   ~ limitations under the License.
   -->
 
-<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.textview.MaterialTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="?android:attr/spinnerDropDownItemStyle"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:theme="@style/Theme.MaterialComponents.Light"
     android:singleLine="true"
     android:ellipsize="end"
     android:id="@android:id/text1"

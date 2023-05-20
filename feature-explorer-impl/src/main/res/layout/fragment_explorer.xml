@@ -48,7 +48,6 @@
             android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             android:id="@+id/toolbar"
             app:navigationIconTint="?colorOnSurface"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             tools:menu="@menu/menu_explorer_default"
             tools:title="@string/storage_local">
 
@@ -58,7 +57,6 @@
                 android:spinnerMode="dropdown"
                 android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
                 android:id="@+id/dropdown"
-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
                 tools:visibility="gone" />
 
         </com.google.android.material.appbar.MaterialToolbar>

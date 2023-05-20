@@ -32,7 +32,6 @@
         app:title="@string/label_themes"
         app:navigationIcon="@drawable/ic_back"
         app:navigationIconTint="?colorOnSurface"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -21,31 +21,31 @@
         android:id="@+id/action_switch_find"
         android:title="@string/action_close_find"
         android:icon="@drawable/ic_search"
-        app:iconTint="@color/colorOnBackground"/>
+        app:iconTint="?colorOnSurfaceVariant" />
     <item
         android:id="@+id/action_switch_replace"
         android:title="@string/action_replace"
         android:icon="@drawable/ic_replace"
-        app:iconTint="@color/colorOnBackground"/>
+        app:iconTint="?colorOnSurfaceVariant" />
     <item
         android:id="@+id/action_goto_line"
         android:title="@string/action_goto_line"
         android:icon="@drawable/ic_goto_line"
-        app:iconTint="@color/colorOnBackground"/>
+        app:iconTint="?colorOnSurfaceVariant" />
 
     <group android:checkableBehavior="all">
         <item
             android:id="@+id/action_regex"
             android:title="@string/action_regex"
-            app:actionViewClass="android.widget.CheckBox"/>
+            app:actionViewClass="android.widget.CheckBox" />
         <item
             android:id="@+id/action_match_case"
             android:title="@string/action_match_case"
-            app:actionViewClass="android.widget.CheckBox"/>
+            app:actionViewClass="android.widget.CheckBox" />
         <item
             android:id="@+id/action_words_only"
             android:title="@string/action_words_only"
-            app:actionViewClass="android.widget.CheckBox"/>
+            app:actionViewClass="android.widget.CheckBox" />
     </group>
 
 </menu>

@@ -18,17 +18,14 @@ package com.blacksquircle.ui.feature.editor.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.adapter.TabAdapter
-import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
+import com.blacksquircle.ui.core.view.MaterialPopupMenu
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemTabDocumentBinding
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.uikit.R as UiR
 
 class DocumentAdapter(
     private val tabInteractor: TabInteractor,
@@ -79,8 +76,7 @@ class DocumentAdapter(
                 }
             }
             binding.itemIcon.setOnLongClickListener {
-                val wrapper = ContextThemeWrapper(it.context, UiR.style.Widget_AppTheme_PopupMenu)
-                val popupMenu = PopupMenu(wrapper, it)
+                val popupMenu = MaterialPopupMenu(it.context)
                 popupMenu.setOnMenuItemClickListener { item ->
                     if (adapterPosition != RecyclerView.NO_POSITION) {
                         when (item.itemId) {
@@ -92,8 +88,7 @@ class DocumentAdapter(
                     return@setOnMenuItemClickListener true
                 }
                 popupMenu.inflate(R.menu.menu_document)
-                popupMenu.makeRightPaddingRecursively()
-                popupMenu.show()
+                popupMenu.show(it)
                 return@setOnLongClickListener true
             }
             binding.itemIcon.setOnClickListener {

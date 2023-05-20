@@ -20,15 +20,13 @@ import android.content.res.Configuration
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
+import com.blacksquircle.ui.core.view.MaterialPopupMenu
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
-import com.blacksquircle.ui.uikit.R as UiR
 
 class ToolbarManager(
     private val listener: Listener,
@@ -148,13 +146,11 @@ class ToolbarManager(
 
     private fun setMenuClickListener(view: View, menuRes: Int) {
         view.setOnClickListener {
-            val wrapper = ContextThemeWrapper(it.context, UiR.style.Widget_AppTheme_PopupMenu)
-            val popupMenu = PopupMenu(wrapper, it)
+            val popupMenu = MaterialPopupMenu(it.context)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(menuRes)
-            popupMenu.makeRightPaddingRecursively()
             onPreparePopupMenu(popupMenu.menu)
-            popupMenu.show()
+            popupMenu.show(view)
         }
     }
 

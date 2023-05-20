@@ -32,11 +32,11 @@ ext {
 
     // Core
     kotlin_version = '1.8.21'
-    core_version = '1.10.0'
+    core_version = '1.10.1'
     activity_version = '1.7.1'
     fragment_version = '1.5.7'
     splash_version = '1.0.1'
-    profileinstaller_version = '1.3.0'
+    profileinstaller_version = '1.3.1'
     timber_version = '5.0.1'
 
     // Google Play
@@ -44,7 +44,7 @@ ext {
 
     // UI
     appcompat_version = '1.6.1'
-    materialdesign_version = '1.8.0'
+    materialdesign_version = '1.9.0'
     constraintlayout_version = '2.1.4'
     swiperefreshlayout_version = '1.2.0-alpha01'
     preferencescompat_version = '1.2.0'
@@ -64,17 +64,17 @@ ext {
     jsch_version = '0.2.8'
 
     // Coroutines
-    coroutines_version = '1.7.0'
+    coroutines_version = '1.7.1'
 
     // DI
-    hilt_version = '2.45'
+    hilt_version = '2.46.1'
     hilt_android_version = '1.0.0'
 
     // Other
     zip4j_version = '2.11.5'
     chardet_version = '73.1'
     superuser_version = '5.0.4'
-    bouncycastle_version = '1.72'
+    bouncycastle_version = '1.73'
 
     // Tests
     junit_version = '4.13.2'

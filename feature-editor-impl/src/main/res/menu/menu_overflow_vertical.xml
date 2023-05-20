@@ -21,28 +21,28 @@
         android:id="@+id/action_find"
         android:title="@string/action_find"
         android:icon="@drawable/ic_file_find"
-        app:iconTint="@color/colorOnBackground"/>
+        app:iconTint="?colorOnSurfaceVariant" />
     <item
         android:id="@+id/action_tools"
         android:title="@string/action_tools"
         android:icon="@drawable/ic_tools"
-        app:iconTint="@color/colorOnBackground">
+        app:iconTint="?colorOnSurfaceVariant">
         <menu>
             <item
                 android:id="@+id/action_force_syntax"
                 android:title="@string/action_force_syntax"
                 android:icon="@drawable/ic_marker"
-                app:iconTint="@color/colorOnBackground" />
+                app:iconTint="?colorOnSurfaceVariant" />
             <item
                 android:id="@+id/action_insert_color"
                 android:title="@string/action_insert_color"
                 android:icon="@drawable/ic_palette"
-                app:iconTint="@color/colorOnBackground"/>
+                app:iconTint="?colorOnSurfaceVariant" />
         </menu>
     </item>
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:icon="@drawable/ic_settings"
-        app:iconTint="@color/colorOnBackground"/>
+        app:iconTint="?colorOnSurfaceVariant" />
 </menu>

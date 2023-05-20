@@ -18,8 +18,6 @@ package com.blacksquircle.ui.feature.themes.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -27,12 +25,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.extensions.getColour
 import com.blacksquircle.ui.core.extensions.isColorDark
-import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
 import com.blacksquircle.ui.core.factory.LanguageFactory
+import com.blacksquircle.ui.core.view.MaterialPopupMenu
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.ItemThemeBinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.uikit.R as UiR
 
 class ThemeAdapter(
     private val actions: Actions,
@@ -86,19 +83,17 @@ class ThemeAdapter(
                 actions.showInfo(themeModel)
             }
             binding.actionOverflow.setOnClickListener {
-                val wrapper = ContextThemeWrapper(it.context, UiR.style.Widget_AppTheme_PopupMenu)
-                val popupMenu = PopupMenu(wrapper, it)
+                val popupMenu = MaterialPopupMenu(it.context)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.action_export -> actions.exportTheme(themeModel)
                         R.id.action_edit -> actions.editTheme(themeModel)
                         R.id.action_remove -> actions.removeTheme(themeModel)
                     }
-                    true
+                    return@setOnMenuItemClickListener true
                 }
                 popupMenu.inflate(R.menu.menu_theme_actions)
-                popupMenu.makeRightPaddingRecursively()
-                popupMenu.show()
+                popupMenu.show(it)
             }
         }
 

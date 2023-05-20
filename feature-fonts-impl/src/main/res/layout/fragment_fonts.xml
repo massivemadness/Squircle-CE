@@ -30,7 +30,6 @@
         android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
         android:id="@+id/toolbar"
         app:title="@string/label_fonts"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
         app:navigationIcon="@drawable/ic_back"
         app:navigationIconTint="?colorOnSurface"
         app:layout_constraintTop_toTopOf="parent"

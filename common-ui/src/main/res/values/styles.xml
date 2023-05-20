@@ -76,8 +76,4 @@
 
     <!-- endregion SNACKBAR -->
 
-    <style name="Widget.AppTheme.PopupMenu" parent="Theme.MaterialComponents.Light">
-        <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu.Overflow</item>
-    </style>
-
 </resources>

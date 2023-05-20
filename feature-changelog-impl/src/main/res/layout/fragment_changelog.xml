@@ -31,8 +31,7 @@
         android:id="@+id/toolbar"
         app:title="@string/label_changelog"
         app:navigationIcon="@drawable/ic_back"
-        app:navigationIconTint="?colorOnSurface"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
+        app:navigationIconTint="?colorOnSurface" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
