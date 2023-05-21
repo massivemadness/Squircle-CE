@@ -23,14 +23,12 @@ import com.blacksquircle.ui.filesystem.base.utils.endsWith
 import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import com.ibm.icu.text.CharsetDetector
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.exception.ZipException
 import java.io.File
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class LocalFilesystem(private val defaultLocation: File) : Filesystem {
 
     /** zip4j only supports these formats */

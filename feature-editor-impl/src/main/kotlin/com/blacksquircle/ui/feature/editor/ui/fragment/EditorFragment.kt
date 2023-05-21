@@ -67,6 +67,7 @@ import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class EditorFragment : Fragment(R.layout.fragment_editor),
@@ -291,7 +292,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     override fun onNewButton(): Boolean {
-        newFileContract.launch(getString(R.string.untitled), CreateFileContract.TEXT)
+        newFileContract.launch(getString(UiR.string.common_untitled), CreateFileContract.TEXT)
         return true
     }
 

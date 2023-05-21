@@ -33,14 +33,12 @@ import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsReposit
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import io.mockk.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class SelectTabTests {
 
     @get:Rule

@@ -26,14 +26,12 @@ import com.blacksquircle.ui.feature.fonts.ui.mvi.FontsViewState
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class FontUiStateTests {
 
     @get:Rule

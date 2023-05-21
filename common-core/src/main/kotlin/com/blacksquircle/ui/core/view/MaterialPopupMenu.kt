@@ -55,8 +55,7 @@ class MaterialPopupMenu(private val context: Context) {
     }
 
     fun inflate(@MenuRes menuRes: Int) {
-        val menuInflater = SupportMenuInflater(context)
-        menuInflater.inflate(menuRes, menuBuilder)
+        SupportMenuInflater(context).inflate(menuRes, menuBuilder)
         MenuCompat.setGroupDividerEnabled(menuBuilder, true)
         menuBuilder.makeRightPaddingRecursively()
     }

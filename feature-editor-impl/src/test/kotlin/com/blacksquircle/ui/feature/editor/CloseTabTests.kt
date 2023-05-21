@@ -29,15 +29,12 @@ import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepositor
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import io.mockk.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class CloseTabTests {
 
     @get:Rule

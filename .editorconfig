@@ -9,6 +9,8 @@ ktlint_standard_no-wildcard-imports = disabled
 # noinspection EditorConfigKeyCorrectness
 ktlint_standard_trailing-comma-on-declaration-site = disabled
 # noinspection EditorConfigKeyCorrectness
+ktlint_standard_trailing-comma-on-call-site = disabled
+# noinspection EditorConfigKeyCorrectness
 ktlint_standard_enum-entry-name-case = disabled
 # noinspection EditorConfigKeyCorrectness
 ktlint_standard_argument-list-wrapping = disabled

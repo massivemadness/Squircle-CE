@@ -21,8 +21,6 @@
     <string name="hint_enter_archive_name">Enter archive name</string>
     <string name="hint_enter_password">Enter password</string>
     <string name="hint_enter_passphrase">Enter passphrase</string>
-    <string name="hint_file_name" translatable="false">untitled.txt</string>
-    <string name="hint_archive_name" translatable="false">untitled.zip</string>
 
     <string name="action_grant_access">Grant Access</string>
     <string name="action_authenticate">Authenticate</string>

@@ -29,6 +29,7 @@ import com.blacksquircle.ui.feature.explorer.databinding.DialogCompressBinding
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class CompressDialog : DialogFragment() {
@@ -45,7 +46,7 @@ class CompressDialog : DialogFragment() {
 
             negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_compress) {
-                val fileName = binding.input.text?.ifEmpty { getString(R.string.hint_archive_name) }
+                val fileName = binding.input.text?.ifEmpty { getString(UiR.string.common_untitled) }
                 navController.popBackStack()
                 viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName.toString()))
             }

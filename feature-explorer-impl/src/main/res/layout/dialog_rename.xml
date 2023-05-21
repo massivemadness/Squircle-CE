@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:hint="@string/hint_file_name"
+        android:hint="@string/common_untitled"
         android:id="@+id/input"
         tools:text="untitled.txt" />
 
