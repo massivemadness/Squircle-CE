@@ -17,21 +17,23 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_cut"
-        android:title="@android:string/cut"
-        android:icon="@drawable/ic_cut"
-        app:iconTint="?colorOnSurfaceVariant" />
-    <item
-        android:id="@+id/action_copy"
-        android:title="@android:string/copy"
-        android:icon="@drawable/ic_copy"
-        app:iconTint="?colorOnSurfaceVariant" />
-    <item
-        android:id="@+id/action_paste"
-        android:title="@android:string/paste"
-        android:icon="@drawable/ic_paste"
-        app:iconTint="?colorOnSurfaceVariant" />
+    <group android:id="@+id/cut_copy_paste">
+        <item
+            android:id="@+id/action_cut"
+            android:title="@android:string/cut"
+            android:icon="@drawable/ic_cut"
+            app:iconTint="?colorOnSurfaceVariant" />
+        <item
+            android:id="@+id/action_copy"
+            android:title="@android:string/copy"
+            android:icon="@drawable/ic_copy"
+            app:iconTint="?colorOnSurfaceVariant" />
+        <item
+            android:id="@+id/action_paste"
+            android:title="@android:string/paste"
+            android:icon="@drawable/ic_paste"
+            app:iconTint="?colorOnSurfaceVariant" />
+    </group>
     <item
         android:id="@+id/action_select_all"
         android:title="@android:string/selectAll"

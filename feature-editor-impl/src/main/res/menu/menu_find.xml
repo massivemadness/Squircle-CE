@@ -33,7 +33,9 @@
         android:icon="@drawable/ic_goto_line"
         app:iconTint="?colorOnSurfaceVariant" />
 
-    <group android:checkableBehavior="all">
+    <group
+        android:id="@+id/filters"
+        android:checkableBehavior="all">
         <item
             android:id="@+id/action_regex"
             android:title="@string/action_regex"

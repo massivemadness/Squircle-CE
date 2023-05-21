@@ -18,6 +18,7 @@ package com.blacksquircle.ui.core.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.MenuRes
@@ -25,16 +26,17 @@ import androidx.appcompat.view.SupportMenuInflater
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuPopupHelper
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.MenuCompat
 import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
 import com.google.android.material.R
 
 @SuppressLint("RestrictedApi")
 class MaterialPopupMenu(private val context: Context) {
 
-    val menu: MenuBuilder
-        get() = checkNotNull(menuBuilder)
+    val menu: Menu
+        get() = menuBuilder
 
-    private var menuBuilder: MenuBuilder? = null
+    private val menuBuilder: MenuBuilder
     private var menuListener: PopupMenu.OnMenuItemClickListener? = null
 
     init {
@@ -55,14 +57,13 @@ class MaterialPopupMenu(private val context: Context) {
     fun inflate(@MenuRes menuRes: Int) {
         val menuInflater = SupportMenuInflater(context)
         menuInflater.inflate(menuRes, menuBuilder)
-        menuBuilder?.makeRightPaddingRecursively()
+        MenuCompat.setGroupDividerEnabled(menuBuilder, true)
+        menuBuilder.makeRightPaddingRecursively()
     }
 
     fun show(anchorView: View) {
-        menuBuilder ?: return
-
         val popupMenu = MenuPopupHelper(
-            context, menu, anchorView, true, R.attr.actionOverflowMenuStyle
+            context, menuBuilder, anchorView, true, R.attr.actionOverflowMenuStyle
         )
         popupMenu.show()
     }
