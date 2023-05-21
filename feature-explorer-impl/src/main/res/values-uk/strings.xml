@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_enter_file_name">Введіть назву файлу</string>
+    <string name="hint_enter_archive_name">Вкажіть назву архіву</string>
+    <string name="hint_enter_password">Уведіть пароль</string>
+    <string name="hint_enter_passphrase">Уведіть фразу-пароль</string>
+    <string name="action_grant_access">Надати доступ</string>
+    <string name="action_authenticate">Автентифікація</string>
+    <string name="action_create">Створити</string>
+    <string name="action_copy_path">Копіювати шлях</string>
+    <string name="action_folder">Папка</string>
+    <string name="action_rename">Перейменувати</string>
+    <string name="action_run_in_background">Запускати у фоновому режимі</string>
+    <string name="action_show_hidden_files">Показувати приховані файли</string>
+    <string name="action_compress">Стиснути</string>
+    <string name="action_open_with">Відкрити в</string>
+    <string name="action_properties">Властивості</string>
+    <string name="dialog_title_authentication">Авторизація</string>
+    <string name="dialog_title_create">Створити…</string>
+    <string name="dialog_title_rename">Перейменувати…</string>
+    <string name="dialog_title_multi_delete">Мульти-видалення</string>
+    <string name="dialog_title_properties">Властивості</string>
+    <string name="dialog_title_creating">Створення…</string>
+    <string name="dialog_title_renaming">Перейменування…</string>
+    <string name="dialog_title_deleting">Видалення…</string>
+    <string name="dialog_title_copying">Копіювання…</string>
+    <string name="dialog_title_compressing">Стиснення…</string>
+    <string name="dialog_title_extracting">Видобування…</string>
+    <string name="dialog_title_archive_name">Назва архіву</string>
+    <string name="dialog_title_storage_permission">Доступ до сховища</string>
+    <string name="dialog_title_notification_permission">Сповіщення</string>
+    <string name="dialog_message_delete">Ви впевнені, що хочете видалити цей файл?</string>
+    <string name="dialog_message_multi_delete">Ви впевнені, що бажаєте видалити вибрані файли?</string>
+    <string name="dialog_message_storage_permission">Squircle CE потрібен доступ до управління файлами для коректної роботи\n\nБудь ласка, надайте дозвіл у налаштуваннях системи</string>
+    <string name="dialog_message_notification_permission">Squircle CE потрібен доступ до сповіщень для роботи у фоновому режимі\n\nБудь ласка, надайте дозвіл у налаштуваннях системи</string>
+    <string name="properties_name">Ім\'я файлу:</string>
+    <string name="properties_path">Шлях до файлу:</string>
+    <string name="properties_modified">Остання зміна:</string>
+    <string name="properties_size">Розмір файла:</string>
+    <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
+    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
+    <string name="progress_time_format">mm:ss</string>
+    <string name="sort_by_name">Сортувати за назвою</string>
+    <string name="sort_by_size">Сортувати за розміром</string>
+    <string name="sort_by_date">Сортувати за датою</string>
+    <string name="message_auth_required">Потрібна авторизація</string>
+    <string name="message_enter_password">Введіть пароль для підключення до сервера</string>
+    <string name="message_enter_passphrase">Введіть фразу-пароль для підключення до сервера</string>
+    <string name="message_access_denied">Доступ заборонено</string>
+    <string name="message_access_required">Додаток потребує дозволу для роботи з файлами</string>
+    <string name="message_cannot_be_opened">Неможливо відкрити файл</string>
+    <string name="message_invalid_file_name">Неприпустима назва файла</string>
+    <string name="message_file_already_exists">Такий файл вже існує</string>
+    <string name="message_unsupported_archive">Непідтримуваний архів</string>
+    <string name="message_invalid_archive">Архів пошкоджено</string>
+    <string name="message_split_archive">Архів розділено</string>
+    <string name="message_encrypted_archive">Архів зашифровано</string>
+    <string name="message_operation_cancelled">Операцію скасовано</string>
+    <string name="message_operation_not_supported">Операція не підтримується</string>
+    <string name="message_done">Готово</string>
+    <string name="message_file_not_found">Файл не знайдено</string>
+    <string name="message_elapsed_time">Минуло часу: %1$s</string>
+    <string name="message_creating">Створення…%1$s</string>
+    <string name="message_renaming">Перейменування…%1$s</string>
+    <string name="message_deleting">Видалення…%1$s</string>
+    <string name="message_copying">Копіювання…%1$s</string>
+    <string name="message_compressing">Стиснення…%1$s</string>
+    <string name="message_extracting">Видобування…%1$s</string>
+    <string name="explorer_channel_name">Файловий менеджер</string>
+    <string name="explorer_channel_description">Відображення та керування файловими операціями</string>
+    <string name="storage_local">Локальне сховище</string>
+    <string name="storage_root">Кореневий каталог</string>
+    <string name="storage_add">Додати сервер</string>
+</resources>
