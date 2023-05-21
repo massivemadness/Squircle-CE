@@ -18,11 +18,9 @@ package com.blacksquircle.ui.feature.editor.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.DialogGotoLineBinding
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
@@ -35,15 +33,15 @@ class GotoLineDialog : DialogFragment() {
     private val viewModel by activityViewModels<EditorViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_goto_line)
-            customView(R.layout.dialog_goto_line)
-            negativeButton(android.R.string.cancel)
-            positiveButton(R.string.action_go_to) {
-                val binding = DialogGotoLineBinding.bind(getCustomView())
+        val binding = DialogGotoLineBinding.inflate(layoutInflater)
+        return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_title_goto_line)
+            .setView(binding.root)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.action_go_to) { _, _ ->
                 val line = binding.input.text.toString()
                 viewModel.obtainEvent(EditorIntent.GotoLineNumber(line))
             }
-        }
+            .create()
     }
 }

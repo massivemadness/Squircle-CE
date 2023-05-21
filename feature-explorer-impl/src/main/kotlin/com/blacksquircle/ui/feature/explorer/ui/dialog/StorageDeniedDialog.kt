@@ -23,8 +23,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.explorer.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,27 +35,27 @@ import com.blacksquircle.ui.uikit.R as UiR
 class StorageDeniedDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_storage_permission)
-            message(R.string.dialog_message_storage_permission)
-            negativeButton(android.R.string.cancel)
-            positiveButton(UiR.string.common_continue) {
+        return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_title_storage_permission)
+            .setMessage(R.string.dialog_message_storage_permission)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(UiR.string.common_continue) { _, _ ->
                 try {
                     val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                            data = Uri.parse("package:${context.packageName}")
+                            data = Uri.parse("package:${requireContext().packageName}")
                         }
                     } else {
                         Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            data = Uri.parse("package:${context.packageName}")
+                            data = Uri.parse("package:${requireContext().packageName}")
                         }
                     }
                     startActivity(intent)
                 } catch (e: ActivityNotFoundException) {
                     Timber.d(e, e.message)
-                    context.showToast(UiR.string.common_error_occurred)
+                    requireContext().showToast(UiR.string.common_error_occurred)
                 }
             }
-        }
+            .create()
     }
 }

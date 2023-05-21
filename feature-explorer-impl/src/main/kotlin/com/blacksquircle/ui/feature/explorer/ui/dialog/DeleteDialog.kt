@@ -18,11 +18,11 @@ package com.blacksquircle.ui.feature.explorer.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
@@ -51,14 +51,14 @@ class DeleteDialog : DialogFragment() {
             R.string.dialog_message_delete
         }
 
-        return MaterialDialog(requireContext()).show {
-            title(text = dialogTitle)
-            message(dialogMessage)
-            negativeButton(android.R.string.cancel)
-            positiveButton(UiR.string.common_delete) {
+        return AlertDialog.Builder(requireContext())
+            .setTitle(dialogTitle)
+            .setMessage(dialogMessage)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(UiR.string.common_delete) { _, _ ->
                 navController.popBackStack()
                 viewModel.obtainEvent(ExplorerIntent.DeleteFile)
             }
-        }
+            .create()
     }
 }

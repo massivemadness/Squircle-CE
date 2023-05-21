@@ -27,7 +27,7 @@ enum class Operation(val value: Int) {
 
     companion object {
 
-        fun find(value: Int): Operation {
+        fun of(value: Int): Operation {
             return values().find { it.value == value } ?: CREATE
         }
     }

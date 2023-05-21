@@ -16,14 +16,12 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
@@ -36,23 +34,18 @@ class ForceSyntaxDialog : DialogFragment() {
     private val viewModel by activityViewModels<EditorViewModel>()
     private val navArgs by navArgs<ForceSyntaxDialogArgs>()
 
-    @SuppressLint("CheckResult")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_force_syntax)
-
-            val languages = resources.getStringArray(R.array.language_name)
-            listItemsSingleChoice(
-                res = R.array.language_title,
-                initialSelection = languages.indexOf(navArgs.languageName),
-                waitForPositiveButton = false,
-            ) { _, index, text ->
-                val intent = EditorIntent.ForceSyntaxHighlighting(languages[index])
+        val langNames = resources.getStringArray(R.array.language_title)
+        val langEntries = resources.getStringArray(R.array.language_name)
+        return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_title_force_syntax)
+            .setSingleChoiceItems(langNames, langEntries.indexOf(navArgs.languageName)) { _, which ->
+                val intent = EditorIntent.ForceSyntaxHighlighting(langEntries[which])
                 viewModel.obtainEvent(intent)
-                context.showToast(text = text)
+                requireContext().showToast(text = langNames[which])
                 dismiss()
             }
-            negativeButton(android.R.string.cancel)
-        }
+            .setNegativeButton(android.R.string.cancel, null)
+            .create()
     }
 }

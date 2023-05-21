@@ -22,7 +22,7 @@ enum class AuthMethod(val value: Int) {
 
     companion object {
 
-        fun find(value: Int): AuthMethod {
+        fun of(value: Int): AuthMethod {
             return checkNotNull(values().find { it.value == value })
         }
     }

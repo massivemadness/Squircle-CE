@@ -18,8 +18,8 @@ package com.blacksquircle.ui.application.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.afollestad.materialdialogs.MaterialDialog
 import com.blacksquircle.ui.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,13 +27,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class ConfirmExitDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_exit)
-            message(R.string.dialog_message_exit)
-            negativeButton(R.string.action_no)
-            positiveButton(R.string.action_yes) {
+        return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_title_exit)
+            .setMessage(R.string.dialog_message_exit)
+            .setNegativeButton(R.string.action_no, null)
+            .setPositiveButton(R.string.action_yes) { _, _ ->
                 activity?.finish()
             }
-        }
+            .create()
     }
 }

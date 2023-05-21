@@ -18,12 +18,10 @@ package com.blacksquircle.ui.feature.explorer.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogAuthBinding
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
@@ -39,21 +37,19 @@ class AuthDialog : DialogFragment() {
     private val navArgs by navArgs<AuthDialogArgs>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_authentication)
-            customView(R.layout.dialog_auth)
-
-            val binding = DialogAuthBinding.bind(getCustomView())
-            binding.input.hint = when (AuthMethod.find(navArgs.authMethod)) {
-                AuthMethod.PASSWORD -> getString(R.string.hint_enter_password)
-                AuthMethod.KEY -> getString(R.string.hint_enter_passphrase)
-            }
-
-            negativeButton(android.R.string.cancel)
-            positiveButton(UiR.string.common_continue) {
+        val binding = DialogAuthBinding.inflate(layoutInflater)
+        binding.input.hint = when (AuthMethod.of(navArgs.authMethod)) {
+            AuthMethod.PASSWORD -> getString(R.string.hint_enter_password)
+            AuthMethod.KEY -> getString(R.string.hint_enter_passphrase)
+        }
+        return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_title_authentication)
+            .setView(binding.root)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(UiR.string.common_continue) { _, _ ->
                 val password = binding.input.text.toString()
                 viewModel.obtainEvent(ExplorerIntent.Authenticate(password))
             }
-        }
+            .create()
     }
 }

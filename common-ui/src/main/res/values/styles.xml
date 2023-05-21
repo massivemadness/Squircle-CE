@@ -55,6 +55,8 @@
     </style>
 
     <style name="Dialog.AppTheme.Alert" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:textColor">?colorOnSurface</item> <!-- Title -->
+        <item name="android:textColorPrimary">?android:textColorSecondary</item> <!-- Message -->
         <item name="android:backgroundDimAmount">0.32</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.AppTheme.DialogButton</item>
         <item name="buttonBarPositiveButtonStyle">@style/Widget.AppTheme.DialogButton</item>

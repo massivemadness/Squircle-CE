@@ -18,12 +18,10 @@ package com.blacksquircle.ui.feature.explorer.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogCompressBinding
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
@@ -38,18 +36,16 @@ class CompressDialog : DialogFragment() {
     private val navController by lazy { findNavController() }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_archive_name)
-            customView(R.layout.dialog_compress)
-
-            val binding = DialogCompressBinding.bind(getCustomView())
-
-            negativeButton(android.R.string.cancel)
-            positiveButton(R.string.action_compress) {
+        val binding = DialogCompressBinding.inflate(layoutInflater)
+        return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_title_archive_name)
+            .setView(binding.root)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.action_compress) { _, _ ->
                 val fileName = binding.input.text?.ifEmpty { getString(UiR.string.common_untitled) }
                 navController.popBackStack()
                 viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName.toString()))
             }
-        }
+            .create()
     }
 }

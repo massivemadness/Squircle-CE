@@ -18,12 +18,10 @@ package com.blacksquircle.ui.feature.explorer.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogCreateBinding
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
@@ -38,19 +36,17 @@ class CreateDialog : DialogFragment() {
     private val navController by lazy { findNavController() }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_create)
-            customView(R.layout.dialog_create)
-
-            val binding = DialogCreateBinding.bind(getCustomView())
-
-            negativeButton(android.R.string.cancel)
-            positiveButton(R.string.action_create) {
+        val binding = DialogCreateBinding.inflate(layoutInflater)
+        return AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_title_create)
+            .setView(binding.root)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.action_create) { _, _ ->
                 val fileName = binding.input.text?.ifEmpty { getString(UiR.string.common_untitled) }
                 val isFolder = binding.boxIsFolder.isChecked
                 navController.popBackStack()
                 viewModel.obtainEvent(ExplorerIntent.CreateFile(fileName.toString(), isFolder))
             }
-        }
+            .create()
     }
 }

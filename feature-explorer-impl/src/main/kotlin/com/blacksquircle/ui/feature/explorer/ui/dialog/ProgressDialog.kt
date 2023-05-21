@@ -81,7 +81,7 @@ class ProgressDialog : DialogFragment() {
             binding.progressBar.max = navArgs.totalCount
             binding.total.isVisible = navArgs.totalCount > 0
 
-            when (Operation.find(navArgs.operation)) {
+            when (Operation.of(navArgs.operation)) {
                 Operation.CREATE -> {
                     title(R.string.dialog_title_creating)
                     negativeButton(android.R.string.cancel) {

@@ -30,7 +30,7 @@ object ServerConverter {
             address = serverEntity.address,
             port = serverEntity.port,
             initialDir = serverEntity.initialDir,
-            authMethod = AuthMethod.find(serverEntity.authMethod),
+            authMethod = AuthMethod.of(serverEntity.authMethod),
             username = serverEntity.username,
             password = serverEntity.password,
             privateKey = serverEntity.privateKey,
