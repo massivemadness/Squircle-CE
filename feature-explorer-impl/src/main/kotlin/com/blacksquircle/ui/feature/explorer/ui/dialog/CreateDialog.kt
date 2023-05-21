@@ -29,6 +29,7 @@ import com.blacksquircle.ui.feature.explorer.databinding.DialogCreateBinding
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
 class CreateDialog : DialogFragment() {
@@ -45,7 +46,7 @@ class CreateDialog : DialogFragment() {
 
             negativeButton(android.R.string.cancel)
             positiveButton(R.string.action_create) {
-                val fileName = binding.input.text?.ifEmpty { getString(R.string.common_untitled) }
+                val fileName = binding.input.text?.ifEmpty { getString(UiR.string.common_untitled) }
                 val isFolder = binding.boxIsFolder.isChecked
                 navController.popBackStack()
                 viewModel.obtainEvent(ExplorerIntent.CreateFile(fileName.toString(), isFolder))
