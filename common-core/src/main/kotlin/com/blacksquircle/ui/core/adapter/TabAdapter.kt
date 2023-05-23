@@ -79,7 +79,9 @@ abstract class TabAdapter<T, VH : RecyclerView.ViewHolder>(
             if (newPosition > -1) {
                 notifyItemChanged(newPosition) // Update new selected item
                 onTabSelectedListener?.onTabSelected(newPosition)
-                recyclerView?.smoothScrollToPosition(newPosition)
+                recyclerView?.doOnPreDraw {
+                    recyclerView?.smoothScrollToPosition(newPosition)
+                }
             }
         }
     }

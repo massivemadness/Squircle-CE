@@ -49,7 +49,7 @@
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/indicator"
+        android:id="@+id/selection_indicator"
         app:dividerColor="?colorPrimary"
         app:dividerThickness="2dp"
         app:layout_constraintBottom_toBottomOf="parent"

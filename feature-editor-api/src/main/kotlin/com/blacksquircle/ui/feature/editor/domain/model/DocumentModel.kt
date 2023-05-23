@@ -26,10 +26,10 @@ data class DocumentModel(
     val language: Language,
     val modified: Boolean,
     val position: Int,
-    var scrollX: Int,
-    var scrollY: Int,
-    var selectionStart: Int,
-    var selectionEnd: Int,
+    val scrollX: Int,
+    val scrollY: Int,
+    val selectionStart: Int,
+    val selectionEnd: Int,
 ) {
 
     val scheme: String

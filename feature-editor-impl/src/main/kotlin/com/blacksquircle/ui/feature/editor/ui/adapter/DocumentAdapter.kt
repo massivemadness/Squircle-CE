@@ -40,39 +40,50 @@ class DocumentAdapter(
                 return oldItem.modified == newItem.modified &&
                     oldItem.position == newItem.position
             }
+            override fun getChangePayload(oldItem: DocumentModel, newItem: DocumentModel): Any {
+                return DocumentPayload(
+                    modified = if (oldItem.modified != newItem.modified) newItem.modified else null,
+                )
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentViewHolder {
-        return DocumentViewHolder.create(parent, tabInteractor, ::select)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemTabDocumentBinding.inflate(inflater, parent, false)
+        return DocumentViewHolder(binding, tabInteractor)
     }
 
     override fun onBindViewHolder(holder: DocumentViewHolder, position: Int) {
-        holder.bind(currentList[position], position == selectedPosition)
+        holder.bind(currentList[position])
     }
 
-    class DocumentViewHolder(
-        private val binding: ItemTabDocumentBinding,
-        private val tabInteractor: TabInteractor,
-        private val select: (Int) -> Unit,
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        companion object {
-            fun create(
-                parent: ViewGroup,
-                tabInteractor: TabInteractor,
-                select: (Int) -> Unit,
-            ): DocumentViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                val binding = ItemTabDocumentBinding.inflate(inflater, parent, false)
-                return DocumentViewHolder(binding, tabInteractor, select)
+    override fun onBindViewHolder(
+        holder: DocumentViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            val payload = payloads.first()
+            if (payload is DocumentPayload) {
+                payload.modified?.let(holder::updateModified)
             }
         }
+    }
+
+    inner class DocumentViewHolder(
+        private val binding: ItemTabDocumentBinding,
+        private val tabInteractor: TabInteractor,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        private lateinit var document: DocumentModel
 
         init {
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    select.invoke(adapterPosition)
+                    select(adapterPosition)
                 }
             }
             binding.itemIcon.setOnLongClickListener {
@@ -98,9 +109,18 @@ class DocumentAdapter(
             }
         }
 
-        fun bind(item: DocumentModel, isSelected: Boolean) {
-            binding.selectionIndicator.isVisible = isSelected
-            binding.itemTitle.text = if (item.modified) "• ${item.name}" else item.name
+        fun bind(item: DocumentModel) {
+            document = item
+            updateSelected()
+            updateModified(item.modified)
+        }
+
+        fun updateModified(modified: Boolean) {
+            binding.itemTitle.text = if (modified) "• ${document.name}" else document.name
+        }
+
+        private fun updateSelected() {
+            binding.selectionIndicator.isVisible = adapterPosition == selectedPosition
         }
     }
 

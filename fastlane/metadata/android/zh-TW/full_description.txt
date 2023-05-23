@@ -30,4 +30,4 @@ Squircle CE提供了一個更好的方式來編輯你的程式碼，編輯器將
 不同的顏色方案義了程式碼中的保護字和其他符號的語言法高亮：運算符、關鍵字、建議、字符串字符面義等。
 
 <b>開放原始碼</b>
-<b>•</b> <u>http://github.com/massivemadness/Squircle-CE</u>
+<b>•</b> <u>https://github.com/massivemadness/Squircle-CE</u>

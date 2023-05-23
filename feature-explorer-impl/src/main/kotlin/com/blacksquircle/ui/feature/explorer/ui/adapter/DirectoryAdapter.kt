@@ -39,37 +39,34 @@ class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHol
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
-        return DirectoryViewHolder.create(parent, ::select)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemTabDirectoryBinding.inflate(inflater, parent, false)
+        return DirectoryViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
-        holder.bind(currentList[position], position == selectedPosition)
+        holder.bind(currentList[position])
     }
 
-    class DirectoryViewHolder(
+    inner class DirectoryViewHolder(
         private val binding: ItemTabDirectoryBinding,
-        private val select: (Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-
-        companion object {
-            fun create(parent: ViewGroup, select: (Int) -> Unit): DirectoryViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                val binding = ItemTabDirectoryBinding.inflate(inflater, parent, false)
-                return DirectoryViewHolder(binding, select)
-            }
-        }
 
         init {
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    select.invoke(adapterPosition)
+                    select(adapterPosition)
                 }
             }
         }
 
-        fun bind(item: FileModel, isSelected: Boolean) {
-            binding.indicator.isVisible = isSelected
+        fun bind(item: FileModel) {
             binding.itemTitle.text = item.name
+            updateSelected()
+        }
+
+        private fun updateSelected() {
+            binding.selectionIndicator.isVisible = adapterPosition == selectedPosition
         }
     }
 }

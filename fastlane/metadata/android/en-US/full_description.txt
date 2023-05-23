@@ -30,4 +30,4 @@ You can easily delete or clone a part of code using handsome options in «Edit»
 Different color schemes defines syntax highlighting for reserved words and other symbols in your source code: operators, keywords, suggestions, string literals, and so on
 
 <b>OPEN SOURCE CODE</b>
-<b>•</b> <u>http://github.com/massivemadness/Squircle-CE</u>
+<b>•</b> <u>https://github.com/massivemadness/Squircle-CE</u>
