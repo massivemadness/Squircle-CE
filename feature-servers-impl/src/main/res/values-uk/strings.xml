@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_server_name">Назва сервера</string>
+    <string name="hint_server_address">Адреса сервера</string>
+    <string name="hint_initial_dir">Початкова папка</string>
+    <string name="hint_port">Порт</string>
+    <string name="hint_username">Ім\'я користувача</string>
+    <string name="hint_password">Пароль</string>
+    <string name="hint_passphrase">Кодова фраза</string>
+    <string name="hint_key_file">Ключовий файл</string>
+    <string name="hint_required">Обов\'язково</string>
+    <string name="server_ftp">FTP</string>
+    <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
+    <string name="server_ftpes">FTPES (явний FTPS)</string>
+    <string name="server_sftp">SFTP</string>
+    <string name="auth_method_password">Авторизація за паролем</string>
+    <string name="auth_method_key">Авторизація приватним ключем</string>
+    <string name="ask_for_password">Запитувати пароль</string>
+    <string name="save_password">Зберегти пароль</string>
+    <string name="ask_for_passphrase">Запитувати фразу-пароль</string>
+    <string name="save_passphrase">Зберегти фразу-пароль</string>
+    <string name="pref_header_cloud_title">Хмарне зберігання</string>
+    <string name="pref_category_servers">FTP(S) Сервери</string>
+    <string name="pref_add_server_title">Додати сервер</string>
+    <string name="pref_edit_server_title">Редагувати сервер</string>
+</resources>

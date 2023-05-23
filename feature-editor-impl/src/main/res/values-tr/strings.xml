@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_line">Satır:</string>
+    <string name="action_close">Kapat</string>
+    <string name="action_close_others">Diğerlerini kapat</string>
+    <string name="action_close_all">Hepsini kapat</string>
+    <string name="action_insert">Dahil et</string>
+    <string name="action_new">Yeni</string>
+    <string name="action_open">Aç</string>
+    <string name="action_save_as">Farklı Kaydet</string>
+    <string name="action_select_line">Satır Seç</string>
+    <string name="action_delete_line">Satırı Sil</string>
+    <string name="action_duplicate_line">Satırı Kopyala</string>
+    <string name="action_regex">Düzenli İfade</string>
+    <string name="action_match_case">Büyük-Küçük Harfe Duyarlı</string>
+    <string name="action_words_only">Sadece Kelimeler</string>
+    <string name="action_find">Ara</string>
+    <string name="action_close_find">Aramayı Kapat</string>
+    <string name="action_replace">Değiştir</string>
+    <string name="action_close_replace">Değiştiri Kapat</string>
+    <string name="action_goto_line">Satıra git</string>
+    <string name="action_go_to">Şuraya git</string>
+    <string name="action_force_syntax">Sözdizimine Zorla</string>
+    <string name="action_insert_color">Renk ekle</string>
+    <string name="action_settings">Ayarlar</string>
+    <string name="action_tools">Araçlar</string>
+    <string name="dialog_title_goto_line">Satıra Git…</string>
+    <string name="dialog_title_color_picker">Renk Seç</string>
+    <string name="dialog_title_force_syntax">Sözdizimi\'ni Vurgula</string>
+    <string name="dialog_message_close_tab">Oturumunuzu kapatmak istediğinize emin misiniz? Kaydedilmemiş değişiklikler kaybedilecek</string>
+    <string name="message_no_open_files">Dosya açılmadı</string>
+    <string name="message_file_not_found">Dosya Bulunamadı</string>
+    <string name="message_out_of_memory">Bellek Yetersiz</string>
+    <string name="message_saved">Kaydedildi</string>
+    <string name="message_nothing_to_cut">Kesilecek birşey yok</string>
+    <string name="message_nothing_to_copy">Kopyalanacak birşey yok</string>
+    <string name="message_nothing_to_paste">Yapıştırılacak birşey yok</string>
+    <string name="message_line_not_exists">Dosya bulunamadı</string>
+    <string name="message_no_errors_detected">Saptanan sözdizimi hatası</string>
+</resources>

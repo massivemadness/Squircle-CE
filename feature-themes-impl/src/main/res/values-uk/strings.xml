@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="label_themes">Теми</string>
+    <string name="label_new_theme">Нова тема</string>
+    <string name="hint_enter_theme_name">Введіть назву теми</string>
+    <string name="hint_enter_theme_author">Введіть автора теми</string>
+    <string name="hint_enter_theme_desc">Короткий опис</string>
+    <string name="hint_theme_desc">Колірна схема за замовчуванням</string>
+    <string name="action_select">Вибрати</string>
+    <string name="action_import">Імпорт</string>
+    <string name="action_export">Експорт</string>
+    <string name="action_edit">Редагувати</string>
+    <string name="action_remove">Видалити</string>
+    <string name="dialog_title_color_picker">Вибір кольору</string>
+    <string name="message_saved">Збережено</string>
+    <string name="message_selected">Вибрано «%1$s»</string>
+    <string name="message_new_theme_available">Доступна нова тема: %1$s</string>
+    <string name="message_theme_removed">Тема «%1$s» видалена</string>
+    <string name="message_theme_syntax_exception">Сталася помилка під час читання файлу теми</string>
+    <string name="theme_property_text_color">Визначає колір тексту редактора</string>
+    <string name="theme_property_cursor_color">Визначає колір курсору у редакторі</string>
+    <string name="theme_property_background_color">Визначає фоновий колір редактора</string>
+    <string name="theme_property_gutter_color">Визначає колір фону панелі номерів рядків</string>
+    <string name="theme_property_gutter_divider_color">Визначає колір роздільника панелі номерів рядків</string>
+    <string name="theme_property_gutter_current_line_number_color">Визначає колір поточного номера рядка в панелі номерів рядків</string>
+    <string name="theme_property_gutter_text_color">Визначає колір номерів у панелі номерів рядків</string>
+    <string name="theme_property_selected_line_color">Визначає колір поточного рядка в редакторі</string>
+    <string name="theme_property_selection_color">Визначає колір виділення тексту в редакторі</string>
+    <string name="theme_property_suggestion_query_color">Визначає колір пошукового запиту у випадному меню</string>
+    <string name="theme_property_find_result_background_color">Визначає колір знайдених результатів у пошуку</string>
+    <string name="theme_property_delimiter_background_color">Визначає колір фону дужок, що збігаються</string>
+    <string name="theme_property_numbers_color">Визначає колір чисел підсвічування синтаксису: 123, 0.5, 0xFF, і т.д.</string>
+    <string name="theme_property_operators_color">Визначає колір операторів підсвічування синтаксису: +-*/=, [, ], {, }, (, )</string>
+    <string name="theme_property_keywords_color">Визначає колір ключових слів підсвічування синтаксису: function, if, else, і т.д.</string>
+    <string name="theme_property_types_color">Визначає колір типів підсвічування синтаксису: const, var, let, і т.д.</string>
+    <string name="theme_property_lang_const_color">Визначає колір мовних констант підсвічування синтаксису: true, false, null, і т.д.</string>
+    <string name="theme_property_preprocessor_color">Визначає колір препроцесорів і анотацій: @Override, #include, …</string>
+    <string name="theme_property_variables_color">Визначає колір змінних підсвічування синтаксису</string>
+    <string name="theme_property_methods_color">Визначає колір методів підсвічування синтаксису</string>
+    <string name="theme_property_strings_color">Визначає колір рядків підсвічування синтаксису</string>
+    <string name="theme_property_comments_color">Визначає колір коментарів при підсвітці синтаксису: //, /**/</string>
+    <string name="theme_property_tag_color">Визначає колір тегів у мовах розмітки: &lt;, &lt;&gt;, /&gt;</string>
+    <string name="theme_property_tag_name_color">Визначає колір назви у тегів в розмітці: &lt;tag&gt;</string>
+    <string name="theme_property_attr_name_color">Визначає колір назви в атрибутів у розмітці: &lt;tag attr=…/&gt;</string>
+    <string name="theme_property_attr_value_color">Визначає колір значення в атрибутів у розмітці: &lt;tag attr=\"value\"/&gt;</string>
+    <string name="theme_property_entity_ref_color">Визначає колір символів-мнемоніків у розмітці: &amp;amp; &amp;lt; &amp;gt; …</string>
+</resources>
