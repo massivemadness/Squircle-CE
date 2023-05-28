@@ -40,11 +40,6 @@ class DocumentAdapter(
                 return oldItem.modified == newItem.modified &&
                     oldItem.position == newItem.position
             }
-            override fun getChangePayload(oldItem: DocumentModel, newItem: DocumentModel): Any {
-                return DocumentPayload(
-                    modified = if (oldItem.modified != newItem.modified) newItem.modified else null,
-                )
-            }
         }
     }
 
@@ -56,21 +51,6 @@ class DocumentAdapter(
 
     override fun onBindViewHolder(holder: DocumentViewHolder, position: Int) {
         holder.bind(currentList[position])
-    }
-
-    override fun onBindViewHolder(
-        holder: DocumentViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-        if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads)
-        } else {
-            val payload = payloads.first()
-            if (payload is DocumentPayload) {
-                payload.modified?.let(holder::updateModified)
-            }
-        }
     }
 
     inner class DocumentViewHolder(
