@@ -29,7 +29,7 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin)
+    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.fragment)
@@ -37,10 +37,10 @@ dependencies {
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.materialdialogs.core)
     implementation(libs.materialdialogs.color)
-    implementation(libs.androidx.constraintlayout)
+    implementation(libs.materialdesign)
 
     // AAC
     implementation(libs.androidx.viewmodel)
@@ -50,6 +50,7 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    testImplementation(libs.coroutines.test)
 
     // DI
     implementation(libs.hilt)
@@ -68,7 +69,6 @@ dependencies {
     // Tests
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)
-    testImplementation(libs.coroutines.test)
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)
 }

@@ -21,6 +21,11 @@ jobs:
           echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
           echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
+          echo "signing.keyId=${{ secrets.SIGNING_KEY_ID }}" >> local.properties
+          echo "signing.password=${{ secrets.SIGNING_PASSWORD }}" >> local.properties
+          echo "signing.secretKeyRingFile=${{ secrets.SIGNING_KEY_RING }}" >> local.properties
+          echo "ossrhUsername=${{ secrets.OSSRH_USERNAME }}" >> local.properties
+          echo "ossrhPassword=${{ secrets.OSSRH_PASSWORD }}" >> local.properties
 
       - name: Setup Java
         uses: actions/setup-java@v3

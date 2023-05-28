@@ -102,7 +102,7 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin)
+    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.fragment)
@@ -116,8 +116,7 @@ dependencies {
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.materialdialogs.core)
+    implementation(libs.materialdesign)
 
     // AAC
     implementation(libs.androidx.viewmodel)
@@ -129,9 +128,10 @@ dependencies {
     implementation(libs.coroutines.android)
 
     // DI
-    implementation(libs.androidx.hilt.workmanager)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+    implementation(libs.hilt.workmanager)
+    kapt(libs.hilt.android.compiler)
 
     // Modules
     implementation(project(":feature-changelog-api"))

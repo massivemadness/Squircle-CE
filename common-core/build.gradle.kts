@@ -67,13 +67,13 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin)
+    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
     implementation(libs.timber)
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.materialdesign)
 
     // AAC
     implementation(libs.androidx.navigation)

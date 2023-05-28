@@ -35,7 +35,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.CreateFileContract
 import com.blacksquircle.ui.core.delegate.viewBinding
@@ -146,8 +145,8 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                     spinnerView?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onNothingSelected(parent: AdapterView<*>?) = Unit
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            val path = requireContext().getStringArray(R.array.preview_paths)[position]
-                            val extension = requireContext().getStringArray(R.array.preview_extensions)[position]
+                            val path = resources.getStringArray(R.array.preview_paths)[position]
+                            val extension = resources.getStringArray(R.array.preview_extensions)[position]
                             adapter.codeSnippet = requireContext().readAssetFileText(path) to extension
                         }
                     }

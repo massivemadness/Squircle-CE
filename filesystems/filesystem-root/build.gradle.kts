@@ -26,7 +26,7 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin)
+    implementation(libs.kotlin.stdlib)
 
     // Coroutines
     implementation(libs.coroutines.core)

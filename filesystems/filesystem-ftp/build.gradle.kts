@@ -21,7 +21,7 @@ plugins {
 dependencies {
 
     // Core
-    implementation(libs.kotlin)
+    implementation(libs.kotlin.stdlib)
 
     // Network
     implementation(libs.ftpclient)

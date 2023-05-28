@@ -29,7 +29,7 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin)
+    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.fragment)
@@ -37,9 +37,9 @@ dependencies {
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.materialdialogs.core)
     implementation(libs.androidx.preferences)
+    implementation(libs.materialdialogs.core)
+    implementation(libs.materialdesign)
 
     // AAC
     implementation(libs.androidx.viewmodel)
@@ -49,11 +49,12 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    testImplementation(libs.coroutines.test)
 
     // DI
     implementation(libs.hilt)
-    implementation(libs.androidx.hilt.navigation)
     kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
 
     // Modules
     implementation(project(":feature-shortcuts-api"))
@@ -63,7 +64,6 @@ dependencies {
     // Tests
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)
-    testImplementation(libs.coroutines.test)
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)
 }
