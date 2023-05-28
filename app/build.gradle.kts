@@ -112,7 +112,8 @@ dependencies {
     implementation(libs.timber)
 
     // Google Play
-    // googlePlayImplementation(libs.appupdate)
+    val googlePlayImplementation by configurations
+    googlePlayImplementation(libs.appupdate)
 
     // UI
     implementation(libs.androidx.appcompat)
