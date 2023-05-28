@@ -14,21 +14,8 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath(libs.plugin.android)
-        classpath(libs.plugin.kotlin)
-        classpath(libs.plugin.hilt)
-        classpath(libs.plugin.safeargs)
-    }
+interface PublishModuleExtension {
+    var libraryGroup: String
+    var libraryArtifact: String
+    var libraryVersion: String
 }
-
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
-}
-
-apply(from = "gradle/ktlint.gradle.kts")

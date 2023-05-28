@@ -14,40 +14,13 @@
  * limitations under the License.
  */
 
-import com.blacksquircle.gradle.Gradle
-
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    id("filesystem-module")
 }
 
 android {
-    compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
-
     namespace = "com.blacksquircle.ui.filesystem.root"
-
-    defaultConfig {
-        minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
-
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    sourceSets {
-        named("main") {
-            java.srcDir("src/main/kotlin")
-        }
-    }
-    buildFeatures {
-        buildConfig = true
-    }
 }
 
 dependencies {

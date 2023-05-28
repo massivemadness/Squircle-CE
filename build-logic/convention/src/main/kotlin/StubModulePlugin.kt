@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-plugins {
-    `kotlin-dsl`
-}
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-repositories {
-    mavenCentral()
+class StubModulePlugin : Plugin<Project> {
+    override fun apply(target: Project) = Unit
 }

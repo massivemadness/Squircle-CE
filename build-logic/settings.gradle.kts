@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-buildscript {
+dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
     }
-    dependencies {
-        classpath(libs.plugin.android)
-        classpath(libs.plugin.kotlin)
-        classpath(libs.plugin.hilt)
-        classpath(libs.plugin.safeargs)
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
     }
 }
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
-}
-
-apply(from = "gradle/ktlint.gradle.kts")
+include(":convention")

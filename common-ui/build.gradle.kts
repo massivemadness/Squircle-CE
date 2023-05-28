@@ -18,12 +18,11 @@ import com.blacksquircle.gradle.Gradle
 
 plugins {
     id("com.android.library")
+    id("stub-module")
 }
 
 android {
     compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
-
     namespace = "com.blacksquircle.ui.uikit"
 
     defaultConfig {

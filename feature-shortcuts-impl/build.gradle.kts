@@ -14,45 +14,13 @@
  * limitations under the License.
  */
 
-import com.blacksquircle.gradle.Gradle
-
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
+    id("feature-module")
 }
 
 android {
-    compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
-
     namespace = "com.blacksquircle.ui.feature.shortcuts"
 
-    defaultConfig {
-        minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    sourceSets {
-        named("main") {
-            java.srcDir("src/main/kotlin")
-        }
-        named("test") {
-            java.srcDir("src/test/kotlin")
-        }
-    }
     buildFeatures {
         viewBinding = true
     }

@@ -22,12 +22,11 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("stub-module")
 }
 
 android {
     compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
-
     namespace = "com.blacksquircle.ui"
 
     defaultConfig {
