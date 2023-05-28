@@ -49,14 +49,14 @@ android {
 dependencies {
 
     // Core
-    implementation library.kotlin
+    implementation libs.kotlin
 
     // Coroutines
-    implementation library.coroutines_core
+    implementation libs.coroutines.core
 
     // Other
-    implementation library.chardet
-    implementation library.superuser
+    implementation libs.icu4j
+    implementation libs.superuser
 
     // Modules
     api project(':filesystems:filesystem-base')

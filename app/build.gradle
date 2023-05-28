@@ -89,35 +89,35 @@ android {
 dependencies {
 
     // Core
-    implementation library.kotlin
-    implementation library.core
-    implementation library.activity
-    implementation library.fragment
-    implementation library.splash
-    implementation library.profileinstaller
-    implementation library.timber
+    implementation libs.kotlin
+    implementation libs.androidx.core
+    implementation libs.androidx.activity
+    implementation libs.androidx.fragment
+    implementation libs.androidx.splashscreen
+    implementation libs.androidx.profileinstaller
+    implementation libs.timber
 
     // Google Play
-    googlePlayImplementation library.appupdate
+    googlePlayImplementation libs.appupdate
 
     // UI
-    implementation library.appcompat
-    implementation library.materialdesign
-    implementation library.materialdialogs_core
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.materialdialogs.core
 
     // AAC
-    implementation library.viewmodel
-    implementation library.lifecycle
-    implementation library.navigation
+    implementation libs.androidx.viewmodel
+    implementation libs.androidx.lifecycle
+    implementation libs.androidx.navigation
 
     // Coroutines
-    implementation library.coroutines_core
-    implementation library.coroutines_android
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
 
     // DI
-    implementation library.hilt
-    implementation library.hilt_worker
-    kapt library.hilt_compiler
+    implementation libs.androidx.hilt.workmanager
+    implementation libs.hilt
+    kapt libs.hilt.compiler
 
     // Modules
     implementation project(':feature-changelog-api')
@@ -142,7 +142,7 @@ dependencies {
     implementation project(':filesystems:filesystem-base')
 
     // Tests
-    testImplementation library.junit
-    androidTestImplementation library.junit_ext
-    androidTestImplementation library.test_runner
+    testImplementation libs.test.junit
+    androidTestImplementation libs.test.junit.ext
+    androidTestImplementation libs.test.runner
 }

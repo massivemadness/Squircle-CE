@@ -51,11 +51,11 @@ android {
 dependencies {
 
     // Core
-    implementation library.kotlin
-    implementation library.core
+    implementation libs.kotlin
+    implementation libs.androidx.core
 
     // Coroutines
-    implementation library.coroutines_core
+    implementation libs.coroutines.core
 
     // Modules
     api project(':filesystems:filesystem-base')

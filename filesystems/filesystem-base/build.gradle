@@ -27,8 +27,8 @@ java {
 dependencies {
 
     // Core
-    implementation library.kotlin
+    implementation libs.kotlin
 
     // Coroutines
-    implementation library.coroutines_core
+    implementation libs.coroutines.core
 }

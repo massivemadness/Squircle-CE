@@ -40,10 +40,10 @@ android {
 dependencies {
 
     // Tests
-    implementation library.junit
-    implementation library.junit_ext
-    implementation library.test_runner
-    implementation library.macrobenchmark
+    implementation libs.test.junit
+    implementation libs.test.junit.ext
+    implementation libs.test.runner
+    implementation libs.test.macrobenchmark
 }
 
 androidComponents {

@@ -27,14 +27,14 @@ java {
 dependencies {
 
     // Core
-    implementation library.kotlin
+    implementation libs.kotlin
 
     // Coroutines
-    implementation library.coroutines_core
+    implementation libs.coroutines.core
 
     // Other
-    implementation library.zip4j
-    implementation library.chardet
+    implementation libs.zip4j
+    implementation libs.icu4j
 
     // Modules
     api project(':filesystems:filesystem-base')

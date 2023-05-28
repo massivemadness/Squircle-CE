@@ -21,10 +21,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath plugin.android_gradle_plugin
-        classpath plugin.kotlin_gradle_plugin
-        classpath plugin.hilt_gradle_plugin
-        classpath plugin.safeargs_gradle_plugin
+        classpath libs.plugin.android
+        classpath libs.plugin.kotlin
+        classpath libs.plugin.hilt
+        classpath libs.plugin.safeargs
     }
 }
 

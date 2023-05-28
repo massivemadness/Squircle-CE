@@ -49,9 +49,9 @@ android {
 dependencies {
 
     // Core
-    implementation library.kotlin
-    implementation library.core
-
+    implementation libs.kotlin
+    implementation libs.androidx.core
+    
     // Modules
     api project(':editorkit:editorkit')
     api project(':filesystems:filesystem-base')

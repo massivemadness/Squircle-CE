@@ -55,31 +55,31 @@ android {
 dependencies {
 
     // Core
-    implementation library.kotlin
-    implementation library.core
-    implementation library.activity
-    implementation library.fragment
-    implementation library.timber
+    implementation libs.kotlin
+    implementation libs.androidx.core
+    implementation libs.androidx.activity
+    implementation libs.androidx.fragment
+    implementation libs.timber
 
     // UI
-    implementation library.appcompat
-    implementation library.materialdesign
-    implementation library.materialdialogs_core
-    implementation library.materialdialogs_color
-    implementation library.constraintlayout
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.materialdialogs.core
+    implementation libs.materialdialogs.color
+    implementation libs.androidx.constraintlayout
 
     // AAC
-    implementation library.viewmodel
-    implementation library.lifecycle
-    implementation library.navigation
+    implementation libs.androidx.viewmodel
+    implementation libs.androidx.lifecycle
+    implementation libs.androidx.navigation
 
     // Coroutines
-    implementation library.coroutines_core
-    implementation library.coroutines_android
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
 
     // DI
-    implementation library.hilt
-    kapt library.hilt_compiler
+    implementation libs.hilt
+    kapt libs.hilt.compiler
 
     // Modules
     implementation project(':feature-editor-api')
@@ -92,9 +92,9 @@ dependencies {
     implementation project(':common-ui')
 
     // Tests
-    testImplementation library.junit
-    testImplementation library.mockk
-    testImplementation library.coroutines_test
-    androidTestImplementation library.junit_ext
-    androidTestImplementation library.test_runner
+    testImplementation libs.test.junit
+    testImplementation libs.test.mockk
+    testImplementation libs.coroutines.test
+    androidTestImplementation libs.test.junit.ext
+    androidTestImplementation libs.test.runner
 }

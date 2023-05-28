@@ -64,25 +64,25 @@ android {
 dependencies {
 
     // Core
-    implementation library.kotlin
-    implementation library.core
-    implementation library.timber
+    implementation libs.kotlin
+    implementation libs.androidx.core
+    implementation libs.timber
 
     // UI
-    implementation library.appcompat
-    implementation library.materialdesign
+    implementation libs.androidx.appcompat
+    implementation libs.material
 
     // AAC
-    implementation library.navigation
-    implementation library.room
-    kapt library.room_compiler
+    implementation libs.androidx.navigation
+    implementation libs.androidx.room
+    kapt libs.androidx.room.compiler
 
     // Network
-    implementation library.gson
+    implementation libs.gson
 
     // DI
-    implementation library.hilt
-    kapt library.hilt_compiler
+    implementation libs.hilt
+    kapt libs.hilt.compiler
 
     // Modules
     implementation project(':filesystems:filesystem-base')
@@ -120,6 +120,6 @@ dependencies {
     implementation project(':editorkit:language-yaml')
 
     // Tests
-    implementation library.junit
-    implementation library.coroutines_test
+    implementation libs.test.junit
+    implementation libs.coroutines.test
 }

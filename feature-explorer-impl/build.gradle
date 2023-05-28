@@ -55,38 +55,38 @@ android {
 dependencies {
 
     // Core
-    implementation library.kotlin
-    implementation library.core
-    implementation library.activity
-    implementation library.fragment
-    implementation library.timber
+    implementation libs.kotlin
+    implementation libs.androidx.core
+    implementation libs.androidx.activity
+    implementation libs.androidx.fragment
+    implementation libs.timber
 
     // UI
-    implementation library.appcompat
-    implementation library.materialdesign
-    implementation library.materialdialogs_core
-    implementation library.constraintlayout
-    implementation library.swiperefreshlayout
-    implementation library.recyclerview_selection
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.materialdialogs.core
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.swiperefreshlayout
+    implementation libs.androidx.recyclerselection
 
     // AAC
-    implementation library.viewmodel
-    implementation library.lifecycle
-    implementation library.navigation
-    implementation library.workmanager
+    implementation libs.androidx.viewmodel
+    implementation libs.androidx.lifecycle
+    implementation libs.androidx.navigation
+    implementation libs.androidx.workmanager
 
     // Network
-    implementation library.gson
+    implementation libs.gson
 
     // Coroutines
-    implementation library.coroutines_core
-    implementation library.coroutines_android
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
 
     // DI
-    implementation library.hilt
-    implementation library.hilt_worker
-    kapt library.hilt_compiler
-    kapt library.hilt_android_compiler
+    implementation libs.hilt
+    implementation libs.androidx.hilt.workmanager
+    kapt libs.hilt.compiler
+    kapt libs.androidx.hilt.compiler
 
     // Modules
     implementation project(':feature-explorer-api')
@@ -103,9 +103,9 @@ dependencies {
     implementation project(':filesystems:filesystem-sftp')
 
     // Tests
-    testImplementation library.junit
-    testImplementation library.mockk
-    testImplementation library.coroutines_test
-    androidTestImplementation library.junit_ext
-    androidTestImplementation library.test_runner
+    testImplementation libs.test.junit
+    testImplementation libs.test.mockk
+    testImplementation libs.coroutines.test
+    androidTestImplementation libs.test.junit.ext
+    androidTestImplementation libs.test.runner
 }
