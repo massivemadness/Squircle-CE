@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-if (versions == null || versions.publishVersionName == null) {
-    throw new IllegalStateException("Unable to reference publishVersionName!")
-} else if (libraryGroupId == null || libraryArtifactId == null) {
-    throw new IllegalStateException("Must provide libraryGroupId and libraryArtifactId!")
-}
+import com.blacksquircle.gradle.Gradle
 
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
@@ -79,20 +75,20 @@ publishing {
     }
     publications {
         release(MavenPublication) {
-            groupId libraryGroupId
-            artifactId libraryArtifactId
-            version versions.publishVersionName
+            groupId Gradle.Maven.libraryGroupId
+            artifactId Gradle.Maven.libraryArtifactId
+            version Gradle.Maven.libraryVersionName
 
             if (project.plugins.findPlugin("com.android.library")) {
-                artifact("$buildDir/outputs/aar/${libraryArtifactId}-release.aar")
+                artifact("$buildDir/outputs/aar/${Gradle.Maven.libraryArtifactId}-release.aar")
             } else {
-                artifact("$buildDir/libs/${libraryArtifactId}-${version}.jar")
+                artifact("$buildDir/libs/${Gradle.Maven.libraryArtifactId}-${version}.jar")
             }
             artifact androidSourcesJar
             artifact javadocJar
 
             pom {
-                name = libraryArtifactId
+                name = Gradle.Maven.libraryArtifactId
                 description = 'EditorKit is a multi-language code editor for Android.'
                 url = 'https://github.com/massivemadness/EditorKit'
                 licenses {
