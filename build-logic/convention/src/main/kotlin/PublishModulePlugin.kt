@@ -76,12 +76,12 @@ class PublishModulePlugin : Plugin<Project> {
 
                             pom {
                                 name.set(publishModule.libraryArtifact)
-                                description.set("Fragula is a swipe-to-dismiss extension for navigation component library for Android.")
-                                url.set("https://github.com/massivemadness/Fragula")
+                                description.set("EditorKit is a multi-language code editor for Android.")
+                                url.set("https://github.com/massivemadness/EditorKit")
                                 licenses {
                                     license {
                                         name.set("Apache 2.0 License")
-                                        url.set("https://github.com/massivemadness/Fragula/blob/master/LICENSE")
+                                        url.set("https://github.com/massivemadness/EditorKit/blob/master/LICENSE")
                                     }
                                 }
                                 developers {
@@ -92,9 +92,9 @@ class PublishModulePlugin : Plugin<Project> {
                                     }
                                 }
                                 scm {
-                                    connection.set("scm:git:github.com/massivemadness/Fragula.git")
-                                    developerConnection.set("scm:git:ssh://github.com/massivemadness/Fragula.git")
-                                    url.set("https://github.com/massivemadness/Fragula/tree/master")
+                                    connection.set("scm:git:github.com/massivemadness/EditorKit.git")
+                                    developerConnection.set("scm:git:ssh://github.com/massivemadness/EditorKit.git")
+                                    url.set("https://github.com/massivemadness/EditorKit/tree/master")
                                 }
                             }
                         }
