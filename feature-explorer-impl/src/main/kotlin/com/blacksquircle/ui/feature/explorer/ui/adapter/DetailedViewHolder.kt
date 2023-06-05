@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.explorer.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.blacksquircle.ui.core.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.extensions.setSelectableBackground
 import com.blacksquircle.ui.core.extensions.setSelectedBackground
@@ -71,40 +71,35 @@ class DetailedViewHolder(
         )
         binding.itemFileLength.text = fileModel.size.toReadableSize()
 
-        if (fileModel.isHidden) {
-            binding.itemIcon.alpha = 0.45f
-        } else {
-            binding.itemIcon.alpha = 1f
-        }
+        binding.itemIcon.alpha = if (fileModel.isHidden) 0.45f else 1f
+        binding.itemFileLength.isVisible = !fileModel.directory
 
         if (fileModel.directory) {
             binding.itemIcon.setImageResource(UiR.drawable.ic_folder)
             binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
-            binding.itemFileLength.visibility = View.GONE
         } else {
-            binding.itemIcon.setImageResource(UiR.drawable.ic_file)
             binding.itemIcon.setTintAttr(MtrlR.attr.colorOnBackground)
-            binding.itemFileLength.visibility = View.VISIBLE
-        }
-
-        when (fileModel.type) {
-            FileType.TEXT -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_document)
+            when (fileModel.type) {
+                FileType.TEXT -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_document)
+                }
+                FileType.ARCHIVE -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_archive)
+                    binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
+                }
+                FileType.IMAGE -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_image)
+                }
+                FileType.AUDIO -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_audio)
+                }
+                FileType.VIDEO -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_video)
+                }
+                else -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file)
+                }
             }
-            FileType.ARCHIVE -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_archive)
-                binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
-            }
-            FileType.IMAGE -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_image)
-            }
-            FileType.AUDIO -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_audio)
-            }
-            FileType.VIDEO -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_video)
-            }
-            else -> Unit
         }
     }
 }

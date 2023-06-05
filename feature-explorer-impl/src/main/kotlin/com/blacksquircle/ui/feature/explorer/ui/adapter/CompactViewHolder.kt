@@ -63,38 +63,34 @@ class CompactViewHolder(
 
         binding.itemTitle.text = fileModel.name
 
-        if (fileModel.isHidden) {
-            binding.itemIcon.alpha = 0.45f
-        } else {
-            binding.itemIcon.alpha = 1f
-        }
+        binding.itemIcon.alpha = if (fileModel.isHidden) 0.45f else 1f
 
         if (fileModel.directory) {
             binding.itemIcon.setImageResource(UiR.drawable.ic_folder)
             binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
         } else {
-            binding.itemIcon.setImageResource(UiR.drawable.ic_file)
             binding.itemIcon.setTintAttr(MtrlR.attr.colorOnBackground)
-        }
-
-        when (fileModel.type) {
-            FileType.TEXT -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_document)
+            when (fileModel.type) {
+                FileType.TEXT -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_document)
+                }
+                FileType.ARCHIVE -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_archive)
+                    binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
+                }
+                FileType.IMAGE -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_image)
+                }
+                FileType.AUDIO -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_audio)
+                }
+                FileType.VIDEO -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file_video)
+                }
+                else -> {
+                    binding.itemIcon.setImageResource(UiR.drawable.ic_file)
+                }
             }
-            FileType.ARCHIVE -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_archive)
-                binding.itemIcon.setTintAttr(MtrlR.attr.colorPrimaryVariant)
-            }
-            FileType.IMAGE -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_image)
-            }
-            FileType.AUDIO -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_audio)
-            }
-            FileType.VIDEO -> {
-                binding.itemIcon.setImageResource(UiR.drawable.ic_file_video)
-            }
-            else -> Unit
         }
     }
 }
