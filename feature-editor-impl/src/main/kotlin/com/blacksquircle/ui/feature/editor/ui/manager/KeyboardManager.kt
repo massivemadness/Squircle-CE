@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.manager
 
+import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
@@ -38,8 +39,8 @@ class KeyboardManager(private val listener: Listener) {
         this.binding = binding
         updateKeyboard()
 
-        binding.keyboardExtended.setHasFixedSize(true)
-        binding.keyboardExtended.adapter = KeyAdapter { keyModel ->
+        binding.keyboardRecycler.setHasFixedSize(true)
+        binding.keyboardRecycler.adapter = KeyAdapter { keyModel ->
             listener.onKeyButton(keyModel.value)
         }.also {
             keyAdapter = it
@@ -58,38 +59,38 @@ class KeyboardManager(private val listener: Listener) {
 
     private fun updateKeyboard() {
         when (mode) {
-            Mode.KEYBOARD -> {
-                binding.keyboardBackground.isVisible = true
-                binding.keyboardDivider.isVisible = true
-                binding.keyboardExtended.isVisible = true
-                binding.keyboardToolOpen.isInvisible = true
-                binding.keyboardToolSave.isInvisible = true
-                binding.keyboardToolClose.isInvisible = true
-                binding.keyboardToolUndo.isInvisible = true
-                binding.keyboardToolRedo.isInvisible = true
-                binding.keyboardSwap.isVisible = true
+            Mode.KEYBOARD -> with(binding) {
+                keyboardBackground.isVisible = true
+                keyboardDivider.isVisible = true
+                keyboardRecycler.isVisible = true
+                keyboardToolOpen.isInvisible = true
+                keyboardToolSave.isInvisible = true
+                keyboardToolClose.isInvisible = true
+                keyboardToolUndo.isInvisible = true
+                keyboardToolRedo.isInvisible = true
+                keyboardSwap.isVisible = true
             }
-            Mode.TOOLS -> {
-                binding.keyboardBackground.isVisible = true
-                binding.keyboardDivider.isVisible = true
-                binding.keyboardExtended.isInvisible = true
-                binding.keyboardToolOpen.isVisible = true
-                binding.keyboardToolSave.isVisible = true
-                binding.keyboardToolClose.isVisible = true
-                binding.keyboardToolUndo.isVisible = true
-                binding.keyboardToolRedo.isVisible = true
-                binding.keyboardSwap.isVisible = true
+            Mode.TOOLS -> with(binding) {
+                keyboardBackground.isVisible = true
+                keyboardDivider.isVisible = true
+                keyboardRecycler.isInvisible = true
+                keyboardToolOpen.isVisible = true
+                keyboardToolSave.isVisible = true
+                keyboardToolClose.isVisible = true
+                keyboardToolUndo.isVisible = true
+                keyboardToolRedo.isVisible = true
+                keyboardSwap.isVisible = true
             }
-            Mode.NONE -> {
-                binding.keyboardBackground.isVisible = false
-                binding.keyboardDivider.isVisible = false
-                binding.keyboardExtended.isVisible = false
-                binding.keyboardToolOpen.isVisible = false
-                binding.keyboardToolSave.isVisible = false
-                binding.keyboardToolClose.isVisible = false
-                binding.keyboardToolUndo.isVisible = false
-                binding.keyboardToolRedo.isVisible = false
-                binding.keyboardSwap.isVisible = false
+            Mode.NONE -> with(binding) {
+                keyboardBackground.isGone = true
+                keyboardDivider.isGone = true
+                keyboardRecycler.isGone = true
+                keyboardToolOpen.isGone = true
+                keyboardToolSave.isGone = true
+                keyboardToolClose.isGone = true
+                keyboardToolUndo.isGone = true
+                keyboardToolRedo.isGone = true
+                keyboardSwap.isGone = true
             }
         }
     }

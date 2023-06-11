@@ -290,7 +290,7 @@
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_extended" />
+        app:layout_constraintBottom_toTopOf="@id/keyboard_recycler" />
 
     <com.blacksquircle.ui.editorkit.widget.TextScroller
         android:layout_width="30dp"
@@ -300,7 +300,7 @@
         app:thumbTint="?colorPrimary"
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_extended" />
+        app:layout_constraintBottom_toTopOf="@id/keyboard_recycler" />
 
     <include
         layout="@layout/layout_error_view"
@@ -410,16 +410,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:orientation="horizontal"
-        android:visibility="gone"
-        android:id="@+id/keyboard_extended"
+        android:id="@+id/keyboard_recycler"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/editor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/keyboard_swap"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:visibility="visible"
         tools:listitem="@layout/item_keyboard_key"
         tools:itemCount="24"
         tools:ignore="RtlSymmetry" />
