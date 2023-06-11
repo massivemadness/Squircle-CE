@@ -39,7 +39,10 @@ class PublishModulePlugin : Plugin<Project> {
             val publishModule = extensions.create("publishModule", PublishModuleExtension::class.java)
             val publishing = extensions["publishing"] as PublishingExtension
             val properties = Properties().apply {
-                load(rootProject.file("local.properties").inputStream())
+                val localFile = rootProject.file("local.properties")
+                if (localFile.exists()) {
+                    load(localFile.inputStream())
+                }
             }
             extra["signing.keyId"] = properties.getProperty("signing.keyId")
             extra["signing.password"] = properties.getProperty("signing.password")
