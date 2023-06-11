@@ -46,7 +46,6 @@ class FeatureModulePlugin : Plugin<Project> {
 
                 defaultConfig {
                     minSdk = Gradle.Build.minSdk
-                    targetSdk = Gradle.Build.targetSdk
 
                     consumerProguardFiles("consumer-rules.pro")
                 }

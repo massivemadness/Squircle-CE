@@ -25,7 +25,7 @@ import org.gradle.plugins.signing.SigningExtension
 import java.util.Properties
 
 /**
- * ./gradlew publishReleasePublicationToSonatypeRepository
+ * ./gradlew publishReleasePublicationToSonatypeRepository --no-parallel
  */
 class PublishModulePlugin : Plugin<Project> {
 

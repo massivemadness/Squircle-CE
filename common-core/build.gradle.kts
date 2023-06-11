@@ -30,9 +30,6 @@ android {
 
     defaultConfig {
         minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         consumerProguardFiles("consumer-rules.pro")
 

@@ -27,7 +27,6 @@ android {
 
     defaultConfig {
         minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
     }
     buildFeatures {
         viewBinding = true
