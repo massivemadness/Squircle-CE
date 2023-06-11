@@ -42,6 +42,10 @@ gradlePlugin {
             id = "application-module"
             implementationClass = "ApplicationModulePlugin"
         }
+        register("benchmark-module") {
+            id = "benchmark-module"
+            implementationClass = "BenchmarkModulePlugin"
+        }
         register("feature-module") {
             id = "feature-module"
             implementationClass = "FeatureModulePlugin"
