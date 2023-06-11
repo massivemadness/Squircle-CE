@@ -14,85 +14,17 @@
  * limitations under the License.
  */
 
-import com.blacksquircle.gradle.Gradle
-import java.util.Properties
-
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-    id("stub-module")
+    id("application-module")
 }
 
 android {
-    compileSdk = Gradle.Build.compileSdk
     namespace = "com.blacksquircle.ui"
 
     defaultConfig {
         applicationId = "com.blacksquircle.ui"
-
-        minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
-
         versionCode = 10018
         versionName = "2023.1.4"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    setFlavorDimensions(listOf("store"))
-    productFlavors {
-        create("googlePlay") { dimension = "store" }
-        create("fdroid") { dimension = "store" }
-    }
-    val properties = Properties().apply {
-        load(rootProject.file("local.properties").inputStream())
-    }
-    signingConfigs {
-        create("release") {
-            storeFile = file("${properties["KEYSTORE_PATH"]}")
-            storePassword = "${properties["KEYSTORE_PASSWORD"]}"
-            keyAlias = "${properties["KEY_ALIAS"]}"
-            keyPassword = "${properties["KEY_PASSWORD"]}"
-        }
-    }
-    buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-        create("benchmark") {
-            isDebuggable = false
-            signingConfig = signingConfigs.getByName("debug")
-            matchingFallbacks += listOf("release")
-            proguardFiles("benchmark-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    sourceSets {
-        named("androidTest") {
-            java.srcDir("src/androidTest/kotlin")
-        }
-        named("fdroid") {
-            java.srcDir("src/fdroid/kotlin")
-        }
-        named("googlePlay") {
-            java.srcDir("src/googlePlay/kotlin")
-        }
-        named("main") {
-            java.srcDir("src/main/kotlin")
-        }
-        named("test") {
-            java.srcDir("src/test/kotlin")
-        }
     }
     buildFeatures {
         viewBinding = true

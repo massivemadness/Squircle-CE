@@ -38,6 +38,10 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("application-module") {
+            id = "application-module"
+            implementationClass = "ApplicationModulePlugin"
+        }
         register("feature-module") {
             id = "feature-module"
             implementationClass = "FeatureModulePlugin"
