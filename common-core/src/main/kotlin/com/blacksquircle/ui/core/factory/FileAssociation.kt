@@ -38,6 +38,7 @@ import com.blacksquircle.ui.language.php.PhpLanguage
 import com.blacksquircle.ui.language.plaintext.PlainTextLanguage
 import com.blacksquircle.ui.language.python.PythonLanguage
 import com.blacksquircle.ui.language.ruby.RubyLanguage
+import com.blacksquircle.ui.language.rust.RustLanguage
 import com.blacksquircle.ui.language.shell.ShellLanguage
 import com.blacksquircle.ui.language.smali.SmaliLanguage
 import com.blacksquircle.ui.language.sql.SqlLanguage
@@ -103,6 +104,7 @@ object FileAssociation {
         associations[".pyw"] = PythonLanguage.LANGUAGE_NAME
         associations[".pyi"] = PythonLanguage.LANGUAGE_NAME
         associations[".rb"] = RubyLanguage.LANGUAGE_NAME
+        associations[".rs"] = RustLanguage.LANGUAGE_NAME
         associations[".sh"] = ShellLanguage.LANGUAGE_NAME
         associations[".ksh"] = ShellLanguage.LANGUAGE_NAME
         associations[".bsh"] = ShellLanguage.LANGUAGE_NAME

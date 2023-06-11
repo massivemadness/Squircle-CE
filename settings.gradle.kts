@@ -91,6 +91,7 @@ include(
     ":editorkit:language-plaintext",
     ":editorkit:language-python",
     ":editorkit:language-ruby",
+    ":editorkit:language-rust",
     ":editorkit:language-shell",
     ":editorkit:language-smali",
     ":editorkit:language-sql",

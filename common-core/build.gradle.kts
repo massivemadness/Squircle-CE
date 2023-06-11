@@ -113,6 +113,7 @@ dependencies {
     implementation(project(":editorkit:language-plaintext"))
     implementation(project(":editorkit:language-python"))
     implementation(project(":editorkit:language-ruby"))
+    implementation(project(":editorkit:language-rust"))
     implementation(project(":editorkit:language-shell"))
     implementation(project(":editorkit:language-smali"))
     implementation(project(":editorkit:language-sql"))

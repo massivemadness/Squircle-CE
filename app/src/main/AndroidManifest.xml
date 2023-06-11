@@ -137,6 +137,7 @@
                 <data android:pathPattern=".*\\.f" />
                 <data android:pathPattern=".*\\.for" />
                 <data android:pathPattern=".*\\.ftn" />
+                <data android:pathPattern=".*\\.rs" />
             </intent-filter>
         </activity>
 

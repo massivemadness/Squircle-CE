@@ -39,6 +39,7 @@ import com.blacksquircle.ui.language.php.PhpLanguage
 import com.blacksquircle.ui.language.plaintext.PlainTextLanguage
 import com.blacksquircle.ui.language.python.PythonLanguage
 import com.blacksquircle.ui.language.ruby.RubyLanguage
+import com.blacksquircle.ui.language.rust.RustLanguage
 import com.blacksquircle.ui.language.shell.ShellLanguage
 import com.blacksquircle.ui.language.smali.SmaliLanguage
 import com.blacksquircle.ui.language.sql.SqlLanguage
@@ -80,6 +81,7 @@ object LanguageFactory {
             PlainTextLanguage.LANGUAGE_NAME -> PlainTextLanguage()
             PythonLanguage.LANGUAGE_NAME -> PythonLanguage()
             RubyLanguage.LANGUAGE_NAME -> RubyLanguage()
+            RustLanguage.LANGUAGE_NAME -> RustLanguage()
             ShellLanguage.LANGUAGE_NAME -> ShellLanguage()
             SmaliLanguage.LANGUAGE_NAME -> SmaliLanguage()
             SqlLanguage.LANGUAGE_NAME -> SqlLanguage()

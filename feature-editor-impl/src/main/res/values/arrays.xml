@@ -40,6 +40,7 @@
         <item>Plain Text</item>
         <item>Python</item>
         <item>Ruby</item>
+        <item>Rust</item>
         <item>Shell</item>
         <item>Smali</item>
         <item>SQL</item>
@@ -73,6 +74,7 @@
         <item>plaintext</item>
         <item>python</item>
         <item>ruby</item>
+        <item>rust</item>
         <item>shell</item>
         <item>smali</item>
         <item>sql</item>
