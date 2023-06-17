@@ -232,22 +232,8 @@ class ServerDialog : DialogFragment() {
                         binding.inputServerPort.hint = HINT_FTP_PORT.toString()
                         if (binding.authMethod.isVisible) {
                             binding.authMethod.isVisible = false
-
-                            binding.hintKeyFile.isVisible = false
-                            binding.keyFileLayout.isVisible = false
-                            binding.passphraseBehavior.isVisible = false
                             binding.passphraseBehavior.setSelection(ASK)
-                            binding.hintPassphrase.isVisible = false
-                            binding.inputPassphrase.isVisible = false
-
-                            binding.passwordBehavior.isVisible = true
-                            if (binding.passwordBehavior.selectedItemPosition == ASK) {
-                                binding.hintPassword.isVisible = false
-                                binding.inputPassword.isVisible = false
-                            } else {
-                                binding.hintPassword.isVisible = true
-                                binding.inputPassword.isVisible = true
-                            }
+                            passwordAuthLayout()
                         }
                     }
                     SERVER_SFTP -> {
@@ -256,37 +242,11 @@ class ServerDialog : DialogFragment() {
                             binding.authMethod.isVisible = true
 
                             if (binding.authMethod.selectedItemPosition == AUTH_PASSWORD) {
-                                binding.hintKeyFile.isVisible = false
-                                binding.keyFileLayout.isVisible = false
-
-                                binding.passwordBehavior.isVisible = true
-                                if (binding.passwordBehavior.selectedItemPosition == ASK) {
-                                    binding.hintPassword.isVisible = false
-                                    binding.inputPassword.isVisible = false
-                                } else {
-                                    binding.hintPassword.isVisible = true
-                                    binding.inputPassword.isVisible = true
-                                }
-                                binding.passphraseBehavior.isVisible = false
                                 binding.passphraseBehavior.setSelection(ASK)
-                                binding.hintPassphrase.isVisible = false
-                                binding.inputPassphrase.isVisible = false
+                                passwordAuthLayout()
                             } else {
-                                binding.hintKeyFile.isVisible = true
-                                binding.keyFileLayout.isVisible = true
-
-                                binding.passphraseBehavior.isVisible = true
-                                if (binding.passphraseBehavior.selectedItemPosition == ASK) {
-                                    binding.hintPassphrase.isVisible = false
-                                    binding.inputPassphrase.isVisible = false
-                                } else {
-                                    binding.hintPassphrase.isVisible = true
-                                    binding.inputPassphrase.isVisible = true
-                                }
-                                binding.passwordBehavior.isVisible = false
                                 binding.passwordBehavior.setSelection(ASK)
-                                binding.hintPassword.isVisible = false
-                                binding.inputPassword.isVisible = false
+                                passphraseAuthLayout()
                             }
                         }
                     }
@@ -297,40 +257,8 @@ class ServerDialog : DialogFragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 when (position) {
-                    AUTH_PASSWORD -> {
-                        binding.hintKeyFile.isVisible = false
-                        binding.keyFileLayout.isVisible = false
-
-                        binding.passphraseBehavior.isVisible = false
-                        binding.hintPassphrase.isVisible = false
-                        binding.inputPassphrase.isVisible = false
-
-                        binding.passwordBehavior.isVisible = true
-                        if (binding.passwordBehavior.selectedItemPosition == ASK) {
-                            binding.hintPassword.isVisible = false
-                            binding.inputPassword.isVisible = false
-                        } else {
-                            binding.hintPassword.isVisible = true
-                            binding.inputPassword.isVisible = true
-                        }
-                    }
-                    AUTH_KEY -> {
-                        binding.hintKeyFile.isVisible = true
-                        binding.keyFileLayout.isVisible = true
-
-                        binding.passphraseBehavior.isVisible = true
-                        if (binding.passphraseBehavior.selectedItemPosition == ASK) {
-                            binding.hintPassphrase.isVisible = false
-                            binding.inputPassphrase.isVisible = false
-                        } else {
-                            binding.hintPassphrase.isVisible = true
-                            binding.inputPassphrase.isVisible = true
-                        }
-
-                        binding.passwordBehavior.isVisible = false
-                        binding.hintPassword.isVisible = false
-                        binding.inputPassword.isVisible = false
-                    }
+                    AUTH_PASSWORD -> passwordAuthLayout()
+                    AUTH_KEY -> passphraseAuthLayout()
                 }
             }
         }
@@ -348,6 +276,46 @@ class ServerDialog : DialogFragment() {
                 binding.inputPassphrase.isVisible = position == SAVE
             }
         }
+    }
+
+    private fun passwordAuthLayout() {
+        binding.passwordBehavior.isVisible = true
+        if (binding.passwordBehavior.selectedItemPosition == ASK) {
+            binding.hintPassword.isVisible = false
+            binding.inputPassword.isVisible = false
+        } else {
+            binding.hintPassword.isVisible = true
+            binding.inputPassword.isVisible = true
+        }
+
+        // Hide passphrase layout
+        binding.passphraseBehavior.isVisible = false
+        binding.hintPassphrase.isVisible = false
+        binding.inputPassphrase.isVisible = false
+
+        // Key selection is not supported
+        binding.hintKeyFile.isVisible = false
+        binding.keyFileLayout.isVisible = false
+    }
+
+    private fun passphraseAuthLayout() {
+        binding.passphraseBehavior.isVisible = true
+        if (binding.passphraseBehavior.selectedItemPosition == ASK) {
+            binding.hintPassphrase.isVisible = false
+            binding.inputPassphrase.isVisible = false
+        } else {
+            binding.hintPassphrase.isVisible = true
+            binding.inputPassphrase.isVisible = true
+        }
+
+        // Hide password layout
+        binding.passwordBehavior.isVisible = false
+        binding.hintPassword.isVisible = false
+        binding.inputPassword.isVisible = false
+
+        // Key selection is available
+        binding.hintKeyFile.isVisible = true
+        binding.keyFileLayout.isVisible = true
     }
 
     companion object {
