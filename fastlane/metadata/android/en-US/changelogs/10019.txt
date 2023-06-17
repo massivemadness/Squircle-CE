@@ -1,0 +1,5 @@
+- Added: Support for Go language
+- Added: Support for LaTeX language
+- Added: Support for Fortran language
+- Added: Support for Rust language
+- Bugfixes and minor improvements

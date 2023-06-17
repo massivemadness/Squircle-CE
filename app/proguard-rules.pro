@@ -8,6 +8,10 @@
 -dontwarn com.sun.jna.Platform
 -dontwarn com.sun.jna.Pointer
 -dontwarn com.sun.jna.Structure
+-dontwarn com.sun.jna.platform.win32.BaseTSD$ULONG_PTR
+-dontwarn com.sun.jna.platform.win32.WinDef$LPARAM
+-dontwarn com.sun.jna.platform.win32.WinDef$LRESULT
+-dontwarn com.sun.jna.platform.win32.WinUser$COPYDATASTRUCT
 -dontwarn com.sun.jna.platform.win32.Kernel32
 -dontwarn com.sun.jna.platform.win32.User32
 -dontwarn com.sun.jna.platform.win32.WinBase$SECURITY_ATTRIBUTES
