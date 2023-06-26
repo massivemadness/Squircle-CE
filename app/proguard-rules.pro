@@ -35,3 +35,8 @@
 -dontwarn org.newsclub.net.unix.AFUNIXSocketChannel
 -dontwarn org.slf4j.Logger
 -dontwarn org.slf4j.LoggerFactory
+
+# Retain generic signatures of TypeToken and its subclasses with R8 version 3.0 and higher.
+-keep class com.google.gson.reflect.TypeToken
+-keep class * extends com.google.gson.reflect.TypeToken
+-keep public class * implements java.lang.reflect.Type
