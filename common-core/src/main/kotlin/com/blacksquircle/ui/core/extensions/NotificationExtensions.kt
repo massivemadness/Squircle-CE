@@ -43,7 +43,7 @@ fun Context.createChannel(
     }
 }
 
-fun Context.createNotification(
+fun Context.buildNotification(
     channelId: String,
     notificationTitle: String? = null,
     notificationMessage: String? = null,
