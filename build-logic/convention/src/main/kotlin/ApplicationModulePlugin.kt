@@ -86,22 +86,8 @@ class ApplicationModulePlugin : Plugin<Project> {
                         jvmTarget = "17"
                     }
                 }
-                sourceSets {
-                    named("androidTest") {
-                        java.srcDir("src/androidTest/kotlin")
-                    }
-                    named("fdroid") {
-                        java.srcDir("src/fdroid/kotlin")
-                    }
-                    named("googlePlay") {
-                        java.srcDir("src/googlePlay/kotlin")
-                    }
-                    named("main") {
-                        java.srcDir("src/main/kotlin")
-                    }
-                    named("test") {
-                        java.srcDir("src/test/kotlin")
-                    }
+                sourceSets.configureEach {
+                    java.srcDirs("src/${this.name}/kotlin")
                 }
             }
         }
