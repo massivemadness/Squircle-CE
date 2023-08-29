@@ -41,7 +41,7 @@
         <activity
             android:name=".application.activity.MainActivity"
             android:windowSoftInputMode="adjustResize"
-            android:configChanges="keyboard|keyboardHidden"
+            android:configChanges="keyboard|keyboardHidden|uiMode"
             android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>

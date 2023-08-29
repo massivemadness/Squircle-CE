@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.application.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,9 @@ import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.extensions.decorFitsSystemWindows
 import com.blacksquircle.ui.core.extensions.fullscreenMode
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.utils.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
@@ -68,5 +72,22 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         mainViewModel.handleIntent(intent)
+    }
+
+    override fun onConfigurationChanged(config: Configuration) {
+        super.onConfigurationChanged(config)
+        recreate()
+
+        val colorScheme: String
+        when (config.isNightModeActive()) {
+            true -> colorScheme = "VISUAL_STUDIO_2013"
+            false -> colorScheme = "INTELLIJ_LIGHT"
+        }
+        val settingsManager = SettingsManager(this)
+        settingsManager.colorScheme = colorScheme
+
+        val intent = EditorIntent.LoadSettings
+        val editorViewModel by viewModels<EditorViewModel>()
+        editorViewModel.obtainEvent(intent)
     }
 }
