@@ -29,7 +29,7 @@ class LanguageModulePlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("java-library")
-                apply("kotlin")
+                apply("org.jetbrains.kotlin.jvm")
             }
 
             configure<JavaPluginExtension> {

@@ -31,7 +31,7 @@ class BenchmarkModulePlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.test")
-                apply("kotlin-android")
+                apply("org.jetbrains.kotlin.android")
             }
 
             configure<TestExtension> {

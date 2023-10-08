@@ -31,8 +31,8 @@ class ApplicationModulePlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
-                apply("kotlin-android")
-                apply("kotlin-kapt")
+                apply("org.jetbrains.kotlin.android")
+                apply("org.jetbrains.kotlin.kapt")
                 apply("dagger.hilt.android.plugin")
             }
 

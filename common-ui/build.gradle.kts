@@ -17,7 +17,7 @@
 import com.blacksquircle.ui.BuildConst
 
 plugins {
-    id("com.android.library")
+    alias(libs.plugins.android.library)
     id("com.blacksquircle.stub")
 }
 

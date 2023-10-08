@@ -1,6 +1,6 @@
 [versions]
-agp = "8.0.2"
-kotlin = "1.9.0"
+agp = "8.1.2"
+kotlin = "1.9.10"
 core = "1.12.0"
 activity = "1.8.0"
 fragment = "1.6.1"
@@ -37,11 +37,19 @@ test-macrobenchmark = "1.1.1"
 mockk = "1.13.5"
 ktlint = "1.0.0"
 
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+navigation = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-plugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-plugin-safeargs = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 materialdesign = { module = "com.google.android.material:material", version.ref = "materialdesign" }

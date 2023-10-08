@@ -33,10 +33,10 @@ class FilesystemModulePlugin : Plugin<Project> {
             val androidSpecific = plugins.hasPlugin("com.android.library")
             with(pluginManager) {
                 if (androidSpecific) {
-                    apply("kotlin-android")
+                    apply("org.jetbrains.kotlin.android")
                 } else {
                     apply("java-library")
-                    apply("kotlin")
+                    apply("org.jetbrains.kotlin.jvm")
                 }
             }
 
