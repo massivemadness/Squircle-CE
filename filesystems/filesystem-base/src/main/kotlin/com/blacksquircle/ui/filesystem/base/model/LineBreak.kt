@@ -29,9 +29,9 @@ enum class LineBreak(val linebreak: String) {
      */
     fun replace(text: String): String {
         return when (this) {
-            CR -> text.replace("($crlf|$lf)".toRegex(), linebreak)
-            LF -> text.replace("($crlf|$cr)".toRegex(), linebreak)
-            CRLF -> text.replace("($cr|$lf)".toRegex(), linebreak)
+            CR -> text.replace("($VALUE_CRLF|$VALUE_LF)".toRegex(), linebreak)
+            LF -> text.replace("($VALUE_CRLF|$VALUE_CR)".toRegex(), linebreak)
+            CRLF -> text.replace("($VALUE_CR|$VALUE_LF)".toRegex(), linebreak)
         }
     }
 
@@ -40,19 +40,19 @@ enum class LineBreak(val linebreak: String) {
         /**
          * Эти значения хранятся в SharedPreferences
          */
-        private const val VALUE_CR = "1"
-        private const val VALUE_LF = "2"
-        private const val VALUE_CRLF = "3"
+        private const val ORD_CR = "1"
+        private const val ORD_LF = "2"
+        private const val ORD_CRLF = "3"
 
-        private const val cr = "\\r"
-        private const val lf = "\\n"
-        private const val crlf = "\\r\\n"
+        private const val VALUE_CR = "\\r"
+        private const val VALUE_LF = "\\n"
+        private const val VALUE_CRLF = "\\r\\n"
 
         fun of(value: String): LineBreak {
             val linebreak = when (value) {
-                VALUE_CR -> "\r"
-                VALUE_LF -> "\n"
-                VALUE_CRLF -> "\r\n"
+                ORD_CR -> "\r"
+                ORD_LF -> "\n"
+                ORD_CRLF -> "\r\n"
                 else -> throw IllegalArgumentException("No linebreak found")
             }
             return checkNotNull(values().find { it.linebreak == linebreak })

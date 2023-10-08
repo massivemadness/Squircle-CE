@@ -30,7 +30,7 @@ class FontConverterTests {
             fontUuid = "droid_sans_mono.ttf",
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false, // unused
+            supportLigatures = false,
         )
         val fontModel = FontModel(
             fontUuid = "droid_sans_mono.ttf",
@@ -48,7 +48,7 @@ class FontConverterTests {
             fontUuid = "droid_sans_mono.ttf",
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false, // unused
+            supportLigatures = false,
         )
         val fontModel = FontModel(
             fontUuid = "droid_sans_mono.ttf",

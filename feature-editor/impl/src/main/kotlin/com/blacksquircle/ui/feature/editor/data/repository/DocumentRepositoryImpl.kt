@@ -87,7 +87,11 @@ class DocumentRepositoryImpl(
             val filePath = context.extractFilePath(fileUri)
             Timber.d("Extracted path = $filePath")
 
-            val isValidFile = try { File(filePath).exists() } catch (e: Throwable) { false }
+            val isValidFile = try {
+                File(filePath).exists()
+            } catch (e: Throwable) {
+                false
+            }
             Timber.d("Is valid file = $isValidFile")
 
             val fileModel = FileModel("file://$filePath", "local")
@@ -222,9 +226,9 @@ class DocumentRepositoryImpl(
         val undoCacheFile = cacheFile(document, postfix = "undo.txt")
         val redoCacheFile = cacheFile(document, postfix = "redo.txt")
 
-        if (!cacheFilesystem.exists(textCacheFile)) { cacheFilesystem.createFile(textCacheFile) }
-        if (!cacheFilesystem.exists(undoCacheFile)) { cacheFilesystem.createFile(undoCacheFile) }
-        if (!cacheFilesystem.exists(redoCacheFile)) { cacheFilesystem.createFile(redoCacheFile) }
+        if (!cacheFilesystem.exists(textCacheFile)) cacheFilesystem.createFile(textCacheFile)
+        if (!cacheFilesystem.exists(undoCacheFile)) cacheFilesystem.createFile(undoCacheFile)
+        if (!cacheFilesystem.exists(redoCacheFile)) cacheFilesystem.createFile(redoCacheFile)
     }
 
     private fun deleteCacheFiles(document: DocumentModel) {
@@ -232,9 +236,9 @@ class DocumentRepositoryImpl(
         val undoCacheFile = cacheFile(document, postfix = "undo.txt")
         val redoCacheFile = cacheFile(document, postfix = "redo.txt")
 
-        if (cacheFilesystem.exists(textCacheFile)) { cacheFilesystem.deleteFile(textCacheFile) }
-        if (cacheFilesystem.exists(undoCacheFile)) { cacheFilesystem.deleteFile(undoCacheFile) }
-        if (cacheFilesystem.exists(redoCacheFile)) { cacheFilesystem.deleteFile(redoCacheFile) }
+        if (cacheFilesystem.exists(textCacheFile)) cacheFilesystem.deleteFile(textCacheFile)
+        if (cacheFilesystem.exists(undoCacheFile)) cacheFilesystem.deleteFile(undoCacheFile)
+        if (cacheFilesystem.exists(redoCacheFile)) cacheFilesystem.deleteFile(redoCacheFile)
     }
 
     private fun cacheFile(document: DocumentModel, postfix: String): FileModel {

@@ -85,8 +85,10 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
         explorerBackPressedHandler = childFragmentManager
             .fragment<ExplorerFragment>(R.id.fragment_explorer)
 
+        val alphaFiftyPercent = 0x80
         val scrimColor = ColorUtils.setAlphaComponent(
-            requireContext().getColorAttr(android.R.attr.colorBackground), 0x80, // 50% alpha
+            requireContext().getColorAttr(android.R.attr.colorBackground),
+            alphaFiftyPercent,
         )
         binding.drawerLayout?.setScrimColor(scrimColor)
         binding.drawerLayout?.addDrawerListener(drawerListener)

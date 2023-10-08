@@ -36,7 +36,7 @@ class GridSpacingItemDecoration(
         } else {
             marginDp + (3 - marginDp % 3)
         }
-        ).dpToPx()
+    ).dpToPx()
 
     override fun getItemOffsets(
         outRect: Rect,

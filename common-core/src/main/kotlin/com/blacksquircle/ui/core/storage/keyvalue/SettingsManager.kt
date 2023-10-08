@@ -107,7 +107,9 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getInt(KEY_FONT_SIZE, 14)
         set(value) = sharedPreferences.edit().putInt(KEY_FONT_SIZE, value).apply()
     var fontType: String
-        get() = sharedPreferences.getString(KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf") ?: "file:///android_asset/fonts/jetbrains_mono.ttf"
+        get() = sharedPreferences.getString(
+            KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf"
+        ) ?: "file:///android_asset/fonts/jetbrains_mono.ttf"
         set(value) = sharedPreferences.edit().putString(KEY_FONT_TYPE, value).apply()
 
     var selectedUuid: String

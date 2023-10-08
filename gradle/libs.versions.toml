@@ -35,7 +35,7 @@ junit-ext = "1.1.5"
 test-runner = "1.5.2"
 test-macrobenchmark = "1.1.1"
 mockk = "1.13.5"
-ktlint = "0.49.1"
+ktlint = "1.0.0"
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -49,7 +49,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 appupdate = { module = "com.google.android.play:app-update-ktx", version.ref = "appupdate" }
 superuser = { module = "com.github.topjohnwu.libsu:io", version.ref = "superuser" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
-ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
+ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 ftpclient = { module = "commons-net:commons-net", version.ref = "ftpclient" }
 jsch = { module = "com.github.mwiede:jsch", version.ref = "jsch" }

@@ -104,7 +104,11 @@ object Migrations {
                 )
             """,
             )
-            database.execSQL("INSERT INTO ${Tables.SERVERS} SELECT uuid, scheme, name, address, port, initial_dir, auth_method, username, password, private_key, passphrase FROM ${Tables.SERVERS}_tmp")
+            database.execSQL(
+                "INSERT INTO ${Tables.SERVERS} SELECT uuid, scheme, name, address, port, " +
+                    "initial_dir, auth_method, username, password, private_key, passphrase " +
+                    "FROM ${Tables.SERVERS}_tmp"
+            )
             database.execSQL("DROP TABLE ${Tables.SERVERS}_tmp")
         }
     }

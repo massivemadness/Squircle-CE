@@ -107,7 +107,7 @@ class SaveFileTests {
         // When
         val viewModel = editorViewModel()
         val intent = EditorIntent.SaveFile(
-            local = true, // local storage
+            local = true,
             unselected = false,
             text = "whatever",
             undoStack = UndoStack(),
@@ -141,7 +141,7 @@ class SaveFileTests {
         // When
         val viewModel = editorViewModel()
         val intent = EditorIntent.SaveFile(
-            local = false, // cache only
+            local = false,
             unselected = false,
             text = "whatever",
             undoStack = UndoStack(),

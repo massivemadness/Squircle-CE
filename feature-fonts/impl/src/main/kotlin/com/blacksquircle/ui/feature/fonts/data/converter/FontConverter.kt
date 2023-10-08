@@ -35,7 +35,7 @@ object FontConverter {
             fontUuid = fontModel.fontUuid,
             fontName = fontModel.fontName,
             fontPath = fontModel.fontPath,
-            supportLigatures = false, // unused
+            supportLigatures = false,
         )
     }
 }
