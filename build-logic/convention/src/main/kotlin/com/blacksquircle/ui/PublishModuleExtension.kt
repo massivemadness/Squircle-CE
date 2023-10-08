@@ -1,4 +1,4 @@
-package com.blacksquircle.ui/*
+/*
  * Copyright 2023 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,8 @@ package com.blacksquircle.ui/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.blacksquircle.ui
 
 interface PublishModuleExtension {
     var libraryGroup: String
