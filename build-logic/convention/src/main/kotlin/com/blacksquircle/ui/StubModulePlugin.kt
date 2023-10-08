@@ -1,4 +1,4 @@
-/*
+package com.blacksquircle.ui/*
  * Copyright 2023 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.feature")
-}
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-android {
-    namespace = "com.blacksquircle.ui.feature.settings.domain"
-
-    buildFeatures {
-        resValues = false
-    }
-}
-
-dependencies {
-
-    // Core
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.androidx.core)
+class StubModulePlugin : Plugin<Project> {
+    override fun apply(target: Project) = Unit
 }

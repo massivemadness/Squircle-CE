@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("benchmark-module")
+    id("com.blacksquircle.benchmark")
 }
 
 android {

@@ -1,4 +1,4 @@
-/*
+package com.blacksquircle.ui/*
  * Copyright 2023 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-
-class StubModulePlugin : Plugin<Project> {
-    override fun apply(target: Project) = Unit
+interface PublishModuleExtension {
+    var libraryGroup: String
+    var libraryArtifact: String
+    var libraryVersion: String
 }

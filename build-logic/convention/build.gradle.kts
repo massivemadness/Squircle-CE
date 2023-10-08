@@ -38,33 +38,33 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("application-module") {
-            id = "application-module"
-            implementationClass = "ApplicationModulePlugin"
+        register("com.blacksquircle.application") {
+            id = "com.blacksquircle.application"
+            implementationClass = "com.blacksquircle.ui.ApplicationModulePlugin"
         }
-        register("benchmark-module") {
-            id = "benchmark-module"
-            implementationClass = "BenchmarkModulePlugin"
+        register("com.blacksquircle.benchmark") {
+            id = "com.blacksquircle.benchmark"
+            implementationClass = "com.blacksquircle.ui.BenchmarkModulePlugin"
         }
-        register("feature-module") {
-            id = "feature-module"
-            implementationClass = "FeatureModulePlugin"
+        register("com.blacksquircle.feature") {
+            id = "com.blacksquircle.feature"
+            implementationClass = "com.blacksquircle.ui.FeatureModulePlugin"
         }
-        register("filesystem-module") {
-            id = "filesystem-module"
-            implementationClass = "FilesystemModulePlugin"
+        register("com.blacksquircle.filesystem") {
+            id = "com.blacksquircle.filesystem"
+            implementationClass = "com.blacksquircle.ui.FilesystemModulePlugin"
         }
-        register("language-module") {
-            id = "language-module"
-            implementationClass = "LanguageModulePlugin"
+        register("com.blacksquircle.language") {
+            id = "com.blacksquircle.language"
+            implementationClass = "com.blacksquircle.ui.LanguageModulePlugin"
         }
-        register("publish-module") {
-            id = "publish-module"
-            implementationClass = "PublishModulePlugin"
+        register("com.blacksquircle.publish") {
+            id = "com.blacksquircle.publish"
+            implementationClass = "com.blacksquircle.ui.PublishModulePlugin"
         }
-        register("stub-module") {
-            id = "stub-module"
-            implementationClass = "StubModulePlugin"
+        register("com.blacksquircle.stub") {
+            id = "com.blacksquircle.stub"
+            implementationClass = "com.blacksquircle.ui.StubModulePlugin"
         }
     }
 }

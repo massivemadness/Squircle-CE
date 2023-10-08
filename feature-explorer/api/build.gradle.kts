@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("feature-module")
+    id("com.blacksquircle.feature")
 }
 
 android {

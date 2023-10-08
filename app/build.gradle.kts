@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("application-module")
+    id("com.blacksquircle.application")
 }
 
 android {

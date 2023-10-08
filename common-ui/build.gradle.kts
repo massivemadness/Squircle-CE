@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import com.blacksquircle.gradle.Gradle
+import com.blacksquircle.ui.BuildConst
 
 plugins {
     id("com.android.library")
-    id("stub-module")
+    id("com.blacksquircle.stub")
 }
 
 android {
-    compileSdk = Gradle.Build.compileSdk
+    compileSdk = BuildConst.COMPILE_SDK
     namespace = "com.blacksquircle.ui.uikit"
 
     defaultConfig {
-        minSdk = Gradle.Build.minSdk
+        minSdk = BuildConst.MIN_SDK
     }
     buildFeatures {
         viewBinding = true

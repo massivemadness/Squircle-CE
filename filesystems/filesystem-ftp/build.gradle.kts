@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("filesystem-module")
+    id("com.blacksquircle.filesystem")
 }
 
 dependencies {

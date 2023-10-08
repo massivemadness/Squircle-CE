@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-import com.blacksquircle.gradle.Gradle
+import com.blacksquircle.ui.BuildConst
 
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-    id("stub-module")
+    id("com.blacksquircle.stub")
 }
 
 android {
-    compileSdk = Gradle.Build.compileSdk
+    compileSdk = BuildConst.COMPILE_SDK
     namespace = "com.blacksquircle.ui.core"
 
     defaultConfig {
-        minSdk = Gradle.Build.minSdk
+        minSdk = BuildConst.MIN_SDK
 
         consumerProguardFiles("consumer-rules.pro")
 
