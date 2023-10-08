@@ -79,6 +79,7 @@ object FileAssociation {
         associations[".html"] = HtmlLanguage.LANGUAGE_NAME
         associations[".java"] = JavaLanguage.LANGUAGE_NAME
         associations[".js"] = JavaScriptLanguage.LANGUAGE_NAME
+        associations[".jsx"] = JavaScriptLanguage.LANGUAGE_NAME
         associations[".mjs"] = JavaScriptLanguage.LANGUAGE_NAME
         associations[".cjs"] = JavaScriptLanguage.LANGUAGE_NAME
         associations[".json"] = JsonLanguage.LANGUAGE_NAME
@@ -119,6 +120,7 @@ object FileAssociation {
         associations[".sqlite3"] = SqlLanguage.LANGUAGE_NAME
         associations[".toml"] = TomlLanguage.LANGUAGE_NAME
         associations[".ts"] = TypeScriptLanguage.LANGUAGE_NAME
+        associations[".tsx"] = TypeScriptLanguage.LANGUAGE_NAME
         associations[".mts"] = TypeScriptLanguage.LANGUAGE_NAME
         associations[".cts"] = TypeScriptLanguage.LANGUAGE_NAME
         associations[".vb"] = VisualBasicLanguage.LANGUAGE_NAME
