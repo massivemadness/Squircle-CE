@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings
+package com.blacksquircle.ui.core.tests
 
-import org.junit.Assert.*
-import org.junit.Test
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-class ExampleUnitTest {
-
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+class TestDispatcherProvider : DispatcherProvider {
+    override fun io(): CoroutineDispatcher = Dispatchers.Unconfined
+    override fun computation(): CoroutineDispatcher = Dispatchers.Unconfined
+    override fun mainThread(): CoroutineDispatcher = Dispatchers.Unconfined
 }
