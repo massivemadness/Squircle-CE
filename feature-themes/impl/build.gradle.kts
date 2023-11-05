@@ -37,8 +37,8 @@ dependencies {
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.materialdialogs.color)
     implementation(libs.materialdesign)
+    implementation(libs.colorpicker)
 
     // AAC
     implementation(libs.androidx.viewmodel)

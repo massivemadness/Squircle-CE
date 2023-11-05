@@ -38,22 +38,6 @@
 
     <!-- region DIALOG -->
 
-    <style name="MD_Light" parent="Dialog.AppTheme.Alert" tools:ignore="PrivateResource">
-        <item name="md_ripple_color">?colorControlHighlight</item>
-        <item name="md_divider_color">@color/md_divider_light_theme</item>
-        <item name="md_item_selector">@drawable/md_item_selector</item>
-        <item name="md_button_selector">@drawable/md_btn_selector</item>
-        <item name="md_corner_radius">4dp</item>
-    </style>
-
-    <style name="MD_Dark" parent="Dialog.AppTheme.Alert" tools:ignore="PrivateResource">
-        <item name="md_ripple_color">?colorControlHighlight</item>
-        <item name="md_divider_color">@color/md_divider_dark_theme</item>
-        <item name="md_item_selector">@drawable/md_item_selector_dark</item>
-        <item name="md_button_selector">@drawable/md_btn_selector_dark</item>
-        <item name="md_corner_radius">4dp</item>
-    </style>
-
     <style name="Dialog.AppTheme.Alert" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:textColor">?colorOnSurface</item> <!-- Title -->
         <item name="android:textColorPrimary">?android:textColorSecondary</item> <!-- Message -->

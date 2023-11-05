@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -32,9 +31,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.color.ColorPalette
-import com.afollestad.materialdialogs.color.colorChooser
 import com.blacksquircle.ui.core.adapter.OnItemClickListener
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
@@ -50,6 +46,10 @@ import com.blacksquircle.ui.feature.themes.ui.mvi.NewThemeViewState
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.flag.BubbleFlag
+import com.skydoves.colorpickerview.flag.FlagMode
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -101,26 +101,25 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
 
         binding.recyclerView.setHasFixedSize(false)
         binding.recyclerView.adapter = PropertyAdapter(object : OnItemClickListener<PropertyItem> {
-            @SuppressLint("CheckResult")
             override fun onClick(item: PropertyItem) {
-                MaterialDialog(requireContext()).show {
-                    title(R.string.dialog_title_color_picker)
-                    colorChooser(
-                        colors = ColorPalette.Primary,
-                        subColors = ColorPalette.PrimarySub,
-                        initialSelection = item.propertyValue.toColorInt(),
-                        allowCustomArgb = true,
-                        showAlphaSelector = false,
-                    ) { _, color ->
+                ColorPickerDialog.Builder(requireContext()).apply {
+                    setTitle(R.string.dialog_title_color_picker)
+                    setPositiveButton(R.string.action_select, ColorEnvelopeListener { envelope, _ ->
                         val event = ThemeIntent.ChangeProperty(
-                            item.propertyKey,
-                            color.toHexString(),
+                            key = item.propertyKey,
+                            value = envelope.color.toHexString(),
                         )
                         viewModel.obtainEvent(event)
+                    })
+                    setNegativeButton(android.R.string.cancel, null)
+                    attachAlphaSlideBar(false)
+                    attachBrightnessSlideBar(true)
+
+                    colorPickerView.setInitialColor(item.propertyValue.toColorInt())
+                    colorPickerView.flagView = BubbleFlag(requireContext()).apply {
+                        flagMode = FlagMode.FADE
                     }
-                    positiveButton(R.string.action_select)
-                    negativeButton(android.R.string.cancel)
-                }
+                }.show()
             }
         }).also {
             adapter = it

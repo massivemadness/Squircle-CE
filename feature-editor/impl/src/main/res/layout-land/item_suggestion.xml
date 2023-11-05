@@ -32,7 +32,7 @@
         android:textSize="14sp"
         android:id="@+id/item_type"
         tools:background="?colorSecondaryVariant"
-        tools:text="m"/>
+        tools:text="m" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="0dp"
@@ -45,7 +45,7 @@
         android:textSize="12sp"
         android:typeface="monospace"
         tools:text="function"
-        tools:ignore="SmallSp"/>
+        tools:ignore="SmallSp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -53,9 +53,8 @@
         android:padding="6dp"
         android:id="@+id/item_return_type"
         android:singleLine="true"
-        android:textColor="@color/md_disabled_text_light_theme"
         android:textSize="12sp"
         android:typeface="monospace"
-        tools:text="int"/>
+        tools:text="int" />
 
 </LinearLayout>

@@ -16,17 +16,17 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.color.ColorPalette
-import com.afollestad.materialdialogs.color.colorChooser
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.flag.BubbleFlag
+import com.skydoves.colorpickerview.flag.FlagMode
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,20 +34,19 @@ class ColorPickerDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<EditorViewModel>()
 
-    @SuppressLint("CheckResult")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            title(R.string.dialog_title_color_picker)
-            colorChooser(
-                colors = ColorPalette.Primary,
-                subColors = ColorPalette.PrimarySub,
-                allowCustomArgb = true,
-                showAlphaSelector = true,
-            ) { _, color ->
-                viewModel.obtainEvent(EditorIntent.InsertColor(color))
+        return ColorPickerDialog.Builder(requireContext()).apply {
+            setTitle(R.string.dialog_title_color_picker)
+            setPositiveButton(R.string.action_insert, ColorEnvelopeListener { envelope, _ ->
+                viewModel.obtainEvent(EditorIntent.InsertColor(envelope.color))
+            })
+            setNegativeButton(android.R.string.cancel, null)
+            attachAlphaSlideBar(false)
+            attachBrightnessSlideBar(true)
+
+            colorPickerView.flagView = BubbleFlag(requireContext()).apply {
+                flagMode = FlagMode.FADE
             }
-            positiveButton(R.string.action_insert)
-            negativeButton(android.R.string.cancel)
-        }
+        }.create()
     }
 }

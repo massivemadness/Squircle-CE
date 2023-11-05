@@ -14,7 +14,7 @@ materialdesign = "1.10.0"
 constraintlayout = "2.1.4"
 swiperefreshlayout = "1.2.0-alpha01"
 preferences = "1.2.1"
-materialdialogs = "3.3.0"
+colorpicker = "2.3.0"
 recyclerview-selection = "1.1.0"
 vectordrawable = "1.1.0"
 lifecycle = "2.6.2"
@@ -56,6 +56,7 @@ plugin-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.r
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 materialdesign = { module = "com.google.android.material:material", version.ref = "materialdesign" }
+colorpicker = { module = "com.github.skydoves:colorpickerview", version.ref = "colorpicker" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 appupdate = { module = "com.google.android.play:app-update-ktx", version.ref = "appupdate" }
 superuser = { module = "com.github.topjohnwu.libsu:io", version.ref = "superuser" }
@@ -70,9 +71,6 @@ icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-
-materialdialogs-core = { module = "com.afollestad.material-dialogs:core", version.ref = "materialdialogs" }
-materialdialogs-color = { module = "com.afollestad.material-dialogs:color", version.ref = "materialdialogs" }
 
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
