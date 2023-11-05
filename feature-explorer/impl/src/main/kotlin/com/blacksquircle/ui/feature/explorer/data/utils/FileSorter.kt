@@ -32,12 +32,12 @@ object FileSorter {
 
     val COMPARATOR_SIZE: Comparator<in FileModel>
         get() = Comparator { first, second ->
-            first.size.compareTo(second.size)
+            second.size.compareTo(first.size)
         }
 
     val COMPARATOR_DATE: Comparator<in FileModel>
         get() = Comparator { first, second ->
-            first.lastModified.compareTo(second.lastModified)
+            second.lastModified.compareTo(first.lastModified)
         }
 }
 
