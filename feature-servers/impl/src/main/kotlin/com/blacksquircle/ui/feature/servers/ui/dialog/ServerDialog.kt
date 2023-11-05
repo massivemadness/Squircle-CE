@@ -16,19 +16,16 @@
 
 package com.blacksquircle.ui.feature.servers.ui.dialog
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.navArgs
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.extractFilePath
@@ -44,7 +41,7 @@ import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+import java.util.UUID
 import com.blacksquircle.ui.uikit.R as UiR
 
 @AndroidEntryPoint
@@ -64,76 +61,32 @@ class ServerDialog : DialogFragment() {
 
     private lateinit var binding: DialogServerBinding
 
-    @SuppressLint("CheckResult")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            customView(R.layout.dialog_server)
+        binding = DialogServerBinding.inflate(layoutInflater)
+        configureView()
 
-            binding = DialogServerBinding.bind(getCustomView())
-            configureView()
-            noAutoDismiss()
-
+        return AlertDialog.Builder(requireContext()).apply {
             if (navArgs.data.isNullOrEmpty()) {
-                createServerLayout()
+                setTitle(R.string.pref_add_server_title)
+                setView(binding.root)
+                setPositiveButton(UiR.string.common_save) { _, _ ->
+                    saveServerData()
+                }
+                setNegativeButton(android.R.string.cancel, null)
             } else {
-                editServerLayout()
-            }
-        }
-    }
+                val serverConfig = Gson().fromJson(navArgs.data, ServerConfig::class.java) // FIXME
+                fillConfigData(serverConfig)
 
-    private fun MaterialDialog.createServerLayout() {
-        title(R.string.pref_add_server_title)
-        positiveButton(UiR.string.common_save) {
-            saveServerData()
-        }
-        negativeButton(android.R.string.cancel) {
-            dismiss()
-        }
-    }
-
-    private fun MaterialDialog.editServerLayout() {
-        val serverConfig = Gson().fromJson(navArgs.data, ServerConfig::class.java) // FIXME
-        binding.inputServerName.setText(serverConfig.name)
-        binding.inputServerAddress.setText(serverConfig.address)
-        binding.inputServerPort.setText(serverConfig.port.toString())
-        binding.inputUsername.setText(serverConfig.username)
-        binding.inputPassword.setText(serverConfig.password)
-        binding.inputPassphrase.setText(serverConfig.passphrase)
-        binding.inputKeyFile.setText(serverConfig.privateKey)
-        binding.inputInitialDir.setText(serverConfig.initialDir)
-
-        binding.serverType.setSelection(
-            when (serverConfig.scheme) {
-                FTPFilesystem.FTP_SCHEME -> SERVER_FTP
-                FTPSFilesystem.FTPS_SCHEME -> SERVER_FTPS
-                FTPESFilesystem.FTPES_SCHEME -> SERVER_FTPES
-                SFTPFilesystem.SFTP_SCHEME -> SERVER_SFTP
-                else -> throw IllegalArgumentException("Unsupported file scheme")
+                setTitle(R.string.pref_edit_server_title)
+                setView(binding.root)
+                setPositiveButton(UiR.string.common_save) { _, _ ->
+                    saveServerData(serverConfig.uuid)
+                }
+                setNegativeButton(UiR.string.common_delete) { _, _ ->
+                    viewModel.obtainEvent(ServerIntent.DeleteServer(serverConfig))
+                }
             }
-        )
-        when (serverConfig.authMethod) {
-            AuthMethod.PASSWORD -> {
-                binding.authMethod.setSelection(AUTH_PASSWORD)
-                binding.passwordBehavior.setSelection(
-                    if (serverConfig.password == null) ASK else SAVE
-                )
-            }
-            AuthMethod.KEY -> {
-                binding.authMethod.setSelection(AUTH_KEY)
-                binding.passphraseBehavior.setSelection(
-                    if (serverConfig.passphrase == null) ASK else SAVE
-                )
-            }
-        }
-
-        title(R.string.pref_edit_server_title)
-        positiveButton(UiR.string.common_save) {
-            saveServerData(serverConfig.uuid)
-        }
-        negativeButton(UiR.string.common_delete) {
-            viewModel.obtainEvent(ServerIntent.DeleteServer(serverConfig))
-            dismiss()
-        }
+        }.create()
     }
 
     private fun saveServerData(uuid: String? = null) {
@@ -316,6 +269,41 @@ class ServerDialog : DialogFragment() {
         // Key selection is available
         binding.hintKeyFile.isVisible = true
         binding.keyFileLayout.isVisible = true
+    }
+
+    private fun fillConfigData(serverConfig: ServerConfig) {
+        binding.inputServerName.setText(serverConfig.name)
+        binding.inputServerAddress.setText(serverConfig.address)
+        binding.inputServerPort.setText(serverConfig.port.toString())
+        binding.inputUsername.setText(serverConfig.username)
+        binding.inputPassword.setText(serverConfig.password)
+        binding.inputPassphrase.setText(serverConfig.passphrase)
+        binding.inputKeyFile.setText(serverConfig.privateKey)
+        binding.inputInitialDir.setText(serverConfig.initialDir)
+
+        binding.serverType.setSelection(
+            when (serverConfig.scheme) {
+                FTPFilesystem.FTP_SCHEME -> SERVER_FTP
+                FTPSFilesystem.FTPS_SCHEME -> SERVER_FTPS
+                FTPESFilesystem.FTPES_SCHEME -> SERVER_FTPES
+                SFTPFilesystem.SFTP_SCHEME -> SERVER_SFTP
+                else -> throw IllegalArgumentException("Unsupported file scheme")
+            }
+        )
+        when (serverConfig.authMethod) {
+            AuthMethod.PASSWORD -> {
+                binding.authMethod.setSelection(AUTH_PASSWORD)
+                binding.passwordBehavior.setSelection(
+                    if (serverConfig.password == null) ASK else SAVE
+                )
+            }
+            AuthMethod.KEY -> {
+                binding.authMethod.setSelection(AUTH_KEY)
+                binding.passphraseBehavior.setSelection(
+                    if (serverConfig.passphrase == null) ASK else SAVE
+                )
+            }
+        }
     }
 
     companion object {

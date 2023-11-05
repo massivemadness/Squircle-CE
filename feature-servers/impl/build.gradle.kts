@@ -38,7 +38,6 @@ dependencies {
     // UI
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.preferences)
-    implementation(libs.materialdialogs.core)
     implementation(libs.materialdesign)
 
     // AAC

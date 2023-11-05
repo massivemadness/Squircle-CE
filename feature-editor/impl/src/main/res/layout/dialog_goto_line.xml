@@ -19,9 +19,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:paddingTop="16dp"
     android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="16dp">
+    android:paddingEnd="16dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:textSize="18sp"
-        android:text="@string/hint_line"/>
+        android:text="@string/hint_line" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
@@ -38,6 +38,6 @@
         android:hint="@string/hint_line_number"
         android:singleLine="true"
         android:inputType="number"
-        android:maxLength="5"/>
+        android:maxLength="5" />
 
 </LinearLayout>

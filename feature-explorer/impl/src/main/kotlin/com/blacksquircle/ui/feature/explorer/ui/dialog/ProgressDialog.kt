@@ -16,9 +16,9 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -26,9 +26,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.blacksquircle.ui.core.contract.NotificationPermission
 import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.extensions.navigate
@@ -66,193 +63,183 @@ class ProgressDialog : DialogFragment() {
 
     private lateinit var binding: DialogProgressBinding
 
-    @SuppressLint("CheckResult")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialDialog(requireContext()).show {
-            customView(R.layout.dialog_progress)
-            cancelOnTouchOutside(false)
-            positiveButton(R.string.action_run_in_background) {
+        binding = DialogProgressBinding.inflate(layoutInflater)
+
+        lifecycleScope.launch {
+            val then = System.currentTimeMillis()
+            formatElapsedTime(0L) // 00:00
+            repeat(Int.MAX_VALUE) {
+                val difference = System.currentTimeMillis() - then
+                formatElapsedTime(difference)
+                delay(1000)
+            }
+        }
+
+        val operation = Operation.of(navArgs.operation)
+        observeProgress(operation)
+
+        return AlertDialog.Builder(requireContext())
+            .setTitle(
+                when (operation) {
+                    Operation.CREATE -> R.string.dialog_title_creating
+                    Operation.RENAME -> R.string.dialog_title_renaming
+                    Operation.DELETE -> R.string.dialog_title_deleting
+                    Operation.CUT -> R.string.dialog_title_copying
+                    Operation.COPY -> R.string.dialog_title_copying
+                    Operation.COMPRESS -> R.string.dialog_title_compressing
+                    Operation.EXTRACT -> R.string.dialog_title_extracting
+                }
+            )
+            .setView(binding.root)
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                when (operation) {
+                    Operation.CREATE -> CreateFileWorker.cancelJob(requireContext())
+                    Operation.RENAME -> RenameFileWorker.cancelJob(requireContext())
+                    Operation.DELETE -> DeleteFileWorker.cancelJob(requireContext())
+                    Operation.CUT -> CutFileWorker.cancelJob(requireContext())
+                    Operation.COPY -> CopyFileWorker.cancelJob(requireContext())
+                    Operation.COMPRESS -> CompressFileWorker.cancelJob(requireContext())
+                    Operation.EXTRACT -> ExtractFileWorker.cancelJob(requireContext())
+                }
+            }
+            .setPositiveButton(R.string.action_run_in_background) { _, _ ->
                 notificationPermission.launch()
             }
-            noAutoDismiss()
+            .create()
+    }
 
-            binding = DialogProgressBinding.bind(getCustomView())
-            binding.progressBar.isIndeterminate = navArgs.totalCount == -1
-            binding.progressBar.max = navArgs.totalCount
-            binding.total.isVisible = navArgs.totalCount > 0
+    private fun observeProgress(operation: Operation) {
+        binding.progressBar.isIndeterminate = navArgs.totalCount == -1
+        binding.progressBar.max = navArgs.totalCount
+        binding.total.isVisible = navArgs.totalCount > 0
 
-            when (Operation.of(navArgs.operation)) {
-                Operation.CREATE -> {
-                    title(R.string.dialog_title_creating)
-                    negativeButton(android.R.string.cancel) {
-                        CreateFileWorker.cancelJob(requireContext())
+        when (operation) {
+            Operation.CREATE -> {
+                CreateFileWorker.observeJob(requireContext())
+                    .flowWithLifecycle(lifecycle)
+                    .onEach { fileModel ->
+                        binding.progressBar.progress += 1
+                        binding.details.text = getString(R.string.message_creating, fileModel.path)
+                        binding.total.text = getString(
+                            R.string.message_of_total,
+                            binding.progressBar.progress,
+                            navArgs.totalCount,
+                        )
+                    }
+                    .catch {
+                        viewModel.obtainEvent(ExplorerIntent.Refresh)
                         dismiss()
                     }
-                    CreateFileWorker.observeJob(requireContext())
-                        .flowWithLifecycle(lifecycle)
-                        .onEach { fileModel ->
-                            binding.progressBar.progress += 1
-                            binding.details.text = getString(R.string.message_creating, fileModel.path)
-                            binding.total.text = getString(
-                                R.string.message_of_total,
-                                binding.progressBar.progress,
-                                navArgs.totalCount,
-                            )
-                        }
-                        .catch {
-                            viewModel.obtainEvent(ExplorerIntent.Refresh)
-                            dismiss()
-                        }
-                        .launchIn(lifecycleScope)
-                }
-                Operation.RENAME -> {
-                    title(R.string.dialog_title_renaming)
-                    negativeButton(android.R.string.cancel) {
-                        RenameFileWorker.cancelJob(requireContext())
-                        dismiss()
-                    }
-                    RenameFileWorker.observeJob(requireContext())
-                        .flowWithLifecycle(lifecycle)
-                        .onEach { fileModel ->
-                            binding.progressBar.progress += 1
-                            binding.details.text = getString(R.string.message_renaming, fileModel.path)
-                            binding.total.text = getString(
-                                R.string.message_of_total,
-                                binding.progressBar.progress,
-                                navArgs.totalCount,
-                            )
-                        }
-                        .catch {
-                            viewModel.obtainEvent(ExplorerIntent.Refresh)
-                            dismiss()
-                        }
-                        .launchIn(lifecycleScope)
-                }
-                Operation.DELETE -> {
-                    title(R.string.dialog_title_deleting)
-                    negativeButton(android.R.string.cancel) {
-                        DeleteFileWorker.cancelJob(requireContext())
-                        dismiss()
-                    }
-                    DeleteFileWorker.observeJob(requireContext())
-                        .flowWithLifecycle(lifecycle)
-                        .onEach { fileModel ->
-                            binding.progressBar.progress += 1
-                            binding.details.text = getString(R.string.message_deleting, fileModel.path)
-                            binding.total.text = getString(
-                                R.string.message_of_total,
-                                binding.progressBar.progress,
-                                navArgs.totalCount,
-                            )
-                        }
-                        .catch {
-                            viewModel.obtainEvent(ExplorerIntent.Refresh)
-                            dismiss()
-                        }
-                        .launchIn(lifecycleScope)
-                }
-                Operation.COPY -> {
-                    title(R.string.dialog_title_copying)
-                    negativeButton(android.R.string.cancel) {
-                        CopyFileWorker.cancelJob(requireContext())
-                        dismiss()
-                    }
-                    CopyFileWorker.observeJob(requireContext())
-                        .flowWithLifecycle(lifecycle)
-                        .onEach { fileModel ->
-                            binding.progressBar.progress += 1
-                            binding.details.text = getString(R.string.message_copying, fileModel.path)
-                            binding.total.text = getString(
-                                R.string.message_of_total,
-                                binding.progressBar.progress,
-                                navArgs.totalCount,
-                            )
-                        }
-                        .catch {
-                            viewModel.obtainEvent(ExplorerIntent.Refresh)
-                            dismiss()
-                        }
-                        .launchIn(lifecycleScope)
-                }
-                Operation.CUT -> {
-                    title(R.string.dialog_title_copying)
-                    negativeButton(android.R.string.cancel) {
-                        CutFileWorker.cancelJob(requireContext())
-                        dismiss()
-                    }
-                    CutFileWorker.observeJob(requireContext())
-                        .flowWithLifecycle(lifecycle)
-                        .onEach { fileModel ->
-                            binding.progressBar.progress += 1
-                            binding.details.text = getString(R.string.message_copying, fileModel.path)
-                            binding.total.text = getString(
-                                R.string.message_of_total,
-                                binding.progressBar.progress,
-                                navArgs.totalCount,
-                            )
-                        }
-                        .catch {
-                            viewModel.obtainEvent(ExplorerIntent.Refresh)
-                            dismiss()
-                        }
-                        .launchIn(lifecycleScope)
-                }
-                Operation.COMPRESS -> {
-                    title(R.string.dialog_title_compressing)
-                    negativeButton(android.R.string.cancel) {
-                        CompressFileWorker.cancelJob(requireContext())
-                        dismiss()
-                    }
-                    CompressFileWorker.observeJob(requireContext())
-                        .flowWithLifecycle(lifecycle)
-                        .onEach { fileModel ->
-                            binding.progressBar.progress += 1
-                            binding.details.text = getString(R.string.message_compressing, fileModel.path)
-                            binding.total.text = getString(
-                                R.string.message_of_total,
-                                binding.progressBar.progress,
-                                navArgs.totalCount,
-                            )
-                        }
-                        .catch {
-                            viewModel.obtainEvent(ExplorerIntent.Refresh)
-                            dismiss()
-                        }
-                        .launchIn(lifecycleScope)
-                }
-                Operation.EXTRACT -> {
-                    title(R.string.dialog_title_extracting)
-                    negativeButton(android.R.string.cancel) {
-                        ExtractFileWorker.cancelJob(requireContext())
-                        dismiss()
-                    }
-                    ExtractFileWorker.observeJob(requireContext())
-                        .flowWithLifecycle(lifecycle)
-                        .onEach { fileModel ->
-                            binding.progressBar.progress += 1
-                            binding.details.text = getString(R.string.message_extracting, fileModel.path)
-                            binding.total.text = getString(
-                                R.string.message_of_total,
-                                binding.progressBar.progress,
-                                navArgs.totalCount,
-                            )
-                        }
-                        .catch {
-                            viewModel.obtainEvent(ExplorerIntent.Refresh)
-                            dismiss()
-                        }
-                        .launchIn(lifecycleScope)
-                }
+                    .launchIn(lifecycleScope)
             }
-
-            lifecycleScope.launch {
-                val then = System.currentTimeMillis()
-                formatElapsedTime(0L) // 00:00
-                repeat(Int.MAX_VALUE) {
-                    val difference = System.currentTimeMillis() - then
-                    formatElapsedTime(difference)
-                    delay(1000)
-                }
+            Operation.RENAME -> {
+                RenameFileWorker.observeJob(requireContext())
+                    .flowWithLifecycle(lifecycle)
+                    .onEach { fileModel ->
+                        binding.progressBar.progress += 1
+                        binding.details.text = getString(R.string.message_renaming, fileModel.path)
+                        binding.total.text = getString(
+                            R.string.message_of_total,
+                            binding.progressBar.progress,
+                            navArgs.totalCount,
+                        )
+                    }
+                    .catch {
+                        viewModel.obtainEvent(ExplorerIntent.Refresh)
+                        dismiss()
+                    }
+                    .launchIn(lifecycleScope)
+            }
+            Operation.DELETE -> {
+                DeleteFileWorker.observeJob(requireContext())
+                    .flowWithLifecycle(lifecycle)
+                    .onEach { fileModel ->
+                        binding.progressBar.progress += 1
+                        binding.details.text = getString(R.string.message_deleting, fileModel.path)
+                        binding.total.text = getString(
+                            R.string.message_of_total,
+                            binding.progressBar.progress,
+                            navArgs.totalCount,
+                        )
+                    }
+                    .catch {
+                        viewModel.obtainEvent(ExplorerIntent.Refresh)
+                        dismiss()
+                    }
+                    .launchIn(lifecycleScope)
+            }
+            Operation.CUT -> {
+                CutFileWorker.observeJob(requireContext())
+                    .flowWithLifecycle(lifecycle)
+                    .onEach { fileModel ->
+                        binding.progressBar.progress += 1
+                        binding.details.text = getString(R.string.message_copying, fileModel.path)
+                        binding.total.text = getString(
+                            R.string.message_of_total,
+                            binding.progressBar.progress,
+                            navArgs.totalCount,
+                        )
+                    }
+                    .catch {
+                        viewModel.obtainEvent(ExplorerIntent.Refresh)
+                        dismiss()
+                    }
+                    .launchIn(lifecycleScope)
+            }
+            Operation.COPY -> {
+                CopyFileWorker.observeJob(requireContext())
+                    .flowWithLifecycle(lifecycle)
+                    .onEach { fileModel ->
+                        binding.progressBar.progress += 1
+                        binding.details.text = getString(R.string.message_copying, fileModel.path)
+                        binding.total.text = getString(
+                            R.string.message_of_total,
+                            binding.progressBar.progress,
+                            navArgs.totalCount,
+                        )
+                    }
+                    .catch {
+                        viewModel.obtainEvent(ExplorerIntent.Refresh)
+                        dismiss()
+                    }
+                    .launchIn(lifecycleScope)
+            }
+            Operation.COMPRESS -> {
+                CompressFileWorker.observeJob(requireContext())
+                    .flowWithLifecycle(lifecycle)
+                    .onEach { fileModel ->
+                        binding.progressBar.progress += 1
+                        binding.details.text = getString(R.string.message_compressing, fileModel.path)
+                        binding.total.text = getString(
+                            R.string.message_of_total,
+                            binding.progressBar.progress,
+                            navArgs.totalCount,
+                        )
+                    }
+                    .catch {
+                        viewModel.obtainEvent(ExplorerIntent.Refresh)
+                        dismiss()
+                    }
+                    .launchIn(lifecycleScope)
+            }
+            Operation.EXTRACT -> {
+                ExtractFileWorker.observeJob(requireContext())
+                    .flowWithLifecycle(lifecycle)
+                    .onEach { fileModel ->
+                        binding.progressBar.progress += 1
+                        binding.details.text = getString(R.string.message_extracting, fileModel.path)
+                        binding.total.text = getString(
+                            R.string.message_of_total,
+                            binding.progressBar.progress,
+                            navArgs.totalCount,
+                        )
+                    }
+                    .catch {
+                        viewModel.obtainEvent(ExplorerIntent.Refresh)
+                        dismiss()
+                    }
+                    .launchIn(lifecycleScope)
             }
         }
     }

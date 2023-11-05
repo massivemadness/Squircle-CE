@@ -40,7 +40,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.recyclerview.selection)
-    implementation(libs.materialdialogs.core)
     implementation(libs.materialdesign)
 
     // AAC

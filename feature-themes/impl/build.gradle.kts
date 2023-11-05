@@ -37,7 +37,6 @@ dependencies {
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.materialdialogs.core)
     implementation(libs.materialdialogs.color)
     implementation(libs.materialdesign)
 

@@ -20,9 +20,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
     android:paddingStart="24dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="16dp">
+    android:paddingEnd="24dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
