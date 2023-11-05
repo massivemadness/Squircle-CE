@@ -28,6 +28,9 @@
     <string name="sort_by_date">Сорт. по дате</string>
     <string name="view_mode_compact_list">Компактный список</string>
     <string name="view_mode_detailed_list">Подробный список</string>
+    <string name="linebreak_lf">Unix и macOS (\\n)</string>
+    <string name="linebreak_crlf">Windows (\\r\\n)</string>
+    <string name="linebreak_cr">Classic Mac OS (\\r)</string>
     <string name="pref_header_application_title">Приложение</string>
     <string name="pref_header_application_summary">Настройте основной функционал.</string>
     <string name="pref_header_editor_title">Редактор</string>

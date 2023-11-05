@@ -38,9 +38,9 @@
     <string name="view_mode_compact_list">Compact List</string>
     <string name="view_mode_detailed_list">Detailed List</string>
 
-    <string name="linebreak_cr" translatable="false">CR (Mac OS ≤ 9)</string>
-    <string name="linebreak_lf" translatable="false">LF (Android/Linux/Unix)</string>
-    <string name="linebreak_crlf" translatable="false">CRLF (Windows)</string>
+    <string name="linebreak_lf">Unix and macOS (\\n)</string>
+    <string name="linebreak_crlf">Windows (\\r\\n)</string>
+    <string name="linebreak_cr">Classic Mac OS (\\r)</string>
 
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>

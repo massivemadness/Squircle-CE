@@ -28,6 +28,9 @@
     <string name="sort_by_date">Sort by Date</string>
     <string name="view_mode_compact_list">Compact List</string>
     <string name="view_mode_detailed_list">Detailed List</string>
+    <string name="linebreak_lf">Unix and macOS (\\n)</string>
+    <string name="linebreak_crlf">Windows (\\r\\n)</string>
+    <string name="linebreak_cr">Classic Mac OS (\\r)</string>
     <string name="pref_header_application_title">Application</string>
     <string name="pref_header_application_summary">Configure global application settings.</string>
     <string name="pref_header_editor_title">Editor</string>

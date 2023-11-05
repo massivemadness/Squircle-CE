@@ -28,6 +28,9 @@
     <string name="sort_by_date">按日期排序</string>
     <string name="view_mode_compact_list">紧凑列表</string>
     <string name="view_mode_detailed_list">详细列表</string>
+    <string name="linebreak_lf">Unix and macOS (\\n)</string>
+    <string name="linebreak_crlf">Windows (\\r\\n)</string>
+    <string name="linebreak_cr">Classic Mac OS (\\r)</string>
     <string name="pref_header_application_title">应用</string>
     <string name="pref_header_application_summary">配置应用全局性的设置。</string>
     <string name="pref_header_editor_title">编辑器</string>

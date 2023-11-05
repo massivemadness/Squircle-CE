@@ -37,6 +37,10 @@
     <string name="view_mode_compact_list">Lista compacta</string>
     <string name="view_mode_detailed_list">Lista detalhada</string>
 
+    <string name="linebreak_lf">Unix and macOS (\\n)</string>
+    <string name="linebreak_crlf">Windows (\\r\\n)</string>
+    <string name="linebreak_cr">Classic Mac OS (\\r)</string>
+
     <string name="pref_header_application_title">Aplicativo</string>
     <string name="pref_header_application_summary">Configuração global do aplicativo.</string>
     <string name="pref_header_editor_title">Editor</string>
