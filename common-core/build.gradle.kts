@@ -19,7 +19,7 @@ import com.blacksquircle.ui.BuildConst
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.hilt)
     id("com.blacksquircle.stub")
 }
@@ -75,14 +75,14 @@ dependencies {
     // AAC
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.room)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // Network
     implementation(libs.gson)
 
     // DI
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Modules
     implementation(project(":filesystems:filesystem-base"))

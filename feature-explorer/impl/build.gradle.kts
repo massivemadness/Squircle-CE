@@ -58,9 +58,9 @@ dependencies {
 
     // DI
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.workmanager)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     // Modules
     implementation(project(":feature-explorer:api"))

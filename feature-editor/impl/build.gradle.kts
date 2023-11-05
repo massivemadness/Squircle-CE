@@ -53,7 +53,7 @@ dependencies {
 
     // DI
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Modules
     implementation(project(":feature-editor:api"))
