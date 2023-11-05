@@ -21,7 +21,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 sealed class ExplorerViewState : ViewState() {
 
-    object Loading : ExplorerViewState()
+    data object Loading : ExplorerViewState()
 
     data class Files(
         val data: List<FileModel>,

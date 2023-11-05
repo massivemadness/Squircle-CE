@@ -20,5 +20,5 @@ import android.net.Uri
 
 sealed class ContractResult {
     data class Success(val uri: Uri) : ContractResult()
-    object Canceled : ContractResult()
+    data object Canceled : ContractResult()
 }

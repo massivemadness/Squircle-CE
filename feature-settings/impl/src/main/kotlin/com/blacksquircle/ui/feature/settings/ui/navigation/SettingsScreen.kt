@@ -20,12 +20,12 @@ import com.blacksquircle.ui.core.navigation.Screen
 
 sealed class SettingsScreen(route: String) : Screen<String>(route) {
 
-    object Application : SettingsScreen("blacksquircle://settings/application")
-    object Editor : SettingsScreen("blacksquircle://settings/editor")
-    object CodeStyle : SettingsScreen("blacksquircle://settings/codestyle")
-    object Files : SettingsScreen("blacksquircle://settings/files")
-    object Keybindings : SettingsScreen("blacksquircle://settings/keybindings")
-    object Cloud : SettingsScreen("blacksquircle://settings/cloud")
-    object About : SettingsScreen("blacksquircle://settings/about")
-    object ChangeLog : SettingsScreen("blacksquircle://settings/about/changelog")
+    data object Application : SettingsScreen("blacksquircle://settings/application")
+    data object Editor : SettingsScreen("blacksquircle://settings/editor")
+    data object CodeStyle : SettingsScreen("blacksquircle://settings/codestyle")
+    data object Files : SettingsScreen("blacksquircle://settings/files")
+    data object Keybindings : SettingsScreen("blacksquircle://settings/keybindings")
+    data object Cloud : SettingsScreen("blacksquircle://settings/cloud")
+    data object About : SettingsScreen("blacksquircle://settings/about")
+    data object ChangeLog : SettingsScreen("blacksquircle://settings/about/changelog")
 }

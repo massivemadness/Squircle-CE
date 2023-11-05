@@ -93,7 +93,7 @@ fun SearchView.debounce(
             debounceJob?.cancel()
             debounceJob = coroutineScope.launch {
                 delay(waitMs)
-                destinationFunction(newText ?: "")
+                destinationFunction(newText.orEmpty())
             }
             return true
         }

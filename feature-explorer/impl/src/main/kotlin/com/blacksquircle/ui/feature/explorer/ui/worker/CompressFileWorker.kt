@@ -145,7 +145,7 @@ class CompressFileWorker @AssistedInject constructor(
 
         fun scheduleJob(context: Context, fileList: List<FileModel>) {
             val workRequest = OneTimeWorkRequestBuilder<CompressFileWorker>()
-                // .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
                 .setInputData(fileList.toData())
                 .build()
 

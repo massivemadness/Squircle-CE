@@ -39,7 +39,7 @@ enum class Theme(val value: String) {
 
     companion object {
 
-        fun of(value: String?): Theme {
+        fun of(value: String): Theme {
             return values().find { it.value == value } ?: DARK
         }
     }

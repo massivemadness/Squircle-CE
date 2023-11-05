@@ -24,5 +24,5 @@ sealed class ExplorerViewEvent : ViewEvent() {
     data class OpenFile(val fileModel: FileModel) : ExplorerViewEvent()
     data class OpenFileWith(val fileModel: FileModel) : ExplorerViewEvent()
     data class CopyPath(val fileModel: FileModel) : ExplorerViewEvent()
-    object SelectAll : ExplorerViewEvent()
+    data object SelectAll : ExplorerViewEvent()
 }

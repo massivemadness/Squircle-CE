@@ -26,12 +26,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.blacksquircle.ui.core.navigation.Screen
 
-fun NavController.popBackStack(n: Int) {
-    for (index in 0 until n) {
-        popBackStack()
-    }
-}
-
 fun NavController.navigate(
     screen: Screen<*>,
     options: NavOptions? = null,

@@ -149,7 +149,7 @@ class ExtractFileWorker @AssistedInject constructor(
 
         fun scheduleJob(context: Context, fileList: List<FileModel>) {
             val workRequest = OneTimeWorkRequestBuilder<ExtractFileWorker>()
-                // .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
                 .setInputData(fileList.toData())
                 .build()
 

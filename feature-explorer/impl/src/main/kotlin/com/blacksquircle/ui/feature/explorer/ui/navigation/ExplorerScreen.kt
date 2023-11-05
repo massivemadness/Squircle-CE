@@ -42,13 +42,13 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
         route = "blacksquircle://explorer/authenticate?authMethod=${authMethod.value}"
     )
 
-    object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
-    object CompressDialog : ExplorerScreen("blacksquircle://explorer/compress")
+    data object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
+    data object CompressDialog : ExplorerScreen("blacksquircle://explorer/compress")
 
-    object StorageDeniedForever : ExplorerScreen(
+    data object StorageDeniedForever : ExplorerScreen(
         route = "blacksquircle://explorer/storage_denied_forever"
     )
-    object NotificationDeniedForever : ExplorerScreen(
+    data object NotificationDeniedForever : ExplorerScreen(
         route = "blacksquircle://explorer/notification_denied_forever"
     )
 }

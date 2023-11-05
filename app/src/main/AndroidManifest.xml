@@ -35,8 +35,7 @@
         android:supportsRtl="true"
         android:theme="@style/SplashTheme"
         android:name=".SquircleApp"
-        android:requestLegacyExternalStorage="true"
-        tools:replace="android:theme">
+        android:requestLegacyExternalStorage="true">
 
         <activity
             android:name=".application.activity.MainActivity"

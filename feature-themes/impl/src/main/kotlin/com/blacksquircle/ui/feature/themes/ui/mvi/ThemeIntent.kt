@@ -25,7 +25,7 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 sealed class ThemeIntent : ViewIntent() {
 
-    object LoadThemes : ThemeIntent()
+    data object LoadThemes : ThemeIntent()
 
     data class SearchThemes(val query: String) : ThemeIntent()
     data class ImportTheme(val fileUri: Uri) : ThemeIntent()

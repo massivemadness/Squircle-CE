@@ -22,7 +22,7 @@ import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 sealed class FontIntent : ViewIntent() {
 
-    object LoadFonts : FontIntent()
+    data object LoadFonts : FontIntent()
 
     data class SearchFonts(val query: String) : FontIntent()
     data class ImportFont(val fileUri: Uri) : FontIntent()

@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.filesystem.base.exception
 
-open class FilesystemException(message: String?) : RuntimeException(message)
+abstract class FilesystemException(message: String?) : RuntimeException(message)

@@ -28,6 +28,6 @@ sealed class EditorScreen(route: String) : Screen<String>(route) {
         route = "blacksquircle://editor/close?position=$position&fileName=${fileName.encodeUrl()}",
     )
 
-    object GotoLine : EditorScreen("blacksquircle://editor/goto")
-    object ColorPicker : EditorScreen("blacksquircle://editor/colorpicker")
+    data object GotoLine : EditorScreen("blacksquircle://editor/goto")
+    data object ColorPicker : EditorScreen("blacksquircle://editor/colorpicker")
 }

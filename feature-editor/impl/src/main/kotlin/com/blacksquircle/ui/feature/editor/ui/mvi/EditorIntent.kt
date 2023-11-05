@@ -23,8 +23,8 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 sealed class EditorIntent : ViewIntent() {
 
-    object LoadFiles : EditorIntent()
-    object LoadSettings : EditorIntent()
+    data object LoadFiles : EditorIntent()
+    data object LoadSettings : EditorIntent()
 
     data class NewFile(val fileUri: Uri) : EditorIntent()
     data class OpenFile(val fileModel: FileModel) : EditorIntent()
@@ -33,15 +33,15 @@ sealed class EditorIntent : ViewIntent() {
     data class MoveTab(val from: Int, val to: Int) : EditorIntent()
     data class CloseTab(val position: Int, val allowModified: Boolean) : EditorIntent()
     data class CloseOthers(val position: Int) : EditorIntent()
-    object CloseAll : EditorIntent()
+    data object CloseAll : EditorIntent()
 
-    object GotoLine : EditorIntent()
+    data object GotoLine : EditorIntent()
     data class GotoLineNumber(val line: String) : EditorIntent()
 
-    object ColorPicker : EditorIntent()
+    data object ColorPicker : EditorIntent()
     data class InsertColor(val color: Int) : EditorIntent()
 
-    object ForceSyntax : EditorIntent()
+    data object ForceSyntax : EditorIntent()
     data class ForceSyntaxHighlighting(val languageName: String) : EditorIntent()
 
     data class SaveFile(
@@ -57,12 +57,12 @@ sealed class EditorIntent : ViewIntent() {
     ) : EditorIntent()
     data class SaveFileAs(val fileUri: Uri) : EditorIntent()
 
-    object ModifyContent : EditorIntent()
-    object SwapKeyboard : EditorIntent()
+    data object ModifyContent : EditorIntent()
+    data object SwapKeyboard : EditorIntent()
 
-    object PanelDefault : EditorIntent()
-    object PanelFind : EditorIntent()
-    object PanelFindReplace : EditorIntent()
+    data object PanelDefault : EditorIntent()
+    data object PanelFind : EditorIntent()
+    data object PanelFindReplace : EditorIntent()
 
     data class FindQuery(val text: CharSequence, val query: String) : EditorIntent()
     data class FindRegex(val text: CharSequence) : EditorIntent()

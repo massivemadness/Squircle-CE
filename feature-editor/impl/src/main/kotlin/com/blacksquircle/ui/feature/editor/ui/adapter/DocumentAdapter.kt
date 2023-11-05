@@ -95,7 +95,7 @@ class DocumentAdapter(
             updateModified(item.modified)
         }
 
-        fun updateModified(modified: Boolean) {
+        private fun updateModified(modified: Boolean) {
             binding.itemTitle.text = if (modified) "• ${document.name}" else document.name
         }
 

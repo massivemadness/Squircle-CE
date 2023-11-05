@@ -23,8 +23,8 @@ import com.blacksquircle.ui.core.factory.LanguageFactory
 object Migrations {
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL(
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
                 """
                 CREATE TABLE IF NOT EXISTS `${Tables.SERVERS}` (
                     `uuid` TEXT NOT NULL, 
@@ -41,15 +41,15 @@ object Migrations {
                 )
             """,
             )
-            database.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `filesystem_uuid` TEXT NOT NULL DEFAULT 'local'")
-            val cursor = database.query("SELECT * FROM `${Tables.DOCUMENTS}`")
+            db.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `filesystem_uuid` TEXT NOT NULL DEFAULT 'local'")
+            val cursor = db.query("SELECT * FROM `${Tables.DOCUMENTS}`")
             if (cursor.moveToFirst()) {
                 do {
                     val columnUuid = cursor.getColumnIndexOrThrow("uuid")
                     val columnPath = cursor.getColumnIndexOrThrow("path")
                     val uuid = cursor.getString(columnUuid)
                     val path = cursor.getString(columnPath)
-                    database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `path` = 'file://$path' WHERE `uuid` = '$uuid';")
+                    db.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `path` = 'file://$path' WHERE `uuid` = '$uuid';")
                 } while (cursor.moveToNext())
             }
             cursor.close()
@@ -57,9 +57,9 @@ object Migrations {
     }
 
     val MIGRATION_2_3 = object : Migration(2, 3) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `language` TEXT NOT NULL DEFAULT 'plaintext'")
-            val cursor = database.query("SELECT * FROM `${Tables.DOCUMENTS}`")
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `language` TEXT NOT NULL DEFAULT 'plaintext'")
+            val cursor = db.query("SELECT * FROM `${Tables.DOCUMENTS}`")
             if (cursor.moveToFirst()) {
                 do {
                     val columnUuid = cursor.getColumnIndexOrThrow("uuid")
@@ -67,7 +67,7 @@ object Migrations {
                     val uuid = cursor.getString(columnUuid)
                     val path = cursor.getString(columnPath)
                     val language = LanguageFactory.create(path).languageName
-                    database.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `language` = '$language' WHERE `uuid` = '$uuid';")
+                    db.execSQL("UPDATE `${Tables.DOCUMENTS}` SET `language` = '$language' WHERE `uuid` = '$uuid';")
                 } while (cursor.moveToNext())
             }
             cursor.close()
@@ -75,18 +75,18 @@ object Migrations {
     }
 
     val MIGRATION_3_4 = object : Migration(3, 4) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE `${Tables.THEMES}` ADD COLUMN `cursor_color` TEXT NOT NULL DEFAULT '#BBBBBB'")
-            database.execSQL("ALTER TABLE `${Tables.SERVERS}` ADD COLUMN `initial_dir` TEXT NOT NULL DEFAULT ''")
-            database.execSQL("ALTER TABLE `${Tables.FONTS}` ADD COLUMN `font_uuid` TEXT NOT NULL DEFAULT 'legacy'")
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE `${Tables.THEMES}` ADD COLUMN `cursor_color` TEXT NOT NULL DEFAULT '#BBBBBB'")
+            db.execSQL("ALTER TABLE `${Tables.SERVERS}` ADD COLUMN `initial_dir` TEXT NOT NULL DEFAULT ''")
+            db.execSQL("ALTER TABLE `${Tables.FONTS}` ADD COLUMN `font_uuid` TEXT NOT NULL DEFAULT 'legacy'")
             // database.execSQL("ALTER TABLE `${Tables.FONTS}` DROP COLUMN `support_ligatures`")
         }
     }
 
     val MIGRATION_4_5 = object : Migration(4, 5) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE `${Tables.SERVERS}` RENAME TO `${Tables.SERVERS}_tmp`")
-            database.execSQL(
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE `${Tables.SERVERS}` RENAME TO `${Tables.SERVERS}_tmp`")
+            db.execSQL(
                 """
                 CREATE TABLE IF NOT EXISTS `${Tables.SERVERS}` (
                     `uuid` TEXT NOT NULL, 
@@ -104,12 +104,12 @@ object Migrations {
                 )
             """,
             )
-            database.execSQL(
+            db.execSQL(
                 "INSERT INTO ${Tables.SERVERS} SELECT uuid, scheme, name, address, port, " +
                     "initial_dir, auth_method, username, password, private_key, passphrase " +
                     "FROM ${Tables.SERVERS}_tmp"
             )
-            database.execSQL("DROP TABLE ${Tables.SERVERS}_tmp")
+            db.execSQL("DROP TABLE ${Tables.SERVERS}_tmp")
         }
     }
 }

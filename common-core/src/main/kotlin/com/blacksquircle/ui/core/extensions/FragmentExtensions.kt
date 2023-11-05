@@ -21,10 +21,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 
+val Fragment.supportActionBar: ActionBar?
+    get() = (activity as? AppCompatActivity)?.supportActionBar
+
 fun Fragment.setSupportActionBar(toolbar: Toolbar) {
     val parentActivity = activity as? AppCompatActivity
     parentActivity?.setSupportActionBar(toolbar)
 }
-
-val Fragment.supportActionBar: ActionBar?
-    get() = (activity as? AppCompatActivity)?.supportActionBar

@@ -72,10 +72,10 @@ class ApplicationModulePlugin : Plugin<Project> {
                         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
                     }
                     create("benchmark") {
+                        initWith(buildTypes.getByName("release"))
                         signingConfig = signingConfigs.getByName("debug")
-                        isDebuggable = false
                         matchingFallbacks += listOf("release")
-                        proguardFiles("benchmark-rules.pro")
+                        isDebuggable = false
                     }
                 }
                 compileOptions {

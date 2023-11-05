@@ -542,24 +542,21 @@ class ExplorerViewModel @Inject constructor(
     }
 
     private fun sortByName() {
-        sortMode = FileSorter.SORT_BY_NAME.also {
-            settingsManager.sortMode = it.toString()
-            refreshList()
-        }
+        sortMode = FileSorter.SORT_BY_NAME
+        settingsManager.sortMode = FileSorter.SORT_BY_NAME.toString()
+        refreshList()
     }
 
     private fun sortBySize() {
-        sortMode = FileSorter.SORT_BY_SIZE.also {
-            settingsManager.sortMode = it.toString()
-            refreshList()
-        }
+        sortMode = FileSorter.SORT_BY_SIZE
+        settingsManager.sortMode = FileSorter.SORT_BY_SIZE.toString()
+        refreshList()
     }
 
     private fun sortByDate() {
-        sortMode = FileSorter.SORT_BY_DATE.also {
-            settingsManager.sortMode = it.toString()
-            refreshList()
-        }
+        sortMode = FileSorter.SORT_BY_DATE
+        settingsManager.sortMode = FileSorter.SORT_BY_DATE.toString()
+        refreshList()
     }
 
     private fun initialState() {

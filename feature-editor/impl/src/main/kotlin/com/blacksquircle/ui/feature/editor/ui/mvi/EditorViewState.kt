@@ -21,7 +21,7 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 
 sealed class EditorViewState : ViewState() {
 
-    object Loading : EditorViewState()
+    data object Loading : EditorViewState()
 
     data class Content(var content: DocumentContent) : EditorViewState()
 
