@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_server_name">Nombre de servidor</string>
+    <string name="hint_server_address">Dirección del servidor</string>
+    <string name="hint_initial_dir">Carpeta Inicial</string>
+    <string name="hint_port">Puerto</string>
+    <string name="hint_username">Nombre de Usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="hint_passphrase">Frase de Seguridad</string>
+    <string name="hint_key_file">Archivo-Llave</string>
+    <string name="hint_required">Requerido</string>
+    <string name="server_ftp">FTP</string>
+    <string name="server_ftps">FTPS (FTP sobre TLS/SSL)</string>
+    <string name="server_ftpes">FTPES (FTPS explícito)</string>
+    <string name="server_sftp">SFTP</string>
+    <string name="auth_method_password">Autentificación de Contraseña</string>
+    <string name="auth_method_key">Autenticación de clave privada</string>
+    <string name="ask_for_password">Solicitar Contraseña</string>
+    <string name="save_password">Guardar contraseña</string>
+    <string name="ask_for_passphrase">Solicitar Contraseña</string>
+    <string name="save_passphrase">Guardar contraseña</string>
+    <string name="pref_header_cloud_title">Nube &amp; Servidores</string>
+    <string name="pref_category_servers">Servidores FTP(S)</string>
+    <string name="pref_add_server_title">Añadir servidor</string>
+    <string name="pref_edit_server_title">Editar servidor</string>
+</resources>
