@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_line">Línea:</string>
+    <string name="action_close">Cerrar</string>
+    <string name="action_close_others">Cerrar los demás</string>
+    <string name="action_close_all">Cerrar todas</string>
+    <string name="action_insert">Insertar</string>
+    <string name="action_new">Nuevo</string>
+    <string name="action_open">Abrir</string>
+    <string name="action_save_as">Guardar como</string>
+    <string name="action_select_line">Seleccionar Linea</string>
+    <string name="action_delete_line">Eliminar línea</string>
+    <string name="action_duplicate_line">Duplicar línea</string>
+    <string name="action_regex">Expresión regular</string>
+    <string name="action_match_case">Coincidir mayúsculas y minúsculas</string>
+    <string name="action_words_only">Sólo palabras</string>
+    <string name="action_find">Encontrar</string>
+    <string name="action_close_find">Cerrar la búsqueda</string>
+    <string name="action_replace">Reemplazar</string>
+    <string name="action_close_replace">Cerrar reemplazo</string>
+    <string name="action_goto_line">Ir a línea</string>
+    <string name="action_go_to">Ir a</string>
+    <string name="action_force_syntax">Forzar sintaxis</string>
+    <string name="action_insert_color">Insertar color</string>
+    <string name="action_settings">Configuración</string>
+    <string name="action_tools">Herramientas</string>
+    <string name="dialog_title_goto_line">Ir a línea…</string>
+    <string name="dialog_title_color_picker">Selector de Color</string>
+    <string name="dialog_title_force_syntax">Resaltador de sintaxis</string>
+    <string name="dialog_message_close_tab">¿Está seguro de que desea cerrar este archivo? Todos los cambios no guardados serán descartados</string>
+    <string name="message_no_open_files">Ningún archivo abierto</string>
+    <string name="message_file_not_found">Archivo no encontrado</string>
+    <string name="message_out_of_memory">Sin memoria</string>
+    <string name="message_saved">Guardado</string>
+    <string name="message_nothing_to_cut">Nada que cortar</string>
+    <string name="message_nothing_to_copy">No hay nada para copiar</string>
+    <string name="message_nothing_to_paste">Nada que pegar</string>
+    <string name="message_line_not_exists">La línea no existe</string>
+    <string name="message_no_errors_detected">Ningún error de sintaxis detectado</string>
+</resources>
