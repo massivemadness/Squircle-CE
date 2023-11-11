@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.themes.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.extensions.toHexString
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.themes.R
@@ -32,6 +31,7 @@ import com.blacksquircle.ui.feature.themes.ui.mvi.NewThemeViewState
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
+import com.blacksquircle.ui.uikit.extensions.toHexString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*

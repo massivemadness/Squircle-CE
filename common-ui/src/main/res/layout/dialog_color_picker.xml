@@ -29,21 +29,35 @@
         android:id="@+id/colorPicker" />
 
     <com.skydoves.colorpickerview.sliders.AlphaSlideBar
-        android:id="@+id/alphaSlideBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:id="@+id/alphaSlideBar"
         app:selector_AlphaSlideBar="@drawable/colorpickerview_wheel" />
 
     <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
-        android:id="@+id/brightnessSlideBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:id="@+id/brightnessSlideBar"
         app:selector_BrightnessSlider="@drawable/colorpickerview_wheel" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:maxLength="9"
+        android:ems="9"
+        android:typeface="monospace"
+        android:gravity="center"
+        android:singleLine="true"
+        android:id="@+id/colorInput" />
 
 </LinearLayout>

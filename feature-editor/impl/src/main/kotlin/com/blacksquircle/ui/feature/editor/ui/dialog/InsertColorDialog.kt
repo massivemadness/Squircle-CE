@@ -22,6 +22,7 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.uikit.ColorPickerDialog
+import com.blacksquircle.ui.uikit.extensions.toHexString
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +31,7 @@ class InsertColorDialog : ColorPickerDialog() {
     override val titleRes = R.string.dialog_title_color_picker
     override val positiveRes = R.string.action_insert
     override val negativeRes = android.R.string.cancel
-    override val initialColor = Color.WHITE
+    override val initialColor = Color.WHITE.toHexString()
 
     private val viewModel by activityViewModels<EditorViewModel>()
 

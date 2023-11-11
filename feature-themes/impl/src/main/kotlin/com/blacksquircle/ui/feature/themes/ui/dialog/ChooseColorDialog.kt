@@ -16,14 +16,13 @@
 
 package com.blacksquircle.ui.feature.themes.ui.dialog
 
-import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.toHexString
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.uikit.ColorPickerDialog
+import com.blacksquircle.ui.uikit.extensions.toHexString
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,8 +31,8 @@ class ChooseColorDialog : ColorPickerDialog() {
     override val titleRes = R.string.dialog_title_color_picker
     override val positiveRes = R.string.action_select
     override val negativeRes = android.R.string.cancel
-    override val initialColor: Int
-        get() = navArgs.value.toColorInt()
+    override val initialColor: String
+        get() = navArgs.value
 
     private val viewModel by hiltNavGraphViewModels<ThemesViewModel>(R.id.themes_graph)
     private val navArgs by navArgs<ChooseColorDialogArgs>()
