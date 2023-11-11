@@ -53,10 +53,10 @@
     </dialog>
 
     <dialog
-        android:id="@+id/colorPickerDialog"
-        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.ColorPickerDialog"
-        android:label="ColorPickerDialog">
-        <deepLink app:uri="blacksquircle://editor/colorpicker" />
+        android:id="@+id/insertColorDialog"
+        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.InsertColorDialog"
+        android:label="InsertColorDialog">
+        <deepLink app:uri="blacksquircle://editor/insertcolor" />
     </dialog>
 
 </navigation>

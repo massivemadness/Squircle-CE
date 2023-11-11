@@ -363,7 +363,7 @@ class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (selectedPosition > -1) {
-                    _viewEvent.send(ViewEvent.Navigation(EditorScreen.ColorPicker))
+                    _viewEvent.send(ViewEvent.Navigation(EditorScreen.InsertColor))
                 }
             } catch (e: Exception) {
                 Timber.e(e, e.message)

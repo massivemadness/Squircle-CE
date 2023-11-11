@@ -31,6 +31,7 @@ import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.mvi.NewThemeViewState
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemesViewState
+import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -69,12 +70,13 @@ class ThemesViewModel @Inject constructor(
             is ThemeIntent.RemoveTheme -> removeTheme(event)
 
             is ThemeIntent.CreateTheme -> createTheme(event)
+            is ThemeIntent.ChooseColor -> chooseColor(event)
             is ThemeIntent.LoadProperties -> fetchProperties(event)
 
             is ThemeIntent.ChangeName -> onThemeNameChanged(event)
             is ThemeIntent.ChangeAuthor -> onThemeAuthorChanged(event)
             is ThemeIntent.ChangeDescription -> onThemeDescriptionChanged(event)
-            is ThemeIntent.ChangeProperty -> onThemePropertyChanged(event)
+            is ThemeIntent.ChangeColor -> onThemeColorChanged(event)
         }
     }
 
@@ -228,6 +230,18 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
+    private fun chooseColor(event: ThemeIntent.ChooseColor) {
+        viewModelScope.launch {
+            try {
+                val screen = ThemesScreen.ChooseColor(event.key.key, event.value)
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
     private fun fetchProperties(event: ThemeIntent.LoadProperties) {
         viewModelScope.launch {
             try {
@@ -273,12 +287,12 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    private fun onThemePropertyChanged(event: ThemeIntent.ChangeProperty) {
+    private fun onThemeColorChanged(event: ThemeIntent.ChangeColor) {
         val state = newThemeState.value as? NewThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
                 properties = state.properties.map { propertyItem ->
-                    if (propertyItem.propertyKey == event.key) {
+                    if (propertyItem.propertyKey.key == event.key) {
                         propertyItem.copy(propertyValue = event.value)
                     } else {
                         propertyItem

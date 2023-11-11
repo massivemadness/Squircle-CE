@@ -46,4 +46,13 @@
             app:argType="string" />
     </fragment>
 
+    <dialog
+        android:id="@+id/chooseColorDialog"
+        android:name="com.blacksquircle.ui.feature.themes.ui.dialog.ChooseColorDialog"
+        android:label="ChooseColorDialog">
+        <deepLink app:uri="blacksquircle://themes/choosecolor?key={key}&amp;value={value}" />
+        <argument android:name="key" app:argType="string" />
+        <argument android:name="value" app:argType="string" />
+    </dialog>
+
 </navigation>

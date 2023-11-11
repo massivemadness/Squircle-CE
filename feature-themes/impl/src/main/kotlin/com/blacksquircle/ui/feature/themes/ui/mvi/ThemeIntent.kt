@@ -35,9 +35,10 @@ sealed class ThemeIntent : ViewIntent() {
 
     data class LoadProperties(val uuid: String?) : ThemeIntent()
     data class CreateTheme(val meta: Meta, val properties: List<PropertyItem>) : ThemeIntent()
+    data class ChooseColor(val key: Property, val value: String) : ThemeIntent()
 
     data class ChangeName(val value: String) : ThemeIntent()
     data class ChangeAuthor(val value: String) : ThemeIntent()
     data class ChangeDescription(val value: String) : ThemeIntent()
-    data class ChangeProperty(val key: Property, val value: String) : ThemeIntent()
+    data class ChangeColor(val key: String, val value: String) : ThemeIntent()
 }

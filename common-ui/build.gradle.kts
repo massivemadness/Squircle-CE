@@ -49,4 +49,5 @@ dependencies {
     // UI
     implementation(libs.androidx.appcompat)
     implementation(libs.materialdesign)
+    implementation(libs.colorpicker)
 }

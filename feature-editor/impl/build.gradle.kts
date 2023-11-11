@@ -39,7 +39,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.materialdesign)
-    implementation(libs.colorpicker)
 
     // AAC
     implementation(libs.androidx.viewmodel)

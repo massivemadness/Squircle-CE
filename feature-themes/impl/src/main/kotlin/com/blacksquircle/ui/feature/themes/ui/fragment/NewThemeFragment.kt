@@ -21,7 +21,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
@@ -46,10 +45,6 @@ import com.blacksquircle.ui.feature.themes.ui.mvi.NewThemeViewState
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
-import com.skydoves.colorpickerview.ColorPickerDialog
-import com.skydoves.colorpickerview.flag.BubbleFlag
-import com.skydoves.colorpickerview.flag.FlagMode
-import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -102,24 +97,8 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
         binding.recyclerView.setHasFixedSize(false)
         binding.recyclerView.adapter = PropertyAdapter(object : OnItemClickListener<PropertyItem> {
             override fun onClick(item: PropertyItem) {
-                ColorPickerDialog.Builder(requireContext()).apply {
-                    setTitle(R.string.dialog_title_color_picker)
-                    setPositiveButton(R.string.action_select, ColorEnvelopeListener { envelope, _ ->
-                        val event = ThemeIntent.ChangeProperty(
-                            key = item.propertyKey,
-                            value = envelope.color.toHexString(),
-                        )
-                        viewModel.obtainEvent(event)
-                    })
-                    setNegativeButton(android.R.string.cancel, null)
-                    attachAlphaSlideBar(false)
-                    attachBrightnessSlideBar(true)
-
-                    colorPickerView.setInitialColor(item.propertyValue.toColorInt())
-                    colorPickerView.flagView = BubbleFlag(requireContext()).apply {
-                        flagMode = FlagMode.FADE
-                    }
-                }.show()
+                val event = ThemeIntent.ChooseColor(item.propertyKey, item.propertyValue)
+                viewModel.obtainEvent(event)
             }
         }).also {
             adapter = it
@@ -190,6 +169,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    is ViewEvent.Navigation -> navController.navigate(event.screen)
                     is ViewEvent.PopBackStack -> navController.popBackStack()
                 }
             }
