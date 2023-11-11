@@ -19,6 +19,7 @@ package com.blacksquircle.ui.uikit
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.DialogFragment
 import com.blacksquircle.ui.uikit.databinding.DialogColorPickerBinding
 import com.skydoves.colorpickerview.flag.BubbleFlag
@@ -33,9 +34,11 @@ abstract class ColorPickerDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogColorPickerBinding.inflate(layoutInflater)
-        binding.colorPicker.setInitialColor(initialColor)
         binding.colorPicker.attachAlphaSlider(binding.alphaSlideBar)
         binding.colorPicker.attachBrightnessSlider(binding.brightnessSlideBar)
+        binding.colorPicker.doOnPreDraw {
+            binding.colorPicker.setInitialColor(initialColor)
+        }
         binding.colorPicker.flagView = BubbleFlag(requireContext()).apply {
             flagMode = FlagMode.FADE
         }
