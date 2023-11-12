@@ -1,4 +1,4 @@
-<b>Squircle CE</b> currently supports coding in the following programming languages: ActionScript, C, C++, C#, CSS, Fortran, Go, Groovy, HTML, Java, JavaScript, Json, Julia, Kotlin, LaTeX, Lisp, Lua, Markdown, PHP, Python, Ruby, Rust, Shell, Smali, SQL, Toml, TypeScript, Visual Basic, XML and YAML.
+<b>Squircle CE</b> currently supports coding in the following programming languages: ActionScript, C, C++, C#, CSS, Fortran, Go, Groovy, HTML, Ini, Java, JavaScript, Json, Julia, Kotlin, LaTeX, Lisp, Lua, Markdown, PHP, Python, Ruby, Rust, Shell, Smali, SQL, Toml, TypeScript, Visual Basic, XML and YAML.
 
 Here is a list of features that will help you work with more productivity:
 

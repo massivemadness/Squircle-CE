@@ -30,7 +30,6 @@ class BaselineProfileBenchmark {
 
     @Test
     fun generate() = baselineProfileRule.collect("com.blacksquircle.ui") {
-        pressHome()
         startActivityAndWait()
     }
 }
