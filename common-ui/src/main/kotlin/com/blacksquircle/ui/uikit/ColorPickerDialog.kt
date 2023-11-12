@@ -26,8 +26,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import com.blacksquircle.ui.uikit.databinding.DialogColorPickerBinding
 import com.blacksquircle.ui.uikit.extensions.toHexString
-import com.skydoves.colorpickerview.flag.BubbleFlag
-import com.skydoves.colorpickerview.flag.FlagMode
 import com.skydoves.colorpickerview.listeners.ColorListener
 
 abstract class ColorPickerDialog : DialogFragment() {
@@ -49,9 +47,6 @@ abstract class ColorPickerDialog : DialogFragment() {
                 binding.colorInput.setText(color.toHexString())
                 updatingText = false
             }
-        }
-        binding.colorPicker.flagView = BubbleFlag(requireContext()).apply {
-            flagMode = FlagMode.FADE
         }
         binding.colorInput.doOnTextChanged { text, _, _, _ ->
             if (!updatingText) {
