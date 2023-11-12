@@ -26,6 +26,7 @@ import com.blacksquircle.ui.language.fortran.FortranLanguage
 import com.blacksquircle.ui.language.go.GoLanguage
 import com.blacksquircle.ui.language.groovy.GroovyLanguage
 import com.blacksquircle.ui.language.html.HtmlLanguage
+import com.blacksquircle.ui.language.ini.IniLanguage
 import com.blacksquircle.ui.language.java.JavaLanguage
 import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.language.json.JsonLanguage
@@ -68,6 +69,7 @@ object LanguageFactory {
             GoLanguage.LANGUAGE_NAME -> GoLanguage()
             GroovyLanguage.LANGUAGE_NAME -> GroovyLanguage()
             HtmlLanguage.LANGUAGE_NAME -> HtmlLanguage()
+            IniLanguage.LANGUAGE_NAME -> IniLanguage()
             JavaLanguage.LANGUAGE_NAME -> JavaLanguage()
             JavaScriptLanguage.LANGUAGE_NAME -> JavaScriptLanguage()
             JsonLanguage.LANGUAGE_NAME -> JsonLanguage()

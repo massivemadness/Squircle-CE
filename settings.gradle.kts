@@ -79,6 +79,7 @@ include(
     ":editorkit:language-go",
     ":editorkit:language-groovy",
     ":editorkit:language-html",
+    ":editorkit:language-ini",
     ":editorkit:language-java",
     ":editorkit:language-javascript",
     ":editorkit:language-json",

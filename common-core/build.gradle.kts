@@ -97,6 +97,7 @@ dependencies {
     implementation(project(":editorkit:language-go"))
     implementation(project(":editorkit:language-groovy"))
     implementation(project(":editorkit:language-html"))
+    implementation(project(":editorkit:language-ini"))
     implementation(project(":editorkit:language-java"))
     implementation(project(":editorkit:language-javascript"))
     implementation(project(":editorkit:language-json"))
