@@ -18,24 +18,27 @@ package com.blacksquircle.ui.feature.settings.data.utils
 
 import android.content.Context
 import android.content.pm.PackageManager
+import androidx.core.content.PackageManagerCompat
+import androidx.core.content.pm.PackageInfoCompat
 
 val Context.applicationName: String
     get() = try {
         applicationInfo.loadLabel(packageManager).toString()
     } catch (e: PackageManager.NameNotFoundException) {
-        ""
+        "null"
     }
 
 val Context.versionName: String
     get() = try {
         packageManager.getPackageInfo(packageName, 0).versionName
     } catch (e: PackageManager.NameNotFoundException) {
-        ""
+        "null"
     }
 
-val Context.versionCode: Int
+val Context.versionCode: Long
     get() = try {
-        packageManager.getPackageInfo(packageName, 0).versionCode
+        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        PackageInfoCompat.getLongVersionCode(packageInfo)
     } catch (e: PackageManager.NameNotFoundException) {
-        -1
+        -1L
     }
