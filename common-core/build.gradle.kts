@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import com.blacksquircle.ui.RoomSchemaArgProvider
+
 plugins {
     id("com.blacksquircle.common")
 }
@@ -21,15 +23,6 @@ plugins {
 android {
     namespace = "com.blacksquircle.ui.core"
 
-    defaultConfig {
-        javaCompileOptions {
-            annotationProcessorOptions {
-                argument("room.schemaLocation", "$projectDir/schemas")
-                argument("room.incremental", "true")
-                argument("room.expandProjection", "true")
-            }
-        }
-    }
     sourceSets {
         named("androidTest") {
             assets.srcDir(files("$projectDir/schemas"))
@@ -38,6 +31,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+}
+
+ksp {
+    arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
 }
 
 dependencies {

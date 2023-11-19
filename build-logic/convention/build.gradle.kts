@@ -66,9 +66,5 @@ gradlePlugin {
             id = "com.blacksquircle.publish"
             implementationClass = "com.blacksquircle.ui.PublishModulePlugin"
         }
-        register("com.blacksquircle.stub") {
-            id = "com.blacksquircle.stub"
-            implementationClass = "com.blacksquircle.ui.StubModulePlugin"
-        }
     }
 }

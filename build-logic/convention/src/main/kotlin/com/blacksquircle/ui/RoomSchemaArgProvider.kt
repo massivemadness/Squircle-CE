@@ -16,9 +16,19 @@
 
 package com.blacksquircle.ui
 
-import org.gradle.api.Plugin
-import org.gradle.api.Project
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
+import org.gradle.process.CommandLineArgumentProvider
+import java.io.File
 
-class StubModulePlugin : Plugin<Project> {
-    override fun apply(target: Project) = Unit
+class RoomSchemaArgProvider(
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val schemaDir: File
+) : CommandLineArgumentProvider {
+
+    override fun asArguments(): Iterable<String> {
+        return listOf("room.schemaLocation=${schemaDir.path}")
+    }
 }
