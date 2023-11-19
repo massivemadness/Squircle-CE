@@ -50,6 +50,10 @@ gradlePlugin {
             id = "com.blacksquircle.feature"
             implementationClass = "com.blacksquircle.ui.FeatureModulePlugin"
         }
+        register("com.blacksquircle.common") {
+            id = "com.blacksquircle.common"
+            implementationClass = "com.blacksquircle.ui.CommonModulePlugin"
+        }
         register("com.blacksquircle.filesystem") {
             id = "com.blacksquircle.filesystem"
             implementationClass = "com.blacksquircle.ui.FilesystemModulePlugin"

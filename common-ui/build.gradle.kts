@@ -14,28 +14,14 @@
  * limitations under the License.
  */
 
-import com.blacksquircle.ui.BuildConst
 
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    id("com.blacksquircle.stub")
+    id("com.blacksquircle.common")
 }
 
 android {
-    compileSdk = BuildConst.COMPILE_SDK
     namespace = "com.blacksquircle.ui.uikit"
 
-    defaultConfig {
-        minSdk = BuildConst.MIN_SDK
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         viewBinding = true
     }
@@ -50,4 +36,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.materialdesign)
     implementation(libs.colorpicker)
+
+    // DI
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
 }

@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-import com.blacksquircle.ui.BuildConst
-
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.ksp)
-    alias(libs.plugins.hilt)
-    id("com.blacksquircle.stub")
+    id("com.blacksquircle.common")
 }
 
 android {
-    compileSdk = BuildConst.COMPILE_SDK
     namespace = "com.blacksquircle.ui.core"
 
     defaultConfig {
-        minSdk = BuildConst.MIN_SDK
-
-        consumerProguardFiles("consumer-rules.pro")
-
         javaCompileOptions {
             annotationProcessorOptions {
                 argument("room.schemaLocation", "$projectDir/schemas")
@@ -41,17 +30,7 @@ android {
             }
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     sourceSets {
-        named("main") {
-            java.srcDir("src/main/kotlin")
-        }
         named("androidTest") {
             assets.srcDir(files("$projectDir/schemas"))
         }
