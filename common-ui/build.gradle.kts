@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 plugins {
     id("com.blacksquircle.common")
 }
