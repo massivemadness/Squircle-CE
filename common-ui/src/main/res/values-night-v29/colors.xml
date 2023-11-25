@@ -19,12 +19,12 @@
 
     <color name="colorPrimary">#FF8000</color>
     <color name="colorSecondary">#FF8000</color>
-    <color name="colorSurface">#3C3F41</color>
+    <color name="colorSurface">#2B2D30</color>
     <color name="colorError">#E45356</color>
-    <color name="colorBackground">#303030</color>
+    <color name="colorBackground">#1E1F22</color>
 
     <color name="colorPrimaryVariant">#FFBB33</color>
-    <color name="colorSecondaryVariant">#37383A</color>
+    <color name="colorSecondaryVariant">#1E1F22</color>
     <color name="colorOnSurfaceVariant">#FFFFFF</color>
 
     <color name="colorOnPrimary">#000000</color>

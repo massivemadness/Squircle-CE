@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment
+package com.blacksquircle.ui.feature.settings.ui.fragment.codestyle
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,33 +23,23 @@ import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.core.extensions.postponeEnterTransition
-import com.blacksquircle.ui.core.extensions.setFadeTransition
-import com.blacksquircle.ui.core.navigation.Screen
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.databinding.LayoutPreferenceBinding
+import com.blacksquircle.ui.feature.settings.R
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class EditorFragment : PreferenceFragmentCompat() {
+class CodeStyleFragment : PreferenceFragmentCompat() {
 
     private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_editor, rootKey)
-
-        findPreference<Preference>(SettingsManager.KEY_FONT_TYPE)?.setOnPreferenceClickListener {
-            navController.navigate(Screen.Fonts)
-            true
-        }
+        setPreferencesFromResource(R.xml.preference_code_style, rootKey)
     }
 
     override fun onCreateView(
@@ -66,7 +56,6 @@ class EditorFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
         postponeEnterTransition(view)
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->
@@ -74,7 +63,7 @@ class EditorFragment : PreferenceFragmentCompat() {
             binding.root[1].updatePadding(bottom = bottom)
         }
 
-        binding.toolbar.title = getString(R.string.pref_header_editor_title)
+        binding.toolbar.title = getString(R.string.pref_header_codeStyle_title)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }

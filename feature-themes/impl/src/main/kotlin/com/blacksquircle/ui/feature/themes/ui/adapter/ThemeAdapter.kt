@@ -26,10 +26,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.extensions.getColour
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.core.view.MaterialPopupMenu
+import com.blacksquircle.ui.ds.extensions.isColorDark
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.databinding.ItemThemeBinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.ds.extensions.isColorDark
 
 class ThemeAdapter(
     private val actions: Actions,

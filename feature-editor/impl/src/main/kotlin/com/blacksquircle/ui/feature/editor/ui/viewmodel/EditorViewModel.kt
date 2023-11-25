@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
@@ -39,7 +40,6 @@ import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.ds.extensions.toHexString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel

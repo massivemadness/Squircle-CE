@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment
+package com.blacksquircle.ui.feature.settings.ui.fragment.files
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,10 +28,9 @@ import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.extensions.postponeEnterTransition
-import com.blacksquircle.ui.core.extensions.setFadeTransition
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.databinding.LayoutPreferenceBinding
+import com.blacksquircle.ui.feature.settings.R
 import dagger.hilt.android.AndroidEntryPoint
 import java.nio.charset.Charset
 import com.blacksquircle.ui.ds.R as UiR
@@ -73,7 +72,6 @@ class FilesFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
         postponeEnterTransition(view)
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->

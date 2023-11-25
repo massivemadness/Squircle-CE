@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment
+package com.blacksquircle.ui.feature.settings.ui.fragment.application
 
 import android.os.Build
 import android.os.Bundle
@@ -33,9 +33,9 @@ import com.blacksquircle.ui.core.extensions.*
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.theme.Theme
+import com.blacksquircle.ui.ds.databinding.LayoutPreferenceBinding
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
-import com.blacksquircle.ui.ds.databinding.LayoutPreferenceBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -85,7 +85,6 @@ class ApplicationFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFadeTransition(binding.root[1] as ViewGroup, R.id.toolbar)
         postponeEnterTransition(view)
 
         view.applySystemWindowInsets(true) { _, top, _, bottom ->

@@ -21,3 +21,4 @@ ktlint_standard_multiline-expression-wrapping = disabled
 ktlint_standard_string-template-indent = disabled
 ktlint_standard_parameter-list-wrapping = disabled
 ktlint_standard_function-signature = disabled
+ktlint_standard_function-naming = disabled
