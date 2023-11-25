@@ -42,7 +42,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @HiltWorker
 class ExtractFileWorker @AssistedInject constructor(

@@ -39,14 +39,14 @@ import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.uikit.extensions.toHexString
+import com.blacksquircle.ui.ds.extensions.toHexString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(

@@ -25,7 +25,7 @@ import com.blacksquircle.ui.core.extensions.setTintAttr
 import com.blacksquircle.ui.feature.explorer.databinding.ItemFileCompactBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 import com.google.android.material.R as MtrlR
 
 class CompactViewHolder(

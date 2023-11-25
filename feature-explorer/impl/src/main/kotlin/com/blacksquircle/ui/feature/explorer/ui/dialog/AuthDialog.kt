@@ -28,7 +28,7 @@ import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import dagger.hilt.android.AndroidEntryPoint
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class AuthDialog : DialogFragment() {

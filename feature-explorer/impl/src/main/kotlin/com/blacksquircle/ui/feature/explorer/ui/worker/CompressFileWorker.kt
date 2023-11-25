@@ -47,7 +47,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @HiltWorker
 class CompressFileWorker @AssistedInject constructor(

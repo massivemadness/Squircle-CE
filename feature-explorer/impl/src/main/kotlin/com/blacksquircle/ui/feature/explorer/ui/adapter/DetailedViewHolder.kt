@@ -29,7 +29,7 @@ import com.blacksquircle.ui.feature.explorer.data.utils.toReadableSize
 import com.blacksquircle.ui.feature.explorer.databinding.ItemFileDetailedBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 import com.google.android.material.R as MtrlR
 
 class DetailedViewHolder(

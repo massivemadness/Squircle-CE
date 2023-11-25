@@ -31,10 +31,10 @@ import com.blacksquircle.ui.core.extensions.postponeEnterTransition
 import com.blacksquircle.ui.core.extensions.setFadeTransition
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import com.blacksquircle.ui.ds.databinding.LayoutPreferenceBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.nio.charset.Charset
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class FilesFragment : PreferenceFragmentCompat() {

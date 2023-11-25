@@ -42,7 +42,7 @@ import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class ServerDialog : DialogFragment() {

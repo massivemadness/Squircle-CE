@@ -34,11 +34,11 @@ import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
-import com.blacksquircle.ui.uikit.databinding.LayoutPreferenceBinding
+import com.blacksquircle.ui.ds.databinding.LayoutPreferenceBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class ShortcutsFragment : PreferenceFragmentCompat() {

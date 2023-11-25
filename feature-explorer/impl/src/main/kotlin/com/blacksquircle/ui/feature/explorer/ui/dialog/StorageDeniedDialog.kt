@@ -29,7 +29,7 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.explorer.R
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class StorageDeniedDialog : DialogFragment() {

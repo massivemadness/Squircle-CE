@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.uikit
+package com.blacksquircle.ui.ds
 
 import android.app.Dialog
 import android.graphics.Color
@@ -24,8 +24,8 @@ import androidx.core.graphics.toColorInt
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
-import com.blacksquircle.ui.uikit.databinding.DialogColorPickerBinding
-import com.blacksquircle.ui.uikit.extensions.toHexString
+import com.blacksquircle.ui.ds.databinding.DialogColorPickerBinding
+import com.blacksquircle.ui.ds.extensions.toHexString
 import com.skydoves.colorpickerview.listeners.ColorListener
 
 abstract class ColorPickerDialog : DialogFragment() {

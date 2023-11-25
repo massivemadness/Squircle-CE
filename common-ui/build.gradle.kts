@@ -19,7 +19,7 @@ plugins {
 }
 
 android {
-    namespace = "com.blacksquircle.ui.uikit"
+    namespace = "com.blacksquircle.ui.ds"
 
     buildFeatures {
         viewBinding = true

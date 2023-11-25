@@ -20,7 +20,7 @@ import android.content.Context
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 class SettingsRepositoryImpl(
     private val settingsManager: SettingsManager,

@@ -31,14 +31,14 @@ import com.blacksquircle.ui.feature.themes.ui.mvi.NewThemeViewState
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
-import com.blacksquircle.ui.uikit.extensions.toHexString
+import com.blacksquircle.ui.ds.extensions.toHexString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @HiltViewModel
 class ThemesViewModel @Inject constructor(

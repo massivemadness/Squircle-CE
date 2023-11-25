@@ -22,7 +22,7 @@ import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalScheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.uikit.extensions.toHexString
+import com.blacksquircle.ui.ds.extensions.toHexString
 import java.util.*
 
 object ThemeConverter {

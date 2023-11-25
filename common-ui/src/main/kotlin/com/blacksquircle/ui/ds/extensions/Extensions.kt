@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.uikit.extensions
+package com.blacksquircle.ui.ds.extensions
 
 import android.content.res.Resources
 import android.graphics.Color

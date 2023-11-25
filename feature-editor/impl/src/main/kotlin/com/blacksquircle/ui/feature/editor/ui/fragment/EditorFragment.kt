@@ -67,7 +67,7 @@ import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class EditorFragment : Fragment(R.layout.fragment_editor),

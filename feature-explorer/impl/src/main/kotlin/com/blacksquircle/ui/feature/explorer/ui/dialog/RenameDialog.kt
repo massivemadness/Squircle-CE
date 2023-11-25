@@ -28,7 +28,7 @@ import com.blacksquircle.ui.feature.explorer.databinding.DialogRenameBinding
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import com.blacksquircle.ui.uikit.R as UiR
+import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class RenameDialog : DialogFragment() {
