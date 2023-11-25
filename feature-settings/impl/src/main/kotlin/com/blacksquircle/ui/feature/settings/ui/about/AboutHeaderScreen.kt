@@ -28,6 +28,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -55,9 +59,14 @@ private const val CONTRIBUTE_PROJECT_URL = "https://github.com/massivemadness/Sq
 @Composable
 fun AboutHeaderScreen(viewModel: AboutViewModel) {
     val context = LocalContext.current
+    var counter by remember { mutableIntStateOf(1) }
     AboutHeaderContent(
         onChangelogClicked = {
-            viewModel.navigate(SettingsScreen.ChangeLog)
+            if (counter < 10) {
+                counter++
+            } else {
+                viewModel.navigate(SettingsScreen.ChangeLog)
+            }
         },
         onPrivacyClicked = {
             val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -155,7 +164,7 @@ private fun Context.appVersionName(): String {
 
 @Preview
 @Composable
-fun AboutHeaderScreenPreview() {
+private fun AboutHeaderScreenPreview() {
     SquircleTheme {
         AboutHeaderContent(
             onChangelogClicked = {},

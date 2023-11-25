@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.changelog.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import com.blacksquircle.ui.feature.changelog.domain.repository.ChangelogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -29,24 +28,30 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ChangelogViewModel @Inject constructor(
+class ChangeLogViewModel @Inject constructor(
     private val changelogRepository: ChangelogRepository,
 ) : ViewModel() {
 
-    private val _changelogState = MutableStateFlow<List<ReleaseModel>>(emptyList())
-    val changelogState: StateFlow<List<ReleaseModel>> = _changelogState.asStateFlow()
+    private val _changelogState = MutableStateFlow(ChangeLogState())
+    val changelogState: StateFlow<ChangeLogState> = _changelogState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     init {
-        fetchChangeLog()
+        loadChangelog()
     }
 
-    private fun fetchChangeLog() {
+    fun popBackStack() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack())
+        }
+    }
+
+    private fun loadChangelog() {
         viewModelScope.launch {
             try {
-                _changelogState.value = changelogRepository.loadChangelog()
+                _changelogState.value = ChangeLogState(changelogRepository.loadChangelog())
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
