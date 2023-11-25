@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment.files
+package com.blacksquircle.ui.feature.settings.ui.fragment.editor
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,39 +22,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.core.view.updatePadding
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
+import com.blacksquircle.ui.core.extensions.navigate
 import com.blacksquircle.ui.core.extensions.postponeEnterTransition
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.ds.databinding.LayoutPreferenceBinding
 import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.nio.charset.Charset
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class FilesFragment : PreferenceFragmentCompat() {
+class EditorHeaderFragment : PreferenceFragmentCompat() {
 
+    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
     private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_files, rootKey)
+        setPreferencesFromResource(R.xml.preference_editor, rootKey)
 
-        val supportedEncodings = Charset.availableCharsets()
-            .map(Map.Entry<String, Charset>::key)
-            .toTypedArray()
-
-        findPreference<ListPreference>(SettingsManager.KEY_ENCODING_FOR_OPENING)?.apply {
-            entries = supportedEncodings
-            entryValues = supportedEncodings
-        }
-        findPreference<ListPreference>(SettingsManager.KEY_ENCODING_FOR_SAVING)?.apply {
-            entries = supportedEncodings
-            entryValues = supportedEncodings
+        findPreference<Preference>(SettingsManager.KEY_FONT_TYPE)?.setOnPreferenceClickListener {
+            navController.navigate(Screen.Fonts)
+            true
         }
     }
 
@@ -79,7 +75,7 @@ class FilesFragment : PreferenceFragmentCompat() {
             binding.root[1].updatePadding(bottom = bottom)
         }
 
-        binding.toolbar.title = getString(R.string.pref_header_files_title)
+        binding.toolbar.title = getString(R.string.pref_header_editor_title)
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }

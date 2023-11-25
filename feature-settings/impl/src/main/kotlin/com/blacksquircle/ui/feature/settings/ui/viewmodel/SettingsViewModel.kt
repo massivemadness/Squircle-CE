@@ -19,92 +19,40 @@ package com.blacksquircle.ui.feature.settings.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
+import com.blacksquircle.ui.feature.settings.ui.fragment.header.HeaderListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.blacksquircle.ui.ds.R as UiR
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
-    private val _headersState = MutableStateFlow(
-        listOf(
-            PreferenceHeader(
-                icon = UiR.drawable.ic_tools_outline,
-                title = stringProvider.getString(R.string.pref_header_application_title),
-                subtitle = stringProvider.getString(R.string.pref_header_application_summary),
-                selected = false,
-                screen = SettingsScreen.Application,
-            ),
-            PreferenceHeader(
-                icon = UiR.drawable.ic_edit_outline,
-                title = stringProvider.getString(R.string.pref_header_editor_title),
-                subtitle = stringProvider.getString(R.string.pref_header_editor_summary),
-                selected = false,
-                screen = SettingsScreen.Editor,
-            ),
-            PreferenceHeader(
-                icon = UiR.drawable.ic_code,
-                title = stringProvider.getString(R.string.pref_header_codeStyle_title),
-                subtitle = stringProvider.getString(R.string.pref_header_codeStyle_summary),
-                selected = false,
-                screen = SettingsScreen.CodeStyle,
-            ),
-            PreferenceHeader(
-                icon = UiR.drawable.ic_file_cabinet,
-                title = stringProvider.getString(R.string.pref_header_files_title),
-                subtitle = stringProvider.getString(R.string.pref_header_files_summary),
-                selected = false,
-                screen = SettingsScreen.Files,
-            ),
-            PreferenceHeader(
-                icon = UiR.drawable.ic_keyboard_outline,
-                title = stringProvider.getString(R.string.pref_header_keybindings_title),
-                subtitle = stringProvider.getString(R.string.pref_header_keybindings_summary),
-                selected = false,
-                screen = SettingsScreen.Keybindings,
-            ),
-            PreferenceHeader(
-                icon = UiR.drawable.ic_server,
-                title = stringProvider.getString(R.string.pref_header_cloud_title),
-                subtitle = stringProvider.getString(R.string.pref_header_cloud_summary),
-                selected = false,
-                screen = SettingsScreen.Cloud,
-            ),
-            PreferenceHeader(
-                icon = UiR.drawable.ic_info,
-                title = stringProvider.getString(R.string.pref_header_about_title),
-                subtitle = stringProvider.getString(R.string.pref_header_about_summary),
-                selected = false,
-                screen = SettingsScreen.About,
-            ),
-        ),
-    )
-    val headersState: StateFlow<List<PreferenceHeader>> = _headersState.asStateFlow()
+    private val _headerState = MutableStateFlow(HeaderListState())
+    val headerState: StateFlow<HeaderListState> = _headerState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    var fullscreenMode: Boolean
+    val fullscreenMode: Boolean
         get() = settingsManager.fullScreenMode
-        set(value) { settingsManager.fullScreenMode = value }
 
-    fun selectHeader(header: PreferenceHeader) {
+    fun navigate(screen: Screen<*>) {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.Navigation(header.screen))
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
-    fun onBackClicked() {
+    fun popBackStack() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack())
         }

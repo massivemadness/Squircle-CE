@@ -1,0 +1,110 @@
+/*
+ * Copyright 2023 Squircle CE contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.blacksquircle.ui.feature.settings.ui.fragment.header
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.section.SectionItem
+import com.blacksquircle.ui.ds.sizeL
+import com.blacksquircle.ui.ds.sizeXS
+import com.blacksquircle.ui.ds.toolbar.Toolbar
+import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.ds.R as UiR
+
+@Composable
+fun HeaderListScreen(viewModel: SettingsViewModel) {
+    val state by viewModel.headerState.collectAsState()
+    HeaderListContent(
+        state = state,
+        onBackClicked = viewModel::popBackStack,
+        onItemClicked = viewModel::navigate
+    )
+}
+
+@Composable
+private fun HeaderListContent(
+    state: HeaderListState,
+    onBackClicked: () -> Unit,
+    onItemClicked: (Screen<*>) -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            Toolbar(
+                title = stringResource(R.string.label_settings),
+                backIcon = UiR.drawable.ic_back,
+                onBackClicked = onBackClicked,
+            )
+        }
+    ) { innerPadding ->
+        HeaderList(
+            state = state,
+            contentPadding = innerPadding,
+            onItemClicked = { onItemClicked(it.screen) },
+        )
+    }
+}
+
+@Composable
+private fun HeaderList(
+    state: HeaderListState,
+    contentPadding: PaddingValues,
+    onItemClicked: (PreferenceHeader) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(contentPadding)
+            .padding(sizeL),
+        verticalArrangement = Arrangement.spacedBy(sizeXS)
+    ) {
+        state.headers.forEach { header ->
+            SectionItem(
+                icon = header.icon,
+                title = stringResource(header.title),
+                subtitle = stringResource(header.subtitle),
+                isSelected = false,
+                onSelected = { onItemClicked(header) },
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun HeaderListScreenPreview() {
+    SquircleTheme {
+        HeaderListContent(
+            state = HeaderListState(),
+            onBackClicked = {},
+            onItemClicked = {},
+        )
+    }
+}

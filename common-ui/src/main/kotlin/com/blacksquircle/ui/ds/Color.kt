@@ -41,7 +41,7 @@ internal fun colors(darkTheme: Boolean): ColorScheme {
             surface = Color(0xFF2B2D30),
             onSurface = Color(0xFFFFFFFF),
             surfaceVariant = Color(0xFF2B2D30),
-            onSurfaceVariant = Color(0xFFFFFFFF),
+            onSurfaceVariant = Color(0xFFBCBCBC),
             error = Color(0xFFE45356),
             onError = Color(0xFFFFFFFF),
             errorContainer = Color(0xFFE45356),

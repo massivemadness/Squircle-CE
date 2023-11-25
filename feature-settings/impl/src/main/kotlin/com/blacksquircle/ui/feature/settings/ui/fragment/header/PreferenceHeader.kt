@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.viewmodel
+package com.blacksquircle.ui.feature.settings.ui.fragment.header
 
 import com.blacksquircle.ui.core.navigation.Screen
 
 data class PreferenceHeader(
     val icon: Int,
-    val title: String,
-    val subtitle: String,
+    val title: Int,
+    val subtitle: Int,
     val selected: Boolean,
     val screen: Screen<*>,
 )

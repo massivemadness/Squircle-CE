@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment
+package com.blacksquircle.ui.feature.settings.ui.fragment.about
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class HeaderListFragment : Fragment() {
+class AboutHeaderFragment : Fragment() {
 
     private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
     private val navController by lazy { findNavController() }
@@ -45,12 +45,12 @@ class HeaderListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
                 SquircleTheme {
-                    HeaderListScreen(viewModel)
+                    AboutHeaderScreen(viewModel)
                 }
             }
         }
@@ -65,7 +65,6 @@ class HeaderListFragment : Fragment() {
         viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { event ->
                 when (event) {
-                    is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigate(event.screen)
                     is ViewEvent.PopBackStack -> navController.popBackStack()
                 }
