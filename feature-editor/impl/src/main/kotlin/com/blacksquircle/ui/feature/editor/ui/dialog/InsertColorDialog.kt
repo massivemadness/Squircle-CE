@@ -21,7 +21,7 @@ import androidx.fragment.app.activityViewModels
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.ds.ColorPickerDialog
+import com.blacksquircle.ui.ds.colorpicker.ColorPickerDialog
 import com.blacksquircle.ui.ds.extensions.toHexString
 import dagger.hilt.android.AndroidEntryPoint
 

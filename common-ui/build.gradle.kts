@@ -36,6 +36,14 @@ dependencies {
     implementation(libs.materialdesign)
     implementation(libs.colorpicker)
 
+    // Compose
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.preview)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.manifest)
+
     // DI
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)

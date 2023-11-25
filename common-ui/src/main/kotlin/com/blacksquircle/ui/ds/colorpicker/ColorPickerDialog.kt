@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds
+package com.blacksquircle.ui.ds.colorpicker
 
 import android.app.Dialog
 import android.graphics.Color

@@ -21,7 +21,7 @@ import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
-import com.blacksquircle.ui.ds.ColorPickerDialog
+import com.blacksquircle.ui.ds.colorpicker.ColorPickerDialog
 import com.blacksquircle.ui.ds.extensions.toHexString
 import dagger.hilt.android.AndroidEntryPoint
 

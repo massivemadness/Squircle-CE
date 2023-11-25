@@ -41,6 +41,14 @@ dependencies {
     implementation(libs.androidx.preferences)
     implementation(libs.materialdesign)
 
+    // Compose
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.preview)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.manifest)
+
     // AAC
     implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.lifecycle)
