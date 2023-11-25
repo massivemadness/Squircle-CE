@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment.header
+package com.blacksquircle.ui.feature.settings.ui.header
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,16 +36,15 @@ import com.blacksquircle.ui.ds.sizeL
 import com.blacksquircle.ui.ds.sizeXS
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun HeaderListScreen(viewModel: SettingsViewModel) {
+fun HeaderListScreen(viewModel: HeaderViewModel) {
     val state by viewModel.headerState.collectAsState()
     HeaderListContent(
         state = state,
         onBackClicked = viewModel::popBackStack,
-        onItemClicked = viewModel::navigate
+        onItemClicked = viewModel::selectHeader
     )
 }
 

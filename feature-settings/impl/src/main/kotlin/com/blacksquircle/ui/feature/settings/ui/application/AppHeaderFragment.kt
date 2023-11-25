@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment.application
+package com.blacksquircle.ui.feature.settings.ui.application
 
 import android.os.Build
 import android.os.Bundle
@@ -35,14 +35,14 @@ import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.databinding.LayoutPreferenceBinding
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.settings.ui.header.HeaderViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class AppHeaderFragment : PreferenceFragmentCompat() {
 
-    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
+    private val viewModel by hiltNavGraphViewModels<HeaderViewModel>(R.id.settings_graph)
     private val binding by viewBinding(LayoutPreferenceBinding::bind)
     private val navController by lazy { findNavController() }
 

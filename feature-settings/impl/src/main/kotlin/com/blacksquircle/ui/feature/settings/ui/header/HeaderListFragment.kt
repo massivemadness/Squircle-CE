@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment.header
+package com.blacksquircle.ui.feature.settings.ui.header
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,11 +27,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.navigate
-import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,7 +37,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class HeaderListFragment : Fragment() {
 
-    private val viewModel by hiltNavGraphViewModels<SettingsViewModel>(R.id.settings_graph)
+    private val viewModel by hiltNavGraphViewModels<HeaderViewModel>(R.id.settings_graph)
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(

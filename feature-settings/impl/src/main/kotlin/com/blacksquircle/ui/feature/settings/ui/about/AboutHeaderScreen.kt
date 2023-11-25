@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment.about
+package com.blacksquircle.ui.feature.settings.ui.about
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,31 +33,57 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.adaptiveIconPainterResource
-import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.Preference
+import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.BuildConfig
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.utils.applicationName
 import com.blacksquircle.ui.feature.settings.data.utils.versionCode
 import com.blacksquircle.ui.feature.settings.data.utils.versionName
-import com.blacksquircle.ui.feature.settings.ui.viewmodel.SettingsViewModel
+import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import com.blacksquircle.ui.ds.R as UiR
 
+private const val PRIVACY_POLICY_URL =
+    "https://github.com/massivemadness/Squircle-CE/blob/master/PRIVACY-POLICY.md"
+private const val TRANSLATION_PLATFORM_URL = "https://crowdin.com/project/squircle-ce"
+private const val CONTRIBUTE_PROJECT_URL = "https://github.com/massivemadness/Squircle-CE"
+
 @Composable
-fun AboutHeaderScreen(viewModel: SettingsViewModel) {
+fun AboutHeaderScreen(viewModel: AboutViewModel) {
+    val context = LocalContext.current
     AboutHeaderContent(
-        onPrivacyClicked = {},
-        onTranslationClicked = {},
-        onContributeClicked = {},
+        onChangelogClicked = {
+            viewModel.navigate(SettingsScreen.ChangeLog)
+        },
+        onPrivacyClicked = {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = PRIVACY_POLICY_URL.toUri()
+            }
+            context.startActivity(intent)
+        },
+        onTranslationClicked = {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = TRANSLATION_PLATFORM_URL.toUri()
+            }
+            context.startActivity(intent)
+        },
+        onContributeClicked = {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = CONTRIBUTE_PROJECT_URL.toUri()
+            }
+            context.startActivity(intent)
+        },
         onBackClicked = viewModel::popBackStack
     )
 }
 
 @Composable
 private fun AboutHeaderContent(
+    onChangelogClicked: () -> Unit,
     onPrivacyClicked: () -> Unit,
     onTranslationClicked: () -> Unit,
     onContributeClicked: () -> Unit,
@@ -93,7 +120,8 @@ private fun AboutHeaderContent(
                         contentDescription = null,
                         modifier = Modifier.size(56.dp)
                     )
-                }
+                },
+                onClick = onChangelogClicked,
             )
             Preference(
                 title = stringResource(R.string.pref_privacy_policy_title),
@@ -130,6 +158,7 @@ private fun Context.appVersionName(): String {
 fun AboutHeaderScreenPreview() {
     SquircleTheme {
         AboutHeaderContent(
+            onChangelogClicked = {},
             onPrivacyClicked = {},
             onTranslationClicked = {},
             onContributeClicked = {},

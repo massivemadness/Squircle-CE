@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.fragment.header
+package com.blacksquircle.ui.feature.settings.ui.header
 
 import com.blacksquircle.ui.core.navigation.Screen
 

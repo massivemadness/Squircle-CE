@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.viewmodel
+package com.blacksquircle.ui.feature.settings.ui.header
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.settings.ui.fragment.header.HeaderListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +32,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+class HeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
@@ -46,7 +45,7 @@ class SettingsViewModel @Inject constructor(
     val fullscreenMode: Boolean
         get() = settingsManager.fullScreenMode
 
-    fun navigate(screen: Screen<*>) {
+    fun selectHeader(screen: Screen<*>) {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.Navigation(screen))
         }

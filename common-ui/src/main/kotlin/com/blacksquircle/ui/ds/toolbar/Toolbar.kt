@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import com.blacksquircle.ui.ds.size2XS
-import com.blacksquircle.ui.ds.sizeS
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
