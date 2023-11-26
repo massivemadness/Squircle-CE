@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.header
+package com.blacksquircle.ui.feature.settings.ui.application
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,20 +32,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HeaderViewModel @Inject constructor(
-    private val settingsManager: SettingsManager,
+class AppHeaderViewModel @Inject constructor(
+    private val settingsManager: SettingsManager
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(HeaderListState())
-    val viewState: StateFlow<HeaderListState> = _viewState.asStateFlow()
+    private val _viewState = MutableStateFlow(updateViewState())
+    val viewState: StateFlow<AppHeaderState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    val fullscreenMode: Boolean
-        get() = settingsManager.fullScreenMode
-
-    fun selectHeader(screen: Screen<*>) {
+    fun navigate(screen: Screen<*>) {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
@@ -55,5 +52,26 @@ class HeaderViewModel @Inject constructor(
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack())
         }
+    }
+
+    fun onFullscreenChanged(value: Boolean) {
+        viewModelScope.launch {
+            settingsManager.fullScreenMode = value
+            _viewState.value = updateViewState()
+        }
+    }
+
+    fun onConfirmExitChanged(value: Boolean) {
+        viewModelScope.launch {
+            settingsManager.confirmExit = value
+            _viewState.value = updateViewState()
+        }
+    }
+
+    private fun updateViewState(): AppHeaderState {
+        return AppHeaderState(
+            fullscreenMode = settingsManager.fullScreenMode,
+            confirmExit = settingsManager.confirmExit,
+        )
     }
 }

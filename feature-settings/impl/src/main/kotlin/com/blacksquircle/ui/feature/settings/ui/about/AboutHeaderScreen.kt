@@ -57,7 +57,7 @@ private const val TRANSLATION_PLATFORM_URL = "https://crowdin.com/project/squirc
 private const val CONTRIBUTE_PROJECT_URL = "https://github.com/massivemadness/Squircle-CE"
 
 @Composable
-fun AboutHeaderScreen(viewModel: AboutViewModel) {
+fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
     val context = LocalContext.current
     var counter by remember { mutableIntStateOf(1) }
     AboutHeaderContent(
@@ -102,7 +102,7 @@ private fun AboutHeaderContent(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             Toolbar(
-                title = stringResource(R.string.pref_category_about),
+                title = stringResource(R.string.pref_header_about_title),
                 backIcon = UiR.drawable.ic_back,
                 onBackClicked = onBackClicked,
             )

@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.settings.ui.header
 
+import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import com.blacksquircle.ui.ds.R as UiR
@@ -72,4 +73,4 @@ data class HeaderListState(
             screen = SettingsScreen.About,
         ),
     )
-)
+) : ViewState()

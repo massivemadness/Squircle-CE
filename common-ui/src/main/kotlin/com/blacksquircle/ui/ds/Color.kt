@@ -25,11 +25,11 @@ internal fun colors(darkTheme: Boolean): ColorScheme {
     return if (darkTheme) {
         darkColorScheme(
             primary = Color(0xFFFF8000),
-            onPrimary = Color(0xFF000000),
+            onPrimary = Color(0xFFFFFFFF),
             primaryContainer = Color(0xFFFF8000),
             onPrimaryContainer = Color(0xFF000000),
             secondary = Color(0xFFFF8000),
-            onSecondary = Color(0xFF000000),
+            onSecondary = Color(0xFFFFFFFF),
             secondaryContainer = Color(0xFFFF8000),
             onSecondaryContainer = Color(0xFF000000),
             tertiary = Color(0xFFFF8000),

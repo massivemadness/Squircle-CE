@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class AboutHeaderFragment : Fragment() {
 
-    private val viewModel by hiltNavGraphViewModels<AboutViewModel>(R.id.settings_graph)
+    private val viewModel by hiltNavGraphViewModels<AboutHeaderViewModel>(R.id.settings_graph)
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(

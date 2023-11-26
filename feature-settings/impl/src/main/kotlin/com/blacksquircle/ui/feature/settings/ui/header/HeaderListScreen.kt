@@ -40,9 +40,9 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 fun HeaderListScreen(viewModel: HeaderViewModel) {
-    val state by viewModel.headerState.collectAsState()
+    val viewState by viewModel.viewState.collectAsState()
     HeaderListContent(
-        state = state,
+        viewState = viewState,
         onBackClicked = viewModel::popBackStack,
         onItemClicked = viewModel::selectHeader
     )
@@ -50,7 +50,7 @@ fun HeaderListScreen(viewModel: HeaderViewModel) {
 
 @Composable
 private fun HeaderListContent(
-    state: HeaderListState,
+    viewState: HeaderListState,
     onBackClicked: () -> Unit,
     onItemClicked: (Screen<*>) -> Unit,
 ) {
@@ -64,7 +64,7 @@ private fun HeaderListContent(
         }
     ) { innerPadding ->
         HeaderList(
-            state = state,
+            viewState = viewState,
             contentPadding = innerPadding,
             onItemClicked = { onItemClicked(it.screen) },
         )
@@ -73,7 +73,7 @@ private fun HeaderListContent(
 
 @Composable
 private fun HeaderList(
-    state: HeaderListState,
+    viewState: HeaderListState,
     contentPadding: PaddingValues,
     onItemClicked: (PreferenceHeader) -> Unit,
 ) {
@@ -84,7 +84,7 @@ private fun HeaderList(
             .padding(sizeL),
         verticalArrangement = Arrangement.spacedBy(sizeXS)
     ) {
-        state.headers.forEach { header ->
+        viewState.headers.forEach { header ->
             SectionItem(
                 icon = header.icon,
                 title = stringResource(header.title),
@@ -101,7 +101,7 @@ private fun HeaderList(
 private fun HeaderListScreenPreview() {
     SquircleTheme {
         HeaderListContent(
-            state = HeaderListState(),
+            viewState = HeaderListState(),
             onBackClicked = {},
             onItemClicked = {},
         )
