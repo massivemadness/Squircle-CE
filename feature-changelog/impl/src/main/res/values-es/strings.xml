@@ -15,6 +15,6 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_changelog">Registro de cambios</string>
-    <string name="label_latest_release">Versión más reciente</string>
+    <string name="label_changelog">Historial de cambios</string>
+    <string name="label_latest_release">Última versión</string>
 </resources>
