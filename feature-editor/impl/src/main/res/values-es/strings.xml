@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_line">Línea:</string>
+    <string name="hint_line">Linea:</string>
     <string name="action_close">Cerrar</string>
-    <string name="action_close_others">Cerrar los demás</string>
+    <string name="action_close_others">Cerrar otros</string>
     <string name="action_close_all">Cerrar todas</string>
     <string name="action_insert">Insertar</string>
     <string name="action_new">Nuevo</string>
