@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="common_error_occurred">Ha ocurrido un error</string>
-    <string name="common_no_result">Ningún resultado</string>
-    <string name="common_save">Guardar</string>
-    <string name="common_delete">Borrar</string>
-    <string name="common_continue">Continuar</string>
+    <string name="common_error_occurred">Se ha producido un error</string>
+    <string name="common_no_result">Sin resultados</string>
+    <string name="common_save">Guardado</string>
+    <string name="common_delete">Suprimir</string>
+    <string name="common_continue">Seguir</string>
 </resources>
