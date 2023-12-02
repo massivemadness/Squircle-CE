@@ -18,6 +18,8 @@ package com.blacksquircle.ui.ds.preference
 
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 fun SwitchPreference(
@@ -37,4 +39,30 @@ fun SwitchPreference(
             )
         },
     )
+}
+
+@Preview
+@Composable
+private fun SwitchPreferenceCheckedPreview() {
+    SquircleTheme {
+        SwitchPreference(
+            title = "Preference Title",
+            subtitle = "Preference Subtitle",
+            checked = true,
+            onCheckedChange = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SwitchPreferenceUncheckedPreview() {
+    SquircleTheme {
+        SwitchPreference(
+            title = "Preference Title",
+            subtitle = "Preference Subtitle",
+            checked = false,
+            onCheckedChange = {}
+        )
+    }
 }

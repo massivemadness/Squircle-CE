@@ -37,8 +37,8 @@ fun Preference(
     title: String,
     subtitle: String? = null,
     onClick: () -> Unit = {},
-    leadingContent: (@Composable RowScope.() -> Unit)? = null,
-    trailingContent: (@Composable RowScope.() -> Unit)? = null,
+    leadingContent: @Composable (RowScope.() -> Unit)? = null,
+    trailingContent: @Composable (RowScope.() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier

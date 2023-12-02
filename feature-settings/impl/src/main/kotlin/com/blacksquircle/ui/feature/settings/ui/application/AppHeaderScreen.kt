@@ -27,9 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.preference.ListPreference
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SwitchPreference
@@ -43,6 +46,7 @@ fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
     AppHeaderContent(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
+        onThemeChanged = viewModel::onThemeChanged,
         onFullscreenChanged = viewModel::onFullscreenChanged,
         onConfirmExitChanged = viewModel::onConfirmExitChanged,
     )
@@ -52,6 +56,7 @@ fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
 private fun AppHeaderContent(
     viewState: AppHeaderState,
     onBackClicked: () -> Unit,
+    onThemeChanged: (String) -> Unit,
     onFullscreenChanged: (Boolean) -> Unit,
     onConfirmExitChanged: (Boolean) -> Unit,
 ) {
@@ -73,10 +78,13 @@ private fun AppHeaderContent(
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_look_and_feel)
             )
-            Preference(
+            ListPreference(
                 title = stringResource(R.string.pref_app_theme_title),
                 subtitle = stringResource(R.string.pref_app_theme_summary),
-                onClick = {},
+                entries = stringArrayResource(R.array.theme_entries),
+                entryValues = stringArrayResource(R.array.theme_values),
+                selectedValue = viewState.appTheme,
+                onValueSelected = onThemeChanged,
             )
             Preference(
                 title = stringResource(R.string.pref_color_scheme_title),
@@ -108,8 +116,13 @@ private fun AppHeaderContent(
 private fun AppHeaderScreenPreview() {
     SquircleTheme {
         AppHeaderContent(
-            viewState = AppHeaderState(fullscreenMode = false, confirmExit = true),
+            viewState = AppHeaderState(
+                appTheme = Theme.DARK.value,
+                fullscreenMode = false,
+                confirmExit = true
+            ),
             onBackClicked = {},
+            onThemeChanged = {},
             onFullscreenChanged = {},
             onConfirmExitChanged = {},
         )

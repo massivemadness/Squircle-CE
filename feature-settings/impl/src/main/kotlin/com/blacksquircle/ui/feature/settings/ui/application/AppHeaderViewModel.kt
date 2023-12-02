@@ -54,6 +54,13 @@ class AppHeaderViewModel @Inject constructor(
         }
     }
 
+    fun onThemeChanged(value: String) {
+        viewModelScope.launch {
+            settingsManager.theme = value
+            _viewState.value = updateViewState()
+        }
+    }
+
     fun onFullscreenChanged(value: Boolean) {
         viewModelScope.launch {
             settingsManager.fullScreenMode = value
@@ -70,6 +77,7 @@ class AppHeaderViewModel @Inject constructor(
 
     private fun updateViewState(): AppHeaderState {
         return AppHeaderState(
+            appTheme = settingsManager.theme,
             fullscreenMode = settingsManager.fullScreenMode,
             confirmExit = settingsManager.confirmExit,
         )

@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.application
+package com.blacksquircle.ui.ds.button
 
-import com.blacksquircle.ui.core.mvi.ViewState
+import androidx.compose.material3.ShapeDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
 
-data class AppHeaderState(
-    val appTheme: String,
-    val fullscreenMode: Boolean,
-    val confirmExit: Boolean,
-) : ViewState()
+@Composable
+fun TextButton(
+    text: String,
+    onClick: () -> Unit,
+) {
+    TextButton(
+        onClick = onClick,
+        shape = ShapeDefaults.ExtraSmall,
+    ) {
+        Text(text = text)
+    }
+}
