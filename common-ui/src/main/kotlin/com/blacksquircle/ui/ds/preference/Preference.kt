@@ -18,6 +18,7 @@ package com.blacksquircle.ui.ds.preference
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -39,6 +40,7 @@ fun Preference(
     onClick: () -> Unit = {},
     leadingContent: @Composable (RowScope.() -> Unit)? = null,
     trailingContent: @Composable (RowScope.() -> Unit)? = null,
+    bottomContent: @Composable (ColumnScope.() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
@@ -63,6 +65,9 @@ fun Preference(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
+            if (bottomContent != null) {
+                bottomContent()
+            }
         }
         if (trailingContent != null) {
             Spacer(modifier = Modifier.size(sizeM))
@@ -78,7 +83,7 @@ private fun PreferencePreview() {
         Preference(
             title = "Squircle CE",
             subtitle = "About application",
-            onClick = {}
+            onClick = {},
         )
     }
 }

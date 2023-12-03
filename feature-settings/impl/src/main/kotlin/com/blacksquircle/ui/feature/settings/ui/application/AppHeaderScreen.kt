@@ -89,7 +89,9 @@ private fun AppHeaderContent(
             Preference(
                 title = stringResource(R.string.pref_color_scheme_title),
                 subtitle = stringResource(R.string.pref_color_scheme_summary),
-                onClick = {},
+                onClick = {
+                    // TODO
+                },
             )
             SwitchPreference(
                 title = stringResource(R.string.pref_fullscreen_title),
