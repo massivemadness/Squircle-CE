@@ -39,9 +39,9 @@ internal fun colors(darkTheme: Boolean): ColorScheme {
             background = Color(0xFF1E1F22),
             onBackground = Color(0xFFFFFFFF),
             surface = Color(0xFF2B2D30),
-            onSurface = Color(0xFFFFFFFF),
+            onSurface = Color(0xFFFFFFFF), // List item title (white)
             surfaceVariant = Color(0xFF2B2D30),
-            onSurfaceVariant = Color(0xFFBCBCBC),
+            onSurfaceVariant = Color(0xFFBCBCBC), // List item subtitle (gray)
             error = Color(0xFFE45356),
             onError = Color(0xFFFFFFFF),
             errorContainer = Color(0xFFE45356),

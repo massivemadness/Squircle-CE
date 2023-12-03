@@ -124,7 +124,7 @@ private fun CodeHeaderContent(
 
 @Preview
 @Composable
-private fun AppHeaderScreenPreview() {
+private fun CodeHeaderScreenPreview() {
     SquircleTheme {
         CodeHeaderContent(
             viewState = CodeHeaderState(

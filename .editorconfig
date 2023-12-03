@@ -15,6 +15,8 @@ ktlint_standard_wrapping = disabled
 # Ktlint 1.0.0
 ktlint_standard_annotation = disabled
 ktlint_standard_statement-wrapping = disabled
+ktlint_standard_discouraged-comment-location = disabled
+ktlint_standard_if-else-wrapping = disabled
 ktlint_standard_blank-line-before-declaration = disabled
 ktlint_standard_no-empty-first-line-in-class-body = disabled
 ktlint_standard_multiline-expression-wrapping = disabled

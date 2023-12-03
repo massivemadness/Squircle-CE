@@ -37,15 +37,17 @@ import com.blacksquircle.ui.ds.SquircleTheme
 fun SliderPreference(
     title: String,
     subtitle: String,
-    minValue: Float,
-    maxValue: Float,
-    currentValue: Float,
-    step: Int,
-    onValueChanged: (Float) -> Unit,
+    enabled: Boolean = true,
+    minValue: Float = 0f,
+    maxValue: Float = 1f,
+    currentValue: Float = 0f,
+    step: Int = 1,
+    onValueChanged: (Float) -> Unit = {},
 ) {
     Preference(
         title = title,
         subtitle = subtitle,
+        enabled = enabled,
         bottomContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 var displayValueHolder by rememberSaveable { mutableFloatStateOf(currentValue) }
@@ -57,6 +59,7 @@ fun SliderPreference(
                     onValueChangeFinished = {
                         onValueChanged(displayValueHolder)
                     },
+                    enabled = enabled,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.size(12.dp))
@@ -72,11 +75,29 @@ fun SliderPreference(
 
 @Preview
 @Composable
-private fun SliderPreferencePreview() {
+private fun EnabledSliderPreferencePreview() {
     SquircleTheme {
         SliderPreference(
             title = "Preference Title",
             subtitle = "Preference Subtitle",
+            enabled = true,
+            minValue = 1f,
+            maxValue = 8f,
+            currentValue = 4f,
+            step = 2,
+            onValueChanged = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DisabledSliderPreferencePreview() {
+    SquircleTheme {
+        SliderPreference(
+            title = "Preference Title",
+            subtitle = "Preference Subtitle",
+            enabled = false,
             minValue = 1f,
             maxValue = 8f,
             currentValue = 4f,

@@ -44,15 +44,17 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 fun ListPreference(
     title: String,
     subtitle: String,
-    entries: Array<String>,
-    entryValues: Array<String>,
-    selectedValue: String,
-    onValueSelected: (String) -> Unit,
+    enabled: Boolean = true,
+    entries: Array<String> = emptyArray(),
+    entryValues: Array<String> = emptyArray(),
+    selectedValue: String = "",
+    onValueSelected: (String) -> Unit = {},
 ) {
     var dialogShown by rememberSaveable { mutableStateOf(false) }
     Preference(
         title = title,
         subtitle = subtitle,
+        enabled = enabled,
         onClick = { dialogShown = true },
     )
     if (dialogShown) {

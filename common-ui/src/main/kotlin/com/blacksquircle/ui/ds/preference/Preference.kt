@@ -37,6 +37,7 @@ import com.blacksquircle.ui.ds.sizeM
 fun Preference(
     title: String,
     subtitle: String? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit = {},
     leadingContent: @Composable (RowScope.() -> Unit)? = null,
     trailingContent: @Composable (RowScope.() -> Unit)? = null,
@@ -45,7 +46,7 @@ fun Preference(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clickable(enabled = enabled, onClick = onClick)
             .padding(sizeM)
     ) {
         if (leadingContent != null) {
@@ -55,13 +56,21 @@ fun Preference(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = if (enabled) {
+                    MaterialTheme.colorScheme.onSurface
+                } else {
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                },
                 style = MaterialTheme.typography.bodyLarge,
             )
             if (subtitle != null) {
                 Text(
                     text = subtitle,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = if (enabled) {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                    },
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -78,11 +87,25 @@ fun Preference(
 
 @Preview
 @Composable
-private fun PreferencePreview() {
+private fun PreferenceEnabledPreview() {
     SquircleTheme {
         Preference(
             title = "Squircle CE",
             subtitle = "About application",
+            enabled = true,
+            onClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreferenceDisabledPreview() {
+    SquircleTheme {
+        Preference(
+            title = "Squircle CE",
+            subtitle = "About application",
+            enabled = false,
             onClick = {},
         )
     }

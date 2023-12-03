@@ -25,17 +25,20 @@ import com.blacksquircle.ui.ds.SquircleTheme
 fun SwitchPreference(
     title: String,
     subtitle: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
+    enabled: Boolean = true,
+    checked: Boolean = true,
+    onCheckedChange: (Boolean) -> Unit = {},
 ) {
     Preference(
         title = title,
         subtitle = subtitle,
+        enabled = enabled,
         onClick = { onCheckedChange(!checked) },
         trailingContent = {
             Switch(
                 checked = checked,
                 onCheckedChange = onCheckedChange,
+                enabled = enabled,
             )
         },
     )
@@ -43,7 +46,7 @@ fun SwitchPreference(
 
 @Preview
 @Composable
-private fun SwitchPreferenceCheckedPreview() {
+private fun EnabledSwitchPreferenceCheckedPreview() {
     SquircleTheme {
         SwitchPreference(
             title = "Preference Title",
@@ -56,11 +59,39 @@ private fun SwitchPreferenceCheckedPreview() {
 
 @Preview
 @Composable
-private fun SwitchPreferenceUncheckedPreview() {
+private fun EnabledSwitchPreferenceUncheckedPreview() {
     SquircleTheme {
         SwitchPreference(
             title = "Preference Title",
             subtitle = "Preference Subtitle",
+            checked = false,
+            onCheckedChange = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DisabledSwitchPreferenceCheckedPreview() {
+    SquircleTheme {
+        SwitchPreference(
+            title = "Preference Title",
+            subtitle = "Preference Subtitle",
+            enabled = false,
+            checked = true,
+            onCheckedChange = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DisabledSwitchPreferenceUncheckedPreview() {
+    SquircleTheme {
+        SwitchPreference(
+            title = "Preference Title",
+            subtitle = "Preference Subtitle",
+            enabled = false,
             checked = false,
             onCheckedChange = {}
         )
