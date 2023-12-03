@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,17 +44,30 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 @Composable
 fun ListPreference(
     title: String,
-    subtitle: String,
+    subtitle: String? = null,
     enabled: Boolean = true,
     entries: Array<String> = emptyArray(),
     entryValues: Array<String> = emptyArray(),
+    entryNameAsSubtitle: Boolean = false,
     selectedValue: String = "",
     onValueSelected: (String) -> Unit = {},
 ) {
     var dialogShown by rememberSaveable { mutableStateOf(false) }
+    val displaySubtitle = remember(entries, entryValues, entryNameAsSubtitle) {
+        if (entryNameAsSubtitle) {
+            val valueIndex = entryValues.indexOf(selectedValue)
+            if (valueIndex > -1) {
+                entries[valueIndex]
+            } else {
+                subtitle.toString()
+            }
+        } else {
+            subtitle
+        }
+    }
     Preference(
         title = title,
-        subtitle = subtitle,
+        subtitle = displaySubtitle,
         enabled = enabled,
         onClick = { dialogShown = true },
     )

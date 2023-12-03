@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -114,9 +115,9 @@ private fun FilesHeaderContent(
             ListPreference(
                 title = stringResource(R.string.pref_linebreaks_for_saving_files_title),
                 subtitle = stringResource(R.string.pref_linebreaks_for_saving_files_summary),
-                entries = emptyArray(),
-                entryValues = emptyArray(),
-                selectedValue = "",
+                entries = stringArrayResource(R.array.linebreak_entries),
+                entryValues = stringArrayResource(R.array.linebreak_values),
+                selectedValue = viewState.lineBreakForSaving,
                 onValueSelected = onLineBreaksForSavingChanged,
             )
             HorizontalDivider()
@@ -137,18 +138,18 @@ private fun FilesHeaderContent(
             )
             ListPreference(
                 title = stringResource(R.string.pref_view_mode_title),
-                subtitle = "null",
-                entries = emptyArray(),
-                entryValues = emptyArray(),
-                selectedValue = "",
+                entryNameAsSubtitle = true,
+                entries = stringArrayResource(R.array.view_mode_entries),
+                entryValues = stringArrayResource(R.array.view_mode_values),
+                selectedValue = viewState.viewMode,
                 onValueSelected = onViewModeChanged,
             )
             ListPreference(
                 title = stringResource(R.string.pref_sort_mode_title),
-                subtitle = "null",
-                entries = emptyArray(),
-                entryValues = emptyArray(),
-                selectedValue = "",
+                entryNameAsSubtitle = true,
+                entries = stringArrayResource(R.array.sort_mode_entries),
+                entryValues = stringArrayResource(R.array.sort_mode_values),
+                selectedValue = viewState.sortMode,
                 onValueSelected = onSortModeChanged,
             )
         }
