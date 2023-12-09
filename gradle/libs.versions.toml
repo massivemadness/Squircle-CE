@@ -1,7 +1,7 @@
 [versions]
-agp = "8.1.4"
-kotlin = "1.9.20"
-ksp = "1.9.20-1.0.14"
+agp = "8.2.0"
+kotlin = "1.9.21"
+ksp = "1.9.21-1.0.15"
 kover = "0.7.4"
 core = "1.12.0"
 activity = "1.8.1"
@@ -12,8 +12,9 @@ timber = "5.0.1"
 appupdate = "2.1.0"
 appcompat = "1.6.1"
 material = "1.10.0"
-material-compose = "1.2.0-alpha11"
+material-compose = "1.2.0-alpha12"
 compose = "1.5.4"
+compose-compiler = "1.5.6"
 constraintlayout = "2.1.4"
 swiperefreshlayout = "1.2.0-alpha01"
 preferences = "1.2.1"
@@ -22,8 +23,8 @@ recyclerview-selection = "1.1.0"
 vectordrawable = "1.1.0"
 lifecycle = "2.6.2"
 navigation = "2.7.5"
-room = "2.6.0"
-workmanager = "2.8.1"
+room = "2.6.1"
+workmanager = "2.9.0"
 gson = "2.10.1"
 ftpclient = "3.9.0"
 jsch = "0.2.13"
@@ -37,7 +38,7 @@ bouncycastle = "1.77"
 junit = "4.13.2"
 junit-ext = "1.1.5"
 test-runner = "1.5.2"
-test-benchmark = "1.2.1"
+test-benchmark = "1.2.2"
 mockk = "1.13.8"
 ktlint = "1.0.0"
 
@@ -55,7 +56,7 @@ kotlin-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-plugin-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
+# plugin-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 materialdesign = { module = "com.google.android.material:material", version.ref = "material" }

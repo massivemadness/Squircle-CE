@@ -22,7 +22,7 @@ android {
     namespace = "com.blacksquircle.ui.feature.settings"
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     buildFeatures {
         buildConfig = true

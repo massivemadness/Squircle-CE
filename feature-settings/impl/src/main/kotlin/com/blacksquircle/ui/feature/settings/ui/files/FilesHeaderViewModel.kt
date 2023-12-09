@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.nio.charset.Charset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -115,6 +116,8 @@ class FilesHeaderViewModel @Inject constructor(
             encodingAutoDetect = settingsManager.encodingAutoDetect,
             encodingForOpening = settingsManager.encodingForOpening,
             encodingForSaving = settingsManager.encodingForSaving,
+            encodingList = Charset.availableCharsets()
+                .map(Map.Entry<String, Charset>::key),
             lineBreakForSaving = settingsManager.lineBreakForSaving,
             showHidden = settingsManager.showHidden,
             foldersOnTop = settingsManager.foldersOnTop,

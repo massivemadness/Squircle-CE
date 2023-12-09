@@ -33,6 +33,11 @@ class SquircleApp : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+
     override fun attachBaseContext(base: Context) {
         val settingsManager = SettingsManager(base)
         Theme.of(settingsManager.theme).apply()
@@ -42,11 +47,5 @@ class SquircleApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(AndroidTree())
-    }
-
-    override fun getWorkManagerConfiguration(): Configuration {
-        return Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
     }
 }

@@ -95,17 +95,19 @@ private fun FilesHeaderContent(
             ListPreference(
                 title = stringResource(R.string.pref_encoding_for_opening_title),
                 subtitle = stringResource(R.string.pref_encoding_for_opening_summary),
-                entries = emptyArray(),
-                entryValues = emptyArray(),
-                selectedValue = "",
+                enabled = !viewState.encodingAutoDetect,
+                entries = viewState.encodingList.toTypedArray(),
+                entryValues = viewState.encodingList.toTypedArray(),
+                selectedValue = viewState.encodingForOpening,
                 onValueSelected = onEncodingForOpeningChanged,
             )
             ListPreference(
                 title = stringResource(R.string.pref_encoding_for_saving_title),
                 subtitle = stringResource(R.string.pref_encoding_for_saving_summary),
-                entries = emptyArray(),
-                entryValues = emptyArray(),
-                selectedValue = "",
+                enabled = !viewState.encodingAutoDetect,
+                entries = viewState.encodingList.toTypedArray(),
+                entryValues = viewState.encodingList.toTypedArray(),
+                selectedValue = viewState.encodingForSaving,
                 onValueSelected = onEncodingForSavingChanged,
             )
             HorizontalDivider()
@@ -165,6 +167,7 @@ private fun FilesHeaderScreenPreview() {
                 encodingAutoDetect = false,
                 encodingForOpening = "UTF-8",
                 encodingForSaving = "UTF-8",
+                encodingList = emptyList(),
                 lineBreakForSaving = "2",
                 showHidden = true,
                 foldersOnTop = true,

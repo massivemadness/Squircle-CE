@@ -17,11 +17,12 @@
 package com.blacksquircle.ui.ds.preference
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,9 +57,9 @@ fun ListPreference(
     var dialogShown by rememberSaveable { mutableStateOf(false) }
     val displaySubtitle = remember(entries, entryValues, entryNameAsSubtitle) {
         if (entryNameAsSubtitle) {
-            val valueIndex = entryValues.indexOf(selectedValue)
-            if (valueIndex > -1) {
-                entries[valueIndex]
+            val entryIndex = entryValues.indexOf(selectedValue)
+            if (entryIndex > -1) {
+                entries[entryIndex]
             } else {
                 subtitle.toString()
             }
@@ -75,8 +77,8 @@ fun ListPreference(
         AlertDialog(
             title = title,
             content = {
-                Column {
-                    entryValues.forEachIndexed { index, value ->
+                LazyColumn {
+                    itemsIndexed(entryValues) { index, value ->
                         SelectableItem(
                             entryName = entries[index],
                             entryValue = value,
@@ -119,7 +121,9 @@ private fun SelectableItem(
             text = entryName,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
         )
     }
 }

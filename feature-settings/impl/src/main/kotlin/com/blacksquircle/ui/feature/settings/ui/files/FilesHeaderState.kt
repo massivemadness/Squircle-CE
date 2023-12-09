@@ -22,6 +22,7 @@ data class FilesHeaderState(
     val encodingAutoDetect: Boolean,
     val encodingForOpening: String,
     val encodingForSaving: String,
+    val encodingList: List<String>,
     val lineBreakForSaving: String,
     val showHidden: Boolean,
     val foldersOnTop: Boolean,

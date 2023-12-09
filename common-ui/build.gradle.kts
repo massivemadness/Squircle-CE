@@ -22,7 +22,7 @@ android {
     namespace = "com.blacksquircle.ui.ds"
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     buildFeatures {
         viewBinding = true
