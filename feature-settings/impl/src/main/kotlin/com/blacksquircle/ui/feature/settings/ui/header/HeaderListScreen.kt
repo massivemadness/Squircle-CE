@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.settings.ui.header
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -31,9 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.section.SectionItem
-import com.blacksquircle.ui.ds.sizeL
-import com.blacksquircle.ui.ds.sizeXS
+import com.blacksquircle.ui.ds.preference.PreferenceHeader
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.R as UiR
@@ -80,16 +77,13 @@ private fun HeaderList(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(contentPadding)
-            .padding(sizeL),
-        verticalArrangement = Arrangement.spacedBy(sizeXS)
+            .padding(contentPadding),
     ) {
         viewState.headers.forEach { header ->
-            SectionItem(
-                icon = header.icon,
+            PreferenceHeader(
                 title = stringResource(header.title),
                 subtitle = stringResource(header.subtitle),
-                isSelected = false,
+                selected = false,
                 onSelected = { onItemClicked(header) },
             )
         }

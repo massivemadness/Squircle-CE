@@ -19,54 +19,46 @@ package com.blacksquircle.ui.feature.settings.ui.header
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
-import com.blacksquircle.ui.ds.R as UiR
 
 data class HeaderListState(
     val headers: List<PreferenceHeader> = listOf(
         PreferenceHeader(
-            icon = UiR.drawable.ic_tools_outline,
             title = R.string.pref_header_application_title,
             subtitle = R.string.pref_header_application_summary,
             selected = false,
             screen = SettingsScreen.Application,
         ),
         PreferenceHeader(
-            icon = UiR.drawable.ic_edit_outline,
             title = R.string.pref_header_editor_title,
             subtitle = R.string.pref_header_editor_summary,
             selected = false,
             screen = SettingsScreen.Editor,
         ),
         PreferenceHeader(
-            icon = UiR.drawable.ic_code,
             title = R.string.pref_header_codeStyle_title,
             subtitle = R.string.pref_header_codeStyle_summary,
             selected = false,
             screen = SettingsScreen.CodeStyle,
         ),
         PreferenceHeader(
-            icon = UiR.drawable.ic_file_cabinet,
             title = R.string.pref_header_files_title,
             subtitle = R.string.pref_header_files_summary,
             selected = false,
             screen = SettingsScreen.Files,
         ),
         PreferenceHeader(
-            icon = UiR.drawable.ic_keyboard_outline,
             title = R.string.pref_header_keybindings_title,
             subtitle = R.string.pref_header_keybindings_summary,
             selected = false,
             screen = SettingsScreen.Keybindings,
         ),
         PreferenceHeader(
-            icon = UiR.drawable.ic_server,
             title = R.string.pref_header_cloud_title,
             subtitle = R.string.pref_header_cloud_summary,
             selected = false,
             screen = SettingsScreen.Cloud,
         ),
         PreferenceHeader(
-            icon = UiR.drawable.ic_info,
             title = R.string.pref_header_about_title,
             subtitle = R.string.pref_header_about_summary,
             selected = false,
