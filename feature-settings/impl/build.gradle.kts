@@ -26,7 +26,6 @@ android {
     }
     buildFeatures {
         buildConfig = true
-        viewBinding = true
         compose = true
     }
 }
@@ -42,7 +41,6 @@ dependencies {
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.preferences)
     implementation(libs.materialdesign)
 
     // Compose

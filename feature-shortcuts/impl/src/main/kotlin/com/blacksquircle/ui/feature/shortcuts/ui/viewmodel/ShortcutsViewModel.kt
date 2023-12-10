@@ -19,10 +19,11 @@ package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
-import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsState
 import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +32,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import com.blacksquircle.ui.ds.R as UiR
 
 @HiltViewModel
 class ShortcutsViewModel @Inject constructor(
@@ -38,17 +40,30 @@ class ShortcutsViewModel @Inject constructor(
     private val shortcutsRepository: ShortcutsRepository,
 ) : ViewModel() {
 
-    private val _shortcuts = MutableStateFlow<List<Keybinding>>(emptyList())
-    val shortcuts: StateFlow<List<Keybinding>> = _shortcuts.asStateFlow()
+    private val _viewState = MutableStateFlow(ShortcutsState())
+    val viewState: StateFlow<ShortcutsState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private var shortcuts: List<Keybinding> = emptyList()
     private var pendingKey: Keybinding? = null
     private var conflictKey: Keybinding? = null
 
     init {
         loadShortcuts()
+    }
+
+    fun navigate(screen: Screen<*>) {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun popBackStack() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack())
+        }
     }
 
     fun obtainEvent(event: ShortcutIntent) {
@@ -64,11 +79,14 @@ class ShortcutsViewModel @Inject constructor(
     private fun loadShortcuts() {
         viewModelScope.launch {
             try {
-                _shortcuts.value = shortcutsRepository.loadShortcuts()
+                shortcuts = shortcutsRepository.loadShortcuts()
+                _viewState.value = ShortcutsState(
+                    shortcuts = shortcuts.groupBy { it.shortcut.group },
+                )
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.common_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
@@ -82,7 +100,7 @@ class ShortcutsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.common_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
@@ -91,7 +109,7 @@ class ShortcutsViewModel @Inject constructor(
     private fun reassignShortcut(event: ShortcutIntent.Reassign) {
         viewModelScope.launch {
             try {
-                val existingKey = shortcuts.value.find {
+                val existingKey = shortcuts.find {
                     it.shortcut != event.keybinding.shortcut &&
                         it.key == event.keybinding.key &&
                         it.isCtrl == event.keybinding.isCtrl &&
@@ -109,7 +127,7 @@ class ShortcutsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.common_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
@@ -128,7 +146,7 @@ class ShortcutsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.common_error_occurred)),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }

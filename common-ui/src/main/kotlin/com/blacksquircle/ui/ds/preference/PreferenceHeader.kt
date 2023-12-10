@@ -28,7 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.sizeM
+import com.blacksquircle.ui.ds.sizeL
+import com.blacksquircle.ui.ds.sizeXS
 
 @Composable
 fun PreferenceHeader(
@@ -48,7 +49,7 @@ fun PreferenceHeader(
                 }
             )
             .clickable(onClick = onSelected)
-            .padding(sizeM)
+            .padding(horizontal = sizeL, vertical = sizeXS)
     ) {
         Text(
             text = title,

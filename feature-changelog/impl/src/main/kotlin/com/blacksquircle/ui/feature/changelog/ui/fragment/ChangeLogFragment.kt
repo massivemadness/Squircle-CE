@@ -27,6 +27,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.navigate
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.changelog.R
@@ -64,6 +65,7 @@ class ChangeLogFragment : Fragment() {
         viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { event ->
                 when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigate(event.screen)
                     is ViewEvent.PopBackStack -> navController.popBackStack()
                 }

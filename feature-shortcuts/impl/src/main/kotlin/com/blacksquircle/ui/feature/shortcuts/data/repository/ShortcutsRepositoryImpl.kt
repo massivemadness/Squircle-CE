@@ -30,13 +30,13 @@ class ShortcutsRepositoryImpl(
 
     override suspend fun loadShortcuts(): List<Keybinding> {
         return withContext(dispatcherProvider.io()) {
-            Shortcut.values().map { keybinding ->
+            Shortcut.values().map { shortcut ->
                 val value = settingsManager.load(
-                    key = keybinding.key,
-                    defaultValue = keybinding.defaultValue,
+                    key = shortcut.key,
+                    defaultValue = shortcut.defaultValue,
                 )
                 Keybinding(
-                    shortcut = keybinding,
+                    shortcut = shortcut,
                     isCtrl = value[0] == '1',
                     isShift = value[1] == '1',
                     isAlt = value[2] == '1',

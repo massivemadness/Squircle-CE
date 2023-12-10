@@ -61,9 +61,10 @@ class ShortcutDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogShortcutBinding.inflate(layoutInflater)
-        val keybinding = viewModel.shortcuts.value
+        /*val keybinding = viewModel.shortcuts
             .find { it.shortcut.key == navArgs.key }
-            ?: throw IllegalStateException()
+            ?: throw IllegalStateException()*/
+        val keybinding = Keybinding(Shortcut.CUT) // TODO
         setListeners(keybinding)
 
         return AlertDialog.Builder(requireContext())

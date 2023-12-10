@@ -21,8 +21,13 @@ plugins {
 android {
     namespace = "com.blacksquircle.ui.feature.shortcuts"
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
+        compose = true
     }
 }
 
@@ -37,8 +42,15 @@ dependencies {
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.preferences)
     implementation(libs.materialdesign)
+
+    // Compose
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.preview)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.manifest)
 
     // AAC
     implementation(libs.androidx.viewmodel)
