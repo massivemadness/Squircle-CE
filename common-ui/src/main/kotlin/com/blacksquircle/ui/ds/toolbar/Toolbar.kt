@@ -26,6 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.blacksquircle.ui.ds.R
+import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.size2XS
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,4 +55,15 @@ fun Toolbar(
         scrollBehavior = pinnedScrollBehavior(),
         modifier = Modifier.shadow(size2XS)
     )
+}
+
+@Preview
+@Composable
+private fun ToolbarPreview() {
+    SquircleTheme {
+        Toolbar(
+            title = "Title",
+            backIcon = R.drawable.ic_back
+        )
+    }
 }

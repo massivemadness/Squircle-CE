@@ -110,9 +110,10 @@ private fun CodeHeaderContent(
             SliderPreference(
                 title = stringResource(R.string.pref_tab_width_title),
                 subtitle = stringResource(R.string.pref_tab_width_summary),
+                enabled = !viewState.useSpacesInsteadOfTabs,
                 minValue = 2f,
                 maxValue = 8f,
-                step = 2,
+                stepCount = 2,
                 currentValue = viewState.tabWidth.toFloat(),
                 onValueChanged = { tabWidth ->
                     onTabWidthChanged(tabWidth.toInt())

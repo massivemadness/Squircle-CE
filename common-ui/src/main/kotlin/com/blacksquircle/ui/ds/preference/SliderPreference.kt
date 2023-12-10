@@ -41,7 +41,7 @@ fun SliderPreference(
     minValue: Float = 0f,
     maxValue: Float = 1f,
     currentValue: Float = 0f,
-    step: Int = 1,
+    stepCount: Int = 1,
     onValueChanged: (Float) -> Unit = {},
 ) {
     Preference(
@@ -54,7 +54,7 @@ fun SliderPreference(
                 Slider(
                     value = displayValueHolder,
                     valueRange = minValue..maxValue,
-                    steps = step,
+                    steps = stepCount,
                     onValueChange = { displayValueHolder = it },
                     onValueChangeFinished = {
                         onValueChanged(displayValueHolder)
@@ -84,7 +84,7 @@ private fun EnabledSliderPreferencePreview() {
             minValue = 1f,
             maxValue = 8f,
             currentValue = 4f,
-            step = 2,
+            stepCount = 2,
             onValueChanged = {},
         )
     }
@@ -101,7 +101,7 @@ private fun DisabledSliderPreferencePreview() {
             minValue = 1f,
             maxValue = 8f,
             currentValue = 4f,
-            step = 2,
+            stepCount = 2,
             onValueChanged = {},
         )
     }
