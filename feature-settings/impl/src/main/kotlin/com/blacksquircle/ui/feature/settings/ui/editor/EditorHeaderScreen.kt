@@ -28,12 +28,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SliderPreference
 import com.blacksquircle.ui.ds.preference.SwitchPreference
+import com.blacksquircle.ui.ds.preference.TextFieldPreference
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.R as UiR
@@ -176,12 +179,17 @@ private fun EditorHeaderScreen(
                 checked = viewState.extendedKeyboard,
                 onCheckedChange = onExtendedKeyboardChanged,
             )
-            // TODO TextFieldPreference
-            Preference(
+            TextFieldPreference(
                 title = stringResource(R.string.pref_keyboard_preset_title),
                 subtitle = stringResource(R.string.pref_keyboard_preset_summary),
                 enabled = viewState.extendedKeyboard,
-                // onClick = onKeyboardPresetChanged
+                confirmButton = stringResource(UiR.string.common_save),
+                dismissButton = stringResource(android.R.string.cancel),
+                topHelperText = stringResource(R.string.hint_enter_preset_chars),
+                bottomHelperText = stringResource(R.string.message_preset_disclaimer),
+                inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
+                inputValue = viewState.keyboardPreset,
+                onInputConfirmed = onKeyboardPresetChanged,
             )
             SwitchPreference(
                 title = stringResource(R.string.pref_soft_keyboard_title),
