@@ -28,11 +28,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.popupmenu.PopupMenu
+import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.toolbar.Toolbar
@@ -69,11 +74,24 @@ private fun ShortcutsContent(
                 backIcon = UiR.drawable.ic_back,
                 onBackClicked = onBackClicked,
                 menuItems = {
-                    IconButton(onClick = onRestoreClicked) {
+                    var expanded by remember { mutableStateOf(false) }
+                    IconButton(onClick = { expanded = !expanded }) {
                         Icon(
                             painter = painterResource(UiR.drawable.ic_overflow),
                             contentDescription = null
                         )
+                        PopupMenu(
+                            expanded = expanded,
+                            onDismiss = { expanded = false }
+                        ) {
+                            PopupMenuItem(
+                                title = stringResource(R.string.action_restore),
+                                onClick = {
+                                    onRestoreClicked()
+                                    expanded = false
+                                },
+                            )
+                        }
                     }
                 }
             )
