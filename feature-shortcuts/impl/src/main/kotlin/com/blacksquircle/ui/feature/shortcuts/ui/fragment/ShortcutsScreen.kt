@@ -51,16 +51,16 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
     val viewState by viewModel.viewState.collectAsState()
-    ShortcutsContent(
+    ShortcutsScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
-        onRestoreClicked = {},
-        onKeyAssigned = {},
+        onRestoreClicked = viewModel::onRestoreClicked,
+        onKeyAssigned = viewModel::onKeyAssigned,
     )
 }
 
 @Composable
-private fun ShortcutsContent(
+private fun ShortcutsScreen(
     viewState: ShortcutsState,
     onBackClicked: () -> Unit,
     onRestoreClicked: () -> Unit,
@@ -178,7 +178,7 @@ private fun keybindingResource(keybinding: Keybinding): String {
 @Composable
 private fun ShortcutsScreenPreview() {
     SquircleTheme {
-        ShortcutsContent(
+        ShortcutsScreen(
             viewState = ShortcutsState(
                 shortcuts = Shortcut.entries
                     .map(::Keybinding)

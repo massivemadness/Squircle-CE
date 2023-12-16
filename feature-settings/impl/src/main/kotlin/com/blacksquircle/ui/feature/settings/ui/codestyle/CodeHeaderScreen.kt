@@ -40,7 +40,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsState()
-    CodeHeaderContent(
+    CodeHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
         onAutoIndentChanged = viewModel::onAutoIndentChanged,
@@ -52,7 +52,7 @@ fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
 }
 
 @Composable
-private fun CodeHeaderContent(
+private fun CodeHeaderScreen(
     viewState: CodeHeaderState,
     onBackClicked: () -> Unit,
     onAutoIndentChanged: (Boolean) -> Unit,
@@ -127,7 +127,7 @@ private fun CodeHeaderContent(
 @Composable
 private fun CodeHeaderScreenPreview() {
     SquircleTheme {
-        CodeHeaderContent(
+        CodeHeaderScreen(
             viewState = CodeHeaderState(
                 autoIndentation = true,
                 autoCloseBrackets = true,

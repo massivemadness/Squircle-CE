@@ -38,7 +38,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 fun HeaderListScreen(viewModel: HeaderViewModel) {
     val viewState by viewModel.viewState.collectAsState()
-    HeaderListContent(
+    HeaderListScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
         onItemClicked = viewModel::selectHeader
@@ -46,7 +46,7 @@ fun HeaderListScreen(viewModel: HeaderViewModel) {
 }
 
 @Composable
-private fun HeaderListContent(
+private fun HeaderListScreen(
     viewState: HeaderListState,
     onBackClicked: () -> Unit,
     onItemClicked: (Screen<*>) -> Unit,
@@ -94,7 +94,7 @@ private fun HeaderList(
 @Composable
 private fun HeaderListScreenPreview() {
     SquircleTheme {
-        HeaderListContent(
+        HeaderListScreen(
             viewState = HeaderListState(),
             onBackClicked = {},
             onItemClicked = {},

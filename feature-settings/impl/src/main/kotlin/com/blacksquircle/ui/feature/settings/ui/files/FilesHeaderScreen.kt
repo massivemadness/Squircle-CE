@@ -41,7 +41,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 fun FilesHeaderScreen(viewModel: FilesHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsState()
-    FilesHeaderContent(
+    FilesHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
         onEncodingAutoDetectChanged = viewModel::onEncodingAutoDetectChanged,
@@ -56,7 +56,7 @@ fun FilesHeaderScreen(viewModel: FilesHeaderViewModel) {
 }
 
 @Composable
-private fun FilesHeaderContent(
+private fun FilesHeaderScreen(
     viewState: FilesHeaderState,
     onBackClicked: () -> Unit,
     onEncodingAutoDetectChanged: (Boolean) -> Unit,
@@ -162,7 +162,7 @@ private fun FilesHeaderContent(
 @Composable
 private fun FilesHeaderScreenPreview() {
     SquircleTheme {
-        FilesHeaderContent(
+        FilesHeaderScreen(
             viewState = FilesHeaderState(
                 encodingAutoDetect = false,
                 encodingForOpening = "UTF-8",

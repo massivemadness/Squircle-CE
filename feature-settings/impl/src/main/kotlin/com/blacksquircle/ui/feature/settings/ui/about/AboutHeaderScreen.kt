@@ -60,7 +60,7 @@ private const val CONTRIBUTE_PROJECT_URL = "https://github.com/massivemadness/Sq
 fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
     val context = LocalContext.current
     var counter by remember { mutableIntStateOf(1) }
-    AboutHeaderContent(
+    AboutHeaderScreen(
         onChangelogClicked = {
             if (counter < 10) {
                 counter++
@@ -91,7 +91,7 @@ fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
 }
 
 @Composable
-private fun AboutHeaderContent(
+private fun AboutHeaderScreen(
     onChangelogClicked: () -> Unit,
     onPrivacyClicked: () -> Unit,
     onTranslationClicked: () -> Unit,
@@ -166,7 +166,7 @@ private fun Context.appVersionName(): String {
 @Composable
 private fun AboutHeaderScreenPreview() {
     SquircleTheme {
-        AboutHeaderContent(
+        AboutHeaderScreen(
             onChangelogClicked = {},
             onPrivacyClicked = {},
             onTranslationClicked = {},

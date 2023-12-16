@@ -43,7 +43,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsState()
-    AppHeaderContent(
+    AppHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
         onThemeChanged = viewModel::onThemeChanged,
@@ -53,7 +53,7 @@ fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
 }
 
 @Composable
-private fun AppHeaderContent(
+private fun AppHeaderScreen(
     viewState: AppHeaderState,
     onBackClicked: () -> Unit,
     onThemeChanged: (String) -> Unit,
@@ -117,7 +117,7 @@ private fun AppHeaderContent(
 @Composable
 private fun AppHeaderScreenPreview() {
     SquircleTheme {
-        AppHeaderContent(
+        AppHeaderScreen(
             viewState = AppHeaderState(
                 appTheme = Theme.DARK.value,
                 fullscreenMode = false,

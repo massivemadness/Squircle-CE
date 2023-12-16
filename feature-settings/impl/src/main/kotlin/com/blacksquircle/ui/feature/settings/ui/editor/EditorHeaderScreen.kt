@@ -41,7 +41,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 fun EditorHeaderScreen(viewModel: EditorHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsState()
-    EditorHeaderContent(
+    EditorHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
         onFontSizeChanged = viewModel::onFontSizeChanged,
@@ -60,7 +60,7 @@ fun EditorHeaderScreen(viewModel: EditorHeaderViewModel) {
 }
 
 @Composable
-private fun EditorHeaderContent(
+private fun EditorHeaderScreen(
     viewState: EditorHeaderState,
     onBackClicked: () -> Unit,
     onFontSizeChanged: (Int) -> Unit,
@@ -197,7 +197,7 @@ private fun EditorHeaderContent(
 @Composable
 private fun EditorHeaderScreenPreview() {
     SquircleTheme {
-        EditorHeaderContent(
+        EditorHeaderScreen(
             viewState = EditorHeaderState(
                 fontSize = 14,
                 wordWrap = true,

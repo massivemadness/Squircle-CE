@@ -66,33 +66,7 @@ class ShortcutsViewModel @Inject constructor(
         }
     }
 
-    fun obtainEvent(event: ShortcutIntent) {
-        when (event) {
-            is ShortcutIntent.LoadShortcuts -> loadShortcuts()
-            is ShortcutIntent.RestoreDefaults -> restoreDefaults()
-
-            is ShortcutIntent.Reassign -> reassignShortcut(event)
-            is ShortcutIntent.ResolveConflict -> resolveConflict(event)
-        }
-    }
-
-    private fun loadShortcuts() {
-        viewModelScope.launch {
-            try {
-                shortcuts = shortcutsRepository.loadShortcuts()
-                _viewState.value = ShortcutsState(
-                    shortcuts = shortcuts.groupBy { it.shortcut.group },
-                )
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
-                )
-            }
-        }
-    }
-
-    private fun restoreDefaults() {
+    fun onRestoreClicked() {
         viewModelScope.launch {
             try {
                 shortcutsRepository.restoreDefaults()
@@ -106,24 +80,50 @@ class ShortcutsViewModel @Inject constructor(
         }
     }
 
-    private fun reassignShortcut(event: ShortcutIntent.Reassign) {
+    fun onKeyAssigned(keybinding: Keybinding) {
         viewModelScope.launch {
             try {
                 val existingKey = shortcuts.find {
-                    it.shortcut != event.keybinding.shortcut &&
-                        it.key == event.keybinding.key &&
-                        it.isCtrl == event.keybinding.isCtrl &&
-                        it.isShift == event.keybinding.isShift &&
-                        it.isAlt == event.keybinding.isAlt
+                    it.shortcut != keybinding.shortcut &&
+                        it.key == keybinding.key &&
+                        it.isCtrl == keybinding.isCtrl &&
+                        it.isShift == keybinding.isShift &&
+                        it.isAlt == keybinding.isAlt
                 }
                 if (existingKey != null) {
-                    pendingKey = event.keybinding
+                    pendingKey = keybinding
                     conflictKey = existingKey
                     _viewEvent.send(ViewEvent.Navigation(ShortcutScreen.Conflict()))
                 } else {
-                    shortcutsRepository.reassign(event.keybinding)
+                    shortcutsRepository.reassign(keybinding)
                     loadShortcuts()
                 }
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
+                )
+            }
+        }
+    }
+
+    fun obtainEvent(event: ShortcutIntent) {
+        when (event) {
+            is ShortcutIntent.LoadShortcuts -> loadShortcuts()
+            is ShortcutIntent.RestoreDefaults -> onRestoreClicked()
+
+            is ShortcutIntent.Reassign -> onKeyAssigned(event.keybinding)
+            is ShortcutIntent.ResolveConflict -> resolveConflict(event)
+        }
+    }
+
+    private fun loadShortcuts() {
+        viewModelScope.launch {
+            try {
+                shortcuts = shortcutsRepository.loadShortcuts()
+                _viewState.value = ShortcutsState(
+                    shortcuts = shortcuts.groupBy { it.shortcut.group },
+                )
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(

@@ -23,16 +23,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun PopupMenu(
     expanded: Boolean,
     onDismiss: () -> Unit,
+    verticalOffset: Dp = 0.dp,
+    horizontalOffset: Dp = 0.dp,
     context: @Composable () -> Unit,
 ) {
     DropdownMenu(
         expanded = expanded,
         onDismissRequest = onDismiss,
+        offset = DpOffset(horizontalOffset, verticalOffset),
         modifier = Modifier.background(MaterialTheme.colorScheme.surface)
     ) {
         context()
