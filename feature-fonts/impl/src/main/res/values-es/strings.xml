@@ -15,11 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="action_restart">Reinicio</string>
-    <string name="action_yes">Si</string>
-    <string name="action_no">No</string>
-    <string name="dialog_title_exit">Salida</string>
-    <string name="dialog_message_exit">¿Está seguro de que desea salir? Todos los cambios se guardarán en la caché</string>
-    <string name="message_in_app_update_ready">App está lista para actualizar</string>
-    <string name="message_in_app_update_failed">Error al actualizar la instalación</string>
+    <string name="label_fonts">Tipos de letra</string>
+    <string name="action_select">Seleccionar</string>
+    <string name="message_selected">Seleccionado «%1$s»</string>
+    <string name="message_new_font_available">Ninguna fuente disponible</string>
+    <string name="message_font_removed">Fuente «%1$s» eliminada</string>
 </resources>

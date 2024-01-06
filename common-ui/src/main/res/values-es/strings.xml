@@ -15,11 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="action_restart">Reinicio</string>
-    <string name="action_yes">Si</string>
-    <string name="action_no">No</string>
-    <string name="dialog_title_exit">Salida</string>
-    <string name="dialog_message_exit">¿Está seguro de que desea salir? Todos los cambios se guardarán en la caché</string>
-    <string name="message_in_app_update_ready">App está lista para actualizar</string>
-    <string name="message_in_app_update_failed">Error al actualizar la instalación</string>
+    <string name="common_error_occurred">Se ha producido un error</string>
+    <string name="common_no_result">Sin resultados</string>
+    <string name="common_save">Guardado</string>
+    <string name="common_delete">Suprimir</string>
+    <string name="common_continue">Seguir</string>
 </resources>
