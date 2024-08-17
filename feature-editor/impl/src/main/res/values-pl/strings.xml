@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2023 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_line">Wiersz:</string>
+    <string name="action_close">Zamknij</string>
+    <string name="action_close_others">Zamknij pozostałe</string>
+    <string name="action_close_all">Zamknij wszystkie</string>
+    <string name="action_insert">Wstaw</string>
+    <string name="action_new">Nowy</string>
+    <string name="action_open">Otwórz</string>
+    <string name="action_save_as">Zapisz jako</string>
+    <string name="action_select_line">Zaznacz wiersz</string>
+    <string name="action_delete_line">Usuń Wiersz</string>
+    <string name="action_duplicate_line">Duplikuj wiersz</string>
+    <string name="action_regex">Wyrażenia regularne</string>
+    <string name="action_match_case">Dopasuj wielkość liter</string>
+    <string name="action_words_only">Tylko słowa</string>
+    <string name="action_find">Znajdź</string>
+    <string name="action_close_find">Zamknij wyszukiwanie</string>
+    <string name="action_replace">Zamień</string>
+    <string name="action_close_replace">Zamknij zamień</string>
+    <string name="action_goto_line">Idź do linii</string>
+    <string name="action_go_to">Idź do</string>
+    <string name="action_force_syntax">Wymuś składnię</string>
+    <string name="action_insert_color">Wstaw kolor</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="action_tools">Narzędzia</string>
+    <string name="dialog_title_goto_line">Przejdź do linii…</string>
+    <string name="dialog_title_color_picker">Wybór kolorów</string>
+    <string name="dialog_title_force_syntax">Podświetlanie składni</string>
+    <string name="dialog_message_close_tab">Czy na pewno chcesz zamknąć ten plik? Wszystkie niezapisane zmiany zostaną odrzucone</string>
+    <string name="message_no_open_files">Brak otwartych plików</string>
+    <string name="message_file_not_found">Plik nie został znaleziony</string>
+    <string name="message_out_of_memory">Brak pamięci</string>
+    <string name="message_saved">Zapisano</string>
+    <string name="message_nothing_to_cut">Nic do wycięcia</string>
+    <string name="message_nothing_to_copy">Nic do skopiowania</string>
+    <string name="message_nothing_to_paste">Nic do wklejenia</string>
+    <string name="message_line_not_exists">Linia nie istnieje</string>
+    <string name="message_no_errors_detected">Nie wykryto błędów składni</string>
+</resources>
