@@ -14,37 +14,28 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
-    <string name="hint_server_name">Server Name</string>
-    <string name="hint_server_address">Server Address</string>
-    <string name="hint_initial_dir">Initial Folder</string>
-    <string name="hint_port">Port</string>
-    <string name="hint_username">Username</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_passphrase">Passphrase</string>
-    <string name="hint_key_file">Key File</string>
-    <string name="hint_required">Required</string>
-
+    <string name="hint_server_name">Nome do servidor</string>
+    <string name="hint_server_address">Endereço do servidor</string>
+    <string name="hint_initial_dir">Pasta Inicial</string>
+    <string name="hint_port">Porta</string>
+    <string name="hint_username">Nome de usuário</string>
+    <string name="hint_password">Senha</string>
+    <string name="hint_passphrase">Senha</string>
+    <string name="hint_key_file">Arquivo de chave</string>
+    <string name="hint_required">Necessário</string>
     <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (Explicit FTPS)</string>
+    <string name="server_ftps">FTPS(FTP sobre TLS/SSL)</string>
+    <string name="server_ftpes">FTPES (FTPS Explícito)</string>
     <string name="server_sftp">SFTP</string>
-
-    <string name="auth_method_password">Password Authentication</string>
-    <string name="auth_method_key">Private Key Authentication</string>
-
-    <string name="ask_for_password">Ask for password</string>
-    <string name="save_password">Save password</string>
-    <string name="ask_for_passphrase">Ask for passphrase</string>
-    <string name="save_passphrase">Save passphrase</string>
-
-    <string name="pref_header_cloud_title">Cloud &amp; Servers</string>
-
-    <string name="pref_category_servers">FTP(S) Servers</string>
-
-    <string name="pref_add_server_title">Add Server</string>
-    <string name="pref_edit_server_title">Edit Server</string>
-
+    <string name="auth_method_password">Autenticação com senha</string>
+    <string name="auth_method_key">Autenticação de Chave Privada</string>
+    <string name="ask_for_password">Perguntar senha</string>
+    <string name="save_password">Salvar senha</string>
+    <string name="ask_for_passphrase">Perguntar senha</string>
+    <string name="save_passphrase">Salvar senha</string>
+    <string name="pref_header_cloud_title">Nuvem &amp; servidores</string>
+    <string name="pref_category_servers">Servidores 𝘍𝘛𝘗(𝘚)</string>
+    <string name="pref_add_server_title">Adicionar servidor</string>
+    <string name="pref_edit_server_title">Editar servidor</string>
 </resources>
