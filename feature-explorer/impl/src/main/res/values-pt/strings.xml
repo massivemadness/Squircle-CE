@@ -14,62 +14,53 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="hint_enter_file_name">Insira o nome do arquivo</string>
     <string name="hint_enter_archive_name">Insira o nome do documento</string>
-    <string name="hint_enter_password">Enter password</string>
-    <string name="hint_enter_passphrase">Enter passphrase</string>
-
+    <string name="hint_enter_password">Insira a senha</string>
+    <string name="hint_enter_passphrase">Insira a senha</string>
     <string name="action_grant_access">Permitir acesso</string>
-    <string name="action_authenticate">Authenticate</string>
+    <string name="action_authenticate">Autenticar</string>
     <string name="action_create">Criar</string>
     <string name="action_copy_path">Copiar caminho</string>
     <string name="action_folder">Pasta</string>
     <string name="action_rename">Renomear</string>
     <string name="action_run_in_background">Rodar no fundo</string>
     <string name="action_show_hidden_files">Exibir arquivos escondidos</string>
-    <string name="action_compress">Compress</string>
+    <string name="action_compress">Comprimir</string>
     <string name="action_open_with">Abrir como</string>
     <string name="action_properties">Propriedades</string>
-
-    <string name="dialog_title_authentication">Authentication</string>
+    <string name="dialog_title_authentication">Autenticação</string>
     <string name="dialog_title_create">Criar…</string>
     <string name="dialog_title_rename">Renomear…</string>
-    <string name="dialog_title_multi_delete">Multi-delete</string>
+    <string name="dialog_title_multi_delete">Multi-exclusão</string>
     <string name="dialog_title_properties">Propriedades</string>
-    <string name="dialog_title_creating">Creating…</string>
-    <string name="dialog_title_renaming">Renaming…</string>
+    <string name="dialog_title_creating">Criando…</string>
+    <string name="dialog_title_renaming">Renomeando…</string>
     <string name="dialog_title_deleting">Deletando…</string>
     <string name="dialog_title_copying">Copiando…</string>
     <string name="dialog_title_compressing">Compactando…</string>
     <string name="dialog_title_extracting">Extraindo…</string>
     <string name="dialog_title_archive_name">Nome do documento</string>
     <string name="dialog_title_storage_permission">Acesso ao armazenamento</string>
-    <string name="dialog_title_notification_permission">Notifications</string>
-
+    <string name="dialog_title_notification_permission">Notificações</string>
     <string name="dialog_message_delete">Você tem certeza de que quer deletar este arquivo?</string>
     <string name="dialog_message_multi_delete">Você tem certeza de que quer deletar os arquivos selecionados?</string>
     <string name="dialog_message_storage_permission">Como um gerenciador de arquivos, o Squircle CE precisa de acesso a todos os arquivos para funcionar corretamente\n\nPor favor permita o acesso neste dispositivo depois de clicar em «Continue»</string>
-    <string name="dialog_message_notification_permission">Squircle CE needs access to notifications to run in background\n\nPlease allow the access in the upcoming system setting</string>
-
-    <string name="properties_name">File Name:</string>
-    <string name="properties_path">File Path:</string>
-    <string name="properties_modified">Last Modified:</string>
-    <string name="properties_size">File Size:</string>
-
-    <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
-    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
-    <string name="progress_time_format">mm:ss</string>
-
+    <string name="dialog_message_notification_permission">O 𝘚𝘲𝘶𝘪𝘳𝘤𝘭𝘦 CE precisa de acesso às notificações para funcionar em segundo plano\n\nPor favor, permite o acesso na configuração a seguir</string>
+    <string name="properties_name">Nome do arquivo:</string>
+    <string name="properties_path">Caminho do arquivo:</string>
+    <string name="properties_modified">Última Modificação:</string>
+    <string name="properties_size">Tamanho do arquivo:</string>
+    <string name="properties_date_format">/dd/MM/yyyy EEE HH:mm</string>
+    <string name="explorer_date_format">𝘥𝘥 𝘔𝘔𝘔 𝘺𝘺 𝘌 𝘏𝘏:𝘮𝘮:𝘴𝘴</string>
+    <string name="progress_time_format">𝘮𝘮:𝘴𝘴</string>
     <string name="sort_by_name">Ordenar por nome</string>
     <string name="sort_by_size">Ordenar por tamanho</string>
     <string name="sort_by_date">Ordenar por data</string>
-
-    <string name="message_auth_required">Auth Required</string>
-    <string name="message_enter_password">Enter password to connect to remote server</string>
-    <string name="message_enter_passphrase">Enter passphrase to connect to remote server</string>
+    <string name="message_auth_required">Autenticação Necessária</string>
+    <string name="message_enter_password">Insira a senha do servidor remoto</string>
+    <string name="message_enter_passphrase">Insira a senha do servidor remoto</string>
     <string name="message_access_denied">Acesso negado</string>
     <string name="message_access_required">O Squircle precisa de acesso ao armazenamento para trabalhar com arquivos</string>
     <string name="message_cannot_be_opened">O arquivo não pode ser aberto</string>
@@ -80,22 +71,19 @@
     <string name="message_split_archive">O arquivo está dividido</string>
     <string name="message_encrypted_archive">O arquivo está encriptado</string>
     <string name="message_operation_cancelled">Operação cancelada</string>
-    <string name="message_operation_not_supported">Operation not supported</string>
+    <string name="message_operation_not_supported">Operação não suportada</string>
     <string name="message_done">Pronto</string>
     <string name="message_file_not_found">Arquivo não encontrado</string>
     <string name="message_elapsed_time">Tempo decorrido: %1$s</string>
-    <string name="message_creating">Creating…%1$s</string>
-    <string name="message_renaming">Renaming…%1$s</string>
+    <string name="message_creating">Criando...%1$s</string>
+    <string name="message_renaming">Renomeando…%1$s</string>
     <string name="message_deleting">Deletando…%1$s</string>
     <string name="message_copying">Copiando…%1$s</string>
     <string name="message_compressing">Compactando…%1$s</string>
     <string name="message_extracting">Extraindo…%1$s</string>
-
-    <string name="explorer_channel_name">File Manager</string>
-    <string name="explorer_channel_description">Display and control file operations</string>
-
+    <string name="explorer_channel_name">Gerenciador de Arquivos</string>
+    <string name="explorer_channel_description">Exibir e controlar operações de arquivos</string>
     <string name="storage_local">Armazenamento local</string>
-    <string name="storage_root">Root Directory</string>
-    <string name="storage_add">Add Server</string>
-
+    <string name="storage_root">Diretório 𝘙𝘰𝘰𝘵</string>
+    <string name="storage_add">Adicionar servidor</string>
 </resources>
