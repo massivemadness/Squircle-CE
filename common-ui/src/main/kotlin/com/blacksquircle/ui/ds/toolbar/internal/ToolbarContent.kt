@@ -18,6 +18,8 @@ package com.blacksquircle.ui.ds.toolbar.internal
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -57,9 +59,10 @@ internal fun ToolbarContent(
             )
         }
         if (!subtitle.isNullOrEmpty()) {
+            Spacer(Modifier.height(4.dp))
             Text(
                 text = subtitle,
-                style = SquircleTheme.typography.text12Medium,
+                style = SquircleTheme.typography.text12Regular,
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                 textAlign = TextAlign.Center,
                 overflow = TextOverflow.Ellipsis,

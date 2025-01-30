@@ -30,8 +30,8 @@ class Typography internal constructor(
         fontWeight = FontWeight.Medium,
         fontSize = 10.sp,
     ),
-    val text12Medium: TextStyle = Default.copy(
-        fontWeight = FontWeight.Medium,
+    val text12Regular: TextStyle = Default.copy(
+        fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
     ),
     val text14Regular: TextStyle = Default.copy(

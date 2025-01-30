@@ -36,7 +36,6 @@ class Colors internal constructor(
     val colorBackgroundTertiary: Color,
     val colorTextAndIconPrimary: Color,
     val colorTextAndIconSecondary: Color,
-    val colorTextAndIconBrand: Color,
     val colorTextAndIconDisabled: Color,
 ) {
 
@@ -50,10 +49,9 @@ class Colors internal constructor(
             colorError = Color(0xFFE45356),
             colorBackgroundPrimary = Color(0xFF1E1F22),
             colorBackgroundSecondary = Color(0xFF2B2D30),
-            colorBackgroundTertiary = Color(0xFFAAABAD),
+            colorBackgroundTertiary = Color(0xFF414448),
             colorTextAndIconPrimary = Color(0xFFFFFFFF),
             colorTextAndIconSecondary = Color(0xFFBCBCBC),
-            colorTextAndIconBrand = Color(0xFFFF8000),
             colorTextAndIconDisabled = Color(0xFF6E6E6E),
         )
     }

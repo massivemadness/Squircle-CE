@@ -50,8 +50,8 @@ fun Radio(
             selected = checked,
             onClick = onClick,
             colors = RadioButtonDefaults.colors(
-                selectedColor = SquircleTheme.colors.colorTextAndIconBrand,
-                unselectedColor = SquircleTheme.colors.colorBackgroundTertiary,
+                selectedColor = SquircleTheme.colors.colorPrimary,
+                unselectedColor = SquircleTheme.colors.colorTextAndIconSecondary,
                 disabledColor = SquircleTheme.colors.colorTextAndIconDisabled,
             )
         )

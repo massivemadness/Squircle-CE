@@ -37,7 +37,7 @@ fun PreferenceGroup(title: String) {
     ) {
         Text(
             text = title,
-            color = SquircleTheme.colors.colorTextAndIconBrand,
+            color = SquircleTheme.colors.colorPrimary,
             style = SquircleTheme.typography.text14Medium,
             modifier = Modifier.padding(start = 16.dp)
         )

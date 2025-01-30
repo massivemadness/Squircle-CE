@@ -18,6 +18,7 @@ package com.blacksquircle.ui.ds.preference
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.DsTextField
 
@@ -58,9 +60,13 @@ fun TextFieldPreference(
         AlertDialog(
             title = title,
             content = {
-                Column {
+                Column(Modifier.padding(horizontal = 16.dp)) {
                     if (topHelperText != null) {
-                        Text(text = topHelperText)
+                        Text(
+                            text = topHelperText,
+                            style = SquircleTheme.typography.text12Regular,
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                        )
                         Spacer(modifier = Modifier.size(6.dp))
                     }
                     DsTextField(
@@ -71,7 +77,11 @@ fun TextFieldPreference(
                     )
                     if (bottomHelperText != null) {
                         Spacer(modifier = Modifier.size(6.dp))
-                        Text(text = bottomHelperText)
+                        Text(
+                            text = bottomHelperText,
+                            style = SquircleTheme.typography.text12Regular,
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                        )
                     }
                 }
             },
