@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.theme.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -58,6 +59,7 @@ class AppHeaderViewModel @Inject constructor(
         viewModelScope.launch {
             settingsManager.theme = value
             _viewState.value = updateViewState()
+            Theme.of(value).apply()
         }
     }
 
