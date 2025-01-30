@@ -21,7 +21,11 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 class LanguageModulePlugin : Plugin<Project> {
 
@@ -38,6 +42,12 @@ class LanguageModulePlugin : Plugin<Project> {
 
                 withSourcesJar()
                 withJavadocJar()
+            }
+
+            tasks.withType<KotlinJvmCompile>().configureEach {
+                compilerOptions {
+                    jvmTarget = JvmTarget.JVM_17
+                }
             }
 
             configure<SourceSetContainer> {

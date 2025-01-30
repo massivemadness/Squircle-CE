@@ -20,9 +20,11 @@ import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.util.Properties
 
 class ApplicationModulePlugin : Plugin<Project> {
@@ -83,9 +85,9 @@ class ApplicationModulePlugin : Plugin<Project> {
                     sourceCompatibility = JavaVersion.VERSION_17
                     targetCompatibility = JavaVersion.VERSION_17
                 }
-                tasks.withType<KotlinCompile>().configureEach {
-                    kotlinOptions {
-                        jvmTarget = "17"
+                tasks.withType<KotlinJvmCompile>().configureEach {
+                    compilerOptions {
+                        jvmTarget = JvmTarget.JVM_17
                     }
                 }
                 sourceSets.configureEach {

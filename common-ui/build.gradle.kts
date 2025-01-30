@@ -16,14 +16,12 @@
 
 plugins {
     id("com.blacksquircle.common")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.blacksquircle.ui.ds"
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
     buildFeatures {
         viewBinding = true
         compose = true

@@ -16,14 +16,12 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.blacksquircle.ui.feature.shortcuts"
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
     buildFeatures {
         buildConfig = true
         viewBinding = true

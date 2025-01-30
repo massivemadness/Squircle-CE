@@ -16,14 +16,12 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.blacksquircle.ui.feature.changelog"
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
     buildFeatures {
         compose = true
     }

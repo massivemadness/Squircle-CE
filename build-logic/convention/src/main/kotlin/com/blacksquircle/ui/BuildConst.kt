@@ -19,5 +19,5 @@ package com.blacksquircle.ui
 object BuildConst {
     const val MIN_SDK = 24
     const val TARGET_SDK = 33
-    const val COMPILE_SDK = 34
+    const val COMPILE_SDK = 35
 }
