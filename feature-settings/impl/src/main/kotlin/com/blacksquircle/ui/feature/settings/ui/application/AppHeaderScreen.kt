@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.settings.ui.application
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -27,11 +28,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.extensions.findActivity
 import com.blacksquircle.ui.ds.preference.ListPreference
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
@@ -84,7 +88,10 @@ private fun AppHeaderScreen(
                 entries = stringArrayResource(R.array.theme_entries),
                 entryValues = stringArrayResource(R.array.theme_values),
                 selectedValue = viewState.appTheme,
-                onValueSelected = onThemeChanged,
+                onValueSelected = { value ->
+                    onThemeChanged(value)
+                    Theme.of(value).apply()
+                },
             )
             Preference(
                 title = stringResource(R.string.pref_color_scheme_title),
@@ -93,11 +100,17 @@ private fun AppHeaderScreen(
                     // TODO
                 },
             )
+
+            val context = LocalContext.current
             SwitchPreference(
                 title = stringResource(R.string.pref_fullscreen_title),
                 subtitle = stringResource(R.string.pref_fullscreen_summary),
                 checked = viewState.fullscreenMode,
-                onCheckedChange = onFullscreenChanged,
+                onCheckedChange = { value ->
+                    onFullscreenChanged(value)
+                    context.findActivity().window
+                        .fullscreenMode(value)
+                },
             )
             HorizontalDivider()
             PreferenceGroup(

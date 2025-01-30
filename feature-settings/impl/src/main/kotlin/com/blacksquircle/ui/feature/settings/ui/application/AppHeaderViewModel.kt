@@ -59,7 +59,6 @@ class AppHeaderViewModel @Inject constructor(
         viewModelScope.launch {
             settingsManager.theme = value
             _viewState.value = updateViewState()
-            Theme.of(value).apply()
         }
     }
 
