@@ -268,7 +268,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    is ViewEvent.Navigation -> navController.navigate(event.screen)
+                    is ViewEvent.Navigation -> navController.navigateTo(event.screen)
                     is EditorViewEvent.FindResults -> binding.editor.find(event.results)
                     is EditorViewEvent.InsertColor -> binding.editor.insert(event.color)
                     is EditorViewEvent.GotoLine -> try {
@@ -476,7 +476,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     override fun onSettingsButton(): Boolean {
-        navController.navigate(Screen.Settings)
+        navController.navigateTo(Screen.Settings)
         return true
     }
 

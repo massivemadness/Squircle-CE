@@ -97,7 +97,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
                 exportThemeContract.launch(themeModel.name + ".json", CreateFileContract.JSON)
             }
             override fun editTheme(themeModel: ThemeModel) {
-                navController.navigate(ThemesScreen.Update(themeModel.uuid))
+                navController.navigateTo(ThemesScreen.Update(themeModel.uuid))
             }
             override fun removeTheme(themeModel: ThemeModel) {
                 viewModel.obtainEvent(ThemeIntent.RemoveTheme(themeModel))
@@ -110,7 +110,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
         }
 
         binding.actionAdd.setOnClickListener {
-            navController.navigate(ThemesScreen.Create)
+            navController.navigateTo(ThemesScreen.Create)
         }
 
         binding.toolbar.setNavigationOnClickListener {

@@ -79,7 +79,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
         when (result) {
             PermissionResult.DENIED,
             PermissionResult.DENIED_FOREVER -> {
-                navController.navigate(ExplorerScreen.StorageDeniedForever)
+                navController.navigateTo(ExplorerScreen.StorageDeniedForever)
             }
             PermissionResult.GRANTED -> {
                 viewModel.obtainEvent(ExplorerIntent.Refresh)
@@ -188,7 +188,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             tabAdapter = it
         }
         binding.dropdown.adapter = ServerAdapter(requireContext()) {
-            navController.navigate(Screen.AddServer)
+            navController.navigateTo(Screen.AddServer)
             binding.dropdown.dismiss()
         }.also {
             serverAdapter = it
@@ -337,7 +337,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                                 binding.errorView.actionPrimary.isVisible = true
                                 binding.errorView.actionPrimary.setText(R.string.action_authenticate)
                                 binding.errorView.actionPrimary.setOnClickListener {
-                                    navController.navigate(
+                                    navController.navigateTo(
                                         ExplorerScreen.AuthDialog(action.authMethod)
                                     )
                                 }
@@ -363,7 +363,7 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    is ViewEvent.Navigation -> navController.navigate(event.screen)
+                    is ViewEvent.Navigation -> navController.navigateTo(event.screen)
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

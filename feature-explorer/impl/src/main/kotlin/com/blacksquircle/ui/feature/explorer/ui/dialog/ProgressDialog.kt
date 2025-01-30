@@ -28,7 +28,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.contract.NotificationPermission
 import com.blacksquircle.ui.core.contract.PermissionResult
-import com.blacksquircle.ui.core.extensions.navigate
+import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.databinding.DialogProgressBinding
@@ -55,7 +55,7 @@ class ProgressDialog : DialogFragment() {
         when (result) {
             PermissionResult.DENIED,
             PermissionResult.DENIED_FOREVER -> {
-                navController.navigate(ExplorerScreen.NotificationDeniedForever)
+                navController.navigateTo(ExplorerScreen.NotificationDeniedForever)
             }
             PermissionResult.GRANTED -> dismiss()
         }

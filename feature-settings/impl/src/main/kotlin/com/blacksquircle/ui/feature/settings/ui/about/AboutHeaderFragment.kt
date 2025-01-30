@@ -26,7 +26,7 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.extensions.navigate
+import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.settings.R
@@ -63,7 +63,7 @@ class AboutHeaderFragment : Fragment() {
         viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { event ->
                 when (event) {
-                    is ViewEvent.Navigation -> navController.navigate(event.screen)
+                    is ViewEvent.Navigation -> navController.navigateTo(event.screen)
                     is ViewEvent.PopBackStack -> navController.popBackStack()
                 }
             }

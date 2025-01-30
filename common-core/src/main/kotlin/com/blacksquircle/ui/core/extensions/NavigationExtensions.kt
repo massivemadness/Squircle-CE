@@ -26,7 +26,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.blacksquircle.ui.core.navigation.Screen
 
-fun NavController.navigate(
+fun NavController.navigateTo(
     screen: Screen<*>,
     options: NavOptions? = null,
     extras: Navigator.Extras? = null,

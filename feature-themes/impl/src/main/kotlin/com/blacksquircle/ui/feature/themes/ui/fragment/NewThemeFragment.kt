@@ -169,7 +169,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    is ViewEvent.Navigation -> navController.navigate(event.screen)
+                    is ViewEvent.Navigation -> navController.navigateTo(event.screen)
                     is ViewEvent.PopBackStack -> navController.popBackStack()
                 }
             }

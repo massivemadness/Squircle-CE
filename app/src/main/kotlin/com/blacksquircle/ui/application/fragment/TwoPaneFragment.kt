@@ -111,7 +111,7 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                     } else {
                         if (editorBackPressedHandler?.handleOnBackPressed() == false) {
                             if (mainViewModel.confirmExit) {
-                                navController.navigate(AppScreen.ConfirmExit)
+                                navController.navigateTo(AppScreen.ConfirmExit)
                             } else {
                                 activity?.finish()
                             }

@@ -94,7 +94,7 @@ class CloudFragment : PreferenceFragmentCompat() {
                 val addServer = Preference(preferenceScreen.context)
                 addServer.setTitle(R.string.pref_add_server_title)
                 addServer.setOnPreferenceClickListener {
-                    navController.navigate(Screen.AddServer)
+                    navController.navigateTo(Screen.AddServer)
                     true
                 }
                 categoryServers.addPreference(addServer)
@@ -104,7 +104,7 @@ class CloudFragment : PreferenceFragmentCompat() {
                     server.title = serverConfig.name
                     server.summary = serverConfig.address
                     server.setOnPreferenceClickListener {
-                        navController.navigate(ServersScreen.EditServer(serverConfig))
+                        navController.navigateTo(ServersScreen.EditServer(serverConfig))
                         true
                     }
                     categoryServers.addPreference(server)
