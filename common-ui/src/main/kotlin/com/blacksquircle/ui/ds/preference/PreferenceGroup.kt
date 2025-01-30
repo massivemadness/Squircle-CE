@@ -19,7 +19,6 @@ package com.blacksquircle.ui.ds.preference
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,8 +37,8 @@ fun PreferenceGroup(title: String) {
     ) {
         Text(
             text = title,
-            color = MaterialTheme.colors.primary,
-            style = MaterialTheme.typography.subtitle1,
+            color = SquircleTheme.colors.colorTextAndIconBrand,
+            style = SquircleTheme.typography.text14Medium,
             modifier = Modifier.padding(start = 16.dp)
         )
     }

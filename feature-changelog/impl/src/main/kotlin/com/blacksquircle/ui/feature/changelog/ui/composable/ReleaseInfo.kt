@@ -31,12 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.buildHtmlAnnotatedString
 import com.blacksquircle.ui.ds.extensions.takeUrl
-import com.blacksquircle.ui.ds.size2XS
-import com.blacksquircle.ui.ds.sizeM
-import com.blacksquircle.ui.ds.sizeXS
 
 @Composable
 fun ReleaseInfo(
@@ -44,11 +42,11 @@ fun ReleaseInfo(
     releaseDate: String,
     releaseNotes: String,
 ) {
-    Column(modifier = Modifier.padding(sizeM)) {
+    Column(modifier = Modifier.padding(16.dp)) {
         VersionName(versionName)
-        Spacer(modifier = Modifier.size(size2XS))
+        Spacer(modifier = Modifier.size(4.dp))
         ReleaseDate(releaseDate)
-        Spacer(modifier = Modifier.size(sizeXS))
+        Spacer(modifier = Modifier.size(8.dp))
         ReleaseNotes(releaseNotes)
     }
 }

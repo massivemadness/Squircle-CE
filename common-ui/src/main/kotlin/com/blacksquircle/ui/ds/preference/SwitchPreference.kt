@@ -16,10 +16,10 @@
 
 package com.blacksquircle.ui.ds.preference
 
-import androidx.compose.material.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.switcher.Switcher
 
 @Composable
 fun SwitchPreference(
@@ -35,9 +35,9 @@ fun SwitchPreference(
         enabled = enabled,
         onClick = { onCheckedChange(!checked) },
         trailingContent = {
-            Switch(
+            Switcher(
+                onClick = { onCheckedChange(!checked) },
                 checked = checked,
-                onCheckedChange = onCheckedChange,
                 enabled = enabled,
             )
         },

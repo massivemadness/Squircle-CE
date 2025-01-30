@@ -19,7 +19,6 @@ package com.blacksquircle.ui.ds.preference
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -65,7 +64,12 @@ fun SliderPreference(
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = displayValueHolder.toInt().toString(),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = SquircleTheme.typography.text16Regular,
+                    color = if (enabled) {
+                        SquircleTheme.colors.colorTextAndIconPrimary
+                    } else {
+                        SquircleTheme.colors.colorTextAndIconDisabled
+                    },
                 )
                 Spacer(modifier = Modifier.size(12.dp))
             }

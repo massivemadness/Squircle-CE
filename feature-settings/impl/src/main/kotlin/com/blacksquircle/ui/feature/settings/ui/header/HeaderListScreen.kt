@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.settings.ui.header
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -55,10 +56,11 @@ private fun HeaderListScreen(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.label_settings),
-                backIcon = UiR.drawable.ic_back,
-                onBackClicked = onBackClicked,
+                navigationIcon = UiR.drawable.ic_back,
+                onNavigationClicked = onBackClicked,
             )
-        }
+        },
+        modifier = Modifier.navigationBarsPadding()
     ) { innerPadding ->
         HeaderList(
             viewState = viewState,
@@ -83,7 +85,6 @@ private fun HeaderList(
             PreferenceHeader(
                 title = stringResource(header.title),
                 subtitle = stringResource(header.subtitle),
-                selected = false,
                 onSelected = { onItemClicked(header) },
             )
         }

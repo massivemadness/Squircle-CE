@@ -71,9 +71,9 @@ private fun ShortcutsScreen(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_keybindings_title),
-                backIcon = UiR.drawable.ic_back,
-                onBackClicked = onBackClicked,
-                menuItems = {
+                navigationIcon = UiR.drawable.ic_back,
+                onNavigationClicked = onBackClicked,
+                navigationActions = {
                     var expanded by remember { mutableStateOf(false) }
                     IconButton(onClick = { expanded = !expanded }) {
                         Icon(

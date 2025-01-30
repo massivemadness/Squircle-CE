@@ -16,8 +16,87 @@
 
 package com.blacksquircle.ui.ds
 
-import androidx.compose.material.Typography
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
-internal fun typography(): Typography {
-    return Typography()
+internal val LocalTypography = staticCompositionLocalOf { Typography() }
+
+@Immutable
+class Typography internal constructor(
+    val text10Medium: TextStyle = Default.copy(
+        fontWeight = FontWeight.Medium,
+        fontSize = 10.sp,
+    ),
+    val text12Medium: TextStyle = Default.copy(
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+    ),
+    val text14Regular: TextStyle = Default.copy(
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+    ),
+    val text14Medium: TextStyle = Default.copy(
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+    ),
+    val text14Bold: TextStyle = Default.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+    ),
+    val text16Regular: TextStyle = Default.copy(
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+    ),
+    val text16Medium: TextStyle = Default.copy(
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+    ),
+    val text16Bold: TextStyle = Default.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+    ),
+    val text18Regular: TextStyle = Default.copy(
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp,
+    ),
+    val text18Medium: TextStyle = Default.copy(
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+    ),
+    val text18Bold: TextStyle = Default.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+    ),
+    val header20Regular: TextStyle = Default.copy(
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp,
+    ),
+    val header20Medium: TextStyle = Default.copy(
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+    ),
+    val header20Bold: TextStyle = Default.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+    ),
+    val header24Bold: TextStyle = Default.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+    ),
+    val header32Bold: TextStyle = Default.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 32.sp,
+    ),
+    val display48Bold: TextStyle = Default.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 48.sp,
+    ),
+) {
+
+    companion object {
+        val Default = TextStyle.Default
+    }
 }

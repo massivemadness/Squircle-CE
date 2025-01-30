@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.settings.ui.editor
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -80,14 +80,14 @@ private fun EditorHeaderScreen(
     onSoftKeyboardChanged: (Boolean) -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_editor_title),
-                backIcon = UiR.drawable.ic_back,
-                onBackClicked = onBackClicked,
+                navigationIcon = UiR.drawable.ic_back,
+                onNavigationClicked = onBackClicked,
             )
-        }
+        },
+        modifier = Modifier.navigationBarsPadding()
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -111,7 +111,7 @@ private fun EditorHeaderScreen(
             Preference(
                 title = stringResource(R.string.pref_font_type_title),
                 subtitle = stringResource(R.string.pref_font_type_summary),
-                // onClick = onFontTypeClicked
+                // TODO onClick = onFontTypeClicked
             )
             HorizontalDivider()
             PreferenceGroup(

@@ -56,8 +56,8 @@ private fun ChangeLogScreen(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.label_changelog),
-                backIcon = UiR.drawable.ic_back,
-                onBackClicked = onBackClicked,
+                navigationIcon = UiR.drawable.ic_back,
+                onNavigationClicked = onBackClicked,
             )
         }
     ) { innerPadding ->

@@ -16,82 +16,52 @@
 
 package com.blacksquircle.ui.ds.preference
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.sizeL
-import com.blacksquircle.ui.ds.sizeXS
 
 @Composable
 fun PreferenceHeader(
     title: String,
     subtitle: String,
-    selected: Boolean = false,
     onSelected: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                if (selected) {
-                    MaterialTheme.colors.background
-                } else {
-                    Color.Transparent
-                }
-            )
             .clickable(onClick = onSelected)
-            .padding(horizontal = sizeL, vertical = sizeXS)
+            .padding(horizontal = 18.dp, vertical = 8.dp)
     ) {
         Text(
             text = title,
-            color = if (selected) {
-                MaterialTheme.colors.background
-            } else {
-                MaterialTheme.colors.onSurface
-            },
-            style = MaterialTheme.typography.body1,
+            color = SquircleTheme.colors.colorTextAndIconPrimary,
+            style = SquircleTheme.typography.text16Regular,
         )
+        Spacer(Modifier.height(4.dp))
         Text(
             text = subtitle,
-            color = if (selected) {
-                MaterialTheme.colors.onSurface
-            } else {
-                MaterialTheme.colors.onSurface
-            },
-            style = MaterialTheme.typography.body1,
+            color = SquircleTheme.colors.colorTextAndIconSecondary,
+            style = SquircleTheme.typography.text14Regular,
         )
     }
 }
 
 @Preview
 @Composable
-private fun UnselectedPreferenceHeaderPreview() {
+private fun PreferenceHeaderPreview() {
     SquircleTheme {
         PreferenceHeader(
             title = "Application",
             subtitle = "Configure global application settings",
-            selected = false,
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun SelectedPreferenceHeaderPreview() {
-    SquircleTheme {
-        PreferenceHeader(
-            title = "Application",
-            subtitle = "Configure global application settings",
-            selected = true,
         )
     }
 }

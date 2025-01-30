@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.settings.ui.application
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -64,14 +64,14 @@ private fun AppHeaderScreen(
     onConfirmExitChanged: (Boolean) -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_application_title),
-                backIcon = UiR.drawable.ic_back,
-                onBackClicked = onBackClicked,
+                navigationIcon = UiR.drawable.ic_back,
+                onNavigationClicked = onBackClicked,
             )
-        }
+        },
+        modifier = Modifier.navigationBarsPadding()
     ) { innerPadding ->
         Column(
             modifier = Modifier

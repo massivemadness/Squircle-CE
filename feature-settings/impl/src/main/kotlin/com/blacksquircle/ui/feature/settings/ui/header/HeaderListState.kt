@@ -16,10 +16,12 @@
 
 package com.blacksquircle.ui.feature.settings.ui.header
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 
+@Immutable
 data class HeaderListState(
     val headers: List<PreferenceHeader> = listOf(
         PreferenceHeader(

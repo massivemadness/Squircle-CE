@@ -23,15 +23,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.sizeM
 
 @Composable
 fun Preference(
@@ -44,34 +45,39 @@ fun Preference(
     bottomContent: @Composable (ColumnScope.() -> Unit)? = null,
 ) {
     Row(
+        verticalAlignment = Alignment.Top,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(sizeM)
+            .clickable(
+                enabled = enabled,
+                onClick = onClick,
+            )
+            .padding(16.dp)
     ) {
         if (leadingContent != null) {
             leadingContent()
-            Spacer(modifier = Modifier.size(sizeM))
+            Spacer(modifier = Modifier.size(16.dp))
         }
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
                 color = if (enabled) {
-                    MaterialTheme.colors.onSurface
+                    SquircleTheme.colors.colorTextAndIconPrimary
                 } else {
-                    MaterialTheme.colors.onSurface.copy(alpha = 0.38f)
+                    SquircleTheme.colors.colorTextAndIconDisabled
                 },
-                style = MaterialTheme.typography.body1,
+                style = SquircleTheme.typography.text16Regular,
             )
             if (subtitle != null) {
+                Spacer(Modifier.height(4.dp))
                 Text(
                     text = subtitle,
                     color = if (enabled) {
-                        MaterialTheme.colors.onSurface
+                        SquircleTheme.colors.colorTextAndIconSecondary
                     } else {
-                        MaterialTheme.colors.onSurface.copy(alpha = 0.38f)
+                        SquircleTheme.colors.colorTextAndIconDisabled
                     },
-                    style = MaterialTheme.typography.body2,
+                    style = SquircleTheme.typography.text14Regular,
                 )
             }
             if (bottomContent != null) {
@@ -79,7 +85,7 @@ fun Preference(
             }
         }
         if (trailingContent != null) {
-            Spacer(modifier = Modifier.size(sizeM))
+            Spacer(modifier = Modifier.size(16.dp))
             trailingContent()
         }
     }

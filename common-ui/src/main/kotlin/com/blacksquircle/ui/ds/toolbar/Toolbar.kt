@@ -16,44 +16,167 @@
 
 package com.blacksquircle.ui.ds.toolbar
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.size2XS
+import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.toolbar.internal.ToolbarActions
+import com.blacksquircle.ui.ds.toolbar.internal.ToolbarContent
+import com.blacksquircle.ui.ds.toolbar.internal.ToolbarIcon
 
 @Composable
 fun Toolbar(
-    title: String,
-    backIcon: Int? = null,
-    onBackClicked: () -> Unit = {},
-    menuItems: @Composable RowScope.() -> Unit = {},
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    subtitle: String? = null,
+    alignment: Alignment.Horizontal = Alignment.Start,
+    @DrawableRes navigationIcon: Int? = null,
+    navigationIconDescription: String? = null,
+    navigationActions: @Composable (RowScope.() -> Unit)? = null,
+    onNavigationClicked: () -> Unit = {},
 ) {
-    TopAppBar(
-        title = {
-            Text(text = title)
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .shadow(4.dp)
+            .background(SquircleTheme.colors.colorBackgroundSecondary)
+            .statusBarsPadding()
+    ) {
+        ToolbarLayout(
+            title = title,
+            subtitle = subtitle,
+            alignment = alignment,
+            navigationIcon = navigationIcon,
+            navigationIconDescription = navigationIconDescription,
+            navigationActions = navigationActions,
+            onNavigationClicked = onNavigationClicked,
+        )
+    }
+}
+
+@Composable
+private fun ToolbarLayout(
+    title: String?,
+    subtitle: String?,
+    alignment: Alignment.Horizontal,
+    @DrawableRes navigationIcon: Int?,
+    navigationIconDescription: String?,
+    navigationActions: @Composable (RowScope.() -> Unit)?,
+    onNavigationClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Layout(
+        content = {
+            ToolbarIcon(
+                iconRes = navigationIcon,
+                contentDescription = navigationIconDescription,
+                onNavigationClicked = onNavigationClicked,
+                modifier = Modifier
+                    .size(56.dp)
+                    .layoutId(ToolbarSlot.ToolbarIcon),
+            )
+            ToolbarContent(
+                title = title,
+                subtitle = subtitle,
+                alignment = alignment,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .layoutId(ToolbarSlot.ToolbarContent),
+            )
+            ToolbarActions(
+                content = navigationActions,
+                modifier = Modifier
+                    .height(56.dp)
+                    .layoutId(ToolbarSlot.ToolbarActions),
+            )
         },
-        navigationIcon = {
-            if (backIcon != null) {
-                IconButton(onClick = onBackClicked) {
-                    Icon(
-                        painter = painterResource(backIcon),
-                        contentDescription = null
-                    )
-                }
+        modifier = modifier
+            .fillMaxWidth()
+            .height(56.dp),
+    ) { measurables, constraints ->
+        // Useful variables
+        val layoutWidth = constraints.maxWidth
+        val layoutHeight = constraints.maxHeight
+
+        // Detect measurables
+        val iconMeasurable = measurables.firstOrNull { it.layoutId == ToolbarSlot.ToolbarIcon }
+        val contentMeasurable = measurables.first { it.layoutId == ToolbarSlot.ToolbarContent }
+        val actionsMeasurable = measurables.firstOrNull { it.layoutId == ToolbarSlot.ToolbarActions }
+
+        // Measure icon with wrapContentSize
+        val iconConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+        val iconPlaceable = iconMeasurable?.measure(iconConstraints)
+
+        // Measure actions with wrapContentSize
+        val actionsConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+        val actionsPlaceable = actionsMeasurable?.measure(actionsConstraints)
+
+        // Icon and actions width
+        val iconMeasuredWidth = iconPlaceable?.measuredWidth ?: 0
+        val iconWidth = if (iconMeasuredWidth > 0) {
+            /** It's not null and not empty composable */
+            iconMeasuredWidth
+        } else {
+            16.dp.roundToPx()
+        }
+        val actionsMeasuredWidth = actionsPlaceable?.measuredWidth ?: 0
+        val actionsWidth = if (actionsMeasuredWidth > 0) {
+            /** It's not null and not empty composable */
+            actionsMeasuredWidth
+        } else {
+            16.dp.roundToPx()
+        }
+
+        // Content padding and size
+        val contentPadding = when (alignment) {
+            Alignment.CenterHorizontally -> {
+                maxOf(iconWidth, actionsWidth)
             }
-        },
-        actions = menuItems,
-        modifier = Modifier.shadow(size2XS)
-    )
+            else -> {
+                iconWidth
+            }
+        }
+        val contentMaxWidth = when (alignment) {
+            Alignment.CenterHorizontally -> {
+                maxOf(0, layoutWidth - (contentPadding * 2))
+            }
+            else -> {
+                maxOf(0, layoutWidth - iconWidth - actionsWidth)
+            }
+        }
+
+        // Measure content with padding
+        val contentConstraints = constraints.copy(minWidth = 0, maxWidth = contentMaxWidth)
+        val contentPlaceable = contentMeasurable.measure(contentConstraints)
+
+        // Layout children
+        layout(layoutWidth, layoutHeight) {
+            // Place icon
+            iconPlaceable?.placeRelative(x = 0, y = 0)
+
+            // Place actions
+            actionsPlaceable?.placeRelative(x = layoutWidth - actionsWidth, y = 0)
+
+            // Place content
+            contentPlaceable.placeRelative(contentPadding, 0)
+        }
+    }
 }
 
 @Preview
@@ -61,8 +184,22 @@ fun Toolbar(
 private fun ToolbarPreview() {
     SquircleTheme {
         Toolbar(
-            title = "Title",
-            backIcon = R.drawable.ic_back
+            title = "Lorem Ipsum",
+            subtitle = "Lorem Ipsum",
+            alignment = Alignment.Start,
+            navigationIcon = R.drawable.ic_back,
+            navigationActions = {
+                IconButton(
+                    iconResId = R.drawable.ic_edit,
+                    onClick = {},
+                )
+            }
         )
     }
+}
+
+private enum class ToolbarSlot {
+    ToolbarIcon,
+    ToolbarContent,
+    ToolbarActions,
 }

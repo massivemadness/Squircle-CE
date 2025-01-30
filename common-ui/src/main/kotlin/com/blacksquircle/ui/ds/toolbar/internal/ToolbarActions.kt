@@ -14,22 +14,28 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.button
+package com.blacksquircle.ui.ds.toolbar.internal
 
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
-import com.blacksquircle.ui.ds.SquircleTheme
+import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 
 @Composable
-fun TextButton(
-    text: String,
-    onClick: () -> Unit,
+@NonRestartableComposable
+internal fun ToolbarActions(
+    content: @Composable (RowScope.() -> Unit)?,
+    modifier: Modifier = Modifier,
 ) {
-    TextButton(onClick = onClick) {
-        Text(
-            text = text,
-            style = SquircleTheme.typography.text14Regular,
+    if (content != null) {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End,
+            content = content,
         )
     }
 }

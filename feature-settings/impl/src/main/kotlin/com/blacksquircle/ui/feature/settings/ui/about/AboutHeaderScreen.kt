@@ -103,8 +103,8 @@ private fun AboutHeaderScreen(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_about_title),
-                backIcon = UiR.drawable.ic_back,
-                onBackClicked = onBackClicked,
+                navigationIcon = UiR.drawable.ic_back,
+                onNavigationClicked = onBackClicked,
             )
         }
     ) { innerPadding ->

@@ -73,8 +73,8 @@ private fun FilesHeaderScreen(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_files_title),
-                backIcon = UiR.drawable.ic_back,
-                onBackClicked = onBackClicked,
+                navigationIcon = UiR.drawable.ic_back,
+                onNavigationClicked = onBackClicked,
             )
         }
     ) { innerPadding ->

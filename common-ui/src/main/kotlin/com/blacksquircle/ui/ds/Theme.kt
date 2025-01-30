@@ -16,18 +16,41 @@
 
 package com.blacksquircle.ui.ds
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProvideTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 
 @Composable
 fun SquircleTheme(
-    darkTheme: Boolean = true,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(
-        colors = colors(darkTheme),
-        shapes = shapes(),
-        typography = typography(),
-        content = content,
-    )
+    val colors = if (darkTheme) Colors.darkColors() else Colors.lightColors()
+
+    CompositionLocalProvider(
+        LocalColors provides colors,
+        LocalTypography provides SquircleTheme.typography,
+    ) {
+        MaterialTheme(colors = colors.toMaterialColors(darkTheme)) {
+            ProvideTextStyle(Typography.Default) {
+                content()
+            }
+        }
+    }
+}
+
+object SquircleTheme {
+
+    val colors: Colors
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalColors.current
+
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypography.current
 }
