@@ -21,8 +21,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,7 +43,7 @@ fun PreferenceHeader(
             .fillMaxWidth()
             .background(
                 if (selected) {
-                    MaterialTheme.colorScheme.primaryContainer
+                    MaterialTheme.colors.background
                 } else {
                     Color.Transparent
                 }
@@ -54,20 +54,20 @@ fun PreferenceHeader(
         Text(
             text = title,
             color = if (selected) {
-                MaterialTheme.colorScheme.onPrimaryContainer
+                MaterialTheme.colors.background
             } else {
-                MaterialTheme.colorScheme.onSurface
+                MaterialTheme.colors.onSurface
             },
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.body1,
         )
         Text(
             text = subtitle,
             color = if (selected) {
-                MaterialTheme.colorScheme.onPrimaryContainer
+                MaterialTheme.colors.onSurface
             } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
+                MaterialTheme.colors.onSurface
             },
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.body1,
         )
     }
 }

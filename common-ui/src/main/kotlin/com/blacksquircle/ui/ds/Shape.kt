@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.ds
 
-import androidx.compose.material3.Shapes
+import androidx.compose.material.Shapes
 
 internal fun shapes(): Shapes {
     return Shapes()

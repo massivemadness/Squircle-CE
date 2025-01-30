@@ -12,7 +12,6 @@ timber = "5.0.1"
 appupdate = "2.1.0"
 appcompat = "1.7.0"
 material = "1.12.0"
-material-compose = "1.3.1"
 compose = "1.7.7"
 constraintlayout = "2.2.0"
 swiperefreshlayout = "1.2.0-alpha01"
@@ -96,7 +95,7 @@ androidx-workmanager = { module = "androidx.work:work-runtime-ktx", version.ref 
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
-compose-material = { module = "androidx.compose.material3:material3", version.ref = "material-compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }

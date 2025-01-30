@@ -17,14 +17,10 @@
 package com.blacksquircle.ui.ds.toolbar
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarDefaults.pinnedScrollBehavior
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -34,7 +30,6 @@ import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.size2XS
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Toolbar(
     title: String,
@@ -57,10 +52,6 @@ fun Toolbar(
             }
         },
         actions = menuItems,
-        scrollBehavior = pinnedScrollBehavior(),
-        colors = TopAppBarDefaults.topAppBarColors(
-            actionIconContentColor = MaterialTheme.colorScheme.onSurface
-        ),
         modifier = Modifier.shadow(size2XS)
     )
 }

@@ -16,9 +16,8 @@
 
 package com.blacksquircle.ui.ds.button
 
-import androidx.compose.material3.ShapeDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 
 @Composable
@@ -26,10 +25,7 @@ fun TextButton(
     text: String,
     onClick: () -> Unit,
 ) {
-    TextButton(
-        onClick = onClick,
-        shape = ShapeDefaults.ExtraSmall,
-    ) {
+    TextButton(onClick = onClick) {
         Text(text = text)
     }
 }

@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.ds
 
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 
 @Composable
@@ -25,7 +25,7 @@ fun SquircleTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = colors(darkTheme),
+        colors = colors(darkTheme),
         shapes = shapes(),
         typography = typography(),
         content = content,

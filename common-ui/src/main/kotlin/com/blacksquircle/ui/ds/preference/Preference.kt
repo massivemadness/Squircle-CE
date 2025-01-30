@@ -25,8 +25,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,21 +57,21 @@ fun Preference(
             Text(
                 text = title,
                 color = if (enabled) {
-                    MaterialTheme.colorScheme.onSurface
+                    MaterialTheme.colors.onSurface
                 } else {
-                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                    MaterialTheme.colors.onSurface.copy(alpha = 0.38f)
                 },
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.body1,
             )
             if (subtitle != null) {
                 Text(
                     text = subtitle,
                     color = if (enabled) {
-                        MaterialTheme.colorScheme.onSurfaceVariant
+                        MaterialTheme.colors.onSurface
                     } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                        MaterialTheme.colors.onSurface.copy(alpha = 0.38f)
                     },
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.body2,
                 )
             }
             if (bottomContent != null) {

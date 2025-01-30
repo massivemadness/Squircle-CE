@@ -19,9 +19,9 @@ package com.blacksquircle.ui.ds.preference
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Slider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -65,7 +65,7 @@ fun SliderPreference(
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = displayValueHolder.toInt().toString(),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.subtitle1,
                 )
                 Spacer(modifier = Modifier.size(12.dp))
             }

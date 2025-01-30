@@ -16,40 +16,26 @@
 
 package com.blacksquircle.ui.ds
 
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material.Colors
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
-internal fun colors(darkTheme: Boolean): ColorScheme {
+internal fun colors(darkTheme: Boolean): Colors {
     return if (darkTheme) {
-        darkColorScheme(
+        darkColors(
             primary = Color(0xFFFF8000),
             onPrimary = Color(0xFFFFFFFF),
-            primaryContainer = Color(0xFFFF8000),
-            onPrimaryContainer = Color(0xFF000000),
             secondary = Color(0xFFFF8000),
             onSecondary = Color(0xFFFFFFFF),
-            secondaryContainer = Color(0xFFFF8000),
-            onSecondaryContainer = Color(0xFF000000),
-            tertiary = Color(0xFFFF8000),
-            onTertiary = Color(0xFF000000),
-            tertiaryContainer = Color(0xFFFF8000),
-            onTertiaryContainer = Color(0xFF000000),
             background = Color(0xFF1E1F22),
             onBackground = Color(0xFFFFFFFF),
             surface = Color(0xFF2B2D30),
-            onSurface = Color(0xFFFFFFFF), // List item title (white)
-            surfaceVariant = Color(0xFF2B2D30),
-            onSurfaceVariant = Color(0xFFBCBCBC), // List item subtitle (gray)
+            onSurface = Color(0xFFFFFFFF),
             error = Color(0xFFE45356),
             onError = Color(0xFFFFFFFF),
-            errorContainer = Color(0xFFE45356),
-            onErrorContainer = Color(0xFFFFFFFF),
-            outline = Color(0xFF393B40),
-            outlineVariant = Color(0xFF393B40),
         )
     } else {
-        lightColorScheme() // TODO
+        lightColors() // TODO
     }
 }

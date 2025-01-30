@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.ds
 
-import androidx.compose.material3.Typography
+import androidx.compose.material.Typography
 
 internal fun typography(): Typography {
     return Typography()

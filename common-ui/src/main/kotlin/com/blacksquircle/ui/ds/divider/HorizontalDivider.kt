@@ -14,41 +14,31 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.preference
+package com.blacksquircle.ui.ds.divider
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
-fun PreferenceGroup(title: String) {
-    Box(
-        contentAlignment = Alignment.CenterStart,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp, top = 24.dp)
-    ) {
-        Text(
-            text = title,
-            color = MaterialTheme.colors.primary,
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(start = 16.dp)
+fun HorizontalDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = 1.dp,
+    color: Color = MaterialTheme.colors.onBackground,
+) {
+    Canvas(modifier.fillMaxWidth().height(thickness)) {
+        drawLine(
+            color = color,
+            strokeWidth = thickness.toPx(),
+            start = Offset(0f, thickness.toPx() / 2),
+            end = Offset(size.width, thickness.toPx() / 2),
         )
-    }
-}
-
-@Preview
-@Composable
-private fun PreferenceGroupPreview() {
-    SquircleTheme {
-        PreferenceGroup("Group")
     }
 }

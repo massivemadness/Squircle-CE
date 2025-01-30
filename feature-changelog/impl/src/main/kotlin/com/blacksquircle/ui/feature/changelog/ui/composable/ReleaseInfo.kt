@@ -24,8 +24,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -57,8 +57,8 @@ fun ReleaseInfo(
 private fun VersionName(title: String) {
     Text(
         text = title,
-        color = MaterialTheme.colorScheme.onSurface,
-        style = MaterialTheme.typography.headlineSmall,
+        color = MaterialTheme.colors.onSurface,
+        style = MaterialTheme.typography.h4,
     )
 }
 
@@ -66,8 +66,8 @@ private fun VersionName(title: String) {
 private fun ReleaseDate(title: String) {
     Text(
         text = title,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colors.onSurface,
+        style = MaterialTheme.typography.body1,
         modifier = Modifier.fillMaxWidth()
     )
 }
@@ -75,7 +75,7 @@ private fun ReleaseDate(title: String) {
 @Composable
 private fun ReleaseNotes(text: String) {
     val context = LocalContext.current
-    val urlColor = MaterialTheme.colorScheme.primary
+    val urlColor = MaterialTheme.colors.primary
     val annotatedString = remember(text) {
         text.buildHtmlAnnotatedString(urlColor)
     }
@@ -90,8 +90,8 @@ private fun ReleaseNotes(text: String) {
                 context.startActivity(intent)
             }
         },
-        style = MaterialTheme.typography.bodyMedium.copy(
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        style = MaterialTheme.typography.body1.copy(
+            color = MaterialTheme.colors.onSurface,
         ),
         modifier = Modifier.fillMaxWidth()
     )

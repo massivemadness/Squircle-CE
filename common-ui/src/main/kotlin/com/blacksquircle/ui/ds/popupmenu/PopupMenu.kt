@@ -17,10 +17,10 @@
 package com.blacksquircle.ui.ds.popupmenu
 
 import androidx.compose.foundation.background
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -39,7 +39,7 @@ fun PopupMenu(
         expanded = expanded,
         onDismissRequest = onDismiss,
         offset = DpOffset(horizontalOffset, verticalOffset),
-        modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+        modifier = Modifier.background(MaterialTheme.colors.surface)
     ) {
         context()
     }
@@ -51,7 +51,9 @@ fun PopupMenuItem(
     onClick: () -> Unit,
 ) {
     DropdownMenuItem(
-        text = { Text(title) },
+        content = {
+            Text(title)
+        },
         onClick = onClick,
     )
 }
