@@ -16,10 +16,12 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui.fragment
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.shortcuts.domain.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 
+@Immutable
 data class ShortcutsState(
     val shortcuts: Map<KeyGroup, List<Keybinding>> = emptyMap(),
 ) : ViewState()

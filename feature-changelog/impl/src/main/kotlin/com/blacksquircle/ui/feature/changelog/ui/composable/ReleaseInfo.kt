@@ -21,10 +21,9 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -43,56 +42,45 @@ fun ReleaseInfo(
     releaseNotes: String,
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
-        VersionName(versionName)
-        Spacer(modifier = Modifier.size(4.dp))
-        ReleaseDate(releaseDate)
-        Spacer(modifier = Modifier.size(8.dp))
-        ReleaseNotes(releaseNotes)
-    }
-}
+        Text(
+            text = versionName,
+            color = SquircleTheme.colors.colorTextAndIconPrimary,
+            style = SquircleTheme.typography.text18Medium,
+        )
 
-@Composable
-private fun VersionName(title: String) {
-    Text(
-        text = title,
-        color = MaterialTheme.colors.onSurface,
-        style = MaterialTheme.typography.h4,
-    )
-}
+        Spacer(modifier = Modifier.height(4.dp))
 
-@Composable
-private fun ReleaseDate(title: String) {
-    Text(
-        text = title,
-        color = MaterialTheme.colors.onSurface,
-        style = MaterialTheme.typography.body1,
-        modifier = Modifier.fillMaxWidth()
-    )
-}
+        Text(
+            text = releaseDate,
+            color = SquircleTheme.colors.colorTextAndIconSecondary,
+            style = SquircleTheme.typography.text14Regular,
+            modifier = Modifier.fillMaxWidth()
+        )
 
-@Composable
-private fun ReleaseNotes(text: String) {
-    val context = LocalContext.current
-    val urlColor = MaterialTheme.colors.primary
-    val annotatedString = remember(text) {
-        text.buildHtmlAnnotatedString(urlColor)
-    }
-    ClickableText(
-        text = annotatedString,
-        onClick = { pos ->
-            val link = annotatedString.takeUrl(pos)
-            if (link != null) {
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(link)
+        Spacer(modifier = Modifier.height(4.dp))
+
+        val context = LocalContext.current
+        val urlColor = SquircleTheme.colors.colorPrimary
+        val annotatedString = remember(releaseNotes) {
+            releaseNotes.buildHtmlAnnotatedString(urlColor)
+        }
+        ClickableText(
+            text = annotatedString,
+            onClick = { pos ->
+                val link = annotatedString.takeUrl(pos)
+                if (link != null) {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(link)
+                    }
+                    context.startActivity(intent)
                 }
-                context.startActivity(intent)
-            }
-        },
-        style = MaterialTheme.typography.body1.copy(
-            color = MaterialTheme.colors.onSurface,
-        ),
-        modifier = Modifier.fillMaxWidth()
-    )
+            },
+            style = SquircleTheme.typography.text14Regular.copy(
+                color = SquircleTheme.colors.colorTextAndIconSecondary,
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }
 
 @Preview

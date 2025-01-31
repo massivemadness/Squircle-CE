@@ -20,7 +20,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -29,7 +29,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -59,7 +59,7 @@ private const val CONTRIBUTE_PROJECT_URL = "https://github.com/massivemadness/Sq
 @Composable
 fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
     val context = LocalContext.current
-    var counter by remember { mutableIntStateOf(1) }
+    var counter by rememberSaveable { mutableIntStateOf(1) }
     AboutHeaderScreen(
         onChangelogClicked = {
             if (counter < 10) {
@@ -99,14 +99,14 @@ private fun AboutHeaderScreen(
     onBackClicked: () -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_about_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
-        }
+        },
+        modifier = Modifier.navigationBarsPadding()
     ) { innerPadding ->
         Column(
             modifier = Modifier

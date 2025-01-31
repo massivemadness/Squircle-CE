@@ -16,8 +16,10 @@
 
 package com.blacksquircle.ui.feature.settings.ui.files
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 
+@Immutable
 data class FilesHeaderState(
     val encodingAutoDetect: Boolean,
     val encodingForOpening: String,

@@ -17,15 +17,16 @@
 package com.blacksquircle.ui.ds.popupmenu
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 fun PopupMenu(
@@ -33,16 +34,15 @@ fun PopupMenu(
     onDismiss: () -> Unit,
     verticalOffset: Dp = 0.dp,
     horizontalOffset: Dp = 0.dp,
-    context: @Composable () -> Unit,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     DropdownMenu(
+        content = content,
         expanded = expanded,
         onDismissRequest = onDismiss,
         offset = DpOffset(horizontalOffset, verticalOffset),
-        modifier = Modifier.background(MaterialTheme.colors.surface)
-    ) {
-        context()
-    }
+        modifier = Modifier.background(SquircleTheme.colors.colorBackgroundTertiary),
+    )
 }
 
 @Composable

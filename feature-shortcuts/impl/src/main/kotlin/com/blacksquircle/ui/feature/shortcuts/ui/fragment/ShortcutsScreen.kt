@@ -17,24 +17,24 @@
 package com.blacksquircle.ui.feature.shortcuts.ui.fragment
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
@@ -50,7 +50,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ShortcutsScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
@@ -67,7 +67,6 @@ private fun ShortcutsScreen(
     onKeyAssigned: (Keybinding) -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_keybindings_title),
@@ -75,27 +74,28 @@ private fun ShortcutsScreen(
                 onNavigationClicked = onBackClicked,
                 navigationActions = {
                     var expanded by remember { mutableStateOf(false) }
-                    IconButton(onClick = { expanded = !expanded }) {
-                        Icon(
-                            painter = painterResource(UiR.drawable.ic_overflow),
-                            contentDescription = null
+                    IconButton(
+                        iconResId = UiR.drawable.ic_overflow,
+                        onClick = { expanded = !expanded }
+                    )
+
+                    PopupMenu(
+                        expanded = expanded,
+                        onDismiss = { expanded = false },
+                        verticalOffset = (-56).dp,
+                    ) {
+                        PopupMenuItem(
+                            title = stringResource(R.string.action_restore),
+                            onClick = {
+                                onRestoreClicked()
+                                expanded = false
+                            },
                         )
-                        PopupMenu(
-                            expanded = expanded,
-                            onDismiss = { expanded = false }
-                        ) {
-                            PopupMenuItem(
-                                title = stringResource(R.string.action_restore),
-                                onClick = {
-                                    onRestoreClicked()
-                                    expanded = false
-                                },
-                            )
-                        }
                     }
                 }
             )
-        }
+        },
+        modifier = Modifier.navigationBarsPadding()
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
@@ -103,10 +103,7 @@ private fun ShortcutsScreen(
                 .padding(innerPadding)
         ) {
             viewState.shortcuts.forEach { (keyGroup, keybindings) ->
-                item(
-                    key = keyGroup.name,
-                    contentType = 1
-                ) {
+                item(key = keyGroup.name, contentType = 1) {
                     // Don't draw divider for the first group
                     if (keyGroup != KeyGroup.FILE) {
                         HorizontalDivider()
@@ -162,13 +159,17 @@ private fun ShortcutsScreen(
 @Composable
 @ReadOnlyComposable
 private fun keybindingResource(keybinding: Keybinding): String {
+    val noneSet = stringResource(R.string.shortcut_none)
+    val ctrl = stringResource(UiR.string.common_ctrl)
+    val shift = stringResource(UiR.string.common_shift)
+    val alt = stringResource(UiR.string.common_alt)
     return StringBuilder().apply {
         if (keybinding.key == '\u0000') {
-            append(stringResource(R.string.shortcut_none))
+            append(noneSet)
         } else {
-            if (keybinding.isCtrl) append(stringResource(UiR.string.common_ctrl) + " + ")
-            if (keybinding.isShift) append(stringResource(UiR.string.common_shift) + " + ")
-            if (keybinding.isAlt) append(stringResource(UiR.string.common_alt) + " + ")
+            if (keybinding.isCtrl) append("$ctrl + ")
+            if (keybinding.isShift) append("$shift + ")
+            if (keybinding.isAlt) append("$alt + ")
             append(keybinding.key)
         }
     }.toString()

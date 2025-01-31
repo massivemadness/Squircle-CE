@@ -16,8 +16,10 @@
 
 package com.blacksquircle.ui.feature.changelog.ui.viewmodel
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 
+@Immutable
 data class ChangeLogState(
     val releases: List<ReleaseModel> = emptyList(),
 )

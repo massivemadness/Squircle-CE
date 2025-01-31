@@ -16,8 +16,10 @@
 
 package com.blacksquircle.ui.ds.switcher
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.Switch
 import androidx.compose.material.SwitchDefaults
@@ -46,24 +48,25 @@ fun Switcher(
             onValueChange = { onClick() },
         )
     ) {
-        Switch(
-            checked = checked,
-            onCheckedChange = { onClick() },
-            enabled = enabled,
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = SquircleTheme.colors.colorPrimary,
-                checkedTrackColor = SquircleTheme.colors.colorPrimary,
-                checkedTrackAlpha = 0.54f,
-                uncheckedThumbColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                uncheckedTrackColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                uncheckedTrackAlpha = 0.38f,
-                disabledCheckedThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                disabledCheckedTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                disabledUncheckedThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                disabledUncheckedTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
+        Box(Modifier.requiredSize(40.dp)) {
+            Switch(
+                checked = checked,
+                onCheckedChange = { onClick() },
+                enabled = enabled,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = SquircleTheme.colors.colorPrimary,
+                    checkedTrackColor = SquircleTheme.colors.colorPrimary,
+                    checkedTrackAlpha = 0.54f,
+                    uncheckedThumbColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                    uncheckedTrackColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                    uncheckedTrackAlpha = 0.38f,
+                    disabledCheckedThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                    disabledCheckedTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                    disabledUncheckedThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                    disabledUncheckedTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                )
             )
-        )
-
+        }
         if (title != null) {
             Text(
                 text = title,

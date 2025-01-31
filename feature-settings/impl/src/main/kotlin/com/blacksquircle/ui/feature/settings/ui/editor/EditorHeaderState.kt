@@ -16,8 +16,10 @@
 
 package com.blacksquircle.ui.feature.settings.ui.editor
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 
+@Immutable
 data class EditorHeaderState(
     val fontSize: Int,
     val wordWrap: Boolean,

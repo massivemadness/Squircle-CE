@@ -17,17 +17,17 @@
 package com.blacksquircle.ui.feature.settings.ui.codestyle
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
@@ -39,7 +39,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CodeHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
@@ -62,14 +62,14 @@ private fun CodeHeaderScreen(
     onTabWidthChanged: (Int) -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_codeStyle_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
-        }
+        },
+        modifier = Modifier.navigationBarsPadding()
     ) { innerPadding ->
         Column(
             modifier = Modifier

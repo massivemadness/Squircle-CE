@@ -23,13 +23,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -45,7 +45,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     AppHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,

@@ -16,18 +16,17 @@
 
 package com.blacksquircle.ui.feature.changelog.ui.fragment
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.toolbar.Toolbar
@@ -40,7 +39,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 fun ChangeLogScreen(viewModel: ChangeLogViewModel) {
-    val state by viewModel.changelogState.collectAsState()
+    val state by viewModel.changelogState.collectAsStateWithLifecycle()
     ChangeLogScreen(
         state = state,
         onBackClicked = viewModel::popBackStack
@@ -61,30 +60,22 @@ private fun ChangeLogScreen(
             )
         }
     ) { innerPadding ->
-        ReleaseList(
-            state = state,
-            contentPadding = innerPadding,
-        )
-    }
-}
-
-@Composable
-private fun ReleaseList(
-    state: ChangeLogState,
-    contentPadding: PaddingValues,
-) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(contentPadding)
-    ) {
-        items(items = state.releases, key = ReleaseModel::versionName) { release ->
-            ReleaseInfo(
-                versionName = release.versionName,
-                releaseDate = release.releaseDate,
-                releaseNotes = release.releaseNotes,
-            )
-            HorizontalDivider()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            items(
+                items = state.releases,
+                key = ReleaseModel::versionName
+            ) { release ->
+                ReleaseInfo(
+                    versionName = release.versionName,
+                    releaseDate = release.releaseDate,
+                    releaseNotes = release.releaseNotes,
+                )
+                HorizontalDivider()
+            }
         }
     }
 }
