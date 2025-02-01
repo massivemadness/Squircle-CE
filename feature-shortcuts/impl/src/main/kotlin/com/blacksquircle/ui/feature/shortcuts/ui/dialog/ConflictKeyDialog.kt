@@ -16,11 +16,20 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui.dialog
 
-import android.app.Dialog
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
@@ -32,16 +41,40 @@ class ConflictKeyDialog : DialogFragment() {
 
     private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext())
-            .setTitle(android.R.string.dialog_alert_title)
-            .setMessage(R.string.shortcut_conflict)
-            .setNegativeButton(android.R.string.cancel) { _, _ ->
-                viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = false))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                SquircleTheme {
+                    AlertDialog(
+                        title = stringResource(android.R.string.dialog_alert_title),
+                        content = {
+                            Text(
+                                text = stringResource(R.string.shortcut_conflict),
+                                color = SquircleTheme.colors.colorTextAndIconSecondary,
+                                style = SquircleTheme.typography.text16Regular,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                            )
+                        },
+                        dismissButton = stringResource(android.R.string.cancel),
+                        onDismissClicked = {
+                            viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = false))
+                            dismiss()
+                        },
+                        confirmButton = stringResource(UiR.string.common_continue),
+                        onConfirmClicked = {
+                            viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = true))
+                            dismiss()
+                        },
+                        onDismiss = {
+                            dismiss()
+                        },
+                    )
+                }
             }
-            .setPositiveButton(UiR.string.common_continue) { _, _ ->
-                viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = true))
-            }
-            .create()
+        }
     }
 }

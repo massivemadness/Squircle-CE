@@ -17,6 +17,8 @@
 package com.blacksquircle.ui.ds.dialog
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +26,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -42,7 +46,7 @@ import com.blacksquircle.ui.ds.button.TextButton
 @Composable
 fun AlertDialog(
     title: String,
-    content: @Composable (() -> Unit),
+    content: @Composable (BoxScope.() -> Unit),
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     confirmButton: String? = null,
@@ -77,7 +81,13 @@ fun AlertDialog(
                         .padding(16.dp)
                 )
 
-                content()
+                val scrollState = rememberScrollState()
+                Box(
+                    content = content,
+                    modifier = Modifier
+                        .weight(1f, fill = false)
+                        .verticalScroll(scrollState)
+                )
 
                 Spacer(Modifier.height(8.dp))
 

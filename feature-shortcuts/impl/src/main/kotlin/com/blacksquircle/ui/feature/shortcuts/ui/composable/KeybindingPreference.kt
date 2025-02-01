@@ -65,10 +65,8 @@ fun KeybindingPreference(
     dismissButton: String? = null,
     onKeyAssigned: (Keybinding) -> Unit = { _ -> },
 ) {
-    var dialogShown by rememberSaveable { mutableStateOf(false) }
-    var keybindingState by rememberSaveable(stateSaver = KeybindingSaver) {
-        mutableStateOf(keybinding)
-    }
+    var dialogShown by remember { mutableStateOf(false) }
+    var keybindingState by remember { mutableStateOf(keybinding) }
 
     var ctrlPressed by remember { mutableStateOf(false) }
     var shiftPressed by remember { mutableStateOf(false) }
@@ -240,24 +238,3 @@ internal fun keybindingResource(keybinding: Keybinding): String {
         }
     }.toString()
 }
-
-private val KeybindingSaver = listSaver<Keybinding, Any>(
-    save = { value ->
-        listOf(
-            value.shortcut.key,
-            value.isCtrl,
-            value.isShift,
-            value.isAlt,
-            value.key
-        )
-    },
-    restore = { value ->
-        Keybinding(
-            shortcut = Shortcut.of(value[0] as String),
-            isCtrl = value[1] as Boolean,
-            isShift = value[2] as Boolean,
-            isAlt = value[3] as Boolean,
-            key = value[4] as Char,
-        )
-    }
-)
