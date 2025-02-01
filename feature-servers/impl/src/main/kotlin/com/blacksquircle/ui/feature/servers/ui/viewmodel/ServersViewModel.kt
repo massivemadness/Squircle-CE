@@ -19,9 +19,11 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.feature.servers.ui.mvi.ServerIntent
+import com.blacksquircle.ui.feature.servers.ui.fragment.CloudState
+import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -36,8 +38,8 @@ class ServersViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
-    private val _servers = MutableStateFlow<List<ServerConfig>>(emptyList())
-    val servers: StateFlow<List<ServerConfig>> = _servers.asStateFlow()
+    private val _viewState = MutableStateFlow(CloudState())
+    val viewState: StateFlow<CloudState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -46,24 +48,36 @@ class ServersViewModel @Inject constructor(
         loadServers()
     }
 
-    fun obtainEvent(event: ServerIntent) {
-        when (event) {
-            is ServerIntent.LoadServers -> loadServers()
-            is ServerIntent.UpsertServer -> upsertServer(event)
-            is ServerIntent.DeleteServer -> deleteServer(event)
+    fun onBackClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack())
+        }
+    }
+
+    fun onServerClicked(serverConfig: ServerConfig) {
+        viewModelScope.launch {
+            val screen = ServersScreen.EditServer(serverConfig)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onAddServerClicked() {
+        viewModelScope.launch {
+            val screen = Screen.AddServer
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
     private fun loadServers() {
         viewModelScope.launch {
-            _servers.value = serversRepository.loadServers()
+            val servers = serversRepository.loadServers()
+            _viewState.value = CloudState(servers)
         }
     }
 
-    private fun upsertServer(event: ServerIntent.UpsertServer) {
+    private fun upsertServer(serverConfig: ServerConfig) {
         viewModelScope.launch {
             try {
-                val serverConfig = event.serverConfig
                 serversRepository.upsertServer(serverConfig)
                 if (settingsManager.filesystem == serverConfig.uuid) {
                     settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
@@ -76,10 +90,9 @@ class ServersViewModel @Inject constructor(
         }
     }
 
-    private fun deleteServer(event: ServerIntent.DeleteServer) {
+    private fun deleteServer(serverConfig: ServerConfig) {
         viewModelScope.launch {
             try {
-                val serverConfig = event.serverConfig
                 serversRepository.deleteServer(serverConfig)
                 if (settingsManager.filesystem == serverConfig.uuid) {
                     settingsManager.remove(SettingsManager.KEY_FILESYSTEM)

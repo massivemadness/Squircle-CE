@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.mvi
+package com.blacksquircle.ui.feature.servers.ui.fragment
 
-import com.blacksquircle.ui.core.mvi.ViewIntent
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-sealed class ServerIntent : ViewIntent() {
-
-    data object LoadServers : ServerIntent()
-    data class UpsertServer(val serverConfig: ServerConfig) : ServerIntent()
-    data class DeleteServer(val serverConfig: ServerConfig) : ServerIntent()
-}
+@Immutable
+data class CloudState(
+    val servers: List<ServerConfig> = emptyList()
+) : ViewState()

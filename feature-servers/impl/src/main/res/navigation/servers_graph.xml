@@ -24,8 +24,7 @@
     <fragment
         android:id="@+id/cloudFragment"
         android:name="com.blacksquircle.ui.feature.servers.ui.fragment.CloudFragment"
-        android:label="@string/pref_header_cloud_title"
-        tools:layout="@layout/layout_preference">
+        android:label="@string/pref_header_cloud_title">
         <deepLink app:uri="blacksquircle://settings/cloud" />
         <action
             android:id="@+id/to_serverDialog"

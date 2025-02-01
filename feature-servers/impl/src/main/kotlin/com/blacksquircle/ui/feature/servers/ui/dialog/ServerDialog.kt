@@ -20,7 +20,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
@@ -30,8 +29,6 @@ import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.databinding.DialogServerBinding
-import com.blacksquircle.ui.feature.servers.ui.mvi.ServerIntent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
@@ -53,15 +50,15 @@ class ServerDialog : DialogFragment() {
         when (result) {
             is ContractResult.Success -> {
                 val filePath = context?.extractFilePath(result.uri)
-                binding.inputKeyFile.setText(filePath)
+                // binding.inputKeyFile.setText(filePath)
             }
             is ContractResult.Canceled -> Unit
         }
     }
 
-    private lateinit var binding: DialogServerBinding
+    // private lateinit var binding: DialogServerBinding
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    /*override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogServerBinding.inflate(layoutInflater)
         configureView()
 
@@ -87,9 +84,9 @@ class ServerDialog : DialogFragment() {
                 }
             }
         }.create()
-    }
+    }*/
 
-    private fun saveServerData(uuid: String? = null) {
+    /*private fun saveServerData(uuid: String? = null) {
         val serverConfig = ServerConfig(
             uuid = uuid ?: UUID.randomUUID().toString(),
             scheme = when (binding.serverType.selectedItemPosition) {
@@ -304,7 +301,7 @@ class ServerDialog : DialogFragment() {
                 )
             }
         }
-    }
+    }*/
 
     companion object {
         private const val SERVER_FTP = 0

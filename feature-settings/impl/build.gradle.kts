@@ -37,10 +37,6 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.timber)
 
-    // UI
-    implementation(libs.androidx.appcompat)
-    implementation(libs.materialdesign)
-
     // Compose
     implementation(libs.compose.ui)
     implementation(libs.compose.foundation)

@@ -24,8 +24,7 @@
     <fragment
         android:id="@+id/shortcutsFragment"
         android:name="com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment"
-        android:label="@string/pref_header_keybindings_title"
-        tools:layout="@layout/layout_preference">
+        android:label="@string/pref_header_keybindings_title">
         <deepLink app:uri="blacksquircle://settings/keybindings" />
         <action
             android:id="@+id/to_shortcutDialog"

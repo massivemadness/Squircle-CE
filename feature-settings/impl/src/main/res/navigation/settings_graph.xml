@@ -46,40 +46,35 @@
     <fragment
         android:id="@+id/applicationFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.application.AppHeaderFragment"
-        android:label="@string/pref_header_application_title"
-        tools:layout="@layout/layout_preference">
+        android:label="@string/pref_header_application_title">
         <deepLink app:uri="blacksquircle://settings/application" />
     </fragment>
 
     <fragment
         android:id="@+id/editorFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderFragment"
-        android:label="@string/pref_header_editor_title"
-        tools:layout="@layout/layout_preference">
+        android:label="@string/pref_header_editor_title">
         <deepLink app:uri="blacksquircle://settings/editor" />
     </fragment>
 
     <fragment
         android:id="@+id/codeStyleFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderFragment"
-        android:label="@string/pref_header_codeStyle_title"
-        tools:layout="@layout/layout_preference">
+        android:label="@string/pref_header_codeStyle_title">
         <deepLink app:uri="blacksquircle://settings/codestyle" />
     </fragment>
 
     <fragment
         android:id="@+id/filesFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderFragment"
-        android:label="@string/pref_header_files_title"
-        tools:layout="@layout/layout_preference">
+        android:label="@string/pref_header_files_title">
         <deepLink app:uri="blacksquircle://settings/files" />
     </fragment>
 
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderFragment"
-        android:label="@string/pref_header_about_title"
-        tools:layout="@layout/layout_preference">
+        android:label="@string/pref_header_about_title">
         <deepLink app:uri="blacksquircle://settings/about" />
     </fragment>
 
