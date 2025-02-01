@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -49,6 +48,7 @@ fun AlertDialog(
     content: @Composable (BoxScope.() -> Unit),
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
+    verticalScroll: Boolean = true,
     confirmButton: String? = null,
     dismissButton: String? = null,
     onConfirmClicked: () -> Unit = {},
@@ -81,12 +81,16 @@ fun AlertDialog(
                         .padding(16.dp)
                 )
 
-                val scrollState = rememberScrollState()
+                val scrollableModifier = if (verticalScroll) {
+                    Modifier.verticalScroll(rememberScrollState())
+                } else {
+                    Modifier
+                }
                 Box(
                     content = content,
                     modifier = Modifier
                         .weight(1f, fill = false)
-                        .verticalScroll(scrollState)
+                        .then(scrollableModifier)
                 )
 
                 Spacer(Modifier.height(8.dp))

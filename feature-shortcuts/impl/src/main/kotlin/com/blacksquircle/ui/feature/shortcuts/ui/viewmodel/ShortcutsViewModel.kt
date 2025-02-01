@@ -19,12 +19,10 @@ package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsState
-import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -46,7 +44,7 @@ class ShortcutsViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private var shortcuts: List<Keybinding> = emptyList()
+    internal var shortcuts: List<Keybinding> = emptyList()
     private var pendingKey: Keybinding? = null
     private var conflictKey: Keybinding? = null
 
@@ -54,13 +52,7 @@ class ShortcutsViewModel @Inject constructor(
         loadShortcuts()
     }
 
-    fun navigate(screen: Screen<*>) {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    fun popBackStack() {
+    fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack())
         }
@@ -77,6 +69,13 @@ class ShortcutsViewModel @Inject constructor(
                     ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
+        }
+    }
+
+    fun onKeyClicked(keybinding: Keybinding) {
+        viewModelScope.launch {
+            val screen = ShortcutScreen.Edit(keybinding.shortcut.key)
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
@@ -107,13 +106,22 @@ class ShortcutsViewModel @Inject constructor(
         }
     }
 
-    fun obtainEvent(event: ShortcutIntent) {
-        when (event) {
-            is ShortcutIntent.LoadShortcuts -> loadShortcuts()
-            is ShortcutIntent.RestoreDefaults -> onRestoreClicked()
-
-            is ShortcutIntent.Reassign -> onKeyAssigned(event.keybinding)
-            is ShortcutIntent.ResolveConflict -> resolveConflict(event)
+    fun onResolveClicked(reassign: Boolean) {
+        viewModelScope.launch {
+            try {
+                if (reassign) {
+                    shortcutsRepository.disable(checkNotNull(conflictKey))
+                    shortcutsRepository.reassign(checkNotNull(pendingKey))
+                }
+                pendingKey = null
+                conflictKey = null
+                loadShortcuts()
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
+                )
+            }
         }
     }
 
@@ -124,25 +132,6 @@ class ShortcutsViewModel @Inject constructor(
                 _viewState.value = ShortcutsState(
                     shortcuts = shortcuts.groupBy { it.shortcut.group },
                 )
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
-                )
-            }
-        }
-    }
-
-    private fun resolveConflict(event: ShortcutIntent.ResolveConflict) {
-        viewModelScope.launch {
-            try {
-                if (event.reassign) {
-                    shortcutsRepository.disable(checkNotNull(conflictKey))
-                    shortcutsRepository.reassign(checkNotNull(pendingKey))
-                }
-                pendingKey = null
-                conflictKey = null
-                loadShortcuts()
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(

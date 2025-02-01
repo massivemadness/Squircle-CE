@@ -30,7 +30,7 @@ class ShortcutsRepositoryImpl(
 
     override suspend fun loadShortcuts(): List<Keybinding> {
         return withContext(dispatcherProvider.io()) {
-            Shortcut.values().map { shortcut ->
+            Shortcut.entries.map { shortcut ->
                 val value = settingsManager.load(
                     key = shortcut.key,
                     defaultValue = shortcut.defaultValue,
@@ -48,7 +48,7 @@ class ShortcutsRepositoryImpl(
 
     override suspend fun restoreDefaults() {
         withContext(dispatcherProvider.io()) {
-            Shortcut.values().forEach { keybinding ->
+            Shortcut.entries.forEach { keybinding ->
                 settingsManager.remove(keybinding.key)
             }
         }

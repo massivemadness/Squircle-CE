@@ -19,10 +19,10 @@ package com.blacksquircle.ui.feature.shortcuts
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
+import com.blacksquircle.ui.feature.shortcuts.domain.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
-import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -61,14 +61,14 @@ class ShortcutTests {
             Keybinding(Shortcut.COPY, isCtrl = true, key = 'C'),
             Keybinding(Shortcut.PASTE, isCtrl = true, key = 'V'),
         )
+        val shortcutMap = mapOf(KeyGroup.EDITOR to shortcuts)
         coEvery { shortcutsRepository.loadShortcuts() } returns shortcuts
 
         // When
         val viewModel = shortcutsViewModel()
-        viewModel.obtainEvent(ShortcutIntent.LoadShortcuts)
 
         // Then
-        assertEquals(shortcuts, viewModel.shortcuts.value)
+        assertEquals(shortcutMap, viewModel.viewState.value.shortcuts)
     }
 
     @Test
@@ -80,16 +80,19 @@ class ShortcutTests {
             Keybinding(Shortcut.PASTE, isCtrl = true, key = 'V'),
         )
         val keybinding = Keybinding(Shortcut.CUT, isCtrl = true, isShift = true, key = 'X')
+
         val reassigned = shortcuts.map { if (it.shortcut == Shortcut.CUT) keybinding else it }
+        val reassignedMap = mapOf(KeyGroup.EDITOR to reassigned)
+
         coEvery { shortcutsRepository.loadShortcuts() } returns shortcuts andThen reassigned
 
         // When
         val viewModel = shortcutsViewModel()
-        viewModel.obtainEvent(ShortcutIntent.Reassign(keybinding))
+        viewModel.onKeyAssigned(keybinding)
 
         // Then
+        assertEquals(reassignedMap, viewModel.viewState.value.shortcuts)
         coVerify(exactly = 1) { shortcutsRepository.reassign(keybinding) }
-        assertEquals(reassigned, viewModel.shortcuts.value)
     }
 
     @Test
@@ -98,24 +101,30 @@ class ShortcutTests {
         val shortcuts = listOf(
             Keybinding(Shortcut.CUT, isCtrl = true, key = 'X'),
             Keybinding(Shortcut.COPY, isCtrl = true, key = 'C'),
+            Keybinding(Shortcut.PASTE, isCtrl = true, key = 'V'),
         )
+        val shortcutMap = mapOf(KeyGroup.EDITOR to shortcuts)
+
         val reassigned = listOf(
             Keybinding(Shortcut.CUT, isCtrl = true, key = 'C'),
             Keybinding(Shortcut.COPY, isCtrl = true, key = '\u0000'),
+            Keybinding(Shortcut.PASTE, isCtrl = true, key = 'V'),
         )
+        val reassignedMap = mapOf(KeyGroup.EDITOR to reassigned)
+
         coEvery { shortcutsRepository.loadShortcuts() } returns shortcuts andThen reassigned
 
         // When
         val viewModel = shortcutsViewModel()
-        viewModel.obtainEvent(ShortcutIntent.Reassign(reassigned[0]))
+        viewModel.onKeyAssigned(reassigned[0])
 
-        assertEquals(shortcuts, viewModel.shortcuts.value) // check nothing happened
-        viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = true))
+        assertEquals(shortcutMap, viewModel.viewState.value.shortcuts) // check nothing happened
+        viewModel.onResolveClicked(reassign = true)
 
         // Then
+        assertEquals(reassignedMap, viewModel.viewState.value.shortcuts) // check reassigned
         coVerify(exactly = 1) { shortcutsRepository.disable(shortcuts[1]) }
         coVerify(exactly = 1) { shortcutsRepository.reassign(reassigned[0]) }
-        assertEquals(reassigned, viewModel.shortcuts.value) // check reassigned
     }
 
     @Test
@@ -124,21 +133,24 @@ class ShortcutTests {
         val shortcuts = listOf(
             Keybinding(Shortcut.CUT, isCtrl = true, key = 'X'),
             Keybinding(Shortcut.COPY, isCtrl = true, key = 'C'),
+            Keybinding(Shortcut.PASTE, isCtrl = true, key = 'V'),
         )
+        val shortcutMap = mapOf(KeyGroup.EDITOR to shortcuts)
+
         val reassigned = Keybinding(Shortcut.CUT, isCtrl = true, key = 'C')
         coEvery { shortcutsRepository.loadShortcuts() } returns shortcuts andThen shortcuts
 
         // When
         val viewModel = shortcutsViewModel()
-        viewModel.obtainEvent(ShortcutIntent.Reassign(reassigned))
+        viewModel.onKeyAssigned(reassigned)
 
-        assertEquals(shortcuts, viewModel.shortcuts.value) // check nothing happened
-        viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = false))
+        assertEquals(shortcutMap, viewModel.viewState.value.shortcuts) // check nothing happened
+        viewModel.onResolveClicked(reassign = false)
 
         // Then
         coVerify(exactly = 0) { shortcutsRepository.disable(any()) }
         coVerify(exactly = 0) { shortcutsRepository.reassign(any()) }
-        assertEquals(shortcuts, viewModel.shortcuts.value) // check ignored
+        assertEquals(shortcutMap, viewModel.viewState.value.shortcuts) // check ignored
     }
 
     private fun shortcutsViewModel(): ShortcutsViewModel {

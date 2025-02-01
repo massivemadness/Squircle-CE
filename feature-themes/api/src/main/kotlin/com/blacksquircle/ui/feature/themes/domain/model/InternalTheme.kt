@@ -113,7 +113,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     companion object {
 
         fun find(id: String): ThemeModel? {
-            return values().find { it.theme.uuid == id }?.theme
+            return entries.find { it.theme.uuid == id }?.theme
         }
     }
 }

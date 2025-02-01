@@ -28,10 +28,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.shortcuts.R
-import com.blacksquircle.ui.feature.shortcuts.ui.mvi.ShortcutIntent
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
@@ -40,6 +40,7 @@ import com.blacksquircle.ui.ds.R as UiR
 class ConflictKeyDialog : DialogFragment() {
 
     private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)
+    private val navController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,18 +60,18 @@ class ConflictKeyDialog : DialogFragment() {
                                 modifier = Modifier.padding(horizontal = 16.dp),
                             )
                         },
-                        dismissButton = stringResource(android.R.string.cancel),
-                        onDismissClicked = {
-                            viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = false))
-                            dismiss()
-                        },
                         confirmButton = stringResource(UiR.string.common_continue),
                         onConfirmClicked = {
-                            viewModel.obtainEvent(ShortcutIntent.ResolveConflict(reassign = true))
-                            dismiss()
+                            navController.popBackStack()
+                            viewModel.onResolveClicked(reassign = true)
+                        },
+                        dismissButton = stringResource(android.R.string.cancel),
+                        onDismissClicked = {
+                            navController.popBackStack()
+                            viewModel.onResolveClicked(reassign = false)
                         },
                         onDismiss = {
-                            dismiss()
+                            navController.popBackStack()
                         },
                     )
                 }

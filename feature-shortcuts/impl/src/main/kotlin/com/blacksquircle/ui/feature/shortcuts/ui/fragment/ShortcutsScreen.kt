@@ -23,7 +23,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,13 +37,13 @@ import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
+import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.domain.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
-import com.blacksquircle.ui.feature.shortcuts.ui.composable.KeybindingPreference
 import com.blacksquircle.ui.feature.shortcuts.ui.composable.keybindingResource
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import com.blacksquircle.ui.ds.R as UiR
@@ -54,9 +53,9 @@ fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ShortcutsScreen(
         viewState = viewState,
-        onBackClicked = viewModel::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onRestoreClicked = viewModel::onRestoreClicked,
-        onKeyAssigned = viewModel::onKeyAssigned,
+        onKeyClicked = viewModel::onKeyClicked,
     )
 }
 
@@ -65,7 +64,7 @@ private fun ShortcutsScreen(
     viewState: ShortcutsState,
     onBackClicked: () -> Unit,
     onRestoreClicked: () -> Unit,
-    onKeyAssigned: (Keybinding) -> Unit,
+    onKeyClicked: (Keybinding) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -120,7 +119,7 @@ private fun ShortcutsScreen(
                     key = { it.shortcut.key },
                     contentType = { 2 }
                 ) { keybinding ->
-                    KeybindingPreference(
+                    Preference(
                         title = when (keybinding.shortcut) {
                             Shortcut.NEW -> stringResource(R.string.shortcut_new_file)
                             Shortcut.OPEN -> stringResource(R.string.shortcut_open_file)
@@ -148,11 +147,7 @@ private fun ShortcutsScreen(
                             Shortcut.INSERT_COLOR -> stringResource(R.string.shortcut_insert_color)
                         },
                         subtitle = keybindingResource(keybinding),
-                        message = stringResource(R.string.shortcut_press_key),
-                        confirmButton = stringResource(UiR.string.common_save),
-                        dismissButton = stringResource(android.R.string.cancel),
-                        keybinding = keybinding,
-                        onKeyAssigned = onKeyAssigned,
+                        onClick = { onKeyClicked(keybinding) },
                     )
                 }
                 item {
@@ -175,7 +170,7 @@ private fun ShortcutsScreenPreview() {
             ),
             onBackClicked = {},
             onRestoreClicked = {},
-            onKeyAssigned = {},
+            onKeyClicked = {},
         )
     }
 }

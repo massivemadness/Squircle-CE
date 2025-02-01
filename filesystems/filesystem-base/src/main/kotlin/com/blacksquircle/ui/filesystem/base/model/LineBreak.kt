@@ -55,7 +55,7 @@ enum class LineBreak(val linebreak: String) {
                 ORD_CRLF -> "\r\n"
                 else -> throw IllegalArgumentException("No linebreak found")
             }
-            return checkNotNull(values().find { it.linebreak == linebreak })
+            return checkNotNull(entries.find { it.linebreak == linebreak })
         }
     }
 }

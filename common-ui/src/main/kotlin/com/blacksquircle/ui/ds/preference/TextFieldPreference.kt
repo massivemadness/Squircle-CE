@@ -56,7 +56,7 @@ fun TextFieldPreference(
         onClick = { dialogShown = true },
     )
     if (dialogShown) {
-        val text = remember { mutableStateOf(inputValue) }
+        val text = rememberSaveable { mutableStateOf(inputValue) }
         AlertDialog(
             title = title,
             content = {

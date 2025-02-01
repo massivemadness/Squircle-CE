@@ -45,7 +45,7 @@ class FontsRepositoryImpl(
 
     override suspend fun loadFonts(): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
-            val defaultFonts = InternalFont.values()
+            val defaultFonts = InternalFont.entries
                 .map(InternalFont::font)
             val userFonts = appDatabase.fontDao().loadAll()
                 .map(FontConverter::toModel)
@@ -55,7 +55,7 @@ class FontsRepositoryImpl(
 
     override suspend fun loadFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
-            val defaultFonts = InternalFont.values()
+            val defaultFonts = InternalFont.entries
                 .map(InternalFont::font)
                 .filter { it.fontName.contains(query, ignoreCase = true) }
             val userFonts = appDatabase.fontDao().loadAll()

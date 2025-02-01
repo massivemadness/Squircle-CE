@@ -70,6 +70,7 @@ fun ListPreference(
     if (dialogShown) {
         AlertDialog(
             title = title,
+            verticalScroll = false,
             content = {
                 LazyColumn(Modifier.padding(horizontal = 8.dp)) {
                     itemsIndexed(entryValues) { index, value ->

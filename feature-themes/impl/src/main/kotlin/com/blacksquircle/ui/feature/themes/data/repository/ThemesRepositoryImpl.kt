@@ -77,7 +77,7 @@ class ThemesRepositoryImpl(
 
     override suspend fun loadThemes(): List<ThemeModel> {
         return withContext(dispatcherProvider.io()) {
-            val defaultThemes = InternalTheme.values()
+            val defaultThemes = InternalTheme.entries
                 .map(InternalTheme::theme)
             val userThemes = appDatabase.themeDao().loadAll()
                 .map(ThemeConverter::toModel)
@@ -87,7 +87,7 @@ class ThemesRepositoryImpl(
 
     override suspend fun loadThemes(query: String): List<ThemeModel> {
         return withContext(dispatcherProvider.io()) {
-            val defaultThemes = InternalTheme.values()
+            val defaultThemes = InternalTheme.entries
                 .map(InternalTheme::theme)
                 .filter { it.name.contains(query, ignoreCase = true) }
             val userThemes = appDatabase.themeDao().loadAll(query)
