@@ -17,6 +17,8 @@
 package com.blacksquircle.ui.ds.textfield
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -61,6 +64,7 @@ fun TextField(
     topHelperText: String? = null,
     bottomHelperText: String? = null,
     placeholderText: String? = null,
+    error: Boolean = false,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = SquircleTheme.typography.text16Regular,
@@ -83,6 +87,15 @@ fun TextField(
         ) {
             val cursorBrush = remember(cursorColor) { SolidColor(cursorColor) }
             val isPlaceholderVisible = inputText.isEmpty() && !placeholderText.isNullOrEmpty()
+            val errorBorder = if (error) {
+                Modifier.border(
+                    width = 1.dp,
+                    color = SquircleTheme.colors.colorError,
+                    shape = RoundedCornerShape(6.dp),
+                )
+            } else {
+                Modifier
+            }
             BasicTextField(
                 value = inputText,
                 onValueChange = onInputChanged,
@@ -100,6 +113,11 @@ fun TextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
+                            .background(
+                                color = SquircleTheme.colors.colorBackgroundTertiary,
+                                shape = RoundedCornerShape(6.dp)
+                            )
+                            .then(errorBorder)
                             .clipToBounds()
                     ) {
                         if (isPlaceholderVisible) {
@@ -127,6 +145,7 @@ fun TextField(
     topHelperText: String? = null,
     bottomHelperText: String? = null,
     placeholderText: String? = null,
+    error: Boolean = false,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     inputTransformation: InputTransformation? = null,
@@ -153,6 +172,15 @@ fun TextField(
         ) {
             val cursorBrush = remember(cursorColor) { SolidColor(cursorColor) }
             val isPlaceholderVisible = state.text.isEmpty() && !placeholderText.isNullOrEmpty()
+            val errorBorder = if (error) {
+                Modifier.border(
+                    width = 1.dp,
+                    color = SquircleTheme.colors.colorError,
+                    shape = RoundedCornerShape(6.dp),
+                )
+            } else {
+                Modifier
+            }
             BasicTextField(
                 state = state,
                 enabled = enabled,
@@ -172,6 +200,11 @@ fun TextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
+                            .background(
+                                color = SquircleTheme.colors.colorBackgroundTertiary,
+                                shape = RoundedCornerShape(6.dp)
+                            )
+                            .then(errorBorder)
                             .clipToBounds()
                     ) {
                         if (isPlaceholderVisible) {
@@ -202,6 +235,7 @@ private fun TextFieldPreview() {
             topHelperText = "Top helper text",
             placeholderText = "Placeholder",
             singleLine = true,
+            error = true,
             onInputChanged = {},
             modifier = Modifier.fillMaxWidth()
         )

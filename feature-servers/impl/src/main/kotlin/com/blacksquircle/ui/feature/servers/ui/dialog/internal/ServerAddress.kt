@@ -41,6 +41,7 @@ internal fun ServerAddress(
     port: String,
     onPortChanged: (String) -> Unit,
     scheme: FileServer,
+    isError: Boolean,
     modifier: Modifier = Modifier
 ) {
     Row(modifier) {
@@ -51,6 +52,7 @@ internal fun ServerAddress(
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
             ),
+            error = isError,
             singleLine = true,
             onInputChanged = onAddressChanged,
             modifier = Modifier.fillMaxWidth(0.70f)

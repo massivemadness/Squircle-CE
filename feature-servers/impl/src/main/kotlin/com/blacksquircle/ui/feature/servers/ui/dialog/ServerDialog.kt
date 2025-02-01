@@ -20,44 +20,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
-import com.blacksquircle.ui.core.extensions.sendResult
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.ds.dropdown.Dropdown
-import com.blacksquircle.ui.ds.textfield.TextField
-import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.feature.servers.ui.fragment.CloudFragment
+import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
-import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.FileServer
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import com.blacksquircle.ui.ds.R as UiR
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 internal class ServerDialog : DialogFragment() {
@@ -91,9 +73,40 @@ internal class ServerDialog : DialogFragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SquircleTheme {
-                    ServerScreen(viewModel, navController)
+                    ServerScreen(
+                        viewModel = viewModel,
+                        navController = navController,
+                    )
                 }
             }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ServerViewEvent.SendSaveResult -> {
+                        sendFragmentResult(
+                            resultKey = CloudFragment.KEY_SAVE,
+                            bundle = ServerMapper.toBundle(event.serverConfig)
+                        )
+                        navController.popBackStack()
+                    }
+                    is ServerViewEvent.SendDeleteResult -> {
+                        sendFragmentResult(
+                            resultKey = CloudFragment.KEY_DELETE,
+                            bundle = ServerMapper.toBundle(event.serverConfig)
+                        )
+                        navController.popBackStack()
+                    }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

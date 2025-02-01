@@ -27,8 +27,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.extensions.collectResult
 import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.observeFragmentResult
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -76,18 +76,19 @@ internal class ShortcutsFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        navController.collectResult<Bundle>(KEY_SAVE)
-            .map(ShortcutMapper::fromBundle)
-            .onEach(viewModel::onSaveClicked)
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        navController.collectResult<Boolean>(KEY_RESOLVE)
-            .onEach(viewModel::onResolveClicked)
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        observeFragmentResult(KEY_SAVE) { bundle ->
+            val keybinding = ShortcutMapper.fromBundle(bundle)
+            viewModel.onSaveClicked(keybinding)
+        }
+        observeFragmentResult(KEY_RESOLVE) { bundle ->
+            val reassign = bundle.getBoolean(ARG_REASSIGN)
+            viewModel.onResolveClicked(reassign)
+        }
     }
 
     companion object {
         const val KEY_SAVE = "KEY_SAVE"
         const val KEY_RESOLVE = "KEY_RESOLVE"
+        const val ARG_REASSIGN = "ARG_REASSIGN"
     }
 }

@@ -16,16 +16,13 @@
 
 package com.blacksquircle.ui.ds.textfield.internal
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 @NonRestartableComposable
@@ -34,14 +31,7 @@ internal fun DecorationBox(
     innerTextField: @Composable () -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .background(
-                color = SquircleTheme.colors.colorBackgroundTertiary,
-                shape = RoundedCornerShape(6.dp)
-            )
-            .padding(12.dp)
-    ) {
+    Box(modifier = modifier.padding(12.dp)) {
         innerTextField()
         content()
     }

@@ -27,8 +27,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.extensions.collectResult
 import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.observeFragmentResult
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -36,7 +36,6 @@ import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
@@ -76,15 +75,14 @@ internal class CloudFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        navController.collectResult<Bundle>(KEY_SAVE)
-            .map(ServerMapper::fromBundle)
-            .onEach(viewModel::onSaveClicked)
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        navController.collectResult<Bundle>(KEY_DELETE)
-            .map(ServerMapper::fromBundle)
-            .onEach(viewModel::onDeleteClicked)
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        observeFragmentResult(KEY_SAVE) { bundle ->
+            val serverConfig = ServerMapper.fromBundle(bundle)
+            viewModel.onSaveClicked(serverConfig)
+        }
+        observeFragmentResult(KEY_DELETE) { bundle ->
+            val serverConfig = ServerMapper.fromBundle(bundle)
+            viewModel.onDeleteClicked(serverConfig)
+        }
     }
 
     companion object {

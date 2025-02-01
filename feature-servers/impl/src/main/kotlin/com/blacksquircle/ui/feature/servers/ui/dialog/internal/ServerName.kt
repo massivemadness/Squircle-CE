@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.servers.R
 internal fun ServerName(
     name: String,
     onNameChanged: (String) -> Unit,
+    isError: Boolean,
     modifier: Modifier = Modifier
 ) {
     TextField(
@@ -38,6 +39,7 @@ internal fun ServerName(
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
         ),
+        error = isError,
         singleLine = true,
         onInputChanged = onNameChanged,
         modifier = modifier,

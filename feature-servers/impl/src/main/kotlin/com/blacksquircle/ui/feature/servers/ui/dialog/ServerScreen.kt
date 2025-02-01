@@ -28,12 +28,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.extensions.sendResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerAddress
@@ -44,7 +42,6 @@ import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerPassphrase
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerPassword
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerScheme
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerUsername
-import com.blacksquircle.ui.feature.servers.ui.fragment.CloudFragment
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileServer
@@ -69,20 +66,8 @@ internal fun ServerScreen(
         onPasswordChanged = viewModel::onPasswordChanged,
         onPassphraseChanged = viewModel::onPassphraseChanged,
         onInitialDirChanged = viewModel::onInitialDirChanged,
-        onSaveClicked = {
-            navController.sendResult(
-                key = CloudFragment.KEY_SAVE,
-                result = ServerMapper.toBundle(viewState.toServerConfig())
-            )
-            navController.popBackStack()
-        },
-        onDeleteClicked = {
-            navController.sendResult(
-                key = CloudFragment.KEY_DELETE,
-                result = ServerMapper.toBundle(viewState.toServerConfig())
-            )
-            navController.popBackStack()
-        },
+        onSaveClicked = viewModel::onSaveClicked,
+        onDeleteClicked = viewModel::onDeleteClicked,
         onDismissClicked = navController::popBackStack,
     )
 }
@@ -124,6 +109,7 @@ private fun ServerScreen(
                 ServerName(
                     name = viewState.name,
                     onNameChanged = onNameChanged,
+                    isError = viewState.invalidName,
                 )
 
                 Spacer(Modifier.height(8.dp))
@@ -134,6 +120,7 @@ private fun ServerScreen(
                     port = viewState.port,
                     onPortChanged = onPortChanged,
                     scheme = viewState.scheme,
+                    isError = viewState.invalidAddress,
                 )
 
                 Spacer(Modifier.height(8.dp))

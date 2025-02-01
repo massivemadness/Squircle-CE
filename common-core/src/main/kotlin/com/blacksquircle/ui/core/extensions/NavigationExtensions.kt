@@ -16,10 +16,13 @@
 
 package com.blacksquircle.ui.core.extensions
 
+import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
@@ -64,12 +67,24 @@ fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T? {
     return findFragmentById(id) as? T
 }
 
-fun <T> NavController.sendResult(key: String, result: T) {
-    previousBackStackEntry?.savedStateHandle?.set(key, result)
+fun Fragment.sendFragmentResult(resultKey: String, vararg pairs: Pair<String, Any?>) {
+    requireActivity().supportFragmentManager.setFragmentResult(
+        resultKey,
+        bundleOf(*pairs)
+    )
 }
 
-fun <T> NavController.collectResult(key: String): Flow<T> {
-    return currentBackStackEntry?.savedStateHandle?.getStateFlow(key, null)
-        ?.filterNotNull()
-        ?: emptyFlow()
+fun Fragment.sendFragmentResult(resultKey: String, bundle: Bundle) {
+    requireActivity().supportFragmentManager.setFragmentResult(resultKey, bundle)
+}
+
+fun Fragment.observeFragmentResult(resultKey: String, onResult: (Bundle) -> Unit) {
+    val fragmentResultListener = FragmentResultListener { _, result ->
+        onResult(result)
+    }
+    requireActivity().supportFragmentManager.setFragmentResultListener(
+        resultKey,
+        this,
+        fragmentResultListener
+    )
 }

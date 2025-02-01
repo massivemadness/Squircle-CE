@@ -17,10 +17,12 @@
 package com.blacksquircle.ui.feature.servers.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerState
+import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.FileServer
@@ -36,6 +38,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 @HiltViewModel(assistedFactory = ServerViewModel.Factory::class)
@@ -60,13 +63,19 @@ internal class ServerViewModel @AssistedInject constructor(
 
     fun onNameChanged(name: String) {
         _viewState.update {
-            it.copy(name = name)
+            it.copy(
+                name = name,
+                invalidName = false,
+            )
         }
     }
 
     fun onAddressChanged(address: String) {
         _viewState.update {
-            it.copy(address = address)
+            it.copy(
+                address = address,
+                invalidAddress = false,
+            )
         }
     }
 
@@ -121,6 +130,30 @@ internal class ServerViewModel @AssistedInject constructor(
     fun onInitialDirChanged(initialDir: String) {
         _viewState.update {
             it.copy(initialDir = initialDir)
+        }
+    }
+
+    fun onSaveClicked() {
+        viewModelScope.launch {
+            val isServerNameValid = viewState.value.name.isNotBlank()
+            val isServerAddressValid = viewState.value.address.isNotBlank()
+            _viewState.update {
+                it.copy(
+                    invalidName = !isServerNameValid,
+                    invalidAddress = !isServerAddressValid,
+                )
+            }
+            if (isServerNameValid && isServerAddressValid) {
+                val serverConfig = viewState.value.toServerConfig()
+                _viewEvent.send(ServerViewEvent.SendSaveResult(serverConfig))
+            }
+        }
+    }
+
+    fun onDeleteClicked() {
+        viewModelScope.launch {
+            val serverConfig = viewState.value.toServerConfig()
+            _viewEvent.send(ServerViewEvent.SendDeleteResult(serverConfig))
         }
     }
 

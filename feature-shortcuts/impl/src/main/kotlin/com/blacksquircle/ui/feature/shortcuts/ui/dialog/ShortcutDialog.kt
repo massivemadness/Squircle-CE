@@ -46,7 +46,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.extensions.keyCodeToChar
-import com.blacksquircle.ui.core.extensions.sendResult
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
@@ -229,18 +229,14 @@ internal class ShortcutDialog : DialogFragment() {
                         },
                         confirmButton = stringResource(UiR.string.common_save),
                         onConfirmClicked = {
-                            navController.sendResult(
-                                key = ShortcutsFragment.KEY_SAVE,
-                                result = ShortcutMapper.toBundle(keybindingState),
+                            sendFragmentResult(
+                                resultKey = ShortcutsFragment.KEY_SAVE,
+                                bundle = ShortcutMapper.toBundle(keybindingState),
                             )
                         },
                         dismissButton = stringResource(android.R.string.cancel),
-                        onDismissClicked = {
-                            navController.popBackStack()
-                        },
-                        onDismiss = {
-                            navController.popBackStack()
-                        },
+                        onDismissClicked = { navController.popBackStack() },
+                        onDismiss = { navController.popBackStack() },
                     )
                 }
             }

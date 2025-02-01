@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.extensions.sendResult
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.shortcuts.R
@@ -59,17 +59,17 @@ internal class ConflictKeyDialog : DialogFragment() {
                         },
                         confirmButton = stringResource(UiR.string.common_continue),
                         onConfirmClicked = {
-                            navController.sendResult(
-                                key = ShortcutsFragment.KEY_RESOLVE,
-                                result = true,
+                            sendFragmentResult(
+                                resultKey = ShortcutsFragment.KEY_RESOLVE,
+                                ShortcutsFragment.ARG_REASSIGN to true
                             )
                             navController.popBackStack()
                         },
                         dismissButton = stringResource(android.R.string.cancel),
                         onDismissClicked = {
-                            navController.sendResult(
-                                key = ShortcutsFragment.KEY_RESOLVE,
-                                result = false,
+                            sendFragmentResult(
+                                resultKey = ShortcutsFragment.KEY_RESOLVE,
+                                ShortcutsFragment.ARG_REASSIGN to false
                             )
                             navController.popBackStack()
                         },

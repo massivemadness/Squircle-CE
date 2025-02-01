@@ -40,6 +40,8 @@ internal data class ServerState(
     val password: String = "",
     val privateKey: String = "",
     val passphrase: String = "",
+    val invalidName: Boolean = false,
+    val invalidAddress: Boolean = false,
 ) : ViewState() {
 
     fun toServerConfig(): ServerConfig {
