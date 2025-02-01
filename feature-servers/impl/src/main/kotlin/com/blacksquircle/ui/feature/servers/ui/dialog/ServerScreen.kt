@@ -68,7 +68,7 @@ internal fun ServerScreen(
         onInitialDirChanged = viewModel::onInitialDirChanged,
         onSaveClicked = viewModel::onSaveClicked,
         onDeleteClicked = viewModel::onDeleteClicked,
-        onDismissClicked = navController::popBackStack,
+        onCancelClicked = navController::popBackStack,
     )
 }
 
@@ -89,7 +89,7 @@ private fun ServerScreen(
     onInitialDirChanged: (String) -> Unit,
     onSaveClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
-    onDismissClicked: () -> Unit = {},
+    onCancelClicked: () -> Unit = {},
 ) {
     AlertDialog(
         title = if (viewState.isEditMode) {
@@ -212,10 +212,10 @@ private fun ServerScreen(
             if (viewState.isEditMode) {
                 onDeleteClicked()
             } else {
-                onDismissClicked()
+                onCancelClicked()
             }
         },
-        onDismiss = onDismissClicked
+        onDismiss = onCancelClicked
     )
 }
 

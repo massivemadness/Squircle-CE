@@ -59,9 +59,15 @@ internal data class ServerState(
             initialDir = initialDir,
             authMethod = authMethod,
             username = username,
-            password = if (authMethod == AuthMethod.PASSWORD) password else null,
+            password = if (
+                authMethod == AuthMethod.PASSWORD &&
+                passwordAction == PasswordAction.SAVE_PASSWORD
+            ) password else null,
             privateKey = if (authMethod == AuthMethod.KEY) privateKey else null,
-            passphrase = if (authMethod == AuthMethod.KEY) passphrase else null,
+            passphrase = if (
+                authMethod == AuthMethod.KEY &&
+                passphraseAction == PassphraseAction.SAVE_PASSPHRASE
+            ) passphrase else null,
         )
     }
 

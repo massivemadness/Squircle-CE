@@ -146,7 +146,12 @@ private fun ShortcutsScreen(
                             Shortcut.FORCE_SYNTAX -> stringResource(R.string.shortcut_force_syntax)
                             Shortcut.INSERT_COLOR -> stringResource(R.string.shortcut_insert_color)
                         },
-                        subtitle = keybindingResource(keybinding),
+                        subtitle = keybindingResource(
+                            ctrl = keybinding.isCtrl,
+                            shift = keybinding.isShift,
+                            alt = keybinding.isAlt,
+                            key = keybinding.key,
+                        ),
                         onClick = { onKeyClicked(keybinding) },
                     )
                 }

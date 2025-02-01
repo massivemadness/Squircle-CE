@@ -168,6 +168,16 @@ internal class ServerViewModel @AssistedInject constructor(
                 address = serverConfig.address,
                 port = serverConfig.port.toString(),
                 initialDir = serverConfig.initialDir,
+                passwordAction = if (serverConfig.password.isNullOrEmpty()) {
+                    PasswordAction.ASK_FOR_PASSWORD
+                } else {
+                    PasswordAction.SAVE_PASSWORD
+                },
+                passphraseAction = if (serverConfig.passphrase.isNullOrEmpty()) {
+                    PassphraseAction.ASK_FOR_PASSPHRASE
+                } else {
+                    PassphraseAction.SAVE_PASSPHRASE
+                },
                 authMethod = serverConfig.authMethod,
                 username = serverConfig.username,
                 password = serverConfig.password.orEmpty(),
@@ -194,8 +204,6 @@ internal class ServerViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(
-            @Assisted serverData: String?,
-        ): ServerViewModel
+        fun create(@Assisted serverData: String?): ServerViewModel
     }
 }

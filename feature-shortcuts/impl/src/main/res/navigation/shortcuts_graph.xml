@@ -26,16 +26,16 @@
         android:label="@string/pref_header_keybindings_title">
         <deepLink app:uri="blacksquircle://settings/keybindings" />
         <action
-            android:id="@+id/to_shortcutDialog"
-            app:destination="@id/shortcutDialog" />
+            android:id="@+id/to_keybindingDialog"
+            app:destination="@id/keybindingDialog" />
         <action
             android:id="@+id/to_conflictKeyDialog"
             app:destination="@id/conflictKeyDialog" />
     </fragment>
 
     <dialog
-        android:id="@+id/shortcutDialog"
-        android:name="com.blacksquircle.ui.feature.shortcuts.ui.dialog.ShortcutDialog"
+        android:id="@+id/keybindingDialog"
+        android:name="com.blacksquircle.ui.feature.shortcuts.ui.dialog.KeybindingDialog"
         android:label="@string/pref_header_keybindings_title">
         <argument
             android:name="keybinding"

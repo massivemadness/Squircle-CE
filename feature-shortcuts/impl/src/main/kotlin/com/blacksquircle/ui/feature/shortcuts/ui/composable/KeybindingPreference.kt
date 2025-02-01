@@ -20,30 +20,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.stringResource
 import com.blacksquircle.ui.feature.shortcuts.R
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 @ReadOnlyComposable
-internal fun keybindingResource(keybinding: Keybinding): String {
+internal fun keybindingResource(ctrl: Boolean, shift: Boolean, alt: Boolean, key: Char): String {
     val noneSet = stringResource(R.string.shortcut_none)
-    val ctrl = stringResource(UiR.string.common_ctrl)
-    val shift = stringResource(UiR.string.common_shift)
-    val alt = stringResource(UiR.string.common_alt)
-    val space = stringResource(UiR.string.common_space)
-    val tab = stringResource(UiR.string.common_tab)
+    val ctrlLabel = stringResource(UiR.string.common_ctrl)
+    val shiftLabel = stringResource(UiR.string.common_shift)
+    val altLabel = stringResource(UiR.string.common_alt)
+    val spaceLabel = stringResource(UiR.string.common_space)
+    val tabLabel = stringResource(UiR.string.common_tab)
     return StringBuilder().apply {
-        val isCtrlOrAltPressed = keybinding.isCtrl || keybinding.isAlt
-        if (!isCtrlOrAltPressed || keybinding.key == '\u0000') {
+        val isCtrlOrAltPressed = ctrl || alt
+        if (!isCtrlOrAltPressed || key == '\u0000') {
             append(noneSet)
         } else {
-            if (keybinding.isCtrl) append("$ctrl + ")
-            if (keybinding.isShift) append("$shift + ")
-            if (keybinding.isAlt) append("$alt + ")
-            when (keybinding.key) {
-                ' ' -> append(space)
-                '\t' -> append(tab)
-                else -> append(keybinding.key.uppercaseChar())
+            if (ctrl) append("$ctrlLabel + ")
+            if (shift) append("$shiftLabel + ")
+            if (alt) append("$altLabel + ")
+            when (key) {
+                ' ' -> append(spaceLabel)
+                '\t' -> append(tabLabel)
+                else -> append(key.uppercaseChar())
             }
         }
     }.toString()

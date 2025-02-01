@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.servers
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
+import com.blacksquircle.ui.filesystem.base.model.FileServer
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -29,12 +30,12 @@ class ServerMapperTests {
     fun `convert ServerEntity to ServerConfig`() {
         val serverEntity = ServerEntity(
             uuid = "1234567890",
-            scheme = "ftp",
+            scheme = FileServer.FTP.value,
             name = "test",
             address = "192.168.21.97",
             port = 21,
             initialDir = "",
-            authMethod = AuthMethod.PASSWORD.value,
+            authMethod = AuthMethod.PASSWORD.ordinal,
             username = "username",
             password = "password",
             privateKey = null,
@@ -42,7 +43,7 @@ class ServerMapperTests {
         )
         val serverConfig = ServerConfig(
             uuid = "1234567890",
-            scheme = "ftp",
+            scheme = FileServer.FTP,
             name = "test",
             address = "192.168.21.97",
             port = 21,
@@ -61,7 +62,7 @@ class ServerMapperTests {
     fun `convert ServerConfig to ServerEntity`() {
         val serverConfig = ServerConfig(
             uuid = "1234567890",
-            scheme = "ftp",
+            scheme = FileServer.FTP,
             name = "test",
             address = "192.168.21.97",
             port = 21,
@@ -74,12 +75,12 @@ class ServerMapperTests {
         )
         val serverEntity = ServerEntity(
             uuid = "1234567890",
-            scheme = "ftp",
+            scheme = FileServer.FTP.value,
             name = "test",
             address = "192.168.21.97",
             port = 21,
             initialDir = "",
-            authMethod = AuthMethod.PASSWORD.value,
+            authMethod = AuthMethod.PASSWORD.ordinal,
             username = "username",
             password = "password",
             privateKey = null,

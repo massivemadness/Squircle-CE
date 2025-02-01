@@ -20,19 +20,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.Text
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
 import dagger.hilt.android.AndroidEntryPoint
-import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 internal class ConflictKeyDialog : DialogFragment() {
@@ -48,34 +43,14 @@ internal class ConflictKeyDialog : DialogFragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SquircleTheme {
-                    AlertDialog(
-                        title = stringResource(android.R.string.dialog_alert_title),
-                        content = {
-                            Text(
-                                text = stringResource(R.string.shortcut_conflict),
-                                color = SquircleTheme.colors.colorTextAndIconSecondary,
-                                style = SquircleTheme.typography.text16Regular,
-                            )
-                        },
-                        confirmButton = stringResource(UiR.string.common_continue),
-                        onConfirmClicked = {
+                    ConflictKeyScreen(
+                        onReassignClicked = { reassign ->
                             sendFragmentResult(
                                 resultKey = ShortcutsFragment.KEY_RESOLVE,
-                                ShortcutsFragment.ARG_REASSIGN to true
+                                ShortcutsFragment.ARG_REASSIGN to reassign
                             )
                             navController.popBackStack()
-                        },
-                        dismissButton = stringResource(android.R.string.cancel),
-                        onDismissClicked = {
-                            sendFragmentResult(
-                                resultKey = ShortcutsFragment.KEY_RESOLVE,
-                                ShortcutsFragment.ARG_REASSIGN to false
-                            )
-                            navController.popBackStack()
-                        },
-                        onDismiss = {
-                            navController.popBackStack()
-                        },
+                        }
                     )
                 }
             }
