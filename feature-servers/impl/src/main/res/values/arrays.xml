@@ -24,19 +24,19 @@
         <item>@string/server_sftp</item>
     </string-array>
 
-    <string-array name="authMethod">
-        <item>@string/auth_method_password</item>
-        <item>@string/auth_method_key</item>
-    </string-array>
-
-    <string-array name="passwordBehavior">
+    <string-array name="passwordAction">
         <item>@string/ask_for_password</item>
         <item>@string/save_password</item>
     </string-array>
 
-    <string-array name="passphraseBehavior">
+    <string-array name="passphraseAction">
         <item>@string/ask_for_passphrase</item>
         <item>@string/save_passphrase</item>
+    </string-array>
+
+    <string-array name="authMethod">
+        <item>@string/auth_method_password</item>
+        <item>@string/auth_method_key</item>
     </string-array>
 
 </resources>

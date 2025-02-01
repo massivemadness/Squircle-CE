@@ -107,7 +107,7 @@
         <deepLink app:uri="blacksquircle://explorer/authenticate?authMethod={authMethod}" />
         <argument
             android:name="authMethod"
-            app:argType="integer" />
+            app:argType="string" />
     </dialog>
 
 </navigation>

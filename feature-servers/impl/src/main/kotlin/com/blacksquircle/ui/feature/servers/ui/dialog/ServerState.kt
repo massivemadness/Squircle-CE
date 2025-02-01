@@ -18,28 +18,28 @@ package com.blacksquircle.ui.feature.servers.ui.dialog
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
+import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import com.blacksquircle.ui.filesystem.base.model.ServerScheme
-import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
-import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
-import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
-import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
+import com.blacksquircle.ui.filesystem.base.model.FileServer
 
 @Immutable
 internal data class ServerState(
     val isEditMode: Boolean = false,
     val uuid: String = "",
-    val scheme: ServerScheme = ServerScheme.FTP,
+    val scheme: FileServer = FileServer.FTP,
     val name: String = "",
     val address: String = "",
     val port: String = "",
     val initialDir: String = "",
+    val passwordAction: PasswordAction = PasswordAction.ASK_FOR_PASSWORD,
+    val passphraseAction: PassphraseAction = PassphraseAction.ASK_FOR_PASSPHRASE,
     val authMethod: AuthMethod = AuthMethod.PASSWORD,
     val username: String = "",
-    val password: String? = null,
-    val privateKey: String? = null,
-    val passphrase: String? = null,
+    val password: String = "",
+    val privateKey: String = "",
+    val passphrase: String = "",
 ) : ViewState() {
 
     fun toServerConfig(): ServerConfig {
@@ -49,17 +49,17 @@ internal data class ServerState(
             name = name,
             address = address,
             port = port.toIntOrNull() ?: when (scheme) {
-                ServerScheme.FTP,
-                ServerScheme.FTPS,
-                ServerScheme.FTPES -> DEFAULT_FTP_PORT
-                ServerScheme.SFTP -> DEFAULT_SFTP_PORT
+                FileServer.FTP,
+                FileServer.FTPS,
+                FileServer.FTPES -> DEFAULT_FTP_PORT
+                FileServer.SFTP -> DEFAULT_SFTP_PORT
             },
             initialDir = initialDir,
             authMethod = authMethod,
             username = username,
-            password = password,
-            privateKey = privateKey,
-            passphrase = passphrase,
+            password = if (authMethod == AuthMethod.PASSWORD) password else null,
+            privateKey = if (authMethod == AuthMethod.KEY) privateKey else null,
+            passphrase = if (authMethod == AuthMethod.KEY) passphrase else null,
         )
     }
 

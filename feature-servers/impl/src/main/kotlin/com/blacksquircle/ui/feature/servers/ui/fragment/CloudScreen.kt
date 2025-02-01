@@ -36,8 +36,7 @@ import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import com.blacksquircle.ui.filesystem.base.model.ServerScheme
-import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
+import com.blacksquircle.ui.filesystem.base.model.FileServer
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -107,7 +106,7 @@ private fun CloudScreenPreview() {
                 servers = listOf(
                     ServerConfig(
                         uuid = "1",
-                        scheme = ServerScheme.FTP,
+                        scheme = FileServer.FTP,
                         name = "Example",
                         address = "192.168.21.101",
                         port = 21,

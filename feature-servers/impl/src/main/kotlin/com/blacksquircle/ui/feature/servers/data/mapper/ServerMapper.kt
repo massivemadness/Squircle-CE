@@ -20,7 +20,7 @@ import android.os.Bundle
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import com.blacksquircle.ui.filesystem.base.model.ServerScheme
+import com.blacksquircle.ui.filesystem.base.model.FileServer
 
 internal object ServerMapper {
 
@@ -39,12 +39,12 @@ internal object ServerMapper {
     fun toModel(serverEntity: ServerEntity): ServerConfig {
         return ServerConfig(
             uuid = serverEntity.uuid,
-            scheme = ServerScheme.of(serverEntity.scheme),
+            scheme = FileServer.of(serverEntity.scheme),
             name = serverEntity.name,
             address = serverEntity.address,
             port = serverEntity.port,
             initialDir = serverEntity.initialDir,
-            authMethod = AuthMethod.of(serverEntity.authMethod),
+            authMethod = AuthMethod.entries[serverEntity.authMethod],
             username = serverEntity.username,
             password = serverEntity.password,
             privateKey = serverEntity.privateKey,
@@ -60,7 +60,7 @@ internal object ServerMapper {
             address = serverConfig.address,
             port = serverConfig.port,
             initialDir = serverConfig.initialDir,
-            authMethod = serverConfig.authMethod.value,
+            authMethod = serverConfig.authMethod.ordinal,
             username = serverConfig.username,
             password = serverConfig.password,
             privateKey = serverConfig.privateKey,
@@ -76,7 +76,7 @@ internal object ServerMapper {
             putString(KEY_ADDRESS, serverConfig.address)
             putInt(KEY_PORT, serverConfig.port)
             putString(KEY_INITIAL_DIR, serverConfig.initialDir)
-            putInt(KEY_AUTH_METHOD, serverConfig.authMethod.value)
+            putString(KEY_AUTH_METHOD, serverConfig.authMethod.value)
             putString(KEY_USERNAME, serverConfig.username)
             putString(KEY_PASSWORD, serverConfig.password)
             putString(KEY_PRIVATE_KEY, serverConfig.privateKey)
@@ -87,12 +87,12 @@ internal object ServerMapper {
     fun fromBundle(bundle: Bundle): ServerConfig {
         return ServerConfig(
             uuid = bundle.getString(KEY_UUID).orEmpty(),
-            scheme = ServerScheme.of(bundle.getString(KEY_SCHEME).orEmpty()),
+            scheme = FileServer.of(bundle.getString(KEY_SCHEME).orEmpty()),
             name = bundle.getString(KEY_NAME).orEmpty(),
             address = bundle.getString(KEY_ADDRESS).orEmpty(),
             port = bundle.getInt(KEY_PORT),
             initialDir = bundle.getString(KEY_INITIAL_DIR).orEmpty(),
-            authMethod = AuthMethod.of(bundle.getInt(KEY_AUTH_METHOD)),
+            authMethod = AuthMethod.of(bundle.getString(KEY_AUTH_METHOD).orEmpty()),
             username = bundle.getString(KEY_USERNAME).orEmpty(),
             password = bundle.getString(KEY_PASSWORD),
             privateKey = bundle.getString(KEY_PRIVATE_KEY),

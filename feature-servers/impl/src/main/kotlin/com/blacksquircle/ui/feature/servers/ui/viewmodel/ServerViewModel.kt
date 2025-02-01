@@ -18,10 +18,12 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
+import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerState
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import com.blacksquircle.ui.filesystem.base.model.ServerScheme
+import com.blacksquircle.ui.filesystem.base.model.FileServer
 import com.google.gson.Gson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -52,7 +54,7 @@ internal class ServerViewModel @AssistedInject constructor(
 
     fun onSchemeChanged(scheme: String) {
         _viewState.update {
-            it.copy(scheme = ServerScheme.of(scheme))
+            it.copy(scheme = FileServer.of(scheme))
         }
     }
 
@@ -80,6 +82,48 @@ internal class ServerViewModel @AssistedInject constructor(
         }
     }
 
+    fun onAuthMethodChanged(authMethod: String) {
+        _viewState.update {
+            it.copy(authMethod = AuthMethod.of(authMethod))
+        }
+    }
+
+    fun onKeyFileChanged(privateKey: String) {
+        _viewState.update {
+            it.copy(privateKey = privateKey)
+        }
+    }
+
+    fun onPasswordActionChanged(passwordAction: String) {
+        _viewState.update {
+            it.copy(passwordAction = PasswordAction.of(passwordAction))
+        }
+    }
+
+    fun onPassphraseActionChanged(passphraseAction: String) {
+        _viewState.update {
+            it.copy(passphraseAction = PassphraseAction.of(passphraseAction))
+        }
+    }
+
+    fun onPasswordChanged(password: String) {
+        _viewState.update {
+            it.copy(password = password)
+        }
+    }
+
+    fun onPassphraseChanged(passphrase: String) {
+        _viewState.update {
+            it.copy(passphrase = passphrase)
+        }
+    }
+
+    fun onInitialDirChanged(initialDir: String) {
+        _viewState.update {
+            it.copy(initialDir = initialDir)
+        }
+    }
+
     private fun initialViewState(): ServerState {
         return if (isEditMode) {
             val serverConfig = Gson().fromJson(serverData, ServerConfig::class.java)
@@ -101,7 +145,7 @@ internal class ServerViewModel @AssistedInject constructor(
             ServerState(
                 isEditMode = false,
                 uuid = UUID.randomUUID().toString(),
-                scheme = ServerScheme.FTP,
+                scheme = FileServer.FTP,
                 name = "",
                 address = "",
                 port = "",

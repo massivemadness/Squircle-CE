@@ -44,8 +44,8 @@ import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 
 @Composable
 fun Dropdown(
-    entries: List<String>,
-    entryValues: List<String>,
+    entries: Array<String>,
+    entryValues: Array<String>,
     currentValue: String,
     onValueSelected: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -102,8 +102,8 @@ private fun DropdownPreview() {
     SquircleTheme {
         Dropdown(
             currentValue = "Apple",
-            entries = listOf("Apple", "Banana", "Orange"),
-            entryValues = listOf("apple", "banana", "orange"),
+            entries = arrayOf("Apple", "Banana", "Orange"),
+            entryValues = arrayOf("apple", "banana", "orange"),
             onValueSelected = {},
         )
     }

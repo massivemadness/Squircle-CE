@@ -14,18 +14,5 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.filesystem.base.model
+package com.blacksquircle.ui.feature.servers.ui.navigation
 
-enum class ServerScheme(val value: String) {
-    FTP("ftp://"),
-    FTPS("ftps://"),
-    FTPES("ftpes://"),
-    SFTP("sftp://");
-
-    companion object {
-
-        fun of(value: String): ServerScheme {
-            return checkNotNull(entries.find { it.value == value })
-        }
-    }
-}

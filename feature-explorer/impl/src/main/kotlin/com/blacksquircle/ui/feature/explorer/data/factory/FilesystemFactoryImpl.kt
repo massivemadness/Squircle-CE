@@ -20,7 +20,7 @@ import android.os.Environment
 import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.model.ServerScheme
+import com.blacksquircle.ui.filesystem.base.model.FileServer
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
@@ -41,10 +41,10 @@ class FilesystemFactoryImpl(
             else -> {
                 val serverConfig = serversRepository.loadServer(uuid)
                 return when (serverConfig.scheme) {
-                    ServerScheme.FTP -> FTPFilesystem(serverConfig, cacheDirectory)
-                    ServerScheme.FTPS -> FTPSFilesystem(serverConfig, cacheDirectory)
-                    ServerScheme.FTPES -> FTPESFilesystem(serverConfig, cacheDirectory)
-                    ServerScheme.SFTP -> SFTPFilesystem(serverConfig, cacheDirectory)
+                    FileServer.FTP -> FTPFilesystem(serverConfig, cacheDirectory)
+                    FileServer.FTPS -> FTPSFilesystem(serverConfig, cacheDirectory)
+                    FileServer.FTPES -> FTPESFilesystem(serverConfig, cacheDirectory)
+                    FileServer.SFTP -> SFTPFilesystem(serverConfig, cacheDirectory)
                 }
             }
         }

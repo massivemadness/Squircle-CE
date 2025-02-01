@@ -16,13 +16,14 @@
 
 package com.blacksquircle.ui.filesystem.base.model
 
-enum class AuthMethod(val value: Int) {
-    PASSWORD(0),
-    KEY(1);
+/** Note: Order is important for mapping between layers */
+enum class AuthMethod(val value: String) {
+    PASSWORD("password"),
+    KEY("key");
 
     companion object {
 
-        fun of(value: Int): AuthMethod {
+        fun of(value: String): AuthMethod {
             return checkNotNull(entries.find { it.value == value })
         }
     }

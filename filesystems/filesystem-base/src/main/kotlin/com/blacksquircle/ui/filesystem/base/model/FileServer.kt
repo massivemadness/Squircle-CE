@@ -16,16 +16,16 @@
 
 package com.blacksquircle.ui.filesystem.base.model
 
-data class ServerConfig(
-    val uuid: String,
-    val scheme: FileServer,
-    val name: String,
-    val address: String,
-    val port: Int,
-    val initialDir: String,
-    val authMethod: AuthMethod,
-    val username: String,
-    val password: String?,
-    val privateKey: String?,
-    val passphrase: String?,
-)
+enum class FileServer(val value: String) {
+    FTP("ftp://"),
+    FTPS("ftps://"),
+    FTPES("ftpes://"),
+    SFTP("sftp://");
+
+    companion object {
+
+        fun of(value: String): FileServer {
+            return checkNotNull(entries.find { it.value == value })
+        }
+    }
+}

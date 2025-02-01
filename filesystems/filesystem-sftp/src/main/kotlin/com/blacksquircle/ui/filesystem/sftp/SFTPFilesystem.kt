@@ -46,7 +46,7 @@ class SFTPFilesystem(
     }
 
     override fun defaultLocation(): FileModel {
-        return FileModel(ServerScheme.SFTP.value + serverConfig.initialDir, serverConfig.uuid)
+        return FileModel(FileServer.SFTP.value + serverConfig.initialDir, serverConfig.uuid)
     }
 
     override fun provideDirectory(parent: FileModel): FileTree {
