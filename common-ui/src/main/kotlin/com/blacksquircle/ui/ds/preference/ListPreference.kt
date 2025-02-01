@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.ds.preference
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -72,7 +73,7 @@ fun ListPreference(
             title = title,
             verticalScroll = false,
             content = {
-                LazyColumn(Modifier.padding(horizontal = 8.dp)) {
+                LazyColumn {
                     itemsIndexed(entryValues) { index, value ->
                         Radio(
                             title = entries[index],
@@ -83,7 +84,7 @@ fun ListPreference(
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(4.dp))
+                                .height(48.dp)
                         )
                     }
                 }

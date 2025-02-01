@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.forEachChange
@@ -51,7 +50,7 @@ import com.blacksquircle.ui.core.extensions.keyCodeToChar
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.ds.textfield.DsTextField
+import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.ui.composable.keybindingResource
@@ -116,7 +115,7 @@ class ShortcutDialog : DialogFragment() {
                             Shortcut.INSERT_COLOR -> stringResource(R.string.shortcut_insert_color)
                         },
                         content = {
-                            Column(Modifier.padding(horizontal = 16.dp)) {
+                            Column {
                                 Text(
                                     text = stringResource(R.string.shortcut_press_key),
                                     style = SquircleTheme.typography.text14Regular,
@@ -127,7 +126,7 @@ class ShortcutDialog : DialogFragment() {
                                 val textFieldState = remember { TextFieldState() }
                                 val visualTransformation = keybindingResource(keybindingState)
 
-                                DsTextField(
+                                TextField(
                                     state = textFieldState,
                                     lineLimits = TextFieldLineLimits.SingleLine,
                                     inputTransformation = {

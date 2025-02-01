@@ -59,7 +59,6 @@ class ConflictKeyDialog : DialogFragment() {
                                 text = stringResource(R.string.shortcut_conflict),
                                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                                 style = SquircleTheme.typography.text16Regular,
-                                modifier = Modifier.padding(horizontal = 16.dp),
                             )
                         },
                         confirmButton = stringResource(UiR.string.common_continue),

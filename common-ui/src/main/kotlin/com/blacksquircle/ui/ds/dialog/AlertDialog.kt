@@ -33,6 +33,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -90,6 +92,7 @@ fun AlertDialog(
                     content = content,
                     modifier = Modifier
                         .weight(1f, fill = false)
+                        .padding(horizontal = 16.dp)
                         .then(scrollableModifier)
                 )
 

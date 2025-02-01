@@ -20,8 +20,11 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -34,6 +37,7 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.NonRestartableComposable
@@ -46,12 +50,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.textfield.internal.DecorationBox
+import com.blacksquircle.ui.ds.textfield.internal.HelperText
 
 @Composable
-fun DsTextField(
+fun TextField(
     value: String,
     onValueChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
+    topHelperText: String? = null,
+    bottomHelperText: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = SquircleTheme.typography.text16Regular,
@@ -63,34 +71,44 @@ fun DsTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
 ) {
-    val cursorBrush = remember(cursorColor) { SolidColor(cursorColor) }
-    val textSelectionColors = TextSelectionColors(handleColor, selectionColor)
-
-    CompositionLocalProvider(
-        LocalTextSelectionColors provides textSelectionColors
-    ) {
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChanged,
-            modifier = modifier,
-            enabled = enabled,
-            readOnly = readOnly,
-            textStyle = textStyle.copy(color = textColor),
-            cursorBrush = cursorBrush,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            singleLine = singleLine,
-            decorationBox = { innerTextField ->
-                DecorationBox(innerTextField)
-            }
-        )
+    Column {
+        if (topHelperText != null) {
+            HelperText(topHelperText)
+            Spacer(modifier = Modifier.size(6.dp))
+        }
+        CompositionLocalProvider(
+            LocalTextSelectionColors provides TextSelectionColors(handleColor, selectionColor)
+        ) {
+            val cursorBrush = remember(cursorColor) { SolidColor(cursorColor) }
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChanged,
+                modifier = modifier,
+                enabled = enabled,
+                readOnly = readOnly,
+                textStyle = textStyle.copy(color = textColor),
+                cursorBrush = cursorBrush,
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
+                singleLine = singleLine,
+                decorationBox = { innerTextField ->
+                    DecorationBox(innerTextField)
+                }
+            )
+        }
+        if (bottomHelperText != null) {
+            Spacer(modifier = Modifier.size(6.dp))
+            HelperText(bottomHelperText)
+        }
     }
 }
 
 @Composable
-fun DsTextField(
+fun TextField(
     state: TextFieldState,
     modifier: Modifier = Modifier,
+    topHelperText: String? = null,
+    bottomHelperText: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     inputTransformation: InputTransformation? = null,
@@ -107,49 +125,38 @@ fun DsTextField(
     outputTransformation: OutputTransformation? = null,
     scrollState: ScrollState = rememberScrollState(),
 ) {
-    val cursorBrush = remember(cursorColor) { SolidColor(cursorColor) }
-    val textSelectionColors = TextSelectionColors(handleColor, selectionColor)
-
-    CompositionLocalProvider(
-        LocalTextSelectionColors provides textSelectionColors
-    ) {
-        BasicTextField(
-            state = state,
-            modifier = modifier,
-            enabled = enabled,
-            readOnly = readOnly,
-            inputTransformation = inputTransformation,
-            textStyle = textStyle.copy(color = textColor),
-            keyboardOptions = keyboardOptions,
-            onKeyboardAction = onKeyboardAction,
-            lineLimits = lineLimits,
-            onTextLayout = onTextLayout,
-            interactionSource = interactionSource,
-            cursorBrush = cursorBrush,
-            outputTransformation = outputTransformation,
-            decorator = { innerTextField ->
-                DecorationBox(innerTextField)
-            },
-            scrollState = scrollState,
-        )
-    }
-}
-
-@Composable
-@NonRestartableComposable
-private fun DecorationBox(
-    content: @Composable () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = SquircleTheme.colors.colorBackgroundTertiary,
-                shape = RoundedCornerShape(6.dp)
+    Column {
+        if (topHelperText != null) {
+            HelperText(topHelperText)
+            Spacer(modifier = Modifier.size(6.dp))
+        }
+        CompositionLocalProvider(
+            LocalTextSelectionColors provides TextSelectionColors(handleColor, selectionColor)
+        ) {
+            val cursorBrush = remember(cursorColor) { SolidColor(cursorColor) }
+            BasicTextField(
+                state = state,
+                modifier = modifier,
+                enabled = enabled,
+                readOnly = readOnly,
+                inputTransformation = inputTransformation,
+                textStyle = textStyle.copy(color = textColor),
+                keyboardOptions = keyboardOptions,
+                onKeyboardAction = onKeyboardAction,
+                lineLimits = lineLimits,
+                onTextLayout = onTextLayout,
+                interactionSource = interactionSource,
+                cursorBrush = cursorBrush,
+                outputTransformation = outputTransformation,
+                decorator = { innerTextField ->
+                    DecorationBox(innerTextField)
+                },
+                scrollState = scrollState,
             )
-            .padding(12.dp)
-    ) {
-        content()
+        }
+        if (bottomHelperText != null) {
+            Spacer(modifier = Modifier.size(6.dp))
+            HelperText(bottomHelperText)
+        }
     }
 }

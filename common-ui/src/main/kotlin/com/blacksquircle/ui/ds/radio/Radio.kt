@@ -16,13 +16,20 @@
 
 package com.blacksquircle.ui.ds.radio
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
+import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,29 +45,41 @@ fun Radio(
     checked: Boolean = true,
     enabled: Boolean = true,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.selectable(
+            interactionSource = interactionSource,
+            indication = null,
             selected = checked,
             enabled = enabled,
             onClick = onClick,
         )
     ) {
-        RadioButton(
-            selected = checked,
-            onClick = onClick,
-            colors = RadioButtonDefaults.colors(
-                selectedColor = SquircleTheme.colors.colorPrimary,
-                unselectedColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                disabledColor = SquircleTheme.colors.colorTextAndIconDisabled,
+        Box(Modifier.requiredSize(32.dp)) {
+            RadioButton(
+                selected = checked,
+                onClick = onClick,
+                enabled = enabled,
+                interactionSource = interactionSource,
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = SquircleTheme.colors.colorPrimary,
+                    unselectedColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                    disabledColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                )
             )
-        )
+        }
 
         if (title != null) {
+            Spacer(Modifier.width(8.dp))
             Text(
                 text = title,
                 style = SquircleTheme.typography.text18Regular,
-                color = SquircleTheme.colors.colorTextAndIconPrimary,
+                color = if (enabled) {
+                    SquircleTheme.colors.colorTextAndIconPrimary
+                } else {
+                    SquircleTheme.colors.colorTextAndIconDisabled
+                },
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -87,6 +106,30 @@ private fun RadioUncheckedPreview() {
         Radio(
             title = "Radio",
             checked = false,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun RadioCheckedDisabledPreview() {
+    SquircleTheme {
+        Radio(
+            title = "Radio",
+            checked = true,
+            enabled = false,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun RadioUncheckedDisabledPreview() {
+    SquircleTheme {
+        Radio(
+            title = "Radio",
+            checked = false,
+            enabled = false,
         )
     }
 }

@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.ds.checkbox
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -41,14 +43,15 @@ fun CheckBox(
     checked: Boolean = true,
     enabled: Boolean = true,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.toggleable(
+            interactionSource = interactionSource,
+            indication = null,
             value = checked,
             enabled = enabled,
             onValueChange = { onClick() },
-            interactionSource = null,
-            indication = null,
         )
     ) {
         Box(Modifier.requiredSize(32.dp)) {
@@ -56,6 +59,7 @@ fun CheckBox(
                 checked = checked,
                 onCheckedChange = { onClick() },
                 enabled = enabled,
+                interactionSource = interactionSource,
                 colors = CheckboxDefaults.colors(
                     checkedColor = SquircleTheme.colors.colorPrimary,
                     uncheckedColor = SquircleTheme.colors.colorTextAndIconSecondary,
@@ -69,7 +73,11 @@ fun CheckBox(
             Text(
                 text = title,
                 style = SquircleTheme.typography.text16Regular,
-                color = SquircleTheme.colors.colorTextAndIconPrimary,
+                color = if (enabled) {
+                    SquircleTheme.colors.colorTextAndIconPrimary
+                } else {
+                    SquircleTheme.colors.colorTextAndIconDisabled
+                },
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -96,6 +104,30 @@ private fun CheckBoxUncheckedPreview() {
         CheckBox(
             title = "CheckBox",
             checked = false,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CheckBoxCheckedDisabledPreview() {
+    SquircleTheme {
+        CheckBox(
+            title = "CheckBox",
+            checked = true,
+            enabled = false,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CheckBoxUncheckedDisabledPreview() {
+    SquircleTheme {
+        CheckBox(
+            title = "CheckBox",
+            checked = false,
+            enabled = false,
         )
     }
 }
