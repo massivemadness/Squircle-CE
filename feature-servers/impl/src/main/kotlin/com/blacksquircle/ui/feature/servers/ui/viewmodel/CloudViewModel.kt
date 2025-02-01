@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.feature.servers.ui.fragment.CloudState
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
@@ -35,7 +34,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CloudViewModel @Inject constructor(
     private val serversRepository: ServersRepository,
-    private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(CloudState())
@@ -72,9 +70,6 @@ class CloudViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 serversRepository.upsertServer(serverConfig)
-                if (settingsManager.filesystem == serverConfig.uuid) {
-                    settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
-                }
                 loadServers()
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -87,9 +82,6 @@ class CloudViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 serversRepository.deleteServer(serverConfig)
-                if (settingsManager.filesystem == serverConfig.uuid) {
-                    settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
-                }
                 loadServers()
             } catch (e: Exception) {
                 Timber.e(e, e.message)

@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.servers.internal
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.servers.data.repository.ServersRepositoryImpl
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import dagger.Module
@@ -33,9 +34,14 @@ object ServersModule {
     @Provides
     @Singleton
     fun provideServersRepository(
+        settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,
         appDatabase: AppDatabase,
     ): ServersRepository {
-        return ServersRepositoryImpl(dispatcherProvider, appDatabase)
+        return ServersRepositoryImpl(
+            settingsManager = settingsManager,
+            dispatcherProvider = dispatcherProvider,
+            appDatabase = appDatabase
+        )
     }
 }

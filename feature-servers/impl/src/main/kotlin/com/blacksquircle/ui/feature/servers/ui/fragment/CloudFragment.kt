@@ -23,24 +23,26 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.blacksquircle.ui.core.extensions.collectResult
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class CloudFragment : Fragment() {
 
-    private val viewModel by hiltNavGraphViewModels<CloudViewModel>(R.id.servers_graph)
+    private val viewModel by viewModels<CloudViewModel>()
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(
@@ -73,5 +75,20 @@ class CloudFragment : Fragment() {
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        navController.collectResult<Bundle>(KEY_SAVE)
+            .map(ServerMapper::fromBundle)
+            .onEach(viewModel::onSaveClicked)
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        navController.collectResult<Bundle>(KEY_DELETE)
+            .map(ServerMapper::fromBundle)
+            .onEach(viewModel::onDeleteClicked)
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    companion object {
+        internal const val KEY_SAVE = "KEY_SAVE"
+        internal const val KEY_DELETE = "KEY_DELETE"
     }
 }

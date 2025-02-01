@@ -25,6 +25,9 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.blacksquircle.ui.core.navigation.Screen
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.filterNotNull
 
 fun NavController.navigateTo(
     screen: Screen<*>,
@@ -37,18 +40,21 @@ fun NavController.navigateTo(
             navOptions = options,
             navigatorExtras = extras
         )
+
         is NavDirections -> navigate(
             resId = screen.route.actionId,
             args = screen.route.arguments,
             navOptions = options,
             navigatorExtras = extras
         )
+
         is Int -> navigate(
             resId = screen.route,
             args = null,
             navOptions = options,
             navigatorExtras = extras
         )
+
         else -> throw IllegalArgumentException("Can't handle route type")
     }
 }
@@ -56,4 +62,14 @@ fun NavController.navigateTo(
 @Suppress("UNCHECKED_CAST")
 fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T? {
     return findFragmentById(id) as? T
+}
+
+fun <T> NavController.sendResult(key: String, result: T) {
+    previousBackStackEntry?.savedStateHandle?.set(key, result)
+}
+
+fun <T> NavController.collectResult(key: String): Flow<T> {
+    return currentBackStackEntry?.savedStateHandle?.getStateFlow(key, null)
+        ?.filterNotNull()
+        ?: emptyFlow()
 }

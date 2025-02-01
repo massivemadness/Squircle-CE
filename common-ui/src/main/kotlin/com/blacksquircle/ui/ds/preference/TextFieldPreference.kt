@@ -52,8 +52,8 @@ fun TextFieldPreference(
             title = title,
             content = {
                 TextField(
-                    value = text.value,
-                    onValueChanged = { text.value = it },
+                    inputText = text.value,
+                    onInputChanged = { text.value = it },
                     topHelperText = topHelperText,
                     bottomHelperText = bottomHelperText,
                     textStyle = inputTextStyle,

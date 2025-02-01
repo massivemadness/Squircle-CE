@@ -17,13 +17,13 @@
 package com.blacksquircle.ui.feature.servers
 
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
-import com.blacksquircle.ui.feature.servers.data.converter.ServerConverter
+import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ServerConverterTests {
+class ServerMapperTests {
 
     @Test
     fun `convert ServerEntity to ServerConfig`() {
@@ -54,7 +54,7 @@ class ServerConverterTests {
             passphrase = "test",
         )
 
-        assertEquals(serverConfig, ServerConverter.toModel(serverEntity))
+        assertEquals(serverConfig, ServerMapper.toModel(serverEntity))
     }
 
     @Test
@@ -86,6 +86,6 @@ class ServerConverterTests {
             passphrase = "test",
         )
 
-        assertEquals(serverEntity, ServerConverter.toEntity(serverConfig))
+        assertEquals(serverEntity, ServerMapper.toEntity(serverConfig))
     }
 }

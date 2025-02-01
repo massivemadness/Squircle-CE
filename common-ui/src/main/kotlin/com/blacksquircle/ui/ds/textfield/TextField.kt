@@ -17,16 +17,13 @@
 package com.blacksquircle.ui.ds.textfield
 
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -37,29 +34,32 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.textfield.internal.DecorationBox
 import com.blacksquircle.ui.ds.textfield.internal.HelperText
+import com.blacksquircle.ui.ds.textfield.internal.PlaceholderText
 
 @Composable
 fun TextField(
-    value: String,
-    onValueChanged: (String) -> Unit,
+    inputText: String,
+    onInputChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
     topHelperText: String? = null,
     bottomHelperText: String? = null,
+    placeholderText: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = SquircleTheme.typography.text16Regular,
@@ -71,7 +71,7 @@ fun TextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
 ) {
-    Column {
+    Column(modifier) {
         if (topHelperText != null) {
             HelperText(topHelperText)
             Spacer(modifier = Modifier.size(6.dp))
@@ -80,10 +80,10 @@ fun TextField(
             LocalTextSelectionColors provides TextSelectionColors(handleColor, selectionColor)
         ) {
             val cursorBrush = remember(cursorColor) { SolidColor(cursorColor) }
+            val isPlaceholderVisible = inputText.isEmpty() && !placeholderText.isNullOrEmpty()
             BasicTextField(
-                value = value,
-                onValueChange = onValueChanged,
-                modifier = modifier,
+                value = inputText,
+                onValueChange = onInputChanged,
                 enabled = enabled,
                 readOnly = readOnly,
                 textStyle = textStyle.copy(color = textColor),
@@ -92,7 +92,21 @@ fun TextField(
                 keyboardActions = keyboardActions,
                 singleLine = singleLine,
                 decorationBox = { innerTextField ->
-                    DecorationBox(innerTextField)
+                    DecorationBox(
+                        innerTextField = innerTextField,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .clipToBounds()
+                    ) {
+                        if (isPlaceholderVisible) {
+                            PlaceholderText(
+                                text = placeholderText.orEmpty(),
+                                textStyle = textStyle,
+                                modifier = Modifier.align(Alignment.CenterStart)
+                            )
+                        }
+                    }
                 }
             )
         }
@@ -109,6 +123,7 @@ fun TextField(
     modifier: Modifier = Modifier,
     topHelperText: String? = null,
     bottomHelperText: String? = null,
+    placeholderText: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     inputTransformation: InputTransformation? = null,
@@ -125,7 +140,7 @@ fun TextField(
     outputTransformation: OutputTransformation? = null,
     scrollState: ScrollState = rememberScrollState(),
 ) {
-    Column {
+    Column(modifier) {
         if (topHelperText != null) {
             HelperText(topHelperText)
             Spacer(modifier = Modifier.size(6.dp))
@@ -134,9 +149,9 @@ fun TextField(
             LocalTextSelectionColors provides TextSelectionColors(handleColor, selectionColor)
         ) {
             val cursorBrush = remember(cursorColor) { SolidColor(cursorColor) }
+            val isPlaceholderVisible = state.text.isEmpty() && !placeholderText.isNullOrEmpty()
             BasicTextField(
                 state = state,
-                modifier = modifier,
                 enabled = enabled,
                 readOnly = readOnly,
                 inputTransformation = inputTransformation,
@@ -149,7 +164,21 @@ fun TextField(
                 cursorBrush = cursorBrush,
                 outputTransformation = outputTransformation,
                 decorator = { innerTextField ->
-                    DecorationBox(innerTextField)
+                    DecorationBox(
+                        innerTextField = innerTextField,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .clipToBounds()
+                    ) {
+                        if (isPlaceholderVisible) {
+                            PlaceholderText(
+                                text = placeholderText.orEmpty(),
+                                textStyle = textStyle,
+                                modifier = Modifier.align(Alignment.CenterStart)
+                            )
+                        }
+                    }
                 },
                 scrollState = scrollState,
             )
@@ -158,5 +187,20 @@ fun TextField(
             Spacer(modifier = Modifier.size(6.dp))
             HelperText(bottomHelperText)
         }
+    }
+}
+
+@Preview
+@Composable
+private fun TextFieldPreview() {
+    SquircleTheme {
+        TextField(
+            inputText = "",
+            topHelperText = "Top helper text",
+            placeholderText = "Placeholder",
+            singleLine = true,
+            onInputChanged = {},
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
