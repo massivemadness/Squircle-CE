@@ -33,7 +33,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ServersViewModel @Inject constructor(
+class CloudViewModel @Inject constructor(
     private val serversRepository: ServersRepository,
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
@@ -68,14 +68,7 @@ class ServersViewModel @Inject constructor(
         }
     }
 
-    private fun loadServers() {
-        viewModelScope.launch {
-            val servers = serversRepository.loadServers()
-            _viewState.value = CloudState(servers)
-        }
-    }
-
-    private fun upsertServer(serverConfig: ServerConfig) {
+    fun onSaveClicked(serverConfig: ServerConfig) {
         viewModelScope.launch {
             try {
                 serversRepository.upsertServer(serverConfig)
@@ -90,7 +83,7 @@ class ServersViewModel @Inject constructor(
         }
     }
 
-    private fun deleteServer(serverConfig: ServerConfig) {
+    fun onDeleteClicked(serverConfig: ServerConfig) {
         viewModelScope.launch {
             try {
                 serversRepository.deleteServer(serverConfig)
@@ -102,6 +95,13 @@ class ServersViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
+        }
+    }
+
+    private fun loadServers() {
+        viewModelScope.launch {
+            val servers = serversRepository.loadServers()
+            _viewState.value = CloudState(servers)
         }
     }
 }

@@ -33,14 +33,14 @@ import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
+import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun CloudScreen(viewModel: ServersViewModel) {
+fun CloudScreen(viewModel: CloudViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CloudScreen(
         viewState = viewState,
@@ -108,7 +108,7 @@ private fun CloudScreenPreview() {
                         uuid = "1",
                         scheme = FTPFilesystem.FTP_SCHEME,
                         name = "Example",
-                        address = "192.168.21.100",
+                        address = "192.168.21.101",
                         port = 21,
                         initialDir = "/",
                         authMethod = AuthMethod.PASSWORD,

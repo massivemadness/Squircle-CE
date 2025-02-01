@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -31,7 +32,7 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
+import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,7 +40,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class CloudFragment : Fragment() {
 
-    private val viewModel by hiltNavGraphViewModels<ServersViewModel>(R.id.servers_graph)
+    private val viewModel by hiltNavGraphViewModels<CloudViewModel>(R.id.servers_graph)
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(
@@ -48,6 +49,7 @@ class CloudFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SquircleTheme {
                     CloudScreen(viewModel)

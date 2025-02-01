@@ -29,7 +29,7 @@ import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServersViewModel
+import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
@@ -44,7 +44,8 @@ import com.blacksquircle.ui.ds.R as UiR
 @AndroidEntryPoint
 class ServerDialog : DialogFragment() {
 
-    private val viewModel by hiltNavGraphViewModels<ServersViewModel>(R.id.servers_graph)
+    private val viewModel by hiltNavGraphViewModels<CloudViewModel>(R.id.servers_graph)
+    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<ServerDialogArgs>()
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
