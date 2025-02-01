@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.switcher
+package com.blacksquircle.ui.ds.checkbox
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material.Switch
-import androidx.compose.material.SwitchDefaults
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
-fun Switcher(
+fun CheckBox(
     modifier: Modifier = Modifier,
     title: String? = null,
     onClick: () -> Unit = {},
@@ -50,22 +51,17 @@ fun Switcher(
             indication = null,
         )
     ) {
-        Box(Modifier.requiredSize(40.dp)) {
-            Switch(
+        Box(Modifier.requiredSize(32.dp)) {
+            Checkbox(
                 checked = checked,
                 onCheckedChange = { onClick() },
                 enabled = enabled,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = SquircleTheme.colors.colorPrimary,
-                    checkedTrackColor = SquircleTheme.colors.colorPrimary,
-                    checkedTrackAlpha = 0.54f,
-                    uncheckedThumbColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                    uncheckedTrackColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                    uncheckedTrackAlpha = 0.38f,
-                    disabledCheckedThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledCheckedTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledUncheckedThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledUncheckedTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                colors = CheckboxDefaults.colors(
+                    checkedColor = SquircleTheme.colors.colorPrimary,
+                    uncheckedColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                    checkmarkColor = SquircleTheme.colors.colorTextAndIconPrimary,
+                    disabledColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                    disabledIndeterminateColor = SquircleTheme.colors.colorTextAndIconDisabled,
                 )
             )
         }
@@ -84,10 +80,10 @@ fun Switcher(
 
 @Preview
 @Composable
-private fun SwitcherCheckedPreview() {
+private fun CheckBoxCheckedPreview() {
     SquircleTheme {
-        Switcher(
-            title = "Switcher",
+        CheckBox(
+            title = "CheckBox",
             checked = true,
         )
     }
@@ -95,10 +91,10 @@ private fun SwitcherCheckedPreview() {
 
 @Preview
 @Composable
-private fun SwitcherUncheckedPreview() {
+private fun CheckBoxUncheckedPreview() {
     SquircleTheme {
-        Switcher(
-            title = "Switcher",
+        CheckBox(
+            title = "CheckBox",
             checked = false,
         )
     }

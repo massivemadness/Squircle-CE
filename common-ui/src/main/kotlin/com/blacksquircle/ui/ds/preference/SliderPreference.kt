@@ -16,8 +16,11 @@
 
 package com.blacksquircle.ui.ds.preference
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
@@ -48,19 +51,25 @@ fun SliderPreference(
         subtitle = subtitle,
         enabled = enabled,
         bottomContent = {
+            Spacer(Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 var displayValueHolder by rememberSaveable { mutableFloatStateOf(currentValue) }
-                Slider(
-                    value = displayValueHolder,
-                    valueRange = minValue..maxValue,
-                    steps = stepCount,
-                    onValueChange = { displayValueHolder = it },
-                    onValueChangeFinished = {
-                        onValueChanged(displayValueHolder)
-                    },
-                    enabled = enabled,
-                    modifier = Modifier.weight(1f)
-                )
+                Box(
+                    modifier = Modifier
+                        .requiredHeight(32.dp)
+                        .weight(1f)
+                ) {
+                    Slider(
+                        value = displayValueHolder,
+                        valueRange = minValue..maxValue,
+                        steps = stepCount,
+                        onValueChange = { displayValueHolder = it },
+                        onValueChangeFinished = {
+                            onValueChanged(displayValueHolder)
+                        },
+                        enabled = enabled,
+                    )
+                }
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = displayValueHolder.toInt().toString(),
@@ -79,7 +88,7 @@ fun SliderPreference(
 
 @Preview
 @Composable
-private fun EnabledSliderPreferencePreview() {
+private fun SliderPreferenceEnabledPreview() {
     SquircleTheme {
         SliderPreference(
             title = "Preference Title",
@@ -96,7 +105,7 @@ private fun EnabledSliderPreferencePreview() {
 
 @Preview
 @Composable
-private fun DisabledSliderPreferencePreview() {
+private fun SliderPreferenceDisabledPreview() {
     SquircleTheme {
         SliderPreference(
             title = "Preference Title",

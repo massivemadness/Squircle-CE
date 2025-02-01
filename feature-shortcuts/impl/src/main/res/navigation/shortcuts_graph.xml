@@ -27,21 +27,7 @@
         android:label="@string/pref_header_keybindings_title"
         tools:layout="@layout/layout_preference">
         <deepLink app:uri="blacksquircle://settings/keybindings" />
-        <action
-            android:id="@+id/to_shortcutDialog"
-            app:destination="@id/shortcutDialog" />
     </fragment>
-
-    <dialog
-        android:id="@+id/shortcutDialog"
-        android:name="com.blacksquircle.ui.feature.shortcuts.ui.dialog.ShortcutDialog"
-        android:label="@string/pref_header_keybindings_title"
-        tools:layout="@layout/dialog_shortcut">
-        <deepLink app:uri="blacksquircle://settings/keybindings/edit?key={key}" />
-        <argument
-            android:name="key"
-            app:argType="string" />
-    </dialog>
 
     <dialog
         android:id="@+id/conflictKeyDialog"

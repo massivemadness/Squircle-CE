@@ -43,5 +43,12 @@ enum class Shortcut(val key: String, val group: KeyGroup, val defaultValue: Stri
     REPLACE("shortcut_replace", KeyGroup.EDITOR, "100R"), // Ctrl + R
     GOTO_LINE("shortcut_goto_line", KeyGroup.EDITOR, "100G"), // Ctrl + G
     FORCE_SYNTAX("shortcut_force_syntax", KeyGroup.TOOLS, "000\u0000"), // None set
-    INSERT_COLOR("shortcut_insert_color", KeyGroup.TOOLS, "000\u0000") // None set
+    INSERT_COLOR("shortcut_insert_color", KeyGroup.TOOLS, "000\u0000"); // None set
+
+    companion object {
+
+        fun of(key: String): Shortcut {
+            return checkNotNull(entries.find { it.key == key })
+        }
+    }
 }

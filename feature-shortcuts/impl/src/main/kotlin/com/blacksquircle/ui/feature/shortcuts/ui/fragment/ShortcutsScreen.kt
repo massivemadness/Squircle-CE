@@ -38,13 +38,14 @@ import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
-import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.domain.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
+import com.blacksquircle.ui.feature.shortcuts.ui.composable.KeybindingPreference
+import com.blacksquircle.ui.feature.shortcuts.ui.composable.keybindingResource
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -74,11 +75,6 @@ private fun ShortcutsScreen(
                 onNavigationClicked = onBackClicked,
                 navigationActions = {
                     var expanded by remember { mutableStateOf(false) }
-                    IconButton(
-                        iconResId = UiR.drawable.ic_overflow,
-                        onClick = { expanded = !expanded }
-                    )
-
                     PopupMenu(
                         expanded = expanded,
                         onDismiss = { expanded = false },
@@ -92,6 +88,11 @@ private fun ShortcutsScreen(
                             },
                         )
                     }
+
+                    IconButton(
+                        iconResId = UiR.drawable.ic_overflow,
+                        onClick = { expanded = !expanded }
+                    )
                 }
             )
         },
@@ -103,11 +104,10 @@ private fun ShortcutsScreen(
                 .padding(innerPadding)
         ) {
             viewState.shortcuts.forEach { (keyGroup, keybindings) ->
-                item(key = keyGroup.name, contentType = 1) {
-                    // Don't draw divider for the first group
-                    if (keyGroup != KeyGroup.FILE) {
-                        HorizontalDivider()
-                    }
+                item(
+                    key = keyGroup.name,
+                    contentType = { 1 }
+                ) {
                     val title = when (keyGroup) {
                         KeyGroup.FILE -> stringResource(R.string.pref_category_file_keybindings)
                         KeyGroup.EDITOR -> stringResource(R.string.pref_category_editor_keybindings)
@@ -120,8 +120,7 @@ private fun ShortcutsScreen(
                     key = { it.shortcut.key },
                     contentType = { 2 }
                 ) { keybinding ->
-                    // TODO KeybindingPreference
-                    Preference(
+                    KeybindingPreference(
                         title = when (keybinding.shortcut) {
                             Shortcut.NEW -> stringResource(R.string.shortcut_new_file)
                             Shortcut.OPEN -> stringResource(R.string.shortcut_open_file)
@@ -149,30 +148,19 @@ private fun ShortcutsScreen(
                             Shortcut.INSERT_COLOR -> stringResource(R.string.shortcut_insert_color)
                         },
                         subtitle = keybindingResource(keybinding),
+                        message = stringResource(R.string.shortcut_press_key),
+                        confirmButton = stringResource(UiR.string.common_save),
+                        dismissButton = stringResource(android.R.string.cancel),
+                        keybinding = keybinding,
+                        onKeyAssigned = onKeyAssigned,
                     )
+                }
+                item {
+                    HorizontalDivider()
                 }
             }
         }
     }
-}
-
-@Composable
-@ReadOnlyComposable
-private fun keybindingResource(keybinding: Keybinding): String {
-    val noneSet = stringResource(R.string.shortcut_none)
-    val ctrl = stringResource(UiR.string.common_ctrl)
-    val shift = stringResource(UiR.string.common_shift)
-    val alt = stringResource(UiR.string.common_alt)
-    return StringBuilder().apply {
-        if (keybinding.key == '\u0000') {
-            append(noneSet)
-        } else {
-            if (keybinding.isCtrl) append("$ctrl + ")
-            if (keybinding.isShift) append("$shift + ")
-            if (keybinding.isAlt) append("$alt + ")
-            append(keybinding.key)
-        }
-    }.toString()
 }
 
 @Preview

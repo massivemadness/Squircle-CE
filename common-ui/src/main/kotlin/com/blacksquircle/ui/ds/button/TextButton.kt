@@ -29,7 +29,7 @@ fun TextButton(
     TextButton(onClick = onClick) {
         Text(
             text = text,
-            style = SquircleTheme.typography.text14Regular,
+            style = SquircleTheme.typography.text14Medium,
         )
     }
 }

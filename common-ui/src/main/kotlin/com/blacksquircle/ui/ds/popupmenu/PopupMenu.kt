@@ -22,6 +22,7 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
+@NonRestartableComposable
 fun PopupMenu(
     expanded: Boolean,
     onDismiss: () -> Unit,
@@ -46,13 +48,18 @@ fun PopupMenu(
 }
 
 @Composable
+@NonRestartableComposable
 fun PopupMenuItem(
     title: String,
     onClick: () -> Unit,
 ) {
     DropdownMenuItem(
         content = {
-            Text(title)
+            Text(
+                text = title,
+                color = SquircleTheme.colors.colorTextAndIconPrimary,
+                style = SquircleTheme.typography.text16Regular,
+            )
         },
         onClick = onClick,
     )
