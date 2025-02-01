@@ -38,7 +38,7 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
+internal fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CodeHeaderScreen(
         viewState = viewState,

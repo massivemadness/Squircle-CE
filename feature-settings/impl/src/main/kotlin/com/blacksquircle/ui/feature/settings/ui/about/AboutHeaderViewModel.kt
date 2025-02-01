@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AboutHeaderViewModel @Inject constructor() : ViewModel() {
+internal class AboutHeaderViewModel @Inject constructor() : ViewModel() {
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()

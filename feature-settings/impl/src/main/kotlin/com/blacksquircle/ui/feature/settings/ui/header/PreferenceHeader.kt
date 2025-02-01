@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.settings.ui.header
 
 import com.blacksquircle.ui.core.navigation.Screen
 
-data class PreferenceHeader(
+internal data class PreferenceHeader(
     val title: Int,
     val subtitle: Int,
     val selected: Boolean,

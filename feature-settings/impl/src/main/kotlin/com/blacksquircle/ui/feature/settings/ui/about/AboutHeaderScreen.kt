@@ -57,7 +57,7 @@ private const val TRANSLATION_PLATFORM_URL = "https://crowdin.com/project/squirc
 private const val CONTRIBUTE_PROJECT_URL = "https://github.com/massivemadness/Squircle-CE"
 
 @Composable
-fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
+internal fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
     val context = LocalContext.current
     var counter by rememberSaveable { mutableIntStateOf(1) }
     AboutHeaderScreen(

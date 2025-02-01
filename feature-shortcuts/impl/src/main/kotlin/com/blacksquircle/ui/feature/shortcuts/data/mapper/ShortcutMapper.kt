@@ -20,7 +20,7 @@ import android.os.Bundle
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 
-object ShortcutMapper {
+internal object ShortcutMapper {
 
     private const val KEY_SHORTCUT = "shortcut"
     private const val KEY_CTRL = "ctrl"

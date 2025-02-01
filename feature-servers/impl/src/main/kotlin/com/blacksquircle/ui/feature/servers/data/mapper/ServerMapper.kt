@@ -22,7 +22,7 @@ import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerScheme
 
-object ServerMapper {
+internal object ServerMapper {
 
     private const val KEY_UUID = "uuid"
     private const val KEY_SCHEME = "scheme"

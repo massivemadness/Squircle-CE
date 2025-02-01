@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HeaderViewModel @Inject constructor(
+internal class HeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 

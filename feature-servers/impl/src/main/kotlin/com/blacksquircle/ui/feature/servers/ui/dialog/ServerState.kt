@@ -27,7 +27,7 @@ import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 
 @Immutable
-data class ServerState(
+internal data class ServerState(
     val isEditMode: Boolean = false,
     val uuid: String = "",
     val scheme: ServerScheme = ServerScheme.FTP,
@@ -64,7 +64,7 @@ data class ServerState(
     }
 
     companion object {
-        internal const val DEFAULT_FTP_PORT = 21
-        internal const val DEFAULT_SFTP_PORT = 22
+        const val DEFAULT_FTP_PORT = 21
+        const val DEFAULT_SFTP_PORT = 22
     }
 }

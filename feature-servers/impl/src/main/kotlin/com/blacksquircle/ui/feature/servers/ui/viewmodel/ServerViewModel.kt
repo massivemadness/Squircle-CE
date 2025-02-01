@@ -22,7 +22,6 @@ import com.blacksquircle.ui.feature.servers.ui.dialog.ServerState
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerScheme
-import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.google.gson.Gson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -38,7 +37,7 @@ import kotlinx.coroutines.flow.update
 import java.util.UUID
 
 @HiltViewModel(assistedFactory = ServerViewModel.Factory::class)
-class ServerViewModel @AssistedInject constructor(
+internal class ServerViewModel @AssistedInject constructor(
     @Assisted val serverData: String?,
 ) : ViewModel() {
 

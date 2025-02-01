@@ -22,7 +22,8 @@ import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragmentDirections
 
-sealed class ShortcutScreen(route: NavDirections) : Screen<NavDirections>(route) {
+internal sealed class ShortcutScreen(route: NavDirections) : Screen<NavDirections>(route) {
+
     class Edit(keybinding: Keybinding) : ShortcutScreen(
         ShortcutsFragmentDirections.toShortcutDialog(ShortcutMapper.toBundle(keybinding))
     )

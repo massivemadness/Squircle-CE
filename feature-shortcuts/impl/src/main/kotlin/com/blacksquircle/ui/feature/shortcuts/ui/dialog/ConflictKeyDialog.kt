@@ -35,7 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class ConflictKeyDialog : DialogFragment() {
+internal class ConflictKeyDialog : DialogFragment() {
 
     private val navController by lazy { findNavController() }
 

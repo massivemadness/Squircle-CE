@@ -28,7 +28,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ChangeLogViewModel @Inject constructor(
+internal class ChangeLogViewModel @Inject constructor(
     private val changelogRepository: ChangelogRepository,
 ) : ViewModel() {
 

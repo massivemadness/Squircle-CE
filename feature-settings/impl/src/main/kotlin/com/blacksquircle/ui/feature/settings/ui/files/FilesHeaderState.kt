@@ -20,7 +20,7 @@ import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 
 @Immutable
-data class FilesHeaderState(
+internal data class FilesHeaderState(
     val encodingAutoDetect: Boolean,
     val encodingForOpening: String,
     val encodingForSaving: String,

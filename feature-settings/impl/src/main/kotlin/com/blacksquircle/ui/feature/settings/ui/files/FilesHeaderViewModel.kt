@@ -33,7 +33,7 @@ import java.nio.charset.Charset
 import javax.inject.Inject
 
 @HiltViewModel
-class FilesHeaderViewModel @Inject constructor(
+internal class FilesHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager
 ) : ViewModel() {
 

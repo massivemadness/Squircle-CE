@@ -32,7 +32,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class CloudViewModel @Inject constructor(
+internal class CloudViewModel @Inject constructor(
     private val serversRepository: ServersRepository,
 ) : ViewModel() {
 

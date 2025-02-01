@@ -60,7 +60,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class ShortcutDialog : DialogFragment() {
+internal class ShortcutDialog : DialogFragment() {
 
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<ShortcutDialogArgs>()

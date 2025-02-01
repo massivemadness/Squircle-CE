@@ -21,6 +21,6 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 @Immutable
-data class CloudState(
+internal data class CloudState(
     val servers: List<ServerConfig> = emptyList()
 ) : ViewState()

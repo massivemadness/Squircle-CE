@@ -22,7 +22,7 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 
 @Immutable
-data class HeaderListState(
+internal data class HeaderListState(
     val headers: List<PreferenceHeader> = listOf(
         PreferenceHeader(
             title = R.string.pref_header_application_title,

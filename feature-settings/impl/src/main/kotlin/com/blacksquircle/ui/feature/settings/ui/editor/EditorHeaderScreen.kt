@@ -42,7 +42,7 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun EditorHeaderScreen(viewModel: EditorHeaderViewModel) {
+internal fun EditorHeaderScreen(viewModel: EditorHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditorHeaderScreen(
         viewState = viewState,

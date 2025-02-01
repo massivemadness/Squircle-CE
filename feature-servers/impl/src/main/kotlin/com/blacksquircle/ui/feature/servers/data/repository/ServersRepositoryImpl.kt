@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
-class ServersRepositoryImpl(
+internal class ServersRepositoryImpl(
     private val settingsManager: SettingsManager,
     private val dispatcherProvider: DispatcherProvider,
     private val appDatabase: AppDatabase,

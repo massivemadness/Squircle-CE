@@ -25,7 +25,7 @@ import com.blacksquircle.ui.feature.changelog.domain.repository.ChangelogReposit
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 
-class ChangelogRepositoryImpl(
+internal class ChangelogRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val context: Context,
 ) : ChangelogRepository {

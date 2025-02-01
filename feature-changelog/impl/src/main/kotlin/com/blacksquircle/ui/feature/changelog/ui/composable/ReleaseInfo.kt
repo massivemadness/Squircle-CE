@@ -36,7 +36,7 @@ import com.blacksquircle.ui.ds.extensions.buildHtmlAnnotatedString
 import com.blacksquircle.ui.ds.extensions.takeUrl
 
 @Composable
-fun ReleaseInfo(
+internal fun ReleaseInfo(
     versionName: String,
     releaseDate: String,
     releaseNotes: String,

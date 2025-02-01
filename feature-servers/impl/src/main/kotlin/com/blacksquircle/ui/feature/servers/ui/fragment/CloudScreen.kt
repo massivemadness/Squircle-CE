@@ -41,7 +41,7 @@ import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun CloudScreen(viewModel: CloudViewModel) {
+internal fun CloudScreen(viewModel: CloudViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CloudScreen(
         viewState = viewState,

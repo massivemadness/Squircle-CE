@@ -23,7 +23,7 @@ import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import kotlinx.coroutines.withContext
 
-class ShortcutsRepositoryImpl(
+internal class ShortcutsRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
 ) : ShortcutsRepository {

@@ -17,7 +17,6 @@
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/servers_graph"
     app:startDestination="@id/cloudFragment">
 
@@ -34,8 +33,7 @@
     <dialog
         android:id="@+id/serverDialog"
         android:name="com.blacksquircle.ui.feature.servers.ui.dialog.ServerDialog"
-        android:label="@string/pref_add_server_title"
-        tools:layout="@layout/dialog_server">
+        android:label="@string/pref_add_server_title">
         <deepLink app:uri="blacksquircle://settings/cloud/add" />
         <deepLink app:uri="blacksquircle://settings/cloud/edit?data={data}" />
         <argument

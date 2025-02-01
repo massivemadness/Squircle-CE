@@ -20,7 +20,7 @@ import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 
 @Immutable
-data class CodeHeaderState(
+internal data class CodeHeaderState(
     val autoIndentation: Boolean,
     val autoCloseBrackets: Boolean,
     val autoCloseQuotes: Boolean,

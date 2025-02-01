@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class ShortcutsFragment : Fragment() {
+internal class ShortcutsFragment : Fragment() {
 
     private val viewModel by viewModels<ShortcutsViewModel>()
     private val navController by lazy { findNavController() }
@@ -87,7 +87,7 @@ class ShortcutsFragment : Fragment() {
     }
 
     companion object {
-        internal const val KEY_SAVE = "KEY_SAVE"
-        internal const val KEY_RESOLVE = "KEY_RESOLVE"
+        const val KEY_SAVE = "KEY_SAVE"
+        const val KEY_RESOLVE = "KEY_RESOLVE"
     }
 }

@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.changelog.data.converter
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import java.util.regex.Pattern
 
-object ReleaseConverter {
+internal object ReleaseConverter {
 
     private val RELEASE = Pattern.compile("<b>(.*?)(?=<br>\\n<br>)", Pattern.DOTALL)
     private val VERSION_NAME = Pattern.compile("v(.*?)(?=,)")

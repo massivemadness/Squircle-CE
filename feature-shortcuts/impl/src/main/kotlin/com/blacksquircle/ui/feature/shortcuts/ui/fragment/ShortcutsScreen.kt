@@ -49,7 +49,7 @@ import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
+internal fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ShortcutsScreen(
         viewState = viewState,

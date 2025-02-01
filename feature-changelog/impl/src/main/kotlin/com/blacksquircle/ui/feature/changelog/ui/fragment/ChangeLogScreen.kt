@@ -38,7 +38,7 @@ import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun ChangeLogScreen(viewModel: ChangeLogViewModel) {
+internal fun ChangeLogScreen(viewModel: ChangeLogViewModel) {
     val state by viewModel.changelogState.collectAsStateWithLifecycle()
     ChangeLogScreen(
         state = state,

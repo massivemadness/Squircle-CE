@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class CloudFragment : Fragment() {
+internal class CloudFragment : Fragment() {
 
     private val viewModel by viewModels<CloudViewModel>()
     private val navController by lazy { findNavController() }
@@ -88,7 +88,7 @@ class CloudFragment : Fragment() {
     }
 
     companion object {
-        internal const val KEY_SAVE = "KEY_SAVE"
-        internal const val KEY_DELETE = "KEY_DELETE"
+        const val KEY_SAVE = "KEY_SAVE"
+        const val KEY_DELETE = "KEY_DELETE"
     }
 }

@@ -39,7 +39,7 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun FilesHeaderScreen(viewModel: FilesHeaderViewModel) {
+internal fun FilesHeaderScreen(viewModel: FilesHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     FilesHeaderScreen(
         viewState = viewState,

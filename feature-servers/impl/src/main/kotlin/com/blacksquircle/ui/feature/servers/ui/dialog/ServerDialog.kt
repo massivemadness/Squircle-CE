@@ -58,7 +58,7 @@ import dagger.hilt.android.lifecycle.withCreationCallback
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class ServerDialog : DialogFragment() {
+internal class ServerDialog : DialogFragment() {
 
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<ServerDialogArgs>()

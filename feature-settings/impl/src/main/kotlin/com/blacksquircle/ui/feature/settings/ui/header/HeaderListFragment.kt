@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class HeaderListFragment : Fragment() {
+internal class HeaderListFragment : Fragment() {
 
     private val viewModel by hiltNavGraphViewModels<HeaderViewModel>(R.id.settings_graph)
     private val navController by lazy { findNavController() }

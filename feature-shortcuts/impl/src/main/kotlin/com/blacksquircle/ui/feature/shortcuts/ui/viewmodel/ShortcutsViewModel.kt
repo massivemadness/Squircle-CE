@@ -33,7 +33,7 @@ import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
 
 @HiltViewModel
-class ShortcutsViewModel @Inject constructor(
+internal class ShortcutsViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val shortcutsRepository: ShortcutsRepository,
 ) : ViewModel() {
@@ -98,6 +98,7 @@ class ShortcutsViewModel @Inject constructor(
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 } else {
                     shortcutsRepository.reassign(keybinding)
+                    _viewEvent.send(ViewEvent.PopBackStack())
                     loadShortcuts()
                 }
             } catch (e: Exception) {
