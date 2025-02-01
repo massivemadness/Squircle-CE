@@ -88,7 +88,7 @@ class ShortcutTests {
 
         // When
         val viewModel = shortcutsViewModel()
-        viewModel.onKeyAssigned(keybinding)
+        viewModel.onSaveClicked(keybinding)
 
         // Then
         assertEquals(reassignedMap, viewModel.viewState.value.shortcuts)
@@ -116,7 +116,7 @@ class ShortcutTests {
 
         // When
         val viewModel = shortcutsViewModel()
-        viewModel.onKeyAssigned(reassigned[0])
+        viewModel.onSaveClicked(reassigned[0])
 
         assertEquals(shortcutMap, viewModel.viewState.value.shortcuts) // check nothing happened
         viewModel.onResolveClicked(reassign = true)
@@ -142,7 +142,7 @@ class ShortcutTests {
 
         // When
         val viewModel = shortcutsViewModel()
-        viewModel.onKeyAssigned(reassigned)
+        viewModel.onSaveClicked(reassigned)
 
         assertEquals(shortcutMap, viewModel.viewState.value.shortcuts) // check nothing happened
         viewModel.onResolveClicked(reassign = false)

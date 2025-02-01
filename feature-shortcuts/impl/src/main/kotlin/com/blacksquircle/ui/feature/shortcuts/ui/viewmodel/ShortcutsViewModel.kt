@@ -44,7 +44,7 @@ class ShortcutsViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    internal var shortcuts: List<Keybinding> = emptyList()
+    private var shortcuts: List<Keybinding> = emptyList()
     private var pendingKey: Keybinding? = null
     private var conflictKey: Keybinding? = null
 
@@ -74,12 +74,12 @@ class ShortcutsViewModel @Inject constructor(
 
     fun onKeyClicked(keybinding: Keybinding) {
         viewModelScope.launch {
-            val screen = ShortcutScreen.Edit(keybinding.shortcut.key)
+            val screen = ShortcutScreen.Edit(keybinding)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
-    fun onKeyAssigned(keybinding: Keybinding) {
+    fun onSaveClicked(keybinding: Keybinding) {
         viewModelScope.launch {
             try {
                 val existingKey = shortcuts.find {
@@ -92,7 +92,10 @@ class ShortcutsViewModel @Inject constructor(
                 if (existingKey != null) {
                     pendingKey = keybinding
                     conflictKey = existingKey
-                    _viewEvent.send(ViewEvent.Navigation(ShortcutScreen.Conflict()))
+
+                    val screen = ShortcutScreen.Conflict()
+                    _viewEvent.send(ViewEvent.PopBackStack())
+                    _viewEvent.send(ViewEvent.Navigation(screen))
                 } else {
                     shortcutsRepository.reassign(keybinding)
                     loadShortcuts()

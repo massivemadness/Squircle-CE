@@ -43,25 +43,25 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.extensions.keyCodeToChar
+import com.blacksquircle.ui.core.extensions.sendResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.shortcuts.R
+import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.ui.composable.keybindingResource
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
+import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class ShortcutDialog : DialogFragment() {
 
-    private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<ShortcutDialogArgs>()
 
@@ -79,12 +79,9 @@ class ShortcutDialog : DialogFragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SquircleTheme {
-                    val initialKeybinding = viewModel.shortcuts
-                        .find { it.shortcut.key == navArgs.key }
-                        ?: throw IllegalStateException()
-
+                    val initialValue = ShortcutMapper.fromBundle(navArgs.keybinding)
                     var keybindingState by remember {
-                        mutableStateOf(initialKeybinding)
+                        mutableStateOf(initialValue)
                     }
 
                     AlertDialog(
@@ -232,8 +229,10 @@ class ShortcutDialog : DialogFragment() {
                         },
                         confirmButton = stringResource(UiR.string.common_save),
                         onConfirmClicked = {
-                            navController.popBackStack()
-                            viewModel.onKeyAssigned(keybindingState)
+                            navController.sendResult(
+                                key = ShortcutsFragment.KEY_SAVE,
+                                result = ShortcutMapper.toBundle(keybindingState),
+                            )
                         },
                         dismissButton = stringResource(android.R.string.cancel),
                         onDismissClicked = {

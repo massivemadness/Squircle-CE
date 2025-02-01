@@ -20,27 +20,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
+import com.blacksquircle.ui.core.extensions.sendResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.shortcuts.R
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
+import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
 class ConflictKeyDialog : DialogFragment() {
 
-    private val viewModel by hiltNavGraphViewModels<ShortcutsViewModel>(R.id.shortcuts_graph)
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(
@@ -63,13 +59,19 @@ class ConflictKeyDialog : DialogFragment() {
                         },
                         confirmButton = stringResource(UiR.string.common_continue),
                         onConfirmClicked = {
+                            navController.sendResult(
+                                key = ShortcutsFragment.KEY_RESOLVE,
+                                result = true,
+                            )
                             navController.popBackStack()
-                            viewModel.onResolveClicked(reassign = true)
                         },
                         dismissButton = stringResource(android.R.string.cancel),
                         onDismissClicked = {
+                            navController.sendResult(
+                                key = ShortcutsFragment.KEY_RESOLVE,
+                                result = false,
+                            )
                             navController.popBackStack()
-                            viewModel.onResolveClicked(reassign = false)
                         },
                         onDismiss = {
                             navController.popBackStack()

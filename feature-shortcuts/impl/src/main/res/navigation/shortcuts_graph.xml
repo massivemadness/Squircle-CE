@@ -17,7 +17,6 @@
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/shortcuts_graph"
     app:startDestination="@id/shortcutsFragment">
 
@@ -29,23 +28,23 @@
         <action
             android:id="@+id/to_shortcutDialog"
             app:destination="@id/shortcutDialog" />
+        <action
+            android:id="@+id/to_conflictKeyDialog"
+            app:destination="@id/conflictKeyDialog" />
     </fragment>
 
     <dialog
         android:id="@+id/shortcutDialog"
         android:name="com.blacksquircle.ui.feature.shortcuts.ui.dialog.ShortcutDialog"
         android:label="@string/pref_header_keybindings_title">
-        <deepLink app:uri="blacksquircle://settings/keybindings/edit?key={key}" />
         <argument
-            android:name="key"
-            app:argType="string" />
+            android:name="keybinding"
+            app:argType="android.os.Bundle" />
     </dialog>
 
     <dialog
         android:id="@+id/conflictKeyDialog"
         android:name="com.blacksquircle.ui.feature.shortcuts.ui.dialog.ConflictKeyDialog"
-        android:label="@string/pref_header_keybindings_title">
-        <deepLink app:uri="blacksquircle://settings/keybindings/conflict" />
-    </dialog>
+        android:label="@string/pref_header_keybindings_title" />
 
 </navigation>
