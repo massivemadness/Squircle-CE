@@ -20,18 +20,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 @NonRestartableComposable
-internal fun HelperText(
-    text: String,
+internal fun TextFieldLabel(
+    text: String?,
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = text,
+        text = text.orEmpty(),
         style = SquircleTheme.typography.text12Regular,
         color = SquircleTheme.colors.colorTextAndIconSecondary,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
         modifier = modifier,
     )
 }

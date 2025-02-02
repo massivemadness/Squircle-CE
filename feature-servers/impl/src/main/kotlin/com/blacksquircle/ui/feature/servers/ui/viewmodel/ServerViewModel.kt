@@ -105,9 +105,21 @@ internal class ServerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onKeyFileChanged(privateKey: String) {
+    fun onKeyFileChanged(filePath: String) {
         _viewState.update {
-            it.copy(privateKey = privateKey)
+            it.copy(privateKey = filePath)
+        }
+    }
+
+    fun onKeyFileChosen(filePath: String) {
+        _viewState.update {
+            it.copy(privateKey = filePath)
+        }
+    }
+
+    fun onChooseFileClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(ServerViewEvent.ChooseFile)
         }
     }
 

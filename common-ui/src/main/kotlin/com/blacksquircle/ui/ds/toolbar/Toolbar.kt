@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonSize
 import com.blacksquircle.ui.ds.toolbar.internal.ToolbarActions
 import com.blacksquircle.ui.ds.toolbar.internal.ToolbarContent
 import com.blacksquircle.ui.ds.toolbar.internal.ToolbarIcon
@@ -191,6 +192,7 @@ private fun ToolbarPreview() {
             navigationActions = {
                 IconButton(
                     iconResId = R.drawable.ic_edit,
+                    iconSize = IconButtonSize.L,
                     onClick = {},
                 )
             }

@@ -14,33 +14,27 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.ds.textfield.internal
 
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import com.blacksquircle.ui.ds.textfield.TextField
-import com.blacksquircle.ui.feature.servers.R
+import androidx.compose.ui.text.style.TextOverflow
+import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 @NonRestartableComposable
-internal fun ServerName(
-    name: String,
-    onNameChanged: (String) -> Unit,
-    isError: Boolean,
+internal fun TextFieldHelp(
+    text: String?,
     modifier: Modifier = Modifier
 ) {
-    TextField(
-        inputText = name,
-        labelText = stringResource(R.string.hint_server_name),
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-        ),
-        error = isError,
-        onInputChanged = onNameChanged,
+    Text(
+        text = text.orEmpty(),
+        style = SquircleTheme.typography.text12Regular,
+        color = SquircleTheme.colors.colorTextAndIconSecondary,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
         modifier = modifier,
     )
 }

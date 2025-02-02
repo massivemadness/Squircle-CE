@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.navigation
+package com.blacksquircle.ui.ds.extensions
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
 
-internal sealed class ServerViewEvent : ViewEvent() {
-
-    class SendSaveResult(val serverConfig: ServerConfig) : ServerViewEvent()
-    class SendDeleteResult(val serverConfig: ServerConfig) : ServerViewEvent()
-    data object ChooseFile : ServerViewEvent()
+fun Modifier.clearSemantics(): Modifier {
+    return this.clearAndSetSemantics { /* no-op */ }
 }

@@ -63,6 +63,7 @@ internal fun ServerScreen(
         onPasswordActionChanged = viewModel::onPasswordActionChanged,
         onPassphraseActionChanged = viewModel::onPassphraseActionChanged,
         onKeyFileChanged = viewModel::onKeyFileChanged,
+        onChooseFileClicked = viewModel::onChooseFileClicked,
         onPasswordChanged = viewModel::onPasswordChanged,
         onPassphraseChanged = viewModel::onPassphraseChanged,
         onInitialDirChanged = viewModel::onInitialDirChanged,
@@ -84,6 +85,7 @@ private fun ServerScreen(
     onPasswordActionChanged: (String) -> Unit,
     onPassphraseActionChanged: (String) -> Unit,
     onKeyFileChanged: (String) -> Unit,
+    onChooseFileClicked: () -> Unit,
     onPasswordChanged: (String) -> Unit,
     onPassphraseChanged: (String) -> Unit,
     onInitialDirChanged: (String) -> Unit,
@@ -156,6 +158,7 @@ private fun ServerScreen(
                             ServerKeyFile(
                                 keyFile = viewState.privateKey,
                                 onKeyFileChanged = onKeyFileChanged,
+                                onChooseFileClicked = onChooseFileClicked,
                             )
 
                             Spacer(Modifier.height(8.dp))
@@ -234,6 +237,7 @@ private fun ServerScreenPreview() {
             onPasswordActionChanged = {},
             onPassphraseActionChanged = {},
             onKeyFileChanged = {},
+            onChooseFileClicked = {},
             onPasswordChanged = {},
             onPassphraseChanged = {},
             onInitialDirChanged = {},

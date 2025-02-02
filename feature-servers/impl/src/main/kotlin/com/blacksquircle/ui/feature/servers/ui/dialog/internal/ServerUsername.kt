@@ -34,11 +34,10 @@ internal fun ServerUsername(
 ) {
     TextField(
         inputText = username,
-        topHelperText = stringResource(R.string.hint_username),
+        labelText = stringResource(R.string.hint_username),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
         ),
-        singleLine = true,
         onInputChanged = onUsernameChanged,
         modifier = modifier,
     )

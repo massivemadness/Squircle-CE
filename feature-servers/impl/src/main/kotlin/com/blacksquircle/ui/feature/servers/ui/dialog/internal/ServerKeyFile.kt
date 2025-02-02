@@ -22,23 +22,35 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonSize
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 @NonRestartableComposable
 internal fun ServerKeyFile(
     keyFile: String,
     onKeyFileChanged: (String) -> Unit,
+    onChooseFileClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
         inputText = keyFile,
-        topHelperText = stringResource(R.string.hint_key_file),
+        labelText = stringResource(R.string.hint_key_file),
+        endContent = {
+            IconButton(
+                iconResId = UiR.drawable.ic_folder_open,
+                iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                iconSize = IconButtonSize.S,
+                onClick = onChooseFileClicked,
+            )
+        },
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
         ),
-        singleLine = true,
         onInputChanged = onKeyFileChanged,
         modifier = modifier,
     )

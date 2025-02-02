@@ -36,13 +36,12 @@ internal fun ServerPassphrase(
 ) {
     TextField(
         inputText = passphrase,
-        topHelperText = stringResource(R.string.hint_passphrase),
+        labelText = stringResource(R.string.hint_passphrase),
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Next,
         ),
-        singleLine = true,
         visualTransformation = PasswordVisualTransformation(),
         onInputChanged = onPassphraseChanged,
         modifier = modifier,

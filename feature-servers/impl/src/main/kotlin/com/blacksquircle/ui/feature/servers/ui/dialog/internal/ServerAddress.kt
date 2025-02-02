@@ -47,13 +47,12 @@ internal fun ServerAddress(
     Row(modifier) {
         TextField(
             inputText = address,
-            topHelperText = stringResource(R.string.hint_server_address),
+            labelText = stringResource(R.string.hint_server_address),
             placeholderText = HINT_ADDRESS,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
             ),
             error = isError,
-            singleLine = true,
             onInputChanged = onAddressChanged,
             modifier = Modifier.fillMaxWidth(0.70f)
         )
@@ -62,7 +61,7 @@ internal fun ServerAddress(
 
         TextField(
             inputText = port,
-            topHelperText = stringResource(R.string.hint_port),
+            labelText = stringResource(R.string.hint_port),
             placeholderText = when (scheme) {
                 FileServer.FTP,
                 FileServer.FTPS,
@@ -73,7 +72,6 @@ internal fun ServerAddress(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next,
             ),
-            singleLine = true,
             onInputChanged = onPortChanged,
         )
     }

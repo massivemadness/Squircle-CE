@@ -16,14 +16,19 @@
 
 package com.blacksquircle.ui.ds.button
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 
@@ -34,19 +39,38 @@ fun IconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     iconColor: Color = SquircleTheme.colors.colorTextAndIconPrimary,
+    iconSize: IconButtonSize = IconButtonSize.M,
     contentDescription: String? = null,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource? = null,
 ) {
-    IconButton(
-        onClick = onClick,
-        modifier = modifier.defaultMinSize(
-            minWidth = 56.dp,
-            minHeight = 56.dp,
-        ),
+    val actualSize = when (iconSize) {
+        IconButtonSize.S -> 42.dp
+        IconButtonSize.M -> 48.dp
+        IconButtonSize.L -> 56.dp
+    }
+    Box(
+        modifier = modifier
+            .defaultMinSize(actualSize, actualSize)
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = ripple(bounded = false),
+            ),
+        contentAlignment = Alignment.Center
     ) {
         Icon(
             painter = painterResource(iconResId),
             contentDescription = contentDescription,
-            tint = iconColor,
+            tint = if (enabled) iconColor else SquircleTheme.colors.colorTextAndIconDisabled,
         )
     }
+}
+
+enum class IconButtonSize {
+    S,
+    M,
+    L,
 }

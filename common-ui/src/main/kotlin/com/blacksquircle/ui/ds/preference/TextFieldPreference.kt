@@ -33,8 +33,8 @@ fun TextFieldPreference(
     enabled: Boolean = true,
     confirmButton: String? = null,
     dismissButton: String? = null,
-    topHelperText: String? = null,
-    bottomHelperText: String? = null,
+    labelText: String? = null,
+    helpText: String? = null,
     inputTextStyle: TextStyle = LocalTextStyle.current,
     inputValue: String = "",
     onInputConfirmed: (String) -> Unit = {},
@@ -54,10 +54,9 @@ fun TextFieldPreference(
                 TextField(
                     inputText = text.value,
                     onInputChanged = { text.value = it },
-                    topHelperText = topHelperText,
-                    bottomHelperText = bottomHelperText,
+                    labelText = labelText,
+                    helpText = helpText,
                     textStyle = inputTextStyle,
-                    singleLine = true,
                 )
             },
             confirmButton = confirmButton,

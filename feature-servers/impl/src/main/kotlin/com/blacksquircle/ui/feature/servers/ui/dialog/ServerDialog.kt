@@ -30,6 +30,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
+import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
@@ -56,10 +57,9 @@ internal class ServerDialog : DialogFragment() {
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> {
-                // val filePath = context?.extractFilePath(result.uri)
-                // binding.inputKeyFile.setText(filePath)
+                val filePath = context?.extractFilePath(result.uri)
+                viewModel.onKeyFileChosen(filePath.orEmpty())
             }
-
             is ContractResult.Canceled -> Unit
         }
     }
@@ -104,6 +104,12 @@ internal class ServerDialog : DialogFragment() {
                             bundle = ServerMapper.toBundle(event.serverConfig)
                         )
                         navController.popBackStack()
+                    }
+                    is ServerViewEvent.ChooseFile -> {
+                        openFileContract.launch(
+                            OpenFileContract.OCTET_STREAM,
+                            OpenFileContract.PEM,
+                        )
                     }
                 }
             }

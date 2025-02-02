@@ -22,6 +22,7 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonSize
 
 @Composable
 @NonRestartableComposable
@@ -35,6 +36,7 @@ internal fun ToolbarIcon(
         IconButton(
             iconResId = iconRes,
             iconColor = SquircleTheme.colors.colorTextAndIconPrimary,
+            iconSize = IconButtonSize.L,
             contentDescription = contentDescription,
             onClick = onNavigationClicked,
             modifier = modifier,
