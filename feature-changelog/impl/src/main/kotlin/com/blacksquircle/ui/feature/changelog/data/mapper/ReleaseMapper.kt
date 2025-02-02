@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.changelog.data.converter
+package com.blacksquircle.ui.feature.changelog.data.mapper
 
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import java.util.regex.Pattern
 
-internal object ReleaseConverter {
+internal object ReleaseMapper {
 
     private val RELEASE = Pattern.compile("<b>(.*?)(?=<br>\\n<br>)", Pattern.DOTALL)
     private val VERSION_NAME = Pattern.compile("v(.*?)(?=,)")

@@ -16,11 +16,11 @@
 
 package com.blacksquircle.ui.feature.changelog
 
-import com.blacksquircle.ui.feature.changelog.data.converter.ReleaseConverter
+import com.blacksquircle.ui.feature.changelog.data.mapper.ReleaseMapper
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
-class ReleaseConverterTest {
+class ReleaseMapperTest {
 
     @Test
     fun `When converting changelog Then check list size`() {
@@ -43,7 +43,7 @@ class ReleaseConverterTest {
         """.trimIndent()
 
         // When
-        val releaseList = ReleaseConverter.toReleaseModels(testData)
+        val releaseList = ReleaseMapper.toReleaseModels(testData)
 
         // Then
         assertEquals(3, releaseList.size)
@@ -62,7 +62,7 @@ class ReleaseConverterTest {
         """.trimIndent()
 
         // When
-        val releaseModel = ReleaseConverter.toReleaseModels(testData).first()
+        val releaseModel = ReleaseMapper.toReleaseModels(testData).first()
 
         // Then
         assertEquals("v2018.1.2", releaseModel.versionName)

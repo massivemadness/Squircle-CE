@@ -56,8 +56,16 @@ internal class ServerViewModel @AssistedInject constructor(
         get() = !serverData.isNullOrEmpty()
 
     fun onSchemeChanged(scheme: String) {
+        val fileServer = FileServer.of(scheme)
         _viewState.update {
-            it.copy(scheme = FileServer.of(scheme))
+            it.copy(
+                scheme = fileServer,
+                authMethod = if (fileServer != FileServer.SFTP) {
+                    AuthMethod.PASSWORD
+                } else {
+                    it.authMethod
+                }
+            )
         }
     }
 

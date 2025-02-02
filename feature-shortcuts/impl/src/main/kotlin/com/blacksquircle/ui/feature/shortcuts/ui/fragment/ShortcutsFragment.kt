@@ -36,7 +36,6 @@ import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint

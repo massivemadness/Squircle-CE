@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.changelog.data.repository
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.changelog.R
-import com.blacksquircle.ui.feature.changelog.data.converter.ReleaseConverter
+import com.blacksquircle.ui.feature.changelog.data.mapper.ReleaseMapper
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import com.blacksquircle.ui.feature.changelog.domain.repository.ChangelogRepository
 import kotlinx.coroutines.withContext
@@ -34,7 +34,7 @@ internal class ChangelogRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val inputStream = context.resources.openRawResource(R.raw.changelog)
             val changelogRaw = inputStream.bufferedReader().use(BufferedReader::readText)
-            ReleaseConverter.toReleaseModels(changelogRaw)
+            ReleaseMapper.toReleaseModels(changelogRaw)
         }
     }
 }

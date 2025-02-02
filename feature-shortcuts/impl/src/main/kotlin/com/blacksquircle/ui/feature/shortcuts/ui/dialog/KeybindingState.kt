@@ -21,7 +21,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
 
 @Immutable
-data class KeybindingState(
+internal data class KeybindingState(
     val shortcut: Shortcut = Shortcut.CUT,
     val isCtrl: Boolean = false,
     val isShift: Boolean = false,
