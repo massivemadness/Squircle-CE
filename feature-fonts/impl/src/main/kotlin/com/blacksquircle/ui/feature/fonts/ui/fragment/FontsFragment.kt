@@ -17,114 +17,79 @@
 package com.blacksquircle.ui.feature.fonts.ui.fragment
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuProvider
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
-import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.databinding.FragmentFontsBinding
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
-import com.blacksquircle.ui.feature.fonts.ui.adapter.FontAdapter
-import com.blacksquircle.ui.feature.fonts.ui.mvi.FontIntent
-import com.blacksquircle.ui.feature.fonts.ui.mvi.FontsViewState
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontViewEvent
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class FontsFragment : Fragment(R.layout.fragment_fonts) {
+internal class FontsFragment : Fragment() {
 
-    private val viewModel by hiltNavGraphViewModels<FontsViewModel>(R.id.fonts_graph)
-    private val binding by viewBinding(FragmentFontsBinding::bind)
+    private val viewModel by viewModels<FontsViewModel>()
     private val navController by lazy { findNavController() }
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
-            is ContractResult.Success -> viewModel.obtainEvent(FontIntent.ImportFont(result.uri))
+            is ContractResult.Success -> viewModel.onFontLoaded(result.uri)
             is ContractResult.Canceled -> Unit
         }
     }
 
-    private lateinit var adapter: FontAdapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    FontsScreen(viewModel)
+                }
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFadeTransition(binding.recyclerView, R.id.toolbar)
-        postponeEnterTransition(view)
         observeViewModel()
-
-        view.applySystemWindowInsets(true) { _, top, _, bottom ->
-            binding.toolbar.updatePadding(top = top)
-            binding.root.updatePadding(bottom = bottom)
-        }
-
-        DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).let {
-            binding.recyclerView.addItemDecoration(it)
-        }
-        binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = FontAdapter(object : FontAdapter.Actions {
-            override fun selectFont(fontModel: FontModel) {
-                viewModel.obtainEvent(FontIntent.SelectFont(fontModel))
-            }
-            override fun removeFont(fontModel: FontModel) {
-                viewModel.obtainEvent(FontIntent.RemoveFont(fontModel))
-            }
-        }).also {
-            adapter = it
-        }
-
-        binding.actionAdd.setOnClickListener {
-            openFileContract.launch(
-                OpenFileContract.OCTET_STREAM,
-                OpenFileContract.X_FONT,
-                OpenFileContract.FONT,
-            )
-        }
-
-        binding.toolbar.setNavigationOnClickListener {
-            navController.popBackStack()
-        }
-        binding.toolbar.addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.menu_fonts, menu)
-
-                    val searchItem = menu.findItem(R.id.action_search)
-                    val searchView = searchItem?.actionView as? SearchView
-
-                    val state = viewModel.fontsState.value
-                    if (state.query.isNotEmpty()) {
-                        searchItem?.expandActionView()
-                        searchView?.setQuery(state.query, false)
-                    }
-
-                    searchView?.debounce(viewLifecycleOwner.lifecycleScope) {
-                        viewModel.obtainEvent(FontIntent.SearchFonts(it))
-                    }
-                }
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    return false
-                }
-            },
-            viewLifecycleOwner,
-        )
     }
+
+    private fun observeViewModel() {
+        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is ViewEvent.Toast -> context?.showToast(text = event.message)
+                    is ViewEvent.PopBackStack -> navController.popBackStack()
+                    is FontViewEvent.ChooseFont -> openFileContract.launch(
+                        OpenFileContract.OCTET_STREAM,
+                        OpenFileContract.X_FONT,
+                        OpenFileContract.FONT,
+                    )
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    /*
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
 
     private fun observeViewModel() {
         viewModel.fontsState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
@@ -149,13 +114,5 @@ class FontsFragment : Fragment(R.layout.fragment_fonts) {
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ViewEvent.Toast -> context?.showToast(text = event.message)
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-    }
+    }*/
 }

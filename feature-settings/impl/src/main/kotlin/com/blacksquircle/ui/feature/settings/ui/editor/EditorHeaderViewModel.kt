@@ -61,6 +61,13 @@ internal class EditorHeaderViewModel @Inject constructor(
         }
     }
 
+    fun onFontTypeClicked() {
+        viewModelScope.launch {
+            val screen = Screen.Fonts
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
     fun onWordWrapChanged(wordWrap: Boolean) {
         viewModelScope.launch {
             settingsManager.wordWrap = wordWrap

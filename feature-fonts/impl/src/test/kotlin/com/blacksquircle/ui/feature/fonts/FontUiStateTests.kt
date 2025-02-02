@@ -21,17 +21,19 @@ import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.fonts.ui.mvi.FontIntent
-import com.blacksquircle.ui.feature.fonts.ui.mvi.FontsViewState
+import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsViewState
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class FontUiStateTests {
 
     @get:Rule
@@ -46,29 +48,36 @@ class FontUiStateTests {
     @Test
     fun `When opening the screen Then display loading state`() = runTest {
         // Given
-        coEvery { fontsRepository.loadFonts() } coAnswers { delay(200); emptyList() }
+        coEvery { fontsRepository.loadFonts("") } coAnswers { delay(200); emptyList() }
 
         // When
-        val viewModel = fontsViewModel()
-        viewModel.obtainEvent(FontIntent.LoadFonts)
+        val viewModel = fontsViewModel() // init {}
 
         // Then
-        val fontsViewState = FontsViewState.Loading
-        assertEquals(fontsViewState, viewModel.fontsState.value)
+        val fontsViewState = FontsViewState(
+            query = "",
+            fonts = emptyList(),
+            isLoading = true
+        )
+        assertEquals(fontsViewState, viewModel.viewState.value)
     }
 
     @Test
     fun `When user has no fonts in database Then display empty state`() = runTest {
         // Given
-        coEvery { fontsRepository.loadFonts() } returns emptyList()
+        coEvery { fontsRepository.loadFonts("") } returns emptyList()
 
         // When
-        val viewModel = fontsViewModel()
-        viewModel.obtainEvent(FontIntent.LoadFonts)
+        val viewModel = fontsViewModel() // init {}
+        advanceUntilIdle()
 
         // Then
-        val fontsViewState = FontsViewState.Empty("")
-        assertEquals(fontsViewState, viewModel.fontsState.value)
+        val fontsViewState = FontsViewState(
+            query = "",
+            fonts = emptyList(),
+            isLoading = false,
+        )
+        assertEquals(fontsViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -83,15 +92,19 @@ class FontUiStateTests {
         )
 
         // Given
-        coEvery { fontsRepository.loadFonts() } returns fontList
+        coEvery { fontsRepository.loadFonts("") } returns fontList
 
         // When
-        val viewModel = fontsViewModel()
-        viewModel.obtainEvent(FontIntent.LoadFonts)
+        val viewModel = fontsViewModel() // init {}
+        advanceUntilIdle()
 
         // Then
-        val fontsViewState = FontsViewState.Data("", fontList)
-        assertEquals(fontsViewState, viewModel.fontsState.value)
+        val fontsViewState = FontsViewState(
+            query = "",
+            fonts = fontList,
+            isLoading = false,
+        )
+        assertEquals(fontsViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -112,18 +125,23 @@ class FontUiStateTests {
         )
 
         // Given
-        coEvery { fontsRepository.loadFonts() } returns fontList
+        coEvery { fontsRepository.loadFonts("") } returns fontList
         coEvery { fontsRepository.loadFonts(any()) } coAnswers {
             fontList.filter { it.fontName.contains(firstArg<String>()) }
         }
 
         // When
         val viewModel = fontsViewModel()
-        viewModel.obtainEvent(FontIntent.SearchFonts("Source"))
+        viewModel.onQueryChanged("Source")
+        advanceUntilIdle()
 
         // Then
-        val fontsViewState = FontsViewState.Data("Source", fontList.drop(1))
-        assertEquals(fontsViewState, viewModel.fontsState.value)
+        val fontsViewState = FontsViewState(
+            query = "Source",
+            fonts = fontList.drop(1),
+            isLoading = false,
+        )
+        assertEquals(fontsViewState, viewModel.viewState.value)
     }
 
     private fun fontsViewModel(): FontsViewModel {

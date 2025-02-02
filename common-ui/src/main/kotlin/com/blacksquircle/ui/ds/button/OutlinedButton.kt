@@ -16,22 +16,32 @@
 
 package com.blacksquircle.ui.ds.button
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
-fun TextButton(
+fun OutlinedButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
-    TextButton(
+    OutlinedButton(
         onClick = onClick,
+        border = BorderStroke(
+            width = 1.dp,
+            color = SquircleTheme.colors.colorOutline,
+        ),
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = SquircleTheme.colors.colorBackgroundPrimary,
+        ),
         modifier = modifier,
     ) {
         Text(
@@ -48,10 +58,10 @@ fun TextButton(
 
 @Preview
 @Composable
-private fun TextButtonEnabledPreview() {
+private fun OutlinedButtonEnabledPreview() {
     SquircleTheme {
-        TextButton(
-            text = "Text Button",
+        OutlinedButton(
+            text = "Outlined Button",
             onClick = {},
             enabled = true,
         )
@@ -60,10 +70,10 @@ private fun TextButtonEnabledPreview() {
 
 @Preview
 @Composable
-private fun TextButtonDisabledPreview() {
+private fun OutlinedButtonDisabledPreview() {
     SquircleTheme {
-        TextButton(
-            text = "Text Button",
+        OutlinedButton(
+            text = "Outlined Button",
             onClick = {},
             enabled = false,
         )

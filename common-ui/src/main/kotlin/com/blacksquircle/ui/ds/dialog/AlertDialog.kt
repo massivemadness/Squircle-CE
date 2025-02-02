@@ -106,7 +106,7 @@ fun AlertDialog(
                 ) {
                     if (dismissButton != null) {
                         TextButton(
-                            text = dismissButton.uppercase(),
+                            text = dismissButton,
                             onClick = onDismissClicked
                         )
                     }
@@ -115,7 +115,7 @@ fun AlertDialog(
                     }
                     if (confirmButton != null) {
                         TextButton(
-                            text = confirmButton.uppercase(),
+                            text = confirmButton,
                             onClick = onConfirmClicked
                         )
                     }

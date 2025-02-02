@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
@@ -103,7 +104,7 @@ fun TextField(
                     .fillMaxWidth()
                     .wrapContentHeight()
             )
-            Spacer(modifier = Modifier.size(6.dp))
+            Spacer(modifier = Modifier.height(6.dp))
         }
 
         ThreeSlotLayout(
@@ -135,7 +136,7 @@ fun TextField(
         )
 
         if (hasHelp) {
-            Spacer(modifier = Modifier.size(6.dp))
+            Spacer(modifier = Modifier.height(6.dp))
             TextFieldHelp(
                 text = helpText,
                 modifier = Modifier
@@ -195,7 +196,7 @@ fun TextFieldAdvanced(
                     .fillMaxWidth()
                     .wrapContentHeight()
             )
-            Spacer(modifier = Modifier.size(6.dp))
+            Spacer(modifier = Modifier.height(6.dp))
         }
 
         ThreeSlotLayout(
@@ -231,7 +232,7 @@ fun TextFieldAdvanced(
         )
 
         if (hasHelp) {
-            Spacer(modifier = Modifier.size(6.dp))
+            Spacer(modifier = Modifier.height(6.dp))
             TextFieldHelp(
                 text = helpText,
                 modifier = Modifier

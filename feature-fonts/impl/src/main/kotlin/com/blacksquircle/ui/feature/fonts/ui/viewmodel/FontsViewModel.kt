@@ -16,16 +16,20 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.fonts.R
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.fonts.ui.mvi.FontIntent
-import com.blacksquircle.ui.feature.fonts.ui.mvi.FontsViewState
+import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -33,101 +37,57 @@ import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
 
 @HiltViewModel
-class FontsViewModel @Inject constructor(
+internal class FontsViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val fontsRepository: FontsRepository,
 ) : ViewModel() {
 
-    private val _fontsState = MutableStateFlow<FontsViewState>(FontsViewState.Loading)
-    val fontsState: StateFlow<FontsViewState> = _fontsState.asStateFlow()
+    private val _viewState = MutableStateFlow(FontsViewState())
+    val viewState: StateFlow<FontsViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    private var currentJob: Job? = null
 
     init {
         loadFonts()
     }
 
-    fun obtainEvent(event: FontIntent) {
-        when (event) {
-            is FontIntent.LoadFonts -> loadFonts()
-
-            is FontIntent.SearchFonts -> loadFonts(event)
-            is FontIntent.ImportFont -> importFont(event)
-            is FontIntent.SelectFont -> selectFont(event)
-            is FontIntent.RemoveFont -> removeFont(event)
+    fun onBackClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack())
         }
     }
 
-    private fun loadFonts() {
-        viewModelScope.launch {
-            try {
-                val fonts = fontsRepository.loadFonts()
-                _fontsState.update {
-                    if (fonts.isNotEmpty()) {
-                        FontsViewState.Data(query = "", fonts = fonts)
-                    } else {
-                        FontsViewState.Empty(query = "")
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
-                )
-            }
+    fun onQueryChanged(query: String) {
+        _viewState.update {
+            it.copy(query = query)
         }
+        loadFonts(query = query)
     }
 
-    private fun loadFonts(event: FontIntent.SearchFonts) {
-        viewModelScope.launch {
-            try {
-                val fonts = fontsRepository.loadFonts(event.query)
-                _fontsState.update {
-                    if (fonts.isNotEmpty()) {
-                        FontsViewState.Data(event.query, fonts)
-                    } else {
-                        FontsViewState.Empty(event.query)
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
-                )
-            }
+    fun onClearQueryClicked() {
+        _viewState.update {
+            it.copy(query = "")
         }
+        loadFonts()
     }
 
-    private fun importFont(event: FontIntent.ImportFont) {
+    fun onSelectClicked(fontModel: FontModel) {
         viewModelScope.launch {
             try {
-                fontsRepository.importFont(event.fileUri)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_new_font_available)),
-                )
-                loadFonts()
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
-                )
-            }
-        }
-    }
-
-    private fun selectFont(event: FontIntent.SelectFont) {
-        viewModelScope.launch {
-            try {
-                fontsRepository.selectFont(event.fontModel)
+                fontsRepository.selectFont(fontModel)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
                             R.string.message_selected,
-                            event.fontModel.fontName,
+                            fontModel.fontName,
                         ),
                     ),
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
@@ -137,21 +97,82 @@ class FontsViewModel @Inject constructor(
         }
     }
 
-    private fun removeFont(event: FontIntent.RemoveFont) {
+    fun onRemoveClicked(fontModel: FontModel) {
         viewModelScope.launch {
             try {
-                fontsRepository.removeFont(event.fontModel)
+                fontsRepository.removeFont(fontModel)
+                _viewState.update { state ->
+                    state.copy(fonts = state.fonts.filterNot { it == fontModel })
+                }
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
                             R.string.message_font_removed,
-                            event.fontModel.fontName,
+                            fontModel.fontName,
                         ),
                     ),
                 )
-                loadFonts()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
+                )
+            }
+        }
+    }
+
+    fun onImportClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(FontViewEvent.ChooseFont)
+        }
+    }
+
+    fun onFontLoaded(fileUri: Uri) {
+        viewModelScope.launch {
+            try {
+                fontsRepository.importFont(fileUri)
+                _viewState.update {
+                    it.copy(query = "")
+                }
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_new_font_available)),
+                )
+                loadFonts()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
+                )
+            }
+        }
+    }
+
+    private fun loadFonts(query: String = "") {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            try {
+                _viewState.update {
+                    it.copy(isLoading = true)
+                }
+                val fonts = fontsRepository.loadFonts(query = query)
+                delay(300L) // too fast, avoid blinking
+                _viewState.update {
+                    it.copy(
+                        fonts = fonts,
+                        isLoading = false,
+                    )
+                }
+            } catch (e: CancellationException) {
+              throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewState.update {
+                    it.copy(isLoading = false)
+                }
                 _viewEvent.send(
                     ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )

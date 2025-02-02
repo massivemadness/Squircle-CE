@@ -48,6 +48,7 @@ internal fun EditorHeaderScreen(viewModel: EditorHeaderViewModel) {
         viewState = viewState,
         onBackClicked = viewModel::popBackStack,
         onFontSizeChanged = viewModel::onFontSizeChanged,
+        onFontTypeClicked = viewModel::onFontTypeClicked,
         onWordWrapChanged = viewModel::onWordWrapChanged,
         onCodeCompletionChanged = viewModel::onCodeCompletionChanged,
         onPinchZoomChanged = viewModel::onPinchZoomChanged,
@@ -67,6 +68,7 @@ private fun EditorHeaderScreen(
     viewState: EditorHeaderState,
     onBackClicked: () -> Unit,
     onFontSizeChanged: (Int) -> Unit,
+    onFontTypeClicked: () -> Unit,
     onWordWrapChanged: (Boolean) -> Unit,
     onCodeCompletionChanged: (Boolean) -> Unit,
     onPinchZoomChanged: (Boolean) -> Unit,
@@ -111,7 +113,7 @@ private fun EditorHeaderScreen(
             Preference(
                 title = stringResource(R.string.pref_font_type_title),
                 subtitle = stringResource(R.string.pref_font_type_summary),
-                // TODO onClick = onFontTypeClicked
+                onClick = onFontTypeClicked,
             )
             HorizontalDivider()
             PreferenceGroup(
@@ -222,6 +224,7 @@ private fun EditorHeaderScreenPreview() {
             ),
             onBackClicked = {},
             onFontSizeChanged = {},
+            onFontTypeClicked = {},
             onWordWrapChanged = {},
             onCodeCompletionChanged = {},
             onPinchZoomChanged = {},

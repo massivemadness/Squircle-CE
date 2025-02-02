@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.mvi
+package com.blacksquircle.ui.feature.fonts.ui.fragment
 
-import android.net.Uri
-import com.blacksquircle.ui.core.mvi.ViewIntent
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
-sealed class FontIntent : ViewIntent() {
-
-    data object LoadFonts : FontIntent()
-
-    data class SearchFonts(val query: String) : FontIntent()
-    data class ImportFont(val fileUri: Uri) : FontIntent()
-    data class SelectFont(val fontModel: FontModel) : FontIntent()
-    data class RemoveFont(val fontModel: FontModel) : FontIntent()
-}
+@Immutable
+internal data class FontsViewState(
+    val query: String = "",
+    val fonts: List<FontModel> = emptyList(),
+    val isLoading: Boolean = true,
+) : ViewState()

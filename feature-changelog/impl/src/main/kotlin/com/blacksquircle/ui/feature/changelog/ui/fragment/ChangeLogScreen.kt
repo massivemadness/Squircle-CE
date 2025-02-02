@@ -39,16 +39,16 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ChangeLogScreen(viewModel: ChangeLogViewModel) {
-    val state by viewModel.changelogState.collectAsStateWithLifecycle()
+    val viewState by viewModel.changelogState.collectAsStateWithLifecycle()
     ChangeLogScreen(
-        state = state,
+        viewState = viewState,
         onBackClicked = viewModel::popBackStack
     )
 }
 
 @Composable
 private fun ChangeLogScreen(
-    state: ChangeLogState,
+    viewState: ChangeLogState,
     onBackClicked: () -> Unit,
 ) {
     Scaffold(
@@ -66,7 +66,7 @@ private fun ChangeLogScreen(
                 .padding(innerPadding)
         ) {
             items(
-                items = state.releases,
+                items = viewState.releases,
                 key = ReleaseModel::versionName
             ) { release ->
                 ReleaseInfo(
@@ -85,7 +85,7 @@ private fun ChangeLogScreen(
 private fun ChangeLogScreenPreview() {
     SquircleTheme {
         ChangeLogScreen(
-            state = ChangeLogState(
+            viewState = ChangeLogState(
                 releases = listOf(
                     ReleaseModel(
                         versionName = "v2024.1.0",

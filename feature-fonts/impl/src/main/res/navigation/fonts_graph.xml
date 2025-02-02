@@ -17,15 +17,13 @@
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fonts_graph"
     app:startDestination="@id/fontsFragment">
 
     <fragment
         android:id="@+id/fontsFragment"
         android:name="com.blacksquircle.ui.feature.fonts.ui.fragment.FontsFragment"
-        android:label="@string/label_fonts"
-        tools:layout="@layout/fragment_fonts">
+        android:label="@string/label_fonts">
         <deepLink app:uri="blacksquircle://fonts" />
     </fragment>
 

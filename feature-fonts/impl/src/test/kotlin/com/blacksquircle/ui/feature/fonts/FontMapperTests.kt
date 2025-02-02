@@ -17,12 +17,12 @@
 package com.blacksquircle.ui.feature.fonts
 
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.feature.fonts.data.converter.FontConverter
+import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class FontConverterTests {
+class FontMapperTests {
 
     @Test
     fun `convert FontEntity to FontModel`() {
@@ -39,7 +39,7 @@ class FontConverterTests {
             isExternal = true,
         )
 
-        assertEquals(fontModel, FontConverter.toModel(fontEntity))
+        assertEquals(fontModel, FontMapper.toModel(fontEntity))
     }
 
     @Test
@@ -57,6 +57,6 @@ class FontConverterTests {
             isExternal = true,
         )
 
-        assertEquals(fontEntity, FontConverter.toEntity(fontModel))
+        assertEquals(fontEntity, FontMapper.toEntity(fontModel))
     }
 }

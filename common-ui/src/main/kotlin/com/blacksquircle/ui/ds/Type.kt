@@ -82,6 +82,10 @@ class Typography internal constructor(
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
     ),
+    val header24Regular: TextStyle = Default.copy(
+        fontWeight = FontWeight.Normal,
+        fontSize = 24.sp,
+    ),
     val header24Bold: TextStyle = Default.copy(
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,

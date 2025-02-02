@@ -21,7 +21,7 @@ import android.net.Uri
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.fonts.data.converter.FontConverter
+import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.model.InternalFont
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
@@ -29,7 +29,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.UUID
 
-class FontsRepositoryImpl(
+internal class FontsRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
@@ -43,23 +43,14 @@ class FontsRepositoryImpl(
         }
     }
 
-    override suspend fun loadFonts(): List<FontModel> {
-        return withContext(dispatcherProvider.io()) {
-            val defaultFonts = InternalFont.entries
-                .map(InternalFont::font)
-            val userFonts = appDatabase.fontDao().loadAll()
-                .map(FontConverter::toModel)
-            userFonts + defaultFonts
-        }
-    }
-
     override suspend fun loadFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
             val defaultFonts = InternalFont.entries
                 .map(InternalFont::font)
                 .filter { it.fontName.contains(query, ignoreCase = true) }
             val userFonts = appDatabase.fontDao().loadAll()
-                .map(FontConverter::toModel)
+                .map(FontMapper::toModel)
+                .filter { it.fontName.contains(query, ignoreCase = true) }
             userFonts + defaultFonts
         }
     }
@@ -67,7 +58,7 @@ class FontsRepositoryImpl(
     override suspend fun loadFont(path: String): FontModel {
         return withContext(dispatcherProvider.io()) {
             val fontEntity = appDatabase.fontDao().load(path)
-            FontConverter.toModel(fontEntity)
+            FontMapper.toModel(fontEntity)
         }
     }
 
@@ -87,7 +78,7 @@ class FontsRepositoryImpl(
                     fontPath = fontFile.absolutePath,
                     isExternal = true,
                 )
-                appDatabase.fontDao().insert(FontConverter.toEntity(fontModel))
+                appDatabase.fontDao().insert(FontMapper.toEntity(fontModel))
             }
         }
     }
@@ -104,7 +95,7 @@ class FontsRepositoryImpl(
             if (fontFile.exists()) {
                 fontFile.deleteRecursively()
             }
-            appDatabase.fontDao().delete(FontConverter.toEntity(fontModel))
+            appDatabase.fontDao().delete(FontMapper.toEntity(fontModel))
             if (settingsManager.fontType == fontModel.fontPath) {
                 settingsManager.remove(SettingsManager.KEY_FONT_TYPE)
             }

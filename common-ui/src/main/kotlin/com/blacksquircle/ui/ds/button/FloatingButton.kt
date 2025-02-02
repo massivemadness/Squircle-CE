@@ -16,56 +16,40 @@
 
 package com.blacksquircle.ui.ds.button
 
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
-fun TextButton(
-    text: String,
+fun FloatingButton(
+    iconResId: Int,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    modifier: Modifier = Modifier
 ) {
-    TextButton(
+    FloatingActionButton(
         onClick = onClick,
         modifier = modifier,
     ) {
-        Text(
-            text = text.uppercase(),
-            color = if (enabled) {
-                SquircleTheme.colors.colorPrimary
-            } else {
-                SquircleTheme.colors.colorTextAndIconDisabled
-            },
-            style = SquircleTheme.typography.text14Medium,
+        Icon(
+            painter = painterResource(iconResId),
+            contentDescription = null,
+            tint = SquircleTheme.colors.colorTextAndIconPrimary,
         )
     }
 }
 
 @Preview
 @Composable
-private fun TextButtonEnabledPreview() {
+private fun FloatingButtonPreview() {
     SquircleTheme {
-        TextButton(
-            text = "Text Button",
+        FloatingButton(
+            iconResId = R.drawable.ic_edit,
             onClick = {},
-            enabled = true,
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun TextButtonDisabledPreview() {
-    SquircleTheme {
-        TextButton(
-            text = "Text Button",
-            onClick = {},
-            enabled = false,
         )
     }
 }

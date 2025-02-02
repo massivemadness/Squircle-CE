@@ -20,6 +20,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
@@ -44,20 +45,28 @@ fun IconButton(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource? = null,
 ) {
-    val actualSize = when (iconSize) {
+    val boxSize = when (iconSize) {
         IconButtonSize.S -> 42.dp
         IconButtonSize.M -> 48.dp
         IconButtonSize.L -> 56.dp
     }
+    val rippleSize = when (iconSize) {
+        IconButtonSize.S -> 18.dp
+        IconButtonSize.M -> 24.dp
+        IconButtonSize.L -> 24.dp
+    }
     Box(
         modifier = modifier
-            .defaultMinSize(actualSize, actualSize)
+            .size(boxSize)
             .clickable(
                 onClick = onClick,
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = ripple(bounded = false),
+                indication = ripple(
+                    bounded = false,
+                    radius = rippleSize,
+                ),
             ),
         contentAlignment = Alignment.Center
     ) {

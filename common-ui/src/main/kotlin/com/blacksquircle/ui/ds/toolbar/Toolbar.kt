@@ -124,10 +124,6 @@ private fun ToolbarLayout(
         val iconConstraints = constraints.copy(minWidth = 0, minHeight = 0)
         val iconPlaceable = iconMeasurable?.measure(iconConstraints)
 
-        // Measure actions with wrapContentSize
-        val actionsConstraints = constraints.copy(minWidth = 0, minHeight = 0)
-        val actionsPlaceable = actionsMeasurable?.measure(actionsConstraints)
-
         // Icon and actions width
         val iconMeasuredWidth = iconPlaceable?.measuredWidth ?: 0
         val iconWidth = if (iconMeasuredWidth > 0) {
@@ -136,6 +132,16 @@ private fun ToolbarLayout(
         } else {
             16.dp.roundToPx()
         }
+
+        // Measure actions
+        val actionsConstraints = constraints.copy(
+            minWidth = 0,
+            minHeight = 0,
+            maxWidth = layoutWidth - iconWidth,
+        )
+        val actionsPlaceable = actionsMeasurable?.measure(actionsConstraints)
+
+        // Actions width
         val actionsMeasuredWidth = actionsPlaceable?.measuredWidth ?: 0
         val actionsWidth = if (actionsMeasuredWidth > 0) {
             /** It's not null and not empty composable */

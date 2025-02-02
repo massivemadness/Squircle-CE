@@ -14,25 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.mvi
+package com.blacksquircle.ui.feature.fonts.ui.viewmodel
 
-import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.core.mvi.ViewEvent
 
-sealed class FontsViewState : ViewState() {
-
-    abstract val query: String
-
-    data object Loading : FontsViewState() {
-        override val query: String = ""
-    }
-
-    data class Empty(
-        override val query: String,
-    ) : FontsViewState()
-
-    data class Data(
-        override val query: String,
-        val fonts: List<FontModel>,
-    ) : FontsViewState()
+internal sealed class FontViewEvent : ViewEvent() {
+    data object ChooseFont : FontViewEvent()
 }
