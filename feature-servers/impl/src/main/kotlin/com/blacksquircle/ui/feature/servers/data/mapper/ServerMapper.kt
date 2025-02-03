@@ -19,8 +19,8 @@ package com.blacksquircle.ui.feature.servers.data.mapper
 import android.os.Bundle
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 internal object ServerMapper {
 

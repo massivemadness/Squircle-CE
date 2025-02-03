@@ -44,7 +44,6 @@ import com.blacksquircle.ui.core.extensions.keyCodeToChar
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.textfield.TextFieldAdvanced
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
@@ -238,7 +237,7 @@ private fun KeybindingScreenPreview() {
                 key = 'X',
             ),
             onKeyPressed = {},
-            onMultiKeyPressed = { _, _, _, _ ->},
+            onMultiKeyPressed = { _, _, _, _ -> },
             onCtrlClicked = {},
             onShiftClicked = {},
             onAltClicked = {},

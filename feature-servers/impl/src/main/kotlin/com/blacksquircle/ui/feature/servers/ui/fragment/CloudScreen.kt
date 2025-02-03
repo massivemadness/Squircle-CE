@@ -36,8 +36,8 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable

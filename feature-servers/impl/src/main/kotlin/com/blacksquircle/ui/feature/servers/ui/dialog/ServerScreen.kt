@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -219,7 +220,10 @@ private fun ServerScreen(
                 onCancelClicked()
             }
         },
-        onDismiss = onCancelClicked
+        onDismiss = onCancelClicked,
+        properties = DialogProperties(
+            dismissOnClickOutside = false,
+        )
     )
 }
 

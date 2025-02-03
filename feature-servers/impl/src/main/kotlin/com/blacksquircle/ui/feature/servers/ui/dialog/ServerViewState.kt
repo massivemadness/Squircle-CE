@@ -21,8 +21,8 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 @Immutable
 internal data class ServerViewState(
@@ -62,12 +62,20 @@ internal data class ServerViewState(
             password = if (
                 authMethod == AuthMethod.PASSWORD &&
                 passwordAction == PasswordAction.SAVE_PASSWORD
-            ) password else null,
+            ) {
+                password
+            } else {
+                null
+            },
             privateKey = if (authMethod == AuthMethod.KEY) privateKey else null,
             passphrase = if (
                 authMethod == AuthMethod.KEY &&
                 passphraseAction == PassphraseAction.SAVE_PASSPHRASE
-            ) passphrase else null,
+            ) {
+                passphrase
+            } else {
+                null
+            },
         )
     }
 

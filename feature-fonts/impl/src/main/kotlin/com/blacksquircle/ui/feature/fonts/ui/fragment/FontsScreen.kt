@@ -16,20 +16,24 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.fragment
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -82,6 +86,14 @@ private fun FontsScreen(
     onRemoveClicked: (FontModel) -> Unit,
     onImportClicked: () -> Unit,
 ) {
+    val scrollState = rememberLazyListState()
+    val showButton by remember {
+        derivedStateOf {
+            scrollState.firstVisibleItemIndex == 0 ||
+                scrollState.lastScrolledBackward
+        }
+    }
+
     Scaffold(
         topBar = {
             var expanded by rememberSaveable { mutableStateOf(false) }
@@ -108,10 +120,7 @@ private fun FontsScreen(
                                 IconButton(
                                     iconResId = UiR.drawable.ic_close,
                                     iconSize = IconButtonSize.S,
-                                    onClick = {
-                                        onClearQueryClicked()
-                                        expanded = false
-                                    },
+                                    onClick = { onClearQueryClicked(); expanded = false },
                                 )
                             },
                             modifier = Modifier
@@ -133,11 +142,17 @@ private fun FontsScreen(
             )
         },
         floatingActionButton = {
-            FloatingButton(
-                iconResId = UiR.drawable.ic_plus,
-                onClick = onImportClicked,
-                modifier = Modifier.padding(8.dp)
-            )
+            AnimatedVisibility(
+                visible = showButton,
+                enter = scaleIn(),
+                exit = scaleOut(),
+            ) {
+                FloatingButton(
+                    iconResId = UiR.drawable.ic_plus,
+                    onClick = onImportClicked,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
         },
         contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
@@ -151,6 +166,7 @@ private fun FontsScreen(
                 return@Scaffold
             }
             LazyColumn(
+                state = scrollState,
                 contentPadding = contentPadding,
                 modifier = Modifier.fillMaxSize()
             ) {

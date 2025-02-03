@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.onEach
 internal class NewThemeFragment : Fragment() {
 
     private val viewModel by hiltNavGraphViewModels<ThemesViewModel>(R.id.themes_graph)
+
     // private val binding by viewBinding(FragmentNewThemeBinding::bind)
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<NewThemeFragmentArgs>()
@@ -58,54 +59,6 @@ internal class NewThemeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-
-        /*binding.textInputThemeName.doAfterTextChanged {
-            viewModel.obtainEvent(ThemeIntent.ChangeName(it.toString()))
-        }
-        binding.textInputThemeAuthor.doAfterTextChanged {
-            viewModel.obtainEvent(ThemeIntent.ChangeAuthor(it.toString()))
-        }
-        binding.textInputThemeDescription.doAfterTextChanged {
-            viewModel.obtainEvent(ThemeIntent.ChangeDescription(it.toString()))
-        }
-
-        binding.recyclerView.setHasFixedSize(false)
-        binding.recyclerView.adapter = PropertyAdapter(object : OnItemClickListener<PropertyItem> {
-            override fun onClick(item: PropertyItem) {
-                val event = ThemeIntent.ChooseColor(item.propertyKey, item.propertyValue)
-                viewModel.obtainEvent(event)
-            }
-        }).also {
-            adapter = it
-        }
-
-        binding.actionSave.setOnClickListener {
-            val meta = Meta(
-                uuid = navArgs.uuid ?: UUID.randomUUID().toString(),
-                name = binding.textInputThemeName.text.toString(),
-                author = binding.textInputThemeAuthor.text.toString(),
-                description = binding.textInputThemeDescription.text.toString(),
-            )
-            viewModel.obtainEvent(ThemeIntent.CreateTheme(meta, adapter.currentList))
-        }*/
-
-        /*binding.toolbar.setNavigationOnClickListener {
-            navController.popBackStack()
-        }
-        binding.toolbar.addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.menu_new_theme, menu)
-                }
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    when (menuItem.itemId) {
-                        R.id.action_import -> openFileContract.launch(OpenFileContract.JSON)
-                    }
-                    return true
-                }
-            },
-            viewLifecycleOwner,
-        )*/
     }
 
     private fun observeViewModel() {

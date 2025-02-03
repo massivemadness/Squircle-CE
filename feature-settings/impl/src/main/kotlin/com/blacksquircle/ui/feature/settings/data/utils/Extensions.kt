@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.settings.data.utils
 
 import android.content.Context
-import android.content.pm.PackageManager
 import androidx.core.content.pm.PackageInfoCompat
 
 internal val Context.applicationName: String

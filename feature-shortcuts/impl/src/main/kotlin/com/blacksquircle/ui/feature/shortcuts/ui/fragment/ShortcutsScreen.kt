@@ -19,8 +19,6 @@ package com.blacksquircle.ui.feature.shortcuts.ui.fragment
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,7 +26,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -77,25 +75,23 @@ private fun ShortcutsScreen(
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
                 navigationActions = {
-                    var expanded by remember { mutableStateOf(false) }
-                    PopupMenu(
-                        expanded = expanded,
-                        onDismiss = { expanded = false },
-                        verticalOffset = (-56).dp,
-                    ) {
-                        PopupMenuItem(
-                            title = stringResource(R.string.action_restore),
-                            onClick = {
-                                onRestoreClicked()
-                                expanded = false
-                            },
-                        )
-                    }
-
+                    var expanded by rememberSaveable { mutableStateOf(false) }
                     IconButton(
                         iconResId = UiR.drawable.ic_overflow,
                         iconSize = IconButtonSize.L,
-                        onClick = { expanded = !expanded }
+                        onClick = { expanded = !expanded },
+                        anchor = {
+                            PopupMenu(
+                                expanded = expanded,
+                                onDismiss = { expanded = false },
+                                verticalOffset = (-56).dp,
+                            ) {
+                                PopupMenuItem(
+                                    title = stringResource(R.string.action_restore),
+                                    onClick = { onRestoreClicked(); expanded = false },
+                                )
+                            }
+                        }
                     )
                 }
             )

@@ -18,6 +18,7 @@ package com.blacksquircle.ui.ds.dropdown
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -53,38 +54,39 @@ fun Dropdown(
     modifier: Modifier = Modifier
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .height(42.dp)
-            .clip(RoundedCornerShape(4.dp))
-            .clickable { expanded = !expanded }
-            .padding(horizontal = 8.dp)
-    ) {
-        Text(
-            text = entries[entryValues.indexOf(currentValue)],
-            color = SquircleTheme.colors.colorTextAndIconPrimary,
-            style = SquircleTheme.typography.text16Regular,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
-            modifier = Modifier.weight(1f, fill = false)
-        )
-        Spacer(Modifier.width(16.dp))
-        Icon(
-            painter = if (expanded) {
-                painterResource(R.drawable.ic_menu_up)
-            } else {
-                painterResource(R.drawable.ic_menu_down)
-            },
-            contentDescription = null,
-            tint = SquircleTheme.colors.colorTextAndIconPrimary,
-        )
-
+    Box {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .height(42.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .clickable { expanded = !expanded }
+                .padding(horizontal = 8.dp)
+        ) {
+            Text(
+                text = entries[entryValues.indexOf(currentValue)],
+                color = SquircleTheme.colors.colorTextAndIconPrimary,
+                style = SquircleTheme.typography.text16Regular,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                modifier = Modifier.weight(1f, fill = false)
+            )
+            Spacer(Modifier.width(16.dp))
+            Icon(
+                painter = if (expanded) {
+                    painterResource(R.drawable.ic_menu_up)
+                } else {
+                    painterResource(R.drawable.ic_menu_down)
+                },
+                contentDescription = null,
+                tint = SquircleTheme.colors.colorTextAndIconPrimary,
+            )
+        }
         PopupMenu(
             expanded = expanded,
             onDismiss = { expanded = false },
-            verticalOffset = (-56).dp,
+            verticalOffset = (-42).dp,
         ) {
             entries.forEachIndexed { index, entry ->
                 PopupMenuItem(

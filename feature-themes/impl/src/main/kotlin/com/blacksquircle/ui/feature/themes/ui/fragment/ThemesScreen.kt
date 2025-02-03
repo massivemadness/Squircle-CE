@@ -16,6 +16,9 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,16 +28,17 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,7 +53,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -95,6 +98,14 @@ private fun ThemesScreen(
     onSelectClicked: (ThemeModel) -> Unit,
     onRemoveClicked: (ThemeModel) -> Unit,
 ) {
+    val scrollState = rememberLazyGridState()
+    val showButton by remember {
+        derivedStateOf {
+            scrollState.firstVisibleItemIndex == 0 ||
+                scrollState.lastScrolledBackward
+        }
+    }
+
     Scaffold(
         topBar = {
             var expanded by rememberSaveable { mutableStateOf(false) }
@@ -121,10 +132,7 @@ private fun ThemesScreen(
                                 IconButton(
                                     iconResId = UiR.drawable.ic_close,
                                     iconSize = IconButtonSize.S,
-                                    onClick = {
-                                        onClearQueryClicked()
-                                        expanded = false
-                                    },
+                                    onClick = { onClearQueryClicked(); expanded = false },
                                 )
                             },
                             modifier = Modifier
@@ -152,11 +160,17 @@ private fun ThemesScreen(
             )
         },
         floatingActionButton = {
-            FloatingButton(
-                iconResId = UiR.drawable.ic_plus,
-                onClick = onCreateClicked,
-                modifier = Modifier.padding(8.dp)
-            )
+            AnimatedVisibility(
+                visible = showButton,
+                enter = scaleIn(),
+                exit = scaleOut(),
+            ) {
+                FloatingButton(
+                    iconResId = UiR.drawable.ic_plus,
+                    onClick = onCreateClicked,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
         },
         contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
@@ -174,6 +188,7 @@ private fun ThemesScreen(
             val layoutDirection = LocalLayoutDirection.current
 
             LazyVerticalGrid(
+                state = scrollState,
                 columns = GridCells.Adaptive(300.dp),
                 verticalArrangement = Arrangement.spacedBy(itemPadding),
                 horizontalArrangement = Arrangement.spacedBy(itemPadding),
@@ -194,6 +209,8 @@ private fun ThemesScreen(
                         fontPath = viewState.fontPath,
                         codeSample = viewState.preview.codeSample,
                         onSelectClicked = { onSelectClicked(theme) },
+                        onExportClicked = {},
+                        onEditClicked = {},
                         onRemoveClicked = { onRemoveClicked(theme) },
                         modifier = Modifier.animateItem(),
                     )

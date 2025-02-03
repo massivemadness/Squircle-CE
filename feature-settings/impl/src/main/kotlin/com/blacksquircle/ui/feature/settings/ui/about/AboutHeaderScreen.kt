@@ -22,7 +22,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
@@ -31,8 +30,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -51,7 +48,6 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.utils.applicationName
 import com.blacksquircle.ui.feature.settings.data.utils.versionCode
 import com.blacksquircle.ui.feature.settings.data.utils.versionName
-import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import com.blacksquircle.ui.ds.R as UiR
 
 private const val PRIVACY_POLICY_URL =

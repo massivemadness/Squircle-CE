@@ -37,7 +37,7 @@ internal object ShortcutMapper {
             putChar(KEY_CHAR, keybinding.key)
         }
     }
-    
+
     fun fromBundle(bundle: Bundle): Keybinding {
         return Keybinding(
             shortcut = Shortcut.of(bundle.getString(KEY_SHORTCUT).orEmpty()),

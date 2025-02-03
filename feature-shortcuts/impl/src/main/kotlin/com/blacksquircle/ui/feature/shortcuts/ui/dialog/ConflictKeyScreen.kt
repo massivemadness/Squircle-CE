@@ -18,16 +18,11 @@ package com.blacksquircle.ui.feature.shortcuts.ui.dialog
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
-import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.shortcuts.R
-import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
 
 @Composable
 internal fun ConflictKeyScreen(

@@ -19,13 +19,13 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
-import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.google.gson.Gson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory

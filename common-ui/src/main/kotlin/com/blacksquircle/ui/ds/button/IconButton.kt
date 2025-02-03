@@ -19,7 +19,6 @@ package com.blacksquircle.ui.ds.button
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.ripple
@@ -43,6 +42,7 @@ fun IconButton(
     iconSize: IconButtonSize = IconButtonSize.M,
     contentDescription: String? = null,
     enabled: Boolean = true,
+    anchor: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource? = null,
 ) {
     val boxSize = when (iconSize) {
@@ -75,6 +75,7 @@ fun IconButton(
             contentDescription = contentDescription,
             tint = if (enabled) iconColor else SquircleTheme.colors.colorTextAndIconDisabled,
         )
+        anchor?.invoke()
     }
 }
 

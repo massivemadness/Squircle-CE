@@ -19,8 +19,8 @@ package com.blacksquircle.ui.ds.button
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.ripple
@@ -41,14 +41,14 @@ fun TextButton(
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource? = null,
 ) {
-    val buttonMinWidth = 42.dp
+    val buttonMinWidth = 64.dp
     val buttonMinHeight = 36.dp
     val buttonShape = RoundedCornerShape(4.dp)
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .sizeIn(
+            .defaultMinSize(
                 minWidth = buttonMinWidth,
                 minHeight = buttonMinHeight,
             )

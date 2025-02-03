@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.settings.ui.about
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

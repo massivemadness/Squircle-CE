@@ -35,8 +35,8 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.changelog.R
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import com.blacksquircle.ui.feature.changelog.ui.composable.ReleaseInfo
-import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogViewState
 import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogViewModel
+import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogViewState
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable

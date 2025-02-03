@@ -28,9 +28,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.blacksquircle.ui.core.navigation.Screen
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.filterNotNull
 
 fun NavController.navigateTo(
     screen: Screen<*>,
