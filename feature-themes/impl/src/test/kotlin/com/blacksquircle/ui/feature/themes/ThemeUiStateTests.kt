@@ -17,21 +17,26 @@
 package com.blacksquircle.ui.feature.themes
 
 import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ThemeUiStateTests {
 
     @get:Rule
@@ -42,33 +47,46 @@ class ThemeUiStateTests {
 
     private val stringProvider = mockk<StringProvider>()
     private val themesRepository = mockk<ThemesRepository>()
+    private val settingsManager = mockk<SettingsManager>()
+
+    @Before
+    fun setup() {
+        every { settingsManager.fontType } returns ""
+    }
 
     @Test
     fun `When opening the screen Then display loading state`() = runTest {
         // Given
-        coEvery { themesRepository.loadThemes() } coAnswers { delay(200); emptyList() }
+        coEvery { themesRepository.loadThemes("") } coAnswers { delay(200); emptyList() }
 
         // When
-        val viewModel = themesViewModel()
-        viewModel.obtainEvent(ThemeIntent.LoadThemes)
+        val viewModel = createViewModel() // init {}
 
         // Then
-        val themesViewState = ThemesViewState.Loading
-        assertEquals(themesViewState, viewModel.viewState.value)
+        val viewState = ThemesViewState(
+            query = "",
+            themes = emptyList(),
+            isLoading = true,
+        )
+        assertEquals(viewState, viewModel.viewState.value)
     }
 
     @Test
     fun `When user has no themes in database Then display empty state`() = runTest {
         // Given
-        coEvery { themesRepository.loadThemes() } returns emptyList()
+        coEvery { themesRepository.loadThemes("") } returns emptyList()
 
         // When
-        val viewModel = themesViewModel()
-        viewModel.obtainEvent(ThemeIntent.LoadThemes)
+        val viewModel = createViewModel() // init {}
+        advanceUntilIdle()
 
         // Then
-        val themesViewState = ThemesViewState.Empty("")
-        assertEquals(themesViewState, viewModel.viewState.value)
+        val viewState = ThemesViewState(
+            query = "",
+            themes = emptyList(),
+            isLoading = false,
+        )
+        assertEquals(viewState, viewModel.viewState.value)
     }
 
     @Test
@@ -85,15 +103,19 @@ class ThemeUiStateTests {
         )
 
         // Given
-        coEvery { themesRepository.loadThemes() } returns themeList
+        coEvery { themesRepository.loadThemes("") } returns themeList
 
         // When
-        val viewModel = themesViewModel()
-        viewModel.obtainEvent(ThemeIntent.LoadThemes)
+        val viewModel = createViewModel() // init {}
+        advanceUntilIdle()
 
         // Then
-        val themesViewState = ThemesViewState.Data("", themeList)
-        assertEquals(themesViewState, viewModel.viewState.value)
+        val viewState = ThemesViewState(
+            query = "",
+            themes = themeList,
+            isLoading = false,
+        )
+        assertEquals(viewState, viewModel.viewState.value)
     }
 
     @Test
@@ -118,24 +140,30 @@ class ThemeUiStateTests {
         )
 
         // Given
-        coEvery { themesRepository.loadThemes() } returns themeList
+        coEvery { themesRepository.loadThemes("") } returns themeList
         coEvery { themesRepository.loadThemes(any()) } coAnswers {
             themeList.filter { it.name.contains(firstArg<String>()) }
         }
 
         // When
-        val viewModel = themesViewModel()
-        viewModel.obtainEvent(ThemeIntent.SearchThemes("Eclipse"))
+        val viewModel = createViewModel()
+        viewModel.onQueryChanged("Eclipse")
+        advanceUntilIdle()
 
         // Then
-        val themesViewState = ThemesViewState.Data("Eclipse", themeList.drop(1))
-        assertEquals(themesViewState, viewModel.viewState.value)
+        val viewState = ThemesViewState(
+            query = "Eclipse",
+            themes = themeList.drop(1),
+            isLoading = false,
+        )
+        assertEquals(viewState, viewModel.viewState.value)
     }
 
-    private fun themesViewModel(): ThemesViewModel {
+    private fun createViewModel(): ThemesViewModel {
         return ThemesViewModel(
             stringProvider = stringProvider,
             themesRepository = themesRepository,
+            settingsManager = settingsManager,
         )
     }
 }
