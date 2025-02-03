@@ -18,11 +18,11 @@ package com.blacksquircle.ui.feature.servers.ui.dialog
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,11 +30,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerAddress
+import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerAuthMethod
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerFolder
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerKeyFile
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerName
@@ -104,6 +104,7 @@ private fun ServerScreen(
                 ServerScheme(
                     scheme = viewState.scheme.value,
                     onSchemeChanged = onSchemeChanged,
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(Modifier.height(8.dp))
@@ -135,13 +136,10 @@ private fun ServerScreen(
                 Spacer(Modifier.height(8.dp))
 
                 if (viewState.scheme == FileServer.SFTP) {
-                    Dropdown(
-                        entries = stringArrayResource(R.array.authMethod),
-                        entryValues = AuthMethod.entries
-                            .map(AuthMethod::value)
-                            .toTypedArray(),
-                        currentValue = viewState.authMethod.value,
-                        onValueSelected = onAuthMethodChanged,
+                    ServerAuthMethod(
+                        authMethod = viewState.authMethod,
+                        onAuthMethodChanged = onAuthMethodChanged,
+                        modifier = Modifier.fillMaxWidth(),
                     )
 
                     Spacer(Modifier.height(8.dp))
@@ -151,6 +149,7 @@ private fun ServerScreen(
                             PasswordAction(
                                 passwordAction = viewState.passwordAction,
                                 onPasswordActionChanged = onPasswordActionChanged,
+                                modifier = Modifier.fillMaxWidth(),
                             )
                         }
 
@@ -166,6 +165,7 @@ private fun ServerScreen(
                             PassphraseAction(
                                 passphraseAction = viewState.passphraseAction,
                                 onPassphraseActionChanged = onPassphraseActionChanged,
+                                modifier = Modifier.fillMaxWidth(),
                             )
                         }
                     }
@@ -173,6 +173,7 @@ private fun ServerScreen(
                     PasswordAction(
                         passwordAction = viewState.passwordAction,
                         onPasswordActionChanged = onPasswordActionChanged,
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
 

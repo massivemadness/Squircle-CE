@@ -84,9 +84,9 @@ class FontUiStateTests {
     fun `When user has fonts in database Then display font list`() = runTest {
         val fontList = listOf(
             FontModel(
-                fontUuid = "1",
-                fontName = "Droid Sans Mono",
-                fontPath = "/android_asset/droid_sans_mono.ttf",
+                uuid = "1",
+                name = "Droid Sans Mono",
+                path = "/android_asset/droid_sans_mono.ttf",
                 isExternal = true,
             ),
         )
@@ -111,15 +111,15 @@ class FontUiStateTests {
     fun `When user types in search bar Then update font list`() = runTest {
         val fontList = listOf(
             FontModel(
-                fontUuid = "1",
-                fontName = "Droid Sans Mono",
-                fontPath = "/android_asset/droid_sans_mono.ttf",
+                uuid = "1",
+                name = "Droid Sans Mono",
+                path = "/android_asset/droid_sans_mono.ttf",
                 isExternal = true,
             ),
             FontModel(
-                fontUuid = "2",
-                fontName = "Source Code Pro",
-                fontPath = "/android_asset/source_code_pro.ttf",
+                uuid = "2",
+                name = "Source Code Pro",
+                path = "/android_asset/source_code_pro.ttf",
                 isExternal = true,
             ),
         )
@@ -127,7 +127,7 @@ class FontUiStateTests {
         // Given
         coEvery { fontsRepository.loadFonts("") } returns fontList
         coEvery { fontsRepository.loadFonts(any()) } coAnswers {
-            fontList.filter { it.fontName.contains(firstArg<String>()) }
+            fontList.filter { it.name.contains(firstArg<String>()) }
         }
 
         // When

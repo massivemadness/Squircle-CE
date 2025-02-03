@@ -18,11 +18,14 @@ package com.blacksquircle.ui.feature.themes.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.themes.data.model.CodePreview
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 @Immutable
 internal data class ThemesViewState(
     val query: String = "",
+    val preview: CodePreview = CodePreview.HTML,
     val themes: List<ThemeModel> = emptyList(),
+    val fontPath: String = "",
     val isLoading: Boolean = true,
 ) : ViewState()

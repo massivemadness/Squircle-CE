@@ -16,12 +16,10 @@
 
 package com.blacksquircle.ui.ds.button
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,9 +60,6 @@ fun OutlinedButton(
                 enabled = enabled,
                 onClick = onClick,
                 role = Role.Button,
-            )
-            .background(
-                color = SquircleTheme.colors.colorBackgroundPrimary,
             )
             .border(
                 width = 1.dp,

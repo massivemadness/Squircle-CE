@@ -21,9 +21,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
+import com.blacksquircle.ui.feature.themes.data.model.CodePreview
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
@@ -47,6 +49,7 @@ import com.blacksquircle.ui.ds.R as UiR
 internal class ThemesViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val themesRepository: ThemesRepository,
+    private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ThemesViewState())
@@ -68,6 +71,12 @@ internal class ThemesViewModel @Inject constructor(
     fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack())
+        }
+    }
+
+    fun onCodePreviewChanged(extension: String) {
+        _viewState.update {
+            it.copy(preview = CodePreview.of(extension))
         }
     }
 
@@ -100,6 +109,7 @@ internal class ThemesViewModel @Inject constructor(
                 _viewState.update {
                     it.copy(
                         themes = themes,
+                        fontPath = settingsManager.fontType,
                         isLoading = false,
                     )
                 }

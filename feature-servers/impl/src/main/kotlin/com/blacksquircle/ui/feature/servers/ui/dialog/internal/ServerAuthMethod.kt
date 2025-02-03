@@ -14,28 +14,30 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.loader
+package com.blacksquircle.ui.feature.servers.ui.dialog.internal
 
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.blacksquircle.ui.ds.SquircleTheme
+import androidx.compose.ui.res.stringArrayResource
+import com.blacksquircle.ui.ds.dropdown.Dropdown
+import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 
 @Composable
 @NonRestartableComposable
-fun Loader(modifier: Modifier = Modifier) {
-    CircularProgressIndicator(
-        color = SquircleTheme.colors.colorPrimary,
+internal fun ServerAuthMethod(
+    authMethod: AuthMethod,
+    onAuthMethodChanged: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Dropdown(
+        entries = stringArrayResource(R.array.authMethod),
+        entryValues = AuthMethod.entries
+            .map(AuthMethod::value)
+            .toTypedArray(),
+        currentValue = authMethod.value,
+        onValueSelected = onAuthMethodChanged,
         modifier = modifier,
     )
-}
-
-@Preview
-@Composable
-private fun LoaderPreview() {
-    SquircleTheme {
-        Loader()
-    }
 }

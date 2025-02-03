@@ -47,10 +47,10 @@ internal class FontsRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val defaultFonts = InternalFont.entries
                 .map(InternalFont::font)
-                .filter { it.fontName.contains(query, ignoreCase = true) }
+                .filter { it.name.contains(query, ignoreCase = true) }
             val userFonts = appDatabase.fontDao().loadAll()
                 .map(FontMapper::toModel)
-                .filter { it.fontName.contains(query, ignoreCase = true) }
+                .filter { it.name.contains(query, ignoreCase = true) }
             userFonts + defaultFonts
         }
     }
@@ -73,9 +73,9 @@ internal class FontsRepositoryImpl(
                     inputStream.copyTo(fontFile.outputStream())
                 }
                 val fontModel = FontModel(
-                    fontUuid = fontUuid,
-                    fontName = fontName,
-                    fontPath = fontFile.absolutePath,
+                    uuid = fontUuid,
+                    name = fontName,
+                    path = fontFile.absolutePath,
                     isExternal = true,
                 )
                 appDatabase.fontDao().insert(FontMapper.toEntity(fontModel))
@@ -85,18 +85,18 @@ internal class FontsRepositoryImpl(
 
     override suspend fun selectFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
-            settingsManager.fontType = fontModel.fontPath
+            settingsManager.fontType = fontModel.path
         }
     }
 
     override suspend fun removeFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
-            val fontFile = File(context.cacheDir, fontModel.fontUuid)
+            val fontFile = File(context.cacheDir, fontModel.uuid)
             if (fontFile.exists()) {
                 fontFile.deleteRecursively()
             }
             appDatabase.fontDao().delete(FontMapper.toEntity(fontModel))
-            if (settingsManager.fontType == fontModel.fontPath) {
+            if (settingsManager.fontType == fontModel.path) {
                 settingsManager.remove(SettingsManager.KEY_FONT_TYPE)
             }
         }

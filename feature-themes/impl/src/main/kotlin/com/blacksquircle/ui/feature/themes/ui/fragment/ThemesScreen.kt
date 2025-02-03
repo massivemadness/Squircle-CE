@@ -16,12 +16,16 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -36,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,12 +49,16 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSize
+import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.loader.Loader
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.data.model.CodePreview
 import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
+import com.blacksquircle.ui.feature.themes.ui.composable.ThemeOverview
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -59,9 +68,12 @@ internal fun ThemesScreen(viewModel: ThemesViewModel) {
     ThemesScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
+        onCodePreviewChanged = viewModel::onCodePreviewChanged,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onCreateClicked = {},
+        onSelectClicked = {},
+        onRemoveClicked = {},
     )
 }
 
@@ -69,9 +81,12 @@ internal fun ThemesScreen(viewModel: ThemesViewModel) {
 private fun ThemesScreen(
     viewState: ThemesViewState,
     onBackClicked: () -> Unit,
+    onCodePreviewChanged: (String) -> Unit,
     onQueryChanged: (String) -> Unit,
     onClearQueryClicked: () -> Unit,
     onCreateClicked: () -> Unit,
+    onSelectClicked: (ThemeModel) -> Unit,
+    onRemoveClicked: (ThemeModel) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -114,6 +129,12 @@ private fun ThemesScreen(
                             focusRequester.requestFocus()
                         }
                     } else {
+                        Dropdown(
+                            entries = stringArrayResource(R.array.preview_names),
+                            entryValues = stringArrayResource(R.array.preview_extensions),
+                            currentValue = viewState.preview.extension,
+                            onValueSelected = onCodePreviewChanged,
+                        )
                         IconButton(
                             iconResId = UiR.drawable.ic_search,
                             iconSize = IconButtonSize.L,
@@ -142,13 +163,26 @@ private fun ThemesScreen(
                 Loader()
                 return@Scaffold
             }
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                /*items(
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(300.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(
                     items = viewState.themes,
-                    key = FontModel::themeUuid,
+                    key = ThemeModel::uuid,
                 ) { theme ->
-
-                }*/
+                    ThemeOverview(
+                        themeModel = theme,
+                        fontPath = viewState.fontPath,
+                        codeSample = viewState.preview.codeSample,
+                        onSelectClicked = { onSelectClicked(theme) },
+                        onRemoveClicked = { onRemoveClicked(theme) },
+                        modifier = Modifier.animateItem(),
+                    )
+                }
             }
             if (viewState.themes.isEmpty()) {
                 EmptyView(
@@ -167,13 +201,18 @@ private fun ThemesScreenPreview() {
         ThemesScreen(
             viewState = ThemesViewState(
                 query = "Mono",
+                preview = CodePreview.HTML,
                 themes = InternalTheme.entries.map(InternalTheme::theme),
+                fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
                 isLoading = false,
             ),
             onBackClicked = {},
+            onCodePreviewChanged = {},
             onQueryChanged = {},
             onClearQueryClicked = {},
             onCreateClicked = {},
+            onSelectClicked = {},
+            onRemoveClicked = {},
         )
     }
 }

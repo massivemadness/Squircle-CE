@@ -33,9 +33,9 @@ class FontMapperTests {
             supportLigatures = false,
         )
         val fontModel = FontModel(
-            fontUuid = "droid_sans_mono.ttf",
-            fontName = "Droid Sans Mono",
-            fontPath = "/storage/emulated/0/font.ttf",
+            uuid = "droid_sans_mono.ttf",
+            name = "Droid Sans Mono",
+            path = "/storage/emulated/0/font.ttf",
             isExternal = true,
         )
 
@@ -51,9 +51,9 @@ class FontMapperTests {
             supportLigatures = false,
         )
         val fontModel = FontModel(
-            fontUuid = "droid_sans_mono.ttf",
-            fontName = "Droid Sans Mono",
-            fontPath = "/storage/emulated/0/font.ttf",
+            uuid = "droid_sans_mono.ttf",
+            name = "Droid Sans Mono",
+            path = "/storage/emulated/0/font.ttf",
             isExternal = true,
         )
 

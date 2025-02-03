@@ -85,7 +85,7 @@ internal class FontsViewModel @Inject constructor(
                     ViewEvent.Toast(
                         stringProvider.getString(
                             R.string.message_selected,
-                            fontModel.fontName,
+                            fontModel.name,
                         ),
                     ),
                 )
@@ -111,7 +111,7 @@ internal class FontsViewModel @Inject constructor(
                     ViewEvent.Toast(
                         stringProvider.getString(
                             R.string.message_font_removed,
-                            fontModel.fontName,
+                            fontModel.name,
                         ),
                     ),
                 )

@@ -23,18 +23,18 @@ internal object FontMapper {
 
     fun toModel(fontEntity: FontEntity): FontModel {
         return FontModel(
-            fontUuid = fontEntity.fontUuid,
-            fontName = fontEntity.fontName,
-            fontPath = fontEntity.fontPath,
+            uuid = fontEntity.fontUuid,
+            name = fontEntity.fontName,
+            path = fontEntity.fontPath,
             isExternal = true,
         )
     }
 
     fun toEntity(fontModel: FontModel): FontEntity {
         return FontEntity(
-            fontUuid = fontModel.fontUuid,
-            fontName = fontModel.fontName,
-            fontPath = fontModel.fontPath,
+            fontUuid = fontModel.uuid,
+            fontName = fontModel.name,
+            fontPath = fontModel.path,
             supportLigatures = false,
         )
     }

@@ -17,8 +17,10 @@
 package com.blacksquircle.ui.ds.dropdown
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -53,6 +55,7 @@ fun Dropdown(
     var expanded by rememberSaveable { mutableStateOf(false) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .height(42.dp)
             .clip(RoundedCornerShape(4.dp))
@@ -65,7 +68,7 @@ fun Dropdown(
             style = SquircleTheme.typography.text16Regular,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f, fill = false)
         )
         Spacer(Modifier.width(16.dp))
         Icon(
@@ -101,10 +104,11 @@ fun Dropdown(
 private fun DropdownPreview() {
     SquircleTheme {
         Dropdown(
-            currentValue = "Apple",
+            currentValue = "apple",
             entries = arrayOf("Apple", "Banana", "Orange"),
             entryValues = arrayOf("apple", "banana", "orange"),
             onValueSelected = {},
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }

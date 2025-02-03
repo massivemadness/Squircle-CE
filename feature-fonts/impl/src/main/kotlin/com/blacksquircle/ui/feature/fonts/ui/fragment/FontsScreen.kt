@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
@@ -37,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -153,12 +151,10 @@ private fun FontsScreen(
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(
                     items = viewState.fonts,
-                    key = FontModel::fontUuid,
+                    key = FontModel::uuid,
                 ) { font ->
                     FontOverview(
-                        fontName = font.fontName,
-                        fontPath = font.fontPath,
-                        canRemove = font.isExternal,
+                        fontModel = font,
                         onSelectClicked = { onSelectClicked(font) },
                         onRemoveClicked = { onRemoveClicked(font) },
                         modifier = Modifier.animateItem(),
@@ -184,15 +180,15 @@ private fun FontsScreenPreview() {
                 query = "Mono",
                 fonts = listOf(
                     FontModel(
-                        fontUuid = "1",
-                        fontName = "Droid Sans Mono",
-                        fontPath = "1",
+                        uuid = "1",
+                        name = "Droid Sans Mono",
+                        path = "1",
                         isExternal = true,
                     ),
                     FontModel(
-                        fontUuid = "2",
-                        fontName = "JetBrains Mono",
-                        fontPath = "2",
+                        uuid = "2",
+                        name = "JetBrains Mono",
+                        path = "2",
                         isExternal = true,
                     ),
                 ),

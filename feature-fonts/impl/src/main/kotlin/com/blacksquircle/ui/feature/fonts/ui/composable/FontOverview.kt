@@ -38,13 +38,13 @@ import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.feature.fonts.R
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.model.InternalFont
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun FontOverview(
-    fontName: String,
-    fontPath: String,
-    canRemove: Boolean,
+    fontModel: FontModel,
     onSelectClicked: () -> Unit,
     onRemoveClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -55,14 +55,14 @@ internal fun FontOverview(
             modifier = Modifier.height(48.dp)
         ) {
             Text(
-                text = fontName,
+                text = fontModel.name,
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                 style = SquircleTheme.typography.text14Regular,
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 12.dp)
             )
-            if (canRemove) {
+            if (fontModel.isExternal) {
                 IconButton(
                     iconResId = UiR.drawable.ic_close,
                     iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
@@ -77,7 +77,7 @@ internal fun FontOverview(
             color = SquircleTheme.colors.colorTextAndIconPrimary,
             style = TextStyle(
                 fontFamily = FontFamily(
-                    typeface = context.createTypefaceFromPath(fontPath)
+                    typeface = context.createTypefaceFromPath(fontModel.path)
                 ),
                 fontWeight = FontWeight.Normal,
                 fontSize = 24.sp
@@ -100,9 +100,7 @@ internal fun FontOverview(
 private fun FontOverviewPreview() {
     SquircleTheme {
         FontOverview(
-            fontName = "Droid Sans Mono",
-            fontPath = "fonts/droid_sans_mono.ttf",
-            canRemove = true,
+            fontModel = InternalFont.DROID_SANS_MONO.font,
             onSelectClicked = {},
             onRemoveClicked = {},
         )

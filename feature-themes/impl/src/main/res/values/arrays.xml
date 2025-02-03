@@ -22,11 +22,6 @@
         <item>JavaScript</item>
     </string-array>
 
-    <string-array name="preview_paths">
-        <item>preview/html.txt</item>
-        <item>preview/javascript.txt</item>
-    </string-array>
-
     <string-array name="preview_extensions">
         <item>.html</item>
         <item>.js</item>

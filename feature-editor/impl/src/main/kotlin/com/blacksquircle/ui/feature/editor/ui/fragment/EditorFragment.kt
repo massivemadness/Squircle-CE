@@ -511,7 +511,7 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
                         binding.editor.colorScheme = event.value.colorScheme
                     is SettingsEvent.FontSize -> binding.editor.textSize = event.value
                     is SettingsEvent.FontType -> binding.editor.typeface = requireContext()
-                        .createTypefaceFromPath(event.value.fontPath)
+                        .createTypefaceFromPath(event.value.path)
                     is SettingsEvent.WordWrap ->
                         binding.editor.setHorizontallyScrolling(!event.value)
                     is SettingsEvent.CodeCompletion -> if (event.value) {

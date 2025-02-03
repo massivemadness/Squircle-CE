@@ -17,51 +17,51 @@
 package com.blacksquircle.ui.feature.fonts.domain.model
 
 enum class InternalFont(val font: FontModel) {
-    DROID_SANS_MONO(
+    JETBRAINS_MONO(
         font = FontModel(
-            fontUuid = "droid_sans_mono",
-            fontName = "Droid Sans Mono",
-            fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
+            uuid = "jetbrains_mono",
+            name = "JetBrains Mono",
+            path = "file:///android_asset/fonts/jetbrains_mono.ttf",
             isExternal = false,
         )
     ),
-    JETBRAINS_MONO(
+    DROID_SANS_MONO(
         font = FontModel(
-            fontUuid = "jetbrains_mono",
-            fontName = "JetBrains Mono",
-            fontPath = "file:///android_asset/fonts/jetbrains_mono.ttf",
+            uuid = "droid_sans_mono",
+            name = "Droid Sans Mono",
+            path = "file:///android_asset/fonts/droid_sans_mono.ttf",
             isExternal = false,
         )
     ),
     FIRA_CODE(
         font = FontModel(
-            fontUuid = "fira_code",
-            fontName = "Fira Code",
-            fontPath = "file:///android_asset/fonts/fira_code.ttf",
+            uuid = "fira_code",
+            name = "Fira Code",
+            path = "file:///android_asset/fonts/fira_code.ttf",
             isExternal = false,
         )
     ),
     SOURCE_CODE_PRO(
         font = FontModel(
-            fontUuid = "source_code_pro",
-            fontName = "Source Code Pro",
-            fontPath = "file:///android_asset/fonts/source_code_pro.ttf",
+            uuid = "source_code_pro",
+            name = "Source Code Pro",
+            path = "file:///android_asset/fonts/source_code_pro.ttf",
             isExternal = false,
         )
     ),
     ANONYMOUS_PRO(
         font = FontModel(
-            fontUuid = "anonymous_pro",
-            fontName = "Anonymous Pro",
-            fontPath = "file:///android_asset/fonts/anonymous_pro.ttf",
+            uuid = "anonymous_pro",
+            name = "Anonymous Pro",
+            path = "file:///android_asset/fonts/anonymous_pro.ttf",
             isExternal = false,
         )
     ),
     DEJAVU_SANS_MONO(
         font = FontModel(
-            fontUuid = "dejavu_sans_mono",
-            fontName = "DejaVu Sans Mono",
-            fontPath = "file:///android_asset/fonts/dejavu_sans_mono.ttf",
+            uuid = "dejavu_sans_mono",
+            name = "DejaVu Sans Mono",
+            path = "file:///android_asset/fonts/dejavu_sans_mono.ttf",
             isExternal = false,
         )
     );
@@ -69,7 +69,7 @@ enum class InternalFont(val font: FontModel) {
     companion object {
 
         fun find(path: String): FontModel? {
-            return entries.find { it.font.fontPath == path }?.font
+            return entries.find { it.font.path == path }?.font
         }
     }
 }
