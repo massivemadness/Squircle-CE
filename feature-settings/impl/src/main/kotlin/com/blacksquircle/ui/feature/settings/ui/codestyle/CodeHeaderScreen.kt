@@ -42,7 +42,7 @@ internal fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CodeHeaderScreen(
         viewState = viewState,
-        onBackClicked = viewModel::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onAutoIndentChanged = viewModel::onAutoIndentChanged,
         onAutoBracketsChanged = viewModel::onAutoBracketsChanged,
         onAutoQuotesChanged = viewModel::onAutoQuotesChanged,

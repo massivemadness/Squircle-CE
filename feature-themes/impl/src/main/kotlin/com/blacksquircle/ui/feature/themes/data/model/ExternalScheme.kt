@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.themes.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ExternalScheme(
+internal data class ExternalScheme(
     @SerializedName("text_color")
     val textColor: String?,
     @SerializedName("cursor_color")

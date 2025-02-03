@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.settings.ui.files
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -43,13 +42,7 @@ internal class FilesHeaderViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    fun navigate(screen: Screen<*>) {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    fun popBackStack() {
+    fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack())
         }

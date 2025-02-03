@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.mvi
+package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
-sealed class ThemesViewState : ViewState() {
-
-    abstract val query: String
-
-    data object Loading : ThemesViewState() {
-        override val query: String = ""
-    }
-
-    data class Empty(
-        override val query: String,
-    ) : ThemesViewState()
-
-    data class Data(
-        override val query: String,
-        val themes: List<ThemeModel>,
-    ) : ThemesViewState()
-}
+@Immutable
+internal data class ThemesViewState(
+    val query: String = "",
+    val themes: List<ThemeModel> = emptyList(),
+    val isLoading: Boolean = true,
+) : ViewState()

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.data.converter
+package com.blacksquircle.ui.feature.themes.data.mapper
 
 import androidx.core.graphics.toColorInt
 import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
@@ -25,7 +25,9 @@ import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import java.util.*
 
-object ThemeConverter {
+internal object ThemeMapper {
+
+    const val FALLBACK_COLOR = "#000000"
 
     fun toModel(themeEntity: ThemeEntity): ThemeModel {
         return ThemeModel(
@@ -143,38 +145,38 @@ object ThemeConverter {
     fun toModel(externalTheme: ExternalTheme?): ThemeModel {
         return ThemeModel(
             uuid = externalTheme?.uuid ?: UUID.randomUUID().toString(),
-            name = externalTheme?.name ?: "",
-            author = externalTheme?.author ?: "",
-            description = externalTheme?.description ?: "",
+            name = externalTheme?.name.orEmpty(),
+            author = externalTheme?.author.orEmpty(),
+            description = externalTheme?.description.orEmpty(),
             isExternal = true,
             colorScheme = ColorScheme(
-                textColor = (externalTheme?.externalScheme?.textColor ?: "#000000").toColorInt(),
-                cursorColor = (externalTheme?.externalScheme?.cursorColor ?: "#000000").toColorInt(),
-                backgroundColor = (externalTheme?.externalScheme?.backgroundColor ?: "#000000").toColorInt(),
-                gutterColor = (externalTheme?.externalScheme?.gutterColor ?: "#000000").toColorInt(),
-                gutterDividerColor = (externalTheme?.externalScheme?.gutterDividerColor ?: "#000000").toColorInt(),
-                gutterCurrentLineNumberColor = (externalTheme?.externalScheme?.gutterCurrentLineNumberColor ?: "#000000").toColorInt(),
-                gutterTextColor = (externalTheme?.externalScheme?.gutterTextColor ?: "#000000").toColorInt(),
-                selectedLineColor = (externalTheme?.externalScheme?.selectedLineColor ?: "#000000").toColorInt(),
-                selectionColor = (externalTheme?.externalScheme?.selectionColor ?: "#000000").toColorInt(),
-                suggestionQueryColor = (externalTheme?.externalScheme?.suggestionQueryColor ?: "#000000").toColorInt(),
-                findResultBackgroundColor = (externalTheme?.externalScheme?.findResultBackgroundColor ?: "#000000").toColorInt(),
-                delimiterBackgroundColor = (externalTheme?.externalScheme?.delimiterBackgroundColor ?: "#000000").toColorInt(),
-                numberColor = (externalTheme?.externalScheme?.numberColor ?: "#000000").toColorInt(),
-                operatorColor = (externalTheme?.externalScheme?.operatorColor ?: "#000000").toColorInt(),
-                keywordColor = (externalTheme?.externalScheme?.keywordColor ?: "#000000").toColorInt(),
-                typeColor = (externalTheme?.externalScheme?.typeColor ?: "#000000").toColorInt(),
-                langConstColor = (externalTheme?.externalScheme?.langConstColor ?: "#000000").toColorInt(),
-                preprocessorColor = (externalTheme?.externalScheme?.preprocessorColor ?: "#000000").toColorInt(),
-                variableColor = (externalTheme?.externalScheme?.variableColor ?: "#000000").toColorInt(),
-                methodColor = (externalTheme?.externalScheme?.methodColor ?: "#000000").toColorInt(),
-                stringColor = (externalTheme?.externalScheme?.stringColor ?: "#000000").toColorInt(),
-                commentColor = (externalTheme?.externalScheme?.commentColor ?: "#000000").toColorInt(),
-                tagColor = (externalTheme?.externalScheme?.tagColor ?: "#000000").toColorInt(),
-                tagNameColor = (externalTheme?.externalScheme?.tagNameColor ?: "#000000").toColorInt(),
-                attrNameColor = (externalTheme?.externalScheme?.attrNameColor ?: "#000000").toColorInt(),
-                attrValueColor = (externalTheme?.externalScheme?.attrValueColor ?: "#000000").toColorInt(),
-                entityRefColor = (externalTheme?.externalScheme?.entityRefColor ?: "#000000").toColorInt(),
+                textColor = (externalTheme?.externalScheme?.textColor ?: FALLBACK_COLOR).toColorInt(),
+                cursorColor = (externalTheme?.externalScheme?.cursorColor ?: FALLBACK_COLOR).toColorInt(),
+                backgroundColor = (externalTheme?.externalScheme?.backgroundColor ?: FALLBACK_COLOR).toColorInt(),
+                gutterColor = (externalTheme?.externalScheme?.gutterColor ?: FALLBACK_COLOR).toColorInt(),
+                gutterDividerColor = (externalTheme?.externalScheme?.gutterDividerColor ?: FALLBACK_COLOR).toColorInt(),
+                gutterCurrentLineNumberColor = (externalTheme?.externalScheme?.gutterCurrentLineNumberColor ?: FALLBACK_COLOR).toColorInt(),
+                gutterTextColor = (externalTheme?.externalScheme?.gutterTextColor ?: FALLBACK_COLOR).toColorInt(),
+                selectedLineColor = (externalTheme?.externalScheme?.selectedLineColor ?: FALLBACK_COLOR).toColorInt(),
+                selectionColor = (externalTheme?.externalScheme?.selectionColor ?: FALLBACK_COLOR).toColorInt(),
+                suggestionQueryColor = (externalTheme?.externalScheme?.suggestionQueryColor ?: FALLBACK_COLOR).toColorInt(),
+                findResultBackgroundColor = (externalTheme?.externalScheme?.findResultBackgroundColor ?: FALLBACK_COLOR).toColorInt(),
+                delimiterBackgroundColor = (externalTheme?.externalScheme?.delimiterBackgroundColor ?: FALLBACK_COLOR).toColorInt(),
+                numberColor = (externalTheme?.externalScheme?.numberColor ?: FALLBACK_COLOR).toColorInt(),
+                operatorColor = (externalTheme?.externalScheme?.operatorColor ?: FALLBACK_COLOR).toColorInt(),
+                keywordColor = (externalTheme?.externalScheme?.keywordColor ?: FALLBACK_COLOR).toColorInt(),
+                typeColor = (externalTheme?.externalScheme?.typeColor ?: FALLBACK_COLOR).toColorInt(),
+                langConstColor = (externalTheme?.externalScheme?.langConstColor ?: FALLBACK_COLOR).toColorInt(),
+                preprocessorColor = (externalTheme?.externalScheme?.preprocessorColor ?: FALLBACK_COLOR).toColorInt(),
+                variableColor = (externalTheme?.externalScheme?.variableColor ?: FALLBACK_COLOR).toColorInt(),
+                methodColor = (externalTheme?.externalScheme?.methodColor ?: FALLBACK_COLOR).toColorInt(),
+                stringColor = (externalTheme?.externalScheme?.stringColor ?: FALLBACK_COLOR).toColorInt(),
+                commentColor = (externalTheme?.externalScheme?.commentColor ?: FALLBACK_COLOR).toColorInt(),
+                tagColor = (externalTheme?.externalScheme?.tagColor ?: FALLBACK_COLOR).toColorInt(),
+                tagNameColor = (externalTheme?.externalScheme?.tagNameColor ?: FALLBACK_COLOR).toColorInt(),
+                attrNameColor = (externalTheme?.externalScheme?.attrNameColor ?: FALLBACK_COLOR).toColorInt(),
+                attrValueColor = (externalTheme?.externalScheme?.attrValueColor ?: FALLBACK_COLOR).toColorInt(),
+                entityRefColor = (externalTheme?.externalScheme?.entityRefColor ?: FALLBACK_COLOR).toColorInt(),
             ),
         )
     }

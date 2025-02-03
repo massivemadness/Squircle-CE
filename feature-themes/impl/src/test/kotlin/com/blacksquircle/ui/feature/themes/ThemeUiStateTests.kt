@@ -22,7 +22,7 @@ import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
-import com.blacksquircle.ui.feature.themes.ui.mvi.ThemesViewState
+import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -54,7 +54,7 @@ class ThemeUiStateTests {
 
         // Then
         val themesViewState = ThemesViewState.Loading
-        assertEquals(themesViewState, viewModel.themesState.value)
+        assertEquals(themesViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -68,7 +68,7 @@ class ThemeUiStateTests {
 
         // Then
         val themesViewState = ThemesViewState.Empty("")
-        assertEquals(themesViewState, viewModel.themesState.value)
+        assertEquals(themesViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -93,7 +93,7 @@ class ThemeUiStateTests {
 
         // Then
         val themesViewState = ThemesViewState.Data("", themeList)
-        assertEquals(themesViewState, viewModel.themesState.value)
+        assertEquals(themesViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -129,7 +129,7 @@ class ThemeUiStateTests {
 
         // Then
         val themesViewState = ThemesViewState.Data("Eclipse", themeList.drop(1))
-        assertEquals(themesViewState, viewModel.themesState.value)
+        assertEquals(themesViewState, viewModel.viewState.value)
     }
 
     private fun themesViewModel(): ThemesViewModel {

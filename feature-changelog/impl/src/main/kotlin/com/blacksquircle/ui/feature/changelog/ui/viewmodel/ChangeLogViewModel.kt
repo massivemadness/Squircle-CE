@@ -42,7 +42,7 @@ internal class ChangeLogViewModel @Inject constructor(
         loadChangelog()
     }
 
-    fun popBackStack() {
+    fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack())
         }

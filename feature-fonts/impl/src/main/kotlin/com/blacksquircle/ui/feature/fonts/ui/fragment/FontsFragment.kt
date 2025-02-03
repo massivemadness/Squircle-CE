@@ -85,34 +85,4 @@ internal class FontsFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
-    /*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-
-    private fun observeViewModel() {
-        viewModel.fontsState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { state ->
-                when (state) {
-                    is FontsViewState.Empty -> {
-                        binding.loadingBar.isVisible = false
-                        binding.emptyView.isVisible = true
-                        binding.recyclerView.isInvisible = true
-                    }
-                    is FontsViewState.Data -> {
-                        binding.loadingBar.isVisible = false
-                        binding.emptyView.isVisible = false
-                        binding.recyclerView.isInvisible = false
-                        adapter.submitList(state.fonts)
-                    }
-                    is FontsViewState.Loading -> {
-                        binding.loadingBar.isVisible = true
-                        binding.emptyView.isVisible = false
-                        binding.recyclerView.isInvisible = true
-                    }
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-    }*/
 }

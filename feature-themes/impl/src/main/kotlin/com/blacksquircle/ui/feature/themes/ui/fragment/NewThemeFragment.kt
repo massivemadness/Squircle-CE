@@ -17,74 +17,49 @@
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.core.view.MenuProvider
-import androidx.core.view.updatePadding
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.adapter.OnItemClickListener
-import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
-import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.databinding.FragmentNewThemeBinding
-import com.blacksquircle.ui.feature.themes.domain.model.Meta
-import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
-import com.blacksquircle.ui.feature.themes.ui.adapter.PropertyAdapter
-import com.blacksquircle.ui.feature.themes.ui.mvi.NewThemeViewState
-import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
-import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.util.*
 
 @AndroidEntryPoint
-class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
+internal class NewThemeFragment : Fragment() {
 
     private val viewModel by hiltNavGraphViewModels<ThemesViewModel>(R.id.themes_graph)
-    private val binding by viewBinding(FragmentNewThemeBinding::bind)
+    // private val binding by viewBinding(FragmentNewThemeBinding::bind)
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<NewThemeFragmentArgs>()
     private val openFileContract = OpenFileContract(this) { result ->
-        when (result) {
+        /*when (result) {
             is ContractResult.Success -> viewModel.obtainEvent(ThemeIntent.ImportTheme(result.uri))
             is ContractResult.Canceled -> Unit
-        }
+        }*/
     }
-
-    private lateinit var adapter: PropertyAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            viewModel.obtainEvent(ThemeIntent.LoadProperties(navArgs.uuid))
+            // viewModel.obtainEvent(ThemeIntent.LoadProperties(navArgs.uuid))
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFadeTransition(binding.container, R.id.toolbar)
-        postponeEnterTransition(view)
         observeViewModel()
 
-        view.applySystemWindowInsets(true) { _, top, _, bottom ->
-            binding.toolbar.updatePadding(top = top)
-            binding.root.updatePadding(bottom = bottom)
-        }
-
-        binding.textInputThemeName.doAfterTextChanged {
+        /*binding.textInputThemeName.doAfterTextChanged {
             viewModel.obtainEvent(ThemeIntent.ChangeName(it.toString()))
         }
         binding.textInputThemeAuthor.doAfterTextChanged {
@@ -112,9 +87,9 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                 description = binding.textInputThemeDescription.text.toString(),
             )
             viewModel.obtainEvent(ThemeIntent.CreateTheme(meta, adapter.currentList))
-        }
+        }*/
 
-        binding.toolbar.setNavigationOnClickListener {
+        /*binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
         binding.toolbar.addMenuProvider(
@@ -130,7 +105,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                 }
             },
             viewLifecycleOwner,
-        )
+        )*/
     }
 
     private fun observeViewModel() {
@@ -138,7 +113,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
             .onEach { state ->
                 when (state) {
                     is NewThemeViewState.MetaData -> {
-                        val name = binding.textInputThemeName.text.toString()
+                        /*val name = binding.textInputThemeName.text.toString()
                         val author = binding.textInputThemeAuthor.text.toString()
                         val description = binding.textInputThemeDescription.text.toString()
 
@@ -159,7 +134,7 @@ class NewThemeFragment : Fragment(R.layout.fragment_new_theme) {
                         binding.actionSave.isEnabled =
                             isNameValid && isAuthorValid && isDescriptionValid
 
-                        adapter.submitList(state.properties)
+                        adapter.submitList(state.properties)*/
                     }
                 }
             }

@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.themes.ui.navigation
 import com.blacksquircle.ui.core.extensions.encodeUrl
 import com.blacksquircle.ui.core.navigation.Screen
 
-sealed class ThemesScreen(route: String) : Screen<String>(route) {
+internal sealed class ThemesScreen(route: String) : Screen<String>(route) {
 
     data object Create : ThemesScreen("blacksquircle://themes/create")
 

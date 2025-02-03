@@ -45,15 +45,15 @@ internal class HeaderViewModel @Inject constructor(
     val fullscreenMode: Boolean
         get() = settingsManager.fullScreenMode
 
-    fun selectHeader(screen: Screen<*>) {
+    fun onBackClicked() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            _viewEvent.send(ViewEvent.PopBackStack())
         }
     }
 
-    fun popBackStack() {
+    fun onHeaderClicked(screen: Screen<*>) {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack())
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 }

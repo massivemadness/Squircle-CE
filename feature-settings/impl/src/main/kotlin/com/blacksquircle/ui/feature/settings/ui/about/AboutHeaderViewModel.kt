@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -33,15 +34,22 @@ internal class AboutHeaderViewModel @Inject constructor() : ViewModel() {
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    fun navigate(screen: Screen<*>) {
+    private var counter: Int = 1
+
+    fun onBackClicked() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            _viewEvent.send(ViewEvent.PopBackStack())
         }
     }
 
-    fun popBackStack() {
+    fun onChangelogClicked() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack())
+            if (counter < 10) {
+                counter++
+            } else {
+                val screen = SettingsScreen.ChangeLog
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            }
         }
     }
 }

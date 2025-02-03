@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.themes
 import androidx.core.graphics.toColorInt
 import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.editorkit.model.ColorScheme
-import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
+import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
 import com.blacksquircle.ui.feature.themes.data.model.ExternalScheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
@@ -27,7 +27,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Ignore
 import org.junit.Test
 
-class ThemeConverterTests {
+class ThemeMapperTests {
 
     @Test
     @Ignore("FIXME: Method parseColor in android.graphics.Color not mocked.")
@@ -101,7 +101,7 @@ class ThemeConverterTests {
                 entityRefColor = "#FF3000".toColorInt(),
             ),
         )
-        val convert = ThemeConverter.toModel(themeEntity)
+        val convert = ThemeMapper.toModel(themeEntity)
 
         assertEquals(themeModel.uuid, convert.uuid)
         assertEquals(themeModel.name, convert.name)
@@ -209,7 +209,7 @@ class ThemeConverterTests {
             attrValueColor = "#FF3000",
             entityRefColor = "#FF3000",
         )
-        val convert = ThemeConverter.toEntity(themeModel)
+        val convert = ThemeMapper.toEntity(themeModel)
 
         assertEquals(themeEntity.uuid, convert.uuid)
         assertEquals(themeEntity.name, convert.name)
@@ -318,7 +318,7 @@ class ThemeConverterTests {
                 entityRefColor = "#FF3000".toColorInt(),
             ),
         )
-        val convert = ThemeConverter.toModel(externalTheme)
+        val convert = ThemeMapper.toModel(externalTheme)
 
         assertEquals(themeModel.uuid, convert.uuid)
         assertEquals(themeModel.name, convert.name)

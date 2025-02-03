@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.mvi
+package com.blacksquircle.ui.feature.themes.ui.fragment
 
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.themes.domain.model.Meta

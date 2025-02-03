@@ -42,7 +42,7 @@ internal fun ChangeLogScreen(viewModel: ChangeLogViewModel) {
     val viewState by viewModel.changelogState.collectAsStateWithLifecycle()
     ChangeLogScreen(
         viewState = viewState,
-        onBackClicked = viewModel::popBackStack
+        onBackClicked = viewModel::onBackClicked,
     )
 }
 

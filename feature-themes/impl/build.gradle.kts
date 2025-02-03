@@ -16,13 +16,14 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.blacksquircle.ui.feature.themes"
 
     buildFeatures {
-        viewBinding = true
+        compose = true
     }
 }
 
@@ -35,10 +36,14 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.timber)
 
-    // UI
-    implementation(libs.androidx.appcompat)
-    implementation(libs.materialdesign)
-    implementation(libs.colorpicker)
+    // Compose
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.preview)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.manifest)
+    implementation(libs.colorpicker) // TODO compose
 
     // AAC
     implementation(libs.androidx.viewmodel)

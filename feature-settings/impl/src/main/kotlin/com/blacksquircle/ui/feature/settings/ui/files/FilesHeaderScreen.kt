@@ -43,7 +43,7 @@ internal fun FilesHeaderScreen(viewModel: FilesHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     FilesHeaderScreen(
         viewState = viewState,
-        onBackClicked = viewModel::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onEncodingAutoDetectChanged = viewModel::onEncodingAutoDetectChanged,
         onEncodingForOpeningChanged = viewModel::onEncodingForOpeningChanged,
         onEncodingForSavingChanged = viewModel::onEncodingForSavingChanged,

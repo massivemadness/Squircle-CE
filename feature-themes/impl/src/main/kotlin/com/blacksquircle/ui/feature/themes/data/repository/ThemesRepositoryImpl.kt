@@ -22,14 +22,15 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
+import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
+import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper.FALLBACK_COLOR
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.*
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 
-class ThemesRepositoryImpl(
+internal class ThemesRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
@@ -80,7 +81,7 @@ class ThemesRepositoryImpl(
             val defaultThemes = InternalTheme.entries
                 .map(InternalTheme::theme)
             val userThemes = appDatabase.themeDao().loadAll()
-                .map(ThemeConverter::toModel)
+                .map(ThemeMapper::toModel)
             userThemes + defaultThemes
         }
     }
@@ -91,7 +92,7 @@ class ThemesRepositoryImpl(
                 .map(InternalTheme::theme)
                 .filter { it.name.contains(query, ignoreCase = true) }
             val userThemes = appDatabase.themeDao().loadAll(query)
-                .map(ThemeConverter::toModel)
+                .map(ThemeMapper::toModel)
             userThemes + defaultThemes
         }
     }
@@ -99,7 +100,7 @@ class ThemesRepositoryImpl(
     override suspend fun loadTheme(uuid: String): ThemeModel {
         return withContext(dispatcherProvider.io()) {
             val themeEntity = appDatabase.themeDao().load(uuid)
-            ThemeConverter.toModel(themeEntity)
+            ThemeMapper.toModel(themeEntity)
         }
     }
 
@@ -108,7 +109,7 @@ class ThemesRepositoryImpl(
             context.contentResolver.openInputStream(fileUri)?.use {
                 val themeJson = it.bufferedReader().use(BufferedReader::readText)
                 val externalTheme = ExternalTheme.deserialize(themeJson)
-                return@withContext ThemeConverter.toModel(externalTheme)
+                return@withContext ThemeMapper.toModel(externalTheme)
             }
             throw IllegalStateException("Unable to open input stream")
         }
@@ -116,7 +117,7 @@ class ThemesRepositoryImpl(
 
     override suspend fun exportTheme(themeModel: ThemeModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            val fileText = ExternalTheme.serialize(ThemeConverter.toExternalTheme(themeModel))
+            val fileText = ExternalTheme.serialize(ThemeMapper.toExternalTheme(themeModel))
             context.contentResolver.openOutputStream(fileUri)?.use { output ->
                 output.write(fileText.toByteArray())
                 output.flush()
@@ -224,7 +225,7 @@ class ThemesRepositoryImpl(
 
     override suspend fun removeTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
-            appDatabase.themeDao().delete(ThemeConverter.toEntity(themeModel))
+            appDatabase.themeDao().delete(ThemeMapper.toEntity(themeModel))
             if (settingsManager.colorScheme == themeModel.uuid) {
                 settingsManager.remove(SettingsManager.KEY_COLOR_SCHEME)
             }
@@ -235,9 +236,5 @@ class ThemesRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             settingsManager.colorScheme = themeModel.uuid
         }
-    }
-
-    companion object {
-        private const val FALLBACK_COLOR = "#000000"
     }
 }

@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.themes.data.model
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 
-data class ExternalTheme(
+internal data class ExternalTheme(
     @SerializedName("uuid")
     val uuid: String?,
     @SerializedName("name")

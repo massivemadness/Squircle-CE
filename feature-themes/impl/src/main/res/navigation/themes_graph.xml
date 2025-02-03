@@ -17,15 +17,13 @@
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/themes_graph"
     app:startDestination="@id/themesFragment">
 
     <fragment
         android:id="@+id/themesFragment"
         android:name="com.blacksquircle.ui.feature.themes.ui.fragment.ThemesFragment"
-        android:label="@string/label_themes"
-        tools:layout="@layout/fragment_themes">
+        android:label="@string/label_themes">
         <deepLink app:uri="blacksquircle://themes" />
         <action
             android:id="@+id/to_newThemeFragment"
@@ -35,8 +33,7 @@
     <fragment
         android:id="@+id/newThemeFragment"
         android:name="com.blacksquircle.ui.feature.themes.ui.fragment.NewThemeFragment"
-        android:label="@string/label_new_theme"
-        tools:layout="@layout/fragment_new_theme">
+        android:label="@string/label_new_theme">
         <deepLink app:uri="blacksquircle://themes/create" />
         <deepLink app:uri="blacksquircle://themes/update?uuid={uuid}" />
         <argument

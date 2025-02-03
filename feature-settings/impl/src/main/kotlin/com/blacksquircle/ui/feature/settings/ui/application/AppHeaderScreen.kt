@@ -48,8 +48,9 @@ internal fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     AppHeaderScreen(
         viewState = viewState,
-        onBackClicked = viewModel::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onThemeChanged = viewModel::onThemeChanged,
+        onColorSchemeClicked = viewModel::onColorSchemeClicked,
         onFullscreenChanged = viewModel::onFullscreenChanged,
         onConfirmExitChanged = viewModel::onConfirmExitChanged,
     )
@@ -60,6 +61,7 @@ private fun AppHeaderScreen(
     viewState: AppHeaderState,
     onBackClicked: () -> Unit,
     onThemeChanged: (String) -> Unit,
+    onColorSchemeClicked: () -> Unit,
     onFullscreenChanged: (Boolean) -> Unit,
     onConfirmExitChanged: (Boolean) -> Unit,
 ) {
@@ -95,9 +97,7 @@ private fun AppHeaderScreen(
             Preference(
                 title = stringResource(R.string.pref_color_scheme_title),
                 subtitle = stringResource(R.string.pref_color_scheme_summary),
-                onClick = {
-                    // TODO
-                },
+                onClick = onColorSchemeClicked,
             )
 
             val context = LocalContext.current
@@ -137,6 +137,7 @@ private fun AppHeaderScreenPreview() {
             ),
             onBackClicked = {},
             onThemeChanged = {},
+            onColorSchemeClicked = {},
             onFullscreenChanged = {},
             onConfirmExitChanged = {},
         )

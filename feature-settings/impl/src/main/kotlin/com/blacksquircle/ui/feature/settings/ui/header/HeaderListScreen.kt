@@ -41,8 +41,8 @@ internal fun HeaderListScreen(viewModel: HeaderViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     HeaderListScreen(
         viewState = viewState,
-        onBackClicked = viewModel::popBackStack,
-        onItemClicked = viewModel::selectHeader
+        onBackClicked = viewModel::onBackClicked,
+        onHeaderClicked = viewModel::onHeaderClicked
     )
 }
 
@@ -50,7 +50,7 @@ internal fun HeaderListScreen(viewModel: HeaderViewModel) {
 private fun HeaderListScreen(
     viewState: HeaderListState,
     onBackClicked: () -> Unit,
-    onItemClicked: (Screen<*>) -> Unit,
+    onHeaderClicked: (Screen<*>) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -62,31 +62,18 @@ private fun HeaderListScreen(
         },
         modifier = Modifier.navigationBarsPadding()
     ) { innerPadding ->
-        HeaderList(
-            viewState = viewState,
-            contentPadding = innerPadding,
-            onItemClicked = { onItemClicked(it.screen) },
-        )
-    }
-}
-
-@Composable
-private fun HeaderList(
-    viewState: HeaderListState,
-    contentPadding: PaddingValues,
-    onItemClicked: (PreferenceHeader) -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(contentPadding),
-    ) {
-        viewState.headers.forEach { header ->
-            PreferenceHeader(
-                title = stringResource(header.title),
-                subtitle = stringResource(header.subtitle),
-                onSelected = { onItemClicked(header) },
-            )
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(innerPadding),
+        ) {
+            viewState.headers.forEach { header ->
+                PreferenceHeader(
+                    title = stringResource(header.title),
+                    subtitle = stringResource(header.subtitle),
+                    onSelected = { onHeaderClicked(header.screen) },
+                )
+            }
         }
     }
 }
@@ -98,7 +85,7 @@ private fun HeaderListScreenPreview() {
         HeaderListScreen(
             viewState = HeaderListState(),
             onBackClicked = {},
-            onItemClicked = {},
+            onHeaderClicked = {},
         )
     }
 }

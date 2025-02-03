@@ -59,15 +59,9 @@ private const val CONTRIBUTE_PROJECT_URL = "https://github.com/massivemadness/Sq
 @Composable
 internal fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
     val context = LocalContext.current
-    var counter by rememberSaveable { mutableIntStateOf(1) }
     AboutHeaderScreen(
-        onChangelogClicked = {
-            if (counter < 10) {
-                counter++
-            } else {
-                viewModel.navigate(SettingsScreen.ChangeLog)
-            }
-        },
+        onBackClicked = viewModel::onBackClicked,
+        onChangelogClicked = viewModel::onChangelogClicked,
         onPrivacyClicked = {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = PRIVACY_POLICY_URL.toUri()
@@ -86,17 +80,16 @@ internal fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
             }
             context.startActivity(intent)
         },
-        onBackClicked = viewModel::popBackStack
     )
 }
 
 @Composable
 private fun AboutHeaderScreen(
+    onBackClicked: () -> Unit,
     onChangelogClicked: () -> Unit,
     onPrivacyClicked: () -> Unit,
     onTranslationClicked: () -> Unit,
     onContributeClicked: () -> Unit,
-    onBackClicked: () -> Unit,
 ) {
     Scaffold(
         topBar = {

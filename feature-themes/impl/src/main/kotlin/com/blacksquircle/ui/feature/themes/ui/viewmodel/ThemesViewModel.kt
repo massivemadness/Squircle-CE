@@ -16,118 +16,111 @@
 
 package com.blacksquircle.ui.feature.themes.ui.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.data.converter.ThemeConverter
+import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.mvi.NewThemeViewState
-import com.blacksquircle.ui.feature.themes.ui.mvi.ThemeIntent
-import com.blacksquircle.ui.feature.themes.ui.mvi.ThemesViewState
+import com.blacksquircle.ui.feature.themes.ui.fragment.NewThemeViewState
+import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 import com.blacksquircle.ui.ds.R as UiR
 
 @HiltViewModel
-class ThemesViewModel @Inject constructor(
+internal class ThemesViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val themesRepository: ThemesRepository,
 ) : ViewModel() {
 
-    private val _themesState = MutableStateFlow<ThemesViewState>(ThemesViewState.Loading)
-    val themesState: StateFlow<ThemesViewState> = _themesState.asStateFlow()
+    private val _viewState = MutableStateFlow(ThemesViewState())
+    val viewState: StateFlow<ThemesViewState> = _viewState.asStateFlow()
 
+    // TODO move to other viewmodel
     private val _newThemeState = MutableStateFlow<NewThemeViewState>(NewThemeViewState.MetaData(Meta(), emptyList()))
     val newThemeState: StateFlow<NewThemeViewState> = _newThemeState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private var currentJob: Job? = null
+
     init {
         loadThemes()
     }
 
-    fun obtainEvent(event: ThemeIntent) {
-        when (event) {
-            is ThemeIntent.LoadThemes -> loadThemes()
-
-            is ThemeIntent.SearchThemes -> loadThemes(event)
-            is ThemeIntent.ImportTheme -> importTheme(event)
-            is ThemeIntent.ExportTheme -> exportTheme(event)
-            is ThemeIntent.SelectTheme -> selectTheme(event)
-            is ThemeIntent.RemoveTheme -> removeTheme(event)
-
-            is ThemeIntent.CreateTheme -> createTheme(event)
-            is ThemeIntent.ChooseColor -> chooseColor(event)
-            is ThemeIntent.LoadProperties -> fetchProperties(event)
-
-            is ThemeIntent.ChangeName -> onThemeNameChanged(event)
-            is ThemeIntent.ChangeAuthor -> onThemeAuthorChanged(event)
-            is ThemeIntent.ChangeDescription -> onThemeDescriptionChanged(event)
-            is ThemeIntent.ChangeColor -> onThemeColorChanged(event)
+    fun onBackClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack())
         }
     }
 
-    private fun loadThemes() {
-        viewModelScope.launch {
+    fun onQueryChanged(query: String) {
+        _viewState.update {
+            it.copy(query = query)
+        }
+        loadThemes(query = query)
+    }
+
+    fun onClearQueryClicked() {
+        val reload = viewState.value.query.isNotEmpty()
+        if (reload) {
+            _viewState.update {
+                it.copy(query = "")
+            }
+            loadThemes()
+        }
+    }
+
+    private fun loadThemes(query: String = "") {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
             try {
-                val themes = themesRepository.loadThemes()
-                _themesState.update {
-                    if (themes.isNotEmpty()) {
-                        ThemesViewState.Data(query = "", themes = themes)
-                    } else {
-                        ThemesViewState.Empty(query = "")
-                    }
+                _viewState.update {
+                    it.copy(isLoading = true)
                 }
+                val themes = themesRepository.loadThemes(query)
+                delay(300L) // too fast, avoid blinking
+                _viewState.update {
+                    it.copy(
+                        themes = themes,
+                        isLoading = false,
+                    )
+                }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
+                _viewState.update {
+                    it.copy(isLoading = false)
+                }
                 _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(UiR.string.common_error_occurred),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
         }
     }
 
-    private fun loadThemes(event: ThemeIntent.SearchThemes) {
+    private fun importTheme(fileUri: Uri) {
         viewModelScope.launch {
             try {
-                val themes = themesRepository.loadThemes(event.query)
-                _themesState.update {
-                    if (themes.isNotEmpty()) {
-                        ThemesViewState.Data(event.query, themes)
-                    } else {
-                        ThemesViewState.Empty(event.query)
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(UiR.string.common_error_occurred),
-                    ),
-                )
-            }
-        }
-    }
-
-    private fun importTheme(event: ThemeIntent.ImportTheme) {
-        viewModelScope.launch {
-            try {
-                val themeModel = themesRepository.importTheme(event.fileUri)
+                val themeModel = themesRepository.importTheme(fileUri)
                 loadProperties(themeModel)
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -140,10 +133,10 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    private fun exportTheme(event: ThemeIntent.ExportTheme) {
+    private fun exportTheme(themeModel: ThemeModel, fileUri: Uri) {
         viewModelScope.launch {
             try {
-                themesRepository.exportTheme(event.themeModel, event.fileUri)
+                themesRepository.exportTheme(themeModel, fileUri)
                 _viewEvent.send(
                     ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
                 )
@@ -158,15 +151,15 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    private fun selectTheme(event: ThemeIntent.SelectTheme) {
+    private fun selectTheme(themeModel: ThemeModel) {
         viewModelScope.launch {
             try {
-                themesRepository.selectTheme(event.themeModel)
+                themesRepository.selectTheme(themeModel)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
                             R.string.message_selected,
-                            event.themeModel.name,
+                            themeModel.name,
                         ),
                     ),
                 )
@@ -181,15 +174,15 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    private fun removeTheme(event: ThemeIntent.RemoveTheme) {
+    private fun removeTheme(themeModel: ThemeModel) {
         viewModelScope.launch {
             try {
-                themesRepository.removeTheme(event.themeModel)
+                themesRepository.removeTheme(themeModel)
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
                             R.string.message_theme_removed,
-                            event.themeModel.name,
+                            themeModel.name,
                         ),
                     ),
                 )
@@ -205,16 +198,16 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    private fun createTheme(event: ThemeIntent.CreateTheme) {
+    private fun createTheme(meta: Meta, properties: List<PropertyItem>) {
         viewModelScope.launch {
             try {
-                themesRepository.createTheme(event.meta, event.properties)
+                themesRepository.createTheme(meta, properties)
                 _viewEvent.send(ViewEvent.PopBackStack())
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
                             R.string.message_new_theme_available,
-                            event.meta.name,
+                            meta.name,
                         ),
                     ),
                 )
@@ -230,10 +223,10 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    private fun chooseColor(event: ThemeIntent.ChooseColor) {
+    private fun chooseColor(property: PropertyItem) {
         viewModelScope.launch {
             try {
-                val screen = ThemesScreen.ChooseColor(event.key.key, event.value)
+                val screen = ThemesScreen.ChooseColor(property.propertyKey.key, property.propertyValue)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -242,58 +235,52 @@ class ThemesViewModel @Inject constructor(
         }
     }
 
-    private fun fetchProperties(event: ThemeIntent.LoadProperties) {
+    private fun fetchProperties(uuid: String?) {
         viewModelScope.launch {
             try {
-                val themeModel = themesRepository.loadTheme(event.uuid ?: "unknown")
+                val themeModel = themesRepository.loadTheme(uuid ?: "unknown")
                 loadProperties(themeModel)
             } catch (e: Exception) {
-                val themeModel = ThemeConverter.toModel(null)
+                val themeModel = ThemeMapper.toModel(null)
                 loadProperties(themeModel)
             }
         }
     }
 
-    private fun onThemeNameChanged(event: ThemeIntent.ChangeName) {
+    private fun onThemeNameChanged(name: String) {
         val state = newThemeState.value as? NewThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
-                meta = state.meta.copy(
-                    name = event.value,
-                ),
+                meta = state.meta.copy(name = name),
             )
         }
     }
 
-    private fun onThemeAuthorChanged(event: ThemeIntent.ChangeAuthor) {
+    private fun onThemeAuthorChanged(author: String) {
         val state = newThemeState.value as? NewThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
-                meta = state.meta.copy(
-                    author = event.value,
-                ),
+                meta = state.meta.copy(author = author),
             )
         }
     }
 
-    private fun onThemeDescriptionChanged(event: ThemeIntent.ChangeDescription) {
+    private fun onThemeDescriptionChanged(description: String) {
         val state = newThemeState.value as? NewThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
-                meta = state.meta.copy(
-                    description = event.value,
-                ),
+                meta = state.meta.copy(description = description),
             )
         }
     }
 
-    private fun onThemeColorChanged(event: ThemeIntent.ChangeColor) {
+    private fun onThemeColorChanged(property: PropertyItem) {
         val state = newThemeState.value as? NewThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
                 properties = state.properties.map { propertyItem ->
-                    if (propertyItem.propertyKey.key == event.key) {
-                        propertyItem.copy(propertyValue = event.value)
+                    if (propertyItem.propertyKey == property.propertyKey) {
+                        propertyItem.copy(propertyValue = property.propertyValue)
                     } else {
                         propertyItem
                     }
