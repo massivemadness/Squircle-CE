@@ -18,16 +18,26 @@ package com.blacksquircle.ui.feature.fonts.ui.fragment
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +51,7 @@ import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.loader.Loader
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
+import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.ui.composable.FontOverview
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
@@ -72,33 +83,51 @@ private fun FontsScreen(
 ) {
     Scaffold(
         topBar = {
+            var expanded by rememberSaveable { mutableStateOf(false) }
             Toolbar(
+                title = stringResource(R.string.label_fonts),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
                 navigationActions = {
-                    TextField(
-                        inputText = viewState.query,
-                        onInputChanged = onQueryChanged,
-                        placeholderText = stringResource(android.R.string.search_go),
-                        startContent = {
-                            Icon(
-                                painter = painterResource(UiR.drawable.ic_search),
-                                contentDescription = null,
-                                tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                                modifier = Modifier.padding(8.dp),
-                            )
-                        },
-                        endContent = {
-                            if (viewState.query.isNotEmpty()) {
+                    if (expanded) {
+                        val focusRequester = remember { FocusRequester() }
+                        TextField(
+                            inputText = viewState.query,
+                            onInputChanged = onQueryChanged,
+                            placeholderText = stringResource(android.R.string.search_go),
+                            startContent = {
+                                Icon(
+                                    painter = painterResource(UiR.drawable.ic_search),
+                                    contentDescription = null,
+                                    tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                                    modifier = Modifier.padding(8.dp),
+                                )
+                            },
+                            endContent = {
                                 IconButton(
                                     iconResId = UiR.drawable.ic_close,
                                     iconSize = IconButtonSize.S,
-                                    onClick = onClearQueryClicked,
+                                    onClick = {
+                                        onClearQueryClicked()
+                                        expanded = false
+                                    },
                                 )
-                            }
-                        },
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    )
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth(0.7f)
+                                .padding(horizontal = 8.dp)
+                                .focusRequester(focusRequester)
+                        )
+                        LaunchedEffect(Unit) {
+                            focusRequester.requestFocus()
+                        }
+                    } else {
+                        IconButton(
+                            iconResId = UiR.drawable.ic_search,
+                            iconSize = IconButtonSize.L,
+                            onClick = { expanded = true },
+                        )
+                    }
                 }
             )
         },

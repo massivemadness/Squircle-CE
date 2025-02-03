@@ -68,10 +68,13 @@ internal class FontsViewModel @Inject constructor(
     }
 
     fun onClearQueryClicked() {
-        _viewState.update {
-            it.copy(query = "")
+        val reload = viewState.value.query.isNotEmpty()
+        if (reload) {
+            _viewState.update {
+                it.copy(query = "")
+            }
+            loadFonts()
         }
-        loadFonts()
     }
 
     fun onSelectClicked(fontModel: FontModel) {
@@ -167,7 +170,7 @@ internal class FontsViewModel @Inject constructor(
                     )
                 }
             } catch (e: CancellationException) {
-              throw e
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewState.update {

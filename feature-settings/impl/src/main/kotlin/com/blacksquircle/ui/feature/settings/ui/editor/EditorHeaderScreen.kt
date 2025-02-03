@@ -104,7 +104,7 @@ private fun EditorHeaderScreen(
                 subtitle = stringResource(R.string.pref_font_size_summary),
                 minValue = 10f,
                 maxValue = 20f,
-                stepCount = 10,
+                stepCount = 9,
                 currentValue = viewState.fontSize.toFloat(),
                 onValueChanged = { fontSize ->
                     onFontSizeChanged(fontSize.toInt())
