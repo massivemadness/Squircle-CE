@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -42,8 +41,8 @@ fun CheckBox(
     onClick: () -> Unit = {},
     checked: Boolean = true,
     enabled: Boolean = true,
+    interactionSource: MutableInteractionSource? = remember { MutableInteractionSource() },
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.toggleable(

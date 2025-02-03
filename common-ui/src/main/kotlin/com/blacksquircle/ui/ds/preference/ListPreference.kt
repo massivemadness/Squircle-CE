@@ -16,12 +16,16 @@
 
 package com.blacksquircle.ui.ds.preference
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -72,20 +76,34 @@ fun ListPreference(
         AlertDialog(
             title = title,
             verticalScroll = false,
+            horizontalPadding = false,
             content = {
                 LazyColumn {
                     itemsIndexed(entryValues) { index, value ->
-                        Radio(
-                            title = entries[index],
-                            checked = value == selectedValue,
-                            onClick = {
-                                dialogShown = false
-                                onValueSelected(value)
-                            },
+                        val interactionSource = remember { MutableInteractionSource() }
+                        Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
-                        )
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = ripple(),
+                                    onClick = { onValueSelected(value) }
+                                )
+                                .padding(horizontal = 24.dp)
+                        ) {
+                            Radio(
+                                title = entries[index],
+                                checked = value == selectedValue,
+                                onClick = {
+                                    dialogShown = false
+                                    onValueSelected(value)
+                                },
+                                interactionSource = interactionSource,
+                                indication = null,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(48.dp)
+                            )
+                        }
                     }
                 }
             },

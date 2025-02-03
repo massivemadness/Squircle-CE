@@ -41,8 +41,8 @@ fun Switcher(
     onClick: () -> Unit = {},
     checked: Boolean = true,
     enabled: Boolean = true,
+    interactionSource: MutableInteractionSource? = remember { MutableInteractionSource() }
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.toggleable(

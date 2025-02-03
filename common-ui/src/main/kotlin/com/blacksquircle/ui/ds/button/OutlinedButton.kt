@@ -16,12 +16,22 @@
 
 package com.blacksquircle.ui.ds.button
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.material.OutlinedButton
+import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -32,17 +42,36 @@ fun OutlinedButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    interactionSource: MutableInteractionSource? = null,
 ) {
-    OutlinedButton(
-        onClick = onClick,
-        border = BorderStroke(
-            width = 1.dp,
-            color = SquircleTheme.colors.colorOutline,
-        ),
-        colors = ButtonDefaults.outlinedButtonColors(
-            backgroundColor = SquircleTheme.colors.colorBackgroundPrimary,
-        ),
-        modifier = modifier,
+    val buttonMinWidth = 64.dp
+    val buttonMinHeight = 36.dp
+    val buttonShape = RoundedCornerShape(4.dp)
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .sizeIn(
+                minWidth = buttonMinWidth,
+                minHeight = buttonMinHeight,
+            )
+            .clip(buttonShape)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple(),
+                enabled = enabled,
+                onClick = onClick,
+                role = Role.Button,
+            )
+            .background(
+                color = SquircleTheme.colors.colorBackgroundPrimary,
+            )
+            .border(
+                width = 1.dp,
+                color = SquircleTheme.colors.colorOutline,
+                shape = buttonShape,
+            )
+            .padding(8.dp)
     ) {
         Text(
             text = text.uppercase(),
@@ -52,6 +81,7 @@ fun OutlinedButton(
                 SquircleTheme.colors.colorTextAndIconDisabled
             },
             style = SquircleTheme.typography.text14Medium,
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
     }
 }

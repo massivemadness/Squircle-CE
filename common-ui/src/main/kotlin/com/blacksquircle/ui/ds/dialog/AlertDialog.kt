@@ -43,6 +43,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.TextButton
+import com.blacksquircle.ui.ds.divider.HorizontalDivider
 
 @Composable
 fun AlertDialog(
@@ -51,6 +52,7 @@ fun AlertDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     verticalScroll: Boolean = true,
+    horizontalPadding: Boolean = true,
     confirmButton: String? = null,
     dismissButton: String? = null,
     onConfirmClicked: () -> Unit = {},
@@ -66,11 +68,7 @@ fun AlertDialog(
             shape = RoundedCornerShape(8.dp),
             color = SquircleTheme.colors.colorBackgroundSecondary,
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
+            Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = title,
                     style = SquircleTheme.typography.text18Medium,
@@ -80,11 +78,22 @@ fun AlertDialog(
                     maxLines = 2,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 24.dp,
+                            bottom = 16.dp,
+                        )
                 )
 
+                val scrollState = rememberScrollState()
                 val scrollableModifier = if (verticalScroll) {
-                    Modifier.verticalScroll(rememberScrollState())
+                    Modifier.verticalScroll(scrollState)
+                } else {
+                    Modifier
+                }
+                val paddingModifier = if (horizontalPadding) {
+                    Modifier.padding(horizontal = 24.dp)
                 } else {
                     Modifier
                 }
@@ -92,17 +101,15 @@ fun AlertDialog(
                     content = content,
                     modifier = Modifier
                         .weight(1f, fill = false)
-                        .padding(horizontal = 16.dp)
+                        .then(paddingModifier)
                         .then(scrollableModifier)
                 )
-
-                Spacer(Modifier.height(8.dp))
 
                 Row(
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 4.dp)
+                        .padding(12.dp)
                 ) {
                     if (dismissButton != null) {
                         TextButton(
@@ -136,7 +143,6 @@ private fun AlertDialogPreview() {
                     text = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
                     style = SquircleTheme.typography.text14Regular,
                     color = SquircleTheme.colors.colorTextAndIconSecondary,
-                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
             },
             confirmButton = "Confirm",

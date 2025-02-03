@@ -16,22 +16,31 @@
 
 package com.blacksquircle.ui.ds.radio
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
+import androidx.compose.material.minimumInteractiveComponentSize
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,8 +53,21 @@ fun Radio(
     onClick: () -> Unit = {},
     checked: Boolean = true,
     enabled: Boolean = true,
+    interactionSource: MutableInteractionSource? = remember { MutableInteractionSource() },
+    indication: Indication? = ripple(bounded = false, radius = 24.dp)
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
+    val strokeWidth = 2.dp
+    val radioRadius = 12.dp
+    val dotRadius = animateDpAsState(
+        targetValue = if (checked) radioRadius / 2 else 0.dp,
+        animationSpec = tween(durationMillis = 100)
+    )
+    val radioColor = when {
+        !enabled -> SquircleTheme.colors.colorTextAndIconDisabled
+        !checked -> SquircleTheme.colors.colorTextAndIconSecondary
+        else -> SquircleTheme.colors.colorPrimary
+    }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.selectable(
@@ -56,20 +78,32 @@ fun Radio(
             onClick = onClick,
         )
     ) {
-        Box(Modifier.requiredSize(32.dp)) {
-            RadioButton(
-                selected = checked,
-                onClick = onClick,
-                enabled = enabled,
-                interactionSource = interactionSource,
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = SquircleTheme.colors.colorPrimary,
-                    unselectedColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                    disabledColor = SquircleTheme.colors.colorTextAndIconDisabled,
+        Canvas(
+            modifier = Modifier
+                .selectable(
+                    selected = checked,
+                    onClick = onClick,
+                    enabled = enabled,
+                    role = Role.RadioButton,
+                    interactionSource = interactionSource,
+                    indication = indication,
                 )
+                .wrapContentSize(Alignment.Center)
+                .requiredSize(32.dp)
+        ) {
+            drawCircle(
+                color = radioColor,
+                radius = radioRadius.toPx() - strokeWidth.toPx(),
+                style = Stroke(strokeWidth.toPx())
             )
+            if (dotRadius.value > 0.dp) {
+                drawCircle(
+                    color = radioColor,
+                    radius = dotRadius.value.toPx() - strokeWidth.toPx() / 2,
+                    style = Fill
+                )
+            }
         }
-
         if (title != null) {
             Spacer(Modifier.width(8.dp))
             Text(
