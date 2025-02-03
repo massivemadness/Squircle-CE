@@ -37,7 +37,7 @@ internal class EditorHeaderViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
-    val viewState: StateFlow<EditorHeaderState> = _viewState.asStateFlow()
+    val viewState: StateFlow<EditorHeaderViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -139,8 +139,8 @@ internal class EditorHeaderViewModel @Inject constructor(
         }
     }
 
-    private fun updateViewState(): EditorHeaderState {
-        return EditorHeaderState(
+    private fun updateViewState(): EditorHeaderViewState {
+        return EditorHeaderViewState(
             fontSize = settingsManager.fontSize,
             codeCompletion = settingsManager.codeCompletion,
             wordWrap = settingsManager.wordWrap,

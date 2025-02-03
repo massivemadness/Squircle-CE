@@ -37,7 +37,7 @@ internal class AppHeaderViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
-    val viewState: StateFlow<AppHeaderState> = _viewState.asStateFlow()
+    val viewState: StateFlow<AppHeaderViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -76,8 +76,8 @@ internal class AppHeaderViewModel @Inject constructor(
         }
     }
 
-    private fun updateViewState(): AppHeaderState {
-        return AppHeaderState(
+    private fun updateViewState(): AppHeaderViewState {
+        return AppHeaderViewState(
             appTheme = settingsManager.theme,
             fullscreenMode = settingsManager.fullScreenMode,
             confirmExit = settingsManager.confirmExit,

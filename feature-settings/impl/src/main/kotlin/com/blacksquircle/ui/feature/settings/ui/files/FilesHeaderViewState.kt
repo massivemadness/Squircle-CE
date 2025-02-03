@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.codestyle
+package com.blacksquircle.ui.feature.settings.ui.files
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 
 @Immutable
-internal data class CodeHeaderState(
-    val autoIndentation: Boolean,
-    val autoCloseBrackets: Boolean,
-    val autoCloseQuotes: Boolean,
-    val useSpacesInsteadOfTabs: Boolean,
-    val tabWidth: Int,
+internal data class FilesHeaderViewState(
+    val encodingAutoDetect: Boolean,
+    val encodingForOpening: String,
+    val encodingForSaving: String,
+    val encodingList: List<String>,
+    val lineBreakForSaving: String,
+    val showHidden: Boolean,
+    val foldersOnTop: Boolean,
+    val viewMode: String,
+    val sortMode: String,
 ) : ViewState()

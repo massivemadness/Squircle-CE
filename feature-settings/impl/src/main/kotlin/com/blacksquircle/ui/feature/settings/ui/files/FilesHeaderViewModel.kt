@@ -37,7 +37,7 @@ internal class FilesHeaderViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
-    val viewState: StateFlow<FilesHeaderState> = _viewState.asStateFlow()
+    val viewState: StateFlow<FilesHeaderViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -104,8 +104,8 @@ internal class FilesHeaderViewModel @Inject constructor(
         }
     }
 
-    private fun updateViewState(): FilesHeaderState {
-        return FilesHeaderState(
+    private fun updateViewState(): FilesHeaderViewState {
+        return FilesHeaderViewState(
             encodingAutoDetect = settingsManager.encodingAutoDetect,
             encodingForOpening = settingsManager.encodingForOpening,
             encodingForSaving = settingsManager.encodingForSaving,

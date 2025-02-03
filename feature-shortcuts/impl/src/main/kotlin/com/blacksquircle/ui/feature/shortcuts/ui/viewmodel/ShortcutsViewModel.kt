@@ -22,7 +22,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
-import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsState
+import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsViewState
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -38,8 +38,8 @@ internal class ShortcutsViewModel @Inject constructor(
     private val shortcutsRepository: ShortcutsRepository,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(ShortcutsState())
-    val viewState: StateFlow<ShortcutsState> = _viewState.asStateFlow()
+    private val _viewState = MutableStateFlow(ShortcutsViewState())
+    val viewState: StateFlow<ShortcutsViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -133,7 +133,7 @@ internal class ShortcutsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 shortcuts = shortcutsRepository.loadShortcuts()
-                _viewState.value = ShortcutsState(
+                _viewState.value = ShortcutsViewState(
                     shortcuts = shortcuts.groupBy { it.shortcut.group },
                 )
             } catch (e: Exception) {

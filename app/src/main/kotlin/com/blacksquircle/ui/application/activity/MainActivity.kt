@@ -18,6 +18,7 @@ package com.blacksquircle.ui.application.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -25,7 +26,6 @@ import androidx.core.view.updatePadding
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
-import com.blacksquircle.ui.core.extensions.decorFitsSystemWindows
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.utils.InAppUpdate
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        window.decorFitsSystemWindows(false)
+        enableEdgeToEdge()
         window.fullscreenMode(mainViewModel.fullScreenMode)
 
         binding.navHost.applySystemWindowInsets(false) { left, _, right, _ ->

@@ -17,8 +17,10 @@
 package com.blacksquircle.ui.feature.settings.ui.codestyle
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
@@ -53,7 +55,7 @@ internal fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
 
 @Composable
 private fun CodeHeaderScreen(
-    viewState: CodeHeaderState,
+    viewState: CodeHeaderViewState,
     onBackClicked: () -> Unit,
     onAutoIndentChanged: (Boolean) -> Unit,
     onAutoBracketsChanged: (Boolean) -> Unit,
@@ -69,12 +71,13 @@ private fun CodeHeaderScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        modifier = Modifier.navigationBarsPadding()
-    ) { innerPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
+                .padding(contentPadding)
         ) {
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_code_style)
@@ -128,7 +131,7 @@ private fun CodeHeaderScreen(
 private fun CodeHeaderScreenPreview() {
     SquircleTheme {
         CodeHeaderScreen(
-            viewState = CodeHeaderState(
+            viewState = CodeHeaderViewState(
                 autoIndentation = true,
                 autoCloseBrackets = true,
                 autoCloseQuotes = true,

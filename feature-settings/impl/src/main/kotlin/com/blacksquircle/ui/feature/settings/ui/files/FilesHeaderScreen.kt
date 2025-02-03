@@ -17,8 +17,10 @@
 package com.blacksquircle.ui.feature.settings.ui.files
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
@@ -57,7 +59,7 @@ internal fun FilesHeaderScreen(viewModel: FilesHeaderViewModel) {
 
 @Composable
 private fun FilesHeaderScreen(
-    viewState: FilesHeaderState,
+    viewState: FilesHeaderViewState,
     onBackClicked: () -> Unit,
     onEncodingAutoDetectChanged: (Boolean) -> Unit,
     onEncodingForOpeningChanged: (String) -> Unit,
@@ -76,12 +78,13 @@ private fun FilesHeaderScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        modifier = Modifier.navigationBarsPadding()
-    ) { innerPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
+                .padding(contentPadding)
         ) {
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_encoding)
@@ -163,7 +166,7 @@ private fun FilesHeaderScreen(
 private fun FilesHeaderScreenPreview() {
     SquircleTheme {
         FilesHeaderScreen(
-            viewState = FilesHeaderState(
+            viewState = FilesHeaderViewState(
                 encodingAutoDetect = false,
                 encodingForOpening = "UTF-8",
                 encodingForSaving = "UTF-8",

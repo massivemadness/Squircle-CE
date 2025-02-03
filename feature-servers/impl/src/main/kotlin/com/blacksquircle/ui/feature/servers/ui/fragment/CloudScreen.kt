@@ -16,9 +16,10 @@
 
 package com.blacksquircle.ui.feature.servers.ui.fragment
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
@@ -52,7 +53,7 @@ internal fun CloudScreen(viewModel: CloudViewModel) {
 
 @Composable
 private fun CloudScreen(
-    viewState: CloudState,
+    viewState: CloudViewState,
     onBackClicked: () -> Unit,
     onServerClicked: (ServerConfig) -> Unit,
     onAddServerClicked: () -> Unit,
@@ -65,12 +66,12 @@ private fun CloudScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        modifier = Modifier.navigationBarsPadding()
-    ) { innerPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            contentPadding = contentPadding,
+            modifier = Modifier.fillMaxSize()
         ) {
             item {
                 PreferenceGroup(
@@ -102,7 +103,7 @@ private fun CloudScreen(
 private fun CloudScreenPreview() {
     SquircleTheme {
         CloudScreen(
-            viewState = CloudState(
+            viewState = CloudViewState(
                 servers = listOf(
                     ServerConfig(
                         uuid = "1",

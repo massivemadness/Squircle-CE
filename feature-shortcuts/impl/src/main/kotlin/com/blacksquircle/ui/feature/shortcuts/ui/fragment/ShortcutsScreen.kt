@@ -16,9 +16,12 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui.fragment
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
@@ -62,7 +65,7 @@ internal fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
 
 @Composable
 private fun ShortcutsScreen(
-    viewState: ShortcutsState,
+    viewState: ShortcutsViewState,
     onBackClicked: () -> Unit,
     onRestoreClicked: () -> Unit,
     onKeyClicked: (Keybinding) -> Unit,
@@ -97,12 +100,12 @@ private fun ShortcutsScreen(
                 }
             )
         },
-        modifier = Modifier.navigationBarsPadding()
-    ) { innerPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            contentPadding = contentPadding,
+            modifier = Modifier.fillMaxSize()
         ) {
             viewState.shortcuts.forEach { (keyGroup, keybindings) ->
                 item(
@@ -170,7 +173,7 @@ private fun ShortcutsScreen(
 private fun ShortcutsScreenPreview() {
     SquircleTheme {
         ShortcutsScreen(
-            viewState = ShortcutsState(
+            viewState = ShortcutsViewState(
                 shortcuts = Shortcut.entries
                     .map(::Keybinding)
                     .groupBy { it.shortcut.group }

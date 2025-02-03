@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.fragment
+package com.blacksquircle.ui.feature.settings.ui.codestyle
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.shortcuts.domain.model.KeyGroup
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 
 @Immutable
-internal data class ShortcutsState(
-    val shortcuts: Map<KeyGroup, List<Keybinding>> = emptyMap(),
+internal data class CodeHeaderViewState(
+    val autoIndentation: Boolean,
+    val autoCloseBrackets: Boolean,
+    val autoCloseQuotes: Boolean,
+    val useSpacesInsteadOfTabs: Boolean,
+    val tabWidth: Int,
 ) : ViewState()

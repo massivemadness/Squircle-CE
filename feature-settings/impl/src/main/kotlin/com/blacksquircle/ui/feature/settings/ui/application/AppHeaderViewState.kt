@@ -20,7 +20,7 @@ import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 
 @Immutable
-internal data class AppHeaderState(
+internal data class AppHeaderViewState(
     val appTheme: String,
     val fullscreenMode: Boolean,
     val confirmExit: Boolean,

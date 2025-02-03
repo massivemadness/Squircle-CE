@@ -16,8 +16,10 @@
 
 package com.blacksquircle.ui.feature.changelog.ui.fragment
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
@@ -33,13 +35,13 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.changelog.R
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import com.blacksquircle.ui.feature.changelog.ui.composable.ReleaseInfo
-import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogState
+import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogViewState
 import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ChangeLogScreen(viewModel: ChangeLogViewModel) {
-    val viewState by viewModel.changelogState.collectAsStateWithLifecycle()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ChangeLogScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
@@ -48,7 +50,7 @@ internal fun ChangeLogScreen(viewModel: ChangeLogViewModel) {
 
 @Composable
 private fun ChangeLogScreen(
-    viewState: ChangeLogState,
+    viewState: ChangeLogViewState,
     onBackClicked: () -> Unit,
 ) {
     Scaffold(
@@ -58,12 +60,13 @@ private fun ChangeLogScreen(
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
-        }
-    ) { innerPadding ->
+        },
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            contentPadding = contentPadding,
+            modifier = Modifier.fillMaxSize()
         ) {
             items(
                 items = viewState.releases,
@@ -85,12 +88,12 @@ private fun ChangeLogScreen(
 private fun ChangeLogScreenPreview() {
     SquircleTheme {
         ChangeLogScreen(
-            viewState = ChangeLogState(
+            viewState = ChangeLogViewState(
                 releases = listOf(
                     ReleaseModel(
                         versionName = "v2024.1.0",
                         releaseDate = "24 Jan. 2024",
-                        releaseNotes = "- New UI!\n- Improved support for tablets and foldables!",
+                        releaseNotes = "- New UI!<br>- Improved support for tablets and foldables!",
                     )
                 )
             ),

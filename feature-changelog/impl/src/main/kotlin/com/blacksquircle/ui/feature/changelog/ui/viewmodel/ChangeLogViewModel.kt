@@ -32,8 +32,8 @@ internal class ChangeLogViewModel @Inject constructor(
     private val changelogRepository: ChangelogRepository,
 ) : ViewModel() {
 
-    private val _changelogState = MutableStateFlow(ChangeLogState())
-    val changelogState: StateFlow<ChangeLogState> = _changelogState.asStateFlow()
+    private val _viewState = MutableStateFlow(ChangeLogViewState())
+    val viewState: StateFlow<ChangeLogViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -51,7 +51,7 @@ internal class ChangeLogViewModel @Inject constructor(
     private fun loadChangelog() {
         viewModelScope.launch {
             try {
-                _changelogState.value = ChangeLogState(changelogRepository.loadChangelog())
+                _viewState.value = ChangeLogViewState(changelogRepository.loadChangelog())
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))

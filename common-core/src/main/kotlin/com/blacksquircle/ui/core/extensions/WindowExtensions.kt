@@ -32,10 +32,6 @@ fun Window.fullscreenMode(whether: Boolean) {
     }
 }
 
-fun Window.decorFitsSystemWindows(decorFitsSystemWindows: Boolean) {
-    WindowCompat.setDecorFitsSystemWindows(this, decorFitsSystemWindows)
-}
-
 fun Activity.focusedTextField(): EditText? {
     val currentFocusView = currentFocus
     if (currentFocusView is EditText) {

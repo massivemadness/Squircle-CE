@@ -29,7 +29,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.ui.dialog.ServerState
+import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
 import com.blacksquircle.ui.filesystem.base.model.FileServer
 
 private const val HINT_ADDRESS = "192.168.21.101"
@@ -65,8 +65,8 @@ internal fun ServerAddress(
             placeholderText = when (scheme) {
                 FileServer.FTP,
                 FileServer.FTPS,
-                FileServer.FTPES -> ServerState.DEFAULT_FTP_PORT.toString()
-                FileServer.SFTP -> ServerState.DEFAULT_SFTP_PORT.toString()
+                FileServer.FTPES -> ServerViewState.DEFAULT_FTP_PORT.toString()
+                FileServer.SFTP -> ServerViewState.DEFAULT_SFTP_PORT.toString()
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,

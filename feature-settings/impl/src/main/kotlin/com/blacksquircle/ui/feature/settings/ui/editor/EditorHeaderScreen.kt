@@ -17,8 +17,10 @@
 package com.blacksquircle.ui.feature.settings.ui.editor
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
@@ -65,7 +67,7 @@ internal fun EditorHeaderScreen(viewModel: EditorHeaderViewModel) {
 
 @Composable
 private fun EditorHeaderScreen(
-    viewState: EditorHeaderState,
+    viewState: EditorHeaderViewState,
     onBackClicked: () -> Unit,
     onFontSizeChanged: (Int) -> Unit,
     onFontTypeClicked: () -> Unit,
@@ -89,12 +91,13 @@ private fun EditorHeaderScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        modifier = Modifier.navigationBarsPadding()
-    ) { innerPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
+                .padding(contentPadding)
         ) {
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_code_style)
@@ -208,7 +211,7 @@ private fun EditorHeaderScreen(
 private fun EditorHeaderScreenPreview() {
     SquircleTheme {
         EditorHeaderScreen(
-            viewState = EditorHeaderState(
+            viewState = EditorHeaderViewState(
                 fontSize = 14,
                 wordWrap = true,
                 codeCompletion = true,

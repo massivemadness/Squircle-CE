@@ -17,8 +17,10 @@
 package com.blacksquircle.ui.feature.settings.ui.application
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
@@ -58,7 +60,7 @@ internal fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
 
 @Composable
 private fun AppHeaderScreen(
-    viewState: AppHeaderState,
+    viewState: AppHeaderViewState,
     onBackClicked: () -> Unit,
     onThemeChanged: (String) -> Unit,
     onColorSchemeClicked: () -> Unit,
@@ -73,12 +75,13 @@ private fun AppHeaderScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        modifier = Modifier.navigationBarsPadding()
-    ) { innerPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
+                .padding(contentPadding)
         ) {
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_look_and_feel)
@@ -130,7 +133,7 @@ private fun AppHeaderScreen(
 private fun AppHeaderScreenPreview() {
     SquircleTheme {
         AppHeaderScreen(
-            viewState = AppHeaderState(
+            viewState = AppHeaderViewState(
                 appTheme = Theme.DARK.value,
                 fullscreenMode = false,
                 confirmExit = true

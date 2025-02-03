@@ -36,7 +36,7 @@ internal class CodeHeaderViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
-    val viewState: StateFlow<CodeHeaderState> = _viewState.asStateFlow()
+    val viewState: StateFlow<CodeHeaderViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -82,8 +82,8 @@ internal class CodeHeaderViewModel @Inject constructor(
         }
     }
 
-    private fun updateViewState(): CodeHeaderState {
-        return CodeHeaderState(
+    private fun updateViewState(): CodeHeaderViewState {
+        return CodeHeaderViewState(
             autoIndentation = settingsManager.autoIndentation,
             autoCloseBrackets = settingsManager.autoCloseBrackets,
             autoCloseQuotes = settingsManager.autoCloseQuotes,

@@ -17,9 +17,10 @@
 package com.blacksquircle.ui.feature.settings.ui.header
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
@@ -48,7 +49,7 @@ internal fun HeaderListScreen(viewModel: HeaderViewModel) {
 
 @Composable
 private fun HeaderListScreen(
-    viewState: HeaderListState,
+    viewState: HeaderListViewState,
     onBackClicked: () -> Unit,
     onHeaderClicked: (Screen<*>) -> Unit,
 ) {
@@ -60,12 +61,13 @@ private fun HeaderListScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        modifier = Modifier.navigationBarsPadding()
-    ) { innerPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(innerPadding),
+                .padding(contentPadding),
         ) {
             viewState.headers.forEach { header ->
                 PreferenceHeader(
@@ -83,7 +85,7 @@ private fun HeaderListScreen(
 private fun HeaderListScreenPreview() {
     SquircleTheme {
         HeaderListScreen(
-            viewState = HeaderListState(),
+            viewState = HeaderListViewState(),
             onBackClicked = {},
             onHeaderClicked = {},
         )

@@ -16,8 +16,10 @@
 
 package com.blacksquircle.ui.feature.settings.ui.header
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.navigation.Screen
 
+@Immutable
 internal data class PreferenceHeader(
     val title: Int,
     val subtitle: Int,

@@ -19,10 +19,15 @@ package com.blacksquircle.ui.feature.themes.ui.fragment
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -39,10 +44,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -151,23 +158,31 @@ private fun ThemesScreen(
                 modifier = Modifier.padding(8.dp)
             )
         },
-        modifier = Modifier.navigationBarsPadding()
-    ) { innerPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            modifier = Modifier.fillMaxSize()
         ) {
             if (viewState.isLoading) {
                 Loader()
                 return@Scaffold
             }
+
+            val itemPadding = 8.dp
+            val layoutDirection = LocalLayoutDirection.current
+
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(300.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.spacedBy(itemPadding),
+                horizontalArrangement = Arrangement.spacedBy(itemPadding),
+                contentPadding = PaddingValues(
+                    top = contentPadding.calculateTopPadding() + itemPadding,
+                    start = contentPadding.calculateStartPadding(layoutDirection) + itemPadding,
+                    end = contentPadding.calculateEndPadding(layoutDirection) + itemPadding,
+                    bottom = contentPadding.calculateBottomPadding() + itemPadding,
+                ),
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(

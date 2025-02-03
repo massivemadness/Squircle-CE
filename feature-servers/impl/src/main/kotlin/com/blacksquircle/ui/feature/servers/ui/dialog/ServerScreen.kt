@@ -75,7 +75,7 @@ internal fun ServerScreen(
 
 @Composable
 private fun ServerScreen(
-    viewState: ServerState,
+    viewState: ServerViewState,
     onSchemeChanged: (String) -> Unit,
     onNameChanged: (String) -> Unit,
     onAddressChanged: (String) -> Unit,
@@ -228,7 +228,7 @@ private fun ServerScreen(
 private fun ServerScreenPreview() {
     SquircleTheme {
         ServerScreen(
-            viewState = ServerState(),
+            viewState = ServerViewState(),
             onSchemeChanged = {},
             onNameChanged = {},
             onAddressChanged = {},

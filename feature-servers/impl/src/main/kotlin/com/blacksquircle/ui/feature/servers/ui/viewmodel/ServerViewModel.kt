@@ -21,7 +21,7 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
-import com.blacksquircle.ui.feature.servers.ui.dialog.ServerState
+import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
@@ -47,7 +47,7 @@ internal class ServerViewModel @AssistedInject constructor(
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(initialViewState())
-    val viewState: StateFlow<ServerState> = _viewState.asStateFlow()
+    val viewState: StateFlow<ServerViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -177,10 +177,10 @@ internal class ServerViewModel @AssistedInject constructor(
         }
     }
 
-    private fun initialViewState(): ServerState {
+    private fun initialViewState(): ServerViewState {
         return if (isEditMode) {
             val serverConfig = Gson().fromJson(serverData, ServerConfig::class.java)
-            ServerState(
+            ServerViewState(
                 isEditMode = true,
                 uuid = serverConfig.uuid,
                 scheme = serverConfig.scheme,
@@ -205,7 +205,7 @@ internal class ServerViewModel @AssistedInject constructor(
                 passphrase = serverConfig.passphrase.orEmpty(),
             )
         } else {
-            ServerState(
+            ServerViewState(
                 isEditMode = false,
                 uuid = UUID.randomUUID().toString(),
                 scheme = FileServer.FTP,

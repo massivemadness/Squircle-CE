@@ -25,7 +25,7 @@ import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.FileServer
 
 @Immutable
-internal data class ServerState(
+internal data class ServerViewState(
     val isEditMode: Boolean = false,
     val uuid: String = "",
     val scheme: FileServer = FileServer.FTP,

@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.files
+package com.blacksquircle.ui.feature.servers.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 @Immutable
-internal data class FilesHeaderState(
-    val encodingAutoDetect: Boolean,
-    val encodingForOpening: String,
-    val encodingForSaving: String,
-    val encodingList: List<String>,
-    val lineBreakForSaving: String,
-    val showHidden: Boolean,
-    val foldersOnTop: Boolean,
-    val viewMode: String,
-    val sortMode: String,
+internal data class CloudViewState(
+    val servers: List<ServerConfig> = emptyList()
 ) : ViewState()

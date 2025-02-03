@@ -20,7 +20,7 @@ import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 
 @Immutable
-internal data class EditorHeaderState(
+internal data class EditorHeaderViewState(
     val fontSize: Int,
     val wordWrap: Boolean,
     val codeCompletion: Boolean,

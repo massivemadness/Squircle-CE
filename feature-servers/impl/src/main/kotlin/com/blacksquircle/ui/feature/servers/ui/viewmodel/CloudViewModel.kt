@@ -21,7 +21,7 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.feature.servers.ui.fragment.CloudState
+import com.blacksquircle.ui.feature.servers.ui.fragment.CloudViewState
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,8 +36,8 @@ internal class CloudViewModel @Inject constructor(
     private val serversRepository: ServersRepository,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(CloudState())
-    val viewState: StateFlow<CloudState> = _viewState.asStateFlow()
+    private val _viewState = MutableStateFlow(CloudViewState())
+    val viewState: StateFlow<CloudViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -93,7 +93,7 @@ internal class CloudViewModel @Inject constructor(
     private fun loadServers() {
         viewModelScope.launch {
             val servers = serversRepository.loadServers()
-            _viewState.value = CloudState(servers)
+            _viewState.value = CloudViewState(servers)
         }
     }
 }

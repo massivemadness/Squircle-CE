@@ -49,7 +49,7 @@
         <item name="alertDialogStyle">@style/Dialog.AppTheme.Alert</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">?colorSecondaryVariant</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">@bool/windowLightStatusBar</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">@bool/windowLightNavigationBar</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>

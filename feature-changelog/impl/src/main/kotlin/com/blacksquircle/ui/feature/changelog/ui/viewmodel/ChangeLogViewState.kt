@@ -21,6 +21,6 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 
 @Immutable
-internal data class ChangeLogState(
+internal data class ChangeLogViewState(
     val releases: List<ReleaseModel> = emptyList(),
 ) : ViewState()

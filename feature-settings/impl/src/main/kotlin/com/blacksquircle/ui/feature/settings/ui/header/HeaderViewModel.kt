@@ -32,18 +32,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class HeaderViewModel @Inject constructor(
-    private val settingsManager: SettingsManager,
-) : ViewModel() {
+internal class HeaderViewModel @Inject constructor() : ViewModel() {
 
-    private val _viewState = MutableStateFlow(HeaderListState())
-    val viewState: StateFlow<HeaderListState> = _viewState.asStateFlow()
+    private val _viewState = MutableStateFlow(HeaderListViewState())
+    val viewState: StateFlow<HeaderListViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
-
-    val fullscreenMode: Boolean
-        get() = settingsManager.fullScreenMode
 
     fun onBackClicked() {
         viewModelScope.launch {

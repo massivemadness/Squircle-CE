@@ -23,14 +23,14 @@ import androidx.core.content.pm.PackageInfoCompat
 internal val Context.applicationName: String
     get() = try {
         applicationInfo.loadLabel(packageManager).toString()
-    } catch (e: PackageManager.NameNotFoundException) {
+    } catch (e: Exception) {
         "null"
     }
 
 internal val Context.versionName: String
     get() = try {
         packageManager.getPackageInfo(packageName, 0).versionName.orEmpty()
-    } catch (e: PackageManager.NameNotFoundException) {
+    } catch (e: Exception) {
         "null"
     }
 
@@ -38,6 +38,6 @@ internal val Context.versionCode: Long
     get() = try {
         val packageInfo = packageManager.getPackageInfo(packageName, 0)
         PackageInfoCompat.getLongVersionCode(packageInfo)
-    } catch (e: PackageManager.NameNotFoundException) {
+    } catch (e: Exception) {
         -1L
     }
