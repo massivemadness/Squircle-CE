@@ -23,6 +23,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.blacksquircle.ui.core.extensions.decodeUri
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogRenameBinding
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
@@ -39,7 +40,7 @@ class RenameDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogRenameBinding.inflate(layoutInflater)
-        binding.input.setText(navArgs.fileName)
+        binding.input.setText(navArgs.fileName.decodeUri())
 
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.dialog_title_rename)

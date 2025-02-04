@@ -23,6 +23,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.blacksquircle.ui.core.extensions.decodeUri
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
@@ -42,7 +43,7 @@ class DeleteDialog : DialogFragment() {
         val dialogTitle = if (isMultiDelete) {
             getString(R.string.dialog_title_multi_delete)
         } else {
-            navArgs.fileName
+            navArgs.fileName.decodeUri()
         }
 
         val dialogMessage = if (isMultiDelete) {

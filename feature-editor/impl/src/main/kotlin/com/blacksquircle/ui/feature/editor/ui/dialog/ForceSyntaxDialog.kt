@@ -22,6 +22,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.blacksquircle.ui.core.extensions.decodeUri
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
@@ -39,7 +40,10 @@ class ForceSyntaxDialog : DialogFragment() {
         val langEntries = resources.getStringArray(R.array.language_name)
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.dialog_title_force_syntax)
-            .setSingleChoiceItems(langNames, langEntries.indexOf(navArgs.languageName)) { _, which ->
+            .setSingleChoiceItems(
+                langNames,
+                langEntries.indexOf(navArgs.languageName.decodeUri())
+            ) { _, which ->
                 val intent = EditorIntent.ForceSyntaxHighlighting(langEntries[which])
                 viewModel.obtainEvent(intent)
                 requireContext().showToast(text = langNames[which])

@@ -16,11 +16,15 @@
 
 package com.blacksquircle.ui.core.extensions
 
+import android.net.Uri
 import com.google.gson.Gson
-import java.net.URLDecoder
-import java.net.URLEncoder
 
-fun String.encodeUrl(encoding: String = "UTF-8"): String = URLEncoder.encode(this, encoding)
-fun String.decodeUrl(encoding: String = "UTF-8"): String = URLDecoder.decode(this, encoding)
+fun String.encodeUri(): String = Uri.encode(this)
+fun String.decodeUri(): String = Uri.decode(this)
 
-fun Gson.toJsonEncoded(any: Any): String = toJson(any).encodeUrl()
+fun Any.toJsonEncoded(): String {
+    return Gson().toJson(this).encodeUri()
+}
+inline fun <reified T> String.fromJsonEncoded(): T {
+    return Gson().fromJson(this.decodeUri(), T::class.java)
+}

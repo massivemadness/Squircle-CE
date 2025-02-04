@@ -26,13 +26,13 @@
         android:label="@string/label_themes">
         <deepLink app:uri="blacksquircle://themes" />
         <action
-            android:id="@+id/to_newThemeFragment"
-            app:destination="@id/newThemeFragment" />
+            android:id="@+id/to_editThemeFragment"
+            app:destination="@id/editThemeFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/newThemeFragment"
-        android:name="com.blacksquircle.ui.feature.themes.ui.fragment.NewThemeFragment"
+        android:id="@+id/editThemeFragment"
+        android:name="com.blacksquircle.ui.feature.themes.ui.fragment.EditThemeFragment"
         android:label="@string/label_new_theme">
         <deepLink app:uri="blacksquircle://themes/create" />
         <deepLink app:uri="blacksquircle://themes/update?uuid={uuid}" />

@@ -81,9 +81,11 @@ internal fun ThemesScreen(viewModel: ThemesViewModel) {
         onCodePreviewChanged = viewModel::onCodePreviewChanged,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
-        onCreateClicked = {},
-        onSelectClicked = {},
-        onRemoveClicked = {},
+        onCreateClicked = viewModel::onCreateClicked,
+        onSelectClicked = viewModel::onSelectClicked,
+        onExportClicked = viewModel::onExportClicked,
+        onEditClicked = viewModel::onEditClicked,
+        onRemoveClicked = viewModel::onRemoveClicked,
     )
 }
 
@@ -96,6 +98,8 @@ private fun ThemesScreen(
     onClearQueryClicked: () -> Unit,
     onCreateClicked: () -> Unit,
     onSelectClicked: (ThemeModel) -> Unit,
+    onExportClicked: (ThemeModel) -> Unit,
+    onEditClicked: (ThemeModel) -> Unit,
     onRemoveClicked: (ThemeModel) -> Unit,
 ) {
     val scrollState = rememberLazyGridState()
@@ -209,8 +213,8 @@ private fun ThemesScreen(
                         fontPath = viewState.fontPath,
                         codeSample = viewState.preview.codeSample,
                         onSelectClicked = { onSelectClicked(theme) },
-                        onExportClicked = {},
-                        onEditClicked = {},
+                        onExportClicked = { onExportClicked(theme) },
+                        onEditClicked = { onEditClicked(theme) },
                         onRemoveClicked = { onRemoveClicked(theme) },
                         modifier = Modifier.animateItem(),
                     )
@@ -244,6 +248,8 @@ private fun ThemesScreenPreview() {
             onClearQueryClicked = {},
             onCreateClicked = {},
             onSelectClicked = {},
+            onExportClicked = {},
+            onEditClicked = {},
             onRemoveClicked = {},
         )
     }

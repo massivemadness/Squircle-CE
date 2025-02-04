@@ -33,6 +33,7 @@ import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -45,10 +46,7 @@ internal class ThemesFragment : Fragment() {
     private val navController by lazy { findNavController() }
     private val exportThemeContract = CreateFileContract(this) { result ->
         when (result) {
-            is ContractResult.Success -> {
-                // viewModel.obtainEvent(ThemeIntent.ExportTheme(themeModel, result.uri))
-            }
-
+            is ContractResult.Success -> viewModel.onExportFileSelected(result.uri)
             is ContractResult.Canceled -> Unit
         }
     }
@@ -80,6 +78,12 @@ internal class ThemesFragment : Fragment() {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigateTo(event.screen)
                     is ViewEvent.PopBackStack -> navController.popBackStack()
+                    is ThemesViewEvent.ChooseExportFile -> {
+                        exportThemeContract.launch(
+                            event.themeName,
+                            CreateFileContract.JSON
+                        )
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

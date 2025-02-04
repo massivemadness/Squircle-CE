@@ -21,6 +21,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
+import com.blacksquircle.ui.core.extensions.fromJsonEncoded
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.toReadableDate
 import com.blacksquircle.ui.feature.explorer.data.utils.toReadableSize
@@ -37,8 +38,7 @@ class PropertiesDialog : DialogFragment() {
     private val navArgs by navArgs<PropertiesDialogArgs>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val fileModel = Gson().fromJson(navArgs.data, FileModel::class.java) // FIXME
-
+        val fileModel = navArgs.data.fromJsonEncoded<FileModel>()
         val readableSize = fileModel.size.toReadableSize()
         val readableDate = fileModel.lastModified
             .toReadableDate(getString(R.string.properties_date_format))

@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.extensions.fromJsonEncoded
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
@@ -111,7 +112,7 @@ internal class ServerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onKeyFileChosen(filePath: String) {
+    fun onKeyFileSelected(filePath: String) {
         _viewState.update {
             it.copy(privateKey = filePath)
         }
@@ -179,7 +180,7 @@ internal class ServerViewModel @AssistedInject constructor(
 
     private fun initialViewState(): ServerViewState {
         return if (isEditMode) {
-            val serverConfig = Gson().fromJson(serverData, ServerConfig::class.java)
+            val serverConfig = serverData!!.fromJsonEncoded<ServerConfig>()
             ServerViewState(
                 isEditMode = true,
                 uuid = serverConfig.uuid,

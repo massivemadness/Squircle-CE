@@ -20,10 +20,10 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 
-sealed class NewThemeViewState : ViewState() {
+sealed class EditThemeViewState : ViewState() {
 
     data class MetaData(
         val meta: Meta,
         val properties: List<PropertyItem>,
-    ) : NewThemeViewState()
+    ) : EditThemeViewState()
 }

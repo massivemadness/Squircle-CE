@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.navigation
 
-import com.blacksquircle.ui.core.extensions.encodeUrl
+import com.blacksquircle.ui.core.extensions.encodeUri
 import com.blacksquircle.ui.core.navigation.Screen
 
 internal sealed class ThemesScreen(route: String) : Screen<String>(route) {
@@ -26,6 +26,6 @@ internal sealed class ThemesScreen(route: String) : Screen<String>(route) {
     class Update(uuid: String?) : ThemesScreen("blacksquircle://themes/update?uuid=$uuid")
 
     class ChooseColor(key: String, value: String) : ThemesScreen(
-        route = "blacksquircle://themes/choosecolor?key=$key&value=${value.encodeUrl()}"
+        route = "blacksquircle://themes/choosecolor?key=$key&value=${value.encodeUri()}"
     )
 }

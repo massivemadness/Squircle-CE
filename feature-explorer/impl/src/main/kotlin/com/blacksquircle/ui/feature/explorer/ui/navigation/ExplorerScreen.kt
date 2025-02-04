@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.navigation
 
-import com.blacksquircle.ui.core.extensions.encodeUrl
+import com.blacksquircle.ui.core.extensions.encodeUri
 import com.blacksquircle.ui.core.extensions.toJsonEncoded
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
@@ -27,16 +27,16 @@ import com.google.gson.Gson
 sealed class ExplorerScreen(route: String) : Screen<String>(route) {
 
     class DeleteDialog(fileName: String, fileCount: Int) : ExplorerScreen(
-        route = "blacksquircle://explorer/delete?fileName=${fileName.encodeUrl()}&fileCount=$fileCount",
+        route = "blacksquircle://explorer/delete?fileName=${fileName.encodeUri()}&fileCount=$fileCount",
     )
     class RenameDialog(fileName: String) : ExplorerScreen(
-        route = "blacksquircle://explorer/rename?fileName=${fileName.encodeUrl()}",
+        route = "blacksquircle://explorer/rename?fileName=${fileName.encodeUri()}",
     )
     class ProgressDialog(totalCount: Int, operation: Operation) : ExplorerScreen(
         route = "blacksquircle://explorer/progress?totalCount=$totalCount&operation=${operation.value}",
     )
     class PropertiesDialog(fileModel: FileModel) : ExplorerScreen(
-        route = "blacksquircle://explorer/properties?data=${Gson().toJsonEncoded(fileModel)}",
+        route = "blacksquircle://explorer/properties?data=${fileModel.toJsonEncoded()}",
     )
     class AuthDialog(authMethod: AuthMethod) : ExplorerScreen(
         route = "blacksquircle://explorer/authenticate?authMethod=${authMethod.value}"

@@ -22,6 +22,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.blacksquircle.ui.core.extensions.decodeUri
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
@@ -35,7 +36,7 @@ class CloseModifiedDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
-            .setTitle(navArgs.fileName)
+            .setTitle(navArgs.fileName.decodeUri())
             .setMessage(R.string.dialog_message_close_tab)
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(R.string.action_close) { _, _ ->

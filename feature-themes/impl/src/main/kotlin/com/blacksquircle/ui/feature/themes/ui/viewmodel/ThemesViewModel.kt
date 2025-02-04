@@ -31,9 +31,10 @@ import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.fragment.NewThemeViewState
+import com.blacksquircle.ui.feature.themes.ui.fragment.EditThemeViewState
 import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
+import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -56,12 +57,13 @@ internal class ThemesViewModel @Inject constructor(
     val viewState: StateFlow<ThemesViewState> = _viewState.asStateFlow()
 
     // TODO move to other viewmodel
-    private val _newThemeState = MutableStateFlow<NewThemeViewState>(NewThemeViewState.MetaData(Meta(), emptyList()))
-    val newThemeState: StateFlow<NewThemeViewState> = _newThemeState.asStateFlow()
+    private val _newThemeState = MutableStateFlow<EditThemeViewState>(EditThemeViewState.MetaData(Meta(), emptyList()))
+    val newThemeState: StateFlow<EditThemeViewState> = _newThemeState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private var pendingExport: ThemeModel? = null
     private var currentJob: Job? = null
 
     init {
@@ -94,6 +96,95 @@ internal class ThemesViewModel @Inject constructor(
                 it.copy(query = "")
             }
             loadThemes()
+        }
+    }
+
+    fun onCreateClicked() {
+        viewModelScope.launch {
+            val screen = ThemesScreen.Create
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onSelectClicked(themeModel: ThemeModel) {
+        viewModelScope.launch {
+            try {
+                themesRepository.selectTheme(themeModel)
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_selected,
+                            themeModel.name,
+                        ),
+                    ),
+                )
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(UiR.string.common_error_occurred),
+                    ),
+                )
+            }
+        }
+    }
+
+    fun onExportClicked(themeModel: ThemeModel) {
+        viewModelScope.launch {
+            pendingExport = themeModel
+            val themeName = themeModel.name + ".json"
+            _viewEvent.send(ThemesViewEvent.ChooseExportFile(themeName))
+        }
+    }
+
+    fun onExportFileSelected(fileUri: Uri) {
+        viewModelScope.launch {
+            try {
+                if (pendingExport == null) {
+                    throw IllegalStateException("Theme is not selected")
+                }
+                themesRepository.exportTheme(pendingExport!!, fileUri)
+                pendingExport = null
+
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
+                )
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(UiR.string.common_error_occurred),
+                    ),
+                )
+            }
+        }
+    }
+
+    fun onEditClicked(themeModel: ThemeModel) {
+
+    }
+
+    fun onRemoveClicked(themeModel: ThemeModel) {
+        viewModelScope.launch {
+            try {
+                themesRepository.removeTheme(themeModel)
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(
+                            R.string.message_theme_removed,
+                            themeModel.name,
+                        ),
+                    ),
+                )
+                loadThemes()
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(
+                    ViewEvent.Toast(
+                        stringProvider.getString(UiR.string.common_error_occurred),
+                    ),
+                )
+            }
         }
     }
 
@@ -137,71 +228,6 @@ internal class ThemesViewModel @Inject constructor(
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(R.string.message_theme_syntax_exception),
-                    ),
-                )
-            }
-        }
-    }
-
-    private fun exportTheme(themeModel: ThemeModel, fileUri: Uri) {
-        viewModelScope.launch {
-            try {
-                themesRepository.exportTheme(themeModel, fileUri)
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
-                )
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(UiR.string.common_error_occurred),
-                    ),
-                )
-            }
-        }
-    }
-
-    private fun selectTheme(themeModel: ThemeModel) {
-        viewModelScope.launch {
-            try {
-                themesRepository.selectTheme(themeModel)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(
-                            R.string.message_selected,
-                            themeModel.name,
-                        ),
-                    ),
-                )
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(UiR.string.common_error_occurred),
-                    ),
-                )
-            }
-        }
-    }
-
-    private fun removeTheme(themeModel: ThemeModel) {
-        viewModelScope.launch {
-            try {
-                themesRepository.removeTheme(themeModel)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(
-                            R.string.message_theme_removed,
-                            themeModel.name,
-                        ),
-                    ),
-                )
-                loadThemes()
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(UiR.string.common_error_occurred),
                     ),
                 )
             }
@@ -258,7 +284,7 @@ internal class ThemesViewModel @Inject constructor(
     }
 
     private fun onThemeNameChanged(name: String) {
-        val state = newThemeState.value as? NewThemeViewState.MetaData
+        val state = newThemeState.value as? EditThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
                 meta = state.meta.copy(name = name),
@@ -267,7 +293,7 @@ internal class ThemesViewModel @Inject constructor(
     }
 
     private fun onThemeAuthorChanged(author: String) {
-        val state = newThemeState.value as? NewThemeViewState.MetaData
+        val state = newThemeState.value as? EditThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
                 meta = state.meta.copy(author = author),
@@ -276,7 +302,7 @@ internal class ThemesViewModel @Inject constructor(
     }
 
     private fun onThemeDescriptionChanged(description: String) {
-        val state = newThemeState.value as? NewThemeViewState.MetaData
+        val state = newThemeState.value as? EditThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
                 meta = state.meta.copy(description = description),
@@ -285,7 +311,7 @@ internal class ThemesViewModel @Inject constructor(
     }
 
     private fun onThemeColorChanged(property: PropertyItem) {
-        val state = newThemeState.value as? NewThemeViewState.MetaData
+        val state = newThemeState.value as? EditThemeViewState.MetaData
         if (state != null) {
             _newThemeState.value = state.copy(
                 properties = state.properties.map { propertyItem ->
@@ -300,7 +326,7 @@ internal class ThemesViewModel @Inject constructor(
     }
 
     private fun loadProperties(themeModel: ThemeModel) {
-        _newThemeState.value = NewThemeViewState.MetaData(
+        _newThemeState.value = EditThemeViewState.MetaData(
             meta = Meta(
                 uuid = themeModel.uuid,
                 name = themeModel.name,

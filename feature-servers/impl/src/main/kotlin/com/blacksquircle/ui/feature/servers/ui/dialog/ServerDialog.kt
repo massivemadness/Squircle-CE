@@ -58,7 +58,7 @@ internal class ServerDialog : DialogFragment() {
         when (result) {
             is ContractResult.Success -> {
                 val filePath = context?.extractFilePath(result.uri)
-                viewModel.onKeyFileChosen(filePath.orEmpty())
+                viewModel.onKeyFileSelected(filePath.orEmpty())
             }
             is ContractResult.Canceled -> Unit
         }

@@ -35,13 +35,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-internal class NewThemeFragment : Fragment() {
+internal class EditThemeFragment : Fragment() {
 
     private val viewModel by hiltNavGraphViewModels<ThemesViewModel>(R.id.themes_graph)
 
-    // private val binding by viewBinding(FragmentNewThemeBinding::bind)
+    // private val binding by viewBinding(FragmentEditThemeBinding::bind)
     private val navController by lazy { findNavController() }
-    private val navArgs by navArgs<NewThemeFragmentArgs>()
+    private val navArgs by navArgs<EditThemeFragmentArgs>()
     private val openFileContract = OpenFileContract(this) { result ->
         /*when (result) {
             is ContractResult.Success -> viewModel.obtainEvent(ThemeIntent.ImportTheme(result.uri))
@@ -65,7 +65,7 @@ internal class NewThemeFragment : Fragment() {
         viewModel.newThemeState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state ->
                 when (state) {
-                    is NewThemeViewState.MetaData -> {
+                    is EditThemeViewState.MetaData -> {
                         /*val name = binding.textInputThemeName.text.toString()
                         val author = binding.textInputThemeAuthor.text.toString()
                         val description = binding.textInputThemeDescription.text.toString()

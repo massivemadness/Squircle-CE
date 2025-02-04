@@ -156,8 +156,10 @@ private fun ShortcutsScreen(
                         onClick = { onKeyClicked(keybinding) },
                     )
                 }
-                item {
-                    HorizontalDivider()
+                if (keyGroup != KeyGroup.TOOLS) {
+                    item {
+                        HorizontalDivider()
+                    }
                 }
             }
         }
