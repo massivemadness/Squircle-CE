@@ -33,6 +33,7 @@ dependencies {
 
     // Modules
     api(project(":editorkit:editorkit"))
+    api(project(":editorkit:editorkit-compose"))
     api(project(":filesystems:filesystem-base"))
     api(project(":editorkit:language-base"))
 }

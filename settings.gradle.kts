@@ -69,6 +69,7 @@ include(
 
 include(
     ":editorkit:editorkit",
+    ":editorkit:editorkit-compose",
     ":editorkit:language-base",
     ":editorkit:language-actionscript",
     ":editorkit:language-c",

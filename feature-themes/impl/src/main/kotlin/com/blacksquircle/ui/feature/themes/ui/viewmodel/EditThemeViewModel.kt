@@ -258,7 +258,9 @@ internal class EditThemeViewModel @AssistedInject constructor(
                             Property.ENTITY_REF_COLOR -> themeModel.colorScheme.entityRefColor
                         }.toHexString()
                     )
-                }
+                },
+                invalidName = themeModel.name.isBlank(),
+                invalidAuthor = themeModel.author.isBlank(),
             )
         }
     }

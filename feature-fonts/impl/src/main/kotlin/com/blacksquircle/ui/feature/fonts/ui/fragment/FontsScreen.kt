@@ -120,6 +120,7 @@ private fun FontsScreen(
                             endContent = {
                                 IconButton(
                                     iconResId = UiR.drawable.ic_close,
+                                    iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
                                     iconSize = IconButtonSize.S,
                                     onClick = { onClearQueryClicked(); expanded = false },
                                 )

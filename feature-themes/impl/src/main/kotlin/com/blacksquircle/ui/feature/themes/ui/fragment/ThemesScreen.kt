@@ -136,6 +136,7 @@ private fun ThemesScreen(
                             endContent = {
                                 IconButton(
                                     iconResId = UiR.drawable.ic_close,
+                                    iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
                                     iconSize = IconButtonSize.S,
                                     onClick = { onClearQueryClicked(); expanded = false },
                                 )
@@ -212,7 +213,7 @@ private fun ThemesScreen(
                     ThemeOverview(
                         themeModel = theme,
                         fontPath = viewState.fontPath,
-                        codeSample = viewState.preview.codeSample,
+                        codePreview = viewState.preview,
                         onSelectClicked = { onSelectClicked(theme) },
                         onExportClicked = { onExportClicked(theme) },
                         onEditClicked = { onEditClicked(theme) },
