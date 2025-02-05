@@ -20,4 +20,6 @@
     <string name="common_save">Зберегти</string>
     <string name="common_delete">Видалити</string>
     <string name="common_continue">Продовжити</string>
+    <string name="common_select">Вибрати</string>
+    <string name="dialog_title_color_picker">Вибір кольору</string>
 </resources>
