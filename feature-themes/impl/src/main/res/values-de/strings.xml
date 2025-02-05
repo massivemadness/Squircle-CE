@@ -22,8 +22,6 @@
 
     <string name="hint_enter_theme_name">Geben Sie einen Theme-Namen ein</string>
     <string name="hint_enter_theme_author">Geben Sie einen Theme-Autor ein</string>
-    <string name="hint_enter_theme_desc">Kurze Beschreibung</string>
-    <string name="hint_theme_desc">Standard-Farbschema</string>
 
     <string name="action_select">Auswählen</string>
     <string name="action_import">Importieren</string>

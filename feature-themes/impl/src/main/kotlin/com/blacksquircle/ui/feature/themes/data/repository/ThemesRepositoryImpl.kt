@@ -153,7 +153,7 @@ internal class ThemesRepositoryImpl(
                 uuid = meta.uuid,
                 name = meta.name,
                 author = meta.author,
-                description = meta.description,
+                description = "",
                 textColor = textColor,
                 cursorColor = cursorColor,
                 backgroundColor = backgroundColor,

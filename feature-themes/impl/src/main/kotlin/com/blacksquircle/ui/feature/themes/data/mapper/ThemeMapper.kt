@@ -34,7 +34,6 @@ internal object ThemeMapper {
             uuid = themeEntity.uuid,
             name = themeEntity.name,
             author = themeEntity.author,
-            description = themeEntity.description,
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = themeEntity.textColor.toColorInt(),
@@ -73,7 +72,7 @@ internal object ThemeMapper {
             uuid = themeModel.uuid,
             name = themeModel.name,
             author = themeModel.author,
-            description = themeModel.description,
+            description = "",
             textColor = themeModel.colorScheme.textColor.toHexString(),
             cursorColor = themeModel.colorScheme.cursorColor.toHexString(),
             backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),
@@ -109,7 +108,6 @@ internal object ThemeMapper {
             uuid = themeModel.uuid,
             name = themeModel.name,
             author = themeModel.author,
-            description = themeModel.description,
             externalScheme = ExternalScheme(
                 textColor = themeModel.colorScheme.textColor.toHexString(),
                 cursorColor = themeModel.colorScheme.cursorColor.toHexString(),
@@ -147,7 +145,6 @@ internal object ThemeMapper {
             uuid = externalTheme?.uuid ?: UUID.randomUUID().toString(),
             name = externalTheme?.name.orEmpty(),
             author = externalTheme?.author.orEmpty(),
-            description = externalTheme?.description.orEmpty(),
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = (externalTheme?.externalScheme?.textColor ?: FALLBACK_COLOR).toColorInt(),

@@ -22,10 +22,8 @@
 
     <string name="hint_enter_theme_name">Enter theme name</string>
     <string name="hint_enter_theme_author">Enter theme author</string>
-    <string name="hint_enter_theme_desc">Short description</string>
     <string name="hint_theme_name" translatable="false">Darcula</string>
     <string name="hint_theme_author" translatable="false">Squircle CE</string>
-    <string name="hint_theme_desc">Default color scheme</string>
 
     <string name="action_select">Select</string>
     <string name="action_import">Import</string>

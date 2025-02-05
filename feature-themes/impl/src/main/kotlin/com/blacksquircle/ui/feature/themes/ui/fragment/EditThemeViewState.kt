@@ -16,14 +16,14 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.themes.domain.model.Meta
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 
-sealed class EditThemeViewState : ViewState() {
-
-    data class MetaData(
-        val meta: Meta,
-        val properties: List<PropertyItem>,
-    ) : EditThemeViewState()
-}
+@Immutable
+internal data class EditThemeViewState(
+    val uuid: String = "",
+    val name: String = "",
+    val author: String = "",
+    val properties: List<PropertyItem> = emptyList(),
+) : ViewState()

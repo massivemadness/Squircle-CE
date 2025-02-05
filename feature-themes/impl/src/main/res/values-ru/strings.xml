@@ -19,8 +19,6 @@
     <string name="label_new_theme">Новая тема</string>
     <string name="hint_enter_theme_name">Название темы</string>
     <string name="hint_enter_theme_author">Автор темы</string>
-    <string name="hint_enter_theme_desc">Краткое описание</string>
-    <string name="hint_theme_desc">Новая цветовая схема</string>
     <string name="action_select">Выбрать</string>
     <string name="action_import">Импорт</string>
     <string name="action_export">Экспорт</string>

@@ -20,5 +20,4 @@ data class Meta(
     val uuid: String = "",
     val name: String = "",
     val author: String = "",
-    val description: String = "",
 )

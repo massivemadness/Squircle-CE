@@ -22,8 +22,6 @@
 
     <string name="hint_enter_theme_name">Insira o nome do tema</string>
     <string name="hint_enter_theme_author">Insira o nome do autor do tema</string>
-    <string name="hint_enter_theme_desc">Descrição curta</string>
-    <string name="hint_theme_desc">Esquema de cores padrão</string>
 
     <string name="action_select">Selecionar</string>
     <string name="action_import">Importar</string>

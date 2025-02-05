@@ -26,8 +26,6 @@ internal data class ExternalTheme(
     val name: String?,
     @SerializedName("author")
     val author: String?,
-    @SerializedName("description")
-    val description: String?,
     @SerializedName("color_scheme")
     val externalScheme: ExternalScheme?,
 ) {

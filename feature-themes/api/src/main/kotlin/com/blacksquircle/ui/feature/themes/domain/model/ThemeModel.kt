@@ -22,7 +22,6 @@ data class ThemeModel(
     val uuid: String,
     val name: String,
     val author: String,
-    val description: String,
     val isExternal: Boolean,
     val colorScheme: ColorScheme,
 )
