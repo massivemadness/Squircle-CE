@@ -40,7 +40,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_tools">Tools</string>
     <string name="dialog_title_goto_line">Go to Line…</string>
-    <string name="dialog_title_color_picker">Color Picker</string>
     <string name="dialog_title_force_syntax">Syntax Highlighting</string>
     <string name="dialog_message_close_tab">Are you sure you want to close this file? All unsaved changes will be discarded</string>
     <string name="message_no_open_files">No open files</string>
