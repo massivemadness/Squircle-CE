@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 import com.blacksquircle.ui.ds.R as UiR
 
 @HiltViewModel
@@ -63,6 +64,8 @@ internal class ShortcutsViewModel @Inject constructor(
             try {
                 shortcutsRepository.restoreDefaults()
                 loadShortcuts()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
@@ -101,6 +104,8 @@ internal class ShortcutsViewModel @Inject constructor(
                     _viewEvent.send(ViewEvent.PopBackStack())
                     loadShortcuts()
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
@@ -120,6 +125,8 @@ internal class ShortcutsViewModel @Inject constructor(
                 pendingKey = null
                 conflictKey = null
                 loadShortcuts()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
@@ -136,6 +143,8 @@ internal class ShortcutsViewModel @Inject constructor(
                 _viewState.value = ShortcutsViewState(
                     shortcuts = shortcuts.groupBy { it.shortcut.group },
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(

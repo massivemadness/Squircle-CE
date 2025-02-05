@@ -71,7 +71,7 @@ internal fun KeybindingScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun KeybindingScreen(
-    viewState: KeybindingState,
+    viewState: KeybindingViewState,
     onKeyPressed: (Char) -> Unit,
     onMultiKeyPressed: (Boolean, Boolean, Boolean, Char) -> Unit,
     onCtrlClicked: () -> Unit,
@@ -229,7 +229,7 @@ private fun KeybindingScreen(
 private fun KeybindingScreenPreview() {
     SquircleTheme {
         KeybindingScreen(
-            viewState = KeybindingState(
+            viewState = KeybindingViewState(
                 shortcut = Shortcut.CUT,
                 isCtrl = true,
                 isShift = false,

@@ -113,6 +113,8 @@ internal class ThemesViewModel @Inject constructor(
                         ),
                     ),
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
@@ -135,15 +137,15 @@ internal class ThemesViewModel @Inject constructor(
     fun onExportFileSelected(fileUri: Uri) {
         viewModelScope.launch {
             try {
-                if (pendingExport == null) {
-                    throw IllegalStateException("Theme is not selected")
+                if (pendingExport != null) {
+                    themesRepository.exportTheme(pendingExport!!, fileUri)
+                    pendingExport = null
                 }
-                themesRepository.exportTheme(pendingExport!!, fileUri)
-                pendingExport = null
-
                 _viewEvent.send(
                     ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(
@@ -156,7 +158,7 @@ internal class ThemesViewModel @Inject constructor(
     }
 
     fun onEditClicked(themeModel: ThemeModel) {
-
+        // TODO
     }
 
     fun onRemoveClicked(themeModel: ThemeModel) {
@@ -172,6 +174,8 @@ internal class ThemesViewModel @Inject constructor(
                     ),
                 )
                 loadThemes()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(

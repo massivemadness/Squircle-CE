@@ -22,7 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.ui.dialog.KeybindingState
+import com.blacksquircle.ui.feature.shortcuts.ui.dialog.KeybindingViewState
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutViewEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -43,7 +43,7 @@ internal class KeybindingViewModel @AssistedInject constructor(
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(initialViewState())
-    val viewState: StateFlow<KeybindingState> = _viewState.asStateFlow()
+    val viewState: StateFlow<KeybindingViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
@@ -100,9 +100,9 @@ internal class KeybindingViewModel @AssistedInject constructor(
         }
     }
 
-    private fun initialViewState(): KeybindingState {
+    private fun initialViewState(): KeybindingViewState {
         val keybinding = ShortcutMapper.fromBundle(initial)
-        return KeybindingState(
+        return KeybindingViewState(
             shortcut = keybinding.shortcut,
             isCtrl = keybinding.isCtrl,
             isShift = keybinding.isShift,
