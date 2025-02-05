@@ -40,7 +40,6 @@
     <string name="action_settings">設定</string>
     <string name="action_tools">工具</string>
     <string name="dialog_title_goto_line">跳到行</string>
-    <string name="dialog_title_color_picker">顏色選擇器</string>
     <string name="dialog_title_force_syntax">語法重點標示</string>
     <string name="dialog_message_close_tab">確定要關閉該檔案嗎？所有未儲存的更改將會遺失</string>
     <string name="message_no_open_files">還沒有開啟任何檔案</string>
