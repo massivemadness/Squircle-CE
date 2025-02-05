@@ -19,12 +19,10 @@
     <string name="label_new_theme">New Theme</string>
     <string name="hint_enter_theme_name">Enter theme name</string>
     <string name="hint_enter_theme_author">Enter theme author</string>
-    <string name="action_select">Select</string>
     <string name="action_import">Import</string>
     <string name="action_export">Export</string>
     <string name="action_edit">Edit</string>
     <string name="action_remove">Remove</string>
-    <string name="dialog_title_color_picker">Color Picker</string>
     <string name="message_saved">Saved</string>
     <string name="message_selected">Selected «%1$s»</string>
     <string name="message_new_theme_available">New theme available: %1$s</string>
