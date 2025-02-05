@@ -19,8 +19,6 @@
     <string name="label_new_theme">新增主題</string>
     <string name="hint_enter_theme_name">輸入主題名稱</string>
     <string name="hint_enter_theme_author">輸入主題作者</string>
-    <string name="hint_enter_theme_desc">者題簡述</string>
-    <string name="hint_theme_desc">如：預設配色方案</string>
     <string name="action_select">選擇</string>
     <string name="action_import">匯入</string>
     <string name="action_export">匯出</string>
