@@ -31,11 +31,14 @@ import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.EditThemeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -44,10 +47,16 @@ internal class EditThemeFragment : Fragment() {
 
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<EditThemeFragmentArgs>()
-    private val viewModel by viewModels<EditThemeViewModel>()
+    private val viewModel by viewModels<EditThemeViewModel>(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<EditThemeViewModel.Factory> { factory ->
+                factory.create(themeId = navArgs.id)
+            }
+        }
+    )
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
-            is ContractResult.Success -> Unit // viewModel.obtainEvent(ThemeIntent.ImportTheme(result.uri))
+            is ContractResult.Success -> viewModel.onThemeFileSelected(result.uri)
             is ContractResult.Canceled -> Unit
         }
     }
@@ -79,6 +88,11 @@ internal class EditThemeFragment : Fragment() {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigateTo(event.screen)
                     is ViewEvent.PopBackStack -> navController.popBackStack()
+                    is ThemesViewEvent.ChooseImportFile -> openFileContract.launch(OpenFileContract.JSON)
+                    is ThemesViewEvent.SendSaveResult -> {
+                        sendFragmentResult(ThemesFragment.KEY_SAVE)
+                        navController.popBackStack()
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

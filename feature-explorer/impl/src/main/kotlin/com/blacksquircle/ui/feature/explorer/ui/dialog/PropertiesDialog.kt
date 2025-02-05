@@ -29,7 +29,6 @@ import com.blacksquircle.ui.feature.explorer.databinding.DialogPropertiesBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.Permission
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

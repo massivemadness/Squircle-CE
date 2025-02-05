@@ -105,7 +105,6 @@ internal object ThemeMapper {
 
     fun toExternalTheme(themeModel: ThemeModel): ExternalTheme {
         return ExternalTheme(
-            uuid = themeModel.uuid,
             name = themeModel.name,
             author = themeModel.author,
             externalScheme = ExternalScheme(
@@ -142,7 +141,7 @@ internal object ThemeMapper {
 
     fun toModel(externalTheme: ExternalTheme?): ThemeModel {
         return ThemeModel(
-            uuid = externalTheme?.uuid ?: UUID.randomUUID().toString(),
+            uuid = UUID.randomUUID().toString(),
             name = externalTheme?.name.orEmpty(),
             author = externalTheme?.author.orEmpty(),
             isExternal = true,

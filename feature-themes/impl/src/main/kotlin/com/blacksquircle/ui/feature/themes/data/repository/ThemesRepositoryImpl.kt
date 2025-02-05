@@ -20,13 +20,13 @@ import android.content.Context
 import android.net.Uri
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
-import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
-import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper.FALLBACK_COLOR
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
-import com.blacksquircle.ui.feature.themes.domain.model.*
+import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 
@@ -37,37 +37,9 @@ internal class ThemesRepositoryImpl(
     private val context: Context,
 ) : ThemesRepository {
 
-    // region PROPERTIES
-
-    private var textColor: String = FALLBACK_COLOR
-    private var cursorColor: String = FALLBACK_COLOR
-    private var backgroundColor: String = FALLBACK_COLOR
-    private var gutterColor: String = FALLBACK_COLOR
-    private var gutterDividerColor: String = FALLBACK_COLOR
-    private var gutterCurrentLineNumberColor: String = FALLBACK_COLOR
-    private var gutterTextColor: String = FALLBACK_COLOR
-    private var selectedLineColor: String = FALLBACK_COLOR
-    private var selectionColor: String = FALLBACK_COLOR
-    private var suggestionQueryColor: String = FALLBACK_COLOR
-    private var findResultBackgroundColor: String = FALLBACK_COLOR
-    private var delimiterBackgroundColor: String = FALLBACK_COLOR
-    private var numberColor: String = FALLBACK_COLOR
-    private var operatorColor: String = FALLBACK_COLOR
-    private var keywordColor: String = FALLBACK_COLOR
-    private var typeColor: String = FALLBACK_COLOR
-    private var langConstColor: String = FALLBACK_COLOR
-    private var preprocessorColor: String = FALLBACK_COLOR
-    private var variableColor: String = FALLBACK_COLOR
-    private var methodColor: String = FALLBACK_COLOR
-    private var stringColor: String = FALLBACK_COLOR
-    private var commentColor: String = FALLBACK_COLOR
-    private var tagColor: String = FALLBACK_COLOR
-    private var tagNameColor: String = FALLBACK_COLOR
-    private var attrNameColor: String = FALLBACK_COLOR
-    private var attrValueColor: String = FALLBACK_COLOR
-    private var entityRefColor: String = FALLBACK_COLOR
-
-    // endregion PROPERTIES
+    private val themeSerializer = GsonBuilder()
+        .setPrettyPrinting()
+        .create()
 
     override suspend fun current(): ThemeModel {
         return withContext(dispatcherProvider.io()) {
@@ -98,8 +70,8 @@ internal class ThemesRepositoryImpl(
     override suspend fun importTheme(fileUri: Uri): ThemeModel {
         return withContext(dispatcherProvider.io()) {
             context.contentResolver.openInputStream(fileUri)?.use {
-                val themeJson = it.bufferedReader().use(BufferedReader::readText)
-                val externalTheme = ExternalTheme.deserialize(themeJson)
+                val fileJson = it.bufferedReader().use(BufferedReader::readText)
+                val externalTheme = themeSerializer.fromJson(fileJson, ExternalTheme::class.java)
                 return@withContext ThemeMapper.toModel(externalTheme)
             }
             throw IllegalStateException("Unable to open input stream")
@@ -108,109 +80,19 @@ internal class ThemesRepositoryImpl(
 
     override suspend fun exportTheme(themeModel: ThemeModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            val fileText = ExternalTheme.serialize(ThemeMapper.toExternalTheme(themeModel))
+            val externalTheme = ThemeMapper.toExternalTheme(themeModel)
+            val fileJson = themeSerializer.toJson(externalTheme)
             context.contentResolver.openOutputStream(fileUri)?.use { output ->
-                output.write(fileText.toByteArray())
+                output.write(fileJson.toByteArray())
                 output.flush()
             }
         }
     }
 
-    override suspend fun createTheme(meta: Meta, properties: List<PropertyItem>) {
+    override suspend fun createTheme(themeModel: ThemeModel) {
         return withContext(dispatcherProvider.io()) {
-            for (property in properties) {
-                when (property.propertyKey) {
-                    Property.TEXT_COLOR -> textColor = property.propertyValue
-                    Property.CURSOR_COLOR -> cursorColor = property.propertyValue
-                    Property.BACKGROUND_COLOR -> backgroundColor = property.propertyValue
-                    Property.GUTTER_COLOR -> gutterColor = property.propertyValue
-                    Property.GUTTER_DIVIDER_COLOR -> gutterDividerColor = property.propertyValue
-                    Property.GUTTER_CURRENT_LINE_NUMBER_COLOR -> gutterCurrentLineNumberColor = property.propertyValue
-                    Property.GUTTER_TEXT_COLOR -> gutterTextColor = property.propertyValue
-                    Property.SELECTED_LINE_COLOR -> selectedLineColor = property.propertyValue
-                    Property.SELECTION_COLOR -> selectionColor = property.propertyValue
-                    Property.SUGGESTION_QUERY_COLOR -> suggestionQueryColor = property.propertyValue
-                    Property.FIND_RESULT_BACKGROUND_COLOR -> findResultBackgroundColor = property.propertyValue
-                    Property.DELIMITER_BACKGROUND_COLOR -> delimiterBackgroundColor = property.propertyValue
-                    Property.NUMBER_COLOR -> numberColor = property.propertyValue
-                    Property.OPERATOR_COLOR -> operatorColor = property.propertyValue
-                    Property.KEYWORD_COLOR -> keywordColor = property.propertyValue
-                    Property.TYPE_COLOR -> typeColor = property.propertyValue
-                    Property.LANG_CONST_COLOR -> langConstColor = property.propertyValue
-                    Property.PREPROCESSOR_COLOR -> preprocessorColor = property.propertyValue
-                    Property.VARIABLE_COLOR -> variableColor = property.propertyValue
-                    Property.METHOD_COLOR -> methodColor = property.propertyValue
-                    Property.STRING_COLOR -> stringColor = property.propertyValue
-                    Property.COMMENT_COLOR -> commentColor = property.propertyValue
-                    Property.TAG_COLOR -> tagColor = property.propertyValue
-                    Property.TAG_NAME_COLOR -> tagNameColor = property.propertyValue
-                    Property.ATTR_NAME_COLOR -> attrNameColor = property.propertyValue
-                    Property.ATTR_VALUE_COLOR -> attrValueColor = property.propertyValue
-                    Property.ENTITY_REF_COLOR -> entityRefColor = property.propertyValue
-                }
-            }
-            val themeEntity = ThemeEntity(
-                uuid = meta.uuid,
-                name = meta.name,
-                author = meta.author,
-                description = "",
-                textColor = textColor,
-                cursorColor = cursorColor,
-                backgroundColor = backgroundColor,
-                gutterColor = gutterColor,
-                gutterDividerColor = gutterDividerColor,
-                gutterCurrentLineNumberColor = gutterCurrentLineNumberColor,
-                gutterTextColor = gutterTextColor,
-                selectedLineColor = selectedLineColor,
-                selectionColor = selectionColor,
-                suggestionQueryColor = suggestionQueryColor,
-                findResultBackgroundColor = findResultBackgroundColor,
-                delimiterBackgroundColor = delimiterBackgroundColor,
-                numberColor = numberColor,
-                operatorColor = operatorColor,
-                keywordColor = keywordColor,
-                typeColor = typeColor,
-                langConstColor = langConstColor,
-                preprocessorColor = preprocessorColor,
-                variableColor = variableColor,
-                methodColor = methodColor,
-                stringColor = stringColor,
-                commentColor = commentColor,
-                tagColor = tagColor,
-                tagNameColor = tagNameColor,
-                attrNameColor = attrNameColor,
-                attrValueColor = attrValueColor,
-                entityRefColor = entityRefColor,
-            )
-
+            val themeEntity = ThemeMapper.toEntity(themeModel)
             appDatabase.themeDao().insert(themeEntity)
-
-            textColor = FALLBACK_COLOR
-            cursorColor = FALLBACK_COLOR
-            backgroundColor = FALLBACK_COLOR
-            gutterColor = FALLBACK_COLOR
-            gutterDividerColor = FALLBACK_COLOR
-            gutterCurrentLineNumberColor = FALLBACK_COLOR
-            gutterTextColor = FALLBACK_COLOR
-            selectedLineColor = FALLBACK_COLOR
-            selectionColor = FALLBACK_COLOR
-            suggestionQueryColor = FALLBACK_COLOR
-            findResultBackgroundColor = FALLBACK_COLOR
-            delimiterBackgroundColor = FALLBACK_COLOR
-            numberColor = FALLBACK_COLOR
-            operatorColor = FALLBACK_COLOR
-            keywordColor = FALLBACK_COLOR
-            typeColor = FALLBACK_COLOR
-            langConstColor = FALLBACK_COLOR
-            variableColor = FALLBACK_COLOR
-            methodColor = FALLBACK_COLOR
-            stringColor = FALLBACK_COLOR
-            commentColor = FALLBACK_COLOR
-            tagColor = FALLBACK_COLOR
-            tagNameColor = FALLBACK_COLOR
-            attrNameColor = FALLBACK_COLOR
-            attrValueColor = FALLBACK_COLOR
-            entityRefColor = FALLBACK_COLOR
         }
     }
 

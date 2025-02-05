@@ -30,6 +30,7 @@ import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.CreateFileContract
 import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.observeFragmentResult
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -87,5 +88,13 @@ internal class ThemesFragment : Fragment() {
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        observeFragmentResult(KEY_SAVE) {
+            viewModel.loadThemes()
+        }
+    }
+
+    companion object {
+        const val KEY_SAVE = "KEY_SAVE"
     }
 }

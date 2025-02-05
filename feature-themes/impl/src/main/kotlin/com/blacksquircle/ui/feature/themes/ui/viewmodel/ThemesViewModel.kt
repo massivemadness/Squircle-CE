@@ -158,13 +158,19 @@ internal class ThemesViewModel @Inject constructor(
     }
 
     fun onEditClicked(themeModel: ThemeModel) {
-        // TODO
+        viewModelScope.launch {
+            val screen = ThemesScreen.Update(themeModel.uuid)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
     }
 
     fun onRemoveClicked(themeModel: ThemeModel) {
         viewModelScope.launch {
             try {
                 themesRepository.removeTheme(themeModel)
+                _viewState.update { state ->
+                    state.copy(themes = state.themes.filterNot { it == themeModel })
+                }
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
@@ -173,7 +179,6 @@ internal class ThemesViewModel @Inject constructor(
                         ),
                     ),
                 )
-                loadThemes()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -187,7 +192,7 @@ internal class ThemesViewModel @Inject constructor(
         }
     }
 
-    private fun loadThemes(query: String = "") {
+    fun loadThemes(query: String = "") {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {

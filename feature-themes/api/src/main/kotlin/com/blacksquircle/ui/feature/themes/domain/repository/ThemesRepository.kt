@@ -17,8 +17,6 @@
 package com.blacksquircle.ui.feature.themes.domain.repository
 
 import android.net.Uri
-import com.blacksquircle.ui.feature.themes.domain.model.Meta
-import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 interface ThemesRepository {
@@ -30,7 +28,7 @@ interface ThemesRepository {
     suspend fun importTheme(fileUri: Uri): ThemeModel
     suspend fun exportTheme(themeModel: ThemeModel, fileUri: Uri)
 
-    suspend fun createTheme(meta: Meta, properties: List<PropertyItem>)
+    suspend fun createTheme(themeModel: ThemeModel)
     suspend fun removeTheme(themeModel: ThemeModel)
     suspend fun selectTheme(themeModel: ThemeModel)
 }

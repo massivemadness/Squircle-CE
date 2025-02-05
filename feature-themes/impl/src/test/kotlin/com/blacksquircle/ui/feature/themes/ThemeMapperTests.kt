@@ -36,7 +36,7 @@ class ThemeMapperTests {
             uuid = "0",
             name = "Test",
             author = "Squircle CE",
-            description = "Default color scheme",
+            description = "",
             textColor = "#FFFFFF",
             cursorColor = "#BBBBBB",
             backgroundColor = "#303030",
@@ -69,7 +69,6 @@ class ThemeMapperTests {
             uuid = "0",
             name = "Test",
             author = "Squircle CE",
-            description = "Default color scheme",
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
@@ -106,7 +105,6 @@ class ThemeMapperTests {
         assertEquals(themeModel.uuid, convert.uuid)
         assertEquals(themeModel.name, convert.name)
         assertEquals(themeModel.author, convert.author)
-        assertEquals(themeModel.description, convert.description)
         assertEquals(themeModel.isExternal, convert.isExternal)
         assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
         assertEquals(themeModel.colorScheme.cursorColor, convert.colorScheme.cursorColor)
@@ -144,7 +142,6 @@ class ThemeMapperTests {
             uuid = "0",
             name = "Test",
             author = "Squircle CE",
-            description = "Default color scheme",
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
@@ -180,7 +177,7 @@ class ThemeMapperTests {
             uuid = "0",
             name = "Test",
             author = "Squircle CE",
-            description = "Default color scheme",
+            description = "",
             textColor = "#FFFFFF",
             cursorColor = "#BBBBBB",
             backgroundColor = "#303030",
@@ -214,7 +211,6 @@ class ThemeMapperTests {
         assertEquals(themeEntity.uuid, convert.uuid)
         assertEquals(themeEntity.name, convert.name)
         assertEquals(themeEntity.author, convert.author)
-        assertEquals(themeEntity.description, convert.description)
         assertEquals(themeEntity.textColor, convert.textColor)
         assertEquals(themeEntity.cursorColor, convert.cursorColor)
         assertEquals(themeEntity.backgroundColor, convert.backgroundColor)
@@ -248,10 +244,8 @@ class ThemeMapperTests {
     @Ignore("FIXME: Method parseColor in android.graphics.Color not mocked.")
     fun `convert ExternalTheme to ThemeModel`() {
         val externalTheme = ExternalTheme(
-            uuid = "0",
             name = "Test",
             author = "Squircle CE",
-            description = "Default color scheme",
             externalScheme = ExternalScheme(
                 textColor = "#FFFFFF",
                 cursorColor = "#BBBBBB",
@@ -286,7 +280,6 @@ class ThemeMapperTests {
             uuid = "0",
             name = "Test",
             author = "Squircle CE",
-            description = "Default color scheme",
             isExternal = true,
             colorScheme = ColorScheme(
                 textColor = "#FFFFFF".toColorInt(),
@@ -323,7 +316,6 @@ class ThemeMapperTests {
         assertEquals(themeModel.uuid, convert.uuid)
         assertEquals(themeModel.name, convert.name)
         assertEquals(themeModel.author, convert.author)
-        assertEquals(themeModel.description, convert.description)
         assertEquals(themeModel.isExternal, convert.isExternal)
         assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
         assertEquals(themeModel.colorScheme.cursorColor, convert.colorScheme.cursorColor)

@@ -59,7 +59,7 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-fun ThemeOverview(
+internal fun ThemeOverview(
     themeModel: ThemeModel,
     fontPath: String,
     codeSample: String,

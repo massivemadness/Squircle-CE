@@ -35,21 +35,12 @@
         android:name="com.blacksquircle.ui.feature.themes.ui.fragment.EditThemeFragment"
         android:label="@string/label_new_theme">
         <deepLink app:uri="blacksquircle://themes/create" />
-        <deepLink app:uri="blacksquircle://themes/update?uuid={uuid}" />
+        <deepLink app:uri="blacksquircle://themes/update/{id}" />
         <argument
-            android:name="uuid"
+            android:name="id"
             android:defaultValue="@null"
             app:nullable="true"
             app:argType="string" />
     </fragment>
-
-    <dialog
-        android:id="@+id/chooseColorDialog"
-        android:name="com.blacksquircle.ui.feature.themes.ui.dialog.ChooseColorDialog"
-        android:label="ChooseColorDialog">
-        <deepLink app:uri="blacksquircle://themes/choosecolor?key={key}&amp;value={value}" />
-        <argument android:name="key" app:argType="string" />
-        <argument android:name="value" app:argType="string" />
-    </dialog>
 
 </navigation>

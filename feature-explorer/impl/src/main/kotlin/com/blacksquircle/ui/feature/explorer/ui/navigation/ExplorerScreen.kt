@@ -22,7 +22,6 @@ import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.google.gson.Gson
 
 sealed class ExplorerScreen(route: String) : Screen<String>(route) {
 

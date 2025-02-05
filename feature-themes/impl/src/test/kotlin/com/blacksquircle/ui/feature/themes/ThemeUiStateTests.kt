@@ -96,7 +96,6 @@ class ThemeUiStateTests {
                 uuid = "1",
                 name = "Darcula",
                 author = "Squircle CE",
-                description = "Default color scheme",
                 isExternal = true,
                 colorScheme = mockk()
             ),
@@ -125,7 +124,6 @@ class ThemeUiStateTests {
                 uuid = "1",
                 name = "Darcula",
                 author = "Squircle CE",
-                description = "Default color scheme",
                 isExternal = true,
                 colorScheme = mockk()
             ),
@@ -133,7 +131,6 @@ class ThemeUiStateTests {
                 uuid = "2",
                 name = "Eclipse",
                 author = "Squircle CE",
-                description = "Default color scheme",
                 isExternal = true,
                 colorScheme = mockk()
             ),

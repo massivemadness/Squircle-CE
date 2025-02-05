@@ -16,14 +16,32 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import androidx.annotation.ColorInt
 import androidx.compose.runtime.Immutable
+import androidx.core.graphics.toColorInt
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
+import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 
 @Immutable
 internal data class EditThemeViewState(
-    val uuid: String = "",
+    val isEditMode: Boolean = false,
     val name: String = "",
     val author: String = "",
-    val properties: List<PropertyItem> = emptyList(),
-) : ViewState()
+    val properties: List<PropertyItem> = Property.entries.map { property ->
+        PropertyItem(
+            propertyKey = property,
+            propertyValue = ThemeMapper.FALLBACK_COLOR,
+        )
+    },
+) : ViewState() {
+
+    @ColorInt
+    fun getColor(property: Property): Int {
+        return properties
+            .find { it.propertyKey == property }
+            ?.propertyValue?.toColorInt()
+            ?: ThemeMapper.FALLBACK_COLOR.toColorInt()
+    }
+}

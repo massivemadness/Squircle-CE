@@ -48,7 +48,7 @@ import java.util.UUID
 @HiltViewModel(assistedFactory = ServerViewModel.Factory::class)
 internal class ServerViewModel @AssistedInject constructor(
     private val serversRepository: ServersRepository,
-    @Assisted val serverId: String?,
+    @Assisted private val serverId: String?,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ServerViewState(isEditMode = isEditMode))
@@ -61,7 +61,7 @@ internal class ServerViewModel @AssistedInject constructor(
         get() = !serverId.isNullOrEmpty()
 
     init {
-        fetchServerData()
+        loadServer()
     }
 
     fun onSchemeChanged(scheme: String) {
@@ -202,7 +202,7 @@ internal class ServerViewModel @AssistedInject constructor(
         }
     }
 
-    private fun fetchServerData() {
+    private fun loadServer() {
         if (!isEditMode) {
             return
         }
