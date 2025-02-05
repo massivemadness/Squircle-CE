@@ -23,6 +23,7 @@ import androidx.work.Configuration
 import com.blacksquircle.ui.core.logger.AndroidTree
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.theme.Theme
+import com.blacksquircle.ui.core.theme.ThemeManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -40,7 +41,9 @@ class SquircleApp : Application(), Configuration.Provider {
 
     override fun attachBaseContext(base: Context) {
         val settingsManager = SettingsManager(base)
-        Theme.of(settingsManager.theme).apply()
+        val themeManager = ThemeManager(base)
+        val theme = Theme.of(settingsManager.theme)
+        themeManager.apply(theme)
         super.attachBaseContext(base)
     }
 

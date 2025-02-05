@@ -92,10 +92,7 @@ private fun AppHeaderScreen(
                 entries = stringArrayResource(R.array.theme_entries),
                 entryValues = stringArrayResource(R.array.theme_values),
                 selectedValue = viewState.appTheme,
-                onValueSelected = { value ->
-                    onThemeChanged(value)
-                    Theme.of(value).apply()
-                },
+                onValueSelected = onThemeChanged,
             )
             Preference(
                 title = stringResource(R.string.pref_color_scheme_title),
