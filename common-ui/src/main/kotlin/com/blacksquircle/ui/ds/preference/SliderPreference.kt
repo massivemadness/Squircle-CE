@@ -29,6 +29,7 @@ import com.blacksquircle.ui.ds.slider.Slider
 fun SliderPreference(
     title: String,
     subtitle: String,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     minValue: Float = 0f,
     maxValue: Float = 1f,
@@ -50,7 +51,8 @@ fun SliderPreference(
                 maxValue = maxValue,
                 stepCount = stepCount,
             )
-        }
+        },
+        modifier = modifier,
     )
 }
 
@@ -66,7 +68,6 @@ private fun SliderPreferenceEnabledPreview() {
             maxValue = 8f,
             currentValue = 4f,
             stepCount = 2,
-            onValueChanged = {},
         )
     }
 }
@@ -83,7 +84,6 @@ private fun SliderPreferenceDisabledPreview() {
             maxValue = 8f,
             currentValue = 4f,
             stepCount = 2,
-            onValueChanged = {},
         )
     }
 }

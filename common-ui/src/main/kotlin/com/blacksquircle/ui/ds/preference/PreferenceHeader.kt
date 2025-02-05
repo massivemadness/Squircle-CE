@@ -33,12 +33,13 @@ import com.blacksquircle.ui.ds.SquircleTheme
 fun PreferenceHeader(
     title: String,
     subtitle: String,
-    onSelected: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onSelected)
+            .clickable(onClick = onClick)
             .padding(horizontal = 18.dp, vertical = 8.dp)
     ) {
         Text(

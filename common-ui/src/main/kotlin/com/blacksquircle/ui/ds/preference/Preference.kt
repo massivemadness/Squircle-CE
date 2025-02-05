@@ -37,6 +37,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 @Composable
 fun Preference(
     title: String,
+    modifier: Modifier = Modifier,
     subtitle: String? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
@@ -46,7 +47,7 @@ fun Preference(
 ) {
     Row(
         verticalAlignment = Alignment.Top,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable(
                 enabled = enabled,

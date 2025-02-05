@@ -59,8 +59,9 @@ private val ColorSaver = mapSaver(
 fun ColorPreference(
     title: String,
     subtitle: String,
-    initialColor: Color,
-    onColorSelected: (Color) -> Unit,
+    modifier: Modifier = Modifier,
+    initialColor: Color = Color.Black,
+    onColorSelected: (Color) -> Unit = {},
     enabled: Boolean = true,
     dialogTitle: String? = null,
     dialogShown: Boolean = false,
@@ -84,7 +85,8 @@ fun ColorPreference(
             ) {
                 drawRect(color = initialColor)
             }
-        }
+        },
+        modifier = modifier,
     )
     if (showDialog) {
         val color = rememberSaveable(stateSaver = ColorSaver) {

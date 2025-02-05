@@ -73,7 +73,7 @@ private fun HeaderListScreen(
                 PreferenceHeader(
                     title = stringResource(header.title),
                     subtitle = stringResource(header.subtitle),
-                    onSelected = { onHeaderClicked(header.screen) },
+                    onClick = { onHeaderClicked(header.screen) },
                 )
             }
         }

@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.ds.preference
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.switcher.Switcher
@@ -25,6 +26,7 @@ import com.blacksquircle.ui.ds.switcher.Switcher
 fun SwitchPreference(
     title: String,
     subtitle: String,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     checked: Boolean = true,
     onCheckedChange: (Boolean) -> Unit = {},
@@ -41,6 +43,7 @@ fun SwitchPreference(
                 enabled = enabled,
             )
         },
+        modifier = modifier,
     )
 }
 
@@ -52,7 +55,6 @@ private fun EnabledSwitchPreferenceCheckedPreview() {
             title = "Preference Title",
             subtitle = "Preference Subtitle",
             checked = true,
-            onCheckedChange = {}
         )
     }
 }
@@ -65,7 +67,6 @@ private fun EnabledSwitchPreferenceUncheckedPreview() {
             title = "Preference Title",
             subtitle = "Preference Subtitle",
             checked = false,
-            onCheckedChange = {}
         )
     }
 }
@@ -79,7 +80,6 @@ private fun DisabledSwitchPreferenceCheckedPreview() {
             subtitle = "Preference Subtitle",
             enabled = false,
             checked = true,
-            onCheckedChange = {}
         )
     }
 }
@@ -93,7 +93,6 @@ private fun DisabledSwitchPreferenceUncheckedPreview() {
             subtitle = "Preference Subtitle",
             enabled = false,
             checked = false,
-            onCheckedChange = {}
         )
     }
 }

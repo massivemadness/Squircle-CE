@@ -42,6 +42,7 @@ import com.blacksquircle.ui.ds.radio.Radio
 @Composable
 fun ListPreference(
     title: String,
+    modifier: Modifier = Modifier,
     subtitle: String? = null,
     enabled: Boolean = true,
     entries: Array<String> = emptyArray(),
@@ -49,9 +50,10 @@ fun ListPreference(
     entryNameAsSubtitle: Boolean = false,
     selectedValue: String = "",
     onValueSelected: (String) -> Unit = {},
-    showDialog: Boolean = false,
+    dialogShown: Boolean = false,
+    dialogTitle: String? = null,
 ) {
-    var dialogShown by rememberSaveable { mutableStateOf(showDialog) }
+    var showDialog by rememberSaveable { mutableStateOf(dialogShown) }
     val displaySubtitle = remember(entries, entryValues, entryNameAsSubtitle) {
         if (entryNameAsSubtitle) {
             val entryIndex = entryValues.indexOf(selectedValue)
@@ -68,11 +70,12 @@ fun ListPreference(
         title = title,
         subtitle = displaySubtitle,
         enabled = enabled,
-        onClick = { dialogShown = true },
+        onClick = { showDialog = true },
+        modifier = modifier,
     )
-    if (dialogShown) {
+    if (showDialog) {
         AlertDialog(
-            title = title,
+            title = dialogTitle ?: title,
             verticalScroll = false,
             horizontalPadding = false,
             content = {
@@ -92,7 +95,7 @@ fun ListPreference(
                                 title = entries[index],
                                 checked = value == selectedValue,
                                 onClick = {
-                                    dialogShown = false
+                                    showDialog = false
                                     onValueSelected(value)
                                 },
                                 interactionSource = interactionSource,
@@ -106,8 +109,8 @@ fun ListPreference(
                 }
             },
             dismissButton = stringResource(android.R.string.cancel),
-            onDismissClicked = { dialogShown = false },
-            onDismiss = { dialogShown = false },
+            onDismissClicked = { showDialog = false },
+            onDismiss = { showDialog = false },
         )
     }
 }
@@ -122,7 +125,7 @@ private fun ListPreferencePreview() {
             entries = arrayOf("Light", "Dark", "System default"),
             entryValues = arrayOf("light", "dark", "system"),
             selectedValue = "light",
-            showDialog = true
+            dialogShown = true,
         )
     }
 }

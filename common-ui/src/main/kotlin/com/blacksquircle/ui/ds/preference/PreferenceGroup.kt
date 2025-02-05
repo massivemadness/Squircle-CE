@@ -28,10 +28,13 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
-fun PreferenceGroup(title: String) {
+fun PreferenceGroup(
+    title: String,
+    modifier: Modifier = Modifier,
+) {
     Box(
         contentAlignment = Alignment.CenterStart,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp, top = 24.dp)
     ) {

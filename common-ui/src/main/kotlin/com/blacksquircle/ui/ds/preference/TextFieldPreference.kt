@@ -22,13 +22,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 
 @Composable
 fun TextFieldPreference(
     title: String,
+    modifier: Modifier = Modifier,
     subtitle: String? = null,
     enabled: Boolean = true,
     confirmButton: String? = null,
@@ -38,18 +42,21 @@ fun TextFieldPreference(
     inputTextStyle: TextStyle = LocalTextStyle.current,
     inputValue: String = "",
     onInputConfirmed: (String) -> Unit = {},
+    dialogShown: Boolean = false,
+    dialogTitle: String? = null,
 ) {
-    var dialogShown by rememberSaveable { mutableStateOf(false) }
+    var showDialog by rememberSaveable { mutableStateOf(dialogShown) }
     Preference(
         title = title,
         subtitle = subtitle,
         enabled = enabled,
-        onClick = { dialogShown = true },
+        onClick = { showDialog = true },
+        modifier = modifier,
     )
-    if (dialogShown) {
+    if (showDialog) {
         val text = rememberSaveable { mutableStateOf(inputValue) }
         AlertDialog(
-            title = title,
+            title = dialogTitle ?: title,
             content = {
                 TextField(
                     inputText = text.value,
@@ -61,14 +68,31 @@ fun TextFieldPreference(
             },
             confirmButton = confirmButton,
             onConfirmClicked = {
-                dialogShown = false
+                showDialog = false
                 onInputConfirmed(text.value)
             },
             dismissButton = dismissButton,
             onDismissClicked = {
-                dialogShown = false
+                showDialog = false
             },
-            onDismiss = { dialogShown = false },
+            onDismiss = { showDialog = false },
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TextFieldPreferencePreview() {
+    SquircleTheme {
+        TextFieldPreference(
+            title = "Title",
+            subtitle = "Subtitle",
+            inputValue = "Hello World!",
+            labelText = "Label Text",
+            helpText = "Help Text",
+            confirmButton = "Save",
+            dismissButton = "Cancel",
+            dialogShown = true,
         )
     }
 }
