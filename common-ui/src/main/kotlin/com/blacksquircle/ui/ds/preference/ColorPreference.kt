@@ -22,38 +22,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.dialog.AlertDialog
-
-private const val RedKey = "red"
-private const val GreenKey = "green"
-private const val BlueKey = "blue"
-
-private val ColorSaver = mapSaver(
-    save = {
-        mapOf(
-            RedKey to it.red,
-            GreenKey to it.green,
-            BlueKey to it.blue,
-        )
-    },
-    restore = {
-        Color(
-            red = it[RedKey] as Float,
-            green = it[GreenKey] as Float,
-            blue = it[BlueKey] as Float
-        )
-    }
-)
+import com.blacksquircle.ui.ds.dialog.ColorPickerDialog
 
 @Composable
 fun ColorPreference(
@@ -63,10 +43,8 @@ fun ColorPreference(
     initialColor: Color = Color.Black,
     onColorSelected: (Color) -> Unit = {},
     enabled: Boolean = true,
-    dialogTitle: String? = null,
+    dialogTitle: String = stringResource(R.string.dialog_title_color_picker),
     dialogShown: Boolean = false,
-    confirmButton: String? = null,
-    dismissButton: String? = null,
 ) {
     var showDialog by rememberSaveable {
         mutableStateOf(dialogShown)
@@ -89,23 +67,17 @@ fun ColorPreference(
         modifier = modifier,
     )
     if (showDialog) {
-        val color = rememberSaveable(stateSaver = ColorSaver) {
-            mutableStateOf(initialColor)
-        }
-        AlertDialog(
-            title = dialogTitle ?: title,
-            content = {
-                // TODO ColorLayout
-            },
-            confirmButton = confirmButton,
-            onConfirmClicked = {
+        ColorPickerDialog(
+            title = dialogTitle,
+            confirmButton = stringResource(R.string.common_select),
+            dismissButton = stringResource(android.R.string.cancel),
+            alphaSlider = false,
+            initialColor = initialColor,
+            onColorSelected = { color ->
                 showDialog = false
-                onColorSelected(color.value)
+                onColorSelected(color)
             },
-            dismissButton = dismissButton,
-            onDismissClicked = {
-                showDialog = false
-            },
+            onDismissClicked = { showDialog = false },
             onDismiss = { showDialog = false },
         )
     }

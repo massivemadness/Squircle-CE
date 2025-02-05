@@ -22,5 +22,7 @@
     <string name="common_save">Speichern</string>
     <string name="common_delete">Löschen</string>
     <string name="common_continue">Continue</string>
+    <string name="common_select">Auswählen</string>
+    <string name="dialog_title_color_picker">Farbauswahl</string>
 
 </resources>

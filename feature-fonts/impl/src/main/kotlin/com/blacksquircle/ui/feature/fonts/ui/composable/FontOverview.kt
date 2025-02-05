@@ -85,7 +85,7 @@ internal fun FontOverview(
             modifier = Modifier.padding(horizontal = 12.dp)
         )
         OutlinedButton(
-            text = stringResource(R.string.action_select),
+            text = stringResource(UiR.string.common_select),
             onClick = onSelectClicked,
             modifier = Modifier
                 .padding(8.dp)

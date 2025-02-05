@@ -16,7 +16,6 @@
   -->
 <resources>
     <string name="label_fonts">字体</string>
-    <string name="action_select">选择</string>
     <string name="message_selected">已选择 «%1$s»</string>
     <string name="message_new_font_available">新字体可用</string>
     <string name="message_font_removed">字体 «%1$s» 已移除</string>

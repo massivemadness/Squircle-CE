@@ -18,11 +18,20 @@ package com.blacksquircle.ui.ds.extensions
 
 import android.content.res.Resources
 import android.graphics.Color
+import androidx.compose.ui.graphics.Color as ComposeColor
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
 
-fun Int.toHexString(fallbackColor: String = "#000000"): String {
+fun ComposeColor.toHexString(): String {
+    val red = this.red * 255
+    val green = this.green * 255
+    val blue = this.blue * 255
+    val alpha = this.alpha * 255
+    return String.format("#%02x%02x%02x%02x", alpha.toInt(), red.toInt(), green.toInt(), blue.toInt())
+}
+
+fun Int.toHexString(fallbackColor: String = "#FFFFFF"): String {
     return try {
         "#" + Integer.toHexString(this)
     } catch (e: Exception) {

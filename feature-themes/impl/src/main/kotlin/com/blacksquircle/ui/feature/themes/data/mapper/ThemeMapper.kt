@@ -27,7 +27,7 @@ import java.util.*
 
 internal object ThemeMapper {
 
-    const val FALLBACK_COLOR = "#000000"
+    const val FALLBACK_COLOR = "#FFFFFF"
 
     fun toModel(themeEntity: ThemeEntity): ThemeModel {
         return ThemeModel(

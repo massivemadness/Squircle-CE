@@ -44,6 +44,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSize
 import com.blacksquircle.ui.ds.button.OutlinedButton
+import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.ds.preference.ColorPreference
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
@@ -63,7 +64,7 @@ internal fun EditThemeScreen(viewModel: EditThemeViewModel) {
         onThemeNameChanged = viewModel::onThemeNameChanged,
         onThemeAuthorChanged = viewModel::onThemeAuthorChanged,
         onSaveClicked = viewModel::onSaveClicked,
-        onColorChanged = viewModel::onColorChanged,
+        onColorSelected = viewModel::onColorSelected,
     )
 }
 
@@ -75,7 +76,7 @@ private fun EditThemeScreen(
     onThemeNameChanged: (String) -> Unit,
     onThemeAuthorChanged: (String) -> Unit,
     onSaveClicked: () -> Unit,
-    onColorChanged: (Property, String) -> Unit,
+    onColorSelected: (Property, String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -142,11 +143,8 @@ private fun EditThemeScreen(
                     subtitle = propertyResource(propertyItem.propertyKey),
                     initialColor = Color(propertyItem.propertyValue.toColorInt()),
                     onColorSelected = { color ->
-                        // TODO onColorSelected(propertyItem, color)
+                        onColorSelected(propertyItem.propertyKey, color.toHexString())
                     },
-                    dialogTitle = stringResource(R.string.dialog_title_color_picker),
-                    confirmButton = null,
-                    dismissButton = null,
                 )
             }
         }
@@ -198,7 +196,7 @@ private fun EditThemeScreenPreview() {
             onThemeNameChanged = {},
             onThemeAuthorChanged = {},
             onSaveClicked = {},
-            onColorChanged = { _, _ -> },
+            onColorSelected = { _, _ -> },
         )
     }
 }

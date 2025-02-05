@@ -16,26 +16,50 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import android.graphics.Color
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
+import androidx.core.graphics.toColorInt
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.blacksquircle.ui.ds.colorpicker.ColorPickerDialog
+import com.blacksquircle.ui.ds.dialog.ColorPickerDialog
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class InsertColorDialog : ColorPickerDialog() {
-
-    override val titleRes = R.string.dialog_title_color_picker
-    override val positiveRes = R.string.action_insert
-    override val negativeRes = android.R.string.cancel
-    override val initialColor = Color.WHITE.toHexString()
+class InsertColorDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<EditorViewModel>()
 
-    override fun onColorSelected(color: Int) {
-        viewModel.obtainEvent(EditorIntent.InsertColor(color))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                ColorPickerDialog(
+                    title = stringResource(UiR.string.dialog_title_color_picker),
+                    confirmButton = stringResource(R.string.action_insert),
+                    dismissButton = stringResource(android.R.string.cancel),
+                    onColorSelected = { color ->
+                        val colorInt = color.toHexString().toColorInt()
+                        viewModel.obtainEvent(EditorIntent.InsertColor(colorInt))
+                        dismiss()
+                    },
+                    onDismissClicked = { dismiss() },
+                    onDismiss = { dismiss() },
+                )
+            }
+        }
     }
 }

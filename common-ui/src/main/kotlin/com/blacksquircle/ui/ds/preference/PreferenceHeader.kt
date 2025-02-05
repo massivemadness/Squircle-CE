@@ -40,7 +40,10 @@ fun PreferenceHeader(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 18.dp, vertical = 8.dp)
+            .padding(
+                horizontal = 24.dp,
+                vertical = 8.dp
+            )
     ) {
         Text(
             text = title,

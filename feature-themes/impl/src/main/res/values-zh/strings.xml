@@ -19,12 +19,10 @@
     <string name="label_new_theme">新建主题</string>
     <string name="hint_enter_theme_name">输入主题名称</string>
     <string name="hint_enter_theme_author">输入主题作者</string>
-    <string name="action_select">选择</string>
     <string name="action_import">导入</string>
     <string name="action_export">导出</string>
     <string name="action_edit">编辑</string>
     <string name="action_remove">移除</string>
-    <string name="dialog_title_color_picker">颜色选择器</string>
     <string name="message_saved">已保存</string>
     <string name="message_selected">已选择 «%1$s»</string>
     <string name="message_new_theme_available">新主题可用: %1$s</string>

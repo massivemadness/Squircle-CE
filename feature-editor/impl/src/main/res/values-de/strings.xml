@@ -44,7 +44,6 @@
     <string name="action_tools">Tools</string>
 
     <string name="dialog_title_goto_line">Gehe zu Zeile…</string>
-    <string name="dialog_title_color_picker">Farbauswahl</string>
     <string name="dialog_title_force_syntax">Syntax Highlighting</string>
 
     <string name="dialog_message_close_tab">Sind Sie sicher, dass Sie die Datei schließen wollen? Alle ungespeicherten Änderungen werden verworfen</string>

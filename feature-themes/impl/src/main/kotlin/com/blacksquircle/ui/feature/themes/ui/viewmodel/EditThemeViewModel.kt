@@ -171,7 +171,7 @@ internal class EditThemeViewModel @AssistedInject constructor(
         }
     }
 
-    fun onColorChanged(property: Property, color: String) {
+    fun onColorSelected(property: Property, color: String) {
         _viewState.update {
             it.copy(
                 properties = it.properties.map { propertyItem ->

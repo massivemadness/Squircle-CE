@@ -23,13 +23,10 @@
     <string name="hint_enter_theme_name">Geben Sie einen Theme-Namen ein</string>
     <string name="hint_enter_theme_author">Geben Sie einen Theme-Autor ein</string>
 
-    <string name="action_select">Auswählen</string>
     <string name="action_import">Importieren</string>
     <string name="action_export">Exportieren</string>
     <string name="action_edit">Bearbeiten</string>
     <string name="action_remove">Entfernen</string>
-
-    <string name="dialog_title_color_picker">Farbauswahl</string>
 
     <string name="message_saved">Gespeichert</string>
     <string name="message_selected">«%1$s» ausgewählt</string>

@@ -25,13 +25,10 @@
     <string name="hint_theme_name" translatable="false">Darcula</string>
     <string name="hint_theme_author" translatable="false">Squircle CE</string>
 
-    <string name="action_select">Select</string>
     <string name="action_import">Import</string>
     <string name="action_export">Export</string>
     <string name="action_edit">Edit</string>
     <string name="action_remove">Remove</string>
-
-    <string name="dialog_title_color_picker">Color Picker</string>
 
     <string name="message_saved">Saved</string>
     <string name="message_selected">Selected «%1$s»</string>

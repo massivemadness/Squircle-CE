@@ -165,7 +165,7 @@ internal fun ThemeOverview(
                     .padding(horizontal = 8.dp)
             )
             OutlinedButton(
-                text = stringResource(R.string.action_select),
+                text = stringResource(UiR.string.common_select),
                 onClick = onSelectClicked,
             )
         }

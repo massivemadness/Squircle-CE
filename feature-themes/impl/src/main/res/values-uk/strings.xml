@@ -19,12 +19,10 @@
     <string name="label_new_theme">Нова тема</string>
     <string name="hint_enter_theme_name">Введіть назву теми</string>
     <string name="hint_enter_theme_author">Введіть автора теми</string>
-    <string name="action_select">Вибрати</string>
     <string name="action_import">Імпорт</string>
     <string name="action_export">Експорт</string>
     <string name="action_edit">Редагувати</string>
     <string name="action_remove">Видалити</string>
-    <string name="dialog_title_color_picker">Вибір кольору</string>
     <string name="message_saved">Збережено</string>
     <string name="message_selected">Вибрано «%1$s»</string>
     <string name="message_new_theme_available">Доступна нова тема: %1$s</string>

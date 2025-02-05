@@ -20,4 +20,6 @@
     <string name="common_save">Salvar</string>
     <string name="common_delete">Deletar</string>
     <string name="common_continue">Continuar</string>
+    <string name="common_select">Selecionar</string>
+    <string name="dialog_title_color_picker">Paleta de cores</string>
 </resources>

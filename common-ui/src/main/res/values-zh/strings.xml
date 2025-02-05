@@ -20,4 +20,6 @@
     <string name="common_save">保存</string>
     <string name="common_delete">删除</string>
     <string name="common_continue">继续</string>
+    <string name="common_select">选择</string>
+    <string name="dialog_title_color_picker">颜色选择器</string>
 </resources>
