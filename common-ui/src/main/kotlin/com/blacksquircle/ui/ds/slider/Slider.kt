@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.slider
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -24,6 +23,7 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
 import androidx.compose.material.SliderDefaults.DisabledInactiveTrackAlpha
+import androidx.compose.material.SliderDefaults.DisabledTickAlpha
 import androidx.compose.material.SliderDefaults.InactiveTrackAlpha
 import androidx.compose.material.SliderDefaults.TickAlpha
 import androidx.compose.material.Text
@@ -35,8 +35,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -69,18 +70,19 @@ fun Slider(
                 enabled = enabled,
                 colors = SliderDefaults.colors(
                     thumbColor = SquircleTheme.colors.colorPrimary,
-                    disabledThumbColor = SquircleTheme.colors.colorBackgroundTertiary,
+                    disabledThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
                     activeTrackColor = SquircleTheme.colors.colorPrimary,
                     inactiveTrackColor = SquircleTheme.colors.colorPrimary
                         .copy(alpha = InactiveTrackAlpha),
-                    disabledActiveTrackColor = SquircleTheme.colors.colorBackgroundTertiary,
-                    disabledInactiveTrackColor = SquircleTheme.colors.colorBackgroundTertiary
+                    disabledActiveTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                    disabledInactiveTrackColor = SquircleTheme.colors.colorTextAndIconDisabled
                         .copy(alpha = DisabledInactiveTrackAlpha),
                     activeTickColor = SquircleTheme.colors.colorPrimary,
                     inactiveTickColor = SquircleTheme.colors.colorPrimary
                         .copy(alpha = TickAlpha),
-                    disabledActiveTickColor = SquircleTheme.colors.colorBackgroundTertiary,
-                    disabledInactiveTickColor = SquircleTheme.colors.colorBackgroundTertiary,
+                    disabledActiveTickColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                    disabledInactiveTickColor = SquircleTheme.colors.colorTextAndIconDisabled
+                        .copy(alpha = DisabledTickAlpha),
                 )
             )
         }
@@ -99,10 +101,10 @@ fun Slider(
     }
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewLightDark
 @Composable
 private fun SliderEnabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         var currentValue by remember { mutableFloatStateOf(5f) }
         Slider(
             currentValue = currentValue,
@@ -115,10 +117,10 @@ private fun SliderEnabledPreview() {
     }
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewLightDark
 @Composable
 private fun SliderDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         var currentValue by remember { mutableFloatStateOf(5f) }
         Slider(
             currentValue = currentValue,

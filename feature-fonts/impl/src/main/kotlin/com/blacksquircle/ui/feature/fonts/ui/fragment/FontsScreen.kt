@@ -45,9 +45,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
 import com.blacksquircle.ui.ds.button.IconButton
@@ -79,12 +80,12 @@ internal fun FontsScreen(viewModel: FontsViewModel) {
 @Composable
 private fun FontsScreen(
     viewState: FontsViewState,
-    onBackClicked: () -> Unit,
-    onQueryChanged: (String) -> Unit,
-    onClearQueryClicked: () -> Unit,
-    onSelectClicked: (FontModel) -> Unit,
-    onRemoveClicked: (FontModel) -> Unit,
-    onImportClicked: () -> Unit,
+    onBackClicked: () -> Unit = {},
+    onQueryChanged: (String) -> Unit = {},
+    onClearQueryClicked: () -> Unit = {},
+    onSelectClicked: (FontModel) -> Unit = {},
+    onRemoveClicked: (FontModel) -> Unit = {},
+    onImportClicked: () -> Unit = {},
 ) {
     val scrollState = rememberLazyListState()
     val showButton by remember {
@@ -192,10 +193,10 @@ private fun FontsScreen(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun FontsScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         FontsScreen(
             viewState = FontsViewState(
                 query = "Mono",
@@ -215,12 +216,6 @@ private fun FontsScreenPreview() {
                 ),
                 isLoading = false,
             ),
-            onBackClicked = {},
-            onQueryChanged = {},
-            onClearQueryClicked = {},
-            onSelectClicked = {},
-            onRemoveClicked = {},
-            onImportClicked = {},
         )
     }
 }

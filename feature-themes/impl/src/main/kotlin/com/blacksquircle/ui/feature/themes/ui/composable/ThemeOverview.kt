@@ -42,10 +42,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.OutlinedButton
@@ -70,112 +71,115 @@ internal fun ThemeOverview(
     modifier: Modifier = Modifier
 ) {
     val shape = RoundedCornerShape(6.dp)
-    val isDarkTheme = themeModel.colorScheme.backgroundColor.isColorDark()
+    val backgroundColor = themeModel.colorScheme.backgroundColor
+    val isDarkTheme = backgroundColor.isColorDark()
 
-    Column(
-        modifier = modifier
-            .clip(shape)
-            .background(color = Color(themeModel.colorScheme.backgroundColor))
-            .border(
-                width = 1.dp,
-                color = SquircleTheme.colors.colorOutline,
-                shape = shape,
-            )
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(48.dp)
+    SquircleTheme(darkTheme = isDarkTheme) {
+        Column(
+            modifier = modifier
+                .clip(shape)
+                .background(color = Color(backgroundColor))
+                .border(
+                    width = 1.dp,
+                    color = SquircleTheme.colors.colorOutline,
+                    shape = shape,
+                )
         ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.height(48.dp)
+            ) {
+                Text(
+                    text = themeModel.name,
+                    color = SquircleTheme.colors.colorTextAndIconPrimary,
+                    style = SquircleTheme.typography.text14Regular,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 12.dp)
+                )
+                if (themeModel.isExternal) {
+                    var expanded by rememberSaveable { mutableStateOf(false) }
+                    IconButton(
+                        iconResId = UiR.drawable.ic_overflow,
+                        iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                        onClick = { expanded = !expanded },
+                        anchor = {
+                            PopupMenu(
+                                expanded = expanded,
+                                onDismiss = { expanded = false },
+                                verticalOffset = (-48).dp,
+                            ) {
+                                PopupMenuItem(
+                                    title = stringResource(R.string.action_export),
+                                    onClick = { onExportClicked(); expanded = false },
+                                    startIconResId = UiR.drawable.ic_file_export,
+                                )
+                                PopupMenuItem(
+                                    title = stringResource(R.string.action_edit),
+                                    onClick = { onEditClicked(); expanded = false },
+                                    startIconResId = UiR.drawable.ic_edit,
+                                )
+                                PopupMenuItem(
+                                    title = stringResource(R.string.action_remove),
+                                    onClick = { onRemoveClicked(); expanded = false },
+                                    startIconResId = UiR.drawable.ic_delete,
+                                )
+                            }
+                        }
+                    )
+                }
+            }
+
+            val context = LocalContext.current
             Text(
-                text = themeModel.name,
-                color = if (isDarkTheme) Color.White else Color.Black,
-                style = SquircleTheme.typography.text14Regular,
+                text = codeSample,
+                color = Color(themeModel.colorScheme.textColor),
+                style = TextStyle(
+                    fontFamily = FontFamily(
+                        typeface = context.createTypefaceFromPath(fontPath)
+                    ),
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 10.sp
+                ),
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
                     .padding(horizontal = 12.dp)
             )
-            if (themeModel.isExternal) {
-                var expanded by rememberSaveable { mutableStateOf(false) }
-                IconButton(
-                    iconResId = UiR.drawable.ic_overflow,
-                    iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                    onClick = { expanded = !expanded },
-                    anchor = {
-                        PopupMenu(
-                            expanded = expanded,
-                            onDismiss = { expanded = false },
-                            verticalOffset = (-48).dp,
-                        ) {
-                            PopupMenuItem(
-                                title = stringResource(R.string.action_export),
-                                onClick = { onExportClicked(); expanded = false },
-                                startIconResId = UiR.drawable.ic_file_export,
-                            )
-                            PopupMenuItem(
-                                title = stringResource(R.string.action_edit),
-                                onClick = { onEditClicked(); expanded = false },
-                                startIconResId = UiR.drawable.ic_edit,
-                            )
-                            PopupMenuItem(
-                                title = stringResource(R.string.action_remove),
-                                onClick = { onRemoveClicked(); expanded = false },
-                                startIconResId = UiR.drawable.ic_delete,
-                            )
-                        }
-                    }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(
+                    vertical = 8.dp,
+                    horizontal = 12.dp
+                ),
+            ) {
+                Icon(
+                    painter = painterResource(UiR.drawable.ic_person),
+                    contentDescription = null,
+                    tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                    modifier = Modifier.size(16.dp)
+                )
+                Text(
+                    text = themeModel.author,
+                    color = SquircleTheme.colors.colorTextAndIconPrimary,
+                    style = SquircleTheme.typography.text14Regular,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 8.dp)
+                )
+                OutlinedButton(
+                    text = stringResource(UiR.string.common_select),
+                    onClick = onSelectClicked,
                 )
             }
-        }
-
-        val context = LocalContext.current
-        Text(
-            text = codeSample,
-            color = Color(themeModel.colorScheme.textColor),
-            style = TextStyle(
-                fontFamily = FontFamily(
-                    typeface = context.createTypefaceFromPath(fontPath)
-                ),
-                fontWeight = FontWeight.Normal,
-                fontSize = 10.sp
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp)
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(
-                vertical = 8.dp,
-                horizontal = 12.dp
-            ),
-        ) {
-            Icon(
-                painter = painterResource(UiR.drawable.ic_person),
-                contentDescription = null,
-                tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                modifier = Modifier.size(16.dp)
-            )
-            Text(
-                text = themeModel.author,
-                color = if (isDarkTheme) Color.White else Color.Black,
-                style = SquircleTheme.typography.text14Regular,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 8.dp)
-            )
-            OutlinedButton(
-                text = stringResource(UiR.string.common_select),
-                onClick = onSelectClicked,
-            )
         }
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun ThemeOverviewPreview() {
-    SquircleTheme {
+    PreviewBackground {
         ThemeOverview(
             themeModel = InternalTheme.THEME_DARCULA.theme
                 .copy(isExternal = true),

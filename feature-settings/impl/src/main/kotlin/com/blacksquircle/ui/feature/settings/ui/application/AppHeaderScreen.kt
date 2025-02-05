@@ -30,11 +30,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.theme.Theme
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.extensions.findActivity
 import com.blacksquircle.ui.ds.preference.ListPreference
@@ -61,11 +61,11 @@ internal fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
 @Composable
 private fun AppHeaderScreen(
     viewState: AppHeaderViewState,
-    onBackClicked: () -> Unit,
-    onThemeChanged: (String) -> Unit,
-    onColorSchemeClicked: () -> Unit,
-    onFullscreenChanged: (Boolean) -> Unit,
-    onConfirmExitChanged: (Boolean) -> Unit,
+    onBackClicked: () -> Unit = {},
+    onThemeChanged: (String) -> Unit = {},
+    onColorSchemeClicked: () -> Unit = {},
+    onFullscreenChanged: (Boolean) -> Unit = {},
+    onConfirmExitChanged: (Boolean) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -128,21 +128,16 @@ private fun AppHeaderScreen(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun AppHeaderScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         AppHeaderScreen(
             viewState = AppHeaderViewState(
                 appTheme = Theme.DARK.value,
                 fullscreenMode = false,
                 confirmExit = true
             ),
-            onBackClicked = {},
-            onThemeChanged = {},
-            onColorSchemeClicked = {},
-            onFullscreenChanged = {},
-            onConfirmExitChanged = {},
         )
     }
 }

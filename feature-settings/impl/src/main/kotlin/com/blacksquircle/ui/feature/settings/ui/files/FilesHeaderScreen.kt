@@ -29,9 +29,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.ListPreference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
@@ -60,15 +60,15 @@ internal fun FilesHeaderScreen(viewModel: FilesHeaderViewModel) {
 @Composable
 private fun FilesHeaderScreen(
     viewState: FilesHeaderViewState,
-    onBackClicked: () -> Unit,
-    onEncodingAutoDetectChanged: (Boolean) -> Unit,
-    onEncodingForOpeningChanged: (String) -> Unit,
-    onEncodingForSavingChanged: (String) -> Unit,
-    onLineBreaksForSavingChanged: (String) -> Unit,
-    onShowHiddenChanged: (Boolean) -> Unit,
-    onFoldersOnTopChanged: (Boolean) -> Unit,
-    onViewModeChanged: (String) -> Unit,
-    onSortModeChanged: (String) -> Unit,
+    onBackClicked: () -> Unit = {},
+    onEncodingAutoDetectChanged: (Boolean) -> Unit = {},
+    onEncodingForOpeningChanged: (String) -> Unit = {},
+    onEncodingForSavingChanged: (String) -> Unit = {},
+    onLineBreaksForSavingChanged: (String) -> Unit = {},
+    onShowHiddenChanged: (Boolean) -> Unit = {},
+    onFoldersOnTopChanged: (Boolean) -> Unit = {},
+    onViewModeChanged: (String) -> Unit = {},
+    onSortModeChanged: (String) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -161,10 +161,10 @@ private fun FilesHeaderScreen(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun FilesHeaderScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         FilesHeaderScreen(
             viewState = FilesHeaderViewState(
                 encodingAutoDetect = false,
@@ -177,15 +177,6 @@ private fun FilesHeaderScreenPreview() {
                 viewMode = "0",
                 sortMode = "0",
             ),
-            onBackClicked = {},
-            onEncodingAutoDetectChanged = {},
-            onEncodingForOpeningChanged = {},
-            onEncodingForSavingChanged = {},
-            onLineBreaksForSavingChanged = {},
-            onShowHiddenChanged = {},
-            onFoldersOnTopChanged = {},
-            onViewModeChanged = {},
-            onSortModeChanged = {},
         )
     }
 }

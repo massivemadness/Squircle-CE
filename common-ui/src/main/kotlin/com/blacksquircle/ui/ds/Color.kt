@@ -35,13 +35,25 @@ class Colors internal constructor(
     val colorBackgroundSecondary: Color,
     val colorBackgroundTertiary: Color,
     val colorTextAndIconPrimary: Color,
+    val colorTextAndIconPrimaryInverse: Color,
     val colorTextAndIconSecondary: Color,
     val colorTextAndIconDisabled: Color,
 ) {
 
     companion object {
 
-        fun lightColors() = darkColors() // TODO
+        fun lightColors() = Colors(
+            colorPrimary = Color(0xFF3E73B9),
+            colorOutline = Color(0xFFE0E0E0),
+            colorError = Color(0xFFCD0000),
+            colorBackgroundPrimary = Color(0xFFFFFFFF),
+            colorBackgroundSecondary = Color(0xFFFFFFFF),
+            colorBackgroundTertiary = Color(0xFFF0F1F4),
+            colorTextAndIconPrimary = Color(0xFF000000),
+            colorTextAndIconPrimaryInverse = Color(0xFFFFFFFF),
+            colorTextAndIconSecondary = Color(0xFF7F8290),
+            colorTextAndIconDisabled = Color(0xFFA9ADBC),
+        )
 
         fun darkColors() = Colors(
             colorPrimary = Color(0xFFFF8000),
@@ -51,6 +63,7 @@ class Colors internal constructor(
             colorBackgroundSecondary = Color(0xFF2B2D30),
             colorBackgroundTertiary = Color(0xFF434448),
             colorTextAndIconPrimary = Color(0xFFFFFFFF),
+            colorTextAndIconPrimaryInverse = Color(0xFF000000),
             colorTextAndIconSecondary = Color(0xFFBCBCBC),
             colorTextAndIconDisabled = Color(0xFF6E6E6E),
         )

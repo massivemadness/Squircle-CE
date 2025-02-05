@@ -29,8 +29,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.buildHtmlAnnotatedString
 import com.blacksquircle.ui.ds.extensions.takeUrl
@@ -83,10 +84,10 @@ internal fun ReleaseInfo(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun ReleaseInfoPreview() {
-    SquircleTheme {
+    PreviewBackground {
         ReleaseInfo(
             versionName = "v2024.1.0",
             releaseDate = "24 Jan. 2024",

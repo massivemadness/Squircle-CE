@@ -28,10 +28,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.navigation.Screen
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.PreferenceHeader
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
@@ -50,8 +50,8 @@ internal fun HeaderListScreen(viewModel: HeaderViewModel) {
 @Composable
 private fun HeaderListScreen(
     viewState: HeaderListViewState,
-    onBackClicked: () -> Unit,
-    onHeaderClicked: (Screen<*>) -> Unit,
+    onBackClicked: () -> Unit = {},
+    onHeaderClicked: (Screen<*>) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -80,14 +80,12 @@ private fun HeaderListScreen(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun HeaderListScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         HeaderListScreen(
             viewState = HeaderListViewState(),
-            onBackClicked = {},
-            onHeaderClicked = {},
         )
     }
 }

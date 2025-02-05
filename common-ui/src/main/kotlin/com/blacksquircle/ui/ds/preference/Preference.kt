@@ -30,8 +30,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -92,10 +93,10 @@ fun Preference(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun PreferenceEnabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Preference(
             title = "Squircle CE",
             subtitle = "About application",
@@ -105,10 +106,10 @@ private fun PreferenceEnabledPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun PreferenceDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Preference(
             title = "Squircle CE",
             subtitle = "About application",

@@ -52,9 +52,10 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
 import com.blacksquircle.ui.ds.button.IconButton
@@ -92,15 +93,15 @@ internal fun ThemesScreen(viewModel: ThemesViewModel) {
 @Composable
 private fun ThemesScreen(
     viewState: ThemesViewState,
-    onBackClicked: () -> Unit,
-    onCodePreviewChanged: (String) -> Unit,
-    onQueryChanged: (String) -> Unit,
-    onClearQueryClicked: () -> Unit,
-    onCreateClicked: () -> Unit,
-    onSelectClicked: (ThemeModel) -> Unit,
-    onExportClicked: (ThemeModel) -> Unit,
-    onEditClicked: (ThemeModel) -> Unit,
-    onRemoveClicked: (ThemeModel) -> Unit,
+    onBackClicked: () -> Unit = {},
+    onCodePreviewChanged: (String) -> Unit = {},
+    onQueryChanged: (String) -> Unit = {},
+    onClearQueryClicked: () -> Unit = {},
+    onCreateClicked: () -> Unit = {},
+    onSelectClicked: (ThemeModel) -> Unit = {},
+    onExportClicked: (ThemeModel) -> Unit = {},
+    onEditClicked: (ThemeModel) -> Unit = {},
+    onRemoveClicked: (ThemeModel) -> Unit = {},
 ) {
     val scrollState = rememberLazyGridState()
     val showButton by remember {
@@ -230,10 +231,10 @@ private fun ThemesScreen(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun ThemesScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         ThemesScreen(
             viewState = ThemesViewState(
                 query = "Mono",
@@ -242,15 +243,6 @@ private fun ThemesScreenPreview() {
                 fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
                 isLoading = false,
             ),
-            onBackClicked = {},
-            onCodePreviewChanged = {},
-            onQueryChanged = {},
-            onClearQueryClicked = {},
-            onCreateClicked = {},
-            onSelectClicked = {},
-            onExportClicked = {},
-            onEditClicked = {},
-            onRemoveClicked = {},
         )
     }
 }

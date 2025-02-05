@@ -36,11 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSize
 import com.blacksquircle.ui.ds.button.OutlinedButton
@@ -71,12 +71,12 @@ internal fun EditThemeScreen(viewModel: EditThemeViewModel) {
 @Composable
 private fun EditThemeScreen(
     viewState: EditThemeViewState,
-    onBackClicked: () -> Unit,
-    onImportClicked: () -> Unit,
-    onThemeNameChanged: (String) -> Unit,
-    onThemeAuthorChanged: (String) -> Unit,
-    onSaveClicked: () -> Unit,
-    onColorSelected: (Property, String) -> Unit,
+    onBackClicked: () -> Unit = {},
+    onImportClicked: () -> Unit = {},
+    onThemeNameChanged: (String) -> Unit = {},
+    onThemeAuthorChanged: (String) -> Unit = {},
+    onSaveClicked: () -> Unit = {},
+    onColorSelected: (Property, String) -> Unit = { _, _ -> },
 ) {
     Scaffold(
         topBar = {
@@ -110,6 +110,7 @@ private fun EditThemeScreen(
                     )
                 ) {
                     Spacer(Modifier.height(8.dp))
+
                     TextField(
                         inputText = viewState.name,
                         onInputChanged = onThemeNameChanged,
@@ -117,16 +118,22 @@ private fun EditThemeScreen(
                         placeholderText = stringResource(R.string.hint_theme_name),
                         keyboardOptions = KeyboardOptions(
                             imeAction = ImeAction.Next,
-                        )
+                        ),
+                        error = viewState.invalidName,
                     )
+
                     Spacer(Modifier.height(8.dp))
+
                     TextField(
                         inputText = viewState.author,
                         onInputChanged = onThemeAuthorChanged,
                         labelText = stringResource(R.string.hint_enter_theme_author),
-                        placeholderText = stringResource(R.string.hint_theme_author)
+                        placeholderText = stringResource(R.string.hint_theme_author),
+                        error = viewState.invalidAuthor,
                     )
+
                     Spacer(Modifier.height(16.dp))
+
                     OutlinedButton(
                         text = stringResource(UiR.string.common_save),
                         onClick = onSaveClicked,
@@ -185,18 +192,15 @@ private fun propertyResource(property: Property): String {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun EditThemeScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         EditThemeScreen(
-            viewState = EditThemeViewState(),
-            onBackClicked = {},
-            onImportClicked = {},
-            onThemeNameChanged = {},
-            onThemeAuthorChanged = {},
-            onSaveClicked = {},
-            onColorSelected = { _, _ -> },
+            viewState = EditThemeViewState(
+                name = "Custom theme",
+                author = "Author",
+            ),
         )
     }
 }

@@ -21,7 +21,8 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 
@@ -38,15 +39,15 @@ fun FloatingButton(
         Icon(
             painter = painterResource(iconResId),
             contentDescription = null,
-            tint = SquircleTheme.colors.colorTextAndIconPrimary,
+            tint = SquircleTheme.colors.colorTextAndIconPrimaryInverse,
         )
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun FloatingButtonPreview() {
-    SquircleTheme {
+    PreviewBackground {
         FloatingButton(
             iconResId = R.drawable.ic_edit,
             onClick = {},

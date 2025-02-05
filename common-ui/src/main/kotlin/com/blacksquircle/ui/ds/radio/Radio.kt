@@ -39,8 +39,9 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -119,10 +120,10 @@ fun Radio(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun RadioCheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Radio(
             title = "Radio",
             checked = true,
@@ -130,10 +131,10 @@ private fun RadioCheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun RadioUncheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Radio(
             title = "Radio",
             checked = false,
@@ -141,10 +142,10 @@ private fun RadioUncheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun RadioCheckedDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Radio(
             title = "Radio",
             checked = true,
@@ -153,10 +154,10 @@ private fun RadioCheckedDisabledPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun RadioUncheckedDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Radio(
             title = "Radio",
             checked = false,

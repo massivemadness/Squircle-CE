@@ -34,10 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.extensions.adaptiveIconPainterResource
 import com.blacksquircle.ui.ds.preference.Preference
@@ -84,11 +84,11 @@ internal fun AboutHeaderScreen(viewModel: AboutHeaderViewModel) {
 
 @Composable
 private fun AboutHeaderScreen(
-    onBackClicked: () -> Unit,
-    onChangelogClicked: () -> Unit,
-    onPrivacyClicked: () -> Unit,
-    onTranslationClicked: () -> Unit,
-    onContributeClicked: () -> Unit,
+    onBackClicked: () -> Unit = {},
+    onChangelogClicked: () -> Unit = {},
+    onPrivacyClicked: () -> Unit = {},
+    onTranslationClicked: () -> Unit = {},
+    onContributeClicked: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -155,16 +155,10 @@ private fun Context.appVersionName(): String {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun AboutHeaderScreenPreview() {
-    SquircleTheme {
-        AboutHeaderScreen(
-            onChangelogClicked = {},
-            onPrivacyClicked = {},
-            onTranslationClicked = {},
-            onContributeClicked = {},
-            onBackClicked = {},
-        )
+    PreviewBackground {
+        AboutHeaderScreen()
     }
 }

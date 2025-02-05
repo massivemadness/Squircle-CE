@@ -27,7 +27,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,12 +35,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.graphics.toColorInt
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.github.skydoves.colorpicker.compose.AlphaSlider
@@ -63,7 +63,7 @@ fun ColorPickerDialog(
     properties: DialogProperties = DialogProperties(),
 ) {
     val controller = rememberColorPickerController()
-    var textColor by rememberSaveable {
+    var textColor by remember {
         mutableStateOf(initialColor.toHexString())
     }
 
@@ -75,7 +75,7 @@ fun ColorPickerDialog(
                     initialColor = initialColor,
                     onColorChanged = { colorEnvelope ->
                         if (colorEnvelope.fromUser) {
-                            textColor = "#" + colorEnvelope.hexCode
+                            textColor = colorEnvelope.color.toHexString()
                         }
                     },
                     controller = controller,
@@ -140,12 +140,14 @@ fun ColorPickerDialog(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun ColorPickerDialogPreview() {
-    SquircleTheme {
+    PreviewBackground {
         ColorPickerDialog(
             title = "Color Picker",
+            confirmButton = "Select",
+            dismissButton = "Cancel",
             onDismiss = {},
         )
     }

@@ -24,11 +24,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
@@ -73,19 +73,19 @@ internal fun ServerScreen(viewModel: ServerViewModel) {
 @Composable
 private fun ServerScreen(
     viewState: ServerViewState,
-    onSchemeChanged: (String) -> Unit,
-    onNameChanged: (String) -> Unit,
-    onAddressChanged: (String) -> Unit,
-    onPortChanged: (String) -> Unit,
-    onUsernameChanged: (String) -> Unit,
-    onAuthMethodChanged: (String) -> Unit,
-    onPasswordActionChanged: (String) -> Unit,
-    onPassphraseActionChanged: (String) -> Unit,
-    onKeyFileChanged: (String) -> Unit,
-    onChooseFileClicked: () -> Unit,
-    onPasswordChanged: (String) -> Unit,
-    onPassphraseChanged: (String) -> Unit,
-    onInitialDirChanged: (String) -> Unit,
+    onSchemeChanged: (String) -> Unit = {},
+    onNameChanged: (String) -> Unit = {},
+    onAddressChanged: (String) -> Unit = {},
+    onPortChanged: (String) -> Unit = {},
+    onUsernameChanged: (String) -> Unit = {},
+    onAuthMethodChanged: (String) -> Unit = {},
+    onPasswordActionChanged: (String) -> Unit = {},
+    onPassphraseActionChanged: (String) -> Unit = {},
+    onKeyFileChanged: (String) -> Unit = {},
+    onChooseFileClicked: () -> Unit = {},
+    onPasswordChanged: (String) -> Unit = {},
+    onPassphraseChanged: (String) -> Unit = {},
+    onInitialDirChanged: (String) -> Unit = {},
     onSaveClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
     onCancelClicked: () -> Unit = {},
@@ -223,25 +223,12 @@ private fun ServerScreen(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun ServerScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         ServerScreen(
             viewState = ServerViewState(),
-            onSchemeChanged = {},
-            onNameChanged = {},
-            onAddressChanged = {},
-            onPortChanged = {},
-            onUsernameChanged = {},
-            onAuthMethodChanged = {},
-            onPasswordActionChanged = {},
-            onPassphraseActionChanged = {},
-            onKeyFileChanged = {},
-            onChooseFileClicked = {},
-            onPasswordChanged = {},
-            onPassphraseChanged = {},
-            onInitialDirChanged = {},
         )
     }
 }

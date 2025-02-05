@@ -30,8 +30,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -81,10 +82,10 @@ fun OutlinedButton(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun OutlinedButtonEnabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         OutlinedButton(
             text = "Outlined Button",
             onClick = {},
@@ -93,10 +94,10 @@ private fun OutlinedButtonEnabledPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun OutlinedButtonDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         OutlinedButton(
             text = "Outlined Button",
             onClick = {},

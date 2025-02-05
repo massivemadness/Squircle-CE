@@ -35,6 +35,8 @@ internal data class EditThemeViewState(
             propertyValue = ThemeMapper.FALLBACK_COLOR,
         )
     },
+    val invalidName: Boolean = false,
+    val invalidAuthor: Boolean = false,
 ) : ViewState() {
 
     @ColorInt

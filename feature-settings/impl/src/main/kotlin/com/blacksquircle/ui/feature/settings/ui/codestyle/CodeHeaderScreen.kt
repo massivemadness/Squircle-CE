@@ -28,9 +28,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SliderPreference
@@ -56,12 +56,12 @@ internal fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
 @Composable
 private fun CodeHeaderScreen(
     viewState: CodeHeaderViewState,
-    onBackClicked: () -> Unit,
-    onAutoIndentChanged: (Boolean) -> Unit,
-    onAutoBracketsChanged: (Boolean) -> Unit,
-    onAutoQuotesChanged: (Boolean) -> Unit,
-    onUseSpacesChanged: (Boolean) -> Unit,
-    onTabWidthChanged: (Int) -> Unit,
+    onBackClicked: () -> Unit = {},
+    onAutoIndentChanged: (Boolean) -> Unit = {},
+    onAutoBracketsChanged: (Boolean) -> Unit = {},
+    onAutoQuotesChanged: (Boolean) -> Unit = {},
+    onUseSpacesChanged: (Boolean) -> Unit = {},
+    onTabWidthChanged: (Int) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -126,10 +126,10 @@ private fun CodeHeaderScreen(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun CodeHeaderScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         CodeHeaderScreen(
             viewState = CodeHeaderViewState(
                 autoIndentation = true,
@@ -138,12 +138,6 @@ private fun CodeHeaderScreenPreview() {
                 useSpacesInsteadOfTabs = true,
                 tabWidth = 4,
             ),
-            onBackClicked = {},
-            onAutoIndentChanged = {},
-            onAutoBracketsChanged = {},
-            onAutoQuotesChanged = {},
-            onUseSpacesChanged = {},
-            onTabWidthChanged = {},
         )
     }
 }

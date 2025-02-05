@@ -42,7 +42,7 @@
         <item name="textInputStyle">@style/Widget.Design.TextInputLayout</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">?colorSecondaryVariant</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">@bool/windowLightStatusBar</item>
         <item name="android:windowLightNavigationBar">@bool/windowLightNavigationBar</item>
         <item name="android:forceDarkAllowed">false</item>

@@ -30,10 +30,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSize
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
@@ -64,9 +64,9 @@ internal fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
 @Composable
 private fun ShortcutsScreen(
     viewState: ShortcutsViewState,
-    onBackClicked: () -> Unit,
-    onRestoreClicked: () -> Unit,
-    onKeyClicked: (Keybinding) -> Unit,
+    onBackClicked: () -> Unit = {},
+    onRestoreClicked: () -> Unit = {},
+    onKeyClicked: (Keybinding) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -166,19 +166,16 @@ private fun ShortcutsScreen(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun ShortcutsScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         ShortcutsScreen(
             viewState = ShortcutsViewState(
                 shortcuts = Shortcut.entries
                     .map(::Keybinding)
                     .groupBy { it.shortcut.group }
             ),
-            onBackClicked = {},
-            onRestoreClicked = {},
-            onKeyClicked = {},
         )
     }
 }

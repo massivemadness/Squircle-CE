@@ -27,8 +27,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 
@@ -73,10 +74,10 @@ fun EmptyView(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun EmptyViewPreview() {
-    SquircleTheme {
+    PreviewBackground {
         EmptyView(
             iconResId = R.drawable.ic_file_find,
             title = "An error occurred",

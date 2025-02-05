@@ -33,9 +33,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.radio.Radio
 
@@ -115,10 +115,10 @@ fun ListPreference(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun ListPreferencePreview() {
-    SquircleTheme {
+    PreviewBackground {
         ListPreference(
             title = "Application Theme",
             subtitle = "Configure the application theme",

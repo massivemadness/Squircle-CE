@@ -30,8 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -62,7 +63,7 @@ fun CheckBox(
                 colors = CheckboxDefaults.colors(
                     checkedColor = SquircleTheme.colors.colorPrimary,
                     uncheckedColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                    checkmarkColor = SquircleTheme.colors.colorTextAndIconPrimary,
+                    checkmarkColor = SquircleTheme.colors.colorTextAndIconPrimaryInverse,
                     disabledColor = SquircleTheme.colors.colorTextAndIconDisabled,
                     disabledIndeterminateColor = SquircleTheme.colors.colorTextAndIconDisabled,
                 )
@@ -85,10 +86,10 @@ fun CheckBox(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun CheckBoxCheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         CheckBox(
             title = "CheckBox",
             checked = true,
@@ -96,10 +97,10 @@ private fun CheckBoxCheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun CheckBoxUncheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         CheckBox(
             title = "CheckBox",
             checked = false,
@@ -107,10 +108,10 @@ private fun CheckBoxUncheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun CheckBoxCheckedDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         CheckBox(
             title = "CheckBox",
             checked = true,
@@ -119,10 +120,10 @@ private fun CheckBoxCheckedDisabledPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun CheckBoxUncheckedDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         CheckBox(
             title = "CheckBox",
             checked = false,

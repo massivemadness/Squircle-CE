@@ -14,29 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.loader
+package com.blacksquircle.ui.ds
 
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
-@NonRestartableComposable
-fun Loader(modifier: Modifier = Modifier) {
-    CircularProgressIndicator(
-        color = SquircleTheme.colors.colorPrimary,
-        modifier = modifier,
-    )
-}
-
-@PreviewLightDark
-@Composable
-private fun LoaderPreview() {
-    PreviewBackground {
-        Loader()
+fun PreviewBackground(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    SquircleTheme(darkTheme = darkTheme) {
+        Surface {
+            content()
+        }
     }
 }

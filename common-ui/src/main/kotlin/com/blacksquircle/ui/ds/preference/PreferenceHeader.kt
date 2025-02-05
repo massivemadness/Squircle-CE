@@ -25,8 +25,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -41,7 +42,7 @@ fun PreferenceHeader(
             .fillMaxWidth()
             .clickable(onClick = onClick)
             .padding(
-                horizontal = 24.dp,
+                horizontal = 18.dp,
                 vertical = 8.dp
             )
     ) {
@@ -59,10 +60,10 @@ fun PreferenceHeader(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun PreferenceHeaderPreview() {
-    SquircleTheme {
+    PreviewBackground {
         PreferenceHeader(
             title = "Application",
             subtitle = "Configure global application settings",

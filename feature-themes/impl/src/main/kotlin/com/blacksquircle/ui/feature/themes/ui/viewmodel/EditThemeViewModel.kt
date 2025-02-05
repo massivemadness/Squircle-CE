@@ -99,13 +99,19 @@ internal class EditThemeViewModel @AssistedInject constructor(
 
     fun onThemeNameChanged(name: String) {
         _viewState.update {
-            it.copy(name = name)
+            it.copy(
+                name = name,
+                invalidName = false,
+            )
         }
     }
 
     fun onThemeAuthorChanged(author: String) {
         _viewState.update {
-            it.copy(author = author)
+            it.copy(
+                author = author,
+                invalidAuthor = false,
+            )
         }
     }
 
@@ -113,6 +119,17 @@ internal class EditThemeViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 val viewState = viewState.value
+                val isNameValid = viewState.name.isNotBlank()
+                val isAuthorValid = viewState.author.isNotBlank()
+                if (!isNameValid || !isAuthorValid) {
+                    _viewState.update {
+                        it.copy(
+                            invalidName = !isNameValid,
+                            invalidAuthor = !isAuthorValid,
+                        )
+                    }
+                    return@launch
+                }
                 val themeModel = ThemeModel(
                     uuid = themeId ?: UUID.randomUUID().toString(),
                     name = viewState.name,

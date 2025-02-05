@@ -29,7 +29,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -83,4 +86,15 @@ enum class IconButtonSize {
     S,
     M,
     L,
+}
+
+@PreviewLightDark
+@Composable
+private fun IconButtonPreview() {
+    PreviewBackground {
+        IconButton(
+            iconResId = R.drawable.ic_edit,
+            onClick = {},
+        )
+    }
 }

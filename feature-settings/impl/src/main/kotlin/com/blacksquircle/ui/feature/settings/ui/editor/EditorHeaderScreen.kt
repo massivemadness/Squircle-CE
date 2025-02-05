@@ -30,9 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
@@ -68,20 +68,20 @@ internal fun EditorHeaderScreen(viewModel: EditorHeaderViewModel) {
 @Composable
 private fun EditorHeaderScreen(
     viewState: EditorHeaderViewState,
-    onBackClicked: () -> Unit,
-    onFontSizeChanged: (Int) -> Unit,
-    onFontTypeClicked: () -> Unit,
-    onWordWrapChanged: (Boolean) -> Unit,
-    onCodeCompletionChanged: (Boolean) -> Unit,
-    onPinchZoomChanged: (Boolean) -> Unit,
-    onLineNumbersChanged: (Boolean) -> Unit,
-    onHighlightCurrentLineChanged: (Boolean) -> Unit,
-    onHighlightMatchingDelimitersChanged: (Boolean) -> Unit,
-    onReadOnlyChanged: (Boolean) -> Unit,
-    onAutoSaveFilesChanged: (Boolean) -> Unit,
-    onExtendedKeyboardChanged: (Boolean) -> Unit,
-    onKeyboardPresetChanged: (String) -> Unit,
-    onSoftKeyboardChanged: (Boolean) -> Unit,
+    onBackClicked: () -> Unit = {},
+    onFontSizeChanged: (Int) -> Unit = {},
+    onFontTypeClicked: () -> Unit = {},
+    onWordWrapChanged: (Boolean) -> Unit = {},
+    onCodeCompletionChanged: (Boolean) -> Unit = {},
+    onPinchZoomChanged: (Boolean) -> Unit = {},
+    onLineNumbersChanged: (Boolean) -> Unit = {},
+    onHighlightCurrentLineChanged: (Boolean) -> Unit = {},
+    onHighlightMatchingDelimitersChanged: (Boolean) -> Unit = {},
+    onReadOnlyChanged: (Boolean) -> Unit = {},
+    onAutoSaveFilesChanged: (Boolean) -> Unit = {},
+    onExtendedKeyboardChanged: (Boolean) -> Unit = {},
+    onKeyboardPresetChanged: (String) -> Unit = {},
+    onSoftKeyboardChanged: (Boolean) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -206,10 +206,10 @@ private fun EditorHeaderScreen(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun EditorHeaderScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         EditorHeaderScreen(
             viewState = EditorHeaderViewState(
                 fontSize = 14,
@@ -225,20 +225,6 @@ private fun EditorHeaderScreenPreview() {
                 keyboardPreset = "0123456789",
                 softKeyboard = false,
             ),
-            onBackClicked = {},
-            onFontSizeChanged = {},
-            onFontTypeClicked = {},
-            onWordWrapChanged = {},
-            onCodeCompletionChanged = {},
-            onPinchZoomChanged = {},
-            onLineNumbersChanged = {},
-            onHighlightCurrentLineChanged = {},
-            onHighlightMatchingDelimitersChanged = {},
-            onReadOnlyChanged = {},
-            onAutoSaveFilesChanged = {},
-            onExtendedKeyboardChanged = {},
-            onKeyboardPresetChanged = {},
-            onSoftKeyboardChanged = {},
         )
     }
 }

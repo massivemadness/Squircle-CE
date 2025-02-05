@@ -29,8 +29,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -74,10 +75,10 @@ fun TextButton(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun TextButtonEnabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         TextButton(
             text = "Text Button",
             onClick = {},
@@ -86,10 +87,10 @@ private fun TextButtonEnabledPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun TextButtonDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         TextButton(
             text = "Text Button",
             onClick = {},

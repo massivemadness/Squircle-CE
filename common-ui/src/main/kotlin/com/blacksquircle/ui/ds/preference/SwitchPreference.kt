@@ -18,8 +18,8 @@ package com.blacksquircle.ui.ds.preference
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.blacksquircle.ui.ds.SquircleTheme
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.switcher.Switcher
 
 @Composable
@@ -47,10 +47,10 @@ fun SwitchPreference(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun EnabledSwitchPreferenceCheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         SwitchPreference(
             title = "Preference Title",
             subtitle = "Preference Subtitle",
@@ -59,10 +59,10 @@ private fun EnabledSwitchPreferenceCheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun EnabledSwitchPreferenceUncheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         SwitchPreference(
             title = "Preference Title",
             subtitle = "Preference Subtitle",
@@ -71,10 +71,10 @@ private fun EnabledSwitchPreferenceUncheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun DisabledSwitchPreferenceCheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         SwitchPreference(
             title = "Preference Title",
             subtitle = "Preference Subtitle",
@@ -84,10 +84,10 @@ private fun DisabledSwitchPreferenceCheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun DisabledSwitchPreferenceUncheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         SwitchPreference(
             title = "Preference Title",
             subtitle = "Preference Subtitle",

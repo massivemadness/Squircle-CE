@@ -45,9 +45,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
@@ -242,10 +243,10 @@ fun TextFieldAdvanced(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun TextFieldPreview() {
-    SquircleTheme {
+    PreviewBackground {
         TextField(
             inputText = "",
             onInputChanged = {},

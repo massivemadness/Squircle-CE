@@ -36,10 +36,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.extensions.keyCodeToChar
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
@@ -68,13 +69,13 @@ internal fun KeybindingScreen(viewModel: KeybindingViewModel) {
 @Composable
 private fun KeybindingScreen(
     viewState: KeybindingViewState,
-    onKeyPressed: (Char) -> Unit,
-    onMultiKeyPressed: (Boolean, Boolean, Boolean, Char) -> Unit,
-    onCtrlClicked: () -> Unit,
-    onShiftClicked: () -> Unit,
-    onAltClicked: () -> Unit,
-    onSaveClicked: () -> Unit,
-    onCancelClicked: () -> Unit,
+    onKeyPressed: (Char) -> Unit = {},
+    onMultiKeyPressed: (Boolean, Boolean, Boolean, Char) -> Unit = { _, _, _, _ -> },
+    onCtrlClicked: () -> Unit = {},
+    onShiftClicked: () -> Unit = {},
+    onAltClicked: () -> Unit = {},
+    onSaveClicked: () -> Unit = {},
+    onCancelClicked: () -> Unit = {},
 ) {
     AlertDialog(
         title = when (viewState.shortcut) {
@@ -220,10 +221,10 @@ private fun KeybindingScreen(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun KeybindingScreenPreview() {
-    SquircleTheme {
+    PreviewBackground {
         KeybindingScreen(
             viewState = KeybindingViewState(
                 shortcut = Shortcut.CUT,
@@ -232,13 +233,6 @@ private fun KeybindingScreenPreview() {
                 isAlt = false,
                 key = 'X',
             ),
-            onKeyPressed = {},
-            onMultiKeyPressed = { _, _, _, _ -> },
-            onCtrlClicked = {},
-            onShiftClicked = {},
-            onAltClicked = {},
-            onSaveClicked = {},
-            onCancelClicked = {},
         )
     }
 }

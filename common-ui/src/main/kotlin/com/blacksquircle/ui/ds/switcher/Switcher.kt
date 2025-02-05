@@ -30,8 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -90,10 +91,10 @@ fun Switcher(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SwitcherCheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Switcher(
             title = "Switcher",
             checked = true,
@@ -101,10 +102,10 @@ private fun SwitcherCheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SwitcherUncheckedPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Switcher(
             title = "Switcher",
             checked = false,
@@ -112,10 +113,10 @@ private fun SwitcherUncheckedPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SwitcherCheckedDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Switcher(
             title = "Switcher",
             checked = true,
@@ -124,10 +125,10 @@ private fun SwitcherCheckedDisabledPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SwitcherUncheckedDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         Switcher(
             title = "Switcher",
             checked = false,

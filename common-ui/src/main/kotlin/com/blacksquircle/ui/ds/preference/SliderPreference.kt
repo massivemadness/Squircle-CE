@@ -20,9 +20,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.slider.Slider
 
 @Composable
@@ -56,10 +56,10 @@ fun SliderPreference(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SliderPreferenceEnabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         SliderPreference(
             title = "Preference Title",
             subtitle = "Preference Subtitle",
@@ -72,10 +72,10 @@ private fun SliderPreferenceEnabledPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SliderPreferenceDisabledPreview() {
-    SquircleTheme {
+    PreviewBackground {
         SliderPreference(
             title = "Preference Title",
             subtitle = "Preference Subtitle",
