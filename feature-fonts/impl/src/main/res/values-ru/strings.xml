@@ -16,7 +16,6 @@
   -->
 <resources>
     <string name="label_fonts">Шрифты</string>
-    <string name="action_select">Выбрать</string>
     <string name="message_selected">Выбран «%1$s»</string>
     <string name="message_new_font_available">Добавлен новый шрифт</string>
     <string name="message_font_removed">Шрифт «%1$s» удален</string>
