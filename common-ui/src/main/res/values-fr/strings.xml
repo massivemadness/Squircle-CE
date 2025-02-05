@@ -20,4 +20,6 @@
     <string name="common_save">Sauvegarde</string>
     <string name="common_delete">Supprimer</string>
     <string name="common_continue">Continuer</string>
+    <string name="common_select">Sélectionner</string>
+    <string name="dialog_title_color_picker">Sélecteur de Couleurs</string>
 </resources>
