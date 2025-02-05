@@ -40,7 +40,6 @@
     <string name="action_settings">Ustawienia</string>
     <string name="action_tools">Narzędzia</string>
     <string name="dialog_title_goto_line">Przejdź do linii…</string>
-    <string name="dialog_title_color_picker">Wybór kolorów</string>
     <string name="dialog_title_force_syntax">Podświetlanie składni</string>
     <string name="dialog_message_close_tab">Czy na pewno chcesz zamknąć ten plik? Wszystkie niezapisane zmiany zostaną odrzucone</string>
     <string name="message_no_open_files">Brak otwartych plików</string>
