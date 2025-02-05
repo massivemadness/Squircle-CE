@@ -16,7 +16,6 @@
   -->
 <resources>
     <string name="label_fonts">Schriftarten</string>
-    <string name="action_select">Auswählen</string>
     <string name="message_selected">Ausgewählt «%1$s»</string>
     <string name="message_new_font_available">Neue Schriftart verfügar</string>
     <string name="message_font_removed">Schriftart «%1$s» entfernt</string>
