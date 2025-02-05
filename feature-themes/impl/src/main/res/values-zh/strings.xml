@@ -19,8 +19,6 @@
     <string name="label_new_theme">新建主题</string>
     <string name="hint_enter_theme_name">输入主题名称</string>
     <string name="hint_enter_theme_author">输入主题作者</string>
-    <string name="hint_enter_theme_desc">主题简要描述</string>
-    <string name="hint_theme_desc">如：默认配色方案</string>
     <string name="action_select">选择</string>
     <string name="action_import">导入</string>
     <string name="action_export">导出</string>
