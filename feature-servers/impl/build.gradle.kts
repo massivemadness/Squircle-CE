@@ -60,7 +60,6 @@ dependencies {
     // DI
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    implementation(libs.hilt.navigation)
 
     // Modules
     implementation(project(":feature-servers:api"))

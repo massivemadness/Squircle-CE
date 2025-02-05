@@ -43,7 +43,6 @@ dependencies {
     implementation(libs.compose.preview)
     debugImplementation(libs.compose.tooling)
     debugImplementation(libs.compose.manifest)
-    implementation(libs.colorpicker) // TODO compose
 
     // AAC
     implementation(libs.androidx.viewmodel)
@@ -61,7 +60,6 @@ dependencies {
     // DI
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    implementation(libs.hilt.navigation)
 
     // Modules
     implementation(project(":feature-settings:api"))

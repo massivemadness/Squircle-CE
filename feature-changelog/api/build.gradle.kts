@@ -30,8 +30,4 @@ dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
-    implementation(libs.androidx.core)
-
-    // Coroutines
-    implementation(libs.coroutines.core)
 }

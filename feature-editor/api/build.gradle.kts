@@ -30,7 +30,6 @@ dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
-    implementation(libs.androidx.core)
 
     // Modules
     api(project(":editorkit:editorkit"))

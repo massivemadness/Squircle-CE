@@ -15,7 +15,6 @@ material = "1.12.0"
 compose = "1.7.7"
 constraintlayout = "2.2.0"
 swiperefreshlayout = "1.2.0-alpha01"
-preferences = "1.2.1"
 colorpicker = "2.3.0"
 recyclerview-selection = "1.1.0"
 vectordrawable = "1.2.0"
@@ -85,7 +84,6 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 androidx-recyclerview-selection = { module = "androidx.recyclerview:recyclerview-selection", version.ref = "recyclerview-selection" }
 androidx-vectordrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "vectordrawable" }
-androidx-preferences = { module = "androidx.preference:preference-ktx", version.ref = "preferences" }
 androidx-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
@@ -102,7 +100,6 @@ compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.re
 
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt-navigation = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hilt-android" }
 hilt-workmanager = { module = "androidx.hilt:hilt-work", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-android" }
 
