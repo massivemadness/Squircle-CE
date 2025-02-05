@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 @HiltViewModel
 internal class CloudViewModel @Inject constructor(
@@ -54,7 +55,7 @@ internal class CloudViewModel @Inject constructor(
 
     fun onServerClicked(serverConfig: ServerConfig) {
         viewModelScope.launch {
-            val screen = ServersScreen.EditServer(serverConfig)
+            val screen = ServersScreen.EditServer(serverConfig.uuid)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -66,34 +67,17 @@ internal class CloudViewModel @Inject constructor(
         }
     }
 
-    fun onSaveClicked(serverConfig: ServerConfig) {
+    fun loadServers() {
         viewModelScope.launch {
             try {
-                serversRepository.upsertServer(serverConfig)
-                loadServers()
+                val servers = serversRepository.loadServers()
+                _viewState.value = CloudViewState(servers)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
-        }
-    }
-
-    fun onDeleteClicked(serverConfig: ServerConfig) {
-        viewModelScope.launch {
-            try {
-                serversRepository.deleteServer(serverConfig)
-                loadServers()
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun loadServers() {
-        viewModelScope.launch {
-            val servers = serversRepository.loadServers()
-            _viewState.value = CloudViewState(servers)
         }
     }
 }

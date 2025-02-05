@@ -75,13 +75,11 @@ internal class CloudFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        observeFragmentResult(KEY_SAVE) { bundle ->
-            val serverConfig = ServerMapper.fromBundle(bundle)
-            viewModel.onSaveClicked(serverConfig)
+        observeFragmentResult(KEY_SAVE) {
+            viewModel.loadServers()
         }
-        observeFragmentResult(KEY_DELETE) { bundle ->
-            val serverConfig = ServerMapper.fromBundle(bundle)
-            viewModel.onDeleteClicked(serverConfig)
+        observeFragmentResult(KEY_DELETE) {
+            viewModel.loadServers()
         }
     }
 

@@ -33,7 +33,6 @@ import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.feature.servers.ui.fragment.CloudFragment
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
@@ -50,7 +49,7 @@ internal class ServerDialog : DialogFragment() {
     private val viewModel by viewModels<ServerViewModel>(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<ServerViewModel.Factory> { factory ->
-                factory.create(serverData = navArgs.data)
+                factory.create(serverId = navArgs.id)
             }
         }
     )
@@ -92,17 +91,11 @@ internal class ServerDialog : DialogFragment() {
             .onEach { event ->
                 when (event) {
                     is ServerViewEvent.SendSaveResult -> {
-                        sendFragmentResult(
-                            resultKey = CloudFragment.KEY_SAVE,
-                            bundle = ServerMapper.toBundle(event.serverConfig)
-                        )
+                        sendFragmentResult(CloudFragment.KEY_SAVE)
                         navController.popBackStack()
                     }
                     is ServerViewEvent.SendDeleteResult -> {
-                        sendFragmentResult(
-                            resultKey = CloudFragment.KEY_DELETE,
-                            bundle = ServerMapper.toBundle(event.serverConfig)
-                        )
+                        sendFragmentResult(CloudFragment.KEY_DELETE)
                         navController.popBackStack()
                     }
                     is ServerViewEvent.ChooseFile -> {

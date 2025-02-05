@@ -27,7 +27,6 @@ import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 @Immutable
 internal data class ServerViewState(
     val isEditMode: Boolean = false,
-    val uuid: String = "",
     val scheme: FileServer = FileServer.FTP,
     val name: String = "",
     val address: String = "",
@@ -43,41 +42,6 @@ internal data class ServerViewState(
     val invalidName: Boolean = false,
     val invalidAddress: Boolean = false,
 ) : ViewState() {
-
-    fun toServerConfig(): ServerConfig {
-        return ServerConfig(
-            uuid = uuid,
-            scheme = scheme,
-            name = name,
-            address = address,
-            port = port.toIntOrNull() ?: when (scheme) {
-                FileServer.FTP,
-                FileServer.FTPS,
-                FileServer.FTPES -> DEFAULT_FTP_PORT
-                FileServer.SFTP -> DEFAULT_SFTP_PORT
-            },
-            initialDir = initialDir,
-            authMethod = authMethod,
-            username = username,
-            password = if (
-                authMethod == AuthMethod.PASSWORD &&
-                passwordAction == PasswordAction.SAVE_PASSWORD
-            ) {
-                password
-            } else {
-                null
-            },
-            privateKey = if (authMethod == AuthMethod.KEY) privateKey else null,
-            passphrase = if (
-                authMethod == AuthMethod.KEY &&
-                passphraseAction == PassphraseAction.SAVE_PASSPHRASE
-            ) {
-                passphrase
-            } else {
-                null
-            },
-        )
-    }
 
     companion object {
         const val DEFAULT_FTP_PORT = 21

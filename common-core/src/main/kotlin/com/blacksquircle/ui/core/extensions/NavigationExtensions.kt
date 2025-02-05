@@ -71,7 +71,7 @@ fun Fragment.sendFragmentResult(resultKey: String, vararg pairs: Pair<String, An
     )
 }
 
-fun Fragment.sendFragmentResult(resultKey: String, bundle: Bundle) {
+fun Fragment.sendFragmentResult(resultKey: String, bundle: Bundle = Bundle.EMPTY) {
     requireActivity().supportFragmentManager.setFragmentResult(resultKey, bundle)
 }
 

@@ -18,20 +18,22 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.extensions.fromJsonEncoded
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
+import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState.Companion.DEFAULT_FTP_PORT
+import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState.Companion.DEFAULT_SFTP_PORT
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileServer
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import com.google.gson.Gson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,21 +42,27 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.UUID
 
 @HiltViewModel(assistedFactory = ServerViewModel.Factory::class)
 internal class ServerViewModel @AssistedInject constructor(
-    @Assisted val serverData: String?,
+    private val serversRepository: ServersRepository,
+    @Assisted val serverId: String?,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(initialViewState())
+    private val _viewState = MutableStateFlow(ServerViewState(isEditMode = isEditMode))
     val viewState: StateFlow<ServerViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     private val isEditMode: Boolean
-        get() = !serverData.isNullOrEmpty()
+        get() = !serverId.isNullOrEmpty()
+
+    init {
+        fetchServerData()
+    }
 
     fun onSchemeChanged(scheme: String) {
         val fileServer = FileServer.of(scheme)
@@ -155,76 +163,123 @@ internal class ServerViewModel @AssistedInject constructor(
     }
 
     fun onSaveClicked() {
-        viewModelScope.launch {
-            val isServerNameValid = viewState.value.name.isNotBlank()
-            val isServerAddressValid = viewState.value.address.isNotBlank()
-            _viewState.update {
-                it.copy(
-                    invalidName = !isServerNameValid,
-                    invalidAddress = !isServerAddressValid,
-                )
-            }
-            if (isServerNameValid && isServerAddressValid) {
-                val serverConfig = viewState.value.toServerConfig()
-                _viewEvent.send(ServerViewEvent.SendSaveResult(serverConfig))
+        val isServerNameValid = viewState.value.name.isNotBlank()
+        val isServerAddressValid = viewState.value.address.isNotBlank()
+        _viewState.update {
+            it.copy(
+                invalidName = !isServerNameValid,
+                invalidAddress = !isServerAddressValid,
+            )
+        }
+        if (isServerNameValid && isServerAddressValid) {
+            viewModelScope.launch {
+                try {
+                    val serverConfig = viewState.value.toServerConfig()
+                    serversRepository.upsertServer(serverConfig)
+                    _viewEvent.send(ServerViewEvent.SendSaveResult)
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    Timber.e(e, e.message)
+                    _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+                }
             }
         }
     }
 
     fun onDeleteClicked() {
         viewModelScope.launch {
-            val serverConfig = viewState.value.toServerConfig()
-            _viewEvent.send(ServerViewEvent.SendDeleteResult(serverConfig))
+            try {
+                val serverConfig = viewState.value.toServerConfig()
+                serversRepository.deleteServer(serverConfig)
+                _viewEvent.send(ServerViewEvent.SendDeleteResult)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
         }
     }
 
-    private fun initialViewState(): ServerViewState {
-        return if (isEditMode) {
-            val serverConfig = serverData!!.fromJsonEncoded<ServerConfig>()
-            ServerViewState(
-                isEditMode = true,
-                uuid = serverConfig.uuid,
-                scheme = serverConfig.scheme,
-                name = serverConfig.name,
-                address = serverConfig.address,
-                port = serverConfig.port.toString(),
-                initialDir = serverConfig.initialDir,
-                passwordAction = if (serverConfig.password.isNullOrEmpty()) {
-                    PasswordAction.ASK_FOR_PASSWORD
-                } else {
-                    PasswordAction.SAVE_PASSWORD
-                },
-                passphraseAction = if (serverConfig.passphrase.isNullOrEmpty()) {
-                    PassphraseAction.ASK_FOR_PASSPHRASE
-                } else {
-                    PassphraseAction.SAVE_PASSPHRASE
-                },
-                authMethod = serverConfig.authMethod,
-                username = serverConfig.username,
-                password = serverConfig.password.orEmpty(),
-                privateKey = serverConfig.privateKey.orEmpty(),
-                passphrase = serverConfig.passphrase.orEmpty(),
-            )
-        } else {
-            ServerViewState(
-                isEditMode = false,
-                uuid = UUID.randomUUID().toString(),
-                scheme = FileServer.FTP,
-                name = "",
-                address = "",
-                port = "",
-                initialDir = "",
-                authMethod = AuthMethod.PASSWORD,
-                username = "",
-                password = "",
-                privateKey = "",
-                passphrase = "",
-            )
+    private fun fetchServerData() {
+        if (!isEditMode) {
+            return
         }
+        viewModelScope.launch {
+            try {
+                val serverConfig = serversRepository.loadServer(serverId.orEmpty())
+                _viewState.update {
+                    it.copy(
+                        scheme = serverConfig.scheme,
+                        name = serverConfig.name,
+                        address = serverConfig.address,
+                        port = serverConfig.port.toString(),
+                        initialDir = serverConfig.initialDir,
+                        passwordAction = if (serverConfig.password.isNullOrEmpty()) {
+                            PasswordAction.ASK_FOR_PASSWORD
+                        } else {
+                            PasswordAction.SAVE_PASSWORD
+                        },
+                        passphraseAction = if (serverConfig.passphrase.isNullOrEmpty()) {
+                            PassphraseAction.ASK_FOR_PASSPHRASE
+                        } else {
+                            PassphraseAction.SAVE_PASSPHRASE
+                        },
+                        authMethod = serverConfig.authMethod,
+                        username = serverConfig.username,
+                        password = serverConfig.password.orEmpty(),
+                        privateKey = serverConfig.privateKey.orEmpty(),
+                        passphrase = serverConfig.passphrase.orEmpty(),
+                    )
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun ServerViewState.toServerConfig(): ServerConfig {
+        return ServerConfig(
+            uuid = serverId ?: UUID.randomUUID().toString(),
+            scheme = scheme,
+            name = name,
+            address = address,
+            port = port.toIntOrNull() ?: when (scheme) {
+                FileServer.FTP,
+                FileServer.FTPS,
+                FileServer.FTPES -> DEFAULT_FTP_PORT
+
+                FileServer.SFTP -> DEFAULT_SFTP_PORT
+            },
+            initialDir = initialDir,
+            authMethod = authMethod,
+            username = username,
+            password = if (
+                authMethod == AuthMethod.PASSWORD &&
+                passwordAction == PasswordAction.SAVE_PASSWORD
+            ) {
+                password
+            } else {
+                null
+            },
+            privateKey = if (authMethod == AuthMethod.KEY) privateKey else null,
+            passphrase = if (
+                authMethod == AuthMethod.KEY &&
+                passphraseAction == PassphraseAction.SAVE_PASSPHRASE
+            ) {
+                passphrase
+            } else {
+                null
+            },
+        )
     }
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted serverData: String?): ServerViewModel
+        fun create(@Assisted serverId: String?): ServerViewModel
     }
 }

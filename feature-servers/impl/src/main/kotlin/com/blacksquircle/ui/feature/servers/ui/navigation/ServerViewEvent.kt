@@ -17,11 +17,10 @@
 package com.blacksquircle.ui.feature.servers.ui.navigation
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 internal sealed class ServerViewEvent : ViewEvent() {
 
-    class SendSaveResult(val serverConfig: ServerConfig) : ServerViewEvent()
-    class SendDeleteResult(val serverConfig: ServerConfig) : ServerViewEvent()
+    data object SendSaveResult : ServerViewEvent()
+    data object SendDeleteResult : ServerViewEvent()
     data object ChooseFile : ServerViewEvent()
 }
