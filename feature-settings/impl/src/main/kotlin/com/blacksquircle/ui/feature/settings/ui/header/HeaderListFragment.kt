@@ -23,14 +23,13 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.settings.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -38,7 +37,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 internal class HeaderListFragment : Fragment() {
 
-    private val viewModel by hiltNavGraphViewModels<HeaderViewModel>(R.id.settings_graph)
+    private val viewModel by viewModels<HeaderViewModel>()
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(

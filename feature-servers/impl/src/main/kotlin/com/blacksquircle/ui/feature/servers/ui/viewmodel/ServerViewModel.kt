@@ -202,6 +202,12 @@ internal class ServerViewModel @AssistedInject constructor(
         }
     }
 
+    fun onCancelClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack())
+        }
+    }
+
     private fun loadServer() {
         if (!isEditMode) {
             return

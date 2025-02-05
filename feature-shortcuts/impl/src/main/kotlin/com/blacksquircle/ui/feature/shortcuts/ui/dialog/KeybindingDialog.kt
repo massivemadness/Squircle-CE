@@ -29,6 +29,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
@@ -61,10 +62,7 @@ internal class KeybindingDialog : DialogFragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SquircleTheme {
-                    KeybindingScreen(
-                        viewModel = viewModel,
-                        navController = navController,
-                    )
+                    KeybindingScreen(viewModel)
                 }
             }
         }
@@ -78,11 +76,16 @@ internal class KeybindingDialog : DialogFragment() {
     private fun observeViewModel() {
         viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { event ->
-                if (event is ShortcutViewEvent.SendSaveResult) {
-                    sendFragmentResult(
-                        resultKey = ShortcutsFragment.KEY_SAVE,
-                        bundle = ShortcutMapper.toBundle(event.keybinding),
-                    )
+                when (event) {
+                    is ViewEvent.PopBackStack -> {
+                        navController.popBackStack()
+                    }
+                    is ShortcutViewEvent.SendSaveResult -> {
+                        sendFragmentResult(
+                            resultKey = ShortcutsFragment.KEY_SAVE,
+                            bundle = ShortcutMapper.toBundle(event.keybinding),
+                        )
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

@@ -39,7 +39,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.keyCodeToChar
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
@@ -51,10 +50,7 @@ import com.blacksquircle.ui.feature.shortcuts.ui.composable.keybindingResource
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.KeybindingViewModel
 
 @Composable
-internal fun KeybindingScreen(
-    viewModel: KeybindingViewModel,
-    navController: NavController
-) {
+internal fun KeybindingScreen(viewModel: KeybindingViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     KeybindingScreen(
         viewState = viewState,
@@ -64,7 +60,7 @@ internal fun KeybindingScreen(
         onShiftClicked = viewModel::onShiftClicked,
         onAltClicked = viewModel::onAltClicked,
         onSaveClicked = viewModel::onSaveClicked,
-        onCancelClicked = navController::popBackStack,
+        onCancelClicked = viewModel::onCancelClicked,
     )
 }
 

@@ -100,6 +100,12 @@ internal class KeybindingViewModel @AssistedInject constructor(
         }
     }
 
+    fun onCancelClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack())
+        }
+    }
+
     private fun initialViewState(): KeybindingViewState {
         val keybinding = ShortcutMapper.fromBundle(initial)
         return KeybindingViewState(

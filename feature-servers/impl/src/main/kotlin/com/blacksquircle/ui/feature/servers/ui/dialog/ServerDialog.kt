@@ -32,6 +32,7 @@ import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.servers.ui.fragment.CloudFragment
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
@@ -72,10 +73,7 @@ internal class ServerDialog : DialogFragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SquircleTheme {
-                    ServerScreen(
-                        viewModel = viewModel,
-                        navController = navController,
-                    )
+                    ServerScreen(viewModel)
                 }
             }
         }
@@ -90,6 +88,9 @@ internal class ServerDialog : DialogFragment() {
         viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { event ->
                 when (event) {
+                    is ViewEvent.PopBackStack -> {
+                        navController.popBackStack()
+                    }
                     is ServerViewEvent.SendSaveResult -> {
                         sendFragmentResult(CloudFragment.KEY_SAVE)
                         navController.popBackStack()

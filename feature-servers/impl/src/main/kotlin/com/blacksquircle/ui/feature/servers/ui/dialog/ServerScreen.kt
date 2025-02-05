@@ -28,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.servers.R
@@ -48,10 +47,7 @@ import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileServer
 
 @Composable
-internal fun ServerScreen(
-    viewModel: ServerViewModel,
-    navController: NavController,
-) {
+internal fun ServerScreen(viewModel: ServerViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ServerScreen(
         viewState = viewState,
@@ -70,7 +66,7 @@ internal fun ServerScreen(
         onInitialDirChanged = viewModel::onInitialDirChanged,
         onSaveClicked = viewModel::onSaveClicked,
         onDeleteClicked = viewModel::onDeleteClicked,
-        onCancelClicked = navController::popBackStack,
+        onCancelClicked = viewModel::onCancelClicked,
     )
 }
 
