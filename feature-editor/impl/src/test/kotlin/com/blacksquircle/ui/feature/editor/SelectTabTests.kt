@@ -28,7 +28,6 @@ import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -53,7 +52,6 @@ class SelectTabTests {
     private val themesRepository = mockk<ThemesRepository>()
     private val fontsRepository = mockk<FontsRepository>()
     private val shortcutsRepository = mockk<ShortcutsRepository>()
-    private val settingsRepository = mockk<SettingsRepository>()
 
     @Before
     fun setup() {
@@ -169,7 +167,6 @@ class SelectTabTests {
             themesRepository = themesRepository,
             fontsRepository = fontsRepository,
             shortcutsRepository = shortcutsRepository,
-            settingsRepository = settingsRepository,
         )
     }
 }

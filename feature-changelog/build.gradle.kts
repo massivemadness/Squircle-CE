@@ -15,19 +15,15 @@
  */
 
 plugins {
-    id("com.blacksquircle.application")
+    id("com.blacksquircle.feature")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "com.blacksquircle.ui"
+    namespace = "com.blacksquircle.ui.feature.changelog"
 
-    defaultConfig {
-        applicationId = "com.blacksquircle.ui"
-        versionCode = 10023
-        versionName = "2025.1.0"
-    }
     buildFeatures {
-        viewBinding = true
+        compose = true
     }
 }
 
@@ -38,17 +34,15 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.fragment)
-    implementation(libs.androidx.splashscreen)
-    implementation(libs.androidx.profileinstaller)
     implementation(libs.timber)
 
-    // Google Play
-    val googlePlayImplementation by configurations
-    googlePlayImplementation(libs.appupdate)
-
-    // UI
-    implementation(libs.androidx.appcompat)
-    implementation(libs.materialdesign)
+    // Compose
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.preview)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.manifest)
 
     // AAC
     implementation(libs.androidx.viewmodel)
@@ -58,35 +52,19 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    testImplementation(libs.coroutines.test)
 
     // DI
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    implementation(libs.hilt.workmanager)
-    ksp(libs.hilt.android.compiler)
 
     // Modules
-    implementation(project(":feature-changelog"))
-    implementation(project(":feature-editor:api"))
-    implementation(project(":feature-editor:impl"))
-    implementation(project(":feature-explorer:api"))
-    implementation(project(":feature-explorer:impl"))
-    implementation(project(":feature-fonts:api"))
-    implementation(project(":feature-fonts:impl"))
-    implementation(project(":feature-servers:api"))
-    implementation(project(":feature-servers:impl"))
-    implementation(project(":feature-settings"))
-    implementation(project(":feature-shortcuts:api"))
-    implementation(project(":feature-shortcuts:impl"))
-    implementation(project(":feature-themes:api"))
-    implementation(project(":feature-themes:impl"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
 
-    implementation(project(":filesystems:filesystem-base"))
-
     // Tests
     testImplementation(libs.test.junit)
+    testImplementation(libs.test.mockk)
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)
 }

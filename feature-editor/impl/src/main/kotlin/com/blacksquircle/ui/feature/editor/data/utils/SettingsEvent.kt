@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.editor.data.utils
 
+import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
-import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 

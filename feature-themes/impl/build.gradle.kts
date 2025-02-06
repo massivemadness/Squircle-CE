@@ -62,7 +62,6 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     // Modules
-    implementation(project(":feature-settings:api"))
     implementation(project(":feature-themes:api"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))

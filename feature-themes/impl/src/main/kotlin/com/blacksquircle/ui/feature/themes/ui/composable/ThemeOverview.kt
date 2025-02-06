@@ -40,15 +40,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.text.toSpanned
 import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -59,14 +56,10 @@ import com.blacksquircle.ui.ds.extensions.isColorDark
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.editorkit.compose.CodeView
-import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
 import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
-import com.blacksquircle.ui.language.base.model.TextStructure
-import com.blacksquircle.ui.language.base.model.TokenType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable

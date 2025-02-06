@@ -27,6 +27,7 @@ import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
+import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
@@ -37,7 +38,6 @@ import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.mvi.*
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.settings.domain.repository.SettingsRepository
 import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,7 +56,6 @@ class EditorViewModel @Inject constructor(
     private val themesRepository: ThemesRepository,
     private val fontsRepository: FontsRepository,
     private val shortcutsRepository: ShortcutsRepository,
-    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
     private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
@@ -675,8 +674,16 @@ class EditorViewModel @Inject constructor(
                 val readOnly = settingsManager.readOnly
                 settings.add(SettingsEvent.ReadOnly(readOnly))
 
-                val keyboardPreset = settingsRepository.keyboardPreset()
-                settings.add(SettingsEvent.KeyboardPreset(keyboardPreset))
+                val keyboardPreset = "\t" + settingsManager.keyboardPreset
+                val keyList = keyboardPreset.map { char ->
+                    val display = if (char == '\t') {
+                        stringProvider.getString(UiR.string.common_tab)
+                    } else {
+                        char.toString()
+                    }
+                    KeyModel(display, char)
+                }
+                settings.add(SettingsEvent.KeyboardPreset(keyList))
 
                 val softKeyboard = settingsManager.softKeyboard
                 settings.add(SettingsEvent.SoftKeys(softKeyboard))

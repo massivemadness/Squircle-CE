@@ -67,7 +67,6 @@ dependencies {
     // Modules
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-explorer:api"))
-    implementation(project(":feature-settings:api"))
     implementation(project(":feature-shortcuts:api"))
     implementation(project(":feature-themes:api"))
     implementation(project(":feature-fonts:api"))

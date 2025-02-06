@@ -19,9 +19,9 @@ package com.blacksquircle.ui.feature.editor.ui.manager
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.KeyAdapter
-import com.blacksquircle.ui.feature.settings.domain.model.KeyModel
 
 class KeyboardManager(private val listener: Listener) {
 

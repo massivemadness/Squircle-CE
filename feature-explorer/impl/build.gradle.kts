@@ -65,7 +65,6 @@ dependencies {
     // Modules
     implementation(project(":feature-explorer:api"))
     implementation(project(":feature-servers:api"))
-    implementation(project(":feature-settings:api"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
 
