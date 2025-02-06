@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
@@ -40,6 +41,7 @@ import com.blacksquircle.ui.ds.R as UiR
 internal class FontsViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val fontsRepository: FontsRepository,
+    private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(FontsViewState())
@@ -81,6 +83,9 @@ internal class FontsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 fontsRepository.selectFont(fontModel)
+                _viewState.update { state ->
+                    state.copy(currentFont = fontModel.path)
+                }
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
@@ -105,7 +110,10 @@ internal class FontsViewModel @Inject constructor(
             try {
                 fontsRepository.removeFont(fontModel)
                 _viewState.update { state ->
-                    state.copy(fonts = state.fonts.filterNot { it == fontModel })
+                    state.copy(
+                        fonts = state.fonts.filterNot { it == fontModel },
+                        currentFont = settingsManager.fontType,
+                    )
                 }
                 _viewEvent.send(
                     ViewEvent.Toast(
@@ -162,10 +170,12 @@ internal class FontsViewModel @Inject constructor(
                     it.copy(isLoading = true)
                 }
                 val fonts = fontsRepository.loadFonts(query = query)
+                val currentFont = settingsManager.fontType
                 delay(300L) // too fast, avoid blinking
                 _viewState.update {
                     it.copy(
                         fonts = fonts,
+                        currentFont = currentFont,
                         isLoading = false,
                     )
                 }

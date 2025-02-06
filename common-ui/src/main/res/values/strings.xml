@@ -23,6 +23,7 @@
     <string name="common_delete">Delete</string>
     <string name="common_continue">Continue</string>
     <string name="common_select">Select</string>
+    <string name="common_selected">Selected</string>
 
     <string name="common_untitled" translatable="false">untitled</string>
 

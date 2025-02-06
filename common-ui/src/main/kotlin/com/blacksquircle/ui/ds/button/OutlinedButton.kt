@@ -19,20 +19,24 @@ package com.blacksquircle.ui.ds.button
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
@@ -40,15 +44,22 @@ fun OutlinedButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    startIconResId: Int? = null,
+    endIconResId: Int? = null,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource? = null,
 ) {
     val buttonMinWidth = 64.dp
     val buttonMinHeight = 36.dp
     val buttonShape = RoundedCornerShape(4.dp)
+    val buttonColor = if (enabled) {
+        SquircleTheme.colors.colorPrimary
+    } else {
+        SquircleTheme.colors.colorTextAndIconDisabled
+    }
 
-    Box(
-        contentAlignment = Alignment.Center,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .sizeIn(
                 minWidth = buttonMinWidth,
@@ -69,16 +80,28 @@ fun OutlinedButton(
             )
             .padding(8.dp)
     ) {
+        if (startIconResId != null) {
+            Icon(
+                painter = painterResource(startIconResId),
+                contentDescription = null,
+                tint = buttonColor,
+                modifier = Modifier.size(20.dp),
+            )
+        }
         Text(
             text = text.uppercase(),
-            color = if (enabled) {
-                SquircleTheme.colors.colorPrimary
-            } else {
-                SquircleTheme.colors.colorTextAndIconDisabled
-            },
+            color = buttonColor,
             style = SquircleTheme.typography.text14Medium,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
+        if (endIconResId != null) {
+            Icon(
+                painter = painterResource(endIconResId),
+                contentDescription = null,
+                tint = buttonColor,
+                modifier = Modifier.size(20.dp),
+            )
+        }
     }
 }
 
@@ -88,6 +111,7 @@ private fun OutlinedButtonEnabledPreview() {
     PreviewBackground {
         OutlinedButton(
             text = "Outlined Button",
+            startIconResId = R.drawable.ic_info,
             onClick = {},
             enabled = true,
         )
@@ -100,6 +124,7 @@ private fun OutlinedButtonDisabledPreview() {
     PreviewBackground {
         OutlinedButton(
             text = "Outlined Button",
+            startIconResId = R.drawable.ic_info,
             onClick = {},
             enabled = false,
         )

@@ -46,6 +46,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 internal fun FontOverview(
     fontModel: FontModel,
+    isSelected: Boolean,
     onSelectClicked: () -> Unit,
     onRemoveClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -86,7 +87,17 @@ internal fun FontOverview(
             modifier = Modifier.padding(horizontal = 12.dp)
         )
         OutlinedButton(
-            text = stringResource(UiR.string.common_select),
+            text = if (isSelected) {
+                stringResource(UiR.string.common_selected)
+            } else {
+                stringResource(UiR.string.common_select)
+            },
+            startIconResId = if (isSelected) {
+                UiR.drawable.ic_check
+            } else {
+                null
+            },
+            enabled = !isSelected,
             onClick = onSelectClicked,
             modifier = Modifier
                 .padding(8.dp)
@@ -102,6 +113,7 @@ private fun FontOverviewPreview() {
     PreviewBackground {
         FontOverview(
             fontModel = InternalFont.DROID_SANS_MONO.font,
+            isSelected = false,
             onSelectClicked = {},
             onRemoveClicked = {},
         )
