@@ -65,6 +65,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 internal fun ThemeOverview(
     themeModel: ThemeModel,
+    isSelected: Boolean,
     fontPath: String,
     codePreview: CodePreview,
     onSelectClicked: () -> Unit,
@@ -177,7 +178,17 @@ internal fun ThemeOverview(
                         .padding(horizontal = 8.dp)
                 )
                 OutlinedButton(
-                    text = stringResource(UiR.string.common_select),
+                    text = if (isSelected) {
+                        stringResource(UiR.string.common_selected)
+                    } else {
+                        stringResource(UiR.string.common_select)
+                    },
+                    startIconResId = if (isSelected) {
+                        UiR.drawable.ic_check
+                    } else {
+                        null
+                    },
+                    enabled = !isSelected,
                     onClick = onSelectClicked,
                 )
             }
@@ -192,6 +203,7 @@ private fun ThemeOverviewPreview() {
         ThemeOverview(
             themeModel = InternalTheme.THEME_DARCULA.theme
                 .copy(isExternal = true),
+            isSelected = false,
             fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
             codePreview = CodePreview.JAVASCRIPT,
             onSelectClicked = {},

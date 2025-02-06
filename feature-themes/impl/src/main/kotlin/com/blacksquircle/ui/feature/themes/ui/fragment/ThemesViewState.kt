@@ -26,6 +26,7 @@ internal data class ThemesViewState(
     val query: String = "",
     val preview: CodePreview = CodePreview.HTML,
     val themes: List<ThemeModel> = emptyList(),
+    val currentTheme: String = "",
     val fontPath: String = "",
     val isLoading: Boolean = true,
 ) : ViewState()

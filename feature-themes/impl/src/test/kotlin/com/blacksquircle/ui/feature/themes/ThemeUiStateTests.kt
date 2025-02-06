@@ -52,6 +52,7 @@ class ThemeUiStateTests {
     @Before
     fun setup() {
         every { settingsManager.fontType } returns ""
+        every { settingsManager.colorScheme } returns ""
     }
 
     @Test

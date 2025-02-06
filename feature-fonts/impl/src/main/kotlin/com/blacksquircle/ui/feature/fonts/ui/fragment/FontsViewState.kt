@@ -24,6 +24,6 @@ import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 internal data class FontsViewState(
     val query: String = "",
     val fonts: List<FontModel> = emptyList(),
-    val currentFont: String? = null,
+    val currentFont: String = "",
     val isLoading: Boolean = true,
 ) : ViewState()

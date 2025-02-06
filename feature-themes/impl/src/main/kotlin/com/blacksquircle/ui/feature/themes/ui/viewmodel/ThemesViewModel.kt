@@ -105,6 +105,9 @@ internal class ThemesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 themesRepository.selectTheme(themeModel)
+                _viewState.update {
+                    it.copy(currentTheme = themeModel.uuid)
+                }
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
@@ -169,7 +172,10 @@ internal class ThemesViewModel @Inject constructor(
             try {
                 themesRepository.removeTheme(themeModel)
                 _viewState.update { state ->
-                    state.copy(themes = state.themes.filterNot { it == themeModel })
+                    state.copy(
+                        themes = state.themes.filterNot { it == themeModel },
+                        currentTheme = settingsManager.colorScheme,
+                    )
                 }
                 _viewEvent.send(
                     ViewEvent.Toast(
@@ -200,10 +206,12 @@ internal class ThemesViewModel @Inject constructor(
                     it.copy(isLoading = true)
                 }
                 val themes = themesRepository.loadThemes(query)
+                val currentTheme = settingsManager.colorScheme
                 delay(300L) // too fast, avoid blinking
                 _viewState.update {
                     it.copy(
                         themes = themes,
+                        currentTheme = currentTheme,
                         fontPath = settingsManager.fontType,
                         isLoading = false,
                     )

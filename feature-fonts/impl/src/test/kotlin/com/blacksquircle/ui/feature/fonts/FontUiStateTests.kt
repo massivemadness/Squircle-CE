@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.fonts
 
 import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
@@ -24,12 +25,14 @@ import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsViewState
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -44,6 +47,12 @@ class FontUiStateTests {
 
     private val stringProvider = mockk<StringProvider>()
     private val fontsRepository = mockk<FontsRepository>()
+    private val settingsManager = mockk<SettingsManager>()
+
+    @Before
+    fun setup() {
+        every { settingsManager.fontType } returns ""
+    }
 
     @Test
     fun `When opening the screen Then display loading state`() = runTest {
@@ -147,7 +156,8 @@ class FontUiStateTests {
     private fun createViewModel(): FontsViewModel {
         return FontsViewModel(
             stringProvider = stringProvider,
-            fontsRepository = fontsRepository
+            fontsRepository = fontsRepository,
+            settingsManager = settingsManager,
         )
     }
 }

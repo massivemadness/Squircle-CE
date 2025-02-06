@@ -212,6 +212,7 @@ private fun ThemesScreen(
                 ) { theme ->
                     ThemeOverview(
                         themeModel = theme,
+                        isSelected = theme.uuid == viewState.currentTheme,
                         fontPath = viewState.fontPath,
                         codePreview = viewState.preview,
                         onSelectClicked = { onSelectClicked(theme) },
