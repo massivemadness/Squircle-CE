@@ -26,7 +26,7 @@ fun PreviewBackground(
     content: @Composable () -> Unit
 ) {
     SquircleTheme(darkTheme = darkTheme) {
-        Surface {
+        Surface(color = SquircleTheme.colors.colorBackgroundPrimary) {
             content()
         }
     }

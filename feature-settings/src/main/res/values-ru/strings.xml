@@ -22,7 +22,7 @@
     <string name="message_preset_disclaimer">Символы могут повторяться несколько раз</string>
     <string name="theme_light">Светлая</string>
     <string name="theme_dark">Темная</string>
-    <string name="theme_system">Системная</string>
+    <string name="theme_auto">Авто</string>
     <string name="sort_by_name">Сорт. по имени</string>
     <string name="sort_by_size">Сорт. по размеру</string>
     <string name="sort_by_date">Сорт. по дате</string>

@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -51,6 +52,7 @@ fun Radio(
     onClick: () -> Unit = {},
     checked: Boolean = true,
     enabled: Boolean = true,
+    textStyle: TextStyle = SquircleTheme.typography.text16Regular,
     interactionSource: MutableInteractionSource? = remember { MutableInteractionSource() },
     indication: Indication? = ripple(bounded = false, radius = 24.dp)
 ) {
@@ -106,7 +108,7 @@ fun Radio(
             Spacer(Modifier.width(8.dp))
             Text(
                 text = title,
-                style = SquircleTheme.typography.text18Regular,
+                style = textStyle,
                 color = if (enabled) {
                     SquircleTheme.colors.colorTextAndIconPrimary
                 } else {

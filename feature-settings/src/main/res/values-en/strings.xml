@@ -22,7 +22,7 @@
     <string name="message_preset_disclaimer">You can repeat characters multiple times</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_system">System default</string>
+    <string name="theme_auto">Auto</string>
     <string name="sort_by_name">Sort by Name</string>
     <string name="sort_by_size">Sort by Size</string>
     <string name="sort_by_date">Sort by Date</string>

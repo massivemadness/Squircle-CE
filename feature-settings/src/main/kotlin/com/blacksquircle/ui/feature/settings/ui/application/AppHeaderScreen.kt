@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,7 +36,6 @@ import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.extensions.findActivity
-import com.blacksquircle.ui.ds.preference.ListPreference
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SwitchPreference
@@ -62,7 +60,7 @@ internal fun AppHeaderScreen(viewModel: AppHeaderViewModel) {
 private fun AppHeaderScreen(
     viewState: AppHeaderViewState,
     onBackClicked: () -> Unit = {},
-    onThemeChanged: (String) -> Unit = {},
+    onThemeChanged: (Theme) -> Unit = {},
     onColorSchemeClicked: () -> Unit = {},
     onFullscreenChanged: (Boolean) -> Unit = {},
     onConfirmExitChanged: (Boolean) -> Unit = {},
@@ -86,13 +84,9 @@ private fun AppHeaderScreen(
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_look_and_feel)
             )
-            ListPreference(
-                title = stringResource(R.string.pref_app_theme_title),
-                subtitle = stringResource(R.string.pref_app_theme_summary),
-                entries = stringArrayResource(R.array.theme_entries),
-                entryValues = stringArrayResource(R.array.theme_values),
-                selectedValue = viewState.appTheme,
-                onValueSelected = onThemeChanged,
+            ThemePreference(
+                selectedTheme = viewState.appTheme,
+                onThemeSelected = onThemeChanged,
             )
             Preference(
                 title = stringResource(R.string.pref_color_scheme_title),
@@ -131,7 +125,7 @@ private fun AppHeaderScreenPreview() {
     PreviewBackground {
         AppHeaderScreen(
             viewState = AppHeaderViewState(
-                appTheme = Theme.DARK.value,
+                appTheme = Theme.DARK,
                 fullscreenMode = false,
                 confirmExit = true
             ),

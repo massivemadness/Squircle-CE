@@ -22,7 +22,7 @@
     <string name="message_preset_disclaimer">注：同一个字符可以重复多次</string>
     <string name="theme_light">亮</string>
     <string name="theme_dark">暗</string>
-    <string name="theme_system">系统默认</string>
+    <string name="theme_auto">系统默认</string>
     <string name="sort_by_name">按名称排序</string>
     <string name="sort_by_size">按大小排序</string>
     <string name="sort_by_date">按日期排序</string>
