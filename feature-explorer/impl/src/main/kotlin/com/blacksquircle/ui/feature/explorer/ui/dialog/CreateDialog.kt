@@ -30,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class CreateDialog : DialogFragment() {
+internal class CreateDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val navController by lazy { findNavController() }

@@ -32,7 +32,7 @@ import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PropertiesDialog : DialogFragment() {
+internal class PropertiesDialog : DialogFragment() {
 
     private val navArgs by navArgs<PropertiesDialogArgs>()
 

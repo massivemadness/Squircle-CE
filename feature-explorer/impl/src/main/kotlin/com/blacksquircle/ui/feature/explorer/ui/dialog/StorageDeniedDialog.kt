@@ -32,7 +32,7 @@ import timber.log.Timber
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class StorageDeniedDialog : DialogFragment() {
+internal class StorageDeniedDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())

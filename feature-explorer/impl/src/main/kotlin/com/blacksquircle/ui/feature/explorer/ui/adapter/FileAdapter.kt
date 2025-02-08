@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.adapter.OnItemClickListener
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-class FileAdapter(
+internal class FileAdapter(
     private val selectionTracker: SelectionTracker<String>,
     private val onItemClickListener: OnItemClickListener<FileModel>,
     private val viewMode: Int,

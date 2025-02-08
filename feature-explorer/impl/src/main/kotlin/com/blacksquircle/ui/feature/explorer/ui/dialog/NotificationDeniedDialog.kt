@@ -31,7 +31,7 @@ import timber.log.Timber
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class NotificationDeniedDialog : DialogFragment() {
+internal class NotificationDeniedDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())

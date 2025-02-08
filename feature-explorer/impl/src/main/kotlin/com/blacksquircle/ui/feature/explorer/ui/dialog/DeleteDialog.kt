@@ -31,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class DeleteDialog : DialogFragment() {
+internal class DeleteDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val navController by lazy { findNavController() }

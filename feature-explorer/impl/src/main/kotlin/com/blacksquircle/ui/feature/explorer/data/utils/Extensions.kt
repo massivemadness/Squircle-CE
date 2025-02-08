@@ -56,12 +56,12 @@ fun Context.openFileWith(fileModel: FileModel) {
     }
 }
 
-fun Long.toReadableDate(pattern: String): String {
+internal fun Long.toReadableDate(pattern: String): String {
     val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
     return dateFormat.format(this)
 }
 
-fun Long.toReadableSize(): String {
+internal fun Long.toReadableSize(): String {
     if (this <= 0) {
         return "0"
     }
@@ -71,7 +71,8 @@ fun Long.toReadableSize(): String {
         .format(this / 1024.0.pow(digitGroups.toDouble())) + " " + units[digitGroups]
 }
 
-fun String.clipText(context: Context?) = clip(context, ClipData.newPlainText("Text", this))
+internal fun String.clipText(context: Context?) =
+    clip(context, ClipData.newPlainText("Text", this))
 
 private fun clip(context: Context?, data: ClipData) {
     context?.getSystemService<ClipboardManager>()?.setPrimaryClip(data)

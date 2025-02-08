@@ -31,7 +31,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object ThemesModule {
+internal object ThemesModule {
 
     @Provides
     @ViewModelScoped

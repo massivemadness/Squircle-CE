@@ -31,7 +31,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object FontsModule {
+internal object FontsModule {
 
     @Provides
     @ViewModelScoped

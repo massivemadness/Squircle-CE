@@ -30,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class CompressDialog : DialogFragment() {
+internal class CompressDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val navController by lazy { findNavController() }

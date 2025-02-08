@@ -32,7 +32,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.ds.R as UiR
 import com.google.android.material.R as MtrlR
 
-class DetailedViewHolder(
+internal class DetailedViewHolder(
     private val binding: ItemFileDetailedBinding,
     private val onItemClickListener: OnItemClickListener<FileModel>,
 ) : FileAdapter.FileViewHolder(binding.root) {

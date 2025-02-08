@@ -31,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.blacksquircle.ui.ds.R as UiR
 
 @AndroidEntryPoint
-class AuthDialog : DialogFragment() {
+internal class AuthDialog : DialogFragment() {
 
     private val viewModel by activityViewModels<ExplorerViewModel>()
     private val navArgs by navArgs<AuthDialogArgs>()

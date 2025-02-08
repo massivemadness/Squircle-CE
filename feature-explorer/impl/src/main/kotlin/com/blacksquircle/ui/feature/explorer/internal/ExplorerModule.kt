@@ -38,7 +38,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ExplorerModule {
+internal object ExplorerModule {
 
     @Provides
     @Singleton

@@ -26,7 +26,7 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.google.android.material.textview.MaterialTextView
 
-class ServerAdapter(
+internal class ServerAdapter(
     private val context: Context,
     private val addServer: () -> Unit,
 ) : BaseAdapter() {

@@ -20,7 +20,7 @@ import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
 
-class FileKeyProvider(
+internal class FileKeyProvider(
     private val recyclerView: RecyclerView,
 ) : ItemKeyProvider<String>(SCOPE_CACHED) {
 

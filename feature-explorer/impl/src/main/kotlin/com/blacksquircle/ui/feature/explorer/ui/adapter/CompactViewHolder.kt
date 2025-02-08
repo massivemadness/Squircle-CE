@@ -28,7 +28,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.ds.R as UiR
 import com.google.android.material.R as MtrlR
 
-class CompactViewHolder(
+internal class CompactViewHolder(
     private val binding: ItemFileCompactBinding,
     private val onItemClickListener: OnItemClickListener<FileModel>,
 ) : FileAdapter.FileViewHolder(binding.root) {

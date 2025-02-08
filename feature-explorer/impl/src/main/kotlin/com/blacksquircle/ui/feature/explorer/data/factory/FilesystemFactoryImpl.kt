@@ -29,7 +29,7 @@ import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import java.io.File
 
-class FilesystemFactoryImpl(
+internal class FilesystemFactoryImpl(
     private val serversRepository: ServersRepository,
     private val cacheDirectory: File,
 ) : FilesystemFactory {

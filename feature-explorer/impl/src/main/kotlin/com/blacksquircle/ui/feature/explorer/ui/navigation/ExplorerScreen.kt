@@ -22,7 +22,7 @@ import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-sealed class ExplorerScreen(route: String) : Screen<String>(route) {
+internal sealed class ExplorerScreen(route: String) : Screen<String>(route) {
 
     class DeleteDialog(fileName: String, fileCount: Int) : ExplorerScreen(
         route = "blacksquircle://explorer/delete?fileName=${fileName.encodeUri()}&fileCount=$fileCount",

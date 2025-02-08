@@ -25,7 +25,7 @@ import com.blacksquircle.ui.core.adapter.TabAdapter
 import com.blacksquircle.ui.feature.explorer.databinding.ItemTabDirectoryBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>(diffCallback) {
+internal class DirectoryAdapter : TabAdapter<FileModel, DirectoryAdapter.DirectoryViewHolder>(diffCallback) {
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<FileModel>() {

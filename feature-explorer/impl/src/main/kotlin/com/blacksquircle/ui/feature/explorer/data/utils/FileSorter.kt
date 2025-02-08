@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.explorer.data.utils
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlin.Comparator
 
-object FileSorter {
+internal object FileSorter {
 
     const val SORT_BY_NAME = 0
     const val SORT_BY_SIZE = 1
@@ -41,7 +41,7 @@ object FileSorter {
         }
 }
 
-fun fileComparator(sortMode: Int): Comparator<in FileModel> {
+internal fun fileComparator(sortMode: Int): Comparator<in FileModel> {
     return when (sortMode) {
         FileSorter.SORT_BY_NAME -> FileSorter.COMPARATOR_NAME
         FileSorter.SORT_BY_SIZE -> FileSorter.COMPARATOR_SIZE
