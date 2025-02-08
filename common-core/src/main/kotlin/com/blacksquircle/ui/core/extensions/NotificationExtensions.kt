@@ -50,6 +50,8 @@ fun Context.buildNotification(
     pendingIntent: PendingIntent? = null,
     @DrawableRes smallIcon: Int? = null,
     priority: Int? = null,
+    progress: Int = -1,
+    progressMax: Int = -1,
     indeterminate: Boolean? = null,
     autoCancel: Boolean? = null,
     ongoing: Boolean? = null,
@@ -63,7 +65,7 @@ fun Context.buildNotification(
     pendingIntent?.let(notificationBuilder::setContentIntent)
     smallIcon?.let(notificationBuilder::setSmallIcon)
     priority?.let(notificationBuilder::setPriority)
-    indeterminate?.let { notificationBuilder.setProgress(-1, -1, indeterminate) }
+    indeterminate?.let { notificationBuilder.setProgress(progressMax, progress, indeterminate) }
     autoCancel?.let(notificationBuilder::setAutoCancel)
     ongoing?.let(notificationBuilder::setOngoing)
     silent?.let(notificationBuilder::setSilent)

@@ -24,15 +24,23 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
-import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.mvi.*
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
+import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
+import com.blacksquircle.ui.filesystem.base.exception.FileAlreadyExistsException
+import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
+import com.blacksquircle.ui.filesystem.base.exception.InvalidArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
+import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
+import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
@@ -51,6 +59,7 @@ import com.blacksquircle.ui.ds.R as UiR
 class ExplorerViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
+    private val taskManager: TaskManager,
     private val explorerRepository: ExplorerRepository,
     private val serversRepository: ServersRepository,
 ) : ViewModel() {
@@ -94,7 +103,7 @@ class ExplorerViewModel @Inject constructor(
     private val selection = mutableListOf<FileModel>()
     private val buffer = mutableListOf<FileModel>()
     private val files = mutableListOf<FileModel>()
-    private var operation = Operation.CREATE
+    private var taskType = TaskType.CREATE
     private var currentJob: Job? = null
 
     init {
@@ -250,7 +259,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun cutButton() {
         viewModelScope.launch {
-            operation = Operation.CUT
+            taskType = TaskType.CUT
             buffer.replaceList(selection)
             selection.replaceList(emptyList())
             refreshActionBar()
@@ -259,7 +268,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun copyButton() {
         viewModelScope.launch {
-            operation = Operation.COPY
+            taskType = TaskType.COPY
             buffer.replaceList(selection)
             selection.replaceList(emptyList())
             refreshActionBar()
@@ -268,7 +277,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun createButton() {
         viewModelScope.launch {
-            operation = Operation.CREATE
+            taskType = TaskType.CREATE
             buffer.replaceList(emptyList()) // empty buffer for Operation.CREATE
             selection.replaceList(emptyList())
             refreshActionBar()
@@ -280,7 +289,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun renameButton() {
         viewModelScope.launch {
-            operation = Operation.RENAME
+            taskType = TaskType.RENAME
             buffer.replaceList(selection)
             selection.replaceList(emptyList())
             refreshActionBar()
@@ -292,7 +301,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun deleteButton() {
         viewModelScope.launch {
-            operation = Operation.DELETE
+            taskType = TaskType.DELETE
             buffer.replaceList(selection)
             selection.replaceList(emptyList())
             refreshActionBar()
@@ -340,7 +349,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun compressButton() {
         viewModelScope.launch {
-            operation = Operation.COMPRESS
+            taskType = TaskType.COMPRESS
             buffer.replaceList(selection)
             selection.replaceList(emptyList())
             refreshActionBar()
@@ -371,160 +380,156 @@ class ExplorerViewModel @Inject constructor(
 
     private fun createFile(event: ExplorerIntent.CreateFile) {
         viewModelScope.launch {
-            try {
-                val isValid = event.fileName.isValidFileName()
-                if (!isValid) {
-                    _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                    )
-                    return@launch
-                }
-                val parent = breadcrumbs.last()
-                val child = parent.copy(
-                    fileUri = parent.fileUri + "/" + event.fileName,
-                    directory = event.directory,
-                )
-                explorerRepository.createFile(child)
+            val isValid = event.fileName.isValidFileName()
+            if (!isValid) {
                 _viewEvent.send(
-                    ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(1, Operation.CREATE),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
                 )
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                initialState()
+                return@launch
+            }
+            val parent = breadcrumbs.last()
+            val child = parent.copy(
+                fileUri = parent.fileUri + "/" + event.fileName,
+                directory = event.directory,
+            )
+
+            val taskId = explorerRepository.createFile(child)
+            val screen = ExplorerScreen.ProgressDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+            initialState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> handleTaskError(status.exception)
+                    is TaskStatus.Done -> handleTaskDone()
+                    else -> Unit
+                }
             }
         }
     }
 
     private fun renameFile(event: ExplorerIntent.RenameFile) {
         viewModelScope.launch {
-            try {
-                val isValid = event.fileName.isValidFileName()
-                if (!isValid) {
-                    _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                    )
-                    return@launch
-                }
-
-                val originalFile = buffer.first()
-                val renamedFile = originalFile.copy(
-                    fileUri = originalFile.fileUri.substringBeforeLast('/') + "/" + event.fileName,
-                    directory = originalFile.directory,
-                )
-                explorerRepository.renameFile(originalFile, renamedFile)
+            val isValid = event.fileName.isValidFileName()
+            if (!isValid) {
                 _viewEvent.send(
-                    ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(1, Operation.RENAME),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
                 )
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                initialState()
+                return@launch
+            }
+
+            val originalFile = buffer.first()
+            val renamedFile = originalFile.copy(
+                fileUri = originalFile.fileUri.substringBeforeLast('/') + "/" + event.fileName,
+                directory = originalFile.directory,
+            )
+
+            val taskId = explorerRepository.renameFile(originalFile, renamedFile)
+            val screen = ExplorerScreen.ProgressDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+            initialState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> handleTaskError(status.exception)
+                    is TaskStatus.Done -> handleTaskDone()
+                    else -> Unit
+                }
             }
         }
     }
 
     private fun deleteFile() {
         viewModelScope.launch {
-            try {
-                explorerRepository.deleteFiles(buffer)
-                _viewEvent.send(
-                    ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(buffer.size, Operation.DELETE),
-                    ),
-                )
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                initialState()
+            val taskId = explorerRepository.deleteFiles(buffer.toList())
+            val screen = ExplorerScreen.ProgressDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+            initialState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> handleTaskError(status.exception)
+                    is TaskStatus.Done -> handleTaskDone()
+                    else -> Unit
+                }
             }
         }
     }
 
     private fun cutFile() {
         viewModelScope.launch {
-            try {
-                explorerRepository.cutFiles(buffer, breadcrumbs.last())
-                _viewEvent.send(
-                    ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(buffer.size, Operation.CUT),
-                    ),
-                )
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                initialState()
+            val taskId = explorerRepository.cutFiles(buffer.toList(), breadcrumbs.last())
+            val screen = ExplorerScreen.ProgressDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+            initialState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> handleTaskError(status.exception)
+                    is TaskStatus.Done -> handleTaskDone()
+                    else -> Unit
+                }
             }
         }
     }
 
     private fun copyFile() {
         viewModelScope.launch {
-            try {
-                explorerRepository.copyFiles(buffer, breadcrumbs.last())
-                _viewEvent.send(
-                    ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(buffer.size, Operation.COPY),
-                    ),
-                )
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                initialState()
+            val taskId = explorerRepository.copyFiles(buffer.toList(), breadcrumbs.last())
+            val screen = ExplorerScreen.ProgressDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+            initialState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> handleTaskError(status.exception)
+                    is TaskStatus.Done -> handleTaskDone()
+                    else -> Unit
+                }
             }
         }
     }
 
     private fun compressFile(event: ExplorerIntent.CompressFile) {
         viewModelScope.launch {
-            try {
-                val isValid = event.fileName.isValidFileName()
-                if (!isValid) {
-                    _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                    )
-                    return@launch
-                }
-                val parent = breadcrumbs.last()
-                val child = parent.copy(parent.path + "/" + event.fileName)
-                explorerRepository.compressFiles(buffer, child)
+            val isValid = event.fileName.isValidFileName()
+            if (!isValid) {
                 _viewEvent.send(
-                    ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(buffer.size, Operation.COMPRESS),
-                    ),
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
                 )
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                initialState()
+                return@launch
+            }
+            val parent = breadcrumbs.last()
+            val child = parent.copy(parent.path + "/" + event.fileName)
+
+            val taskId = explorerRepository.compressFiles(buffer.toList(), child)
+            val screen = ExplorerScreen.ProgressDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+            initialState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> handleTaskError(status.exception)
+                    is TaskStatus.Done -> handleTaskDone()
+                    else -> Unit
+                }
             }
         }
     }
 
     private fun extractFile(event: ExplorerIntent.ExtractFile) {
         viewModelScope.launch {
-            try {
-                explorerRepository.extractFiles(event.fileModel, breadcrumbs.last())
-                _viewEvent.send(
-                    ViewEvent.Navigation(
-                        ExplorerScreen.ProgressDialog(-1, Operation.EXTRACT),
-                    ),
-                )
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                initialState()
+            val taskId = explorerRepository.extractFiles(event.fileModel, breadcrumbs.last())
+            val screen = ExplorerScreen.ProgressDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+            initialState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> handleTaskError(status.exception)
+                    is TaskStatus.Done -> handleTaskDone()
+                    else -> Unit
+                }
             }
         }
     }
@@ -560,7 +565,7 @@ class ExplorerViewModel @Inject constructor(
     }
 
     private fun initialState() {
-        operation = Operation.CREATE
+        taskType = TaskType.CREATE
         buffer.replaceList(emptyList())
         selection.replaceList(emptyList())
         refreshActionBar()
@@ -570,7 +575,7 @@ class ExplorerViewModel @Inject constructor(
         _toolbarViewState.value = ToolbarViewState.ActionBar(
             breadcrumbs = breadcrumbs.toList(),
             selection = selection.toList(),
-            operation = operation,
+            taskType = taskType,
         )
     }
 
@@ -579,6 +584,7 @@ class ExplorerViewModel @Inject constructor(
             is CancellationException -> {
                 _explorerViewState.value = ExplorerViewState.Loading
             }
+
             is PermissionException -> {
                 _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_error,
@@ -587,6 +593,7 @@ class ExplorerViewModel @Inject constructor(
                     action = ExplorerErrorAction.RequestPermission,
                 )
             }
+
             is AuthenticationException -> {
                 if (e.authError) {
                     _explorerViewState.value = ExplorerViewState.Error(
@@ -607,6 +614,7 @@ class ExplorerViewModel @Inject constructor(
                     )
                 }
             }
+
             else -> {
                 _explorerViewState.value = ExplorerViewState.Error(
                     image = UiR.drawable.ic_file_error,
@@ -616,5 +624,60 @@ class ExplorerViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private suspend fun handleTaskDone() {
+        val message = stringProvider.getString(R.string.message_done)
+        _viewEvent.send(ViewEvent.Toast(message))
+        refreshList()
+    }
+
+    private suspend fun handleTaskError(e: Exception) {
+        when (e) {
+            is FileNotFoundException -> {
+                val message = stringProvider.getString(R.string.message_file_not_found)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is FileAlreadyExistsException -> {
+                val message = stringProvider.getString(R.string.message_file_already_exists)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is UnsupportedArchiveException -> {
+                val message = stringProvider.getString(R.string.message_unsupported_archive)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is EncryptedArchiveException -> {
+                val message = stringProvider.getString(R.string.message_encrypted_archive)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is SplitArchiveException -> {
+                val message = stringProvider.getString(R.string.message_split_archive)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is InvalidArchiveException -> {
+                val message = stringProvider.getString(R.string.message_invalid_archive)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is UnsupportedOperationException -> {
+                val message = stringProvider.getString(R.string.message_operation_not_supported)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is CancellationException -> {
+                val message = stringProvider.getString(R.string.message_operation_cancelled)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            else -> {
+                _viewEvent.send(ViewEvent.Toast(e.message.toString()))
+            }
+        }
+        refreshList()
     }
 }

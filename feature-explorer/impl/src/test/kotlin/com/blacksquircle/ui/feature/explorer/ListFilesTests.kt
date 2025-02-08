@@ -20,7 +20,7 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
-import com.blacksquircle.ui.feature.explorer.data.utils.Operation
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
@@ -100,7 +100,7 @@ class ListFilesTests {
 
         // Then
         val toolbarViewState =
-            ToolbarViewState.ActionBar(listOf(rootTree.parent), emptyList(), Operation.CREATE)
+            ToolbarViewState.ActionBar(listOf(rootTree.parent), emptyList(), TaskType.CREATE)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
         val explorerViewState = ExplorerViewState.Files(rootTree.children)
@@ -136,7 +136,7 @@ class ListFilesTests {
 
         // Then
         val toolbarViewState = ToolbarViewState.ActionBar(
-            listOf(rootTree.parent, dirTree.parent), emptyList(), Operation.CREATE,
+            listOf(rootTree.parent, dirTree.parent), emptyList(), TaskType.CREATE,
         )
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 

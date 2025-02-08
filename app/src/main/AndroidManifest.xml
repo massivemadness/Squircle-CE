@@ -152,23 +152,10 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <!-- Support for `foregroundServiceType` in WorkManager -->
         <service
-            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:name=".feature.explorer.ui.service.FileService"
             android:foregroundServiceType="dataSync"
-            tools:node="merge" />
-
-        <!-- Inject WorkManager with Hilt -->
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-            <meta-data
-                android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
-        </provider>
+            android:exported="false" />
 
         <profileable
             android:shell="true"

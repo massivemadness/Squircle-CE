@@ -49,6 +49,9 @@ dependencies {
     implementation(libs.materialdesign)
 
     // AAC
+    implementation(libs.androidx.service)
+    implementation(libs.androidx.viewmodel)
+    implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.room)
     ksp(libs.androidx.room.compiler)

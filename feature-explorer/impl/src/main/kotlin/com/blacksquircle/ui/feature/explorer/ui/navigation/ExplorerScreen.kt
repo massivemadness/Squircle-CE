@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.explorer.ui.navigation
 import com.blacksquircle.ui.core.extensions.encodeUri
 import com.blacksquircle.ui.core.extensions.toJsonEncoded
 import com.blacksquircle.ui.core.navigation.Screen
-import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
@@ -31,8 +30,8 @@ sealed class ExplorerScreen(route: String) : Screen<String>(route) {
     class RenameDialog(fileName: String) : ExplorerScreen(
         route = "blacksquircle://explorer/rename?fileName=${fileName.encodeUri()}",
     )
-    class ProgressDialog(totalCount: Int, operation: Operation) : ExplorerScreen(
-        route = "blacksquircle://explorer/progress?totalCount=$totalCount&operation=${operation.value}",
+    class ProgressDialog(taskId: String) : ExplorerScreen(
+        route = "blacksquircle://explorer/progress/$taskId",
     )
     class PropertiesDialog(fileModel: FileModel) : ExplorerScreen(
         route = "blacksquircle://explorer/properties?data=${fileModel.toJsonEncoded()}",

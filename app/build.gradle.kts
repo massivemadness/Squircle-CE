@@ -62,8 +62,6 @@ dependencies {
     // DI
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    implementation(libs.hilt.workmanager)
-    ksp(libs.hilt.android.compiler)
 
     // Modules
     implementation(project(":feature-changelog"))

@@ -48,10 +48,10 @@ import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.FileKeyProvider
 import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
-import com.blacksquircle.ui.feature.explorer.data.utils.Operation
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.ui.adapter.DirectoryAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.ServerAdapter
@@ -279,16 +279,16 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 when (state) {
                     is ToolbarViewState.ActionBar -> {
                         binding.actionOperation.setImageResource(
-                            when (state.operation) {
-                                Operation.CUT -> UiR.drawable.ic_paste
-                                Operation.COPY -> UiR.drawable.ic_paste
+                            when (state.taskType) {
+                                TaskType.CUT -> UiR.drawable.ic_paste
+                                TaskType.COPY -> UiR.drawable.ic_paste
                                 else -> UiR.drawable.ic_plus
                             },
                         )
                         binding.actionOperation.setOnClickListener {
-                            when (state.operation) {
-                                Operation.CUT -> viewModel.obtainEvent(ExplorerIntent.CutFile)
-                                Operation.COPY -> viewModel.obtainEvent(ExplorerIntent.CopyFile)
+                            when (state.taskType) {
+                                TaskType.CUT -> viewModel.obtainEvent(ExplorerIntent.CutFile)
+                                TaskType.COPY -> viewModel.obtainEvent(ExplorerIntent.CopyFile)
                                 else -> viewModel.obtainEvent(ExplorerIntent.Create)
                             }
                         }

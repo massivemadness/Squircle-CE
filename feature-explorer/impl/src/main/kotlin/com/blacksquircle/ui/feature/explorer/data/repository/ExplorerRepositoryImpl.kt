@@ -21,16 +21,22 @@ import com.blacksquircle.ui.core.extensions.checkStorageAccess
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.worker.*
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -39,6 +45,7 @@ import kotlin.coroutines.suspendCoroutine
 class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
+    private val taskManager: TaskManager,
     private val filesystemFactory: FilesystemFactory,
     private val context: Context,
 ) : ExplorerRepository {
@@ -86,56 +93,117 @@ class ExplorerRepositoryImpl(
         }
     }
 
-    override suspend fun createFile(fileModel: FileModel) {
-        withContext(dispatcherProvider.io()) {
-            context.checkStorageAccess(
-                onSuccess = { CreateFileWorker.scheduleJob(context, listOf(fileModel)) },
-                onFailure = { throw PermissionException() },
+    override fun createFile(fileModel: FileModel): String {
+        return taskManager.execute(TaskType.CREATE) { update ->
+            val filesystem = filesystemFactory.create(currentFilesystem)
+            val progress = TaskStatus.Progress(
+                count = 1,
+                totalCount = 1,
+                details = fileModel.path
             )
+            update(progress)
+
+            filesystem.createFile(fileModel)
+            delay(100)
         }
     }
 
-    override suspend fun renameFile(source: FileModel, dest: FileModel) {
-        withContext(dispatcherProvider.io()) {
-            context.checkStorageAccess(
-                onSuccess = { RenameFileWorker.scheduleJob(context, listOf(source, dest)) },
-                onFailure = { throw PermissionException() },
+    override fun renameFile(source: FileModel, dest: FileModel): String {
+        return taskManager.execute(TaskType.RENAME) { update ->
+            val filesystem = filesystemFactory.create(currentFilesystem)
+            val progress = TaskStatus.Progress(
+                count = 1,
+                totalCount = 1,
+                details = source.path
             )
+            update(progress)
+
+            filesystem.renameFile(source, dest)
+            delay(100)
         }
     }
 
-    override suspend fun deleteFiles(source: List<FileModel>) {
-        context.checkStorageAccess(
-            onSuccess = { DeleteFileWorker.scheduleJob(context, source) },
-            onFailure = { throw PermissionException() },
-        )
+    override fun deleteFiles(source: List<FileModel>): String {
+        return taskManager.execute(TaskType.DELETE) { update ->
+            val filesystem = filesystemFactory.create(currentFilesystem)
+            source.forEachIndexed { index, fileModel ->
+                val progress = TaskStatus.Progress(
+                    count = index + 1,
+                    totalCount = source.size,
+                    details = fileModel.path,
+                )
+                update(progress)
+
+                filesystem.deleteFile(fileModel)
+                delay(100)
+            }
+        }
     }
 
-    override suspend fun copyFiles(source: List<FileModel>, dest: FileModel) {
-        context.checkStorageAccess(
-            onSuccess = { CopyFileWorker.scheduleJob(context, source + dest) },
-            onFailure = { throw PermissionException() },
-        )
+    override fun copyFiles(source: List<FileModel>, dest: FileModel): String {
+        return taskManager.execute(TaskType.COPY) { update ->
+            val filesystem = filesystemFactory.create(currentFilesystem)
+            source.forEachIndexed { index, fileModel ->
+                val progress = TaskStatus.Progress(
+                    count = index + 1,
+                    totalCount = source.size,
+                    details = fileModel.path,
+                )
+                update(progress)
+
+                filesystem.copyFile(fileModel, dest)
+                delay(100)
+            }
+        }
     }
 
-    override suspend fun cutFiles(source: List<FileModel>, dest: FileModel) {
-        context.checkStorageAccess(
-            onSuccess = { CutFileWorker.scheduleJob(context, source + dest) },
-            onFailure = { throw PermissionException() },
-        )
+    override fun cutFiles(source: List<FileModel>, dest: FileModel): String {
+        return taskManager.execute(TaskType.CUT) { update ->
+            val filesystem = filesystemFactory.create(currentFilesystem)
+            source.forEachIndexed { index, fileModel ->
+                val progress = TaskStatus.Progress(
+                    count = index + 1,
+                    totalCount = source.size,
+                    details = fileModel.path,
+                )
+                update(progress)
+
+                filesystem.copyFile(fileModel, dest)
+                filesystem.deleteFile(fileModel)
+                delay(100)
+            }
+        }
     }
 
-    override suspend fun compressFiles(source: List<FileModel>, dest: FileModel) {
-        context.checkStorageAccess(
-            onSuccess = { CompressFileWorker.scheduleJob(context, source + dest) },
-            onFailure = { throw PermissionException() },
-        )
+    override fun compressFiles(source: List<FileModel>, dest: FileModel): String {
+        return taskManager.execute(TaskType.COMPRESS) { update ->
+            val filesystem = filesystemFactory.create(currentFilesystem)
+            filesystem.compressFiles(source, dest)
+                .collectIndexed { index, fileModel ->
+                    val progress = TaskStatus.Progress(
+                        count = index + 1,
+                        totalCount = source.size,
+                        details = fileModel.path,
+                    )
+                    update(progress)
+                    delay(100)
+                }
+        }
     }
 
-    override suspend fun extractFiles(source: FileModel, dest: FileModel) {
-        context.checkStorageAccess(
-            onSuccess = { ExtractFileWorker.scheduleJob(context, listOf(source, dest)) },
-            onFailure = { throw PermissionException() },
-        )
+    override fun extractFiles(source: FileModel, dest: FileModel): String {
+        return taskManager.execute(TaskType.EXTRACT) { update ->
+            val filesystem = filesystemFactory.create(currentFilesystem)
+            filesystem.extractFiles(source, dest)
+                .onStart {
+                    val progress = TaskStatus.Progress(
+                        count = -1,
+                        totalCount = -1,
+                        details = source.path
+                    )
+                    update(progress)
+                }
+                .collect()
+        }
     }
 }

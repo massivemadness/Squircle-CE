@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.tests
+package com.blacksquircle.ui.feature.explorer.domain.model
 
-import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+data class Task(
+    val id: String,
+    val type: TaskType,
+    val status: TaskStatus = TaskStatus.Pending,
+    val timestamp: Long = System.currentTimeMillis(),
+) {
 
-class TestDispatcherProvider : DispatcherProvider {
-    override fun io(): CoroutineDispatcher = Dispatchers.Unconfined
-    override fun default(): CoroutineDispatcher = Dispatchers.Unconfined
-    override fun main(): CoroutineDispatcher = Dispatchers.Unconfined
+    val isFinished: Boolean
+        get() = status is TaskStatus.Done || status is TaskStatus.Error
 }

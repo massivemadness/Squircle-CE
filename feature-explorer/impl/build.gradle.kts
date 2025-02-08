@@ -16,6 +16,7 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -23,6 +24,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 }
 
@@ -42,11 +44,19 @@ dependencies {
     implementation(libs.androidx.recyclerview.selection)
     implementation(libs.materialdesign)
 
+    // Compose
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.preview)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.manifest)
+
     // AAC
+    implementation(libs.androidx.service)
     implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation)
-    implementation(libs.androidx.workmanager)
 
     // Network
     implementation(libs.gson)
@@ -59,8 +69,6 @@ dependencies {
     // DI
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    implementation(libs.hilt.workmanager)
-    ksp(libs.hilt.android.compiler)
 
     // Modules
     implementation(project(":feature-explorer:api"))

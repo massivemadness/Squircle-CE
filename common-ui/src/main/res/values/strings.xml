@@ -26,7 +26,6 @@
     <string name="common_selected">Selected</string>
 
     <string name="common_untitled" translatable="false">untitled</string>
-
     <string name="common_ctrl" translatable="false">Ctrl</string>
     <string name="common_shift" translatable="false">Shift</string>
     <string name="common_alt" translatable="false">Alt</string>

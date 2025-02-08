@@ -18,26 +18,15 @@ package com.blacksquircle.ui
 
 import android.app.Application
 import android.content.Context
-import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.Configuration
 import com.blacksquircle.ui.core.logger.AndroidTree
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.core.theme.ThemeManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltAndroidApp
-class SquircleApp : Application(), Configuration.Provider {
-
-    @Inject
-    lateinit var workerFactory: HiltWorkerFactory
-
-    override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
+class SquircleApp : Application() {
 
     override fun attachBaseContext(base: Context) {
         val settingsManager = SettingsManager(base)

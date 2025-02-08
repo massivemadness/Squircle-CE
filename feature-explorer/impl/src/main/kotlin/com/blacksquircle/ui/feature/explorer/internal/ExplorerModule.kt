@@ -21,6 +21,7 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
+import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
 import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
@@ -41,15 +42,23 @@ object ExplorerModule {
 
     @Provides
     @Singleton
+    fun provideTaskManager(dispatcherProvider: DispatcherProvider): TaskManager {
+        return TaskManager(dispatcherProvider)
+    }
+
+    @Provides
+    @Singleton
     fun provideExplorerRepository(
         @ApplicationContext context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
+        taskManager: TaskManager,
         filesystemFactory: FilesystemFactory,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
+            taskManager = taskManager,
             filesystemFactory = filesystemFactory,
             context = context,
         )

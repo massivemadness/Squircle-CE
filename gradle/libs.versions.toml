@@ -21,13 +21,11 @@ vectordrawable = "1.2.0"
 lifecycle = "2.8.7"
 navigation = "2.8.6"
 room = "2.6.1"
-workmanager = "2.10.0"
 gson = "2.10.1"
 ftpclient = "3.9.0"
 jsch = "0.2.13"
 coroutines = "1.10.1"
 hilt = "2.55"
-hilt-android = "1.2.0"
 zip4j = "2.11.5"
 icu4j = "74.1"
 superuser = "5.0.4"
@@ -84,12 +82,12 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 androidx-recyclerview-selection = { module = "androidx.recyclerview:recyclerview-selection", version.ref = "recyclerview-selection" }
 androidx-vectordrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "vectordrawable" }
+androidx-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycle" }
 androidx-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-androidx-workmanager = { module = "androidx.work:work-runtime-ktx", version.ref = "workmanager" }
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
@@ -100,8 +98,6 @@ compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.re
 
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt-workmanager = { module = "androidx.hilt:hilt-work", version.ref = "hilt-android" }
-hilt-android-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-android" }
 
 test-junit = { module = "junit:junit", version.ref = "junit" }
 test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }

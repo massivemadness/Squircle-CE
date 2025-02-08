@@ -54,7 +54,7 @@ import com.blacksquircle.ui.ds.button.FloatingButton
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSize
 import com.blacksquircle.ui.ds.emptyview.EmptyView
-import com.blacksquircle.ui.ds.loader.Loader
+import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.fonts.R
@@ -164,7 +164,7 @@ private fun FontsScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             if (viewState.isLoading) {
-                Loader()
+                CircularProgress()
                 return@Scaffold
             }
             LazyColumn(

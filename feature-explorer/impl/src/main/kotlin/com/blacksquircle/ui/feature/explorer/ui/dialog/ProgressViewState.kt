@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.data.utils
+package com.blacksquircle.ui.feature.explorer.ui.dialog
 
-enum class Operation(val value: Int) {
-    CREATE(0),
-    RENAME(1),
-    DELETE(2),
-    CUT(3),
-    COPY(4),
-    COMPRESS(5),
-    EXTRACT(6);
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 
-    companion object {
-
-        fun of(value: Int): Operation {
-            return entries.find { it.value == value } ?: CREATE
-        }
-    }
-}
+@Immutable
+internal data class ProgressViewState(
+    val type: TaskType,
+    val count: Int = -1,
+    val totalCount: Int = -1,
+    val details: String = "",
+    val timestamp: Long = System.currentTimeMillis(),
+) : ViewState()

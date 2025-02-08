@@ -28,19 +28,17 @@ import androidx.core.content.ContextCompat
 fun <T> Context.checkStorageAccess(
     onSuccess: () -> T,
     onFailure: () -> T,
-): T {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        if (Environment.isExternalStorageManager()) {
-            onSuccess()
-        } else {
-            onFailure()
-        }
+): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+    if (Environment.isExternalStorageManager()) {
+        onSuccess()
     } else {
-        if (isPermissionGranted(WRITE_EXTERNAL_STORAGE)) {
-            onSuccess()
-        } else {
-            onFailure()
-        }
+        onFailure()
+    }
+} else {
+    if (isPermissionGranted(WRITE_EXTERNAL_STORAGE)) {
+        onSuccess()
+    } else {
+        onFailure()
     }
 }
 
