@@ -4,9 +4,7 @@
 
 <b>Squircle CE</b> is a fast and free multi-language code editor for Android.
 
-This repository contains the complete source code and the build instructions for the project.  
-_Note: If you're looking for the code editor library, it has been moved to a separate
-Git [repository](https://github.com/massivemadness/EditorKit)._
+This repository contains the complete source code and the build instructions for the project.
 
 ![Android CI](https://github.com/massivemadness/Squircle-CE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -45,13 +43,13 @@ Git [repository](https://github.com/massivemadness/EditorKit)._
 
 ## Translations &middot; [![Crowdin](https://badges.crowdin.net/squircle-ce/localized.svg)](https://crowdin.com/project/squircle-ce)
 
-If you'd like to translate **Squircle CE** to a new language, or make a translation correction,
+If you'd like to translate **Squircle CE** to a new language or make a translation correction,
 please register an account at [Crowdin](https://crowdin.com) and join the project here:
 
 * https://crowdin.com/project/squircle-ce
 
 If the language that you are interested in translating is not already listed, create a new account
-on Crowdin, join the project, and contact the project owner.
+on Crowdin, join the project and contact the project owner.
 
 ## Screenshots
 
@@ -60,7 +58,7 @@ on Crowdin, join the project, and contact the project owner.
 ## License
 
 ```
-Copyright 2023 Squircle CE contributors.
+Copyright 2025 Squircle CE contributors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
