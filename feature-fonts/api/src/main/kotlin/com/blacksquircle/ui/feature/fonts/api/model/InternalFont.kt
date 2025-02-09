@@ -68,8 +68,8 @@ enum class InternalFont(val font: FontModel) {
 
     companion object {
 
-        fun find(path: String): FontModel? {
-            return entries.find { it.font.path == path }?.font
+        fun find(uuid: String): FontModel? {
+            return entries.find { it.font.uuid == uuid }?.font
         }
     }
 }

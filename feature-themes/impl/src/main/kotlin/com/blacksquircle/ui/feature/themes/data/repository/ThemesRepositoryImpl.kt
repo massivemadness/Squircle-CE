@@ -43,7 +43,7 @@ internal class ThemesRepositoryImpl(
 
     override suspend fun current(): ThemeModel {
         return withContext(dispatcherProvider.io()) {
-            val colorScheme = settingsManager.colorScheme
+            val colorScheme = settingsManager.editorTheme
             InternalTheme.find(colorScheme) ?: loadTheme(colorScheme)
         }
     }
@@ -98,16 +98,16 @@ internal class ThemesRepositoryImpl(
 
     override suspend fun removeTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
-            appDatabase.themeDao().delete(ThemeMapper.toEntity(themeModel))
-            if (settingsManager.colorScheme == themeModel.uuid) {
-                settingsManager.remove(SettingsManager.KEY_COLOR_SCHEME)
+            appDatabase.themeDao().delete(themeModel.uuid)
+            if (settingsManager.editorTheme == themeModel.uuid) {
+                settingsManager.remove(SettingsManager.KEY_EDITOR_THEME)
             }
         }
     }
 
     override suspend fun selectTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
-            settingsManager.colorScheme = themeModel.uuid
+            settingsManager.editorTheme = themeModel.uuid
         }
     }
 }

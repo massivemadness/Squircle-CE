@@ -51,7 +51,7 @@ internal class AppHeaderViewModel @Inject constructor(
 
     fun onThemeChanged(theme: Theme) {
         viewModelScope.launch {
-            settingsManager.theme = theme.value
+            settingsManager.appTheme = theme.value
             themeManager.apply(theme)
             _viewState.value = updateViewState()
         }
@@ -80,7 +80,7 @@ internal class AppHeaderViewModel @Inject constructor(
 
     private fun updateViewState(): AppHeaderViewState {
         return AppHeaderViewState(
-            appTheme = Theme.of(settingsManager.theme),
+            appTheme = Theme.of(settingsManager.appTheme),
             fullscreenMode = settingsManager.fullScreenMode,
             confirmExit = settingsManager.confirmExit,
         )

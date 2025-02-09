@@ -21,19 +21,18 @@ import java.io.File
 
 object Directories {
 
-    fun migrateFilenames(context: Context) {
-        val directory = filesDir(context)
-        directory.listFiles()?.forEach { file ->
-            if (file.extension != ".txt") {
-                val newFile = File(file.parent, file.nameWithoutExtension + ".txt")
-                file.renameTo(newFile)
-            }
-        }
-    }
-
     /** /data/data/com.blacksquircle.ui/files */
     fun filesDir(context: Context): File {
         val directory = File(context.dataDir, "files")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        return directory
+    }
+
+    /** /data/data/com.blacksquircle.ui/fonts */
+    fun fontsDir(context: Context): File {
+        val directory = File(context.dataDir, "fonts")
         if (!directory.exists()) {
             directory.mkdirs()
         }

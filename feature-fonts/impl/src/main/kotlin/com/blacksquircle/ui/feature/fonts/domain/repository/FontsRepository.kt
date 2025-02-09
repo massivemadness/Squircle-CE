@@ -24,7 +24,7 @@ interface FontsRepository {
 
     suspend fun current(): FontModel
     suspend fun loadFonts(query: String): List<FontModel>
-    suspend fun loadFont(path: String): FontModel
+    suspend fun loadFont(uuid: String): FontModel
 
     suspend fun importFont(fileUri: Uri)
     suspend fun selectFont(fontModel: FontModel)

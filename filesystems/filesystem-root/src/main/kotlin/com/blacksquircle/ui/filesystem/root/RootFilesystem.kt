@@ -128,7 +128,8 @@ class RootFilesystem : Filesystem {
         } else {
             fileParams.charset
         }
-        return file.newInputStream().bufferedReader(charset)
+        return file.newInputStream()
+            .bufferedReader(charset)
             .use(BufferedReader::readText)
     }
 
@@ -141,8 +142,13 @@ class RootFilesystem : Filesystem {
             }
             file.createNewFile()
         }
-        file.newOutputStream().bufferedWriter(fileParams.charset)
-            .use { it.write(fileParams.linebreak.replace(text)) }
+        file.newOutputStream().bufferedWriter(fileParams.charset).use { writer ->
+            val output = text.replace(
+                regex = fileParams.linebreak.regex,
+                replacement = fileParams.linebreak.replacement
+            )
+            writer.write(output)
+        }
     }
 
     companion object : Filesystem.Mapper<SuFile> {

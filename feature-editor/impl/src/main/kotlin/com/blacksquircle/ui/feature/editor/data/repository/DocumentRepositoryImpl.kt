@@ -20,7 +20,6 @@ import android.content.Context
 import android.net.Uri
 import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.editorkit.model.FindParams
@@ -52,10 +51,6 @@ internal class DocumentRepositoryImpl(
     private val cacheFilesystem: Filesystem,
     private val context: Context,
 ) : DocumentRepository {
-
-    init {
-        Directories.migrateFilenames(context)
-    }
 
     override suspend fun loadDocuments(): List<DocumentModel> {
         return withContext(dispatcherProvider.io()) {
@@ -156,11 +151,13 @@ internal class DocumentRepositoryImpl(
     override suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
             val textCacheFile = cacheFile(documentModel, postfix = "text.txt")
-            val pureTextUtf8 = cacheFilesystem.loadFile(textCacheFile, FileParams())
             val encoding = charsetFor(settingsManager.encodingForSaving)
             val linebreak = LineBreak.of(settingsManager.lineBreakForSaving)
+            val byteArray = cacheFilesystem.loadFile(textCacheFile, FileParams())
+                .replace(linebreak.regex, linebreak.replacement)
+                .toByteArray(encoding)
             context.contentResolver.openOutputStream(fileUri)?.use { output ->
-                output.write(linebreak.replace(pureTextUtf8).toByteArray(encoding))
+                output.write(byteArray)
                 output.flush()
             }
         }

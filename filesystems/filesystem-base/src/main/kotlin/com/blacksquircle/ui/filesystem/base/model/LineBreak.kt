@@ -16,46 +16,19 @@
 
 package com.blacksquircle.ui.filesystem.base.model
 
-/**
- * @author Dmitrii Rubtsov
- */
-enum class LineBreak(val linebreak: String) {
-    CR("\r"),
-    LF("\n"),
-    CRLF("\r\n");
-
-    /**
-     * Заменяет все EOL-разделители в [text] на выбранный [linebreak].
-     */
-    fun replace(text: String): String {
-        return when (this) {
-            CR -> text.replace("($VALUE_CRLF|$VALUE_LF)".toRegex(), linebreak)
-            LF -> text.replace("($VALUE_CRLF|$VALUE_CR)".toRegex(), linebreak)
-            CRLF -> text.replace("($VALUE_CR|$VALUE_LF)".toRegex(), linebreak)
-        }
-    }
+enum class LineBreak(
+    val value: String,
+    val regex: Regex,
+    val replacement: String
+) {
+    LF("lf", "(\\r\\n|\\r)".toRegex(), "\n"),
+    CRLF("crlf", "[\\r\\n]".toRegex(), "\r\n"),
+    CR("cr", "(\\r\\n|\\n)".toRegex(), "\r");
 
     companion object {
 
-        /**
-         * Эти значения хранятся в SharedPreferences
-         */
-        private const val ORD_CR = "1"
-        private const val ORD_LF = "2"
-        private const val ORD_CRLF = "3"
-
-        private const val VALUE_CR = "\\r"
-        private const val VALUE_LF = "\\n"
-        private const val VALUE_CRLF = "\\r\\n"
-
         fun of(value: String): LineBreak {
-            val linebreak = when (value) {
-                ORD_CR -> "\r"
-                ORD_LF -> "\n"
-                ORD_CRLF -> "\r\n"
-                else -> throw IllegalArgumentException("No linebreak found")
-            }
-            return checkNotNull(entries.find { it.linebreak == linebreak })
+            return checkNotNull(entries.find { it.value == value })
         }
     }
 }

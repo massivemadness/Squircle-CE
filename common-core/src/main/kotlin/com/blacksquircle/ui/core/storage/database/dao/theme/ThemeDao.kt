@@ -34,6 +34,9 @@ abstract class ThemeDao : BaseDao<ThemeEntity> {
     @Query("SELECT * FROM `${Tables.THEMES}` WHERE `uuid` = :uuid")
     abstract suspend fun load(uuid: String): ThemeEntity
 
+    @Query("DELETE FROM `${Tables.THEMES}` WHERE `uuid` = :uuid")
+    abstract suspend fun delete(uuid: String)
+
     @Query("DELETE FROM `${Tables.THEMES}`")
     abstract suspend fun deleteAll()
 }

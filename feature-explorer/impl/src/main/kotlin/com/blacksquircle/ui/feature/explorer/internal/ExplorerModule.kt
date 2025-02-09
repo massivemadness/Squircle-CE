@@ -18,14 +18,11 @@ package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
-import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import dagger.Module
 import dagger.Provides
 
@@ -54,14 +51,5 @@ internal object ExplorerModule {
             filesystemFactory = filesystemFactory,
             context = context,
         )
-    }
-
-    @Provides
-    @ExplorerScope
-    fun provideFilesystemFactory(
-        context: Context,
-        serversInteractor: ServersInteractor,
-    ): FilesystemFactory {
-        return FilesystemFactoryImpl(serversInteractor, Directories.ftpDir(context))
     }
 }

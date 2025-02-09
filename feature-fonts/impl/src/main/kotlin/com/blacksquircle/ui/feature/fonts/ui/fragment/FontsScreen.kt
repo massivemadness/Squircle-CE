@@ -178,7 +178,7 @@ private fun FontsScreen(
                 ) { font ->
                     FontOverview(
                         fontModel = font,
-                        isSelected = font.path == viewState.currentFont,
+                        isSelected = font.uuid == viewState.currentFont,
                         onSelectClicked = { onSelectClicked(font) },
                         onRemoveClicked = { onRemoveClicked(font) },
                         modifier = Modifier.animateItem(),

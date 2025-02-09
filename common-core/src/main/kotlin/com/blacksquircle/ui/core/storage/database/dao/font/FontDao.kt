@@ -31,8 +31,11 @@ abstract class FontDao : BaseDao<FontEntity> {
     @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_name` LIKE '%' || :searchQuery || '%'")
     abstract suspend fun loadAll(searchQuery: String): List<FontEntity>
 
-    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_path` = :path")
-    abstract suspend fun load(path: String): FontEntity // TODO select by uuid
+    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_uuid` = :uuid")
+    abstract suspend fun load(uuid: String): FontEntity
+
+    @Query("DELETE FROM `${Tables.FONTS}` WHERE `font_uuid` = :uuid")
+    abstract suspend fun delete(uuid: String)
 
     @Query("DELETE FROM `${Tables.FONTS}`")
     abstract suspend fun deleteAll()

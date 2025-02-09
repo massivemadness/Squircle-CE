@@ -171,7 +171,7 @@ private fun FilesHeaderScreenPreview() {
                 encodingForOpening = "UTF-8",
                 encodingForSaving = "UTF-8",
                 encodingList = emptyList(),
-                lineBreakForSaving = "2",
+                lineBreakForSaving = "lf",
                 showHidden = true,
                 foldersOnTop = true,
                 viewMode = "0",

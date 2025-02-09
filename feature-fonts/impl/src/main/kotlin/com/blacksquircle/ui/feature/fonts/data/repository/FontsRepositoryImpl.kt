@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.fonts.data.repository
 import android.content.Context
 import android.net.Uri
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.model.FontModel
@@ -38,8 +39,8 @@ internal class FontsRepositoryImpl(
 
     override suspend fun current(): FontModel {
         return withContext(dispatcherProvider.io()) {
-            val fontPath = settingsManager.fontType
-            InternalFont.find(fontPath) ?: loadFont(fontPath)
+            val fontUuid = settingsManager.fontType
+            InternalFont.find(fontUuid) ?: loadFont(fontUuid)
         }
     }
 
@@ -55,9 +56,9 @@ internal class FontsRepositoryImpl(
         }
     }
 
-    override suspend fun loadFont(path: String): FontModel {
+    override suspend fun loadFont(uuid: String): FontModel {
         return withContext(dispatcherProvider.io()) {
-            val fontEntity = appDatabase.fontDao().load(path)
+            val fontEntity = appDatabase.fontDao().load(uuid)
             FontMapper.toModel(fontEntity)
         }
     }
@@ -67,7 +68,7 @@ internal class FontsRepositoryImpl(
             context.contentResolver.openInputStream(fileUri)?.use { inputStream ->
                 val fontUuid = UUID.randomUUID().toString()
                 val fontName = fileUri.path.orEmpty().substringAfterLast('/')
-                val fontFile = File(context.cacheDir, fontUuid)
+                val fontFile = File(Directories.fontsDir(context), fontUuid)
                 if (!fontFile.exists()) {
                     fontFile.createNewFile()
                     inputStream.copyTo(fontFile.outputStream())
@@ -85,18 +86,18 @@ internal class FontsRepositoryImpl(
 
     override suspend fun selectFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
-            settingsManager.fontType = fontModel.path
+            settingsManager.fontType = fontModel.uuid
         }
     }
 
     override suspend fun removeFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
-            val fontFile = File(context.cacheDir, fontModel.uuid)
+            val fontFile = File(Directories.fontsDir(context), fontModel.uuid)
             if (fontFile.exists()) {
                 fontFile.deleteRecursively()
             }
-            appDatabase.fontDao().delete(FontMapper.toEntity(fontModel))
-            if (settingsManager.fontType == fontModel.path) {
+            appDatabase.fontDao().delete(fontModel.uuid)
+            if (settingsManager.fontType == fontModel.uuid) {
                 settingsManager.remove(SettingsManager.KEY_FONT_TYPE)
             }
         }

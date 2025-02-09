@@ -21,6 +21,8 @@ import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
+import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
+import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
 import com.blacksquircle.ui.feature.explorer.ui.dialog.AuthDialog
 import com.blacksquircle.ui.feature.explorer.ui.dialog.CompressDialog
 import com.blacksquircle.ui.feature.explorer.ui.dialog.CreateDialog
@@ -40,6 +42,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApiDepsProvider::class,
+        ExplorerApiDepsProvider::class,
         EditorApiDepsProvider::class,
         ServersApiDepsProvider::class,
     ]
@@ -60,6 +63,7 @@ internal interface ExplorerComponent {
         fun create(
             coreApiDepsProvider: CoreApiDepsProvider,
             editorApiDepsProvider: EditorApiDepsProvider,
+            explorerApiDepsProvider: ExplorerApiDepsProvider,
             serversApiDepsProvider: ServersApiDepsProvider,
         ): ExplorerComponent
     }
@@ -74,6 +78,8 @@ internal interface ExplorerComponent {
                     .provideCoreApiDepsProvider(),
                 editorApiDepsProvider = (context.applicationContext as EditorApiProvider)
                     .provideEditorApiDepsProvider(),
+                explorerApiDepsProvider = (context.applicationContext as ExplorerApiProvider)
+                    .provideExplorerApiDepsProvider(),
                 serversApiDepsProvider = (context.applicationContext as ServersApiProvider)
                     .provideServersApiDepsProvider(),
             ).also {

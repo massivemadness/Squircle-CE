@@ -25,60 +25,59 @@ class SettingsManager(private val context: Context) {
     companion object {
 
         // Look And Feel
-        const val KEY_THEME = "THEME"
-        const val KEY_COLOR_SCHEME = "COLOR_SCHEME"
-        const val KEY_FULLSCREEN_MODE = "FULLSCREEN_MODE"
+        const val KEY_APP_THEME = "app_theme"
+        const val KEY_EDITOR_THEME = "editor_theme"
+        const val KEY_FULLSCREEN_MODE = "fullscreen_mode"
 
         // Other
-        const val KEY_CONFIRM_EXIT = "CONFIRM_EXIT"
+        const val KEY_CONFIRM_EXIT = "confirm_exit"
 
         // Font
-        const val KEY_FONT_SIZE = "FONT_SIZE_2"
-        const val KEY_FONT_TYPE = "FONT_TYPE_3"
+        const val KEY_FONT_SIZE = "font_size"
+        const val KEY_FONT_TYPE = "font_type"
 
         // Editor
-        const val KEY_WORD_WRAP = "WORD_WRAP"
-        const val KEY_CODE_COMPLETION = "CODE_COMPLETION"
+        const val KEY_WORD_WRAP = "word_wrap"
+        const val KEY_CODE_COMPLETION = "code_completion"
 
-        // const val KEY_ERROR_HIGHLIGHTING = "ERROR_HIGHLIGHTING"
-        const val KEY_PINCH_ZOOM = "PINCH_ZOOM"
-        const val KEY_LINE_NUMBERS = "SHOW_LINE_NUMBERS"
-        const val KEY_HIGHLIGHT_CURRENT_LINE = "HIGHLIGHT_CURRENT_LINE"
-        const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "HIGHLIGHT_MATCHING_DELIMITERS"
-        const val KEY_READ_ONLY = "READ_ONLY"
+        const val KEY_PINCH_ZOOM = "pinch_zoom"
+        const val KEY_LINE_NUMBERS = "line_numbers"
+        const val KEY_HIGHLIGHT_CURRENT_LINE = "highlight_current_line"
+        const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "highlight_matching_delimiters"
+        const val KEY_READ_ONLY = "read_only"
 
         // Tabs
-        const val KEY_SELECTED_DOCUMENT_ID = "SELECTED_DOCUMENT_ID"
-        const val KEY_AUTO_SAVE_FILES = "AUTO_SAVE_FILES"
+        const val KEY_SELECTED_DOCUMENT_ID = "selected_document_id"
+        const val KEY_AUTO_SAVE_FILES = "auto_save_files"
 
         // Keyboard
-        const val KEY_USE_EXTENDED_KEYBOARD = "USE_EXTENDED_KEYBOARD"
-        const val KEY_KEYBOARD_PRESET = "KEYBOARD_PRESET_1"
-        const val KEY_USE_SOFT_KEYBOARD = "USE_SOFT_KEYBOARD"
+        const val KEY_USE_EXTENDED_KEYBOARD = "use_extended_keyboard"
+        const val KEY_KEYBOARD_PRESET = "keyboard_preset"
+        const val KEY_USE_SOFT_KEYBOARD = "soft_keyboard"
 
         // Code Style
-        const val KEY_AUTO_INDENTATION = "AUTO_INDENTATION"
-        const val KEY_AUTO_CLOSE_BRACKETS = "AUTO_CLOSE_BRACKETS"
-        const val KEY_AUTO_CLOSE_QUOTES = "AUTO_CLOSE_QUOTES"
+        const val KEY_AUTO_INDENTATION = "auto_indentation"
+        const val KEY_AUTO_CLOSE_BRACKETS = "auto_close_brackets"
+        const val KEY_AUTO_CLOSE_QUOTES = "auto_close_quotes"
 
         // Tab Options
-        const val KEY_USE_SPACES_NOT_TABS = "USE_SPACES_NOT_TABS"
-        const val KEY_TAB_WIDTH = "TAB_WIDTH"
+        const val KEY_USE_SPACES_NOT_TABS = "use_spaces_not_tabs"
+        const val KEY_TAB_WIDTH = "tab_width"
 
         // Encoding
-        const val KEY_ENCODING_AUTO_DETECT = "ENCODING_AUTO_DETECT"
-        const val KEY_ENCODING_FOR_OPENING = "ENCODING_FOR_OPENING"
-        const val KEY_ENCODING_FOR_SAVING = "ENCODING_FOR_SAVING"
+        const val KEY_ENCODING_AUTO_DETECT = "encoding_auto_detect"
+        const val KEY_ENCODING_FOR_OPENING = "encoding_for_opening"
+        const val KEY_ENCODING_FOR_SAVING = "encoding_for_saving"
 
         // Linebreaks
-        const val KEY_LINEBREAK_FOR_SAVING = "LINEBREAK_FOR_SAVING"
+        const val KEY_LINEBREAK_FOR_SAVING = "linebreak_for_saving"
 
         // File Explorer
-        const val KEY_SHOW_HIDDEN_FILES = "SHOW_HIDDEN_FILES"
-        const val KEY_FOLDERS_ON_TOP = "FOLDERS_ON_TOP"
-        const val KEY_VIEW_MODE = "VIEW_MODE"
-        const val KEY_SORT_MODE = "SORT_MODE"
-        const val KEY_FILESYSTEM = "FILESYSTEM"
+        const val KEY_SHOW_HIDDEN_FILES = "show_hidden_files"
+        const val KEY_FOLDERS_ON_TOP = "folders_on_top"
+        const val KEY_VIEW_MODE = "view_mode"
+        const val KEY_SORT_MODE = "sort_mode"
+        const val KEY_FILESYSTEM = "filesystem"
     }
 
     private val fileName: String
@@ -89,12 +88,12 @@ class SettingsManager(private val context: Context) {
         get() = _sharedPreferences ?: context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
             .also { _sharedPreferences = it }
 
-    var theme: String
-        get() = sharedPreferences.getString(KEY_THEME, Theme.DARK.value) ?: Theme.DARK.value
-        set(value) = sharedPreferences.edit().putString(KEY_THEME, value).apply()
-    var colorScheme: String
-        get() = sharedPreferences.getString(KEY_COLOR_SCHEME, "DARCULA") ?: "DARCULA"
-        set(value) = sharedPreferences.edit().putString(KEY_COLOR_SCHEME, value).apply()
+    var appTheme: String
+        get() = sharedPreferences.getString(KEY_APP_THEME, Theme.DARK.value) ?: Theme.DARK.value
+        set(value) = sharedPreferences.edit().putString(KEY_APP_THEME, value).apply()
+    var editorTheme: String
+        get() = sharedPreferences.getString(KEY_EDITOR_THEME, "darcula") ?: "darcula"
+        set(value) = sharedPreferences.edit().putString(KEY_EDITOR_THEME, value).apply()
     var fullScreenMode: Boolean
         get() = sharedPreferences.getBoolean(KEY_FULLSCREEN_MODE, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_FULLSCREEN_MODE, value).apply()
@@ -107,14 +106,8 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getInt(KEY_FONT_SIZE, 14)
         set(value) = sharedPreferences.edit().putInt(KEY_FONT_SIZE, value).apply()
     var fontType: String
-        get() = sharedPreferences.getString(
-            KEY_FONT_TYPE, "file:///android_asset/fonts/jetbrains_mono.ttf"
-        ) ?: "file:///android_asset/fonts/jetbrains_mono.ttf"
+        get() = sharedPreferences.getString(KEY_FONT_TYPE, "jetbrains_mono") ?: "jetbrains_mono"
         set(value) = sharedPreferences.edit().putString(KEY_FONT_TYPE, value).apply()
-
-    var selectedUuid: String
-        get() = sharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "whatever") ?: "whatever"
-        set(value) = sharedPreferences.edit().putString(KEY_SELECTED_DOCUMENT_ID, value).apply()
 
     var wordWrap: Boolean
         get() = sharedPreferences.getBoolean(KEY_WORD_WRAP, true)
@@ -123,9 +116,6 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_CODE_COMPLETION, value).apply()
 
-    /*var errorHighlighting: Boolean
-        get() = sharedPreferences.getBoolean(KEY_ERROR_HIGHLIGHTING, true)
-        set(value) = sharedPreferences.edit().putBoolean(KEY_ERROR_HIGHLIGHTING, value).apply()*/
     var pinchZoom: Boolean
         get() = sharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_PINCH_ZOOM, value).apply()
@@ -142,6 +132,9 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getBoolean(KEY_READ_ONLY, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_READ_ONLY, value).apply()
 
+    var selectedUuid: String
+        get() = sharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "").orEmpty()
+        set(value) = sharedPreferences.edit().putString(KEY_SELECTED_DOCUMENT_ID, value).apply()
     var autoSaveFiles: Boolean
         get() = sharedPreferences.getBoolean(KEY_AUTO_SAVE_FILES, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_SAVE_FILES, value).apply()
@@ -184,7 +177,7 @@ class SettingsManager(private val context: Context) {
         set(value) = sharedPreferences.edit().putString(KEY_ENCODING_FOR_SAVING, value).apply()
 
     var lineBreakForSaving: String
-        get() = sharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "2") ?: "2"
+        get() = sharedPreferences.getString(KEY_LINEBREAK_FOR_SAVING, "lf") ?: "lf"
         set(value) = sharedPreferences.edit().putString(KEY_LINEBREAK_FOR_SAVING, value).apply()
 
     var showHidden: Boolean

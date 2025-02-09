@@ -210,7 +210,11 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
             }
             file.createNewFile()
         }
-        file.writeText(fileParams.linebreak.replace(text), fileParams.charset)
+        val output = text.replace(
+            regex = fileParams.linebreak.regex,
+            replacement = fileParams.linebreak.replacement,
+        )
+        file.writeText(output, fileParams.charset)
     }
 
     companion object : Filesystem.Mapper<File> {

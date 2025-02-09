@@ -21,7 +21,7 @@ import com.blacksquircle.ui.editorkit.utils.EditorTheme
 enum class InternalTheme(val theme: ThemeModel) {
     THEME_DARCULA(
         theme = ThemeModel(
-            uuid = "DARCULA",
+            uuid = "darcula",
             name = "Darcula",
             author = "Squircle CE",
             isExternal = false,
@@ -30,7 +30,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     ),
     THEME_ECLIPSE(
         theme = ThemeModel(
-            uuid = "ECLIPSE",
+            uuid = "eclipse",
             name = "Eclipse",
             author = "Squircle CE",
             isExternal = false,
@@ -39,7 +39,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     ),
     THEME_MONOKAI(
         theme = ThemeModel(
-            uuid = "MONOKAI",
+            uuid = "monokai",
             name = "Monokai",
             author = "Squircle CE",
             isExternal = false,
@@ -48,7 +48,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     ),
     THEME_OBSIDIAN(
         theme = ThemeModel(
-            uuid = "OBSIDIAN",
+            uuid = "obsidian",
             name = "Obsidian",
             author = "Squircle CE",
             isExternal = false,
@@ -57,7 +57,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     ),
     THEME_INTELLIJ_LIGHT(
         theme = ThemeModel(
-            uuid = "INTELLIJ_LIGHT",
+            uuid = "intellij_light",
             name = "IntelliJ Light",
             author = "Squircle CE",
             isExternal = false,
@@ -66,7 +66,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     ),
     THEME_LADIES_NIGHT(
         theme = ThemeModel(
-            uuid = "LADIES_NIGHT",
+            uuid = "ladies_night",
             name = "Ladies Night",
             author = "Squircle CE",
             isExternal = false,
@@ -75,7 +75,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     ),
     THEME_TOMORROW_NIGHT(
         theme = ThemeModel(
-            uuid = "TOMORROW_NIGHT",
+            uuid = "tomorrow_night",
             name = "Tomorrow Night",
             author = "Squircle CE",
             isExternal = false,
@@ -84,7 +84,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     ),
     THEME_SOLARIZED_LIGHT(
         theme = ThemeModel(
-            uuid = "SOLARIZED_LIGHT",
+            uuid = "solarized_light",
             name = "Solarized Light",
             author = "Squircle CE",
             isExternal = false,
@@ -93,7 +93,7 @@ enum class InternalTheme(val theme: ThemeModel) {
     ),
     THEME_VISUAL_STUDIO(
         theme = ThemeModel(
-            uuid = "VISUAL_STUDIO_2013",
+            uuid = "visual_studio",
             name = "Visual Studio",
             author = "Squircle CE",
             isExternal = false,

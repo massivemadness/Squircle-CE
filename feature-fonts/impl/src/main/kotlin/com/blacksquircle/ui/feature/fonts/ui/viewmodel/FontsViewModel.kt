@@ -82,7 +82,7 @@ internal class FontsViewModel @Inject constructor(
             try {
                 fontsRepository.selectFont(fontModel)
                 _viewState.update { state ->
-                    state.copy(currentFont = fontModel.path)
+                    state.copy(currentFont = fontModel.uuid)
                 }
                 _viewEvent.send(
                     ViewEvent.Toast(
